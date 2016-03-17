@@ -1,0 +1,142 @@
+package com.doctor.sun.ui.activity.patient;
+
+import android.content.Context;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.view.View;
+
+import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
+import com.doctor.sun.databinding.PActivityApplyAppointmentBinding;
+import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.module.AppointmentModule;
+import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.handler.AppointmentHandler;
+import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.ui.widget.SelectRecordDialog;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+
+/**
+ * 确认预约
+ * <p/>
+ * Created by lucas on 1/22/16.
+ */
+public class ApplyAppointmentActivity extends BaseActivity2 {
+    private PActivityApplyAppointmentBinding binding;
+    private ProfileModule api = Api.of(ProfileModule.class);
+    private AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
+    private MedicalRecord record;
+
+    public static Intent makeIntent(Context context, Doctor doctor, String bookTime, String type, String recordId) {
+        Intent i = new Intent(context, ApplyAppointmentActivity.class);
+        i.putExtra(Constants.DOCTOR, doctor);
+        i.putExtra(Constants.BOOKTIME, bookTime);
+        i.putExtra(Constants.TYPE, type);
+        i.putExtra(Constants.RECORDID, recordId);
+        return i;
+    }
+
+    private Doctor getDoctorData() {
+        return getIntent().getParcelableExtra(Constants.DOCTOR);
+    }
+
+    private String getBookTime() {
+        return getIntent().getStringExtra(Constants.BOOKTIME);
+    }
+
+    private String getType() {
+        return getIntent().getStringExtra(Constants.TYPE);
+    }
+
+    private String getRecordId() {
+        return getIntent().getStringExtra(Constants.RECORDID);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = DataBindingUtil.setContentView(this, R.layout.p_activity_apply_appointment);
+        HeaderViewModel header = new HeaderViewModel(this);
+        header.setMidTitle("确认预约");
+        binding.setHeader(header);
+        api.recordDetail(getRecordId()).enqueue(new ApiCallback<MedicalRecord>() {
+            @Override
+            protected void handleResponse(MedicalRecord response) {
+                binding.tvMedcialRecord.setText(response.getRecordDetail());
+                record = response;
+            }
+        });
+        binding.setData(getDoctorData());
+        binding.tvTime.setText("预约时间：" + getBookTime());
+        binding.tvType.setText("预约类型：" + appointmentType());
+        binding.rbAlipay.setChecked(true);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date parse = null;
+        try {
+            parse = format.parse(getBookTime());
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        final String time = String.valueOf(parse.getTime()).substring(0, 10);
+        binding.tvApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Doctor doctorData = getDoctorData();
+                if (record != null) {
+                    doctorData.setRecordId(String.valueOf(record.getMedicalRecordId()));
+                }
+                appointmentModule.orderAppointment(String.valueOf(doctorData.getId()), time, getType(), doctorData.getRecordId(), doctorData.getDuration()).enqueue(new ApiCallback<Appointment>() {
+                    @Override
+                    protected void handleResponse(Appointment response) {
+                        response.setRecordId(Integer.parseInt(doctorData.getRecordId()));
+                        AppointmentHandler handler = new AppointmentHandler(response);
+                        if (binding.rbWechat.isChecked()) {
+                            handler.payWithWeChat(ApplyAppointmentActivity.this);
+                        } else {
+                            handler.payWithAlipay(ApplyAppointmentActivity.this);
+                        }
+                    }
+                });
+            }
+        });
+        binding.llyMedicalRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SelectRecordDialog.showRecordDialog(ApplyAppointmentActivity.this, new SelectRecordDialog.SelectRecordListener() {
+                    @Override
+                    public void onSelectRecord(SelectRecordDialog dialog, MedicalRecord selected) {
+                        binding.tvMedcialRecord.setText(selected.getRecordDetail());
+
+                        record = selected;
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+    }
+
+    @NonNull
+    private String appointmentType() {
+        String type = "";
+        switch (getType()) {
+            case "1":
+                type = "详细咨询";
+                break;
+            case "2":
+                type = "简捷复诊";
+                break;
+        }
+        return type;
+    }
+}

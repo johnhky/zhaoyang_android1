@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Appointment" />
+
+        <variable
+            name="position"
+            type="java.lang.Integer" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_header"
+            bind:header="@{header}" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tv_back_circle"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="@dimen/dp_50"
+                android:layout_gravity="bottom|left"
+                android:layout_marginBottom="@dimen/dp_6"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:background="@drawable/shape_back_circle"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="问卷\n列表"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_12"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_63"
+            android:background="#eff3f5"
+            android:orientation="horizontal"
+            bind:visible="@{position == 0}">
+            <!--普通预约-->
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_144"
+                android:layout_height="@dimen/dp_49"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/btn_mid_blue">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:onClick="@{data.handler.remind}"
+                    android:text="提  醒"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_17" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_144"
+                android:layout_height="@dimen/dp_49"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/btn_mid_blue">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:onClick="@{data.handler.accept}"
+                    android:text="就  诊"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_17" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_63"
+            android:background="#eff3f5"
+            android:orientation="horizontal"
+            bind:visible="@{position == 1}">
+
+            <!--会诊-->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_144"
+                android:layout_height="@dimen/dp_49"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/btn_mid_white">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:onClick="@{data.handler.refuse}"
+                    android:text="不接受"
+                    android:textColor="#339de1"
+                    android:textSize="@dimen/font_17" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_144"
+                android:layout_height="@dimen/dp_49"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/btn_mid_blue">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:onClick="@{data.handler.acceptReturn}"
+                    android:text="接  受"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_17" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_63"
+            android:background="#eff3f5"
+            android:orientation="horizontal"
+            bind:visible="@{position == 2}">
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_283"
+                android:layout_height="@dimen/dp_49"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/btn_big_blue">
+
+                <!--会诊-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:onClick="@{data.handler.acceptUrgentCall}"
+                    android:text="接  受"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_17" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

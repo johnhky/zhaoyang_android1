@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_answer"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:background="#eff3f5"
+            android:gravity="center"
+            android:layout_height="@dimen/dp_63">
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_283"
+                android:background="@drawable/shape_button"
+                android:layout_height="@dimen/dp_49">
+
+                <TextView
+                    android:id="@+id/tv_medicine"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="查看用药"
+                    android:textSize="@dimen/font_17"
+                    android:textColor="#ffffffff"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

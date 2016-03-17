@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:clickable="false"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_back_circle"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:layout_gravity="center_vertical|left"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/shape_back_circle"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="问卷\n列表"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_12" />
+
+        <LinearLayout
+            android:id="@+id/lly_check"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_64"
+            android:background="#eff3f5"
+            android:gravity="center"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_26"
+                android:layout_marginRight="@dimen/dp_26"
+                android:background="@drawable/btn_big_blue">
+
+                <TextView
+                    android:id="@+id/tv_check"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:text="查看用药"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_17" />
+
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

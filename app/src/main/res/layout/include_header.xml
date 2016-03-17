@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/left_header"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:onClick="@{header.onBackClicked}"
+                android:paddingLeft="@dimen/dp_12"
+                android:paddingRight="@dimen/dp_12"
+                android:text="@{header.leftTitle}"
+                android:textColor="@color/colorPrimary"
+                app:drawableLeft="@{header.leftIcon}"
+                android:textSize="@dimen/font_13"
+                android:drawablePadding="@dimen/dp_10"
+                app:visible="@{header.leftVisible}" />
+
+
+            <TextView
+                android:id="@+id/mid_header"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:onClick="@{header.onTitleClicked}"
+                android:text="@{header.midTitle}"
+                android:textColor="@color/colorPrimary"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:drawableLeft="@{header.midIcon}"
+                app:visible="@{header.midVisible}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/right_header"
+                android:layout_toStartOf="@+id/right_header"
+                android:background="@drawable/ripple_default"
+                android:clickable="false"
+                android:gravity="center"
+                android:onClick="@{header.onFirstMenuClicked}"
+                android:paddingLeft="@dimen/dp_12"
+                android:paddingRight="@dimen/dp_7"
+                android:text="@{header.rightFirstTitle}"
+                android:textColor="@color/colorPrimary"
+                app:drawableLeft="@{header.rightFirstIcon}"
+                app:visible="@{header.rightFirstVisible}" />
+
+            <TextView
+                android:id="@+id/right_header"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ripple_default"
+                android:clickable="false"
+                android:gravity="center"
+                android:onClick="@{header.onMenuClicked}"
+                android:paddingLeft="@dimen/dp_7"
+                android:paddingRight="@dimen/dp_12"
+                android:text="@{header.rightTitle}"
+                android:textColor="@color/colorPrimary"
+                app:drawableLeft="@{header.rightIcon}"
+                app:visible="@{header.rightVisible}" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@{header.lineBackground}" />
+    </LinearLayout>
+</layout>

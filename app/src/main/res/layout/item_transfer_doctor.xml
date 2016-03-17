@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Doctor" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_85"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dp_13">
+
+            <com.doctor.sun.ui.widget.BezelImageView
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerCrop"
+                android:src="@{data.avatar}"
+                app:maskDrawable="@drawable/circle_mask"
+                app:placeHolder="@{@drawable/default_avatar}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/dp_13"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_13"
+                        android:text="@{data.name}"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_4"
+                        android:background="@drawable/shape_test"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/dp_4"
+                        android:paddingRight="@dimen/dp_4"
+                        android:singleLine="true"
+                        android:text="@{data.level}"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/font_9" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <RatingBar
+                        android:id="@+id/rating_bar_0"
+                        style="@style/SmallRatingBar"
+                        android:layout_gravity="center_vertical"
+                        android:isIndicator="true"
+                        android:rating="@{data.point}" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:text="@{data.hospitalName}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_13" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:text="@{@string/string_of_two(data.specialist,data.title)}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_13" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+    </LinearLayout>
+
+</layout>

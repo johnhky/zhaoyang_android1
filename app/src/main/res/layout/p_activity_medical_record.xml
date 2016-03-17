@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.MedicalRecord" />
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+        <variable
+            name="time"
+            type="com.doctor.sun.entity.ItemPickDate" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_header"
+            bind:header="@{header}" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/my_record"
+                    layout="@layout/include_my_record" />
+
+                <include
+                    android:id="@+id/others_record"
+                    layout="@layout/include_others_record" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_70"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_102"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="出生年月"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                    <TextView
+                        android:id="@+id/et_birthday"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_transparent"
+                        android:gravity="start|center_vertical"
+                        android:paddingLeft="@dimen/dp_13"
+                        android:text="@{data.birthday}"
+                        android:textColor="@color/color_tick"
+                        android:textSize="@dimen/font_15" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_70"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_102"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="性别"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                    <TextView
+                        android:id="@+id/tv_gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{data.getGenderRecord}"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ebf0f3"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_marginLeft="@dimen/dp_12"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="所在地"
+                        android:textColor="#a2aaae"
+                        android:textSize="@dimen/font_15" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_70"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_102"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="省"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                    <TextView
+                        android:id="@+id/tv_province"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_transparent"
+                        android:gravity="center_vertical"
+                        android:text="@{data.province}"
+                        android:textColor="@color/color_tick"
+                        android:textSize="@dimen/font_15" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_70"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_102"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="市"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                    <TextView
+                        android:id="@+id/tv_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_transparent"
+                        android:gravity="center_vertical"
+                        android:text="@{data.city}"
+                        android:textColor="@color/color_tick"
+                        android:textSize="@dimen/font_15" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_140"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_transparent"
+                        android:gravity="start"
+                        android:minHeight="@dimen/dp_118"
+                        android:padding="@dimen/dp_13"
+                        android:textColor="@color/color_tick"
+                        android:textSize="@dimen/font_15" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_70"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_102"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="身份证号"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                    <TextView
+                        android:id="@+id/tv_identity_number"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:background="#00000000"
+                        android:maxLength="11"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>

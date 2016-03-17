@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_header"
+            app:header="@{header}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="将通知患者取消预约,请选择取消原因"
+            android:textColor="@color/text_color_black"
+            android:textSize="@dimen/font_15" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+
+        <include
+            android:id="@+id/reason"
+            layout="@layout/item_single_choice"
+            app:title='@{"取消原因"}' />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+        <include
+            layout="@layout/item_text_input3"
+            app:hint='@{"备注"}' />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+    </LinearLayout>
+</layout>

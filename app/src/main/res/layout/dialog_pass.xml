@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="@dimen/dp_197"
+            android:layout_height="@dimen/dp_143"
+            android:background="@drawable/shape_background"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <com.doctor.sun.ui.widget.BezelImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_24"
+                android:src="@drawable/ic_launcher"
+                app:maskDrawable="@drawable/circle_mask_outline" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="审核通过"
+                android:layout_marginTop="@dimen/dp_6"
+                android:textColor="#f98700"
+                android:textSize="@dimen/font_14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="欢迎加入昭阳医生"
+                android:layout_marginTop="@dimen/dp_7"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/font_14" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.ui.handler.QCategoryHandler" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_forum"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:background="@drawable/ripple_default"
+            android:clickable="true"
+            android:drawableRight="@drawable/ic_enter"
+            android:gravity="start|center_vertical"
+            android:paddingLeft="@dimen/dp_14"
+            android:paddingRight="@dimen/dp_14"
+            android:singleLine="true"
+            android:onClick="@{data.select}"
+            android:text="@{data.categoryName}"
+            android:textColor="@color/color_tick"
+            android:textSize="@dimen/font_15" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+    </LinearLayout>
+</layout>

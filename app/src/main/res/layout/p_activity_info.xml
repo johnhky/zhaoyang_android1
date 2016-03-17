@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Patient" />
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_header"
+            bind:header="@{header}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_84"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/bg_white"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:singleLine="true"
+                android:text="头像"
+                android:textColor="#000000"
+                android:textSize="@dimen/font_15" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:id="@+id/fl_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dp_13"
+                android:onClick="@{data.handler.setAvatar}"
+                android:background="@drawable/bg_white">
+
+                <com.doctor.sun.ui.widget.BezelImageView
+                    android:id="@+id/biv_avatar"
+                    android:layout_width="@dimen/dp_63"
+                    android:layout_height="@dimen/dp_63"
+                    android:layout_gravity="center"
+                    android:src="@{data.avatar}"
+                    android:scaleType="centerCrop"
+                    app:maskDrawable="@drawable/circle_mask" />
+
+                <TextView
+                    android:id="@+id/tv_avatar"
+                    android:layout_width="@dimen/dp_61"
+                    android:layout_height="@dimen/dp_61"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_default_avatar" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#c1cacf" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_70"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_102"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="姓名"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:focusableInTouchMode="false"
+                android:inputType="text"
+                android:maxLength="11"
+                android:text="@{data.name}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#c1cacf" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_70"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_102"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="邮箱"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:focusableInTouchMode="false"
+                android:inputType="textEmailAddress"
+                android:maxLength="20"
+                android:text="@{data.email}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#c1cacf" />
+
+        <LinearLayout
+            android:id="@+id/lly_date"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_70"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_102"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="出生年月"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:id="@+id/tv_birthday"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_white"
+                android:gravity="start|center_vertical"
+                android:onClick="@{data.handler.setBirthday}"
+                android:paddingRight="@dimen/dp_13"
+                android:text="@{data.birthday}"
+                android:drawableRight="@drawable/bg_white"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#c1cacf" />
+
+        <RadioGroup
+            android:id="@+id/rg_gender"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_70"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_102"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="性别"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:id="@+id/tv_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@{data.getGenderResult}"
+                android:textColor="#000000"
+                android:textSize="@dimen/font_15" />
+
+            <RadioButton
+                android:id="@+id/rb_male"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:button="@null"
+                android:drawableLeft="@drawable/ic_tick"
+                android:drawablePadding="@dimen/dp_6"
+                android:gravity="center_vertical"
+                android:text="男"
+                android:textColor="@color/color_click"
+                android:textSize="@dimen/font_15"
+                android:visibility="gone" />
+
+            <RadioButton
+                android:id="@+id/rb_female"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:button="@null"
+                android:drawableLeft="@drawable/ic_tick"
+                android:drawablePadding="@dimen/dp_6"
+                android:gravity="center_vertical"
+                android:text="女"
+                android:textColor="@color/color_click"
+                android:textSize="@dimen/font_15"
+                android:visibility="gone" />
+
+        </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#c1cacf" />
+
+    </LinearLayout>
+</layout>

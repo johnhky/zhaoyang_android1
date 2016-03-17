@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Appointment" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_default"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/dp_13"
+        app:itemClick="@{data.handler.chat}">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.doctor.sun.ui.widget.BezelImageView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="@dimen/dp_55"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:scaleType="centerCrop"
+                android:src="@{data.avatar}"
+                app:maskDrawable="@drawable/circle_mask"
+                app:placeHolder="@{@drawable/default_avatar}" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <View
+
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:text="@{data.handler.consultingTitle}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_7"
+                android:text="@{@string/patient_info(data.bookTime,data.type)}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_12" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_7"
+                android:layout_marginBottom="@dimen/dp_7"
+                android:text="@{@string/appointment_progress(data.progress)}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_12" />
+
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="@dimen/dp_7"-->
+                <!--android:layout_marginLeft="@dimen/dp_13"-->
+                <!--android:layout_marginRight="@dimen/dp_13"-->
+                <!--android:layout_marginTop="@dimen/dp_7"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="当前病历： "-->
+                    <!--android:textColor="#363636"-->
+                    <!--android:textSize="@dimen/font_12" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@{data.handler.patientName}"-->
+                    <!--android:textColor="#363636"-->
+                    <!--android:textSize="@dimen/font_12" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="@dimen/dp_8"-->
+                    <!--android:text="@{data.handler.relation}"-->
+                    <!--android:textColor="#898989"-->
+                    <!--android:textSize="@dimen/font_12" />-->
+
+            <!--</LinearLayout>-->
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginStart="@dimen/dp_13"
+                android:background="@color/divider_color" />
+
+            <include
+                android:id="@+id/lly_message"
+                layout="@layout/include_message_count" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_color" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

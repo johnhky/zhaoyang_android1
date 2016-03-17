@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="label"
+            type="java.lang.String" />
+
+        <variable
+            name="data"
+            type="java.lang.String" />
+    </data>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_26"
+        android:gravity="center_vertical|left"
+        android:textSize="@dimen/font_15"
+        bind:html='@{@string/format_tag(label, data)}' />
+</layout>

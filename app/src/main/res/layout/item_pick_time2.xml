@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.ItemPickTime" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_35"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
+            android:gravity="center"
+            android:text="@{data.title}"
+            android:textColor="@color/color_tick"
+            android:textSize="@dimen/font_15" />
+
+
+        <LinearLayout
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:layout_width="match_parent"
+            android:background="@drawable/ripple_default"
+            app:itemClick="@{data.pickTime2}"
+            app:vh="@{vh}"
+            app:adapter="@{adapter}"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/et_others"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:background="@drawable/ic_week_defalut"
+                android:drawableRight="@drawable/ic_enter"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="@dimen/dp_13"
+                android:paddingRight="@dimen/dp_13"
+                android:text="@{data.time}"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.QTemplate" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.TemplateAdapter" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/lly_update_template"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_default"
+        android:orientation="vertical"
+        app:adapter="@{adapter}"
+        app:itemClick="@{data.handler.updateTemplate}"
+        app:vh="@{vh}">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_13"
+                    android:singleLine="false"
+                    android:text="@{data.templateName}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_10" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_13"
+                    android:singleLine="true"
+                    android:text="@{@string/question_count(data.questionCount)}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_13" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lly_default"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dp_13"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/shape_default"
+                    android:gravity="center"
+                    android:text="默认" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lly_delete"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:visibility="gone"
+                app:adapter="@{adapter}"
+                app:itemClick="@{data.handler.deleteDialog}"
+                app:vh="@{vh}">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_delete" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#c1cacf" />
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="handler"
+            type="com.doctor.sun.ui.handler.TimeHandler"/>
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_header"
+            bind:header="@{header}" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_time"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:id="@+id/ll_add"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_63"
+            android:background="#eff3f5"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="@dimen/dp_283"
+                android:layout_height="@dimen/dp_49"
+                android:background="@drawable/shape_button"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/btn_time_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="@{handler.addTime}"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="添加出诊时间"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/font_17" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

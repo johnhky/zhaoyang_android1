@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.ui.activity.patient.handler.MainActivityHandler" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_121"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_appoint_doctor"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_default"
+                android:drawablePadding="@dimen/dp_9"
+                android:drawableTop="@drawable/ic_find_doctor"
+                android:gravity="center_horizontal"
+                android:onClick="@{data.doctorType}"
+                android:paddingTop="@dimen/dp_11"
+                android:text="预约咨询医生"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_16" />
+
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="#ebf0f3" />
+
+            setSelected<TextView
+                android:id="@+id/tv_medicine"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_default"
+                android:drawablePadding="@dimen/dp_9"
+                android:drawableTop="@drawable/ic_buy_drug"
+                android:gravity="center_horizontal"
+                android:onClick="@{data.searchDoctorQuick}"
+                android:paddingTop="@dimen/dp_11"
+                android:text="简捷复诊寄药"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_16" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="#ebf0f3" />
+
+        <LinearLayout
+            android:id="@+id/lly_recent_appointment"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_55"
+            android:background="@drawable/ripple_default"
+            android:orientation="horizontal"
+            app:adapter="@{adapter}"
+            app:itemClick="@{data.appointmentList}"
+            app:vh="@{vh}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_marginRight="@dimen/dp_15"
+                android:drawableLeft="@drawable/ic_my_order"
+                android:drawablePadding="@dimen/dp_13"
+                android:gravity="bottom"
+                android:textColor="#898989"
+                android:textSize="@dimen/font_13" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="我的订单"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/dp_15"
+                android:src="@drawable/ic_enter" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_8"
+            android:background="#ebf0f3" />
+
+
+    </LinearLayout>
+</layout>

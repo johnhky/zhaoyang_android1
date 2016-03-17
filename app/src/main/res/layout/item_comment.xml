@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Comment" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_12">
+
+        <com.doctor.sun.ui.widget.BezelImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="@dimen/dp_38"
+            android:layout_height="@dimen/dp_38"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/dp_4"
+            android:layout_marginRight="@dimen/dp_6"
+            android:scaleType="centerCrop"
+            android:src="@{data.avatar}"
+            app:maskDrawable="@drawable/circle_mask" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_avatar"
+            android:layout_toRightOf="@id/iv_avatar"
+            android:text="@{data.patientName}"
+            android:textColor="@color/custom_text_active"
+            android:textSize="@dimen/font_15" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"
+            android:layout_toRightOf="@id/iv_avatar"
+            android:text="@{data.commentTime}"
+            android:textColor="#898989"
+            android:textSize="@dimen/dp_12" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_avatar"
+            android:layout_toRightOf="@id/iv_avatar"
+            android:text="@{data.comment}"
+            android:textColor="@color/custom_text_active"
+            android:textSize="@dimen/dp_15" />
+    </RelativeLayout>
+</layout>

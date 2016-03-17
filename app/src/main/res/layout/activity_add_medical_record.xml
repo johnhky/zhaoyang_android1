@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+        <variable
+            name="time"
+            type="com.doctor.sun.entity.ItemPickDate" />
+
+
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_header"
+            bind:header="@{header}" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_70"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/record_warning"
+                        android:textColor="#929292"
+                        android:textSize="@dimen/font_13" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+
+                <include
+                    android:id="@+id/my_record"
+                    layout="@layout/include_my_record" />
+
+                <include
+                    android:id="@+id/others_record"
+                    layout="@layout/include_others_record" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_70"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_102"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="出生年月"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                    <TextView
+                        android:id="@+id/et_birthday"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ripple_default"
+                        android:drawableRight="@drawable/ic_enter"
+                        android:gravity="start|center_vertical"
+                        android:paddingLeft="@dimen/dp_13"
+                        android:text="@{time.birthMonth}"
+                        android:textColor="@color/color_tick"
+                        android:textSize="@dimen/font_15"
+                        bind:itemClick="@{time.pickTime}" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_70"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_102"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="性别"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                    <RadioButton
+                        android:id="@+id/rb_male"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#00000000"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/ic_tick"
+                        android:drawablePadding="@dimen/dp_6"
+                        android:gravity="center_vertical"
+                        android:checked="true"
+                        android:text="男"
+                        android:textColor="@color/color_click"
+                        android:textSize="@dimen/font_15" />
+
+                    <RadioButton
+                        android:id="@+id/rb_female"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#00000000"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/ic_tick"
+                        android:drawablePadding="@dimen/dp_6"
+                        android:gravity="center_vertical"
+                        android:text="女"
+                        android:textColor="@color/color_click"
+                        android:textSize="@dimen/font_15" />
+
+                </RadioGroup>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ebf0f3"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_marginLeft="@dimen/dp_12"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="所在地"
+                        android:textColor="#a2aaae"
+                        android:textSize="@dimen/font_15" />
+
+
+                    <LinearLayout
+                        android:id="@+id/fl_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ripple_default">
+
+                        <TextView
+                            android:layout_width="@dimen/dp_76"
+                            android:layout_height="@dimen/dp_30"
+                            android:background="@color/colorPrimaryDark"
+                            android:drawableLeft="@drawable/ic_location"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/dp_13"
+                            android:paddingRight="@dimen/dp_13"
+                            android:singleLine="true"
+                            android:text="定位"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_15" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_70"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_102"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="省"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                    <TextView
+                        android:id="@+id/tv_province"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ripple_default"
+                        android:drawableRight="@drawable/ic_enter"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/color_tick"
+                        android:textSize="@dimen/font_15" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_70"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_102"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="市"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                    <TextView
+                        android:id="@+id/tv_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ripple_default"
+                        android:drawableRight="@drawable/ic_enter"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/color_tick"
+                        android:textSize="@dimen/font_15" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_140"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ripple_default">
+
+                        <EditText
+                            android:id="@+id/et_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_transparent"
+                            android:gravity="start"
+                            android:hint="  (选填)"
+                            android:minHeight="@dimen/dp_118"
+                            android:padding="@dimen/dp_13"
+                            android:textColor="@color/color_tick"
+                            android:textSize="@dimen/font_15" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_70"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_102"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="身份证号"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                    <EditText
+                        android:id="@+id/et_identity_number"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#00000000"
+                        android:hint="(选填)"
+                        android:inputType="number"
+                        android:maxLength="18"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</layout>

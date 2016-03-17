@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="handler"
+            type="com.doctor.sun.ui.handler.SettingHandler" />
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_header"
+            bind:header="@{header}" />
+
+        <include
+            android:id="@+id/switch_button"
+            layout="@layout/item_switch"
+            bind:data='@{"信息推送"}' />
+
+        <LinearLayout
+            android:id="@+id/lly_passwd"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:background="@drawable/ripple_default"
+            android:gravity="center_vertical"
+            android:onClick="@{handler.changePassword}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:singleLine="true"
+                android:text="修改密码"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_13"
+                android:src="@drawable/ic_enter" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+        <LinearLayout
+            android:id="@+id/lly_advice"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:background="@drawable/ripple_default"
+            android:gravity="center_vertical"
+            android:onClick="@{handler.giveAdvice}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:singleLine="true"
+                android:text="建议反馈"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_13"
+                android:src="@drawable/ic_enter" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+        <LinearLayout
+            android:id="@+id/lly_help"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:background="@drawable/ripple_default"
+            android:gravity="center_vertical"
+            android:onClick="@{handler.help}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:singleLine="true"
+                android:text="帮助教程"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_13"
+                android:src="@drawable/ic_enter" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+        <LinearLayout
+            android:id="@+id/lly_share"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:background="@drawable/ripple_default"
+            android:gravity="center_vertical"
+            app:itemClick="@{handler.share}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:singleLine="true"
+                android:text="分享给朋友"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_13"
+                android:src="@drawable/ic_enter" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+        <LinearLayout
+            android:id="@+id/lly_cache"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:background="@drawable/ripple_default"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:singleLine="true"
+                android:text="清理缓存"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+        <LinearLayout
+            android:id="@+id/lly_update"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:background="@drawable/ripple_default"
+            android:gravity="center_vertical"
+            android:onClick="@{handler.checkUpdate}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:singleLine="true"
+                android:text="检测更新"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+        <FrameLayout
+            android:layout_width="@dimen/dp_282"
+            android:layout_height="@dimen/dp_49"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_35"
+            android:background="@drawable/bg_red"
+            android:onClick="@{handler.logOut}">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="退出登录"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/font_17" />
+
+        </FrameLayout>
+    </LinearLayout>
+</layout>

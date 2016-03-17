@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.ui.model.DiagnosisViewModel" />
+    </data>
+
+    <ScrollView
+        android:id="@+id/sw_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/is_diagnosis"
+                layout="@layout/item_switch" />
+
+            <include
+                layout="@layout/item_time_category"
+                bind:data="@{data.labelSymptom}" />
+
+            <include
+                layout="@layout/item_symptom"
+                bind:data="@{data.perception}" />
+
+            <include
+                layout="@layout/item_symptom"
+                bind:data="@{data.thinking}" />
+
+            <include
+                layout="@layout/item_symptom"
+                bind:data="@{data.pipedream}" />
+
+            <include
+                layout="@layout/item_symptom"
+                bind:data="@{data.emotion}" />
+
+            <include
+                layout="@layout/item_symptom"
+                bind:data="@{data.memory}" />
+
+            <include
+                layout="@layout/item_symptom"
+                bind:data="@{data.insight}" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="@dimen/dp_15"
+                android:background="@color/divider_color" />
+
+            <include
+                android:id="@+id/description"
+                layout="@layout/item_description_input"
+                bind:data="@{data.description}" />
+
+            <include
+                layout="@layout/item_symptom_divider"
+                bind:data="@{data.labelConsultation}" />
+
+            <include
+                android:id="@+id/diagnosisRecord"
+                layout="@layout/item_description_input"
+                bind:data="@{data.diagnosisRecord}" />
+
+            <include
+                layout="@layout/item_symptom_divider"
+                bind:data="@{data.labelEval}" />
+
+            <include
+                layout="@layout/item_diagnosis"
+                bind:data="@{data.currentStatus}" />
+
+            <include
+                layout="@layout/item_diagnosis"
+                bind:data="@{data.recovered}" />
+
+            <include
+                layout="@layout/item_diagnosis"
+                bind:data="@{data.treatment}" />
+
+            <include
+                layout="@layout/item_diagnosis"
+                bind:data="@{data.sideEffect}" />
+
+
+            <include
+                layout="@layout/item_symptom_divider"
+                bind:data="@{data.labelAllCanSee}" />
+
+
+            <include
+                android:id="@+id/edit_prescription"
+                layout="@layout/item_edit_prescription"
+                bind:data="@{data.btnGotoTabOne}" />
+
+            <include
+                layout="@layout/item_divider"
+                bind:data='@{"医嘱"}' />
+
+            <include
+                android:id="@+id/doctor_advice"
+                layout="@layout/item_text_input3"
+                bind:input='@{"坚持服药,定期复诊"}' />
+
+            <include
+                android:id="@+id/need_return"
+                layout="@layout/item_switch" />
+
+            <include
+                android:id="@+id/return_type"
+                layout="@layout/item_return_type"
+                bind:data="@{data.returnType}" />
+
+
+            <LinearLayout
+                android:id="@+id/lly_return"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_13"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <include
+                    android:id="@+id/pick_date"
+                    layout="@layout/item_pick_date"
+                    bind:data="@{data.date}" />
+
+                <!--<include-->
+                    <!--android:id="@+id/pick_time"-->
+                    <!--layout="@layout/item_pick_time2"-->
+                    <!--bind:data="@{data.time}" />-->
+
+                <!--<include-->
+                    <!--android:id="@+id/money"-->
+                    <!--layout="@layout/item_text_input"-->
+                    <!--bind:data="@{data.money}" />-->
+
+                <!--<include-->
+                    <!--android:id="@+id/mission"-->
+                    <!--layout="@layout/item_text_input5"-->
+                    <!--bind:title='@{"详细就诊前完成的任务"}' />-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lly_transfer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <include
+                    layout="@layout/item_big_button"
+                    bind:data="@{data.chooseDoctor}" />
+
+
+                <include
+                    android:id="@+id/item_transfer_to"
+                    layout="@layout/item_transfer_to"
+                    bind:data="@{data.chooseDoctor}" />
+
+                <include
+                    android:id="@+id/item_doctor"
+                    layout="@layout/item_transfer_doctor"
+                    bind:data="@{data.doctor}" />
+
+                <include
+                    android:id="@+id/msg_to_doctor"
+                    layout="@layout/item_text_input4"
+                    bind:hint="@{@string/comment}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginBottom="@dimen/dp_35"
+                    android:background="@color/divider_color" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</layout>

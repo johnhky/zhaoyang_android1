@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Contact" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_default"
+        android:clickable="true"
+        android:onClick="@{data.itemClick}"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/divider_color"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_13">
+
+
+            <com.doctor.sun.ui.widget.BezelImageView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="@dimen/dp_55"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerCrop"
+                android:src="@{data.avatar}"
+                app:maskDrawable="@drawable/circle_mask"
+                app:placeHolder="@{@drawable/ic_launcher}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:text="@{data.name}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+    </LinearLayout>
+</layout>

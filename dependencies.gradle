@@ -1,0 +1,35 @@
+//Note: 定义全局的gradle依赖包, 统一管理lib版本号
+
+ext {
+    compile_sdk_version = 23
+    build_tools_version = '23.0.2'
+    min_sdk_version = 14
+    target_sdk_version = 23
+
+    support_version = '23.2.0'
+    retrofit_version = '2.0.0-beta2'
+    dependencies = [
+            v4                   : "com.android.support:support-v4:$support_version",
+            v7                   : "com.android.support:appcompat-v7:$support_version",
+            recyclerView         : "com.android.support:recyclerview-v7:$support_version",
+            annotations          : "com.android.support:support-annotations:$support_version",
+            design               : "com.android.support:design:$support_version",
+
+            retrofit             : "com.squareup.retrofit:retrofit:$retrofit_version",
+            retrofitConverterGson: "com.squareup.retrofit:converter-gson:$retrofit_version",
+            retrofitAdapterRxJava: "com.squareup.retrofit:adapter-rxjava:$retrofit_version",
+            retrofitConverterJackson: "com.squareup.retrofit:converter-jackson:$retrofit_version",
+
+            universalImageLoader : 'com.nostra13.universalimageloader:universal-image-loader:1.9.4',
+            dataBindingCompiler  : 'com.android.databinding:compiler:1.0-rc3',
+            materialDialogs      : 'com.github.afollestad.material-dialogs:core:0.8.5.6@aar',
+            yearclass            : 'com.facebook.device.yearclass:yearclass:1.0.1',
+            picasso              : 'com.squareup.picasso:picasso:2.5.2',
+            glide                : 'com.github.bumptech.glide:glide:3.6.1',
+            fresco               : 'com.facebook.fresco:fresco:0.8.1',
+            gson                 : 'com.google.code.gson:gson:2.5',
+            otto                 : 'com.squareup:otto:1.3.8',
+            systembartint        : 'com.readystatesoftware.systembartint:systembartint:1.0.4',
+            junit                : 'junit:junit:4.12'
+    ]
+}

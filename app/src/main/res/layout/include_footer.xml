@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="footer"
+            type="com.doctor.sun.ui.model.FooterViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_49"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#e1e1e1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fefefe"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tab_one"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_default"
+                android:drawableTop="@drawable/tab_appointment"
+                android:gravity="center"
+                android:paddingTop="@dimen/dp_4"
+                android:text="预约"
+                android:textSize="@dimen/font_11"
+                app:onClick="@{footer.onFooterClick}"
+                app:selected="@{footer.id}" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tab_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:drawableTop="@drawable/tab_consultation"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/dp_4"
+                    android:text="就诊"
+                    android:textSize="@dimen/font_11"
+                    app:onClick="@{footer.onFooterClick}"
+                    app:selected="@{footer.id}" />
+
+                <TextView
+                    android:id="@+id/tv_count"
+                    android:layout_width="@dimen/dp_13"
+                    android:layout_height="@dimen/dp_13"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:background="@drawable/bg_count"
+                    android:gravity="center"
+                    android:text="@{footer.count}"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/font_8"
+                    app:visibility="@{footer.haveUnreadMsg}" />
+
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/tab_three"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_default"
+                android:drawableTop="@drawable/tab_me"
+                android:gravity="center"
+                android:paddingTop="@dimen/dp_4"
+                android:text="我"
+                android:textSize="@dimen/font_11"
+                app:onClick="@{footer.onFooterClick}"
+                app:selected="@{footer.id}" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.squareup.timessquare.CalendarPickerView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/custom_background"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/dp_13"
+            android:paddingLeft="@dimen/dp_13"
+            android:paddingRight="@dimen/dp_13"
+            android:scrollbarStyle="outsideOverlay"
+            app:tsquare_dayBackground="@drawable/custom_calendar_bg_selector"
+            app:tsquare_dayTextColor="@color/custom_calendar_text_selector"
+            app:tsquare_dividerColor="@color/transparent"
+            app:tsquare_headerTextColor="@color/colorPrimaryDark"
+            app:tsquare_titleTextColor="@color/colorPrimaryDark" />
+
+    </LinearLayout>
+</layout>

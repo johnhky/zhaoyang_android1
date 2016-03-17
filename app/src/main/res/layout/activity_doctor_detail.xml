@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Doctor" />
+
+        <variable
+            name="footer"
+            type="com.doctor.sun.ui.model.FooterViewModel" />
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+        <variable
+            name="total"
+            type="java.lang.String" />
+
+        <variable
+            name="type"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_header"
+            app:header="@{header}" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_182"
+                    android:background="@drawable/bg_me"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.doctor.sun.ui.widget.BezelImageView
+                            android:id="@+id/iv_me"
+                            android:layout_width="@dimen/dp_74"
+                            android:layout_height="@dimen/dp_74"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/dp_16"
+                            android:scaleType="centerCrop"
+                            android:src="@{data.avatar}"
+                            app:maskDrawable="@drawable/circle_mask" />
+
+                        <TextView
+                            android:id="@+id/tv_test"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@id/iv_me"
+                            android:layout_marginLeft="@dimen/dp_56"
+                            android:layout_marginTop="@dimen/dp_18"
+                            android:background="@drawable/shape_test"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/dp_4"
+                            android:paddingRight="@dimen/dp_4"
+                            android:singleLine="true"
+                            android:text="@{data.level}"
+                            android:textColor="#ffffff"
+                            android:textSize="@dimen/font_9" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:singleLine="true"
+                            android:text="@{data.name}"
+                            android:textColor="#363636"
+                            android:textSize="@dimen/font_15" />
+
+                        <RatingBar
+                            style="@style/SmallRatingBar"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/tv_name"
+                            android:isIndicator="true"
+                            android:rating="@{data.point}" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_hosptial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_6"
+                        android:drawableLeft="@drawable/ic_locate"
+                        android:drawablePadding="@dimen/dp_7"
+                        android:drawableRight="@drawable/ic_enter"
+                        android:singleLine="true"
+                        android:text="@{data.hospitalName}"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_13" />
+
+                    <TextView
+                        android:id="@+id/tv_position"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_12"
+                        android:text="@{@string/string_of_two(data.specialist,data.title)}"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_13" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_color" />
+
+                <TextView
+                    android:id="@+id/tv_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_46"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:gravity="center_vertical"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15"
+                    app:html="@{@string/diagnosis_money(type + data.fee)}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_color" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_8"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:gravity="center_vertical"
+                    android:text="@{data.detail}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15"
+                    app:visible="@{data.detailVisible}" />
+
+                <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="16px"-->
+                <!--android:background="#ebf0f3" />-->
+
+                <!--<FrameLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/dp_44">-->
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:gravity="center"-->
+                <!--android:text="@{@string/custom_comment(total)}"-->
+                <!--android:textColor="@color/colorPrimaryDark"-->
+                <!--android:textSize="@dimen/font_15" />-->
+
+                <!--<View-->
+                <!--android:layout_width="@dimen/dp_126"-->
+                <!--android:layout_height="@dimen/dp_3"-->
+                <!--android:layout_gravity="center_horizontal|bottom"-->
+                <!--android:background="@color/colorPrimaryDark" />-->
+
+                <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1px"-->
+                <!--android:layout_gravity="bottom"-->
+                <!--android:background="@drawable/shape_divider" />-->
+                <!--</FrameLayout>-->
+
+                <View
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+
+            </LinearLayout>
+        </ScrollView>
+
+        <include
+            android:id="@+id/duration"
+            layout="@layout/dialog_pick_duration" />
+    </LinearLayout>
+</layout>

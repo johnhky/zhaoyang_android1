@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+        <variable
+            name="description"
+            type="com.doctor.sun.entity.Description" />
+
+        <variable
+            name="handler"
+            type="com.doctor.sun.ui.handler.TimeHandler"/>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_header"
+            bind:header="@{header}"/>
+
+        <RelativeLayout
+
+            android:id="@+id/rl_bigin_time"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_69"
+            android:background="@drawable/ripple_default"
+            android:onClick="@{handler.beginTimeSet}"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_begin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:singleLine="true"
+                android:text="开始时间"
+                android:textColor="#000000"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:id="@+id/tv_begin_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_44"
+                android:layout_toRightOf="@id/tv_begin"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#000000"
+                android:textSize="@dimen/font_15" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_13"
+                android:src="@drawable/ic_enter" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#c1cacf" />
+
+
+        <RelativeLayout
+
+            android:id="@+id/rl_end_time"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_69"
+            android:onClick="@{handler.endTimeSet}"
+            android:background="@drawable/ripple_default"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:singleLine="true"
+                android:text="结束时间"
+                android:textColor="#000000"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:id="@+id/tv_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_44"
+                android:layout_toRightOf="@id/tv_end"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#000000"
+                android:textSize="@dimen/font_15" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_13"
+                android:src="@drawable/ic_enter" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/item_time_category"
+            bind:data="@{description}"/>
+
+        <LinearLayout
+            android:id="@+id/lly_weeks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_18"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_monday"
+                android:layout_width="0dp"
+                 android:layout_height="@dimen/dp_35"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/ic_week_defalut"
+                android:text="星期一"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15"
+                android:onClick="@{handler.select}"/>
+
+            <TextView
+                android:id="@+id/btn_tuesday"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                 android:layout_height="@dimen/dp_35"
+                android:gravity="center"
+                android:background="@drawable/ic_week_defalut"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:text="星期二"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15"
+                android:onClick="@{handler.select}"/>
+
+            <TextView
+                android:id="@+id/btn_wesensday"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                 android:layout_height="@dimen/dp_35"
+                android:gravity="center"
+                android:background="@drawable/ic_week_defalut"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:text="星期三"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15"
+                android:onClick="@{handler.select}"/>
+
+            <TextView
+                android:id="@+id/btn_thursday"
+                android:layout_width="0dp"
+                 android:layout_height="@dimen/dp_35"
+                android:gravity="center"
+                android:background="@drawable/ic_week_defalut"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:text="星期四"
+                android:layout_weight="1"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15"
+                android:onClick="@{handler.select}"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lly_weeks2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_21"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_friday"
+                android:layout_width="0dp"
+                 android:layout_height="@dimen/dp_35"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/ic_week_defalut"
+                android:text="星期五"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15"
+                android:onClick="@{handler.select}"/>
+
+            <TextView
+                android:id="@+id/btn_saturday"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                 android:layout_height="@dimen/dp_35"
+                android:gravity="center"
+                android:background="@drawable/ic_week_defalut"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:text="星期六"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15"
+                android:onClick="@{handler.select}"/>
+
+            <TextView
+                android:id="@+id/btn_sunday"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                 android:layout_height="@dimen/dp_35"
+                android:gravity="center"
+                android:background="@drawable/ic_week_defalut"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:text="星期日"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15"
+                android:onClick="@{handler.select}"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,53 @@
+<resources>
+
+    <!--
+
+     720x1280 xhdpi
+
+     20px -> font_10
+     22px -> font_11
+     24px -> font_12
+     26px -> font_13
+     28px -> font_14
+     30px -> font_15
+     32px -> font_16
+     34px -> font_17
+     36px -> font_18
+     38px -> font_19
+     40px -> font_20
+     42px -> font_21
+     44px -> font_22
+     46px -> font_23
+     48px -> font_24
+     50px -> font_25
+     52px -> font_26
+     54px -> font_27
+     56px -> font_28
+     58px -> font_29
+     60px -> font_30
+
+     -->
+
+    <dimen name="font_10">10sp</dimen>
+    <dimen name="font_11">11sp</dimen>
+    <dimen name="font_12">12sp</dimen>
+    <dimen name="font_13">13sp</dimen>
+    <dimen name="font_14">14sp</dimen>
+    <dimen name="font_15">15sp</dimen>
+    <dimen name="font_16">16sp</dimen>
+    <dimen name="font_17">17sp</dimen>
+    <dimen name="font_18">18sp</dimen>
+    <dimen name="font_19">19sp</dimen>
+    <dimen name="font_20">20sp</dimen>
+    <dimen name="font_21">21sp</dimen>
+    <dimen name="font_22">22sp</dimen>
+    <dimen name="font_23">23sp</dimen>
+    <dimen name="font_24">24sp</dimen>
+    <dimen name="font_25">25sp</dimen>
+    <dimen name="font_26">26sp</dimen>
+    <dimen name="font_27">27sp</dimen>
+    <dimen name="font_28">28sp</dimen>
+    <dimen name="font_29">29sp</dimen>
+    <dimen name="font_30">30sp</dimen>
+
+</resources>

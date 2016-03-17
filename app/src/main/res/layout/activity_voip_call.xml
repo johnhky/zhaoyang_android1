@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Avatar" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#191919"
+        android:orientation="vertical">
+
+
+        <com.doctor.sun.ui.widget.BezelImageView
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_70"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_90"
+            android:src="@{data.avatar}"
+            android:scaleType="centerCrop"
+            app:maskDrawable="@drawable/circle_mask"
+            app:placeHolder="@{@drawable/default_avatar}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_8"
+            android:gravity="center"
+            android:text="@{data.name}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_15" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_75"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_15" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_release"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dp_25"
+            android:background="@drawable/ripple_release_call" />
+
+    </LinearLayout>
+</layout>

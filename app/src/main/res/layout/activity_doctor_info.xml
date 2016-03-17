@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.ContactDetail" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_header"
+            bind:header="@{header}" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_150"
+                    android:background="@drawable/bg_me"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.doctor.sun.ui.widget.BezelImageView
+                            android:id="@+id/iv_me"
+                            android:layout_width="@dimen/dp_74"
+                            android:layout_height="@dimen/dp_74"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:scaleType="centerCrop"
+                            android:src="@{data.avatar}"
+                            app:maskDrawable="@drawable/circle_mask" />
+
+                        <TextView
+                            android:id="@+id/tv_test"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@id/iv_me"
+                            android:layout_marginLeft="@dimen/dp_56"
+                            android:layout_marginTop="@dimen/dp_12"
+                            android:background="@drawable/shape_test"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/dp_4"
+                            android:paddingRight="@dimen/dp_4"
+                            android:singleLine="true"
+                            android:text="@{data.level}"
+                            android:textColor="#ffffff"
+                            android:textSize="@dimen/font_9" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:singleLine="true"
+                            android:text="@{data.name}"
+                            android:textColor="#363636"
+                            android:textSize="@dimen/font_15" />
+
+                        <RatingBar
+                            style="@style/SmallRatingBar"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/tv_name"
+                            android:isIndicator="true"
+                            android:rating="@{data.point}" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/tv_hosptial"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:text="@{data.hospitalName}"
+                            android:textColor="#363636"
+                            android:textSize="@dimen/font_13" />
+
+                        <TextView
+                            android:id="@+id/tv_position"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/tv_hosptial"
+                            android:paddingLeft="@dimen/dp_29"
+                            android:text="@{@string/string_of_two(data.specialist,data.title)}"
+                            android:textColor="#363636"
+                            android:textSize="@dimen/font_13" />
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_color" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_10"
+                    android:background="#eff3f5" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_modify_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_default"
+                    android:clickable="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_61"
+                        android:layout_centerVertical="true"
+                        android:drawableRight="@drawable/ic_enter"
+                        android:gravity="start|center_vertical"
+                        android:paddingLeft="@dimen/dp_13"
+                        android:paddingRight="@dimen/dp_13"
+                        android:text="修改备注"
+                        android:textColor="@color/color_tick"
+                        android:textSize="@dimen/font_15" />
+
+                    <TextView
+                        android:id="@+id/tv_modify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_35"
+                        android:text="@{data.nickname}"
+                        android:textColor="#898989"
+                        android:textSize="@dimen/font_15" />
+                </RelativeLayout>
+
+                <include
+                    android:id="@+id/black_list"
+                    layout="@layout/item_switch"
+                    bind:isChecked="@{data.is_ban == 1 ? true : false}" />
+
+                <include
+                    android:id="@+id/allow_call"
+                    layout="@layout/item_switch"
+                    bind:isChecked="@{data.can_call == 1 ? true : false}" />
+
+                <TextView
+                    android:id="@+id/tv_check_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_61"
+                    android:background="@drawable/ripple_default"
+                    android:clickable="true"
+                    android:gravity="center|left"
+                    android:paddingLeft="@dimen/dp_13"
+                    android:text="查找聊天记录"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_color" />
+
+                <TextView
+                    android:id="@+id/tv_cancel_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_61"
+                    android:background="@drawable/ripple_default"
+                    android:clickable="true"
+                    android:gravity="center|left"
+                    android:paddingLeft="@dimen/dp_13"
+                    android:text="清除聊天记录"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_color" />
+
+                <FrameLayout
+                    android:id="@+id/fl_send"
+                    android:layout_width="@dimen/dp_283"
+                    android:layout_height="@dimen/dp_49"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/dp_21"
+                    android:layout_marginTop="@dimen/dp_21"
+                    android:background="@drawable/btn_big_blue"
+                    android:clickable="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ripple_default"
+                        android:gravity="center"
+                        android:text="发消息"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/font_17" />
+                </FrameLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>

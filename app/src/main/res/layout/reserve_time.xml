@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Time" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.PickTimeAdapter" />
+
+    </data>
+
+    <FrameLayout
+        android:id="@+id/lly_update_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_full_rect"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@{data.time}"
+            android:textColor="@color/text_color_pick_time"
+            android:textSize="@dimen/font_15"
+            android:background="@drawable/full_rect"
+            app:adapter="@{adapter}"
+            app:itemClick="@{adapter.select}"
+            app:vh="@{vh}" />
+
+    </FrameLayout>
+
+
+</layout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_12">
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/shape_circle"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/font_14" />
+
+        <TextView
+            android:id="@+id/tv_question"
+            android:layout_width="@dimen/dp_250"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_num"
+            android:paddingLeft="@dimen/dp_6"
+            android:text="看见了卡积分卢卡斯大家的反馈辣椒粉卡拉斯京的疯狂辣椒粉离开"
+            android:textColor="#363636"
+            android:textSize="@dimen/font_15" />
+
+        <TextView
+            android:layout_width="@dimen/dp_41"
+            android:layout_height="@dimen/dp_23"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/shape_reset"
+            android:gravity="center"
+            android:text="重填"
+            android:textColor="#339de1"
+            android:textSize="@dimen/font_12" />
+
+        <ImageView
+            android:id="@+id/iv_hook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/tv_question"
+            android:layout_marginTop="@dimen/dp_16"
+            android:padding="@dimen/dp_5"
+            android:src="@drawable/ic_hook" />
+
+        <TextView
+            android:id="@+id/tv_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_question"
+            android:layout_below="@id/tv_question"
+            android:layout_marginTop="@dimen/dp_16"
+            android:paddingLeft="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_2"
+            android:text="速度快放假啊看来放假"
+            android:textColor="#339de1"
+            android:textSize="@dimen/font_15" />
+    </RelativeLayout>
+</layout>

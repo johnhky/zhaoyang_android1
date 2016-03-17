@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tag_image_loader_uri" type="string" />
+    <item name="tag_view_holder" type="string" />
+    <item name="tag_view_visible" type="string" />
+</resources>

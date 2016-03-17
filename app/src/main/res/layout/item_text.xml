@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.MedicalRecord" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/lly_selector"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_58"
+            android:background="@drawable/ripple_default"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_20"
+                android:text="@{data.patientName}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_56"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:gravity="center_vertical"
+                android:text="@{@string/record_relation_name(data.relation, data.name)}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_13" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+    </LinearLayout>
+</layout>

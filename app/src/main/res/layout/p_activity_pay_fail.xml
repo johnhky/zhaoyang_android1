@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:background="#fbab4a"
+            android:layout_height="@dimen/dp_202">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_32"
+                android:background="@drawable/ic_pay_fail" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="支付失败"
+                android:textSize="@dimen/font_20"
+                android:textColor="#ffffff"
+                android:layout_marginTop="@dimen/dp_27"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="@dimen/dp_288"
+            android:layout_height="@dimen/dp_49"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_53"
+            android:background="@drawable/shape_button">
+
+            <TextView
+                android:id="@+id/tv_retry"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:text="重新支付"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/font_17" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="@dimen/dp_288"
+            android:layout_height="@dimen/dp_49"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_25"
+            android:background="@drawable/shape_rectangle_selected">
+
+            <TextView
+                android:id="@+id/tv_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:text="返回首页"
+                android:textColor="#339de1"
+                android:textSize="@dimen/font_17" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+</layout>

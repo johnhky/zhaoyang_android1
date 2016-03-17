@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.ItemRadioGroup" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_74"
+        android:orientation="vertical"
+        app:visible="@{data.visible}">
+
+        <LinearLayout
+            android:layout_width="@dimen/dp_216"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_rectangle_selected"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/round_left_rect"
+                android:button="@null"
+                android:gravity="center"
+                android:onClick="@{data.select}"
+                android:selected="@{data.selectedItem==1}"
+                android:tag="1"
+                android:text="详细就诊"
+                android:textColor="@color/color_return_type" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/full_rect"
+                android:button="@null"
+                android:gravity="center"
+                android:onClick="@{data.select}"
+                android:selected="@{data.selectedItem==3}"
+                android:tag="3"
+                android:text="转诊"
+                android:textColor="@color/color_return_type" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/round_right_rect"
+                android:button="@null"
+                android:gravity="center"
+                android:onClick="@{data.select}"
+                android:selected="@{data.selectedItem==2}"
+                android:tag="2"
+                android:text="简捷复诊"
+                android:textColor="@color/color_return_type" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

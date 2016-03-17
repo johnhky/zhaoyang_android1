@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_94"
+            android:background="#eff3f5"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_19"
+                android:textColor="#000000"
+                android:textSize="@dimen/font_16"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_instruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_12"
+                android:textColor="#898989"
+                android:textSize="@dimen/font_15" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_23"
+            android:text="如需帮助联系，请联系我们！"
+            android:textColor="#000000"
+            android:textSize="@dimen/font_14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="客服电话：400-000-0000"
+            android:textColor="#000000"
+            android:textSize="@dimen/font_14" />
+
+        <FrameLayout
+            android:layout_width="@dimen/dp_283"
+            android:layout_height="@dimen/dp_49"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_92"
+            android:background="@drawable/btn_big_blue">
+
+            <TextView
+                android:id="@+id/action_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:text="修改资料"
+                android:textColor="#fff"
+                android:textSize="@dimen/font_17" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="@dimen/dp_283"
+            android:layout_height="@dimen/dp_49"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_25"
+            android:background="@drawable/btn_big_white">
+
+            <TextView
+                android:id="@+id/action_back"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:text="返回首页"
+                android:textColor="#339de1"
+                android:textSize="@dimen/font_17" />
+        </FrameLayout>
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.ui.model.DiagnosisReadOnlyViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!-- 症状-->
+        <include
+            layout="@layout/item_time_category"
+            bind:data="@{data.labelSymptom}" />
+
+        <include
+            layout="@layout/item_symptom_readonly"
+            bind:data="@{data.perception}" />
+
+        <include
+            layout="@layout/item_symptom_readonly"
+            bind:data="@{data.thinking}" />
+
+        <include
+            layout="@layout/item_symptom_readonly"
+            bind:data="@{data.pipedream}" />
+
+        <include
+            layout="@layout/item_symptom_readonly"
+            bind:data="@{data.emotion}" />
+
+        <include
+            layout="@layout/item_symptom_readonly"
+            bind:data="@{data.memory}" />
+
+        <include
+            layout="@layout/item_symptom_readonly"
+            bind:data="@{data.insight}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|left"
+            android:paddingBottom="@dimen/dp_14"
+            android:paddingLeft="@dimen/dp_14"
+            android:paddingTop="@dimen/dp_14"
+            android:text="@{data.description ?? String.valueOf(' ')}"
+            android:textColor="#363636"
+            android:textSize="@dimen/font_15" />
+
+        <!-- 诊断-->
+        <include
+            layout="@layout/item_time_category"
+            bind:data="@{data.labelConsultation}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|left"
+            android:paddingBottom="@dimen/dp_14"
+            android:paddingLeft="@dimen/dp_14"
+            android:paddingTop="@dimen/dp_14"
+            android:text="@{data.diagnosis ?? String.valueOf(' ')}"
+            android:textColor="#363636"
+            android:textSize="@dimen/font_15" />
+
+        <!-- 评估-->
+        <include
+            layout="@layout/item_time_category"
+            bind:data="@{data.labelAssess}" />
+
+        <include
+            layout="@layout/item_consultation_readonly"
+            bind:data="@{data.currentStatus}" />
+
+        <include
+            layout="@layout/item_consultation_readonly"
+            bind:data="@{data.recovered}" />
+
+        <include
+            layout="@layout/item_consultation_readonly"
+            bind:data="@{data.treatment}" />
+
+        <include
+            layout="@layout/item_consultation_readonly"
+            bind:data="@{data.sideEffect}" />
+    </LinearLayout>
+</layout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#339de1</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="button_press">#80CCCCCC</color>
+    <color name="button_press_dark">#aaadb1</color>
+
+    <color name="gender_text">#ababab</color>
+
+    <color name="divider_color">#c1cacf</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="custom_header_text">#85B100</color>
+    <color name="custom_selected">#339DE1</color>
+    <color name="custom_background">#FFFFFF</color>
+    <color name="custom_background_today">#339DE1</color>
+    <color name="custom_background_disabled">#FFFFFF</color>
+    <color name="custom_text_selected">#FFFFFFFF</color>
+    <color name="custom_text_inactive">#cccccc</color>
+    <color name="custom_text_active">#363636</color>
+    <color name="color_face_day">#f76d02</color>
+    <color name="color_net_day">#88cb5a</color>
+
+
+
+    <color name="text_color_black">#363636</color>
+</resources>

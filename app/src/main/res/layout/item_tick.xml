@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="data"
+            type="java.lang.String" />
+    </data>
+
+    <TextView
+        android:id="@+id/tv_tick"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_tick"
+        android:drawableLeft="@drawable/ic_tick"
+        android:drawablePadding="@dimen/dp_6"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp_4"
+        android:text="@{data}"
+        android:textColor="@color/color_tick"
+        android:textSize="@dimen/font_15" />
+</layout>

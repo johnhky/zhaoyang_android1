@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.doctor.sun">
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:protectionLevel="signatureOrSystem" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        android:protectionLevel="signatureOrSystem" />
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        android:protectionLevel="signatureOrSystem" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <permission
+        android:name="com.doctor.sun.permission.RECEIVE_MSG"
+        android:protectionLevel="signature" />
+    <permission
+        android:name="com.doctor.sun.permission.INCOMING_CALL"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.doctor.sun.permission.RECEIVE_MSG" />
+    <uses-permission android:name="com.doctor.sun.permission.INCOMING_CALL" />
+
+    // 允许读取电话的状态
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    // 允许一个程序获取信息有关当前或最近运行的任务，一个缩略的任务状态，是否活动等等
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    // 允许程序录制音频
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    // 允许应用程序修改全局声音设置的权限
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    // GPS定位权限(非必选，由应用选择是否需要)
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    // 允许程序读取用户联系人数据(非必选，由应用选择是否需要)
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    // 允许访问振动设备(非必选,由应用选择是否需要)
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+
+    //** 如果您需要实现实时音视频功能，需要增加以下配置选项**//
+
+    // 允许程序禁用键盘锁(非必选,由应用选择是否需要)
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    // 允许使用PowerManager的WakeLocks保持进程在休眠时从屏幕消失(非必选,由应用选择是否需要)
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:name="com.doctor.sun.AppContext"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="${appLabel}"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
+
+        <activity
+            android:name=".ui.activity.doctor.MainActivity"
+            android:label="${appLabel}"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.activity.WelcomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.WelcomeTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:screenOrientation="portrait" />
+
+
+        <activity
+            android:name=".ui.activity.doctor.RegisterActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.EditDoctorInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.doctor.ReviewResultActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.doctor.AppointmentListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.doctor.PatientDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.doctor.UrgentListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.doctor.ConsultationListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.doctor.AssignQuestionActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.doctor.MeActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.ConsultingActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.ConsultingDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.FeedbackActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.TimeActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.DisturbActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.TemplateActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.AddTimeActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.FeeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name=".ui.activity.doctor.AddDisturbActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.CancelAppointmentActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.ChattingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activity.doctor.AddTemplateActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.SettingActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.PasswordActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.ContactActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateUnchanged" />
+        <activity
+            android:name=".ui.activity.doctor.QuestionActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.AddQuestionActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.CustomDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.PatientInfoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.EditPrescriptionActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- patient -->
+        <activity
+            android:name=".ui.activity.patient.DoctorDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.AppointmentListActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.ConsultingActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.patient.PickTimeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.patient.AddMedicalRecordActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.SearchDoctorActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.MeActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.DoctorInfoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.EditPatientInfoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.HistoryActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.RecordListActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.PickDateActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.DocumentActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.RechargeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.patient.FeedbackActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.ChattingRecordActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.HistoryRecordActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.HistoryDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.MedicalRecordDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.AdviceActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.ModifyNicknameActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.QuestionBankActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.UrgentCallActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.DrugActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.ApplyAppointmentActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.UrgentAddTimeActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.FillForumActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.UrgentAddFeeActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.PayFailActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.patient.PaySuccessActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.HospitalDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.SystemTipActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.VoIPCallActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.ImagePreviewActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.HelpActivity"
+            android:screenOrientation="portrait" />
+
+
+        <activity
+            android:name=".ui.activity.patient.MedicineHelperActivity"
+            android:screenOrientation="portrait" />
+
+
+        <service
+            android:name="com.yuntongxun.ecsdk.ECClientService"
+            android:enabled="true" />
+        // 以下两项为SDK事件提醒广播(必选配置)
+        <receiver android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$AlarmReceiver" />
+        // v5.1.9r增加配置选项(必选配置)
+        <receiver android:name="com.yuntongxun.ecsdk.booter.Alarm" />
+        // SDK网络改变广播(必选配置)
+        <receiver android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$ConnectionReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ui.recevier.YuntxNotifyReceiver"
+            android:exported="false">
+            <intent-filter>
+                // 接收push消息
+                // action匹配规则{packageName + ".action" + "功能"}
+                <action android:name="com.doctor.sun.action.VOIP_CALL" />
+                <action android:name="com.doctor.sun.action.MESSAGE" />
+                <action android:name="com.doctor.sun.action.NOTIFICATION_CLICK" />
+                <action android:name="com.doctor.sun.action.PERSON_VERSION" />
+
+            </intent-filter>
+        </receiver>
+        <!-- alipay sdk begin -->
+
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!-- alipay sdk end -->
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" />
+
+        <!--微信支付回调-->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

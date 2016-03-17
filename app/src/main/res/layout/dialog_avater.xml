@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_165"
+            android:background="@drawable/bg_white"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_camera"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_54"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:text="拍摄"
+                android:textColor="#339de1"
+                android:textSize="@dimen/font_15" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#c1cacf" />
+
+            <TextView
+                android:id="@+id/tv_album"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_55"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:text="从相册选择"
+                android:textColor="#339de1"
+                android:textSize="@dimen/font_15" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#c1cacf" />
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="#898989"
+                android:textSize="@dimen/font_15" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

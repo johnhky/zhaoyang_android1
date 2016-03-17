@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Appointment" />
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ripple_default"
+        android:orientation="vertical">
+
+
+        <include
+            layout="@layout/include_header"
+            bind:header="@{header}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <com.doctor.sun.ui.widget.BezelImageView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="@dimen/dp_55"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:scaleType="centerCrop"
+                android:src="@{data.avatar}"
+                app:maskDrawable="@drawable/circle_mask"
+                app:placeHolder="@{@drawable/default_avatar}" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:text="@{data.patientName}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:text="@{@string/appointment_time(data.handler.bookTime)}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_13" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_6"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:text="@{@string/appointment_type(data.type)}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_13" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+        <!--<include-->
+            <!--android:id="@+id/comment"-->
+            <!--layout="@layout/item_text_input4"-->
+            <!--bind:hint='@{"请输入您对病人的评价"}' />-->
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16">
+
+            <TextView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="守时"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_14" />
+
+            <RatingBar
+                android:id="@+id/rating_bar_0"
+                style="@style/FeedbackRatingBar" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_25">
+
+            <TextView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="交流"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_14" />
+
+            <RatingBar
+                android:id="@+id/rating_bar_1"
+                style="@style/FeedbackRatingBar" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_25">
+
+            <TextView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="真实"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_14" />
+
+            <RatingBar
+                android:id="@+id/rating_bar_2"
+                style="@style/FeedbackRatingBar" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_25">
+
+            <TextView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="尊重"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_14" />
+
+            <RatingBar
+                android:id="@+id/rating_bar_3"
+                style="@style/FeedbackRatingBar" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_63"
+            android:layout_marginTop="@dimen/dp_20"
+            android:orientation="horizontal">
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_283"
+                android:layout_height="@dimen/dp_49"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/btn_big_blue">
+
+                <TextView
+                    android:id="@+id/tv_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:text="确  定"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_17" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

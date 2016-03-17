@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.ui.model.DiagnosisReadOnlyViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- 医嘱-->
+        <include
+            layout="@layout/item_time_category"
+            bind:data="@{data.labelAdvice}" />
+
+        <TextView
+            android:id="@+id/tv_doctor_advince"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|left"
+            android:paddingBottom="@dimen/dp_14"
+            android:paddingLeft="@dimen/dp_14"
+            android:paddingTop="@dimen/dp_14"
+            android:text=""
+            android:textColor="#363636"
+            android:textSize="@dimen/font_15" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:background="@drawable/shape_divider" />
+
+        <LinearLayout
+            android:id="@+id/fl_medicine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/dp_7"
+            android:paddingLeft="@dimen/dp_14"
+            android:paddingTop="@dimen/dp_7"
+            android:visibility="gone" />
+
+        <!-- placeholder-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_17"
+            android:background="#ebf0f3"
+            android:gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/tv_type_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|left"
+            android:paddingBottom="@dimen/dp_14"
+            android:paddingLeft="@dimen/dp_14"
+            android:paddingTop="@dimen/dp_14"
+            android:text=""
+            android:textColor="#363636"
+            android:textSize="@dimen/font_15" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:background="@drawable/shape_divider" />
+
+        <LinearLayout
+            android:id="@+id/fl_return"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/dp_14"
+            android:paddingLeft="@dimen/dp_14"
+            android:paddingTop="@dimen/dp_14"
+            android:visibility="gone" />
+        <!-- 支付方式 (已删除)-->
+    </LinearLayout>
+</layout>

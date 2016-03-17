@@ -1,0 +1,51 @@
+<resources>
+
+    <!-- Base application theme. android:Theme.Holo.Light -->
+    <style name="Theme.Me" parent="android:Theme.DeviceDefault.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Activity.Me</item>
+        <item name="colorPrimary">#2196F3</item>
+        <item name="colorPrimaryDark">#1976D2</item>
+        <item name="colorAccent">#2196F3</item>
+
+
+        <item name="md_title_color">#363636</item>
+        <item name="md_content_color">#989898</item>
+        <item name="md_positive_color">#2196F3</item>
+        <item name="md_neutral_color">#2196F3</item>
+        <item name="md_negative_color">#2196F3</item>
+        <item name="md_widget_color">#2196F3</item>
+        <item name="md_item_color">#989898</item>
+
+    </style>
+
+    <!-- activity 切换动画 -->
+    <style name="Animation.Activity.Me" parent="android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_to_right</item>
+    </style>
+
+    <style name="customDialog" parent="android:Theme.Dialog">
+        <item name="android:windowFrame">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="loadingDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorAccent">#2196F3</item>
+    </style>
+
+</resources>

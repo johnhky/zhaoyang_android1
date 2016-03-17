@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="data"
+            type="java.lang.String" />
+    </data>
+
+    <FrameLayout
+        android:padding="@dimen/dp_4"
+        android:layout_width="@dimen/dp_82"
+        android:layout_height="@dimen/dp_82">
+
+        <ImageView
+            android:id="@+id/practitioner_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@{data}" />
+
+        <TextView
+            android:id="@+id/tv_practitioner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ripple_default"
+            android:gravity="center"
+            android:textColor="#898989"
+            android:textSize="@dimen/font_13" />
+    </FrameLayout>
+</layout>

@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">昭阳医生</string>
+    <string name="app_name_dev">昭阳医生_dev</string>
+    <string name="action_settings">Settings</string>
+    <string name="get_captcha">重新获取(%02d)</string>
+    <string name="welcome">%s，欢迎您登录昭阳医生</string>
+    <string name="last_login_time">上次登录时间：%s</string>
+    <string name="label_appointment"><![CDATA[有<font color=\'#339de1\'>%d</font>个预约病人]]></string>
+    <string name="label_emergency_call"><![CDATA[有<font color=\'#339de1\'>%d</font>个急诊病人]]></string>
+    <string name="label_consultation"><![CDATA[有<font color=\'#339de1\'>%d</font>个转诊病人]]></string>
+    <string name="appointment_time">预约时间：  %s</string>
+    <string name="appointment_type">预约类型：  %s</string>
+    <string name="appointment_progress">问卷完成度：  %s</string>
+    <string name="patient_info">%1$s&#160;&#160;&#160;&#160;&#160;%2$s</string>
+    <string name="orange_money"><![CDATA[<font color=\'#f76d02\'>￥%s</font>]]></string>
+    <string name="money">诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color="#f76d02">￥%s</font>]]></string>
+    <string name="extra_money">追加诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color=\'#f76d02\'>￥%d</font>]]></string>
+    <string name="current_money">当前诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color=\'#f76d02\'>￥%s</font>]]></string>
+    <string name="should_pay">应支付诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color=\'#f76d02\'>￥%d</font>]]></string>
+    <string name="total">合计:&#160;&#160;&#160;&#160;<![CDATA[<font color="#f76d02">￥%s</font>]]></string>
+    <string name="rest">￥<![CDATA[<font color=\'#f76d02\'>%d</font>]]></string>
+    <string name="question_count">共%s题</string>
+    <string name="string_of_two">%1$s / %2$s</string>
+    <string name="string_of_three">%1$s / %2$s / %3$s</string>
+    <string name="record">病历：%s</string>
+    <string name="unread_message">有%d条未查看消息</string>
+    <string name="num">数量</string>
+    <string name="comment">留言</string>
+    <string name="ps">备注消息</string>
+    <string name="custom_question_detail">"      "医生可根据个人诊疗习惯，编写需要患者回答的问题（自编题目），并添加进题库。自编题目会收录在您新建的模块里。需要的时候可添加到诊前问卷中让患者填写，或者加进您的默认问卷模板中。\n"
+      "自编题目可以按需要设置为2种，分别是“单项选择题”（可带备注）和“填空题”。目前暂不支持“多项/不定项选择题”，有不便之处请谅解。\n"
+      "符合需要的自编题目有可能经过修改、标准化后，收录到公共题库中供所有医生使用，若有版权异议请直接和客服联系。\n"
+      "如果以上信息还没解决到您的问题，可致电客服咨询，我们的工作时间是</string>
+    <string name="pay_success_tip">医生可能随时有消息反馈给你，为免遗漏，请允许本程序向你推送通知。（按手机设置，然后点击“通知”找到程序“昭阳医生”点击进去再打开“允许通知”按钮）</string>
+    <string name="is_diagnosised"> 请确认该患者首次诊疗已\n在医疗机构详细就诊进行</string>
+    <string name="record_relation_name">(%1$s/%2$s)</string>
+    <string name="record_warning">*下列地址信息用于为您匹配推荐较近的专家及配送药品用, 身份证信息用于作为唯一标识匹配患者在医院的病历和检验 结果,内容已加密请放心填写</string>
+    <string name="gender_birth">%1$s   %2$s</string>
+    <string name="patient_name_relation">%1$s (%2$s/%3$s)</string>
+    <string name="patient_address">%1$s%2$s</string>
+    <string name="date_suggestion">昭阳医生强烈建议您先网上咨询，然后在咨询结束时再听从医生 建议并安排简捷复诊，这能让医生更高效地处理您的需求</string>
+    <string name="fee_detail">系统会向您推送预约通知，为免遗漏，请允许程序向你推送通知。（按手机设置，然后点击“通知”找到程序“昭阳医生”点击进去再打开“允许通知”按钮）</string>
+    <string name="order_create_time">下单时间： %s</string>
+    <string name="logistic_detail">物流信息：%s</string>
+    <string name="tip">*请于预约时间%s前完成问卷</string>
+    <string name="hospitalDetail">    %s</string>
+    <string name="format_tag"><![CDATA[<font color="#363636">%1$s</font> <font color="#898989">%2$s</font>]]></string>
+    <string name="description_money"><![CDATA[<font color="#363636">%1$s</font> <font color="#f76d02">%2$s</font>]]></string>
+    <string name="patient_realtionship">%1$s(%2$s/%3$s)</string>
+    <string name="appointment_time_type">%1$s %2$s</string>
+    <string name="diagnosis_money"><![CDATA[<font size="15">诊金:</font> <font color="#f76d02">%1$s</font>]]></string>
+    <string name="custom_comment">用户评价(%1$s)</string>
+    <string name="appointment_brief">专为初诊患者及病情有变化需要详细咨询 医生的患者开设的预约通道，可获得实时 的医生响应，时间以15min为单位，可根 据自身需求调节预约时间，建议预约咨询 时间为30~45分钟。</string>
+    <string name="quick_appointment">专为病情稳定、需要定期复诊寄药的患者开设的预约通道，费用较少，简单快捷（就诊时间为15分钟），医生不需要与您进行即时通讯，但一般24小时内会给出用药建议及寄出药物。（如您是初诊患者或病情不稳定，请返回首页，前往“预约咨询医生”，获取更完善的咨询服务。）</string>
+    <string name="emergency_call_warn">如果您不确定需要找什么类型的医生，请先提供病历资料并预先支付诊金，订单发出后，医生会根据自己的专长抢单，若在您设定的时间内没有医生接受预约订单，系统会将预付诊金返还至原支付账户。</string>
+</resources>

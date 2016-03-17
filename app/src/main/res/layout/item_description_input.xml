@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.ItemTextInput" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_default">
+
+            <EditText
+                android:id="@+id/et_others"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_transparent"
+                android:gravity="start"
+                android:hint="病情的简单描述"
+                android:minHeight="@dimen/dp_118"
+                android:padding="@dimen/dp_13"
+                android:text="@{data.input}"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

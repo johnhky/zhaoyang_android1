@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.EmergencyCall" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text='@{""+data.handler.displayTime()}'
+                android:textColor="#000000"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/font_13"
+                app:html='@{data.handler.status()}' />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:background="@color/divider_color" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
+            android:text='@{"诊金:  ￥"+ data.money}'
+            android:textColor="#363636"
+            android:textSize="@dimen/font_13" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
+            android:text='@{"职称:  "+data.handler.titleLabel()}'
+            android:textColor="#363636"
+            android:textSize="@dimen/font_13" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
+            android:text='@{"地域:  "+data.searchCity}'
+            android:textColor="#363636"
+            android:textSize="@dimen/font_13" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
+            android:text='@{"性别:  "+data.searchGender}'
+            android:textColor="#363636"
+            android:textSize="@dimen/font_13" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
+            android:text='@{"愿意等候:  "+data.handler.willingToWait()}'
+            android:textColor="#363636"
+            android:textSize="@dimen/font_13" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
+            android:text='@{"增加诊金:  "+data.addMoney}'
+            android:textColor="#363636"
+            android:textSize="@dimen/font_13"
+            app:visible="@{data.handler.addMoneyVisible}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
+            android:textColor="#363636"
+            android:textSize="@dimen/font_13"
+            app:html='@{"待付金额:  "+@string/orange_money(data.unpayMoney)}' />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:background="@color/divider_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_7"
+            android:orientation="horizontal"
+            app:visible="@{data.handler.payVisible}">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_90"
+                android:layout_height="@dimen/dp_35"
+                android:layout_gravity="end"
+                android:layout_marginRight="@dimen/dp_11"
+                android:background="@drawable/btn_small_white">
+
+                <TextView
+                    android:id="@+id/cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:text="取消咨询"
+                    android:textColor="#339de1"
+                    android:textSize="@dimen/font_13"
+                    app:adapter="@{adapter}"
+                    app:itemClick="@{data.handler.click}"
+                    app:vh="@{vh}" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_90"
+                android:layout_height="@dimen/dp_35"
+                android:layout_gravity="end"
+                android:background="@drawable/btn_small_blue">
+
+                <TextView
+                    android:id="@+id/pay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:text="立即支付"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_13"
+                    app:adapter="@{adapter}"
+                    app:itemClick="@{data.handler.click}"
+                    app:vh="@{vh}" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_7"
+            android:orientation="horizontal"
+            app:visible="@{data.handler.addOperationVisible}">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_90"
+                android:layout_height="@dimen/dp_35"
+                android:layout_gravity="end"
+                android:layout_marginRight="@dimen/dp_11"
+                android:background="@drawable/btn_small_white">
+
+                <TextView
+                    android:id="@+id/delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:text="删除咨询"
+                    android:textColor="#339de1"
+                    android:textSize="@dimen/font_13"
+                    app:adapter="@{adapter}"
+                    app:itemClick="@{data.handler.click}"
+                    app:vh="@{vh}" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_124"
+                android:layout_height="@dimen/dp_35"
+                android:layout_marginRight="@dimen/dp_11"
+                android:background="@drawable/btn_mid_blue">
+
+                <TextView
+                    android:id="@+id/add_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:text="增加等候时间"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_13"
+                    app:adapter="@{adapter}"
+                    app:itemClick="@{data.handler.click}"
+                    app:vh="@{vh}" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_90"
+                android:layout_height="@dimen/dp_35"
+                android:layout_gravity="end"
+                android:background="@drawable/btn_small_blue">
+
+                <TextView
+                    android:id="@+id/add_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:text="增加诊金"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_13"
+                    app:adapter="@{adapter}"
+                    app:itemClick="@{data.handler.click}"
+                    app:vh="@{vh}" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_16"
+            android:background="#ebf0f3" />
+    </LinearLayout>
+</layout>

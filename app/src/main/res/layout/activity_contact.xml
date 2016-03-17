@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_header"
+            bind:header="@{header}" />
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="@dimen/dp_315"
+            android:layout_height="@dimen/dp_35"
+            android:layout_marginBottom="@dimen/dp_7"
+            android:layout_marginLeft="@dimen/dp_22"
+            android:layout_marginRight="@dimen/dp_22"
+            android:layout_marginTop="@dimen/dp_7"
+            android:singleLine="true"
+            android:background="@drawable/shape_rectangle_default"
+            android:drawableLeft="@drawable/ic_search_clicked"
+            android:gravity="center"
+            android:hint="搜索"
+            android:paddingLeft="@dimen/dp_8"
+            android:paddingRight="@dimen/dp_8"
+            android:textSize="@dimen/font_14" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.doctor.sun.ui.widget.SideSelector
+                android:id="@+id/fast_scroller"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_marginBottom="@dimen/dp_40"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_40"
+                android:textSize="@{@dimen/dp_10}" />
+
+        </FrameLayout>
+    </LinearLayout>
+</layout>

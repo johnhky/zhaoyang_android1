@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Answer" />
+
+        <variable
+            name="position"
+            type="java.lang.String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dp_13">
+
+                <ImageView
+                    android:id="@+id/iv_position"
+                    android:layout_width="@dimen/dp_23"
+                    android:layout_height="@dimen/dp_23"
+                    android:src="@drawable/bg_position" />
+
+                <TextView
+                    android:id="@+id/iv_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_23"
+                    android:gravity="center"
+                    android:minWidth="@dimen/dp_23"
+                    android:text="@{position}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_14" />
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_6"
+                android:layout_weight="1"
+                android:text="@{data.question.questionContent}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+
+            <FrameLayout
+                android:id="@+id/fl_reset"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_25"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_13"
+                android:background="@drawable/bg_mini_white"
+                android:clickable="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ripple_default"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:text="重填"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/font_12" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_add_pills"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_13"
+                android:drawableLeft="@drawable/ic_add"
+                android:drawablePadding="@dimen/dp_2"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dp_2"
+                android:text="添加"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/font_14"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fl_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:background="@color/divider_color" />
+    </LinearLayout>
+</layout>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.EmergencyCall" />
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_header"
+            bind:header="@{header}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_13"
+            android:paddingRight="@dimen/dp_13"
+            android:paddingTop="@dimen/dp_10">
+
+            <TextView
+                android:id="@+id/tv_creat_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:id="@+id/tv_current_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_4"
+                android:lineSpacingExtra="@dimen/dp_4"
+                android:singleLine="false"
+                android:textColor="#000000"
+                android:textSize="@dimen/font_15" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#c1cacf" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_11"
+            android:text="你愿意再等待"
+            android:textColor="#000000"
+            android:textSize="@dimen/font_15" />
+
+        <RadioGroup
+            android:id="@+id/rg_time"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_45"
+            android:layout_marginBottom="@dimen/dp_32"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_time"
+                android:layout_width="@dimen/dp_166"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_rectangle_default"
+                android:inputType="number"
+                android:paddingLeft="@dimen/dp_12"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+            <RadioButton
+                android:id="@+id/rb_minute"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:button="@null"
+                android:checked="true"
+                android:drawableLeft="@drawable/ic_tick"
+                android:drawablePadding="@dimen/dp_6"
+                android:paddingLeft="@dimen/dp_27"
+                android:text="分"
+                android:textColor="@color/color_tick" />
+
+            <RadioButton
+                android:id="@+id/rb_hour"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:button="@null"
+                android:drawableLeft="@drawable/ic_tick"
+                android:drawablePadding="@dimen/dp_6"
+                android:paddingLeft="@dimen/dp_27"
+                android:text="小时"
+                android:textColor="@color/color_tick" />
+
+        </RadioGroup>
+
+        <FrameLayout
+            android:layout_width="@dimen/dp_288"
+            android:layout_height="@dimen/dp_49"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/shape_button">
+
+            <TextView
+                android:id="@+id/tv_apply"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/font_17" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+</layout>

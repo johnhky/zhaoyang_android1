@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.EmergencyCall" />
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_header"
+            bind:header="@{header}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/dp_12"
+            android:paddingLeft="@dimen/dp_13"
+            android:paddingRight="@dimen/dp_13"
+            android:paddingTop="@dimen/dp_12">
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_7"
+                app:html="@{@string/current_money(data.money)}"
+                android:textColor="#000000"
+                android:textSize="@dimen/font_15" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#c1cacf" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_104"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/dp_13"
+            android:paddingRight="@dimen/dp_13">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_14"
+                android:layout_marginTop="@dimen/dp_11"
+                android:text="你愿意增加的紧急咨询费用（元/次/半小时）"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+            <EditText
+                android:id="@+id/et_fee"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginBottom="@dimen/dp_17"
+                android:background="@drawable/shape_rectangle_default"
+                android:inputType="number"
+                android:paddingLeft="@dimen/dp_12"
+                android:textColor="#363636"
+                android:textColorHint="#989898"
+                android:textSize="@dimen/font_15" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_30"
+            android:background="#ebf0f3"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_7"
+            android:text="支付方式"
+            android:textColor="#a2aaae"
+            android:textSize="@dimen/font_15" />
+
+        <RadioGroup
+            android:id="@+id/rg_pay"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_137"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rb_alipay"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:button="@null"
+                android:checked="true"
+                android:drawableLeft="@drawable/ic_alipay"
+                android:drawablePadding="@dimen/dp_7"
+                android:drawableRight="@drawable/ic_circle_tick"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_15"
+                android:text="支付宝快捷支付"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#c1cacf" />
+
+            <RadioButton
+                android:id="@+id/rb_wechat"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:button="@null"
+                android:checked="false"
+                android:drawableLeft="@drawable/ic_wechat_pay"
+                android:drawablePadding="@dimen/dp_7"
+                android:drawableRight="@drawable/ic_circle_tick"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_15"
+                android:text="微信支付"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+        </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#c1cacf" />
+
+        <FrameLayout
+            android:layout_width="@dimen/dp_283"
+            android:layout_height="@dimen/dp_49"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_17"
+            android:background="@drawable/shape_button">
+
+            <TextView
+                android:id="@+id/tv_apply"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/font_17" />
+        </FrameLayout>
+
+    </LinearLayout>
+</layout>
