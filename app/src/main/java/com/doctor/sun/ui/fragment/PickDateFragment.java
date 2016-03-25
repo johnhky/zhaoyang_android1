@@ -104,10 +104,12 @@ public class PickDateFragment extends Fragment {
     }
 
     private int getDuration() {
-        if (doctor != null) {
-            return Integer.parseInt(doctor.getDuration());
+        // debug : error:doctor.getDuration() == null
+        if (doctor.getDuration() == null){
+            return 15;//prx －－2016.3.23 －－若为空，返回默认值15分钟
+        }else {
+            return Integer.parseInt(doctor.getDuration());//点击再次预约报错(原因是：获取到的预约时长为空)
         }
-        return -1;
     }
 
     private void loadData() {
