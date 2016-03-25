@@ -50,7 +50,7 @@
     <string name="appointment_time_type">%1$s %2$s</string>
     <string name="diagnosis_money"><![CDATA[<font size="15">诊金:</font> <font color="#f76d02">%1$s</font>]]></string>
     <string name="custom_comment">用户评价(%1$s)</string>
-    <string name="appointment_brief">专为初诊患者及病情有变化需要详细咨询 医生的患者开设的预约通道，可获得实时 的医生响应，时间以15min为单位，可根 据自身需求调节预约时间，建议预约咨询 时间为30~45分钟。</string>
+    <string name="appointment_brief">专为初诊患者及病情有变化需要详细咨询的患者开设的预约通道，可实时获得医生的响应，时间以15分钟为单位，可根据自身需求调节预约时间，建议咨询时间为30~45分钟。</string>
     <string name="quick_appointment">专为病情稳定、需要定期复诊寄药的患者开设的预约通道，费用较少，简单快捷（就诊时间为15分钟），医生不需要与您进行即时通讯，但一般24小时内会给出用药建议及寄出药物。（如您是初诊患者或病情不稳定，请返回首页，前往“预约咨询医生”，获取更完善的咨询服务。）</string>
     <string name="emergency_call_warn">如果您不确定需要找什么类型的医生，请先提供病历资料并预先支付诊金，订单发出后，医生会根据自己的专长抢单，若在您设定的时间内没有医生接受预约订单，系统会将预付诊金返还至原支付账户。</string>
 </resources>
