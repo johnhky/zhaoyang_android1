@@ -1,6 +1,6 @@
 package com.doctor.sun.dto;
 
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.entity.Prescription;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -13,7 +13,7 @@ public class PrescriptionDTO {
 
 
     @JsonProperty("appointment_info")
-    private Appointment appointmentInfo;
+    private AppointMent appointmentInfo;
     /**
      * mediaclName : 好好保护
      * productName :
@@ -26,11 +26,11 @@ public class PrescriptionDTO {
     private List<Prescription> drug;
 
 
-    public Appointment getAppointmentInfo() {
+    public AppointMent getAppointmentInfo() {
         return appointmentInfo;
     }
 
-    public void setAppointmentInfo(Appointment appointmentInfo) {
+    public void setAppointmentInfo(AppointMent appointmentInfo) {
         this.appointmentInfo = appointmentInfo;
     }
 

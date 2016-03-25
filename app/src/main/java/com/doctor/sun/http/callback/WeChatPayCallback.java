@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.doctor.sun.dto.WeChatPayDTO;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.entity.EmergencyCall;
 import com.doctor.sun.ui.activity.patient.PayFailActivity;
 import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
@@ -21,7 +21,7 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
     private final PayCallback mCallback;
     private Activity activity;
 
-    public WeChatPayCallback(final Activity activity, final Appointment data) {
+    public WeChatPayCallback(final Activity activity, final AppointMent data) {
         this.activity = activity;
         mCallback = new PayCallback() {
 

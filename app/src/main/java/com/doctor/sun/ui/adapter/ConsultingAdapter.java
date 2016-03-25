@@ -13,7 +13,7 @@ import com.doctor.sun.databinding.PItemConsultingBinding;
 import com.doctor.sun.databinding.PItemMedicineHelperBinding;
 import com.doctor.sun.databinding.PItemSystemTipBinding;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.entity.SystemTip;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
@@ -44,7 +44,7 @@ public class ConsultingAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> 
     @Override
     public void onBindViewBinding(BaseViewHolder<ViewDataBinding> vh, int position) {
         if (vh.getItemViewType() == R.layout.item_consulting) {
-            Appointment appointment = (Appointment) get(position);
+            AppointMent appointment = (AppointMent) get(position);
             RealmQuery<TextMsg> q = realm.where(TextMsg.class)
                     .equalTo("sessionId", appointment.getVoipAccount())
                     .equalTo("userData", appointment.getHandler().getUserData());
@@ -53,7 +53,7 @@ public class ConsultingAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> 
             ItemConsultingBinding rootBinding = (ItemConsultingBinding) vh.getBinding();
             bindCount(results, count, rootBinding.llyMessage, rootBinding.divider);
         } else if (vh.getItemViewType() == R.layout.p_item_consulting) {
-            Appointment appointment = (Appointment) get(position);
+            AppointMent appointment = (AppointMent) get(position);
             Log.e(TAG, "data: " + appointment);
             RealmQuery<TextMsg> q = realm.where(TextMsg.class)
                     .equalTo("sessionId", appointment.getDoctor().getVoipAccount())

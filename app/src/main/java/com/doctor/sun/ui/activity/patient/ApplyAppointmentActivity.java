@@ -10,7 +10,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityApplyAppointmentBinding;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
@@ -95,9 +95,9 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                 if (record != null) {
                     doctorData.setRecordId(String.valueOf(record.getMedicalRecordId()));
                 }
-                appointmentModule.orderAppointment(String.valueOf(doctorData.getId()), time, getType(), doctorData.getRecordId(), doctorData.getDuration()).enqueue(new ApiCallback<Appointment>() {
+                appointmentModule.orderAppointment(String.valueOf(doctorData.getId()), time, getType(), doctorData.getRecordId(), doctorData.getDuration()).enqueue(new ApiCallback<AppointMent>() {
                     @Override
-                    protected void handleResponse(Appointment response) {
+                    protected void handleResponse(AppointMent response) {
                         response.setRecordId(Integer.parseInt(doctorData.getRecordId()));
                         AppointmentHandler handler = new AppointmentHandler(response);
                         if (binding.rbWechat.isChecked()) {

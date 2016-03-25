@@ -4,8 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.Question;
 import com.doctor.sun.ui.fragment.QuestionCustomFragment;
 import com.doctor.sun.ui.fragment.QuestionDefaultFragment;
 

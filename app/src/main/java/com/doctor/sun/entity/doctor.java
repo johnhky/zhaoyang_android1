@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
@@ -16,6 +17,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.DialogPickDurationBinding;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
 import com.doctor.sun.ui.activity.patient.PickDateActivity;
+import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.activity.patient.handler.DoctorHandler;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -393,7 +395,13 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
 
     @JsonIgnore
     public String getFee() {
-        String fee = getMoney() + "元/次/15分钟";
+        String fee = "";
+        //若是简捷复诊，应该设置诊金为：getSecondMoney();
+        if (SearchDoctorActivity.getSDType() == AppointmentType.QUICK){
+            fee = getSecondMoney() + "元/次/15分钟";//复诊诊金金额设置
+        }else {
+            fee = getMoney() + "元/次/15分钟";//诊金金额设置
+        }
         return fee;
     }
 

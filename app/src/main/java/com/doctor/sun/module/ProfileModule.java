@@ -3,7 +3,7 @@ package com.doctor.sun.module;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.PatientDTO;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.DoctorIndex;
 import com.doctor.sun.entity.Fee;
@@ -73,7 +73,7 @@ public interface ProfileModule {
     Call<ApiDTO<String>> setPatientFeedback(@Field("feedback") String feedback);
 
     @GET("profile/histories")
-    Call<ApiDTO<PageDTO<Appointment>>> histories(@Query("page") int page);
+    Call<ApiDTO<PageDTO<AppointMent>>> histories(@Query("page") int page);
 
     @GET("profile/record-detail")
     Call<ApiDTO<MedicalRecord>> recordDetail(@Query("recordId") String recordId);

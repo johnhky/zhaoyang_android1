@@ -9,7 +9,7 @@ import com.doctor.sun.databinding.ItemPrescription2Binding;
 import com.doctor.sun.databinding.ItemPrescriptionListBinding;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.dto.PrescriptionDTO;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.entity.Avatar;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Prescription;
@@ -38,7 +38,7 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
     private String yourAvatar;
     private boolean shouldUpdate;
 
-    public MessageAdapter(Context context, Appointment data) {
+    public MessageAdapter(Context context, AppointMent data) {
         super(context);
         switch (Config.getInt(Constants.USER_TYPE, -1)) {
             case AuthModule.PATIENT_TYPE: {
@@ -111,7 +111,7 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
                 TextMsg textMsg = get(position);
                 PrescriptionDTO prescriptionDTO = JacksonUtils.fromJson(textMsg.getBody(), PrescriptionDTO.class);
                 if (prescriptionDTO == null || prescriptionDTO.getDrug() == null) return;
-                Appointment appointment = prescriptionDTO.getAppointmentInfo();
+                AppointMent appointment = prescriptionDTO.getAppointmentInfo();
                 binding.name.setText(String.format("%s  %s", appointment.getRecordName(), appointment.getRelation()));
                 binding.time.setText(String.format("%s  %s", appointment.getBookTime(), appointment.getType()));
 

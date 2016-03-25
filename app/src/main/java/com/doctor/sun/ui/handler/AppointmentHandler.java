@@ -13,7 +13,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.AppointmentType;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
@@ -54,11 +54,11 @@ import io.ganguo.library.common.ToastHelper;
  */
 public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doctor.sun.util.PayInterface {
     private static AppointmentModule api = Api.of(AppointmentModule.class);
-    protected Appointment data;
+    protected AppointMent data;
     private static final int layoutId = R.layout.item_appointment;
     private DrugModule drugModule = Api.of(DrugModule.class);
 
-    public AppointmentHandler(Appointment data) {
+    public AppointmentHandler(AppointMent data) {
         this.data = data;
     }
 
@@ -463,14 +463,14 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         return data.getReturnInfo() != null && data.getReturnInfo().getReturnPaid() != 1 && data.getReturnInfo().getNeedReturn() == 1;
     }
 
-    public void newOrPayAppointment(View v) {
+    public void newOrPayAppointment(View v) {//"复诊支付":"再次预约"newOrPayAppointment
         if (needReturn() && returnNotPaid()) {
             new PayMethodDialog(v.getContext(), AppointmentHandler.this).show();
         } else {
             //复诊支付
             Doctor doctor = data.getDoctor();
             doctor.setRecordId(String.valueOf(data.getRecordId()));
-            Intent intent = PickDateActivity.makeIntent(v.getContext(), doctor, AppointmentType.QUICK);
+            Intent intent = PickDateActivity.makeIntent(v.getContext(), doctor, AppointmentType.QUICK);//点击再次预约崩溃
             v.getContext().startActivity(intent);
         }
     }

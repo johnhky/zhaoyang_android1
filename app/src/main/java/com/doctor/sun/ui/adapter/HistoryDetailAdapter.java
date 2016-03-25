@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.ui.fragment.DiagnosisReadOnlyFragment;
 import com.doctor.sun.ui.fragment.FillForumFragment;
 
@@ -12,9 +12,9 @@ import com.doctor.sun.ui.fragment.FillForumFragment;
  * Created by lucas on 1/8/16.
  */
 public class HistoryDetailAdapter extends FragmentPagerAdapter {
-    private Appointment appointment;
+    private AppointMent appointment;
 
-    public HistoryDetailAdapter(FragmentManager fm, Appointment appointment) {
+    public HistoryDetailAdapter(FragmentManager fm, AppointMent appointment) {
         super(fm);
         this.appointment = appointment;
     }

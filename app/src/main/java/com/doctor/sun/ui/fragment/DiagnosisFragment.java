@@ -23,7 +23,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentDiagnosisBinding;
 import com.doctor.sun.databinding.ItemPrescriptionBinding;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.ItemButton;
@@ -69,11 +69,11 @@ public class DiagnosisFragment extends Fragment {
     private Doctor doctor;
     private int returnType = 1;
     private boolean shouldScrollDown = false;
-    private Appointment appointment;
+    private AppointMent appointment;
     private boolean shouldAsk = true;
     private ArrayList<Prescription> prescriptions;
 
-    public static DiagnosisFragment getInstance(Appointment id) {
+    public static DiagnosisFragment getInstance(AppointMent id) {
         if (instance == null) {
             instance = new DiagnosisFragment();
             Bundle args = new Bundle();
@@ -83,7 +83,7 @@ public class DiagnosisFragment extends Fragment {
         return instance;
     }
 
-    public static DiagnosisFragment newInstance(Appointment id) {
+    public static DiagnosisFragment newInstance(AppointMent id) {
 
         Bundle args = new Bundle();
         args.putParcelable(Constants.DATA, id);

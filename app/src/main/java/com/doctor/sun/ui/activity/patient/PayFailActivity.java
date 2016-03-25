@@ -9,7 +9,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityPayFailBinding;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.entity.EmergencyCall;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
@@ -32,7 +32,7 @@ public class PayFailActivity extends BaseActivity2 implements View.OnClickListen
 
     private PActivityPayFailBinding binding;
 
-    public static Intent makeIntent(Context context, Appointment data, boolean payWithWeChat) {
+    public static Intent makeIntent(Context context, AppointMent data, boolean payWithWeChat) {
         Intent i = new Intent(context, PayFailActivity.class);
         i.putExtra(Constants.PAY_METHOD, payWithWeChat);
         i.putExtra(Constants.DATA, data);
@@ -60,7 +60,7 @@ public class PayFailActivity extends BaseActivity2 implements View.OnClickListen
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 
-    private Appointment getAppointment() {
+    private AppointMent getAppointment() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 

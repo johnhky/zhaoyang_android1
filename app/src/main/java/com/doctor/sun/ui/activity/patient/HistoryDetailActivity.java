@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingDetailActivity;
 import com.doctor.sun.ui.adapter.HistoryDetailAdapter;
@@ -23,20 +23,20 @@ import com.doctor.sun.ui.model.HeaderViewModel;
 public class HistoryDetailActivity extends TabActivity
         implements ListFragment.SetHeaderListener, QCategoryHandler.QCategoryCallback {
 
-    public static Intent makeIntent(Context context, Appointment appointment) {
+    public static Intent makeIntent(Context context, AppointMent appointment) {
         Intent i = new Intent(context, HistoryDetailActivity.class);
         i.putExtra(Constants.DATA, appointment);
         return i;
     }
 
-    public static Intent makeIntent(Context context, Appointment appointment, int position) {
+    public static Intent makeIntent(Context context, AppointMent appointment, int position) {
         Intent i = new Intent(context, HistoryDetailActivity.class);
         i.putExtra(Constants.DATA, appointment);
         i.putExtra(Constants.POSITION, position);
         return i;
     }
 
-    private Appointment getData() {
+    private AppointMent getData() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 

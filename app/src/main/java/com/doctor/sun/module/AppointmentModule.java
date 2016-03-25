@@ -1,11 +1,10 @@
 package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.dto.DoctorDTO;
 import com.doctor.sun.dto.DoctorPageDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.WeChatPayDTO;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.EmergencyCall;
 
@@ -54,24 +53,24 @@ public interface AppointmentModule {
 
     @FormUrlEncoded
     @POST("appointment/appointment")
-    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") String doctorId, @Field("bookTime") String bookTime, @Field("type") String type, @Field("recordId") String recordId);
+    Call<ApiDTO<AppointMent>> orderAppointment(@Field("doctorId") String doctorId, @Field("bookTime") String bookTime, @Field("type") String type, @Field("recordId") String recordId);
 
     @FormUrlEncoded
     @POST("appointment/appointment")
-    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") String doctorId, @Field("bookTime") String bookTime, @Field("type") String type, @Field("recordId") String recordId, @Field("takeTime") String taketime);
+    Call<ApiDTO<AppointMent>> orderAppointment(@Field("doctorId") String doctorId, @Field("bookTime") String bookTime, @Field("type") String type, @Field("recordId") String recordId, @Field("takeTime") String taketime);
 
     @GET("appointment/pAppointList")
-    Call<ApiDTO<PageDTO<Appointment>>> pAppointments(@Query("page") String page);
+    Call<ApiDTO<PageDTO<AppointMent>>> pAppointments(@Query("page") String page);
 
     @GET("appointment/pAppointList")
-    Call<ApiDTO<PageDTO<Appointment>>> pAppointments(@Query("page") String page, @Query("type") int type);
+    Call<ApiDTO<PageDTO<AppointMent>>> pAppointments(@Query("page") String page, @Query("type") int type);
 
     @FormUrlEncoded
     @POST("appointment/patient-cancel")
     Call<ApiDTO<String>> pCancel(@Field("appointmentId") String appointmentId);
 
     @GET("appointment/dAppointList")
-    Call<ApiDTO<PageDTO<Appointment>>> dAppointments(@Query("page") String page, @Query("paid") String paid);
+    Call<ApiDTO<PageDTO<AppointMent>>> dAppointments(@Query("page") String page, @Query("paid") String paid);
 
     @FormUrlEncoded
     @POST("appointment/doctor-cancel")
@@ -88,7 +87,7 @@ public interface AppointmentModule {
 
 
     @GET("diagnosis/return-list")
-    Call<ApiDTO<PageDTO<Appointment>>> consultations(@Query("page") String page);
+    Call<ApiDTO<PageDTO<AppointMent>>> consultations(@Query("page") String page);
 
     @FormUrlEncoded
     @POST("diagnosis/accept-return")
@@ -103,23 +102,23 @@ public interface AppointmentModule {
     Call<ApiDTO<String>> refuseConsultation(@Field("id") String id);
 
     @GET("appointment/dDoingList")
-    Call<ApiDTO<PageDTO<Appointment>>> dDoingList(@Query("page") String page);
+    Call<ApiDTO<PageDTO<AppointMent>>> dDoingList(@Query("page") String page);
 
     @GET("appointment/dFinishList")
-    Call<ApiDTO<PageDTO<Appointment>>> dFinishList(@Query("page") String page);
+    Call<ApiDTO<PageDTO<AppointMent>>> dFinishList(@Query("page") String page);
 
     @GET("appointment/pDoingList")
-    Call<ApiDTO<PageDTO<Appointment>>> pDoingList(@Query("page") String page);
+    Call<ApiDTO<PageDTO<AppointMent>>> pDoingList(@Query("page") String page);
 
     @GET("appointment/pFinishList")
-    Call<ApiDTO<PageDTO<Appointment>>> pFinishList(@Query("page") String page);
+    Call<ApiDTO<PageDTO<AppointMent>>> pFinishList(@Query("page") String page);
 
     @FormUrlEncoded
     @POST("appointment/evaluate-patient")
     Call<ApiDTO<String>> evaluatePatient(@Field("point") String point, @Field("appointmentId") String appointmentId, @Field("detail") String detail);
 
     @GET("urgent/doctor-list")
-    Call<ApiDTO<PageDTO<Appointment>>> urgentCalls(@Query("page") String page);
+    Call<ApiDTO<PageDTO<AppointMent>>> urgentCalls(@Query("page") String page);
 
     @GET("urgent/patient-list")
     Call<ApiDTO<PageDTO<EmergencyCall>>> pUrgentCalls(@Query("page") String page);
@@ -129,7 +128,7 @@ public interface AppointmentModule {
     Call<ApiDTO<String>> acceptUrgentCall(@Field("ucId") int ucId);
 
     @GET("appointment/record-histories")
-    Call<ApiDTO<PageDTO<Appointment>>> Patient(@Query("recordId") String recordId);
+    Call<ApiDTO<PageDTO<AppointMent>>> Patient(@Query("recordId") String recordId);
 
     @FormUrlEncoded
     @POST("appointment/evaluate-patient")

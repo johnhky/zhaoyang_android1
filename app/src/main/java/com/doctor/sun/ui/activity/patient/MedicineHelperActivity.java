@@ -14,7 +14,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMedicineHelperBinding;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.entity.VoipAccount;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
@@ -120,9 +120,9 @@ public class MedicineHelperActivity extends BaseActivity2 {
         mAppointmentAdapter = new SimpleAdapter(this);
         mAppointmentAdapter.mapLayout(R.layout.item_appointment, R.layout.item_medicine_helper);
         binding.rvPrescription.setAdapter(mAppointmentAdapter);
-        PageCallback<Appointment> pageCallback = new PageCallback<Appointment>(mAppointmentAdapter) {
+        PageCallback<AppointMent> pageCallback = new PageCallback<AppointMent>(mAppointmentAdapter) {
             @Override
-            protected void handleResponse(PageDTO<Appointment> response) {
+            protected void handleResponse(PageDTO<AppointMent> response) {
                 super.handleResponse(response);
                 if (response.getTotal().equals("0")) {
                     binding.rvPrescription.setVisibility(View.GONE);

@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityFeedbackBinding;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
@@ -29,13 +29,13 @@ public class FeedbackActivity extends BaseActivity2 {
     private PActivityFeedbackBinding binding;
 
 
-    public static Intent makeIntent(Context context, Appointment data) {
+    public static Intent makeIntent(Context context, AppointMent data) {
         Intent i = new Intent(context, FeedbackActivity.class);
         i.putExtra(Constants.DATA, data);
         return i;
     }
 
-    private Appointment getData() {
+    private AppointMent getData() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 

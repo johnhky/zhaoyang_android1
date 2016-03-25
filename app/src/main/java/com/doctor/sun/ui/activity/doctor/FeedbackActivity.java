@@ -14,7 +14,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityFeedbackBinding;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.AppointmentModule;
@@ -31,13 +31,13 @@ public class FeedbackActivity extends BaseActivity2 {
     private ActivityFeedbackBinding binding;
 
 
-    public static Intent makeIntent(Context context, Appointment data) {
+    public static Intent makeIntent(Context context, AppointMent data) {
         Intent i = new Intent(context, FeedbackActivity.class);
         i.putExtra(Constants.DATA, data);
         return i;
     }
 
-    private Appointment getData() {
+    private AppointMent getData() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 

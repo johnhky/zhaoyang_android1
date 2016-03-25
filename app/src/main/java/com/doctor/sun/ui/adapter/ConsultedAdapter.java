@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ItemConsultedBinding;
 import com.doctor.sun.databinding.PItemConsultedBinding;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 
@@ -19,7 +19,7 @@ import io.realm.RealmResults;
 /**
  * Created by rick on 12/17/15.
  */
-public class ConsultedAdapter extends SimpleAdapter<Appointment, ViewDataBinding> {
+public class ConsultedAdapter extends SimpleAdapter<AppointMent, ViewDataBinding> {
     private long startTime;
     private final Realm realm;
 
@@ -32,7 +32,7 @@ public class ConsultedAdapter extends SimpleAdapter<Appointment, ViewDataBinding
     @Override
     public void onBindViewBinding(BaseViewHolder<ViewDataBinding> vh, int position) {
         if (vh.getItemViewType() == R.layout.item_consulted) {
-            Appointment appointment = (Appointment) get(position);
+            AppointMent appointment = (AppointMent) get(position);
             RealmQuery<TextMsg> q = realm.where(TextMsg.class)
                     .equalTo("sessionId", appointment.getVoipAccount())
                     .equalTo("userData", appointment.getHandler().getUserData());
@@ -41,7 +41,7 @@ public class ConsultedAdapter extends SimpleAdapter<Appointment, ViewDataBinding
             ItemConsultedBinding rootBinding = (ItemConsultedBinding) vh.getBinding();
             bindCount(results, count, rootBinding.tvMessageCount);
         } else if (vh.getItemViewType() == R.layout.p_item_consulted) {
-            Appointment appointment = (Appointment) get(position);
+            AppointMent appointment = (AppointMent) get(position);
             RealmQuery<TextMsg> q = realm.where(TextMsg.class)
                     .equalTo("sessionId", appointment.getDoctor().getVoipAccount())
                     .equalTo("userData", appointment.getHandler().getUserData());

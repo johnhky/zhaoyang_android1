@@ -4,12 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.entity.MedicineHelper;
 import com.doctor.sun.entity.SystemTip;
 import com.doctor.sun.http.Api;
@@ -28,7 +27,7 @@ import io.realm.RealmChangeListener;
 public class ConsultingFragment extends RefreshListFragment {
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private RealmChangeListener listener;
-    private PageCallback<Appointment> callback;
+    private PageCallback<AppointMent> callback;
 
     public ConsultingFragment() {
     }
@@ -80,7 +79,7 @@ public class ConsultingFragment extends RefreshListFragment {
     protected void loadMore() {
         int userType = Config.getInt(Constants.USER_TYPE, -1);
         if (userType == AuthModule.PATIENT_TYPE) {
-            callback = new PageCallback<Appointment>(getAdapter()) {
+            callback = new PageCallback<AppointMent>(getAdapter()) {
                 @Override
                 public void onInitHeader() {
                     super.onInitHeader();
@@ -96,7 +95,7 @@ public class ConsultingFragment extends RefreshListFragment {
             };
             api.pDoingList(callback.getPage()).enqueue(callback);
         } else {
-            callback = new PageCallback<Appointment>(getAdapter()) {
+            callback = new PageCallback<AppointMent>(getAdapter()) {
                 @Override
                 public void onInitHeader() {
                     super.onInitHeader();

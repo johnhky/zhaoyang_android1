@@ -9,10 +9,8 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityHistoryRecordBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
@@ -56,10 +54,10 @@ public class HistoryRecordActivity extends BaseActivity2 {
     }
 
     private void getRecordHistories() {
-        Call<ApiDTO<PageDTO<Appointment>>> call = api.Patient(getIntent().getIntExtra(Constants.PARAM_RECORD_ID, 0) + "");
-        call.enqueue(new PageCallback<Appointment>(mAdapter) {
+        Call<ApiDTO<PageDTO<AppointMent>>> call = api.Patient(getIntent().getIntExtra(Constants.PARAM_RECORD_ID, 0) + "");
+        call.enqueue(new PageCallback<AppointMent>(mAdapter) {
             @Override
-            protected void handleResponse(PageDTO<Appointment> response) {
+            protected void handleResponse(PageDTO<AppointMent> response) {
                 super.handleResponse(response);
                 getAdapter().onFinishLoadMore(true);
             }

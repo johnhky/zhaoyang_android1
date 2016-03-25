@@ -12,7 +12,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPatientDetailBinding;
 import com.doctor.sun.entity.Answer;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AnswerCallback;
 import com.doctor.sun.http.callback.ListCallback;
@@ -41,17 +41,17 @@ public class PatientDetailActivity extends BaseActivity2 implements QCategoryHan
     private AnswerModule api = Api.of(AnswerModule.class);
     private ActivityPatientDetailBinding binding;
     private AnswerAdapter mAdapter;
-    private Appointment data;
+    private AppointMent data;
     private LoadMoreListener templateListLoader;
 
-    public static Intent makeIntent(Context context, Appointment data, int layout) {
+    public static Intent makeIntent(Context context, AppointMent data, int layout) {
         Intent i = new Intent(context, PatientDetailActivity.class);
         i.putExtra(Constants.DATA, data);
         i.putExtra(Constants.LAYOUT_ID, layout);
         return i;
     }
 
-    private Appointment getData() {
+    private AppointMent getData() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 

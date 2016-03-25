@@ -19,7 +19,7 @@
 
         <variable
             name="appointment"
-            type="com.doctor.sun.entity.Appointment" />
+            type="com.doctor.sun.entity.AppointMent" />
     </data>
 
 

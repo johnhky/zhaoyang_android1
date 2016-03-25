@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointMent;
 import com.doctor.sun.event.SwitchTabEvent;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.TabActivity;
@@ -35,7 +35,7 @@ public class ConsultingDetailActivity extends TabActivity
     private HeaderViewModel header1;
     private boolean isReadOnly;
 
-    public static Intent makeIntent(Context context, Appointment data, int position) {
+    public static Intent makeIntent(Context context, AppointMent data, int position) {
         Intent i = new Intent(context, ConsultingDetailActivity.class);
         i.putExtra(Constants.DATA, data);
         i.putExtra(Constants.POSITION, position);
@@ -43,7 +43,7 @@ public class ConsultingDetailActivity extends TabActivity
     }
 
 
-    private Appointment getData() {
+    private AppointMent getData() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 

@@ -7,13 +7,12 @@ import android.os.Parcelable;
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.handler.AppointmentHandler;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by rick on 11/25/15.
  */
-public class Appointment implements LayoutId, Parcelable {
+public class AppointMent implements LayoutId, Parcelable {
     public static final int NOT_PAID = 0;
     public static final int PAID = 1;
     /**
@@ -138,7 +137,7 @@ public class Appointment implements LayoutId, Parcelable {
 
     private AppointmentHandler handler = new AppointmentHandler(this);
 
-    public Appointment() {
+    public AppointMent() {
     }
 
     public int getId() {
@@ -521,7 +520,7 @@ public class Appointment implements LayoutId, Parcelable {
         dest.writeInt(this.itemLayoutId);
     }
 
-    protected Appointment(Parcel in) {
+    protected AppointMent(Parcel in) {
         this.id = in.readInt();
         this.recordId = in.readInt();
         this.progress = in.readString();
@@ -560,13 +559,13 @@ public class Appointment implements LayoutId, Parcelable {
         this.itemLayoutId = in.readInt();
     }
 
-    public static final Creator<Appointment> CREATOR = new Creator<Appointment>() {
-        public Appointment createFromParcel(Parcel source) {
-            return new Appointment(source);
+    public static final Creator<AppointMent> CREATOR = new Creator<AppointMent>() {
+        public AppointMent createFromParcel(Parcel source) {
+            return new AppointMent(source);
         }
 
-        public Appointment[] newArray(int size) {
-            return new Appointment[size];
+        public AppointMent[] newArray(int size) {
+            return new AppointMent[size];
         }
     };
 }
