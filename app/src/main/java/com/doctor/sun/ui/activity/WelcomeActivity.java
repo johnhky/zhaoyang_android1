@@ -27,7 +27,7 @@ public class WelcomeActivity extends BaseActivity2 {
                     TokenCallback.checkToken(WelcomeActivity.this);
                 } else {
                     Intent intent = LoginActivity.makeIntent(WelcomeActivity.this);
-                    startActivity(intent);
+                    startActivity(intent);//bug
                 }
 
                 finish();
