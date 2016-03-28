@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -33,6 +34,7 @@ import com.doctor.sun.ui.model.HeaderViewModel;
  * Created by rick on 20/1/2016.
  */
 public class DoctorDetailActivity extends BaseActivity2 implements View.OnClickListener {
+    public static final String TAG = DoctorDetailActivity.class.getSimpleName();
 
     private ToolModule api = Api.of(ToolModule.class);
     private ActivityDoctorDetailBinding binding;
@@ -46,6 +48,7 @@ public class DoctorDetailActivity extends BaseActivity2 implements View.OnClickL
         Intent i = new Intent(context, DoctorDetailActivity.class);
         i.putExtra(Constants.DATA, data);
         i.putExtra(Constants.POSITION, type);
+        Log.e(TAG, "makeIntent: " + type );
         return i;
     }
 

@@ -15,7 +15,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPatientInfoBinding;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
@@ -166,7 +166,7 @@ public class PatientInfoActivity extends BaseActivity2 implements View.OnClickLi
     }
 
     private void bindAppointment() {
-        AppointMent appointment = new AppointMent();
+        Appointment appointment = new Appointment();
         //appointmentId 至少有一个
         appointment.setId(patient.getAppointmentId().get(patient.getAppointmentId().size() - 1));
         appointment.setVoipAccount(binding.getData().getVoipAccount());

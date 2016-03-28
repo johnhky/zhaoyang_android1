@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ItemTextBinding;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.event.CloseDialogEvent;
 import com.doctor.sun.module.AuthModule;
@@ -27,13 +27,13 @@ import io.ganguo.library.core.event.EventHub;
  * Created by Lynn on 12/30/15.
  */
 public class RecordAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
-    private AppointMent appointment;
+    private Appointment appointment;
 
     public RecordAdapter(Context context) {
         super(context);
     }
 
-    public RecordAdapter(Context context, AppointMent appointment) {
+    public RecordAdapter(Context context, Appointment appointment) {
         super(context);
         this.appointment = appointment;
     }

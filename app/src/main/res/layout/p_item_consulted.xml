@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.AppointMent" />
+            type="com.doctor.sun.entity.Appointment" />
 
         <variable
             name="adapter"
@@ -169,7 +169,8 @@
                     android:onClick="@{data.handler.newOrPayAppointment}"
                     android:text='@{data.handler.returnNotPaid()?"复诊支付":"再次预约"}'
                     android:textColor="#fff"
-                    android:textSize="@dimen/font_13" />
+                    android:textSize="@dimen/font_13"
+                    android:visibility="gone"/>
 
             </FrameLayout>
 

@@ -9,7 +9,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityPaySuccessBinding;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.EmergencyCall;
 import com.doctor.sun.ui.activity.BaseActivity2;
 
@@ -25,7 +25,7 @@ public class PaySuccessActivity extends BaseActivity2 implements View.OnClickLis
 
     private PActivityPaySuccessBinding binding;
 
-    public static Intent makeIntent(Context context, AppointMent data) {
+    public static Intent makeIntent(Context context, Appointment data) {
         Intent i = new Intent(context, PaySuccessActivity.class);
         i.putExtra(Constants.DATA, data);
         i.putExtra(Constants.TYPE, APPOINTMENT);
@@ -45,7 +45,7 @@ public class PaySuccessActivity extends BaseActivity2 implements View.OnClickLis
         return i;
     }
 
-    private AppointMent getAppointment() {
+    private Appointment getAppointment() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 

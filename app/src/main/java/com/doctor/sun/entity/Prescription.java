@@ -1,10 +1,18 @@
 package com.doctor.sun.entity;
 
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.View;
 
+import com.doctor.sun.bean.Constants;
+import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
+import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -103,6 +111,36 @@ public class Prescription extends BaseObservable implements Parcelable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public View.OnClickListener modify() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = EditPrescriptionActivity.makeIntent(v.getContext(), Prescription.this);
+                Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+                        switch (msg.what) {
+                            case DiagnosisFragment.EDIT_PRESCRITPION: {
+                                Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
+                                mediaclName = parcelable.mediaclName;
+                                productName = parcelable.productName;
+                                interval = parcelable.interval;
+                                numbers = parcelable.numbers;
+                                unit = parcelable.unit;
+                                remark = parcelable.remark;
+                                isVisible = parcelable.isVisible;
+                                notifyChange();
+                            }
+                        }
+                        return false;
+                    }
+                }));
+                intent.putExtra(Constants.HANDLER, messenger);
+                v.getContext().startActivity(intent);
+            }
+        };
     }
 
     public List<HashMap<String, String>> getNumbers() {

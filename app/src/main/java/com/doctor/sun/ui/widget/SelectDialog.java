@@ -10,9 +10,9 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.DialogSelectBinding;
-import com.doctor.sun.entity.AppointMent;
-import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.event.CloseDialogEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -42,7 +42,7 @@ public class SelectDialog extends BaseDialog implements View.OnClickListener {
     private Context context;
     private MaterialProgressDrawable mFooterProgress;
     private boolean isHasContent;
-    private AppointMent appointment;
+    private Appointment appointment;
 
     /**
      * patientId - 医生端
@@ -56,7 +56,7 @@ public class SelectDialog extends BaseDialog implements View.OnClickListener {
         this.id = id;
     }
 
-    public SelectDialog(Context context, AppointMent appointment) {
+    public SelectDialog(Context context, Appointment appointment) {
         this(context, appointment.getDoctor().getId());
         this.appointment = appointment;
     }
@@ -85,9 +85,10 @@ public class SelectDialog extends BaseDialog implements View.OnClickListener {
         } else {
             mAdapter = new RecordAdapter(context, appointment);
         }
-        AutoHeightLayoutManager layoutManager = new AutoHeightLayoutManager(context);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        binding.rvSelect.setLayoutManager(layoutManager);
+
+        LinearLayoutManager layout = new LinearLayoutManager(context);
+        layout.setAutoMeasureEnabled(true);
+        binding.rvSelect.setLayoutManager(layout);
         binding.rvSelect.setAdapter(mAdapter);
 
         isHasContent = false;
@@ -138,7 +139,7 @@ public class SelectDialog extends BaseDialog implements View.OnClickListener {
         dialog.show();
     }
 
-    public static void showSelectDialog(Context context, AppointMent appointment) {
+    public static void showSelectDialog(Context context, Appointment appointment) {
         SelectDialog dialog = new SelectDialog(context, appointment);
         dialog.show();
     }

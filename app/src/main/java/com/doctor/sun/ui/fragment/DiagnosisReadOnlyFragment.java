@@ -19,7 +19,7 @@ import com.doctor.sun.databinding.IncludeDiagnosisDetailBinding;
 import com.doctor.sun.databinding.IncludeDiagnosisResultBinding;
 import com.doctor.sun.databinding.ItemTagBinding;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.http.Api;
@@ -50,7 +50,7 @@ public class DiagnosisReadOnlyFragment extends Fragment {
     private FragmentDiagnosisReadonlyBinding binding;
     private IncludeDiagnosisResultBinding resultBinding;
 
-    public static DiagnosisReadOnlyFragment getInstance(AppointMent id) {
+    public static DiagnosisReadOnlyFragment getInstance(Appointment id) {
         if (instance == null) {
             instance = new DiagnosisReadOnlyFragment();
             Bundle args = new Bundle();
@@ -109,7 +109,7 @@ public class DiagnosisReadOnlyFragment extends Fragment {
     }
 
     private void getDiagnosisInfo() {
-        AppointMent appointment = getArguments().getParcelable(Constants.DATA);
+        Appointment appointment = getArguments().getParcelable(Constants.DATA);
         if (appointment != null) {
             api.diagnosisInfo(appointment.getId()).enqueue(new ApiCallback<DiagnosisInfo>() {
                 @Override

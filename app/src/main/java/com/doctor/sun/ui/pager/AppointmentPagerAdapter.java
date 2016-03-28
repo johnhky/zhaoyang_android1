@@ -4,7 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.fragment.AppointmentListFragment;
 import com.doctor.sun.ui.fragment.ListFragment;
 
@@ -12,7 +14,7 @@ import com.doctor.sun.ui.fragment.ListFragment;
  * Created by rick on 12/17/15.
  */
 public class AppointmentPagerAdapter extends FragmentPagerAdapter {
-    public static final int[] STATUS = new int[]{AppointMent.PAID, AppointMent.NOT_PAID};
+    public static final int[] STATUS = new int[]{Appointment.PAID, Appointment.NOT_PAID};
 
     public AppointmentPagerAdapter(FragmentManager fm) {
         super(fm);

@@ -9,11 +9,12 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingRecordBinding;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.MsgsAdapter;
@@ -124,7 +125,7 @@ public class ChattingRecordActivity extends BaseActivity2 {
 
     private void initData() {
         mAdapter = new MsgsAdapter(ChattingRecordActivity.this,
-                (AppointMent) getIntent().getParcelableExtra(Constants.PARAM_APPOINTMENT));
+                (Appointment) getIntent().getParcelableExtra(Constants.PARAM_APPOINTMENT));
         mAdapter.onFinishLoadMore(true);
         binding.rvMsgs.setAdapter(mAdapter);
         realm = Realm.getDefaultInstance();

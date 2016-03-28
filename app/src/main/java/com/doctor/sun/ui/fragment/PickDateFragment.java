@@ -100,12 +100,10 @@ public class PickDateFragment extends Fragment {
     }
 
     private int getDuration() {
-        // debug : error:doctor.getDuration() == null
-        if (doctor.getDuration() == null){
-            return 15;//prx －－2016.3.23 －－若为空，返回默认值15分钟
-        }else {
-            return Integer.parseInt(doctor.getDuration());//点击再次预约报错(原因是：获取到的预约时长为空)
+        if (doctor != null) {
+            return Integer.parseInt(doctor.getDuration());
         }
+        return -1;
     }
 
     private void loadData() {
@@ -133,8 +131,7 @@ public class PickDateFragment extends Fragment {
                             //选择了就是enable了
                             binding.calendarView.selectDate(simpleDateFormat.parse(data));
                         }
-                    } catch (ParseException e) {
-                        continue;
+                    } catch (ParseException ignored) {
                     }
                 }
             }
@@ -151,9 +148,9 @@ public class PickDateFragment extends Fragment {
     }
 
     private boolean isEnable(ReserveDate reserveDate) {
-        if (type.equals(PickDatePagerAdapter.TYPE_NET)) {
+        if (type.equals(PickDatePagerAdapter.TYPE_DETAIL)) {
             return reserveDate.getDetail() == 1;
-        } else if (type.equals(PickDatePagerAdapter.TYPE_FACE)) {
+        } else if (type.equals(PickDatePagerAdapter.TYPE_QUICK)) {
             return reserveDate.getQuick() == 1;
         }
         return false;

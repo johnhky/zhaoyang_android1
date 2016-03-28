@@ -16,7 +16,7 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingBinding;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.entity.im.TextMsg;
@@ -62,13 +62,13 @@ public class ChattingActivity extends BaseActivity2 {
     private String userData;
     private DrugModule drugModule = Api.of(DrugModule.class);
 
-    public static Intent makeIntent(Context context, AppointMent appointment) {
+    public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, ChattingActivity.class);
         i.putExtra(Constants.DATA, appointment);
         return i;
     }
 
-    private AppointMent getData() {
+    private Appointment getData() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 
@@ -111,7 +111,7 @@ public class ChattingActivity extends BaseActivity2 {
     }
 
     private void initData() {
-        AppointMent data = getData();
+        Appointment data = getData();
         handler = new AppointmentHandler(data);
         data.setHandler(handler);
         binding.setHeader(getHeaderViewModel());
@@ -125,7 +125,7 @@ public class ChattingActivity extends BaseActivity2 {
         binding.recyclerView.setAdapter(adapter);
 
         query = realm.where(TextMsg.class)
-                .equalTo("sessionId", sendTo).equalTo("userData", userData);
+                .equalTo("sessionId", sendTo);
         RealmResults<TextMsg> results = query.findAllSorted("time", Sort.DESCENDING);
         realm.beginTransaction();
         for (int i = 0; i < results.size(); i++) {
@@ -138,7 +138,7 @@ public class ChattingActivity extends BaseActivity2 {
     }
 
     private String getUserData() {
-        AppointMent data = getData();
+        Appointment data = getData();
         return "[" + data.getId() + "," + data.getRecordId() + "]";
     }
 
@@ -318,8 +318,14 @@ public class ChattingActivity extends BaseActivity2 {
                 } else if (response.equals("finish")) {
                     getData().setIsFinish(1);
                 }
+                String rightFirstTitle;
+                if (AppContext.isDoctor()){
+                    rightFirstTitle = "查看问卷";
+                }else {
+                    rightFirstTitle = "填写问卷";
+                }
                 binding.getHeader().setLeftTitle(handler.getTitle())
-                        .setRightFirstTitle("填写问卷")
+                        .setRightFirstTitle(rightFirstTitle)
                         .setRightTitle("医生建议");
             }
         });

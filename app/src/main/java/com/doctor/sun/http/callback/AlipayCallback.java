@@ -7,7 +7,7 @@ import android.os.Message;
 import android.text.TextUtils;
 
 import com.alipay.sdk.app.PayTask;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.EmergencyCall;
 import com.doctor.sun.ui.activity.patient.PayFailActivity;
 import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
@@ -26,7 +26,7 @@ public class AlipayCallback extends SimpleCallback<String> {
     private static PayStatusHandler payStatusHandler = new PayStatusHandler();
 
 
-    public AlipayCallback(final Activity activity, final AppointMent data) {
+    public AlipayCallback(final Activity activity, final Appointment data) {
         this.activity = activity;
         mCallback = new PayCallback() {
 

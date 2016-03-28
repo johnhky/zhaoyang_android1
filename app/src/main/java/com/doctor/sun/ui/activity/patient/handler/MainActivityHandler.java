@@ -3,6 +3,8 @@ package com.doctor.sun.ui.activity.patient.handler;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -79,7 +81,7 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
     }
 
     public void searchDoctorQuick(final View view) {
-        String question = view.getContext().getString(R.string.quick_appointment);
+        Spanned question = Html.fromHtml(view.getContext().getString(R.string.quick_appointment));
         new MaterialDialog.Builder(view.getContext()).content(question)
                 .positiveText("下一步")
                 .negativeText("返回")
@@ -113,7 +115,7 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
     }
 
     public void showWarning(final View view) {
-        String question = view.getContext().getString(R.string.emergency_call_warn);
+        Spanned question = Html.fromHtml(view.getContext().getString(R.string.emergency_call_warn));
         new MaterialDialog.Builder(view.getContext()).content(question)
                 .positiveText("下一步")
                 .negativeText("返回")

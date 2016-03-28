@@ -83,7 +83,7 @@ android {
             versionNameSuffix "_dev"
             manifestPlaceholders = [appLabel: "@string/app_name_dev"]// 必改
             buildConfigField "boolean", "DEV_MODE", "true"
-            buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/"' //host, 必改
+            buildConfigField "String", "BASE_URL", '"http://zy120.ddns.net:8202/api/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSunDev"' //app 数据保存目录, 必改
             buildConfigField "String", "IM_KEY", '"aaf98f89529d327b0152a02ee629035e"' //
             buildConfigField "String", "IM_TOKEN", '"6b47a5fce4eb6d4eeebf8b5eadcb6584"' //host, 必改

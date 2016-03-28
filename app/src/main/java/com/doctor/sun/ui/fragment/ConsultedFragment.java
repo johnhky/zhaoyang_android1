@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AppointmentModule;
@@ -30,7 +30,7 @@ public class ConsultedFragment extends RefreshListFragment {
 
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private RealmChangeListener listener;
-    private PageCallback<AppointMent> callback;
+    private PageCallback<Appointment> callback;
 
     public ConsultedFragment() {
     }
@@ -83,7 +83,7 @@ public class ConsultedFragment extends RefreshListFragment {
 
     @Override
     protected void loadMore() {
-        callback = new PageCallback<AppointMent>(getAdapter()) {
+        callback = new PageCallback<Appointment>(getAdapter()) {
             @Override
             public void onFinishRefresh() {
                 super.onFinishRefresh();

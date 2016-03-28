@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityApplyAppointmentBinding;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
@@ -28,7 +29,7 @@ import java.util.Date;
 
 /**
  * 确认预约
- * <p/>
+ * <p>
  * Created by lucas on 1/22/16.
  */
 public class ApplyAppointmentActivity extends BaseActivity2 {
@@ -88,6 +89,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
             e.printStackTrace();
         }
         final String time = String.valueOf(parse.getTime()).substring(0, 10);
+        Log.e(TAG, "onCreate: time" + time);
         binding.tvApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,9 +97,9 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                 if (record != null) {
                     doctorData.setRecordId(String.valueOf(record.getMedicalRecordId()));
                 }
-                appointmentModule.orderAppointment(String.valueOf(doctorData.getId()), time, getType(), doctorData.getRecordId(), doctorData.getDuration()).enqueue(new ApiCallback<AppointMent>() {
+                appointmentModule.orderAppointment(String.valueOf(doctorData.getId()), time, Integer.parseInt(getType()), doctorData.getRecordId()).enqueue(new ApiCallback<Appointment>() {
                     @Override
-                    protected void handleResponse(AppointMent response) {
+                    protected void handleResponse(Appointment response) {
                         response.setRecordId(Integer.parseInt(doctorData.getRecordId()));
                         AppointmentHandler handler = new AppointmentHandler(response);
                         if (binding.rbWechat.isChecked()) {

@@ -3,18 +3,25 @@ package com.doctor.sun.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.IntDef;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.handler.AppointmentHandler;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * Created by rick on 11/25/15.
  */
-public class AppointMent implements LayoutId, Parcelable {
+public class Appointment implements LayoutId, Parcelable {
     public static final int NOT_PAID = 0;
     public static final int PAID = 1;
+
+    public static final int DETAIL = 1;
+    public static final int QUICK = 2;
     /**
      * id : 25
      * record_id : 1
@@ -137,7 +144,7 @@ public class AppointMent implements LayoutId, Parcelable {
 
     private AppointmentHandler handler = new AppointmentHandler(this);
 
-    public AppointMent() {
+    public Appointment() {
     }
 
     public int getId() {
@@ -520,7 +527,7 @@ public class AppointMent implements LayoutId, Parcelable {
         dest.writeInt(this.itemLayoutId);
     }
 
-    protected AppointMent(Parcel in) {
+    protected Appointment(Parcel in) {
         this.id = in.readInt();
         this.recordId = in.readInt();
         this.progress = in.readString();
@@ -559,13 +566,19 @@ public class AppointMent implements LayoutId, Parcelable {
         this.itemLayoutId = in.readInt();
     }
 
-    public static final Creator<AppointMent> CREATOR = new Creator<AppointMent>() {
-        public AppointMent createFromParcel(Parcel source) {
-            return new AppointMent(source);
+    public static final Creator<Appointment> CREATOR = new Creator<Appointment>() {
+        public Appointment createFromParcel(Parcel source) {
+            return new Appointment(source);
         }
 
-        public AppointMent[] newArray(int size) {
-            return new AppointMent[size];
+        public Appointment[] newArray(int size) {
+            return new Appointment[size];
         }
     };
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({DETAIL, QUICK})
+    public @interface AppointmentType {
+
+    }
 }

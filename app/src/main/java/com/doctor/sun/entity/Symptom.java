@@ -20,6 +20,8 @@ import java.util.List;
  */
 public class Symptom extends BaseObservable implements LayoutId {
     public static final String TAG = Symptom.class.getSimpleName();
+    public static final int SELECTED = 1;
+    public static final int NOT_SELECTED = 0;
 
 
     private int itemLayoutId;
@@ -78,6 +80,22 @@ public class Symptom extends BaseObservable implements LayoutId {
 
     public SparseBooleanArray getStates() {
         return states;
+    }
+
+    public String getLabel() {
+        String result = "";
+        if (states.get(0)) {
+            return values.get(0);
+        }
+        for (int i = 1; i < values.size(); i++) {
+            if (states.get(i)) {
+                result += values.get(i) + " ";
+            }
+        }
+        if (others != null) {
+            result += others + " ";
+        }
+        return result;
     }
 
     public void setStates(HashMap<String, String> from) {
@@ -164,7 +182,7 @@ public class Symptom extends BaseObservable implements LayoutId {
             builder.append("\"");
             builder.append(i);
             builder.append("\":\"");
-            int isSelected = states.get(i) ? 0 : 1;
+            int isSelected = states.get(i) ? SELECTED : NOT_SELECTED;
             builder.append(isSelected);
             if (i != states.size() - 1)
                 builder.append("\",");

@@ -73,8 +73,6 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     private CityPickerDialog cityPickerDialog;
     private Location location;
 
-    private static int type;
-
     public static Intent makeIntent(Context context, int type) {
         Intent i = new Intent(context, SearchDoctorActivity.class);
         i.putExtra(Constants.DATA, type);
@@ -84,11 +82,6 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     public int getType() {
         return getIntent().getIntExtra(Constants.DATA, -1);
     }
-
-    public static int getSDType(){
-        return type;
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -173,10 +166,8 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
 
     private void loadMore() {
         if (isFirstTime && getType() == AppointmentType.QUICK) {
-            type = AppointmentType.QUICK;
             loadKnowDoctor();
         } else {
-            type = AppointmentType.DETAIL;
             api.doctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);
         }
     }

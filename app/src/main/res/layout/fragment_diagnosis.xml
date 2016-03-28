@@ -22,9 +22,9 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
-            <include
-                android:id="@+id/is_diagnosis"
-                layout="@layout/item_switch" />
+            <!--<include-->
+                <!--android:id="@+id/is_diagnosis"-->
+                <!--layout="@layout/item_switch" />-->
 
             <include
                 layout="@layout/item_time_category"

@@ -8,6 +8,7 @@
     <FrameLayout
         android:layout_width="@dimen/dp_246"
         android:layout_height="wrap_content"
+        android:minHeight="@dimen/dp_100"
         android:layout_gravity="center"
         android:background="@color/transparent"
         android:gravity="center">

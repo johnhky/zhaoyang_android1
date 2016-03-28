@@ -23,7 +23,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentDiagnosisBinding;
 import com.doctor.sun.databinding.ItemPrescriptionBinding;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.ItemButton;
@@ -69,11 +69,11 @@ public class DiagnosisFragment extends Fragment {
     private Doctor doctor;
     private int returnType = 1;
     private boolean shouldScrollDown = false;
-    private AppointMent appointment;
+    private Appointment appointment;
     private boolean shouldAsk = true;
     private ArrayList<Prescription> prescriptions;
 
-    public static DiagnosisFragment getInstance(AppointMent id) {
+    public static DiagnosisFragment getInstance(Appointment id) {
         if (instance == null) {
             instance = new DiagnosisFragment();
             Bundle args = new Bundle();
@@ -83,7 +83,7 @@ public class DiagnosisFragment extends Fragment {
         return instance;
     }
 
-    public static DiagnosisFragment newInstance(AppointMent id) {
+    public static DiagnosisFragment newInstance(Appointment id) {
 
         Bundle args = new Bundle();
         args.putParcelable(Constants.DATA, id);
@@ -99,8 +99,8 @@ public class DiagnosisFragment extends Fragment {
         binding = FragmentDiagnosisBinding.inflate(inflater, container, false);
         if (viewModel == null)
             viewModel = new DiagnosisViewModel();
-        binding.isDiagnosis.setData(NOT_DIAGNOSISED);
-        binding.isDiagnosis.setIsChecked(false);
+//        binding.isDiagnosis.setData(NOT_DIAGNOSISED);
+//        binding.isDiagnosis.setIsChecked(false);
         binding.needReturn.setData("需要详细就诊/转诊/详细就诊");
         binding.needReturn.setIsChecked(false);
         binding.swRoot.setVerticalScrollBarEnabled(false);
@@ -127,15 +127,15 @@ public class DiagnosisFragment extends Fragment {
                 NOT_DIAGNOSISED, IS_DIAGNOSISED, new TwoSelectorDialog.GetActionButton() {
                     @Override
                     public void onClickPositiveButton(TwoSelectorDialog dialog) {
-                        binding.isDiagnosis.setData(IS_DIAGNOSISED);
-                        binding.isDiagnosis.setIsChecked(true);
+//                        binding.isDiagnosis.setData(IS_DIAGNOSISED);
+//                        binding.isDiagnosis.setIsChecked(true);
                         dialog.dismiss();
                     }
 
                     @Override
                     public void onClickNegativeButton(TwoSelectorDialog dialog) {
-                        binding.isDiagnosis.setData(NOT_DIAGNOSISED);
-                        binding.isDiagnosis.setIsChecked(false);
+//                        binding.isDiagnosis.setData(NOT_DIAGNOSISED);
+//                        binding.isDiagnosis.setIsChecked(false);
                         dialog.dismiss();
                     }
                 });
@@ -346,7 +346,7 @@ public class DiagnosisFragment extends Fragment {
                 "继续", "结束", new TwoSelectorDialog.GetActionButton() {
                     @Override
                     public void onClickPositiveButton(final TwoSelectorDialog dialog) {
-                        api.setDiagnosis(viewModel.toParams(appointment, binding, getPrescriptions())).enqueue(new SimpleCallback<String>() {
+                        api.setDiagnosis(viewModel.toHashMap(appointment, binding, getPrescriptions())).enqueue(new SimpleCallback<String>() {
                             @Override
                             protected void handleResponse(String response) {
 
