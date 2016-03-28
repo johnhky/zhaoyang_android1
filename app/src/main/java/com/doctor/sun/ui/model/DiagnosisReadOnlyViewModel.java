@@ -4,13 +4,9 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
-import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Symptom;
 import com.doctor.sun.entity.SymptomFactory;
 import com.doctor.sun.module.AuthModule;
-
-import java.util.HashMap;
-import java.util.List;
 
 import io.ganguo.library.Config;
 
@@ -42,7 +38,7 @@ public class DiagnosisReadOnlyViewModel {
     private String diagnosis;
 
     public DiagnosisReadOnlyViewModel() {
-        if (!getUserType()) {
+        if (!isPatient()) {
             //只有医生端显示
             perception = SymptomFactory.perceptionSymptom();
             thinking = SymptomFactory.thinkingSymptom();
@@ -56,16 +52,16 @@ public class DiagnosisReadOnlyViewModel {
             treatment = SymptomFactory.treatment();
             sideEffect = SymptomFactory.sideEffect();
 
-            labelSymptom = new Description(R.layout.item_time_category, "症状");
-            labelConsultation = new Description(R.layout.item_time_category, "诊断");
-            labelAssess = new Description(R.layout.item_time_category, "评估");
+            labelSymptom = new Description(R.layout.item_divider, "症状");
+            labelConsultation = new Description(R.layout.item_divider, "诊断");
+            labelAssess = new Description(R.layout.item_divider, "评估");
         }
 //        else {
 //            只有病人端显示
 //            labelPay = new Description(R.layout.item_time_category, "支付方式");
 //        }
         //两个端都有
-        labelAdvice = new Description(R.layout.item_time_category, "医嘱");
+        labelAdvice = new Description(R.layout.item_divider, "医嘱");
     }
 
     public Description getLabelSymptom() {
@@ -205,7 +201,7 @@ public class DiagnosisReadOnlyViewModel {
     }
 
     public void cloneFromDiagnosisInfo(DiagnosisInfo response) {
-        if (!getUserType()) {
+        if (!isPatient()) {
             perception.setStates(response.getPerception());
             thinking.setStates(response.getThinking());
             pipedream.setStates(response.getPipedream());
@@ -223,7 +219,7 @@ public class DiagnosisReadOnlyViewModel {
         }
     }
 
-    private boolean getUserType() {
+    private boolean isPatient() {
         //true - 病人端 / false - 医生端
         return Config.getInt(Constants.USER_TYPE, -1) == AuthModule.PATIENT_TYPE;
     }

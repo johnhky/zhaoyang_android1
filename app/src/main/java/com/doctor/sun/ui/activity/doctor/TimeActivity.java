@@ -32,8 +32,8 @@ import io.ganguo.library.common.ToastHelper;
  */
 public class TimeActivity extends BaseActivity2 implements TimeHandler.GetIsEditMode {
 
-    private Description networkDescription = new Description(R.layout.item_time_category, "详细就诊");
-    private Description faceDescription = new Description(R.layout.item_time_category, "简捷复诊");
+    private Description networkDescription = new Description(R.layout.item_divider, "详细就诊");
+    private Description faceDescription = new Description(R.layout.item_divider, "简捷复诊");
     private HeaderViewModel header = new HeaderViewModel(this);
 
     private TimeAdapter mAdapter;

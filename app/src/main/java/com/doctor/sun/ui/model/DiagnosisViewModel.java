@@ -80,7 +80,7 @@ public class DiagnosisViewModel {
         money = new ItemTextInput(R.layout.item_text_input, "复诊诊金(元/次/半小时)");
         returnType = new ItemRadioGroup(R.layout.item_return_type);
 
-        labelSymptom = new Description(R.layout.item_time_category, "症状");
+        labelSymptom = new Description(R.layout.item_divider, "症状");
         labelConsultation = new Description(R.layout.item_symptom_divider, "诊断");
         labelEval = new Description(R.layout.item_symptom_divider, "评估");
 
