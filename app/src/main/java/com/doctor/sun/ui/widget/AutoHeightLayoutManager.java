@@ -28,7 +28,7 @@ public class AutoHeightLayoutManager extends LinearLayoutManager {
         final int heightSize = View.MeasureSpec.getSize(heightSpec);
         int width = 0;
         int height = 0;
-        for (int i = 0; i < getItemCount()-1; i++) {//prx 2016.6.23 error: IndexOutOfBoundsException //原：getItemCount()，改：getItemCount()－1
+        for (int i = 0; i < getItemCount(); i++) {
             measureScrapChild(recycler, i,
                     View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
                     View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),

@@ -2,10 +2,13 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Drug;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.entity.VoipAccount;
+
+import java.util.HashMap;
+import java.util.List;
 
 import retrofit.Call;
 import retrofit.http.Field;
@@ -21,7 +24,7 @@ import retrofit.http.Query;
 public interface DrugModule {
 
     @GET("drug/appointment-list")
-    Call<ApiDTO<PageDTO<AppointMent>>> appointments(@Query("page") String page);
+    Call<ApiDTO<PageDTO<Appointment>>> appointments(@Query("page") String page);
 
     @GET("drug/order-list")
     Call<ApiDTO<PageDTO<Drug>>> orderList(@Query("page") String page);

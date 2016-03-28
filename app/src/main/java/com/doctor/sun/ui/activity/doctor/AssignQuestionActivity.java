@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityAssignQuestionBinding;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.AssignQuestionAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
@@ -22,14 +22,14 @@ public class AssignQuestionActivity extends BaseFragmentActivity2 implements Ass
     private ActivityAssignQuestionBinding binding;
     private String appointmentId;
 
-    public static Intent makeIntent(Context context, AppointMent data) {
+    public static Intent makeIntent(Context context, Appointment data) {
         Intent i = new Intent(context, AssignQuestionActivity.class);
         i.putExtra(Constants.DATA, data);
         return i;
     }
 
 
-    private AppointMent getData() {
+    private Appointment getData() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 

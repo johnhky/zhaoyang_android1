@@ -12,7 +12,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityCancelAppointmentBinding;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
@@ -35,16 +35,16 @@ public class CancelAppointmentActivity extends BaseActivity2 {
     private HeaderViewModel header;
     private ActivityCancelAppointmentBinding binding;
     private ArrayList<String> reasons = new ArrayList<String>();
-    private AppointMent data;
+    private Appointment data;
 
-    public static Intent makeIntent(Context context, AppointMent data) {
+    public static Intent makeIntent(Context context, Appointment data) {
         Intent i = new Intent(context, CancelAppointmentActivity.class);
         i.putExtra(Constants.DATA, data);
         return i;
     }
 
-    public AppointMent getData() {
-        AppointMent data = getIntent().getParcelableExtra(Constants.DATA);
+    public Appointment getData() {
+        Appointment data = getIntent().getParcelableExtra(Constants.DATA);
         return data;
     }
 

@@ -14,7 +14,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentListBinding;
 import com.doctor.sun.databinding.ItemForumBarBinding;
 import com.doctor.sun.entity.Answer;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.module.AnswerModule;
@@ -43,10 +43,10 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
     private SimpleAdapter answerAdapter;
     private SetHeaderListener setHeaderListener;
 
-    private AppointMent appointment;
+    private Appointment appointment;
     private boolean adapterStatus;
 
-    public static FillForumFragment getInstance(AppointMent appointment) {
+    public static FillForumFragment getInstance(Appointment appointment) {
         if (instance == null) {
             instance = new FillForumFragment();
             Bundle args = new Bundle();

@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.fragment.DiagnosisReadOnlyFragment;
@@ -19,10 +19,10 @@ import io.ganguo.library.Config;
  */
 public class ConsultingDetailPagerAdapter extends FragmentPagerAdapter {
     public static final String TAG = ConsultingDetailPagerAdapter.class.getSimpleName();
-    private AppointMent appointment;
+    private Appointment appointment;
     private boolean isReadOnly = false;
 
-    public ConsultingDetailPagerAdapter(FragmentManager fm, AppointMent appointment, boolean isReadOnly) {
+    public ConsultingDetailPagerAdapter(FragmentManager fm, Appointment appointment, boolean isReadOnly) {
         super(fm);
         this.appointment = appointment;
         this.isReadOnly = isReadOnly;

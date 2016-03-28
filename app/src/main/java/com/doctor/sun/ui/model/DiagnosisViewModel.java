@@ -7,7 +7,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentDiagnosisBinding;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
@@ -322,7 +322,7 @@ public class DiagnosisViewModel {
     }
 
 
-    public HashMap<String, String> toParams(AppointMent appointmentId, FragmentDiagnosisBinding binding, String prescriptions) {
+    public HashMap<String, String> toParams(Appointment appointmentId, FragmentDiagnosisBinding binding, String prescriptions) {
         HashMap<String, String> result = new HashMap<>();
         result.put("appointmentId", String.valueOf(appointmentId.getId()));
         result.put("is_diagnosis", binding.isDiagnosis.getIsChecked() ? "1" : "0");

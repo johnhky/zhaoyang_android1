@@ -9,7 +9,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ItemMsgsBinding;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -23,9 +23,9 @@ import io.ganguo.library.util.date.Date;
  */
 public class MsgsAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     private Context mActivity;
-    private AppointMent appointment;
+    private Appointment appointment;
 
-    public MsgsAdapter(Context context, AppointMent appointment) {
+    public MsgsAdapter(Context context, Appointment appointment) {
         super(context);
         mActivity = context;
         this.appointment = appointment;

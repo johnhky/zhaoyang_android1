@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.AppointMent" />
+            type="com.doctor.sun.entity.Appointment" />
 
         <variable
             name="header"

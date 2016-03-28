@@ -2,6 +2,7 @@ package com.doctor.sun.ui.adapter;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.BR;
@@ -14,7 +15,7 @@ import com.doctor.sun.databinding.ItemPillsBinding;
 import com.doctor.sun.databinding.ItemTickBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Answer;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.http.Api;
@@ -41,10 +42,10 @@ import io.ganguo.library.common.ToastHelper;
  */
 public class AnswerAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     private QuestionModule api = Api.of(QuestionModule.class);
-    private AppointMent appointment;
+    private Appointment appointment;
     private int positionMargin = 0;
 
-    public AnswerAdapter(Context context, AppointMent appointment) {
+    public AnswerAdapter(Context context, Appointment appointment) {
         super(context);
         this.appointment = appointment;
     }

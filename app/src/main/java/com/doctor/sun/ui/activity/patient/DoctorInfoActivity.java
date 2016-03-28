@@ -12,13 +12,14 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityDoctorInfoBinding;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Contact;
 import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
@@ -47,7 +48,7 @@ public class DoctorInfoActivity extends BaseActivity2 implements View.OnClickLis
     private ActivityDoctorInfoBinding binding;
     private ImModule api = Api.of(ImModule.class);
     private Contact contact;
-    private AppointMent appointment;
+    private Appointment appointment;
 
     public static Intent makeIntent(Context context, Contact data) {
         Intent i = new Intent(context, DoctorInfoActivity.class);
@@ -175,7 +176,7 @@ public class DoctorInfoActivity extends BaseActivity2 implements View.OnClickLis
         tool.doctorInfo(contact.getDoctorId()).enqueue(new SimpleCallback<Doctor>() {
             @Override
             protected void handleResponse(Doctor response) {
-                appointment = new AppointMent();
+                appointment = new Appointment();
                 appointment.setVoipAccount(binding.getData().getVoipAccount());
                 appointment.setPatientName(contact.getName());
                 appointment.setAvatar(binding.getData().getAvatar());

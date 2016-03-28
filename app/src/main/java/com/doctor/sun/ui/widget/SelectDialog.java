@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.DialogSelectBinding;
-import com.doctor.sun.entity.AppointMent;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.event.CloseDialogEvent;
@@ -42,7 +43,7 @@ public class SelectDialog extends BaseDialog implements View.OnClickListener {
     private Context context;
     private MaterialProgressDrawable mFooterProgress;
     private boolean isHasContent;
-    private AppointMent appointment;
+    private Appointment appointment;
 
     /**
      * patientId - 医生端
@@ -56,7 +57,7 @@ public class SelectDialog extends BaseDialog implements View.OnClickListener {
         this.id = id;
     }
 
-    public SelectDialog(Context context, AppointMent appointment) {
+    public SelectDialog(Context context, Appointment appointment) {
         this(context, appointment.getDoctor().getId());
         this.appointment = appointment;
     }
@@ -138,7 +139,7 @@ public class SelectDialog extends BaseDialog implements View.OnClickListener {
         dialog.show();
     }
 
-    public static void showSelectDialog(Context context, AppointMent appointment) {
+    public static void showSelectDialog(Context context, Appointment appointment) {
         SelectDialog dialog = new SelectDialog(context, appointment);
         dialog.show();
     }
