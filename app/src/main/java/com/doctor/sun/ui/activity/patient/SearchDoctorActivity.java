@@ -184,14 +184,14 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
                         public void run() {
                             if (recentDoctors.isSuccess()) {
                                 if (!recentDoctors.body().getData().isEmpty()) {
-                                    adapter.add(new Description(R.layout.item_divider, "最近预约"));
+                                    adapter.add(new Description(R.layout.item_time_category, "最近预约"));
                                     adapter.addAll(recentDoctors.body().getData());
                                 }
                             }
                             if (favoriteDoctors.isSuccess()) {
                                 List<Doctor> data = favoriteDoctors.body().getData().getData();
                                 if (!data.isEmpty()) {
-                                    adapter.add(new Description(R.layout.item_divider, "我的收藏"));
+                                    adapter.add(new Description(R.layout.item_time_category, "我的收藏"));
                                     adapter.addAll(data);
                                 }
                             }

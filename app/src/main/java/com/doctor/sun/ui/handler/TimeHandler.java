@@ -85,13 +85,13 @@ public class TimeHandler {
                                 adapter.notifyItemRemoved(vh.getAdapterPosition());
 
                                 LayoutId objectFace = (LayoutId) adapter.get(adapter.size() - 1);
-                                if (objectFace.getItemLayoutId() == R.layout.item_divider) {
+                                if (objectFace.getItemLayoutId() == R.layout.item_time_category) {
                                     adapter.remove(adapter.size() - 1);
                                     adapter.notifyItemRemoved(adapter.size() - 1);
                                 }
                                 if (adapter.size() > 2) {
                                     LayoutId objectNetwork = (LayoutId) adapter.get(1);
-                                    if (objectNetwork.getItemLayoutId() == R.layout.item_divider) {
+                                    if (objectNetwork.getItemLayoutId() == R.layout.item_time_category) {
                                         adapter.remove(0);
                                         adapter.notifyItemRemoved(0);
                                     }

@@ -380,6 +380,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
         return R.layout.item_doctor;
     }
 
+    @JsonIgnore
     public DoctorHandler getHandler() {
         return new DoctorHandler(this);
     }

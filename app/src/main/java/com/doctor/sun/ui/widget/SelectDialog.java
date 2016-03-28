@@ -4,16 +4,15 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.DialogSelectBinding;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.MedicalRecord;
-import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.event.CloseDialogEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -86,9 +85,10 @@ public class SelectDialog extends BaseDialog implements View.OnClickListener {
         } else {
             mAdapter = new RecordAdapter(context, appointment);
         }
-        AutoHeightLayoutManager layoutManager = new AutoHeightLayoutManager(context);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        binding.rvSelect.setLayoutManager(layoutManager);
+
+        LinearLayoutManager layout = new LinearLayoutManager(context);
+        layout.setAutoMeasureEnabled(true);
+        binding.rvSelect.setLayoutManager(layout);
         binding.rvSelect.setAdapter(mAdapter);
 
         isHasContent = false;

@@ -44,7 +44,7 @@ public class AddDisturbActivity extends BaseActivity2 {
         HeaderViewModel header = new HeaderViewModel(this);
         header.setMidTitle("添加免打扰时段").setRightTitle("保存");
         binding.setHeader(header);
-        binding.setDescription(new Description(R.layout.item_divider, "就诊周期"));
+        binding.setDescription(new Description(R.layout.item_time_category, "就诊周期"));
         binding.setHandler(new TimeHandler());
     }
 

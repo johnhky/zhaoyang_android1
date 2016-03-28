@@ -125,7 +125,7 @@ public class ChattingActivity extends BaseActivity2 {
         binding.recyclerView.setAdapter(adapter);
 
         query = realm.where(TextMsg.class)
-                .equalTo("sessionId", sendTo).equalTo("userData", userData);
+                .equalTo("sessionId", sendTo);
         RealmResults<TextMsg> results = query.findAllSorted("time", Sort.DESCENDING);
         realm.beginTransaction();
         for (int i = 0; i < results.size(); i++) {
@@ -318,8 +318,14 @@ public class ChattingActivity extends BaseActivity2 {
                 } else if (response.equals("finish")) {
                     getData().setIsFinish(1);
                 }
+                String rightFirstTitle;
+                if (AppContext.isDoctor()){
+                    rightFirstTitle = "查看问卷";
+                }else {
+                    rightFirstTitle = "填写问卷";
+                }
                 binding.getHeader().setLeftTitle(handler.getTitle())
-                        .setRightFirstTitle("填写问卷")
+                        .setRightFirstTitle(rightFirstTitle)
                         .setRightTitle("医生建议");
             }
         });

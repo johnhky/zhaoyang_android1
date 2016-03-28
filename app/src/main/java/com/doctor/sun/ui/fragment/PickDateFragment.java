@@ -131,8 +131,7 @@ public class PickDateFragment extends Fragment {
                             //选择了就是enable了
                             binding.calendarView.selectDate(simpleDateFormat.parse(data));
                         }
-                    } catch (ParseException e) {
-                        continue;
+                    } catch (ParseException ignored) {
                     }
                 }
             }

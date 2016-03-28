@@ -99,8 +99,8 @@ public class DiagnosisFragment extends Fragment {
         binding = FragmentDiagnosisBinding.inflate(inflater, container, false);
         if (viewModel == null)
             viewModel = new DiagnosisViewModel();
-        binding.isDiagnosis.setData(NOT_DIAGNOSISED);
-        binding.isDiagnosis.setIsChecked(false);
+//        binding.isDiagnosis.setData(NOT_DIAGNOSISED);
+//        binding.isDiagnosis.setIsChecked(false);
         binding.needReturn.setData("需要详细就诊/转诊/详细就诊");
         binding.needReturn.setIsChecked(false);
         binding.swRoot.setVerticalScrollBarEnabled(false);
@@ -127,15 +127,15 @@ public class DiagnosisFragment extends Fragment {
                 NOT_DIAGNOSISED, IS_DIAGNOSISED, new TwoSelectorDialog.GetActionButton() {
                     @Override
                     public void onClickPositiveButton(TwoSelectorDialog dialog) {
-                        binding.isDiagnosis.setData(IS_DIAGNOSISED);
-                        binding.isDiagnosis.setIsChecked(true);
+//                        binding.isDiagnosis.setData(IS_DIAGNOSISED);
+//                        binding.isDiagnosis.setIsChecked(true);
                         dialog.dismiss();
                     }
 
                     @Override
                     public void onClickNegativeButton(TwoSelectorDialog dialog) {
-                        binding.isDiagnosis.setData(NOT_DIAGNOSISED);
-                        binding.isDiagnosis.setIsChecked(false);
+//                        binding.isDiagnosis.setData(NOT_DIAGNOSISED);
+//                        binding.isDiagnosis.setIsChecked(false);
                         dialog.dismiss();
                     }
                 });
@@ -346,7 +346,7 @@ public class DiagnosisFragment extends Fragment {
                 "继续", "结束", new TwoSelectorDialog.GetActionButton() {
                     @Override
                     public void onClickPositiveButton(final TwoSelectorDialog dialog) {
-                        api.setDiagnosis(viewModel.toParams(appointment, binding, getPrescriptions())).enqueue(new SimpleCallback<String>() {
+                        api.setDiagnosis(viewModel.toHashMap(appointment, binding, getPrescriptions())).enqueue(new SimpleCallback<String>() {
                             @Override
                             protected void handleResponse(String response) {
                                 ToastHelper.showMessage(getActivity(), "保存成功");
