@@ -6,7 +6,10 @@ import android.os.Bundle;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityWelcomeBinding;
+import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.TokenCallback;
+import com.doctor.sun.module.ToolModule;
+import com.doctor.sun.util.UpdateUtil;
 
 /**
  * Created by rick on 16/2/2016.
@@ -33,10 +36,10 @@ public class WelcomeActivity extends BaseActivity2 {
                 finish();
             }
         }, 1000);
+        UpdateUtil.checkUpdate(Api.of(ToolModule.class));
     }
 
     private boolean isLogin() {
-
         String token = TokenCallback.getToken();
         return token != null && !token.equals("");
     }

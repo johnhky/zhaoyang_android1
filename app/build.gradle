@@ -79,7 +79,9 @@ android {
 
         // 生产环境
         debug2 {
-            manifestPlaceholders = [appLabel: "@string/app_name"]// 必改
+            applicationIdSuffix ".dev"
+            versionNameSuffix "_dev"
+            manifestPlaceholders = [appLabel: "@string/app_name_dev"]// 必改
             buildConfigField "boolean", "DEV_MODE", "true"
             buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSunDev"' //app 数据保存目录, 必改

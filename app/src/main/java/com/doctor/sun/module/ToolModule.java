@@ -6,7 +6,9 @@ import com.doctor.sun.entity.Comment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Hospital;
 import com.doctor.sun.entity.Photo;
+import com.doctor.sun.entity.Version;
 import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.ResponseBody;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ import retrofit.http.POST;
 import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.http.Url;
 
 /**
  * Created by rick on 11/18/15.
@@ -50,4 +53,10 @@ public interface ToolModule {
 
     @GET("profile/comments")
     Call<ApiDTO<PageDTO<Comment>>> comments(@Query("doctorId") int doctorId, @Query("page") String page);
+
+    @GET("tool/version")
+    Call<ApiDTO<Version>> getAppVersion(@Query("client") String client, @Query("version") String version);
+
+    @GET()
+    Call<ResponseBody> downloadFile(@Url() String path);
 }
