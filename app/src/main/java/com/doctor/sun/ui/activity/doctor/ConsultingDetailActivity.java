@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.AppointMent;
@@ -105,6 +106,8 @@ public class ConsultingDetailActivity extends TabActivity
                 if (isUserPatient()) {
                     if (binding.getHeader().getRightTitle().equals("保存")) {
                         //保存
+
+                        Log.d("ConsultingDetailActivit", ModifyForumFragment.getInstance(getData().getAppointmentId()).toString());
                         ModifyForumFragment.getInstance(getData().getAppointmentId()).save();
                     }
                 } else {

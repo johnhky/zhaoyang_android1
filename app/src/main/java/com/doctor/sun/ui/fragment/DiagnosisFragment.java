@@ -349,6 +349,9 @@ public class DiagnosisFragment extends Fragment {
                         api.setDiagnosis(viewModel.toParams(appointment, binding, getPrescriptions())).enqueue(new SimpleCallback<String>() {
                             @Override
                             protected void handleResponse(String response) {
+
+                                Log.d(TAG, response.toString());
+
                                 ToastHelper.showMessage(getActivity(), "保存成功");
                                 dialog.dismiss();
                                 getActivity().finish();
