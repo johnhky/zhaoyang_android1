@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
-import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -14,6 +13,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.event.CloseDrawerEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -47,6 +47,7 @@ import java.util.HashMap;
 import io.ganguo.library.AppManager;
 import io.ganguo.library.Config;
 import io.ganguo.library.common.ToastHelper;
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 11/20/15.
@@ -477,15 +478,10 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         return new OnItemClickListener() {
             @Override
             public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                drugModule.pushDrug(data.getId()).enqueue(new ApiCallback<String>() {
+                drugModule.pushDrug(data.getId()).enqueue(new SimpleCallback<String>() {
                     @Override
                     protected void handleResponse(String response) {
-
-                    }
-
-                    @Override
-                    protected void handleApi(ApiDTO<String> body) {
-                        Log.e("TAG", "appointmentId: " + data.getId());
+                        EventHub.post(new CloseDrawerEvent());
                     }
                 });
             }

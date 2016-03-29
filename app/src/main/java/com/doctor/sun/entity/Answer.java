@@ -1,16 +1,12 @@
 package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
-import com.doctor.sun.bean.Constants;
-import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.ganguo.library.Config;
 
 /**
  * Created by rick on 11/24/15.

@@ -205,7 +205,9 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
 
         if (answer.getAnswerContent() instanceof List) {
             List<String> content = (List<String>) answer.getAnswerContent();
-            editBinding.etAnswer.setText(content.get(0));
+            if (!content.isEmpty()) {
+                editBinding.etAnswer.setText(content.get(0));
+            }
         }
 
         editBinding.etAnswer.addTextChangedListener(new TextWatcher() {

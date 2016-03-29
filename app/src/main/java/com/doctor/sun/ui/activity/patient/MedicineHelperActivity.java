@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.VoipAccount;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.event.CloseDrawerEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -27,6 +29,7 @@ import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.core.event.extend.OnSingleClickListener;
 import io.realm.RealmChangeListener;
@@ -197,5 +200,10 @@ public class MedicineHelperActivity extends BaseActivity2 {
 
     private String getUserData() {
         return ADMIN_DRUG;
+    }
+
+    @Subscribe
+    public void closeDrawer(CloseDrawerEvent event) {
+        binding.drawerLayout.closeDrawer(GravityCompat.END);
     }
 }
