@@ -19,11 +19,13 @@ import java.util.Collection;
  */
 public class PickTimeAdapter extends SimpleAdapter<Time, ReserveTimeBinding> {
     private final int TYPE;
+    private final long dateTime;
     private int selectedItem = -1;
     private Predicate<Time> predicate;
 
-    public PickTimeAdapter(Context context, int type) {
+    public PickTimeAdapter(Context context, int type, long dateTime) {
         super(context);
+        this.dateTime = dateTime;
         TYPE = type;
         predicate = new Predicate<Time>() {
             @Override
@@ -42,6 +44,7 @@ public class PickTimeAdapter extends SimpleAdapter<Time, ReserveTimeBinding> {
             boolean isSelected = (selectedItem == adapterPosition);
             vh.getBinding().tvTime.setSelected(isSelected);
             vh.getBinding().tvTime.setActivated(time.getReserva() == 1);
+            vh.getBinding().tvTime.setActivated(time.getHandler().isPast(dateTime));
         }
     }
 

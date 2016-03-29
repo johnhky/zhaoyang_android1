@@ -19,6 +19,11 @@ import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.ui.adapter.PickTimeAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Created by rick on 18/1/2016.
  */
@@ -91,7 +96,7 @@ public class PickTimeDialog extends Dialog {
 
     @NonNull
     protected PickTimeAdapter createAdapter() {
-        PickTimeAdapter simpleAdapter = new PickTimeAdapter(getContext(), type);
+        PickTimeAdapter simpleAdapter = new PickTimeAdapter(getContext(), type,getDateTime());
         simpleAdapter.mapLayout(R.layout.item_time, R.layout.reserve_time);
         return simpleAdapter;
     }
@@ -109,5 +114,15 @@ public class PickTimeDialog extends Dialog {
 
     public String getDate() {
         return date;
+    }
+    public long getDateTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        try {
+            Date parse = simpleDateFormat.parse(getDate());
+            return parse.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 }
