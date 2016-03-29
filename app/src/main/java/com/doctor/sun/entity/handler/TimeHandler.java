@@ -1,4 +1,4 @@
-package com.doctor.sun.ui.handler;
+package com.doctor.sun.entity.handler;
 
 
 import android.app.TimePickerDialog;
@@ -14,7 +14,7 @@ import com.doctor.sun.entity.Time;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.TimeModule;
-import com.doctor.sun.ui.activity.doctor.AddDisturbActivity;
+import com.doctor.sun.ui.activity.doctor.AddBreakTimeActivity;
 import com.doctor.sun.ui.activity.doctor.AddTimeActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -22,23 +22,24 @@ import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 /**
  * Created by lucas on 12/9/15.
  */
 public class TimeHandler {
+    public static final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
 
-    private AllDateDTO dto;
     private Time data;
     private int mhour;
     private int mminute;
-    private boolean isEditMode;
-    private GetIsEditMode editStatus;
 
     public TimeHandler(Time time) {
         data = time;
     }
 
-    public TimeHandler(){
+    public TimeHandler() {
 
     }
 
@@ -52,7 +53,7 @@ public class TimeHandler {
     }
 
     public void addDisturb(View view) {
-        Intent intent = AddDisturbActivity.makeIntent(view.getContext());
+        Intent intent = AddBreakTimeActivity.makeIntent(view.getContext());
         view.getContext().startActivity(intent);
     }
 
@@ -175,5 +176,18 @@ public class TimeHandler {
 
     public void select(View view) {
         view.setSelected(!view.isSelected());
+    }
+
+    public long getFromMillis() {
+        try {
+            return format.parse(data.getFrom()).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public boolean isPast(long dateTime) {
+        return getFromMillis() + dateTime < System.currentTimeMillis();
     }
 }

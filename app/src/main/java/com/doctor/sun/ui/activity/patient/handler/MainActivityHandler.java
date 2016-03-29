@@ -10,7 +10,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
-import com.doctor.sun.bean.AppointmentType;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.RecentAppointment;
 import com.doctor.sun.http.callback.TokenCallback;
@@ -76,7 +76,7 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
     }
 
     public void searchDoctor(final View view) {
-        Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), AppointmentType.DETAIL);
+        Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), Appointment.DETAIL);
         view.getContext().startActivity(intent);
     }
 
@@ -94,7 +94,7 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), AppointmentType.QUICK);
+                        Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), Appointment.QUICK);
                         view.getContext().startActivity(intent);
                         dialog.dismiss();
                     }

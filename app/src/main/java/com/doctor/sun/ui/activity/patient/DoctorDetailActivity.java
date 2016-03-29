@@ -11,11 +11,11 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
-import com.doctor.sun.bean.AppointmentType;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityDoctorDetailBinding;
 import com.doctor.sun.databinding.DialogPickDurationBinding;
 import com.doctor.sun.dto.PageDTO;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Comment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.Api;
@@ -57,7 +57,9 @@ public class DoctorDetailActivity extends BaseActivity2 implements View.OnClickL
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 
+    @Appointment.Type
     private int getType() {
+        //noinspection WrongConstant
         return getIntent().getIntExtra(Constants.POSITION, -1);
     }
 
@@ -66,10 +68,11 @@ public class DoctorDetailActivity extends BaseActivity2 implements View.OnClickL
         super.onCreate(savedInstanceState);
         doctor = getData();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_doctor_detail);
-        if (getType() == AppointmentType.DETAIL) {
-            binding.setType("详细咨询");
+        binding.setType(getType());
+        if (getType() == Appointment.DETAIL) {
+            binding.setTypeLabel("详细咨询");
         } else {
-            binding.setType("简捷复诊");
+            binding.setTypeLabel("简捷复诊");
         }
         binding.setData(getData());
         headerViewModel = new HeaderViewModel(this);
@@ -85,7 +88,7 @@ public class DoctorDetailActivity extends BaseActivity2 implements View.OnClickL
 
         final DialogPickDurationBinding binding = this.binding.duration;
         binding.setMoney(0);
-        if (getType() == AppointmentType.QUICK) {
+        if (getType() == Appointment.QUICK) {
             for (int i = 2; i < binding.rgDuration.getChildCount(); i++) {
                 binding.rgDuration.getChildAt(i).setVisibility(View.GONE);
             }
@@ -100,7 +103,11 @@ public class DoctorDetailActivity extends BaseActivity2 implements View.OnClickL
                         selectedItem = i;
                     }
                 }
-                binding.setMoney(doctor.getMoney() * (selectedItem));
+                if (getType() ==  Appointment.QUICK) {
+                    binding.setMoney(doctor.getSecondMoney() * (selectedItem));
+                }else {
+                    binding.setMoney(doctor.getMoney() * (selectedItem));
+                }
             }
         });
         binding.tvPickDuration.setOnClickListener(new View.OnClickListener() {

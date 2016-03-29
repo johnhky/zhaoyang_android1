@@ -6,7 +6,7 @@
 
         <variable
             name="handler"
-            type="com.doctor.sun.ui.handler.QuestionHandler" />
+            type="com.doctor.sun.entity.handler.QuestionHandler" />
 
         <variable
             name="header"

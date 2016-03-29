@@ -1,12 +1,12 @@
-package com.doctor.sun.ui.activity.patient.handler;
+package com.doctor.sun.entity.handler;
 
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
 
-import com.doctor.sun.bean.AppointmentType;
 import com.doctor.sun.dto.DoctorDTO;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -68,7 +68,7 @@ public class DoctorHandler implements Parcelable {
     };
 
     public void detail(View view) {
-        Intent intent = DoctorDetailActivity.makeIntent(view.getContext(), data, AppointmentType.DETAIL);
+        Intent intent = DoctorDetailActivity.makeIntent(view.getContext(), data, Appointment.DETAIL);
         view.getContext().startActivity(intent);
     }
 }

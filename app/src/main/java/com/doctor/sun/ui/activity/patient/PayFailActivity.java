@@ -16,7 +16,7 @@ import com.doctor.sun.http.callback.AlipayCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
-import com.doctor.sun.ui.handler.AppointmentHandler;
+import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.handler.EmergencyCallHandler;
 
 import io.ganguo.library.AppManager;

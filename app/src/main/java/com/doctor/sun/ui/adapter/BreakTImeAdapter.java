@@ -3,16 +3,16 @@ package com.doctor.sun.ui.adapter;
 import android.view.View;
 
 import com.doctor.sun.R;
-import com.doctor.sun.databinding.ItemDisturbBinding;
-import com.doctor.sun.ui.activity.doctor.DisturbActivity;
+import com.doctor.sun.databinding.ItemBreakTimeBinding;
+import com.doctor.sun.ui.activity.doctor.BreakTimeActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 
 /**
  * Created by lucas on 12/15/15.
  */
-public class DisturbAdapter extends SimpleAdapter {
+public class BreakTimeAdapter extends SimpleAdapter {
 
-    private DisturbActivity disturbActivity;
+    private BreakTimeActivity disturbActivity;
 
     public boolean isEditMode() {
         return isEditMode;
@@ -24,15 +24,15 @@ public class DisturbAdapter extends SimpleAdapter {
 
     boolean isEditMode;
 
-    public DisturbAdapter(DisturbActivity disturbActivity) {
+    public BreakTimeAdapter(BreakTimeActivity disturbActivity) {
         super(disturbActivity);
         this.disturbActivity = disturbActivity;
     }
 
     @Override
     public void onBindViewBinding(final BaseViewHolder vh, final int position) {
-        if (vh.getItemViewType() == R.layout.item_disturb) {
-            ItemDisturbBinding binding = (ItemDisturbBinding) vh.getBinding();
+        if (vh.getItemViewType() == R.layout.item_break_time) {
+            ItemBreakTimeBinding binding = (ItemBreakTimeBinding) vh.getBinding();
             if (isEditMode) {
                 binding.llyDelete.setVisibility(View.VISIBLE);
                 binding.rlDisturb.setBackgroundResource(R.drawable.ripple_default);

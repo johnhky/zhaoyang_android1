@@ -8,37 +8,38 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.doctor.sun.R;
-import com.doctor.sun.databinding.ActivityDisturbBinding;
-import com.doctor.sun.dto.DateDTO;
+import com.doctor.sun.databinding.ActivityBreakTimeBinding;
+import com.doctor.sun.entity.Time;
 import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.ListCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
-import com.doctor.sun.ui.adapter.DisturbAdapter;
-import com.doctor.sun.ui.handler.TimeHandler;
+import com.doctor.sun.ui.adapter.BreakTimeAdapter;
+import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
+
+import java.util.List;
 
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * Created by lucas on 12/3/15.
  */
-public class DisturbActivity extends BaseActivity2 implements TimeHandler.GetIsEditMode {
-    private final static Logger LOG = LoggerFactory.getLogger(DisturbActivity.class);
-    public static final int ADDDISTURB = 1;
+public class BreakTimeActivity extends BaseActivity2 implements TimeHandler.GetIsEditMode {
+    private final static Logger LOG = LoggerFactory.getLogger(BreakTimeActivity.class);
+    public static final int ADD_BREAK_TIME = 1;
 
     private HeaderViewModel header = new HeaderViewModel(this);
 
-    private DisturbAdapter mAdapter;
-    private ActivityDisturbBinding binding;
+    private BreakTimeAdapter mAdapter;
+    private ActivityBreakTimeBinding binding;
     private TimeModule api = Api.of(TimeModule.class);
 
     public static Intent makeIntent(Context context) {
-        Intent i = new Intent(context, DisturbActivity.class);
+        Intent i = new Intent(context, BreakTimeActivity.class);
         return i;
     }
 
@@ -55,28 +56,28 @@ public class DisturbActivity extends BaseActivity2 implements TimeHandler.GetIsE
     }
 
     private void initView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_disturb);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_break_time);
         header.setLeftIcon(R.drawable.ic_back).setMidTitle("免打扰").setRightTitle("编辑");
         binding.setHeader(header);
-        mAdapter = new DisturbAdapter(this);
-        mAdapter.mapLayout(R.layout.item_time, R.layout.item_disturb);
+        mAdapter = new BreakTimeAdapter(this);
+        mAdapter.mapLayout(R.layout.item_time, R.layout.item_break_time);
         binding.rvDisturb.setLayoutManager(new LinearLayoutManager(this));
         binding.rvDisturb.setAdapter(mAdapter);
         binding.setHandler(new TimeHandler());
     }
 
     private void initData() {
-        api.getDontDisturbTime(1).enqueue(new Callback<DateDTO>() {
+        api.getTime(Time.TYPE_BREAK).enqueue(new SimpleCallback<List<Time>>() {
             @Override
-            public void onResponse(Response<DateDTO> response, Retrofit retrofit) {
+            protected void handleResponse(List<Time> response) {
                 mAdapter.clear();
-                mAdapter.addAll(response.body().getDate());
+                mAdapter.addAll(response);
                 mAdapter.notifyDataSetChanged();
-                mAdapter.onFinishLoadMore(true);
             }
 
             @Override
             public void onFailure(Throwable t) {
+                super.onFailure(t);
                 mAdapter.onFinishLoadMore(true);
             }
         });
@@ -118,7 +119,7 @@ public class DisturbActivity extends BaseActivity2 implements TimeHandler.GetIsE
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == ADDDISTURB){
+        if(resultCode == ADD_BREAK_TIME){
             mAdapter.add(data);
         }
     }

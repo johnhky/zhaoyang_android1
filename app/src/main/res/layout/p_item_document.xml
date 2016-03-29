@@ -118,7 +118,7 @@
                     android:layout_marginTop="@dimen/dp_3"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13"
-                    app:html="@{@string/money(data.getFee)}" />
+                    app:html="@{@string/money(data.detailFee)}" />
 
                 <TextView
                     android:layout_width="wrap_content"

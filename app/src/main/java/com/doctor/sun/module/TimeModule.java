@@ -1,8 +1,6 @@
 package com.doctor.sun.module;
 
-import com.doctor.sun.dto.AllDateDTO;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.dto.DateDTO;
 import com.doctor.sun.entity.ReserveDate;
 import com.doctor.sun.entity.Time;
 
@@ -20,16 +18,17 @@ import retrofit.http.Query;
  */
 public interface TimeModule {
 
-    @FormUrlEncoded
-    @POST("time/settime")
-    Call<ApiDTO<Time>> setTime(@Field("week") int week, @Field("type") int type, @Field("from") String from, @Field("to") String to);
 
     @FormUrlEncoded
     @POST("time/gettime")
-    Call< DateDTO> getDontDisturbTime(@Field("type") int type);
+    Call<ApiDTO<List<Time>>> getTime(@Field("type") int type);
 
     @POST("time/gettime")
     Call<ApiDTO<List<Time>>> getAllTime();
+
+    @FormUrlEncoded
+    @POST("time/settime")
+    Call<ApiDTO<Time>> setTime(@Field("week") int week, @Field("type") int type, @Field("from") String from, @Field("to") String to);
 
     @FormUrlEncoded
     @POST("time/update-time")
@@ -39,10 +38,18 @@ public interface TimeModule {
     @POST("time/deltime")
     Call<ApiDTO<String>> deleteTime(@Field("id") int id);
 
-    //    @FormUrlEncoded
+    @GET("time/day-schedule")
+    Call<ApiDTO<List<Time>>> getDaySchedule(@Query("doctorId") int doctorId, @Query("date") String date, @Query("type") String type, @Query("takeTime") String takeTime);
+
+    @GET("time/date-schedule")
+    Call<ApiDTO<List<ReserveDate>>> getDateSchedule(@Query("doctorId") int doctorId, @Query("takeTime") int takeTime);
+
+
+//    @FormUrlEncoded
 //    @POST("time/getdatalist")
 //    Call<> getDate(@Field("doctorId")int doctorId,@Field("data")String data);
 //
+
     @FormUrlEncoded
     @POST("time/getresrvedate")
     Call<ApiDTO<List<ReserveDate>>> getResrveDate(@Field("doctorId") int doctorId, @Field("is_referral") String is_referral);
@@ -50,12 +57,6 @@ public interface TimeModule {
 
     @FormUrlEncoded
     @POST("time/getdatalist")
-    Call<DateDTO> reserveTime(@Field("doctorId") int doctorId, @Field("data") String data);
-
-    @GET("time/day-schedule")
-    Call<ApiDTO<List<Time>>> getDaySchedule(@Query("doctorId") int doctorId, @Query("date") String date , @Query("type") String type, @Query("takeTime") String takeTime);
-
-    @GET("time/date-schedule")
-    Call<ApiDTO<List<ReserveDate>>> getDateSchedule(@Query("doctorId") int doctorId, @Query("takeTime") int takeTime);
+    Call<ApiDTO<List<Time>>> reserveTime(@Field("doctorId") int doctorId, @Field("data") String data);
 
 }

@@ -1,4 +1,4 @@
-package com.doctor.sun.ui.handler;
+package com.doctor.sun.entity.handler;
 
 import android.content.Intent;
 import android.view.View;

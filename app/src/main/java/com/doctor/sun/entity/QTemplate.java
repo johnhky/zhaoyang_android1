@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.handler.TemplateHandler;
+import com.doctor.sun.entity.handler.TemplateHandler;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;

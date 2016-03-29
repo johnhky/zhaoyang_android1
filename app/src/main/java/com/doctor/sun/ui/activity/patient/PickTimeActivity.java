@@ -170,9 +170,20 @@ public class PickTimeActivity extends BaseActivity2 {
 
     @NonNull
     protected PickTimeAdapter createAdapter() {
-        PickTimeAdapter simpleAdapter = new PickTimeAdapter(this, Integer.valueOf(getType()));
+        PickTimeAdapter simpleAdapter = new PickTimeAdapter(this, Integer.valueOf(getType()), getDateTime());
         simpleAdapter.mapLayout(R.layout.item_time, R.layout.reserve_time);
         return simpleAdapter;
+    }
+
+    public long getDateTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        try {
+            Date parse = simpleDateFormat.parse(getDate());
+            return parse.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 }

@@ -31,7 +31,7 @@ import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
 import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
-import com.doctor.sun.ui.handler.AppointmentHandler;
+import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.yuntongxun.ecsdk.ECDevice;
