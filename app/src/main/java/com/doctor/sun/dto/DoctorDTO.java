@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import android.view.View;
 
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.ui.activity.patient.handler.DoctorHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
 import java.util.HashMap;
