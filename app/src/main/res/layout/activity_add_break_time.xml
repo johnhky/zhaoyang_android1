@@ -14,7 +14,7 @@
 
         <variable
             name="handler"
-            type="com.doctor.sun.ui.handler.TimeHandler"/>
+            type="com.doctor.sun.entity.handler.TimeHandler"/>
 
     </data>
 

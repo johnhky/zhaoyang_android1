@@ -19,7 +19,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.OptionAdapter;
-import com.doctor.sun.ui.handler.QuestionHandler;
+import com.doctor.sun.entity.handler.QuestionHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
 

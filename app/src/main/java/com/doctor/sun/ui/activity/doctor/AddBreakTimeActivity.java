@@ -15,7 +15,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
-import com.doctor.sun.ui.handler.TimeHandler;
+import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 import io.ganguo.library.common.ToastHelper;

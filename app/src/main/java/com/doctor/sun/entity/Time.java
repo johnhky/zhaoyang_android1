@@ -6,7 +6,7 @@ import android.support.annotation.IntDef;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.handler.TimeHandler;
+import com.doctor.sun.entity.handler.TimeHandler;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.lang.annotation.Retention;

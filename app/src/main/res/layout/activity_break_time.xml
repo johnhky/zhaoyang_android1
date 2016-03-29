@@ -6,7 +6,7 @@
 
         <variable
             name="handler"
-            type="com.doctor.sun.ui.handler.TimeHandler"/>
+            type="com.doctor.sun.entity.handler.TimeHandler"/>
 
         <variable
             name="header"
@@ -26,7 +26,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_disturb"
             android:layout_width="match_parent"
-            android:layout_height="0dp "
+            android:layout_height="0dp"
             android:layout_weight="1" />
 
         <LinearLayout

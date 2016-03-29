@@ -4,8 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
 
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.ui.activity.patient.handler.DoctorHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
 import java.util.HashMap;
@@ -156,8 +156,8 @@ public class DoctorDTO  implements Parcelable, LayoutId {
         return doctor.getName();
     }
 
-    public String getFee() {
-        return doctor.getFee();
+    public String getFee(@Appointment.Type int type) {
+        return doctor.getFee(type);
     }
 
     public String getTitle() {

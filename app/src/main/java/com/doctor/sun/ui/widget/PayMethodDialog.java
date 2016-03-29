@@ -11,7 +11,6 @@ import com.doctor.sun.entity.ItemButton;
 import com.doctor.sun.ui.activity.patient.handler.CancelHandler;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
-import com.doctor.sun.ui.handler.AppointmentHandler;
 import com.doctor.sun.util.PayInterface;
 
 /**

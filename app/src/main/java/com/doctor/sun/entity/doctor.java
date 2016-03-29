@@ -11,12 +11,11 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
-import com.doctor.sun.bean.AppointmentType;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.DialogPickDurationBinding;
+import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
 import com.doctor.sun.ui.activity.patient.PickDateActivity;
-import com.doctor.sun.ui.activity.patient.handler.DoctorHandler;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -126,8 +125,10 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     private String level;
     @JsonProperty("city")
     private String city;
+    //详细就诊金额
     @JsonProperty("money")
     private int money;
+    //简捷就诊金额
     @JsonProperty("second_money")
     private int secondMoney;
     @JsonProperty("need_review")
@@ -140,8 +141,9 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     private String recordId;
     @JsonIgnore
     private String duration;
+    @Appointment.Type
     @JsonIgnore
-    private int type = AppointmentType.DETAIL;
+    private int type = Appointment.DETAIL;
 
 
     public void setId(int id) {
@@ -393,14 +395,23 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     }
 
     @JsonIgnore
-    public String getFee() {
+    public String getFee(@Appointment.Type int type) {
+        if (type == Appointment.DETAIL) {
+            return getDetailFee();
+        } else {
+            return getQuickFee();
+        }
+    }
+
+    @JsonIgnore
+    public String getDetailFee() {
         String fee = getMoney() + "元/次/15分钟";
         return fee;
     }
 
     @JsonIgnore
     public String getQuickFee() {
-        String fee = getMoney() + "元/次/15分钟";
+        String fee = getSecondMoney() + "元/次/15分钟";
         return fee;
     }
 
@@ -434,7 +445,6 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
             }
         };
     }
-
 
 
     public OnItemClickListener pickDate() {
@@ -583,6 +593,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
         this.point = in.readFloat();
         this.recordId = in.readString();
         this.duration = in.readString();
+        //noinspection WrongConstant
         this.type = in.readInt();
     }
 

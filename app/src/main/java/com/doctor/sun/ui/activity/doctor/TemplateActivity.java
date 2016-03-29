@@ -16,7 +16,7 @@ import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.TemplateAdapter;
-import com.doctor.sun.ui.handler.TemplateHandler;
+import com.doctor.sun.entity.handler.TemplateHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 import io.ganguo.library.common.ToastHelper;

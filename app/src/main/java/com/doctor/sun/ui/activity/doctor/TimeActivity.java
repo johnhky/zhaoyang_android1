@@ -17,7 +17,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.TimeAdapter;
-import com.doctor.sun.ui.handler.TimeHandler;
+import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 import java.util.ArrayList;

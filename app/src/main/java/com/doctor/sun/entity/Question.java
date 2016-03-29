@@ -1,8 +1,8 @@
 package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
+import com.doctor.sun.entity.handler.QuestionHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.handler.QuestionHandler;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

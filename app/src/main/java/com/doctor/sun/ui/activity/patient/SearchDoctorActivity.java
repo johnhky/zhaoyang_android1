@@ -15,13 +15,13 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 
 import com.doctor.sun.R;
-import com.doctor.sun.bean.AppointmentType;
 import com.doctor.sun.bean.City;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.bean.Province;
 import com.doctor.sun.databinding.ActivitySearchDoctorBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.Api;
@@ -165,7 +165,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     }
 
     private void loadMore() {
-        if (isFirstTime && getType() == AppointmentType.QUICK) {
+        if (isFirstTime && getType() == Appointment.QUICK) {
             loadKnowDoctor();
         } else {
             api.doctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);

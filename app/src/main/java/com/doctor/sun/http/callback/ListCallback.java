@@ -20,7 +20,6 @@ public class ListCallback<T> extends ApiCallback<List<T>> {
     @Override
     protected void handleResponse(List<T> response) {
         Log.e(TAG, "handleResponse: " + response.size() );
-        getAdapter().clear();
         getAdapter().addAll(response);
         getAdapter().onFinishLoadMore(true);
         getAdapter().notifyDataSetChanged();

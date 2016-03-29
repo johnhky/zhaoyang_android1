@@ -12,11 +12,14 @@ import com.doctor.sun.databinding.ActivityBreakTimeBinding;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.BreakTimeAdapter;
-import com.doctor.sun.ui.handler.TimeHandler;
+import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
+
+import java.util.List;
 
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.log.Logger;
@@ -27,7 +30,7 @@ import io.ganguo.library.util.log.LoggerFactory;
  */
 public class BreakTimeActivity extends BaseActivity2 implements TimeHandler.GetIsEditMode {
     private final static Logger LOG = LoggerFactory.getLogger(BreakTimeActivity.class);
-    public static final int ADDDISTURB = 1;
+    public static final int ADD_BREAK_TIME = 1;
 
     private HeaderViewModel header = new HeaderViewModel(this);
 
@@ -64,7 +67,20 @@ public class BreakTimeActivity extends BaseActivity2 implements TimeHandler.GetI
     }
 
     private void initData() {
-        api.getTime(Time.TYPE_BREAK).enqueue(new ListCallback<Time>(mAdapter));
+        api.getTime(Time.TYPE_BREAK).enqueue(new SimpleCallback<List<Time>>() {
+            @Override
+            protected void handleResponse(List<Time> response) {
+                mAdapter.clear();
+                mAdapter.addAll(response);
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                super.onFailure(t);
+                mAdapter.onFinishLoadMore(true);
+            }
+        });
     }
 
     @Override
@@ -103,7 +119,7 @@ public class BreakTimeActivity extends BaseActivity2 implements TimeHandler.GetI
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == ADDDISTURB){
+        if(resultCode == ADD_BREAK_TIME){
             mAdapter.add(data);
         }
     }

@@ -1,4 +1,4 @@
-package com.doctor.sun.ui.handler;
+package com.doctor.sun.entity.handler;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
-import com.doctor.sun.bean.AppointmentType;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
@@ -39,6 +38,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
+import com.doctor.sun.ui.handler.PayMethodInterface;
 import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.PayCallback;
 
@@ -448,7 +448,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             //复诊支付
             Doctor doctor = data.getDoctor();
             doctor.setRecordId(String.valueOf(data.getRecordId()));
-            Intent intent = PickDateActivity.makeIntent(v.getContext(), doctor, AppointmentType.QUICK);
+            Intent intent = PickDateActivity.makeIntent(v.getContext(), doctor, Appointment.QUICK);
             v.getContext().startActivity(intent);
         }
     }

@@ -7,7 +7,7 @@ import android.support.annotation.IntDef;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.handler.AppointmentHandler;
+import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.lang.annotation.Retention;
@@ -578,7 +578,7 @@ public class Appointment implements LayoutId, Parcelable {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DETAIL, QUICK})
-    public @interface AppointmentType {
+    public @interface Type {
 
     }
 }

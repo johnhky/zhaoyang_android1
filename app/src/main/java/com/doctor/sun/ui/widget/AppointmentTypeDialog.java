@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.doctor.sun.R;
-import com.doctor.sun.bean.AppointmentType;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.ItemButton;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.activity.patient.handler.CancelHandler;
@@ -60,7 +60,7 @@ public class AppointmentTypeDialog extends ListDialog {
         getAdapter().add(new ItemButton(R.layout.item_blue_text, "我自己挑选医生") {
             @Override
             public void onClick(View view) {
-                Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), AppointmentType.DETAIL);
+                Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), Appointment.DETAIL);
                 view.getContext().startActivity(intent);
                 dismiss();
             }

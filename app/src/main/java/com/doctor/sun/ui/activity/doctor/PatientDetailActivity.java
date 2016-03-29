@@ -20,7 +20,7 @@ import com.doctor.sun.module.AnswerModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.AnswerAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
-import com.doctor.sun.ui.handler.AppointmentHandler;
+import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
