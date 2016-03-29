@@ -103,7 +103,11 @@ public class DoctorDetailActivity extends BaseActivity2 implements View.OnClickL
                         selectedItem = i;
                     }
                 }
-                binding.setMoney(doctor.getMoney() * (selectedItem));
+                if (getType() ==  Appointment.QUICK) {
+                    binding.setMoney(doctor.getSecondMoney() * (selectedItem));
+                }else {
+                    binding.setMoney(doctor.getMoney() * (selectedItem));
+                }
             }
         });
         binding.tvPickDuration.setOnClickListener(new View.OnClickListener() {

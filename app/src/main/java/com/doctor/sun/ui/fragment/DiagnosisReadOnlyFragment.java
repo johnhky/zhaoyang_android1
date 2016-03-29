@@ -185,23 +185,23 @@ public class DiagnosisReadOnlyFragment extends Fragment {
             return;
         }
 
-        resultBinding.flReturn.setVisibility(View.VISIBLE);
-
-        ItemTagBinding remarkBinding = ItemTagBinding.inflate(LayoutInflater.from(getContext()));
-        remarkBinding.setLabel("备注 : ");
-        remarkBinding.setData(response.getComment().trim());
-
-        ItemTagBinding timeBinding = ItemTagBinding.inflate(LayoutInflater.from(getContext()));
-        timeBinding.setLabel("预约时间 : ");
-        timeBinding.setData(response.getDate() + " " + response.getTime().trim());
-
-        ItemTagBinding moneyBinding = ItemTagBinding.inflate(LayoutInflater.from(getContext()));
-        moneyBinding.setLabel("详细就诊诊金 : ");
-        moneyBinding.setData("￥" + response.getMoney());
-
-        resultBinding.flReturn.addView(remarkBinding.getRoot());
-        resultBinding.flReturn.addView(timeBinding.getRoot());
-        resultBinding.flReturn.addView(moneyBinding.getRoot());
+//        resultBinding.flReturn.setVisibility(View.VISIBLE);
+//
+//        ItemTagBinding remarkBinding = ItemTagBinding.inflate(LayoutInflater.from(getContext()));
+//        remarkBinding.setLabel("备注 : ");
+//        remarkBinding.setData(response.getComment().trim());
+//
+//        ItemTagBinding timeBinding = ItemTagBinding.inflate(LayoutInflater.from(getContext()));
+//        timeBinding.setLabel("预约时间 : ");
+//        timeBinding.setData(response.getDate() + " " + response.getTime().trim());
+//
+//        ItemTagBinding moneyBinding = ItemTagBinding.inflate(LayoutInflater.from(getContext()));
+//        moneyBinding.setLabel("详细就诊诊金 : ");
+//        moneyBinding.setData("￥" + response.getMoney());
+//
+//        resultBinding.flReturn.addView(remarkBinding.getRoot());
+//        resultBinding.flReturn.addView(timeBinding.getRoot());
+//        resultBinding.flReturn.addView(moneyBinding.getRoot());
     }
 
 //    private void setPay(final DiagnosisInfo response) {
@@ -302,7 +302,7 @@ public class DiagnosisReadOnlyFragment extends Fragment {
                 break;
             case 2:
                 //详细就诊
-                type = "详细就诊";
+                type = "简捷复诊";
                 break;
             case 3:
                 //转诊
