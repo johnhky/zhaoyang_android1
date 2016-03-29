@@ -133,7 +133,7 @@
 
 
             <RadioButton
-                android:id="@+id/rb_network"
+                android:id="@+id/rb_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dp_41"
@@ -150,7 +150,7 @@
                 android:textSize="@dimen/font_15" />
 
             <RadioButton
-                android:id="@+id/rb_face"
+                android:id="@+id/rb_quick"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/dp_20"

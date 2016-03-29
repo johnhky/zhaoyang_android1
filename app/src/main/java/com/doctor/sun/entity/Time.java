@@ -2,19 +2,27 @@ package com.doctor.sun.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.IntDef;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.handler.TimeHandler;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 
 /**
  * Created by lucas on 12/1/15.
  */
-public class Time implements LayoutId, Parcelable{
+public class Time implements LayoutId, Parcelable {
 
 
+    public static final int TYPE_UNDEFINE = 0;
+    public static final int TYPE_DETAIL = 1;
+    public static final int TYPE_QUICK = 2;
+    public static final int TYPE_BREAK = 3;
     /**
      * doctor_id : 1
      * week : 16
@@ -30,6 +38,7 @@ public class Time implements LayoutId, Parcelable{
     private int doctorId;
     @JsonProperty("week")
     private int week;
+    @Type
     @JsonProperty("type")
     private int type;
     @JsonProperty("from")
@@ -187,7 +196,7 @@ public class Time implements LayoutId, Parcelable{
     }
 
     public String date() {
-        return (type == 2 ? "简捷复诊" : "详细就诊") + ':' + getWeekLabel();
+        return (type == TYPE_QUICK ? "简捷复诊" : "详细就诊") + ':' + getWeekLabel();
     }
 
     public String disturbDate() {
@@ -262,6 +271,7 @@ public class Time implements LayoutId, Parcelable{
     protected Time(Parcel in) {
         this.doctorId = in.readInt();
         this.week = in.readInt();
+        //noinspection WrongConstant
         this.type = in.readInt();
         this.from = in.readString();
         this.to = in.readString();
@@ -281,4 +291,9 @@ public class Time implements LayoutId, Parcelable{
             return new Time[size];
         }
     };
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({TYPE_DETAIL, TYPE_QUICK, TYPE_BREAK})
+    public @interface Type {
+    }
 }

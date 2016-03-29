@@ -75,24 +75,24 @@ public class TimeActivity extends BaseActivity2 implements TimeHandler.GetIsEdit
             @Override
             protected void handleResponse(List<Time> response) {
                 Log.e(TAG, "handleResponse: " + response.size());
-                ArrayList<Time> type2 = new ArrayList<Time>();
-                ArrayList<Time> type3 = new ArrayList<Time>();
+                ArrayList<Time> quick = new ArrayList<Time>();
+                ArrayList<Time> detail = new ArrayList<Time>();
                 for (Time time : response) {
                     if (time.getType() == 2) {
-                        type2.add(time);
-                    } else if (time.getType() == 3) {
-                        type3.add(time);
+                        quick.add(time);
+                    } else if (time.getType() == 1) {
+                        detail.add(time);
                     }
                 }
                 mAdapter.clear();
-                if (!type3.isEmpty()) {
+                if (!detail.isEmpty()) {
                     mAdapter.add(networkDescription);
                 }
-                mAdapter.addAll(type3);
-                if (!type2.isEmpty()) {
+                mAdapter.addAll(detail);
+                if (!quick.isEmpty()) {
                     mAdapter.add(faceDescription);
                 }
-                mAdapter.addAll(type2);
+                mAdapter.addAll(quick);
                 mAdapter.notifyDataSetChanged();
                 mAdapter.onFinishLoadMore(true);
             }

@@ -399,6 +399,12 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     }
 
     @JsonIgnore
+    public String getQuickFee() {
+        String fee = getMoney() + "元/次/15分钟";
+        return fee;
+    }
+
+    @JsonIgnore
     public String getSpecial() {
         String specialist;
         specialist = "专长病种：" + getSpecialist();

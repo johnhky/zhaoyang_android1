@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.databinding.ActivityAddDisturbBinding;
+import com.doctor.sun.databinding.ActivityAddBreakTimeBinding;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.http.Api;
@@ -23,13 +23,13 @@ import io.ganguo.library.common.ToastHelper;
 /**
  * Created by lucas on 12/9/15.
  */
-public class AddDisturbActivity extends BaseActivity2 {
+public class AddBreakTimeActivity extends BaseActivity2 {
     public static final int ADDDISTURB = 1;
     private TimeModule api = Api.of(TimeModule.class);
-    private ActivityAddDisturbBinding binding;
+    private ActivityAddBreakTimeBinding binding;
 
     public static Intent makeIntent(Context context) {
-        Intent i = new Intent(context, AddDisturbActivity.class);
+        Intent i = new Intent(context, AddBreakTimeActivity.class);
         return i;
     }
 
@@ -40,7 +40,7 @@ public class AddDisturbActivity extends BaseActivity2 {
     }
 
     private void initView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_disturb);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_break_time);
         HeaderViewModel header = new HeaderViewModel(this);
         header.setMidTitle("添加免打扰时段").setRightTitle("保存");
         binding.setHeader(header);
@@ -80,17 +80,17 @@ public class AddDisturbActivity extends BaseActivity2 {
         super.onMenuClicked();
 
         if (getWeekSelected() != 0) {
-            api.setTime(getWeekSelected(), 1, binding.tvBeginTime.getText().toString() + ":00", binding.tvEndTime.getText().toString() + ":00").enqueue(new ApiCallback<Time>() {
+            api.setTime(getWeekSelected(), Time.TYPE_BREAK, binding.tvBeginTime.getText().toString() + ":00", binding.tvEndTime.getText().toString() + ":00").enqueue(new ApiCallback<Time>() {
                 @Override
                 protected void handleResponse(Time response) {
                     Intent intent = new Intent();
-                    intent.putExtra(Constants.DATA,response);
+                    intent.putExtra(Constants.DATA, response);
                     setResult(ADDDISTURB, intent);
                     finish();
                 }
             });
         } else {
-            ToastHelper.showMessage(this,"免打扰周期不能为空");
+            ToastHelper.showMessage(this, "免打扰周期不能为空");
         }
     }
 }

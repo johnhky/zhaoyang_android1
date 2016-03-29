@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.View;
 
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.ui.activity.doctor.DisturbActivity;
+import com.doctor.sun.ui.activity.doctor.BreakTimeActivity;
 import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
 import com.doctor.sun.ui.activity.doctor.FeeActivity;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
@@ -37,7 +37,7 @@ public class MeHandler {
     }
 
     public void Disturb(View view){
-        Intent intent = DisturbActivity.makeIntent(view.getContext());
+        Intent intent = BreakTimeActivity.makeIntent(view.getContext());
         view.getContext().startActivity(intent);
     }
 

@@ -49,11 +49,11 @@ public class AddTimeActivity extends BaseActivity2 {
         binding.tvBeginTime.setText(getData().getFrom().substring(0, 5));
         binding.tvEndTime.setText(getData().getTo().substring(0, 5));
         switch (getData().getType()) {
-            case 2:
-                binding.rbFace.setChecked(true);
+            case Time.TYPE_DETAIL:
+                binding.rbDetail.setChecked(true);
                 break;
-            case 3:
-                binding.rbNetwork.setChecked(true);
+            case Time.TYPE_QUICK:
+                binding.rbQuick.setChecked(true);
                 break;
         }
         int week = getData().getWeek();
@@ -115,13 +115,13 @@ public class AddTimeActivity extends BaseActivity2 {
 
 
     private int getType() {
-        int type = 0;
-        if (!binding.rbFace.isChecked() && !binding.rbNetwork.isChecked())
-            type = 0;
-        if (binding.rbFace.isChecked())
-            type = 2;
-        if (binding.rbNetwork.isChecked())
-            type = 3;
+        int type = Time.TYPE_UNDEFINE;
+        if (!binding.rbQuick.isChecked() && !binding.rbDetail.isChecked())
+            type = Time.TYPE_UNDEFINE;
+        if (binding.rbQuick.isChecked())
+            type = Time.TYPE_QUICK;
+        if (binding.rbDetail.isChecked())
+            type = Time.TYPE_DETAIL;
         return type;
     }
 

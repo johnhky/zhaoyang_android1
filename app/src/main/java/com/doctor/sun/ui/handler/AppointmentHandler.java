@@ -40,7 +40,6 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.widget.PayMethodDialog;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.doctor.sun.util.PayCallback;
 
 import java.util.HashMap;
@@ -380,29 +379,8 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         return new OnItemClickListener() {
             @Override
             public void onItemClick(BaseAdapter adapter, final View view, BaseViewHolder vh) {
-                TwoSelectorDialog.showTwoSelectorDialog(view.getContext(), "你已过了预约时间，医生\n将无法即时查看信息！\n请重新预约", "取消", "再次预约", new TwoSelectorDialog.GetActionButton() {
-                    @Override
-                    public void onClickPositiveButton(TwoSelectorDialog dialog) {
-                        dialog.dismiss();
-                        if (needReturn() && returnNotPaid()) {
-                            new PayMethodDialog(view.getContext(), AppointmentHandler.this).show();
-                        } else {
-                            //复诊支付
-                            Doctor doctor = data.getDoctor();
-                            doctor.setRecordId(String.valueOf(data.getRecordId()));
-                            Intent intent = PickDateActivity.makeIntent(view.getContext(), doctor, Integer.parseInt(data.getType()));
-                            view.getContext().startActivity(intent);
-                        }
-                    }
-
-                    @Override
-                    public void onClickNegativeButton(TwoSelectorDialog dialog) {
-                        dialog.dismiss();
-                        Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
-                        view.getContext().startActivity(intent);
-                    }
-                });
-
+                Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
+                view.getContext().startActivity(intent);
             }
         };
     }
@@ -491,7 +469,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             }
         } else {
             //TODO
-            data.getDoctor().viewDetail(view,1);
+            data.getDoctor().viewDetail(view, 1);
         }
     }
 

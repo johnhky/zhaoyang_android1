@@ -159,7 +159,8 @@
                 android:layout_height="@dimen/dp_35"
                 android:layout_marginEnd="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
-                android:background="@drawable/btn_small_blue">
+                android:background="@drawable/btn_small_blue"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -169,8 +170,7 @@
                     android:onClick="@{data.handler.newOrPayAppointment}"
                     android:text='@{data.handler.returnNotPaid()?"复诊支付":"再次预约"}'
                     android:textColor="#fff"
-                    android:textSize="@dimen/font_13"
-                    android:visibility="gone"/>
+                    android:textSize="@dimen/font_13"/>
 
             </FrameLayout>
 
