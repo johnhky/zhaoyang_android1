@@ -21,14 +21,6 @@ public class Token {
     private String level;
     @JsonProperty("type")
     private int type;
-    /**
-     * user_id : 224
-     * subAccountSid : 741d9f478d1211e5bb61ac853d9d52fd
-     * subToken : e252f2865863ea88bf3f6cf156a0c734
-     * voipAccount : 88797700000279
-     * voipPwd : wTKS0dVP
-     */
-
     @JsonProperty("account")
     private VoipAccount account;
 

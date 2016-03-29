@@ -1,10 +1,15 @@
 package com.doctor.sun.entity;
 
+import android.support.annotation.StringDef;
+
 import com.doctor.sun.R;
 import com.doctor.sun.entity.handler.QuestionHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 /**
@@ -15,55 +20,30 @@ public class Question implements LayoutId {
     public static final String TYPE_RADIO = "radio";
     public static final String TYPE_CHECKBOX = "checkbox";
     public static final String TYPE_UPLOADS = "uploads";
-    public static final String TYPE_FILLS = "fills";
+    public static final String TYPE_PILLS = "fills";
+
+    @JsonIgnore
     public boolean isSelected = false;
+    @JsonProperty("is_public")
+    private int isPublic;
+    @JsonProperty("question_category_id")
+    private int questionCategoryId;
+    @JsonProperty("is_library")
+    private int isLibrary;
+    @JsonProperty("is_enable")
+    private int isEnable;
     @JsonProperty("id")
     private int id;
     @JsonProperty("question_type")
     private String questionType;
     @JsonProperty("question_content")
     private String questionContent;
-    /**
-     * option_type : A
-     * option_content : 是
-     * option_mark : 0
-     */
-
-    @JsonProperty("options")
-    private List<Options> options;
-    /**
-     * doctor_id : fasdf
-     */
-
     @JsonProperty("doctor_id")
     private String doctorId;
-    /**
-     * is_public : 1
-     */
-
-    @JsonProperty("is_public")
-    private int isPublic;
-    /**
-     * question_category_id : 0
-     */
-
-    @JsonProperty("question_category_id")
-    private int questionCategoryId;
-    /**
-     * is_library : 0
-     * is_enable : 1
-     */
-
-    @JsonProperty("is_library")
-    private int isLibrary;
-    @JsonProperty("is_enable")
-    private int isEnable;
-    /**
-     * clear_option : G
-     */
-
     @JsonProperty("clear_option")
     private String clearOption;
+    @JsonProperty("options")
+    private List<Options> options;
     private QuestionHandler handler = new QuestionHandler(this);
 
     public boolean getIsSelected() {
@@ -179,6 +159,12 @@ public class Question implements LayoutId {
 
     public String contents() {
 
-        return   "." + getQuestionContent();
+        return "." + getQuestionContent();
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    @StringDef({TYPE_FILL, TYPE_CHECKBOX, TYPE_RADIO, TYPE_PILLS, TYPE_UPLOADS})
+    public @interface TYPE {
+
     }
 }

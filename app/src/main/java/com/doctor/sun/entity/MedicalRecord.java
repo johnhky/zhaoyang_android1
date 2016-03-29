@@ -15,36 +15,6 @@ import java.util.List;
  * Created by rick on 11/20/15.
  */
 public class MedicalRecord implements Parcelable, LayoutId {
-
-    @JsonProperty("patient_id")
-    private int patientId;
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("relation")
-    private String relation;
-    @JsonProperty("gender")
-    private int gender;
-    @JsonProperty("birthday")
-    private String birthday;
-    @JsonProperty("city")
-    private String city;
-    @JsonProperty("province")
-    private String province;
-    @JsonProperty("address")
-    private String address;
-    @JsonProperty("identity_number")
-    private String identityNumber;
-    @JsonProperty("patient_name")
-    private String patientName;
-    @JsonProperty("age")
-    private int age;
-    @JsonProperty("email")
-    private String email;
-    @JsonProperty("medicalRecordId")
-    private int medicalRecordId;
-    @JsonProperty("appointment_id")
-    private List<Integer> appointmentId;
-
     /**
      * 病历列表项数据
      * "patient_id": 1,
@@ -77,6 +47,36 @@ public class MedicalRecord implements Parcelable, LayoutId {
      *
      * @return
      */
+    @JsonProperty("patient_id")
+    private int patientId;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("relation")
+    private String relation;
+    @JsonProperty("gender")
+    private int gender;
+    @JsonProperty("birthday")
+    private String birthday;
+    @JsonProperty("city")
+    private String city;
+    @JsonProperty("province")
+    private String province;
+    @JsonProperty("address")
+    private String address;
+    @JsonProperty("identity_number")
+    private String identityNumber;
+    @JsonProperty("patient_name")
+    private String patientName;
+    @JsonProperty("age")
+    private int age;
+    @JsonProperty("email")
+    private String email;
+    @JsonProperty("medicalRecordId")
+    private int medicalRecordId;
+    @JsonProperty("appointment_id")
+    private List<Integer> appointmentId;
+
+
 
     public void setPatientId(int patientId) {
         this.patientId = patientId;

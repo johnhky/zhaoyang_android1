@@ -48,92 +48,49 @@ public class Answer implements LayoutId {
     private int isPublic;
     @JsonProperty("need_refill")
     private int needRefill;
+    @JsonProperty("is_fill")
+    private int isFill;
+    @JsonProperty("template_id")
+    private int templateId;
+    @JsonProperty("question_category_id")
+    private int questionCategoryId;
     @JsonProperty("created_at")
     private String createdAt;
     @JsonProperty("updated_at")
     private String updatedAt;
-    /**
-     * id : 1
-     * question_type : radio
-     * question_content : 请问这是患者第一次找心理或精神科医生就诊吗？
-     * options : [{"option_type":"A","option_content":"是","option_mark":0},{"option_type":"B","option_content":"否","option_mark":0}]
-     */
-
     @JsonProperty("question")
     private Question question;
-    /**
-     * is_fill : 1
-     */
-
-    @JsonProperty("is_fill")
-    private int isFill;
-    /**
-     * template_id : 0
-     */
-
-    @JsonProperty("template_id")
-    private int templateId;
-    /**
-     * question_category_id : 0
-     */
-
-    @JsonProperty("question_category_id")
-    private int questionCategoryId;
-    @JsonIgnore
     //保存病人填写答案需要的辅助字段
+    @JsonIgnore
     private List<Integer> index;
     @JsonIgnore
     private List<Prescription> prescriptions = new ArrayList<>();
     @JsonIgnore
     private List<String> imageUrls = new ArrayList<>();
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setAppointmentId(int appointmentId) {
-        this.appointmentId = appointmentId;
-    }
-
-    public void setQuestionId(int questionId) {
-        this.questionId = questionId;
-    }
-
-
-    public void setAnswerMark(int answerMark) {
-        this.answerMark = answerMark;
-    }
-
-    public void setIsPublic(int isPublic) {
-        this.isPublic = isPublic;
-    }
-
-    public void setNeedRefill(int needRefill) {
-        this.needRefill = needRefill;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getAppointmentId() {
         return appointmentId;
     }
 
+    public void setAppointmentId(int appointmentId) {
+        this.appointmentId = appointmentId;
+    }
+
     public int getQuestionId() {
         return questionId;
+    }
+
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
     }
 
     public Object getAnswerType() {
@@ -156,24 +113,72 @@ public class Answer implements LayoutId {
         return answerMark;
     }
 
+    public void setAnswerMark(int answerMark) {
+        this.answerMark = answerMark;
+    }
+
     public int getIsPublic() {
         return isPublic;
+    }
+
+    public void setIsPublic(int isPublic) {
+        this.isPublic = isPublic;
     }
 
     public int getNeedRefill() {
         return needRefill;
     }
 
+    public void setNeedRefill(int needRefill) {
+        this.needRefill = needRefill;
+    }
+
+    public int getIsFill() {
+        return isFill;
+    }
+
+    public void setIsFill(int isFill) {
+        this.isFill = isFill;
+    }
+
+    public int getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(int templateId) {
+        this.templateId = templateId;
+    }
+
+    public int getQuestionCategoryId() {
+        return questionCategoryId;
+    }
+
+    public void setQuestionCategoryId(int questionCategoryId) {
+        this.questionCategoryId = questionCategoryId;
+    }
+
     public String getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getUpdatedAt() {
         return updatedAt;
     }
 
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     public Question getQuestion() {
         return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
     public List<Integer> getIndex() {
@@ -182,35 +187,6 @@ public class Answer implements LayoutId {
 
     public void setIndex(List<Integer> index) {
         this.index = index;
-    }
-
-    @Override
-    public int getItemLayoutId() {
-        return R.layout.item_answer;
-    }
-
-    public void setIsFill(int isFill) {
-        this.isFill = isFill;
-    }
-
-    public int getIsFill() {
-        return isFill;
-    }
-
-    public void setTemplateId(int templateId) {
-        this.templateId = templateId;
-    }
-
-    public int getTemplateId() {
-        return templateId;
-    }
-
-    public void setQuestionCategoryId(int questionCategoryId) {
-        this.questionCategoryId = questionCategoryId;
-    }
-
-    public int getQuestionCategoryId() {
-        return questionCategoryId;
     }
 
     public List<Prescription> getPrescriptions() {
@@ -227,5 +203,10 @@ public class Answer implements LayoutId {
 
     public void setImageUrls(List<String> imageUrls) {
         this.imageUrls = imageUrls;
+    }
+
+    @Override
+    public int getItemLayoutId() {
+        return R.layout.item_answer;
     }
 }

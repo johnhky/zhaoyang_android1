@@ -5,8 +5,8 @@ import android.os.Parcelable;
 import android.support.annotation.IntDef;
 
 import com.doctor.sun.R;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.entity.handler.TimeHandler;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.lang.annotation.Retention;
@@ -293,7 +293,7 @@ public class Time implements LayoutId, Parcelable {
     };
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({TYPE_DETAIL, TYPE_QUICK, TYPE_BREAK})
+    @IntDef({TYPE_UNDEFINE, TYPE_DETAIL, TYPE_QUICK, TYPE_BREAK})
     public @interface Type {
     }
 }

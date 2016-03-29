@@ -41,24 +41,13 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     public static final int FEMALE = 2;
     public boolean isSelected = false;
     /**
-     * birthday :
-     * is_fav : 1(0未收藏 1已收藏该医生)
      */
 
-    @JsonProperty("birthday")
-    private String birthday;
-    @JsonProperty("is_fav")
-    private String isFav;
 
-    public boolean isSelected() {
-        return isSelected;
-    }
-
-    public void setIsSelected(boolean isSelected) {
-        this.isSelected = isSelected;
-    }
 
     /**
+     * birthday :
+     * is_fav : 1(0未收藏 1已收藏该医生)
      * id : 1
      * avatar : http://p.3761.com/pic/71271413852950.jpg
      * name : 新医生
@@ -76,8 +65,17 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
      * voipAccount : 88797700000028
      * phone : 15917748280
      * status : pending (pending审核中 pass审核通过 reject审核不通过 空字符串的话就代表是还未提交过审核)
+     * level : 执业医师认证
+     * city :
+     * money : 1
+     * second_money : 1
+     * need_review : 0
+     * point : 4.1
      */
-
+    @JsonProperty("birthday")
+    private String birthday;
+    @JsonProperty("is_fav")
+    private String isFav;
     @JsonProperty("id")
     private int id;
     @JsonProperty("avatar")
@@ -112,15 +110,6 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     private String phone;
     @JsonProperty("status")
     private String status;
-    /**
-     * level : 执业医师认证
-     * city :
-     * money : 1
-     * second_money : 1
-     * need_review : 0
-     * point : 4.1
-     */
-
     @JsonProperty("level")
     private String level;
     @JsonProperty("city")
@@ -135,7 +124,6 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     private int needReview;
     @JsonProperty("point")
     private float point;
-
     // 预约相关信息
     @JsonIgnore
     private String recordId;
@@ -376,6 +364,13 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
         return point;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
     @Override
     @JsonIgnore
     public int getItemLayoutId() {

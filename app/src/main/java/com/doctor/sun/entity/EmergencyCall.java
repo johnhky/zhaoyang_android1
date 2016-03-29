@@ -26,6 +26,14 @@ public class EmergencyCall implements LayoutId, Parcelable {
      * real_add_money : 0
      * unpay_money : 12
      * progress : 0/0
+     * is_pay : 0
+     * add_num : 0
+     * is_pay_add : 0
+     * pay_time : 0
+     * is_appointment : 0
+     * is_valid : 1
+     * expired_time : 0
+     * need_refund : 0
      */
 
     @JsonProperty("id")
@@ -52,17 +60,6 @@ public class EmergencyCall implements LayoutId, Parcelable {
     private int unpayMoney;
     @JsonProperty("progress")
     private String progress;
-    /**
-     * is_pay : 0
-     * add_num : 0
-     * is_pay_add : 0
-     * pay_time : 0
-     * is_appointment : 0
-     * is_valid : 1
-     * expired_time : 0
-     * need_refund : 0
-     */
-
     @JsonProperty("is_pay")
     private int isPay;
     @JsonProperty("add_num")
