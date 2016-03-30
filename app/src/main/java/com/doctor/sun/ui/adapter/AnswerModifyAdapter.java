@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -69,28 +68,29 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
     public AnswerModifyAdapter(Context context) {
         super(context);
         mActivity = context;
-        setUpMapKey();
+        mapLayout(R.layout.item_answer,R.layout.item_answer2);
+//        setUpMapKey();
     }
 
     @Override
     public void onBindViewBinding(BaseViewHolder<ViewDataBinding> vh, int position) {
         vh.getBinding().setVariable(BR.position, String.valueOf(position));
-        if (vh.getItemViewType() == R.layout.item_answer) {
-            Answer answer = (Answer) get(position);
-            final ItemAnswerBinding binding = (ItemAnswerBinding) vh.getBinding();
-            binding.flReset.setVisibility(View.GONE);
-            binding.tvAddPills.setVisibility(View.GONE);
-
-            setLocalComponent(binding, answer, position);
-
-            if (answer.getNeedRefill() == 1) {
-                binding.ivPosition.setImageResource(R.drawable.bg_msg_count);
-            } else if (answer.getIsFill() == 1) {
-                binding.ivPosition.setImageResource(R.drawable.shape_position);
-            } else {
-                binding.ivPosition.setImageResource(R.drawable.bg_position);
-            }
-        }
+//        if (vh.getItemViewType() == R.layout.item_answer) {
+//            Answer answer = (Answer) get(position);
+//            final ItemAnswerBinding binding = (ItemAnswerBinding) vh.getBinding();
+//            binding.flReset.setVisibility(View.GONE);
+//            binding.tvAddPills.setVisibility(View.GONE);
+//
+//            setLocalComponent(binding, answer, position);
+//
+//            if (answer.getNeedRefill() == 1) {
+//                binding.ivPosition.setImageResource(R.drawable.bg_msg_count);
+//            } else if (answer.getIsFill() == 1) {
+//                binding.ivPosition.setImageResource(R.drawable.shape_position);
+//            } else {
+//                binding.ivPosition.setImageResource(R.drawable.bg_position);
+//            }
+//        }
 
         super.onBindViewBinding(vh, position);
     }

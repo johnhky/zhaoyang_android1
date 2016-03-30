@@ -1,19 +1,24 @@
 package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
+import com.doctor.sun.entity.handler.OptionsHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by rick on 11/24/15.
  */
 public class Options implements LayoutId {
+    public static final OptionsHandler handler = new OptionsHandler();
     @JsonProperty("option_type")
     private String optionType;
     @JsonProperty("option_content")
     private String optionContent;
     @JsonProperty("option_mark")
     private int optionMark;
+    @JsonIgnore
+    private String optionInput;
 
     public void setOptionType(String optionType) {
         this.optionType = optionType;
@@ -41,6 +46,14 @@ public class Options implements LayoutId {
 
     public String getOptions(){
         return getOptionType()+"."+getOptionContent();
+    }
+
+    public String getOptionInput() {
+        return optionInput;
+    }
+
+    public void setOptionInput(String optionInput) {
+        this.optionInput = optionInput;
     }
 
     @Override

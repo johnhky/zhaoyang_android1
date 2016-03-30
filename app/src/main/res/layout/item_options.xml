@@ -6,21 +6,67 @@
         <variable
             name="data"
             type="com.doctor.sun.entity.Options" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <TextView
+        <CheckBox
             android:id="@+id/tv_option"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_13"
+            android:layout_marginBottom="@dimen/dp_17"
+            android:layout_marginLeft="@dimen/dp_17"
+            android:layout_marginStart="@dimen/dp_17"
+            android:layout_marginTop="@dimen/dp_17"
+            android:button="@drawable/ic_options"
+            android:checked="@{adapter.isSelected(vh)}"
+            android:onClick="@{adapter.onItemClick(adapter,vh)}"
+            android:paddingLeft="@dimen/dp_14"
+            android:paddingStart="@dimen/dp_14"
             android:singleLine="false"
+            android:text='@{data.handler.content(data)}'
+            android:textColor="@color/primary_color_selector"
+            android:textSize="@dimen/font_15" />
 
-            android:textColor="#898989"
+        <EditText
+            android:id="@+id/input_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_17"
+            android:layout_marginTop="@dimen/dp_17"
+            android:background="@drawable/bg_fill_answer"
+            android:button="@drawable/ic_options"
+            android:hint="@{data.handler.hint(data)}"
+            android:inputType="@{data.handler.inputType(data)}"
+            android:text="@{data.optionInput}"
+            android:singleLine="false"
+            android:textColor="@color/primary_color_selector"
+            android:textSize="@dimen/font_15"
+            android:afterTextChanged="@{data.handler.contentChanged(adapter,vh)}"
+            android:visibility="@{data.handler.isFill(data.optionContent)}" />
+
+        <TextView
+            android:id="@+id/remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_17"
+            android:layout_marginTop="@dimen/dp_17"
+            android:button="@drawable/ic_options"
+            android:selected="@{adapter.isSelected(vh)}"
+            android:singleLine="false"
+            android:text='@{data.handler.remainingContent(data)}'
+            android:textColor="@color/primary_color_selector"
             android:textSize="@dimen/font_15" />
 
     </LinearLayout>

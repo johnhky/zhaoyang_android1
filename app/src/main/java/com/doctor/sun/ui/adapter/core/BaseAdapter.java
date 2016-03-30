@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by rick on 10/20/15.
  */
-public abstract class BaseAdapter<T, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements List<T>{
+public abstract class BaseAdapter<T, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements List<T> {
 
     private Context mContext;
     private LayoutInflater mInflater;
@@ -77,12 +77,18 @@ public abstract class BaseAdapter<T, B extends ViewDataBinding> extends Recycler
 
     protected abstract int getItemLayoutId(int position);
 
+    public abstract View.OnClickListener onItemClick(final BaseAdapter adapter, final BaseViewHolder vh);
+
+    public boolean isSelected(BaseViewHolder vh){
+        return false;
+    }
+
     @BindingAdapter(value = {"itemClick", "adapter", "vh"}, requireAll = false)
     public static void setOnClick(final View view, final OnItemClickListener onItemClickListener, final BaseAdapter adapter, final BaseViewHolder vh) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onItemClickListener.onItemClick(adapter, view,vh);
+                onItemClickListener.onItemClick(adapter, view, vh);
             }
         });
     }

@@ -79,6 +79,14 @@ public class CustomBinding {
         }
     }
 
+    @android.databinding.BindingAdapter("android:visibility")
+    public static void visibility(View view, boolean visible) {
+        if (visible) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.GONE);
+        }
+    }
     @android.databinding.BindingAdapter("bind:visible")
     public static void visible(View view, boolean visible) {
         if (visible) {

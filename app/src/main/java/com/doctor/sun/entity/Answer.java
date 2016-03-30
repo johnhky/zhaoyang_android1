@@ -1,17 +1,22 @@
 package com.doctor.sun.entity;
 
+import android.util.SparseBooleanArray;
+
 import com.doctor.sun.R;
+import com.doctor.sun.entity.handler.AnswerHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
  * Created by rick on 11/24/15.
  */
 public class Answer implements LayoutId {
+    public static final AnswerHandler handler = new AnswerHandler();
 
     /**
      * id : 50
@@ -67,6 +72,8 @@ public class Answer implements LayoutId {
     private List<Prescription> prescriptions = new ArrayList<>();
     @JsonIgnore
     private List<String> imageUrls = new ArrayList<>();
+    private int selectedOptions = -1;
+    private SparseBooleanArray multiSelectedOptions = new SparseBooleanArray();
 
 
     public int getId() {
@@ -203,6 +210,22 @@ public class Answer implements LayoutId {
 
     public void setImageUrls(List<String> imageUrls) {
         this.imageUrls = imageUrls;
+    }
+
+    public int getSelectedOptions() {
+        return selectedOptions;
+    }
+
+    public void setSelectedOptions(int selectedOptions) {
+        this.selectedOptions = selectedOptions;
+    }
+
+    public SparseBooleanArray getMultiSelectedOptions() {
+        return multiSelectedOptions;
+    }
+
+    public void setMultiSelectedOptions(SparseBooleanArray multiSelectedOptions) {
+        this.multiSelectedOptions = multiSelectedOptions;
     }
 
     @Override

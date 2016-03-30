@@ -3,9 +3,11 @@ package com.doctor.sun.ui.adapter;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.util.SparseIntArray;
+import android.view.View;
 
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.ListAdapter;
 
 
@@ -34,6 +36,11 @@ public class SimpleAdapter<T extends LayoutId, B extends ViewDataBinding> extend
         } else {
             return i;
         }
+    }
+
+    @Override
+    public View.OnClickListener onItemClick(BaseAdapter adapter, BaseViewHolder vh) {
+        return null;
     }
 
     public final void mapLayout(int from, int to) {
