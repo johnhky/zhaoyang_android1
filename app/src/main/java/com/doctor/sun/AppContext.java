@@ -22,7 +22,7 @@ import io.realm.RealmMigration;
 
 /**
  * App 上下文环境
- * <p/>
+ * <p>
  * Created by Tony on 9/30/15.
  */
 public class AppContext extends BaseApp {
@@ -101,9 +101,7 @@ public class AppContext extends BaseApp {
     }
 
     public static boolean isDoctor() {
-        if (userType == -1) {
-            userType = Config.getInt(Constants.USER_TYPE, -1);
-        }
+        userType = Config.getInt(Constants.USER_TYPE, -1);
         return userType != AuthModule.PATIENT_TYPE;
     }
 

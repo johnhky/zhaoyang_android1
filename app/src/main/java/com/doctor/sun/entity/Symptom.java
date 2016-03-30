@@ -34,6 +34,7 @@ public class Symptom extends BaseObservable implements LayoutId {
 
 
     public Symptom() {
+        states.put(0,true);
     }
 
     @Override

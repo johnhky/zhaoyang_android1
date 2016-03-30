@@ -121,6 +121,7 @@ public class SymptomFactory {
         values.add("正常，完全没症状");
         values.add("正常和异常间，边缘");
         values.add("轻微");
+        values.add("轻度");
         values.add("中度");
         values.add("较严重");
         values.add("严重");

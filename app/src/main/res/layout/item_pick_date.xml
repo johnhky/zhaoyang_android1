@@ -42,7 +42,7 @@
             android:layout_marginStart="@dimen/dp_13"
             android:layout_width="match_parent"
             android:background="@drawable/ripple_default"
-            app:itemClick="@{data.pickTime}"
+            app:itemClick="@{data.pickTime2}"
             app:vh="@{vh}"
             app:adapter="@{adapter}"
             android:layout_height="wrap_content">
