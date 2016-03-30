@@ -3,6 +3,7 @@ package com.doctor.sun.entity.handler;
 import android.databinding.adapters.TextViewBindingAdapter;
 import android.text.Editable;
 import android.text.InputType;
+import android.view.View;
 
 import com.doctor.sun.entity.Options;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;

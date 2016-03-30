@@ -18,7 +18,8 @@ public class MultiSelectAdapter extends SimpleAdapter {
         super(context);
         this.listener = listener;
     }
-    public MultiSelectAdapter(Context context, OnSelectionChange listener,SparseBooleanArray initState) {
+
+    public MultiSelectAdapter(Context context, OnSelectionChange listener, SparseBooleanArray initState) {
         super(context);
         this.listener = listener;
         selectedState = initState;
@@ -29,15 +30,27 @@ public class MultiSelectAdapter extends SimpleAdapter {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = vh.getAdapterPosition();
-                boolean isSelected = selectedState.get(position);
-                selectedState.put(position, !isSelected);
-                if (listener != null) {
-                    listener.onSelectionChange(MultiSelectAdapter.this, selectedState);
-                }
+                select(vh, adapter);
                 notifyDataSetChanged();
             }
         };
+    }
+
+    public void select(BaseViewHolder vh, BaseAdapter adapter) {
+        int position = vh.getAdapterPosition();
+        boolean isSelected = selectedState.get(position);
+        selectedState.put(position, !isSelected);
+        if (listener != null) {
+            listener.onSelectionChange(MultiSelectAdapter.this, selectedState);
+        }
+    }
+
+    public void select(BaseViewHolder vh, BaseAdapter adapter,boolean shouldSelect) {
+        int position = vh.getAdapterPosition();
+        selectedState.put(position, shouldSelect);
+        if (listener != null) {
+            listener.onSelectionChange(MultiSelectAdapter.this, selectedState);
+        }
     }
 
     public boolean isSelected(BaseViewHolder vh) {

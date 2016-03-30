@@ -41,6 +41,9 @@ import java.util.List;
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
 import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * 填写问卷 修改 病人端 or 医生端
@@ -163,7 +166,23 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
             getAdapter().setLoadMoreListener(new LoadMoreListener() {
                 @Override
                 protected void onLoadMore() {
-                    api.answers(appointmentId).enqueue(new ListCallback<Answer>(getAdapter()));
+                    api.answers(appointmentId).enqueue(new Callback<ApiDTO<List<Answer>>>() {
+                        @Override
+                        public void onResponse(Response<ApiDTO<List<Answer>>> response, Retrofit retrofit) {
+                            getAdapter().clear();
+                            for (Answer answer : response.body().getData()) {
+                                getAdapter().add(answer);
+                                getAdapter().addAll(answer.getQuestion().getOptions());
+                            }
+                            getAdapter().onFinishLoadMore(true);
+                            getAdapter().notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+
+                        }
+                    });
                 }
             });
         } else {

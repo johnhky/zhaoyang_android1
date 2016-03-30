@@ -79,7 +79,15 @@ public abstract class BaseAdapter<T, B extends ViewDataBinding> extends Recycler
 
     public abstract View.OnClickListener onItemClick(final BaseAdapter adapter, final BaseViewHolder vh);
 
-    public boolean isSelected(BaseViewHolder vh){
+    public void select(BaseViewHolder vh, BaseAdapter adapter) {
+
+    }
+
+    public void select(BaseViewHolder vh, BaseAdapter adapter, boolean hasFocus) {
+
+    }
+
+    public boolean isSelected(BaseViewHolder vh) {
         return false;
     }
 
@@ -92,4 +100,5 @@ public abstract class BaseAdapter<T, B extends ViewDataBinding> extends Recycler
             }
         });
     }
+
 }

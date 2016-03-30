@@ -25,13 +25,23 @@ public class SingleSelectAdapter extends SimpleAdapter {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedPosition = vh.getAdapterPosition();
-                if (listener != null) {
-                    listener.onSelectionChange(adapter, selectedPosition);
-                }
+                select(vh, adapter);
                 notifyDataSetChanged();
             }
         };
+    }
+
+    public void select(BaseViewHolder vh, BaseAdapter adapter) {
+        selectedPosition = vh.getAdapterPosition();
+        if (listener != null) {
+            listener.onSelectionChange(adapter, selectedPosition);
+        }
+    }
+    public void select(BaseViewHolder vh, BaseAdapter adapter,boolean shouldSelect) {
+        selectedPosition = vh.getAdapterPosition();
+        if (listener != null) {
+            listener.onSelectionChange(adapter, selectedPosition);
+        }
     }
 
     public boolean isSelected(BaseViewHolder vh) {
