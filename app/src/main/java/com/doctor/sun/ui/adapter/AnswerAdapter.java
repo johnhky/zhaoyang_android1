@@ -196,7 +196,6 @@ public class AnswerAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
                 List<Object> type = (List<Object>) answer.getAnswerType();
                 List<Object> content = (List<Object>) answer.getAnswerContent();
                 for (int i = 0; i < type.size(); i++) {
-                    if (content.get(i).toString().equals("")) continue;
 
                     String data = type.get(i).toString() + ". " + content.get(i).toString();
 

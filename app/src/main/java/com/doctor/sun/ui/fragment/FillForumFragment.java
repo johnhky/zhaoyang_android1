@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AnswerModule;
 import com.doctor.sun.ui.adapter.AnswerAdapter;
 import com.doctor.sun.ui.adapter.ForumAdapter;
@@ -24,6 +26,8 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.handler.QCategoryHandler;
+
+import java.util.List;
 
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
@@ -151,7 +155,7 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
             getAdapter().setLoadMoreListener(new LoadMoreListener() {
                 @Override
                 protected void onLoadMore() {
-                    api.answers(appointment.getId()).enqueue(new ListCallback<Answer>(getAdapter()));
+                    api.answers(appointment.getId()).enqueue(new AnswerListCallback());
                 }
             });
         } else {
@@ -159,7 +163,7 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
                 @Override
                 protected void onLoadMore() {
                     api.categoryDetail(appointment.getId(), String.valueOf(questionCategoryId))
-                            .enqueue(new ListCallback<Answer>(getAdapter()));
+                            .enqueue(new AnswerListCallback());
                 }
             });
         }
@@ -175,6 +179,25 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
         } else {
             //STATUS_QUESTION_LIST
             return super.getAdapter();
+        }
+    }
+
+    private class AnswerListCallback extends SimpleCallback<List<Answer>> {
+        @Override
+        protected void handleResponse(List<Answer> response) {
+            Log.e(TAG, "handleResponse: " + response.size() );
+            for (int i = 0; i < response.size(); i++) {
+                response.get(i).setPosition(i+1);
+            }
+            getAdapter().addAll(response);
+            getAdapter().onFinishLoadMore(true);
+            getAdapter().notifyDataSetChanged();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            t.printStackTrace();
+            getAdapter().onFinishLoadMore(true);
         }
     }
 }

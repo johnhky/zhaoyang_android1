@@ -24,6 +24,7 @@ import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.ListCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AnswerModule;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.adapter.AnswerModifyAdapter;
@@ -168,34 +169,7 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
             getAdapter().setLoadMoreListener(new LoadMoreListener() {
                 @Override
                 protected void onLoadMore() {
-                    api.answers(appointmentId).enqueue(new Callback<ApiDTO<List<Answer>>>() {
-                        @Override
-                        public void onResponse(Response<ApiDTO<List<Answer>>> response, Retrofit retrofit) {
-                            getAdapter().clear();
-                            List<Answer> data = response.body().getData();
-                            for (int i = 0; i < data.size(); i++) {
-
-                                Answer answer = data.get(i);
-                                answer.setPosition(i + 1);
-                                int parentPosition = getAdapter().getItemCount() - 1;
-                                getAdapter().add(answer);
-
-                                for (Options options : answer.getQuestion().getOptions()) {
-                                    options.setParentPosition(parentPosition);
-                                }
-
-                                getAdapter().addAll(answer.getQuestion().getOptions());
-                                getAdapter().add(new ItemDivider(R.layout.divider_1px));
-                            }
-                            getAdapter().onFinishLoadMore(true);
-                            getAdapter().notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onFailure(Throwable t) {
-
-                        }
-                    });
+                    api.answers(appointmentId).enqueue(new ModifyAnswerCallback());
                 }
             });
         } else {
@@ -203,7 +177,7 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
                 @Override
                 protected void onLoadMore() {
                     api.categoryDetail(appointmentId, String.valueOf(questionCategoryId))
-                            .enqueue(new ListCallback<Answer>(getAdapter()));
+                            .enqueue(new ModifyAnswerCallback());
                 }
             });
         }
@@ -274,6 +248,33 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
                     }
                 });
             }
+        }
+    }
+
+    private class ModifyAnswerCallback extends SimpleCallback<List<Answer>> {
+        @Override
+        protected void handleResponse(List<Answer> data) {
+            for (int i = 0; i < data.size(); i++) {
+
+                Answer answer = data.get(i);
+                answer.setPosition(i + 1);
+                int parentPosition = getAdapter().getItemCount() - 1;
+                getAdapter().add(answer);
+
+                for (Options options : answer.getQuestion().getOptions()) {
+                    options.setParentPosition(parentPosition);
+                }
+
+                getAdapter().addAll(answer.getQuestion().getOptions());
+                getAdapter().add(new ItemDivider(R.layout.divider_1px));
+            }
+            getAdapter().onFinishLoadMore(true);
+            getAdapter().notifyDataSetChanged();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            getAdapter().onFinishLoadMore(true);
         }
     }
 }
