@@ -68,29 +68,29 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
     public AnswerModifyAdapter(Context context) {
         super(context);
         mActivity = context;
-        mapLayout(R.layout.item_answer,R.layout.item_answer2);
-//        setUpMapKey();
+//        mapLayout(R.layout.item_answer,R.layout.item_answer2);
+        setUpMapKey();
     }
 
     @Override
     public void onBindViewBinding(BaseViewHolder<ViewDataBinding> vh, int position) {
         vh.getBinding().setVariable(BR.position, String.valueOf(position));
-//        if (vh.getItemViewType() == R.layout.item_answer) {
-//            Answer answer = (Answer) get(position);
-//            final ItemAnswerBinding binding = (ItemAnswerBinding) vh.getBinding();
-//            binding.flReset.setVisibility(View.GONE);
-//            binding.tvAddPills.setVisibility(View.GONE);
-//
-//            setLocalComponent(binding, answer, position);
-//
-//            if (answer.getNeedRefill() == 1) {
-//                binding.ivPosition.setImageResource(R.drawable.bg_msg_count);
-//            } else if (answer.getIsFill() == 1) {
-//                binding.ivPosition.setImageResource(R.drawable.shape_position);
-//            } else {
-//                binding.ivPosition.setImageResource(R.drawable.bg_position);
-//            }
-//        }
+        if (vh.getItemViewType() == R.layout.item_answer) {
+            Answer answer = (Answer) get(position);
+            final ItemAnswerBinding binding = (ItemAnswerBinding) vh.getBinding();
+            binding.flReset.setVisibility(View.GONE);
+            binding.tvAddPills.setVisibility(View.GONE);
+
+            setLocalComponent(binding, answer, position);
+
+            if (answer.getNeedRefill() == 1) {
+                binding.ivPosition.setImageResource(R.drawable.bg_msg_count);
+            } else if (answer.getIsFill() == 1) {
+                binding.ivPosition.setImageResource(R.drawable.shape_position);
+            } else {
+                binding.ivPosition.setImageResource(R.drawable.bg_position);
+            }
+        }
 
         super.onBindViewBinding(vh, position);
     }
@@ -131,11 +131,11 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                 break;
             }
             case "checkbox": {
-                boxAnswer(binding, answer);
+//                boxAnswer(binding, answer);
                 break;
             }
             case "radio": {
-                radioAnswer(binding, answer);
+//                radioAnswer(binding, answer);
                 break;
             }
             default: {
@@ -851,28 +851,24 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
 
     @SuppressWarnings("unchecked")
     public Object saveButton(Answer answer) {
-        HashMap<String, Object> boxAnswer = new HashMap<>();
-        //content & type
-        if (answer.getIndex() != null && answer.getIndex().size() > 0) {
-            //按小到大顺序加入答案
-            if (answer.getIndex().size() > 1) {
-                //选择题目数为1, 或者单选情况不需要排序
-                insertionSortWithIndex(answer);
+        HashMap<String, String> boxAnswer = new HashMap<>();
+        ArrayList<String> type = new ArrayList<>();
+        ArrayList<String> content = new ArrayList<>();
+        for (Options options : answer.getQuestion().getOptions()) {
+            String s = answer.getSelectedOptions().get(options.getOptionType());
+            if (s != null) {
+                type.add(options.getOptionType());
+                String optionInput = options.getOptionInput();
+                if (optionInput == null) {
+                    content.add(s);
+                } else {
+                    content.add(optionInput);
+                }
             }
-
-            List<String> contents = (List<String>) answer.getAnswerContent();
-            if (contents.contains("")) {
-                ToastHelper.showMessage(getContext(), "描述性选项为空");
-                return null;
-            }
-
-            boxAnswer.put("content", answer.getAnswerContent());
-            boxAnswer.put("type", answer.getAnswerType());
-            //目前设置全为0
-            boxAnswer.put("mark", 0);
-        } else {
-            return null;
         }
+        boxAnswer.put("type", JacksonUtils.toJson(type));
+        boxAnswer.put("content", JacksonUtils.toJson(content));
+        boxAnswer.put("mark", "0");
         return boxAnswer;
     }
 

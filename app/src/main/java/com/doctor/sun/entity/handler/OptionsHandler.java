@@ -5,16 +5,21 @@ import android.text.Editable;
 import android.text.InputType;
 import android.view.View;
 
+import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Options;
+import com.doctor.sun.entity.Question;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by rick on 30/3/2016.
  */
 public class OptionsHandler {
 
-    public static final String BREAK_POINT = ". ";
+    public static final String BREAK_POINT = ".   ";
     public static final String INDICATOR = "{fill}";
 
     public boolean isFill(String content) {
@@ -67,6 +72,14 @@ public class OptionsHandler {
         }
     }
 
+    public String optionInput(final BaseAdapter adapter, final BaseViewHolder vh) {
+        int adapterPosition = vh.getAdapterPosition();
+        Options options = (Options) adapter.get(adapterPosition);
+        int parentPosition = options.getParentPosition();
+        Answer answer = getParent(adapter, parentPosition);
+        return answer.getSelectedOptions().get(options.getOptionType());
+    }
+
     public TextViewBindingAdapter.AfterTextChanged contentChanged(final BaseAdapter adapter, final BaseViewHolder vh) {
         return new TextViewBindingAdapter.AfterTextChanged() {
             @Override
@@ -81,4 +94,79 @@ public class OptionsHandler {
         };
     }
 
+    public Answer getParent(BaseAdapter adapter, int position) {
+        return (Answer) adapter.get(position);
+    }
+
+    public View.OnClickListener select(final BaseAdapter adapter, final BaseViewHolder viewHolder) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int adapterPosition = viewHolder.getAdapterPosition();
+
+                Options options = (Options) adapter.get(adapterPosition);
+
+                int parentPosition = options.getParentPosition();
+                Answer answer = getParent(adapter, parentPosition);
+
+                HashMap<String, String> selectedOptions = answer.getSelectedOptions();
+
+                List<Options> optionsList = answer.getQuestion().getOptions();
+
+                switch (answer.getQuestion().getQuestionType()) {
+                    case Question.TYPE_RADIO: {
+                        selectedOptions.clear();
+                        if (isFill(options.getOptionContent())) {
+                            selectedOptions.put(options.getOptionType(), options.getOptionInput());
+                        }else {
+                            selectedOptions.put(options.getOptionType(), options.getOptionContent());
+                        }
+                        adapter.set(parentPosition, answer);
+                        adapter.notifyItemRangeChanged(parentPosition + 1, optionsList.size());
+                        break;
+                    }
+                    case Question.TYPE_CHECKBOX: {
+                        String clearOption = answer.getQuestion().getClearOption();
+                        if (clearOption.equals(options.getOptionType())) {
+                            //选择了清除选项
+                            selectedOptions.clear();
+                            if (isFill(options.getOptionContent())) {
+                                selectedOptions.put(options.getOptionType(), options.getOptionInput());
+                            }else {
+                                selectedOptions.put(options.getOptionType(), options.getOptionContent());
+                            }
+                            adapter.set(parentPosition, answer);
+                            adapter.notifyItemRangeChanged(parentPosition + 1, optionsList.size());
+
+                        } else {
+                            //一般的checkbox
+                            String s = selectedOptions.get(options.getOptionType());
+
+                            if (s == null) {
+                                if (isFill(options.getOptionContent())) {
+                                    selectedOptions.put(options.getOptionType(), options.getOptionInput());
+                                }else {
+                                    selectedOptions.put(options.getOptionType(), options.getOptionContent());
+                                }
+                            } else {
+                                selectedOptions.remove(options.getOptionType());
+                            }
+                            selectedOptions.remove(clearOption);
+                            answer.setAnswerContent(selectedOptions.values());
+                            answer.setAnswerType(selectedOptions.keySet());
+                            adapter.set(parentPosition, answer);
+                            adapter.notifyItemRangeChanged(parentPosition + 1, optionsList.size());
+                        }
+                        break;
+                    }
+                }
+            }
+        };
+    }
+
+    public boolean isSelected(final BaseAdapter adapter, final BaseViewHolder viewHolder) {
+        Options options = (Options) adapter.get(viewHolder.getAdapterPosition());
+        Answer answer = getParent(adapter, options.getParentPosition());
+        return answer.getSelectedOptions().containsKey(options.getOptionType());
+    }
 }

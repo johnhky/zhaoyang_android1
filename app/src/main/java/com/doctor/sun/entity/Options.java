@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Options implements LayoutId {
     public static final OptionsHandler handler = new OptionsHandler();
+    @JsonIgnore
+    private int parentPosition;
     @JsonProperty("option_type")
     private String optionType;
     @JsonProperty("option_content")
@@ -19,6 +21,14 @@ public class Options implements LayoutId {
     private int optionMark;
     @JsonIgnore
     private String optionInput;
+
+    public int getParentPosition() {
+        return parentPosition;
+    }
+
+    public void setParentPosition(int parentPosition) {
+        this.parentPosition = parentPosition;
+    }
 
     public void setOptionType(String optionType) {
         this.optionType = optionType;

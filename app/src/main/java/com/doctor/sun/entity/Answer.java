@@ -1,7 +1,5 @@
 package com.doctor.sun.entity;
 
-import android.util.SparseBooleanArray;
-
 import com.doctor.sun.R;
 import com.doctor.sun.entity.handler.AnswerHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -9,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -37,6 +35,7 @@ public class Answer implements LayoutId {
      * index: [1, 2]
      */
 
+    private int position;
     @JsonProperty("id")
     private int id;
     @JsonProperty("appointment_id")
@@ -72,8 +71,7 @@ public class Answer implements LayoutId {
     private List<Prescription> prescriptions = new ArrayList<>();
     @JsonIgnore
     private List<String> imageUrls = new ArrayList<>();
-    private int selectedOptions = -1;
-    private SparseBooleanArray multiSelectedOptions = new SparseBooleanArray();
+    private HashMap<String, String> selectedOptions;
 
 
     public int getId() {
@@ -212,20 +210,33 @@ public class Answer implements LayoutId {
         this.imageUrls = imageUrls;
     }
 
-    public int getSelectedOptions() {
+
+    public HashMap<String, String> getSelectedOptions() {
+        if (selectedOptions == null) {
+            selectedOptions = new HashMap<>();
+
+            try {
+                List<String> types = (List<String>) getAnswerType();
+                List<String> contents = (List<String>) getAnswerContent();
+                for (int i = 0; i < types.size(); i++) {
+                    selectedOptions.put(types.get(i), contents.get(i));
+                }
+            } catch (ClassCastException ignore) {
+            }
+        }
         return selectedOptions;
     }
 
-    public void setSelectedOptions(int selectedOptions) {
+    public void setSelectedOptions(HashMap<String, String> selectedOptions) {
         this.selectedOptions = selectedOptions;
     }
 
-    public SparseBooleanArray getMultiSelectedOptions() {
-        return multiSelectedOptions;
+    public int getPosition() {
+        return position;
     }
 
-    public void setMultiSelectedOptions(SparseBooleanArray multiSelectedOptions) {
-        this.multiSelectedOptions = multiSelectedOptions;
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     @Override

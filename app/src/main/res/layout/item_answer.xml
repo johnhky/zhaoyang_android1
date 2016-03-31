@@ -49,7 +49,7 @@
                     android:layout_height="@dimen/dp_23"
                     android:gravity="center"
                     android:minWidth="@dimen/dp_23"
-                    android:text="@{position}"
+                    android:text='@{""+data.position}'
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_14" />
 
@@ -112,10 +112,5 @@
             android:animateLayoutChanges="true"
             android:orientation="vertical" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:background="@color/divider_color" />
     </LinearLayout>
 </layout>

@@ -36,34 +36,34 @@ public class AnswerHandler {
     }
 
     public SimpleAdapter getOptions(final BaseAdapter rootAdapter, BaseViewHolder viewHolder, final Answer data) {
-        SimpleAdapter simpleAdapter = null;
-        final int position = viewHolder.getAdapterPosition();
-        if (isPills(data)) {
-            simpleAdapter = new SimpleAdapter(rootAdapter.getContext());
-            simpleAdapter.addAll(data.getPrescriptions());
-            simpleAdapter.onFinishLoadMore(true);
-        } else if (isRadio(data)) {
-            simpleAdapter = new SingleSelectAdapter(rootAdapter.getContext(), new SingleSelectAdapter.OnSelectionChange() {
-                @Override
-                public void onSelectionChange(BaseAdapter adapter, int newSelectItem) {
-                    data.setSelectedOptions(newSelectItem);
-                    rootAdapter.set(position, data);
-                }
-            },data.getSelectedOptions());
-            simpleAdapter.addAll(data.getQuestion().getOptions());
-            simpleAdapter.onFinishLoadMore(true);
-        } else if (isCheckbox(data)) {
-            simpleAdapter = new MultiSelectAdapter(rootAdapter.getContext(), new MultiSelectAdapter.OnSelectionChange() {
-                @Override
-                public void onSelectionChange(BaseAdapter adapter, SparseBooleanArray selectedItems) {
-                    data.setMultiSelectedOptions(selectedItems);
-                    rootAdapter.set(position, data);
-                }
-            },data.getMultiSelectedOptions());
-            simpleAdapter.addAll(data.getQuestion().getOptions());
-            simpleAdapter.onFinishLoadMore(true);
-        }
+//        SimpleAdapter simpleAdapter = null;
+//        final int position = viewHolder.getAdapterPosition();
+//        if (isPills(data)) {
+//            simpleAdapter = new SimpleAdapter(rootAdapter.getContext());
+//            simpleAdapter.addAll(data.getPrescriptions());
+//            simpleAdapter.onFinishLoadMore(true);
+//        } else if (isRadio(data)) {
+//            simpleAdapter = new SingleSelectAdapter(rootAdapter.getContext(), new SingleSelectAdapter.OnSelectionChange() {
+//                @Override
+//                public void onSelectionChange(BaseAdapter adapter, int newSelectItem) {
+//                    data.setSelectedOptions(newSelectItem);
+//                    rootAdapter.set(position, data);
+//                }
+//            },data.getSelectedOptions());
+//            simpleAdapter.addAll(data.getQuestion().getOptions());
+//            simpleAdapter.onFinishLoadMore(true);
+//        } else if (isCheckbox(data)) {
+//            simpleAdapter = new MultiSelectAdapter(rootAdapter.getContext(), new MultiSelectAdapter.OnSelectionChange() {
+//                @Override
+//                public void onSelectionChange(BaseAdapter adapter, SparseBooleanArray selectedItems) {
+//                    data.setSelectedOptions(selectedItems);
+//                    rootAdapter.set(position, data);
+//                }
+//            },data.getSelectedOptions());
+//            simpleAdapter.addAll(data.getQuestion().getOptions());
+//            simpleAdapter.onFinishLoadMore(true);
+//        }
 
-        return simpleAdapter;
+        return null;
     }
 }

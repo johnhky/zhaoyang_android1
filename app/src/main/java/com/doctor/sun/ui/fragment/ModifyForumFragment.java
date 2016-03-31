@@ -18,6 +18,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ItemForumBarBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Answer;
+import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.http.Api;
@@ -32,6 +33,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.widget.PickImageDialog;
+import com.doctor.sun.vo.ItemDivider;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
 
@@ -170,9 +172,20 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
                         @Override
                         public void onResponse(Response<ApiDTO<List<Answer>>> response, Retrofit retrofit) {
                             getAdapter().clear();
-                            for (Answer answer : response.body().getData()) {
+                            List<Answer> data = response.body().getData();
+                            for (int i = 0; i < data.size(); i++) {
+
+                                Answer answer = data.get(i);
+                                answer.setPosition(i + 1);
+                                int parentPosition = getAdapter().getItemCount() - 1;
                                 getAdapter().add(answer);
+
+                                for (Options options : answer.getQuestion().getOptions()) {
+                                    options.setParentPosition(parentPosition);
+                                }
+
                                 getAdapter().addAll(answer.getQuestion().getOptions());
+                                getAdapter().add(new ItemDivider(R.layout.divider_1px));
                             }
                             getAdapter().onFinishLoadMore(true);
                             getAdapter().notifyDataSetChanged();

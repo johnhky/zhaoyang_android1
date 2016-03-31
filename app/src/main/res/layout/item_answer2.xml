@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -66,6 +65,27 @@
                 android:textSize="@dimen/font_15" />
 
 
+            <FrameLayout
+                android:id="@+id/fl_reset"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_25"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_13"
+                android:background="@drawable/bg_mini_white"
+                android:clickable="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ripple_default"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:text="重填"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/font_12" />
+            </FrameLayout>
+
             <TextView
                 android:id="@+id/tv_add_pills"
                 android:layout_width="wrap_content"
@@ -79,7 +99,7 @@
                 android:text="添加"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/font_14"
-                android:visibility="@{data.handler.isPills(data)}" />
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -91,15 +111,6 @@
             android:layout_marginRight="@dimen/dp_13"
             android:animateLayoutChanges="true"
             android:orientation="vertical" />
-
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/recycler_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="1px"-->
-            <!--android:adapter="@{data.handler.getOptions(adapter,vh,data)}"-->
-            <!--android:orientation="vertical"-->
-            <!--app:layoutManager="android.support.v7.widget.LinearLayoutManager" />-->
 
         <View
             android:layout_width="match_parent"
