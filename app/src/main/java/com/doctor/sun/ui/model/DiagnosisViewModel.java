@@ -118,7 +118,7 @@ public class DiagnosisViewModel {
         sideEffect.setSelectedItem(response.getEffect());
         money.setInput(String.valueOf(response.getMoney()));
         date.setDate(response.getDate());
-        time.setTime(response.getTime());
+//        time.setTime(response.getTime());
 
 
         returnType.setSelectedItem(response.getReturnType());

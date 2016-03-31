@@ -125,6 +125,9 @@ public class ConsultingDetailActivity extends TabActivity
 
     @Subscribe
     public void switchTab(SwitchTabEvent event) {
+        if (event.getPosition() == -1) {
+            return;
+        }
         binding.vp.setCurrentItem(event.getPosition());
     }
 
@@ -143,7 +146,7 @@ public class ConsultingDetailActivity extends TabActivity
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        switchTab(new SwitchTabEvent(isReadOnly ? 1 : getPosition()));
+        switchTab(new SwitchTabEvent(isReadOnly ? 1 : -1));
     }
 
     @Override
