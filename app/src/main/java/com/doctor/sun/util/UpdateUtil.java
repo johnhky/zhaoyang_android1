@@ -41,7 +41,8 @@ public class UpdateUtil {
             Log.e(TAG, "checkUpdate: " + lastCheckTime);
         }
 
-        Call<ApiDTO<Version>> getVersionCall = api.getAppVersion("android", BuildConfig.VERSION_NAME);
+        final String versionName = BuildConfig.VERSION_NAME.replace("_dev","");
+        Call<ApiDTO<Version>> getVersionCall = api.getAppVersion("android", versionName);
         getVersionCall.enqueue(new Callback<ApiDTO<Version>>() {
             @Override
             public void onResponse(Response<ApiDTO<Version>> response, Retrofit retrofit) {
@@ -60,7 +61,7 @@ public class UpdateUtil {
                     if (forceUpdate) {
                         Log.e(TAG, "onResponse: " + data.getDownloadUrl());
                         downLoadFile(api, data.getDownloadUrl());
-                    } else if (newVersion > Double.valueOf(BuildConfig.VERSION_NAME)) {
+                    } else if (newVersion > Double.valueOf(versionName)) {
                         //TODO 弹
                     }
                     lastCheckTime = System.currentTimeMillis();
