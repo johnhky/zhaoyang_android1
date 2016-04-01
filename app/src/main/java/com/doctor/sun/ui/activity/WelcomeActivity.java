@@ -36,7 +36,6 @@ public class WelcomeActivity extends BaseActivity2 {
                 finish();
             }
         }, 1000);
-        UpdateUtil.checkUpdate(Api.of(ToolModule.class));
     }
 
     private boolean isLogin() {

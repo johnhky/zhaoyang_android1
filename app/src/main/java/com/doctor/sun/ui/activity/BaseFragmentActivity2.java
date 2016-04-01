@@ -7,8 +7,11 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.EditText;
 
 import com.doctor.sun.event.OnTokenExpireEvent;
+import com.doctor.sun.http.Api;
 import com.doctor.sun.im.Messenger;
+import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.util.UpdateUtil;
 
 import io.ganguo.library.AppManager;
 import io.ganguo.library.core.event.EventHub;
@@ -36,6 +39,7 @@ public abstract class BaseFragmentActivity2 extends FragmentActivity implements 
         tokenExpire = new OnTokenExpireEvent(this);
         EventHub.register(tokenExpire);
         realm = Realm.getDefaultInstance();
+        UpdateUtil.checkUpdate(Api.of(ToolModule.class));
 
     }
 

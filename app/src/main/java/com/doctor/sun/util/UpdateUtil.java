@@ -30,23 +30,40 @@ import retrofit.Retrofit;
  */
 public class UpdateUtil {
     public static final String TAG = UpdateUtil.class.getSimpleName();
+    private static final long INTERVAL = 7200000;
+    private static long lastCheckTime = 0;
 
     public static void checkUpdate(final ToolModule api) {
-        Call<ApiDTO<Version>> getVersionCall = api.getAppVersion("android", String.valueOf(BuildConfig.VERSION_CODE));
+        if (lastCheckTime + INTERVAL > System.currentTimeMillis()) {
+            Log.e(TAG, "checkUpdate: " + lastCheckTime);
+            return;
+        } else {
+            Log.e(TAG, "checkUpdate: " + lastCheckTime);
+        }
+
+        Call<ApiDTO<Version>> getVersionCall = api.getAppVersion("android", BuildConfig.VERSION_NAME);
         getVersionCall.enqueue(new Callback<ApiDTO<Version>>() {
             @Override
             public void onResponse(Response<ApiDTO<Version>> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     Version data = response.body().getData();
                     boolean forceUpdate;
+                    double newVersion;
                     if (data == null) {
                         forceUpdate = false;
+                        newVersion = 0;
                     } else {
                         forceUpdate = data.getForceUpdate();
+                        newVersion = data.getNowVersion();
                     }
+
                     if (forceUpdate) {
+                        Log.e(TAG, "onResponse: " + data.getDownloadUrl());
                         downLoadFile(api, data.getDownloadUrl());
+                    } else if (newVersion > Double.valueOf(BuildConfig.VERSION_NAME)) {
+                        //TODO 弹窗
                     }
+                    lastCheckTime = System.currentTimeMillis();
                 } else {
                     Log.e(TAG, "onResponse: ");
                 }
@@ -70,23 +87,29 @@ public class UpdateUtil {
                     @Override
                     public void run() {
                         final File file = new File(Config.getDataPath(), "newVersion.apk");
-                        Log.e(TAG, "onResponse: ");
                         FileOutputStream os;
                         InputStream is;
                         try {
                             file.createNewFile();
                             is = response.body().byteStream();
                             os = new FileOutputStream(file);
+
+                            int totalLength = (int) response.body().contentLength();
+                            int totalRead = 0;
+
+                            NotificationUtil.showNotification(totalRead, totalLength);
                             int read = 0;
                             byte[] buffer = new byte[32768];
                             while ((read = is.read(buffer)) > 0) {
                                 os.write(buffer, 0, read);
+                                totalRead += read;
                             }
                             os.close();
                             is.close();
                             Tasks.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    NotificationUtil.showFinishDownloadNotification(file);
                                     installPackage(AppContext.me(), file.getAbsolutePath());
                                 }
                             });

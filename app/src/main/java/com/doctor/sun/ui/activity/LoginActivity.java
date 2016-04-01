@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Province;
