@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
@@ -24,16 +25,17 @@ import com.doctor.sun.http.callback.DoctorPageCallback;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.ui.pager.DoctorDetailPagerAdapter;
 
 /**
  * 医生详情
  * Created by rick on 20/1/2016.
  */
-public class DoctorDetailActivity extends BaseActivity2 implements View.OnClickListener {
+public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.OnClickListener {
     public static final String TAG = DoctorDetailActivity.class.getSimpleName();
 
     private ToolModule api = Api.of(ToolModule.class);
@@ -41,14 +43,12 @@ public class DoctorDetailActivity extends BaseActivity2 implements View.OnClickL
     private HeaderViewModel headerViewModel;
     private Doctor doctor;
 
-    private SimpleAdapter commentAdapter;
-    private DoctorPageCallback<Comment> callback;
+    private FragmentPagerAdapter pagerAdapter;
 
     public static Intent makeIntent(Context context, Doctor data, int type) {
         Intent i = new Intent(context, DoctorDetailActivity.class);
         i.putExtra(Constants.DATA, data);
         i.putExtra(Constants.POSITION, type);
-        Log.e(TAG, "makeIntent: " + type );
         return i;
     }
 
@@ -82,6 +82,9 @@ public class DoctorDetailActivity extends BaseActivity2 implements View.OnClickL
         initData();
         binding.tvHosptial.setOnClickListener(this);
         initDurationPicker();
+
+        initPagerAdapter();
+        initPagerTabs();
     }
 
     private void initDurationPicker() {
@@ -103,9 +106,9 @@ public class DoctorDetailActivity extends BaseActivity2 implements View.OnClickL
                         selectedItem = i;
                     }
                 }
-                if (getType() ==  Appointment.QUICK) {
+                if (getType() == Appointment.QUICK) {
                     binding.setMoney(doctor.getSecondMoney() * (selectedItem));
-                }else {
+                } else {
                     binding.setMoney(doctor.getMoney() * (selectedItem));
                 }
             }
@@ -133,15 +136,7 @@ public class DoctorDetailActivity extends BaseActivity2 implements View.OnClickL
 
 
     private void initData() {
-        commentAdapter = new SimpleAdapter(this);
-        callback = new DoctorPageCallback<>(commentAdapter);
-
-//        binding.recyclerView.setAdapter(commentAdapter);
-//        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-//        binding.recyclerView.addItemDecoration(new DividerItemDecoration(
-//                this.getResources().getDrawable(R.drawable.shape_divider), true));
         getDoctorInfo();
-//        getComments();
     }
 
     @Override
@@ -187,17 +182,6 @@ public class DoctorDetailActivity extends BaseActivity2 implements View.OnClickL
         });
     }
 
-    private void getComments() {
-        PageCallback<Comment> callback = new PageCallback<Comment>(commentAdapter) {
-            @Override
-            protected void handleResponse(PageDTO<Comment> response) {
-                binding.setTotal(response.getTotal());
-                super.handleResponse(response);
-            }
-        };
-        api.comments(getData().getId(), callback.getPage()).enqueue(callback);
-    }
-
     private void setIsFav(String isFav, int ic_not_like_doctor, HeaderViewModel headerViewModel) {
         doctor.setIsFav(isFav);
         headerViewModel.setRightIcon(ic_not_like_doctor);
@@ -212,5 +196,22 @@ public class DoctorDetailActivity extends BaseActivity2 implements View.OnClickL
                 startActivity(intent);
                 break;
         }
+    }
+
+    private void initPagerAdapter() {
+        pagerAdapter = createPagerAdapter();
+        binding.vp.setAdapter(pagerAdapter);
+        binding.vp.setOffscreenPageLimit(3);
+    }
+
+    private FragmentPagerAdapter createPagerAdapter() {
+        return new DoctorDetailPagerAdapter(getSupportFragmentManager(), doctor);
+    }
+
+    private void initPagerTabs() {
+        binding.pagerTabs.setCustomTabView(R.layout.tab_custom, android.R.id.text1);
+        binding.pagerTabs.setDistributeEvenly(true);
+        binding.pagerTabs.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimaryDark));
+        binding.pagerTabs.setViewPager(binding.vp);
     }
 }

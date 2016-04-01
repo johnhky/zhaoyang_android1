@@ -8,6 +8,16 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 public class ItemDivider implements LayoutId {
     private int itemLayoutId;
 
+    private String content;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public ItemDivider(int itemLayoutId) {
         this.itemLayoutId = itemLayoutId;
     }

@@ -268,6 +268,7 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
                 getAdapter().addAll(answer.getQuestion().getOptions());
                 getAdapter().add(new ItemDivider(R.layout.divider_1px));
             }
+            getAdapter().add(new ItemDivider(R.layout.space_30dp));
             getAdapter().onFinishLoadMore(true);
             getAdapter().notifyDataSetChanged();
         }

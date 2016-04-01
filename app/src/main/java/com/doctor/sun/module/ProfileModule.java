@@ -4,6 +4,8 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.Article;
+import com.doctor.sun.entity.Comment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.DoctorIndex;
 import com.doctor.sun.entity.Fee;
@@ -103,4 +105,11 @@ public interface ProfileModule {
     @FormUrlEncoded
     @POST("profile/new-password")
     Call<ApiDTO<String>> resetPassword(@Field("password") String password, @Field("newPassword") String newPassword, @Field("confirmPassword") String confirmPassword);
+
+
+    @GET("profile/comments")
+    Call<ApiDTO<PageDTO<Comment>>> comments(@Query("doctorId") int doctorId, @Query("page") String page);
+
+    @GET("profile/articles")
+    Call<ApiDTO<PageDTO<Article>>> articles(@Query("doctorId") int doctorId, @Query("page") String page);
 }

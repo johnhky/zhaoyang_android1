@@ -158,18 +158,21 @@
                     android:layout_height="1px"
                     android:background="@color/divider_color" />
 
-                <TextView
+
+                <com.doctor.sun.ui.widget.SlidingTabLayout
+                    android:id="@+id/pager_tabs"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_8"
-                    android:layout_marginLeft="@dimen/dp_13"
-                    android:layout_marginRight="@dimen/dp_13"
-                    android:layout_marginTop="@dimen/dp_8"
-                    android:gravity="center_vertical"
-                    android:text="@{data.detail}"
-                    android:textColor="#363636"
-                    android:textSize="@dimen/font_15"
-                    app:visible="@{data.detailVisible}" />
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#c1cacf" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_295" />
 
                 <!--<View-->
                 <!--android:layout_width="match_parent"-->

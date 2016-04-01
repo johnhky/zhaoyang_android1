@@ -51,8 +51,6 @@ public interface ToolModule {
     @POST("appointment/un-collect")
     Call<ApiDTO<String>> unlikeDoctor(@Field("doctorId") int doctorId);
 
-    @GET("profile/comments")
-    Call<ApiDTO<PageDTO<Comment>>> comments(@Query("doctorId") int doctorId, @Query("page") String page);
 
     @GET("tool/version")
     Call<ApiDTO<Version>> getAppVersion(@Query("client") String client, @Query("version") String version);
