@@ -83,10 +83,23 @@
                     android:textSize="@dimen/font_17" />
             </FrameLayout>
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:layout_marginRight="@dimen/dp_8"
+                android:background="@drawable/ripple_default"
+                android:onClick="@{data.handler.makePhoneCall}">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:src="@drawable/ic_telephone"
+                    android:textSize="@dimen/font_17" />
+            </FrameLayout>
 
             <FrameLayout
                 android:layout_width="@dimen/dp_144"

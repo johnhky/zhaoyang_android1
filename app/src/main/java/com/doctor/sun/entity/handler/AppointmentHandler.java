@@ -1,13 +1,18 @@
 package com.doctor.sun.entity.handler;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
@@ -24,6 +29,7 @@ import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
+import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.ui.activity.doctor.CancelAppointmentActivity;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
@@ -41,6 +47,9 @@ import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.handler.PayMethodInterface;
 import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.PayCallback;
+import com.yuntongxun.ecsdk.ECDevice;
+import com.yuntongxun.ecsdk.ECError;
+import com.yuntongxun.ecsdk.ECUserState;
 
 import java.util.HashMap;
 
@@ -486,5 +495,72 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
                 });
             }
         };
+    }
+
+    public void makePhoneCall(final View view) {
+        final String sendTo = getVoipAccount();
+        try {
+            ECDevice.getUserState(sendTo, new ECDevice.OnGetUserStateListener() {
+                @Override
+                public void onGetUserState(ECError ecError, ECUserState ecUserState) {
+                    if (ecUserState.isOnline()) {
+                        com.doctor.sun.im.Messenger.getInstance().makePhoneCall(sendTo);
+                        Intent i = VoIPCallActivity.makeIntent(view.getContext(), VoIPCallActivity.CALLING, sendTo);
+                        view.getContext().startActivity(i);
+                    } else {
+                        callTelephone(view);
+                    }
+                }
+            });
+        } catch (NullPointerException e) {
+            callTelephone(view);
+        }
+    }
+
+    private void callTelephone(View view) {
+        if (ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions((Activity) view.getContext(), new String[]{Manifest.permission.CALL_PHONE}, 1);
+            return;
+        }
+        Uri uri = Uri.parse("tel:" + getPhoneNO());
+        Intent intent = new Intent(Intent.ACTION_CALL, uri);
+        view.getContext().startActivity(intent);
+    }
+
+    private String getVoipAccount() {
+        //假如是医生的话,就发消息给病人
+        if (AppContext.isDoctor()) {
+            return data.getVoipAccount();
+        } else {
+            //假如不是医生的话,就发消息给医生
+            Doctor doctor = data.getDoctor();
+            if (doctor != null) {
+                return doctor.getVoipAccount();
+            } else {
+                return data.getVoipAccount();
+            }
+        }
+    }
+
+    private String getPhoneNO() {
+        //假如是医生的话,就发消息给病人
+        if (AppContext.isDoctor()) {
+            return data.getPhone();
+        } else {
+            //假如不是医生的话,就发消息给医生
+            Doctor doctor = data.getDoctor();
+            if (doctor != null) {
+                return doctor.getPhone();
+            } else {
+                return data.getPhone();
+            }
+        }
     }
 }

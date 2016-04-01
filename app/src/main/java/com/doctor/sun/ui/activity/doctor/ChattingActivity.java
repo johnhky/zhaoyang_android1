@@ -1,13 +1,10 @@
 package com.doctor.sun.ui.activity.doctor;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.Toast;
@@ -19,6 +16,7 @@ import com.doctor.sun.databinding.ActivityChattingBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.NeedSendDrug;
+import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -27,16 +25,11 @@ import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
-import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
 import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
-import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
-import com.yuntongxun.ecsdk.ECDevice;
-import com.yuntongxun.ecsdk.ECError;
-import com.yuntongxun.ecsdk.ECUserState;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.extend.OnSingleClickListener;
@@ -191,31 +184,7 @@ public class ChattingActivity extends BaseActivity2 {
     }
 
     private void makePhoneCall() {
-        ECDevice.getUserState(sendTo, new ECDevice.OnGetUserStateListener() {
-            @Override
-            public void onGetUserState(ECError ecError, ECUserState ecUserState) {
-                if (ecUserState.isOnline()) {
-                    Messenger.getInstance().makePhoneCall(sendTo);
-                    Intent i = VoIPCallActivity.makeIntent(ChattingActivity.this, VoIPCallActivity.CALLING, sendTo);
-                    startActivity(i);
-                } else {
-                    if (ActivityCompat.checkSelfPermission(ChattingActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
-                        ActivityCompat.requestPermissions(ChattingActivity.this, new String[]{Manifest.permission.CALL_PHONE}, CALL_PHONE_REQ);
-                        return;
-                    }
-                    Uri uri = Uri.parse("tel:" + getPhoneNO());
-                    Intent intent = new Intent(Intent.ACTION_CALL, uri);
-                    startActivity(intent);
-                }
-            }
-        });
+        handler.makePhoneCall(binding.getRoot());
     }
 
     @Override
@@ -319,9 +288,9 @@ public class ChattingActivity extends BaseActivity2 {
                     getData().setIsFinish(1);
                 }
                 String rightFirstTitle;
-                if (AppContext.isDoctor()){
+                if (AppContext.isDoctor()) {
                     rightFirstTitle = "查看问卷";
-                }else {
+                } else {
                     rightFirstTitle = "填写问卷";
                 }
                 binding.getHeader().setLeftTitle(handler.getTitle())
