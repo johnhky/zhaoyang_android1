@@ -61,7 +61,6 @@ public class NotificationUtil {
         builder.setContentText("下载已完成,请点击安装");
         builder.setContentTitle("昭阳医生");
         builder.setSmallIcon(R.drawable.ic_launcher);
-        builder.setAutoCancel(true);
         Intent i = UpdateUtil.getInstallIntent(file.getAbsolutePath());
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

@@ -61,7 +61,7 @@ public class UpdateUtil {
                         Log.e(TAG, "onResponse: " + data.getDownloadUrl());
                         downLoadFile(api, data.getDownloadUrl());
                     } else if (newVersion > Double.valueOf(BuildConfig.VERSION_NAME)) {
-                        //TODO 弹窗
+                        //TODO 弹
                     }
                     lastCheckTime = System.currentTimeMillis();
                 } else {
@@ -76,6 +76,10 @@ public class UpdateUtil {
             }
         });
 
+    }
+
+    public static void reset(){
+        lastCheckTime = 0;
     }
 
     private static void downLoadFile(ToolModule api, String path) {

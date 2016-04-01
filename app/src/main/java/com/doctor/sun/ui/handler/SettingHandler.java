@@ -10,6 +10,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.Messenger;
 import com.doctor.sun.module.AuthModule;
+import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.HelpActivity;
 import com.doctor.sun.ui.activity.LoginActivity;
 import com.doctor.sun.ui.activity.doctor.AdviceActivity;
@@ -18,6 +19,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.widget.ShareDialog;
+import com.doctor.sun.util.UpdateUtil;
 
 import java.util.HashMap;
 
@@ -120,7 +122,8 @@ public class SettingHandler extends BaseHandler {
     }
 
     public void checkUpdate(View view) {
-        ToastHelper.showMessage(view.getContext(), "已经是最新版");
+        UpdateUtil.reset();
+        UpdateUtil.checkUpdate(Api.of(ToolModule.class));
     }
 
     public void logOut(final View view) {
