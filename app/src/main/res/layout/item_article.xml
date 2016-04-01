@@ -3,12 +3,35 @@
 
     <data>
 
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Article" />
+
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/dp_13"
+            android:paddingLeft="@dimen/dp_13"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/dp_45"
+            android:onClick="@{data.openUrl}"
+            android:text="@{data.title}"
+            android:background="@drawable/ripple_default"
+            android:textColor="#363636"
+            android:textSize="@dimen/font_15" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="bottom"
+            android:background="@color/divider_color" />
+
+    </FrameLayout>
 </layout>

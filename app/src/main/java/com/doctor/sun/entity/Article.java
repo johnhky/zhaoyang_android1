@@ -1,5 +1,9 @@
 package com.doctor.sun.entity;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.view.View;
+
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by rick on 1/4/2016.
  */
-public class Article implements LayoutId{
+public class Article implements LayoutId {
 
     /**
      * title : 文章标题
@@ -33,6 +37,14 @@ public class Article implements LayoutId{
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public void openUrl(View view) {
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        Uri content_url = Uri.parse(getUrl());
+        intent.setData(content_url);
+        view.getContext().startActivity(intent);
     }
 
     @Override

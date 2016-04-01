@@ -35,6 +35,5 @@ public class DoctorArticleFragment extends ListFragment {
     protected void loadMore() {
         PageCallback<Article> callback = new PageCallback<Article>(getAdapter());
         api.articles(getDoctorId(), callback.getPage()).enqueue(callback);
-        getAdapter().notifyDataSetChanged();
     }
 }
