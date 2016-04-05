@@ -862,7 +862,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                 if (optionInput == null) {
                     content.add(s);
                 } else {
-                    content.add(optionInput);
+                    content.add(s.replace("{fill}", optionInput));
                 }
             }
         }

@@ -75,21 +75,29 @@ public class OptionsHandler {
     public String optionInput(final BaseAdapter adapter, final BaseViewHolder vh) {
         int adapterPosition = vh.getAdapterPosition();
         Options options = (Options) adapter.get(adapterPosition);
-        int parentPosition = options.getParentPosition();
-        Answer answer = getParent(adapter, parentPosition);
-        return answer.getSelectedOptions().get(options.getOptionType());
+        if (options.getOptionInput() == null) {
+            int parentPosition = options.getParentPosition();
+            Answer answer = getParent(adapter, parentPosition);
+            options.setOptionInput(answer.getSelectedOptions().get(options.getOptionType()));
+        }
+        return options.getOptionInput();
     }
 
     public TextViewBindingAdapter.AfterTextChanged contentChanged(final BaseAdapter adapter, final BaseViewHolder vh) {
         return new TextViewBindingAdapter.AfterTextChanged() {
             @Override
             public void afterTextChanged(Editable s) {
-                int position = vh.getAdapterPosition();
-
-                Options options = (Options) adapter.get(position);
+                int childAdapterPosition = vh.getAdapterPosition();
+                Options options = (Options) adapter.get(childAdapterPosition);
                 options.setOptionInput(s.toString());
+                int parentPosition = options.getParentPosition();
+                int childDataPosition = childAdapterPosition - parentPosition;
 
-                adapter.set(position, options);
+                Answer parent = getParent(adapter, parentPosition);
+                parent.getQuestion().getOptions().set(childDataPosition - 1, options);
+
+                adapter.set(childAdapterPosition, options);
+                adapter.set(options.getParentPosition(), parent);
             }
         };
     }
@@ -118,7 +126,7 @@ public class OptionsHandler {
                         selectedOptions.clear();
                         if (isFill(options.getOptionContent())) {
                             selectedOptions.put(options.getOptionType(), options.getOptionInput());
-                        }else {
+                        } else {
                             selectedOptions.put(options.getOptionType(), options.getOptionContent());
                         }
                         adapter.set(parentPosition, answer);
@@ -132,7 +140,7 @@ public class OptionsHandler {
                             selectedOptions.clear();
                             if (isFill(options.getOptionContent())) {
                                 selectedOptions.put(options.getOptionType(), options.getOptionInput());
-                            }else {
+                            } else {
                                 selectedOptions.put(options.getOptionType(), options.getOptionContent());
                             }
                             adapter.set(parentPosition, answer);
@@ -145,7 +153,7 @@ public class OptionsHandler {
                             if (s == null) {
                                 if (isFill(options.getOptionContent())) {
                                     selectedOptions.put(options.getOptionType(), options.getOptionInput());
-                                }else {
+                                } else {
                                     selectedOptions.put(options.getOptionType(), options.getOptionContent());
                                 }
                             } else {

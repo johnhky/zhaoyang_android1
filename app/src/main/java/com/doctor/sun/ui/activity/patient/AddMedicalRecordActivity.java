@@ -149,11 +149,6 @@ public class AddMedicalRecordActivity extends GetLocationActivity implements Vie
                 return false;
             }
 
-            if (map.get(EMAIL).equals("")) {
-                ToastHelper.showMessage(this, "请填写邮箱");
-                return false;
-            }
-
             if (map.get(BIRTHDAY).equals("")) {
                 ToastHelper.showMessage(this, "请填写生日");
                 return false;
