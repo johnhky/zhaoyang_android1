@@ -3,6 +3,8 @@ package com.doctor.sun.entity.im;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.yuntongxun.ecsdk.ECMessage;
 
 import io.realm.RealmObject;
@@ -51,9 +53,34 @@ public class TextMsg extends RealmObject implements LayoutId {
         result.setNickName(msg.getNickName());
         result.setFrom(msg.getForm());
         result.setTo(msg.getTo());
-        result.setUserData(msg.getUserData().replaceAll("\\s*|\t|\r|\n",""));
+        result.setUserData(msg.getUserData().replaceAll("\\s*|\t|\r|\n", ""));
         result.setMessageStatus(msg.getMsgStatus().toString());
         result.setIsAnonymity(msg.isAnonymity());
+        return result;
+    }
+
+    public static TextMsg fromYXMessage(IMMessage msg) {
+        TextMsg result = new TextMsg();
+
+//        result.setId(msg.getSessionId());
+        result.setMsgId(msg.getUuid());
+        result.setSessionId(msg.getSessionId());
+        result.setType(msg.getMsgType().toString());
+        if (msg.getDirect().equals(MsgDirectionEnum.In)) {
+            result.setDirection(DIRECTION_RECEIVE);
+        }else if (msg.getDirect().equals(MsgDirectionEnum.Out)) {
+            result.setDirection(DIRECTION_SEND);
+        }
+        result.setBody(msg.getContent());
+//        result.setMsgId(msg.getMsgId());
+        result.setTime(msg.getTime());
+//        result.setNickName(msg.getNickName());
+        result.setFrom(msg.getFromAccount());
+//        result.setTo(msg.getTo());
+        result.setUserData("");
+//        result.setUserData(msg.getUserData().replaceAll("\\s*|\t|\r|\n", ""));
+//        result.setMessageStatus(msg.getMsgStatus().toString());
+//        result.setIsAnonymity(msg.isAnonymity());
         return result;
     }
 

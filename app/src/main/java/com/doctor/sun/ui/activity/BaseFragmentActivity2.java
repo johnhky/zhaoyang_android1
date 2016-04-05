@@ -30,9 +30,7 @@ public abstract class BaseFragmentActivity2 extends FragmentActivity implements 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!Messenger.getInstance().isLogin()) {
-            Messenger.getInstance().login();
-        }
+        Messenger.getInstance().login();
         // register
         AppManager.addActivity(this);
         EventHub.register(this);

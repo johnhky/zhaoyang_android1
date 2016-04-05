@@ -130,4 +130,9 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
         String format = simpleDateFormat.format(calendar.getTime());
         return "用户于" + format + "选择用药";
     }
+
+    @Override
+    protected int getItemLayoutId(int position) {
+        return super.getItemLayoutId(position);
+    }
 }

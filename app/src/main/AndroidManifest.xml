@@ -53,6 +53,20 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+
+    <!-- 权限声明 -->
+    <!-- 访问网络状态-->
+    <!-- 控制呼吸灯，振动器等，用于新消息提醒 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <!-- 外置存储存取权限 -->
+
+    <!-- 多媒体相关 -->
+    <!-- 如果需要实时音视频通话模块，下面的权限也是必须的。否则，可以不加 -->
+    <!--<uses-permission android:name="android.permission.BLUETOOTH" />-->
+    <!--<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />-->
+    <!-- SDK 权限申明, 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
+    <!-- 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。 -->
+
     <application
         android:name="com.doctor.sun.AppContext"
         android:allowBackup="true"
@@ -402,6 +416,51 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.netease.nim.appKey"
+            android:value="84bcda3a943a3a781f5e4a8bae628a74" />
+
+
+        <!-- 声明云信后台服务，如需保持后台推送，使用独立进程效果会更好。 -->
+        <service
+            android:name="com.netease.nimlib.service.NimService"
+            android:process=":core" />
+
+        <service
+            android:name="com.netease.nimlib.service.NimService$Aux"
+            android:process=":core" />
+
+        <!-- 云信SDK的监视系统启动和网络变化的广播接收器，用户开机自启动以及网络变化时候重新登录，
+            保持和 NimService 同一进程 -->
+        <receiver
+            android:name="com.netease.nimlib.service.NimReceiver"
+            android:exported="false"
+            android:process=":core">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <!-- 云信进程间通信 Receiver -->
+        <receiver android:name="com.netease.nimlib.service.ResponseReceiver" />
+
+        <!-- 安卓保活配置 -->
+        <service
+            android:name="com.netease.cosine.core.CosineService"
+            android:process=":cosine" />
+
+        <receiver
+            android:name="com.netease.cosine.target.CosineReceiver"
+            android:exported="true"
+            android:process=":cosine" />
+
+        <meta-data
+            android:name="com.netease.cosine.target"
+            android:value="" />
+        <meta-data
+            android:name="com.netease.cosine.target.receiver"
+            android:value="com.netease.nimlib.service.NimReceiver" />
     </application>
 
 </manifest>

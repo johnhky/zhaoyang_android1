@@ -181,7 +181,7 @@ public class MedicineHelperActivity extends BaseActivity2 {
                     Toast.makeText(MedicineHelperActivity.this, "不能发送空消息", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (Messenger.getInstance().isLogin()) {
+                if (Messenger.getInstance().isRIMLogin()) {
                     Messenger.getInstance().sentTextMsg(sendTo, getUserData(), binding.inputText.getText().toString());
                     binding.inputText.setText("");
                 } else {

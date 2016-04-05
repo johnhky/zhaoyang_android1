@@ -30,9 +30,7 @@ public abstract class BaseActivity2 extends Activity implements HeaderViewModel.
         super.onCreate(savedInstanceState);
 
         // register
-        if (!Messenger.getInstance().isLogin()) {
-            Messenger.getInstance().login();
-        }
+        Messenger.getInstance().login();
         AppManager.addActivity(this);
         EventHub.register(this);
         tokenExpire = new OnTokenExpireEvent(this);

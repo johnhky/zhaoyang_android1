@@ -14,9 +14,11 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.handler.MainActivityHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.widget.PassDialog;
+import com.doctor.sun.util.UpdateUtil;
 
 import io.ganguo.library.Config;
 import io.realm.RealmChangeListener;
@@ -63,6 +65,7 @@ public class MainActivity extends BaseDoctorActivity {
         };
         realm.addChangeListener(listener);
         listener.onChange();
+        UpdateUtil.checkUpdate(Api.of(ToolModule.class));
     }
 
     @Override

@@ -21,6 +21,7 @@ import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.im.Messenger;
+import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ImModule;
@@ -30,6 +31,16 @@ import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.netease.nimlib.sdk.InvocationFuture;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.extend.OnSingleClickListener;
@@ -117,8 +128,8 @@ public class ChattingActivity extends BaseActivity2 {
         adapter = new MessageAdapter(this, data);
         binding.recyclerView.setAdapter(adapter);
 
-        query = realm.where(TextMsg.class)
-                .equalTo("sessionId", sendTo);
+        query = realm.where(TextMsg.class);
+//                .equalTo("sessionId", sendTo);
         RealmResults<TextMsg> results = query.findAllSorted("time", Sort.DESCENDING);
         realm.beginTransaction();
         for (int i = 0; i < results.size(); i++) {
@@ -143,7 +154,7 @@ public class ChattingActivity extends BaseActivity2 {
                     Toast.makeText(ChattingActivity.this, "不能发送空消息", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (Messenger.getInstance().isLogin()) {
+                if (NIMConnectionState.getInstance().isConnected()) {
                     Messenger.getInstance().sentTextMsg(sendTo, userData, binding.inputText.getText().toString());
                     binding.inputText.setText("");
                 } else {
@@ -251,14 +262,14 @@ public class ChattingActivity extends BaseActivity2 {
     private String getVoipAccount() {
         //假如是医生的话,就发消息给病人
         if (AppContext.isDoctor()) {
-            return getData().getVoipAccount();
+            return getData().getYunxinAccid();
         } else {
             //假如不是医生的话,就发消息给医生
             Doctor doctor = getData().getDoctor();
             if (doctor != null) {
-                return doctor.getVoipAccount();
+                return doctor.getYunxinAccid();
             } else {
-                return getData().getVoipAccount();
+                return getData().getYunxinAccid();
             }
         }
     }

@@ -194,4 +194,10 @@ public interface AppointmentModule {
     @POST("pay/build-order")
     Call<ApiDTO<WeChatPayDTO>> drugOrderWithWechat(@Field("totalFee") int totalFee, @Field("body") String body,
                                                    @Field("type") String type, @Field("drugOrderId") int drugOrderId);
+
+    @GET("appointment/doctor-appoint-list")
+    Call<ApiDTO<PageDTO<Appointment>>> doctorAppointment(@Query("page") String page, @Query("orderType") String orderType);
+
+    @GET("appointment/patient-appoint-list")
+    Call<ApiDTO<PageDTO<Appointment>>> patientAppointment(@Query("page") String page);
 }

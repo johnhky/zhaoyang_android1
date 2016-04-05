@@ -2,12 +2,13 @@ package com.doctor.sun;
 
 import android.app.ActivityManager;
 import android.content.Context;
-import android.os.Process;
 import android.support.multidex.MultiDex;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.module.AuthModule;
+import com.netease.nimlib.sdk.NIMClient;
 import com.squareup.otto.Subscribe;
 import com.yuntongxun.ecsdk.ECDevice;
 
@@ -22,7 +23,7 @@ import io.realm.RealmMigration;
 
 /**
  * App 上下文环境
- * <p>
+ * <p/>
  * Created by Tony on 9/30/15.
  */
 public class AppContext extends BaseApp {
@@ -37,7 +38,7 @@ public class AppContext extends BaseApp {
 
         AppEnv.init(this);
         // init libs
-        String processName = getProcessName(Process.myPid());
+        String processName = getProcessName(this);
         if (processName.equals(COM_DOCTOR_SUN)) {
             if (AppEnv.DEV_MODE) {
                 OpenSDK.initStage(this);
@@ -47,6 +48,8 @@ public class AppContext extends BaseApp {
         }
         initMessenger();
 
+        // 不自动登录.  全部使用默认配置
+        NIMClient.init(this, null, null);
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
                 .migration(new RealmMigration() {
@@ -109,16 +112,37 @@ public class AppContext extends BaseApp {
         return isInitialized;
     }
 
-    public String getProcessName(int pid) {
-        ActivityManager mActivityManager =
-                (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+    /**
+     * 获取当前进程名
+     *
+     * @param context
+     * @return 进程名
+     */
+    public static final String getProcessName(Context context) {
+        String processName = null;
 
-        for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager
-                .getRunningAppProcesses()) {
-            if (appProcess.pid == pid) {
-                return appProcess.processName;
+        // ActivityManager
+        ActivityManager am = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE));
+
+        while (true) {
+            for (ActivityManager.RunningAppProcessInfo info : am.getRunningAppProcesses()) {
+                if (info.pid == android.os.Process.myPid()) {
+                    processName = info.processName;
+                    break;
+                }
+            }
+
+            // go home
+            if (!TextUtils.isEmpty(processName)) {
+                return processName;
+            }
+
+            // take a rest and again
+            try {
+                Thread.sleep(100L);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
             }
         }
-        return "";
     }
 }

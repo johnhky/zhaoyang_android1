@@ -6,8 +6,8 @@ import android.os.Parcelable;
 import android.support.annotation.IntDef;
 
 import com.doctor.sun.R;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.entity.handler.AppointmentHandler;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.lang.annotation.Retention;
@@ -54,40 +54,28 @@ public class Appointment implements LayoutId, Parcelable {
      * unpay_money : 500
      * progress : 0/0
      * medicalRecord : {"patient_id":11,"name":"大明","relation":"本人","gender":1,"birthday":"1991-01","province":"广东","city":"广州","address":"天河","identity_number":"111111111111111111","patient_name":"大明","age":24,"medicalRecordId":1}
+     * yunxin_accid : 36
+     * cancel_reason :
+     * visit_time : 1458353747
+     * take_time : 15
+     * end_time : 0
+     * order_status : 已完成
      */
-
+    private int itemLayoutId;
     @JsonProperty("id")
     private int id;
     @JsonProperty("record_id")
     private int recordId;
-    @JsonProperty("progress")
-    private String progress;
     @JsonProperty("return_list_id")
     private int returnListId;
-    @JsonProperty("return_list_time")
-    private String returnListTime;
     @JsonProperty("appointment_id")
     private int appointmentId;
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("relation")
-    private String relation;
     @JsonProperty("gender")
     private int gender;
-    @JsonProperty("birthday")
-    private String birthday;
-    @JsonProperty("patient_name")
-    private String patientName;
-    @JsonProperty("type")
-    private String type;
-    @JsonProperty("book_time")
-    private String bookTime;
     @JsonProperty("status")
     private int status;
     @JsonProperty("has_pay")
     private int hasPay;
-    @JsonProperty("created_at")
-    private String createdAt;
     @JsonProperty("pay_time")
     private int payTime;
     @JsonProperty("is_pay")
@@ -100,33 +88,71 @@ public class Appointment implements LayoutId, Parcelable {
     private int isValid;
     @JsonProperty("real_add_money")
     private int realAddMoney;
+    @JsonProperty("tid")
+    private int tid;
     @JsonProperty("unpay_money")
     private int unpayMoney;
-    @JsonProperty("medical_record")
-    private MedicalRecord medicalRecord;
-    @JsonProperty("doctor")
-    private Doctor doctor;
-    @JsonProperty("money")
-    private String money;
     @JsonProperty("is_finish")
     private int isFinish;
     @JsonProperty("patient_point")
     private double patientPoint;
+    @JsonProperty("doctor_point")
+    private double doctorPoint;
+    @JsonProperty("created_at")
+    private String createdAt;
+    @JsonProperty("money")
+    private String money;
     @JsonProperty("voipAccount")
     private String voipAccount;
     @JsonProperty("phone")
     private String phone;
     @JsonProperty("avatar")
     private String avatar;
+    @JsonProperty("return_list_time")
+    private String returnListTime;
+    @JsonProperty("record_name")
+    private String recordName;
+    @JsonProperty("yunxin_accid")
+    private String yunxinAccid;
+    @JsonProperty("birthday")
+    private String birthday;
+    @JsonProperty("patient_name")
+    private String patientName;
+    @JsonProperty("type")
+    private String type;
+    @JsonProperty("book_time")
+    private String bookTime;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("relation")
+    private String relation;
+    @JsonProperty("progress")
+    private String progress;
+    @JsonProperty("cancel_reason")
+    private String cancelReason;
+    @JsonProperty("visit_time")
+    private String visitTime;
+    @JsonProperty("take_time")
+    private String takeTime;
+    @JsonProperty("end_time")
+    private String endTime;
+    @JsonProperty("order_status")
+    private String orderStatus;
+    @JsonProperty("medical_record")
+    private MedicalRecord medicalRecord;
+    @JsonProperty("doctor")
+    private Doctor doctor;
     @JsonProperty("return_info")
     private ReturnInfo returnInfo;
     @JsonProperty("record")
     private MedicalRecord urgentRecord;
-    @JsonProperty("record_name")
-    private String recordName;
 
-    @JsonProperty("doctor_point")
-    private double doctorPoint;
+    private AppointmentHandler handler = new AppointmentHandler(this);
+
+
+
+    public Appointment() {
+    }
 
     public double getDoctorPoint() {
         return doctorPoint;
@@ -138,13 +164,6 @@ public class Appointment implements LayoutId, Parcelable {
 
     public void setDoctorPoint(double doctorPoint) {
         this.doctorPoint = doctorPoint;
-    }
-
-    private int itemLayoutId;
-
-    private AppointmentHandler handler = new AppointmentHandler(this);
-
-    public Appointment() {
     }
 
     public int getId() {
@@ -400,7 +419,6 @@ public class Appointment implements LayoutId, Parcelable {
         return R.layout.item_appointment;
     }
 
-
     public MedicalRecord getUrgentRecord() {
         return urgentRecord;
     }
@@ -436,6 +454,63 @@ public class Appointment implements LayoutId, Parcelable {
 
     public void setRecordName(String recordName) {
         this.recordName = recordName;
+    }
+
+
+    public String getYunxinAccid() {
+        return yunxinAccid;
+    }
+
+    public void setYunxinAccid(String yunxinAccid) {
+        this.yunxinAccid = yunxinAccid;
+    }
+
+    public int getTid() {
+        return tid;
+    }
+
+    public void setTid(int tid) {
+        this.tid = tid;
+    }
+
+    public String getCancelReason() {
+        return cancelReason;
+    }
+
+    public void setCancelReason(String cancelReason) {
+        this.cancelReason = cancelReason;
+    }
+
+    public String getVisitTime() {
+        return visitTime;
+    }
+
+    public void setVisitTime(String visitTime) {
+        this.visitTime = visitTime;
+    }
+
+    public String getTakeTime() {
+        return takeTime;
+    }
+
+    public void setTakeTime(String takeTime) {
+        this.takeTime = takeTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     @Override
@@ -482,6 +557,12 @@ public class Appointment implements LayoutId, Parcelable {
     }
 
 
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({DETAIL, QUICK})
+    public @interface Type {
+
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -489,96 +570,106 @@ public class Appointment implements LayoutId, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.itemLayoutId);
         dest.writeInt(this.id);
         dest.writeInt(this.recordId);
-        dest.writeString(this.progress);
         dest.writeInt(this.returnListId);
-        dest.writeString(this.returnListTime);
         dest.writeInt(this.appointmentId);
-        dest.writeString(this.name);
-        dest.writeString(this.relation);
         dest.writeInt(this.gender);
-        dest.writeString(this.birthday);
-        dest.writeString(this.patientName);
-        dest.writeString(this.type);
-        dest.writeString(this.bookTime);
         dest.writeInt(this.status);
         dest.writeInt(this.hasPay);
-        dest.writeString(this.createdAt);
         dest.writeInt(this.payTime);
         dest.writeInt(this.isPay);
         dest.writeInt(this.addMoney);
         dest.writeInt(this.isPayAdd);
         dest.writeInt(this.isValid);
         dest.writeInt(this.realAddMoney);
+        dest.writeInt(this.tid);
         dest.writeInt(this.unpayMoney);
-        dest.writeParcelable(this.medicalRecord, 0);
-        dest.writeParcelable(this.doctor, 0);
-        dest.writeString(this.money);
         dest.writeInt(this.isFinish);
         dest.writeDouble(this.patientPoint);
+        dest.writeDouble(this.doctorPoint);
+        dest.writeString(this.createdAt);
+        dest.writeString(this.money);
         dest.writeString(this.voipAccount);
         dest.writeString(this.phone);
         dest.writeString(this.avatar);
-        dest.writeParcelable(this.returnInfo, 0);
-        dest.writeParcelable(this.urgentRecord, 0);
+        dest.writeString(this.returnListTime);
         dest.writeString(this.recordName);
-        dest.writeDouble(this.doctorPoint);
-        dest.writeInt(this.itemLayoutId);
+        dest.writeString(this.yunxinAccid);
+        dest.writeString(this.birthday);
+        dest.writeString(this.patientName);
+        dest.writeString(this.type);
+        dest.writeString(this.bookTime);
+        dest.writeString(this.name);
+        dest.writeString(this.relation);
+        dest.writeString(this.progress);
+        dest.writeString(this.cancelReason);
+        dest.writeString(this.visitTime);
+        dest.writeString(this.takeTime);
+        dest.writeString(this.endTime);
+        dest.writeString(this.orderStatus);
+        dest.writeParcelable(this.medicalRecord, flags);
+        dest.writeParcelable(this.doctor, flags);
+        dest.writeParcelable(this.returnInfo, flags);
+        dest.writeParcelable(this.urgentRecord, flags);
     }
 
     protected Appointment(Parcel in) {
+        this.itemLayoutId = in.readInt();
         this.id = in.readInt();
         this.recordId = in.readInt();
-        this.progress = in.readString();
         this.returnListId = in.readInt();
-        this.returnListTime = in.readString();
         this.appointmentId = in.readInt();
-        this.name = in.readString();
-        this.relation = in.readString();
         this.gender = in.readInt();
-        this.birthday = in.readString();
-        this.patientName = in.readString();
-        this.type = in.readString();
-        this.bookTime = in.readString();
         this.status = in.readInt();
         this.hasPay = in.readInt();
-        this.createdAt = in.readString();
         this.payTime = in.readInt();
         this.isPay = in.readInt();
         this.addMoney = in.readInt();
         this.isPayAdd = in.readInt();
         this.isValid = in.readInt();
         this.realAddMoney = in.readInt();
+        this.tid = in.readInt();
         this.unpayMoney = in.readInt();
-        this.medicalRecord = in.readParcelable(MedicalRecord.class.getClassLoader());
-        this.doctor = in.readParcelable(Doctor.class.getClassLoader());
-        this.money = in.readString();
         this.isFinish = in.readInt();
         this.patientPoint = in.readDouble();
+        this.doctorPoint = in.readDouble();
+        this.createdAt = in.readString();
+        this.money = in.readString();
         this.voipAccount = in.readString();
         this.phone = in.readString();
         this.avatar = in.readString();
+        this.returnListTime = in.readString();
+        this.recordName = in.readString();
+        this.yunxinAccid = in.readString();
+        this.birthday = in.readString();
+        this.patientName = in.readString();
+        this.type = in.readString();
+        this.bookTime = in.readString();
+        this.name = in.readString();
+        this.relation = in.readString();
+        this.progress = in.readString();
+        this.cancelReason = in.readString();
+        this.visitTime = in.readString();
+        this.takeTime = in.readString();
+        this.endTime = in.readString();
+        this.orderStatus = in.readString();
+        this.medicalRecord = in.readParcelable(MedicalRecord.class.getClassLoader());
+        this.doctor = in.readParcelable(Doctor.class.getClassLoader());
         this.returnInfo = in.readParcelable(ReturnInfo.class.getClassLoader());
         this.urgentRecord = in.readParcelable(MedicalRecord.class.getClassLoader());
-        this.recordName = in.readString();
-        this.doctorPoint = in.readDouble();
-        this.itemLayoutId = in.readInt();
     }
 
     public static final Creator<Appointment> CREATOR = new Creator<Appointment>() {
+        @Override
         public Appointment createFromParcel(Parcel source) {
             return new Appointment(source);
         }
 
+        @Override
         public Appointment[] newArray(int size) {
             return new Appointment[size];
         }
     };
-
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({DETAIL, QUICK})
-    public @interface Type {
-
-    }
 }

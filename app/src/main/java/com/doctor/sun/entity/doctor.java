@@ -44,7 +44,6 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
      */
 
 
-
     /**
      * birthday :
      * is_fav : 1(0未收藏 1已收藏该医生)
@@ -71,6 +70,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
      * second_money : 1
      * need_review : 0
      * point : 4.1
+     * yunxin_accid : 24
      */
     @JsonProperty("birthday")
     private String birthday;
@@ -132,6 +132,8 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     @Appointment.Type
     @JsonIgnore
     private int type = Appointment.DETAIL;
+    @JsonProperty("yunxin_accid")
+    private String yunxinAccid;
 
 
     public void setId(int id) {
@@ -371,6 +373,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     public void setIsSelected(boolean isSelected) {
         this.isSelected = isSelected;
     }
+
     @Override
     @JsonIgnore
     public int getItemLayoutId() {
@@ -557,6 +560,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
         dest.writeString(this.recordId);
         dest.writeString(this.duration);
         dest.writeInt(this.type);
+        dest.writeString(this.yunxinAccid);
     }
 
     protected Doctor(Parcel in) {
@@ -590,6 +594,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
         this.duration = in.readString();
         //noinspection WrongConstant
         this.type = in.readInt();
+        this.yunxinAccid = in.readString();
     }
 
     public static final Creator<Doctor> CREATOR = new Creator<Doctor>() {
@@ -634,5 +639,13 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
                 ", recordId='" + recordId + '\'' +
                 ", duration='" + duration + '\'' +
                 '}';
+    }
+
+    public String getYunxinAccid() {
+        return yunxinAccid;
+    }
+
+    public void setYunxinAccid(String yunxinAccid) {
+        this.yunxinAccid = yunxinAccid;
     }
 }

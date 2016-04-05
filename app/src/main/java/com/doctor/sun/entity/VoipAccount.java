@@ -1,6 +1,7 @@
 package com.doctor.sun.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.netease.nimlib.sdk.auth.LoginInfo;
 
 /**
  * Created by rick on 11/18/15.
@@ -16,6 +17,11 @@ public class VoipAccount {
     private String voipAccount;
     @JsonProperty("voipPwd")
     private String voipPwd;
+    @JsonProperty("yunxin_accid")
+    private String yunxinAccid;
+    @JsonProperty("yunxin_token")
+    private String yunxinToken;
+
 
     public void setUserId(long userId) {
         this.userId = userId;
@@ -57,6 +63,22 @@ public class VoipAccount {
         return voipPwd;
     }
 
+    public String getYunxinAccid() {
+        return yunxinAccid;
+    }
+
+    public void setYunxinAccid(String yunxinAccid) {
+        this.yunxinAccid = yunxinAccid;
+    }
+
+    public String getYunxinToken() {
+        return yunxinToken;
+    }
+
+    public void setYunxinToken(String yunxinToken) {
+        this.yunxinToken = yunxinToken;
+    }
+
     @Override
     public String toString() {
         return "AccountEntity{" +
@@ -66,5 +88,9 @@ public class VoipAccount {
                 ", voipAccount='" + voipAccount + '\'' +
                 ", voipPwd='" + voipPwd + '\'' +
                 '}';
+    }
+
+    public LoginInfo getLoginInfo() {
+        return new LoginInfo(getYunxinAccid(), getYunxinToken());
     }
 }
