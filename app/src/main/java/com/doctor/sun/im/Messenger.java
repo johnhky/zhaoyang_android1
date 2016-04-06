@@ -10,7 +10,9 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.VoipAccount;
 import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.util.JacksonUtils;
+import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
@@ -172,6 +174,10 @@ public class Messenger {
                 SessionTypeEnum.Team, // 聊天类型，单聊或群组
                 text// 文本内容
         );
+        sendMsg(message);
+    }
+
+    private void sendMsg(IMMessage message) {
         CustomMessageConfig config = new CustomMessageConfig();
         config.enableUnreadCount = false; // 该消息不计入未读数
         config.enableHistory = true;

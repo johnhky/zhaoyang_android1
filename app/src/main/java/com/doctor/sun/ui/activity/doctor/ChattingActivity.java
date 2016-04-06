@@ -5,22 +5,21 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingBinding;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.im.Messenger;
 import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
@@ -29,8 +28,10 @@ import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
 import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.vo.MenuViewModel;
 import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -42,7 +43,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import java.util.List;
 
 import io.ganguo.library.Config;
-import io.ganguo.library.core.event.extend.OnSingleClickListener;
+import io.ganguo.library.util.Systems;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -55,6 +56,7 @@ import io.realm.Sort;
  */
 public class ChattingActivity extends BaseActivity2 {
     public static final int CALL_PHONE_REQ = 1;
+    public static final int DELAY_MILLIS = 300;
     private ImModule api = Api.of(ImModule.class);
     private ActivityChattingBinding binding;
     private MessageAdapter adapter;
@@ -142,6 +144,21 @@ public class ChattingActivity extends BaseActivity2 {
 
         adapter.setData(results);
         adapter.onFinishLoadMore(true);
+        initCustomAction();
+    }
+
+    private void initCustomAction() {
+        binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
+        SimpleAdapter adapter = new SimpleAdapter(ChattingActivity.this);
+
+        adapter.add(new MenuViewModel( R.drawable.nim_message_plus_photo_selector, "语音电话", ""));
+        adapter.add(new MenuViewModel( R.drawable.nim_message_plus_photo_selector, "相册", ""));
+        adapter.add(new MenuViewModel( R.drawable.nim_message_plus_video_selector, "拍摄", ""));
+        adapter.add(new MenuViewModel( R.drawable.message_plus_video_chat_selector, "视频聊天", ""));
+        adapter.add(new MenuViewModel( R.drawable.message_plus_file_selector, "文件传输", ""));
+        adapter.onFinishLoadMore(true);
+
+        binding.customAction.setAdapter(adapter);
     }
 
     private void pullHistory() {
@@ -172,22 +189,74 @@ public class ChattingActivity extends BaseActivity2 {
     }
 
     private void initListener() {
-        binding.btnSend.setOnClickListener(new OnSingleClickListener() {
+        binding.inputText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onSingleClick(View v) {
-                if (binding.inputText.getText().toString().equals("")) {
-                    Toast.makeText(ChattingActivity.this, "不能发送空消息", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (NIMConnectionState.getInstance().isConnected()) {
-                    Messenger.getInstance().sentTextMsg(sendTo, userData, binding.inputText.getText().toString());
-                    binding.inputText.setText("");
-                } else {
-                    Toast.makeText(ChattingActivity.this, "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
-                    Messenger.getInstance().login();
-                }
+            public void onFocusChange(View v, boolean hasFocus) {
+                new Handler(getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.setKeyboardType(0);
+                    }
+                }, DELAY_MILLIS);
             }
         });
+        binding.inputText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Handler(getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.setKeyboardType(0);
+                    }
+                }, DELAY_MILLIS);
+            }
+        });
+        binding.btnCustomAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Systems.hideKeyboard(ChattingActivity.this);
+                new Handler(getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.setKeyboardType(2);
+                    }
+                }, DELAY_MILLIS);
+            }
+        });
+        binding.btnEmoticon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Systems.hideKeyboard(ChattingActivity.this);
+                new Handler(getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.setKeyboardType(1);
+                    }
+                }, DELAY_MILLIS);
+            }
+        });
+//        binding.btnSend.setOnClickListener(new OnSingleClickListener() {
+//            @Override
+//            public void onSingleClick(View v) {
+//                int visibility = binding.emoji.getVisibility();
+//                if (visibility == View.GONE) {
+//                    binding.emoji.setVisibility(View.VISIBLE);
+//                }else {
+//                    binding.emoji.setVisibility(View.GONE);
+//                }
+//                if (binding.inputText.getText().toString().equals("")) {
+//                    Toast.makeText(ChattingActivity.this, "不能发送空消息", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if (NIMConnectionState.getInstance().isConnected()) {
+//                    Messenger.getInstance().sentTextMsg(sendTo, userData, binding.inputText.getText().toString());
+//                    binding.inputText.setText("");
+//                } else {
+//                    Toast.makeText(ChattingActivity.this, "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+//                    Messenger.getInstance().login();
+//                }
+//            }
+//        });
         binding.ivPhoneCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -284,35 +353,6 @@ public class ChattingActivity extends BaseActivity2 {
         startActivity(i);
     }
 
-    private String getVoipAccount() {
-        //假如是医生的话,就发消息给病人
-        if (AppContext.isDoctor()) {
-            return getData().getYunxinAccid();
-        } else {
-            //假如不是医生的话,就发消息给医生
-            Doctor doctor = getData().getDoctor();
-            if (doctor != null) {
-                return doctor.getYunxinAccid();
-            } else {
-                return getData().getYunxinAccid();
-            }
-        }
-    }
-
-    private String getPhoneNO() {
-        //假如是医生的话,就发消息给病人
-        if (AppContext.isDoctor()) {
-            return getData().getPhone();
-        } else {
-            //假如不是医生的话,就发消息给医生
-            Doctor doctor = getData().getDoctor();
-            if (doctor != null) {
-                return doctor.getPhone();
-            } else {
-                return getData().getPhone();
-            }
-        }
-    }
 
     private void getIsFinish() {
         api.finishStat(getData().getId()).enqueue(new ApiCallback<String>() {

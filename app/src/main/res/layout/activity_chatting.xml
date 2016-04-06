@@ -8,11 +8,16 @@
             name="header"
             type="com.doctor.sun.ui.model.HeaderViewModel" />
 
+        <variable
+            name="keyboardType"
+            type="int" />
+
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:orientation="vertical">
 
         <include
@@ -53,10 +58,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:padding="@dimen/dp_11"
                         android:background="@drawable/ripple_default"
-                        android:src="@drawable/ic_voice_call"
-                        android:clickable="true" />
+                        android:clickable="true"
+                        android:padding="@dimen/dp_11"
+                        android:src="@drawable/nim_message_button_bottom_audio_selector" />
                 </FrameLayout>
 
                 <EditText
@@ -69,19 +74,53 @@
                     android:background="@drawable/bg_msg_input"
                     android:maxHeight="@dimen/dp_100" />
 
+
                 <TextView
-                    android:id="@+id/btn_send"
-                    android:layout_width="@dimen/dp_47"
-                    android:layout_height="@dimen/dp_47"
+                    android:id="@+id/btn_emoticon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:background="@drawable/ripple_default"
+                    android:layout_margin="@dimen/dp_2"
+                    android:background="@drawable/nim_message_button_bottom_emoji_selector"
                     android:clickable="true"
                     android:gravity="center"
-                    android:text="发送"
                     android:textColor="@color/colorPrimaryDark" />
+
+                <TextView
+                    android:id="@+id/btn_custom_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="@dimen/dp_2"
+                    android:background="@drawable/nim_message_button_bottom_add_selector"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryDark" />
+
             </LinearLayout>
+            <View
+                android:background="@color/grey_c2"
+                android:layout_width="match_parent"
+                android:layout_height="1px"/>
 
         </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/emoticon_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_15"
+            android:visibility="@{keyboardType==1}" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/custom_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_15"
+            android:visibility="@{keyboardType==2}" />
+
 
     </LinearLayout>
 </layout>
