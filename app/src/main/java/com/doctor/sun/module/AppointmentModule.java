@@ -200,4 +200,9 @@ public interface AppointmentModule {
 
     @GET("appointment/patient-appoint-list")
     Call<ApiDTO<PageDTO<Appointment>>> patientAppointment(@Query("page") String page);
+
+    @FormUrlEncoded
+    @POST("appointment/appointment-by-tid")
+    Call<ApiDTO<PageDTO<Appointment>>> appointmentInTid(@Field("tidArray") String tid, @Field("page") String page);
+
 }

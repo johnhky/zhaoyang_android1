@@ -46,9 +46,9 @@ public class ConsultingAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> 
         if (vh.getItemViewType() == R.layout.item_consulting) {
             Appointment appointment = (Appointment) get(position);
             RealmQuery<TextMsg> q = realm.where(TextMsg.class)
-                    .equalTo("sessionId", appointment.getVoipAccount())
-                    .equalTo("userData", appointment.getHandler().getUserData());
-            RealmResults<TextMsg> results = q.findAll();
+                    .equalTo("sessionId", String.valueOf(appointment.getTid()));
+//                    .equalTo("userData", appointment.getHandler().getUserData());
+            RealmResults<TextMsg> results = q.findAllSorted("time");
             long count = q.equalTo("haveRead", false).count();
             ItemConsultingBinding rootBinding = (ItemConsultingBinding) vh.getBinding();
             bindCount(results, count, rootBinding.llyMessage, rootBinding.divider);
@@ -56,9 +56,9 @@ public class ConsultingAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> 
             Appointment appointment = (Appointment) get(position);
             Log.e(TAG, "data: " + appointment);
             RealmQuery<TextMsg> q = realm.where(TextMsg.class)
-                    .equalTo("sessionId", appointment.getDoctor().getVoipAccount())
-                    .equalTo("userData", appointment.getHandler().getUserData());
-            RealmResults<TextMsg> results = q.findAll();
+                    .equalTo("sessionId", String.valueOf(appointment.getTid()));
+//                    .equalTo("userData", appointment.getHandler().getUserData());
+            RealmResults<TextMsg> results = q.findAllSorted("time");
             long count = q.equalTo("haveRead", false).count();
             PItemConsultingBinding rootBinding = (PItemConsultingBinding) vh.getBinding();
             bindCount(results, count, rootBinding.llyMessage, rootBinding.divider);

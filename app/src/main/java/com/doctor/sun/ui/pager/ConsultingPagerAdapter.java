@@ -38,7 +38,7 @@ public class ConsultingPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         if (position == 0) {
-            return "进行中";
+            return "会话列表";
         } else {
             return "已完成";
         }

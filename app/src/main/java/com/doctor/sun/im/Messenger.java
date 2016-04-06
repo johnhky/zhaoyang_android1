@@ -169,7 +169,7 @@ public class Messenger {
     public void sentTextMsg(String to, String userData, String text) {
         final IMMessage message = MessageBuilder.createTextMessage(
                 to, // 聊天对象的 ID，如果是单聊，为用户帐号，如果是群聊，为群组 ID
-                SessionTypeEnum.P2P, // 聊天类型，单聊或群组
+                SessionTypeEnum.Team, // 聊天类型，单聊或群组
                 text// 文本内容
         );
         CustomMessageConfig config = new CustomMessageConfig();

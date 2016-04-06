@@ -39,7 +39,6 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.ganguo.library.Config;
@@ -122,15 +121,19 @@ public class ChattingActivity extends BaseActivity2 {
 
         getIsFinish();
 
-        sendTo = getVoipAccount();
+        sendTo = handler.getTID();
         userData = getUserData();
 
         adapter = new MessageAdapter(this, data);
         binding.recyclerView.setAdapter(adapter);
 
-        query = realm.where(TextMsg.class);
-//                .equalTo("sessionId", sendTo);
+        query = realm.where(TextMsg.class)
+                .equalTo("sessionId", sendTo);
         RealmResults<TextMsg> results = query.findAllSorted("time", Sort.DESCENDING);
+        if (results.isEmpty()) {
+            pullHistory();
+        }
+
         realm.beginTransaction();
         for (int i = 0; i < results.size(); i++) {
             results.get(i).setHaveRead(true);
@@ -139,6 +142,28 @@ public class ChattingActivity extends BaseActivity2 {
 
         adapter.setData(results);
         adapter.onFinishLoadMore(true);
+    }
+
+    private void pullHistory() {
+        InvocationFuture<List<IMMessage>> listInvocationFuture = NIMClient.getService(MsgService.class).pullMessageHistory(MessageBuilder.createTextMessage(sendTo, SessionTypeEnum.Team, ""), 10, false);
+        listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
+            @Override
+            public void onSuccess(List<IMMessage> imMessages) {
+                for (IMMessage imMessage : imMessages) {
+                    NIMConnectionState.saveMsg(imMessage, true);
+                }
+            }
+
+            @Override
+            public void onFailed(int i) {
+
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+
+            }
+        });
     }
 
     private String getUserData() {

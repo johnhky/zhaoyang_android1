@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -18,6 +17,15 @@ import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.adapter.ConsultingAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.util.JacksonUtils;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import io.ganguo.library.Config;
 import io.realm.RealmChangeListener;
@@ -94,7 +102,24 @@ public class ConsultingFragment extends RefreshListFragment {
                     binding.swipeRefresh.setRefreshing(false);
                 }
             };
-            api.pDoingList(callback.getPage()).enqueue(callback);
+            NIMClient.getService(MsgService.class).queryRecentContacts()
+                    .setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
+                        @Override
+                        public void onResult(int code, List<RecentContact> recents, Throwable e) {
+                            // recents参数即为最近联系人列表（最近会话列表）
+                            if (recents == null) return;
+
+
+                            HashSet<String> tids = new HashSet<String>();
+                            for (RecentContact recent : recents) {
+                                String contactId = recent.getContactId();
+                                if (contactId.length() == 7) {
+                                    tids.add(contactId);
+                                }
+                            }
+                            api.appointmentInTid(JacksonUtils.toJson(tids), callback.getPage()).enqueue(callback);
+                        }
+                    });
         } else {
             callback = new PageCallback<Appointment>(getAdapter()) {
                 @Override
@@ -109,7 +134,23 @@ public class ConsultingFragment extends RefreshListFragment {
                     binding.swipeRefresh.setRefreshing(false);
                 }
             };
-            api.dDoingList(callback.getPage()).enqueue(callback);
+            NIMClient.getService(MsgService.class).queryRecentContacts()
+                    .setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
+                        @Override
+                        public void onResult(int code, List<RecentContact> recents, Throwable e) {
+                            // recents参数即为最近联系人列表（最近会话列表）
+                            if (recents == null) return;
+
+                            HashSet<String> tids = new HashSet<String>();
+                            for (RecentContact recent : recents) {
+                                String contactId = recent.getContactId();
+                                if (contactId.length() == 7) {
+                                    tids.add(contactId);
+                                }
+                            }
+                            api.appointmentInTid(JacksonUtils.toJson(tids), callback.getPage()).enqueue(callback);
+                        }
+                    });
         }
     }
 

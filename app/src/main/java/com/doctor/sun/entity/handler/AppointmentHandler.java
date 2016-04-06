@@ -395,6 +395,10 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         };
     }
 
+    public String getTID() {
+        return String.valueOf(data.getTid());
+    }
+
     private static class GotoConsultingCallback extends ApiCallback<String> {
         private final View view;
 
@@ -534,7 +538,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         view.getContext().startActivity(intent);
     }
 
-    private String getVoipAccount() {
+    public String getVoipAccount() {
         //假如是医生的话,就发消息给病人
         if (AppContext.isDoctor()) {
             return data.getVoipAccount();
@@ -549,7 +553,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         }
     }
 
-    private String getPhoneNO() {
+    public String getPhoneNO() {
         //假如是医生的话,就发消息给病人
         if (AppContext.isDoctor()) {
             return data.getPhone();

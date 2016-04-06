@@ -112,6 +112,10 @@ public class MedicineHelperActivity extends BaseActivity2 {
 
     private void setReadStatus(RealmResults<TextMsg> results) {
         realm.beginTransaction();
+        if (results == null) {
+            realm.commitTransaction();
+            return;
+        }
         for (int i = 0; i < results.size(); i++) {
             results.get(i).setHaveRead(true);
         }
