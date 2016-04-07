@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.binding;
 
-import android.databinding.BindingConversion;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.text.Html;
@@ -9,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.doctor.sun.emoji.EmojiManager;
 
 
 /**
@@ -17,6 +17,17 @@ public class CustomBinding {
     @android.databinding.BindingAdapter(value = {"android:src", "app:placeHolder"}, requireAll = false)
     public static void loadImage(ImageView imageView, String url, Drawable icon) {
         Glide.with(imageView.getContext()).load(url).placeholder(icon).into(imageView);
+    }
+
+
+//    @android.databinding.BindingAdapter(value = {"android:src"})
+//    public static void loadImage(ImageView imageView, int resource) {
+//        Glide.with(imageView.getContext()).load(resource).into(imageView);
+//    }
+
+    @android.databinding.BindingAdapter(value = {"android:drawable"}, requireAll = false)
+    public static void loadDrawable(ImageView imageView, String url) {
+        imageView.setImageDrawable(EmojiManager.getDrawable(imageView.getContext(), url));
     }
 
     @android.databinding.BindingAdapter("bind:onClick")
@@ -87,6 +98,7 @@ public class CustomBinding {
             view.setVisibility(View.GONE);
         }
     }
+
     @android.databinding.BindingAdapter("bind:visible")
     public static void visible(View view, boolean visible) {
         if (visible) {

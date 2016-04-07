@@ -24,14 +24,16 @@ import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ImModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
 import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
-import com.doctor.sun.vo.MenuViewModel;
+import com.doctor.sun.vo.ClickMenu;
+import com.doctor.sun.vo.IntentMenu;
+import com.doctor.sun.vo.StickerViewModel;
 import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -54,7 +56,7 @@ import io.realm.Sort;
  * 聊天模块
  * Created by rick on 12/11/15.
  */
-public class ChattingActivity extends BaseActivity2 {
+public class ChattingActivity extends BaseFragmentActivity2 {
     public static final int CALL_PHONE_REQ = 1;
     public static final int DELAY_MILLIS = 300;
     private ImModule api = Api.of(ImModule.class);
@@ -145,17 +147,22 @@ public class ChattingActivity extends BaseActivity2 {
         adapter.setData(results);
         adapter.onFinishLoadMore(true);
         initCustomAction();
+        initSticker();
+    }
+
+    private void initSticker() {
+        binding.sticker.setData(new StickerViewModel(this));
     }
 
     private void initCustomAction() {
         binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
         SimpleAdapter adapter = new SimpleAdapter(ChattingActivity.this);
 
-        adapter.add(new MenuViewModel( R.drawable.nim_message_plus_photo_selector, "语音电话", ""));
-        adapter.add(new MenuViewModel( R.drawable.nim_message_plus_photo_selector, "相册", ""));
-        adapter.add(new MenuViewModel( R.drawable.nim_message_plus_video_selector, "拍摄", ""));
-        adapter.add(new MenuViewModel( R.drawable.message_plus_video_chat_selector, "视频聊天", ""));
-        adapter.add(new MenuViewModel( R.drawable.message_plus_file_selector, "文件传输", ""));
+        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_photo_selector, "语音电话", null));
+        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.nim_message_plus_photo_selector, "相册", null));
+        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.nim_message_plus_video_selector, "拍摄", null));
+        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector, "视频聊天", null));
+        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.message_plus_file_selector, "文件传输", null));
         adapter.onFinishLoadMore(true);
 
         binding.customAction.setAdapter(adapter);
@@ -257,35 +264,35 @@ public class ChattingActivity extends BaseActivity2 {
 //                }
 //            }
 //        });
-        binding.ivPhoneCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getData().getDoctor() == null) {
-                    makePhoneCall();
-                } else {
-                    api.patientCallTo(getData().getDoctor().getId()).enqueue(new ApiCallback<String>() {
-                        @Override
-                        protected void handleResponse(String response) {
-                            if (response.equals("false")) {
-                                TwoSelectorDialog.showTwoSelectorDialog(ChattingActivity.this, "你还没有通过授权\n请申请给对方打电话", "取消", "马上申请", new TwoSelectorDialog.GetActionButton() {
-                                    @Override
-                                    public void onClickPositiveButton(final TwoSelectorDialog dialog) {
-                                        dialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onClickNegativeButton(TwoSelectorDialog dialog) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                            } else {
-                                makePhoneCall();
-                            }
-                        }
-                    });
-                }
-            }
-        });
+//        binding.ivPhoneCall.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (getData().getDoctor() == null) {
+//                    makePhoneCall();
+//                } else {
+//                    api.patientCallTo(getData().getDoctor().getId()).enqueue(new ApiCallback<String>() {
+//                        @Override
+//                        protected void handleResponse(String response) {
+//                            if (response.equals("false")) {
+//                                TwoSelectorDialog.showTwoSelectorDialog(ChattingActivity.this, "你还没有通过授权\n请申请给对方打电话", "取消", "马上申请", new TwoSelectorDialog.GetActionButton() {
+//                                    @Override
+//                                    public void onClickPositiveButton(final TwoSelectorDialog dialog) {
+//                                        dialog.dismiss();
+//                                    }
+//
+//                                    @Override
+//                                    public void onClickNegativeButton(TwoSelectorDialog dialog) {
+//                                        dialog.dismiss();
+//                                    }
+//                                });
+//                            } else {
+//                                makePhoneCall();
+//                            }
+//                        }
+//                    });
+//                }
+//            }
+//        });
     }
 
     private void makePhoneCall() {

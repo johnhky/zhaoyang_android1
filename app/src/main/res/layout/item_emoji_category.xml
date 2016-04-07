@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vo.ClickMenu" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="@dimen/dp_44"
+        android:layout_height="@dimen/dp_44"
+        android:onClick="@{data.itemClick()}">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="@dimen/dp_35"
+                android:layout_height="@dimen/dp_35"
+                android:textColor="@color/dark_36"
+                android:textSize="@dimen/font_15"
+                android:background="@{data.icon}"
+                tool:background="@drawable/nim_emoji_ajmd_pressed" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_gravity="right"
+            android:background="@color/grey_c2"
+            android:layout_width="1px"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+</layout>

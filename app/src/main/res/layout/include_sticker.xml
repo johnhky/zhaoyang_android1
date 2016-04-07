@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vo.StickerViewModel" />
+
+        <variable
+            name="rootVisibility"
+            type="boolean" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/emojiLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:visibility="@{rootVisibility}">
+
+        <View
+            android:id="@+id/top_divider_line"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_d9"
+            android:visibility="gone" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/scrPlugin"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dp_180"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:adapter="@{data.stickerAdapter}"
+            android:addOnPageChangeListener="@{data.pageChangeListener}"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+
+        <LinearLayout
+            android:id="@+id/page_indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dp_8"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:gravity="center"
+            android:orientation="horizontal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/grey_ab" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/category_tab"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44"
+            android:adapter="@{data.tabsAdapter}"
+            android:orientation="horizontal"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+
+    </LinearLayout>
+</layout>

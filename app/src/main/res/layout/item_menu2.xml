@@ -7,14 +7,14 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.MenuViewModel" />
+            type="com.doctor.sun.vo.BaseMenu" />
 
     </data>
 
     <FrameLayout
         android:layout_width="@dimen/dp_90"
         android:layout_height="@dimen/dp_90"
-        android:onClick="@{data.navigate}">
+        android:onClick="@{data.itemClick}">
 
 
         <LinearLayout

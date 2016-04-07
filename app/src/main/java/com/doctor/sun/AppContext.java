@@ -6,6 +6,8 @@ import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.MemoryCategory;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.module.AuthModule;
 import com.netease.nimlib.sdk.NIMClient;
@@ -59,6 +61,7 @@ public class AppContext extends BaseApp {
                 })
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
+        Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
     }
 
     public static void initMessenger() {

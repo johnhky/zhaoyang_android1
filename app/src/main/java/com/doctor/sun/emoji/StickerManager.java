@@ -1,0 +1,76 @@
+package com.doctor.sun.emoji;
+
+import android.content.res.AssetManager;
+import android.util.SparseArray;
+
+import com.doctor.sun.AppContext;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 贴图管理类
+ */
+public class StickerManager {
+    public static final int PER_PAGE = 8;
+
+    private SparseArray<List<Emoticon>> datas = new SparseArray<>();
+
+    private static StickerManager instance;
+
+    public static StickerManager getInstance() {
+        if (instance == null) {
+            instance = new StickerManager();
+            instance.loadStickerCategory();
+        }
+        return instance;
+    }
+
+    public List<Emoticon> emoticons(int page) {
+        return datas.get(page - EmojiManager.getPageCount());
+    }
+
+    public void loadStickerCategory() {
+        AssetManager assetManager = AppContext.me().getAssets();
+        try {
+            String[] files = assetManager.list("sticker");
+            for (int i = 0; i < files.length; i++) {
+                String name = files[i];
+                List<Emoticon> emoticons = loadStickerData(name);
+                for (int size = 0; size < emoticons.size(); size += PER_PAGE) {
+
+                    int end = size + PER_PAGE;
+                    end = end < emoticons.size() ? end : emoticons.size();
+
+                    this.datas.put(this.datas.size(), emoticons.subList(size, end));
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private List<Emoticon> loadStickerData(String name) {
+        List<Emoticon> stickers = new ArrayList<>();
+        AssetManager assetManager = AppContext.me().getAssets();
+        try {
+            String[] files = assetManager.list("sticker/" + name);
+            for (String file : files) {
+                Emoticon emoticon = new Emoticon();
+                emoticon.setTag(file);
+                emoticon.setAssetPath("file:///android_asset/sticker/" + name + "/" + file);
+                stickers.add(emoticon);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return stickers;
+    }
+
+    public int getTotalPage() {
+        return datas.size();
+    }
+}
