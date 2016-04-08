@@ -151,7 +151,7 @@ public class ChattingActivity extends BaseFragmentActivity2 {
     }
 
     private void initSticker() {
-        binding.sticker.setData(new StickerViewModel(this));
+        binding.sticker.setData(new StickerViewModel(this, binding.sticker));
     }
 
     private void initCustomAction() {

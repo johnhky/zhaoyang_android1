@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.emoji.Emoticon" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="@dimen/dp_53"
+        android:layout_height="@dimen/dp_53"
+        android:background="@drawable/ripple_default"
+        android:onClick="@{data.onSelect}">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/dp_2"
+            android:layout_marginEnd="@dimen/dp_2"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:scaleType="fitCenter"
+                android:src="@{data.assetPath}" />
+        </LinearLayout>
+
+
+    </FrameLayout>
+</layout>

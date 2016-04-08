@@ -37,11 +37,24 @@ public class SingleSelectAdapter extends SimpleAdapter {
             listener.onSelectionChange(adapter, selectedPosition);
         }
     }
-    public void select(BaseViewHolder vh, BaseAdapter adapter,boolean shouldSelect) {
+
+    public void select(BaseViewHolder vh, BaseAdapter adapter, boolean shouldSelect) {
         selectedPosition = vh.getAdapterPosition();
         if (listener != null) {
             listener.onSelectionChange(adapter, selectedPosition);
         }
+    }
+
+    public void select(int position, BaseAdapter adapter) {
+        selectedPosition = position;
+        if (listener != null) {
+            listener.onSelectionChange(adapter, selectedPosition);
+        }
+    }
+
+    public void selectNoCallback(int position) {
+        selectedPosition = position;
+        notifyDataSetChanged();
     }
 
     public boolean isSelected(BaseViewHolder vh) {

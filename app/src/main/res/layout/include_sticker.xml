@@ -30,7 +30,7 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/scrPlugin"
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/dp_180"
+            android:layout_height="@dimen/dp_170"
             android:layout_marginBottom="@dimen/dp_4"
             android:layout_marginTop="@dimen/dp_4"
             android:adapter="@{data.stickerAdapter}"
@@ -38,13 +38,16 @@
             android:overScrollMode="never"
             android:scrollbars="none" />
 
-        <LinearLayout
+
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/page_indicator"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_8"
-            android:layout_marginBottom="@dimen/dp_4"
-            android:gravity="center"
-            android:orientation="horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/dp_12"
+            android:orientation="horizontal"
+            android:adapter="@{data.indicatorAdapter}"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <View
             android:layout_width="match_parent"

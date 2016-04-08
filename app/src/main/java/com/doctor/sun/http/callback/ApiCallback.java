@@ -23,6 +23,10 @@ public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
 
     @Override
     final public void onResponse(Response<ApiDTO<T>> response, Retrofit retrofit) {
+        if (response.body() == null) {
+            onFailure(new NullPointerException());
+            return;
+        }
         int code = Integer.parseInt(response.body().getStatus());
         Log.e("onResponse", "response code: " + code);
         if (code < 300) {

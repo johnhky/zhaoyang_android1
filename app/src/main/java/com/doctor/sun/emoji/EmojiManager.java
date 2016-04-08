@@ -1,15 +1,7 @@
 package com.doctor.sun.emoji;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v4.util.LruCache;
-import android.util.DisplayMetrics;
 import android.util.Xml;
 
 import com.doctor.sun.AppContext;
@@ -41,7 +33,6 @@ public class EmojiManager {
     // text to entry
     private static final Map<String, Entry> text2entry = new HashMap<String, Entry>();
     // asset bitmap cache, key: asset path
-    private static LruCache<String, Bitmap> drawableCache;
     private static int PER_PAGE = 20;
 
     static {
@@ -50,14 +41,6 @@ public class EmojiManager {
         load(context, EMOT_DIR + "emoji.xml");
 
         pattern = makePattern();
-
-        drawableCache = new LruCache<String, Bitmap>(CACHE_MAX_SIZE) {
-            @Override
-            protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
-                if (oldValue != newValue)
-                    oldValue.recycle();
-            }
-        };
     }
 
     private static class Entry {
@@ -84,12 +67,6 @@ public class EmojiManager {
         return fullCount + remainPage;
     }
 
-    public static final Drawable getDisplayDrawable(Context context, int index) {
-        String text = (index >= 0 && index < defaultEntries.size() ?
-                defaultEntries.get(index).text : null);
-        return text == null ? null : getDrawable(context, text);
-    }
-
     public static final String getDisplayText(int index) {
         return index >= 0 && index < defaultEntries.size() ? defaultEntries
                 .get(index).text : null;
@@ -105,19 +82,6 @@ public class EmojiManager {
         return pattern;
     }
 
-    public static final Drawable getDrawable(Context context, String text) {
-        Entry entry = text2entry.get(text);
-        if (entry == null) {
-            return null;
-        }
-
-        Bitmap cache = drawableCache.get(entry.assetPath);
-        if (cache == null) {
-            cache = loadAssetBitmap(context, entry.assetPath);
-        }
-        return new BitmapDrawable(context.getResources(), cache);
-    }
-
     //
     // internal
     //
@@ -128,34 +92,6 @@ public class EmojiManager {
 
     private static String patternOfDefault() {
         return "\\[[^\\[]{1,10}\\]";
-    }
-
-    public static Bitmap loadAssetBitmap(Context context, String assetPath) {
-        InputStream is = null;
-        try {
-            Resources resources = context.getResources();
-            Options options = new Options();
-            options.inDensity = DisplayMetrics.DENSITY_HIGH;
-            options.inScreenDensity = resources.getDisplayMetrics().densityDpi;
-            options.inTargetDensity = resources.getDisplayMetrics().densityDpi;
-            is = context.getAssets().open(assetPath);
-            Bitmap bitmap = BitmapFactory.decodeStream(is, new Rect(), options);
-            if (bitmap != null) {
-                drawableCache.put(assetPath, bitmap);
-            }
-            return bitmap;
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
     }
 
     private static final void load(Context context, String xmlPath) {

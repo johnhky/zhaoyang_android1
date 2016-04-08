@@ -9,9 +9,18 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
  * Created by rick on 7/4/2016.
  */
 public class Emoticon implements LayoutId {
+    public  final int itemLayoutId;
     private String id;
     private String tag;
     private String assetPath;
+
+    public Emoticon(int itemLayoutId) {
+        this.itemLayoutId = itemLayoutId;
+    }
+    public Emoticon() {
+        this.itemLayoutId = R.layout.item_emoji;
+    }
+
 
     public String getId() {
         return id;
@@ -40,7 +49,7 @@ public class Emoticon implements LayoutId {
 
     @Override
     public int getItemLayoutId() {
-        return R.layout.item_emoji;
+        return itemLayoutId;
     }
 
     @Override

@@ -6,9 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
+import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.emoji.EmojiManager;
 import com.doctor.sun.emoji.Emoticon;
@@ -18,6 +18,7 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
  * Created by rick on 7/4/2016.
  */
 public class EmoticonFragment extends ListFragment {
+    public static final String ASSET_PREFIX = "file:///android_asset/nim_emoji_del.png";
     public static final String TAG = EmoticonFragment.class.getSimpleName();
     public static final int PER_PAGE = 20;
 
@@ -29,7 +30,6 @@ public class EmoticonFragment extends ListFragment {
         fragment.setArguments(args);
         return fragment;
     }
-
 
 
     @Override
@@ -48,6 +48,9 @@ public class EmoticonFragment extends ListFragment {
             emoticon.setTag(EmojiManager.getDisplayText(i));
             getAdapter().add(emoticon);
         }
+        Emoticon emoticon = new Emoticon(R.layout.item_emoji_del);
+        emoticon.setAssetPath(ASSET_PREFIX);
+        getAdapter().add(emoticon);
         getAdapter().notifyDataSetChanged();
     }
 

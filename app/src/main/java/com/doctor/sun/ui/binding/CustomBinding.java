@@ -2,6 +2,7 @@ package com.doctor.sun.ui.binding;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
+import android.text.Editable;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.doctor.sun.emoji.EmojiManager;
+
+import org.xml.sax.XMLReader;
 
 
 /**
@@ -24,11 +27,6 @@ public class CustomBinding {
 //    public static void loadImage(ImageView imageView, int resource) {
 //        Glide.with(imageView.getContext()).load(resource).into(imageView);
 //    }
-
-    @android.databinding.BindingAdapter(value = {"android:drawable"}, requireAll = false)
-    public static void loadDrawable(ImageView imageView, String url) {
-        imageView.setImageDrawable(EmojiManager.getDrawable(imageView.getContext(), url));
-    }
 
     @android.databinding.BindingAdapter("bind:onClick")
     public static void onClick(View view, View.OnClickListener listener) {

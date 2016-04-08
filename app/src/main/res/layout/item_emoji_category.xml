@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools">
 
     <data>
@@ -9,6 +8,13 @@
             name="data"
             type="com.doctor.sun.vo.ClickMenu" />
 
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.SingleSelectAdapter" />
     </data>
 
     <FrameLayout
@@ -26,18 +32,20 @@
             <TextView
                 android:layout_width="@dimen/dp_35"
                 android:layout_height="@dimen/dp_35"
+                android:background="@{data.icon}"
+                android:onClick="@{adapter.onItemClick(adapter,vh)}"
+                android:selected="@{adapter.isSelected(vh)}"
                 android:textColor="@color/dark_36"
                 android:textSize="@dimen/font_15"
-                android:background="@{data.icon}"
                 tool:background="@drawable/nim_emoji_ajmd_pressed" />
 
         </LinearLayout>
 
         <View
-            android:layout_gravity="right"
-            android:background="@color/grey_c2"
             android:layout_width="1px"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:background="@color/grey_c2" />
 
     </FrameLayout>
 </layout>

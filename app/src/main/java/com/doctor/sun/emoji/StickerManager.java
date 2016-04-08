@@ -2,6 +2,7 @@ package com.doctor.sun.emoji;
 
 import android.content.res.AssetManager;
 import android.util.SparseArray;
+import android.util.SparseIntArray;
 
 import com.doctor.sun.AppContext;
 
@@ -16,6 +17,7 @@ public class StickerManager {
     public static final int PER_PAGE = 8;
 
     private SparseArray<List<Emoticon>> datas = new SparseArray<>();
+    private SparseIntArray pageCounts = new SparseIntArray();
 
     private static StickerManager instance;
 
@@ -57,6 +59,11 @@ public class StickerManager {
         AssetManager assetManager = AppContext.me().getAssets();
         try {
             String[] files = assetManager.list("sticker/" + name);
+
+            int pageCount = files.length / PER_PAGE;
+            pageCount += files.length % PER_PAGE == 0 ? 0 : 1;
+
+            pageCounts.put(pageCounts.size(), pageCount);
             for (String file : files) {
                 Emoticon emoticon = new Emoticon();
                 emoticon.setTag(file);
@@ -72,5 +79,17 @@ public class StickerManager {
 
     public int getTotalPage() {
         return datas.size();
+    }
+
+    public int getPageCount(int type) {
+        return pageCounts.get(type);
+    }
+
+    public int getPagesBefore(int type) {
+        int result = 0;
+        for (int i = type; i >= 0; i--) {
+            result += pageCounts.get(i);
+        }
+        return result;
     }
 }

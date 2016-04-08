@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.AssetManager;
 
 import com.doctor.sun.AppContext;
-import com.doctor.sun.emoji.Emoticon;
 
 import java.io.IOException;
 import java.io.InputStream;
