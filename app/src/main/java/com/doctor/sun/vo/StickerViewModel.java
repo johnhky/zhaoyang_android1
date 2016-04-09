@@ -7,7 +7,7 @@ import android.support.v4.view.ViewPager;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.IncludeStickerBinding;
-import com.doctor.sun.emoji.EmojiManager;
+import com.doctor.sun.emoji.EmoticonManager;
 import com.doctor.sun.emoji.StickerManager;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.SingleSelectAdapter;
@@ -40,6 +40,8 @@ public class StickerViewModel {
     public VpIndicatorAdapter indicatorAdapter() {
         if (vpIndicatorAdapter == null) {
             vpIndicatorAdapter = new VpIndicatorAdapter(activity.get());
+            vpIndicatorAdapter.setItemCount(EmoticonManager.getPageCount());
+            vpIndicatorAdapter.setSelectedPosition(0);
         }
         return vpIndicatorAdapter;
     }
@@ -70,15 +72,15 @@ public class StickerViewModel {
                     return;
                 }
                 if (newSelectItem == 1) {
-                    binding.scrPlugin.setCurrentItem(EmojiManager.getPageCount());
+                    binding.scrPlugin.setCurrentItem(EmoticonManager.getPageCount());
                     return;
                 }
                 if (newSelectItem == 2) {
-                    binding.scrPlugin.setCurrentItem(EmojiManager.getPageCount() + getPagesBefore(0));
+                    binding.scrPlugin.setCurrentItem(EmoticonManager.getPageCount() + getPagesBefore(0));
                     return;
                 }
                 if (newSelectItem == 3) {
-                    binding.scrPlugin.setCurrentItem(EmojiManager.getPageCount() + getPagesBefore(1));
+                    binding.scrPlugin.setCurrentItem(EmoticonManager.getPageCount() + getPagesBefore(1));
                     return;
                 }
 
@@ -98,7 +100,7 @@ public class StickerViewModel {
                 int pageCount;
                 int selectedPosition;
 
-                int emoticonPageCount = EmojiManager.getPageCount();
+                int emoticonPageCount = EmoticonManager.getPageCount();
                 if (position < emoticonPageCount) {
                     pageCount = emoticonPageCount;
                     selectedPosition = position;
@@ -129,7 +131,7 @@ public class StickerViewModel {
     }
 
     private boolean isTypeOf(int type, int position) {
-        return position < getPagesBefore(type) + EmojiManager.getPageCount();
+        return position < getPagesBefore(type) + EmoticonManager.getPageCount();
     }
 
     private int getPageCount(int type) {

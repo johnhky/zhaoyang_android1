@@ -2,26 +2,25 @@ package com.doctor.sun.ui.binding;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
-import android.text.Editable;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.doctor.sun.emoji.EmojiManager;
-
-import org.xml.sax.XMLReader;
 
 
 /**
  */
 public class CustomBinding {
-    @android.databinding.BindingAdapter(value = {"android:src", "app:placeHolder"}, requireAll = false)
+    @android.databinding.BindingAdapter(value = {"android:src", "android:drawable"}, requireAll = false)
     public static void loadImage(ImageView imageView, String url, Drawable icon) {
         Glide.with(imageView.getContext()).load(url).placeholder(icon).into(imageView);
     }
-
+    @android.databinding.BindingAdapter(value = {"android:src"}, requireAll = false)
+    public static void loadImage(ImageView imageView, int resourceId) {
+        Glide.with(imageView.getContext()).load(resourceId).into(imageView);
+    }
 
 //    @android.databinding.BindingAdapter(value = {"android:src"})
 //    public static void loadImage(ImageView imageView, int resource) {

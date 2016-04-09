@@ -10,7 +10,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.support.v4.app.ActivityCompat;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
@@ -26,6 +31,7 @@ import com.doctor.sun.http.callback.CancelCallback;
 import com.doctor.sun.http.callback.DoNothingCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
+import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
@@ -500,6 +506,33 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             }
         };
     }
+
+    public EditText.OnEditorActionListener sendMessageAction() {
+        return new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    sendMessage(v);
+                }
+                return true;
+            }
+        };
+    }
+
+    public void sendMessage(TextView inputText) {
+        if (inputText.getText().toString().equals("")) {
+            Toast.makeText(inputText.getContext(), "不能发送空消息", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (NIMConnectionState.getInstance().isConnected()) {
+            com.doctor.sun.im.Messenger.getInstance().sentTextMsg(getTID(), "", inputText.getText().toString());
+            inputText.setText("");
+        } else {
+            Toast.makeText(inputText.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+            com.doctor.sun.im.Messenger.getInstance().login();
+        }
+    }
+
 
     public void makePhoneCall(final View view) {
         final String sendTo = getVoipAccount();

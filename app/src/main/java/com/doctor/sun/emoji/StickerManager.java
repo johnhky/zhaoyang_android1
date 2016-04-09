@@ -30,7 +30,7 @@ public class StickerManager {
     }
 
     public List<Emoticon> emoticons(int page) {
-        return datas.get(page - EmojiManager.getPageCount());
+        return datas.get(page - EmoticonManager.getPageCount());
     }
 
     public void loadStickerCategory() {

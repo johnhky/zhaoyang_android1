@@ -13,6 +13,14 @@
             name="keyboardType"
             type="int" />
 
+        <variable
+            name="isEditing"
+            type="boolean" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Appointment" />
+
     </data>
 
     <LinearLayout
@@ -68,7 +76,9 @@
                     android:layout_marginTop="@dimen/dp_6"
                     android:layout_weight="1"
                     android:background="@drawable/bg_msg_input"
-                    android:maxHeight="@dimen/dp_100" />
+                    android:imeOptions="actionDone"
+                    android:maxHeight="@dimen/dp_100"
+                    android:setOnEditorActionListener="@{data.handler.sendMessageAction}" />
 
 
                 <TextView
@@ -91,7 +101,22 @@
                     android:background="@drawable/nim_message_button_bottom_add_selector"
                     android:clickable="true"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textColor="@color/colorPrimaryDark"
+                    android:visibility="@{!isEditing}" />
+
+                <TextView
+                    android:id="@+id/btn_send"
+                    android:layout_width="@dimen/dp_45"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="@dimen/dp_3"
+                    android:layout_marginRight="@dimen/dp_3"
+                    android:background="@drawable/btn_captcha_blue"
+                    android:textColor="@color/white"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="发送"
+                    android:visibility="@{isEditing}" />
 
             </LinearLayout>
 

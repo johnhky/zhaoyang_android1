@@ -29,10 +29,10 @@
             android:scaleType="centerCrop"
             android:src="@{adapter.yourAvatar}"
             app:maskDrawable="@drawable/circle_mask"
-            app:placeHolder="@{@drawable/default_avatar}" />
+            android:drawable="@{@drawable/default_avatar}" />
 
         <TextView
-            android:text="@{data.body}"
+            android:emoticon="@{data.body}"
             android:background="@drawable/bg_sent_msg"
             android:textSize="@dimen/font_13"
             android:textColor="#363636"

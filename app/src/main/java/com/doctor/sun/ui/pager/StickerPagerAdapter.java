@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.doctor.sun.emoji.EmojiManager;
+import com.doctor.sun.emoji.EmoticonManager;
 import com.doctor.sun.emoji.StickerManager;
 import com.doctor.sun.ui.fragment.EmoticonFragment;
 import com.doctor.sun.ui.fragment.StickerFragment;
@@ -25,7 +25,7 @@ public class StickerPagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
-        if (position < EmojiManager.getPageCount()) {
+        if (position < EmoticonManager.getPageCount()) {
             return EmoticonFragment.newInstance(position);
         } else {
             return StickerFragment.newInstance(position);
@@ -37,6 +37,6 @@ public class StickerPagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public int getCount() {
-        return EmojiManager.getPageCount() + StickerManager.getInstance().getTotalPage();
+        return EmoticonManager.getPageCount() + StickerManager.getInstance().getTotalPage();
     }
 }

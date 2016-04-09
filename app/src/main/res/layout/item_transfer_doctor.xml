@@ -33,7 +33,7 @@
                 android:scaleType="centerCrop"
                 android:src="@{data.avatar}"
                 app:maskDrawable="@drawable/circle_mask"
-                app:placeHolder="@{@drawable/default_avatar}" />
+                android:drawable="@{@drawable/default_avatar}" />
 
             <LinearLayout
                 android:layout_width="match_parent"

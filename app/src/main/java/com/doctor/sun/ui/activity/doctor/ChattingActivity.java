@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
 import com.doctor.sun.AppContext;
@@ -122,6 +124,7 @@ public class ChattingActivity extends BaseFragmentActivity2 {
         handler = new AppointmentHandler(data);
         data.setHandler(handler);
         binding.setHeader(getHeaderViewModel());
+        binding.setData(data);
 
         getIsFinish();
 
@@ -158,7 +161,7 @@ public class ChattingActivity extends BaseFragmentActivity2 {
         binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
         SimpleAdapter adapter = new SimpleAdapter(ChattingActivity.this);
 
-        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_photo_selector, "语音电话", null));
+        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_phone, "语音电话", null));
         adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.nim_message_plus_photo_selector, "相册", null));
         adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.nim_message_plus_video_selector, "拍摄", null));
         adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector, "视频聊天", null));
@@ -242,57 +245,29 @@ public class ChattingActivity extends BaseFragmentActivity2 {
                 }, DELAY_MILLIS);
             }
         });
-//        binding.btnSend.setOnClickListener(new OnSingleClickListener() {
-//            @Override
-//            public void onSingleClick(View v) {
-//                int visibility = binding.emoji.getVisibility();
-//                if (visibility == View.GONE) {
-//                    binding.emoji.setVisibility(View.VISIBLE);
-//                }else {
-//                    binding.emoji.setVisibility(View.GONE);
-//                }
-//                if (binding.inputText.getText().toString().equals("")) {
-//                    Toast.makeText(ChattingActivity.this, "不能发送空消息", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if (NIMConnectionState.getInstance().isConnected()) {
-//                    Messenger.getInstance().sentTextMsg(sendTo, userData, binding.inputText.getText().toString());
-//                    binding.inputText.setText("");
-//                } else {
-//                    Toast.makeText(ChattingActivity.this, "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
-//                    Messenger.getInstance().login();
-//                }
-//            }
-//        });
-//        binding.ivPhoneCall.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (getData().getDoctor() == null) {
-//                    makePhoneCall();
-//                } else {
-//                    api.patientCallTo(getData().getDoctor().getId()).enqueue(new ApiCallback<String>() {
-//                        @Override
-//                        protected void handleResponse(String response) {
-//                            if (response.equals("false")) {
-//                                TwoSelectorDialog.showTwoSelectorDialog(ChattingActivity.this, "你还没有通过授权\n请申请给对方打电话", "取消", "马上申请", new TwoSelectorDialog.GetActionButton() {
-//                                    @Override
-//                                    public void onClickPositiveButton(final TwoSelectorDialog dialog) {
-//                                        dialog.dismiss();
-//                                    }
-//
-//                                    @Override
-//                                    public void onClickNegativeButton(TwoSelectorDialog dialog) {
-//                                        dialog.dismiss();
-//                                    }
-//                                });
-//                            } else {
-//                                makePhoneCall();
-//                            }
-//                        }
-//                    });
-//                }
-//            }
-//        });
+        binding.inputText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.setIsEditing(s.length() > 0);
+                binding.executePendingBindings();
+            }
+        });
+        binding.btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handler.sendMessage(binding.inputText);
+            }
+        });
     }
 
     private void makePhoneCall() {

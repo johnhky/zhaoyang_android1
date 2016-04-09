@@ -27,7 +27,7 @@
             android:layout_marginStart="@dimen/dp_50"
             android:layout_toLeftOf="@+id/avatar"
             android:background="@drawable/bg_receive_msg"
-            android:text="@{data.body}"
+            android:emoticon="@{data.body}"
             android:textColor="#0072bc"
             android:textSize="@dimen/font_13" />
 
@@ -40,9 +40,9 @@
             android:layout_marginBottom="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_2"
             android:layout_marginRight="@dimen/dp_10"
+            android:drawable="@{@drawable/default_avatar}"
             android:scaleType="centerCrop"
             android:src="@{adapter.myAvatar}"
-            app:maskDrawable="@drawable/circle_mask"
-            app:placeHolder="@{@drawable/default_avatar}" />
+            app:maskDrawable="@drawable/circle_mask" />
     </RelativeLayout>
 </layout>

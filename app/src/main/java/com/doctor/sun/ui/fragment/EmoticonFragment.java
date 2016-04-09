@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.emoji.EmojiManager;
+import com.doctor.sun.emoji.EmoticonManager;
 import com.doctor.sun.emoji.Emoticon;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 
@@ -39,15 +39,12 @@ public class EmoticonFragment extends ListFragment {
 
         int startPosition = PER_PAGE * position;
         int endPosition = PER_PAGE * (position + 1);
-        if (endPosition > EmojiManager.getDisplayCount()) {
-            endPosition = EmojiManager.getDisplayCount();
+        if (endPosition > EmoticonManager.getDisplayCount()) {
+            endPosition = EmoticonManager.getDisplayCount();
         }
-        for (int i = startPosition; i < endPosition; i++) {
-            Emoticon emoticon = new Emoticon();
-            emoticon.setAssetPath(EmojiManager.getAssetPath(i));
-            emoticon.setTag(EmojiManager.getDisplayText(i));
-            getAdapter().add(emoticon);
-        }
+
+        getAdapter().addAll(EmoticonManager.getEmoticons(startPosition, endPosition));
+
         Emoticon emoticon = new Emoticon(R.layout.item_emoji_del);
         emoticon.setAssetPath(ASSET_PREFIX);
         getAdapter().add(emoticon);

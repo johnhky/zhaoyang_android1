@@ -52,7 +52,7 @@
                 android:layout_marginTop="@dimen/dp_11"
                 android:scaleType="centerCrop"
                 android:src="@{data.avatar}"
-                app:placeHolder="@{@drawable/default_avatar}"
+                android:drawable="@{@drawable/default_avatar}"
                 app:maskDrawable="@drawable/circle_mask" />
 
             <LinearLayout

@@ -13,7 +13,7 @@
         android:onClick="@{data.onSelect}"
         android:background="@drawable/ripple_default"
         android:layout_width="@dimen/dp_90"
-        android:layout_height="@dimen/dp_90">
+        android:layout_height="@dimen/dp_85">
 
 
         <LinearLayout

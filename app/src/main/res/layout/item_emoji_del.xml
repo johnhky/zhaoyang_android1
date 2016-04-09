@@ -13,7 +13,7 @@
         android:layout_width="@dimen/dp_53"
         android:layout_height="@dimen/dp_53"
         android:background="@drawable/ripple_default"
-        android:onClick="@{data.onSelect}">
+        android:onClick="@{data.onDelete}">
 
 
         <LinearLayout
