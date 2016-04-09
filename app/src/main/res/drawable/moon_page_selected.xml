@@ -19,5 +19,5 @@
     <size
         android:width="@dimen/dp_4"
         android:height="@dimen/dp_4" />
-    <solid android:color="@color/dark_36" />
+    <solid android:color="@color/grey_89" />
 </shape>

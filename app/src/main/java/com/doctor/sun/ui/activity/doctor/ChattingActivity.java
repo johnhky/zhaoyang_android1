@@ -48,6 +48,7 @@ import java.util.List;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.util.Systems;
+import io.ganguo.library.util.Tasks;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -61,6 +62,8 @@ import io.realm.Sort;
 public class ChattingActivity extends BaseFragmentActivity2 {
     public static final int CALL_PHONE_REQ = 1;
     public static final int DELAY_MILLIS = 300;
+    public static final int TYPE_CUSTOM_ACTION = 2;
+    public static final int TYPE_EMOTICON = 1;
     private ImModule api = Api.of(ImModule.class);
     private ActivityChattingBinding binding;
     private MessageAdapter adapter;
@@ -199,28 +202,6 @@ public class ChattingActivity extends BaseFragmentActivity2 {
     }
 
     private void initListener() {
-        binding.inputText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                new Handler(getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        binding.setKeyboardType(0);
-                    }
-                }, DELAY_MILLIS);
-            }
-        });
-        binding.inputText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Handler(getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        binding.setKeyboardType(0);
-                    }
-                }, DELAY_MILLIS);
-            }
-        });
         binding.btnCustomAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -228,7 +209,7 @@ public class ChattingActivity extends BaseFragmentActivity2 {
                 new Handler(getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        binding.setKeyboardType(2);
+                        binding.setKeyboardType(TYPE_CUSTOM_ACTION);
                     }
                 }, DELAY_MILLIS);
             }
@@ -240,7 +221,7 @@ public class ChattingActivity extends BaseFragmentActivity2 {
                 new Handler(getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        binding.setKeyboardType(1);
+                        binding.setKeyboardType(TYPE_EMOTICON);
                     }
                 }, DELAY_MILLIS);
             }
@@ -356,5 +337,14 @@ public class ChattingActivity extends BaseFragmentActivity2 {
                         .setRightTitle("医生建议");
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (binding.getKeyboardType() != 0) {
+            binding.setKeyboardType(0);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

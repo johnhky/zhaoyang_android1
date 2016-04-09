@@ -55,7 +55,7 @@ public abstract class BaseFragmentActivity2 extends FragmentActivity implements 
 
     @Override
     public void onBackClicked() {
-        finish();
+        onBackPressed();
     }
 
     @Override

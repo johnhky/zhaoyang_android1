@@ -54,7 +54,7 @@ public abstract class BaseActivity2 extends Activity implements HeaderViewModel.
 
     @Override
     public void onBackClicked() {
-        finish();
+        onBackPressed();
     }
 
     @Override

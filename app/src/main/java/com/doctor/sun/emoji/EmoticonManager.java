@@ -46,7 +46,7 @@ public class EmoticonManager {
     }
 
 
-    public static SpannableStringBuilder mapToEmoticon(Context context, String text, int emojiSize, int textSize) {
+    public static SpannableStringBuilder mapToEmoticon(Context context, String text, int emoticonSize, int textSize) {
 
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
         String rexgString = "\\[[^\\[]{1,10}\\]";
@@ -56,7 +56,7 @@ public class EmoticonManager {
             Integer resourceId = EmoticonRepo.emoticons.get(matcher.group());
             if (resourceId == null) continue;
 
-            EmoticonSpan emoticonSpan = new EmoticonSpan(context, resourceId, emojiSize, textSize);
+            EmoticonSpan emoticonSpan = new EmoticonSpan(context, resourceId, emoticonSize, textSize);
             builder.setSpan(
                     emoticonSpan, matcher.start(), matcher
                             .end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

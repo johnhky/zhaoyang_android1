@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.GravityCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
@@ -23,15 +27,29 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.Messenger;
+import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.module.DrugModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.vo.ClickMenu;
+import com.doctor.sun.vo.IntentMenu;
+import com.doctor.sun.vo.StickerViewModel;
+import com.netease.nimlib.sdk.InvocationFuture;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.squareup.otto.Subscribe;
 
+import java.util.List;
+
 import io.ganguo.library.core.event.extend.OnSingleClickListener;
+import io.ganguo.library.util.Systems;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -40,8 +58,12 @@ import io.realm.Sort;
 /**
  * Created by lucas on 2/14/16.
  */
-public class MedicineHelperActivity extends BaseActivity2 {
+public class MedicineHelperActivity extends BaseFragmentActivity2 {
     public static final String ADMIN_DRUG = "[\"admin\"";
+    public static final int TYPE_CUSTOM_ACTION = 2;
+    public static final int TYPE_EMOTICON = 1;
+    public static final long DELAY_MILLIS = 300;
+
     private PActivityMedicineHelperBinding binding;
     private DrugModule api = Api.of(DrugModule.class);
     private SimpleAdapter mAppointmentAdapter;
@@ -105,9 +127,53 @@ public class MedicineHelperActivity extends BaseActivity2 {
                 .equalTo("sessionId", sendTo).contains("userData", getUserData());
         results = query.findAllSorted("time", Sort.DESCENDING);
         setReadStatus(results);
-
+        if (results.isEmpty()) {
+            pullHistory();
+        }
         mChatAdapter.setData(results);
         mChatAdapter.onFinishLoadMore(true);
+        initCustomAction();
+        initSticker();
+    }
+
+    private void initSticker() {
+        binding.sticker.setData(new StickerViewModel(MedicineHelperActivity.this, binding.sticker));
+    }
+
+    private void initCustomAction() {
+        binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
+        SimpleAdapter adapter = new SimpleAdapter(MedicineHelperActivity.this);
+
+        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_phone, "语音电话", null));
+        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.nim_message_plus_photo_selector, "相册", null));
+        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.nim_message_plus_video_selector, "拍摄", null));
+        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector, "视频聊天", null));
+        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.message_plus_file_selector, "文件传输", null));
+        adapter.onFinishLoadMore(true);
+
+        binding.customAction.setAdapter(adapter);
+    }
+
+    private void pullHistory() {
+        InvocationFuture<List<IMMessage>> listInvocationFuture = NIMClient.getService(MsgService.class).pullMessageHistory(MessageBuilder.createTextMessage(sendTo, SessionTypeEnum.Team, ""), 10, false);
+        listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
+            @Override
+            public void onSuccess(List<IMMessage> imMessages) {
+                for (IMMessage imMessage : imMessages) {
+                    NIMConnectionState.saveMsg(imMessage, true);
+                }
+            }
+
+            @Override
+            public void onFailed(int i) {
+
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+
+            }
+        });
     }
 
     private void setReadStatus(RealmResults<TextMsg> results) {
@@ -178,6 +244,47 @@ public class MedicineHelperActivity extends BaseActivity2 {
 
 
     private void initListener() {
+        binding.btnCustomAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Systems.hideKeyboard(MedicineHelperActivity.this);
+                new Handler(getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.setKeyboardType(TYPE_CUSTOM_ACTION);
+                    }
+                }, DELAY_MILLIS);
+            }
+        });
+        binding.btnEmoticon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Systems.hideKeyboard(MedicineHelperActivity.this);
+                new Handler(getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.setKeyboardType(TYPE_EMOTICON);
+                    }
+                }, DELAY_MILLIS);
+            }
+        });
+        binding.inputText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                binding.setIsEditing(s.length() > 0);
+                binding.executePendingBindings();
+            }
+        });
         binding.btnSend.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
@@ -194,12 +301,12 @@ public class MedicineHelperActivity extends BaseActivity2 {
                 }
             }
         });
-        binding.ivPhoneCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                makePhoneCall();
-            }
-        });
+//        binding.ivPhoneCall.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                makePhoneCall();
+//            }
+//        });
     }
 
     private String getUserData() {
