@@ -52,7 +52,9 @@ import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.handler.PayMethodInterface;
 import com.doctor.sun.ui.widget.PayMethodDialog;
+import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.doctor.sun.util.PayCallback;
+import com.doctor.sun.util.PermissionUtil;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECUserState;
@@ -68,6 +70,8 @@ import io.ganguo.library.core.event.EventHub;
  * Created by rick on 11/20/15.
  */
 public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doctor.sun.util.PayInterface {
+    public static final int RECORD_AUDIO_PERMISSION = 400;
+    public static final int PHONE_CALL_PERMISSION = 500;
     private static AppointmentModule api = Api.of(AppointmentModule.class);
     protected Appointment data;
     private static final int layoutId = R.layout.item_appointment;
@@ -533,37 +537,55 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         }
     }
 
-
-    public void makePhoneCall(final View view) {
-        final String sendTo = getVoipAccount();
-        try {
-            ECDevice.getUserState(sendTo, new ECDevice.OnGetUserStateListener() {
+    public void checkCallStatus(View view) {
+        if (data.getDoctor() == null) {
+            makePhoneCall(view);
+        } else {
+            TwoSelectorDialog.showTwoSelectorDialog(view.getContext(), "通话请求失败\n医生拒绝来电或处于免打扰状态", "取消", "确认", new TwoSelectorDialog.GetActionButton() {
                 @Override
-                public void onGetUserState(ECError ecError, ECUserState ecUserState) {
-                    if (ecUserState.isOnline()) {
-                        com.doctor.sun.im.Messenger.getInstance().makePhoneCall(sendTo);
-                        Intent i = VoIPCallActivity.makeIntent(view.getContext(), VoIPCallActivity.CALLING, sendTo);
-                        view.getContext().startActivity(i);
-                    } else {
-                        callTelephone(view);
-                    }
+                public void onClickPositiveButton(final TwoSelectorDialog dialog) {
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                    dialog.dismiss();
                 }
             });
-        } catch (NullPointerException e) {
-            callTelephone(view);
+        }
+    }
+
+    public void makePhoneCall(final View view) {
+
+        String[] permissions = {Manifest.permission.RECORD_AUDIO};
+        boolean hasSelfPermission = PermissionUtil.hasSelfPermission((Activity) view.getContext(), permissions);
+        if (hasSelfPermission) {
+            final String sendTo = getVoipAccount();
+            try {
+                ECDevice.getUserState(sendTo, new ECDevice.OnGetUserStateListener() {
+                    @Override
+                    public void onGetUserState(ECError ecError, ECUserState ecUserState) {
+                        if (ecUserState.isOnline()) {
+                            com.doctor.sun.im.Messenger.getInstance().makePhoneCall(sendTo);
+                            Intent i = VoIPCallActivity.makeIntent(view.getContext(), VoIPCallActivity.CALLING, sendTo);
+                            view.getContext().startActivity(i);
+                        } else {
+                            callTelephone(view);
+                        }
+                    }
+                });
+            } catch (NullPointerException e) {
+                callTelephone(view);
+            }
+        } else {
+            ActivityCompat.requestPermissions((Activity) view.getContext(), permissions, RECORD_AUDIO_PERMISSION);
+            return;
         }
     }
 
     private void callTelephone(View view) {
         if (ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions((Activity) view.getContext(), new String[]{Manifest.permission.CALL_PHONE}, 1);
+            ActivityCompat.requestPermissions((Activity) view.getContext(), new String[]{Manifest.permission.CALL_PHONE}, PHONE_CALL_PERMISSION);
             return;
         }
         Uri uri = Uri.parse("tel:" + getPhoneNO());

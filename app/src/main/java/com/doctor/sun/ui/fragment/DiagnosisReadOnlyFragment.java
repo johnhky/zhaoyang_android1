@@ -246,16 +246,7 @@ public class DiagnosisReadOnlyFragment extends Fragment {
 
     private String getReturnTypeAndInterval(DiagnosisInfo response) {
         if (response.getReturnTime() > 0) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-            java.util.Date parse = null;
-            try {
-                parse = simpleDateFormat.parse(response.getDate());
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return "无需复诊";
-            }
-            return ((parse.getTime() - System.currentTimeMillis()) / 86400000) + 1 + "天后" +
-                    getDiagnosisType(response.getReturnType());
+            return response.getDate() + "复诊";
         }
         return "无需复诊";
     }
