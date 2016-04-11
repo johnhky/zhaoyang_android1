@@ -61,6 +61,7 @@ public class ConsultingDetailActivity extends TabActivity
         }
         super.onCreate(savedInstanceState);
         initListener();
+        switchTab(new SwitchTabEvent(getPosition()));
     }
 
     @Override
@@ -81,8 +82,7 @@ public class ConsultingDetailActivity extends TabActivity
         } else {
             //医生端
             if (!isReadOnly) {
-                header0.setRightTitle("补充问卷")
-                        .setRightFirstTitle("修改用药");
+                header0.setRightTitle("补充问卷");
                 header1.setRightTitle("保存");
             }
         }
@@ -148,6 +148,7 @@ public class ConsultingDetailActivity extends TabActivity
         super.onPostResume();
         switchTab(new SwitchTabEvent(isReadOnly ? 1 : -1));
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

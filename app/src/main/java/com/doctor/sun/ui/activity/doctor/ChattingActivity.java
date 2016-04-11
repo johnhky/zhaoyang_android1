@@ -158,24 +158,15 @@ public class ChattingActivity extends BaseActivity2 {
                 if (getData().getDoctor() == null) {
                     makePhoneCall();
                 } else {
-                    api.patientCallTo(getData().getDoctor().getId()).enqueue(new ApiCallback<String>() {
+                    TwoSelectorDialog.showTwoSelectorDialog(ChattingActivity.this, "通话请求失败\n医生拒绝来电或处于免打扰状态", "取消", "确认", new TwoSelectorDialog.GetActionButton() {
                         @Override
-                        protected void handleResponse(String response) {
-                            if (response.equals("false")) {
-                                TwoSelectorDialog.showTwoSelectorDialog(ChattingActivity.this, "你还没有通过授权\n请申请给对方打电话", "取消", "马上申请", new TwoSelectorDialog.GetActionButton() {
-                                    @Override
-                                    public void onClickPositiveButton(final TwoSelectorDialog dialog) {
-                                        dialog.dismiss();
-                                    }
+                        public void onClickPositiveButton(final TwoSelectorDialog dialog) {
+                            dialog.dismiss();
+                        }
 
-                                    @Override
-                                    public void onClickNegativeButton(TwoSelectorDialog dialog) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                            } else {
-                                makePhoneCall();
-                            }
+                        @Override
+                        public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                            dialog.dismiss();
                         }
                     });
                 }
