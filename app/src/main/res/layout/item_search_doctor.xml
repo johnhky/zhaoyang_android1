@@ -44,10 +44,10 @@
                 android:layout_height="@dimen/dp_60"
                 android:layout_gravity="top"
                 android:layout_marginTop="@dimen/dp_13"
+                android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
                 android:src="@{data.avatar}"
-                app:maskDrawable="@drawable/circle_mask"
-                android:drawable="@{@drawable/default_avatar}" />
+                app:maskDrawable="@drawable/circle_mask" />
 
             <LinearLayout
                 android:layout_width="match_parent"

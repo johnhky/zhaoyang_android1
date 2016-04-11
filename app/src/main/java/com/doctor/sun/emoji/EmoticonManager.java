@@ -21,7 +21,7 @@ public class EmoticonManager {
     private static final ArrayList<Emoticon> defaultEntries = new ArrayList<>();
 
     static {
-        for (String s : EmoticonRepo.emoticons.keySet()) {
+        for (String s : EmoticonRepo.keys) {
             Emoticon emoticon = new Emoticon();
             emoticon.setDrawableId(EmoticonRepo.emoticons.get(s));
             emoticon.setTag(s);
