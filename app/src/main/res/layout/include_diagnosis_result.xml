@@ -81,6 +81,10 @@
             android:paddingLeft="@dimen/dp_14"
             android:paddingTop="@dimen/dp_14"
             android:visibility="gone" />
+
+        <include
+            android:id="@+id/item_doctor"
+            layout="@layout/item_transfer_doctor" />
         <!-- 支付方式 (已删除)-->
     </LinearLayout>
 </layout>

@@ -28,10 +28,7 @@ import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.model.DiagnosisReadOnlyViewModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.util.log.Logger;
@@ -136,6 +133,11 @@ public class DiagnosisReadOnlyFragment extends Fragment {
                     resultBinding.tvTypeDate.setText(getReturnTypeAndInterval(response));
                     Log.e("TAG", "handleResponse: " + response.toString());
                     resultBinding.tvDoctorAdvince.setText(response.getDoctorAdvince().trim());
+                    if (response.getReturnType() == 3) {
+                        resultBinding.itemDoctor.setData(response.getDoctorInfo());
+                    } else {
+                        resultBinding.itemDoctor.getRoot().setVisibility(View.GONE);
+                    }
 
                     binding.executePendingBindings();
                 }
@@ -246,7 +248,7 @@ public class DiagnosisReadOnlyFragment extends Fragment {
 
     private String getReturnTypeAndInterval(DiagnosisInfo response) {
         if (response.getReturnTime() > 0) {
-            return response.getDate() + "复诊";
+            return response.getDate() + getDiagnosisType(response.getReturnType());
         }
         return "无需复诊";
     }
