@@ -6,14 +6,18 @@ import android.util.Log;
 
 import com.doctor.sun.R;
 import com.doctor.sun.emoji.StickerManager;
+import com.doctor.sun.im.custom.AttachmentData;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
-import com.doctor.sun.im.custom.TextAttachment;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.netease.nimlib.sdk.msg.attachment.AudioAttachment;
+import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
+import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
+import com.netease.nimlib.sdk.msg.attachment.VideoAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.yuntongxun.ecsdk.ECMessage;
@@ -37,6 +41,11 @@ public class TextMsg extends RealmObject implements LayoutId {
     public static final int SnapChat = 2;
     public static final int Sticker = 3;
     public static final int RTS = 4;
+
+    public static final int IMAGE = 11;
+    public static final int AUDIO = 12;
+    private static final int VIDEO = 13;
+    public static final int FILE = 14;
 
     public static final String TAG = TextMsg.class.getSimpleName();
     public static final String DIRECTION_SEND = "SEND";
@@ -101,18 +110,43 @@ public class TextMsg extends RealmObject implements LayoutId {
         if (pushContent != null && pushContent.equals("用药信息提醒")) {
             result.setUserData(ADMIN_DRUG);
         }
-        TextAttachment s = parseAttachment(msg);
+        AttachmentData s = parseAttachment(msg);
         if (s != null) {
-            result.setBody("sticker");
+            result.setBody(s.getMsg());
             result.setMessageStatus(s.getData());
             result.setType(String.valueOf(s.getType()));
         }
         return result;
     }
 
-    private static TextAttachment parseAttachment(IMMessage msg) {
+    public static AttachmentData parseAttachment(IMMessage msg) {
         MsgAttachment attachment = msg.getAttachment();
-        TextAttachment result = new TextAttachment();
+        AttachmentData result = new AttachmentData();
+        if (attachment instanceof ImageAttachment) {
+            Log.e(TAG, "parseAttachment: image");
+            ImageAttachment imageAttachment = (ImageAttachment) attachment;
+            result.setType(IMAGE);
+            result.setData(imageAttachment.getUrl());
+            result.setMsg("照片");
+            return result;
+        } else if (attachment instanceof CustomAttachment) {
+            result = parseCustom(msg);
+        } else if (attachment instanceof AudioAttachment) {
+            result.setType(AUDIO);
+            Log.e(TAG, "parseAttachment: audio");
+        } else if (attachment instanceof VideoAttachment) {
+            result.setType(VIDEO);
+            Log.e(TAG, "parseAttachment: video");
+        } else if (attachment instanceof FileAttachment) {
+            Log.e(TAG, "parseAttachment: file");
+        }
+
+        return result;
+    }
+
+    private static AttachmentData parseCustom(IMMessage msg) {
+        MsgAttachment attachment = msg.getAttachment();
+        AttachmentData result = new AttachmentData();
         if (attachment != null) {
             String json = attachment.toJson(true);
             try {
@@ -122,6 +156,7 @@ public class TextMsg extends RealmObject implements LayoutId {
 //                JSONObject data = object.getJSONObject(KEY_DATA);
                 switch (type) {
                     case TextMsg.Sticker: {
+                        result.setMsg("贴图");
                         JavaType javaType = TypeFactory.defaultInstance().constructParametricType(CustomAttachment.class, StickerAttachment.class);
                         CustomAttachment<StickerAttachment> customAttachment = JacksonUtils.fromJson(object.toString(), javaType);
                         StickerAttachment sticker = customAttachment.getData();
@@ -138,7 +173,7 @@ public class TextMsg extends RealmObject implements LayoutId {
             }
             return null;
         } else {
-            Log.e(TAG, "parseAttachment: " + null);
+            Log.e(TAG, "parseCustom: " + null);
         }
         return null;
     }
@@ -260,21 +295,28 @@ public class TextMsg extends RealmObject implements LayoutId {
     public int getItemLayoutId() {
         if (getType().equals(String.valueOf(Sticker))) {
             if (DIRECTION_SEND.equals(getDirection())) {
-                return R.layout.item_sticker_send;
+                return R.layout.msg_sticker_send;
             } else if (DIRECTION_RECEIVE.equals(getDirection())) {
-                return R.layout.item_sticker_receive;
+                return R.layout.msg_sticker_receive;
+            }
+        }
+        if (getType().equals(String.valueOf(IMAGE))) {
+            if (DIRECTION_SEND.equals(getDirection())) {
+                return R.layout.msg_image_send;
+            } else if (DIRECTION_RECEIVE.equals(getDirection())) {
+                return R.layout.msg_image_receive;
             }
         }
         if (DIRECTION_SEND.equals(getDirection())) {
             if (ADMIN_DRUG.equals(getUserData())) {
-                return R.layout.item_prescription_list;
+                return R.layout.msg_prescription_list;
             }
-            return R.layout.item_message_send;
+            return R.layout.msg_text_send;
         } else if (DIRECTION_RECEIVE.equals(getDirection())) {
             if (ADMIN_DRUG.equals(getUserData())) {
-                return R.layout.item_prescription_list;
+                return R.layout.msg_prescription_list;
             }
-            return R.layout.item_message_receive;
+            return R.layout.msg_text_receive;
         }
         return itemLayoutId;
     }

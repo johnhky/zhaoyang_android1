@@ -109,17 +109,8 @@ public class EditPatientInfoActivity extends BaseActivity2 implements EditPatien
     }
 
     public void handleImageRequest(final int requestCode, int resultCode, final Intent data) {
-        File file = null;
         if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case CODE_IMAGE_REQUEST:
-                    file = PickImageDialog.handleAlbumRequest(this, data);
-                    break;
-                case CODE_IMAGE_REQUEST / 2:
-                    file = PickImageDialog.handleCameraRequest();
-                    break;
-            }
-            File compressImage = PickImageDialog.compressImage(file);
+            File compressImage = PickImageDialog.handleRequest(this, data, requestCode);
             RequestBody body = RequestBody.create(MediaType.parse("multipart/form-patient"), compressImage);
             uploadUriApi.uploadPhoto(body).enqueue(new Callback<ApiDTO<Photo>>() {
                 @Override

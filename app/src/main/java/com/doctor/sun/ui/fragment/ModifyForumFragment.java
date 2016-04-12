@@ -44,9 +44,6 @@ import java.util.List;
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
 import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * 填写问卷 修改 病人端 or 医生端
@@ -211,16 +208,7 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
 
     public void handleImageResult(final int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            File file;
-            if (requestCode == Constants.UPLOAD_REQUEST_CODE / 2) {
-                //Camera
-                file = PickImageDialog.handleCameraRequest();
-            } else {
-                //相册
-                file = PickImageDialog.handleAlbumRequest(getActivity(), data);
-            }
-
-            File to = PickImageDialog.compressImage(file);
+            File to = PickImageDialog.handleRequest(getContext(), data, requestCode);
             RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"), to);
             uploadApi.uploadPhoto(body).enqueue(new ApiCallback<Photo>() {
                 @Override

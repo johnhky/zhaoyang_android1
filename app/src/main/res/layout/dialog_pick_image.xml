@@ -32,7 +32,7 @@
                 android:background="#c1cacf" />
 
             <TextView
-                android:id="@+id/tv_album"
+                android:id="@+id/tv_gallery"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_55"
                 android:background="@drawable/ripple_default"

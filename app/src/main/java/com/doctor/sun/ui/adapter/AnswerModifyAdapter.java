@@ -317,7 +317,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             @Override
             public void onClick(View v) {
                 needPillsOrImages = position;
-                PickImageDialog.chooseImage((Activity) mActivity, Constants.UPLOAD_REQUEST_CODE);
+                new PickImageDialog(mActivity, Constants.UPLOAD_REQUEST_CODE).show();
             }
         });
     }

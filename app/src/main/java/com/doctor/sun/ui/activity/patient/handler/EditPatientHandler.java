@@ -29,7 +29,9 @@ public class EditPatientHandler {
         IEditPatient isEditMode = (IEditPatient) view.getContext();
         boolean editStatus = isEditMode.getIsEditMode();
         if (editStatus) {
-            PickImageDialog.chooseImage((Activity) view.getContext(), CODE_IMAGE_REQUEST);
+            PickImageDialog pickImageDialog = new PickImageDialog(view.getContext(), CODE_IMAGE_REQUEST);
+            pickImageDialog.show();
+//            PickImageDialog.((Activity) view.getContext(), CODE_IMAGE_REQUEST);
         }
     }
 

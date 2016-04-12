@@ -33,6 +33,7 @@ import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.doctor.sun.vo.ClickMenu;
 import com.doctor.sun.vo.IntentMenu;
@@ -60,6 +61,8 @@ import io.realm.Sort;
  * Created by rick on 12/11/15.
  */
 public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId {
+    public static final int IMAGE_REQUEST_CODE = 100;
+
     public static final int CALL_PHONE_REQ = 1;
     public static final int DELAY_MILLIS = 300;
     public static final int TYPE_CUSTOM_ACTION = 2;
@@ -164,9 +167,24 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
         SimpleAdapter adapter = new SimpleAdapter(ChattingActivity.this);
 
-        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_phone, "语音电话", null));
-        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.nim_message_plus_photo_selector, "相册", null));
-        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.nim_message_plus_video_selector, "拍摄", null));
+        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_phone, "语音电话", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handler.makePhoneCall(v);
+            }
+        }));
+        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_photo_selector, "相册", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PickImageDialog.openGallery(ChattingActivity.this, IMAGE_REQUEST_CODE);
+            }
+        }));
+        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_video_selector, "拍摄", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PickImageDialog.openCamera(ChattingActivity.this, IMAGE_REQUEST_CODE);
+            }
+        }));
         adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector, "视频聊天", null));
         adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.message_plus_file_selector, "文件传输", null));
         adapter.onFinishLoadMore(true);

@@ -73,8 +73,8 @@ import io.ganguo.library.core.event.EventHub;
  * Created by rick on 11/20/15.
  */
 public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doctor.sun.util.PayInterface {
-    public static final int RECORD_AUDIO_PERMISSION = 400;
-    public static final int PHONE_CALL_PERMISSION = 500;
+    public static final int RECORD_AUDIO_PERMISSION = 40;
+    public static final int PHONE_CALL_PERMISSION = 50;
     private static AppointmentModule api = Api.of(AppointmentModule.class);
     protected Appointment data;
     private static final int layoutId = R.layout.item_appointment;

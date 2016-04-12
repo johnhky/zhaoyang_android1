@@ -229,7 +229,7 @@ public class EditDoctorInfoActivity extends BaseActivity2 implements EditDoctorI
 
     @Override
     public void pickImage(final int id) {
-        PickImageDialog.chooseImage(this, id);
+        new PickImageDialog(this, id).show();
     }
 
     @Override
@@ -242,14 +242,7 @@ public class EditDoctorInfoActivity extends BaseActivity2 implements EditDoctorI
     private void handleImageRequest(final int requestCode, int resultCode, Intent intent) {
         File file;
         if (resultCode == RESULT_OK) {
-            if (requestCode == R.id.lly_avatar / 2
-                    || requestCode == R.id.fy_certified / 2
-                    || requestCode == R.id.fy_title / 2
-                    || requestCode == R.id.fy_practitioner / 2) {
-                file = PickImageDialog.handleCameraRequest();
-            } else {
-                file = PickImageDialog.handleAlbumRequest(this, intent);
-            }
+            file = PickImageDialog.handleRequest(this, intent, requestCode);
             File to = PickImageDialog.compressImage(file);
 
             RequestBody body = RequestBody.create(MediaType.parse("multipart/form-intent"), to);

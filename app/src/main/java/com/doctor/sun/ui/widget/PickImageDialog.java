@@ -1,136 +1,153 @@
 package com.doctor.sun.ui.widget;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 
-import com.doctor.sun.databinding.DialogAvaterBinding;
-import com.doctor.sun.event.CloseDialogEvent;
-import com.doctor.sun.util.PermissionsUtil;
-import com.squareup.otto.Subscribe;
+import com.doctor.sun.R;
+import com.doctor.sun.databinding.DialogPickImageBinding;
+import com.doctor.sun.util.PermissionUtil;
+import com.google.repacked.kotlin.jvm.functions.Function2;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
 import io.ganguo.library.Config;
-import io.ganguo.library.ui.dialog.BaseDialog;
 import io.ganguo.library.util.Images;
-import io.ganguo.library.util.Systems;
-import io.ganguo.library.util.log.Logger;
-import io.ganguo.library.util.log.LoggerFactory;
+
 
 /**
  * 选择上传图片pop up window
+ * 必须要在activity处接受onActivityResult
  * Created by lucas on 1/5/16.
  */
-public class PickImageDialog extends BaseDialog {
-    private Logger logger = LoggerFactory.getLogger(PickImageDialog.class);
-    private Context mActivity;
-    private DialogAvaterBinding binding;
-    private GetActionButton getActionButton;
-    private PermissionsUtil permissionsUtil;
+public class PickImageDialog extends BottomSheetDialog {
+    public static final String TAG = PickImageDialog.class.getSimpleName();
+    public static final int CAMERA_MASK = 1 << 15;
+    public static final int REQUEST_CODE_MASK = ~CAMERA_MASK;
 
-    public PickImageDialog(Context context, GetActionButton getActionButton) {
+    public static final int PERMISSION_REQUEST_CODE = 100;
+    public static final String[] PERMISSIONS = new String[]{
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            "android.permission.READ_EXTERNAL_STORAGE"};
+
+    private int imageRequestCode;
+    private Activity mActivity;
+    private DialogPickImageBinding binding;
+
+    public PickImageDialog(Context context, int imageRequestCode) {
         super(context);
-        mActivity = context;
-        this.getActionButton = getActionButton;
-    }
-
-    @Override
-    public void beforeInitView() {
-        binding = DialogAvaterBinding.inflate(LayoutInflater.from(mActivity));
+        if (isCameraRequest(imageRequestCode)) {
+            throw new IllegalArgumentException("Can only use lower 15 bits for pick image imageRequestCode");
+        }
+        this.imageRequestCode = imageRequestCode;
+        mActivity = (AppCompatActivity) context;
+        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.dialog_pick_image, null, false);
         setContentView(binding.getRoot());
-    }
 
-    @Override
-    public void initView() {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.width = Systems.getScreenWidth(mActivity);
-        getWindow().setAttributes(lp);
-    }
-
-    @Override
-    public void initListener() {
-        binding.tvCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActionButton.onClickCamera();
-                dismiss();
-            }
-        });
-
-        binding.tvAlbum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActionButton.onClickAlbum();
-                dismiss();
-            }
-        });
-
-        binding.tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-    }
-
-    @Override
-    public void initData() {
-        permissionsUtil = new PermissionsUtil((Activity) mActivity);
-        permissionsUtil.checkPermissionAndRequest((Activity) mActivity,
-                PermissionsUtil.PERMISSION_CAMERA, PermissionsUtil.PERMISSION_RES);
+        initListener();
     }
 
 
-    public interface GetActionButton {
-        void onClickCamera();
+    private void initListener() {
+        binding.tvCamera.setOnClickListener(onCameraClick());
 
-        void onClickAlbum();
-    }
+        binding.tvGallery.setOnClickListener(onGalleryPick());
 
-    public static void showAvatarDialog(Context context, final GetActionButton getActionButtom) {
-        final PickImageDialog avatarDialog = new PickImageDialog(context, getActionButtom);
-        avatarDialog.show();
-    }
-
-    public static void chooseImage(final Activity activity, final int requestCode) {
-        final Uri image = Uri.fromFile(handleCameraRequest());
-        PickImageDialog.showAvatarDialog(activity, new PickImageDialog.GetActionButton() {
-            @Override
-            public void onClickCamera() {
-                Intent intentFromCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
-                activity.startActivityForResult(intentFromCamera, requestCode / 2);
-            }
-
-            @Override
-            public void onClickAlbum() {
-                Intent intentFromGallery = new Intent();
-                intentFromGallery.setType("image/*");
-                intentFromGallery.setAction(Intent.ACTION_PICK);
-                activity.startActivityForResult(intentFromGallery, requestCode);
-            }
-        });
+        binding.tvCancel.setOnClickListener(onCancel());
     }
 
     @NonNull
-    public static File handleCameraRequest() {
+    private View.OnClickListener onCancel() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        };
+    }
+
+    @NonNull
+    private View.OnClickListener onGalleryPick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery(mActivity, imageRequestCode);
+                dismiss();
+            }
+        };
+    }
+
+    @NonNull
+    public View.OnClickListener onCameraClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCamera(mActivity, imageRequestCode);
+                dismiss();
+            }
+        };
+    }
+
+    public static void openGallery(Activity mActivity, int imageRequestCode) {
+        Intent intentFromGallery = new Intent();
+        intentFromGallery.setType("image/*");
+        intentFromGallery.setAction(Intent.ACTION_PICK);
+        mActivity.startActivityForResult(intentFromGallery, imageRequestCode);
+    }
+
+
+    public static void openCamera(final Activity mActivity, final int imageRequestCode) {
+        checkPermission(mActivity, new Runnable() {
+            @Override
+            public void run() {
+                final Uri image = Uri.fromFile(handleCameraRequest());
+                Intent intentFromCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
+                mActivity.startActivityForResult(intentFromCamera, imageRequestCode | CAMERA_MASK);
+            }
+        });
+    }
+
+    public static File handleRequest(Context context, Intent data, int requestCode) {
+        File result;
+        if (!isCameraRequest(requestCode)) {
+            result = compressImage(handleGalleryRequest(context, data));
+        } else {
+            result = compressImage(handleCameraRequest());
+        }
+        return result;
+    }
+
+    private static boolean isCameraRequest(int requestCode) {
+        return ((requestCode >> 15) & 0x1) == 1;
+    }
+
+    public static int getRequestCode(int requestCode) {
+        return requestCode & REQUEST_CODE_MASK;
+    }
+
+    @NonNull
+    private static File handleCameraRequest() {
         return new File(Config.getImagePath(), "image");
     }
 
-    public static File handleAlbumRequest(Context context, Intent data) {
+    private static File handleGalleryRequest(Context context, Intent data) {
         File file;
         Uri selectedImage = data.getData();
         //log: selectedImage.getScheme() --> file / content
@@ -187,10 +204,34 @@ public class PickImageDialog extends BaseDialog {
         }
     }
 
-    @Subscribe
-    public void onCloseEvent(CloseDialogEvent event) {
-        if (event.isClose()) {
-            dismiss();
+    /**
+     * Start the dialog and display it on screen.  The window is placed in the
+     * application layer and opaque.  Note that you should not override this
+     * method to do initialization when the dialog is shown, instead implement
+     * that in {@link #onStart}.
+     */
+    @Override
+    public void show() {
+        boolean hasPermission = PermissionUtil.hasSelfPermission(mActivity,
+                PERMISSIONS);
+        if (hasPermission) {
+            super.show();
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                mActivity.requestPermissions(PERMISSIONS, PERMISSION_REQUEST_CODE);
+            }
+        }
+    }
+
+    public static void checkPermission(Activity mActivity, Runnable runnable) {
+        boolean hasPermission = PermissionUtil.hasSelfPermission(mActivity,
+                PERMISSIONS);
+        if (hasPermission) {
+            runnable.run();
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                mActivity.requestPermissions(PERMISSIONS, PERMISSION_REQUEST_CODE);
+            }
         }
     }
 }

@@ -1,10 +1,8 @@
 package com.doctor.sun.im;
 
-import com.doctor.sun.emoji.StickerManager;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
-import com.doctor.sun.im.custom.TextAttachment;
 import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
@@ -16,7 +14,6 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachmentParser;
-import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import org.json.JSONException;
@@ -121,7 +118,7 @@ public class NIMConnectionState implements RequestCallback {
                         CustomAttachment<StickerAttachment> customAttachment = JacksonUtils.fromJson(object.toString(), javaType);
                         return customAttachment;
 //                        StickerAttachment sticker = JacksonUtils.fromJson(data.toString(), StickerAttachment.class);
-//                        TextAttachment textAttachment = new TextAttachment();
+//                        AttachmentData textAttachment = new AttachmentData();
 //                        String text = (StickerManager.FILE_ANDROID_ASSET_STICKER + sticker.getCatalog() + "/" + sticker.getChartlet() + ".png");
 //                        textAttachment.setData(text);
 //                        textAttachment.setType(TextMsg.Sticker);

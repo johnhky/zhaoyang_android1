@@ -6,7 +6,7 @@ import android.databinding.ViewDataBinding;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ItemPrescription2Binding;
-import com.doctor.sun.databinding.ItemPrescriptionListBinding;
+import com.doctor.sun.databinding.MsgPrescriptionListBinding;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.dto.PrescriptionDTO;
 import com.doctor.sun.entity.Appointment;
@@ -105,8 +105,8 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
     public void onBindViewBinding(BaseViewHolder<ViewDataBinding> vh, int position) {
         super.onBindViewBinding(vh, position);
         switch (vh.getItemViewType()) {
-            case R.layout.item_prescription_list: {
-                ItemPrescriptionListBinding binding = (ItemPrescriptionListBinding) vh.getBinding();
+            case R.layout.msg_prescription_list: {
+                MsgPrescriptionListBinding binding = (MsgPrescriptionListBinding) vh.getBinding();
                 binding.prescription.removeAllViews();
                 TextMsg textMsg = get(position);
                 PrescriptionDTO prescriptionDTO = JacksonUtils.fromJson(textMsg.getBody(), PrescriptionDTO.class);
