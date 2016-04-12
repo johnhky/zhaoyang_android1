@@ -89,6 +89,7 @@
                         android:id="@+id/tv_tip"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/dp_240"
+                        android:text="我是用来寄药的"
                         android:gravity="bottom"
                         android:paddingBottom="@dimen/dp_14"
                         android:textColor="#898989"
