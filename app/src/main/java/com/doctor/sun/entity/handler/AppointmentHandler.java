@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,6 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -285,9 +288,17 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
     }
 
     public void accept(final View view) {
-        ApiCallback<String> callback = new GotoConsultingCallback(view);
-        api.startConsulting(data.getId())
-                .enqueue(callback);
+        new MaterialDialog.Builder(view.getContext()).content("若需要提前进行就诊，请先与患者确认。（点击下方通话键可联系患者）是否确认提前就诊？")
+                .positiveText("确认")
+                .negativeText("取消")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        ApiCallback<String> callback = new GotoConsultingCallback(view);
+                        api.startConsulting(data.getId())
+                                .enqueue(callback);
+                    }
+                }).show();
     }
 
     public void acceptReturn(final View view) {
@@ -541,17 +552,17 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         if (data.getDoctor() == null) {
             makePhoneCall(view);
         } else {
-            TwoSelectorDialog.showTwoSelectorDialog(view.getContext(), "通话请求失败\n医生拒绝来电或处于免打扰状态", "取消", "确认", new TwoSelectorDialog.GetActionButton() {
-                @Override
-                public void onClickPositiveButton(final TwoSelectorDialog dialog) {
-                    dialog.dismiss();
-                }
-
-                @Override
-                public void onClickNegativeButton(TwoSelectorDialog dialog) {
-                    dialog.dismiss();
-                }
-            });
+            String question = "通话请求失败:\n①医生拒绝来电\n②医生处于免打扰状态";
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(view.getContext())
+                    .content(question)
+                    .positiveText("确认")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            dialog.dismiss();
+                        }
+                    });
+            builder.show();
         }
     }
 
