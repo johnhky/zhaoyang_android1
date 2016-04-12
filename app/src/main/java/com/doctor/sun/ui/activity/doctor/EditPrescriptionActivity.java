@@ -32,6 +32,10 @@ import io.ganguo.library.util.log.LoggerFactory;
  * Created by rick on 29/12/2015.
  */
 public class EditPrescriptionActivity extends BaseActivity2 {
+    public static final String MORNING_KEY = "早";
+    public static final String AFTERNOON_KEY = "午";
+    public static final String EVENING_KEY = "晚";
+    public static final String NIGHT_KEY = "睡前";
     private Logger logger = LoggerFactory.getLogger(EditPrescriptionActivity.class);
 
     private ActivityEditPrescriptionBinding binding;
@@ -121,23 +125,19 @@ public class EditPrescriptionActivity extends BaseActivity2 {
         Prescription mPrescription = new Prescription();
 
         String mediaclName = binding.medicineName.etInput.getText().toString();
-        if (mediaclName.equals("")) {
-            Toast.makeText(EditPrescriptionActivity.this, "药名不能为空", Toast.LENGTH_SHORT).show();
-            return;
-        }
         mPrescription.setMediaclName(mediaclName);
         mPrescription.setProductName(binding.goodsName.etInput.getText().toString());
         mPrescription.setInterval(binding.interval.getValues().get(binding.interval.getSelectedItem()));
 
         List<HashMap<String, String>> numberList = new ArrayList<>();
         HashMap<String, String> morning = new HashMap<>(1);
-        morning.put("早", binding.morning.etInput.getText().toString());
+        morning.put(MORNING_KEY, binding.morning.etInput.getText().toString());
         HashMap<String, String> afternoon = new HashMap<>(1);
-        afternoon.put("午", binding.afternoon.etInput.getText().toString());
+        afternoon.put(AFTERNOON_KEY, binding.afternoon.etInput.getText().toString());
         HashMap<String, String> evening = new HashMap<>(1);
-        evening.put("晚", binding.evening.etInput.getText().toString());
+        evening.put(EVENING_KEY, binding.evening.etInput.getText().toString());
         HashMap<String, String> night = new HashMap<>(1);
-        night.put("睡前", binding.night.etInput.getText().toString());
+        night.put(NIGHT_KEY, binding.night.etInput.getText().toString());
         numberList.add(morning);
         numberList.add(afternoon);
         numberList.add(evening);
@@ -147,7 +147,9 @@ public class EditPrescriptionActivity extends BaseActivity2 {
         mPrescription.setUnit(binding.unit.getValues().get(binding.unit.getSelectedItem()));
         mPrescription.setRemark(binding.remark.etOthers.getText().toString());
 
-        logger.d(mPrescription);
+        if (!isValid(mPrescription)) {
+            return;
+        }
 
         Messenger messenger = getIntent().getParcelableExtra(Constants.HANDLER);
         if (messenger != null) {
@@ -165,6 +167,37 @@ public class EditPrescriptionActivity extends BaseActivity2 {
         intent.putExtra(Constants.DATA, mPrescription);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    public boolean isValid(Prescription prescription) {
+        if (prescription.getMediaclName().equals("")) {
+            Toast.makeText(EditPrescriptionActivity.this, "药名不能为空", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        List<HashMap<String, String>> numbers = prescription.getNumbers();
+        if (numbers.get(0).get(MORNING_KEY).equals("")) {
+            Toast.makeText(EditPrescriptionActivity.this, "请填写早上应服份量", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (numbers.get(1).get(AFTERNOON_KEY) .equals("")) {
+            Toast.makeText(EditPrescriptionActivity.this, "请填写中午应服份量", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (numbers.get(2).get(EVENING_KEY) .equals("")) {
+            Toast.makeText(EditPrescriptionActivity.this, "请填写晚上应服份量", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (numbers.get(3).get(NIGHT_KEY) .equals("")) {
+            Toast.makeText(EditPrescriptionActivity.this, "请填写睡前应服份量", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (prescription.getRemark().equals("")) {
+            Toast.makeText(EditPrescriptionActivity.this, "请填写备注信息", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     public void initData() {
