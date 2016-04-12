@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentDiagnosisReadonlyBinding;
@@ -110,7 +111,7 @@ public class DiagnosisReadOnlyFragment extends Fragment {
         if (appointment != null) {
             api.diagnosisInfo(appointment.getId()).enqueue(new ApiCallback<DiagnosisInfo>() {
                 @Override
-                protected void handleResponse(DiagnosisInfo response) {
+                protected void handleResponse(final DiagnosisInfo response) {
                     //data != null
                     initDiagnosisView();
 
@@ -135,6 +136,14 @@ public class DiagnosisReadOnlyFragment extends Fragment {
                     resultBinding.tvDoctorAdvince.setText(response.getDoctorAdvince().trim());
                     if (response.getReturnType() == 3) {
                         resultBinding.itemDoctor.setData(response.getDoctorInfo());
+                        if (!AppContext.isDoctor()) {
+                            resultBinding.flyDoctor.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    response.getDoctorInfo().viewDetail(v, Appointment.QUICK);
+                                }
+                            });
+                        }
                     } else {
                         resultBinding.itemDoctor.getRoot().setVisibility(View.GONE);
                     }

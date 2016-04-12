@@ -82,9 +82,16 @@
             android:paddingTop="@dimen/dp_14"
             android:visibility="gone" />
 
-        <include
-            android:id="@+id/item_doctor"
-            layout="@layout/item_transfer_doctor" />
+        <FrameLayout
+            android:id="@+id/fly_doctor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_default">
+
+            <include
+                android:id="@+id/item_doctor"
+                layout="@layout/item_transfer_doctor" />
+        </FrameLayout>
         <!-- 支付方式 (已删除)-->
     </LinearLayout>
 </layout>
