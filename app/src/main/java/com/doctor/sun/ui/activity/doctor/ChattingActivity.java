@@ -18,6 +18,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.NeedSendDrug;
+import com.doctor.sun.entity.NimTeamId;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
@@ -59,7 +60,7 @@ import io.realm.Sort;
  * 聊天模块
  * Created by rick on 12/11/15.
  */
-public class ChattingActivity extends BaseFragmentActivity2 {
+public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId{
     public static final int CALL_PHONE_REQ = 1;
     public static final int DELAY_MILLIS = 300;
     public static final int TYPE_CUSTOM_ACTION = 2;
@@ -346,5 +347,10 @@ public class ChattingActivity extends BaseFragmentActivity2 {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public String getTeamId() {
+        return handler.getTID();
     }
 }

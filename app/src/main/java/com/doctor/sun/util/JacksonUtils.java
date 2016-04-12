@@ -3,6 +3,7 @@ package com.doctor.sun.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -41,7 +42,17 @@ public class JacksonUtils {
             return null;
         }
     }
-
+    /**
+     * json string convert to javaBean
+     */
+    public static <T> T fromJson(String jsonStr, JavaType clazz) {
+        try {
+            return getInstance().readValue(jsonStr, clazz);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     /**
      * json string convert to javaBean
      */

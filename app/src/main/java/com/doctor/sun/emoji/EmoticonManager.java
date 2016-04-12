@@ -47,7 +47,9 @@ public class EmoticonManager {
 
 
     public static SpannableStringBuilder mapToEmoticon(Context context, String text, int emoticonSize, int textSize) {
-
+        if (text == null)  {
+            text = "";
+        }
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
         String rexgString = "\\[[^\\[]{1,10}\\]";
         Pattern pattern = Pattern.compile(rexgString);

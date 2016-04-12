@@ -10,7 +10,7 @@
     </data>
 
     <FrameLayout
-        android:onClick="@{data.onSelect}"
+        android:onClick="@{data.sendSticker}"
         android:background="@drawable/ripple_default"
         android:layout_width="@dimen/dp_90"
         android:layout_height="@dimen/dp_85">

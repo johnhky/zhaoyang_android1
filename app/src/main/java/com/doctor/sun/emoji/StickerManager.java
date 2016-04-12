@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class StickerManager {
     public static final int PER_PAGE = 8;
+    public static final String FILE_ANDROID_ASSET_STICKER = "file:///android_asset/sticker/";
 
     private SparseArray<List<Emoticon>> datas = new SparseArray<>();
     private SparseIntArray pageCounts = new SparseIntArray();
@@ -66,8 +67,9 @@ public class StickerManager {
             pageCounts.put(pageCounts.size(), pageCount);
             for (String file : files) {
                 Emoticon emoticon = new Emoticon();
+                emoticon.setId(name);
                 emoticon.setTag(file);
-                emoticon.setAssetPath("file:///android_asset/sticker/" + name + "/" + file);
+                emoticon.setAssetPath(FILE_ANDROID_ASSET_STICKER + name + "/" + file);
                 stickers.add(emoticon);
             }
         } catch (IOException e) {

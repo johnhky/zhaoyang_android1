@@ -1,17 +1,26 @@
 package com.doctor.sun.im;
 
-import android.util.Log;
-
+import com.doctor.sun.emoji.StickerManager;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.im.custom.CustomAttachment;
+import com.doctor.sun.im.custom.StickerAttachment;
+import com.doctor.sun.im.custom.TextAttachment;
+import com.doctor.sun.util.JacksonUtils;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusCode;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
+import com.netease.nimlib.sdk.msg.attachment.MsgAttachmentParser;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.netease.nimlib.sdk.msg.model.MessageReceipt;
-import com.netease.nimlib.sdk.msg.model.RecentContact;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -36,6 +45,7 @@ public class NIMConnectionState implements RequestCallback {
         NIMClient.getService(MsgServiceObserve.class)
                 .observeReceiveMessage(new statusObserver(), true);
         NIMClient.getService(MsgServiceObserve.class).observeMsgStatus(new IMMessageObserver(), true);
+        NIMClient.getService(MsgService.class).registerCustomAttachmentParser(new CustomAttachParser());
     }
 
     @Override
@@ -65,6 +75,14 @@ public class NIMConnectionState implements RequestCallback {
             realm.copyToRealmOrUpdate(msg1);
             realm.commitTransaction();
             realm.close();
+        } else if (msg.getMsgType().equals(MsgTypeEnum.custom)) {
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            TextMsg msg1 = TextMsg.fromYXMessage(msg);
+            msg1.setHaveRead(haveRead);
+            realm.copyToRealmOrUpdate(msg1);
+            realm.commitTransaction();
+            realm.close();
         }
     }
 
@@ -84,4 +102,47 @@ public class NIMConnectionState implements RequestCallback {
         }
     }
 
+    /**
+     * Created by rick on 11/4/2016.
+     */
+    public static class CustomAttachParser implements MsgAttachmentParser {
+        private static CustomAttachParser instance;
+
+        public static CustomAttachParser getInstance() {
+            if (instance == null) {
+                instance = new CustomAttachParser();
+            }
+            return instance;
+        }
+
+        private static final String KEY_TYPE = "type";
+        private static final String KEY_DATA = "data";
+
+        @Override
+        public MsgAttachment parse(String json) {
+            try {
+                JSONObject object = new JSONObject(json);
+
+                int type = object.getInt(KEY_TYPE);
+//                JSONObject data = object.getJSONObject(KEY_DATA);
+                switch (type) {
+                    case TextMsg.Sticker: {
+                        JavaType javaType = TypeFactory.defaultInstance().constructParametricType(CustomAttachment.class, StickerAttachment.class);
+                        CustomAttachment<StickerAttachment> customAttachment = JacksonUtils.fromJson(object.toString(), javaType);
+                        return customAttachment;
+//                        StickerAttachment sticker = JacksonUtils.fromJson(data.toString(), StickerAttachment.class);
+//                        TextAttachment textAttachment = new TextAttachment();
+//                        String text = (StickerManager.FILE_ANDROID_ASSET_STICKER + sticker.getCatalog() + "/" + sticker.getChartlet() + ".png");
+//                        textAttachment.setData(text);
+//                        textAttachment.setType(TextMsg.Sticker);
+//                        return textAttachment;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+            return null;
+        }
+    }
 }

@@ -5,8 +5,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
+import com.doctor.sun.entity.NimTeamId;
+import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
 /**
@@ -90,5 +93,15 @@ public class Emoticon implements LayoutId {
         EditText textView = (EditText) focusCurrent;
 
         textView.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+    }
+
+    public void sendSticker(View view) {
+        NimTeamId id = (NimTeamId) view.getContext();
+        if (NIMConnectionState.getInstance().isConnected()) {
+            com.doctor.sun.im.Messenger.getInstance().sentSticker(id.getTeamId(), this);
+        } else {
+            Toast.makeText(view.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+            com.doctor.sun.im.Messenger.getInstance().login();
+        }
     }
 }

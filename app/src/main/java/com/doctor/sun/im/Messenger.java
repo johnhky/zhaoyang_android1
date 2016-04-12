@@ -7,12 +7,14 @@ import android.util.Log;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.emoji.Emoticon;
 import com.doctor.sun.entity.VoipAccount;
+import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.im.custom.CustomAttachment;
+import com.doctor.sun.im.custom.StickerAttachment;
 import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.util.JacksonUtils;
-import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
@@ -174,6 +176,17 @@ public class Messenger {
                 SessionTypeEnum.Team, // 聊天类型，单聊或群组
                 text// 文本内容
         );
+        sendMsg(message);
+    }
+
+    public void sentSticker(String to, Emoticon emoticon) {
+        CustomAttachment<StickerAttachment> customAttachment = new CustomAttachment<>();
+        StickerAttachment msgAttachment = new StickerAttachment();
+        msgAttachment.setCatalog(emoticon.getId());
+        msgAttachment.setChartlet(emoticon.getTag().replace(".png",""));
+        customAttachment.setType(TextMsg.Sticker);
+        customAttachment.setData(msgAttachment);
+        final IMMessage message = MessageBuilder.createCustomMessage(to, SessionTypeEnum.Team, customAttachment);
         sendMsg(message);
     }
 
