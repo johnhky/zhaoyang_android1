@@ -20,6 +20,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMedicineHelperBinding;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.NimTeamId;
 import com.doctor.sun.entity.VoipAccount;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
@@ -58,7 +59,7 @@ import io.realm.Sort;
 /**
  * Created by lucas on 2/14/16.
  */
-public class MedicineHelperActivity extends BaseFragmentActivity2 {
+public class MedicineHelperActivity extends BaseFragmentActivity2 implements NimTeamId {
     public static final String ADMIN_DRUG = "[\"admin\"";
     public static final int TYPE_CUSTOM_ACTION = 2;
     public static final int TYPE_EMOTICON = 1;
@@ -111,7 +112,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 {
         api.serverAccount().enqueue(new SimpleCallback<VoipAccount>() {
             @Override
             protected void handleResponse(VoipAccount response) {
-                sendTo = response.getVoipAccount();
+                sendTo = response.getYunxinAccid();
                 initChat(sendTo);
                 initListener();
             }
@@ -124,7 +125,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 {
         binding.rvChat.setAdapter(mChatAdapter);
 
         query = realm.where(TextMsg.class)
-                .equalTo("sessionId", sendTo).contains("userData", getUserData());
+                .equalTo("sessionId", sendTo).or().equalTo("sessionId", "admin");
         results = query.findAllSorted("time", Sort.DESCENDING);
         setReadStatus(results);
         if (results.isEmpty()) {
@@ -292,8 +293,8 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 {
                     Toast.makeText(MedicineHelperActivity.this, "不能发送空消息", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (Messenger.getInstance().isRIMLogin()) {
-                    Messenger.getInstance().sentTextMsg(sendTo, getUserData(), binding.inputText.getText().toString());
+                if (Messenger.getInstance().isNIMLogin()) {
+                    Messenger.getInstance().sentTextMsg(sendTo, SessionTypeEnum.P2P, binding.inputText.getText().toString());
                     binding.inputText.setText("");
                 } else {
                     Toast.makeText(MedicineHelperActivity.this, "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
@@ -316,5 +317,15 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 {
     @Subscribe
     public void closeDrawer(CloseDrawerEvent event) {
         binding.drawerLayout.closeDrawer(GravityCompat.END);
+    }
+
+    @Override
+    public String getTeamId() {
+        return sendTo;
+    }
+
+    @Override
+    public SessionTypeEnum getType() {
+        return SessionTypeEnum.P2P;
     }
 }

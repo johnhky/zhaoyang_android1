@@ -170,23 +170,23 @@ public class Messenger {
         return null;
     }
 
-    public void sentTextMsg(String to, String userData, String text) {
+    public void sentTextMsg(String to, SessionTypeEnum type, String text) {
         final IMMessage message = MessageBuilder.createTextMessage(
                 to, // 聊天对象的 ID，如果是单聊，为用户帐号，如果是群聊，为群组 ID
-                SessionTypeEnum.Team, // 聊天类型，单聊或群组
+                type, // 聊天类型，单聊或群组
                 text// 文本内容
         );
         sendMsg(message);
     }
 
-    public void sentSticker(String to, Emoticon emoticon) {
+    public void sentSticker(String to, SessionTypeEnum type, Emoticon emoticon) {
         CustomAttachment<StickerAttachment> customAttachment = new CustomAttachment<>();
         StickerAttachment msgAttachment = new StickerAttachment();
         msgAttachment.setCatalog(emoticon.getId());
-        msgAttachment.setChartlet(emoticon.getTag().replace(".png",""));
+        msgAttachment.setChartlet(emoticon.getTag().replace(".png", ""));
         customAttachment.setType(TextMsg.Sticker);
         customAttachment.setData(msgAttachment);
-        final IMMessage message = MessageBuilder.createCustomMessage(to, SessionTypeEnum.Team, customAttachment);
+        final IMMessage message = MessageBuilder.createCustomMessage(to, type, customAttachment);
         sendMsg(message);
     }
 

@@ -55,9 +55,9 @@ import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.handler.PayMethodInterface;
 import com.doctor.sun.ui.widget.PayMethodDialog;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.util.PermissionUtil;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECUserState;
@@ -540,7 +540,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             return;
         }
         if (NIMConnectionState.getInstance().isConnected()) {
-            com.doctor.sun.im.Messenger.getInstance().sentTextMsg(getTID(), "", inputText.getText().toString());
+            com.doctor.sun.im.Messenger.getInstance().sentTextMsg(getTID(), SessionTypeEnum.Team, inputText.getText().toString());
             inputText.setText("");
         } else {
             Toast.makeText(inputText.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();

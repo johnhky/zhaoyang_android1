@@ -49,7 +49,6 @@ import java.util.List;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.util.Systems;
-import io.ganguo.library.util.Tasks;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -60,7 +59,7 @@ import io.realm.Sort;
  * 聊天模块
  * Created by rick on 12/11/15.
  */
-public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId{
+public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId {
     public static final int CALL_PHONE_REQ = 1;
     public static final int DELAY_MILLIS = 300;
     public static final int TYPE_CUSTOM_ACTION = 2;
@@ -352,5 +351,10 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     @Override
     public String getTeamId() {
         return handler.getTID();
+    }
+
+    @Override
+    public SessionTypeEnum getType() {
+        return SessionTypeEnum.Team;
     }
 }

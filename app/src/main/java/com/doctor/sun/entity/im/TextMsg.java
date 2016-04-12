@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.doctor.sun.R;
 import com.doctor.sun.emoji.StickerManager;
-import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
 import com.doctor.sun.im.custom.TextAttachment;
@@ -42,6 +41,7 @@ public class TextMsg extends RealmObject implements LayoutId {
     public static final String TAG = TextMsg.class.getSimpleName();
     public static final String DIRECTION_SEND = "SEND";
     public static final String DIRECTION_RECEIVE = "RECEIVE";
+    public static final String ADMIN_DRUG = "[\"admin\",\"drug\"]";
 
 
     private long id;
@@ -97,11 +97,14 @@ public class TextMsg extends RealmObject implements LayoutId {
         result.setBody(msg.getContent());
         result.setTime(msg.getTime());
         result.setFrom(msg.getFromAccount());
-        result.setUserData("");
+        String pushContent = msg.getPushContent();
+        if (pushContent != null && pushContent.equals("用药信息提醒")) {
+            result.setUserData(ADMIN_DRUG);
+        }
         TextAttachment s = parseAttachment(msg);
         if (s != null) {
             result.setBody("sticker");
-            result.setUserData(s.getData());
+            result.setMessageStatus(s.getData());
             result.setType(String.valueOf(s.getType()));
         }
         return result;
@@ -263,9 +266,12 @@ public class TextMsg extends RealmObject implements LayoutId {
             }
         }
         if (DIRECTION_SEND.equals(getDirection())) {
+            if (ADMIN_DRUG.equals(getUserData())) {
+                return R.layout.item_prescription_list;
+            }
             return R.layout.item_message_send;
         } else if (DIRECTION_RECEIVE.equals(getDirection())) {
-            if (getUserData().equals("[\"admin\",\"drug\"]")) {
+            if (ADMIN_DRUG.equals(getUserData())) {
                 return R.layout.item_prescription_list;
             }
             return R.layout.item_message_receive;
