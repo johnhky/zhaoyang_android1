@@ -35,18 +35,12 @@ import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.doctor.sun.util.PickFileUtils;
-import com.doctor.sun.vo.ClickMenu;
+import com.doctor.sun.vo.CustomActionViewModel;
 import com.doctor.sun.vo.InputLayoutViewModel;
 import com.doctor.sun.vo.StickerViewModel;
 import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.avchat.AVChatCallback;
-import com.netease.nimlib.sdk.avchat.AVChatManager;
-import com.netease.nimlib.sdk.avchat.constant.AVChatType;
-import com.netease.nimlib.sdk.avchat.model.AVChatData;
-import com.netease.nimlib.sdk.avchat.model.AVChatNotifyOption;
-import com.netease.nimlib.sdk.avchat.model.VideoChatParam;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
@@ -179,61 +173,12 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
     private void initCustomAction() {
         binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
-        SimpleAdapter adapter = new SimpleAdapter(ChattingActivity.this);
-
-        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_phone, "语音电话", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handler.makePhoneCall(v);
-            }
-        }));
-        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_photo_selector, "相册", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PickImageDialog.openGallery(ChattingActivity.this, IMAGE_REQUEST_CODE);
-            }
-        }));
-        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_video_selector, "拍摄", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PickImageDialog.openCamera(ChattingActivity.this, IMAGE_REQUEST_CODE);
-            }
-        }));
-        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector, "视频聊天", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AVChatManager.getInstance().call(getTeamId(), AVChatType.VIDEO, new VideoChatParam(null, 0), new AVChatNotifyOption(), new AVChatCallback<AVChatData>() {
-                    @Override
-                    public void onSuccess(AVChatData avChatData) {
-
-                    }
-
-                    @Override
-                    public void onFailed(int i) {
-
-                    }
-
-                    @Override
-                    public void onException(Throwable throwable) {
-
-                    }
-                });
-            }
-        }));
-        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_file_selector, "文件传输", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.setType("*/*");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(intent, FILE_REQUEST_CODE);
-            }
-        }));
-
-        adapter.onFinishLoadMore(true);
+        CustomActionViewModel customActionViewModel = new CustomActionViewModel(this, binding.getData());
+        SimpleAdapter adapter = customActionViewModel.getSimpleAdapter();
 
         binding.customAction.setAdapter(adapter);
     }
+
 
     private void pullHistory() {
         InvocationFuture<List<IMMessage>> listInvocationFuture = NIMClient.getService(MsgService.class).pullMessageHistory(MessageBuilder.createTextMessage(sendTo, SessionTypeEnum.Team, ""), 10, false);
@@ -349,7 +294,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
             i = HistoryDetailActivity.makeIntent(this, getData(), ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
         } else {
             i = ConsultingDetailActivity.makeIntent(this, getData(), ConsultingDetailActivity.POSITION_SUGGESTION);
-
         }
         startActivity(i);
     }

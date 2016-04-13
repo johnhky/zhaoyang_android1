@@ -162,7 +162,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
     }
 
     public String getConsultingTitle() {
-        return "患者" + getPatientName() + getRelation2() + "就诊中";
+        return "患者" + getPatientName() + getRelation2() + getOrderStatus();
     }
 
     public String getUserData() {
@@ -632,5 +632,9 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
                 return data.getPhone();
             }
         }
+    }
+
+    public String getOrderStatus() {
+        return "(" + data.getOrderStatus() + ")";
     }
 }

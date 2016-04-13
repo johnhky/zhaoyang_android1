@@ -65,13 +65,13 @@ public class NIMConnectionState implements RequestCallback {
     }
 
     public static void saveMsg(IMMessage msg, boolean haveRead) {
-            Realm realm = Realm.getDefaultInstance();
-            realm.beginTransaction();
-            TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
-            msg1.setHaveRead(haveRead);
-            realm.copyToRealmOrUpdate(msg1);
-            realm.commitTransaction();
-            realm.close();
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
+        msg1.setHaveRead(haveRead);
+        realm.copyToRealmOrUpdate(msg1);
+        realm.commitTransaction();
+        realm.close();
     }
 
     private static class IMMessageObserver implements Observer<IMMessage> {

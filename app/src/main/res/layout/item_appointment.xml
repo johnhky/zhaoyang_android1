@@ -75,13 +75,45 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_14"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
             android:text="@{@string/appointment_progress(data.progress)}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_14"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前病历： "
+                android:textColor="#363636"
+                android:textSize="@dimen/font_12" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.handler.patientName}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_12" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:text="@{data.handler.relation}"
+                android:textColor="#898989"
+                android:textSize="@dimen/font_12" />
+
+        </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -124,12 +156,12 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    app:itemClick="@{data.handler.cancel}"
-                    app:vh="@{vh}"
-                    app:adapter="@{adapter}"
                     android:text="取消预约"
                     android:textColor="#339de1"
-                    android:textSize="@dimen/font_13" />
+                    android:textSize="@dimen/font_13"
+                    app:adapter="@{adapter}"
+                    app:itemClick="@{data.handler.cancel}"
+                    app:vh="@{vh}" />
             </FrameLayout>
 
             <FrameLayout
