@@ -10,10 +10,8 @@ import android.support.v4.app.NotificationManagerCompat;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
-import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
-import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECMessage;
@@ -49,7 +47,7 @@ public class OnMessageReceiveListener implements OnChatReceiveListener, ECDevice
         if (msg.getType() == ECMessage.Type.TXT) {
             Realm realm = ConnectionState.getInstance().getRealm();
             realm.beginTransaction();
-            TextMsg msg1 = TextMsg.fromECMessage(msg);
+            TextMsg msg1 = TextMsgFactory.fromECMessage(msg);
             msg1.setHaveRead(false);
             realm.copyToRealmOrUpdate(msg1);
             showNotification(msg1);

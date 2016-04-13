@@ -11,6 +11,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.entity.NimTeamId;
 import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.InputLayoutViewModel;
 
 /**
  * Created by rick on 7/4/2016.
@@ -79,18 +80,31 @@ public class Emoticon implements LayoutId {
 
     public void onSelect(View view) {
         Activity mActivity = (Activity) view.getContext();
-        View focusCurrent = mActivity.getWindow().getCurrentFocus();
-        if (focusCurrent == null || !(focusCurrent instanceof EditText)) return;
-        TextView textView = (TextView) focusCurrent;
+        TextView textView = getTextView(mActivity);
+        if (textView == null){
+            return;
+        }
 
         EmoticonManager.insertEmoticon(mActivity, textView, tag);
     }
 
+    private TextView getTextView(Activity mActivity) {
+        View focusCurrent = mActivity.getWindow().getCurrentFocus();
+        TextView textView;
+        if (focusCurrent == null || !(focusCurrent instanceof EditText)) {
+            textView = InputLayoutViewModel.getInputTextView();
+        } else {
+            textView = (TextView) focusCurrent;
+        }
+        return textView;
+    }
+
     public void onDelete(View view) {
         Activity mActivity = (Activity) view.getContext();
-        View focusCurrent = mActivity.getWindow().getCurrentFocus();
-        if (focusCurrent == null || !(focusCurrent instanceof EditText)) return;
-        EditText textView = (EditText) focusCurrent;
+        TextView textView = getTextView(mActivity);
+        if (textView == null){
+            return;
+        }
 
         textView.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
     }

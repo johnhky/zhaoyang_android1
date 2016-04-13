@@ -4,7 +4,7 @@ package com.doctor.sun.im.custom;
  * Created by rick on 11/4/2016.
  */
 public class AttachmentData {
-    private int type;
+    private int type = -1;
     private String data;
     private String msg;
     private int imageHeight;

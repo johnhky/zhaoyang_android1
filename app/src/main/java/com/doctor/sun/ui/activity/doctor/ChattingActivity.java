@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 
 import com.doctor.sun.AppContext;
@@ -36,12 +34,19 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.util.PickFileUtils;
 import com.doctor.sun.vo.ClickMenu;
-import com.doctor.sun.vo.IntentMenu;
+import com.doctor.sun.vo.InputLayoutViewModel;
 import com.doctor.sun.vo.StickerViewModel;
 import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.avchat.AVChatCallback;
+import com.netease.nimlib.sdk.avchat.AVChatManager;
+import com.netease.nimlib.sdk.avchat.constant.AVChatType;
+import com.netease.nimlib.sdk.avchat.model.AVChatData;
+import com.netease.nimlib.sdk.avchat.model.AVChatNotifyOption;
+import com.netease.nimlib.sdk.avchat.model.VideoChatParam;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
@@ -64,6 +69,7 @@ import io.realm.Sort;
  */
 public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId {
     public static final int IMAGE_REQUEST_CODE = 100;
+    public static final int FILE_REQUEST_CODE = 200;
 
     public static final int CALL_PHONE_REQ = 1;
     public static final int DELAY_MILLIS = 300;
@@ -159,6 +165,12 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         adapter.onFinishLoadMore(true);
         initCustomAction();
         initSticker();
+        initInputLayout(data);
+    }
+
+    private void initInputLayout(Appointment data) {
+        InputLayoutViewModel vm = new InputLayoutViewModel(binding.input, data);
+        binding.input.setData(vm);
     }
 
     private void initSticker() {
@@ -187,8 +199,37 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                 PickImageDialog.openCamera(ChattingActivity.this, IMAGE_REQUEST_CODE);
             }
         }));
-        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector, "视频聊天", null));
-        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.message_plus_file_selector, "文件传输", null));
+        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector, "视频聊天", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AVChatManager.getInstance().call(getTeamId(), AVChatType.VIDEO, new VideoChatParam(null, 0), new AVChatNotifyOption(), new AVChatCallback<AVChatData>() {
+                    @Override
+                    public void onSuccess(AVChatData avChatData) {
+
+                    }
+
+                    @Override
+                    public void onFailed(int i) {
+
+                    }
+
+                    @Override
+                    public void onException(Throwable throwable) {
+
+                    }
+                });
+            }
+        }));
+        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_file_selector, "文件传输", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.setType("*/*");
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                startActivityForResult(intent, FILE_REQUEST_CODE);
+            }
+        }));
+
         adapter.onFinishLoadMore(true);
 
         binding.customAction.setAdapter(adapter);
@@ -222,7 +263,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     }
 
     private void initListener() {
-        binding.btnCustomAction.setOnClickListener(new View.OnClickListener() {
+        binding.input.btnCustomAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Systems.hideKeyboard(ChattingActivity.this);
@@ -234,7 +275,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                 }, DELAY_MILLIS);
             }
         });
-        binding.btnEmoticon.setOnClickListener(new View.OnClickListener() {
+        binding.input.btnEmoticon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Systems.hideKeyboard(ChattingActivity.this);
@@ -244,29 +285,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                         binding.setKeyboardType(TYPE_EMOTICON);
                     }
                 }, DELAY_MILLIS);
-            }
-        });
-        binding.inputText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                binding.setIsEditing(s.length() > 0);
-                binding.executePendingBindings();
-            }
-        });
-        binding.btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handler.sendMessage(binding.inputText);
             }
         });
     }
@@ -389,11 +407,26 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == IMAGE_REQUEST_CODE) {
-                File file = PickImageDialog.handleRequest(this, data, requestCode);
-                if (file != null) {
-                    Messenger.getInstance().sentImage(sendTo, getType(), file);
-                }
+            handleImageRequest(requestCode, data);
+            handleFileRequest(requestCode, data);
+        }
+    }
+
+    private void handleFileRequest(int requestCode, Intent data) {
+        if (FILE_REQUEST_CODE == requestCode) {
+            // Get the Uri of the selected file
+            File file = PickFileUtils.getFile(this, data);
+            if (file != null) {
+                Messenger.getInstance().sentFile(sendTo, getType(), file);
+            }
+        }
+    }
+
+    private void handleImageRequest(int requestCode, Intent data) {
+        if (IMAGE_REQUEST_CODE == PickImageDialog.getRequestCode(requestCode)) {
+            File file = PickImageDialog.handleRequest(this, data, requestCode);
+            if (file != null) {
+                Messenger.getInstance().sentImage(sendTo, getType(), file);
             }
         }
     }

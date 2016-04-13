@@ -2,28 +2,9 @@ package com.doctor.sun.entity.im;
 
 
 import android.support.annotation.IntDef;
-import android.util.Log;
 
 import com.doctor.sun.R;
-import com.doctor.sun.emoji.StickerManager;
-import com.doctor.sun.im.custom.AttachmentData;
-import com.doctor.sun.im.custom.CustomAttachment;
-import com.doctor.sun.im.custom.StickerAttachment;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.util.JacksonUtils;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.netease.nimlib.sdk.msg.attachment.AudioAttachment;
-import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
-import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
-import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
-import com.netease.nimlib.sdk.msg.attachment.VideoAttachment;
-import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
-import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.yuntongxun.ecsdk.ECMessage;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -43,14 +24,8 @@ public class TextMsg extends RealmObject implements LayoutId {
     public static final int RTS = 4;
 
     public static final int IMAGE = 11;
-    public static final int AUDIO = 12;
-    private static final int VIDEO = 13;
-    public static final int FILE = 14;
 
     public static final String TAG = TextMsg.class.getSimpleName();
-    public static final String DIRECTION_SEND = "SEND";
-    public static final String DIRECTION_RECEIVE = "RECEIVE";
-    public static final String ADMIN_DRUG = "[\"admin\",\"drug\"]";
 
 
     private long id;
@@ -75,121 +50,6 @@ public class TextMsg extends RealmObject implements LayoutId {
     private int itemLayoutId = -1;
     @Ignore
     private String avatar;
-
-    public static TextMsg fromECMessage(ECMessage msg) {
-        TextMsg result = new TextMsg();
-        result.setId(msg.getId());
-        result.setSessionId(msg.getSessionId());
-        result.setType(msg.getType().toString());
-        result.setDirection(msg.getDirection().toString());
-        String body = msg.getBody().toString();
-        result.setBody(body.substring(19, body.length() - 1));
-        result.setMsgId(msg.getMsgId());
-        result.setTime(msg.getMsgTime());
-        result.setNickName(msg.getNickName());
-        result.setFrom(msg.getForm());
-        result.setTo(msg.getTo());
-        result.setUserData(msg.getUserData().replaceAll("\\s*|\t|\r|\n", ""));
-        result.setMessageStatus(msg.getMsgStatus().toString());
-        result.setIsAnonymity(msg.isAnonymity());
-        return result;
-    }
-
-    public static TextMsg fromYXMessage(IMMessage msg) {
-        TextMsg result = new TextMsg();
-        result.setMsgId(msg.getUuid());
-        result.setSessionId(msg.getSessionId());
-        result.setType(msg.getMsgType().toString());
-        if (msg.getDirect().equals(MsgDirectionEnum.In)) {
-            result.setDirection(DIRECTION_RECEIVE);
-        } else if (msg.getDirect().equals(MsgDirectionEnum.Out)) {
-            result.setDirection(DIRECTION_SEND);
-        }
-        result.setBody(msg.getContent());
-        result.setTime(msg.getTime());
-        result.setFrom(msg.getFromAccount());
-        String pushContent = msg.getPushContent();
-        if (pushContent != null && pushContent.equals("用药信息提醒")) {
-            result.setUserData(ADMIN_DRUG);
-        }
-        AttachmentData s = parseAttachment(msg);
-        if (s != null) {
-            result.setBody(s.getMsg());
-            result.setMessageStatus(s.getData());
-            result.setType(String.valueOf(s.getType()));
-            result.setImageHeight(s.getImageHeight());
-            result.setImageWidth(s.getImageWidth());
-        }
-        return result;
-    }
-
-    public static AttachmentData parseAttachment(IMMessage msg) {
-        MsgAttachment attachment = msg.getAttachment();
-        AttachmentData result = new AttachmentData();
-        if (attachment instanceof ImageAttachment) {
-            Log.e(TAG, "parseAttachment: image");
-            ImageAttachment imageAttachment = (ImageAttachment) attachment;
-            result.setType(IMAGE);
-            result.setData(imageAttachment.getUrl());
-            result.setMsg("照片");
-            int imageWidth = imageAttachment.getWidth();
-            int imageHeight = imageAttachment.getHeight();
-            while (imageWidth > 300 || imageHeight > 800) {
-                if (imageWidth < 200 || imageHeight < 200) break;
-                imageWidth /= 2;
-                imageHeight /= 2;
-            }
-            result.setImageWidth(imageWidth);
-            result.setImageHeight(imageHeight);
-            return result;
-        } else if (attachment instanceof CustomAttachment) {
-            result = parseCustom(msg);
-        } else if (attachment instanceof AudioAttachment) {
-            result.setType(AUDIO);
-            Log.e(TAG, "parseAttachment: audio");
-        } else if (attachment instanceof VideoAttachment) {
-            result.setType(VIDEO);
-            Log.e(TAG, "parseAttachment: video");
-        } else if (attachment instanceof FileAttachment) {
-            Log.e(TAG, "parseAttachment: file");
-        }
-
-        return result;
-    }
-
-    private static AttachmentData parseCustom(IMMessage msg) {
-        MsgAttachment attachment = msg.getAttachment();
-        AttachmentData result = new AttachmentData();
-        if (attachment != null) {
-            String json = attachment.toJson(true);
-            try {
-                JSONObject object = new JSONObject(json);
-
-                int type = object.getInt("type");
-//                JSONObject data = object.getJSONObject(KEY_DATA);
-                switch (type) {
-                    case TextMsg.Sticker: {
-                        result.setMsg("贴图");
-                        JavaType javaType = TypeFactory.defaultInstance().constructParametricType(CustomAttachment.class, StickerAttachment.class);
-                        CustomAttachment<StickerAttachment> customAttachment = JacksonUtils.fromJson(object.toString(), javaType);
-                        StickerAttachment sticker = customAttachment.getData();
-                        String text = (StickerManager.FILE_ANDROID_ASSET_STICKER + sticker.getCatalog() + "/" + sticker.getChartlet() + ".png");
-//                        textAttachment.setData(text);
-                        result.setData(text);
-                        result.setType(TextMsg.Sticker);
-                        return result;
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
-            return null;
-        } else {
-            Log.e(TAG, "parseCustom: " + null);
-        }
-        return null;
-    }
 
 
     public long getId() {
@@ -323,26 +183,26 @@ public class TextMsg extends RealmObject implements LayoutId {
     @Override
     public int getItemLayoutId() {
         if (getType().equals(String.valueOf(Sticker))) {
-            if (DIRECTION_SEND.equals(getDirection())) {
+            if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
                 return R.layout.msg_sticker_send;
-            } else if (DIRECTION_RECEIVE.equals(getDirection())) {
+            } else if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
                 return R.layout.msg_sticker_receive;
             }
         }
         if (getType().equals(String.valueOf(IMAGE))) {
-            if (DIRECTION_SEND.equals(getDirection())) {
+            if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
                 return R.layout.msg_image_send;
-            } else if (DIRECTION_RECEIVE.equals(getDirection())) {
+            } else if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
                 return R.layout.msg_image_receive;
             }
         }
-        if (DIRECTION_SEND.equals(getDirection())) {
-            if (ADMIN_DRUG.equals(getUserData())) {
+        if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
+            if (TextMsgFactory.ADMIN_DRUG.equals(getUserData())) {
                 return R.layout.msg_prescription_list;
             }
             return R.layout.msg_text_send;
-        } else if (DIRECTION_RECEIVE.equals(getDirection())) {
-            if (ADMIN_DRUG.equals(getUserData())) {
+        } else if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
+            if (TextMsgFactory.ADMIN_DRUG.equals(getUserData())) {
                 return R.layout.msg_prescription_list;
             }
             return R.layout.msg_text_receive;

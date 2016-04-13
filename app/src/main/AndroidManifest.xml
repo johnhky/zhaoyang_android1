@@ -455,6 +455,24 @@
             android:name="com.netease.cosine.target.CosineReceiver"
             android:exported="true"
             android:process=":cosine" />
+        <!-- 申明实时音视频来电通知的广播接收器，第三方APP集成时，
+    action中的com.netease.nim.demo请替换为自己的包名 -->
+        <receiver
+            android:name="com.netease.nimlib.receiver.AVChatBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.doctor.sun.ACTION.RECEIVE_AVCHAT_CALL_NOTIFICATION"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- 申明本地电话状态（通话状态）的广播接收器，第三方APP集成时音视频模块时，如果需要网络通话与本地电话互斥，请加上此接收器 -->
+        <receiver android:name="com.netease.nimlib.receiver.IncomingCallReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"/>
+            </intent-filter>
+        </receiver>
+
 
         <meta-data
             android:name="com.netease.cosine.target"

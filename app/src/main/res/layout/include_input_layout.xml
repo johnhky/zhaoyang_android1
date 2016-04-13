@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vo.InputLayoutViewModel" />
+
+        <variable
+            name="isEditing"
+            type="boolean"/>
+
+    </data>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:showIn="@layout/activity_chatting">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_margin="@dimen/dp_2"
+                android:background="@drawable/nim_message_button_bottom_audio_selector"
+                android:clickable="true"
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <EditText
+                android:id="@+id/input_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_6"
+                android:layout_marginTop="@dimen/dp_6"
+                android:layout_weight="1"
+                android:background="@drawable/bg_msg_input"
+                android:imeOptions="actionDone"
+                android:maxHeight="@dimen/dp_100"
+                android:afterTextChanged="@{data.afterInputChanged}"
+                android:setOnEditorActionListener="@{data.sendMessageAction}" />
+
+
+            <TextView
+                android:id="@+id/btn_emoticon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_margin="@dimen/dp_2"
+                android:background="@drawable/nim_message_button_bottom_emoji_selector"
+                android:clickable="true"
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/btn_custom_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_margin="@dimen/dp_2"
+                android:background="@drawable/nim_message_button_bottom_add_selector"
+                android:clickable="true"
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:visibility="@{!isEditing}" />
+
+            <TextView
+                android:id="@+id/btn_send"
+                android:layout_width="@dimen/dp_45"
+                android:layout_height="@dimen/dp_25"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="@dimen/dp_3"
+                android:layout_marginRight="@dimen/dp_3"
+                android:background="@drawable/btn_captcha_blue"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="发送"
+                android:textColor="@color/white"
+                android:onClick="@{data.onSendClick()}"
+                android:visibility="@{isEditing}" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/grey_c2" />
+
+    </LinearLayout>
+</layout>

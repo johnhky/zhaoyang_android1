@@ -29,7 +29,7 @@
             android:padding="@dimen/dp_10"
             android:background="@drawable/nim_message_right_blue_bg"
             android:emoticon="@{data.body}"
-            android:textColor="#0072bc"
+            android:textColor="@color/white"
             android:textSize="@dimen/font_13" />
 
         <com.doctor.sun.ui.widget.BezelImageView

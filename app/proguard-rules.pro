@@ -21,3 +21,6 @@
 -keep class com.netease.** {*;}
 #如果 netty 使用的官方版本，它中间用到了反射，因此需要 keep。如果使用的是我们提供的版本，则不需要 keep
 -keep class io.netty.** {*;}
+
+-dontwarn com.netease.nrtc.**
+-keep class com.netease.nrtc.** {*;}

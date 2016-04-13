@@ -1,6 +1,7 @@
 package com.doctor.sun.im;
 
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
 import com.doctor.sun.util.JacksonUtils;
@@ -66,7 +67,7 @@ public class NIMConnectionState implements RequestCallback {
     public static void saveMsg(IMMessage msg, boolean haveRead) {
             Realm realm = Realm.getDefaultInstance();
             realm.beginTransaction();
-            TextMsg msg1 = TextMsg.fromYXMessage(msg);
+            TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
             msg1.setHaveRead(haveRead);
             realm.copyToRealmOrUpdate(msg1);
             realm.commitTransaction();

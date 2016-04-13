@@ -1,7 +1,9 @@
 package com.doctor.sun.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
+import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -19,6 +21,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ImModule;
+import com.doctor.sun.ui.activity.ImagePreviewActivity;
 import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.util.JacksonUtils;
@@ -134,5 +137,15 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
     @Override
     protected int getItemLayoutId(int position) {
         return super.getItemLayoutId(position);
+    }
+
+    public View.OnClickListener previewImage(final String url) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = ImagePreviewActivity.makeIntent(v.getContext(), url);
+                v.getContext().startActivity(intent);
+            }
+        };
     }
 }
