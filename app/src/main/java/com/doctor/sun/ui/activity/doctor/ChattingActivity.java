@@ -23,6 +23,7 @@ import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.im.Messenger;
 import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
@@ -46,6 +47,7 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
+import java.io.File;
 import java.util.List;
 
 import io.ganguo.library.Config;
@@ -374,5 +376,25 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     @Override
     public SessionTypeEnum getType() {
         return SessionTypeEnum.Team;
+    }
+
+    /**
+     * Dispatch incoming result to the correct fragment.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == IMAGE_REQUEST_CODE) {
+                File file = PickImageDialog.handleRequest(this, data, requestCode);
+                if (file != null) {
+                    Messenger.getInstance().sentImage(sendTo, getType(), file);
+                }
+            }
+        }
     }
 }

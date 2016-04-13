@@ -26,6 +26,8 @@ import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECInitParams;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
 
+import java.io.File;
+
 import io.ganguo.library.Config;
 
 
@@ -187,6 +189,16 @@ public class Messenger {
         customAttachment.setType(TextMsg.Sticker);
         customAttachment.setData(msgAttachment);
         final IMMessage message = MessageBuilder.createCustomMessage(to, type, customAttachment);
+        sendMsg(message);
+    }
+
+    public void sentImage(String to, SessionTypeEnum type, File image) {
+        final IMMessage message = MessageBuilder.createImageMessage(to, type, image);
+        sendMsg(message);
+    }
+
+    public void sentAudio(String to, SessionTypeEnum type, File audio) {
+        final IMMessage message = MessageBuilder.createAudioMessage(to, type, audio, 100);
         sendMsg(message);
     }
 

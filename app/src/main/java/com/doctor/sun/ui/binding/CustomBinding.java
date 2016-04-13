@@ -17,11 +17,16 @@ public class CustomBinding {
     public static void loadImage(ImageView imageView, String url, Drawable icon) {
         Glide.with(imageView.getContext()).load(url).placeholder(icon).into(imageView);
     }
+
     @android.databinding.BindingAdapter(value = {"android:src"}, requireAll = false)
     public static void loadImage(ImageView imageView, int resourceId) {
         Glide.with(imageView.getContext()).load(resourceId).into(imageView);
     }
 
+    @android.databinding.BindingAdapter(value = {"android:src", "app:width", "app:height"}, requireAll = false)
+    public static void loadImage(ImageView imageView, String url, int width, int height) {
+        Glide.with(imageView.getContext()).load(url).override(width, height).into(imageView);
+    }
 //    @android.databinding.BindingAdapter(value = {"android:src"})
 //    public static void loadImage(ImageView imageView, int resource) {
 //        Glide.with(imageView.getContext()).load(resource).into(imageView);

@@ -22,6 +22,7 @@ import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmMigration;
+import io.realm.RealmSchema;
 
 /**
  * App 上下文环境
@@ -31,6 +32,7 @@ import io.realm.RealmMigration;
 public class AppContext extends BaseApp {
     public static final String TAG = AppContext.class.getSimpleName();
     public static final String COM_DOCTOR_SUN = "com.doctor.sun";
+    public static final int NEW_VERSION = 2;
     private static int userType = -1;
     private static boolean isInitialized;
 
@@ -54,9 +56,18 @@ public class AppContext extends BaseApp {
         NIMClient.init(this, null, null);
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
+                .schemaVersion(NEW_VERSION)
                 .migration(new RealmMigration() {
                     @Override
-                    public void migrate(DynamicRealm dynamicRealm, long l, long l1) {
+                    public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
+                        RealmSchema schema = realm.getSchema();
+                        if (oldVersion < 2) {
+                            schema.create("TextMsg")
+                                    .addField("imageWidth", String.class)
+                                    .addField("imageHeight", String.class);
+                            oldVersion++;
+                        }
+
                     }
                 })
                 .build();

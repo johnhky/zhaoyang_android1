@@ -69,6 +69,8 @@ public class TextMsg extends RealmObject implements LayoutId {
     private int version;
     private boolean isAnonymity;
     private boolean haveRead;
+    private int imageWidth;
+    private int imageHeight;
     @Ignore
     private int itemLayoutId = -1;
     @Ignore
@@ -115,6 +117,8 @@ public class TextMsg extends RealmObject implements LayoutId {
             result.setBody(s.getMsg());
             result.setMessageStatus(s.getData());
             result.setType(String.valueOf(s.getType()));
+            result.setImageHeight(s.getImageHeight());
+            result.setImageWidth(s.getImageWidth());
         }
         return result;
     }
@@ -128,6 +132,15 @@ public class TextMsg extends RealmObject implements LayoutId {
             result.setType(IMAGE);
             result.setData(imageAttachment.getUrl());
             result.setMsg("照片");
+            int imageWidth = imageAttachment.getWidth();
+            int imageHeight = imageAttachment.getHeight();
+            while (imageWidth > 300 || imageHeight > 800) {
+                if (imageWidth < 200 || imageHeight < 200) break;
+                imageWidth /= 2;
+                imageHeight /= 2;
+            }
+            result.setImageWidth(imageWidth);
+            result.setImageHeight(imageHeight);
             return result;
         } else if (attachment instanceof CustomAttachment) {
             result = parseCustom(msg);
@@ -289,6 +302,22 @@ public class TextMsg extends RealmObject implements LayoutId {
 
     public void setIsAnonymity(boolean isAnonymity) {
         this.isAnonymity = isAnonymity;
+    }
+
+    public int getImageWidth() {
+        return imageWidth;
+    }
+
+    public void setImageWidth(int imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    public int getImageHeight() {
+        return imageHeight;
+    }
+
+    public void setImageHeight(int imageHeight) {
+        this.imageHeight = imageHeight;
     }
 
     @Override

@@ -33,7 +33,8 @@
 
         <TextView
             android:emoticon="@{data.body}"
-            android:background="@drawable/bg_sent_msg"
+            android:background="@drawable/nim_message_left_white_bg"
+            android:padding="@dimen/dp_10"
             android:textSize="@dimen/font_13"
             android:textColor="#363636"
             android:layout_marginRight="@dimen/dp_50"

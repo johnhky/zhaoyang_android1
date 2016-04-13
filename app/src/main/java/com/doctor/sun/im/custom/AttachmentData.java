@@ -7,6 +7,8 @@ public class AttachmentData {
     private int type;
     private String data;
     private String msg;
+    private int imageHeight;
+    private int imageWidth;
 
     public String getMsg() {
         return msg;
@@ -31,5 +33,21 @@ public class AttachmentData {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public int getImageHeight() {
+        return imageHeight;
+    }
+
+    public void setImageHeight(int imageHeight) {
+        this.imageHeight = imageHeight;
+    }
+
+    public int getImageWidth() {
+        return imageWidth;
+    }
+
+    public void setImageWidth(int imageWidth) {
+        this.imageWidth = imageWidth;
     }
 }
