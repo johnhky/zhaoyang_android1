@@ -96,6 +96,7 @@ public class OptionsHandler {
                 Answer parent = getParent(adapter, parentPosition);
                 parent.getQuestion().getOptions().set(childDataPosition - 1, options);
 
+                parent.getSelectedOptions().put(options.getOptionType(), options.getOptionInput());
                 adapter.set(childAdapterPosition, options);
                 adapter.set(options.getParentPosition(), parent);
             }

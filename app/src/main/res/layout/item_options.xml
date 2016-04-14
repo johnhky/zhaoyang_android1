@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_6"
             android:layout_marginTop="@dimen/dp_6"
-            android:afterTextChanged="@{data.handler.contentChanged(adapter,vh)}"
+            android:afterTextChanged="@{data.handler.isFill(data.optionContent)?data.handler.contentChanged(adapter,vh):null}"
             android:background="@drawable/bg_options"
             android:button="@drawable/ic_options"
             android:hint="@{data.handler.hint(data)}"
