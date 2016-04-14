@@ -73,7 +73,7 @@ public class SystemTipActivity extends PageActivity {
     @Override
     public void onMenuClicked() {
         super.onMenuClicked();
-        TwoSelectorDialog.showTwoSelectorDialog(this, "020-81212600", "取消", "呼叫", new TwoSelectorDialog.GetActionButton() {
+        TwoSelectorDialog.showTwoSelectorDialog(this, "020-4008352600", "取消", "呼叫", new TwoSelectorDialog.GetActionButton() {
             @Override
             public void onClickPositiveButton(TwoSelectorDialog dialog) {
                 if (permissionsUtil.lacksPermissions(PermissionsUtil.PERMISSION_CALL)) {
@@ -81,7 +81,7 @@ public class SystemTipActivity extends PageActivity {
                     return;
                 }
                 try {
-                    Uri uri = Uri.parse("tel:02081212600");
+                    Uri uri = Uri.parse("tel:4008352600");
                     Intent intent = new Intent(Intent.ACTION_CALL, uri);
                     startActivity(intent);
                 } catch (SecurityException e) {
