@@ -36,7 +36,7 @@ public class AppointmentPagerAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             return "已付款";
         } else {
-            return "未付款";
+            return "咨询订单";
         }
     }
 

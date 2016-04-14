@@ -44,7 +44,7 @@ public class PAppointmentListFragment extends ListFragment {
 
     @Override
     protected void loadMore() {
-        api.pAppointments(getCallback().getPage()).enqueue(getCallback());
+        api.patientAppointment(getCallback().getPage()).enqueue(getCallback());
     }
 
     private int getType() {

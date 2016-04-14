@@ -86,7 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/font_13"
-                        app:html="@{data.handler.status}" />
+                        app:html="@{data.handler.styledOrderStatus}" />
 
 
                 </LinearLayout>

@@ -36,7 +36,7 @@ public class AppointmentListFragment extends ListFragment {
 
     @Override
     protected void loadMore() {
-        api.dAppointments(getCallback().getPage(), String.valueOf(AppointmentPagerAdapter.STATUS[position])).enqueue(getCallback());
+        api.doctorAppointment(getCallback().getPage(), String.valueOf(AppointmentPagerAdapter.STATUS[position])).enqueue(getCallback());
     }
 
 }

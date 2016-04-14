@@ -637,4 +637,22 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
     public String getOrderStatus() {
         return "(" + data.getOrderStatus() + ")";
     }
+
+    public String styledOrderStatus() {
+        return "<font color='" + getStatusColor() + "'>" + data.getOrderStatus() + "</font>";
+    }
+
+
+    public String getStatusColor() {
+        switch (data.getOrderStatus()) {
+            case "未付款":
+                return "#f76d02";
+            case "已付款":
+                return "#88cb5a";
+            case "待建议" :
+                return "#82c252";
+            default:
+                return "#898989";
+        }
+    }
 }
