@@ -192,66 +192,66 @@
             android:layout_height="1px"
             android:background="#c1cacf" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/ripple_default"
-            android:onClick="@{handler.consultation}"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@drawable/ripple_default"-->
+        <!--android:onClick="@{handler.consultation}"-->
+        <!--android:orientation="horizontal">-->
 
-            <LinearLayout
-                android:layout_width="@dimen/dp_192"
-                android:layout_height="match_parent">
+        <!--<LinearLayout-->
+        <!--android:layout_width="@dimen/dp_192"-->
+        <!--android:layout_height="match_parent">-->
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_consultation" />
-            </LinearLayout>
+        <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:src="@drawable/ic_consultation" />-->
+        <!--</LinearLayout>-->
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical">-->
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="转诊"
-                    android:textColor="#363636"
-                    android:textSize="@dimen/font_15" />
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="转诊"-->
+        <!--android:textColor="#363636"-->
+        <!--android:textSize="@dimen/font_15" />-->
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#898989"
-                    android:textSize="@dimen/font_13"
-                    app:html="@{@string/label_consultation(data.transferNum)}" />
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="#898989"-->
+        <!--android:textSize="@dimen/font_13"-->
+        <!--app:html="@{@string/label_consultation(data.transferNum)}" />-->
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-            </LinearLayout>
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1" />-->
+        <!--</LinearLayout>-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#c1cacf" />
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1px"-->
+        <!--android:background="#c1cacf" />-->
 
         <LinearLayout
             android:id="@+id/tab_two"
@@ -259,8 +259,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/ripple_default"
-            app:onClick="@{footer.onFooterClick}"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:onClick="@{footer.onFooterClick}">
 
             <LinearLayout
                 android:layout_width="@dimen/dp_192"
@@ -310,6 +310,16 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#c1cacf" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <include
             layout="@layout/include_footer"
