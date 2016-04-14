@@ -22,10 +22,10 @@
             layout="@layout/include_header2"
             bind:header="@{header}" />
 
-        <com.doctor.sun.ui.widget.SlidingTabLayout
-            android:id="@+id/pager_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <!--<com.doctor.sun.ui.widget.SlidingTabLayout-->
+            <!--android:id="@+id/pager_tabs"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
 
         <View
             android:layout_width="match_parent"

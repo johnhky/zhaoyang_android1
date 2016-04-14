@@ -32,7 +32,7 @@ public class ConsultingPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 1;
     }
 
     @Override

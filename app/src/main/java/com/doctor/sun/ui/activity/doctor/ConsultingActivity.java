@@ -44,10 +44,10 @@ public class ConsultingActivity extends BaseFragmentActivity2 {
 
         binding.vp.setAdapter(new ConsultingPagerAdapter(getSupportFragmentManager()));
 
-        binding.pagerTabs.setCustomTabView(R.layout.tab_custom, android.R.id.text1);
-        binding.pagerTabs.setDistributeEvenly(true);
-        binding.pagerTabs.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimaryDark));
-        binding.pagerTabs.setViewPager(binding.vp);
+//        binding.pagerTabs.setCustomTabView(R.layout.tab_custom, android.R.id.text1);
+//        binding.pagerTabs.setDistributeEvenly(true);
+//        binding.pagerTabs.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimaryDark));
+//        binding.pagerTabs.setViewPager(binding.vp);
     }
 
     @Override
