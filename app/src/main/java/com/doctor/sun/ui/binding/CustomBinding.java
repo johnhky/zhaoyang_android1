@@ -1,5 +1,7 @@
 package com.doctor.sun.ui.binding;
 
+import android.databinding.BindingAdapter;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.text.Html;
@@ -109,4 +111,14 @@ public class CustomBinding {
             view.setVisibility(View.GONE);
         }
     }
+
+    @BindingAdapter("android:selectDrawable")
+    public static void selectDrawable(View view,int position) {
+        if (view.getBackground() instanceof AnimationDrawable) {
+            AnimationDrawable animation = (AnimationDrawable) view.getBackground();
+            animation.stop();
+            animation.selectDrawable(position);
+        }
+    }
+
 }

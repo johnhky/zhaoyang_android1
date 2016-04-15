@@ -1,6 +1,7 @@
 package com.doctor.sun.entity.im;
 
 
+import android.os.Handler;
 import android.support.annotation.IntDef;
 
 import com.doctor.sun.R;
@@ -24,8 +25,12 @@ public class TextMsg extends RealmObject implements LayoutId {
     public static final int RTS = 4;
 
     public static final int IMAGE = 11;
+    public static final int AUDIO = 12;
+    public static final int VIDEO = 13;
+    public static final int FILE = 14;
 
     public static final String TAG = TextMsg.class.getSimpleName();
+    public static final MsgHandler handler = new MsgHandler();
 
 
     private long id;
@@ -194,6 +199,13 @@ public class TextMsg extends RealmObject implements LayoutId {
                 return R.layout.msg_image_send;
             } else if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
                 return R.layout.msg_image_receive;
+            }
+        }
+        if (getType().equals(String.valueOf(AUDIO))) {
+            if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
+                return R.layout.msg_audio_send;
+            } else if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
+                return R.layout.msg_audio_receive;
             }
         }
         if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {

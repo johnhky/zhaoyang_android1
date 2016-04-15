@@ -26,12 +26,10 @@ import org.json.JSONObject;
  * Created by rick on 13/4/2016.
  */
 public class TextMsgFactory {
-    public static final int AUDIO = 12;
-    public static final int FILE = 14;
     public static final String DIRECTION_SEND = "SEND";
     public static final String DIRECTION_RECEIVE = "RECEIVE";
     public static final String ADMIN_DRUG = "[\"admin\",\"drug\"]";
-    private static final int VIDEO = 13;
+    public static final int ONE_SECOND = 1000;
 
     public static TextMsg fromECMessage(ECMessage msg) {
         TextMsg result = new TextMsg();
@@ -88,15 +86,24 @@ public class TextMsgFactory {
         } else if (attachment instanceof CustomAttachment) {
             result = parseCustom(msg);
         } else if (attachment instanceof AudioAttachment) {
-            result.setType(AUDIO);
-            Log.e(TextMsg.TAG, "parseAttachment: audio");
+            result.setType(TextMsg.AUDIO);
+            return parseAudio((AudioAttachment) attachment);
         } else if (attachment instanceof VideoAttachment) {
-            result.setType(VIDEO);
+            result.setType(TextMsg.VIDEO);
             Log.e(TextMsg.TAG, "parseAttachment: video");
         } else if (attachment instanceof FileAttachment) {
             Log.e(TextMsg.TAG, "parseAttachment: file");
         }
 
+        return result;
+    }
+
+    private static AttachmentData parseAudio(AudioAttachment attachment) {
+        AudioAttachment audioAttachment = attachment;
+        AttachmentData result = new AttachmentData();
+        result.setMsg(String.valueOf(audioAttachment.getDuration() / ONE_SECOND)+"\"");
+        result.setType(TextMsg.AUDIO);
+        result.setData(audioAttachment.getUrl());
         return result;
     }
 
