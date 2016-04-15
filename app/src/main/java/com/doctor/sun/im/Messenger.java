@@ -19,7 +19,6 @@ import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
-import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomMessageConfig;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
@@ -198,13 +197,13 @@ public class Messenger {
         sendMsg(message);
     }
 
-    public void sentAudio(String to, SessionTypeEnum type, File audio) {
-        final IMMessage message = MessageBuilder.createAudioMessage(to, type, audio, 100);
+    public void sentAudio(String to, SessionTypeEnum type, File audio, long time) {
+        final IMMessage message = MessageBuilder.createAudioMessage(to, type, audio, time);
         sendMsg(message);
     }
 
     public void sentFile(String to, SessionTypeEnum type, File file) {
-        final IMMessage message = MessageBuilder.createFileMessage(to, type, file,"文件");
+        final IMMessage message = MessageBuilder.createFileMessage(to, type, file, "文件");
         sendMsg(message);
     }
 

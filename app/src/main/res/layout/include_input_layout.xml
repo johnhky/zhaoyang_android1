@@ -8,8 +8,12 @@
             type="com.doctor.sun.vo.InputLayoutViewModel" />
 
         <variable
+            name="audioVM"
+            type="com.doctor.sun.vo.RecordAudioViewModel" />
+
+        <variable
             name="isEditing"
-            type="boolean"/>
+            type="boolean" />
 
     </data>
 
@@ -26,7 +30,7 @@
             android:layout_height="1px"
             android:background="@color/divider_color" />
 
-        <LinearLayout
+        <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -42,6 +46,7 @@
                 android:background="@drawable/nim_message_button_bottom_audio_selector"
                 android:clickable="true"
                 android:gravity="center"
+                android:onClick="@{data.onAudioBtnClick}"
                 android:textColor="@color/colorPrimaryDark" />
 
             <EditText
@@ -51,12 +56,30 @@
                 android:layout_marginBottom="@dimen/dp_6"
                 android:layout_marginTop="@dimen/dp_6"
                 android:layout_weight="1"
-                android:background="@drawable/bg_msg_input"
+                android:afterTextChanged="@{data.afterInputChanged}"
+                android:background="@drawable/bg_msg_input_default"
+                android:hint="请输入消息"
                 android:imeOptions="actionDone"
                 android:maxHeight="@dimen/dp_100"
-                android:afterTextChanged="@{data.afterInputChanged}"
-                android:setOnEditorActionListener="@{data.sendMessageAction}" />
+                android:setOnEditorActionListener="@{data.sendMessageAction}"
+                android:textSize="@dimen/font_15"
+                android:visibility="@{!data.isRecordMode}" />
 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_6"
+                android:layout_marginTop="@dimen/dp_6"
+                android:layout_weight="1"
+                android:background="@drawable/bg_msg_input"
+                android:clickable="true"
+                android:gravity="center"
+                android:maxHeight="@dimen/dp_100"
+                android:selected="@{audioVM.isSelected()}"
+                android:setOnTouchListener="@{audioVM.controller}"
+                android:text="@{audioVM.getStatusLabel}"
+                android:textSize="@dimen/font_15"
+                android:visibility="@{data.isRecordMode}" />
 
             <TextView
                 android:id="@+id/btn_emoticon"
@@ -91,12 +114,12 @@
                 android:background="@drawable/btn_captcha_blue"
                 android:clickable="true"
                 android:gravity="center"
+                android:onClick="@{data.onSendClick()}"
                 android:text="发送"
                 android:textColor="@color/white"
-                android:onClick="@{data.onSendClick()}"
                 android:visibility="@{isEditing}" />
 
-        </LinearLayout>
+        </com.zhy.android.percent.support.PercentLinearLayout>
 
         <View
             android:layout_width="match_parent"

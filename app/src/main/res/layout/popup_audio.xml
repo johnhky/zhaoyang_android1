@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vo.RecordAudioViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_record_audio_dialog"
+        android:orientation="vertical">
+
+
+        <Chronometer
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/dp_80"
+            android:textSize="@dimen/font_30"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:minHeight="@dimen/dp_30"
+            android:clickable="true"
+            android:gravity="center"
+            android:background="@{data.getPopLabelBg()}"
+            android:setOnTouchListener="@{data.controller}"
+            android:text="@{data.getPopLabel}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_15" />
+    </LinearLayout>
+</layout>

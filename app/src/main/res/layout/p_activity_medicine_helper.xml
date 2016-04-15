@@ -79,7 +79,7 @@
                         android:layout_marginBottom="@dimen/dp_6"
                         android:layout_marginTop="@dimen/dp_6"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_msg_input"
+                        android:background="@drawable/bg_msg_input_default"
                         android:imeOptions="actionDone"
                         android:maxHeight="@dimen/dp_100"/>
 
