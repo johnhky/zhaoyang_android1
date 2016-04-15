@@ -192,10 +192,7 @@ public class EditPrescriptionActivity extends BaseActivity2 {
             Toast.makeText(EditPrescriptionActivity.this, "请填写睡前应服份量", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (prescription.getRemark().equals("")) {
-            Toast.makeText(EditPrescriptionActivity.this, "请填写备注信息", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+
 
         return true;
     }
