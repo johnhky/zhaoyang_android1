@@ -21,9 +21,9 @@ import com.doctor.sun.util.JacksonUtils;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -113,7 +113,7 @@ public class ConsultingFragment extends RefreshListFragment {
                             HashSet<String> tids = new HashSet<String>();
                             for (RecentContact recent : recents) {
                                 String contactId = recent.getContactId();
-                                if (contactId.length() == 7) {
+                                if (recent.getSessionType() == SessionTypeEnum.Team) {
                                     tids.add(contactId);
                                 }
                             }
