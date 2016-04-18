@@ -46,6 +46,7 @@ import com.doctor.sun.ui.activity.doctor.ConsultingDetailActivity;
 import com.doctor.sun.ui.activity.doctor.FeedbackActivity;
 import com.doctor.sun.ui.activity.doctor.PatientDetailActivity;
 import com.doctor.sun.ui.activity.patient.FillForumActivity;
+import com.doctor.sun.ui.activity.patient.FinishedOrderActivity;
 import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
 import com.doctor.sun.ui.activity.patient.PayFailActivity;
 import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
@@ -530,10 +531,8 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
                         break;
                     }
                     case "已完成": {
-                        Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
+                        Intent intent = FinishedOrderActivity.makeIntent(view.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
                         view.getContext().startActivity(intent);
-                        Intent intent2 = HistoryDetailActivity.makeIntent(view.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
-                        view.getContext().startActivity(intent2);
                         break;
                     }
                     case "进行中":

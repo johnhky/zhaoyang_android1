@@ -144,7 +144,7 @@ public class ConsultingFragment extends RefreshListFragment {
                             HashSet<String> tids = new HashSet<String>();
                             for (RecentContact recent : recents) {
                                 String contactId = recent.getContactId();
-                                if (contactId.length() == 7) {
+                                if (recent.getSessionType() == SessionTypeEnum.Team) {
                                     tids.add(contactId);
                                 }
                             }

@@ -114,6 +114,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.patient.FinishedOrderActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.doctor.PatientDetailActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -462,14 +466,14 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.doctor.sun.ACTION.RECEIVE_AVCHAT_CALL_NOTIFICATION"/>
+                <action android:name="com.doctor.sun.ACTION.RECEIVE_AVCHAT_CALL_NOTIFICATION" />
             </intent-filter>
         </receiver>
 
         <!-- 申明本地电话状态（通话状态）的广播接收器，第三方APP集成时音视频模块时，如果需要网络通话与本地电话互斥，请加上此接收器 -->
         <receiver android:name="com.netease.nimlib.receiver.IncomingCallReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE"/>
+                <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
 
