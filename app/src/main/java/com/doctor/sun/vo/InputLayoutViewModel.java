@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.doctor.sun.databinding.IncludeInputLayoutBinding;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.event.HideInputEvent;
 
+import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Systems;
 
 /**
@@ -72,8 +74,9 @@ public class InputLayoutViewModel extends BaseObservable {
                 Activity context = (Activity) v.getContext();
                 if (!isRecordMode()) {
                     binding.inputText.requestFocus();
-                    Systems.showKeyboard(context.getWindow(), v);
+                    Systems.showKeyboard(context.getWindow(), binding.inputText);
                 } else {
+                    EventHub.post(new HideInputEvent());
                     Systems.hideKeyboard(context);
                 }
             }
@@ -87,6 +90,7 @@ public class InputLayoutViewModel extends BaseObservable {
 
     public void setRecordMode(boolean recordMode) {
         this.recordMode = recordMode;
+        notifyChange();
     }
 
 }

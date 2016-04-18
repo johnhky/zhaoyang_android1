@@ -47,7 +47,20 @@
                 android:clickable="true"
                 android:gravity="center"
                 android:onClick="@{data.onAudioBtnClick}"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="@color/colorPrimaryDark"
+                android:visibility="@{!data.isRecordMode}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_margin="@dimen/dp_2"
+                android:background="@drawable/nim_message_keyboard"
+                android:clickable="true"
+                android:gravity="center"
+                android:onClick="@{data.onAudioBtnClick}"
+                android:textColor="@color/colorPrimaryDark"
+                android:visibility="@{data.isRecordMode}" />
 
             <EditText
                 android:id="@+id/input_text"

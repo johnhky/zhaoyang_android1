@@ -19,6 +19,7 @@ import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.entity.NimTeamId;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.im.Messenger;
@@ -45,6 +46,7 @@ import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.squareup.otto.Subscribe;
 
 import java.io.File;
 import java.util.List;
@@ -67,8 +69,11 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
     public static final int CALL_PHONE_REQ = 1;
     public static final int DELAY_MILLIS = 300;
-    public static final int TYPE_CUSTOM_ACTION = 2;
+
+    public static final int TYPE_AUDIO = 3;
     public static final int TYPE_EMOTICON = 1;
+    public static final int TYPE_CUSTOM_ACTION = 2;
+
     private ImModule api = Api.of(ImModule.class);
     private ActivityChattingBinding binding;
     private MessageAdapter adapter;
@@ -157,7 +162,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
         adapter.setData(results);
         adapter.onFinishLoadMore(true);
-        initCustomAction();
+        initCustomAction(data);
         initSticker();
         initInputLayout(data);
     }
@@ -171,9 +176,9 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         binding.sticker.setData(new StickerViewModel(this, binding.sticker));
     }
 
-    private void initCustomAction() {
+    private void initCustomAction(Appointment data) {
         binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
-        CustomActionViewModel customActionViewModel = new CustomActionViewModel(this, binding.getData());
+        CustomActionViewModel customActionViewModel = new CustomActionViewModel(this, data);
         SimpleAdapter adapter = customActionViewModel.getSimpleAdapter();
 
         binding.customAction.setAdapter(adapter);
@@ -216,6 +221,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                     @Override
                     public void run() {
                         binding.setKeyboardType(TYPE_CUSTOM_ACTION);
+                        binding.input.getData().setRecordMode(false);
                     }
                 }, DELAY_MILLIS);
             }
@@ -228,6 +234,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                     @Override
                     public void run() {
                         binding.setKeyboardType(TYPE_EMOTICON);
+                        binding.input.getData().setRecordMode(false);
                     }
                 }, DELAY_MILLIS);
             }
@@ -373,5 +380,10 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                 Messenger.getInstance().sentImage(sendTo, getType(), file);
             }
         }
+    }
+
+    @Subscribe
+    public void hideIME(HideInputEvent event) {
+        binding.setKeyboardType(3);
     }
 }
