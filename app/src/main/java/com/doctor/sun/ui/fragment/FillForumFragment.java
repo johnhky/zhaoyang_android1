@@ -196,8 +196,10 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
         @Override
         protected void handleBody(ApiDTO<List<Answer>> body) {
             QuestionStats count = body.getCount();
-            count.setName(categoryName);
-            getAdapter().add(count);
+            if (count != null) {
+                count.setName(categoryName);
+                getAdapter().add(count);
+            }
             super.handleBody(body);
         }
 
