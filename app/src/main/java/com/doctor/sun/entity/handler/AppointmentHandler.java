@@ -42,6 +42,7 @@ import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.ui.activity.doctor.CancelAppointmentActivity;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
+import com.doctor.sun.ui.activity.doctor.ConsultingDetailActivity;
 import com.doctor.sun.ui.activity.doctor.FeedbackActivity;
 import com.doctor.sun.ui.activity.doctor.PatientDetailActivity;
 import com.doctor.sun.ui.activity.patient.FillForumActivity;
@@ -513,6 +514,68 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         }
     }
 
+    public View.OnClickListener onPatientClickOrder() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (data.getOrderStatus()) {
+                    case "未支付": {
+                        new PayMethodDialog(view.getContext(), AppointmentHandler.this).show();
+                        break;
+                    }
+                    case "已付款":
+                    case "已支付": {
+                        Intent intent = FillForumActivity.makeIntent(view.getContext(), data.getId());
+                        view.getContext().startActivity(intent);
+                        break;
+                    }
+                    case "已完成": {
+                        Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
+                        view.getContext().startActivity(intent);
+                        Intent intent2 = HistoryDetailActivity.makeIntent(view.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
+                        view.getContext().startActivity(intent2);
+                        break;
+                    }
+                    case "进行中":
+                    case "待建议": {
+                        Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
+                        view.getContext().startActivity(intent);
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+            }
+        };
+    }
+
+    public View.OnClickListener onDoctorClickOrder() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (data.getOrderStatus()) {
+                    case "已完成": {
+                        Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
+                        view.getContext().startActivity(intent);
+                        Intent intent2 = HistoryDetailActivity.makeIntent(view.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
+                        view.getContext().startActivity(intent2);
+                        break;
+                    }
+                    case "进行中":
+                    case "待建议": {
+                        Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
+                        view.getContext().startActivity(intent);
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+            }
+        };
+    }
+
     public OnItemClickListener drugPush() {
         return new OnItemClickListener() {
             @Override
@@ -654,7 +717,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
                 return "#f76d02";
             case "已付款":
                 return "#88cb5a";
-            case "待建议" :
+            case "待建议":
                 return "#82c252";
             default:
                 return "#898989";
