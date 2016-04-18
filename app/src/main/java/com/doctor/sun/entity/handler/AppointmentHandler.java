@@ -11,12 +11,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -34,7 +29,6 @@ import com.doctor.sun.http.callback.CancelCallback;
 import com.doctor.sun.http.callback.DoNothingCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
-import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
@@ -57,7 +51,6 @@ import com.doctor.sun.ui.handler.PayMethodInterface;
 import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.util.PermissionUtil;
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECUserState;
@@ -275,12 +268,17 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         });
     }
 
-    public void remind(View view) {
+    public void remind(final View view) {
         String appointmentId = String.valueOf(data.getId());
         String patientId = String.valueOf(data.getMedicalRecord().getPatientId());
 
         api.remind(appointmentId, patientId)
-                .enqueue(new DoNothingCallback());
+                .enqueue(new SimpleCallback<String>() {
+                    @Override
+                    protected void handleResponse(String response) {
+                        Toast.makeText(view.getContext(), "成功提醒患者", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public void refuse(View view) {

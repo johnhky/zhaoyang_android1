@@ -8,7 +8,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.doctor.sun.R;
-import com.doctor.sun.dto.AllDateDTO;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.http.Api;
@@ -24,12 +23,14 @@ import com.doctor.sun.ui.widget.TwoSelectorDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Created by lucas on 12/9/15.
  */
 public class TimeHandler {
-    public static final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+    public static final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
+    public static final int ONE_HOUR = 3600000;
 
     private Time data;
     private int mhour;
@@ -180,7 +181,7 @@ public class TimeHandler {
 
     public long getFromMillis() {
         try {
-            return format.parse(data.getFrom()).getTime();
+            return format.parse(data.getFrom()).getTime() + 8 * ONE_HOUR;
         } catch (ParseException e) {
             e.printStackTrace();
             return 0;

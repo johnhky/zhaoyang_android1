@@ -137,9 +137,9 @@ public class ConsultingDetailActivity extends TabActivity
         if (isUserPatient()) {
             //病人端 具体问卷查看时 －－> 保存(有效)
             header0.setRightTitle("保存");
-            ModifyForumFragment.getInstance(getData().getId()).loadQuestions(questionCategoryId);
+            ModifyForumFragment.getInstance(getData().getId()).loadQuestions(data);
         } else {
-            FillForumFragment.getInstance(getData()).loadQuestions(questionCategoryId);
+            FillForumFragment.getInstance(getData()).loadQuestions(data);
         }
     }
 

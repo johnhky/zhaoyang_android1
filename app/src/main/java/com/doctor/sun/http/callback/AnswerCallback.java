@@ -82,7 +82,11 @@ public class AnswerCallback implements Callback<ApiDTO<List<Answer>>> {
             count.setName(data.getCategoryName());
             getAdapter().add(count);
         }
-        getAdapter().addAll(body.getData());
+        for (int i = 0; i < body.getData().size(); i++) {
+            Answer answer = body.getData().get(i);
+            answer.setPosition(i+1);
+            getAdapter().add(answer);
+        }
         getAdapter().onFinishLoadMore(true);
         getAdapter().notifyDataSetChanged();
     }

@@ -14,8 +14,10 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentListBinding;
 import com.doctor.sun.databinding.ItemForumBarBinding;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.QuestionStats;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -120,10 +122,10 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
         }
     }
 
-    public void loadQuestions(final int questionCategoryId, Runnable runnable) {
-        loadQuestions(questionCategoryId);
-        runnable.run();
-    }
+//    public void loadQuestions(final int questionCategoryId, Runnable runnable) {
+//        loadQuestions(questionCategoryId);
+//        runnable.run();
+//    }
 
     @Override
     public void onAttach(Context context) {
@@ -136,7 +138,8 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
     }
 
     @SuppressWarnings("unchecked")
-    public void loadQuestions(final int questionCategoryId) {
+    public void loadQuestions(final QCategoryHandler handler) {
+        final int questionCategoryId = handler.getQuestionCategoryId();
         binding.llRoot.findViewById(R.id.lly_check).setVisibility(View.VISIBLE);
         binding.llRoot.findViewById(R.id.tv_back_circle).setVisibility(View.VISIBLE);
 
@@ -155,7 +158,7 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
             getAdapter().setLoadMoreListener(new LoadMoreListener() {
                 @Override
                 protected void onLoadMore() {
-                    api.answers(appointment.getId()).enqueue(new AnswerListCallback());
+                    api.answers(appointment.getId()).enqueue(new AnswerListCallback(""));
                 }
             });
         } else {
@@ -163,7 +166,7 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
                 @Override
                 protected void onLoadMore() {
                     api.categoryDetail(appointment.getId(), String.valueOf(questionCategoryId))
-                            .enqueue(new AnswerListCallback());
+                            .enqueue(new AnswerListCallback(handler.getCategoryName()));
                 }
             });
         }
@@ -183,6 +186,21 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
     }
 
     private class AnswerListCallback extends SimpleCallback<List<Answer>> {
+
+        private final String categoryName;
+
+        public AnswerListCallback(String categoryName) {
+            this.categoryName = categoryName;
+        }
+
+        @Override
+        protected void handleBody(ApiDTO<List<Answer>> body) {
+            QuestionStats count = body.getCount();
+            count.setName(categoryName);
+            getAdapter().add(count);
+            super.handleBody(body);
+        }
+
         @Override
         protected void handleResponse(List<Answer> response) {
             Log.e(TAG, "handleResponse: " + response.size() );

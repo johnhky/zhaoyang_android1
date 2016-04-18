@@ -69,6 +69,6 @@ public class HistoryDetailActivity extends TabActivity
 
     @Override
     public void onCategorySelect(QCategoryHandler data) {
-        FillForumFragment.getInstance(getData()).loadQuestions(data.getQuestionCategoryId());
+        FillForumFragment.getInstance(getData()).loadQuestions(data);
     }
 }

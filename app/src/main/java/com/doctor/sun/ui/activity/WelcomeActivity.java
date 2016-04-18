@@ -6,10 +6,7 @@ import android.os.Bundle;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityWelcomeBinding;
-import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.TokenCallback;
-import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.util.UpdateUtil;
 
 /**
  * Created by rick on 16/2/2016.

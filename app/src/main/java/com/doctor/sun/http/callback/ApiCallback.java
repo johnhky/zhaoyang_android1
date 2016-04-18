@@ -32,7 +32,7 @@ public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
         if (code < 300) {
             T data = response.body().getData();
             if (data != null) {
-                handleResponse(data);
+                handleBody(response.body());
             } else {
                 handleApi(response.body());
             }
@@ -42,7 +42,7 @@ public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
             long lastTime = Config.getLong(LAST_VISIT_TIME + Config.getString(Constants.VOIP_ACCOUNT), -1);
             Config.clearAll();
             Config.putLong(LAST_VISIT_TIME + Config.getString(Constants.VOIP_ACCOUNT), lastTime);
-            Config.putInt(Constants.PASSFIRSTTIME,passFirstTime);
+            Config.putInt(Constants.PASSFIRSTTIME, passFirstTime);
             EventHub.post(new OnTokenExpireEvent());
         } else {
             String status = response.body().getStatus();
@@ -65,6 +65,9 @@ public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
     protected void handleApi(ApiDTO<T> body) {
     }
 
+    protected void handleBody(ApiDTO<T> body) {
+        handleResponse(body.getData());
+    }
 
     protected abstract void handleResponse(T response);
 

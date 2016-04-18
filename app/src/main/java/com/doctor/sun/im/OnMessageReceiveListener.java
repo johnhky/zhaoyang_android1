@@ -59,7 +59,7 @@ public class OnMessageReceiveListener implements OnChatReceiveListener, ECDevice
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
         builder.setContentText(msg1.getBody());
         builder.setContentTitle("昭阳医生新消息");
-        builder.setSmallIcon(R.drawable.ic_launcher);
+        builder.setSmallIcon(R.drawable.ic_notification);
         builder.setLights(Color.GREEN, 1000, 3000);
         Intent i;
         if (AppContext.isDoctor()) {

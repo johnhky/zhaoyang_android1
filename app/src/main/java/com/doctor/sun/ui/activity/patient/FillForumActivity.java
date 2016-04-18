@@ -61,7 +61,7 @@ public class FillForumActivity extends BaseFragmentActivity2 implements QCategor
     @Override
     public void onCategorySelect(QCategoryHandler data) {
         binding.getHeader().setRightTitle("保存");
-        fragment.loadQuestions(data.getQuestionCategoryId());
+        fragment.loadQuestions(data);
         isFilling = true;
     }
 

@@ -176,9 +176,9 @@ public class PickTimeActivity extends BaseActivity2 {
     }
 
     public long getDateTime() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss", Locale.CHINA);
         try {
-            Date parse = simpleDateFormat.parse(getDate());
+            Date parse = simpleDateFormat.parse(getDate()+"-00:00:00");
             return parse.getTime();
         } catch (ParseException e) {
             e.printStackTrace();
