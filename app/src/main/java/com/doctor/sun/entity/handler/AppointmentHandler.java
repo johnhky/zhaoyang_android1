@@ -556,10 +556,8 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             public void onClick(View view) {
                 switch (data.getOrderStatus()) {
                     case "已完成": {
-                        Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
+                        Intent intent = HistoryDetailActivity.makeIntent(view.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
                         view.getContext().startActivity(intent);
-                        Intent intent2 = HistoryDetailActivity.makeIntent(view.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
-                        view.getContext().startActivity(intent2);
                         break;
                     }
                     case "进行中":
