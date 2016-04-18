@@ -62,12 +62,11 @@ public class AppContext extends BaseApp {
                     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
                         RealmSchema schema = realm.getSchema();
                         if (oldVersion < 2) {
-                            schema.create("TextMsg")
+                            schema.get("TextMsg")
                                     .addField("imageWidth", String.class)
                                     .addField("imageHeight", String.class);
                             oldVersion++;
                         }
-
                     }
                 })
                 .build();

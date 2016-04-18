@@ -38,7 +38,7 @@ public class Patient implements Parcelable {
     @JsonProperty("avatar")
     private String avatar;
     @JsonProperty("point")
-    private int point;
+    private double point;
     @JsonProperty("voipAccount")
     private String voipAccount;
     @JsonProperty("phone")
@@ -95,7 +95,7 @@ public class Patient implements Parcelable {
         this.avatar = avatar;
     }
 
-    public void setPoint(int point) {
+    public void setPoint(double point) {
         this.point = point;
     }
 
@@ -132,7 +132,7 @@ public class Patient implements Parcelable {
     }
 
     public int getPoint() {
-        return point;
+        return (int) point;
     }
 
     public String getVoipAccount() {
@@ -158,7 +158,7 @@ public class Patient implements Parcelable {
         dest.writeInt(gender);
         dest.writeString(birthday);
         dest.writeString(avatar);
-        dest.writeInt(point);
+        dest.writeDouble(point);
         dest.writeString(voipAccount);
         dest.writeString(phone);
     }
