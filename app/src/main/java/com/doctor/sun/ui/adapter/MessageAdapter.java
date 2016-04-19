@@ -91,7 +91,6 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
                 } else {
                     shouldUpdate = true;
                 }
-
             }
         });
     }

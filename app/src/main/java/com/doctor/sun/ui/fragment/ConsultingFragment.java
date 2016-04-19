@@ -119,6 +119,18 @@ public class ConsultingFragment extends RefreshListFragment {
                             }
                             api.appointmentInTid(JacksonUtils.toJson(tids), callback.getPage()).enqueue(callback);
                         }
+
+                        @Override
+                        public void onFailed(int i) {
+                            super.onFailed(i);
+                            com.doctor.sun.im.Messenger.getInstance().login();
+                        }
+
+                        @Override
+                        public void onException(Throwable throwable) {
+                            super.onException(throwable);
+                            com.doctor.sun.im.Messenger.getInstance().login();
+                        }
                     });
         } else {
             callback = new PageCallback<Appointment>(getAdapter()) {
