@@ -57,18 +57,7 @@ public class AppContext extends BaseApp {
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
                 .schemaVersion(NEW_VERSION)
-                .migration(new RealmMigration() {
-                    @Override
-                    public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
-                        RealmSchema schema = realm.getSchema();
-                        if (oldVersion < 2) {
-                            schema.get("TextMsg")
-                                    .addField("imageWidth", String.class)
-                                    .addField("imageHeight", String.class);
-                            oldVersion++;
-                        }
-                    }
-                })
+                .migration(new DoctorSunMigration())
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
@@ -155,6 +144,24 @@ public class AppContext extends BaseApp {
                 Thread.sleep(100L);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
+            }
+        }
+    }
+
+    private static class DoctorSunMigration implements RealmMigration {
+        @Override
+        public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
+            RealmSchema schema = realm.getSchema();
+            if (oldVersion < 2) {
+                schema.get("TextMsg")
+                        .addField("imageWidth", int.class)
+                        .addField("imageHeight", int.class);
+                oldVersion++;
+            }
+            if (oldVersion < 3) {
+                schema.get("TextMsg")
+                        .addField("duration", int.class);
+                oldVersion++;
             }
         }
     }

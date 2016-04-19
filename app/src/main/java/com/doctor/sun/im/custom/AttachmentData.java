@@ -9,6 +9,7 @@ public class AttachmentData {
     private String msg;
     private int imageHeight;
     private int imageWidth;
+    private long duration;
 
     public String getMsg() {
         return msg;
@@ -49,5 +50,13 @@ public class AttachmentData {
 
     public void setImageWidth(int imageWidth) {
         this.imageWidth = imageWidth;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public long getDuration() {
+        return duration;
     }
 }

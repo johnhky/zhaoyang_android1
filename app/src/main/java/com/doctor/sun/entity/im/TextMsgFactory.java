@@ -74,6 +74,7 @@ public class TextMsgFactory {
             result.setType(String.valueOf(s.getType()));
             result.setImageHeight(s.getImageHeight());
             result.setImageWidth(s.getImageWidth());
+            result.setDuration(s.getDuration());
         }
         return result;
     }
@@ -101,9 +102,11 @@ public class TextMsgFactory {
     private static AttachmentData parseAudio(AudioAttachment attachment) {
         AudioAttachment audioAttachment = attachment;
         AttachmentData result = new AttachmentData();
-        result.setMsg(String.valueOf(audioAttachment.getDuration() / ONE_SECOND)+"\"");
+        long duration = audioAttachment.getDuration() / ONE_SECOND;
+        result.setMsg(String.valueOf(duration)+"\"");
         result.setType(TextMsg.AUDIO);
         result.setData(audioAttachment.getUrl());
+        result.setDuration(duration);
         return result;
     }
 

@@ -68,7 +68,6 @@ public class CustomBinding {
     @android.databinding.BindingAdapter("bind:text")
     public static void fromHtmlToText(TextView view, String text) {
         view.setText(Html.fromHtml(text).toString());
-
     }
 
     @android.databinding.BindingAdapter("android:background")
@@ -103,6 +102,16 @@ public class CustomBinding {
         }
     }
 
+    @android.databinding.BindingAdapter("android:paddingLeft")
+    public static void paddingLeft(View view, int padding) {
+        view.setPadding(padding, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());
+    }
+
+    @android.databinding.BindingAdapter("android:paddingRight")
+    public static void paddingRight(View view, int padding) {
+        view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), padding, view.getPaddingBottom());
+    }
+
     @android.databinding.BindingAdapter("bind:visible")
     public static void visible(View view, boolean visible) {
         if (visible) {
@@ -113,7 +122,7 @@ public class CustomBinding {
     }
 
     @BindingAdapter("android:selectDrawable")
-    public static void selectDrawable(View view,int position) {
+    public static void selectDrawable(View view, int position) {
         if (view.getBackground() instanceof AnimationDrawable) {
             AnimationDrawable animation = (AnimationDrawable) view.getBackground();
             animation.stop();

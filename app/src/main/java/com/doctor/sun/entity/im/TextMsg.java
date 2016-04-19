@@ -1,7 +1,6 @@
 package com.doctor.sun.entity.im;
 
 
-import android.os.Handler;
 import android.support.annotation.IntDef;
 
 import com.doctor.sun.R;
@@ -51,6 +50,7 @@ public class TextMsg extends RealmObject implements LayoutId {
     private boolean haveRead;
     private int imageWidth;
     private int imageHeight;
+    private long duration;
     @Ignore
     private int itemLayoutId = -1;
     @Ignore
@@ -183,6 +183,14 @@ public class TextMsg extends RealmObject implements LayoutId {
 
     public void setImageHeight(int imageHeight) {
         this.imageHeight = imageHeight;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
     @Override
