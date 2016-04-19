@@ -64,7 +64,11 @@ import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECUserState;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import io.ganguo.library.AppManager;
 import io.ganguo.library.Config;
@@ -719,5 +723,33 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             default:
                 return "#898989";
         }
+    }
+    public boolean isFinished() {
+        return getFinishedTime() < System.currentTimeMillis();
+    }
+
+    /**
+     * 将bookTime: 2016-04-19 15:55－16:10 转换为毫秒
+     *
+     * @return
+     */
+    public long getFinishedTime() {
+        String bookTime = data.getBookTime();
+        if (bookTime == null) {
+            return System.currentTimeMillis();
+        } else {
+            try {
+                String date = bookTime.substring(0, 11) + bookTime.substring(17, bookTime.length());
+                return parseDate(date);
+            } catch (Exception e) {
+                return 0;
+            }
+        }
+    }
+
+    private long parseDate(String date) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+        Date parse = dateFormat.parse(date);
+        return parse.getTime();
     }
 }
