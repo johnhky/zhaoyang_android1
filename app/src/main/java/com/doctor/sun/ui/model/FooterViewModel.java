@@ -2,6 +2,7 @@ package com.doctor.sun.ui.model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -9,14 +10,18 @@ import com.doctor.sun.entity.VoipAccount;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.im.Messenger;
 
+import org.w3c.dom.Text;
+
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 
 
 /**
  * Created by rick on 10/15/15.
  */
 public class FooterViewModel extends BaseObservable {
+    public static final String TAG = FooterViewModel.class.getSimpleName();
     private FooterView mView;
 
     public int id;

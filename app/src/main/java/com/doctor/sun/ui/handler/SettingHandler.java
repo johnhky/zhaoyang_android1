@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.Messenger;
@@ -29,6 +30,7 @@ import io.ganguo.library.AppManager;
 import io.ganguo.library.Config;
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.opensdk.*;
+import io.realm.Realm;
 
 /**
  * Created by lucas on 12/22/15.
@@ -138,11 +140,20 @@ public class SettingHandler extends BaseHandler {
                 Messenger.getInstance().logout();
                 view.getContext().startActivity(intent);
                 AppManager.finishAllActivity();
+                Realm realm = Realm.getDefaultInstance();
+                realm.executeTransaction(new ClearAllTransaction());
             }
         });
     }
 
     public interface GetWindowSize {
         int getWindowSize();
+    }
+
+    private static class ClearAllTransaction implements Realm.Transaction {
+        @Override
+        public void execute(Realm realm) {
+            realm.where(TextMsg.class).findAll().clear();
+        }
     }
 }
