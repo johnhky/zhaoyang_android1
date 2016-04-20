@@ -1,22 +1,35 @@
 package com.doctor.sun.entity.handler;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
-import com.doctor.sun.dto.DoctorDTO;
+import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
+import com.doctor.sun.databinding.DialogPickDurationBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
+import com.doctor.sun.ui.activity.patient.PickDateActivity;
+import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
+import com.doctor.sun.ui.widget.BottomDialog;
+import com.doctor.sun.ui.widget.SelectRecordDialog;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.HashMap;
 
 /**
  * Created by lucas on 1/8/16.
  */
-public class DoctorHandler implements Parcelable {
+public class DoctorHandler {
     private Doctor data;
     private boolean isSelected;
 
@@ -42,33 +55,158 @@ public class DoctorHandler implements Parcelable {
         return isSelected;
     }
 
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(this.data, 0);
-    }
-
-    protected DoctorHandler(Parcel in) {
-        this.data = in.readParcelable(DoctorDTO.class.getClassLoader());
-    }
-
-    public static final Creator<DoctorHandler> CREATOR = new Creator<DoctorHandler>() {
-        public DoctorHandler createFromParcel(Parcel source) {
-            return new DoctorHandler(source);
-        }
-
-        public DoctorHandler[] newArray(int size) {
-            return new DoctorHandler[size];
-        }
-    };
-
     public void detail(View view) {
         Intent intent = DoctorDetailActivity.makeIntent(view.getContext(), data, Appointment.DETAIL);
         view.getContext().startActivity(intent);
+    }
+
+    @JsonIgnore
+    public String getLocate() {
+        String locate;
+        locate = data.getHospitalName() + "/" + data.getSpecialist() + "/" + data.getTitle();
+        return locate;
+    }
+
+    @JsonIgnore
+    public String getFee(@Appointment.Type int type) {
+        if (type == Appointment.DETAIL) {
+            return getDetailFee();
+        } else {
+            return getQuickFee();
+        }
+    }
+
+    @JsonIgnore
+    public String getDetailFee() {
+        String fee = data.getMoney() + "元/次/15分钟";
+        return fee;
+    }
+
+    @JsonIgnore
+    public String getQuickFee() {
+        String fee = data.getSecondMoney() + "元/次/15分钟";
+        return fee;
+    }
+
+    @JsonIgnore
+    public String getSpecial() {
+        String specialist;
+        specialist = "专长病种：" + data.getSpecialist();
+        return specialist;
+    }
+
+
+    public void itemClick(View v) {
+        Intent intent = new Intent();
+        intent.putExtra(Constants.DATA, data);
+        Activity activity = (Activity) v.getContext();
+        activity.setResult(Activity.RESULT_OK, intent);
+        activity.finish();
+    }
+
+    public void viewDetail(View view, int type) {
+        Intent intent = DoctorDetailActivity.makeIntent(view.getContext(), data, type);
+        view.getContext().startActivity(intent);
+    }
+
+    public OnItemClickListener viewDetail() {
+        return new OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseAdapter temp, View view, BaseViewHolder vh) {
+                SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
+                viewDetail(view, adapter.getType());
+            }
+        };
+    }
+
+
+    public OnItemClickListener pickDate() {
+        return new OnItemClickListener() {
+            @Override
+            public void onItemClick(final BaseAdapter temp, final View v, BaseViewHolder vh) {
+
+                SelectRecordDialog.showRecordDialog(v.getContext(), new SelectRecordDialog.SelectRecordListener() {
+                    @Override
+                    public void onSelectRecord(SelectRecordDialog dialog, MedicalRecord record) {
+                        SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
+                        data.setRecordId(String.valueOf(record.getMedicalRecordId()));
+                        Intent intent = PickDateActivity.makeIntent(v.getContext(), data, adapter.getType());
+                        v.getContext().startActivity(intent);
+                        dialog.dismiss();
+                    }
+                });
+            }
+        };
+    }
+
+    public void pickDuration(final View root) {
+        LayoutInflater inflater = LayoutInflater.from(root.getContext());
+        final DialogPickDurationBinding binding = DialogPickDurationBinding.inflate(inflater, null, false);
+        binding.setMoney(0);
+        binding.rgDuration.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int selectedItem = -1;
+                for (int i = 0; i < binding.rgDuration.getChildCount(); i++) {
+                    RadioButton childAt = (RadioButton) binding.rgDuration.getChildAt(i);
+                    if (childAt.isChecked()) {
+                        selectedItem = i;
+                    }
+                }
+                binding.setMoney(data.getMoney() * (selectedItem + 1));
+            }
+        });
+        binding.tvPickDuration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int selectedItem = -1;
+                for (int i = 0; i < binding.rgDuration.getChildCount(); i++) {
+                    RadioButton childAt = (RadioButton) binding.rgDuration.getChildAt(i);
+                    if (childAt.isChecked()) {
+                        selectedItem = i;
+                    }
+                }
+
+                if (selectedItem != -1) {
+                    data.setDuration(String.valueOf((selectedItem + 1) * 15));
+//                    pickDate(root);
+                } else {
+                    Toast.makeText(root.getContext(), "请选择时长", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        BottomDialog.showDialog((Activity) root.getContext(), binding.getRoot());
+    }
+
+    @JsonIgnore
+    public boolean getDetailVisible() {
+        return !data.getDetail().equals("") && data.getDetail() != null;
+    }
+
+    public int getDefaultAvatar() {
+        int result;
+        if (data.getGender() == 0) {
+            result = R.drawable.female_doctor_avatar;
+        } else {
+            result = R.drawable.male_doctor_avatar;
+        }
+        return result;
+    }
+
+    public HashMap<String, String> toHashMap() {
+        HashMap<String, String> result = new HashMap<>();
+        result.put("name", data.getName());
+        result.put("email", data.getEmail());
+        result.put("gender", String.valueOf(data.getGender()));
+        result.put("avatar", data.getAvatar());
+        result.put("specialist", data.getSpecialist());
+        result.put("title", data.getTitle());
+        result.put("titleImg", data.getTitleImg());
+        result.put("practitionerImg", data.getPractitionerImg());
+        result.put("certifiedImg", data.getCertifiedImg());
+        result.put("hospitalPhone", data.getHospitalPhone());
+        result.put("detail", data.getDetail());
+        result.put("hospital", data.getHospitalName());
+        return result;
     }
 }

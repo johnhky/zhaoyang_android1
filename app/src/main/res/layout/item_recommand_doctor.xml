@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
         android:orientation="vertical"
-        app:itemClick="@{data.viewDetail}"
+        app:itemClick="@{data.handler.viewDetail}"
         app:adapter="@{adapter}"
         app:vh="@{vh}">
 
@@ -116,7 +116,7 @@
             android:text="@{data.detail}"
             android:textColor="#898989"
             android:textSize="@dimen/font_13"
-            bind:visible="@{data.detailVisible}" />
+            bind:visible="@{data.handler.detailVisible}" />
 
         <View
             android:layout_width="match_parent"

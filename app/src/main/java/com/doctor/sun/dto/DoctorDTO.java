@@ -109,7 +109,7 @@ public class DoctorDTO  implements Parcelable, LayoutId {
     }
 
     public void itemClick(View v) {
-        doctor.itemClick(v);
+        doctor.getHandler().itemClick(v);
     }
 
     public int getHospitalId() {
@@ -149,7 +149,7 @@ public class DoctorDTO  implements Parcelable, LayoutId {
     }
 
     public String getLocate() {
-        return doctor.getLocate();
+        return doctor.getHandler().getLocate();
     }
 
     public String getName() {
@@ -157,7 +157,7 @@ public class DoctorDTO  implements Parcelable, LayoutId {
     }
 
     public String getFee(@Appointment.Type int type) {
-        return doctor.getFee(type);
+        return doctor.getHandler().getFee(type);
     }
 
     public String getTitle() {
@@ -213,7 +213,7 @@ public class DoctorDTO  implements Parcelable, LayoutId {
     }
 
     public String getSpecial() {
-        return doctor.getSpecial();
+        return doctor.getHandler().getSpecial();
     }
 
     public String getVoipAccount() {
@@ -237,7 +237,7 @@ public class DoctorDTO  implements Parcelable, LayoutId {
     }
 
     public HashMap<String, String> toParams() {
-        return doctor.toHashMap();
+        return doctor.getHandler().toHashMap();
     }
 
     public void setLevel(String level) {

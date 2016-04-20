@@ -10,7 +10,7 @@
 
         <variable
             name="handler"
-            type="com.doctor.sun.ui.activity.patient.handler.RecordListHandler" />
+            type="com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler" />
 
     </data>
 

@@ -4,7 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.doctor.sun.R;
-import com.doctor.sun.ui.activity.patient.handler.RecordListHandler;
+import com.doctor.sun.entity.constans.Gender;
+import com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -49,12 +50,16 @@ public class MedicalRecord implements Parcelable, LayoutId {
      */
     @JsonProperty("patient_id")
     private int patientId;
+    @JsonProperty("medicalRecordId")
+    private int medicalRecordId;
+    @JsonProperty("age")
+    private int age;
+    @JsonProperty("gender")
+    private int gender;
     @JsonProperty("name")
     private String name;
     @JsonProperty("relation")
     private String relation;
-    @JsonProperty("gender")
-    private int gender;
     @JsonProperty("birthday")
     private String birthday;
     @JsonProperty("city")
@@ -67,14 +72,11 @@ public class MedicalRecord implements Parcelable, LayoutId {
     private String identityNumber;
     @JsonProperty("patient_name")
     private String patientName;
-    @JsonProperty("age")
-    private int age;
     @JsonProperty("email")
     private String email;
-    @JsonProperty("medicalRecordId")
-    private int medicalRecordId;
     @JsonProperty("appointment_id")
     private List<Integer> appointmentId;
+    MedicalRecordHandler handler = new MedicalRecordHandler(this);
 
 
 
@@ -138,6 +140,7 @@ public class MedicalRecord implements Parcelable, LayoutId {
         return relation;
     }
 
+    @Gender
     public int getGender() {
         return gender;
     }
@@ -190,51 +193,19 @@ public class MedicalRecord implements Parcelable, LayoutId {
         this.appointmentId = appointmentId;
     }
 
-    RecordListHandler handler = new RecordListHandler(this);
-
-    public RecordListHandler getHandler() {
+    public MedicalRecordHandler getHandler() {
+        if (handler == null) {
+            handler = new MedicalRecordHandler(this);
+        }
         return handler;
     }
 
-    public void setHandler(RecordListHandler handler) {
+    public void setHandler(MedicalRecordHandler handler) {
         this.handler = handler;
     }
-
     @Override
     public int getItemLayoutId() {
         return R.layout.item_text;
-    }
-
-    public String getGenderResult() {
-        String gender = "";
-        switch (getGender()) {
-            case 1:
-                gender = "（男）";
-                break;
-            case 2:
-                gender = "（女）";
-                break;
-        }
-        return gender;
-    }
-
-    public String getGenderRecord() {
-        String gender = "";
-        switch (getGender()) {
-            case 1:
-                gender = "男";
-                break;
-            case 2:
-                gender = "女";
-                break;
-        }
-        return gender;
-    }
-
-    public String getLocate() {
-        String locate = "";
-        locate = province + city;
-        return locate;
     }
 
     @Override
@@ -302,13 +273,6 @@ public class MedicalRecord implements Parcelable, LayoutId {
         in.readList(this.appointmentId, List.class.getClassLoader());
     }
 
-    public String getRecord() {
-        return "（" + getGenderRecord() + "/" + getAge() + "岁）";
-    }
-
-    public String getRecordDetail(){
-        return getName()+"（" + getGenderRecord() + "/" + getAge() + "岁）";
-    }
 
     public static final Creator<MedicalRecord> CREATOR = new Creator<MedicalRecord>() {
         public MedicalRecord createFromParcel(Parcel source) {

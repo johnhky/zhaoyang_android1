@@ -28,7 +28,6 @@ public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
             return;
         }
         int code = Integer.parseInt(response.body().getStatus());
-        Log.e("onResponse", "response code: " + code);
         if (code < 300) {
             T data = response.body().getData();
             if (data != null) {
@@ -45,13 +44,8 @@ public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
             Config.putInt(Constants.PASSFIRSTTIME, passFirstTime);
             EventHub.post(new OnTokenExpireEvent());
         } else {
-            String status = response.body().getStatus();
             String msg = response.body().getMessage();
-            if (null != status) {
-                Log.e("onResponse", "status: " + status + "  msg:" + msg);
-                onFailure(new IllegalArgumentException(msg));
-                ToastError(status);
-            }
+            Toast.makeText(AppContext.me(), msg, Toast.LENGTH_SHORT).show();
         }
     }
 

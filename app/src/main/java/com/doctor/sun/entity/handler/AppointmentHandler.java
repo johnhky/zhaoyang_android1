@@ -26,6 +26,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.event.CloseDrawerEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
@@ -515,7 +516,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             }
         } else {
             //TODO
-            data.getDoctor().viewDetail(view, 1);
+            data.getDoctor().getHandler().viewDetail(view, 1);
         }
     }
 
@@ -724,6 +725,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
                 return "#898989";
         }
     }
+
     public boolean isFinished() {
         return getFinishedTime() < System.currentTimeMillis();
     }
@@ -751,5 +753,23 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         Date parse = dateFormat.parse(date);
         return parse.getTime();
+    }
+
+    public int getDefaultAvatar() {
+        int result;
+        if (AppContext.isDoctor()) {
+            if (data.getGender() == Gender.FEMALE) {
+                result = R.drawable.female_patient_avatar;
+            } else {
+                result = R.drawable.male_patient_avatar;
+            }
+        } else {
+            if (data.getGender() == Gender.MALE) {
+                result = R.drawable.female_doctor_avatar;
+            } else {
+                result = R.drawable.male_doctor_avatar;
+            }
+        }
+        return result;
     }
 }

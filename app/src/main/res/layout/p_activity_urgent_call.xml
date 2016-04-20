@@ -68,7 +68,7 @@
                             android:layout_marginTop="@dimen/dp_3"
                             android:layout_weight="1"
                             android:gravity="top"
-                            android:text="@{data.getRecordDetail}"
+                            android:text="@{data.handler.getRecordDetail}"
                             android:textColor="#363636"
                             android:textSize="@dimen/font_15" />
 

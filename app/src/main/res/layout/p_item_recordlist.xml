@@ -48,7 +48,7 @@
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_marginTop="@dimen/dp_11"
                 android:layout_toRightOf="@id/tv_name"
-                android:text="@{data.getGenderResult}"
+                android:text="@{data.handler.getGenderResult}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_14" />
 
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_birthday"
                 android:layout_marginTop="@dimen/dp_4"
-                android:text="@{data.getLocate}"
+                android:text="@{data.handler.getLocate}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_14" />
 

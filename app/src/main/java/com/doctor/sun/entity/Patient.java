@@ -3,6 +3,7 @@ package com.doctor.sun.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.doctor.sun.R;
 import com.doctor.sun.ui.activity.patient.handler.EditPatientHandler;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -173,6 +174,16 @@ public class Patient implements Parcelable {
             case 2:
                 result = "女";
                 break;
+        }
+        return result;
+    }
+
+    public int getDefaultAvatar() {
+        int result;
+        if (getGender() == 0) {
+            result = R.drawable.female_doctor_avatar;
+        } else {
+            result = R.drawable.male_doctor_avatar;
         }
         return result;
     }

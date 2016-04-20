@@ -75,7 +75,7 @@ public class EditDoctorInfoHandler extends BaseHandler {
                 return;
             }
             doctorInfo.setTitle(String.valueOf(selectedTitle + 1));
-            api.editDoctorProfile(doctorInfo.toHashMap()).enqueue(new ApiCallback<String>() {
+            api.editDoctorProfile(doctorInfo.getHandler().toHashMap()).enqueue(new ApiCallback<String>() {
                 @Override
                 protected void handleResponse(String response) {
                     TokenCallback.checkToken(getContext());

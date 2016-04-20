@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_3"
                     android:singleLine="true"
-                    android:text="@{data.getLocate}"
+                    android:text="@{data.handler.getLocate}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13" />
 
@@ -118,13 +118,13 @@
                     android:layout_marginTop="@dimen/dp_3"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13"
-                    app:html="@{@string/money(data.detailFee)}" />
+                    app:html="@{@string/money(data.handler.detailFee)}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_3"
-                    android:text="@{data.getSpecial}"
+                    android:text="@{data.handler.getSpecial}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13" />
 

@@ -101,7 +101,7 @@
                         android:id="@+id/tv_gender"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{data.getGenderRecord}"
+                        android:text="@{data.handler.getGenderRecord}"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_15" />
 

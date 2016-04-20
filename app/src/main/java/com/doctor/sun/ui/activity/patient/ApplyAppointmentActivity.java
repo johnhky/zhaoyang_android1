@@ -73,7 +73,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
         api.recordDetail(getRecordId()).enqueue(new ApiCallback<MedicalRecord>() {
             @Override
             protected void handleResponse(MedicalRecord response) {
-                binding.tvMedcialRecord.setText(response.getRecordDetail());
+                binding.tvMedcialRecord.setText(response.getHandler().getRecordDetail());
                 record = response;
             }
         });
@@ -118,7 +118,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                 SelectRecordDialog.showRecordDialog(ApplyAppointmentActivity.this, new SelectRecordDialog.SelectRecordListener() {
                     @Override
                     public void onSelectRecord(SelectRecordDialog dialog, MedicalRecord selected) {
-                        binding.tvMedcialRecord.setText(selected.getRecordDetail());
+                        binding.tvMedcialRecord.setText(selected.getHandler().getRecordDetail());
 
                         record = selected;
                         dialog.dismiss();

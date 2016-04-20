@@ -140,7 +140,7 @@ public class DiagnosisReadOnlyFragment extends Fragment {
                             resultBinding.flyDoctor.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    response.getDoctorInfo().viewDetail(v, Appointment.QUICK);
+                                    response.getDoctorInfo().getHandler().viewDetail(v, Appointment.QUICK);
                                 }
                             });
                         }

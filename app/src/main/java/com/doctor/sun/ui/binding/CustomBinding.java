@@ -20,6 +20,12 @@ public class CustomBinding {
         Glide.with(imageView.getContext()).load(url).placeholder(icon).into(imageView);
     }
 
+    @android.databinding.BindingAdapter(value = {"android:src", "android:drawable"}, requireAll = false)
+    public static void loadAvatar(ImageView imageView, String url, @DrawableRes int icon) {
+        Glide.with(imageView.getContext()).load(url).placeholder(icon).into(imageView);
+    }
+
+
     @android.databinding.BindingAdapter(value = {"android:src"}, requireAll = false)
     public static void loadImage(ImageView imageView, int resourceId) {
         Glide.with(imageView.getContext()).load(resourceId).into(imageView);
