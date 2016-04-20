@@ -216,6 +216,13 @@ public class TextMsg extends RealmObject implements LayoutId {
                 return R.layout.msg_audio_receive;
             }
         }
+        if (getType().equals(String.valueOf(FILE))) {
+            if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
+                return R.layout.msg_file_send;
+            } else if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
+                return R.layout.msg_file_receive;
+            }
+        }
         if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
             if (TextMsgFactory.ADMIN_DRUG.equals(getUserData())) {
                 return R.layout.msg_prescription_list;

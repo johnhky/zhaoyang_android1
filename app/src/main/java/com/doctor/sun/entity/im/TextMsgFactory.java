@@ -69,7 +69,7 @@ public class TextMsgFactory {
         }
         AttachmentData s = parseAttachment(msg);
         if (s.getType() != -1) {
-            result.setBody(s.getMsg());
+            result.setBody(s.getBody());
             result.setMessageStatus(s.getData());
             result.setType(String.valueOf(s.getType()));
             result.setImageHeight(s.getImageHeight());
@@ -87,15 +87,23 @@ public class TextMsgFactory {
         } else if (attachment instanceof CustomAttachment) {
             result = parseCustom(msg);
         } else if (attachment instanceof AudioAttachment) {
-            result.setType(TextMsg.AUDIO);
             return parseAudio((AudioAttachment) attachment);
         } else if (attachment instanceof VideoAttachment) {
             result.setType(TextMsg.VIDEO);
-            Log.e(TextMsg.TAG, "parseAttachment: video");
         } else if (attachment instanceof FileAttachment) {
-            Log.e(TextMsg.TAG, "parseAttachment: file");
+            result.setType(TextMsg.FILE);
+            return parseFile((FileAttachment) attachment);
         }
 
+        return result;
+    }
+
+    private static AttachmentData parseFile(FileAttachment attachment) {
+        FileAttachment fileAttachment = attachment;
+        AttachmentData result = new AttachmentData();
+        result.setBody(fileAttachment.getExtension());
+        result.setType(TextMsg.FILE);
+        result.setData(fileAttachment.getUrl());
         return result;
     }
 
@@ -103,7 +111,7 @@ public class TextMsgFactory {
         AudioAttachment audioAttachment = attachment;
         AttachmentData result = new AttachmentData();
         long duration = audioAttachment.getDuration() / ONE_SECOND;
-        result.setMsg(String.valueOf(duration)+"\"");
+        result.setBody(String.valueOf(duration) + "\"");
         result.setType(TextMsg.AUDIO);
         result.setData(audioAttachment.getUrl());
         result.setDuration(duration);
@@ -116,7 +124,7 @@ public class TextMsgFactory {
         ImageAttachment imageAttachment = attachment;
         result.setType(TextMsg.IMAGE);
         result.setData(imageAttachment.getUrl());
-        result.setMsg("照片");
+        result.setBody("照片");
         int imageWidth = imageAttachment.getWidth();
         int imageHeight = imageAttachment.getHeight();
         while (imageWidth > 300 || imageHeight > 800) {
@@ -144,7 +152,7 @@ public class TextMsgFactory {
 //                JSONObject data = object.getJSONObject(KEY_DATA);
                 switch (type) {
                     case TextMsg.Sticker: {
-                        result.setMsg("贴图");
+                        result.setBody("贴图");
                         JavaType javaType = TypeFactory.defaultInstance().constructParametricType(CustomAttachment.class, StickerAttachment.class);
                         CustomAttachment<StickerAttachment> customAttachment = JacksonUtils.fromJson(object.toString(), javaType);
                         StickerAttachment sticker = customAttachment.getData();

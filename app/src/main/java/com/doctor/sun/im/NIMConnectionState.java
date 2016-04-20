@@ -54,7 +54,7 @@ public class NIMConnectionState implements RequestCallback {
     public void onException(Throwable throwable) {
     }
 
-    public boolean isConnected() {
+    public boolean isLogin() {
         StatusCode status = NIMClient.getStatus();
         return status.equals(StatusCode.LOGINED);
     }

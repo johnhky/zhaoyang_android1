@@ -124,12 +124,14 @@ public class ConsultingFragment extends RefreshListFragment {
                         public void onFailed(int i) {
                             super.onFailed(i);
                             com.doctor.sun.im.Messenger.getInstance().login();
+                            getAdapter().onFinishLoadMore(true);
                         }
 
                         @Override
                         public void onException(Throwable throwable) {
                             super.onException(throwable);
                             com.doctor.sun.im.Messenger.getInstance().login();
+                            getAdapter().onFinishLoadMore(true);
                         }
                     });
         } else {

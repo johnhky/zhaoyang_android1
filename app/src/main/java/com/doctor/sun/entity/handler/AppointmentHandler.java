@@ -618,7 +618,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             Toast.makeText(inputText.getContext(), "不能发送空消息", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (NIMConnectionState.getInstance().isConnected()) {
+        if (NIMConnectionState.getInstance().isLogin()) {
             com.doctor.sun.im.Messenger.getInstance().sentTextMsg(getTID(), SessionTypeEnum.Team, inputText.getText().toString());
             inputText.setText("");
         } else {

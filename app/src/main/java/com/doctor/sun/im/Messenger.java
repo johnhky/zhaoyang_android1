@@ -71,7 +71,7 @@ public class Messenger {
     private void loginNIM(VoipAccount account) {
         NIMConnectionState instance = NIMConnectionState.getInstance();
 
-        if (instance.isConnected()) {
+        if (instance.isLogin()) {
             return;
         }
 
@@ -243,6 +243,6 @@ public class Messenger {
     }
 
     public boolean isNIMLogin() {
-        return NIMConnectionState.getInstance().isConnected();
+        return NIMConnectionState.getInstance().isLogin();
     }
 }

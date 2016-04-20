@@ -11,11 +11,11 @@ public class AttachmentData {
     private int imageWidth;
     private long duration;
 
-    public String getMsg() {
+    public String getBody() {
         return msg;
     }
 
-    public void setMsg(String msg) {
+    public void setBody(String msg) {
         this.msg = msg;
     }
 

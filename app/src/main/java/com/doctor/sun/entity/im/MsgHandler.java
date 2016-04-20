@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.media.AudioManager;
 
 /**
@@ -54,6 +55,10 @@ public class MsgHandler {
             animation.stop();
             animation.selectDrawable(0);
         }
+    }
+
+    public int drawableForFileType(String extension) {
+        return FileTypeMap.getDrawable(extension);
     }
 }
 

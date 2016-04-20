@@ -70,9 +70,10 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     public static final int CALL_PHONE_REQ = 1;
     public static final int DELAY_MILLIS = 300;
 
-    public static final int TYPE_AUDIO = 3;
+    //软键盘类型
     public static final int TYPE_EMOTICON = 1;
     public static final int TYPE_CUSTOM_ACTION = 2;
+    public static final int TYPE_AUDIO = 3;
 
     private ImModule api = Api.of(ImModule.class);
     private ActivityChattingBinding binding;
