@@ -2,7 +2,7 @@ package com.doctor.sun.ui.adapter;
 
 import android.content.Context;
 
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.constans.AppointmentType;
 
 
 /**
@@ -12,7 +12,7 @@ public class SearchDoctorAdapter extends SimpleAdapter {
 
     private int type;
 
-    public SearchDoctorAdapter(Context context,@Appointment.Type int type) {
+    public SearchDoctorAdapter(Context context,@AppointmentType int type) {
         super(context);
         this.type = type;
     }
@@ -21,7 +21,7 @@ public class SearchDoctorAdapter extends SimpleAdapter {
         return type;
     }
     public String getTypeLabel() {
-        if (type == Appointment.DETAIL) {
+        if (type == AppointmentType.DETAIL) {
             return "详细咨询";
         } else {
             return "简捷复诊";

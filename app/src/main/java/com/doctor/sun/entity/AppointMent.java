@@ -20,8 +20,6 @@ public class Appointment implements LayoutId, Parcelable {
     public static final int NOT_PAID = 0;
     public static final int PAID = 1;
 
-    public static final int DETAIL = 1;
-    public static final int QUICK = 2;
     /**
      * id : 25
      * record_id : 1
@@ -556,12 +554,6 @@ public class Appointment implements LayoutId, Parcelable {
                 '}';
     }
 
-
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({DETAIL, QUICK})
-    public @interface Type {
-
-    }
 
     @Override
     public int describeContents() {

@@ -11,9 +11,9 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.PActivityMainBinding;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.http.callback.TokenCallback;
@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity2 {
 
     @NonNull
     protected SimpleAdapter createAdapter() {
-        SimpleAdapter simpleAdapter = new SearchDoctorAdapter(this, Appointment.DETAIL);
+        SimpleAdapter simpleAdapter = new SearchDoctorAdapter(this, AppointmentType.DETAIL);
         simpleAdapter.mapLayout(R.layout.item_doctor, R.layout.item_recommand_doctor);
         return simpleAdapter;
     }

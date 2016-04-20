@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.DialogPickDurationBinding;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
@@ -56,7 +56,7 @@ public class DoctorHandler {
     }
 
     public void detail(View view) {
-        Intent intent = DoctorDetailActivity.makeIntent(view.getContext(), data, Appointment.DETAIL);
+        Intent intent = DoctorDetailActivity.makeIntent(view.getContext(), data, AppointmentType.DETAIL);
         view.getContext().startActivity(intent);
     }
 
@@ -68,8 +68,8 @@ public class DoctorHandler {
     }
 
     @JsonIgnore
-    public String getFee(@Appointment.Type int type) {
-        if (type == Appointment.DETAIL) {
+    public String getFee(@AppointmentType int type) {
+        if (type == AppointmentType.DETAIL) {
             return getDetailFee();
         } else {
             return getQuickFee();

@@ -30,6 +30,8 @@ public class RecordAudioViewModel extends BaseObservable implements IAudioRecord
     public static final int STARTED = 1;
     public static final int ABOUT_TO_CANCEL = 2;
 
+    private static int DIALOG_HEIGHT = 0;
+
     private int status = IDLE;
 
     private Activity activity;
@@ -38,6 +40,7 @@ public class RecordAudioViewModel extends BaseObservable implements IAudioRecord
 
     public RecordAudioViewModel(Context context) {
         activity = (Activity) context;
+        DIALOG_HEIGHT = context.getResources().getDimensionPixelSize(R.dimen.dp_195);
     }
 
     public View.OnTouchListener controller() {
@@ -73,7 +76,7 @@ public class RecordAudioViewModel extends BaseObservable implements IAudioRecord
         view.getLocationOnScreen(location);
 
         if (event.getRawX() < location[0] || event.getRawX() > location[0] + view.getWidth()
-                || event.getRawY() < location[1] - 200) {
+                || event.getRawY() < location[1] - DIALOG_HEIGHT) {
             return true;
         }
 

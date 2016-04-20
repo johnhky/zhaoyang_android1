@@ -2,7 +2,6 @@ package com.doctor.sun.vo;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 
@@ -11,6 +10,7 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
+import com.doctor.sun.util.FileChooser;
 
 /**
  * Created by rick on 13/4/2016.
@@ -58,14 +58,12 @@ public class CustomActionViewModel {
         adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_file_selector, "文件传输", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.setType("*/*");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                mActivity.startActivityForResult(intent, FILE_REQUEST_CODE);
+                FileChooser.showFileChooser((Activity) v.getContext());
             }
         }));
 
         adapter.onFinishLoadMore(true);
         return adapter;
     }
+
 }

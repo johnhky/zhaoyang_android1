@@ -32,6 +32,7 @@ public class PayMethodDialog extends ListDialog {
         super.initRecyclerView();
         ViewGroup.LayoutParams layoutParams = getBinding().recyclerView.getLayoutParams();
         int itemHeight = getContext().getResources().getDimensionPixelSize(R.dimen.dp_59);
+        layoutParams.width = getContext().getResources().getDimensionPixelSize(R.dimen.dp_240);
         if (BuildConfig.DEV_MODE) {
             layoutParams.height = itemHeight * 4;
         } else {

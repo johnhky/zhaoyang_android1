@@ -5,6 +5,7 @@ import com.doctor.sun.dto.DoctorPageDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.WeChatPayDTO;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.EmergencyCall;
 
@@ -53,11 +54,11 @@ public interface AppointmentModule {
 
     @FormUrlEncoded
     @POST("appointment/appointment")
-    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") String doctorId, @Field("bookTime") String bookTime, @Appointment.Type @Field("type") int type, @Field("recordId") String recordId);
+    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") String doctorId, @Field("bookTime") String bookTime, @AppointmentType @Field("type") int type, @Field("recordId") String recordId);
 
     @FormUrlEncoded
     @POST("appointment/appointment")
-    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") String doctorId, @Field("bookTime") String bookTime, @Appointment.Type @Field("type") int type, @Field("recordId") String recordId, @Field("takeTime") String taketime);
+    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") String doctorId, @Field("bookTime") String bookTime, @AppointmentType @Field("type") int type, @Field("recordId") String recordId, @Field("takeTime") String taketime);
 
     @GET("appointment/pAppointList")
     Call<ApiDTO<PageDTO<Appointment>>> pAppointments(@Query("page") String page);

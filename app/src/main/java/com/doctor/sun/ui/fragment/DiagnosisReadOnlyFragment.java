@@ -23,6 +23,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.AuthModule;
@@ -140,7 +141,7 @@ public class DiagnosisReadOnlyFragment extends Fragment {
                             resultBinding.flyDoctor.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    response.getDoctorInfo().getHandler().viewDetail(v, Appointment.QUICK);
+                                    response.getDoctorInfo().getHandler().viewDetail(v, AppointmentType.QUICK);
                                 }
                             });
                         }

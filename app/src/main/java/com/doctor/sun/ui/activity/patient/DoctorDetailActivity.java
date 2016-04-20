@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -15,19 +14,14 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityDoctorDetailBinding;
 import com.doctor.sun.databinding.DialogPickDurationBinding;
-import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.Comment;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.http.callback.DoctorPageCallback;
-import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
-import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.pager.DoctorDetailPagerAdapter;
 
@@ -57,7 +51,7 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 
-    @Appointment.Type
+    @AppointmentType
     private int getType() {
         //noinspection WrongConstant
         return getIntent().getIntExtra(Constants.POSITION, -1);
@@ -69,7 +63,7 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
         doctor = getData();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_doctor_detail);
         binding.setType(getType());
-        if (getType() == Appointment.DETAIL) {
+        if (getType() == AppointmentType.DETAIL) {
             binding.setTypeLabel("详细咨询");
         } else {
             binding.setTypeLabel("简捷复诊");
@@ -91,7 +85,7 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
 
         final DialogPickDurationBinding binding = this.binding.duration;
         binding.setMoney(0);
-        if (getType() == Appointment.QUICK) {
+        if (getType() == AppointmentType.QUICK) {
             for (int i = 2; i < binding.rgDuration.getChildCount(); i++) {
                 binding.rgDuration.getChildAt(i).setVisibility(View.GONE);
             }
@@ -106,7 +100,7 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
                         selectedItem = i;
                     }
                 }
-                if (getType() == Appointment.QUICK) {
+                if (getType() == AppointmentType.QUICK) {
                     binding.setMoney(doctor.getSecondMoney() * (selectedItem));
                 } else {
                     binding.setMoney(doctor.getMoney() * (selectedItem));

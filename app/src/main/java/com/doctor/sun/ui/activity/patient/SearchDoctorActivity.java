@@ -21,9 +21,9 @@ import com.doctor.sun.bean.Province;
 import com.doctor.sun.databinding.ActivitySearchDoctorBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.DoctorPageCallback;
 import com.doctor.sun.module.AppointmentModule;
@@ -165,7 +165,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     }
 
     private void loadMore() {
-        if (isFirstTime && getType() == Appointment.QUICK) {
+        if (isFirstTime && getType() == AppointmentType.QUICK) {
             loadKnowDoctor();
         } else {
             api.doctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);

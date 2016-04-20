@@ -35,7 +35,7 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
-import com.doctor.sun.util.PickFileUtils;
+import com.doctor.sun.util.FileChooser;
 import com.doctor.sun.vo.CustomActionViewModel;
 import com.doctor.sun.vo.InputLayoutViewModel;
 import com.doctor.sun.vo.StickerViewModel;
@@ -65,7 +65,7 @@ import io.realm.Sort;
  */
 public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId {
     public static final int IMAGE_REQUEST_CODE = 100;
-    public static final int FILE_REQUEST_CODE = 200;
+    public static final int FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
 
     public static final int CALL_PHONE_REQ = 1;
     public static final int DELAY_MILLIS = 300;
@@ -366,7 +366,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     private void handleFileRequest(int requestCode, Intent data) {
         if (FILE_REQUEST_CODE == requestCode) {
             // Get the Uri of the selected file
-            File file = PickFileUtils.getFile(this, data);
+            File file = FileChooser.onActivityResult(this, requestCode, RESULT_OK, data);
             if (file != null) {
                 Messenger.getInstance().sentFile(sendTo, getType(), file);
             }

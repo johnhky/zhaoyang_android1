@@ -1,8 +1,10 @@
 package com.doctor.sun.vo;
 
+import android.Manifest;
 import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.databinding.adapters.TextViewBindingAdapter;
+import android.os.Build;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import com.doctor.sun.databinding.IncludeInputLayoutBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.event.HideInputEvent;
+import com.doctor.sun.util.PermissionUtil;
 
 import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Systems;
@@ -19,6 +22,13 @@ import io.ganguo.library.util.Systems;
  * Created by rick on 13/4/2016.
  */
 public class InputLayoutViewModel extends BaseObservable {
+    public static final String[] AUDIO_PERMISSIONS =
+            new String[]{
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private static final int AUDIO_PERMISSION_REQUEST = 30;
+
     private static EditText inputTextView;
     private IncludeInputLayoutBinding binding;
     private Appointment data;
@@ -68,10 +78,13 @@ public class InputLayoutViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Activity context = (Activity) v.getContext();
+
+                if (!hasAudioPermission(context)) return;
+
                 setRecordMode(!isRecordMode());
                 binding.setData(InputLayoutViewModel.this);
                 binding.setIsEditing(false);
-                Activity context = (Activity) v.getContext();
                 if (!isRecordMode()) {
                     binding.inputText.requestFocus();
                     Systems.showKeyboard(context.getWindow(), binding.inputText);
@@ -81,6 +94,16 @@ public class InputLayoutViewModel extends BaseObservable {
                 }
             }
         };
+    }
+
+    private boolean hasAudioPermission(Activity context) {
+        boolean hasSelfPermission = PermissionUtil.hasSelfPermission(context, AUDIO_PERMISSIONS);
+        if (!hasSelfPermission) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                context.requestPermissions(AUDIO_PERMISSIONS, AUDIO_PERMISSION_REQUEST);
+            }
+        }
+        return hasSelfPermission;
     }
 
 

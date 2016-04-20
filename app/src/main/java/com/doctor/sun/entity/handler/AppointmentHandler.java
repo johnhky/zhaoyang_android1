@@ -26,6 +26,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.event.CloseDrawerEvent;
 import com.doctor.sun.http.Api;
@@ -495,7 +496,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             //复诊支付
             Doctor doctor = data.getDoctor();
             doctor.setRecordId(String.valueOf(data.getRecordId()));
-            Intent intent = PickDateActivity.makeIntent(v.getContext(), doctor, Appointment.QUICK);
+            Intent intent = PickDateActivity.makeIntent(v.getContext(), doctor, AppointmentType.QUICK);
             v.getContext().startActivity(intent);
         }
     }
@@ -525,6 +526,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             @Override
             public void onClick(View view) {
                 switch (data.getOrderStatus()) {
+                    case "未付款":
                     case "未支付": {
                         new PayMethodDialog(view.getContext(), AppointmentHandler.this).show();
                         break;
@@ -554,12 +556,19 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         };
     }
 
-    public View.OnClickListener onDoctorClickOrder() {
+    public View.OnClickListener onDoctorClickOrder(final BaseViewHolder vh) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch (data.getOrderStatus()) {
+                    case "已付款":
+                    case "已支付": {
+                        detailImpl(view, vh.getItemViewType());
+                        break;
+                    }
                     case "已完成": {
+                        Intent chat = ChattingActivity.makeIntent(view.getContext(), data);
+                        view.getContext().startActivity(chat);
                         Intent intent = HistoryDetailActivity.makeIntent(view.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
                         view.getContext().startActivity(intent);
                         break;

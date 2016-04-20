@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.ui.fragment.PickDateFragment;
 
 /**
@@ -38,7 +38,7 @@ public class PickDatePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (type == Appointment.DETAIL) {
+        if (type == AppointmentType.DETAIL) {
             return "详细就诊";
         } else {
             return "简捷复诊";

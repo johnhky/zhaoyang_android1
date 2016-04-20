@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.util.NameComparator;
@@ -111,9 +112,9 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     private String recordId;
     @JsonIgnore
     private String duration;
-    @Appointment.Type
+    @AppointmentType
     @JsonIgnore
-    private int type = Appointment.DETAIL;
+    private int type = AppointmentType.DETAIL;
     @JsonProperty("yunxin_accid")
     private String yunxinAccid;
 
