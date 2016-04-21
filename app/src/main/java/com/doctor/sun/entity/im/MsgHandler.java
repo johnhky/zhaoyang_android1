@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.media.AudioManager;
+import com.doctor.sun.util.UpdateUtil;
 
 /**
  * Created by rick on 15/4/2016.
@@ -59,6 +60,14 @@ public class MsgHandler {
 
     public int drawableForFileType(String extension) {
         return FileTypeMap.getDrawable(extension);
+    }
+
+    public View.OnClickListener fileDetail(TextMsg msg) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        };
     }
 }
 

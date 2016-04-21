@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@color/gray_e2"
+                android:background="@color/gray_eb"
                 android:paddingBottom="@dimen/dp_13" />
 
             <include

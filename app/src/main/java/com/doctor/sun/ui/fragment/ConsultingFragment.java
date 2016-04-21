@@ -6,11 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.MedicineHelper;
 import com.doctor.sun.entity.SystemTip;
+import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AppointmentModule;
@@ -24,11 +27,16 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
 import io.ganguo.library.Config;
+import io.ganguo.library.util.Tasks;
 import io.realm.RealmChangeListener;
+import io.realm.Sort;
 
 /**
  * Created by rick on 12/18/15.
@@ -47,7 +55,24 @@ public class ConsultingFragment extends RefreshListFragment {
         listener = new RealmChangeListener() {
             @Override
             public void onChange() {
-                getAdapter().notifyDataSetChanged();
+                List origin = getAdapter().getData();
+                int padding = 2;
+                if (AppContext.isDoctor()) {
+                    padding = 1;
+                }
+                List data = origin.subList(padding, origin.size());
+                final List header = origin.subList(0, padding);
+                final List result = new ArrayList();
+                result.addAll(data);
+                Collections.sort(result, comparator());
+                result.addAll(0, header);
+                Tasks.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getAdapter().setData(result);
+                        getAdapter().notifyDataSetChanged();
+                    }
+                });
             }
         };
         realm.addChangeListener(listener);
@@ -94,6 +119,16 @@ public class ConsultingFragment extends RefreshListFragment {
                     super.onInitHeader();
                     getAdapter().add(new SystemTip());
                     getAdapter().add(new MedicineHelper());
+                }
+
+                @Override
+                protected void handleResponse(PageDTO<Appointment> response) {
+                    ArrayList<Appointment> data = (ArrayList<Appointment>) response.getData();
+                    if (data != null) {
+                        Collections.sort(data, comparator());
+                        response.setData(data);
+                    }
+                    super.handleResponse(response);
                 }
 
                 @Override
@@ -183,5 +218,45 @@ public class ConsultingFragment extends RefreshListFragment {
                 loadMore();
             }
         });
+    }
+
+    public Comparator<Appointment> comparator() {
+        return new Comparator<Appointment>() {
+            public static final int EQUAL = 0;
+            public static final int LEFT_BIG = 1;
+            public static final int RIGHT_BIG = -1;
+
+            @Override
+            public int compare(Appointment lhs, Appointment rhs) {
+                TextMsg lFirst = realm.where(TextMsg.class)
+                        .equalTo("sessionId", String.valueOf(lhs.getTid())).equalTo("haveRead", false).or().equalTo("haveRead", true).findAllSorted("time", Sort.DESCENDING).first();
+                if (lFirst == null) {
+                    return RIGHT_BIG;
+                }
+                long lTime = lFirst.getTime();
+                boolean lHaveRead = lFirst.isHaveRead();
+                TextMsg rFirst = realm.where(TextMsg.class)
+                        .equalTo("sessionId", String.valueOf(rhs.getTid())).equalTo("haveRead", false).or().equalTo("haveRead", true).findAllSorted("time", Sort.DESCENDING).first();
+                if (rFirst == null) {
+                    return LEFT_BIG;
+                }
+                long rTime = rFirst.getTime();
+                boolean rHaveRead = lFirst.isHaveRead();
+                if (lHaveRead != rHaveRead) {
+                    if (lHaveRead) {
+                        return RIGHT_BIG;
+                    } else {
+                        return LEFT_BIG;
+                    }
+                }
+                if (lTime > rTime) {
+                    return RIGHT_BIG;
+                } else if (lTime == rTime) {
+                    return EQUAL;
+                } else {
+                    return LEFT_BIG;
+                }
+            }
+        };
     }
 }

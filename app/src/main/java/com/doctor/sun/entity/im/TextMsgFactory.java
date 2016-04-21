@@ -91,7 +91,6 @@ public class TextMsgFactory {
         } else if (attachment instanceof VideoAttachment) {
             result.setType(TextMsg.VIDEO);
         } else if (attachment instanceof FileAttachment) {
-            result.setType(TextMsg.FILE);
             return parseFile((FileAttachment) attachment);
         }
 

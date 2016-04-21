@@ -28,6 +28,7 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
+import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
@@ -68,6 +69,7 @@ import com.yuntongxun.ecsdk.ECUserState;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -76,6 +78,7 @@ import io.ganguo.library.AppManager;
 import io.ganguo.library.Config;
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.core.event.EventHub;
+import io.realm.Realm;
 
 /**
  * Created by rick on 11/20/15.
