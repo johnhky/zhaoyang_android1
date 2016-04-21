@@ -14,9 +14,11 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Version;
+import com.doctor.sun.event.ProgressEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ToolModule;
 import com.squareup.okhttp.ResponseBody;
+import com.squareup.otto.Subscribe;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import io.ganguo.library.Config;
+import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Tasks;
 import retrofit.Call;
 import retrofit.Callback;
@@ -68,9 +71,9 @@ public class UpdateUtil {
 
                     if (context.getWindow().isActive()) {
                         if (dialog != null && dialog.isShowing()) {
-                           return;
+                            return;
                         }
-                        final DownloadNewVersionCallback callback = new DownloadNewVersionCallback(api, data);
+                        final DownloadNewVersionCallback callback = new DownloadNewVersionCallback(data);
                         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
                         builder.canceledOnTouchOutside(false);
                         builder.onPositive(callback);
@@ -102,11 +105,11 @@ public class UpdateUtil {
 
     public static void downLoadFile(String from, String to, Runnable callback) {
         File toFile = new File(Config.getDataPath(), to);
-        downLoadFile(Api.of(ToolModule.class), from, toFile, callback);
+        downLoadFile(from, toFile, callback);
     }
 
-    private static void downLoadFile(ToolModule api, String from, final File to, final Runnable callback) {
-        Call<ResponseBody> downloadCall = api.downloadFile(from);
+    private static void downLoadFile(String from, final File to, final Runnable callback) {
+        Call<ResponseBody> downloadCall = Api.of(ToolModule.class).downloadFile(from);
         downloadCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(final Response<ResponseBody> response, Retrofit retrofit) {
@@ -124,12 +127,17 @@ public class UpdateUtil {
                             int totalLength = (int) response.body().contentLength();
                             int totalRead = 0;
 
-                            NotificationUtil.showNotification(totalRead, totalLength);
-                            int read = 0;
+                            int loopCounter = 0;
+                            int read;
                             byte[] buffer = new byte[32768];
+                            EventHub.post(new ProgressEvent(0, totalLength));
                             while ((read = is.read(buffer)) > 0) {
                                 os.write(buffer, 0, read);
                                 totalRead += read;
+                                if (loopCounter % 300 == 0) {
+                                    EventHub.post(new ProgressEvent(totalRead, totalLength));
+                                }
+                                loopCounter += 1;
                             }
                             os.close();
                             is.close();
@@ -168,31 +176,42 @@ public class UpdateUtil {
 
     private static class InstallApkCallback implements Runnable {
         private final File file;
+        private final DownloadNewVersionCallback callback;
 
-        public InstallApkCallback(File file) {
+        public InstallApkCallback(File file, DownloadNewVersionCallback callback) {
             this.file = file;
+            this.callback = callback;
         }
 
         @Override
         public void run() {
+            callback.unregisterThis();
             NotificationUtil.showFinishDownloadNotification(file);
             installPackage(AppContext.me(), file.getAbsolutePath());
         }
     }
 
     private static class DownloadNewVersionCallback implements MaterialDialog.SingleButtonCallback {
-        private final ToolModule api;
         private final Version data;
 
-        public DownloadNewVersionCallback(ToolModule api, Version data) {
-            this.api = api;
+        public DownloadNewVersionCallback(Version data) {
             this.data = data;
         }
 
         @Override
         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+            EventHub.register(this);
             File to = new File(Config.getDataPath(), APK_PATH);
-            downLoadFile(api, data.getDownloadUrl(), to, new InstallApkCallback(to));
+            downLoadFile(data.getDownloadUrl(), to, new InstallApkCallback(to, this));
+        }
+
+        @Subscribe
+        public void onProgressEvent(ProgressEvent event) {
+            NotificationUtil.showNotification(event.getTotalRead(), event.getTotalLength());
+        }
+
+        public void unregisterThis() {
+            EventHub.unregister(this);
         }
     }
 }

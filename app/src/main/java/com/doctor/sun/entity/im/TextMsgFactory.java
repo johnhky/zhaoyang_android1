@@ -99,36 +99,32 @@ public class TextMsgFactory {
     }
 
     private static AttachmentData parseFile(FileAttachment attachment) {
-        FileAttachment fileAttachment = attachment;
         AttachmentData result = new AttachmentData();
-        result.setBody(fileAttachment.getDisplayName());
-        result.setExtension(fileAttachment.getExtension());
+        result.setBody(attachment.getDisplayName());
+        result.setExtension(attachment.getExtension());
         result.setType(TextMsg.FILE);
-        result.setData(fileAttachment.getUrl());
-        result.setDuration(fileAttachment.getSize());
+        result.setData(attachment.getUrl());
+        result.setDuration(attachment.getSize());
         return result;
     }
 
     private static AttachmentData parseAudio(AudioAttachment attachment) {
-        AudioAttachment audioAttachment = attachment;
         AttachmentData result = new AttachmentData();
-        long duration = audioAttachment.getDuration() / ONE_SECOND;
+        long duration = attachment.getDuration() / ONE_SECOND;
         result.setBody(String.valueOf(duration) + "\"");
         result.setType(TextMsg.AUDIO);
-        result.setData(audioAttachment.getUrl());
+        result.setData(attachment.getUrl());
         result.setDuration(duration);
         return result;
     }
 
     @NonNull
     private static AttachmentData parseImageData(ImageAttachment attachment, AttachmentData result) {
-        Log.e(TextMsg.TAG, "parseAttachment: image");
-        ImageAttachment imageAttachment = attachment;
         result.setType(TextMsg.IMAGE);
-        result.setData(imageAttachment.getUrl());
+        result.setData(attachment.getUrl());
         result.setBody("照片");
-        int imageWidth = imageAttachment.getWidth();
-        int imageHeight = imageAttachment.getHeight();
+        int imageWidth = attachment.getWidth();
+        int imageHeight = attachment.getHeight();
         while (imageWidth > 300 || imageHeight > 800) {
             imageWidth /= 2;
             imageHeight /= 2;

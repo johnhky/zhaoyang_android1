@@ -1,6 +1,7 @@
 package com.doctor.sun.http.callback;
 
 import android.accounts.AuthenticatorException;
+import android.accounts.NetworkErrorException;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
         } else {
             String msg = response.body().getMessage();
             Toast.makeText(AppContext.me(), msg, Toast.LENGTH_SHORT).show();
+            onFailure(new NetworkErrorException());
         }
     }
 

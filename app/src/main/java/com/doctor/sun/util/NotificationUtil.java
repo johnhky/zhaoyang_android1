@@ -47,11 +47,11 @@ public class NotificationUtil {
 
     public static void showNotification(int progress,int totalLength) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
-        builder.setContentText("正在下载新版本");
+        builder.setContentText("正在下载");
         builder.setContentTitle("昭阳医生");
         builder.setSmallIcon(R.drawable.ic_notification);
         builder.setAutoCancel(true);
-        builder.setProgress(totalLength, progress, true);
+        builder.setProgress(totalLength, progress, false);
         Notification notification = builder.build();
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(AppContext.me());
         managerCompat.notify(NEW_MSG, notification);
