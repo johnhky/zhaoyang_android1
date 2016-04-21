@@ -2,12 +2,11 @@ package com.doctor.sun.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.EditText;
 
 import com.doctor.sun.event.OnTokenExpireEvent;
-import com.doctor.sun.http.Api;
 import com.doctor.sun.im.Messenger;
-import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.UpdateUtil;
 
@@ -36,7 +35,9 @@ public abstract class BaseActivity2 extends Activity implements HeaderViewModel.
         tokenExpire = new OnTokenExpireEvent(this);
         EventHub.register(tokenExpire);
         realm = Realm.getDefaultInstance();
-        UpdateUtil.checkUpdate(Api.of(ToolModule.class));
+        if (shouldCheck()) {
+            UpdateUtil.checkUpdate(this);
+        }
 
     }
 
@@ -75,4 +76,30 @@ public abstract class BaseActivity2 extends Activity implements HeaderViewModel.
         return editText.getText().toString();
     }
 
+    protected boolean shouldCheck() {
+        return true;
+    }
+
+
+    public boolean getBooleanExtra(String name, boolean defaultValue) {
+        return getIntent().getBooleanExtra(name, defaultValue);
+    }
+
+    public long getLongExtra(String name, long defaultValue) {
+        return getIntent().getLongExtra(name, defaultValue);
+    }
+
+    public float getFloatExtra(String name, float defaultValue) {
+        return getIntent().getFloatExtra(name, defaultValue);
+    }
+    public double getDoubleExtra(String name, double defaultValue) {
+        return getIntent().getDoubleExtra(name, defaultValue);
+    }
+    public String getStringExtra(String name) {
+        return getIntent().getStringExtra(name);
+    }
+
+    public <T extends Parcelable> T getParcelableExtra(String name) {
+        return getIntent().getParcelableExtra(name);
+    }
 }

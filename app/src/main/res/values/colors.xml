@@ -25,7 +25,6 @@
     <color name="color_net_day">#88cb5a</color>
 
 
-
     <color name="text_color_black">#363636</color>
     <color name="dark_36">#363636</color>
     <color name="grey_ab">#ababab</color>
@@ -34,5 +33,6 @@
     <color name="gray_e2">#e2e2e2</color>
     <color name="gray_eb">#ebebeb</color>
     <color name="grey_89">#898989</color>
-    <color name="red_f7" >#f75a5a</color>
+    <color name="red_f7">#f75a5a</color>
+    <color name="red_f0">#f04c62</color>
 </resources>

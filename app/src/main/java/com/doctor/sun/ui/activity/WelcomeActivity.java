@@ -39,4 +39,9 @@ public class WelcomeActivity extends BaseActivity2 {
         String token = TokenCallback.getToken();
         return token != null && !token.equals("");
     }
+
+    @Override
+    protected boolean shouldCheck() {
+        return false;
+    }
 }

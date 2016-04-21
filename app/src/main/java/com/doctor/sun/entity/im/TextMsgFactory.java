@@ -71,6 +71,7 @@ public class TextMsgFactory {
         if (s.getType() != -1) {
             result.setBody(s.getBody());
             result.setMessageStatus(s.getData());
+            result.setUserData(s.getExtension());
             result.setType(String.valueOf(s.getType()));
             result.setImageHeight(s.getImageHeight());
             result.setImageWidth(s.getImageWidth());
@@ -87,11 +88,11 @@ public class TextMsgFactory {
         } else if (attachment instanceof CustomAttachment) {
             result = parseCustom(msg);
         } else if (attachment instanceof AudioAttachment) {
-            return parseAudio((AudioAttachment) attachment);
+            result = parseAudio((AudioAttachment) attachment);
         } else if (attachment instanceof VideoAttachment) {
             result.setType(TextMsg.VIDEO);
         } else if (attachment instanceof FileAttachment) {
-            return parseFile((FileAttachment) attachment);
+            result = parseFile((FileAttachment) attachment);
         }
 
         return result;
@@ -100,9 +101,11 @@ public class TextMsgFactory {
     private static AttachmentData parseFile(FileAttachment attachment) {
         FileAttachment fileAttachment = attachment;
         AttachmentData result = new AttachmentData();
-        result.setBody(fileAttachment.getExtension());
+        result.setBody(fileAttachment.getDisplayName());
+        result.setExtension(fileAttachment.getExtension());
         result.setType(TextMsg.FILE);
         result.setData(fileAttachment.getUrl());
+        result.setDuration(fileAttachment.getSize());
         return result;
     }
 

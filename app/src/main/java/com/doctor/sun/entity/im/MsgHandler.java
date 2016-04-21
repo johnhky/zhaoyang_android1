@@ -1,5 +1,6 @@
 package com.doctor.sun.entity.im;
 
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.view.View;
@@ -8,7 +9,7 @@ import android.widget.ImageView;
 
 import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.media.AudioManager;
-import com.doctor.sun.util.UpdateUtil;
+import com.doctor.sun.ui.activity.FileDetailActivity;
 
 /**
  * Created by rick on 15/4/2016.
@@ -63,11 +64,19 @@ public class MsgHandler {
     }
 
     public View.OnClickListener fileDetail(TextMsg msg) {
+        final String extension = msg.getUserData();
+        final String size = fileSize(msg.getDuration());
+        final String url = msg.getMessageStatus();
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = FileDetailActivity.makeIntent(v.getContext(), extension, url, size);
+                v.getContext().startActivity(i);
             }
         };
     }
-}
 
+    public String fileSize(long size) {
+        return size / 1024 + "KB";
+    }
+}

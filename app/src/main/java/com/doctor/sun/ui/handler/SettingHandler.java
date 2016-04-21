@@ -123,7 +123,7 @@ public class SettingHandler extends BaseHandler {
 
     public void checkUpdate(View view) {
         UpdateUtil.reset();
-        UpdateUtil.checkUpdate(Api.of(ToolModule.class));
+        UpdateUtil.checkUpdate((Activity) view.getContext());
     }
 
     public void logOut(final View view) {

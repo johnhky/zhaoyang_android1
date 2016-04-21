@@ -1,15 +1,20 @@
 package com.doctor.sun.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Version;
+import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ToolModule;
 import com.squareup.okhttp.ResponseBody;
 
@@ -31,9 +36,12 @@ import retrofit.Retrofit;
 public class UpdateUtil {
     public static final String TAG = UpdateUtil.class.getSimpleName();
     private static final long INTERVAL = 7200000;
+    public static final String APK_PATH = "newVersion.apk";
     private static long lastCheckTime = 0;
+    private static MaterialDialog dialog;
 
-    public static void checkUpdate(final ToolModule api) {
+    public static void checkUpdate(final Activity context) {
+        final ToolModule api = Api.of(ToolModule.class);
         if (lastCheckTime + INTERVAL > System.currentTimeMillis()) {
             Log.e(TAG, "checkUpdate: " + lastCheckTime);
             return;
@@ -41,13 +49,13 @@ public class UpdateUtil {
             Log.e(TAG, "checkUpdate: " + lastCheckTime);
         }
 
-        final String versionName = BuildConfig.VERSION_NAME.replace("_dev","");
+        final String versionName = BuildConfig.VERSION_NAME.replace("_dev", "");
         Call<ApiDTO<Version>> getVersionCall = api.getAppVersion("android", versionName);
         getVersionCall.enqueue(new Callback<ApiDTO<Version>>() {
             @Override
             public void onResponse(Response<ApiDTO<Version>> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
-                    Version data = response.body().getData();
+                    final Version data = response.body().getData();
                     boolean forceUpdate;
                     double newVersion;
                     if (data == null) {
@@ -58,17 +66,26 @@ public class UpdateUtil {
                         newVersion = data.getNowVersion();
                     }
 
-                    if (forceUpdate) {
-                        Log.e(TAG, "onResponse: " + data.getDownloadUrl());
-                        downLoadFile(api, data.getDownloadUrl());
-                    } else if (newVersion > Double.valueOf(versionName)) {
-                        //TODO 弹
+                    if (context.getWindow().isActive()) {
+                        if (dialog != null && dialog.isShowing()) {
+                           return;
+                        }
+                        final DownloadNewVersionCallback callback = new DownloadNewVersionCallback(api, data);
+                        MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+                        builder.canceledOnTouchOutside(false);
+                        builder.onPositive(callback);
+                        builder.positiveText("确定");
+                        if (forceUpdate) {
+                            dialog = builder.content("昭阳医生已经发布了最新版本，更新后才可以使用哦！").show();
+                        } else if (newVersion > Double.valueOf(versionName)) {
+                            builder.negativeText("取消");
+                            dialog = builder.content("昭阳医生已经发布了最新版本，更新后会有更好的体验哦！").show();
+                        }
                     }
                     lastCheckTime = System.currentTimeMillis();
                 } else {
                     Log.e(TAG, "onResponse: ");
                 }
-
             }
 
             @Override
@@ -79,19 +96,24 @@ public class UpdateUtil {
 
     }
 
-    public static void reset(){
+    public static void reset() {
         lastCheckTime = 0;
     }
 
-    private static void downLoadFile(ToolModule api, String path) {
-        Call<ResponseBody> downloadCall = api.downloadFile(path);
+    public static void downLoadFile(String from, String to, Runnable callback) {
+        File toFile = new File(Config.getDataPath(), to);
+        downLoadFile(Api.of(ToolModule.class), from, toFile, callback);
+    }
+
+    private static void downLoadFile(ToolModule api, String from, final File to, final Runnable callback) {
+        Call<ResponseBody> downloadCall = api.downloadFile(from);
         downloadCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(final Response<ResponseBody> response, Retrofit retrofit) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        final File file = new File(Config.getDataPath(), "newVersion.apk");
+                        final File file = to;
                         FileOutputStream os;
                         InputStream is;
                         try {
@@ -111,16 +133,9 @@ public class UpdateUtil {
                             }
                             os.close();
                             is.close();
-                            Tasks.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    NotificationUtil.showFinishDownloadNotification(file);
-                                    installPackage(AppContext.me(), file.getAbsolutePath());
-                                }
-                            });
+                            Tasks.runOnUiThread(callback);
                         } catch (IOException e) {
                             e.printStackTrace();
-                        } finally {
                         }
                     }
                 }).start();
@@ -149,5 +164,35 @@ public class UpdateUtil {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setDataAndType(Uri.fromFile(new File(filePath)), "application/vnd.android.package-archive");
         return intent;
+    }
+
+    private static class InstallApkCallback implements Runnable {
+        private final File file;
+
+        public InstallApkCallback(File file) {
+            this.file = file;
+        }
+
+        @Override
+        public void run() {
+            NotificationUtil.showFinishDownloadNotification(file);
+            installPackage(AppContext.me(), file.getAbsolutePath());
+        }
+    }
+
+    private static class DownloadNewVersionCallback implements MaterialDialog.SingleButtonCallback {
+        private final ToolModule api;
+        private final Version data;
+
+        public DownloadNewVersionCallback(ToolModule api, Version data) {
+            this.api = api;
+            this.data = data;
+        }
+
+        @Override
+        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+            File to = new File(Config.getDataPath(), APK_PATH);
+            downLoadFile(api, data.getDownloadUrl(), to, new InstallApkCallback(to));
+        }
     }
 }

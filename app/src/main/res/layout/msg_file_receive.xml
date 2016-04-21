@@ -31,24 +31,52 @@
             android:src="@{adapter.yourAvatar}"
             app:maskDrawable="@drawable/circle_mask" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <FrameLayout
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_80"
             android:layout_gravity="center"
+            android:layout_toLeftOf="@+id/avatar"
+            android:background="@drawable/nim_message_left_white_bg"
+            android:onClick="@{data.handler.fileDetail(data)}"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/dp_8"
-            android:paddingRight="@dimen/dp_4"
-            android:paddingEnd="@dimen/dp_4"
-            android:paddingStart="@dimen/dp_8"
-            android:paddingTop="@dimen/dp_4"
-            android:paddingBottom="@dimen/dp_4">
+            android:paddingBottom="@dimen/dp_4"
+            android:paddingEnd="@dimen/dp_8"
+            android:paddingLeft="@dimen/dp_4"
+            android:paddingRight="@dimen/dp_8"
+            android:paddingStart="@dimen/dp_4"
+            android:paddingTop="@dimen/dp_4">
 
             <ImageView
                 android:layout_width="@dimen/dp_44"
                 android:layout_height="@dimen/dp_54"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_marginStart="@dimen/dp_15"
                 android:scaleType="centerCrop"
-                android:src="@{data.handler.drawableForFileType(data.body)}"/>
-        </LinearLayout>
+                android:src="@{data.handler.drawableForFileType(data.userData)}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginTop="@dimen/dp_15"
+                android:layout_marginLeft="@dimen/dp_74"
+                android:layout_marginStart="@dimen/dp_74"
+                android:text="@{data.body}"
+                android:textColor="@color/dark_36"
+                android:textSize="@dimen/font_13" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="@dimen/dp_15"
+                android:layout_marginLeft="@dimen/dp_74"
+                android:layout_marginStart="@dimen/dp_74"
+                android:text='@{data.handler.fileSize(data.duration)}'
+                android:textColor="@color/dark_36"
+                android:textSize="@dimen/font_13" />
+        </FrameLayout>
+
 
     </LinearLayout>
 </layout>

@@ -7,6 +7,7 @@ public class AttachmentData {
     private int type = -1;
     private String data;
     private String msg;
+    private String extension;
     private int imageHeight;
     private int imageWidth;
     private long duration;
@@ -58,5 +59,13 @@ public class AttachmentData {
 
     public long getDuration() {
         return duration;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 }

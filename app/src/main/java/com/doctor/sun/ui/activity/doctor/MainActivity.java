@@ -65,7 +65,7 @@ public class MainActivity extends BaseDoctorActivity {
         };
         realm.addChangeListener(listener);
         listener.onChange();
-        UpdateUtil.checkUpdate(Api.of(ToolModule.class));
+        UpdateUtil.checkUpdate(this);
     }
 
     @Override

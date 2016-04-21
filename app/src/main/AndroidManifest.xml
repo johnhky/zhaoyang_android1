@@ -337,6 +337,15 @@
             android:name=".ui.activity.patient.UrgentAddFeeActivity"
             android:screenOrientation="portrait" />
 
+
+        <activity
+            android:name=".ui.activity.FileDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".avchat.activity.AVChatActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activity.patient.PayFailActivity"
             android:launchMode="singleInstance"
