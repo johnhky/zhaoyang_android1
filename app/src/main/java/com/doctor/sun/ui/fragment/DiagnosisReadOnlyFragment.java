@@ -90,12 +90,21 @@ public class DiagnosisReadOnlyFragment extends Fragment {
 
     private void initDiagnosisView() {
         if (!getUserType()) {
-            //医生端
+            /**
+             *医生就诊结果
+             *医生就诊结果
+             *医生就诊结果 重要的事情说三次
+             */
             IncludeDiagnosisDetailBinding detailBinding =
                     IncludeDiagnosisDetailBinding.inflate(LayoutInflater.from(getContext()));
             detailBinding.setData(viewModel);
             binding.llRoot.addView(detailBinding.getRoot());
         }
+        /**
+         *就诊结果
+         *就诊结果
+         *就诊结果 重要的事情说三次
+         */
         resultBinding = IncludeDiagnosisResultBinding.inflate(LayoutInflater.from(getContext()));
         resultBinding.setData(viewModel);
         binding.llRoot.addView(resultBinding.getRoot());

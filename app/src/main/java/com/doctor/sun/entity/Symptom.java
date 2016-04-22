@@ -34,7 +34,7 @@ public class Symptom extends BaseObservable implements LayoutId {
 
 
     public Symptom() {
-        states.put(0,true);
+        states.put(0, true);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class Symptom extends BaseObservable implements LayoutId {
     public String getLabel() {
         String result = "";
         if (states.get(0)) {
-            return values.get(0);
+            return values.get(0) + " " + others;
         }
         for (int i = 1; i < values.size(); i++) {
             if (states.get(i)) {
