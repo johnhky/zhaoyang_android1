@@ -11,7 +11,7 @@ import com.doctor.sun.http.callback.TokenCallback;
 /**
  * Created by rick on 16/2/2016.
  */
-public class WelcomeActivity extends BaseActivity2 {
+public class WelcomeActivity extends BaseFragmentActivity2 {
 
     private ActivityWelcomeBinding binding;
 

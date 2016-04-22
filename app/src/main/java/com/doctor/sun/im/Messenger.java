@@ -25,6 +25,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECInitParams;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
+import com.yuntongxun.ecsdk.ECVoIPSetupManager;
 
 import java.io.File;
 
@@ -93,6 +94,16 @@ public class Messenger {
 
         ECDevice.setOnDeviceConnectListener(ConnectionState.getInstance());
         ECDevice.setOnChatReceiveListener(OnMessageReceiveListener.getInstance());
+        ECVoIPSetupManager setupManager = ECDevice.getECVoIPSetupManager();
+        if (setupManager != null) {
+            // 目前支持下面三种路径查找方式
+            // 1、如果是assets目录则设置为前缀[assets://]
+            setupManager.setInComingRingUrl(true, "assets://phonering.mp3");
+            setupManager.setOutGoingRingUrl(true, "assets://phonering.mp3");
+            setupManager.setBusyRingTone(true, "assets://played.mp3");
+            // 2、如果是raw目录则设置为前缀[raw://]
+            // 3、如果是SDCard目录则设置为前缀[file://]
+        }
 
 
         this.account = account;
