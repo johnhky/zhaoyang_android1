@@ -5,21 +5,53 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.Prescription" />
+            type="com.doctor.sun.entity.Answer" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.AnswerModifyAdapter" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="@{data.handler.isPills(data)}">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginStart="@dimen/dp_13"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/ripple_default"
+            android:onClick="@{data.handler.addDrug(adapter,vh)}"
             android:text="添加第一种用药"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/font_15"
+            android:visibility='@{data.handler.drugCountGreaterThen(data,1)}' />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ripple_default"
+            android:onClick="@{data.handler.addDrug(adapter,vh)}"
+            android:text="添加第二种用药"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/font_15"
+            android:visibility='@{data.handler.drugCountGreaterThen(data,2)}' />
+
+        <TextView
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ripple_default"
+            android:onClick="@{data.handler.addDrug(adapter,vh)}"
+            android:text="添加其他用药"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/font_15" />
     </LinearLayout>

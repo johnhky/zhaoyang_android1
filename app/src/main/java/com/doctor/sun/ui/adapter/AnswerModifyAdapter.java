@@ -1,8 +1,6 @@
 package com.doctor.sun.ui.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -35,7 +33,6 @@ import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.ui.activity.ImagePreviewActivity;
-import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.widget.FlowLayout;
@@ -79,7 +76,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             Answer answer = (Answer) get(position);
             final ItemAnswerBinding binding = (ItemAnswerBinding) vh.getBinding();
             binding.flReset.setVisibility(View.GONE);
-            binding.tvAddPills.setVisibility(View.GONE);
+//            binding.tvAddPills.setVisibility(View.GONE);
 
             setLocalComponent(binding, answer, position);
 
@@ -154,7 +151,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
      */
     private void setPills(final ItemAnswerBinding binding, final Answer answer, final int position) {
         //填写药物
-        binding.tvAddPills.setVisibility(View.VISIBLE);
+//        binding.tvAddPills.setVisibility(View.VISIBLE);
 
         //恢复历史记录
         if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {
@@ -179,14 +176,27 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             }
         }
 
-        binding.tvAddPills.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = EditPrescriptionActivity.makeIntent(mActivity, null);
-                needPillsOrImages = position;
-                ((Activity) mActivity).startActivityForResult(intent, Constants.PATIENT_PRESCRITION_REQUEST_CODE);
-            }
-        });
+//        binding.tvAddPills.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                needPillsOrImages = position;
+//                Intent intent = EditPrescriptionActivity.makeIntent(v.getContext(), null);
+//                Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
+//                    @Override
+//                    public boolean handleMessage(Message msg) {
+//                        switch (msg.what) {
+//                            case DiagnosisFragment.EDIT_PRESCRITPION: {
+//                                Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
+//                                addPrescription(parcelable);
+//                            }
+//                        }
+//                        return false;
+//                    }
+//                }));
+//                intent.putExtra(Constants.HANDLER, messenger);
+//                v.getContext().startActivity(intent);
+//            }
+//        });
 
     }
 
@@ -526,6 +536,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                     if (answer.getPrescriptions().size() == 0) {
                         clearPositionFill(binding, answer);
                     }
+                    set(binding.getVh().getAdapterPosition(), answer);
                 }
             }
         });
