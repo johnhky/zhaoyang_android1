@@ -12,9 +12,12 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -58,7 +61,15 @@ public class PickImageDialog extends BottomSheetDialog {
         this.imageRequestCode = imageRequestCode;
         mActivity = (AppCompatActivity) context;
         binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.dialog_pick_image, null, false);
+        setCanceledOnTouchOutside(false);
         setContentView(binding.getRoot());
+        View parent = (View) binding.getRoot().getParent();
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+        binding.getRoot().measure(0, 0);
+        behavior.setPeekHeight(binding.getRoot().getMeasuredHeight());
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) parent.getLayoutParams();
+        params.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
+        parent.setLayoutParams(params);
 
         initListener();
     }

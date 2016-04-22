@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 
 import com.doctor.sun.event.OnTokenExpireEvent;
@@ -18,7 +19,7 @@ import io.realm.Realm;
 /**
  * Created by rick on 11/27/15.
  */
-public abstract class BaseFragmentActivity2 extends FragmentActivity implements HeaderViewModel.HeaderView {
+public abstract class BaseFragmentActivity2 extends AppCompatActivity implements HeaderViewModel.HeaderView {
     protected String TAG = getClass().getSimpleName();
 
     protected Realm realm;

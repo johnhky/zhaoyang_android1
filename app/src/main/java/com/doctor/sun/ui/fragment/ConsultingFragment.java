@@ -228,6 +228,10 @@ public class ConsultingFragment extends RefreshListFragment {
 
             @Override
             public int compare(Appointment lhs, Appointment rhs) {
+                boolean empty = realm.where(TextMsg.class).findAll().isEmpty();
+                if (empty) {
+                    return 0;
+                }
                 TextMsg lFirst = realm.where(TextMsg.class)
                         .equalTo("sessionId", String.valueOf(lhs.getTid())).equalTo("haveRead", false).or().equalTo("haveRead", true).findAllSorted("time", Sort.DESCENDING).first();
                 if (lFirst == null) {

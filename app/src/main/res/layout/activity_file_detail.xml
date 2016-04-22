@@ -53,13 +53,13 @@
                 android:id="@+id/btn_download"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_captcha_blue"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dp_15">
+                android:layout_marginTop="@dimen/dp_15"
+                android:background="@drawable/btn_captcha_blue">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="@dimen/dp_120"
+                    android:layout_height="@dimen/dp_45"
                     android:layout_gravity="center"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"

@@ -96,8 +96,13 @@ public class EditDoctorInfoHandler extends BaseHandler {
         }
     }
 
-    public void pickImage(View view) {
-        mInput.pickImage(view.getId());
+    public View.OnClickListener pickImage(final int requestCode) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mInput.pickImage(requestCode);
+            }
+        };
     }
 
     public void selectTitle(final View view) {

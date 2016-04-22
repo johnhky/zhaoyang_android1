@@ -12,12 +12,13 @@ import com.doctor.sun.databinding.ActivityFileDetailBinding;
 import com.doctor.sun.event.ProgressEvent;
 import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.util.MD5;
 import com.doctor.sun.util.NotificationUtil;
 import com.doctor.sun.util.UpdateUtil;
 import com.squareup.otto.Subscribe;
 
-import java.util.UUID;
+import java.io.File;
+
+import io.ganguo.library.Config;
 
 /**
  * Created by rick on 21/4/2016.
@@ -52,7 +53,8 @@ public class FileDetailActivity extends BaseActivity2 {
             public void onClick(View v) {
                 String url = getStringExtra(URL);
                 Log.e(TAG, "download click");
-                UpdateUtil.downLoadFile(url,"TempFile" ,new Runnable() {
+                File file = new File(Config.getDataPath(), url);
+                UpdateUtil.downLoadFile(url, file, new Runnable() {
                     @Override
                     public void run() {
                         Log.e(TAG, "download finished");
@@ -77,5 +79,13 @@ public class FileDetailActivity extends BaseActivity2 {
     @Subscribe
     public void onDownloadProgress(ProgressEvent event) {
         NotificationUtil.showNotification(event.getTotalRead(), event.getTotalLength());
+    }
+
+    public File getFileFor(String url) {
+        return new File(Config.getDataPath(), url);
+    }
+
+    public boolean isDownloaded(String url) {
+        return false;
     }
 }

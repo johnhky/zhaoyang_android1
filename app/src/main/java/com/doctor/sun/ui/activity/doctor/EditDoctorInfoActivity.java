@@ -19,7 +19,7 @@ import com.doctor.sun.entity.Photo;
 import com.doctor.sun.event.CloseDialogEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.binding.CustomBinding;
 import com.doctor.sun.ui.handler.EditDoctorInfoHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
@@ -45,7 +45,7 @@ import retrofit.Retrofit;
  * 设置医生个人信息
  * Created by rick on 11/18/15.
  */
-public class EditDoctorInfoActivity extends BaseActivity2 implements EditDoctorInfoHandler.DoctorInfoInput {
+public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements EditDoctorInfoHandler.DoctorInfoInput {
     private Logger logger = LoggerFactory.getLogger(EditDoctorInfoActivity.class);
     private ToolModule api = Api.of(ToolModule.class);
     private ActivityEditDoctorInfoBinding binding;
@@ -196,30 +196,30 @@ public class EditDoctorInfoActivity extends BaseActivity2 implements EditDoctorI
     }
 
     private boolean isValid(Doctor doctor) {
-        if (!Strings.isEmail(doctor.getEmail())) {
-            Toast.makeText(EditDoctorInfoActivity.this, "邮箱地址格式错误", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (Strings.isEmpty(doctor.getAvatar())) {
-            Toast.makeText(EditDoctorInfoActivity.this, "头像不能为空", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+//        if (!Strings.isEmail(doctor.getEmail())) {
+//            Toast.makeText(EditDoctorInfoActivity.this, "邮箱地址格式错误", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
+//        if (Strings.isEmpty(doctor.getAvatar())) {
+//            Toast.makeText(EditDoctorInfoActivity.this, "头像不能为空", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
         if (Strings.isEmpty(doctor.getName())) {
-            Toast.makeText(EditDoctorInfoActivity.this, "名字不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditDoctorInfoActivity.this, "姓名不能为空", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (Strings.isEmpty(doctor.getHospitalName())) {
-            Toast.makeText(EditDoctorInfoActivity.this, "医院名字不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditDoctorInfoActivity.this, "所属医院不能为空", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (Strings.isEmpty(doctor.getSpecialist())) {
             Toast.makeText(EditDoctorInfoActivity.this, "专科不能为空", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (Strings.isEmpty(doctor.getHospitalPhone()) && Strings.isMobile(doctor.getHospitalPhone())) {
-            Toast.makeText(EditDoctorInfoActivity.this, "医院电话号码格式错误", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+//        if (Strings.isEmpty(doctor.getHospitalPhone()) && Strings.isMobile(doctor.getHospitalPhone())) {
+//            Toast.makeText(EditDoctorInfoActivity.this, "医院电话号码格式错误", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
         if (doctor.getGender() != Doctor.MALE && doctor.getGender() != Doctor.FEMALE) {
             Toast.makeText(EditDoctorInfoActivity.this, "请选择性别", Toast.LENGTH_SHORT).show();
             return false;
@@ -254,36 +254,32 @@ public class EditDoctorInfoActivity extends BaseActivity2 implements EditDoctorI
                     }
                     String imgUrl = response.body().getData().getUrl();
                     switch (requestCode) {
-                        case R.id.lly_avatar:
-                        case R.id.lly_avatar / 2:
+                        case 1:
                             CustomBinding.loadImage(binding.ivAvatar, imgUrl, null);
                             binding.tvAvatar.setVisibility(View.GONE);
                             data.setAvatar(imgUrl);
                             avatarImg = imgUrl;
                             break;
-                        case R.id.fy_certified:
-                        case R.id.fy_certified / 2:
-                            data.setCertifiedImg(imgUrl);
-                            CustomBinding.loadImage(binding.ivCertified, imgUrl, null);
-                            binding.tvCertified.setVisibility(View.GONE);
-                            binding.certifiedImg.setVisibility(View.GONE);
-                            certifiedImg = imgUrl;
-                            break;
-                        case R.id.fy_title:
-                        case R.id.fy_title / 2:
+                        case 2:
                             data.setTitleImg(imgUrl);
                             CustomBinding.loadImage(binding.ivTitle, imgUrl, null);
                             binding.tvTitle.setVisibility(View.GONE);
                             binding.titleImg.setVisibility(View.GONE);
                             titleImg = imgUrl;
                             break;
-                        case R.id.fy_practitioner:
-                        case R.id.fy_practitioner / 2:
+                        case 3:
                             data.setPractitionerImg(imgUrl);
                             CustomBinding.loadImage(binding.ivPractitioner, imgUrl, null);
                             binding.tvPractitioner.setVisibility(View.GONE);
                             binding.practitionerImg.setVisibility(View.GONE);
                             practitionerImg = imgUrl;
+                            break;
+                        case 4:
+                            data.setCertifiedImg(imgUrl);
+                            CustomBinding.loadImage(binding.ivCertified, imgUrl, null);
+                            binding.tvCertified.setVisibility(View.GONE);
+                            binding.certifiedImg.setVisibility(View.GONE);
+                            certifiedImg = imgUrl;
                             break;
                     }
                 }

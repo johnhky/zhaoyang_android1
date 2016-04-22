@@ -103,12 +103,8 @@ public class UpdateUtil {
         lastCheckTime = 0;
     }
 
-    public static void downLoadFile(String from, String to, Runnable callback) {
-        File toFile = new File(Config.getDataPath(), to);
-        downLoadFile(from, toFile, callback);
-    }
 
-    private static void downLoadFile(String from, final File to, final Runnable callback) {
+    public static void downLoadFile(String from, final File to, final Runnable callback) {
         Call<ResponseBody> downloadCall = Api.of(ToolModule.class).downloadFile(from);
         downloadCall.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -139,6 +135,7 @@ public class UpdateUtil {
                                 }
                                 loopCounter += 1;
                             }
+                            EventHub.post(new ProgressEvent(totalLength, totalLength));
                             os.close();
                             is.close();
                             Tasks.runOnUiThread(callback);

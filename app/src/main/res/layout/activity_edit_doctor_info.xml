@@ -62,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/ripple_default"
-                        android:onClick="@{handler.pickImage}">
+                        android:onClick="@{handler.pickImage(1)}">
 
                         <com.doctor.sun.ui.widget.BezelImageView
                             android:id="@+id/iv_avatar"
@@ -357,7 +357,7 @@
 
                         <FrameLayout
                             android:id="@+id/fy_title"
-                            android:onClick="@{handler.pickImage}"
+                            android:onClick="@{handler.pickImage(2)}"
                             android:background="@drawable/ripple_default"
                             android:layout_width="@dimen/dp_95"
                             android:layout_height="@dimen/dp_95">
@@ -395,7 +395,7 @@
 
                         <FrameLayout
                             android:id="@+id/fy_practitioner"
-                            android:onClick="@{handler.pickImage}"
+                            android:onClick="@{handler.pickImage(3)}"
                             android:background="@drawable/ripple_default"
                             android:layout_width="@dimen/dp_95"
                             android:layout_height="@dimen/dp_95">
@@ -433,7 +433,7 @@
 
                         <FrameLayout
                             android:id="@+id/fy_certified"
-                            android:onClick="@{handler.pickImage}"
+                            android:onClick="@{handler.pickImage(4)}"
                             android:background="@drawable/ripple_default"
                             android:layout_width="@dimen/dp_95"
                             android:layout_height="@dimen/dp_95">
