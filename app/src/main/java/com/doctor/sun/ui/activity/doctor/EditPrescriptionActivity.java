@@ -170,31 +170,56 @@ public class EditPrescriptionActivity extends BaseActivity2 {
     }
 
     public boolean isValid(Prescription prescription) {
+
         if (prescription.getMediaclName().equals("")) {
             Toast.makeText(EditPrescriptionActivity.this, "药名不能为空", Toast.LENGTH_SHORT).show();
             return false;
         }
 
+        boolean isErrorHandled = false;
+        boolean isValid = false;
         List<HashMap<String, String>> numbers = prescription.getNumbers();
-        if (numbers.get(0).get(MORNING_KEY).equals("")) {
-            Toast.makeText(EditPrescriptionActivity.this, "请填写早上应服份量", Toast.LENGTH_SHORT).show();
-            return false;
+        String morning = numbers.get(0).get(MORNING_KEY);
+        if (!morning.equals("")) {
+            isValid = true;
         }
-        if (numbers.get(1).get(AFTERNOON_KEY) .equals("")) {
-            Toast.makeText(EditPrescriptionActivity.this, "请填写中午应服份量", Toast.LENGTH_SHORT).show();
-            return false;
+        String afternoon = numbers.get(1).get(AFTERNOON_KEY);
+        if (!afternoon.equals("")) {
+            isValid = true;
         }
-        if (numbers.get(2).get(EVENING_KEY) .equals("")) {
-            Toast.makeText(EditPrescriptionActivity.this, "请填写晚上应服份量", Toast.LENGTH_SHORT).show();
-            return false;
+        String evening = numbers.get(2).get(EVENING_KEY);
+        if (!evening.equals("")) {
+            isValid = true;
         }
-        if (numbers.get(3).get(NIGHT_KEY) .equals("")) {
-            Toast.makeText(EditPrescriptionActivity.this, "请填写睡前应服份量", Toast.LENGTH_SHORT).show();
-            return false;
+        String night = numbers.get(3).get(NIGHT_KEY);
+        if (!night.equals("")) {
+            isValid = true;
+        }
+        if (!isValid) {
+            isErrorHandled = true;
+            Toast.makeText(EditPrescriptionActivity.this, "请填写药物服用份量", Toast.LENGTH_SHORT).show();
         }
 
+        if (morning.equals(".")) {
+            isValid = false;
+        }
+        if (afternoon.equals(".")) {
+            isValid = false;
+        }
+        if (evening.equals(".")) {
+            isValid = false;
+        }
+        if (night.equals(".")) {
+            isValid = false;
+        }
 
-        return true;
+        if (!isValid) {
+            if (!isErrorHandled) {
+                Toast.makeText(EditPrescriptionActivity.this, "药物服用份量填写格式错误", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        return isValid;
     }
 
     public void initData() {
