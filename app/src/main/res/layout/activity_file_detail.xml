@@ -67,9 +67,9 @@
                     android:layout_gravity="center"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:text='@{isDownload? "打开文件":"点击下载"}'
+                    android:text='@{isDownload? "用其他应用打开文件":"点击下载"}'
                     android:textColor="@color/white"
-                    android:textSize="@dimen/font_13" />
+                    android:textSize="@dimen/font_12" />
             </FrameLayout>
         </LinearLayout>
 
