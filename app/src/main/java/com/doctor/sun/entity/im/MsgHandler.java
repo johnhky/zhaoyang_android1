@@ -63,14 +63,14 @@ public class MsgHandler {
         return FileTypeMap.getDrawable(extension);
     }
 
-    public View.OnClickListener fileDetail(TextMsg msg) {
+    public View.OnClickListener fileDetail(final TextMsg msg) {
         final String extension = msg.getUserData();
         final String size = fileSize(msg.getDuration());
         final String url = msg.getMessageStatus();
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = FileDetailActivity.makeIntent(v.getContext(), extension, url, size);
+                Intent i = FileDetailActivity.makeIntent(v.getContext(), extension, url, msg.getDuration());
                 v.getContext().startActivity(i);
             }
         };

@@ -15,6 +15,10 @@
         <variable
             name="size"
             type="java.lang.String" />
+
+        <variable
+            name="isDownload"
+            type="boolean" />
     </data>
 
     <LinearLayout
@@ -63,7 +67,7 @@
                     android:layout_gravity="center"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:text='点击下载'
+                    android:text='@{isDownload? "打开文件":"点击下载"}'
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_13" />
             </FrameLayout>

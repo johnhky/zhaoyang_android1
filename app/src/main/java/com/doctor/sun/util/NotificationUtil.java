@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
@@ -45,7 +44,7 @@ public class NotificationUtil {
     }
 
 
-    public static void showNotification(int progress,int totalLength) {
+    public static void showNotification(int progress, int totalLength) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
         builder.setContentText("正在下载");
         builder.setContentTitle("昭阳医生");
@@ -57,9 +56,24 @@ public class NotificationUtil {
         managerCompat.notify(NEW_MSG, notification);
     }
 
-    public static void showFinishDownloadNotification(File file) {
+    public static void onFinishDownloadNewVersion(File file) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
         builder.setContentText("下载已完成,请点击安装");
+        builder.setContentTitle("昭阳医生");
+        builder.setSmallIcon(R.drawable.ic_notification);
+        Intent i = UpdateUtil.getInstallIntent(file.getAbsolutePath());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(AppContext.me(), NEW_MSG, i, 0);
+        builder.setContentIntent(pendingIntent);
+        Notification notification = builder.build();
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(AppContext.me());
+        managerCompat.notify(NEW_MSG, notification);
+    }
+
+    public static void onFinishDownloadFile(File file) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
+        builder.setContentText("下载已完成,点击打开文件");
         builder.setContentTitle("昭阳医生");
         builder.setSmallIcon(R.drawable.ic_notification);
         Intent i = UpdateUtil.getInstallIntent(file.getAbsolutePath());

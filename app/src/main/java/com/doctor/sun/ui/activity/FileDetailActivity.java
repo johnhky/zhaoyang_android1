@@ -1,17 +1,21 @@
 package com.doctor.sun.ui.activity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityFileDetailBinding;
 import com.doctor.sun.event.ProgressEvent;
 import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.util.MD5;
 import com.doctor.sun.util.NotificationUtil;
 import com.doctor.sun.util.UpdateUtil;
 import com.squareup.otto.Subscribe;
@@ -27,14 +31,14 @@ public class FileDetailActivity extends BaseActivity2 {
 
     public static final String EXTENSION = "EXTENSION";
     public static final String URL = "URL";
-    public static final String SIZE = "SIZE";
+    public static final String DURATION = "DURATION";
     private ActivityFileDetailBinding binding;
 
-    public static Intent makeIntent(Context context, String extension, String url, String size) {
+    public static Intent makeIntent(Context context, String extension, String url, long duration) {
         Intent intent = new Intent(context, FileDetailActivity.class);
         intent.putExtra(EXTENSION, extension);
         intent.putExtra(URL, url);
-        intent.putExtra(SIZE, size);
+        intent.putExtra(DURATION, duration);
         return intent;
     }
 
@@ -51,23 +55,29 @@ public class FileDetailActivity extends BaseActivity2 {
         binding.btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = getStringExtra(URL);
-                Log.e(TAG, "download click");
-                File file = new File(Config.getDataPath(), url);
-                UpdateUtil.downLoadFile(url, file, new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.e(TAG, "download finished");
-
-                    }
-                });
+                File file = getFile();
+                if (!isDownloaded()) {
+                    UpdateUtil.downLoadFile(getUrl(), file, new DownloadFinishCallback());
+                } else {
+                    openFile(file);
+                }
             }
         });
     }
 
     private void initView() {
-        binding.setDrawable(FileTypeMap.getDrawable(getStringExtra(EXTENSION)));
-        binding.setSize(getStringExtra(SIZE));
+        binding.setDrawable(FileTypeMap.getDrawable(getExtension()));
+        binding.setSize(getFileSizeLabel());
+        binding.setIsDownload(isDownloaded());
+    }
+
+    private String getExtension() {
+        return getStringExtra(EXTENSION);
+    }
+
+    private String getFileSizeLabel() {
+        long longExtra = getLongExtra(DURATION, 0);
+        return String.valueOf(longExtra / 1000) + "KB";
     }
 
     private void initHeader() {
@@ -81,11 +91,45 @@ public class FileDetailActivity extends BaseActivity2 {
         NotificationUtil.showNotification(event.getTotalRead(), event.getTotalLength());
     }
 
-    public File getFileFor(String url) {
-        return new File(Config.getDataPath(), url);
+    public String getLocalPathFor(String url) {
+        return MD5.getMessageDigest(url.getBytes());
     }
 
-    public boolean isDownloaded(String url) {
-        return false;
+    public File getFile() {
+        return new File(Config.getDataPath(), getLocalPathFor(getUrl()));
+    }
+
+    private String getUrl() {
+        return getStringExtra(URL);
+    }
+
+    public boolean isDownloaded() {
+        return getFile().length() == getLongExtra(DURATION, 0);
+    }
+
+    public void openFile(File file) {
+        try {
+            Intent intent = new Intent("android.intent.action.VIEW");
+
+            intent.addCategory("android.intent.category.DEFAULT");
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            Uri uri = Uri.fromFile(file);
+
+            intent.setDataAndType(uri, MimeTypeMap.getSingleton().getMimeTypeFromExtension(getExtension()));
+
+            startActivity(intent);
+        }catch (ActivityNotFoundException e) {
+            Toast.makeText(FileDetailActivity.this, "无法打开文件", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class DownloadFinishCallback implements Runnable {
+
+        @Override
+        public void run() {
+            binding.setIsDownload(true);
+        }
     }
 }

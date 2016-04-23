@@ -183,7 +183,7 @@ public class UpdateUtil {
         @Override
         public void run() {
             callback.unregisterThis();
-            NotificationUtil.showFinishDownloadNotification(file);
+            NotificationUtil.onFinishDownloadNewVersion(file);
             installPackage(AppContext.me(), file.getAbsolutePath());
         }
     }
