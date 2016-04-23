@@ -658,7 +658,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
                 ECDevice.getUserState(sendTo, new ECDevice.OnGetUserStateListener() {
                     @Override
                     public void onGetUserState(ECError ecError, ECUserState ecUserState) {
-                        if (ecUserState.isOnline()) {
+                        if (ecUserState != null && ecUserState.isOnline()) {
                             com.doctor.sun.im.Messenger.getInstance().makePhoneCall(sendTo);
                             Intent i = VoIPCallActivity.makeIntent(view.getContext(), VoIPCallActivity.CALLING, sendTo);
                             view.getContext().startActivity(i);

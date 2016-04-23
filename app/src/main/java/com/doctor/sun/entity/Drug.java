@@ -147,7 +147,7 @@ public class Drug implements LayoutId {
 
     @Override
     public int getItemLayoutId() {
-        return R.layout.p_item_druglist;
+        return R.layout.p_item_drug;
     }
 
     public String getStatuses() {

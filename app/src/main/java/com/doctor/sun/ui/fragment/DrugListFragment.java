@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.DrugModule;
-import com.doctor.sun.ui.adapter.DruglistAdapter;
+import com.doctor.sun.ui.adapter.DrugOrderAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 
 /**
@@ -25,7 +25,7 @@ public class DrugListFragment extends ListFragment {
     @NonNull
     @Override
     public SimpleAdapter createAdapter() {
-        return new DruglistAdapter(getContext());
+        return new DrugOrderAdapter(getContext());
     }
 
     @Override
