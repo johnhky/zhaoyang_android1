@@ -61,6 +61,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
     private Context mActivity;
     //记录当前需要添加药品或者上传图片的position, 方便回调
     private int needPillsOrImages = -1;
+    private boolean isPrescriptionInit = false;
 
     public AnswerModifyAdapter(Context context) {
         super(context);
@@ -154,25 +155,27 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
 //        binding.tvAddPills.setVisibility(View.VISIBLE);
 
         //恢复历史记录
-        if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {
-            List<Object> content = (List<Object>) answer.getAnswerContent();
-            for (int i = 0; i < content.size(); i++) {
-                Prescription data = null;
-                try {
-                    data = JacksonUtils.fromMap((LinkedHashMap) content.get(i), Prescription.class);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                if (!answer.getPrescriptions().contains(data)) {
-                    answer.getPrescriptions().add(data);
+        if (!isPrescriptionInit) {
+            if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {
+                List<Object> content = (List<Object>) answer.getAnswerContent();
+                for (int i = 0; i < content.size(); i++) {
+                    Prescription data = null;
+                    try {
+                        data = JacksonUtils.fromMap((LinkedHashMap) content.get(i), Prescription.class);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    if (!answer.getPrescriptions().contains(data)) {
+                        answer.getPrescriptions().add(data);
+                    }
                 }
             }
+            isPrescriptionInit = true;
         }
 
         if (answer.getPrescriptions().size() > 0) {
             for (int i = 0; i < answer.getPrescriptions().size(); i++) {
-                binding.flAnswer.addView(getPrescriptionView(binding, answer, answer.getPrescriptions().get(i)),
-                        binding.flAnswer.getChildCount() - 1);
+                binding.flAnswer.addView(getPrescriptionView(binding, answer, answer.getPrescriptions().get(i)));
             }
         }
 
@@ -530,13 +533,16 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             @Override
             public void onClick(View v) {
                 binding.flAnswer.removeView(prescriptionBinding.getRoot());
-                if (answer.getPrescriptions().contains(data)) {
-                    answer.getPrescriptions().remove(data);
+                List<Prescription> prescriptions = answer.getPrescriptions();
+                if (prescriptions.contains(data)) {
+                    prescriptions.remove(data);
                     //用药信息为空
-                    if (answer.getPrescriptions().size() == 0) {
+                    if (prescriptions.size() == 0) {
                         clearPositionFill(binding, answer);
                     }
+                    answer.setPrescriptions(prescriptions);
                     set(binding.getVh().getAdapterPosition(), answer);
+                    notifyItemChanged(binding.getVh().getAdapterPosition());
                 }
             }
         });
@@ -920,5 +926,11 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
         for (char c : classifier) {
             PARAM_CLASSIFIER.put(c, true);
         }
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
+        isPrescriptionInit = false;
     }
 }

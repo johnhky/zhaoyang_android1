@@ -17,6 +17,10 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
+import com.doctor.sun.util.JacksonUtils;
+
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Created by rick on 29/3/2016.
@@ -103,5 +107,23 @@ public class AnswerHandler {
                 v.getContext().startActivity(intent);
             }
         };
+    }
+
+    public Answer initPrescriptions(Answer answer) {
+        if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {
+            List<Object> content = (List<Object>) answer.getAnswerContent();
+            for (int i = 0; i < content.size(); i++) {
+                Prescription data = null;
+                try {
+                    data = JacksonUtils.fromMap((LinkedHashMap) content.get(i), Prescription.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (!answer.getPrescriptions().contains(data)) {
+                    answer.getPrescriptions().add(data);
+                }
+            }
+        }
+        return answer;
     }
 }
