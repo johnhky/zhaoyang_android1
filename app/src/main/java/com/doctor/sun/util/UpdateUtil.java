@@ -77,11 +77,11 @@ public class UpdateUtil {
                         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
                         builder.canceledOnTouchOutside(false);
                         builder.onPositive(callback);
-                        builder.positiveText("确定");
+                        builder.positiveText("马上更新");
                         if (forceUpdate) {
                             dialog = builder.content("昭阳医生已经发布了最新版本，更新后才可以使用哦！").show();
                         } else if (newVersion > Double.valueOf(versionName)) {
-                            builder.negativeText("取消");
+                            builder.negativeText("稍后提醒我");
                             dialog = builder.content("昭阳医生已经发布了最新版本，更新后会有更好的体验哦！").show();
                         }
                     }
