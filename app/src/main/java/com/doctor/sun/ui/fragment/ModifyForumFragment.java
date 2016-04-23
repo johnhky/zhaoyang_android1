@@ -246,6 +246,7 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
             for (int i = 0; i < data.size(); i++) {
 
                 Answer answer = data.get(i);
+                answer.setEditMode(true);
                 answer.setPosition(i + 1);
                 int parentPosition = getAdapter().getItemCount() - 1;
                 getAdapter().add(answer);

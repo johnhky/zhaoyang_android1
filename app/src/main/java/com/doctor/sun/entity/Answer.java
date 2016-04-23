@@ -71,6 +71,7 @@ public class Answer implements LayoutId {
     private List<Prescription> prescriptions = new ArrayList<>();
     @JsonIgnore
     private List<String> imageUrls = new ArrayList<>();
+    private boolean editMode = false;
     private HashMap<String, String> selectedOptions;
 
 
@@ -242,5 +243,13 @@ public class Answer implements LayoutId {
     @Override
     public int getItemLayoutId() {
         return R.layout.item_answer;
+    }
+
+    public boolean isEditMode() {
+        return editMode;
+    }
+
+    public void setEditMode(boolean editMode) {
+        this.editMode = editMode;
     }
 }

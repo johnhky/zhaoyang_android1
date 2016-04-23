@@ -18,7 +18,7 @@
 
         <variable
             name="adapter"
-            type="com.doctor.sun.ui.adapter.AnswerModifyAdapter" />
+            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
     </data>
 
     <LinearLayout
@@ -100,6 +100,7 @@
             android:orientation="vertical" />
 
         <include
+            android:id="@+id/prescriptions"
             layout="@layout/item_add_prescription"
             bind:adapter="@{adapter}"
             bind:data="@{data}"

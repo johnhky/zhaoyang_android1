@@ -9,7 +9,7 @@
 
         <variable
             name="adapter"
-            type="com.doctor.sun.ui.adapter.AnswerModifyAdapter" />
+            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
 
         <variable
             name="vh"
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="@{data.handler.isPills(data)}">
+        android:visibility="@{data.handler.canEditPills(data)}">
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,10 +45,10 @@
             android:visibility='@{data.handler.drugCountGreaterThen(data,2)}' />
 
         <TextView
-            android:layout_marginBottom="@dimen/dp_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/dp_5"
             android:background="@drawable/ripple_default"
             android:onClick="@{data.handler.addDrug(adapter,vh)}"
             android:text="添加其他用药"

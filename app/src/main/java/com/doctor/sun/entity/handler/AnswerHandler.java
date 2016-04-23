@@ -12,7 +12,6 @@ import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
-import com.doctor.sun.ui.adapter.AnswerModifyAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
@@ -29,6 +28,10 @@ public class AnswerHandler {
 
     public boolean isPills(Answer data) {
         return data.getQuestion().getQuestionType().equals(Question.TYPE_PILLS);
+    }
+
+    public boolean canEditPills(Answer data) {
+        return data.getQuestion().getQuestionType().equals(Question.TYPE_PILLS) && data.isEditMode();
     }
 
     public boolean isFill(Answer data) {
@@ -83,7 +86,7 @@ public class AnswerHandler {
         return answer.getPrescriptions().size() < count;
     }
 
-    public View.OnClickListener addDrug(final AnswerModifyAdapter adapter, final RecyclerView.ViewHolder vh) {
+    public View.OnClickListener addDrug(final BaseAdapter adapter, final RecyclerView.ViewHolder vh) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {

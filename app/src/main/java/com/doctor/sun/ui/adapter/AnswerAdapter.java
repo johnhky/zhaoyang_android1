@@ -165,6 +165,7 @@ public class AnswerAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     }
 
     private void bindPills(ItemAnswerBinding binding, Answer answer) {
+        binding.prescriptions.getRoot().setVisibility(View.GONE);
         binding.flAnswer.setVisibility(View.VISIBLE);
         Object answerContent = answer.getAnswerContent();
         if (!(answerContent instanceof List)) return;
