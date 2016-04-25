@@ -26,9 +26,9 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.NimTeamId;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
-import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
@@ -69,7 +69,6 @@ import com.yuntongxun.ecsdk.ECUserState;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -78,12 +77,11 @@ import io.ganguo.library.AppManager;
 import io.ganguo.library.Config;
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.core.event.EventHub;
-import io.realm.Realm;
 
 /**
  * Created by rick on 11/20/15.
  */
-public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doctor.sun.util.PayInterface {
+public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doctor.sun.util.PayInterface, NimTeamId {
     public static final int RECORD_AUDIO_PERMISSION = 40;
     public static final int PHONE_CALL_PERMISSION = 50;
     private static AppointmentModule api = Api.of(AppointmentModule.class);
@@ -432,8 +430,20 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         };
     }
 
-    public String getTID() {
+
+    @Override
+    public SessionTypeEnum getType() {
+        return null;
+    }
+
+    @Override
+    public String getTeamId() {
         return String.valueOf(data.getTid());
+    }
+
+    @Override
+    public String getP2PId() {
+        return data.getYunxinAccid();
     }
 
     private static class GotoConsultingCallback extends ApiCallback<String> {
@@ -622,7 +632,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             return;
         }
         if (NIMConnectionState.getInstance().isLogin()) {
-            com.doctor.sun.im.Messenger.getInstance().sentTextMsg(getTID(), SessionTypeEnum.Team, inputText.getText().toString());
+            com.doctor.sun.im.Messenger.getInstance().sentTextMsg(getTeamId(), SessionTypeEnum.Team, inputText.getText().toString());
             inputText.setText("");
         } else {
             Toast.makeText(inputText.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
@@ -748,6 +758,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
      * @return
      */
     public long getFinishedTime() {
+        getStartTime();
         String bookTime = data.getBookTime();
         if (bookTime == null) {
             return System.currentTimeMillis();
@@ -759,6 +770,23 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
                 return 0;
             }
         }
+    }
+    public long getStartTime() {
+        String bookTime = data.getBookTime();
+        if (bookTime == null) {
+            return System.currentTimeMillis();
+        } else {
+            try {
+                String date = bookTime.substring(0, 11) + bookTime.substring(11, 17);
+                return parseDate(date);
+            } catch (Exception e) {
+                return 0;
+            }
+        }
+    }
+
+    public long getRemainingTime() {
+        return getFinishedTime() - System.currentTimeMillis();
     }
 
     private long parseDate(String date) throws ParseException {

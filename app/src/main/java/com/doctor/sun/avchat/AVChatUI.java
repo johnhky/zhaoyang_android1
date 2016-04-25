@@ -177,7 +177,7 @@ public class AVChatUI implements AVChatUIListener {
      * 拨打音视频
      */
     public void outGoingCalling(String account, AVChatType callTypeEnum) {
-        LoadingHelper.showMaterLoading(context, null);
+//        LoadingHelper.showMaterLoading(context, null);
         this.receiverId = account;
         VideoChatParam videoParam = null;
         if (callTypeEnum == AVChatType.AUDIO) {
@@ -203,12 +203,12 @@ public class AVChatUI implements AVChatUIListener {
             @Override
             public void onSuccess(AVChatData data) {
                 avChatData = data;
-                LoadingHelper.hideMaterLoading();
+//                LoadingHelper.hideMaterLoading();
             }
 
             @Override
             public void onFailed(int code) {
-                LoadingHelper.hideMaterLoading();
+//                LoadingHelper.hideMaterLoading();
                 if (code == ResponseCode.RES_FORBIDDEN) {
                     Toast.makeText(context, R.string.avchat_no_permission, Toast.LENGTH_SHORT).show();
                 } else {
@@ -219,7 +219,7 @@ public class AVChatUI implements AVChatUIListener {
 
             @Override
             public void onException(Throwable exception) {
-                LoadingHelper.hideMaterLoading();
+//                LoadingHelper.hideMaterLoading();
             }
         });
     }

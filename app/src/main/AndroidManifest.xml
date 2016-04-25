@@ -62,8 +62,8 @@
 
     <!-- 多媒体相关 -->
     <!-- 如果需要实时音视频通话模块，下面的权限也是必须的。否则，可以不加 -->
-    <!--<uses-permission android:name="android.permission.BLUETOOTH" />-->
-    <!--<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />-->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <!-- SDK 权限申明, 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
     <!-- 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。 -->
 

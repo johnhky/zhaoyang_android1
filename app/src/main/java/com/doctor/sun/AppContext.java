@@ -9,6 +9,7 @@ import android.util.Log;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.im.AVChatHandler;
 import com.doctor.sun.module.AuthModule;
 import com.netease.nimlib.sdk.NIMClient;
 import com.squareup.otto.Subscribe;
@@ -26,13 +27,12 @@ import io.realm.RealmSchema;
 
 /**
  * App 上下文环境
- * <p/>
+ * <p>
  * Created by Tony on 9/30/15.
  */
 public class AppContext extends BaseApp {
     public static final String TAG = AppContext.class.getSimpleName();
-    public static final String COM_DOCTOR_SUN = "com.doctor.sun";
-    public static final int NEW_VERSION = 2;
+    public static final int NEW_VERSION = 3;
     private static int userType = -1;
     private static boolean isInitialized;
 
@@ -43,17 +43,21 @@ public class AppContext extends BaseApp {
         AppEnv.init(this);
         // init libs
         String processName = getProcessName(this);
-        if (processName.equals(COM_DOCTOR_SUN)) {
+
+        initMessenger();
+
+        // 不自动登录.  全部使用默认配置
+        NIMClient.init(this, null, null);
+
+        if (processName.equals(getPackageName())) {
             if (AppEnv.DEV_MODE) {
                 OpenSDK.initStage(this);
             } else {
                 OpenSDK.initProduct(this);
             }
-        }
-        initMessenger();
 
-        // 不自动登录.  全部使用默认配置
-        NIMClient.init(this, null, null);
+            AVChatHandler.getInstance().enableAVChat();
+        }
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
                 .schemaVersion(NEW_VERSION)
@@ -159,8 +163,9 @@ public class AppContext extends BaseApp {
                 oldVersion++;
             }
             if (oldVersion < 3) {
-                schema.get("TextMsg")
-                        .addField("duration", int.class);
+                if (!schema.get("TextMsg").hasField("duration")) {
+                    schema.get("TextMsg").addField("duration", int.class);
+                }
                 oldVersion++;
             }
         }

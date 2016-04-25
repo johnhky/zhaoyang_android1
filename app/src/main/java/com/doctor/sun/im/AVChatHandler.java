@@ -1,6 +1,9 @@
 package com.doctor.sun.im;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.avchat.AVChatProfile;
+import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.avchat.AVChatManager;
 import com.netease.nimlib.sdk.avchat.model.AVChatData;
@@ -10,6 +13,7 @@ import com.netease.nimlib.sdk.avchat.model.AVChatRingerConfig;
  * Created by rick on 13/4/2016.
  */
 public class AVChatHandler {
+    public static final String TAG = AVChatHandler.class.getSimpleName();
 
     private static AVChatHandler instance;
 
@@ -20,7 +24,7 @@ public class AVChatHandler {
         return instance;
     }
 
-    private void enableAVChat() {
+    public void enableAVChat() {
         setupAVChat();
         registerAVChatIncomingCallObserver(true);
     }
@@ -40,11 +44,14 @@ public class AVChatHandler {
     }
 
     private void registerAVChatIncomingCallObserver(boolean register) {
-        AVChatManager.getInstance().observeIncomingCall(new Observer<AVChatData>() {
+        AVChatManager instance = AVChatManager.getInstance();
+        Observer<AVChatData> observer = new Observer<AVChatData>() {
             @Override
             public void onEvent(AVChatData chatData) {
-//                AVChatActivity.launch(DemoCache.getContext(), chatData);
+                AVChatProfile.getInstance().setAVChatting(true);
+                AVChatActivity.launch(AppContext.me(), chatData, AVChatActivity.FROM_BROADCASTRECEIVER);
             }
-        }, register);
+        };
+        instance.observeIncomingCall(observer, register);
     }
 }

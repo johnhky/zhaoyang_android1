@@ -142,7 +142,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
         getIsFinish();
 
-        sendTo = handler.getTID();
+        sendTo = handler.getTeamId();
         userData = getUserData();
 
         adapter = new MessageAdapter(this, data);
@@ -340,7 +340,11 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
     @Override
     public String getTeamId() {
-        return handler.getTID();
+        return handler.getTeamId();
+    }
+
+    public String getP2PId() {
+        return handler.getP2PId();
     }
 
     @Override

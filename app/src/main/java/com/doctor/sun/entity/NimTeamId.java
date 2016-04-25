@@ -9,4 +9,6 @@ public interface NimTeamId {
     SessionTypeEnum getType();
 
     String getTeamId();
+
+    String getP2PId();
 }

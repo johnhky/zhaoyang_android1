@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.entity.Appointment;
@@ -14,6 +15,10 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.FileChooser;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
+import com.netease.nrtc.sdk.NRtc;
+import com.netease.nrtc.sdk.NRtcCallback;
+import com.netease.nrtc.sdk.SessionStats;
+import com.netease.nrtc.sdk.toolbox.ScreenLocker;
 
 /**
  * Created by rick on 13/4/2016.
@@ -56,7 +61,7 @@ public class CustomActionViewModel {
             @Override
             public void onClick(View v) {
                 NimTeamId nimTeamId = (NimTeamId) mActivity;
-                AVChatActivity.start(mActivity, nimTeamId.getTeamId(), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL);
+                AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL);
             }
         }));
         adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_file_selector, "文件传输", new View.OnClickListener() {

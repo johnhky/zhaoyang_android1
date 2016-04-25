@@ -79,8 +79,8 @@ android {
 
         // 生产环境
         debug2 {
-            applicationIdSuffix ".dev"
-            versionNameSuffix "_dev"
+//            applicationIdSuffix ".dev"
+//            versionNameSuffix "_dev"
             manifestPlaceholders = [appLabel: "@string/app_name_dev"]// 必改
             buildConfigField "boolean", "DEV_MODE", "true"
             buildConfigField "String", "BASE_URL", '"http://zy120.ddns.net:8202/api/"' //host, 必改

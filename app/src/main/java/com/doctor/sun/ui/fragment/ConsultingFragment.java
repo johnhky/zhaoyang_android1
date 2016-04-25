@@ -36,7 +36,6 @@ import java.util.List;
 import io.ganguo.library.Config;
 import io.ganguo.library.util.Tasks;
 import io.realm.RealmChangeListener;
-import io.realm.Sort;
 
 /**
  * Created by rick on 12/18/15.
@@ -233,14 +232,18 @@ public class ConsultingFragment extends RefreshListFragment {
                     return 0;
                 }
                 TextMsg lFirst = realm.where(TextMsg.class)
-                        .equalTo("sessionId", String.valueOf(lhs.getTid())).equalTo("haveRead", false).or().equalTo("haveRead", true).findAllSorted("time", Sort.DESCENDING).first();
+                        .equalTo("sessionId", String.valueOf(lhs.getTid()))
+                        .equalTo("haveRead", false).or().equalTo("haveRead", true)
+                        .greaterThan("time", 0).findFirst();
                 if (lFirst == null) {
                     return RIGHT_BIG;
                 }
                 long lTime = lFirst.getTime();
                 boolean lHaveRead = lFirst.isHaveRead();
                 TextMsg rFirst = realm.where(TextMsg.class)
-                        .equalTo("sessionId", String.valueOf(rhs.getTid())).equalTo("haveRead", false).or().equalTo("haveRead", true).findAllSorted("time", Sort.DESCENDING).first();
+                        .equalTo("sessionId", String.valueOf(rhs.getTid()))
+                        .equalTo("haveRead", false).or().equalTo("haveRead", true)
+                        .greaterThan("time", 0).findFirst();
                 if (rFirst == null) {
                     return LEFT_BIG;
                 }

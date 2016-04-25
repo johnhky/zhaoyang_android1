@@ -325,6 +325,11 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     }
 
     @Override
+    public String getP2PId() {
+        return null;
+    }
+
+    @Override
     public SessionTypeEnum getType() {
         return SessionTypeEnum.P2P;
     }
