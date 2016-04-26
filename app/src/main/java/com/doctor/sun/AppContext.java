@@ -23,11 +23,12 @@ import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmMigration;
+import io.realm.RealmObjectSchema;
 import io.realm.RealmSchema;
 
 /**
  * App 上下文环境
- * <p>
+ * <p/>
  * Created by Tony on 9/30/15.
  */
 public class AppContext extends BaseApp {
@@ -156,15 +157,15 @@ public class AppContext extends BaseApp {
         @Override
         public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
             RealmSchema schema = realm.getSchema();
+            RealmObjectSchema textMsg = schema.get("TextMsg");
             if (oldVersion < 2) {
-                schema.get("TextMsg")
-                        .addField("imageWidth", int.class)
+                textMsg.addField("imageWidth", int.class)
                         .addField("imageHeight", int.class);
                 oldVersion++;
             }
             if (oldVersion < 3) {
-                if (!schema.get("TextMsg").hasField("duration")) {
-                    schema.get("TextMsg").addField("duration", int.class);
+                if (!textMsg.hasField("duration")) {
+                    textMsg.addField("duration", int.class);
                 }
                 oldVersion++;
             }

@@ -30,12 +30,15 @@ import com.netease.nimlib.sdk.msg.model.RecentContact;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.util.Tasks;
 import io.realm.RealmChangeListener;
+import io.realm.RealmQuery;
+import io.realm.Sort;
 
 /**
  * Created by rick on 12/18/15.
@@ -136,7 +139,8 @@ public class ConsultingFragment extends RefreshListFragment {
                     binding.swipeRefresh.setRefreshing(false);
                 }
             };
-            NIMClient.getService(MsgService.class).queryRecentContacts()
+            MsgService service = NIMClient.getService(MsgService.class);
+            service.queryRecentContacts()
                     .setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
                         @Override
                         public void onResult(int code, List<RecentContact> recents, Throwable e) {
@@ -221,32 +225,29 @@ public class ConsultingFragment extends RefreshListFragment {
 
     public Comparator<Appointment> comparator() {
         return new Comparator<Appointment>() {
-            public static final int EQUAL = 0;
             public static final int LEFT_BIG = 1;
             public static final int RIGHT_BIG = -1;
 
             @Override
             public int compare(Appointment lhs, Appointment rhs) {
-                boolean empty = realm.where(TextMsg.class).findAll().isEmpty();
-                if (empty) {
-                    return 0;
-                }
-                TextMsg lFirst = realm.where(TextMsg.class)
-                        .equalTo("sessionId", String.valueOf(lhs.getTid()))
-                        .equalTo("haveRead", false).or().equalTo("haveRead", true)
-                        .greaterThan("time", 0).findFirst();
-                if (lFirst == null) {
+                RealmQuery<TextMsg> lMsgQuery = realm.where(TextMsg.class)
+                        .equalTo("sessionId", String.valueOf(lhs.getTid())).beginGroup()
+                        .equalTo("haveRead", false).or().equalTo("haveRead", true).endGroup();
+
+                if (lMsgQuery.count() == 0) {
                     return RIGHT_BIG;
                 }
+                TextMsg lFirst = lMsgQuery.findAllSorted("time", Sort.DESCENDING).first();
+
                 long lTime = lFirst.getTime();
                 boolean lHaveRead = lFirst.isHaveRead();
-                TextMsg rFirst = realm.where(TextMsg.class)
-                        .equalTo("sessionId", String.valueOf(rhs.getTid()))
-                        .equalTo("haveRead", false).or().equalTo("haveRead", true)
-                        .greaterThan("time", 0).findFirst();
-                if (rFirst == null) {
+                RealmQuery<TextMsg> rMsgQuery = realm.where(TextMsg.class)
+                        .equalTo("sessionId", String.valueOf(rhs.getTid())).beginGroup()
+                        .equalTo("haveRead", false).or().equalTo("haveRead", true).endGroup();
+                if (rMsgQuery.count() == 0) {
                     return LEFT_BIG;
                 }
+                TextMsg rFirst = rMsgQuery.findAllSorted("time", Sort.DESCENDING).first();
                 long rTime = rFirst.getTime();
                 boolean rHaveRead = lFirst.isHaveRead();
                 if (lHaveRead != rHaveRead) {
@@ -256,13 +257,7 @@ public class ConsultingFragment extends RefreshListFragment {
                         return LEFT_BIG;
                     }
                 }
-                if (lTime > rTime) {
-                    return RIGHT_BIG;
-                } else if (lTime == rTime) {
-                    return EQUAL;
-                } else {
-                    return LEFT_BIG;
-                }
+                return new Date(rTime).compareTo(new Date(lTime));
             }
         };
     }

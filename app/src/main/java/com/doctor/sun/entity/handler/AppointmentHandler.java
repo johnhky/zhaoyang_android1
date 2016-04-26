@@ -29,6 +29,7 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.NimTeamId;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
+import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
@@ -69,6 +70,7 @@ import com.yuntongxun.ecsdk.ECUserState;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -77,6 +79,9 @@ import io.ganguo.library.AppManager;
 import io.ganguo.library.Config;
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.core.event.EventHub;
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 /**
  * Created by rick on 11/20/15.
@@ -771,6 +776,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             }
         }
     }
+
     public long getStartTime() {
         String bookTime = data.getBookTime();
         if (bookTime == null) {
@@ -811,5 +817,25 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             }
         }
         return result;
+    }
+
+    public RealmResults<TextMsg> allMsgSortedByTime(Realm realm) {
+        RealmQuery<TextMsg> q = realm.where(TextMsg.class)
+                .equalTo("sessionId", String.valueOf(data.getTid()));
+//                    .equalTo("userData", appointment.getHandler().getUserData());
+        RealmResults<TextMsg> results = q.findAllSorted("time");
+        return results;
+    }
+
+    public TextMsg lastMsg(Realm realm) {
+        return allMsgSortedByTime(realm).last();
+    }
+
+    public long lastMsgTime(Realm realm) {
+        return lastMsg(realm).getTime();
+    }
+    public String lastMsgTime() {
+        Date date = new Date(lastMsg(Realm.getDefaultInstance()).getTime());
+        return date.toString();
     }
 }
