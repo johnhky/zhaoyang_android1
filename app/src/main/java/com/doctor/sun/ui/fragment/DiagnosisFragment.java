@@ -39,6 +39,7 @@ import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.doctor.sun.util.JacksonUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.Tasks;
@@ -346,7 +347,8 @@ public class DiagnosisFragment extends Fragment {
                 "继续", "结束", new TwoSelectorDialog.GetActionButton() {
                     @Override
                     public void onClickPositiveButton(final TwoSelectorDialog dialog) {
-                        api.setDiagnosis(viewModel.toHashMap(appointment, binding, getPrescriptions())).enqueue(new SimpleCallback<String>() {
+                        final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
+                        api.setDiagnosis(query).enqueue(new SimpleCallback<String>() {
                             @Override
                             protected void handleResponse(String response) {
 
@@ -366,8 +368,23 @@ public class DiagnosisFragment extends Fragment {
                     }
 
                     @Override
-                    public void onClickNegativeButton(TwoSelectorDialog dialog) {
-                        dialog.dismiss();
+                    public void onClickNegativeButton(final TwoSelectorDialog dialog) {
+                        final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
+                        query.put("hold", "1");
+                        api.setDiagnosis(query).enqueue(new SimpleCallback<String>() {
+                            @Override
+                            protected void handleResponse(String response) {
+                                ToastHelper.showMessage(getActivity(), "保存成功");
+                                dialog.dismiss();
+                                getActivity().finish();
+                            }
+
+                            @Override
+                            public void onFailure(Throwable t) {
+                                Log.e(TAG, "onFailure: " + t.getMessage());
+                                dialog.dismiss();
+                            }
+                        });
                     }
                 });
     }

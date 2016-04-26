@@ -180,10 +180,11 @@ public class Symptom extends BaseObservable implements LayoutId {
             builder.append("\"");
         }
         for (int i = 0; i < states.size(); i++) {
+            int key = states.keyAt(i);
             builder.append("\"");
-            builder.append(i);
+            builder.append(key);
             builder.append("\":\"");
-            int isSelected = states.get(i) ? SELECTED : NOT_SELECTED;
+            int isSelected = states.get(key) ? SELECTED : NOT_SELECTED;
             builder.append(isSelected);
             if (i != states.size() - 1)
                 builder.append("\",");

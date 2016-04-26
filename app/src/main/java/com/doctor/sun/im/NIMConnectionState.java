@@ -116,15 +116,9 @@ public class NIMConnectionState implements RequestCallback {
 //                JSONObject data = object.getJSONObject(KEY_DATA);
                 switch (type) {
                     case TextMsg.Sticker: {
-                        JavaType javaType = TypeFactory.defaultInstance().constructParametricType(CustomAttachment.class, StickerAttachment.class);
-                        CustomAttachment<StickerAttachment> customAttachment = JacksonUtils.fromJson(object.toString(), javaType);
-                        return customAttachment;
-//                        StickerAttachment sticker = JacksonUtils.fromJson(data.toString(), StickerAttachment.class);
-//                        AttachmentData textAttachment = new AttachmentData();
-//                        String text = (StickerManager.FILE_ANDROID_ASSET_STICKER + sticker.getCatalog() + "/" + sticker.getChartlet() + ".png");
-//                        textAttachment.setData(text);
-//                        textAttachment.setType(TextMsg.Sticker);
-//                        return textAttachment;
+                        JavaType javaType = TypeFactory.defaultInstance()
+                                .constructParametricType(CustomAttachment.class, StickerAttachment.class);
+                        return  JacksonUtils.<CustomAttachment<StickerAttachment>>fromJson(object.toString(), javaType);
                     }
                 }
             } catch (JSONException e) {
