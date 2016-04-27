@@ -7,18 +7,28 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityHelpBinding;
+import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.adapter.HelpAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Created by lucas on 2/2/16.
  */
-public class HelpActivity extends TabActivity implements View.OnClickListener {
+public class HelpActivity extends BaseFragmentActivity2 implements View.OnClickListener {
     private HelpAdapter mAdapter;
     private ActivityHelpBinding binding;
+    private ToolModule api = Api.of(ToolModule.class);
 
     public static Intent makeIntent(Context context, int type) {
         Intent i = new Intent(context, HelpActivity.class);
@@ -40,8 +50,24 @@ public class HelpActivity extends TabActivity implements View.OnClickListener {
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_help);
         binding.ivExit.setOnClickListener(this);
-        mAdapter = createPagerAdapter();
-        binding.vp.setAdapter(mAdapter);
+        String type = "";
+        if (AppContext.isDoctor()) {
+            type = "doctor";
+        } else {
+            type = "patient";
+        }
+        api.helpImage("android", type).enqueue(new Callback<ApiDTO<List<String>>>() {
+            @Override
+            public void onResponse(Response<ApiDTO<List<String>>> response, Retrofit retrofit) {
+                mAdapter = new HelpAdapter(getSupportFragmentManager(), response.body().getData());
+                binding.vp.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 
     private void initListener() {
@@ -65,16 +91,6 @@ public class HelpActivity extends TabActivity implements View.OnClickListener {
                 }
             }
         });
-    }
-
-    @Override
-    protected HelpAdapter createPagerAdapter() {
-        return new HelpAdapter(getSupportFragmentManager(), getType());
-    }
-
-    @Override
-    protected HeaderViewModel createHeaderViewModel() {
-        return null;
     }
 
     @Override

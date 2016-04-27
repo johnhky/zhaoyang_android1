@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.doctor.sun.R;
 import com.doctor.sun.databinding.FragmentHelpBinding;
 
 /**
@@ -16,17 +17,17 @@ public class HelpFragment extends android.support.v4.app.Fragment {
     public static final String IMAGE_ID = "IMAGE_ID";
     private FragmentHelpBinding binding;
 
-    public static HelpFragment newInstance(int id) {
+    public static HelpFragment newInstance(String id) {
 
         Bundle args = new Bundle();
-        args.putInt(IMAGE_ID, id);
+        args.putString(IMAGE_ID, id);
         HelpFragment fragment = new HelpFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public int getDrawableId() {
-        int imageId = getArguments().getInt(IMAGE_ID);
+    public String getDrawableUrl() {
+        String imageId = getArguments().getString(IMAGE_ID);
         return imageId;
     }
 
@@ -34,7 +35,7 @@ public class HelpFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHelpBinding.inflate(inflater, container, false);
-        Glide.with(this).load(getDrawableId()).into(binding.ivHelp);
+        Glide.with(this).load(getDrawableUrl()).placeholder(R.drawable.bg_default).into(binding.ivHelp);
         return binding.getRoot();
     }
 }

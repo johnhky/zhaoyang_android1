@@ -57,4 +57,8 @@ public interface ToolModule {
 
     @GET()
     Call<ResponseBody> downloadFile(@Url() String path);
+
+    @GET("tool/help-images")
+    Call<ApiDTO<List<String>>> helpImage(@Query("clientType") String client, @Query("imageType") String imageType);
+
 }
