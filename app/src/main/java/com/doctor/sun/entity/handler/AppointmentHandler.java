@@ -70,7 +70,6 @@ import com.yuntongxun.ecsdk.ECUserState;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -763,24 +762,23 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
      * @return
      */
     public long getFinishedTime() {
-        getStartTime();
         String bookTime = data.getBookTime();
-        if (bookTime == null) {
-            return System.currentTimeMillis();
-        } else {
-            try {
-                String date = bookTime.substring(0, 11) + bookTime.substring(17, bookTime.length());
+        try {
+            String substring;
+            if (bookTime != null) {
+                substring = bookTime.substring(17, bookTime.length());
+                String date = bookTime.substring(0, 11) + substring;
                 return parseDate(date);
-            } catch (Exception e) {
-                return 0;
             }
+        } catch (Exception ignored) {
         }
+        return 0;
     }
 
     public long getStartTime() {
         String bookTime = data.getBookTime();
         if (bookTime == null) {
-            return System.currentTimeMillis();
+            return 0;
         } else {
             try {
                 String date = bookTime.substring(0, 11) + bookTime.substring(11, 17);
@@ -819,6 +817,14 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         return result;
     }
 
+    public String chatStatus() {
+        if (AppContext.isDoctor()) {
+            return "本次咨询已结束";
+        } else {
+            return "本次咨询已结束,如需咨询,请再次预约";
+        }
+    }
+
     public RealmResults<TextMsg> allMsgSortedByTime(Realm realm) {
         RealmQuery<TextMsg> q = realm.where(TextMsg.class)
                 .equalTo("sessionId", String.valueOf(data.getTid()));
@@ -834,6 +840,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
     public long lastMsgTime(Realm realm) {
         return lastMsg(realm).getTime();
     }
+
     public String lastMsgTime() {
         Date date = new Date(lastMsg(Realm.getDefaultInstance()).getTime());
         return date.toString();

@@ -37,6 +37,10 @@
                 layout="@layout/include_header"
                 app:header="@{header}" />
 
+            <include
+                layout="@layout/include_appointment_status"
+                app:data="@{data}" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Appointment" />
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_30"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/grey_77"
+            android:gravity="center"
+            android:text="@{data.handler.chatStatus}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_14" />
+
+        <com.doctor.sun.ui.widget.CountDownTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="#f2e493"
+            android:gravity="center"
+            android:textColor="#a36140"
+            android:textSize="@dimen/font_14"
+            android:time="@{data.handler.getFinishedTime()}"
+            tool:text="剩余就诊时间09分12秒" />
+
+    </FrameLayout>
+</layout>
