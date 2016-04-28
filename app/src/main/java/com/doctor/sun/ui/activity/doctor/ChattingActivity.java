@@ -7,6 +7,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.EditText;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
@@ -31,6 +34,7 @@ import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.ui.widget.ExtendedEditText;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.doctor.sun.util.FileChooser;
@@ -50,6 +54,7 @@ import java.io.File;
 import java.util.List;
 
 import io.ganguo.library.Config;
+import io.ganguo.library.util.Systems;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -60,8 +65,8 @@ import io.realm.Sort;
  * 聊天模块
  * Created by rick on 12/11/15.
  */
-public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId {
-    public static final int IMAGE_REQUEST_CODE = 100;
+public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId ,ExtendedEditText.KeyboardDismissListener {
+    public static final int IMAGE_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
     public static final int FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
 
     public static final int CALL_PHONE_REQ = 1;
@@ -121,6 +126,19 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chatting);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
+        binding.getRoot().getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+            @Override
+            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+                if (newFocus instanceof EditText) {
+                    InputLayoutViewModel inputLayout = binding.getInputLayout();
+                    if (inputLayout == null) {
+                        return;
+                    }
+
+                    binding.getInputLayout().onShowSoftInput();
+                }
+            }
+        });
     }
 
     private void initData() {
@@ -300,16 +318,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     }
 
     @Override
-    public void onBackPressed() {
-        InputLayoutViewModel inputLayout = binding.getInputLayout();
-        if (inputLayout.getKeyboardType() != 0) {
-            inputLayout.setKeyboardType(0);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
     public String getTeamId() {
         return handler.getTeamId();
     }
@@ -360,10 +368,31 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
     /**
      * TODO 换成接口,不要使用eventbus ,太反人类了
+     *
      * @param event
      */
     @Subscribe
     public void hideIME(HideInputEvent event) {
         binding.getInputLayout().setKeyboardType(0);
+    }
+
+    @Override
+    public void onBackPressed() {
+        InputLayoutViewModel inputLayout = binding.getInputLayout();
+        if (inputLayout !=null && inputLayout.getKeyboardType() != 0) {
+            inputLayout.setKeyboardType(0);
+            Systems.hideKeyboard(this);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onKeyboardDismiss() {
+        InputLayoutViewModel inputLayout = binding.getInputLayout();
+        if (inputLayout.getKeyboardType() != 0) {
+            inputLayout.setKeyboardType(0);
+            Systems.hideKeyboard(this);
+        }
     }
 }

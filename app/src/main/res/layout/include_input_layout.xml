@@ -62,7 +62,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:visibility="@{data.isRecordMode}" />
 
-            <EditText
+            <com.doctor.sun.ui.widget.ExtendedEditText
                 android:id="@+id/input_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

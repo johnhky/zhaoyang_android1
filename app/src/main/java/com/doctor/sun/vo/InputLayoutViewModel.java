@@ -29,6 +29,7 @@ public class InputLayoutViewModel extends BaseObservable {
     public static final int TYPE_EMOTICON = 1;
     public static final int TYPE_CUSTOM_ACTION = 2;
     public static final int TYPE_AUDIO = 3;
+    public static final int TYPE_EMPTY = 4;
 
 
     public static final String[] AUDIO_PERMISSIONS =
@@ -175,6 +176,17 @@ public class InputLayoutViewModel extends BaseObservable {
 
     public void setKeyboardType(int keyboardType) {
         this.keyboardType = keyboardType;
+        binding.inputText.clearFocus();
+        notifyChange();
+    }
+
+    public void onShowSoftInput() {
+        this.keyboardType = TYPE_EMPTY;
+        notifyChange();
+    }
+
+    public void onHideSoftInput() {
+        this.keyboardType = 0;
         notifyChange();
     }
 }

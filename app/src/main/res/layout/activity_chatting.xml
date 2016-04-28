@@ -23,53 +23,55 @@
 
     </data>
 
-    <FrameLayout
+
+    <LinearLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <include
+            layout="@layout/include_header"
+            app:header="@{header}" />
+
+        <include
+            layout="@layout/include_appointment_status"
+            app:data="@{data}" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/gray_eb"
+            android:paddingBottom="@dimen/dp_13" />
 
-            <include
-                layout="@layout/include_header"
-                app:header="@{header}" />
-
-            <include
-                layout="@layout/include_appointment_status"
-                app:data="@{data}" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@color/gray_eb"
-                android:paddingBottom="@dimen/dp_13" />
-
-            <include
-                android:id="@+id/input"
-                bind:data="@{inputLayout}"
-                layout="@layout/include_input_layout" />
+        <include
+            android:id="@+id/input"
+            layout="@layout/include_input_layout"
+            bind:data="@{inputLayout}" />
 
 
-            <include
-                android:id="@+id/sticker"
-                layout="@layout/include_sticker"
-                bind:rootVisibility="@{inputLayout.keyboardType==1}" />
+        <include
+            android:id="@+id/sticker"
+            layout="@layout/include_sticker"
+            bind:rootVisibility="@{inputLayout.keyboardType==1}" />
 
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/custom_action"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_226"
-                android:layout_margin="@dimen/dp_15"
-                android:overScrollMode="never"
-                android:visibility="@{inputLayout.keyboardType==2}" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/custom_action"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_226"
+            android:layout_margin="@dimen/dp_15"
+            android:overScrollMode="never"
+            android:visibility="@{inputLayout.keyboardType==2}" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_226"
+            android:layout_margin="@dimen/dp_15"
+            android:visibility="@{inputLayout.keyboardType==4}" />
 
-        </LinearLayout>
-    </FrameLayout>
+    </LinearLayout>
 </layout>

@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -37,6 +38,9 @@ import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.ui.widget.ExtendedEditText;
+import com.doctor.sun.ui.widget.PickImageDialog;
+import com.doctor.sun.util.FileChooser;
 import com.doctor.sun.vo.CustomActionViewModel;
 import com.doctor.sun.vo.InputLayoutViewModel;
 import com.doctor.sun.vo.StickerViewModel;
@@ -49,8 +53,10 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.squareup.otto.Subscribe;
 
+import java.io.File;
 import java.util.List;
 
+import io.ganguo.library.util.Systems;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -59,11 +65,10 @@ import io.realm.Sort;
 /**
  * Created by lucas on 2/14/16.
  */
-public class MedicineHelperActivity extends BaseFragmentActivity2 implements NimTeamId {
+public class MedicineHelperActivity extends BaseFragmentActivity2 implements NimTeamId, ExtendedEditText.KeyboardDismissListener {
     public static final String ADMIN_DRUG = "[\"admin\"";
-    public static final int TYPE_CUSTOM_ACTION = 2;
-    public static final int TYPE_EMOTICON = 1;
-    public static final long DELAY_MILLIS = 300;
+    public static final double FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
+    public static final double IMAGE_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
 
     private PActivityMedicineHelperBinding binding;
     private DrugModule api = Api.of(DrugModule.class);
@@ -106,6 +111,19 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
         else
             header.setLeftTitle("就诊(" + getAppointmentNumber() + ")").setRightTitle("选择用药");
         binding.setHeader(header);
+        binding.getRoot().getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+            @Override
+            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+                if (newFocus instanceof EditText) {
+                    InputLayoutViewModel inputLayout = binding.getInputLayout();
+                    if (inputLayout == null) {
+                        return;
+                    }
+
+                    inputLayout.onShowSoftInput();
+                }
+            }
+        });
     }
 
     private void getAccountInitChat() {
@@ -307,6 +325,51 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     }
 
 
+    /**
+     * Dispatch incoming result to the correct fragment.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            handleImageRequest(requestCode, data);
+            handleFileRequest(requestCode, data);
+        }
+    }
+
+    private void handleFileRequest(int requestCode, Intent data) {
+        if (FILE_REQUEST_CODE == requestCode) {
+            // Get the Uri of the selected file
+            File file = FileChooser.onActivityResult(this, requestCode, RESULT_OK, data);
+            if (file != null) {
+                Messenger.getInstance().sentFile(sendTo, getType(), file);
+            }
+        }
+    }
+
+    private void handleImageRequest(int requestCode, Intent data) {
+        if (IMAGE_REQUEST_CODE == PickImageDialog.getRequestCode(requestCode)) {
+            File file = PickImageDialog.handleRequest(this, data, requestCode);
+            if (file != null) {
+                Messenger.getInstance().sentImage(sendTo, getType(), file);
+            }
+        }
+    }
+
+    /**
+     * TODO 换成接口,不要使用eventbus ,太反人类了
+     *
+     * @param event
+     */
+    @Subscribe
+    public void hideIME(HideInputEvent event) {
+        binding.getInputLayout().setKeyboardType(0);
+    }
+
     @Override
     public void onBackPressed() {
         InputLayoutViewModel inputLayout = binding.getInputLayout();
@@ -317,13 +380,12 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
         }
     }
 
-
-    /**
-     * TODO 换成接口,不要使用eventbus ,太反人类了
-     * @param event
-     */
-    @Subscribe
-    public void hideIME(HideInputEvent event) {
-        binding.getInputLayout().setKeyboardType(0);
+    @Override
+    public void onKeyboardDismiss() {
+        InputLayoutViewModel inputLayout = binding.getInputLayout();
+        if (inputLayout.getKeyboardType() != 0) {
+            inputLayout.setKeyboardType(0);
+            Systems.hideKeyboard(this);
+        }
     }
 }

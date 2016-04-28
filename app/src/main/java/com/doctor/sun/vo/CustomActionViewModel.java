@@ -19,8 +19,7 @@ import com.netease.nimlib.sdk.avchat.constant.AVChatType;
  * Created by rick on 13/4/2016.
  */
 public class CustomActionViewModel {
-    public static final int IMAGE_REQUEST_CODE = ChattingActivity.IMAGE_REQUEST_CODE;
-    public static final int FILE_REQUEST_CODE = ChattingActivity.FILE_REQUEST_CODE;
+    public static final int IMAGE_REQUEST_CODE = 100;
 
     private Activity mActivity;
     private AudioChatCallback data;
