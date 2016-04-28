@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
@@ -48,6 +50,7 @@ import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
 import com.squareup.otto.Subscribe;
 
 import java.io.File;
@@ -65,9 +68,11 @@ import io.realm.Sort;
  * 聊天模块
  * Created by rick on 12/11/15.
  */
-public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId ,ExtendedEditText.KeyboardDismissListener {
+public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId, ExtendedEditText.KeyboardDismissListener, SwipeRefreshLayout.OnRefreshListener {
     public static final int IMAGE_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
     public static final int FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
+
+    public static final int ONE_DAY = 86400000;
 
     public static final int CALL_PHONE_REQ = 1;
 
@@ -126,6 +131,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chatting);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
+        binding.refreshLayout.setOnRefreshListener(this);
         binding.getRoot().getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
             @Override
             public void onGlobalFocusChanged(View oldFocus, View newFocus) {
@@ -160,7 +166,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                 .equalTo("sessionId", sendTo);
         RealmResults<TextMsg> results = query.findAllSorted("time", Sort.DESCENDING);
         if (results.isEmpty()) {
-            pullHistory();
+            loadFirstPage();
         }
 
         setHaveRead(results);
@@ -200,28 +206,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         binding.customAction.setAdapter(adapter);
     }
 
-
-    private void pullHistory() {
-        InvocationFuture<List<IMMessage>> listInvocationFuture = NIMClient.getService(MsgService.class).pullMessageHistory(MessageBuilder.createTextMessage(sendTo, SessionTypeEnum.Team, ""), 10, false);
-        listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
-            @Override
-            public void onSuccess(List<IMMessage> imMessages) {
-                for (IMMessage imMessage : imMessages) {
-                    NIMConnectionState.saveMsg(imMessage, true);
-                }
-            }
-
-            @Override
-            public void onFailed(int i) {
-
-            }
-
-            @Override
-            public void onException(Throwable throwable) {
-
-            }
-        });
-    }
 
     private String getUserData() {
         Appointment data = getData();
@@ -379,10 +363,10 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     @Override
     public void onBackPressed() {
         InputLayoutViewModel inputLayout = binding.getInputLayout();
-        if (inputLayout !=null && inputLayout.getKeyboardType() != 0) {
+        if (inputLayout != null && inputLayout.getKeyboardType() != 0) {
             inputLayout.setKeyboardType(0);
             Systems.hideKeyboard(this);
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -394,5 +378,64 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
             inputLayout.setKeyboardType(0);
             Systems.hideKeyboard(this);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        long time = System.currentTimeMillis();
+        if (adapter != null && adapter.size() > 0) {
+            TextMsg msg = adapter.get(adapter.size() - 1);
+            time = msg.getTime();
+        }
+        Log.e(TAG, "onRefresh: " + time);
+        MsgService service = NIMClient.getService(MsgService.class);
+        IMMessage emptyMessage = MessageBuilder.createEmptyMessage(sendTo, SessionTypeEnum.Team, time);
+        InvocationFuture<List<IMMessage>> listInvocationFuture = service.pullMessageHistoryEx(emptyMessage, time - ONE_DAY, 10, QueryDirectionEnum.QUERY_OLD, false);
+        listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
+            @Override
+            public void onSuccess(List<IMMessage> imMessages) {
+                NIMConnectionState.saveMsgs(imMessages, true);
+                binding.refreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailed(int i) {
+                binding.refreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+                binding.refreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    private void loadFirstPage() {
+        long time = 0;
+        if (adapter != null && adapter.size() > 0) {
+            TextMsg msg = adapter.get(adapter.size() - 1);
+            time = msg.getTime();
+        }
+
+        MsgService service = NIMClient.getService(MsgService.class);
+        IMMessage emptyMessage = MessageBuilder.createEmptyMessage(sendTo, SessionTypeEnum.Team, time);
+        InvocationFuture<List<IMMessage>> listInvocationFuture = service.pullMessageHistoryEx(emptyMessage, time + ONE_DAY, 10, QueryDirectionEnum.QUERY_OLD, false);
+        listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
+            @Override
+            public void onSuccess(List<IMMessage> imMessages) {
+                NIMConnectionState.saveMsgs(imMessages, true);
+                binding.refreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailed(int i) {
+                binding.refreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+                binding.refreshLayout.setRefreshing(false);
+            }
+        });
     }
 }

@@ -15,6 +15,8 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachmentParser;
+import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
+import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
@@ -75,11 +77,38 @@ public class NIMConnectionState implements RequestCallback {
         realm.close();
     }
 
+    public static void saveMsgs(final List<IMMessage> msgs, final boolean haveRead) {
+        final Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                for (IMMessage msg : msgs) {
+                    TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
+                    msg1.setHaveRead(haveRead);
+                    realm.copyToRealmOrUpdate(msg1);
+                }
+            }
+        }, new Realm.Transaction.Callback() {
+            @Override
+            public void onSuccess() {
+                realm.close();
+            }
+        });
+    }
+
     private static class IMMessageObserver implements Observer<IMMessage> {
         @Override
         public void onEvent(IMMessage imMessage) {
             if (imMessage.getMsgType().equals(MsgTypeEnum.audio)) {
-                saveMsg(imMessage, false);
+                if (imMessage.getStatus().equals(MsgStatusEnum.read)) {
+                    saveMsg(imMessage, true);
+                } else {
+                    if (imMessage.getDirect().equals(MsgDirectionEnum.In)) {
+                        saveMsg(imMessage, false);
+                    } else {
+                        saveMsg(imMessage, true);
+                    }
+                }
             } else {
                 saveMsg(imMessage, true);
             }
