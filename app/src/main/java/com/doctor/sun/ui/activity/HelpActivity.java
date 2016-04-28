@@ -56,7 +56,7 @@ public class HelpActivity extends BaseFragmentActivity2 implements View.OnClickL
         } else {
             type = "patient";
         }
-        api.helpImage("android", type).enqueue(new Callback<ApiDTO<List<String>>>() {
+        api.helpImage("ios", type).enqueue(new Callback<ApiDTO<List<String>>>() {
             @Override
             public void onResponse(Response<ApiDTO<List<String>>> response, Retrofit retrofit) {
                 mAdapter = new HelpAdapter(getSupportFragmentManager(), response.body().getData());

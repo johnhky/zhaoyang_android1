@@ -40,10 +40,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/dp_50"
-            android:layout_marginRight="@dimen/dp_50"
             android:background="@drawable/nim_message_left_white_bg"
-            android:onClick="@{data.handler.onAudioClick(data.messageStatus)}"
+            android:onClick="@{data.handler.onAudioClick(data)}"
             android:padding="@dimen/dp_10">
 
             <ImageView
@@ -64,5 +62,14 @@
                 android:textSize="@dimen/font_13" />
         </FrameLayout>
 
+        <com.doctor.sun.ui.widget.BezelImageView
+            android:id="@+id/iv_count"
+            android:layout_width="@dimen/dp_5"
+            android:layout_height="@dimen/dp_5"
+            android:layout_marginEnd="@dimen/dp_50"
+            android:layout_marginRight="@dimen/dp_50"
+            android:src="@color/red_f7"
+            android:visibility="@{!data.haveRead}"
+            app:maskDrawable="@drawable/circle_mask" />
     </LinearLayout>
 </layout>

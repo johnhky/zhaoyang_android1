@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.entity.Appointment;
@@ -15,10 +14,6 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.FileChooser;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
-import com.netease.nrtc.sdk.NRtc;
-import com.netease.nrtc.sdk.NRtcCallback;
-import com.netease.nrtc.sdk.SessionStats;
-import com.netease.nrtc.sdk.toolbox.ScreenLocker;
 
 /**
  * Created by rick on 13/4/2016.
@@ -28,9 +23,9 @@ public class CustomActionViewModel {
     public static final int FILE_REQUEST_CODE = ChattingActivity.FILE_REQUEST_CODE;
 
     private Activity mActivity;
-    private Appointment data;
+    private AudioChatCallback data;
 
-    public CustomActionViewModel(Context context, Appointment data) {
+    public CustomActionViewModel(Context context, AudioChatCallback data) {
         this.mActivity = (Activity) context;
         this.data = data;
     }
@@ -39,40 +34,69 @@ public class CustomActionViewModel {
     public SimpleAdapter getSimpleAdapter() {
         SimpleAdapter adapter = new SimpleAdapter(mActivity);
 
-        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_phone, "语音电话", new View.OnClickListener() {
+        adapter.add(audioChatMenu());
+        adapter.add(galleryMenu());
+        adapter.add(cameraMenu());
+        adapter.add(videoChatMenu());
+        adapter.add(chooseFileMenu());
+
+        adapter.onFinishLoadMore(true);
+        return adapter;
+    }
+
+    @NonNull
+    private ClickMenu chooseFileMenu() {
+        return new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_file_selector, "文件传输", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                data.getHandler().makePhoneCall(v);
+                FileChooser.showFileChooser((Activity) v.getContext());
             }
-        }));
-        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_photo_selector, "相册", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PickImageDialog.openGallery(mActivity, IMAGE_REQUEST_CODE);
-            }
-        }));
-        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_video_selector, "拍摄", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PickImageDialog.openCamera(mActivity, IMAGE_REQUEST_CODE);
-            }
-        }));
-        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector, "视频聊天", new View.OnClickListener() {
+        });
+    }
+
+    @NonNull
+    private ClickMenu videoChatMenu() {
+        return new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector, "视频聊天", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NimTeamId nimTeamId = (NimTeamId) mActivity;
                 AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL);
             }
-        }));
-        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_file_selector, "文件传输", new View.OnClickListener() {
+        });
+    }
+
+    @NonNull
+    private ClickMenu cameraMenu() {
+        return new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_video_selector, "拍摄", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FileChooser.showFileChooser((Activity) v.getContext());
+                PickImageDialog.openCamera(mActivity, IMAGE_REQUEST_CODE);
             }
-        }));
+        });
+    }
 
-        adapter.onFinishLoadMore(true);
-        return adapter;
+    @NonNull
+    private ClickMenu galleryMenu() {
+        return new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_photo_selector, "相册", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PickImageDialog.openGallery(mActivity, IMAGE_REQUEST_CODE);
+            }
+        });
+    }
+
+    @NonNull
+    private ClickMenu audioChatMenu() {
+        return new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_phone, "语音电话", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                data.startAudioChat(v);
+            }
+        });
+    }
+
+    public interface AudioChatCallback {
+        void startAudioChat(View v);
     }
 
 }

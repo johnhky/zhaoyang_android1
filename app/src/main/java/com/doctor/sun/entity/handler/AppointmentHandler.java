@@ -63,6 +63,8 @@ import com.doctor.sun.ui.handler.PayMethodInterface;
 import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.util.PermissionUtil;
+import com.doctor.sun.vo.CustomActionViewModel;
+import com.doctor.sun.vo.InputLayoutViewModel;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECError;
@@ -448,6 +450,29 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
     @Override
     public String getP2PId() {
         return data.getYunxinAccid();
+    }
+
+    public InputLayoutViewModel.SendMessageCallback getCallback() {
+        return new InputLayoutViewModel.SendMessageCallback() {
+            @Override
+            public void sendMessage(EditText editText) {
+                AppointmentHandler.this.sendMessage(editText);
+            }
+
+            @Override
+            public TextView.OnEditorActionListener sendMessageAction() {
+                return AppointmentHandler.this.sendMessageAction();
+            }
+        };
+    }
+
+    public CustomActionViewModel.AudioChatCallback getAudioChatCallback() {
+        return new CustomActionViewModel.AudioChatCallback() {
+            @Override
+            public void startAudioChat(View v) {
+                makePhoneCall(v);
+            }
+        };
     }
 
     private static class GotoConsultingCallback extends ApiCallback<String> {

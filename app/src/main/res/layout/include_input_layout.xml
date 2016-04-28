@@ -103,6 +103,7 @@
                 android:background="@drawable/nim_message_button_bottom_emoji_selector"
                 android:clickable="true"
                 android:gravity="center"
+                android:onClick="@{data.showEmoticonClick()}"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
@@ -114,6 +115,7 @@
                 android:background="@drawable/nim_message_button_bottom_add_selector"
                 android:clickable="true"
                 android:gravity="center"
+                android:onClick="@{data.showCustomActionClick()}"
                 android:textColor="@color/colorPrimaryDark"
                 android:visibility="@{!isEditing}" />
 

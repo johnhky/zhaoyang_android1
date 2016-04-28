@@ -93,6 +93,7 @@ public class UpdateUtil {
 
             @Override
             public void onFailure(Throwable t) {
+                Log.e(TAG, "onFailure: ");
 
             }
         });

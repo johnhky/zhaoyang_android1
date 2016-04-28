@@ -11,11 +11,11 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusCode;
-import com.netease.nimlib.sdk.avchat.AVChatManager;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachmentParser;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import org.json.JSONException;
@@ -78,7 +78,11 @@ public class NIMConnectionState implements RequestCallback {
     private static class IMMessageObserver implements Observer<IMMessage> {
         @Override
         public void onEvent(IMMessage imMessage) {
-            saveMsg(imMessage, true);
+            if (imMessage.getMsgType().equals(MsgTypeEnum.audio)) {
+                saveMsg(imMessage, false);
+            } else {
+                saveMsg(imMessage, true);
+            }
         }
     }
 
@@ -118,7 +122,7 @@ public class NIMConnectionState implements RequestCallback {
                     case TextMsg.Sticker: {
                         JavaType javaType = TypeFactory.defaultInstance()
                                 .constructParametricType(CustomAttachment.class, StickerAttachment.class);
-                        return  JacksonUtils.<CustomAttachment<StickerAttachment>>fromJson(object.toString(), javaType);
+                        return JacksonUtils.<CustomAttachment<StickerAttachment>>fromJson(object.toString(), javaType);
                     }
                 }
             } catch (JSONException e) {

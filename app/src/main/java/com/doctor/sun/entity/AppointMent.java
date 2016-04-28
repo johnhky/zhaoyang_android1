@@ -8,6 +8,7 @@ import android.support.annotation.IntDef;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.InputLayoutViewModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.lang.annotation.Retention;
@@ -664,4 +665,5 @@ public class Appointment implements LayoutId, Parcelable {
             return new Appointment[size];
         }
     };
+
 }

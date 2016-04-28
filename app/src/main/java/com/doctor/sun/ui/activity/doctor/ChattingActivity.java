@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
@@ -52,7 +50,6 @@ import java.io.File;
 import java.util.List;
 
 import io.ganguo.library.Config;
-import io.ganguo.library.util.Systems;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -68,12 +65,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     public static final int FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
 
     public static final int CALL_PHONE_REQ = 1;
-    public static final int DELAY_MILLIS = 300;
-
-    //软键盘类型
-    public static final int TYPE_EMOTICON = 1;
-    public static final int TYPE_CUSTOM_ACTION = 2;
-    public static final int TYPE_AUDIO = 3;
 
     private ImModule api = Api.of(ImModule.class);
     private ActivityChattingBinding binding;
@@ -100,7 +91,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         super.onCreate(savedInstanceState);
         needSendDrug();
         initView();
-        initListener();
         initData();
     }
 
@@ -155,11 +145,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
             pullHistory();
         }
 
-        realm.beginTransaction();
-        for (int i = 0; i < results.size(); i++) {
-            results.get(i).setHaveRead(true);
-        }
-        realm.commitTransaction();
+        setHaveRead(results);
 
         adapter.setData(results);
         adapter.onFinishLoadMore(true);
@@ -168,9 +154,20 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         initInputLayout(data);
     }
 
+    private void setHaveRead(RealmResults<TextMsg> results) {
+        realm.beginTransaction();
+        for (int i = 0; i < results.size(); i++) {
+            TextMsg textMsg = results.get(i);
+            if (!textMsg.getType().equals(String.valueOf(TextMsg.AUDIO))) {
+                textMsg.setHaveRead(true);
+            }
+        }
+        realm.commitTransaction();
+    }
+
     private void initInputLayout(Appointment data) {
-        InputLayoutViewModel vm = new InputLayoutViewModel(binding.input, data);
-        binding.input.setData(vm);
+        InputLayoutViewModel vm = new InputLayoutViewModel(binding.input, data.getHandler().getCallback());
+        binding.setInputLayout(vm);
     }
 
     private void initSticker() {
@@ -179,7 +176,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
     private void initCustomAction(Appointment data) {
         binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
-        CustomActionViewModel customActionViewModel = new CustomActionViewModel(this, data);
+        CustomActionViewModel customActionViewModel = new CustomActionViewModel(this, data.getHandler().getAudioChatCallback());
         SimpleAdapter adapter = customActionViewModel.getSimpleAdapter();
 
         binding.customAction.setAdapter(adapter);
@@ -213,35 +210,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         return "[" + data.getId() + "," + data.getRecordId() + "]";
     }
 
-    private void initListener() {
-        binding.input.btnCustomAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Systems.hideKeyboard(ChattingActivity.this);
-                new Handler(getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        binding.setKeyboardType(TYPE_CUSTOM_ACTION);
-                        binding.input.getData().setRecordMode(false);
-                    }
-                }, DELAY_MILLIS);
-            }
-        });
-        binding.input.btnEmoticon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Systems.hideKeyboard(ChattingActivity.this);
-                new Handler(getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        binding.setKeyboardType(TYPE_EMOTICON);
-                        binding.input.getData().setRecordMode(false);
-                    }
-                }, DELAY_MILLIS);
-            }
-        });
-    }
-
     private void makePhoneCall() {
         handler.makePhoneCall(binding.getRoot());
     }
@@ -267,7 +235,9 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         listener = new RealmChangeListener() {
             @Override
             public void onChange() {
-                adapter.notifyDataSetChanged();
+                if (adapter != null) {
+                    adapter.notifyDataSetChanged();
+                }
             }
         };
         realm.addChangeListener(listener);
@@ -331,8 +301,9 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
     @Override
     public void onBackPressed() {
-        if (binding.getKeyboardType() != 0) {
-            binding.setKeyboardType(0);
+        InputLayoutViewModel inputLayout = binding.getInputLayout();
+        if (inputLayout.getKeyboardType() != 0) {
+            inputLayout.setKeyboardType(0);
         } else {
             super.onBackPressed();
         }
@@ -387,8 +358,12 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         }
     }
 
+    /**
+     * TODO 换成接口,不要使用eventbus ,太反人类了
+     * @param event
+     */
     @Subscribe
     public void hideIME(HideInputEvent event) {
-        binding.setKeyboardType(3);
+        binding.getInputLayout().setKeyboardType(0);
     }
 }

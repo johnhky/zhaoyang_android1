@@ -5,14 +5,15 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
@@ -24,6 +25,7 @@ import com.doctor.sun.entity.NimTeamId;
 import com.doctor.sun.entity.VoipAccount;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
+import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -35,8 +37,8 @@ import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.vo.ClickMenu;
-import com.doctor.sun.vo.IntentMenu;
+import com.doctor.sun.vo.CustomActionViewModel;
+import com.doctor.sun.vo.InputLayoutViewModel;
 import com.doctor.sun.vo.StickerViewModel;
 import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
@@ -49,8 +51,6 @@ import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
-import io.ganguo.library.core.event.extend.OnSingleClickListener;
-import io.ganguo.library.util.Systems;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -114,7 +114,6 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
             protected void handleResponse(VoipAccount response) {
                 sendTo = response.getYunxinAccid();
                 initChat(sendTo);
-                initListener();
             }
         });
     }
@@ -135,6 +134,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
         mChatAdapter.onFinishLoadMore(true);
         initCustomAction();
         initSticker();
+        initInputLayout();
     }
 
     private void initSticker() {
@@ -143,16 +143,38 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
 
     private void initCustomAction() {
         binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
-        SimpleAdapter adapter = new SimpleAdapter(MedicineHelperActivity.this);
-
-        adapter.add(new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_phone, "语音电话", null));
-        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.nim_message_plus_photo_selector, "相册", null));
-        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.nim_message_plus_video_selector, "拍摄", null));
-        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector, "视频聊天", null));
-        adapter.add(new IntentMenu(R.layout.item_menu2, R.drawable.message_plus_file_selector, "文件传输", null));
-        adapter.onFinishLoadMore(true);
+        CustomActionViewModel customActionViewModel = new CustomActionViewModel(this, new CustomActionViewModel.AudioChatCallback() {
+            @Override
+            public void startAudioChat(View v) {
+                makePhoneCall();
+            }
+        });
+        SimpleAdapter adapter = customActionViewModel.getSimpleAdapter();
 
         binding.customAction.setAdapter(adapter);
+    }
+
+    private void initInputLayout() {
+        InputLayoutViewModel vm = new InputLayoutViewModel(binding.input, new InputLayoutViewModel.SendMessageCallback() {
+            @Override
+            public void sendMessage(EditText editText) {
+                MedicineHelperActivity.this.sendMessage(editText);
+            }
+
+            @Override
+            public TextView.OnEditorActionListener sendMessageAction() {
+                return new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            MedicineHelperActivity.this.sendMessage(v);
+                        }
+                        return true;
+                    }
+                };
+            }
+        });
+        binding.setInputLayout(vm);
     }
 
     private void pullHistory() {
@@ -228,7 +250,9 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
         listener = new RealmChangeListener() {
             @Override
             public void onChange() {
-                mChatAdapter.notifyDataSetChanged();
+                if (mChatAdapter != null) {
+                    mChatAdapter.notifyDataSetChanged();
+                }
             }
         };
         realm.addChangeListener(listener);
@@ -244,70 +268,18 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     }
 
 
-    private void initListener() {
-        binding.btnCustomAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Systems.hideKeyboard(MedicineHelperActivity.this);
-                new Handler(getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        binding.setKeyboardType(TYPE_CUSTOM_ACTION);
-                    }
-                }, DELAY_MILLIS);
-            }
-        });
-        binding.btnEmoticon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Systems.hideKeyboard(MedicineHelperActivity.this);
-                new Handler(getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        binding.setKeyboardType(TYPE_EMOTICON);
-                    }
-                }, DELAY_MILLIS);
-            }
-        });
-        binding.inputText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                binding.setIsEditing(s.length() > 0);
-                binding.executePendingBindings();
-            }
-        });
-        binding.btnSend.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                if (binding.inputText.getText().toString().equals("")) {
-                    Toast.makeText(MedicineHelperActivity.this, "不能发送空消息", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (Messenger.getInstance().isNIMLogin()) {
-                    Messenger.getInstance().sentTextMsg(sendTo, SessionTypeEnum.P2P, binding.inputText.getText().toString());
-                    binding.inputText.setText("");
-                } else {
-                    Toast.makeText(MedicineHelperActivity.this, "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
-                    Messenger.getInstance().login();
-                }
-            }
-        });
-//        binding.ivPhoneCall.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                makePhoneCall();
-//            }
-//        });
+    private void sendMessage(TextView inputText) {
+        if (inputText.getText().toString().equals("")) {
+            Toast.makeText(MedicineHelperActivity.this, "不能发送空消息", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (Messenger.getInstance().isNIMLogin()) {
+            Messenger.getInstance().sentTextMsg(sendTo, SessionTypeEnum.P2P, inputText.getText().toString());
+            inputText.setText("");
+        } else {
+            Toast.makeText(MedicineHelperActivity.this, "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+            Messenger.getInstance().login();
+        }
     }
 
     private String getUserData() {
@@ -326,11 +298,32 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
 
     @Override
     public String getP2PId() {
-        return null;
+        return sendTo;
     }
 
     @Override
     public SessionTypeEnum getType() {
         return SessionTypeEnum.P2P;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        InputLayoutViewModel inputLayout = binding.getInputLayout();
+        if (inputLayout != null && inputLayout.getKeyboardType() != 0) {
+            inputLayout.setKeyboardType(0);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    /**
+     * TODO 换成接口,不要使用eventbus ,太反人类了
+     * @param event
+     */
+    @Subscribe
+    public void hideIME(HideInputEvent event) {
+        binding.getInputLayout().setKeyboardType(0);
     }
 }
