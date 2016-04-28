@@ -420,8 +420,12 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         return new OnItemClickListener() {
             @Override
             public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
-                view.getContext().startActivity(intent);
+                if (data.getTid() != 0) {
+                    Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
+                    view.getContext().startActivity(intent);
+                }else {
+                    Toast.makeText(view.getContext(), "", Toast.LENGTH_SHORT).show();
+                }
             }
         };
     }

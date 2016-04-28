@@ -131,6 +131,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chatting);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
+        binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
         binding.refreshLayout.setOnRefreshListener(this);
         binding.getRoot().getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
             @Override
@@ -227,8 +228,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     }
 
     private HeaderViewModel getHeaderViewModel() {
-        HeaderViewModel header = new HeaderViewModel(this);
-        return header;
+        return new HeaderViewModel(this);
     }
 
     @Override

@@ -74,10 +74,12 @@ public class MedicalRecord implements Parcelable, LayoutId {
     private String patientName;
     @JsonProperty("email")
     private String email;
+    @JsonProperty("tid")
+    private int tid = 0;
     @JsonProperty("appointment_id")
     private List<Integer> appointmentId;
-    MedicalRecordHandler handler = new MedicalRecordHandler(this);
 
+    MedicalRecordHandler handler = new MedicalRecordHandler(this);
 
 
     public void setPatientId(int patientId) {
@@ -185,6 +187,14 @@ public class MedicalRecord implements Parcelable, LayoutId {
         this.email = email;
     }
 
+    public int getTid() {
+        return tid;
+    }
+
+    public void setTid(int tid) {
+        this.tid = tid;
+    }
+
     public List<Integer> getAppointmentId() {
         return appointmentId;
     }
@@ -250,6 +260,7 @@ public class MedicalRecord implements Parcelable, LayoutId {
         dest.writeString(this.email);
         dest.writeInt(this.medicalRecordId);
         dest.writeList(this.appointmentId);
+        dest.writeInt(this.tid);
     }
 
     public MedicalRecord() {
@@ -271,6 +282,7 @@ public class MedicalRecord implements Parcelable, LayoutId {
         this.medicalRecordId = in.readInt();
         this.appointmentId = new ArrayList<Integer>();
         in.readList(this.appointmentId, List.class.getClassLoader());
+        this.tid = in.readInt();
     }
 
 
@@ -283,4 +295,5 @@ public class MedicalRecord implements Parcelable, LayoutId {
             return new MedicalRecord[size];
         }
     };
+
 }
