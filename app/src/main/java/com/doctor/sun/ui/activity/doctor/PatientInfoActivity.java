@@ -174,6 +174,7 @@ public class PatientInfoActivity extends BaseActivity2 implements View.OnClickLi
         appointment.setAvatar(binding.getData().getAvatar());
         appointment.setDoctor(TokenCallback.getDoctorProfile());
         appointment.setTid(patient.getTid());
+        appointment.setYunxinAccid(patient.getYunxinAccid());
         binding.setAppointment(appointment);
     }
 

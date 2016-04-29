@@ -423,7 +423,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
                 if (data.getTid() != 0) {
                     Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
                     view.getContext().startActivity(intent);
-                }else {
+                } else {
                     Toast.makeText(view.getContext(), "", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -665,8 +665,13 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             return;
         }
         if (NIMConnectionState.getInstance().isLogin()) {
-            com.doctor.sun.im.Messenger.getInstance().sentTextMsg(getTeamId(), SessionTypeEnum.Team, inputText.getText().toString());
-            inputText.setText("");
+            if (getTeamId() != null && !getTeamId().isEmpty()) {
+                com.doctor.sun.im.Messenger.getInstance().sentTextMsg(getTeamId(), SessionTypeEnum.Team, inputText.getText().toString());
+                inputText.setText("");
+            } else if (getP2PId() != null && !getP2PId().isEmpty()) {
+                com.doctor.sun.im.Messenger.getInstance().sentTextMsg(getP2PId(), SessionTypeEnum.P2P, inputText.getText().toString());
+                inputText.setText("");
+            }
         } else {
             Toast.makeText(inputText.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
             com.doctor.sun.im.Messenger.getInstance().login();

@@ -52,6 +52,7 @@ public class RecordAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
                         if (appointment != null) {
                             appointment.setId(medicalRecord.getAppointmentId().get(
                                     medicalRecord.getAppointmentId().size() - 1));
+                            appointment.setTid(medicalRecord.getTid());
                             v.getContext().startActivity(ChattingActivity.makeIntent(v.getContext(), appointment));
                         }
                     } else {

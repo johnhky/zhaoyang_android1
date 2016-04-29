@@ -181,6 +181,7 @@ public class DoctorInfoActivity extends BaseActivity2 implements View.OnClickLis
                 appointment.setPatientName(contact.getName());
                 appointment.setAvatar(binding.getData().getAvatar());
                 response.setVoipAccount(binding.getData().getVoipAccount());
+                appointment.setYunxinAccid(response.getYunxinAccid());
                 appointment.setDoctor(response);
             }
         });

@@ -117,7 +117,8 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     private int type = AppointmentType.DETAIL;
     @JsonProperty("yunxin_accid")
     private String yunxinAccid;
-
+    @JsonProperty("tid")
+    private String tid;
 
     public void setId(int id) {
         this.id = id;

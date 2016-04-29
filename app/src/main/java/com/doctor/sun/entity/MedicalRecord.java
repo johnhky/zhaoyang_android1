@@ -76,6 +76,8 @@ public class MedicalRecord implements Parcelable, LayoutId {
     private String email;
     @JsonProperty("tid")
     private int tid = 0;
+    @JsonProperty("yunxin_accid")
+    private String yunxinAccid = "";
     @JsonProperty("appointment_id")
     private List<Integer> appointmentId;
 
@@ -195,6 +197,14 @@ public class MedicalRecord implements Parcelable, LayoutId {
         this.tid = tid;
     }
 
+    public String getYunxinAccid() {
+        return yunxinAccid;
+    }
+
+    public void setYunxinAccid(String yunxinAccid) {
+        this.yunxinAccid = yunxinAccid;
+    }
+
     public List<Integer> getAppointmentId() {
         return appointmentId;
     }
@@ -213,6 +223,7 @@ public class MedicalRecord implements Parcelable, LayoutId {
     public void setHandler(MedicalRecordHandler handler) {
         this.handler = handler;
     }
+
     @Override
     public int getItemLayoutId() {
         return R.layout.item_text;
@@ -261,6 +272,7 @@ public class MedicalRecord implements Parcelable, LayoutId {
         dest.writeInt(this.medicalRecordId);
         dest.writeList(this.appointmentId);
         dest.writeInt(this.tid);
+        dest.writeString(this.yunxinAccid);
     }
 
     public MedicalRecord() {
@@ -283,6 +295,7 @@ public class MedicalRecord implements Parcelable, LayoutId {
         this.appointmentId = new ArrayList<Integer>();
         in.readList(this.appointmentId, List.class.getClassLoader());
         this.tid = in.readInt();
+        this.yunxinAccid = in.readString();
     }
 
 
