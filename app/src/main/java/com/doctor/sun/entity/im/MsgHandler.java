@@ -12,6 +12,11 @@ import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.media.AudioManager;
 import com.doctor.sun.ui.activity.FileDetailActivity;
 import com.doctor.sun.util.TimeUtils;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.service.NimService;
 
 import io.realm.Realm;
 

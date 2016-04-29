@@ -31,6 +31,7 @@ import io.realm.Realm;
  * Created by rick on 1/4/2016.
  */
 public class NIMConnectionState implements RequestCallback {
+    public static final int THIRTY_MINUTES = 1000 * 60 * 30;
     private static NIMConnectionState instance;
 
     public static NIMConnectionState getInstance() {
@@ -104,7 +105,8 @@ public class NIMConnectionState implements RequestCallback {
                     saveMsg(imMessage, true);
                 } else {
                     if (imMessage.getDirect().equals(MsgDirectionEnum.In)) {
-                        saveMsg(imMessage, false);
+                        boolean haveRead = imMessage.getTime() - System.currentTimeMillis() > THIRTY_MINUTES;
+                        saveMsg(imMessage, haveRead);
                     } else {
                         saveMsg(imMessage, true);
                     }

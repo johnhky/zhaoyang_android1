@@ -33,15 +33,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.doctor.sun.ui.widget.BezelImageView
-                android:id="@+id/iv_count"
-                android:layout_width="@dimen/dp_5"
-                android:layout_height="@dimen/dp_5"
-                android:layout_toLeftOf="@id/message_item_audio_container"
-                android:layout_toStartOf="@id/message_item_audio_container"
-                android:src="@color/red_f7"
-                android:visibility="@{!data.haveRead}"
-                bind:maskDrawable="@drawable/circle_mask" />
+            <!--<com.doctor.sun.ui.widget.BezelImageView-->
+            <!--android:id="@+id/iv_count"-->
+            <!--android:layout_width="@dimen/dp_5"-->
+            <!--android:layout_height="@dimen/dp_5"-->
+            <!--android:layout_toLeftOf="@id/message_item_audio_container"-->
+            <!--android:layout_toStartOf="@id/message_item_audio_container"-->
+            <!--android:src="@color/red_f7"-->
+            <!--android:visibility="gone"-->
+            <!--bind:maskDrawable="@drawable/circle_mask" />-->
 
             <FrameLayout
                 android:id="@+id/message_item_audio_container"
