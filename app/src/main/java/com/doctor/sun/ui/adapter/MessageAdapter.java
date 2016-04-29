@@ -147,4 +147,14 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
             }
         };
     }
+
+    public boolean timeVisible(BaseViewHolder vh) {
+        int adapterPosition = vh.getAdapterPosition();
+        if (adapterPosition + 1 >= size()) return true;
+
+        TextMsg thisMsg = get(adapterPosition);
+        TextMsg otherMsg = get(adapterPosition + 1);
+
+        return thisMsg.getTime() - otherMsg.getTime() > 1000 * 60 * 5;
+    }
 }

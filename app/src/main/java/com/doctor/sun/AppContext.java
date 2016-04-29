@@ -33,7 +33,7 @@ import io.realm.RealmSchema;
  */
 public class AppContext extends BaseApp {
     public static final String TAG = AppContext.class.getSimpleName();
-    public static final int NEW_VERSION = 3;
+    public static final int NEW_VERSION = 4;
     private static int userType = -1;
     private static boolean isInitialized;
 

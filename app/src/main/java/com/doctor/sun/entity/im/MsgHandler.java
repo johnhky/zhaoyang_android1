@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.media.AudioManager;
 import com.doctor.sun.ui.activity.FileDetailActivity;
+import com.doctor.sun.util.TimeUtils;
 
 import io.realm.Realm;
 
@@ -101,4 +102,10 @@ public class MsgHandler {
     public String fileSize(long size) {
         return size / 1024 + "KB";
     }
+
+    public String getRelativeTime(long time) {
+        return TimeUtils.formatChatMsgShortDate(time);
+    }
+
+
 }
