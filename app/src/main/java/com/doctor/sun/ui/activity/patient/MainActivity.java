@@ -28,6 +28,9 @@ import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.model.PatientFooterView;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
+import com.doctor.sun.util.UpdateUtil;
+
+import io.ganguo.library.util.Tasks;
 
 
 /**
@@ -53,7 +56,7 @@ public class MainActivity extends BaseActivity2 {
         header.setMidTitle("昭阳医生");
         binding.setHeader(header);
         PatientFooterView mView = new PatientFooterView(this);
-        FooterViewModel footer =FooterViewModel.getInstance(mView, realm, R.id.tab_one);
+        FooterViewModel footer = FooterViewModel.getInstance(mView, realm, R.id.tab_one);
         binding.setFooter(footer);
 
         final LinearLayoutManager layout = new LinearLayoutManager(this);
@@ -87,6 +90,14 @@ public class MainActivity extends BaseActivity2 {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (shouldCheck()) {
+            UpdateUtil.checkUpdate(this);
+        }
     }
 
     protected void loadMore() {

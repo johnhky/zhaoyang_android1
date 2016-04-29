@@ -14,7 +14,6 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.handler.MainActivityHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.widget.PassDialog;
@@ -65,7 +64,14 @@ public class MainActivity extends BaseDoctorActivity {
         };
         realm.addChangeListener(listener);
         listener.onChange();
-        UpdateUtil.checkUpdate(this);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (shouldCheck()) {
+            UpdateUtil.checkUpdate(this);
+        }
     }
 
     @Override

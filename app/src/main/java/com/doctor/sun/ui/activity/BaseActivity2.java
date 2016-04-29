@@ -35,9 +35,7 @@ public abstract class BaseActivity2 extends Activity implements HeaderViewModel.
         tokenExpire = new OnTokenExpireEvent(this);
         EventHub.register(tokenExpire);
         realm = Realm.getDefaultInstance();
-        if (shouldCheck()) {
-            UpdateUtil.checkUpdate(this);
-        }
+
 
     }
 
