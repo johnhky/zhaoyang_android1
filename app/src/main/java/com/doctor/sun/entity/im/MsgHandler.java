@@ -3,7 +3,10 @@ package com.doctor.sun.entity.im;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.PowerManager;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -11,20 +14,23 @@ import android.widget.ImageView;
 
 import com.doctor.sun.R;
 import com.doctor.sun.im.custom.FileTypeMap;
-import com.doctor.sun.media.AudioManager;
+import com.doctor.sun.media.AudioController;
 import com.doctor.sun.ui.activity.FileDetailActivity;
 import com.doctor.sun.util.TimeUtils;
+import com.doctor.sun.util.VoipCallUtil;
 
 import io.ganguo.library.util.Tasks;
 import io.realm.Realm;
 
 /**
  * Created by rick on 15/4/2016.
+ * 处理im消息
  */
 public class MsgHandler {
     public static final String TAG = MsgHandler.class.getSimpleName();
     public static final int WIDTH_PER_SECOND = 25;
     public static final int WIDTH_PER_SECOND_EXCEED_10 = 3;
+    private MediaPlayer mSuffixPlayer;
 
     /* 短语音消息  消息长度,点击事件,
      *
@@ -44,10 +50,12 @@ public class MsgHandler {
                 FrameLayout frameLayout = (FrameLayout) v;
                 final ImageView imageView = (ImageView) frameLayout.getChildAt(0);
                 play(imageView);
+                VoipCallUtil.enableScreenSensor(v.getContext());
+
                 Tasks.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        AudioManager.getInstance().play(data.getMessageStatus(), new MediaPlayer.OnCompletionListener() {
+                        AudioController.getInstance().play(data.getMessageStatus(), new MediaPlayer.OnCompletionListener() {
                             @Override
                             public void onCompletion(MediaPlayer mp) {
                                 stop(imageView);
@@ -56,6 +64,7 @@ public class MsgHandler {
                                 Realm defaultInstance = Realm.getDefaultInstance();
                                 defaultInstance.executeTransaction(
                                         setHaveReadTransaction(data));
+                                VoipCallUtil.disableScreenSensor(v.getContext());
                             }
                         });
                     }
@@ -90,17 +99,17 @@ public class MsgHandler {
     }
 
     protected void playSuffix(Context mContext) {
-        final MediaPlayer[] mSuffixPlayer = {MediaPlayer.create(mContext, R.raw.audio_end_tip)};
-        mSuffixPlayer[0].setLooping(false);
-        mSuffixPlayer[0].setAudioStreamType(android.media.AudioManager.STREAM_MUSIC);
-        mSuffixPlayer[0].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        mSuffixPlayer = MediaPlayer.create(mContext, R.raw.audio_end_tip);
+        mSuffixPlayer.setLooping(false);
+        mSuffixPlayer.setAudioStreamType(android.media.AudioManager.STREAM_MUSIC);
+        mSuffixPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                mSuffixPlayer[0].release();
-                mSuffixPlayer[0] = null;
+                mSuffixPlayer.release();
+                mSuffixPlayer = null;
             }
         });
-        mSuffixPlayer[0].start();
+        mSuffixPlayer.start();
     }
 
     /*  文件消息 点击事件,显示图片等

@@ -8,15 +8,15 @@ import com.doctor.sun.AppContext;
 /**
  * Created by rick on 18/4/2016.
  */
-public class AudioManager {
-    private static AudioManager instance;
+public class AudioController {
+    private static AudioController instance;
 
     private MediaPlayer mediaPlayer;
     private State state = new State();
 
-    public static AudioManager getInstance() {
+    public static AudioController getInstance() {
         if (instance == null) {
-            instance = new AudioManager();
+            instance = new AudioController();
         }
         return instance;
     }
