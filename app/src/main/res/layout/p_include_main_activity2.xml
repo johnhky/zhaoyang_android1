@@ -40,6 +40,9 @@
                 android:gravity="center_horizontal"
                 android:onClick="@{data.doctorType}"
                 android:paddingTop="@dimen/dp_11"
+                android:showcase='@{"点击这里可以找到适合您的医生"}'
+                android:showcaseId='@{"main"}'
+                android:showcaseSize='@{3}'
                 android:text="预约咨询医生"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_16" />
@@ -49,7 +52,7 @@
                 android:layout_height="match_parent"
                 android:background="#ebf0f3" />
 
-            setSelected<TextView
+            <TextView
                 android:id="@+id/tv_medicine"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -60,6 +63,9 @@
                 android:gravity="center_horizontal"
                 android:onClick="@{data.searchDoctorQuick}"
                 android:paddingTop="@dimen/dp_11"
+                android:showcase='@{"点击这里预约您咨询过的医生进行便捷复诊和寄药"}'
+                android:showcaseId='@{"main"}'
+                android:showcaseSize='@{3}'
                 android:text="简捷复诊寄药"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_16" />
@@ -77,6 +83,9 @@
             android:layout_height="@dimen/dp_55"
             android:background="@drawable/ripple_default"
             android:orientation="horizontal"
+            android:showcase='@{"点这里可以查询所有类型的订单"}'
+            android:showcaseId='@{"main"}'
+            android:showcaseSize='@{3}'
             app:adapter="@{adapter}"
             app:itemClick="@{data.appointmentList}"
             app:vh="@{vh}">
@@ -112,6 +121,7 @@
                     android:text="我的订单"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_15" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

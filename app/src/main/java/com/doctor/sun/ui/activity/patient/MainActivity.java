@@ -28,9 +28,8 @@ import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.model.PatientFooterView;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
+import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
-
-import io.ganguo.library.util.Tasks;
 
 
 /**

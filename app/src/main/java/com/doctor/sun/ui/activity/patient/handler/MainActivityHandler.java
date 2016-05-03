@@ -85,12 +85,7 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
         new MaterialDialog.Builder(view.getContext()).content(question)
                 .positiveText("下一步")
                 .negativeText("返回")
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
+                .onNegative(dismissCallback())
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -99,6 +94,16 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
                         dialog.dismiss();
                     }
                 }).build().show();
+    }
+
+    @NonNull
+    private MaterialDialog.SingleButtonCallback dismissCallback() {
+        return new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                dialog.dismiss();
+            }
+        };
     }
 
 
