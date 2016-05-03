@@ -1,5 +1,6 @@
 package com.doctor.sun.entity.im;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -8,16 +9,13 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.doctor.sun.R;
 import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.media.AudioManager;
 import com.doctor.sun.ui.activity.FileDetailActivity;
 import com.doctor.sun.util.TimeUtils;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.msg.MessageBuilder;
-import com.netease.nimlib.sdk.msg.MsgService;
-import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.netease.nimlib.service.NimService;
 
+import io.ganguo.library.util.Tasks;
 import io.realm.Realm;
 
 /**
@@ -42,20 +40,26 @@ public class MsgHandler {
     public View.OnClickListener onAudioClick(final TextMsg data) {
         return new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 FrameLayout frameLayout = (FrameLayout) v;
                 final ImageView imageView = (ImageView) frameLayout.getChildAt(0);
                 play(imageView);
-                AudioManager.getInstance().play(data.getMessageStatus(), new MediaPlayer.OnCompletionListener() {
+                Tasks.runOnUiThread(new Runnable() {
                     @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        stop(imageView);
+                    public void run() {
+                        AudioManager.getInstance().play(data.getMessageStatus(), new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                stop(imageView);
+                                playSuffix(v.getContext());
 
-                        Realm defaultInstance = Realm.getDefaultInstance();
-                        defaultInstance.executeTransaction(
-                                setHaveReadTransaction(data));
+                                Realm defaultInstance = Realm.getDefaultInstance();
+                                defaultInstance.executeTransaction(
+                                        setHaveReadTransaction(data));
+                            }
+                        });
                     }
-                });
+                }, 500);
             }
         };
     }
@@ -83,6 +87,20 @@ public class MsgHandler {
             animation.stop();
             animation.selectDrawable(0);
         }
+    }
+
+    protected void playSuffix(Context mContext) {
+        final MediaPlayer[] mSuffixPlayer = {MediaPlayer.create(mContext, R.raw.audio_end_tip)};
+        mSuffixPlayer[0].setLooping(false);
+        mSuffixPlayer[0].setAudioStreamType(android.media.AudioManager.STREAM_MUSIC);
+        mSuffixPlayer[0].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mSuffixPlayer[0].release();
+                mSuffixPlayer[0] = null;
+            }
+        });
+        mSuffixPlayer[0].start();
     }
 
     /*  文件消息 点击事件,显示图片等

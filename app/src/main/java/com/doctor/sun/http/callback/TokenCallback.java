@@ -6,6 +6,7 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Doctor;
@@ -22,6 +23,10 @@ import com.doctor.sun.ui.activity.doctor.RegisterActivity;
 import com.doctor.sun.ui.activity.doctor.ReviewResultActivity;
 import com.doctor.sun.util.JacksonUtils;
 
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import io.ganguo.library.Config;
 import io.ganguo.library.common.LoadingHelper;
 
@@ -146,16 +151,15 @@ public class TokenCallback {
             @Override
             protected void handleResponse(PatientDTO response) {
                 LoadingHelper.hideMaterLoading();
-                PatientDTO data = response;
-                Log.e(TAG, "handleResponse: " + data.toString());
+                Log.e(TAG, "handleResponse: " + response.toString());
                 String value = null;
                 try {
-                    value = JacksonUtils.toJson(data);
+                    value = JacksonUtils.toJson(response);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Config.putString(Constants.PATIENT_PROFILE, value);
-                if (data == null) {
+                if (response == null) {
                     Intent i = RegisterActivity.makeIntent(context, AuthModule.PATIENT_TYPE);
                     context.startActivity(i);
                     context.finish();
@@ -184,6 +188,11 @@ public class TokenCallback {
         Config.putString(Constants.TOKEN, token.getToken());
         Config.putInt(Constants.USER_TYPE, token.getType());
         Config.putString(Constants.VOIP_ACCOUNT, JacksonUtils.toJson(token.getAccount()));
+        JPushInterface.setAlias(AppContext.me(), String.valueOf(token.getAccount().getUserId()), new TagAliasCallback() {
+            @Override
+            public void gotResult(int i, String s, Set<String> set) {
+            }
+        });
         Messenger.getInstance().login(token.getAccount());
     }
 

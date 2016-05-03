@@ -15,6 +15,7 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.squareup.otto.Subscribe;
 import com.yuntongxun.ecsdk.ECDevice;
 
+import cn.jpush.android.api.JPushInterface;
 import io.ganguo.library.BaseApp;
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.OnExitEvent;
@@ -58,6 +59,8 @@ public class AppContext extends BaseApp {
             }
 
             AVChatHandler.getInstance().enableAVChat();
+
+            JPushInterface.init(this);
         }
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)

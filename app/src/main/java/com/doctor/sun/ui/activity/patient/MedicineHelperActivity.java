@@ -141,7 +141,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
         mChatAdapter = new MessageAdapter(this, Messenger.getInstance().getMyAccount(), sendTo);
         binding.rvChat.setAdapter(mChatAdapter);
 
-        query = realm.where(TextMsg.class)
+        query = getRealm().where(TextMsg.class)
                 .equalTo("sessionId", sendTo).or().equalTo("sessionId", "admin");
         results = query.findAllSorted("time", Sort.DESCENDING);
         setReadStatus(results);
@@ -218,15 +218,15 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     }
 
     private void setReadStatus(RealmResults<TextMsg> results) {
-        realm.beginTransaction();
+        getRealm().beginTransaction();
         if (results == null) {
-            realm.commitTransaction();
+            getRealm().commitTransaction();
             return;
         }
         for (int i = 0; i < results.size(); i++) {
             results.get(i).setHaveRead(true);
         }
-        realm.commitTransaction();
+        getRealm().commitTransaction();
     }
 
     private void initAppointment() {
@@ -273,14 +273,14 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
                 }
             }
         };
-        realm.addChangeListener(listener);
+        getRealm().addChangeListener(listener);
     }
 
     @Override
     protected void onStop() {
-        if (!realm.isClosed()) {
+        if (!getRealm().isClosed()) {
             setReadStatus(results);
-            realm.removeChangeListener(listener);
+            getRealm().removeChangeListener(listener);
         }
         super.onStop();
     }

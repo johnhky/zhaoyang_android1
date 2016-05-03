@@ -105,7 +105,7 @@ public class NIMConnectionState implements RequestCallback {
                     saveMsg(imMessage, true);
                 } else {
                     if (imMessage.getDirect().equals(MsgDirectionEnum.In)) {
-                        boolean haveRead = imMessage.getTime() - System.currentTimeMillis() > THIRTY_MINUTES;
+                        boolean haveRead = passThirtyMinutes(imMessage);
                         saveMsg(imMessage, haveRead);
                     } else {
                         saveMsg(imMessage, true);
@@ -120,10 +120,15 @@ public class NIMConnectionState implements RequestCallback {
     private static class statusObserver implements Observer<List<IMMessage>> {
         @Override
         public void onEvent(List<IMMessage> imMessages) {
-            for (IMMessage msg : imMessages) {
-                saveMsg(msg);
+            for (IMMessage imMessage : imMessages) {
+                boolean haveRead = passThirtyMinutes(imMessage);
+                saveMsg(imMessage, haveRead);
             }
         }
+    }
+
+    private static boolean passThirtyMinutes(IMMessage imMessage) {
+        return System.currentTimeMillis() - imMessage.getTime() >  THIRTY_MINUTES;
     }
 
     /**

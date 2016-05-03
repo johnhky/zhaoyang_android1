@@ -163,7 +163,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         adapter = new MessageAdapter(this, data);
         binding.recyclerView.setAdapter(adapter);
 
-        query = realm.where(TextMsg.class)
+        query = getRealm().where(TextMsg.class)
                 .equalTo("sessionId", sendTo);
         RealmResults<TextMsg> results = query.findAllSorted("time", Sort.DESCENDING);
         if (results.isEmpty()) {
@@ -180,14 +180,14 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     }
 
     private void setHaveRead(RealmResults<TextMsg> results) {
-        realm.beginTransaction();
+        getRealm().beginTransaction();
         for (int i = 0; i < results.size(); i++) {
             TextMsg textMsg = results.get(i);
             if (!textMsg.getType().equals(String.valueOf(TextMsg.AUDIO))) {
                 textMsg.setHaveRead(true);
             }
         }
-        realm.commitTransaction();
+        getRealm().commitTransaction();
     }
 
     private void initInputLayout(Appointment data) {
@@ -242,13 +242,13 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                 }
             }
         };
-        realm.addChangeListener(listener);
+        getRealm().addChangeListener(listener);
     }
 
     @Override
     protected void onStop() {
-        if (!realm.isClosed()) {
-            realm.removeChangeListener(listener);
+        if (!getRealm().isClosed()) {
+            getRealm().removeChangeListener(listener);
         }
         super.onStop();
     }

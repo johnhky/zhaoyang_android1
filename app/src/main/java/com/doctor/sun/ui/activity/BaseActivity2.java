@@ -8,7 +8,6 @@ import android.widget.EditText;
 import com.doctor.sun.event.OnTokenExpireEvent;
 import com.doctor.sun.im.Messenger;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.util.UpdateUtil;
 
 import io.ganguo.library.AppManager;
 import io.ganguo.library.core.event.EventHub;
@@ -21,7 +20,7 @@ import io.realm.Realm;
 public abstract class BaseActivity2 extends Activity implements HeaderViewModel.HeaderView {
     protected String TAG = getClass().getSimpleName();
 
-    protected Realm realm;
+    private Realm realm;
     private OnTokenExpireEvent tokenExpire;
 
     @Override
@@ -34,9 +33,16 @@ public abstract class BaseActivity2 extends Activity implements HeaderViewModel.
         EventHub.register(this);
         tokenExpire = new OnTokenExpireEvent(this);
         EventHub.register(tokenExpire);
-        realm = Realm.getDefaultInstance();
+        realm = getRealm();
 
 
+    }
+
+    protected Realm getRealm() {
+        if (realm == null || realm.isClosed()) {
+            realm = Realm.getDefaultInstance();
+        }
+        return realm;
     }
 
 
@@ -48,7 +54,7 @@ public abstract class BaseActivity2 extends Activity implements HeaderViewModel.
         EventHub.unregister(this);
         EventHub.unregister(tokenExpire);
         AppManager.removeActivity(this);
-        realm.close();
+        getRealm().close();
     }
 
     @Override
@@ -90,9 +96,11 @@ public abstract class BaseActivity2 extends Activity implements HeaderViewModel.
     public float getFloatExtra(String name, float defaultValue) {
         return getIntent().getFloatExtra(name, defaultValue);
     }
+
     public double getDoubleExtra(String name, double defaultValue) {
         return getIntent().getDoubleExtra(name, defaultValue);
     }
+
     public String getStringExtra(String name) {
         return getIntent().getStringExtra(name);
     }

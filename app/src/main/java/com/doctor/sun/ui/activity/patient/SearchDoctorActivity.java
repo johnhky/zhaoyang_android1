@@ -404,7 +404,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     }
 
     private void createCityPicker() {
-        RealmResults<Province> provinces = realm.where(Province.class).findAll();
+        RealmResults<Province> provinces = getRealm().where(Province.class).findAll();
         String state = binding.tvProvince.getText().toString();
         String city = binding.tvCity.getText().toString();
         int provinceId = 0;

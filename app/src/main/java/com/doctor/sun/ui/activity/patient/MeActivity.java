@@ -41,7 +41,7 @@ public class MeActivity extends BaseActivity2 {
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_me);
         PatientFooterView mView = new PatientFooterView(this);
 
-        FooterViewModel footer = FooterViewModel.getInstance(mView, realm, R.id.tab_three);
+        FooterViewModel footer = FooterViewModel.getInstance(mView, getRealm(), R.id.tab_three);
         binding.setFooter(footer);
         HeaderViewModel header = new HeaderViewModel(this);
         header.setMidTitle("我");

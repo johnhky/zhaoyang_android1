@@ -63,7 +63,7 @@ public class ConsultingActivity extends BaseFragmentActivity2 {
 
     @NonNull
     private FooterViewModel getFooter() {
-        return FooterViewModel.getInstance(new DoctorFooterView(this), realm, R.id.tab_two);
+        return FooterViewModel.getInstance(new DoctorFooterView(this), getRealm(), R.id.tab_two);
     }
 
     @Override

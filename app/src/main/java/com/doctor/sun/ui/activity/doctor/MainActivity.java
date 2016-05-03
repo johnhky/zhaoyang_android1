@@ -43,7 +43,7 @@ public class MainActivity extends BaseDoctorActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.setFooter(FooterViewModel.getInstance(this, realm, R.id.tab_one));
+        binding.setFooter(FooterViewModel.getInstance(this, getRealm(), R.id.tab_one));
         binding.setHandler(new MainActivityHandler(this));
         if (Config.getInt(Constants.USER_TYPE, -1) == AuthModule.DOCTOR_PASSED && Config.getInt(Constants.PASSFIRSTTIME, -1) == ISFIRSTTIME) {
             new PassDialog(this).show();
@@ -52,17 +52,17 @@ public class MainActivity extends BaseDoctorActivity {
         RealmChangeListener listener = new RealmChangeListener() {
             @Override
             public void onChange() {
-                RealmResults<DoctorIndex> doctorIndexes = realm.allObjects(DoctorIndex.class);
+                RealmResults<DoctorIndex> doctorIndexes = getRealm().allObjects(DoctorIndex.class);
                 if (!doctorIndexes.isEmpty()) {
                     DoctorIndex first = doctorIndexes.first();
                     binding.setData(first);
                     binding.executePendingBindings();
-                    long unReadCount = realm.where(TextMsg.class).equalTo("haveRead", false).count();
+                    long unReadCount = getRealm().where(TextMsg.class).equalTo("haveRead", false).count();
                     binding.setCount((int) unReadCount);
                 }
             }
         };
-        realm.addChangeListener(listener);
+        getRealm().addChangeListener(listener);
         listener.onChange();
     }
 
@@ -80,10 +80,10 @@ public class MainActivity extends BaseDoctorActivity {
         api.doctorIndex().enqueue(new ApiCallback<DoctorIndex>() {
             @Override
             protected void handleResponse(DoctorIndex response) {
-                realm.beginTransaction();
-                realm.clear(DoctorIndex.class);
-                realm.copyToRealmOrUpdate(response);
-                realm.commitTransaction();
+                getRealm().beginTransaction();
+                getRealm().clear(DoctorIndex.class);
+                getRealm().copyToRealmOrUpdate(response);
+                getRealm().commitTransaction();
             }
         });
     }

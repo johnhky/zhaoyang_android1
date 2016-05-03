@@ -41,7 +41,7 @@ public class MeActivity extends BaseDoctorActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_me);
-        binding.setFooter(FooterViewModel.getInstance(this, realm, R.id.tab_three));
+        binding.setFooter(FooterViewModel.getInstance(this, getRealm(), R.id.tab_three));
         HeaderViewModel header = new HeaderViewModel(this);
         header.setMidTitle("我");
         binding.setHeader(header);

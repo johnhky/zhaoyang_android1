@@ -45,7 +45,7 @@ public class ConsultingAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> 
     public void onBindViewBinding(BaseViewHolder<ViewDataBinding> vh, int position) {
         if (vh.getItemViewType() == R.layout.item_consulting) {
             Appointment appointment = (Appointment) get(position);
-            RealmQuery<TextMsg> q = realm.where(TextMsg.class)
+            RealmQuery<TextMsg> q = getRealm().where(TextMsg.class)
                     .equalTo("sessionId", String.valueOf(appointment.getTid()));
 //                    .equalTo("userData", appointment.getHandler().getUserData());
             RealmResults<TextMsg> results = q.findAllSorted("time");
@@ -55,7 +55,7 @@ public class ConsultingAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> 
         } else if (vh.getItemViewType() == R.layout.p_item_consulting) {
             Appointment appointment = (Appointment) get(position);
             Log.e(TAG, "data: " + appointment);
-            RealmQuery<TextMsg> q = realm.where(TextMsg.class)
+            RealmQuery<TextMsg> q = getRealm().where(TextMsg.class)
                     .equalTo("sessionId", String.valueOf(appointment.getTid()));
 //                    .equalTo("userData", appointment.getHandler().getUserData());
             RealmResults<TextMsg> results = q.findAllSorted("time");
@@ -63,7 +63,7 @@ public class ConsultingAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> 
             PItemConsultingBinding rootBinding = (PItemConsultingBinding) vh.getBinding();
             bindCount(results, count, rootBinding.llyMessage, rootBinding.divider);
         } else if (vh.getItemViewType() == R.layout.p_item_medicine_helper) {
-            RealmQuery<TextMsg> q = realm.where(TextMsg.class)
+            RealmQuery<TextMsg> q = getRealm().where(TextMsg.class)
                     .contains("userData", MedicineHelperActivity.ADMIN_DRUG);
             long count = q.equalTo("haveRead", false).count();
             PItemMedicineHelperBinding binding = (PItemMedicineHelperBinding) vh.getBinding();
@@ -103,6 +103,13 @@ public class ConsultingAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> 
                 }
             });
         }
+    }
+
+    private Realm getRealm() {
+        if (realm == null || realm.isClosed()) {
+            realm = Realm.getDefaultInstance();
+        }
+        return realm;
     }
 
     private void bindCount(RealmResults<TextMsg> results, long count, IncludeMessageCountBinding binding, View divider) {

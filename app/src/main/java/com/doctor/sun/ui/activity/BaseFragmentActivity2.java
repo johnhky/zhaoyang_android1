@@ -9,7 +9,6 @@ import android.widget.EditText;
 import com.doctor.sun.event.OnTokenExpireEvent;
 import com.doctor.sun.im.Messenger;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.util.UpdateUtil;
 
 import io.ganguo.library.AppManager;
 import io.ganguo.library.core.event.EventHub;
@@ -21,7 +20,7 @@ import io.realm.Realm;
 public abstract class BaseFragmentActivity2 extends AppCompatActivity implements HeaderViewModel.HeaderView {
     protected String TAG = getClass().getSimpleName();
 
-    protected Realm realm;
+    private Realm realm;
     private OnTokenExpireEvent tokenExpire;
 
     @Override
@@ -34,9 +33,15 @@ public abstract class BaseFragmentActivity2 extends AppCompatActivity implements
         EventHub.register(this);
         tokenExpire = new OnTokenExpireEvent(this);
         EventHub.register(tokenExpire);
-        realm = Realm.getDefaultInstance();
+        realm = getRealm();
     }
 
+    protected Realm getRealm() {
+        if (realm == null || realm.isClosed()) {
+            realm = Realm.getDefaultInstance();
+        }
+        return realm;
+    }
 
     @Override
     protected void onDestroy() {
@@ -46,7 +51,7 @@ public abstract class BaseFragmentActivity2 extends AppCompatActivity implements
         EventHub.unregister(this);
         EventHub.unregister(tokenExpire);
         AppManager.removeActivity(this);
-        realm.close();
+        getRealm().close();
     }
 
     @Override

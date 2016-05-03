@@ -206,7 +206,7 @@ public class AddMedicalRecordActivity extends GetLocationActivity implements Vie
             ToastHelper.showMessage(this, "获取地址失败");
             return;
         }
-        Province province = realm.where(Province.class).beginGroup().greaterThan("maxLon", location.getLongitude()).lessThan("minLon", location.getLongitude())
+        Province province = getRealm().where(Province.class).beginGroup().greaterThan("maxLon", location.getLongitude()).lessThan("minLon", location.getLongitude())
                 .greaterThan("maxLat", location.getLatitude()).lessThan("minLat", location.getLatitude()).endGroup().findFirst();
         if (province != null) {
             RealmList<City> cities = province.getCities();
@@ -256,7 +256,7 @@ public class AddMedicalRecordActivity extends GetLocationActivity implements Vie
     }
 
     private void createCityPicker() {
-        RealmResults<Province> provinces = realm.where(Province.class).findAll();
+        RealmResults<Province> provinces = getRealm().where(Province.class).findAll();
         String state = binding.tvProvince.getText().toString();
         String city = binding.tvCity.getText().toString();
         int provinceId = 0;

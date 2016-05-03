@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity2 {
         header.setMidTitle("昭阳医生");
         binding.setHeader(header);
         PatientFooterView mView = new PatientFooterView(this);
-        FooterViewModel footer = FooterViewModel.getInstance(mView, realm, R.id.tab_one);
+        FooterViewModel footer = FooterViewModel.getInstance(mView, getRealm(), R.id.tab_one);
         binding.setFooter(footer);
 
         final LinearLayoutManager layout = new LinearLayoutManager(this);
