@@ -11,9 +11,9 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.DialogPickDurationBinding;
-import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
 import com.doctor.sun.ui.activity.patient.PickDateActivity;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
@@ -191,6 +191,18 @@ public class DoctorHandler {
             result = R.drawable.male_doctor_avatar;
         }
         return result;
+    }
+
+    public int money() {
+        switch (data.getType()) {
+            case AppointmentType.QUICK:
+                return data.getSecondMoney();
+            case AppointmentType.DETAIL:
+                int scalar = Integer.parseInt(data.getDuration()) / 15;
+                return data.getMoney() * scalar;
+            default:
+                return 0;
+        }
     }
 
     public HashMap<String, String> toHashMap() {

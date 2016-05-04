@@ -216,7 +216,7 @@
                         android:layout_weight="1"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_15"
-                        app:html="@{@string/should_pay(data.money)}" />
+                        app:html="@{@string/should_pay(data.handler.money)}" />
 
                 </LinearLayout>
 

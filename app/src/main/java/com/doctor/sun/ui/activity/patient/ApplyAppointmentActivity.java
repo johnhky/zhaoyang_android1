@@ -78,7 +78,9 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                 record = response;
             }
         });
-        binding.setData(getDoctorData());
+        Doctor doctorData = getDoctorData();
+        doctorData.setType(Integer.parseInt(getType()));
+        binding.setData(doctorData);
         binding.tvTime.setText(String.format("预约时间：%s", getBookTime()));
         binding.tvType.setText(String.format("预约类型：%s", appointmentType()));
         binding.rbAlipay.setChecked(true);
@@ -93,7 +95,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
         if (parse != null) {
             time = String.valueOf(parse.getTime()).substring(0, 10);
         }else {
-            time = "15";
+            time = "";
         }
         Log.e(TAG, "onCreate: time" + time);
         binding.tvApply.setOnClickListener(new View.OnClickListener() {
