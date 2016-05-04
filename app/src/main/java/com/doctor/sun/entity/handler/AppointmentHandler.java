@@ -11,6 +11,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -27,6 +28,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.NimTeamId;
+import com.doctor.sun.entity.VoipAccount;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.im.TextMsg;
@@ -37,6 +39,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.CancelCallback;
 import com.doctor.sun.http.callback.DoNothingCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.module.AppointmentModule;
@@ -69,6 +72,8 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECUserState;
+import com.yuntongxun.ecsdk.ECVoIPCallManager;
+import com.yuntongxun.ecsdk.SdkErrorCode;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -723,15 +728,46 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             return;
         }
     }
-
-    private void callTelephone(View view) {
+    private void callTelephone(final View view) {
         if (ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions((Activity) view.getContext(), new String[]{Manifest.permission.CALL_PHONE}, PHONE_CALL_PERMISSION);
             return;
         }
-        Uri uri = Uri.parse("tel:" + getPhoneNO());
-        Intent intent = new Intent(Intent.ACTION_CALL, uri);
-        view.getContext().startActivity(intent);
+        try {
+            // 创建回拨呼叫参数信息
+            ECVoIPCallManager.CallBackEntity callBackEntity = new ECVoIPCallManager.CallBackEntity();
+            // 设置Tony的电话号码
+            VoipAccount account = com.doctor.sun.im.Messenger.getVoipAccount();
+            if (account == null) {
+                return;
+            }
+
+            callBackEntity.caller = TokenCallback.getPhone();
+            // 设置主叫侧(Tony)显示的号码
+            callBackEntity.callerSerNum = TokenCallback.getPhone();
+            // 设置John的电话号码
+            callBackEntity.called = getPhoneNO();
+            // 设置被叫侧(John)显示的号码
+            callBackEntity.calledSerNum = getPhoneNO();
+            // 获取一个VoIP呼叫接口对象
+            ECVoIPCallManager callManager = ECDevice.getECVoIPCallManager();
+            // 调用回拨呼叫接口
+            callManager.makeCallBack(callBackEntity, new ECVoIPCallManager.OnMakeCallBackListener() {
+                @Override
+                public void onMakeCallback(ECError error, String caller, String called) {
+                    if (error.errorCode == SdkErrorCode.REQUEST_SUCCESS) {
+                        // 回拨呼叫成功,等待来电
+                        Log.e("ECSDK_Demo", "onMakeCallback: ");
+                        Toast.makeText(view.getContext(), "回拨呼叫成功,等待来电", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Log.e("ECSDK_Demo", "make callback error [" + error.errorCode
+                            + " ]");
+                }
+            });
+        } catch (Exception e) {
+
+        }
     }
 
     public String getVoipAccount() {

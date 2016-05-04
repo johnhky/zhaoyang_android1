@@ -206,7 +206,7 @@ public class TokenCallback {
             return null;
         }
         PatientDTO patient = JacksonUtils.fromJson(json, PatientDTO.class);
-        return patient.getInfo();
+        return patient != null ? patient.getInfo() : null;
     }
 
     public static RecentAppointment getRecentAppointment() {
@@ -215,7 +215,7 @@ public class TokenCallback {
             return null;
         }
         PatientDTO patient = JacksonUtils.fromJson(json, PatientDTO.class);
-        return patient.getRecent_appointment();
+        return patient != null ? patient.getRecent_appointment() : null;
     }
 
     public static Doctor getDoctorProfile() {
@@ -225,6 +225,19 @@ public class TokenCallback {
         }
         Doctor doctor = JacksonUtils.fromJson(json, Doctor.class);
         return doctor;
+    }
+
+    public static String getPhone() {
+        if (AppContext.isDoctor()) {
+            return getDoctorProfile().getPhone();
+        } else {
+
+            Patient patientProfile = getPatientProfile();
+            if (patientProfile == null) {
+                return "";
+            }
+            return patientProfile.getPhone();
+        }
     }
 
 }
