@@ -4,8 +4,10 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.Prescription;
 
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit.Call;
 import retrofit.http.FieldMap;
@@ -28,4 +30,7 @@ public interface DiagnosisModule {
 
     @GET("diagnosis/search-doctors")
     Call<ApiDTO<PageDTO<Doctor>>> searchDoctor(@Query("page") String page, @Query("search") String search);
+
+    @GET("diagnosis/last-drug")
+    Call<ApiDTO<List<Prescription>>> lastDrug(@Query("appointmentId") int appointmentId);
 }

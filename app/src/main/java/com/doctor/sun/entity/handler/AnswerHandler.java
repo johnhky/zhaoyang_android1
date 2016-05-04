@@ -6,11 +6,16 @@ import android.os.Message;
 import android.os.Messenger;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Answer;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Question;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -108,6 +113,35 @@ public class AnswerHandler {
                 }));
                 intent.putExtra(Constants.HANDLER, messenger);
                 v.getContext().startActivity(intent);
+            }
+        };
+    }
+
+    public View.OnClickListener loadDrug(final BaseAdapter adapter, final RecyclerView.ViewHolder vh) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Appointment.AppointmentId id;
+                try {
+                    id = (Appointment.AppointmentId) adapter.getContext();
+                } catch (ClassCastException e) {
+                    return;
+                }
+                Api.of(DiagnosisModule.class).lastDrug(id.getId()).enqueue(new SimpleCallback<List<Prescription>>() {
+                    @Override
+                    protected void handleResponse(List<Prescription> response) {
+                        if (response == null){
+                            Toast.makeText(adapter.getContext(), "没有预约记录", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        Answer answer = (Answer) adapter.get(vh.getAdapterPosition());
+                        answer.getPrescriptions().addAll(response);
+                        adapter.set(vh.getAdapterPosition(), answer);
+                        adapter.notifyItemChanged(vh.getAdapterPosition());
+                    }
+                });
             }
         };
     }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityFillForumBinding;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.fragment.FillForumFragment;
 import com.doctor.sun.ui.fragment.ModifyForumFragment;
@@ -18,7 +19,7 @@ import com.doctor.sun.ui.model.HeaderViewModel;
  * 填写问卷 只读 fragment
  * Created by rick on 25/1/2016.
  */
-public class FillForumActivity extends BaseFragmentActivity2 implements QCategoryHandler.QCategoryCallback, FillForumFragment.SetHeaderListener {
+public class FillForumActivity extends BaseFragmentActivity2 implements QCategoryHandler.QCategoryCallback, FillForumFragment.SetHeaderListener ,Appointment.AppointmentId{
 
     private boolean isFilling;
 
@@ -92,5 +93,10 @@ public class FillForumActivity extends BaseFragmentActivity2 implements QCategor
                 ModifyForumFragment.getInstance(getData()).handleImageResult(requestCode, resultCode, data);
                 break;
         }
+    }
+
+    @Override
+    public int getId() {
+        return getData();
     }
 }
