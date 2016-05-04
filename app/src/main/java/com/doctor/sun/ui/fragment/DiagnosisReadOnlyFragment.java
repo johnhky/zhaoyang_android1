@@ -1,5 +1,6 @@
 package com.doctor.sun.ui.fragment;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -89,6 +90,10 @@ public class DiagnosisReadOnlyFragment extends Fragment {
     }
 
     private void initDiagnosisView() {
+        Context context = getContext();
+        if (context == null) {
+            return;
+        }
         if (!getUserType()) {
             /**
              *医生就诊结果
@@ -96,7 +101,7 @@ public class DiagnosisReadOnlyFragment extends Fragment {
              *医生就诊结果 重要的事情说三次
              */
             IncludeDiagnosisDetailBinding detailBinding =
-                    IncludeDiagnosisDetailBinding.inflate(LayoutInflater.from(getContext()));
+                    IncludeDiagnosisDetailBinding.inflate(LayoutInflater.from(context));
             detailBinding.setData(viewModel);
             binding.llRoot.addView(detailBinding.getRoot());
         }
@@ -105,7 +110,7 @@ public class DiagnosisReadOnlyFragment extends Fragment {
          *就诊结果
          *就诊结果 重要的事情说三次
          */
-        resultBinding = IncludeDiagnosisResultBinding.inflate(LayoutInflater.from(getContext()));
+        resultBinding = IncludeDiagnosisResultBinding.inflate(LayoutInflater.from(context));
         resultBinding.setData(viewModel);
         binding.llRoot.addView(resultBinding.getRoot());
     }

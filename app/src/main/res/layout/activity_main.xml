@@ -71,6 +71,10 @@
         </LinearLayout>
 
         <LinearLayout
+            android:showcase='@{"所有已预约患者都在这里"}'
+            android:showcaseId='@{"doctorMain"}'
+            android:showcasePosition='@{0}'
+            android:showcaseSize='@{2}'
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

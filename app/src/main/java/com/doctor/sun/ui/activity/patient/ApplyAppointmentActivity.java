@@ -25,6 +25,7 @@ import com.doctor.sun.ui.widget.SelectRecordDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -78,17 +79,22 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
             }
         });
         binding.setData(getDoctorData());
-        binding.tvTime.setText("预约时间：" + getBookTime());
-        binding.tvType.setText("预约类型：" + appointmentType());
+        binding.tvTime.setText(String.format("预约时间：%s", getBookTime()));
+        binding.tvType.setText(String.format("预约类型：%s", appointmentType()));
         binding.rbAlipay.setChecked(true);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         Date parse = null;
         try {
             parse = format.parse(getBookTime());
         } catch (java.text.ParseException e) {
             e.printStackTrace();
         }
-        final String time = String.valueOf(parse.getTime()).substring(0, 10);
+        final String time;
+        if (parse != null) {
+            time = String.valueOf(parse.getTime()).substring(0, 10);
+        }else {
+            time = "15";
+        }
         Log.e(TAG, "onCreate: time" + time);
         binding.tvApply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +103,10 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                 if (record != null) {
                     doctorData.setRecordId(String.valueOf(record.getMedicalRecordId()));
                 }
-                appointmentModule.orderAppointment(String.valueOf(doctorData.getId()), time, Integer.parseInt(getType()), doctorData.getRecordId()).enqueue(new ApiCallback<Appointment>() {
+                String doctorId = String.valueOf(doctorData.getId());
+                int type = Integer.parseInt(getType());
+                //noinspection WrongConstant
+                appointmentModule.orderAppointment(doctorId, time, type, doctorData.getRecordId()).enqueue(new ApiCallback<Appointment>() {
                     @Override
                     protected void handleResponse(Appointment response) {
                         response.setRecordId(Integer.parseInt(doctorData.getRecordId()));

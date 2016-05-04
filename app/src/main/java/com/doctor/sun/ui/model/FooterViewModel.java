@@ -2,19 +2,16 @@ package com.doctor.sun.ui.model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.util.Log;
 import android.view.View;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.VoipAccount;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.im.Messenger;
 
-import org.w3c.dom.Text;
-
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-import io.realm.RealmResults;
 
 
 /**
@@ -124,5 +121,37 @@ public class FooterViewModel extends BaseObservable {
 
         void gotoTabThree();
 
+    }
+
+    public String getShowCaseContent() {
+        if (AppContext.isDoctor()) {
+            return "您可以在这里与患者通过文字信息或者电话进行沟通";
+        } else {
+            return "您可以在这里与医生通过文字信息或者电话进行沟通";
+        }
+    }
+
+    public String getShowCaseId() {
+        if (AppContext.isDoctor()) {
+            return "doctorMain";
+        } else {
+            return "main";
+        }
+    }
+
+    public int getShowPosition() {
+        if (AppContext.isDoctor()) {
+            return 1;
+        } else {
+            return 3;
+        }
+    }
+
+    public int getShowCaseSize() {
+        if (AppContext.isDoctor()) {
+            return 2;
+        } else {
+            return 4;
+        }
     }
 }

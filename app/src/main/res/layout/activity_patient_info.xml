@@ -89,6 +89,10 @@
                     android:background="@color/divider_color" />
 
                 <RelativeLayout
+                    android:showcase='@{"查看该病历的历史记录"}'
+                    android:showcaseId='@{"patientInfo"}'
+                    android:showcasePosition='@{0}'
+                    android:showcaseSize='@{1}'
                     android:id="@+id/rl_history_record"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_91"

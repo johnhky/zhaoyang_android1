@@ -20,6 +20,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.widget.ShareDialog;
+import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
 
 import java.util.HashMap;
@@ -53,6 +54,7 @@ public class SettingHandler extends BaseHandler {
     }
 
     public void help(View view) {
+        ShowCaseUtil.reset();
         Intent intent = HelpActivity.makeIntent(view.getContext(), Config.getInt(Constants.USER_TYPE, -1));
         view.getContext().startActivity(intent);
     }

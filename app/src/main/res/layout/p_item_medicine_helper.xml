@@ -22,7 +22,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#eff3f5"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:showcase='@{"在这里联系小助手使用代寄药服务."}'
+        android:showcaseId='@{"consulting`"}'
+        android:showcasePosition='@{1}'
+        android:showcaseSize='@{2}'>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,9 +93,9 @@
                         android:id="@+id/tv_tip"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/dp_240"
-                        android:text="我是用来寄药的"
                         android:gravity="bottom"
                         android:paddingBottom="@dimen/dp_14"
+                        android:text="我是用来寄药的"
                         android:textColor="#898989"
                         android:textSize="@dimen/font_12" />
 

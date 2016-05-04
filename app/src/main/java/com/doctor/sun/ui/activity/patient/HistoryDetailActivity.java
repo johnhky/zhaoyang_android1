@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
+import android.view.View;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.ui.activity.TabActivity;
@@ -14,6 +16,7 @@ import com.doctor.sun.ui.fragment.FillForumFragment;
 import com.doctor.sun.ui.fragment.ListFragment;
 import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.util.ShowCaseUtil;
 
 /**
  * 病人端 历史纪录
@@ -44,6 +47,7 @@ public class HistoryDetailActivity extends TabActivity
         return getIntent().getIntExtra(Constants.POSITION, ConsultingDetailActivity.POSITION_ANSWER);
     }
 
+
     @Override
     protected PagerAdapter createPagerAdapter() {
         return new HistoryDetailAdapter(getSupportFragmentManager(), getData());
@@ -59,6 +63,18 @@ public class HistoryDetailActivity extends TabActivity
         super.onCreate(savedInstanceState);
         if (getPosition() == ConsultingDetailActivity.POSITION_SUGGESTION_READONLY) {
             binding.vp.setCurrentItem(1);
+        }
+        showCase();
+    }
+
+    private void showCase() {
+        View childAt = binding.showcase;
+        if (childAt != null) {
+            if (AppContext.isDoctor()) {
+                ShowCaseUtil.showCase(childAt, "记录病历和给患者建议和调药", "diagnosisResult", 1, 0);
+            }else {
+                ShowCaseUtil.showCase(childAt, "您可以在这里看到医生的医嘱和用药建议", "diagnosisResult", 1, 0);
+            }
         }
     }
 

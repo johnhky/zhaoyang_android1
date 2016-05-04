@@ -42,7 +42,8 @@
                 android:paddingTop="@dimen/dp_11"
                 android:showcase='@{"点击这里可以找到适合您的医生"}'
                 android:showcaseId='@{"main"}'
-                android:showcaseSize='@{3}'
+                android:showcasePosition='@{0}'
+                android:showcaseSize='@{4}'
                 android:text="预约咨询医生"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_16" />
@@ -65,7 +66,8 @@
                 android:paddingTop="@dimen/dp_11"
                 android:showcase='@{"点击这里预约您咨询过的医生进行便捷复诊和寄药"}'
                 android:showcaseId='@{"main"}'
-                android:showcaseSize='@{3}'
+                android:showcasePosition='@{1}'
+                android:showcaseSize='@{4}'
                 android:text="简捷复诊寄药"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_16" />
@@ -85,7 +87,8 @@
             android:orientation="horizontal"
             android:showcase='@{"点这里可以查询所有类型的订单"}'
             android:showcaseId='@{"main"}'
-            android:showcaseSize='@{3}'
+            android:showcasePosition='@{2}'
+            android:showcaseSize='@{4}'
             app:adapter="@{adapter}"
             app:itemClick="@{data.appointmentList}"
             app:vh="@{vh}">

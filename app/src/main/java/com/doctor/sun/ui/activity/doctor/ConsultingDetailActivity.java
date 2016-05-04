@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
+import android.view.View;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.event.SwitchTabEvent;
@@ -17,6 +19,7 @@ import com.doctor.sun.ui.fragment.ModifyForumFragment;
 import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.pager.ConsultingDetailPagerAdapter;
+import com.doctor.sun.util.ShowCaseUtil;
 import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.Config;
@@ -62,6 +65,18 @@ public class ConsultingDetailActivity extends TabActivity
         super.onCreate(savedInstanceState);
         initListener();
         switchTab(new SwitchTabEvent(getPosition()));
+        showCase();
+    }
+
+    private void showCase() {
+        View childAt = binding.showcase;
+        if (childAt != null) {
+            if (AppContext.isDoctor()) {
+                ShowCaseUtil.showCase(childAt, "记录病历和给患者建议和调药", "diagnosisResult", 1, 0);
+            }else {
+                ShowCaseUtil.showCase(childAt, "您可以在这里看到医生的医嘱和用药建议", "diagnosisResult", 1, 0);
+            }
+        }
     }
 
     @Override

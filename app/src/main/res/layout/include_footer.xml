@@ -44,7 +44,11 @@
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:showcase='@{footer.getShowCaseContent}'
+                android:showcaseId='@{footer.getShowCaseId}'
+                android:showcasePosition='@{footer.getShowPosition}'
+                android:showcaseSize='@{footer.getShowCaseSize}'>
 
                 <TextView
                     android:id="@+id/tab_two"

@@ -23,9 +23,24 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/include_header"
-            bind:header="@{header}" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <include
+                layout="@layout/include_header"
+                bind:header="@{header}" />
+
+
+            <View
+                android:layout_gravity="end"
+                android:showcase='@{"问卷不够全面?这里补充"}'
+                android:showcaseId='@{"patientDetail"}'
+                android:showcasePosition='@{0}'
+                android:showcaseSize='@{3}'
+                android:layout_width="@dimen/dp_90"
+                android:layout_height="@dimen/dp_48" />
+        </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -70,7 +85,11 @@
                 android:layout_width="@dimen/dp_144"
                 android:layout_height="@dimen/dp_49"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/btn_mid_blue">
+                android:background="@drawable/btn_mid_blue"
+                android:showcase='@{"提醒患者完成问卷"}'
+                android:showcaseId='@{"patientDetail"}'
+                android:showcasePosition='@{1}'
+                android:showcaseSize='@{3}'>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -90,7 +109,11 @@
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_marginRight="@dimen/dp_8"
                 android:background="@drawable/ripple_default"
-                android:onClick="@{data.handler.makePhoneCall}">
+                android:onClick="@{data.handler.makePhoneCall}"
+                android:showcase='@{"就诊前也可以联系患者"}'
+                android:showcaseId='@{"patientDetail"}'
+                android:showcasePosition='@{2}'
+                android:showcaseSize='@{3}'>
 
                 <ImageView
                     android:layout_width="match_parent"

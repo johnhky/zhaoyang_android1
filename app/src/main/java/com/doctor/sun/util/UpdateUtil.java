@@ -50,9 +50,11 @@ public class UpdateUtil {
         if (lastCheckTime + INTERVAL > System.currentTimeMillis()) {
             Log.e(TAG, "checkUpdate: " + lastCheckTime);
             String json = Config.getString(NEWVERSION);
-            Version serverVersion = JacksonUtils.fromJson(json, Version.class);
-            handleNewVersion(context, serverVersion, myVersion);
-            return;
+            if (json != null) {
+                Version serverVersion = JacksonUtils.fromJson(json, Version.class);
+                handleNewVersion(context, serverVersion, myVersion);
+                return;
+            }
         } else {
             Log.e(TAG, "checkUpdate: " + lastCheckTime);
         }

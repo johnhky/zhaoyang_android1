@@ -45,6 +45,10 @@
                 android:layout_height="wrap_content">
 
                 <com.doctor.sun.ui.widget.BezelImageView
+                    android:showcase='@{"点击头像可以修改个人信息"}'
+                    android:showcaseId='@{"doctorMe"}'
+                    android:showcasePosition='@{0}'
+                    android:showcaseSize='@{2}'
                     android:id="@+id/iv_me"
                     android:layout_width="@dimen/dp_74"
                     android:layout_height="@dimen/dp_74"
@@ -134,6 +138,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_120"
+            android:showcase='@{"医生可以自定义自己的设置"}'
+            android:showcaseId='@{"doctorMe"}'
+            android:showcasePosition='@{0}'
+            android:showcaseSize='@{2}'
             android:orientation="horizontal">
 
             <LinearLayout
