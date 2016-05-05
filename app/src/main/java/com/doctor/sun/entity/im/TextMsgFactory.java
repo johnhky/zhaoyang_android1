@@ -2,11 +2,9 @@ package com.doctor.sun.entity.im;
 
 import android.support.annotation.NonNull;
 
-import com.doctor.sun.dto.PrescriptionDTO;
 import com.doctor.sun.emoji.StickerManager;
 import com.doctor.sun.im.custom.AttachmentData;
 import com.doctor.sun.im.custom.CustomAttachment;
-import com.doctor.sun.im.custom.JsonAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
 import com.netease.nimlib.sdk.msg.attachment.AudioAttachment;
 import com.netease.nimlib.sdk.msg.attachment.FileAttachment;

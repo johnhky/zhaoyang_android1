@@ -16,7 +16,7 @@ import com.doctor.sun.ui.adapter.core.LoadMoreListener;
  */
 public class ListDialog extends Dialog {
     public ListDialog(Context context) {
-        super(context);
+        super(context, R.style.dialogNoTitle);
     }
 
     private DialogListBinding binding;

@@ -1,10 +1,8 @@
 package com.doctor.sun.im;
 
-import com.doctor.sun.dto.PrescriptionDTO;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.im.custom.CustomAttachment;
-import com.doctor.sun.im.custom.JsonAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
 import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.databind.JavaType;
