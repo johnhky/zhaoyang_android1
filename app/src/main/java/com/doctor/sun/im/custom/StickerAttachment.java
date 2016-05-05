@@ -1,6 +1,5 @@
 package com.doctor.sun.im.custom;
 
-import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.util.JacksonUtils;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 

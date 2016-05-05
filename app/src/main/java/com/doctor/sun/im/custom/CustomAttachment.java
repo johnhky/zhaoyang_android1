@@ -8,8 +8,7 @@ import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 /**
  * Created by zhoujianghua on 2015/4/9.
  */
-public class CustomAttachment<T extends MsgAttachment> implements MsgAttachment {
-
+public class CustomAttachment<T> implements MsgAttachment {
 
 
     @TextMsg.AttachmentType

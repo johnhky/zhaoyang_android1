@@ -111,6 +111,9 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
                 MsgPrescriptionListBinding binding = (MsgPrescriptionListBinding) vh.getBinding();
                 binding.prescription.removeAllViews();
                 TextMsg textMsg = get(position);
+                if (textMsg.getBody() == null) {
+                    return;
+                }
                 PrescriptionDTO prescriptionDTO = JacksonUtils.fromJson(textMsg.getBody(), PrescriptionDTO.class);
                 if (prescriptionDTO == null || prescriptionDTO.getDrug() == null) return;
                 Appointment appointment = prescriptionDTO.getAppointmentInfo();

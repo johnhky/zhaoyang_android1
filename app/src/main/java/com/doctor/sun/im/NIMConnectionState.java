@@ -1,8 +1,10 @@
 package com.doctor.sun.im;
 
+import com.doctor.sun.dto.PrescriptionDTO;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.im.custom.CustomAttachment;
+import com.doctor.sun.im.custom.JsonAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
 import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.databind.JavaType;
@@ -128,7 +130,7 @@ public class NIMConnectionState implements RequestCallback {
     }
 
     private static boolean passThirtyMinutes(IMMessage imMessage) {
-        return System.currentTimeMillis() - imMessage.getTime() >  THIRTY_MINUTES;
+        return System.currentTimeMillis() - imMessage.getTime() > THIRTY_MINUTES;
     }
 
     /**
@@ -159,6 +161,12 @@ public class NIMConnectionState implements RequestCallback {
                         JavaType javaType = TypeFactory.defaultInstance()
                                 .constructParametricType(CustomAttachment.class, StickerAttachment.class);
                         return JacksonUtils.<CustomAttachment<StickerAttachment>>fromJson(object.toString(), javaType);
+                    }
+                    case TextMsg.Drug: {
+                        CustomAttachment<JSONObject> customAttachment = new CustomAttachment<>();
+                        customAttachment.setType(TextMsg.Drug);
+                        customAttachment.setData(object.getJSONObject("data"));
+                        return customAttachment;
                     }
                 }
             } catch (JSONException e) {

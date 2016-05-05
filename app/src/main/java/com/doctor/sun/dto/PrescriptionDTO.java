@@ -2,14 +2,16 @@ package com.doctor.sun.dto;
 
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 
 import java.util.List;
 
 /**
  * Created by rick on 15/2/2016.
  */
-public class PrescriptionDTO {
+public class PrescriptionDTO implements MsgAttachment {
 
 
     @JsonProperty("appointment_info")
@@ -40,5 +42,10 @@ public class PrescriptionDTO {
 
     public void setDrug(List<Prescription> drug) {
         this.drug = drug;
+    }
+
+    @Override
+    public String toJson(boolean b) {
+        return JacksonUtils.toJson(this);
     }
 }

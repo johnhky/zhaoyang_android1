@@ -669,4 +669,5 @@ public class Appointment implements LayoutId, Parcelable {
     public interface AppointmentId {
         int getId();
     }
+
 }

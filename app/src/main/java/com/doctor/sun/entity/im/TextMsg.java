@@ -22,6 +22,7 @@ public class TextMsg extends RealmObject implements LayoutId {
     public static final int SnapChat = 2;
     public static final int Sticker = 3;
     public static final int RTS = 4;
+    public static final int Drug = 99;
 
     public static final int IMAGE = 11;
     public static final int AUDIO = 12;
@@ -200,6 +201,13 @@ public class TextMsg extends RealmObject implements LayoutId {
                 return R.layout.msg_sticker_send;
             } else if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
                 return R.layout.msg_sticker_receive;
+            }
+        }
+        if (getType().equals(String.valueOf(Drug))) {
+            if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
+                return R.layout.msg_prescription_list;
+            } else if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
+                return R.layout.msg_prescription_list;
             }
         }
         if (getType().equals(String.valueOf(IMAGE))) {

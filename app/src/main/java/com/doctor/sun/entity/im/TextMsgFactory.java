@@ -1,15 +1,13 @@
 package com.doctor.sun.entity.im;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
+import com.doctor.sun.dto.PrescriptionDTO;
 import com.doctor.sun.emoji.StickerManager;
 import com.doctor.sun.im.custom.AttachmentData;
 import com.doctor.sun.im.custom.CustomAttachment;
+import com.doctor.sun.im.custom.JsonAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
-import com.doctor.sun.util.JacksonUtils;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.netease.nimlib.sdk.msg.attachment.AudioAttachment;
 import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
 import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
@@ -19,7 +17,6 @@ import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.yuntongxun.ecsdk.ECMessage;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -139,35 +136,29 @@ public class TextMsgFactory {
     }
 
     private static AttachmentData parseCustom(IMMessage msg) {
-        MsgAttachment attachment = msg.getAttachment();
+        CustomAttachment attachment = (CustomAttachment) msg.getAttachment();
         AttachmentData result = new AttachmentData();
-        if (attachment != null) {
-            String json = attachment.toJson(true);
-            try {
-                JSONObject object = new JSONObject(json);
 
-                int type = object.getInt("type");
+        int type = attachment.getType();
 //                JSONObject data = object.getJSONObject(KEY_DATA);
-                switch (type) {
-                    case TextMsg.Sticker: {
-                        result.setBody("贴图");
-                        JavaType javaType = TypeFactory.defaultInstance().constructParametricType(CustomAttachment.class, StickerAttachment.class);
-                        CustomAttachment<StickerAttachment> customAttachment = JacksonUtils.fromJson(object.toString(), javaType);
-                        StickerAttachment sticker = customAttachment.getData();
-                        String text = (StickerManager.FILE_ANDROID_ASSET_STICKER + sticker.getCatalog() + "/" + sticker.getChartlet() + ".png");
+        switch (type) {
+            case TextMsg.Sticker: {
+                result.setBody("贴图");
+
+                StickerAttachment sticker = (StickerAttachment) attachment.getData();
+                String text = (StickerManager.FILE_ANDROID_ASSET_STICKER + sticker.getCatalog() + "/" + sticker.getChartlet() + ".png");
 //                        textAttachment.setData(text);
-                        result.setData(text);
-                        result.setType(TextMsg.Sticker);
-                        return result;
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
+                result.setData(text);
+                result.setType(TextMsg.Sticker);
+                return result;
             }
-            return null;
-        } else {
-            Log.e(TextMsg.TAG, "parseCustom: " + null);
+            case TextMsg.Drug: {
+                JSONObject data = (JSONObject) attachment.getData();
+//                        textAttachment.setData(text);
+                result.setBody(data.toString());
+                result.setType(TextMsg.Drug);
+                return result;
+            }
         }
         return null;
     }
