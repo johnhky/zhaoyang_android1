@@ -31,7 +31,7 @@ import java.util.HashMap;
 
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.core.image.GGlide;
-import retrofit.Call;
+import retrofit2.Call;
 
 /**
  * 个人信息

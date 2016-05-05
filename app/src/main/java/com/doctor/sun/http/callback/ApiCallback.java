@@ -2,7 +2,6 @@ package com.doctor.sun.http.callback;
 
 import android.accounts.AuthenticatorException;
 import android.accounts.NetworkErrorException;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
@@ -12,9 +11,9 @@ import com.doctor.sun.event.OnTokenExpireEvent;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by rick on 11/27/15.
@@ -22,10 +21,11 @@ import retrofit.Retrofit;
 public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
     public static final String LAST_VISIT_TIME = "LAST_VISIT_TIME";
 
+
     @Override
-    final public void onResponse(Response<ApiDTO<T>> response, Retrofit retrofit) {
+    final public void onResponse(Call<ApiDTO<T>> call, Response<ApiDTO<T>> response) {
         if (response.body() == null) {
-            onFailure(new NullPointerException());
+            onFailure(call, new NullPointerException());
             return;
         }
         int code = Integer.parseInt(response.body().getStatus());
@@ -37,7 +37,7 @@ public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
                 handleApi(response.body());
             }
         } else if (code == 401) {
-            onFailure(new AuthenticatorException("not login"));
+            onFailure(call, new AuthenticatorException("not login"));
             int passFirstTime = Config.getInt(Constants.PASSFIRSTTIME, -1);
             long lastTime = Config.getLong(LAST_VISIT_TIME + Config.getString(Constants.VOIP_ACCOUNT), -1);
             Config.clearAll();
@@ -47,7 +47,7 @@ public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
         } else {
             String msg = response.body().getMessage();
             Toast.makeText(AppContext.me(), msg, Toast.LENGTH_SHORT).show();
-            onFailure(new NetworkErrorException());
+            onFailure(call, new NetworkErrorException());
         }
     }
 
@@ -68,7 +68,7 @@ public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
     protected abstract void handleResponse(T response);
 
     @Override
-    public void onFailure(Throwable t) {
+    public void onFailure(Call<ApiDTO<T>> call, Throwable t) {
         t.printStackTrace();
     }
 }

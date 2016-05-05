@@ -33,6 +33,7 @@ import java.util.List;
 
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
+import retrofit2.Call;
 
 /**
  * 填写问卷 只读(医生端) or (病人端)
@@ -205,9 +206,9 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
 
         @Override
         protected void handleResponse(List<Answer> response) {
-            Log.e(TAG, "handleResponse: " + response.size() );
+            Log.e(TAG, "handleResponse: " + response.size());
             for (int i = 0; i < response.size(); i++) {
-                response.get(i).setPosition(i+1);
+                response.get(i).setPosition(i + 1);
             }
             getAdapter().addAll(response);
             getAdapter().onFinishLoadMore(true);
@@ -215,7 +216,7 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
         }
 
         @Override
-        public void onFailure(Throwable t) {
+        public void onFailure(Call call, Throwable t) {
             t.printStackTrace();
             getAdapter().onFinishLoadMore(true);
         }

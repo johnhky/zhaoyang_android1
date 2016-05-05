@@ -2,7 +2,6 @@ package com.doctor.sun.ui.handler;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.databinding.BindingAdapter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -16,6 +15,7 @@ import com.doctor.sun.ui.activity.doctor.RegisterActivity;
 
 import io.ganguo.library.common.LoadingHelper;
 import io.ganguo.library.util.Strings;
+import retrofit2.Call;
 
 /**
  * Created by rick on 11/17/15.
@@ -58,9 +58,9 @@ public class LoginHandler extends BaseHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call call, Throwable t) {
                 LoadingHelper.hideMaterLoading();
-                super.onFailure(t);
+                super.onFailure(call, t);
             }
         });
     }

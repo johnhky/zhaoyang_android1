@@ -26,8 +26,6 @@ import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.doctor.sun.util.PermissionsUtil;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
 
@@ -36,9 +34,11 @@ import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Strings;
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -248,8 +248,8 @@ public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements Edi
             RequestBody body = RequestBody.create(MediaType.parse("multipart/form-intent"), to);
             api.uploadPhoto(body).enqueue(new Callback<ApiDTO<Photo>>() {
                 @Override
-                public void onResponse(Response<ApiDTO<Photo>> response, Retrofit retrofit) {
-                    if (!response.isSuccess() || !response.body().getStatus().equals("200")) {
+                public void onResponse(Call<ApiDTO<Photo>> call, Response<ApiDTO<Photo>> response) {
+                    if (!response.isSuccessful() || !response.body().getStatus().equals("200")) {
                         return;
                     }
                     String imgUrl = response.body().getData().getUrl();
@@ -285,7 +285,7 @@ public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements Edi
                 }
 
                 @Override
-                public void onFailure(Throwable t) {
+                public void onFailure(Call call, Throwable t) {
                     Log.e(TAG, "upload fail: " + t.getMessage());
 
                 }

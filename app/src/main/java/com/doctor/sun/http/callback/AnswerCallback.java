@@ -17,9 +17,9 @@ import java.util.List;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by rick on 2/2/2016.
@@ -44,13 +44,13 @@ public class AnswerCallback implements Callback<ApiDTO<List<Answer>>> {
     }
 
     @Override
-    public void onResponse(Response<ApiDTO<List<Answer>>> response, Retrofit retrofit) {
+    public void onResponse(Call<ApiDTO<List<Answer>>> call, Response<ApiDTO<List<Answer>>> response) {
         int code = Integer.parseInt(response.body().getStatus());
         Log.e("onResponse", "response code: " + code);
         if (code < 300) {
             handleApi(response.body());
         } else if (code == 401) {
-            onFailure(new AuthenticatorException("not login"));
+            onFailure(call, new AuthenticatorException("not login"));
             int passFirstTime = Config.getInt(Constants.PASSFIRSTTIME, -1);
             long lastTime = Config.getLong(LAST_VISIT_TIME + Config.getString(Constants.VOIP_ACCOUNT), -1);
             Config.clearAll();
@@ -62,7 +62,7 @@ public class AnswerCallback implements Callback<ApiDTO<List<Answer>>> {
             String msg = response.body().getMessage();
             if (null != status) {
                 Log.e("onResponse", "status: " + status + "  msg:" + msg);
-                onFailure(new IllegalArgumentException(msg));
+                onFailure(call, new IllegalArgumentException(msg));
                 ToastError(status);
             }
         }
@@ -70,7 +70,7 @@ public class AnswerCallback implements Callback<ApiDTO<List<Answer>>> {
     }
 
     @Override
-    public void onFailure(Throwable t) {
+    public void onFailure(Call call, Throwable t) {
         t.printStackTrace();
         getAdapter().onFinishLoadMore(true);
     }
@@ -84,7 +84,7 @@ public class AnswerCallback implements Callback<ApiDTO<List<Answer>>> {
         }
         for (int i = 0; i < body.getData().size(); i++) {
             Answer answer = body.getData().get(i);
-            answer.setPosition(i+1);
+            answer.setPosition(i + 1);
             getAdapter().add(answer);
         }
         getAdapter().onFinishLoadMore(true);

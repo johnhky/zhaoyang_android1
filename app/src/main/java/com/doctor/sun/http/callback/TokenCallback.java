@@ -29,6 +29,7 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import io.ganguo.library.Config;
 import io.ganguo.library.common.LoadingHelper;
+import retrofit2.Call;
 
 /**
  * Created by rick on 11/18/15.
@@ -134,7 +135,7 @@ public class TokenCallback {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call call, Throwable t) {
                 t.printStackTrace();
                 LoadingHelper.hideMaterLoading();
                 Toast.makeText(context, "医生未填写个人资料", Toast.LENGTH_SHORT).show();
@@ -176,7 +177,7 @@ public class TokenCallback {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call call, Throwable t) {
                 Log.e(TAG, "onFailure: " + t.toString());
                 t.printStackTrace();
                 LoadingHelper.hideMaterLoading();

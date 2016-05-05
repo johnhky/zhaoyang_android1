@@ -31,7 +31,7 @@ public class AppointmentTypeDialog extends ListDialog {
     protected void initRecyclerView() {
         super.initRecyclerView();
         ViewGroup.LayoutParams layoutParams = getBinding().recyclerView.getLayoutParams();
-        layoutParams.height = getContext().getResources().getDimensionPixelSize(R.dimen.dp_364);
+        layoutParams.height = getContext().getResources().getDimensionPixelSize(R.dimen.dp_344);
         layoutParams.width= getContext().getResources().getDimensionPixelSize(R.dimen.dp_290);
         getBinding().recyclerView.setLayoutParams(layoutParams);
     }

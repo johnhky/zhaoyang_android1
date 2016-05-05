@@ -20,7 +20,7 @@ import com.doctor.sun.ui.adapter.RecordHistoriesAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.DividerItemDecoration;
 
-import retrofit.Call;
+import retrofit2.Call;
 
 /**
  * 医生端 历史记录

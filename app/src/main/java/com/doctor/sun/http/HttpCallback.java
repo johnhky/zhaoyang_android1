@@ -4,9 +4,9 @@ import com.google.gson.reflect.TypeToken;
 
 import io.ganguo.library.exception.NetworkException;
 import io.ganguo.library.util.gson.GsonUtils;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * 可选
@@ -17,7 +17,7 @@ import retrofit.Retrofit;
 public abstract class HttpCallback<T, E> implements Callback<T> {
 
     @Override
-    public void onResponse(Response<T> response, Retrofit retrofit) {
+    public void onResponse(Call<T> call, Response<T> response) {
         if (response.code() < 300) {
             // ok
             onSuccess(response.body());
@@ -29,13 +29,13 @@ public abstract class HttpCallback<T, E> implements Callback<T> {
                 E e = GsonUtils.fromJson(response.errorBody().string(), type.getType());
                 onError(e);
             } catch (Exception e) {
-                onFailure(e);
+                onFailure(call, e);
             }
         }
     }
 
     @Override
-    public void onFailure(Throwable t) {
+    public void onFailure(Call<T> call, Throwable t) {
         onException(new NetworkException(t));
     }
 

@@ -14,14 +14,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit.Call;
-import retrofit.http.Field;
-import retrofit.http.FieldMap;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.Query;
-import retrofit.http.QueryMap;
+import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by rick on 11/20/15.

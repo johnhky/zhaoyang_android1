@@ -28,7 +28,7 @@ import io.ganguo.library.core.drawable.MaterialProgressDrawable;
 import io.ganguo.library.ui.dialog.BaseDialog;
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
-import retrofit.Call;
+import retrofit2.Call;
 
 /**
  * 选择病历列表

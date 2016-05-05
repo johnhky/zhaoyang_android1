@@ -8,21 +8,21 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.util.JacksonUtils;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.util.Systems;
-import retrofit.JacksonConverterFactory;
-import retrofit.Retrofit;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 /**
  * api service 产生器
- * <p>
+ * <p/>
  * Created by Tony on 10/22/15.
  */
 public class Api {
@@ -40,8 +40,8 @@ public class Api {
 
     @NonNull
     private static OkHttpClient getOkHttpClient() {
-        OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.interceptors().add(new TokenInterceptor());
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new TokenInterceptor()).build();
         return okHttpClient;
     }
 
@@ -87,7 +87,7 @@ public class Api {
                     .addHeader("token", token)
                     .addHeader("from", "android")
                     .build();
-            Log.e(TAG, request.method() + " " + request.urlString() + " token " + token);
+            Log.e(TAG, request.method() + " " + request.url() + " token " + token);
             return chain.proceed(request);
         }
     }

@@ -6,12 +6,12 @@ import com.doctor.sun.ui.handler.QCategoryHandler;
 
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.Path;
+import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Created by rick on 11/24/15.

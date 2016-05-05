@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
-import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.EmergencyCall;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
@@ -30,6 +30,8 @@ import com.doctor.sun.util.PayInterface;
 import com.doctor.sun.util.TimeUtils;
 
 import java.util.HashMap;
+
+import retrofit2.Call;
 
 /**
  * Created by rick on 22/1/2016.
@@ -214,8 +216,8 @@ public class EmergencyCallHandler implements PayInterface {
             }
 
             @Override
-            public void onFailure(Throwable t) {
-                super.onFailure(t);
+            public void onFailure(Call<ApiDTO<String>> call, Throwable t) {
+                super.onFailure(call, t);
                 mCallback.onPayFail();
             }
         });

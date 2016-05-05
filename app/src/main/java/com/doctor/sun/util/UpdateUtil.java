@@ -17,7 +17,6 @@ import com.doctor.sun.entity.Version;
 import com.doctor.sun.event.ProgressEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ToolModule;
-import com.squareup.okhttp.ResponseBody;
 import com.squareup.otto.Subscribe;
 
 import java.io.File;
@@ -28,10 +27,10 @@ import java.io.InputStream;
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Tasks;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by rick on 19/3/2016.
@@ -62,8 +61,8 @@ public class UpdateUtil {
         Call<ApiDTO<Version>> getVersionCall = api.getAppVersion("android", myVersion);
         getVersionCall.enqueue(new Callback<ApiDTO<Version>>() {
             @Override
-            public void onResponse(Response<ApiDTO<Version>> response, Retrofit retrofit) {
-                if (response.isSuccess()) {
+            public void onResponse(Call<ApiDTO<Version>> call, Response<ApiDTO<Version>> response) {
+                if (response.isSuccessful()) {
                     final Version data = response.body().getData();
                     Config.putString(NEWVERSION, JacksonUtils.toJson(data));
                     handleNewVersion(context, data, myVersion);
@@ -73,7 +72,7 @@ public class UpdateUtil {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call call, Throwable t) {
                 Log.e(TAG, "onFailure: ");
 
             }
@@ -121,7 +120,7 @@ public class UpdateUtil {
         Call<ResponseBody> downloadCall = Api.of(ToolModule.class).downloadFile(from);
         downloadCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(final Response<ResponseBody> response, Retrofit retrofit) {
+            public void onResponse(Call<ResponseBody> call, final Response<ResponseBody> response) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -160,7 +159,7 @@ public class UpdateUtil {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call call, Throwable t) {
 
             }
         });

@@ -42,7 +42,7 @@ import java.util.List;
 import io.ganguo.library.util.Systems;
 import io.realm.RealmList;
 import io.realm.RealmResults;
-import retrofit.Response;
+import retrofit2.Response;
 
 /**
  * Created by rick on 20/1/2016.
@@ -182,13 +182,13 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (recentDoctors.isSuccess()) {
+                            if (recentDoctors.isSuccessful()) {
                                 if (!recentDoctors.body().getData().isEmpty()) {
                                     adapter.add(new Description(R.layout.item_time_category, "最近预约"));
                                     adapter.addAll(recentDoctors.body().getData());
                                 }
                             }
-                            if (favoriteDoctors.isSuccess()) {
+                            if (favoriteDoctors.isSuccessful()) {
                                 List<Doctor> data = favoriteDoctors.body().getData().getData();
                                 if (!data.isEmpty()) {
                                     adapter.add(new Description(R.layout.item_time_category, "我的收藏"));

@@ -6,6 +6,8 @@ import com.doctor.sun.ui.adapter.core.LoadMoreAdapter;
 
 import java.util.List;
 
+import retrofit2.Call;
+
 /**
  * Created by rick on 11/10/15.
  */
@@ -19,7 +21,7 @@ public class ListCallback<T> extends ApiCallback<List<T>> {
 
     @Override
     protected void handleResponse(List<T> response) {
-        Log.e(TAG, "handleResponse: " + response.size() );
+        Log.e(TAG, "handleResponse: " + response.size());
         onInitHeader();
         getAdapter().addAll(response);
         getAdapter().onFinishLoadMore(true);
@@ -36,7 +38,7 @@ public class ListCallback<T> extends ApiCallback<List<T>> {
     }
 
     @Override
-    public void onFailure(Throwable t) {
+    public void onFailure(Call call, Throwable t) {
         t.printStackTrace();
         getAdapter().onFinishLoadMore(true);
     }

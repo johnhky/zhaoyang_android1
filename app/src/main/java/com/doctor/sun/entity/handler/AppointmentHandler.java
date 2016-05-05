@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
@@ -88,6 +87,7 @@ import io.ganguo.library.core.event.EventHub;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import retrofit2.Call;
 
 /**
  * Created by rick on 11/20/15.
@@ -288,8 +288,8 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             }
 
             @Override
-            public void onFailure(Throwable t) {
-                super.onFailure(t);
+            public void onFailure(Call<ApiDTO<String>> call, Throwable t) {
+                super.onFailure(call, t);
                 mCallback.onPayFail();
             }
         });
@@ -728,6 +728,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             return;
         }
     }
+
     private void callTelephone(final View view) {
         if (ActivityCompat.checkSelfPermission(view.getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions((Activity) view.getContext(), new String[]{Manifest.permission.CALL_PHONE}, PHONE_CALL_PERMISSION);

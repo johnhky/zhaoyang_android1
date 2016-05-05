@@ -43,6 +43,7 @@ import java.util.HashMap;
 
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.Tasks;
+import retrofit2.Call;
 
 /**
  * Created by rick on 12/21/15.
@@ -360,7 +361,7 @@ public class DiagnosisFragment extends Fragment {
                             }
 
                             @Override
-                            public void onFailure(Throwable t) {
+                            public void onFailure(Call call, Throwable t) {
                                 Log.e(TAG, "onFailure: " + t.getMessage());
                                 dialog.dismiss();
                             }
@@ -380,7 +381,7 @@ public class DiagnosisFragment extends Fragment {
                             }
 
                             @Override
-                            public void onFailure(Throwable t) {
+                            public void onFailure(Call call, Throwable t) {
                                 Log.e(TAG, "onFailure: " + t.getMessage());
                                 dialog.dismiss();
                             }

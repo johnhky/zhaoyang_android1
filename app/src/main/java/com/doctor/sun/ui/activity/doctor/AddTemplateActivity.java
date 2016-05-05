@@ -16,12 +16,12 @@ import com.doctor.sun.databinding.ActivityAddTemplateBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.QTemplate;
 import com.doctor.sun.entity.Question;
+import com.doctor.sun.entity.handler.TemplateHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.QuestionAdapter;
-import com.doctor.sun.entity.handler.TemplateHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
 
@@ -29,9 +29,9 @@ import java.util.ArrayList;
 
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.Systems;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by lucas on 12/15/15.
@@ -255,7 +255,7 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
         api.getTemplate(id).enqueue(new Callback<ApiDTO<QTemplate>>() {
 
             @Override
-            public void onResponse(Response<ApiDTO<QTemplate>> response, Retrofit retrofit) {
+            public void onResponse(Call<ApiDTO<QTemplate>> call, Response<ApiDTO<QTemplate>> response) {
                 mAdapter.clear();
                 binding.rvTemplateDetail.removeAllViews();
                 if (getData() != null)
@@ -266,7 +266,7 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call call, Throwable t) {
                 mAdapter.onFinishLoadMore(true);
             }
         });

@@ -35,15 +35,15 @@ import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.vo.ItemDivider;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 import java.io.File;
 import java.util.List;
 
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
-import retrofit.Call;
+import retrofit2.Call;
 
 /**
  * 填写问卷 修改 病人端 or 医生端
@@ -264,7 +264,7 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
         }
 
         @Override
-        public void onFailure(Throwable t) {
+        public void onFailure(Call call, Throwable t) {
             getAdapter().onFinishLoadMore(true);
         }
     }

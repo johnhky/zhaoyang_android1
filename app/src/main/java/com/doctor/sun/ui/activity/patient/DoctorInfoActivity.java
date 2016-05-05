@@ -36,7 +36,7 @@ import java.util.HashMap;
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
-import retrofit.Call;
+import retrofit2.Call;
 
 /**
  * 个人信息

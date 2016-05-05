@@ -10,13 +10,12 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityBreakTimeBinding;
 import com.doctor.sun.entity.Time;
+import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.BreakTimeAdapter;
-import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 import java.util.List;
@@ -24,6 +23,7 @@ import java.util.List;
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
+import retrofit2.Call;
 
 /**
  * Created by lucas on 12/3/15.
@@ -76,8 +76,8 @@ public class BreakTimeActivity extends BaseActivity2 implements TimeHandler.GetI
             }
 
             @Override
-            public void onFailure(Throwable t) {
-                super.onFailure(t);
+            public void onFailure(Call call, Throwable t) {
+                super.onFailure(call, t);
                 mAdapter.onFinishLoadMore(true);
             }
         });
@@ -119,7 +119,7 @@ public class BreakTimeActivity extends BaseActivity2 implements TimeHandler.GetI
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == ADD_BREAK_TIME){
+        if (resultCode == ADD_BREAK_TIME) {
             mAdapter.add(data);
         }
     }

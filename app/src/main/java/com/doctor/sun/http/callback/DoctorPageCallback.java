@@ -3,6 +3,8 @@ package com.doctor.sun.http.callback;
 import com.doctor.sun.dto.DoctorPageDTO;
 import com.doctor.sun.ui.adapter.core.LoadMoreAdapter;
 
+import retrofit2.Call;
+
 /**
  * Created by rick on 11/11/15.
  */
@@ -33,7 +35,7 @@ public class DoctorPageCallback<T> extends ApiCallback<DoctorPageDTO<T>> {
     }
 
     @Override
-    public void onFailure(Throwable t) {
+    public void onFailure(Call call, Throwable t) {
         t.printStackTrace();
         getAdapter().onFinishLoadMore(true);
     }

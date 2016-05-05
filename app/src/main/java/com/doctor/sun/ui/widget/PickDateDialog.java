@@ -25,9 +25,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by rick on 18/1/2016.
@@ -76,7 +76,7 @@ public class PickDateDialog extends Dialog {
         Log.e(TAG, "loadData: " + getDoctorId());
         api.getDateSchedule(getDoctorId(), 15).enqueue(new Callback<ApiDTO<List<ReserveDate>>>() {
             @Override
-            public void onResponse(Response<ApiDTO<List<ReserveDate>>> response, Retrofit retrofit) {
+            public void onResponse(Call<ApiDTO<List<ReserveDate>>> call, Response<ApiDTO<List<ReserveDate>>> response) {
                 List<ReserveDate> reserveDates = response.body().getData();
                 if (reserveDates == null) return;
                 try {
@@ -106,7 +106,7 @@ public class PickDateDialog extends Dialog {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call call, Throwable t) {
 
             }
         });

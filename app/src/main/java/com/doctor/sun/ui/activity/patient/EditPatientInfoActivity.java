@@ -18,22 +18,21 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.handler.EditPatientHandler;
 import com.doctor.sun.ui.binding.CustomBinding;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
 
 import io.ganguo.library.common.ToastHelper;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by lucas on 1/4/16.
@@ -115,8 +114,8 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Ed
             RequestBody body = RequestBody.create(MediaType.parse("multipart/form-patient"), compressImage);
             uploadUriApi.uploadPhoto(body).enqueue(new Callback<ApiDTO<Photo>>() {
                 @Override
-                public void onResponse(Response<ApiDTO<Photo>> response, Retrofit retrofit) {
-                    if (response.isSuccess()) {
+                public void onResponse(Call<ApiDTO<Photo>> call, Response<ApiDTO<Photo>> response) {
+                    if (response.isSuccessful()) {
                         String imgUrl = response.body().getData().getUrl();
                         patient.setAvatar(imgUrl);
                         avatar = imgUrl;
@@ -127,7 +126,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Ed
                 }
 
                 @Override
-                public void onFailure(Throwable t) {
+                public void onFailure(Call call, Throwable t) {
 
                 }
             });

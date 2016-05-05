@@ -383,7 +383,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     @Override
     public void onKeyboardDismiss() {
         InputLayoutViewModel inputLayout = binding.getInputLayout();
-        if (inputLayout.getKeyboardType() != 0) {
+        if (inputLayout != null && inputLayout.getKeyboardType() != 0) {
             inputLayout.setKeyboardType(0);
             Systems.hideKeyboard(this);
         }

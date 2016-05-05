@@ -18,9 +18,9 @@ import com.doctor.sun.ui.adapter.HelpAdapter;
 
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by lucas on 2/2/16.
@@ -58,13 +58,13 @@ public class HelpActivity extends BaseFragmentActivity2 implements View.OnClickL
         }
         api.helpImage("ios", type).enqueue(new Callback<ApiDTO<List<String>>>() {
             @Override
-            public void onResponse(Response<ApiDTO<List<String>>> response, Retrofit retrofit) {
+            public void onResponse(Call<ApiDTO<List<String>>> call, Response<ApiDTO<List<String>>> response) {
                 mAdapter = new HelpAdapter(getSupportFragmentManager(), response.body().getData());
                 binding.vp.setAdapter(mAdapter);
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call call, Throwable t) {
 
             }
         });

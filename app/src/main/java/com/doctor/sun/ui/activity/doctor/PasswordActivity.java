@@ -16,6 +16,7 @@ import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.MD5;
 
 import io.ganguo.library.common.ToastHelper;
+import retrofit2.Call;
 
 /**
  * Created by lucas on 12/22/15.
@@ -59,8 +60,8 @@ public class PasswordActivity extends BaseActivity2 {
             }
 
             @Override
-            public void onFailure(Throwable t) {
-                super.onFailure(t);
+            public void onFailure(Call call, Throwable t) {
+                super.onFailure(call, t);
 
             }
         });

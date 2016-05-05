@@ -14,6 +14,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.ReserveDate;
 import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.ui.activity.patient.PickTimeActivity;
 import com.doctor.sun.ui.pager.PickDatePagerAdapter;
@@ -26,9 +27,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by rick on 8/1/2016.
@@ -107,10 +108,9 @@ public class PickDateFragment extends Fragment {
     }
 
     private void loadData() {
-        api.getDateSchedule(getDoctorId(), getDuration()).enqueue(new Callback<ApiDTO<List<ReserveDate>>>() {
+        api.getDateSchedule(getDoctorId(), getDuration()).enqueue(new ApiCallback<List<ReserveDate>>() {
             @Override
-            public void onResponse(Response<ApiDTO<List<ReserveDate>>> response, Retrofit retrofit) {
-                List<ReserveDate> reserveDates = response.body().getData();
+            protected void handleResponse(List<ReserveDate> reserveDates) {
                 if (reserveDates == null) return;
                 try {
                     Date minDate = simpleDateFormat.parse(reserveDates.get(0).getDate());
@@ -122,7 +122,7 @@ public class PickDateFragment extends Fragment {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                for (int i = response.body().getData().size() - 1; i >= 0; i--) {
+                for (int i = reserveDates.size() - 1; i >= 0; i--) {
                     ReserveDate reserveDate = reserveDates.get(i);
                     String data = reserveDate.getDate();
 
@@ -134,11 +134,6 @@ public class PickDateFragment extends Fragment {
                     } catch (ParseException ignored) {
                     }
                 }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
             }
         });
     }

@@ -1,27 +1,25 @@
 package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.Comment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Hospital;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Version;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.ResponseBody;
 
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.GET;
-import retrofit.http.Multipart;
-import retrofit.http.POST;
-import retrofit.http.Part;
-import retrofit.http.Path;
-import retrofit.http.Query;
-import retrofit.http.Url;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * Created by rick on 11/18/15.

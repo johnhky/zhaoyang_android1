@@ -14,6 +14,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPatientDetailBinding;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AnswerCallback;
 import com.doctor.sun.http.callback.ListCallback;
@@ -22,11 +23,12 @@ import com.doctor.sun.module.AnswerModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.AnswerAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
-import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 import java.util.List;
+
+import retrofit2.Call;
 
 
 /**
@@ -158,9 +160,9 @@ public class PatientDetailActivity extends BaseActivity2 implements QCategoryHan
     private class AnswerListCallback extends SimpleCallback<List<Answer>> {
         @Override
         protected void handleResponse(List<Answer> response) {
-            Log.e(TAG, "handleResponse: " + response.size() );
+            Log.e(TAG, "handleResponse: " + response.size());
             for (int i = 0; i < response.size(); i++) {
-                response.get(i).setPosition(i+1);
+                response.get(i).setPosition(i + 1);
             }
             mAdapter.addAll(response);
             mAdapter.onFinishLoadMore(true);
@@ -168,7 +170,7 @@ public class PatientDetailActivity extends BaseActivity2 implements QCategoryHan
         }
 
         @Override
-        public void onFailure(Throwable t) {
+        public void onFailure(Call call, Throwable t) {
             t.printStackTrace();
             mAdapter.onFinishLoadMore(true);
         }

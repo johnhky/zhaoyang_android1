@@ -4,9 +4,9 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.SystemTip;
 
-import retrofit.Call;
-import retrofit.http.GET;
-import retrofit.http.Query;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * Created by rick on 12/9/15.
