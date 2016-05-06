@@ -11,6 +11,7 @@ import android.os.Parcelable;
 import android.view.View;
 
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.ui.activity.ViewPrescriptionActivity;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -138,6 +139,15 @@ public class Prescription extends BaseObservable implements Parcelable {
                     }
                 }));
                 intent.putExtra(Constants.HANDLER, messenger);
+                v.getContext().startActivity(intent);
+            }
+        };
+    }
+    public View.OnClickListener viewDetail() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = ViewPrescriptionActivity.makeIntent(v.getContext(), Prescription.this);
                 v.getContext().startActivity(intent);
             }
         };

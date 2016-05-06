@@ -232,6 +232,10 @@
             android:name=".ui.activity.doctor.EditPrescriptionActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.activity.ViewPrescriptionActivity"
+            android:screenOrientation="portrait" />
+
         <!-- patient -->
         <activity
             android:name=".ui.activity.patient.DoctorDetailActivity"

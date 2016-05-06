@@ -6,8 +6,10 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -51,6 +53,7 @@ import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
 import com.squareup.otto.Subscribe;
 
 import java.io.File;
@@ -65,10 +68,11 @@ import io.realm.Sort;
 /**
  * Created by lucas on 2/14/16.
  */
-public class MedicineHelperActivity extends BaseFragmentActivity2 implements NimTeamId, ExtendedEditText.KeyboardDismissListener {
+public class MedicineHelperActivity extends BaseFragmentActivity2 implements NimTeamId, ExtendedEditText.KeyboardDismissListener, SwipeRefreshLayout.OnRefreshListener {
     public static final String ADMIN_DRUG = "[\"admin\"";
     public static final double FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
     public static final double IMAGE_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
+    private static final long ONE_DAY = 86400000;
 
     private PActivityMedicineHelperBinding binding;
     private DrugModule api = Api.of(DrugModule.class);
@@ -150,6 +154,8 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
         }
         mChatAdapter.setData(results);
         mChatAdapter.onFinishLoadMore(true);
+        binding.refreshLayout.setOnRefreshListener(this);
+        binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
         initCustomAction();
         initSticker();
         initInputLayout();
@@ -196,25 +202,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     }
 
     private void pullHistory() {
-        InvocationFuture<List<IMMessage>> listInvocationFuture = NIMClient.getService(MsgService.class).pullMessageHistory(MessageBuilder.createTextMessage(sendTo, SessionTypeEnum.Team, ""), 10, false);
-        listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
-            @Override
-            public void onSuccess(List<IMMessage> imMessages) {
-                for (IMMessage imMessage : imMessages) {
-                    NIMConnectionState.saveMsg(imMessage, true);
-                }
-            }
-
-            @Override
-            public void onFailed(int i) {
-
-            }
-
-            @Override
-            public void onException(Throwable throwable) {
-
-            }
-        });
+        loadFirstPage();
     }
 
     private void setReadStatus(RealmResults<TextMsg> results) {
@@ -387,5 +375,64 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
             inputLayout.setKeyboardType(0);
             Systems.hideKeyboard(this);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        long time = System.currentTimeMillis();
+        if (mChatAdapter != null && mChatAdapter.size() > 0) {
+            TextMsg msg = mChatAdapter.get(mChatAdapter.size() - 1);
+            time = msg.getTime();
+        }
+        Log.e(TAG, "onRefresh: " + time);
+        MsgService service = NIMClient.getService(MsgService.class);
+        IMMessage emptyMessage = MessageBuilder.createEmptyMessage(sendTo, SessionTypeEnum.P2P, time);
+        InvocationFuture<List<IMMessage>> listInvocationFuture = service.pullMessageHistoryEx(emptyMessage, time - ONE_DAY, 10, QueryDirectionEnum.QUERY_OLD, false);
+        listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
+            @Override
+            public void onSuccess(List<IMMessage> imMessages) {
+                NIMConnectionState.saveMsgs(imMessages, true);
+                binding.refreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailed(int i) {
+                binding.refreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+                binding.refreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    private void loadFirstPage() {
+        long time = 0;
+        if (mChatAdapter != null && mChatAdapter.size() > 0) {
+            TextMsg msg = mChatAdapter.get(mChatAdapter.size() - 1);
+            time = msg.getTime();
+        }
+
+        MsgService service = NIMClient.getService(MsgService.class);
+        IMMessage emptyMessage = MessageBuilder.createEmptyMessage(sendTo, SessionTypeEnum.P2P, time);
+        InvocationFuture<List<IMMessage>> listInvocationFuture = service.pullMessageHistoryEx(emptyMessage, time + ONE_DAY, 10, QueryDirectionEnum.QUERY_OLD, false);
+        listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
+            @Override
+            public void onSuccess(List<IMMessage> imMessages) {
+                NIMConnectionState.saveMsgs(imMessages, true);
+                binding.refreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailed(int i) {
+                binding.refreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+                binding.refreshLayout.setRefreshing(false);
+            }
+        });
     }
 }
