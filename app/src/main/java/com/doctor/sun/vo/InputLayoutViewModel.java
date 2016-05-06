@@ -89,7 +89,7 @@ public class InputLayoutViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Activity context = (Activity) v.getContext();
+                Activity context = (Activity) binding.getRoot().getContext();
 
                 if (!hasAudioPermission(context)) return;
 
@@ -132,7 +132,7 @@ public class InputLayoutViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = v.getContext();
+                Context context = binding.getRoot().getContext();
                 Systems.hideKeyboard(context);
                 Tasks.runOnUiThread(new Runnable() {
                     @Override
@@ -151,7 +151,7 @@ public class InputLayoutViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = v.getContext();
+                Context context = binding.getRoot().getContext();
                 Systems.hideKeyboard(context);
                 Tasks.runOnUiThread(new Runnable() {
                     @Override
