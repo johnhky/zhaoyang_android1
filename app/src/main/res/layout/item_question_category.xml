@@ -6,13 +6,17 @@
         <variable
             name="data"
             type="com.doctor.sun.ui.handler.QCategoryHandler" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
     </data>
 
     <LinearLayout
-        android:onClick="@{data.select}"
-        android:background="@drawable/ripple_default"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/ripple_default"
+        android:onClick="@{data.select(adapter.context)}"
         android:orientation="vertical">
 
         <TextView

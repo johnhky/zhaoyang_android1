@@ -85,6 +85,9 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Ed
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_info);
         header.setMidTitle("个人信息").setRightTitle("编辑");
         patient = getPatient();
+        if (patient == null) {
+            patient = new Patient();
+        }
         binding.setData(patient);
         binding.setHeader(header);
     }
@@ -93,8 +96,12 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Ed
         api.patientProfile().enqueue(new ApiCallback<PatientDTO>() {
             @Override
             protected void handleResponse(PatientDTO response) {
-                binding.setData(response.getInfo());
-                if (response.getInfo().getAvatar().equals("")) {
+                Patient info = response.getInfo();
+                if (info == null) {
+                    return;
+                }
+                binding.setData(info);
+                if (info.getAvatar().equals("")) {
                     binding.bivAvatar.setVisibility(View.GONE);
                     binding.tvAvatar.setVisibility(View.VISIBLE);
                 }

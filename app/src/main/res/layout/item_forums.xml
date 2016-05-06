@@ -7,6 +7,9 @@
         <variable
             name="data"
             type="com.doctor.sun.ui.handler.QCategoryHandler" />
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.BaseAdapter"/>
     </data>
 
     <LinearLayout
@@ -26,7 +29,7 @@
             android:paddingLeft="@dimen/dp_14"
             android:paddingRight="@dimen/dp_14"
             android:singleLine="true"
-            android:onClick="@{data.select}"
+            android:onClick="@{data.select(adapter.context)}"
             android:text="@{data.categoryName}"
             android:textColor="@color/color_tick"
             android:textSize="@dimen/font_15" />

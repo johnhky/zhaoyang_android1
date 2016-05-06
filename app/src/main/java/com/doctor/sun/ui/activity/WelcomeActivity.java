@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityWelcomeBinding;
-import com.doctor.sun.http.callback.TokenCallback;
 
 /**
  * Created by rick on 16/2/2016.
@@ -22,23 +21,13 @@ public class WelcomeActivity extends BaseFragmentActivity2 {
         binding.getRoot().postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                if (isLogin()) {
-                    TokenCallback.checkToken(WelcomeActivity.this);
-                } else {
-                    Intent intent = LoginActivity.makeIntent(WelcomeActivity.this);
-                    startActivity(intent);
-                }
-
+                Intent intent = LoginActivity.makeIntent(WelcomeActivity.this);
+                startActivity(intent);
                 finish();
             }
         }, 1000);
     }
 
-    private boolean isLogin() {
-        String token = TokenCallback.getToken();
-        return token != null && !token.equals("");
-    }
 
     @Override
     protected boolean shouldCheck() {

@@ -63,7 +63,7 @@ public abstract class LoadMoreAdapter<T, VH extends ViewDataBinding> extends Bas
 
     @Override
     public int getItemCount() {
-        if (isLastPage){
+        if (isLastPage) {
             return size();
         }
         return size() + 1;

@@ -28,7 +28,6 @@ import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.model.PatientFooterView;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
-import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
 
 
@@ -71,7 +70,7 @@ public class MainActivity extends BaseActivity2 {
             }
         });
         Patient patientProfile = TokenCallback.getPatientProfile();
-        if (patientProfile.getName().equals("")) {
+        if (patientProfile == null || "".equals(patientProfile.getName())) {
             new AddMedicalRecordDialog(this).show();
         }
 

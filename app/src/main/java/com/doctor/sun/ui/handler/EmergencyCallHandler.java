@@ -66,7 +66,7 @@ public class EmergencyCallHandler implements PayInterface {
                         break;
                     }
                     case R.id.pay: {
-                        new PayMethodDialog(view.getContext(), EmergencyCallHandler.this).show();
+                        new PayMethodDialog(adapter.getContext(), EmergencyCallHandler.this).show();
                         break;
                     }
                     case R.id.add_money: {

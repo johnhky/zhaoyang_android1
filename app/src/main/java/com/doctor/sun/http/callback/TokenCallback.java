@@ -180,7 +180,9 @@ public class TokenCallback {
             public void onFailure(Call call, Throwable t) {
                 Log.e(TAG, "onFailure: " + t.toString());
                 t.printStackTrace();
-                LoadingHelper.hideMaterLoading();
+                if (!context.isFinishing()) {
+                    LoadingHelper.hideMaterLoading();
+                }
             }
         });
     }

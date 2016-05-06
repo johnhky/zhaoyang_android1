@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Province;
 import com.doctor.sun.databinding.ActivityLoginBinding;
+import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.ui.handler.LoginHandler;
 import com.doctor.sun.util.MD5;
 
@@ -43,6 +43,14 @@ public class LoginActivity extends BaseActivity2 implements LoginHandler.LoginIn
             e.printStackTrace();
         }
         getRealm().commitTransaction();
+        if (isLogin()) {
+            TokenCallback.checkToken(this);
+        }
+    }
+
+    private boolean isLogin() {
+        String token = TokenCallback.getToken();
+        return token != null && !token.equals("");
     }
 
     @Override

@@ -232,7 +232,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         return new OnItemClickListener() {
             @Override
             public void onItemClick(final BaseAdapter component, final View view, final BaseViewHolder vh) {
-                new PayMethodDialog(view.getContext(), AppointmentHandler.this).show();
+                new PayMethodDialog(component.getContext(), AppointmentHandler.this).show();
             }
         };
     }
@@ -540,16 +540,21 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         return data.getReturnInfo() != null && data.getReturnInfo().getReturnPaid() != 1 && data.getReturnInfo().getNeedReturn() == 1;
     }
 
-    public void newOrPayAppointment(View v) {
-        if (needReturn() && returnNotPaid()) {
-            new PayMethodDialog(v.getContext(), AppointmentHandler.this).show();
-        } else {
-            //复诊支付
-            Doctor doctor = data.getDoctor();
-            doctor.setRecordId(String.valueOf(data.getRecordId()));
-            Intent intent = PickDateActivity.makeIntent(v.getContext(), doctor, AppointmentType.QUICK);
-            v.getContext().startActivity(intent);
-        }
+    public View.OnClickListener newOrPayAppointment(final Context context) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (needReturn() && returnNotPaid()) {
+                    new PayMethodDialog(context, AppointmentHandler.this).show();
+                } else {
+                    //复诊支付
+                    Doctor doctor = data.getDoctor();
+                    doctor.setRecordId(String.valueOf(data.getRecordId()));
+                    Intent intent = PickDateActivity.makeIntent(context, doctor, AppointmentType.QUICK);
+                    v.getContext().startActivity(intent);
+                }
+            }
+        };
     }
 
     public void historyDetail(View view) {
@@ -564,7 +569,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
                 Intent intent = FillForumActivity.makeIntent(view.getContext(), data.getId());
                 view.getContext().startActivity(intent);
             } else {
-                new PayMethodDialog(view.getContext(), AppointmentHandler.this).show();
+//                new PayMethodDialog(view.getContext(), AppointmentHandler.this).show();
             }
         } else {
             //TODO
@@ -572,30 +577,30 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         }
     }
 
-    public View.OnClickListener onPatientClickOrder() {
+    public View.OnClickListener onPatientClickOrder(final Context context) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch (data.getOrderStatus()) {
                     case "未付款":
                     case "未支付": {
-                        new PayMethodDialog(view.getContext(), AppointmentHandler.this).show();
+                        new PayMethodDialog(context, AppointmentHandler.this).show();
                         break;
                     }
                     case "已付款":
                     case "已支付": {
-                        Intent intent = FillForumActivity.makeIntent(view.getContext(), data.getId());
+                        Intent intent = FillForumActivity.makeIntent(context, data.getId());
                         view.getContext().startActivity(intent);
                         break;
                     }
                     case "已完成": {
-                        Intent intent = FinishedOrderActivity.makeIntent(view.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
+                        Intent intent = FinishedOrderActivity.makeIntent(context, data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
                         view.getContext().startActivity(intent);
                         break;
                     }
                     case "进行中":
                     case "待建议": {
-                        Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
+                        Intent intent = ChattingActivity.makeIntent(context, data);
                         view.getContext().startActivity(intent);
                         break;
                     }

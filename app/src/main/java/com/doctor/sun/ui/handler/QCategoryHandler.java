@@ -1,5 +1,6 @@
 package com.doctor.sun.ui.handler;
 
+import android.content.Context;
 import android.view.View;
 
 import com.doctor.sun.entity.QuestionCategory;
@@ -8,13 +9,19 @@ import com.doctor.sun.entity.QuestionCategory;
  * Created by rick on 11/26/15.
  */
 public class QCategoryHandler extends QuestionCategory {
-    public void select(View view) {
-        try {
-            QCategoryCallback callback = (QCategoryCallback) view.getContext();
-            callback.onCategorySelect(this);
-        } catch (ClassCastException e) {
-            throw new IllegalArgumentException("Host activity must implement QCategoryCallback");
-        }
+
+    public View.OnClickListener select(final Context context) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    QCategoryCallback callback = (QCategoryCallback) context;
+                    callback.onCategorySelect(QCategoryHandler.this);
+                } catch (ClassCastException e) {
+                    throw new IllegalArgumentException("Host activity must implement QCategoryCallback");
+                }
+            }
+        };
     }
 
     public interface QCategoryCallback {

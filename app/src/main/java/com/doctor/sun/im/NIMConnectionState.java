@@ -5,6 +5,7 @@ import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
 import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.util.NotificationUtil;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.netease.nimlib.sdk.NIMClient;
@@ -73,6 +74,9 @@ public class NIMConnectionState implements RequestCallback {
         realm.beginTransaction();
         TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
         msg1.setHaveRead(haveRead);
+        if (!haveRead) {
+            NotificationUtil.showNotification(msg1);
+        }
         realm.copyToRealmOrUpdate(msg1);
         realm.commitTransaction();
         realm.close();

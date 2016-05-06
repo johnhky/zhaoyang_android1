@@ -179,6 +179,15 @@ public class ConsultingFragment extends RefreshListFragment {
                     super.onInitHeader();
                     getAdapter().add(new SystemTip());
                 }
+                @Override
+                protected void handleResponse(PageDTO<Appointment> response) {
+                    ArrayList<Appointment> data = (ArrayList<Appointment>) response.getData();
+                    if (data != null) {
+                        Collections.sort(data, comparator());
+                        response.setData(data);
+                    }
+                    super.handleResponse(response);
+                }
 
                 @Override
                 public void onFinishRefresh() {
@@ -234,22 +243,31 @@ public class ConsultingFragment extends RefreshListFragment {
                         .equalTo("sessionId", String.valueOf(lhs.getTid())).beginGroup()
                         .equalTo("haveRead", false).or().equalTo("haveRead", true).endGroup();
 
-                if (lMsgQuery.count() == 0) {
-                    return RIGHT_BIG;
-                }
-                TextMsg lFirst = lMsgQuery.findAllSorted("time", Sort.DESCENDING).first();
 
-                long lTime = lFirst.getTime();
-                boolean lHaveRead = lFirst.isHaveRead();
                 RealmQuery<TextMsg> rMsgQuery = realm.where(TextMsg.class)
                         .equalTo("sessionId", String.valueOf(rhs.getTid())).beginGroup()
                         .equalTo("haveRead", false).or().equalTo("haveRead", true).endGroup();
-                if (rMsgQuery.count() == 0) {
-                    return LEFT_BIG;
+                if (lMsgQuery.count() == 0) {
+                    if (rMsgQuery.count() > 0) {
+                        return LEFT_BIG;
+                    } else if (rMsgQuery.count() == 0) {
+                        return 0;
+                    } else {
+                        return RIGHT_BIG;
+                    }
                 }
+                if (rMsgQuery.count() == 0) {
+                    return RIGHT_BIG;
+                }
+
+                TextMsg lFirst = lMsgQuery.findAllSorted("time", Sort.DESCENDING).first();
+                long lTime = lFirst.getTime();
+                boolean lHaveRead = lFirst.isHaveRead();
+
                 TextMsg rFirst = rMsgQuery.findAllSorted("time", Sort.DESCENDING).first();
                 long rTime = rFirst.getTime();
                 boolean rHaveRead = lFirst.isHaveRead();
+
                 if (lHaveRead != rHaveRead) {
                     if (lHaveRead) {
                         return RIGHT_BIG;

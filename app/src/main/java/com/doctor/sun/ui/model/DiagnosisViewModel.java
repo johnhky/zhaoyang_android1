@@ -1,6 +1,7 @@
 package com.doctor.sun.ui.model;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
@@ -31,6 +32,7 @@ public class DiagnosisViewModel {
 
     public static final String FURTHER_CONSULTATION = "详细就诊";
     public static final String FACE_TO_FACE = "简捷复诊";
+    private final Context context;
 
     private Symptom perception;
     private Symptom thinking;
@@ -59,7 +61,8 @@ public class DiagnosisViewModel {
     private ItemButton chooseDoctor;
     private Doctor doctor;
 
-    public DiagnosisViewModel() {
+    public DiagnosisViewModel(final Activity context) {
+        this.context = context;
         perception = SymptomFactory.perceptionSymptom();
         thinking = SymptomFactory.thinkingSymptom();
         pipedream = SymptomFactory.pipedreamSymptom();
@@ -88,9 +91,8 @@ public class DiagnosisViewModel {
         btnGotoTabOne = new ItemButton(R.layout.item_edit_prescription, "修改用药") {
             @Override
             public void onClick(View view) {
-                Activity activity = (Activity) view.getContext();
-                Intent intent = EditPrescriptionActivity.makeIntent(activity, null);
-                activity.startActivityForResult(intent, Constants.PRESCRITION_REQUEST_CODE);
+                Intent intent = EditPrescriptionActivity.makeIntent(context, null);
+                context.startActivityForResult(intent, Constants.PRESCRITION_REQUEST_CODE);
             }
         };
     }

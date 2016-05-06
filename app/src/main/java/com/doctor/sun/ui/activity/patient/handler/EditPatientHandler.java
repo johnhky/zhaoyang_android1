@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.activity.patient.handler;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.util.Log;
 import android.view.View;

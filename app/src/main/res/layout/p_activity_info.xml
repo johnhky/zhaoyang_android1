@@ -153,6 +153,7 @@
             android:layout_height="@dimen/dp_70"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
+            android:onClick="@{data.handler.setBirthday}"
             android:orientation="horizontal">
 
             <TextView
@@ -169,7 +170,6 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_white"
                 android:gravity="start|center_vertical"
-                android:onClick="@{data.handler.setBirthday}"
                 android:paddingRight="@dimen/dp_13"
                 android:text="@{data.birthday}"
                 android:drawableRight="@drawable/bg_white"

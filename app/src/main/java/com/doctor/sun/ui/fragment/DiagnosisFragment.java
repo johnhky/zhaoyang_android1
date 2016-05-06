@@ -99,8 +99,9 @@ public class DiagnosisFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentDiagnosisBinding.inflate(inflater, container, false);
-        if (viewModel == null)
-            viewModel = new DiagnosisViewModel();
+        if (viewModel == null) {
+            viewModel = new DiagnosisViewModel((Activity) getContext());
+        }
 //        binding.isDiagnosis.setData(NOT_DIAGNOSISED);
 //        binding.isDiagnosis.setIsChecked(false);
         binding.needReturn.setData("需要详细就诊/转诊/详细就诊");
@@ -261,8 +262,15 @@ public class DiagnosisFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appointment = getArguments().getParcelable(Constants.DATA);
-        shouldAsk = !"1".equals(appointment.getIsFinish());
+        if (appointment != null) {
+            shouldAsk = 1 != appointment.getIsFinish();
+        } else {
+            shouldAsk = false;
+        }
         shouldScrollDown = true;
+        if (appointment == null) {
+            return;
+        }
         api.diagnosisInfo(appointment.getId()).enqueue(new ApiCallback<DiagnosisInfo>() {
             @Override
             protected void handleResponse(DiagnosisInfo response) {

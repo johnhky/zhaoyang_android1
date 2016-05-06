@@ -47,6 +47,7 @@ public class TextMsg extends RealmObject implements LayoutId {
     private String userData;
     private String messageStatus;
     private int version;
+    private boolean finished;
     private boolean isAnonymity;
     private boolean haveRead;
     private int imageWidth;
@@ -263,6 +264,14 @@ public class TextMsg extends RealmObject implements LayoutId {
 
     public void setHaveRead(boolean haveRead) {
         this.haveRead = haveRead;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
     @Retention(RetentionPolicy.SOURCE)

@@ -40,7 +40,7 @@ public class LoadingHelper {
      * hide loading
      */
     public static void hideMaterLoading() {
-        if (mMaterialDialog != null && mMaterialDialog.isShowing() && mMaterialDialog.getWindow() != null) {
+        if (mMaterialDialog != null && mMaterialDialog.getWindow() != null && mMaterialDialog.isShowing()) {
             mMaterialDialog.dismiss();
             mMaterialDialog = null;
         }
