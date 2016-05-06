@@ -15,6 +15,8 @@ import io.ganguo.library.core.event.Event;
  * Created by rick on 11/27/15.
  */
 public class OnTokenExpireEvent implements Event {
+    public static final int ONE_MINUTES = 60000;
+    private static long lastEventTime = 0;
     private Context context;
 
     public OnTokenExpireEvent() {
@@ -31,11 +33,14 @@ public class OnTokenExpireEvent implements Event {
      */
     @Subscribe
     public void onAuthEvent(OnTokenExpireEvent event) {
-        Toast.makeText(context, "帐号登录过期,请重新登录", Toast.LENGTH_LONG).show();
-        Messenger.getInstance().logout();
+        if (System.currentTimeMillis() - lastEventTime > ONE_MINUTES) {
+            Toast.makeText(context, "帐号登录过期,请重新登录", Toast.LENGTH_LONG).show();
+            Messenger.getInstance().logout();
 
-        Intent intent = LoginActivity.makeIntent(context);
-        context.startActivity(intent);
-        AppManager.finishAllActivity();
+            Intent intent = LoginActivity.makeIntent(context);
+            context.startActivity(intent);
+            AppManager.finishAllActivity();
+            lastEventTime = System.currentTimeMillis();
+        }
     }
 }
