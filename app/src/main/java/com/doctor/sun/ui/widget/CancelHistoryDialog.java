@@ -23,14 +23,14 @@ import io.realm.RealmResults;
  */
 public class CancelHistoryDialog extends BaseDialog {
     private DialogCancelHistoryBinding binding;
-    private String voipAccount;
+    private String tid;
     private MaterialProgressDrawable mFooterProgress;
     private Context context;
 
     public CancelHistoryDialog(Context context, String voipAccount) {
         super(context);
         this.context = context;
-        this.voipAccount = voipAccount;
+        this.tid = voipAccount;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class CancelHistoryDialog extends BaseDialog {
             public void run() {
                 Realm realm = Realm.getDefaultInstance();
                 RealmResults<TextMsg> results = realm.where(TextMsg.class)
-                        .equalTo("sessionId", voipAccount).findAll();
+                        .equalTo("sessionId", tid).findAll();
                 realm.beginTransaction();
                 results.clear();
                 realm.commitTransaction();
@@ -71,15 +71,16 @@ public class CancelHistoryDialog extends BaseDialog {
     }
 
     private void cancelComplete() {
-        if (mFooterProgress != null) {
-            mFooterProgress.stop();
-            binding.ivLoading.setImageDrawable(null);
-        }
-        binding.ivLoading.setVisibility(View.GONE);
 
         ((Activity) context).runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if (mFooterProgress != null) {
+                    mFooterProgress.stop();
+                    binding.ivLoading.setImageDrawable(null);
+                }
+
+                binding.ivLoading.setVisibility(View.GONE);
                 ToastHelper.showMessageMiddle(context, "删除成功!");
                 dismiss();
             }

@@ -44,6 +44,7 @@ import io.realm.Sort;
  * Created by rick on 12/18/15.
  */
 public class ConsultingFragment extends RefreshListFragment {
+    public static final String TAG = ConsultingFragment.class.getSimpleName();
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private RealmChangeListener listener;
     private PageCallback<Appointment> callback;
@@ -179,6 +180,7 @@ public class ConsultingFragment extends RefreshListFragment {
                     super.onInitHeader();
                     getAdapter().add(new SystemTip());
                 }
+
                 @Override
                 protected void handleResponse(PageDTO<Appointment> response) {
                     ArrayList<Appointment> data = (ArrayList<Appointment>) response.getData();
@@ -210,6 +212,20 @@ public class ConsultingFragment extends RefreshListFragment {
                                 }
                             }
                             api.appointmentInTid(JacksonUtils.toJson(tids), callback.getPage()).enqueue(callback);
+                        }
+
+                        @Override
+                        public void onFailed(int i) {
+                            super.onFailed(i);
+                            com.doctor.sun.im.Messenger.getInstance().login();
+                            getAdapter().onFinishLoadMore(true);
+                        }
+
+                        @Override
+                        public void onException(Throwable throwable) {
+                            super.onException(throwable);
+                            com.doctor.sun.im.Messenger.getInstance().login();
+                            getAdapter().onFinishLoadMore(true);
                         }
                     });
         }

@@ -710,7 +710,6 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
     }
 
     public void makePhoneCall(final View view) {
-
         String[] permissions = {Manifest.permission.RECORD_AUDIO};
         boolean hasSelfPermission = PermissionUtil.hasSelfPermission((Activity) view.getContext(), permissions);
         if (hasSelfPermission) {

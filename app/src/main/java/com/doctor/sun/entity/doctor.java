@@ -377,6 +377,14 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
         this.yunxinAccid = yunxinAccid;
     }
 
+    public String getTid() {
+        return tid;
+    }
+
+    public void setTid(String tid) {
+        this.tid = tid;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -414,6 +422,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
         dest.writeString(this.duration);
         dest.writeInt(this.type);
         dest.writeString(this.yunxinAccid);
+        dest.writeString(this.tid);
     }
 
     protected Doctor(Parcel in) {
@@ -448,6 +457,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
         //noinspection WrongConstant
         this.type = in.readInt();
         this.yunxinAccid = in.readString();
+        this.tid = in.readString();
     }
 
     public static final Creator<Doctor> CREATOR = new Creator<Doctor>() {

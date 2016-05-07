@@ -62,7 +62,7 @@ public class PatientInfoActivity extends BaseActivity2 implements View.OnClickLi
                         .putExtra(Constants.PARAM_APPOINTMENT, binding.getAppointment()));
                 break;
             case R.id.tv_cancel_history:
-                CancelHistoryDialog.showCancelHistoryDialog(PatientInfoActivity.this, binding.getData().getVoipAccount());
+                CancelHistoryDialog.showCancelHistoryDialog(PatientInfoActivity.this, String.valueOf(patient.getTid()));
                 break;
             case R.id.rl_history_record:
                 startActivity(new Intent(PatientInfoActivity.this, HistoryRecordActivity.class)

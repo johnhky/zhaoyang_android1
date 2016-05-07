@@ -16,10 +16,10 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Contact;
 import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
@@ -29,9 +29,11 @@ import com.doctor.sun.ui.activity.doctor.ModifyNicknameActivity;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.CancelHistoryDialog;
 import com.doctor.sun.ui.widget.SelectDialog;
+import com.doctor.sun.ui.widget.SelectRecordDialog;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import java.util.HashMap;
+import java.util.List;
 
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.log.Logger;
@@ -74,14 +76,23 @@ public class DoctorInfoActivity extends BaseActivity2 implements View.OnClickLis
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.tv_check_history:
                 startActivity(new Intent(DoctorInfoActivity.this, ChattingRecordActivity.class)
                         .putExtra(Constants.PARAM_APPOINTMENT, appointment));
                 break;
             case R.id.tv_cancel_history:
-                CancelHistoryDialog.showCancelHistoryDialog(DoctorInfoActivity.this, binding.getData().getVoipAccount());
+                if (appointment != null) {
+                    Call<ApiDTO<List<MedicalRecord>>> apiDTOCall = Api.of(ImModule.class).recordDoctor(Integer.parseInt(binding.getData().getId()));
+                    SelectRecordDialog.showRecordDialog(v.getContext(), new SelectRecordDialog.SelectRecordListener() {
+                        @Override
+                        public void onSelectRecord(SelectRecordDialog dialog, MedicalRecord record) {
+                            CancelHistoryDialog.showCancelHistoryDialog(DoctorInfoActivity.this, String.valueOf(record.getTid()));
+                            dialog.dismiss();
+                        }
+                    }, apiDTOCall);
+                }
                 break;
             case R.id.rl_history_record:
                 startActivity(new Intent(DoctorInfoActivity.this, HistoryRecordActivity.class)

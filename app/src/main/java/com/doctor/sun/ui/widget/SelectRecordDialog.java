@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.DialogSelectRecordBinding;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -17,6 +18,7 @@ import com.doctor.sun.ui.adapter.SelectRecordAdapter;
 import java.util.List;
 
 import io.ganguo.library.ui.dialog.BaseDialog;
+import retrofit2.Call;
 
 /**
  * Created by lucas on 1/16/16.
@@ -27,11 +29,17 @@ public class SelectRecordDialog extends BaseDialog {
     private Context context;
     private SelectRecordAdapter mAdapter;
     private ProfileModule api = Api.of(ProfileModule.class);
+    private Call<ApiDTO<List<MedicalRecord>>> call;
 
     public SelectRecordDialog(Context context, SelectRecordListener listener) {
+        this(context, listener, null);
+    }
+
+    public SelectRecordDialog(Context context, SelectRecordListener listener, Call call) {
         super(context);
         this.context = context;
         this.listener = listener;
+        this.call = call;
     }
 
     @Override
@@ -59,12 +67,15 @@ public class SelectRecordDialog extends BaseDialog {
 
     @Override
     public void initData() {
-        api.medicalRecordList().enqueue(new ApiCallback<List<MedicalRecord>>() {
+        if (call == null) {
+            call = api.medicalRecordList();
+        }
+        call.enqueue(new ApiCallback<List<MedicalRecord>>() {
             @Override
             protected void handleResponse(List<MedicalRecord> response) {
                 mAdapter.addAll(response);
                 mAdapter.onFinishLoadMore(true);
-                mAdapter.add(new NewRecordHandler(getOwnerActivity(),SelectRecordDialog.this));
+                mAdapter.add(new NewRecordHandler(getOwnerActivity(), SelectRecordDialog.this));
                 mAdapter.add(new CancelHandler(getOwnerActivity(), SelectRecordDialog.this));
             }
         });
@@ -75,7 +86,12 @@ public class SelectRecordDialog extends BaseDialog {
         dialog.show();
     }
 
+    public static void showRecordDialog(Context context, SelectRecordListener listener, Call call) {
+        final SelectRecordDialog dialog = new SelectRecordDialog(context, listener, call);
+        dialog.show();
+    }
+
     public interface SelectRecordListener {
-        void onSelectRecord(SelectRecordDialog dialog,MedicalRecord record);
+        void onSelectRecord(SelectRecordDialog dialog, MedicalRecord record);
     }
 }
