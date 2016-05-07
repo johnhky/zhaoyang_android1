@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.view.View;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ItemPrescription2Binding;
@@ -164,6 +165,10 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
     }
 
     public boolean isFinished() {
-        return isFinished;
+        if (AppContext.isDoctor()) {
+            return false;
+        } else {
+            return isFinished;
+        }
     }
 }
