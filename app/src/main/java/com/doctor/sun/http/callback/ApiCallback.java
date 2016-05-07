@@ -9,6 +9,9 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.event.OnTokenExpireEvent;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
 import retrofit2.Call;
@@ -20,6 +23,7 @@ import retrofit2.Response;
  */
 public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
     public static final String LAST_VISIT_TIME = "LAST_VISIT_TIME";
+    private int retryTime = 0;
 
 
     @Override
@@ -70,5 +74,13 @@ public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
     @Override
     public void onFailure(Call<ApiDTO<T>> call, Throwable t) {
         t.printStackTrace();
+        if (t instanceof UnknownHostException) {
+            Toast.makeText(AppContext.me(), "无法连接服务器,请检查您的网络连接", Toast.LENGTH_SHORT).show();
+        } else if (t instanceof SocketTimeoutException) {
+            if (retryTime == 0) {
+                retryTime += 1;
+                call.enqueue(this);
+            }
+        }
     }
 }

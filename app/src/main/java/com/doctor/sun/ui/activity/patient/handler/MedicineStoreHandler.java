@@ -13,10 +13,8 @@ import com.doctor.sun.ui.adapter.core.OnItemClickListener;
  * Created by lucas on 1/29/16.
  */
 public class MedicineStoreHandler {
-    private MedicineStore data;
 
     public MedicineStoreHandler(MedicineStore medicineHelper) {
-        data = medicineHelper;
     }
 
     public OnItemClickListener medicineHelper() {

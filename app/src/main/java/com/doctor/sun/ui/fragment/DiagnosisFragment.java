@@ -357,45 +357,36 @@ public class DiagnosisFragment extends Fragment {
                     @Override
                     public void onClickPositiveButton(final TwoSelectorDialog dialog) {
                         final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
-                        api.setDiagnosis(query).enqueue(new SimpleCallback<String>() {
-                            @Override
-                            protected void handleResponse(String response) {
-
-//                                Log.d(TAG, response.toString());
-
-                                ToastHelper.showMessage(getActivity(), "保存成功");
-                                dialog.dismiss();
-                                getActivity().finish();
-                            }
-
-                            @Override
-                            public void onFailure(Call call, Throwable t) {
-                                Log.e(TAG, "onFailure: " + t.getMessage());
-                                dialog.dismiss();
-                            }
-                        });
+                        saveDiagnosis(dialog, query);
                     }
 
                     @Override
                     public void onClickNegativeButton(final TwoSelectorDialog dialog) {
                         final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
                         query.put("hold", "1");
-                        api.setDiagnosis(query).enqueue(new SimpleCallback<String>() {
-                            @Override
-                            protected void handleResponse(String response) {
-                                ToastHelper.showMessage(getActivity(), "保存成功");
-                                dialog.dismiss();
-                                getActivity().finish();
-                            }
-
-                            @Override
-                            public void onFailure(Call call, Throwable t) {
-                                Log.e(TAG, "onFailure: " + t.getMessage());
-                                dialog.dismiss();
-                            }
-                        });
+                        saveDiagnosis(dialog, query);
                     }
                 });
+    }
+
+    private void saveDiagnosis(final TwoSelectorDialog dialog, HashMap<String, String> query) {
+        api.setDiagnosis(query).enqueue(new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+
+//                                Log.d(TAG, response.toString());
+
+                ToastHelper.showMessage(getActivity(), "保存成功");
+                dialog.dismiss();
+                getActivity().finish();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+                dialog.dismiss();
+            }
+        });
     }
 
     private String getPrescriptions() {

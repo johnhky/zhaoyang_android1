@@ -15,6 +15,7 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.squareup.otto.Subscribe;
 import com.yuntongxun.ecsdk.ECDevice;
 
+import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import io.ganguo.library.BaseApp;
 import io.ganguo.library.Config;
