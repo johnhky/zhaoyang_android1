@@ -79,7 +79,7 @@ public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
         } else if (t instanceof SocketTimeoutException) {
             if (retryTime == 0) {
                 retryTime += 1;
-                call.enqueue(this);
+                call.clone().enqueue(this);
             }
         }
     }

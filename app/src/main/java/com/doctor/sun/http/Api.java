@@ -83,9 +83,11 @@ public class Api {
                     .request()
                     .newBuilder()
                     .addHeader("User-Agent", userAgent)
-                    .addHeader("version", version)
+                    .addHeader("appVersion", version)
                     .addHeader("token", token)
                     .addHeader("from", "android")
+                    .addHeader("version", "1.20")
+                    .addHeader("client", "android")
                     .build();
             Log.e(TAG, request.method() + " " + request.url() + " token " + token);
             return chain.proceed(request);
