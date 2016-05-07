@@ -21,6 +21,7 @@ import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.ListCallback;
@@ -32,17 +33,16 @@ import com.doctor.sun.ui.adapter.ForumAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
-import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.vo.ItemDivider;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 
 import java.io.File;
 import java.util.List;
 
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 
 /**
@@ -111,8 +111,8 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
     protected void loadMore() {
         adapterStatus = Constants.STATUS_QUESTION_LIST;
         getAdapter().clear();
-        api.category(appointmentId).enqueue(new ListCallback<QCategoryHandler>(getAdapter()));
-        QCategoryHandler object = new QCategoryHandler();
+        api.category(appointmentId).enqueue(new ListCallback<QuestionCategory>(getAdapter()));
+        QuestionCategory object = new QuestionCategory();
         object.setCategoryName("基础问卷");
         object.setQuestionCategoryId(-1);
         getAdapter().add(object);
@@ -147,7 +147,7 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
     }
 
     @SuppressWarnings("unchecked")
-    public void loadQuestions(final QCategoryHandler data) {
+    public void loadQuestions(final QuestionCategory data) {
         final int questionCategoryId = data.getQuestionCategoryId();
         ((TextView) binding.llRoot.findViewById(R.id.tv_check)).setText("查看用药");
         binding.llRoot.findViewById(R.id.tv_back_circle).setVisibility(View.VISIBLE);

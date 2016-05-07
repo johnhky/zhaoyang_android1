@@ -1,7 +1,8 @@
-package com.doctor.sun.entity;
+package com.doctor.sun.vo;
 
 import android.view.View;
 
+import com.doctor.sun.entity.BaseItem;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
 /**

@@ -8,6 +8,7 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Answer;
+import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.entity.QuestionStats;
 import com.doctor.sun.event.OnTokenExpireEvent;
 import com.doctor.sun.ui.adapter.AnswerAdapter;
@@ -28,9 +29,9 @@ public class AnswerCallback implements Callback<ApiDTO<List<Answer>>> {
     public static final String LAST_VISIT_TIME = "LAST_VISIT_TIME";
 
     private final AnswerAdapter adapter;
-    private final QCategoryHandler data;
+    private final QuestionCategory data;
 
-    public AnswerCallback(QCategoryHandler data, AnswerAdapter adapter) {
+    public AnswerCallback(QuestionCategory data, AnswerAdapter adapter) {
         this.adapter = adapter;
         this.data = data;
     }

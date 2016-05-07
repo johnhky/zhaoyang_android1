@@ -1,4 +1,4 @@
-package com.doctor.sun.ui.adapter;
+package com.doctor.sun.ui.pager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -26,7 +26,7 @@ import com.doctor.sun.databinding.ItemPrescriptionBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.ItemButton;
+import com.doctor.sun.vo.ItemButton;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;

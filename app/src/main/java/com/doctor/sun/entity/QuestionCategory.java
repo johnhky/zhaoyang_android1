@@ -2,13 +2,15 @@ package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by rick on 11/24/15.
  */
-public class QuestionCategory implements LayoutId{
+public class QuestionCategory implements LayoutId {
 
+    protected QCategoryHandler handler = new QCategoryHandler(this);
     /**
      * id : 7170
      * question_category_id : 3
@@ -82,6 +84,7 @@ public class QuestionCategory implements LayoutId{
     public int getIsDefault() {
         return isDefault;
     }
+
     @Override
     public int getItemLayoutId() {
         return R.layout.item_question_category;
@@ -93,5 +96,13 @@ public class QuestionCategory implements LayoutId{
 
     public String getSection() {
         return section;
+    }
+
+    public QCategoryHandler getHandler() {
+        return handler;
+    }
+
+    public void setHandler(QCategoryHandler handler) {
+        this.handler = handler;
     }
 }

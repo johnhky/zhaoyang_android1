@@ -8,8 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.doctor.sun.R;
 import com.doctor.sun.databinding.ItemCategoryExtendBinding;
-import com.doctor.sun.entity.QuestionCategory2;
+import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.module.QuestionModule;
@@ -39,7 +40,9 @@ public class QuestionCategoryFragment extends Fragment {
     }
 
     public SimpleAdapter createAdapter() {
-        return new SimpleAdapter(getContext());
+        SimpleAdapter simpleAdapter = new SimpleAdapter(getContext());
+        simpleAdapter.mapLayout(R.layout.item_question_category, R.layout.item_question_category2);
+        return simpleAdapter;
     }
 
     @Nullable
@@ -65,6 +68,6 @@ public class QuestionCategoryFragment extends Fragment {
     private void loadMore() {
         AssignQuestionAdapter.GetAppointmentId getAppointmentId = (AssignQuestionAdapter.GetAppointmentId) getContext();
         String appointmentId = getAppointmentId.getAppointmentId();
-        api.scaleCategory(appointmentId).enqueue(new ListCallback<QuestionCategory2>(mAdapter));
+        api.scaleCategory(appointmentId).enqueue(new ListCallback<QuestionCategory>(mAdapter));
     }
 }

@@ -1,6 +1,8 @@
-package com.doctor.sun.entity;
+package com.doctor.sun.vo;
 
 import android.widget.CompoundButton;
+
+import com.doctor.sun.entity.BaseItem;
 
 /**
  * Created by rick on 12/22/15.

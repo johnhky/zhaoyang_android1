@@ -12,7 +12,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.City;
 import com.doctor.sun.bean.Province;
 import com.doctor.sun.databinding.ActivityAddMedicalRecordBinding;
-import com.doctor.sun.entity.ItemPickDate;
+import com.doctor.sun.vo.ItemPickDate;
 import com.doctor.sun.ui.activity.GetLocationActivity;
 import com.doctor.sun.ui.activity.patient.handler.AddMedicalRecordHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;

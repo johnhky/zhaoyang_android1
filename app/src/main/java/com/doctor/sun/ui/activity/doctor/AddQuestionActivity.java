@@ -12,7 +12,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityAddQuestionBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.ItemTextInput;
+import com.doctor.sun.vo.ItemTextInput;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;

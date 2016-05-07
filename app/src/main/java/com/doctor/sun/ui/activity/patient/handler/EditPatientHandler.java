@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.ui.widget.PickImageDialog;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Created by lucas on 1/5/16.
@@ -53,6 +54,30 @@ public class EditPatientHandler {
             datePickerDialog.show();
         }
 
+    }
+
+    public int getDefaultAvatar(Patient patient) {
+        int result;
+        if (patient.getGender() == 0) {
+            result = R.drawable.female_doctor_avatar;
+        } else {
+            result = R.drawable.male_doctor_avatar;
+        }
+        return result;
+    }
+
+    @JsonIgnore
+    public String getGenderResult(Patient patient) {
+        String result = "";
+        switch (patient.getGender()) {
+            case 1:
+                result = "男";
+                break;
+            case 2:
+                result = "女";
+                break;
+        }
+        return result;
     }
 
     public interface IEditPatient {

@@ -14,7 +14,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
-import com.doctor.sun.ui.adapter.RecordListAdapter;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
 
@@ -30,7 +30,7 @@ import io.ganguo.library.util.log.LoggerFactory;
 public class RecordListActivity extends BaseActivity2 {
     private Logger logger = LoggerFactory.getLogger(RecordListActivity.class);
     private PActivityRecordListBinding binding;
-    private RecordListAdapter mAdapter;
+    private SimpleAdapter mAdapter;
     private ProfileModule api = Api.of(ProfileModule.class);
 
     public static Intent makeIntent(Context context) {
@@ -65,7 +65,7 @@ public class RecordListActivity extends BaseActivity2 {
         HeaderViewModel header = new HeaderViewModel(this);
         header.setMidTitle("病历管理");
         binding.setHeader(header);
-        mAdapter = new RecordListAdapter(this);
+        mAdapter = new SimpleAdapter(this);
         mAdapter.mapLayout(R.layout.item_text, R.layout.p_item_recordlist);
         binding.rvList.setLayoutManager(new LinearLayoutManager(this));
         binding.rvList.setAdapter(mAdapter);

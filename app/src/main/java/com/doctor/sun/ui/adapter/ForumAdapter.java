@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ItemForumsBinding;
+import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.handler.QCategoryHandler;
@@ -14,7 +15,7 @@ import com.doctor.sun.ui.handler.QCategoryHandler;
 /**
  * Created by Lynn on 12/24/15.
  */
-public class ForumAdapter extends SimpleAdapter<QCategoryHandler, ItemForumsBinding> {
+public class ForumAdapter extends SimpleAdapter<QuestionCategory, ItemForumsBinding> {
 
     public ForumAdapter(Context context) {
         super(context);

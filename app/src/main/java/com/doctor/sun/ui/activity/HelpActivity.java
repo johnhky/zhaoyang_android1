@@ -14,7 +14,7 @@ import com.doctor.sun.databinding.ActivityHelpBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.adapter.HelpAdapter;
+import com.doctor.sun.ui.pager.HelpAdapter;
 
 import java.util.List;
 

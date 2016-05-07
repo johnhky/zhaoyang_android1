@@ -2,6 +2,7 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Answer;
+import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.ui.handler.QCategoryHandler;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public interface AnswerModule {
 //    接口地址：http://域名/question/questionnaires/{预约单ID}
 
     @GET("question/questionnaires-scale/{appointmentId}/")
-    Call<ApiDTO<List<QCategoryHandler>>> category(@Path("appointmentId") int appointmentId);
+    Call<ApiDTO<List<QuestionCategory>>> category(@Path("appointmentId") int appointmentId);
 
     @GET("question/questionnaires-scale/{appointmentId}/{categoryId}/show")
     Call<ApiDTO<List<Answer>>> categoryDetail(

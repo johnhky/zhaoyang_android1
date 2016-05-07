@@ -2,7 +2,7 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.MTemplate;
+import com.doctor.sun.entity.QTemplate;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -20,7 +20,7 @@ public interface TemplateModule {
      * @return
      */
     @GET("question/templates/")
-    Call<ApiDTO<PageDTO<MTemplate>>> templates();
+    Call<ApiDTO<PageDTO<QTemplate>>> templates();
 
     /**
      * 添加医生模板
@@ -30,7 +30,7 @@ public interface TemplateModule {
      * @return
      */
     @POST("question/template/")
-    Call<ApiDTO<MTemplate>> addTemplate(@Field("template_name") String templateName, @Field("questions_id") String[] questionsId);
+    Call<ApiDTO<QTemplate>> addTemplate(@Field("template_name") String templateName, @Field("questions_id") String[] questionsId);
 
     /**
      * 修改医生模板
@@ -40,7 +40,7 @@ public interface TemplateModule {
      * @return
      */
     @POST("question/template/")
-    Call<ApiDTO<MTemplate>> updateTemplate(@Field("template_name") String templateName, @Field("questions_id") String[] questionsId);
+    Call<ApiDTO<QTemplate>> updateTemplate(@Field("template_name") String templateName, @Field("questions_id") String[] questionsId);
 
 
     /**
@@ -50,7 +50,7 @@ public interface TemplateModule {
      * @return
      */
     @POST("question/template/{template_id}/default")
-    Call<ApiDTO<MTemplate>> setDefaultTemplate(@Path("template_id") String templateId);
+    Call<ApiDTO<QTemplate>> setDefaultTemplate(@Path("template_id") String templateId);
 
     /**
      * 设置默认模板
@@ -59,7 +59,7 @@ public interface TemplateModule {
      * @return
      */
     @POST("question/template/{template_id}/nodefault")
-    Call<ApiDTO<MTemplate>> setNoDefaultTemplate(@Path("template_id") String templateId);
+    Call<ApiDTO<QTemplate>> setNoDefaultTemplate(@Path("template_id") String templateId);
 
     /**
      * 取消默认模板

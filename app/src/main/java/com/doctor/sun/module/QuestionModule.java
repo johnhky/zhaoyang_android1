@@ -5,7 +5,7 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.QTemplate;
 import com.doctor.sun.entity.Question;
-import com.doctor.sun.entity.QuestionCategory2;
+import com.doctor.sun.entity.QuestionCategory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -177,7 +177,7 @@ public interface QuestionModule {
 
 
     @GET("question/scale/{appointmentId}")
-    Call<ApiDTO<List<QuestionCategory2>>> scaleCategory(@Path("appointmentId") String appointmentId);
+    Call<ApiDTO<List<QuestionCategory>>> scaleCategory(@Path("appointmentId") String appointmentId);
 
 
 }

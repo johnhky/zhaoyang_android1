@@ -1,8 +1,9 @@
-package com.doctor.sun.entity;
+package com.doctor.sun.vo;
 
 import android.view.View;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
+import com.doctor.sun.entity.BaseItem;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
 /**

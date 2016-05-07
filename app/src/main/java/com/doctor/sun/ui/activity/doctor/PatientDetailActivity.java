@@ -14,6 +14,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPatientDetailBinding;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AnswerCallback;
@@ -100,11 +101,11 @@ public class PatientDetailActivity extends BaseActivity2 implements QCategoryHan
             protected void onLoadMore() {
                 mAdapter.clear();
                 mAdapter.add(data);
-                QCategoryHandler object = new QCategoryHandler();
+                QuestionCategory object = new QuestionCategory();
                 object.setCategoryName("基础问卷");
                 object.setQuestionCategoryId(-1);
                 mAdapter.add(object);
-                api.category(data.getId()).enqueue(new ListCallback<QCategoryHandler>(mAdapter));
+                api.category(data.getId()).enqueue(new ListCallback<QuestionCategory>(mAdapter));
             }
         };
         mAdapter.setLoadMoreListener(templateListLoader);
@@ -131,7 +132,7 @@ public class PatientDetailActivity extends BaseActivity2 implements QCategoryHan
     }
 
     @Override
-    public void onCategorySelect(final QCategoryHandler qCategory) {
+    public void onCategorySelect(final QuestionCategory qCategory) {
         binding.tvBackCircle.setVisibility(View.VISIBLE);
         mAdapter.onFinishLoadMore(false);
         mAdapter.setPositionMargin(0);

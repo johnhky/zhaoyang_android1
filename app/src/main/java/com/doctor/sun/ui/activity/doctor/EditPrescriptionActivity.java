@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityEditPrescriptionBinding;
-import com.doctor.sun.entity.ItemButton;
+import com.doctor.sun.vo.ItemButton;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;

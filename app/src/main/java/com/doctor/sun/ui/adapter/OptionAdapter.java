@@ -6,7 +6,7 @@ import android.text.TextWatcher;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ItemOptionAnswerBinding;
 import com.doctor.sun.databinding.ItemOptionSelectBinding;
-import com.doctor.sun.entity.ItemTextInput;
+import com.doctor.sun.vo.ItemTextInput;
 import com.doctor.sun.ui.activity.doctor.AddQuestionActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.widget.SideSelector;

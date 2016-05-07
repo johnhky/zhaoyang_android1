@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.ItemPickDate" />
+            type="com.doctor.sun.vo.ItemPickDate" />
 
         <variable
             name="vh"

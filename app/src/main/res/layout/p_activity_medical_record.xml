@@ -14,7 +14,7 @@
 
         <variable
             name="time"
-            type="com.doctor.sun.entity.ItemPickDate" />
+            type="com.doctor.sun.vo.ItemPickDate" />
 
     </data>
 

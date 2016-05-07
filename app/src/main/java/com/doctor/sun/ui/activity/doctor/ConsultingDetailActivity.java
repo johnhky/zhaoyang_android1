@@ -10,6 +10,7 @@ import android.view.View;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.event.SwitchTabEvent;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.TabActivity;
@@ -147,8 +148,7 @@ public class ConsultingDetailActivity extends TabActivity
     }
 
     @Override
-    public void onCategorySelect(QCategoryHandler data) {
-        int questionCategoryId = data.getQuestionCategoryId();
+    public void onCategorySelect(QuestionCategory data) {
         if (isUserPatient()) {
             //病人端 具体问卷查看时 －－> 保存(有效)
             header0.setRightTitle("保存");

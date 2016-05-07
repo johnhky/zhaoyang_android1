@@ -10,7 +10,7 @@
 
         <variable
             name="stopTakingMedicine"
-            type="com.doctor.sun.entity.ItemButton" />
+            type="com.doctor.sun.vo.ItemButton" />
 
 
     </data>

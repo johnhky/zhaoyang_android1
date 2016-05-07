@@ -9,6 +9,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityFillForumBinding;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.fragment.FillForumFragment;
 import com.doctor.sun.ui.fragment.ModifyForumFragment;
@@ -60,7 +61,7 @@ public class FillForumActivity extends BaseFragmentActivity2 implements QCategor
     }
 
     @Override
-    public void onCategorySelect(QCategoryHandler data) {
+    public void onCategorySelect(QuestionCategory data) {
         binding.getHeader().setRightTitle("保存");
         fragment.loadQuestions(data);
         isFilling = true;

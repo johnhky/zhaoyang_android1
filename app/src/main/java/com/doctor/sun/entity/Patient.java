@@ -3,7 +3,6 @@ package com.doctor.sun.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.doctor.sun.R;
 import com.doctor.sun.ui.activity.patient.handler.EditPatientHandler;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -44,33 +43,9 @@ public class Patient implements Parcelable {
     private String voipAccount;
     @JsonProperty("phone")
     private String phone;
+    @JsonIgnore
+    public EditPatientHandler handler = new EditPatientHandler(this);
 
-    protected Patient(Parcel in) {
-        this.id = in.readInt();
-        this.name = in.readString();
-        this.email = in.readString();
-        this.gender = in.readInt();
-        this.birthday = in.readString();
-        this.avatar = in.readString();
-        this.point = in.readInt();
-        this.voipAccount = in.readString();
-        this.phone = in.readString();
-    }
-
-    public Patient() {
-    }
-
-    public static final Creator<Patient> CREATOR = new Creator<Patient>() {
-        @Override
-        public Patient createFromParcel(Parcel in) {
-            return new Patient(in);
-        }
-
-        @Override
-        public Patient[] newArray(int size) {
-            return new Patient[size];
-        }
-    };
 
     public void setId(int id) {
         this.id = id;
@@ -144,6 +119,28 @@ public class Patient implements Parcelable {
         return phone;
     }
 
+    public EditPatientHandler getHandler() {
+        return handler;
+    }
+
+    public void setHandler(EditPatientHandler handler) {
+        this.handler = handler;
+    }
+
+    public Patient() {
+    }
+
+    public static final Creator<Patient> CREATOR = new Creator<Patient>() {
+        @Override
+        public Patient createFromParcel(Parcel in) {
+            return new Patient(in);
+        }
+
+        @Override
+        public Patient[] newArray(int size) {
+            return new Patient[size];
+        }
+    };
 
     @Override
     public int describeContents() {
@@ -164,41 +161,18 @@ public class Patient implements Parcelable {
         dest.writeString(phone);
     }
 
-    @JsonIgnore
-    public String getGenderResult() {
-        String result = "";
-        switch (getGender()) {
-            case 1:
-                result = "男";
-                break;
-            case 2:
-                result = "女";
-                break;
-        }
-        return result;
+
+    protected Patient(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.email = in.readString();
+        this.gender = in.readInt();
+        this.birthday = in.readString();
+        this.avatar = in.readString();
+        this.point = in.readInt();
+        this.voipAccount = in.readString();
+        this.phone = in.readString();
     }
-
-    public int getDefaultAvatar() {
-        int result;
-        if (getGender() == 0) {
-            result = R.drawable.female_doctor_avatar;
-        } else {
-            result = R.drawable.male_doctor_avatar;
-        }
-        return result;
-    }
-
-    @JsonIgnore
-    private EditPatientHandler handler = new EditPatientHandler(this);
-
-    public EditPatientHandler getHandler() {
-        return handler;
-    }
-
-    public void setHandler(EditPatientHandler handler) {
-        this.handler = handler;
-    }
-
     @Override
     public String toString() {
         return "Patient{" +

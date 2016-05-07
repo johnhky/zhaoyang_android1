@@ -17,6 +17,7 @@ import com.doctor.sun.databinding.ItemForumBarBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.entity.QuestionStats;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
@@ -27,7 +28,6 @@ import com.doctor.sun.ui.adapter.ForumAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
-import com.doctor.sun.ui.handler.QCategoryHandler;
 
 import java.util.List;
 
@@ -101,8 +101,8 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
     protected void loadMore() {
         adapterStatus = Constants.STATUS_QUESTION_LIST;
         getAdapter().clear();
-        api.category(appointment.getId()).enqueue(new ListCallback<QCategoryHandler>(getAdapter()));
-        QCategoryHandler object = new QCategoryHandler();
+        api.category(appointment.getId()).enqueue(new ListCallback<QuestionCategory>(getAdapter()));
+        QuestionCategory object = new QuestionCategory();
         object.setCategoryName("基础问卷");
         object.setQuestionCategoryId(-1);
         getAdapter().add(object);
@@ -139,8 +139,8 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
     }
 
     @SuppressWarnings("unchecked")
-    public void loadQuestions(final QCategoryHandler handler) {
-        final int questionCategoryId = handler.getQuestionCategoryId();
+    public void loadQuestions(final QuestionCategory data) {
+        final int questionCategoryId = data.getQuestionCategoryId();
         binding.llRoot.findViewById(R.id.lly_check).setVisibility(View.VISIBLE);
         binding.llRoot.findViewById(R.id.tv_back_circle).setVisibility(View.VISIBLE);
 
@@ -167,7 +167,7 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
                 @Override
                 protected void onLoadMore() {
                     api.categoryDetail(appointment.getId(), String.valueOf(questionCategoryId))
-                            .enqueue(new AnswerListCallback(handler.getCategoryName()));
+                            .enqueue(new AnswerListCallback(data.getCategoryName()));
                 }
             });
         }

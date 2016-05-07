@@ -1,10 +1,11 @@
-package com.doctor.sun.entity;
+package com.doctor.sun.vo;
 
 import android.app.DatePickerDialog;
 import android.view.View;
 import android.widget.DatePicker;
 
 import com.doctor.sun.R;
+import com.doctor.sun.entity.BaseItem;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
@@ -14,6 +15,7 @@ import com.squareup.timessquare.CalendarPickerView;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by rick on 12/22/15.
@@ -67,11 +69,11 @@ public class ItemPickDate extends BaseItem {
     }
 
     public String getDate() {
-        return String.format("%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
+        return String.format(Locale.CHINA,"%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
     }
 
     public String getBirthMonth() {
-        return String.format("%04d-%02d", year, monthOfYear + 1);
+        return String.format(Locale.CHINA,"%04d-%02d", year, monthOfYear + 1);
     }
 
     public String getBirthday() {

@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.QuestionCategory2" />
+            type="com.doctor.sun.entity.QuestionCategory" />
 
         <variable
             name="vh"

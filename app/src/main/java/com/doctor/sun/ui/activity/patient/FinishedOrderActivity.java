@@ -7,9 +7,10 @@ import android.support.v4.view.PagerAdapter;
 
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingDetailActivity;
-import com.doctor.sun.ui.adapter.HistoryDetailAdapter;
+import com.doctor.sun.ui.pager.HistoryDetailAdapter;
 import com.doctor.sun.ui.fragment.FillForumFragment;
 import com.doctor.sun.ui.fragment.ListFragment;
 import com.doctor.sun.ui.handler.QCategoryHandler;
@@ -82,7 +83,7 @@ public class FinishedOrderActivity extends TabActivity
     }
 
     @Override
-    public void onCategorySelect(QCategoryHandler data) {
+    public void onCategorySelect(QuestionCategory data) {
         FillForumFragment.getInstance(getData()).loadQuestions(data);
     }
 }

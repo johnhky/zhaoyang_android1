@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.doctor.sun.R;
-import com.doctor.sun.entity.ItemButton;
+import com.doctor.sun.vo.ItemButton;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.activity.patient.handler.CancelHandler;

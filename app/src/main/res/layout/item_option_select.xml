@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.ItemTextInput" />
+            type="com.doctor.sun.vo.ItemTextInput" />
     </data>
 
     <LinearLayout
