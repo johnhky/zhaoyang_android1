@@ -45,6 +45,20 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
 
     public MessageAdapter(Context context, Appointment data) {
         super(context);
+        initData(data);
+    }
+
+    public MessageAdapter(MedicineHelperActivity context, String my, String your) {
+        super(context);
+        initData(my, your);
+    }
+
+    /**
+     * 初始化头像数据
+     *
+     * @param data
+     */
+    private void initData(Appointment data) {
         this.isFinished = data.getHandler().isFinished();
         switch (Config.getInt(Constants.USER_TYPE, -1)) {
             case AuthModule.PATIENT_TYPE: {
@@ -71,8 +85,10 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
         }
     }
 
-    public MessageAdapter(MedicineHelperActivity context, String my, String your) {
-        super(context);
+    /**
+     * 初始化头像数据
+     */
+    private void initData(String my, String your) {
         ImModule api = Api.of(ImModule.class);
         api.avatar(my, "").enqueue(new SimpleCallback<Avatar>() {
             @Override

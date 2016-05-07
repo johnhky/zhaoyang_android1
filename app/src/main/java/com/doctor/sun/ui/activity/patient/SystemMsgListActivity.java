@@ -13,7 +13,7 @@ import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.PushModule;
 import com.doctor.sun.ui.activity.PageActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.adapter.SystemTipAdapter;
+import com.doctor.sun.ui.adapter.SystemMsgAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.doctor.sun.util.PermissionsUtil;
@@ -23,7 +23,7 @@ import io.ganguo.library.Config;
 /**
  * Created by lucas on 1/29/16.
  */
-public class SystemTipActivity extends PageActivity {
+public class SystemMsgListActivity extends PageActivity {
     public static final int PHONE_CALL_REQUEST = 1;
     public static final String LAST_VISIT_TIME = "LAST_VISIT_TIME";
     private PushModule api = Api.of(PushModule.class);
@@ -32,7 +32,7 @@ public class SystemTipActivity extends PageActivity {
     private PermissionsUtil permissionsUtil;
 
     public static Intent makeIntent(Context context, int appointmentNumber) {
-        Intent i = new Intent(context, SystemTipActivity.class);
+        Intent i = new Intent(context, SystemMsgListActivity.class);
         i.putExtra(Constants.NUMBER, appointmentNumber);
         return i;
     }
@@ -52,7 +52,7 @@ public class SystemTipActivity extends PageActivity {
 
     @Override
     protected void loadMore() {
-        api.systemTip(getCallback().getPage()).enqueue(getCallback());
+        api.systemMsg(getCallback().getPage()).enqueue(getCallback());
     }
 
     @NonNull
@@ -77,7 +77,7 @@ public class SystemTipActivity extends PageActivity {
             @Override
             public void onClickPositiveButton(TwoSelectorDialog dialog) {
                 if (permissionsUtil.lacksPermissions(PermissionsUtil.PERMISSION_CALL)) {
-                    permissionsUtil.requestPermissions(SystemTipActivity.this, PHONE_CALL_REQUEST, PermissionsUtil.PERMISSION_CALL);
+                    permissionsUtil.requestPermissions(SystemMsgListActivity.this, PHONE_CALL_REQUEST, PermissionsUtil.PERMISSION_CALL);
                     return;
                 }
                 try {
@@ -111,6 +111,6 @@ public class SystemTipActivity extends PageActivity {
     @NonNull
     @Override
     protected SimpleAdapter createAdapter() {
-        return new SystemTipAdapter(this, Config.getLong(visitTimeKey, -1));
+        return new SystemMsgAdapter(this, Config.getLong(visitTimeKey, -1));
     }
 }

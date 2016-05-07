@@ -1,4 +1,4 @@
-package com.doctor.sun.entity;
+package com.doctor.sun.im;
 
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 

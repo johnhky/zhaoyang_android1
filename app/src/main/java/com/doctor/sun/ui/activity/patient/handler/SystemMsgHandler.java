@@ -3,8 +3,8 @@ package com.doctor.sun.ui.activity.patient.handler;
 import android.content.Intent;
 import android.view.View;
 
-import com.doctor.sun.entity.SystemTip;
-import com.doctor.sun.ui.activity.patient.SystemTipActivity;
+import com.doctor.sun.entity.SystemMsg;
+import com.doctor.sun.ui.activity.patient.SystemMsgListActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
@@ -17,19 +17,19 @@ import java.util.Locale;
 /**
  * Created by lucas on 1/29/16.
  */
-public class SystemTipHandler {
-    public static final String TAG = SystemTipHandler.class.getSimpleName();
-    private SystemTip data;
+public class SystemMsgHandler {
+    public static final String TAG = SystemMsgHandler.class.getSimpleName();
+    private SystemMsg data;
 
-    public SystemTipHandler(SystemTip systemTip) {
+    public SystemMsgHandler(SystemMsg systemTip) {
         data = systemTip;
     }
 
-    public OnItemClickListener systemTip() {
+    public OnItemClickListener systemMsgList() {
         return new OnItemClickListener() {
             @Override
             public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                Intent intent = SystemTipActivity.makeIntent(view.getContext(), adapter.getItemCount() - 2);
+                Intent intent = SystemMsgListActivity.makeIntent(view.getContext(), adapter.getItemCount() - 2);
                 view.getContext().startActivity(intent);
             }
         };

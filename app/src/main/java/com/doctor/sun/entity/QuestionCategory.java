@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by rick on 11/24/15.
+ * 问题类型
  */
 public class QuestionCategory implements LayoutId {
 

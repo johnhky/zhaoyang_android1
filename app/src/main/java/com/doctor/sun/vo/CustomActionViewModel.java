@@ -7,9 +7,7 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.avchat.activity.AVChatActivity;
-import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.NimTeamId;
-import com.doctor.sun.ui.activity.doctor.ChattingActivity;
+import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.FileChooser;

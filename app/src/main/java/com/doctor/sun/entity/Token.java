@@ -22,7 +22,7 @@ public class Token {
     @JsonProperty("type")
     private int type;
     @JsonProperty("account")
-    private VoipAccount account;
+    private ImAccount account;
 
     public void setToken(String token) {
         this.token = token;
@@ -36,7 +36,7 @@ public class Token {
         this.type = type;
     }
 
-    public void setAccount(VoipAccount account) {
+    public void setAccount(ImAccount account) {
         this.account = account;
     }
 
@@ -52,7 +52,7 @@ public class Token {
         return type;
     }
 
-    public VoipAccount getAccount() {
+    public ImAccount getAccount() {
         return account;
     }
 

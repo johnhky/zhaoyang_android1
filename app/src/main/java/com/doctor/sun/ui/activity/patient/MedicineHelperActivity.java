@@ -24,8 +24,8 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMedicineHelperBinding;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.NimTeamId;
-import com.doctor.sun.entity.VoipAccount;
+import com.doctor.sun.entity.ImAccount;
+import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
 import com.doctor.sun.event.HideInputEvent;
@@ -131,9 +131,9 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     }
 
     private void getAccountInitChat() {
-        api.serverAccount().enqueue(new SimpleCallback<VoipAccount>() {
+        api.serverAccount().enqueue(new SimpleCallback<ImAccount>() {
             @Override
-            protected void handleResponse(VoipAccount response) {
+            protected void handleResponse(ImAccount response) {
                 sendTo = response.getYunxinAccid();
                 initChat(sendTo);
             }

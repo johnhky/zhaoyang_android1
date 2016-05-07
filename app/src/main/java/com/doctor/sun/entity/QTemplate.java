@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Created by rick on 11/26/15.
+ * 问题模版
  */
 public class QTemplate implements LayoutId ,Parcelable{
 

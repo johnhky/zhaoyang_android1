@@ -25,7 +25,7 @@ import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.DoctorPageCallback;
+import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.GetLocationActivity;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
@@ -65,7 +65,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
 
     private ActivitySearchDoctorBinding binding;
     private SimpleAdapter adapter;
-    private DoctorPageCallback<Doctor> callback;
+    private PageCallback<Doctor> callback;
 
     private boolean sortByPoint = true;
     private boolean isFirstTime = true;
@@ -153,7 +153,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
 
     private void initAdapter() {
         adapter = new SearchDoctorAdapter(this, getType());
-        callback = new DoctorPageCallback<>(adapter);
+        callback = new PageCallback<Doctor>(adapter);
         adapter.mapLayout(R.layout.item_doctor, R.layout.item_search_doctor);
         adapter.setLoadMoreListener(new LoadMoreListener() {
             @Override

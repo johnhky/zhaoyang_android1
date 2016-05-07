@@ -14,13 +14,13 @@ import com.doctor.sun.databinding.PItemMedicineHelperBinding;
 import com.doctor.sun.databinding.PItemSystemTipBinding;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.SystemTip;
+import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.PushModule;
 import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
-import com.doctor.sun.ui.activity.patient.SystemTipActivity;
+import com.doctor.sun.ui.activity.patient.SystemMsgListActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
@@ -78,17 +78,17 @@ public class ConsultingAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> 
 
         if (vh.getItemViewType() == R.layout.p_item_system_tip) {
             final PItemSystemTipBinding binding = (PItemSystemTipBinding) vh.getBinding();
-            api.systemTip(String.valueOf(1)).enqueue(new ApiCallback<PageDTO<SystemTip>>() {
+            api.systemMsg(String.valueOf(1)).enqueue(new ApiCallback<PageDTO<SystemMsg>>() {
                 @Override
-                protected void handleResponse(PageDTO<SystemTip> response) {
+                protected void handleResponse(PageDTO<SystemMsg> response) {
                     if (response.getData().size() > 0) {
                         binding.tvDate.setText(response.getData().get(0).getCreatedAt());
                         binding.tvTip.setText(response.getData().get(0).getTitle());
                     }
-                    long lastVisitTime = Config.getLong(SystemTipActivity.LAST_VISIT_TIME + Config.getString(Constants.VOIP_ACCOUNT), -1);
+                    long lastVisitTime = Config.getLong(SystemMsgListActivity.LAST_VISIT_TIME + Config.getString(Constants.VOIP_ACCOUNT), -1);
 //                    Log.e(TAG, "lastVisitTime: " + lastVisitTime);
                     int count = 0;
-                    for (SystemTip systemTip : response.getData()) {
+                    for (SystemMsg systemTip : response.getData()) {
                         boolean haveRead = systemTip.getHandler().haveRead(lastVisitTime);
                         if (!haveRead) {
                             count += 1;
@@ -118,7 +118,7 @@ public class ConsultingAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> 
             binding.getRoot().setVisibility(View.VISIBLE);
             divider.setVisibility(View.VISIBLE);
             binding.tvMessage.setText(lastMsg.getBody());
-            if (count != 0l) {
+            if (count != 0L) {
                 binding.tvMessageCount.setVisibility(View.VISIBLE);
                 binding.tvMessageCount.setText(String.valueOf(count));
             } else {

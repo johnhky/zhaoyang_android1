@@ -14,14 +14,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * Created by lucas on 1/5/16.
  */
-public class EditPatientHandler {
+public class PatientHandler {
     private final static int CODE_IMAGE_REQUEST = 8;
     private Patient data;
     private int myear;
     private int mmothOfYear;
     private int mdayOfMonth;
 
-    public EditPatientHandler(Patient patient) {
+    public PatientHandler(Patient patient) {
         data = patient;
     }
 

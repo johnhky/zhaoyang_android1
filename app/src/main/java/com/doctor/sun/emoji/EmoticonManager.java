@@ -14,6 +14,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 给textview 添加 emoticon ->
+ *
+ * 在xml上面 将
+ * android:text
+ * 替换为
+ * android:emoticon
+ */
 public class EmoticonManager {
 
     private static int PER_PAGE = 20;

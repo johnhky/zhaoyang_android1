@@ -3,7 +3,7 @@ package com.doctor.sun.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.doctor.sun.ui.activity.patient.handler.EditPatientHandler;
+import com.doctor.sun.ui.activity.patient.handler.PatientHandler;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -44,7 +44,7 @@ public class Patient implements Parcelable {
     @JsonProperty("phone")
     private String phone;
     @JsonIgnore
-    public EditPatientHandler handler = new EditPatientHandler(this);
+    public PatientHandler handler = new PatientHandler(this);
 
 
     public void setId(int id) {
@@ -119,11 +119,11 @@ public class Patient implements Parcelable {
         return phone;
     }
 
-    public EditPatientHandler getHandler() {
+    public PatientHandler getHandler() {
         return handler;
     }
 
-    public void setHandler(EditPatientHandler handler) {
+    public void setHandler(PatientHandler handler) {
         this.handler = handler;
     }
 

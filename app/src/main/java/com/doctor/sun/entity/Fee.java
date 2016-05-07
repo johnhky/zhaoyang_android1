@@ -14,14 +14,6 @@ public class Fee {
     private int second_money;
     private int commission;
 
-    @Override
-    public String toString() {
-        return "Fee{" +
-                "money=" + money +
-                ", second_money=" + second_money +
-                ", commission=" + commission +
-                '}';
-    }
 
     public void setMoney(int money) {
         this.money = money;
@@ -47,4 +39,12 @@ public class Fee {
         this.commission = commission;
     }
 
+    @Override
+    public String toString() {
+        return "Fee{" +
+                "money=" + money +
+                ", second_money=" + second_money +
+                ", commission=" + commission +
+                '}';
+    }
 }

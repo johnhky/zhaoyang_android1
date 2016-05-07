@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.SystemTip" />
+            type="com.doctor.sun.entity.SystemMsg" />
 
         <variable
             name="vh"
@@ -36,7 +36,7 @@
             android:paddingLeft="@dimen/dp_13"
             android:paddingRight="@dimen/dp_13"
             app:adapter="@{adapter}"
-            app:itemClick="@{data.handler.systemTip}"
+            app:itemClick="@{data.handler.systemMsgList}"
             app:vh="@{vh}">
 
             <com.doctor.sun.ui.widget.BezelImageView

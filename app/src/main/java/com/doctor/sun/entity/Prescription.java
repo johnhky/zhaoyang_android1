@@ -23,6 +23,7 @@ import java.util.List;
 
 /**
  * Created by rick on 29/12/2015.
+ * 用药信息
  */
 public class Prescription extends BaseObservable implements Parcelable {
 

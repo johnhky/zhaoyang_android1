@@ -8,7 +8,7 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.emoji.Emoticon;
-import com.doctor.sun.entity.VoipAccount;
+import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
@@ -39,7 +39,7 @@ public class Messenger {
     public static final String TAG = Messenger.class.getSimpleName();
     private static Messenger instance;
 
-    private VoipAccount account;
+    private ImAccount account;
     private ECInitParams params;
 
     public static Messenger getInstance() {
@@ -50,13 +50,13 @@ public class Messenger {
     }
 
     public void login() {
-        VoipAccount account = getVoipAccount();
+        ImAccount account = getVoipAccount();
         if (account != null) {
             Messenger.getInstance().login(account);
         }
     }
 
-    public void login(final VoipAccount account) {
+    public void login(final ImAccount account) {
         try {
             loginRIM(account);
         } catch (Exception e) {
@@ -69,7 +69,7 @@ public class Messenger {
         }
     }
 
-    private void loginNIM(VoipAccount account) {
+    private void loginNIM(ImAccount account) {
         NIMConnectionState instance = NIMConnectionState.getInstance();
 
         if (instance.isLogin()) {
@@ -83,7 +83,7 @@ public class Messenger {
     }
 
     //登录容联im
-    private void loginRIM(VoipAccount account) {
+    private void loginRIM(ImAccount account) {
         if (isRIMLogin()) {
             return;
         }
@@ -174,10 +174,10 @@ public class Messenger {
         return account.getVoipAccount();
     }
 
-    public static VoipAccount getVoipAccount() {
+    public static ImAccount getVoipAccount() {
         String json = Config.getString(Constants.VOIP_ACCOUNT);
         if (null != json && !json.equals("")) {
-            VoipAccount account = JacksonUtils.fromJson(json, VoipAccount.class);
+            ImAccount account = JacksonUtils.fromJson(json, ImAccount.class);
             return account;
         }
         return null;

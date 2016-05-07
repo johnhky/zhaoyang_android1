@@ -1,13 +1,12 @@
 package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.dto.DoctorPageDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.WeChatPayDTO;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.EmergencyCall;
+import com.doctor.sun.entity.constans.AppointmentType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +35,7 @@ public interface AppointmentModule {
      * @return
      */
     @GET("appointment/allDoctor/")
-    Call<ApiDTO<DoctorPageDTO<Doctor>>> doctors(@Query("page") String page, @QueryMap HashMap<String, String> query, @Query("title[]") ArrayList<Integer> titleParam);
+    Call<ApiDTO<PageDTO<Doctor>>> doctors(@Query("page") String page, @QueryMap HashMap<String, String> query, @Query("title[]") ArrayList<Integer> titleParam);
 
     @GET("appointment/recent-doctors")
     Call<ApiDTO<List<Doctor>>> recentDoctors(@Query("page") String page, @QueryMap HashMap<String, String> query, @Query("title[]") ArrayList<Integer> titleParam);

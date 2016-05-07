@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.MedicineHelper" />
+            type="com.doctor.sun.entity.MedicineStore" />
 
         <variable
             name="adapter"

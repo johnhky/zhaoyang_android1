@@ -8,13 +8,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
-import com.doctor.sun.entity.NimTeamId;
+import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.vo.InputLayoutViewModel;
 
 /**
  * Created by rick on 7/4/2016.
+ * 表情
  */
 public class Emoticon implements LayoutId {
     public final int itemLayoutId;

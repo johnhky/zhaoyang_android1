@@ -376,7 +376,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.SystemTipActivity"
+            android:name=".ui.activity.patient.SystemMsgListActivity"
             android:screenOrientation="portrait" />
 
         <activity

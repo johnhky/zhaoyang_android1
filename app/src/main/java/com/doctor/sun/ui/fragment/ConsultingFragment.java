@@ -11,8 +11,8 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.MedicineHelper;
-import com.doctor.sun.entity.SystemTip;
+import com.doctor.sun.entity.MedicineStore;
+import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
@@ -101,11 +101,11 @@ public class ConsultingFragment extends RefreshListFragment {
         ConsultingAdapter adapter = new ConsultingAdapter(getContext(), realm);
         int userType = Config.getInt(Constants.USER_TYPE, -1);
         if (userType == AuthModule.PATIENT_TYPE) {
-            adapter.add(new SystemTip());
-            adapter.add(new MedicineHelper());
+            adapter.add(new SystemMsg());
+            adapter.add(new MedicineStore());
             adapter.mapLayout(R.layout.item_appointment, R.layout.p_item_consulting);
         } else {
-            adapter.add(new SystemTip());
+            adapter.add(new SystemMsg());
             adapter.mapLayout(R.layout.item_appointment, R.layout.item_consulting);
         }
         return adapter;
@@ -120,8 +120,8 @@ public class ConsultingFragment extends RefreshListFragment {
                 @Override
                 public void onInitHeader() {
                     super.onInitHeader();
-                    getAdapter().add(new SystemTip());
-                    getAdapter().add(new MedicineHelper());
+                    getAdapter().add(new SystemMsg());
+                    getAdapter().add(new MedicineStore());
                 }
 
                 @Override
@@ -178,7 +178,7 @@ public class ConsultingFragment extends RefreshListFragment {
                 @Override
                 public void onInitHeader() {
                     super.onInitHeader();
-                    getAdapter().add(new SystemTip());
+                    getAdapter().add(new SystemMsg());
                 }
 
                 @Override

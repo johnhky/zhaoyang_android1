@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
-import com.doctor.sun.entity.VoipAccount;
+import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.im.Messenger;
 
@@ -44,7 +44,7 @@ public class FooterViewModel extends BaseObservable {
         this.mView = mView;
         this.id = position;
         this.realm = realm;
-        final VoipAccount accountDTO = Messenger.getVoipAccount();
+        final ImAccount accountDTO = Messenger.getVoipAccount();
         if (accountDTO == null) return;
         final String voipAccount = accountDTO.getVoipAccount();
         long unReadMsg = realm.where(TextMsg.class).equalTo("haveRead", false).count();

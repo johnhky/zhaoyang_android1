@@ -55,7 +55,7 @@ public class ConsultingActivity extends BaseFragmentActivity2 {
         super.onStart();
         //TODO
 //        String json = Config.getString(Constants.VOIP_ACCOUNT);
-//        VoipAccount account = JacksonUtils.fromJson(json, VoipAccount.class);
+//        ImAccount account = JacksonUtils.fromJson(json, ImAccount.class);
 //        if (account != null) {
 //            Messenger.getInstance().login(account);
 //        }

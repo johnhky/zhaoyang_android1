@@ -13,7 +13,7 @@ import android.view.WindowManager;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.PopupAudioBinding;
-import com.doctor.sun.entity.NimTeamId;
+import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.im.Messenger;
 import com.netease.nimlib.sdk.media.record.AudioRecorder;
 import com.netease.nimlib.sdk.media.record.IAudioRecordCallback;

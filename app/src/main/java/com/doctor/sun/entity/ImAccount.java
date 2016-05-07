@@ -6,7 +6,7 @@ import com.netease.nimlib.sdk.auth.LoginInfo;
 /**
  * Created by rick on 11/18/15.
  */
-public class VoipAccount {
+public class ImAccount {
     @JsonProperty("user_id")
     private long userId;
     @JsonProperty("subAccountSid")

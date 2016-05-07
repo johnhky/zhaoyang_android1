@@ -1,7 +1,7 @@
 package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
-import com.doctor.sun.ui.activity.patient.handler.SystemTipHandler;
+import com.doctor.sun.ui.activity.patient.handler.SystemMsgHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,8 +9,9 @@ import io.realm.annotations.Ignore;
 
 /**
  * Created by lucas on 1/29/16.
+ * 系统信息
  */
-public class SystemTip implements LayoutId {
+public class SystemMsg implements LayoutId {
 
     /**
      * title : 【昭阳医生】提醒：刘医生提醒您完善问卷，请及时登录处理。
@@ -49,14 +50,14 @@ public class SystemTip implements LayoutId {
     }*/
 
     @Ignore
-    private SystemTipHandler handler = new SystemTipHandler(this);
+    private SystemMsgHandler handler = new SystemMsgHandler(this);
 
 
-    public SystemTipHandler getHandler() {
+    public SystemMsgHandler getHandler() {
         return handler;
     }
 
-    public void setHandler(SystemTipHandler handler) {
+    public void setHandler(SystemMsgHandler handler) {
         this.handler = handler;
     }
 

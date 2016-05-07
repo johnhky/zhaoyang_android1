@@ -26,8 +26,8 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.NimTeamId;
-import com.doctor.sun.entity.VoipAccount;
+import com.doctor.sun.entity.ImAccount;
+import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.im.TextMsg;
@@ -91,13 +91,13 @@ import retrofit2.Call;
 
 /**
  * Created by rick on 11/20/15.
+ * 所有关于预约的逻辑都在这里, 跳转界面,是否过期等,剩下的进行中时间
  */
-public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doctor.sun.util.PayInterface, NimTeamId {
+public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.util.PayInterface, NimTeamId {
     public static final int RECORD_AUDIO_PERMISSION = 40;
     public static final int PHONE_CALL_PERMISSION = 50;
     private static AppointmentModule api = Api.of(AppointmentModule.class);
     protected Appointment data;
-    private static final int layoutId = R.layout.item_appointment;
     private DrugModule drugModule = Api.of(DrugModule.class);
 
     public AppointmentHandler(Appointment data) {
@@ -189,10 +189,6 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
         return "[" + data.getId() + "," + data.getRecordId() + "]";
     }
 
-    @Override
-    public int getItemLayoutId() {
-        return layoutId;
-    }
 
     public OnItemClickListener cancel() {
         return new OnItemClickListener() {
@@ -745,7 +741,7 @@ public class AppointmentHandler implements LayoutId, PayMethodInterface, com.doc
             // 创建回拨呼叫参数信息
             ECVoIPCallManager.CallBackEntity callBackEntity = new ECVoIPCallManager.CallBackEntity();
             // 设置Tony的电话号码
-            VoipAccount account = com.doctor.sun.im.Messenger.getVoipAccount();
+            ImAccount account = com.doctor.sun.im.Messenger.getVoipAccount();
             if (account == null) {
                 return;
             }

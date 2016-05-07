@@ -19,7 +19,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.activity.patient.handler.EditPatientHandler;
+import com.doctor.sun.ui.activity.patient.handler.PatientHandler;
 import com.doctor.sun.ui.binding.CustomBinding;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.PickImageDialog;
@@ -37,7 +37,7 @@ import retrofit2.Response;
 /**
  * Created by lucas on 1/4/16.
  */
-public class EditPatientInfoActivity extends BaseFragmentActivity2 implements EditPatientHandler.IEditPatient {
+public class EditPatientInfoActivity extends BaseFragmentActivity2 implements PatientHandler.IEditPatient {
     private static final int CODE_IMAGE_REQUEST = 8;
     private ProfileModule api = Api.of(ProfileModule.class);
     private ToolModule uploadUriApi = Api.of(ToolModule.class);

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by rick on 12/10/15.
+ * 转诊,复诊信息
  */
 public class ReturnInfo implements Parcelable {
 

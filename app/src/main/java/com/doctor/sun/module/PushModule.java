@@ -2,7 +2,7 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.SystemTip;
+import com.doctor.sun.entity.SystemMsg;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -14,5 +14,5 @@ import retrofit2.http.Query;
  */
 public interface PushModule {
     @GET("pushMessage/messages")
-    Call<ApiDTO<PageDTO<SystemTip>>> systemTip(@Query("page") String page);
+    Call<ApiDTO<PageDTO<SystemMsg>>> systemMsg(@Query("page") String page);
 }

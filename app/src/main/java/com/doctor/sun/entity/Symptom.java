@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by rick on 12/21/15.
+ * 医生建议 症状,这里需要修改
  */
 public class Symptom extends BaseObservable implements LayoutId {
     public static final String TAG = Symptom.class.getSimpleName();

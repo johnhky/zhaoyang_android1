@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by rick on 11/24/15.
+ * 问题选项
  */
 public class Options implements LayoutId {
     public static final OptionsHandler handler = new OptionsHandler();

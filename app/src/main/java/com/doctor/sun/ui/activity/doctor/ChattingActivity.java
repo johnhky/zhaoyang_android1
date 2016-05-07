@@ -19,7 +19,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.NeedSendDrug;
-import com.doctor.sun.entity.NimTeamId;
+import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.HideInputEvent;
