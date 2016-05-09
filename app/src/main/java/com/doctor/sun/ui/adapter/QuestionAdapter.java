@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.databinding.ItemOptions2Binding;
 import com.doctor.sun.databinding.ItemOptionsBinding;
 import com.doctor.sun.databinding.ItemQuestionBinding;
 import com.doctor.sun.entity.Options;
@@ -43,7 +44,7 @@ public class QuestionAdapter extends SimpleAdapter<Question, ItemQuestionBinding
             Question question = (Question) get(vh.getAdapterPosition());
             List<Options> optionsList = question.getOptions();
             for (Options options : optionsList) {
-                ItemOptionsBinding optionsBinding = ItemOptionsBinding.inflate(LayoutInflater.from(getContext()), (ViewGroup) binding.getRoot(), false);
+                ItemOptions2Binding optionsBinding = ItemOptions2Binding.inflate(LayoutInflater.from(getContext()), (ViewGroup) binding.getRoot(), false);
                 binding.llyOptions.addView(optionsBinding.getRoot());
                 if (!Objects.equals(options.getOptionContent(), "{fill}")) {
                     optionsBinding.tvOption.setText(options.getOptionType() + "." + options.getOptionContent());
