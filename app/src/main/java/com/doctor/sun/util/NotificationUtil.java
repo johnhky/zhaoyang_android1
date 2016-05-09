@@ -71,12 +71,11 @@ public class NotificationUtil {
         managerCompat.notify(NEW_MSG, notification);
     }
 
-    public static void onFinishDownloadFile(File file) {
+    public static void onFinishDownloadFile(Intent i) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
         builder.setContentText("下载已完成,点击打开文件");
         builder.setContentTitle("昭阳医生");
         builder.setSmallIcon(R.drawable.ic_notification);
-        Intent i = UpdateUtil.getInstallIntent(file.getAbsolutePath());
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(AppContext.me(), NEW_MSG, i, 0);

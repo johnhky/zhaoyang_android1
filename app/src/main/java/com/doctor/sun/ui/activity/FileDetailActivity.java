@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
@@ -15,9 +16,9 @@ import com.doctor.sun.databinding.ActivityFileDetailBinding;
 import com.doctor.sun.event.ProgressEvent;
 import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.util.DownloadUtil;
 import com.doctor.sun.util.MD5;
 import com.doctor.sun.util.NotificationUtil;
-import com.doctor.sun.util.UpdateUtil;
 import com.squareup.otto.Subscribe;
 
 import java.io.File;
@@ -57,7 +58,7 @@ public class FileDetailActivity extends BaseActivity2 {
             public void onClick(View v) {
                 File file = getFile();
                 if (!isDownloaded()) {
-                    UpdateUtil.downLoadFile(getUrl(), file, new DownloadFinishCallback());
+                    DownloadUtil.downLoadFile(getUrl(), file, new DownloadFinishCallback());
                 } else {
                     openFile(file);
                 }
@@ -88,7 +89,11 @@ public class FileDetailActivity extends BaseActivity2 {
 
     @Subscribe
     public void onDownloadProgress(ProgressEvent event) {
-        NotificationUtil.showNotification(event.getTotalRead(), event.getTotalLength());
+        if (event.getTotalLength() == event.getTotalRead()) {
+            NotificationUtil.onFinishDownloadFile(getOpenFileIntent(getFile()));
+        }else {
+            NotificationUtil.showNotification(event.getTotalRead(), event.getTotalLength());
+        }
     }
 
     public String getLocalPathFor(String url) {
@@ -96,7 +101,7 @@ public class FileDetailActivity extends BaseActivity2 {
     }
 
     public File getFile() {
-        return new File(Config.getDataPath(), getLocalPathFor(getUrl()));
+        return new File(Config.getTempPath(), getLocalPathFor(getUrl()));
     }
 
     private String getUrl() {
@@ -109,20 +114,26 @@ public class FileDetailActivity extends BaseActivity2 {
 
     public void openFile(File file) {
         try {
-            Intent intent = new Intent("android.intent.action.VIEW");
-
-            intent.addCategory("android.intent.category.DEFAULT");
-
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            Uri uri = Uri.fromFile(file);
-
-            intent.setDataAndType(uri, MimeTypeMap.getSingleton().getMimeTypeFromExtension(getExtension()));
+            Intent intent = getOpenFileIntent(file);
 
             startActivity(intent);
         }catch (ActivityNotFoundException e) {
             Toast.makeText(FileDetailActivity.this, "无法打开文件", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @NonNull
+    private Intent getOpenFileIntent(File file) {
+        Intent intent = new Intent("android.intent.action.VIEW");
+
+        intent.addCategory("android.intent.category.DEFAULT");
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        Uri uri = Uri.fromFile(file);
+
+        intent.setDataAndType(uri, MimeTypeMap.getSingleton().getMimeTypeFromExtension(getExtension()));
+        return intent;
     }
 
     private class DownloadFinishCallback implements Runnable {

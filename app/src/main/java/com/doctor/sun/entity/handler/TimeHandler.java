@@ -33,8 +33,8 @@ public class TimeHandler {
     public static final int ONE_HOUR = 3600000;
 
     private Time data;
-    private int mhour;
-    private int mminute;
+    private int mHour;
+    private int mMinute;
 
     public TimeHandler(Time time) {
         data = time;
@@ -150,12 +150,12 @@ public class TimeHandler {
         TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                mhour = hourOfDay;
-                mminute = minute;
-                tvBeginTime.setText(String.format("%02d:%02d", mhour, mminute));
+                mHour = hourOfDay;
+                mMinute = minute;
+                tvBeginTime.setText(String.format(Locale.CHINA, "%02d:%02d", mHour, mMinute));
             }
         };
-        TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), onTimeSetListener, mhour, mminute, true);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), onTimeSetListener, mHour, mMinute, true);
         timePickerDialog.show();
     }
 
@@ -165,12 +165,12 @@ public class TimeHandler {
         TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                mhour = hourOfDay;
-                mminute = minute;
-                tvEndTime.setText(String.format("%02d:%02d", mhour, mminute));
+                mHour = hourOfDay;
+                mMinute = minute;
+                tvEndTime.setText(String.format(Locale.CHINA, "%02d:%02d", mHour, mMinute));
             }
         };
-        TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), onTimeSetListener, mhour, mminute, true);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), onTimeSetListener, mHour, mMinute, true);
         timePickerDialog.show();
     }
 

@@ -19,6 +19,8 @@ public class Version {
     private double nowVersion;
     @JsonProperty("download_url")
     private String downloadUrl;
+    @JsonProperty("md5")
+    private String md5;
 
     public boolean getForceUpdate() {
         return forceUpdate;
@@ -42,5 +44,13 @@ public class Version {
 
     public void setDownloadUrl(String downloadUrl) {
         this.downloadUrl = downloadUrl;
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
     }
 }
