@@ -3,7 +3,6 @@ package com.doctor.sun.http;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
@@ -11,7 +10,6 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.util.JacksonUtils;
 
 import java.io.IOException;
-import java.net.SocketTimeoutException;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.util.Systems;
@@ -90,13 +88,8 @@ public class Api {
                     .addHeader("version", "1.20")
                     .addHeader("client", "android")
                     .build();
-            try {
-                Log.e(TAG, request.method() + " " + request.url() + " token " + token);
-                return chain.proceed(request);
-            } catch (SocketTimeoutException e) {
-                Log.e(TAG, "intercept: timeout");
-                return null;
-            }
+            Log.e(TAG, request.method() + " " + request.url() + " token " + token);
+            return chain.proceed(request);
         }
     }
 }
