@@ -17,6 +17,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
@@ -61,16 +62,9 @@ public class FeedbackActivity extends BaseActivity2 {
             public void onClick(View v) {
                 final Eval eval = new Eval(binding.ratingBar0.getRating(), binding.ratingBar1.getRating(), binding.ratingBar2.getRating(), binding.ratingBar3.getRating());
 
-                api.evaluatePatient(String.valueOf(eval.mean()), getData().getId(), eval.getDetail(), "").enqueue(new ApiCallback<String>() {
+                api.evaluatePatient(String.valueOf(eval.mean()), getData().getId(), eval.getDetail(), "").enqueue(new SimpleCallback<String>() {
                     @Override
                     protected void handleResponse(String response) {
-                        Toast.makeText(FeedbackActivity.this, "成功评价病人", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-
-                    @Override
-                    protected void handleApi(ApiDTO<String> body) {
-                        super.handleApi(body);
                         Toast.makeText(FeedbackActivity.this, "成功评价病人", Toast.LENGTH_SHORT).show();
                         try {
                             Message message = new Message();

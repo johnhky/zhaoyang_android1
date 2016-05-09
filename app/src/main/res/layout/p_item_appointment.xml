@@ -248,6 +248,32 @@
 
         </LinearLayout>
 
+        <FrameLayout
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="@dimen/dp_35"
+            android:layout_gravity="end"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_7"
+            android:visibility="@{data.handler.showCommentBtn()}"
+            android:background="@drawable/btn_comment"
+            app:selected="@{data.handler.hasDoctorComment}">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:text='@{data.handler.hasDoctorComment()?"已评价":"评  价"}'
+                android:textColor="#fff"
+                android:textSize="@dimen/font_13"
+                app:adapter="@{adapter}"
+                app:itemClick="@{data.handler.pComment}"
+                app:vh="@{vh}" />
+
+        </FrameLayout>
+
         <View
             android:id="@+id/bottom"
             android:layout_width="match_parent"

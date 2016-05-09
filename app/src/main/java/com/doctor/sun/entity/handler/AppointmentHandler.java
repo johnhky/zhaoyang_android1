@@ -27,7 +27,6 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.ImAccount;
-import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.im.TextMsg;
@@ -41,6 +40,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.im.NIMConnectionState;
+import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
@@ -58,7 +58,6 @@ import com.doctor.sun.ui.activity.patient.PayFailActivity;
 import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
 import com.doctor.sun.ui.activity.patient.PickDateActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.handler.PayMethodInterface;
@@ -375,7 +374,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         };
     }
 
-    public OnItemClickListener pcomment() {
+    public OnItemClickListener pComment() {
         return new OnItemClickListener() {
             @Override
             public void onItemClick(final BaseAdapter adapter, View view, final BaseViewHolder vh) {
@@ -918,5 +917,9 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public String lastMsgTime() {
         Date date = new Date(lastMsg(Realm.getDefaultInstance()).getTime());
         return date.toString();
+    }
+
+    public boolean showCommentBtn() {
+        return data.getOrderStatus().equals("已完成");
     }
 }

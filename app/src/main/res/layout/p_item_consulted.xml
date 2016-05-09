@@ -193,7 +193,7 @@
                     android:textColor="#fff"
                     android:textSize="@dimen/font_13"
                     app:adapter="@{adapter}"
-                    app:itemClick="@{data.handler.pcomment}"
+                    app:itemClick="@{data.handler.pComment}"
                     app:vh="@{vh}" />
 
             </FrameLayout>
