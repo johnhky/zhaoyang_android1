@@ -22,6 +22,11 @@ public class ItemDivider implements LayoutId {
         this.itemLayoutId = itemLayoutId;
     }
 
+    public ItemDivider(int itemLayoutId, String content) {
+        this.itemLayoutId = itemLayoutId;
+        this.content = content;
+    }
+
     @Override
     public int getItemLayoutId() {
         return itemLayoutId;

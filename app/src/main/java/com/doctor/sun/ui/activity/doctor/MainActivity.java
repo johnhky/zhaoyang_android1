@@ -85,7 +85,7 @@ public class MainActivity extends BaseDoctorActivity {
             @Override
             protected void handleResponse(DoctorIndex response) {
                 getRealm().beginTransaction();
-                getRealm().clear(DoctorIndex.class);
+                getRealm().delete(DoctorIndex.class);
                 getRealm().copyToRealmOrUpdate(response);
                 getRealm().commitTransaction();
             }

@@ -155,7 +155,7 @@ public class SettingHandler extends BaseHandler {
     private static class ClearAllTransaction implements Realm.Transaction {
         @Override
         public void execute(Realm realm) {
-            realm.where(TextMsg.class).findAll().clear();
+            realm.where(TextMsg.class).findAll().deleteAllFromRealm();
         }
     }
 }

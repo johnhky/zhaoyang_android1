@@ -1,12 +1,21 @@
 package com.doctor.sun.util;
 
+import android.content.Context;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,5 +118,40 @@ public class JacksonUtils {
      */
     public static <T> T fromMap(Map map, Class<T> clazz) {
         return getInstance().convertValue(map, clazz);
+    }
+
+    public static final <V> V fromResource(Context context, int resource, Class<V> type) {
+        try {
+            return fromJson(parseResource(context, resource), type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static final <V> V fromResource(Context context, int resource, JavaType type) {
+        try {
+            return fromJson(parseResource(context, resource), type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static final String parseResource(Context context, int resource) throws IOException {
+        InputStream is = context.getResources().openRawResource(resource);
+        Writer writer = new StringWriter();
+        char[] buffer = new char[1024];
+        try {
+            Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            int n;
+            while ((n = reader.read(buffer)) != -1) {
+                writer.write(buffer, 0, n);
+            }
+        } finally {
+            is.close();
+        }
+
+        return writer.toString();
     }
 }
