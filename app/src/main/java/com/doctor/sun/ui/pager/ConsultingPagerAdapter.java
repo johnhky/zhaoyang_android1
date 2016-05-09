@@ -23,9 +23,9 @@ public class ConsultingPagerAdapter extends FragmentPagerAdapter {
             case 0: {
                 return new ConsultingFragment();
             }
-            case 1: {
-                return new ConsultedFragment();
-            }
+//            case 1: {
+//                return new ConsultedFragment();
+//            }
         }
         return null;
     }

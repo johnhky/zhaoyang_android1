@@ -253,15 +253,16 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     @Override
     protected void onStart() {
         super.onStart();
-        listener = new RealmChangeListener() {
-            @Override
-            public void onChange() {
-                if (mChatAdapter != null) {
-                    mChatAdapter.notifyDataSetChanged();
+        if (results != null){
+            results.addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
+                @Override
+                public void onChange(RealmResults<TextMsg> element) {
+                    if (mChatAdapter != null) {
+                        mChatAdapter.notifyDataSetChanged();
+                    }
                 }
-            }
-        };
-        getRealm().addChangeListener(listener);
+            });
+        }
     }
 
     @Override

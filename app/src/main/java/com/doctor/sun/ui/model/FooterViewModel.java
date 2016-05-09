@@ -12,6 +12,7 @@ import com.doctor.sun.im.Messenger;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+import io.realm.RealmQuery;
 
 
 /**
@@ -47,12 +48,18 @@ public class FooterViewModel extends BaseObservable {
         final ImAccount accountDTO = Messenger.getVoipAccount();
         if (accountDTO == null) return;
         final String voipAccount = accountDTO.getVoipAccount();
-        long unReadMsg = realm.where(TextMsg.class).equalTo("haveRead", false).count();
+        RealmQuery<TextMsg> haveRead = realm.where(TextMsg.class).equalTo("haveRead", false);
+        long unReadMsg = haveRead.count();
         setCount((int) unReadMsg);
 
-        realm.addChangeListener(new RealmChangeListener() {
+        realm.addChangeListener(new RealmChangeListener<Realm>() {
+            /**
+             * Called when a transaction is committed.
+             *
+             * @param realm
+             */
             @Override
-            public void onChange() {
+            public void onChange(Realm realm) {
                 long unReadMsg = realm.where(TextMsg.class).equalTo("haveRead", false).count();
                 setCount((int) unReadMsg);
             }

@@ -49,21 +49,25 @@ public class MainActivity extends BaseDoctorActivity {
             new PassDialog(this).show();
             Config.putInt(Constants.PASSFIRSTTIME, NOTFIRSTTIME);
         }
-        RealmChangeListener listener = new RealmChangeListener() {
+        RealmResults<DoctorIndex> doctorIndexes = getRealm().where(DoctorIndex.class).findAll();
+        setDoctorIndex(doctorIndexes);
+
+        doctorIndexes.addChangeListener(new RealmChangeListener<RealmResults<DoctorIndex>>() {
             @Override
-            public void onChange() {
-                RealmResults<DoctorIndex> doctorIndexes = getRealm().allObjects(DoctorIndex.class);
-                if (!doctorIndexes.isEmpty()) {
-                    DoctorIndex first = doctorIndexes.first();
-                    binding.setData(first);
-                    binding.executePendingBindings();
-                    long unReadCount = getRealm().where(TextMsg.class).equalTo("haveRead", false).count();
-                    binding.setCount((int) unReadCount);
-                }
+            public void onChange(RealmResults<DoctorIndex> element) {
+                setDoctorIndex(element);
             }
-        };
-        getRealm().addChangeListener(listener);
-        listener.onChange();
+        });
+    }
+
+    private void setDoctorIndex(RealmResults<DoctorIndex> element) {
+        if (!element.isEmpty()) {
+            DoctorIndex first = element.first();
+            binding.setData(first);
+            binding.executePendingBindings();
+            long unReadCount = getRealm().where(TextMsg.class).equalTo("haveRead", false).count();
+            binding.setCount((int) unReadCount);
+        }
     }
 
     @Override

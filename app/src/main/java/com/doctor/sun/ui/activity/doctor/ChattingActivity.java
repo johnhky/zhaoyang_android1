@@ -85,6 +85,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     private String sendTo;
     private String userData;
     private DrugModule drugModule = Api.of(DrugModule.class);
+    private RealmResults<TextMsg> results;
 
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, ChattingActivity.class);
@@ -165,7 +166,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
         query = getRealm().where(TextMsg.class)
                 .equalTo("sessionId", sendTo);
-        RealmResults<TextMsg> results = query.findAllSorted("time", Sort.DESCENDING);
+        results = query.findAllSorted("time", Sort.DESCENDING);
         if (results.isEmpty()) {
             loadFirstPage();
         }
@@ -234,15 +235,16 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     @Override
     protected void onStart() {
         super.onStart();
-        listener = new RealmChangeListener() {
-            @Override
-            public void onChange() {
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
+        if (results != null){
+            results.addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
+                @Override
+                public void onChange(RealmResults<TextMsg> element) {
+                    if (adapter != null) {
+                        adapter.notifyDataSetChanged();
+                    }
                 }
-            }
-        };
-        getRealm().addChangeListener(listener);
+            });
+        }
     }
 
     @Override

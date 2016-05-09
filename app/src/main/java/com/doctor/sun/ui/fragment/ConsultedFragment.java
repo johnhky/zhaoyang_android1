@@ -23,7 +23,9 @@ import io.realm.RealmChangeListener;
 
 /**
  * Created by rick on 12/18/15.
+ *
  */
+@Deprecated
 public class ConsultedFragment extends RefreshListFragment {
     public static final String TAG = ConsultedFragment.class.getSimpleName();
     public static final String STARTTIME = "STARTIME";
@@ -39,8 +41,13 @@ public class ConsultedFragment extends RefreshListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listener = new RealmChangeListener() {
+            /**
+             * Called when a transaction is committed.
+             *
+             * @param element
+             */
             @Override
-            public void onChange() {
+            public void onChange(Object element) {
                 getAdapter().notifyDataSetChanged();
             }
         };

@@ -36,6 +36,7 @@ import java.util.List;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.util.Tasks;
+import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.Sort;
@@ -46,7 +47,7 @@ import io.realm.Sort;
 public class ConsultingFragment extends RefreshListFragment {
     public static final String TAG = ConsultingFragment.class.getSimpleName();
     private AppointmentModule api = Api.of(AppointmentModule.class);
-    private RealmChangeListener listener;
+    private RealmChangeListener<Realm> listener;
     private PageCallback<Appointment> callback;
 
     public ConsultingFragment() {
@@ -55,9 +56,9 @@ public class ConsultingFragment extends RefreshListFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listener = new RealmChangeListener() {
+        listener = new RealmChangeListener<Realm>() {
             @Override
-            public void onChange() {
+            public void onChange(Realm element) {
                 List origin = getAdapter().getData();
                 int padding = 2;
                 if (AppContext.isDoctor()) {
