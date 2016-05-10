@@ -10,6 +10,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.emoji.Emoticon;
 import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.event.SendMessageEvent;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
 import com.doctor.sun.ui.activity.VoIPCallActivity;
@@ -30,6 +31,7 @@ import com.yuntongxun.ecsdk.ECVoIPSetupManager;
 import java.io.File;
 
 import io.ganguo.library.Config;
+import io.ganguo.library.core.event.EventHub;
 
 
 /**
@@ -223,6 +225,7 @@ public class Messenger {
         config.enableUnreadCount = false; // 该消息不计入未读数
         config.enableHistory = true;
         message.setConfig(config);
+        EventHub.post(new SendMessageEvent());
 
         NIMClient.getService(MsgService.class).sendMessage(message, true);
     }

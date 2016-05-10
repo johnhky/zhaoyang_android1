@@ -19,14 +19,15 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.NeedSendDrug;
-import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.HideInputEvent;
+import com.doctor.sun.event.SendMessageEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.im.Messenger;
 import com.doctor.sun.im.NIMConnectionState;
+import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ImModule;
@@ -235,7 +236,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     @Override
     protected void onStart() {
         super.onStart();
-        if (results != null){
+        if (results != null) {
             results.addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
                 @Override
                 public void onChange(RealmResults<TextMsg> element) {
@@ -439,5 +440,12 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                 binding.refreshLayout.setRefreshing(false);
             }
         });
+    }
+
+    @Subscribe
+    public void onSendMessageEvent(SendMessageEvent e) {
+        if (handler != null) {
+            handler.alertAppointmentFinished(this);
+        }
     }
 }

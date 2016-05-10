@@ -672,9 +672,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         if (NIMConnectionState.getInstance().isLogin()) {
             if (getTeamId() != null && !getTeamId().isEmpty()) {
                 com.doctor.sun.im.Messenger.getInstance().sentTextMsg(getTeamId(), SessionTypeEnum.Team, inputText.getText().toString());
-                if (isFinished() && !AppContext.isDoctor()) {
-                    Toast.makeText(inputText.getContext(), "预约已经结束,请重新预约", Toast.LENGTH_SHORT).show();
-                }
                 inputText.setText("");
             } else if (getP2PId() != null && !getP2PId().isEmpty()) {
                 com.doctor.sun.im.Messenger.getInstance().sentTextMsg(getP2PId(), SessionTypeEnum.P2P, inputText.getText().toString());
@@ -683,6 +680,12 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         } else {
             Toast.makeText(inputText.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
             com.doctor.sun.im.Messenger.getInstance().login();
+        }
+    }
+
+    public void alertAppointmentFinished(Context context) {
+        if (isFinished() && !AppContext.isDoctor()) {
+            Toast.makeText(context, "预约已经结束,请重新预约", Toast.LENGTH_SHORT).show();
         }
     }
 
