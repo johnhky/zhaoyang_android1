@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Created by rick on 11/20/15.
  * 医生首页
  */
-public class DoctorIndex extends RealmObject{
+public class DoctorIndex extends RealmObject {
 
 
     /**
@@ -31,6 +32,7 @@ public class DoctorIndex extends RealmObject{
     private int consultNum;
     @JsonProperty("transfer_num")
     private int transferNum;
+    @Required
     @PrimaryKey
     @JsonProperty("name")
     private String name;

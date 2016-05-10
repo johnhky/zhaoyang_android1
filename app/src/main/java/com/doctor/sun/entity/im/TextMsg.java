@@ -2,6 +2,7 @@ package com.doctor.sun.entity.im;
 
 
 import android.support.annotation.IntDef;
+import android.support.annotation.RequiresPermission;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -12,6 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Created by rick on 12/10/15.
@@ -38,6 +40,7 @@ public class TextMsg extends RealmObject implements LayoutId {
     private String type;
     private String direction;
     private String body;
+    @Required
     @PrimaryKey
     private String msgId;
     private long time;

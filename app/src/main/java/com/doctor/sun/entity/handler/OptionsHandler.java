@@ -124,6 +124,14 @@ public class OptionsHandler {
 
                 List<Options> optionsList = answer.getQuestion().getOptions();
 
+                int padding;
+                if (answer.getIsFill() != 0) {
+                    answer.setIsFill(0);
+                    padding = 0;
+                } else {
+                    padding = 1;
+                }
+
                 switch (answer.getQuestion().getQuestionType()) {
                     case Question.TYPE_RADIO: {
                         selectedOptions.clear();
@@ -133,7 +141,7 @@ public class OptionsHandler {
                             selectedOptions.put(options.getOptionType(), options.getOptionContent());
                         }
                         adapter.set(parentPosition, answer);
-                        adapter.notifyItemRangeChanged(parentPosition + 1, optionsList.size());
+                        adapter.notifyItemRangeChanged(parentPosition + padding, optionsList.size());
                         break;
                     }
                     case Question.TYPE_CHECKBOX: {
@@ -147,7 +155,7 @@ public class OptionsHandler {
                                 selectedOptions.put(options.getOptionType(), options.getOptionContent());
                             }
                             adapter.set(parentPosition, answer);
-                            adapter.notifyItemRangeChanged(parentPosition + 1, optionsList.size());
+                            adapter.notifyItemRangeChanged(parentPosition + padding, optionsList.size());
 
                         } else {
                             //一般的checkbox
@@ -166,7 +174,11 @@ public class OptionsHandler {
                             answer.setAnswerContent(selectedOptions.values());
                             answer.setAnswerType(selectedOptions.keySet());
                             adapter.set(parentPosition, answer);
-                            adapter.notifyItemRangeChanged(parentPosition + 1, optionsList.size());
+                            if (selectedOptions.isEmpty()) {
+                                padding = 0;
+                                answer.setIsFill(1);
+                            }
+                            adapter.notifyItemRangeChanged(parentPosition + padding, optionsList.size());
                         }
                         break;
                     }

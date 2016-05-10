@@ -3,12 +3,14 @@ package com.doctor.sun.bean;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Created by rick on 5/1/2016.
  */
 public class Province extends RealmObject {
 
+    @Required
     @PrimaryKey
     private String State;
     private double maxLon;

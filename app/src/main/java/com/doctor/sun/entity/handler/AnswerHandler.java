@@ -104,6 +104,7 @@ public class AnswerHandler {
                                 Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
                                 Answer answer = (Answer) adapter.get(vh.getAdapterPosition());
                                 answer.getPrescriptions().add(parcelable);
+                                answer.setIsFill(0);
                                 adapter.set(vh.getAdapterPosition(), answer);
                                 adapter.notifyItemChanged(vh.getAdapterPosition());
                             }
@@ -131,7 +132,7 @@ public class AnswerHandler {
                 Api.of(DiagnosisModule.class).lastDrug(id.getId()).enqueue(new SimpleCallback<List<Prescription>>() {
                     @Override
                     protected void handleResponse(List<Prescription> response) {
-                        if (response == null){
+                        if (response == null) {
                             Toast.makeText(adapter.getContext(), "没有预约记录", Toast.LENGTH_SHORT).show();
                             return;
                         }
