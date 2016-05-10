@@ -13,10 +13,8 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityFeedbackBinding;
-import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
@@ -62,7 +60,8 @@ public class FeedbackActivity extends BaseActivity2 {
             public void onClick(View v) {
                 final Eval eval = new Eval(binding.ratingBar0.getRating(), binding.ratingBar1.getRating(), binding.ratingBar2.getRating(), binding.ratingBar3.getRating());
 
-                api.evaluatePatient(String.valueOf(eval.mean()), getData().getId(), eval.getDetail(), "").enqueue(new SimpleCallback<String>() {
+                String comment = binding.comment.etOthers.getText().toString();
+                api.evaluatePatient(String.valueOf(eval.mean()), getData().getId(), eval.getDetail(), comment).enqueue(new SimpleCallback<String>() {
                     @Override
                     protected void handleResponse(String response) {
                         Toast.makeText(FeedbackActivity.this, "成功评价病人", Toast.LENGTH_SHORT).show();

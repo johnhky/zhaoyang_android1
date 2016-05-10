@@ -36,7 +36,7 @@
                 android:layout_height="@dimen/dp_55"
                 android:layout_marginLeft="@dimen/dp_13"
                 android:scaleType="centerCrop"
-                android:src="@{data.avatar}"
+                android:src="@{data.patientAvatar}"
                 app:maskDrawable="@drawable/circle_mask"
                 android:drawable="@{@drawable/default_avatar}" />
 
@@ -84,10 +84,10 @@
             android:layout_height="1px"
             android:background="@color/divider_color" />
 
-        <!--<include-->
-            <!--android:id="@+id/comment"-->
-            <!--layout="@layout/item_text_input4"-->
-            <!--bind:hint='@{"请输入您对病人的评价"}' />-->
+        <include
+            android:id="@+id/comment"
+            layout="@layout/item_text_input4"
+            bind:hint='@{"请输入您对病人的评价"}' />
 
 
         <View

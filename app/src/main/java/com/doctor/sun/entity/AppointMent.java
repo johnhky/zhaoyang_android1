@@ -102,6 +102,8 @@ public class Appointment implements LayoutId, Parcelable {
     private String phone;
     @JsonProperty("avatar")
     private String avatar;
+    @JsonProperty("patient_avatar")
+    private String patientAvatar;
     @JsonProperty("return_list_time")
     private String returnListTime;
     @JsonProperty("record_name")
@@ -506,6 +508,14 @@ public class Appointment implements LayoutId, Parcelable {
         this.orderStatus = orderStatus;
     }
 
+    public String getPatientAvatar() {
+        return patientAvatar;
+    }
+
+    public void setPatientAvatar(String patientAvatar) {
+        this.patientAvatar = patientAvatar;
+    }
+
     @Override
     public String toString() {
         return "Appointment{" +
@@ -600,6 +610,7 @@ public class Appointment implements LayoutId, Parcelable {
         dest.writeParcelable(this.doctor, flags);
         dest.writeParcelable(this.returnInfo, flags);
         dest.writeParcelable(this.urgentRecord, flags);
+        dest.writeString(this.patientAvatar);
     }
 
     protected Appointment(Parcel in) {
@@ -646,6 +657,7 @@ public class Appointment implements LayoutId, Parcelable {
         this.doctor = in.readParcelable(Doctor.class.getClassLoader());
         this.returnInfo = in.readParcelable(ReturnInfo.class.getClassLoader());
         this.urgentRecord = in.readParcelable(MedicalRecord.class.getClassLoader());
+        this.patientAvatar = in.readString();
     }
 
     public static final Creator<Appointment> CREATOR = new Creator<Appointment>() {
