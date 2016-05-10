@@ -23,10 +23,10 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentDiagnosisBinding;
 import com.doctor.sun.databinding.ItemPrescriptionBinding;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.vo.ItemButton;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -37,9 +37,11 @@ import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.model.DiagnosisViewModel;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.vo.ItemButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.Tasks;
@@ -267,7 +269,7 @@ public class DiagnosisFragment extends Fragment {
         } else {
             shouldAsk = false;
         }
-        shouldScrollDown = true;
+        shouldScrollDown = false;
         if (appointment == null) {
             return;
         }
@@ -292,6 +294,35 @@ public class DiagnosisFragment extends Fragment {
                     viewModel.setDoctor(doctor);
                 }
                 doctor = response.getDoctorInfo();
+            }
+
+            @Override
+            protected void handleApi(ApiDTO<DiagnosisInfo> body) {
+                super.handleApi(body);
+                if (body.getData() == null) {
+                    loadPrescription(appointment.getId());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiDTO<DiagnosisInfo>> call, Throwable t) {
+                super.onFailure(call, t);
+                Log.d(TAG, "onFailure() called with: " + "call = [" + call + "], t = [" + t + "]");
+            }
+        });
+    }
+
+    private void loadPrescription(int id) {
+        Api.of(DiagnosisModule.class).patientDrug(id).enqueue(new SimpleCallback<List<Prescription>>() {
+            @Override
+            protected void handleResponse(List<Prescription> response) {
+                if (response == null) {
+//                    Toast.makeText(getContext(), "患者没有填写用药信息", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                for (Prescription prescription : response) {
+                    addPrescription(prescription);
+                }
             }
         });
     }

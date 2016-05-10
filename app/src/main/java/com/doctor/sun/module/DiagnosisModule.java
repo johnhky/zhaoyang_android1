@@ -33,4 +33,8 @@ public interface DiagnosisModule {
 
     @GET("diagnosis/last-drug")
     Call<ApiDTO<List<Prescription>>> lastDrug(@Query("appointmentId") int appointmentId);
+
+    @GET("diagnosis/patient-drug")
+    Call<ApiDTO<List<Prescription>>> patientDrug(@Query("appointmentId") int appointmentId);
+
 }
