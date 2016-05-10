@@ -428,19 +428,19 @@ public class DiagnosisFragment extends Fragment {
         }
     }
 
-
-    @Override
-    public void setUserVisibleHint(final boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-
-        if (isVisibleToUser && shouldAsk) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    askIfIsDiagnosised();
-                    shouldAsk = false;
-                }
-            }, 100);
-        }
-    }
+//
+//    @Override
+//    public void setUserVisibleHint(final boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//
+//        if (isVisibleToUser && shouldAsk) {
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    askIfIsDiagnosised();
+//                    shouldAsk = false;
+//                }
+//            }, 100);
+//        }
+//    }
 }
