@@ -15,6 +15,7 @@ import com.doctor.sun.ui.fragment.FillForumFragment;
 import com.doctor.sun.ui.fragment.ModifyForumFragment;
 import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.ui.widget.PickImageDialog;
 
 /**
  * 填写问卷 只读 fragment
@@ -82,7 +83,7 @@ public class FillForumActivity extends BaseFragmentActivity2 implements QCategor
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
+        switch (PickImageDialog.getRequestCode(requestCode)) {
             case Constants.DOCTOR_REQUEST_CODE:
             case Constants.PRESCRITION_REQUEST_CODE:
                 break;

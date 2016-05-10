@@ -474,7 +474,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return new CustomActionViewModel.AudioChatCallback() {
             @Override
             public void startAudioChat(View v) {
-                makePhoneCall(v);
+                checkCallStatus(v);
             }
         };
     }
@@ -690,7 +690,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public void checkCallStatus(View view) {
-        if (data.getDoctor() == null) {
+        if (AppContext.isDoctor()) {
             makePhoneCall(view);
         } else {
             String question = "通话请求失败:\n①医生拒绝来电\n②医生处于免打扰状态";
@@ -772,7 +772,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 }
             });
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

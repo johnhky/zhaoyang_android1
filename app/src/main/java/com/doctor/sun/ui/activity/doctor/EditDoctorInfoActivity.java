@@ -253,7 +253,7 @@ public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements Edi
                         return;
                     }
                     String imgUrl = response.body().getData().getUrl();
-                    switch (requestCode) {
+                    switch (PickImageDialog.getRequestCode(requestCode)) {
                         case 1:
                             CustomBinding.loadImage(binding.ivAvatar, imgUrl, null);
                             binding.tvAvatar.setVisibility(View.GONE);

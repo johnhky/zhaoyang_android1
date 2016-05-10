@@ -20,6 +20,7 @@ import com.doctor.sun.ui.fragment.ModifyForumFragment;
 import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.pager.ConsultingDetailPagerAdapter;
+import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.squareup.otto.Subscribe;
 
@@ -168,7 +169,7 @@ public class ConsultingDetailActivity extends TabActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
+        switch (PickImageDialog.getRequestCode(requestCode)) {
             case Constants.DOCTOR_REQUEST_CODE:
             case Constants.PRESCRITION_REQUEST_CODE:
                 DiagnosisFragment.getInstance(getData()).handlerResult(requestCode, resultCode, data);

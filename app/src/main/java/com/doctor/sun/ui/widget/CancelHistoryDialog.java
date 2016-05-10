@@ -62,7 +62,7 @@ public class CancelHistoryDialog extends BaseDialog {
                 RealmResults<TextMsg> results = realm.where(TextMsg.class)
                         .equalTo("sessionId", tid).findAll();
                 realm.beginTransaction();
-                results.clear();
+                results.deleteAllFromRealm();
                 realm.commitTransaction();
 
                 cancelComplete();
