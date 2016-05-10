@@ -17,7 +17,6 @@ import java.util.List;
 
 /**
  * Created by rick on 12/21/15.
- * 医生建议 症状,这里需要修改
  */
 public class Symptom extends BaseObservable implements LayoutId {
     public static final String TAG = Symptom.class.getSimpleName();
@@ -86,10 +85,7 @@ public class Symptom extends BaseObservable implements LayoutId {
 
     public String getLabel() {
         String result = "";
-        if (states.get(0)) {
-            return values.get(0) + " " + others;
-        }
-        for (int i = 1; i < values.size(); i++) {
+        for (int i = 0; i < values.size(); i++) {
             if (states.get(i)) {
                 result += values.get(i) + " ";
             }
@@ -101,10 +97,10 @@ public class Symptom extends BaseObservable implements LayoutId {
     }
 
     public void setStates(HashMap<String, String> from) {
-        for (int i = 0; i < from.size() - 1; i++) {
-            String s = from.get(String.valueOf(i));
-            if (null != s) {
-                states.put(i, s.equals("1"));
+        for (String key : from.keySet()) {
+            String s = from.get(key);
+            if (null != s && !key.equals("otherContent")) {
+                states.put(Integer.valueOf(key), s.equals("1"));
             }
         }
         setOthers(from.get("otherContent"));

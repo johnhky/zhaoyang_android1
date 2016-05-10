@@ -353,7 +353,7 @@ public class DiagnosisFragment extends Fragment {
 
     public void setDiagnosise() {
         TwoSelectorDialog.showTwoSelectorDialog(getActivity(), "是否结束本次就诊",
-                "继续", "结束", new TwoSelectorDialog.GetActionButton() {
+                "暂存", "保存并结束", new TwoSelectorDialog.GetActionButton() {
                     @Override
                     public void onClickPositiveButton(final TwoSelectorDialog dialog) {
                         final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());

@@ -155,7 +155,7 @@ public class DiagnosisReadOnlyFragment extends Fragment {
                             resultBinding.flyDoctor.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    response.getDoctorInfo().getHandler().viewDetail(v, AppointmentType.QUICK);
+                                    response.getDoctorInfo().getHandler().viewDetail(v, AppointmentType.DETAIL);
                                 }
                             });
                         }
