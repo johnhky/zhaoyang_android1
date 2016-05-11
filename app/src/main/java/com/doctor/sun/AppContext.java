@@ -11,11 +11,11 @@ import com.bumptech.glide.MemoryCategory;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.im.AVChatHandler;
 import com.doctor.sun.module.AuthModule;
+import com.doctor.sun.util.CrashHandler;
 import com.netease.nimlib.sdk.NIMClient;
 import com.squareup.otto.Subscribe;
 import com.yuntongxun.ecsdk.ECDevice;
 
-import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 import io.ganguo.library.BaseApp;
 import io.ganguo.library.Config;
@@ -62,6 +62,7 @@ public class AppContext extends BaseApp {
             AVChatHandler.getInstance().enableAVChat();
 
             JPushInterface.init(this);
+            CrashHandler.getInstance().init(this);
         }
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)

@@ -11,11 +11,16 @@ import com.doctor.sun.emoji.Emoticon;
 import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.SendMessageEvent;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
+import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.util.JacksonUtils;
+import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
@@ -227,7 +232,34 @@ public class Messenger {
         message.setConfig(config);
         EventHub.post(new SendMessageEvent());
 
-        NIMClient.getService(MsgService.class).sendMessage(message, true);
+        InvocationFuture<Void> voidInvocationFuture = NIMClient.getService(MsgService.class).sendMessage(message, true);
+
+        voidInvocationFuture.setCallback(new RequestCallback<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+
+            @Override
+            public void onFailed(int i) {
+                Api.of(ToolModule.class).crashLog(TAG + i).enqueue(new SimpleCallback<Void>() {
+                    @Override
+                    protected void handleResponse(Void response) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+                Api.of(ToolModule.class).crashLog(TAG + throwable.toString()).enqueue(new SimpleCallback<Void>() {
+                    @Override
+                    protected void handleResponse(Void response) {
+
+                    }
+                });
+            }
+        });
     }
 
     public boolean isRIMLogin() {

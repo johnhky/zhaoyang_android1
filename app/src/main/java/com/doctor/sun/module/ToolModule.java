@@ -59,4 +59,7 @@ public interface ToolModule {
     @GET("tool/help-images")
     Call<ApiDTO<List<String>>> helpImage(@Query("clientType") String client, @Query("imageType") String imageType);
 
+    @FormUrlEncoded
+    @POST("tool/crash-log")
+    Call<ApiDTO<Void>> crashLog(@Query("log") String log);
 }
