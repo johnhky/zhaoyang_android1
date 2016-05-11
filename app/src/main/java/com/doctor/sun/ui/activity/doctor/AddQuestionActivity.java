@@ -5,24 +5,27 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityAddQuestionBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.vo.ItemTextInput;
 import com.doctor.sun.entity.Question;
+import com.doctor.sun.entity.handler.QuestionHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.OptionAdapter;
-import com.doctor.sun.entity.handler.QuestionHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.vo.ItemTextInput;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import io.ganguo.library.common.ToastHelper;
@@ -106,20 +109,20 @@ public class AddQuestionActivity extends BaseActivity2 {
             @Override
             public void onClickPositiveButton(TwoSelectorDialog dialog) {
                 questionType = "checkbox";
-                apiSend();
+                saveQuestion();
                 dialog.dismiss();
             }
 
             @Override
             public void onClickNegativeButton(TwoSelectorDialog dialog) {
                 questionType = "radio";
-                apiSend();
+                saveQuestion();
                 dialog.dismiss();
             }
         });
     }
 
-    private void apiSend() {
+    private void saveQuestion() {
         api.addQuestion(binding.etQuestion.getText().toString(), questionType, getOptions()).enqueue(new ApiCallback<PageDTO<Question>>() {
             @Override
             protected void handleResponse(PageDTO<Question> response) {
@@ -136,17 +139,29 @@ public class AddQuestionActivity extends BaseActivity2 {
 
     private HashMap<String, String> getOptions() {
         HashMap<String, String> options = new HashMap<>();
-        for (int i = mAdapter.size() - 1; i >= 0; i--) {
-            ItemTextInput itemTextInput = (ItemTextInput) mAdapter.get(i);
-            if (itemTextInput.getInput() != null) {
-                options.put("options[" + i + "][option_type]", itemTextInput.getTitle());
-                options.put("options[" + i + "][option_content]", itemTextInput.getInput());
-            } else {
-                options.put("options[" + i + "][option_type]", itemTextInput.getTitle());
-                options.put("options[" + i + "][option_content]", "{fill}");
+        Collection filter = Collections2.filter(mAdapter, new Predicate() {
+            @Override
+            public boolean apply(Object input) {
+                ItemTextInput itemTextInput = (ItemTextInput) input;
+                String content = itemTextInput.getInput();
+                return content != null && !content.equals("");
             }
+        });
+        ArrayList<ItemTextInput> temp = new ArrayList<>();
+        temp.addAll(filter);
+        for (int i = 0; i < temp.size(); i++) {
+            ItemTextInput itemTextInput = temp.get(i);
+            options.put("options[" + i + "][option_type]", getCharForNumber(i + 1));
+            options.put("options[" + i + "][option_content]", itemTextInput.getInput());
         }
-        Log.e(TAG, "getOptions: "+options );
+        if (binding.tvAnswer.isSelected()) {
+            options.put("options[" + temp.size() + "][option_type]", getCharForNumber(temp.size() + 1));
+            options.put("options[" + temp.size() + "][option_content]", "{fill}");
+        }
         return options;
+    }
+
+    private String getCharForNumber(int i) {
+        return i > 0 && i < 27 ? String.valueOf((char) (i + 64)) : null;
     }
 }

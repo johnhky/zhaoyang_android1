@@ -8,8 +8,8 @@ import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.QuestionCategory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -55,7 +55,7 @@ public interface QuestionModule {
     @POST("question/custom/")
     Call<ApiDTO<PageDTO<Question>>> addQuestion(@Field("question_content") String questionContent
             , @Field("question_type") String questionType
-            , @FieldMap() HashMap<String, String> options);
+            , @FieldMap() Map<String, String> options);
 
     /**
      * 获取医生模板列表

@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityAddTemplateBinding;
@@ -19,6 +21,7 @@ import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.handler.TemplateHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.QuestionAdapter;
@@ -151,42 +154,28 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
                     }
 
                 } else {
-                    TwoSelectorDialog.showTwoSelectorDialog(AddTemplateActivity.this, "确定删除该免模板？", "取消", "删除",
-                            new TwoSelectorDialog.GetActionButton() {
+                    final int id;
+                    if (getData() != null) {
+                        id = getData().getId();
+                    } else {
+                        id = newData.getId();
+                    }
+                    new MaterialDialog.Builder(AddTemplateActivity.this)
+                            .content("确定删除该免模板?")
+                            .positiveText("删除")
+                            .negativeText("取消")
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
-                                public void onClickPositiveButton(TwoSelectorDialog dialog) {
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                     dialog.dismiss();
-                                    if (getData() != null)
-                                        api.deleteTemplate(String.valueOf(getData().getId())).enqueue(new ApiCallback<String>() {
-                                            @Override
-                                            protected void handleResponse(String response) {
-
-                                            }
-
-                                            @Override
-                                            protected void handleApi(ApiDTO<String> body) {
-                                                finish();
-                                            }
-                                        });
-                                    else
-                                        api.deleteTemplate(String.valueOf(newData.getId())).enqueue(new ApiCallback<String>() {
-                                            @Override
-                                            protected void handleResponse(String response) {
-
-                                            }
-
-                                            @Override
-                                            protected void handleApi(ApiDTO<String> body) {
-                                                finish();
-                                            }
-                                        });
+                                    api.deleteTemplate(String.valueOf(id)).enqueue(new SimpleCallback<String>() {
+                                        @Override
+                                        protected void handleResponse(String response) {
+                                            finish();
+                                        }
+                                    });
                                 }
-
-                                @Override
-                                public void onClickNegativeButton(TwoSelectorDialog dialog) {
-                                    dialog.dismiss();
-                                }
-                            });
+                            }).show();
 
                 }
             }
@@ -321,13 +310,16 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
 
     @NonNull
     private ArrayList<String> getQuestionId() {
-        ArrayList<String> questionId = new ArrayList<String>();
+        ArrayList<String> questionId = new ArrayList<>();
         questionId.clear();
         for (Object object : mAdapter) {
             Question question = (Question) object;
             if (!question.getIsSelected()) {
                 questionId.add(String.valueOf(question.getId()));
             }
+        }
+        if (questionId.isEmpty()) {
+            questionId.add("");
         }
         return questionId;
     }
