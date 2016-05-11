@@ -26,7 +26,11 @@ import com.google.common.collect.Collections2;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 import io.ganguo.library.common.ToastHelper;
 
@@ -137,8 +141,8 @@ public class AddQuestionActivity extends BaseActivity2 {
         });
     }
 
-    private HashMap<String, String> getOptions() {
-        HashMap<String, String> options = new HashMap<>();
+    private TreeMap<String, String> getOptions() {
+        TreeMap<String, String> options = new TreeMap<>();
         Collection filter = Collections2.filter(mAdapter, new Predicate() {
             @Override
             public boolean apply(Object input) {
