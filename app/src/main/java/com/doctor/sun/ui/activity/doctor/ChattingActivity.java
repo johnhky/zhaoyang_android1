@@ -17,6 +17,7 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingBinding;
+import com.doctor.sun.emoji.KeyboardWatcher;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.entity.handler.AppointmentHandler;
@@ -69,7 +70,7 @@ import io.realm.Sort;
  * 聊天模块
  * Created by rick on 12/11/15.
  */
-public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId, ExtendedEditText.KeyboardDismissListener, SwipeRefreshLayout.OnRefreshListener {
+public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId, ExtendedEditText.KeyboardDismissListener, SwipeRefreshLayout.OnRefreshListener, KeyboardWatcher.OnKeyboardToggleListener {
     public static final int IMAGE_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
     public static final int FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
 
@@ -87,6 +88,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     private String userData;
     private DrugModule drugModule = Api.of(DrugModule.class);
     private RealmResults<TextMsg> results;
+    private KeyboardWatcher keyboardWatcher;
 
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, ChattingActivity.class);
@@ -135,20 +137,16 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
         binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
         binding.refreshLayout.setOnRefreshListener(this);
-        binding.getRoot().getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
-            @Override
-            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-                if (newFocus instanceof EditText) {
-                    InputLayoutViewModel inputLayout = binding.getInputLayout();
-                    if (inputLayout == null) {
-                        return;
-                    }
-
-                    binding.getInputLayout().onShowSoftInput();
-                }
-            }
-        });
+        keyboardWatcher = new KeyboardWatcher(this);
+        keyboardWatcher.setListener(this);
     }
+
+    @Override
+    protected void onDestroy() {
+        keyboardWatcher.destroy();
+        super.onDestroy();
+    }
+
 
     private void initData() {
         Appointment data = getData();
@@ -374,14 +372,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         }
     }
 
-    @Override
-    public void onKeyboardDismiss() {
-        InputLayoutViewModel inputLayout = binding.getInputLayout();
-        if (inputLayout.getKeyboardType() != 0) {
-            inputLayout.setKeyboardType(0);
-            Systems.hideKeyboard(this);
-        }
-    }
 
     @Override
     public void onRefresh() {
@@ -446,6 +436,30 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     public void onSendMessageEvent(SendMessageEvent e) {
         if (handler != null) {
             handler.alertAppointmentFinished(this);
+        }
+    }
+
+    @Override
+    public void onKeyboardShown(int keyboardSize) {
+        binding.getInputLayout().onHideSoftInput();
+        Log.e(TAG, "onKeyboardShown: ");
+    }
+
+    @Override
+    public void onKeyboardClosed() {
+//        InputLayoutViewModel inputLayout = binding.getInputLayout();
+//        if (inputLayout.getKeyboardType() != 0) {
+//            inputLayout.setKeyboardType(0);
+//            Systems.hideKeyboard(this);
+//        }
+    }
+
+    @Override
+    public void onKeyboardDismiss() {
+        InputLayoutViewModel inputLayout = binding.getInputLayout();
+        if (inputLayout.getKeyboardType() != 0) {
+            inputLayout.setKeyboardType(0);
+            Systems.hideKeyboard(this);
         }
     }
 }

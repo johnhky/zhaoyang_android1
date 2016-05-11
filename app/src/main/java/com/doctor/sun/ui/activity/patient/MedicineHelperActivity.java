@@ -23,9 +23,9 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMedicineHelperBinding;
 import com.doctor.sun.dto.PageDTO;
+import com.doctor.sun.emoji.KeyboardWatcher;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.ImAccount;
-import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
 import com.doctor.sun.event.HideInputEvent;
@@ -34,6 +34,7 @@ import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.Messenger;
 import com.doctor.sun.im.NIMConnectionState;
+import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.VoIPCallActivity;
@@ -68,7 +69,7 @@ import io.realm.Sort;
 /**
  * Created by lucas on 2/14/16.
  */
-public class MedicineHelperActivity extends BaseFragmentActivity2 implements NimTeamId, ExtendedEditText.KeyboardDismissListener, SwipeRefreshLayout.OnRefreshListener {
+public class MedicineHelperActivity extends BaseFragmentActivity2 implements NimTeamId, ExtendedEditText.KeyboardDismissListener, SwipeRefreshLayout.OnRefreshListener, KeyboardWatcher.OnKeyboardToggleListener {
     public static final String ADMIN_DRUG = "[\"admin\"";
     public static final double FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
     public static final double IMAGE_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
@@ -83,6 +84,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     private String sendTo;
     private RealmResults<TextMsg> results;
     private RealmChangeListener listener;
+    private KeyboardWatcher keyboardWatcher;
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, MedicineHelperActivity.class);
@@ -115,19 +117,14 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
         else
             header.setLeftTitle("就诊(" + getAppointmentNumber() + ")").setRightTitle("选择用药");
         binding.setHeader(header);
-        binding.getRoot().getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
-            @Override
-            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-                if (newFocus instanceof EditText) {
-                    InputLayoutViewModel inputLayout = binding.getInputLayout();
-                    if (inputLayout == null) {
-                        return;
-                    }
+        keyboardWatcher = new KeyboardWatcher(this);
+        keyboardWatcher.setListener(this);
+    }
 
-                    inputLayout.onShowSoftInput();
-                }
-            }
-        });
+    @Override
+    protected void onDestroy() {
+        keyboardWatcher.destroy();
+        super.onDestroy();
     }
 
     private void getAccountInitChat() {
@@ -253,7 +250,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     @Override
     protected void onStart() {
         super.onStart();
-        if (results != null){
+        if (results != null) {
             results.addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
                 @Override
                 public void onChange(RealmResults<TextMsg> element) {
@@ -369,14 +366,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
         }
     }
 
-    @Override
-    public void onKeyboardDismiss() {
-        InputLayoutViewModel inputLayout = binding.getInputLayout();
-        if (inputLayout != null && inputLayout.getKeyboardType() != 0) {
-            inputLayout.setKeyboardType(0);
-            Systems.hideKeyboard(this);
-        }
-    }
+
 
     @Override
     public void onRefresh() {
@@ -435,5 +425,30 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
                 binding.refreshLayout.setRefreshing(false);
             }
         });
+    }
+
+
+    @Override
+    public void onKeyboardShown(int keyboardSize) {
+        binding.getInputLayout().onHideSoftInput();
+        Log.e(TAG, "onKeyboardShown: ");
+    }
+
+    @Override
+    public void onKeyboardClosed() {
+//        InputLayoutViewModel inputLayout = binding.getInputLayout();
+//        if (inputLayout.getKeyboardType() != 0) {
+//            inputLayout.setKeyboardType(0);
+//            Systems.hideKeyboard(this);
+//        }
+    }
+
+    @Override
+    public void onKeyboardDismiss() {
+        InputLayoutViewModel inputLayout = binding.getInputLayout();
+        if (inputLayout.getKeyboardType() != 0) {
+            inputLayout.setKeyboardType(0);
+            Systems.hideKeyboard(this);
+        }
     }
 }

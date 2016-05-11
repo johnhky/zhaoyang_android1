@@ -76,7 +76,10 @@
                 android:maxHeight="@dimen/dp_100"
                 android:setOnEditorActionListener="@{data.sendMessageAction}"
                 android:textSize="@dimen/font_15"
-                android:visibility="@{!data.isRecordMode}" />
+                android:visibility="@{!data.isRecordMode}">
+
+                <requestFocus />
+            </com.doctor.sun.ui.widget.ExtendedEditText>
 
             <TextView
                 android:layout_width="0dp"

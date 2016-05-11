@@ -45,6 +45,7 @@ public class InputLayoutViewModel extends BaseObservable {
     private IncludeInputLayoutBinding binding;
     private boolean recordMode = false;
     private int keyboardType = 0;
+    private int keyboardHeight = 0;
 
     public InputLayoutViewModel(final IncludeInputLayoutBinding binding, SendMessageCallback callback) {
         this.binding = binding;
@@ -188,5 +189,13 @@ public class InputLayoutViewModel extends BaseObservable {
     public void onHideSoftInput() {
         this.keyboardType = 0;
         notifyChange();
+    }
+
+    public void setKeyboardHeight(int keyboardHeight) {
+        this.keyboardHeight = keyboardHeight;
+    }
+
+    public int getKeyboardHeight() {
+        return keyboardHeight;
     }
 }
