@@ -57,7 +57,7 @@ public class RegisterActivity extends BaseActivity2 implements RegisterHandler.R
             case AuthModule.FORGOT_PASSWORD: {
                 header.setMidTitle("重置密码");
                 header.setRightTitle("确定");
-                binding.llyEmail.setVisibility(View.VISIBLE);
+//                binding.llyEmail.setVisibility(View.VISIBLE);
                 break;
             }
             default:

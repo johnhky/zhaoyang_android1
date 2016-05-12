@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import com.doctor.sun.entity.Token;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.DoNothingCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
@@ -71,7 +73,7 @@ public class RegisterHandler extends BaseHandler {
 
         api.register(
                 registerType, phone,
-                mInput.getCaptcha(), MD5.getMessageDigest(mInput.getPassword().getBytes())).enqueue(new ApiCallback<Token>() {
+                mInput.getCaptcha(), getPasswordMd5()).enqueue(new ApiCallback<Token>() {
             @Override
             protected void handleResponse(Token response) {
                 if (registerType == AuthModule.DOCTOR_TYPE) {
@@ -130,7 +132,17 @@ public class RegisterHandler extends BaseHandler {
 
     public void resetPassword(View view) {
         if (notValid()) return;
-        api.reset(mInput.getEmail(), mInput.getPhone(), MD5.getMessageDigest(mInput.getPassword().getBytes()), mInput.getCaptcha()).enqueue(new DoNothingCallback());
+        api.reset(mInput.getPhone(), getPasswordMd5(), mInput.getCaptcha()).enqueue(new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                Toast.makeText(getContext(), "重置密码成功", Toast.LENGTH_SHORT).show();
+                getContext().finish();
+            }
+        });
+    }
+
+    private String getPasswordMd5() {
+        return MD5.getMessageDigest(mInput.getPassword().getBytes());
     }
 
     private boolean notValid() {
