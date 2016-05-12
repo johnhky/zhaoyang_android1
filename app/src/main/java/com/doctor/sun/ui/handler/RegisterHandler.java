@@ -18,6 +18,7 @@ import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
+import com.doctor.sun.util.MD5;
 
 import io.ganguo.library.util.Strings;
 
@@ -66,18 +67,11 @@ public class RegisterHandler extends BaseHandler {
 
     public void register(View view) {
         String phone = mInput.getPhone();
-        if (!Strings.isMobile(phone)) {
-            Toast.makeText(getContext(), "手机号码格式错误", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!Strings.isEquals(mInput.getPassword(), mInput.getPassword2())) {
-            Toast.makeText(getContext(), "密码不匹配", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        if (notValid()) return;
 
         api.register(
                 registerType, phone,
-                mInput.getCaptcha(), mInput.getPassword()).enqueue(new ApiCallback<Token>() {
+                mInput.getCaptcha(), MD5.getMessageDigest(mInput.getPassword().getBytes())).enqueue(new ApiCallback<Token>() {
             @Override
             protected void handleResponse(Token response) {
                 if (registerType == AuthModule.DOCTOR_TYPE) {
@@ -135,17 +129,31 @@ public class RegisterHandler extends BaseHandler {
     }
 
     public void resetPassword(View view) {
-        String phone = mInput.getPhone();
-        if (!Strings.isMobile(phone)) {
+        if (notValid()) return;
+        api.reset(mInput.getEmail(), mInput.getPhone(), MD5.getMessageDigest(mInput.getPassword().getBytes()), mInput.getCaptcha()).enqueue(new DoNothingCallback());
+    }
+
+    private boolean notValid() {
+        if (!Strings.isMobile(mInput.getPhone())) {
             Toast.makeText(getContext(), "手机号码格式错误", Toast.LENGTH_SHORT).show();
-            return;
+            return true;
+        }
+        if (mInput.getPassword() == null || mInput.getPassword().equals("")) {
+            Toast.makeText(getContext(), "请输入密码", Toast.LENGTH_SHORT).show();
+            return true;
         }
 
         if (!Strings.isEquals(mInput.getPassword(), mInput.getPassword2())) {
             Toast.makeText(getContext(), "两次输入的密码不相同", Toast.LENGTH_SHORT).show();
-            return;
+            return true;
         }
-        api.reset(mInput.getEmail(), phone, mInput.getPassword(), mInput.getCaptcha()).enqueue(new DoNothingCallback());
+
+        if (mInput.getPassword().length() < 6) {
+            Toast.makeText(getContext(), "密码不能少于6个字", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        return false;
     }
 
     public interface RegisterInput {

@@ -94,11 +94,11 @@ public class RegisterActivity extends BaseActivity2 implements RegisterHandler.R
 
     @Override
     public String getPassword() {
-        return MD5.getMessageDigest(binding.etPasswd.getText().toString().getBytes());
+        return binding.etPasswd.getText().toString();
     }
 
     @Override
     public String getPassword2() {
-        return MD5.getMessageDigest(binding.etPasswd2.getText().toString().getBytes());
+        return  binding.etPasswd2.getText().toString();
     }
 }

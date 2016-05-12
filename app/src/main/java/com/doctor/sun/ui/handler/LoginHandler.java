@@ -12,6 +12,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.doctor.RegisterActivity;
+import com.doctor.sun.util.MD5;
 
 import io.ganguo.library.common.LoadingHelper;
 import io.ganguo.library.util.Strings;
@@ -48,7 +49,7 @@ public class LoginHandler extends BaseHandler {
             return;
         }
         LoadingHelper.showMaterLoading(context, "正在登录");
-        api.login(phone, password).enqueue(new ApiCallback<Token>() {
+        api.login(phone, MD5.getMessageDigest(password.getBytes())).enqueue(new ApiCallback<Token>() {
             @Override
             protected void handleResponse(Token response) {
                 Log.d(TAG, "login: " + response.getAccount().getVoipAccount());

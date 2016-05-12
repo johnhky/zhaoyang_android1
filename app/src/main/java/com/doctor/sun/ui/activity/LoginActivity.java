@@ -4,13 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Province;
 import com.doctor.sun.databinding.ActivityLoginBinding;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.ui.handler.LoginHandler;
-import com.doctor.sun.util.MD5;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,12 +62,11 @@ public class LoginActivity extends BaseActivity2 implements LoginHandler.LoginIn
 
     @Override
     public String getPhone() {
-        String phone = binding.etPhone.getText().toString();
-        return phone;
+        return binding.etPhone.getText().toString();
     }
 
     @Override
     public String getPassword() {
-        return MD5.getMessageDigest(binding.etPassword.getText().toString().getBytes());
+        return binding.etPassword.getText().toString();
     }
 }
