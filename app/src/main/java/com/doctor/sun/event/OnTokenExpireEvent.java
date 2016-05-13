@@ -4,10 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.im.Messenger;
 import com.doctor.sun.ui.activity.LoginActivity;
 import com.squareup.otto.Subscribe;
 
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import io.ganguo.library.AppManager;
 import io.ganguo.library.core.event.Event;
 
@@ -41,6 +46,11 @@ public class OnTokenExpireEvent implements Event {
             context.startActivity(intent);
             AppManager.finishAllActivity();
             lastEventTime = System.currentTimeMillis();
+            JPushInterface.setAlias(AppContext.me(), "", new TagAliasCallback() {
+                @Override
+                public void gotResult(int i, String s, Set<String> set) {
+                }
+            });
         }
     }
 }

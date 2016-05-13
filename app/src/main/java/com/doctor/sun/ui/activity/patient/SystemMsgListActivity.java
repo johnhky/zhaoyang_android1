@@ -11,7 +11,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.PushModule;
-import com.doctor.sun.ui.activity.PageActivity;
+import com.doctor.sun.ui.activity.PageActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.SystemMsgAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
@@ -23,7 +23,7 @@ import io.ganguo.library.Config;
 /**
  * Created by lucas on 1/29/16.
  */
-public class SystemMsgListActivity extends PageActivity {
+public class SystemMsgListActivity extends PageActivity2 {
     public static final int PHONE_CALL_REQUEST = 1;
     public static final String LAST_VISIT_TIME = "LAST_VISIT_TIME";
     private PushModule api = Api.of(PushModule.class);
@@ -51,12 +51,17 @@ public class SystemMsgListActivity extends PageActivity {
     }
 
     @Override
+    protected void initHeader() {
+        super.initHeader();
+        getBinding().setHeader(getHeaderViewModel());
+    }
+
+    @Override
     protected void loadMore() {
         api.systemMsg(getCallback().getPage()).enqueue(getCallback());
     }
 
     @NonNull
-    @Override
     protected HeaderViewModel getHeaderViewModel() {
         int appointmentNumber = 0;
         HeaderViewModel header = new HeaderViewModel(this);
@@ -110,7 +115,8 @@ public class SystemMsgListActivity extends PageActivity {
 
     @NonNull
     @Override
-    protected SimpleAdapter createAdapter() {
+    public SimpleAdapter createAdapter() {
         return new SystemMsgAdapter(this, Config.getLong(visitTimeKey, -1));
     }
+
 }

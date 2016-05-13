@@ -3,6 +3,7 @@ package com.doctor.sun.ui.model;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -12,14 +13,14 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.Symptom;
+import com.doctor.sun.entity.SymptomFactory;
+import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.vo.ItemButton;
 import com.doctor.sun.vo.ItemPickDate;
 import com.doctor.sun.vo.ItemPickTime;
 import com.doctor.sun.vo.ItemRadioGroup;
 import com.doctor.sun.vo.ItemTextInput;
-import com.doctor.sun.entity.Symptom;
-import com.doctor.sun.entity.SymptomFactory;
-import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -340,7 +341,9 @@ public class DiagnosisViewModel {
         result.put("recovered", String.valueOf(recovered.getSelectedItem()));
         result.put("treatment", String.valueOf(treatment.getSelectedItem()));
         result.put("effect", String.valueOf(sideEffect.getSelectedItem()));
-        result.put("prescription", prescriptions);
+        if (!prescriptions.equals("")) {
+            result.put("prescription", prescriptions);
+        }
         result.put("doctor_advince", binding.doctorAdvice.etOthers.getText().toString());
         result.put("return", binding.needReturn.switchButton.isChecked() ? "1" : "0");
         int selectedItem = returnType.getSelectedItem();

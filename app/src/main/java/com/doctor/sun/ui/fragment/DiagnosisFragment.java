@@ -28,9 +28,11 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
@@ -300,7 +302,9 @@ public class DiagnosisFragment extends Fragment {
             protected void handleApi(ApiDTO<DiagnosisInfo> body) {
                 super.handleApi(body);
                 if (body.getData() == null) {
-                    loadPrescription(appointment.getId());
+                    if (canWritePrescription()) {
+                        loadPrescription(appointment.getId());
+                    }
                 }
             }
 
@@ -310,6 +314,15 @@ public class DiagnosisFragment extends Fragment {
                 Log.d(TAG, "onFailure() called with: " + "call = [" + call + "], t = [" + t + "]");
             }
         });
+    }
+
+    public boolean canWritePrescription() {
+        Doctor doctorProfile = TokenCallback.getDoctorProfile();
+        if (doctorProfile == null) {
+            return false;
+        }
+        DoctorHandler handler = doctorProfile.getHandler();
+        return handler.canWritePrescription();
     }
 
     private void loadPrescription(int id) {
@@ -421,6 +434,9 @@ public class DiagnosisFragment extends Fragment {
     }
 
     private String getPrescriptions() {
+        if (prescriptions.isEmpty()) {
+            return "";
+        }
         try {
             return JacksonUtils.toJson(prescriptions);
         } catch (Exception e) {

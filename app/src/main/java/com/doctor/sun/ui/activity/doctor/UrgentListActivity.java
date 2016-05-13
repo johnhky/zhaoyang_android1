@@ -8,14 +8,14 @@ import android.support.annotation.NonNull;
 import com.doctor.sun.R;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.AppointmentModule;
-import com.doctor.sun.ui.activity.PageActivity;
+import com.doctor.sun.ui.activity.PageActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 
 /**
  * Created by rick on 11/25/15.
  */
-public class UrgentListActivity extends PageActivity {
+public class UrgentListActivity extends PageActivity2 {
 
     private AppointmentModule api = Api.of(AppointmentModule.class);
 
@@ -31,12 +31,17 @@ public class UrgentListActivity extends PageActivity {
     }
 
     @Override
+    protected void initHeader() {
+        super.initHeader();
+        getBinding().setHeader(getHeaderViewModel());
+    }
+
+    @Override
     protected void loadMore() {
         api.urgentCalls(getCallback().getPage()).enqueue(getCallback());
     }
 
     @NonNull
-    @Override
     protected HeaderViewModel getHeaderViewModel() {
         HeaderViewModel header = new HeaderViewModel(this);
         header.setMidTitle("紧急咨询")

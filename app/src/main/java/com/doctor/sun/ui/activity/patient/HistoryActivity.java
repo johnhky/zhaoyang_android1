@@ -8,6 +8,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.PageActivity;
+import com.doctor.sun.ui.activity.PageActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
@@ -16,7 +17,7 @@ import com.doctor.sun.ui.model.HeaderViewModel;
  * <p/>
  * Created by lucas on 1/4/16.
  */
-public class HistoryActivity extends PageActivity {
+public class HistoryActivity extends PageActivity2 {
     private ProfileModule api = Api.of(ProfileModule.class);
 
     public static Intent makeIntent(Context context) {
@@ -26,14 +27,19 @@ public class HistoryActivity extends PageActivity {
 
     @NonNull
     @Override
-    protected SimpleAdapter createAdapter() {
+    public SimpleAdapter createAdapter() {
         SimpleAdapter adapter = super.createAdapter();
         adapter.mapLayout(R.layout.item_appointment, R.layout.p_item_history);
         return adapter;
     }
 
-    @NonNull
     @Override
+    protected void initHeader() {
+        super.initHeader();
+        getBinding().setHeader(getHeaderViewModel());
+    }
+
+    @NonNull
     protected HeaderViewModel getHeaderViewModel() {
         return new HeaderViewModel(this).setMidTitle("历史记录");
     }

@@ -3,6 +3,7 @@ package com.doctor.sun.ui.activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -15,7 +16,7 @@ import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 /**
  * Created by rick on 20/1/2016.
  */
-public class PageActivity2 extends BaseActivity2 implements View.OnClickListener {
+public class PageActivity2 extends BaseActivity2 implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private ActivityListBinding binding;
     private SimpleAdapter adapter;
@@ -28,6 +29,12 @@ public class PageActivity2 extends BaseActivity2 implements View.OnClickListener
         initHeader();
         initAdapter();
         initRecyclerView();
+        initRefreshLayout();
+    }
+
+    private void initRefreshLayout() {
+        binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
+        binding.refreshLayout.setOnRefreshListener(this);
     }
 
     protected void initHeader() {
@@ -40,7 +47,13 @@ public class PageActivity2 extends BaseActivity2 implements View.OnClickListener
 
     protected void initAdapter() {
         adapter = createAdapter();
-        callback = new PageCallback<>(adapter);
+        callback = new PageCallback<Object>(adapter) {
+            @Override
+            public void onFinishRefresh() {
+                super.onFinishRefresh();
+                binding.refreshLayout.setRefreshing(false);
+            }
+        };
         adapter.setLoadMoreListener(new LoadMoreListener() {
             @Override
             protected void onLoadMore() {
@@ -51,27 +64,13 @@ public class PageActivity2 extends BaseActivity2 implements View.OnClickListener
     }
 
     @NonNull
-    public  SimpleAdapter createAdapter() {
+    public SimpleAdapter createAdapter() {
         return new SimpleAdapter(this);
     }
 
     protected void loadMore() {
     }
 
-    protected void refresh() {
-        callback.resetPage();
-        adapter.clear();
-        adapter.notifyDataSetChanged();
-        adapter.onFinishLoadMore(false);
-        loadMore();
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-        }
-    }
 
     public ActivityListBinding getBinding() {
         return binding;
@@ -91,6 +90,25 @@ public class PageActivity2 extends BaseActivity2 implements View.OnClickListener
 
     public void setCallback(PageCallback callback) {
         this.callback = callback;
+    }
+
+    @Override
+    public void onRefresh() {
+        callback.resetPage();
+        adapter.clear();
+        adapter.notifyDataSetChanged();
+        adapter.onFinishLoadMore(false);
+        loadMore();
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+
     }
 }
 
