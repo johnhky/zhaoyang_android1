@@ -5,6 +5,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.im.NimTeamId;
@@ -56,10 +59,28 @@ public class CustomActionViewModel {
         return new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector, "视频聊天", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NimTeamId nimTeamId = (NimTeamId) mActivity;
-                AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL);
+                if (AppContext.isDoctor()) {
+                    NimTeamId nimTeamId = (NimTeamId) mActivity;
+                    AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL);
+                }else {
+                    alertNotAvailable(v);
+                }
             }
         });
+    }
+
+    private void alertNotAvailable(View v) {
+        String question = "视频通话请求失败:\n①医生拒绝视频通话\n②医生处于免打扰状态";
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(v.getContext())
+                .content(question)
+                .positiveText("确认")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.show();
     }
 
     @NonNull
