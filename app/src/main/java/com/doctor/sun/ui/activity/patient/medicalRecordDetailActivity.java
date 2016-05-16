@@ -62,11 +62,11 @@ public class MedicalRecordDetailActivity extends BaseActivity2 {
             binding.myRecord.etEmail.setFocusable(false);
         } else {
             binding.othersRecord.root.setVisibility(View.VISIBLE);
-            binding.othersRecord.etSelfName.setText(getData().getName());
-            binding.othersRecord.etPatientName.setText(getData().getPatientName());
+            binding.othersRecord.etSelfName.setText(getData().getPatientName());
+            binding.othersRecord.etRecordName.setText(getData().getName());
             binding.othersRecord.etEmail.setText(getData().getEmail());
             binding.othersRecord.etRelation.setText(getData().getRelation());
-            binding.othersRecord.etPatientName.setFocusable(false);
+            binding.othersRecord.etRecordName.setFocusable(false);
             binding.othersRecord.etSelfName.setFocusable(false);
             binding.othersRecord.etRelation.setFocusable(false);
             binding.othersRecord.etEmail.setFocusable(false);
@@ -76,7 +76,7 @@ public class MedicalRecordDetailActivity extends BaseActivity2 {
         else
             binding.tvAddress.setText(getData().getAddress());
 
-        if(getData().getIdentityNumber().isEmpty())
+        if (getData().getIdentityNumber().isEmpty())
             binding.tvIdentityNumber.setText("无");
         else
             binding.tvIdentityNumber.setText(getData().getIdentityNumber());

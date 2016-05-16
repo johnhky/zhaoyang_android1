@@ -72,6 +72,7 @@ public class BreakTimeActivity extends BaseActivity2 implements TimeHandler.GetI
             protected void handleResponse(List<Time> response) {
                 mAdapter.clear();
                 mAdapter.addAll(response);
+                mAdapter.onFinishLoadMore(true);
                 mAdapter.notifyDataSetChanged();
             }
 
@@ -79,6 +80,7 @@ public class BreakTimeActivity extends BaseActivity2 implements TimeHandler.GetI
             public void onFailure(Call call, Throwable t) {
                 super.onFailure(call, t);
                 mAdapter.onFinishLoadMore(true);
+                mAdapter.notifyDataSetChanged();
             }
         });
     }

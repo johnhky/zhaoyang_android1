@@ -112,7 +112,7 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
                 result.put(SELF_NAME, binding.othersRecord.etSelfName.getText().toString());
                 result.put(EMAIL, binding.othersRecord.etEmail.getText().toString());
                 result.put(RELATION, binding.othersRecord.etRelation.getText().toString());
-                result.put(NAME, binding.othersRecord.etPatientName.getText().toString());
+                result.put(NAME, binding.othersRecord.etRecordName.getText().toString());
                 break;
             }
         }
