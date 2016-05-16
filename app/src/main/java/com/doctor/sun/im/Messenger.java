@@ -227,7 +227,7 @@ public class Messenger {
 
     private void sendMsg(IMMessage message) {
         CustomMessageConfig config = new CustomMessageConfig();
-        config.enableUnreadCount = false; // 该消息不计入未读数
+        config.enableUnreadCount = true; // 该消息不计入未读数
         config.enableHistory = true;
         message.setConfig(config);
         EventHub.post(new SendMessageEvent());
