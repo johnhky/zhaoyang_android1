@@ -90,7 +90,6 @@
 
         <activity
             android:name=".ui.activity.doctor.MainActivity"
-            android:label="${appLabel}"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -449,7 +448,7 @@
 
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="84bcda3a943a3a781f5e4a8bae628a74" />
+            android:value="${nimKey}" />
 
 
         <!-- 声明云信后台服务，如需保持后台推送，使用独立进程效果会更好。 -->

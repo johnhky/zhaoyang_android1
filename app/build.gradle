@@ -52,46 +52,11 @@ android {
         }
     }
     buildTypes {
-        // 测试环境
-        debug {
-            applicationIdSuffix ".dev"
-            versionNameSuffix "_dev"
-            manifestPlaceholders = [appLabel: "@string/app_name_dev"]// 必改
-            buildConfigField "boolean", "DEV_MODE", "true"
-            buildConfigField "String", "BASE_URL", '"http://120.24.96.138/api/"' //host, 必改
-            buildConfigField "String", "DATA_PATH", '"DoctorSunDev"' //app 数据保存目录, 必改
-            buildConfigField "String", "IM_KEY", '"aaf98f89506fc2f001507e1cab440ace"' //
-            buildConfigField "String", "IM_TOKEN", '"a8d27b4500d3b3dcfbf96296091abf4d"' //host, 必改
-
-            debuggable true
-            zipAlignEnabled false
-            shrinkResources false
-            minifyEnabled false
-            signingConfig signingConfigs.ganguo_dev
-        }
-
-        // 生产环境
-        release {
-            manifestPlaceholders = [appLabel: "@string/app_name"]// 必改
-            buildConfigField "boolean", "DEV_MODE", "false"
-            buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/"' //host, 必改
-            buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
-            buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
-            buildConfigField "String", "IM_TOKEN", '"7c54a355857a08b2dfc3769c7dc05e8a"' //host, 必改
-
-            debuggable true
-            zipAlignEnabled true
-            shrinkResources true
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
-
-        // 生产环境
-        debug2 {
+        dev {
+            // zhaoyang_server
 //            applicationIdSuffix ".dev12"
 //            versionNameSuffix "_dev12"
-            manifestPlaceholders = [appLabel: "@string/app_name_dev"]// 必改
+            manifestPlaceholders = [appLabel: "@string/app_name_dev", nimKey: "84bcda3a943a3a781f5e4a8bae628a74"]
             buildConfigField "boolean", "DEV_MODE", "true"
             buildConfigField "String", "BASE_URL", '"http://10.0.0.202/api/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSunDev"' //app 数据保存目录, 必改
@@ -104,22 +69,39 @@ android {
             minifyEnabled false
             signingConfig signingConfigs.ganguo_dev
         }
-        // 生产环境
-        debugDrug {
+        // 测试环境 ,zhaoyangyisheng_server
+        stage {
             applicationIdSuffix ".dev"
             versionNameSuffix "_dev"
-            manifestPlaceholders = [appLabel: "@string/app_name_dev"]// 必改
+            manifestPlaceholders = [appLabel: "@string/app_name_dev", nimKey: "9439a1f4b31a23c48660c290a69f89e3"]
             buildConfigField "boolean", "DEV_MODE", "true"
             buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSunDev"' //app 数据保存目录, 必改
-            buildConfigField "String", "IM_KEY", '"aaf98f89529d327b0152a02ee629035e"' //
-            buildConfigField "String", "IM_TOKEN", '"6b47a5fce4eb6d4eeebf8b5eadcb6584"' //host, 必改
+            buildConfigField "String", "IM_KEY", '"aaf98f89506fc2f001507e1cab440ace"' //
+            buildConfigField "String", "IM_TOKEN", '"a8d27b4500d3b3dcfbf96296091abf4d"' //host, 必改
 
             debuggable true
             zipAlignEnabled false
             shrinkResources false
             minifyEnabled false
             signingConfig signingConfigs.ganguo_dev
+        }
+
+        // 生产环境
+        prod {
+            manifestPlaceholders = [appLabel: "@string/app_name", nimKey: "701994af7b0559728f9ee602a6f3c342"]
+            buildConfigField "boolean", "DEV_MODE", "false"
+            buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/"' //host, 必改
+            buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
+            buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
+            buildConfigField "String", "IM_TOKEN", '"7c54a355857a08b2dfc3769c7dc05e8a"' //host, 必改
+
+            debuggable true
+            zipAlignEnabled true
+            shrinkResources true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
 
         //命名各apk
