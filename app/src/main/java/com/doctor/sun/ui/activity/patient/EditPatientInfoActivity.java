@@ -3,6 +3,7 @@ package com.doctor.sun.ui.activity.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -172,7 +173,13 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
                 @Override
                 protected void handleResponse(Patient response) {
                     ToastHelper.showMessage(EditPatientInfoActivity.this, "保存成功,请耐心等待资料审核");
-                    finish();
+                    Intent intent = MainActivity.makeIntent(EditPatientInfoActivity.this);
+                    startActivity(intent);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        finishAffinity();
+                    } else {
+                        finish();
+                    }
                 }
             });
         }

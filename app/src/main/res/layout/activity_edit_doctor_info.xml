@@ -104,6 +104,7 @@
                         android:textSize="@dimen/font_15" />
 
                     <EditText
+                        android:hint="必填"
                         android:id="@+id/et_name"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -137,6 +138,7 @@
                         android:textSize="@dimen/font_15" />
 
                     <EditText
+                        android:hint="选填"
                         android:id="@+id/et_email"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -223,6 +225,7 @@
                         android:textSize="@dimen/font_15" />
 
                     <EditText
+                        android:hint="必填"
                         android:id="@+id/et_hospital_name"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -255,6 +258,7 @@
                         android:textSize="@dimen/font_15" />
 
                     <EditText
+                        android:hint="必填"
                         android:id="@+id/et_specialist"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -295,6 +299,7 @@
                         android:inputType="phone"
                         android:maxLength="11"
                         android:text="@{data.phone}"
+                        android:hint="选填"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_15" />
 

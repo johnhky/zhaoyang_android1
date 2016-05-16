@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -68,6 +67,10 @@ public class RegisterHandler extends BaseHandler {
     }
 
     public void register(View view) {
+        if (TokenCallback.isLogin()) {
+            Intent i = EditDoctorInfoActivity.makeIntent(getContext(), null);
+            getContext().startActivity(i);
+        }
         String phone = mInput.getPhone();
         if (notValid()) return;
 
@@ -80,7 +83,6 @@ public class RegisterHandler extends BaseHandler {
                     registerDoctorSuccess(response);
                 } else if (registerType == AuthModule.PATIENT_TYPE) {
                     registerPatientSuccess(response);
-
                 }
             }
         });

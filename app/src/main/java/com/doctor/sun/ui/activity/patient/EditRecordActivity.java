@@ -32,7 +32,7 @@ import io.realm.RealmResults;
  * 建立病历
  * Created by rick on 10/23/15.
  */
-public class AddMedicalRecordActivity extends GetLocationActivity implements View.OnClickListener, AddMedicalRecordHandler.MedicalRecordInput {
+public class EditRecordActivity extends GetLocationActivity implements View.OnClickListener, AddMedicalRecordHandler.MedicalRecordInput {
     public static final String RECORD_TYPE = "RECORD_TYPE";
     public static final int TYPE_SELF = 0;
     public static final int TYPE_OTHERS = 1;
@@ -53,7 +53,7 @@ public class AddMedicalRecordActivity extends GetLocationActivity implements Vie
     private CityPickerDialog cityPickerDialog;
 
     public static Intent makeIntent(Context context, int type, boolean firstTime) {
-        Intent i = new Intent(context, AddMedicalRecordActivity.class);
+        Intent i = new Intent(context, EditRecordActivity.class);
         i.putExtra(RECORD_TYPE, type);
         i.putExtra(FIRST_TIME, firstTime);
         return i;
@@ -160,15 +160,15 @@ public class AddMedicalRecordActivity extends GetLocationActivity implements Vie
             }
         }
 
-        if (map.get(PROVINCE).equals("")) {
-            ToastHelper.showMessage(this, "请选择省份");
-            return false;
-        }
-
-        if (map.get(CITY).equals("")) {
-            ToastHelper.showMessage(this, "请选择城市");
-            return false;
-        }
+//        if (map.get(PROVINCE).equals("")) {
+//            ToastHelper.showMessage(this, "请选择省份");
+//            return false;
+//        }
+//
+//        if (map.get(CITY).equals("")) {
+//            ToastHelper.showMessage(this, "请选择城市");
+//            return false;
+//        }
         switch (getRecordType()) {
             case TYPE_SELF: {
                 break;

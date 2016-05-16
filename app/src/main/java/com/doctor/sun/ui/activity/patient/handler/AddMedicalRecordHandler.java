@@ -7,7 +7,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.ui.activity.patient.AddMedicalRecordActivity;
+import com.doctor.sun.ui.activity.patient.EditRecordActivity;
 import com.doctor.sun.ui.handler.BaseHandler;
 
 import java.util.HashMap;
@@ -37,7 +37,7 @@ public class AddMedicalRecordHandler extends BaseHandler {
         HashMap<String, String> param = mInput.getParam();
         if (param != null) {
             switch (type) {
-                case AddMedicalRecordActivity.TYPE_OTHERS: {
+                case EditRecordActivity.TYPE_OTHERS: {
                     api.setRelativeMedicalRecord(param).enqueue(new ApiCallback<String>() {
                         @Override
                         protected void handleResponse(String response) {
@@ -53,7 +53,7 @@ public class AddMedicalRecordHandler extends BaseHandler {
                     });
                     break;
                 }
-                case AddMedicalRecordActivity.TYPE_SELF: {
+                case EditRecordActivity.TYPE_SELF: {
                     api.setSelfMedicalRecord(param).enqueue(new ApiCallback<String>() {
                         @Override
                         protected void handleResponse(String response) {

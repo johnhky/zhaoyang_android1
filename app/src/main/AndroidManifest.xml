@@ -252,7 +252,7 @@
             android:name=".ui.activity.patient.PickTimeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.patient.AddMedicalRecordActivity"
+            android:name=".ui.activity.patient.EditRecordActivity"
             android:screenOrientation="portrait" />
 
         <activity

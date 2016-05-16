@@ -115,8 +115,8 @@
                 android:layout_height="match_parent"
                 android:drawablePadding="@dimen/dp_11"
                 android:drawableRight="@drawable/ic_forgot"
-                android:onClick="@{handler.resetPassword}"
                 android:gravity="center_vertical"
+                android:onClick="@{handler.resetPassword}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
         </LinearLayout>
@@ -157,9 +157,9 @@
             android:background="#c1cacf" />
 
         <LinearLayout
-            android:baselineAligned="false"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_55"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <FrameLayout

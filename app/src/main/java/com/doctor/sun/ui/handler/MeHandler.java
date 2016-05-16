@@ -21,8 +21,8 @@ public class MeHandler {
         data = doctor;
     }
 
-    public void head(View view){
-        Intent intent = EditDoctorInfoActivity.makeIntent(view.getContext(),data);
+    public void head(View view) {
+        Intent intent = EditDoctorInfoActivity.makeIntent(view.getContext(), data);
         view.getContext().startActivity(intent);
     }
 
@@ -31,22 +31,22 @@ public class MeHandler {
         view.getContext().startActivity(intent);
     }
 
-    public void Price(View view){
+    public void Price(View view) {
         Intent intent = FeeActivity.makeIntent(view.getContext());
         view.getContext().startActivity(intent);
     }
 
-    public void Disturb(View view){
+    public void Disturb(View view) {
         Intent intent = BreakTimeActivity.makeIntent(view.getContext());
         view.getContext().startActivity(intent);
     }
 
-    public void Template(View view){
+    public void Template(View view) {
         Intent intent = TemplateActivity.makeIntent(view.getContext());
         view.getContext().startActivity(intent);
     }
 
-    public void Setting(View view){
+    public void Setting(View view) {
         Intent intent = SettingActivity.makeIntent(view.getContext());
         view.getContext().startActivity(intent);
     }

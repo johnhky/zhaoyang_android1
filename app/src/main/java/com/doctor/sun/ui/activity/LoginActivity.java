@@ -44,14 +44,6 @@ public class LoginActivity extends BaseActivity2 implements LoginHandler.LoginIn
             }
             getRealm().commitTransaction();
         }
-        if (isLogin()) {
-            TokenCallback.checkToken(this);
-        }
-    }
-
-    private boolean isLogin() {
-        String token = TokenCallback.getToken();
-        return token != null && !token.equals("");
     }
 
     @Override

@@ -117,6 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_70"
             android:layout_marginLeft="@dimen/dp_13"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -143,6 +144,7 @@
         </LinearLayout>
 
         <View
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="#c1cacf" />

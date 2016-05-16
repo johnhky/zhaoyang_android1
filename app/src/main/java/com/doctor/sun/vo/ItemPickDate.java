@@ -21,6 +21,8 @@ import java.util.Locale;
  * Created by rick on 12/22/15.
  */
 public class ItemPickDate extends BaseItem {
+    public static final long ONE_HUNDRED_YEAR = 3153600000000L;
+
     private final GregorianCalendar calendar = new GregorianCalendar();
     private String title;
 
@@ -69,11 +71,11 @@ public class ItemPickDate extends BaseItem {
     }
 
     public String getDate() {
-        return String.format(Locale.CHINA,"%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
+        return String.format(Locale.CHINA, "%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
     }
 
     public String getBirthMonth() {
-        return String.format(Locale.CHINA,"%04d-%02d", year, monthOfYear + 1);
+        return String.format(Locale.CHINA, "%04d-%02d", year, monthOfYear + 1);
     }
 
     public String getBirthday() {
@@ -98,6 +100,8 @@ public class ItemPickDate extends BaseItem {
             public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), setBeginDate, year, monthOfYear, dayOfMonth);
+                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - ONE_HUNDRED_YEAR);
                 datePickerDialog.show();
             }
         };

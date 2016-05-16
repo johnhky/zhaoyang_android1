@@ -38,7 +38,9 @@ public class LoginHandler extends BaseHandler {
         }
 
         this.context = context;
-        TokenCallback.checkToken(this.context);
+        if (TokenCallback.isLogin()) {
+            TokenCallback.checkToken(this.context);
+        }
     }
 
     public void login(View view) {

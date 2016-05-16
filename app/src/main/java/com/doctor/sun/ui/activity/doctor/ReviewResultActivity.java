@@ -11,7 +11,6 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityReviewResultBinding;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.ui.activity.BaseActivity2;
-import com.doctor.sun.ui.widget.PassDialog;
 
 
 /**

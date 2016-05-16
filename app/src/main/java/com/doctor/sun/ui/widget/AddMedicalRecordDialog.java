@@ -10,7 +10,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.databinding.DialogRecordTypeBinding;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.http.callback.TokenCallback;
-import com.doctor.sun.ui.activity.patient.AddMedicalRecordActivity;
+import com.doctor.sun.ui.activity.patient.EditRecordActivity;
 
 /**
  * Created by rick on 6/1/2016.
@@ -36,13 +36,13 @@ public class AddMedicalRecordDialog {
                         break;
                     }
                     case R.id.tv_self: {
-                        Intent intent = AddMedicalRecordActivity.makeIntent(context, AddMedicalRecordActivity.TYPE_SELF, isFirstTime());
+                        Intent intent = EditRecordActivity.makeIntent(context, EditRecordActivity.TYPE_SELF, isFirstTime());
                         context.startActivity(intent);
                         dialog.dismiss();
                         break;
                     }
                     case R.id.tv_relative: {
-                        Intent intent = AddMedicalRecordActivity.makeIntent(context, AddMedicalRecordActivity.TYPE_OTHERS, isFirstTime());
+                        Intent intent = EditRecordActivity.makeIntent(context, EditRecordActivity.TYPE_OTHERS, isFirstTime());
                         context.startActivity(intent);
                         dialog.dismiss();
                         break;

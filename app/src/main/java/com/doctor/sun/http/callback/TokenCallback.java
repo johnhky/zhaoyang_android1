@@ -19,6 +19,7 @@ import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
 import com.doctor.sun.ui.activity.doctor.MainActivity;
+import com.doctor.sun.ui.activity.doctor.MeActivity;
 import com.doctor.sun.ui.activity.doctor.RegisterActivity;
 import com.doctor.sun.ui.activity.doctor.ReviewResultActivity;
 import com.doctor.sun.util.JacksonUtils;
@@ -125,8 +126,9 @@ public class TokenCallback {
                         break;
                     }
                     default: {
-                        Config.putInt(Constants.USER_TYPE, AuthModule.DOCTOR_PASSED);
-                        Intent i = RegisterActivity.makeIntent(context, AuthModule.DOCTOR_TYPE);
+                        Intent me = MeActivity.makeIntent(context);
+                        context.startActivity(me);
+                        Intent i = EditDoctorInfoActivity.makeIntent(context, data);
                         context.startActivity(i);
                         context.finish();
                         break;
@@ -243,4 +245,8 @@ public class TokenCallback {
         }
     }
 
+    public static boolean isLogin() {
+        String token = TokenCallback.getToken();
+        return token != null && !token.equals("");
+    }
 }
