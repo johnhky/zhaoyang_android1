@@ -41,7 +41,7 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
     private String myAvatar;
     private String yourAvatar;
     private boolean shouldUpdate;
-    private boolean isFinished = false;
+    private long finishedTime;
 
     public MessageAdapter(Context context, Appointment data) {
         super(context);
@@ -59,7 +59,7 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
      * @param data
      */
     private void initData(Appointment data) {
-        this.isFinished = data.getHandler().isFinished();
+        this.finishedTime = data.getHandler().getFinishedTime();
         switch (Config.getInt(Constants.USER_TYPE, -1)) {
             case AuthModule.PATIENT_TYPE: {
                 Doctor doctor = data.getDoctor();
@@ -89,6 +89,7 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
      * 初始化头像数据
      */
     private void initData(String my, String your) {
+        this.finishedTime = Long.MAX_VALUE;
         ImModule api = Api.of(ImModule.class);
         api.avatar(my, "").enqueue(new SimpleCallback<Avatar>() {
             @Override
@@ -184,7 +185,7 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
         if (AppContext.isDoctor()) {
             return false;
         } else {
-            return isFinished;
+            return finishedTime < System.currentTimeMillis();
         }
     }
 }
