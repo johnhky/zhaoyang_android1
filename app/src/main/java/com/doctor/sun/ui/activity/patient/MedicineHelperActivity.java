@@ -153,6 +153,12 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
         mChatAdapter.onFinishLoadMore(true);
         binding.refreshLayout.setOnRefreshListener(this);
         binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
+        results.addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
+            @Override
+            public void onChange(RealmResults<TextMsg> element) {
+                mChatAdapter.notifyDataSetChanged();
+            }
+        });
         initCustomAction();
         initSticker();
         initInputLayout();

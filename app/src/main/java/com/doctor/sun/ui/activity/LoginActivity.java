@@ -14,6 +14,8 @@ import com.doctor.sun.ui.handler.LoginHandler;
 import java.io.IOException;
 import java.io.InputStream;
 
+import io.realm.Realm;
+
 
 /**
  * Created by rick on 10/23/15.

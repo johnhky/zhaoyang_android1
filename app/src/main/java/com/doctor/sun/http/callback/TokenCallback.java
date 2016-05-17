@@ -207,7 +207,7 @@ public class TokenCallback {
 
     public static Patient getPatientProfile() {
         String json = Config.getString(Constants.PATIENT_PROFILE);
-        if (json == null) {
+        if (json == null || json.equals("")) {
             return null;
         }
         PatientDTO patient = JacksonUtils.fromJson(json, PatientDTO.class);

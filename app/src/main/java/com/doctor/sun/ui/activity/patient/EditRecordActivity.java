@@ -191,6 +191,10 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
 
     @Override
     public void onSelfRecordAdded() {
+        if (isFirstTime()) {
+            Intent intent = MainActivity.makeIntent(this);
+            startActivity(intent);
+        }
         ToastHelper.showMessage(this, "新建成功");
         finish();
     }

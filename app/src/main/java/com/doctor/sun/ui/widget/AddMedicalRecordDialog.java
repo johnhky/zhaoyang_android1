@@ -54,16 +54,13 @@ public class AddMedicalRecordDialog {
         binding.tvCancel.setOnClickListener(listener);
         binding.tvSelf.setOnClickListener(listener);
         binding.tvRelative.setOnClickListener(listener);
-        if (!isFirstTime()) {
-            binding.tvSelf.setVisibility(View.GONE);
-        }
         dialog.show();
     }
 
     private boolean isFirstTime() {
         Patient patientProfile = TokenCallback.getPatientProfile();
         if (patientProfile == null) {
-            return false;
+            return true;
         }
         return patientProfile.getName().equals("");
     }

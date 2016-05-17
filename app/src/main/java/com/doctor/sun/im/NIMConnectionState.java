@@ -70,17 +70,19 @@ public class NIMConnectionState implements RequestCallback {
         saveMsg(msg, false);
     }
 
-    public static void saveMsg(IMMessage msg, boolean haveRead) {
+    public static void saveMsg(final IMMessage msg, final boolean haveRead) {
         Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
-        msg1.setHaveRead(haveRead);
-        if (!haveRead) {
-            NotificationUtil.showNotification(msg1);
-        }
-        realm.copyToRealmOrUpdate(msg1);
-        realm.commitTransaction();
-        realm.close();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
+                msg1.setHaveRead(haveRead);
+                if (!haveRead) {
+                    NotificationUtil.showNotification(msg1);
+                }
+                realm.copyToRealmOrUpdate(msg1);
+            }
+        });
     }
 
     public static void saveMsgs(final List<IMMessage> msgs, final boolean haveRead) {
@@ -93,11 +95,6 @@ public class NIMConnectionState implements RequestCallback {
                     msg1.setHaveRead(haveRead);
                     realm.copyToRealmOrUpdate(msg1);
                 }
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                realm.close();
             }
         });
     }
