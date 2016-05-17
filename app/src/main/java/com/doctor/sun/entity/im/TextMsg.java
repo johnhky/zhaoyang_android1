@@ -6,6 +6,7 @@ import android.support.annotation.RequiresPermission;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -200,6 +201,10 @@ public class TextMsg extends RealmObject implements LayoutId {
 
     @Override
     public int getItemLayoutId() {
+        if (getType().equals(String.valueOf(MsgTypeEnum.notification))) {
+            return R.layout.msg_notification;
+        }
+
         if (getType().equals(String.valueOf(Sticker))) {
             if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
                 return R.layout.msg_sticker_send;

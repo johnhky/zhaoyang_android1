@@ -3,6 +3,7 @@ package com.doctor.sun.entity.im;
 import android.support.annotation.NonNull;
 
 import com.doctor.sun.emoji.StickerManager;
+import com.doctor.sun.im.TeamNotificationHelper;
 import com.doctor.sun.im.custom.AttachmentData;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
@@ -12,6 +13,7 @@ import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.VideoAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.yuntongxun.ecsdk.ECMessage;
 
@@ -72,6 +74,10 @@ public class TextMsgFactory {
             result.setImageWidth(s.getImageWidth());
             result.setDuration(s.getDuration());
         }
+        if (msg.getMsgType().equals(MsgTypeEnum.notification)) {
+            String msgShowText = TeamNotificationHelper.getTeamNotificationText(msg, "");
+            result.setBody(msgShowText);
+        }
         return result;
     }
 
@@ -85,7 +91,7 @@ public class TextMsgFactory {
         } else if (attachment instanceof AudioAttachment) {
             result = parseAudio((AudioAttachment) attachment);
         } else if (attachment instanceof VideoAttachment) {
-            result.setType(TextMsg.VIDEO);
+            return parseVideoData((VideoAttachment) attachment);
         } else if (attachment instanceof FileAttachment) {
             result = parseFile((FileAttachment) attachment);
         }
@@ -110,6 +116,17 @@ public class TextMsgFactory {
         result.setType(TextMsg.AUDIO);
         result.setData(attachment.getUrl());
         result.setDuration(duration);
+        return result;
+    }
+
+    @NonNull
+    private static AttachmentData parseVideoData(VideoAttachment attachment) {
+        AttachmentData result = new AttachmentData();
+        result.setBody("视频");
+        result.setExtension(attachment.getExtension());
+        result.setType(TextMsg.FILE);
+        result.setData(attachment.getUrl());
+        result.setDuration(attachment.getSize());
         return result;
     }
 

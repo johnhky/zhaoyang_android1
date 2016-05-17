@@ -2,6 +2,7 @@ package com.doctor.sun.im;
 
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
+import com.doctor.sun.im.cache.TeamDataCache;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
 import com.doctor.sun.util.JacksonUtils;
@@ -84,7 +85,7 @@ public class NIMConnectionState implements RequestCallback {
 
     public static void saveMsgs(final List<IMMessage> msgs, final boolean haveRead) {
         final Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(new Realm.Transaction() {
+        realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 for (IMMessage msg : msgs) {
@@ -93,7 +94,7 @@ public class NIMConnectionState implements RequestCallback {
                     realm.copyToRealmOrUpdate(msg1);
                 }
             }
-        }, new Realm.Transaction.Callback() {
+        }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
                 realm.close();

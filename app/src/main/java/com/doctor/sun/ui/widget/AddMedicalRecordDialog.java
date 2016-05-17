@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.DialogRecordTypeBinding;
 import com.doctor.sun.entity.Patient;
@@ -53,6 +54,9 @@ public class AddMedicalRecordDialog {
         binding.tvCancel.setOnClickListener(listener);
         binding.tvSelf.setOnClickListener(listener);
         binding.tvRelative.setOnClickListener(listener);
+        if (!isFirstTime()) {
+            binding.tvSelf.setVisibility(View.GONE);
+        }
         dialog.show();
     }
 

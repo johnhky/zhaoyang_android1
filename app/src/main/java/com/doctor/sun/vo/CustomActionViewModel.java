@@ -70,7 +70,7 @@ public class CustomActionViewModel {
     }
 
     private void alertNotAvailable(View v) {
-        String question = "视频通话请求失败:\n①医生拒绝视频通话\n②医生处于免打扰状态";
+        String question = "医生拒绝接收视频通话";
         MaterialDialog.Builder builder = new MaterialDialog.Builder(v.getContext())
                 .content(question)
                 .positiveText("确认")
