@@ -32,7 +32,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="@dimen/dp_70"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
@@ -53,6 +52,7 @@
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:inputType="text"
+                android:hint="必填"
                 android:maxLength="11"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
@@ -83,6 +83,7 @@
                 android:id="@+id/et_self_name"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:hint="必填"
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:inputType="text"
@@ -153,6 +154,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#00000000"
+                android:hint="必填"
                 android:inputType="textEmailAddress"
                 android:maxLength="11"
                 android:textColor="#363636"
