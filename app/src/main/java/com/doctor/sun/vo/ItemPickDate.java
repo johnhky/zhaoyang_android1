@@ -36,7 +36,7 @@ public class ItemPickDate extends BaseItem {
     public ItemPickDate(int layoutId, String title) {
         super(layoutId);
         this.title = title;
-        year = calendar.get(Calendar.YEAR);
+        year = calendar.get(Calendar.YEAR) - 18;
         monthOfYear = calendar.get(Calendar.MONTH);
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
     }
@@ -94,14 +94,14 @@ public class ItemPickDate extends BaseItem {
     }
 
 
-    public OnItemClickListener pickTime() {
-        return new OnItemClickListener() {
+    public View.OnClickListener pickTime() {
+        return new View.OnClickListener() {
             @Override
-            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), setBeginDate, year, monthOfYear, dayOfMonth);
-                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - ONE_HUNDRED_YEAR);
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(v.getContext(), setBeginDate, year, monthOfYear, dayOfMonth);
+                DatePicker datePicker = datePickerDialog.getDatePicker();
+                datePicker.setMaxDate(System.currentTimeMillis());
+                datePicker.setMinDate(System.currentTimeMillis() - ONE_HUNDRED_YEAR);
                 datePickerDialog.show();
             }
         };

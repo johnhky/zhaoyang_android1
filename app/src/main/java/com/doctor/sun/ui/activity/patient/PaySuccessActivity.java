@@ -3,6 +3,7 @@ package com.doctor.sun.ui.activity.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -128,5 +129,15 @@ public class PaySuccessActivity extends BaseActivity2 implements View.OnClickLis
             }
         }
         return id;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
+        Intent intent = MainActivity.makeIntent(this);
+        startActivity(intent);
+        AppManager.finishAllActivity();
+
     }
 }

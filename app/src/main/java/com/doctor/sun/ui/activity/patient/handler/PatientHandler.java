@@ -9,20 +9,33 @@ import android.widget.TextView;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.ui.widget.PickImageDialog;
+import com.doctor.sun.vo.ItemPickTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by lucas on 1/5/16.
  */
 public class PatientHandler {
     private final static int CODE_IMAGE_REQUEST = 8;
+    public static final long ONE_HUNDRED_YEAR = 3153600000000L;
     private Patient data;
-    private int myear;
-    private int mmothOfYear;
-    private int mdayOfMonth;
+    private final GregorianCalendar calendar = new GregorianCalendar();
+    private int mYear;
+    private int mMonthOfYear;
+    private int mDayOfMonth;
+
+    private ItemPickTime item;
 
     public PatientHandler(Patient patient) {
         data = patient;
+        item = new ItemPickTime(0, "");
+        mYear = calendar.get(Calendar.YEAR) - 18;
+        mMonthOfYear = calendar.get(Calendar.MONTH);
+        mDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     public void setAvatar(final View view) {
@@ -43,15 +56,18 @@ public class PatientHandler {
             DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    myear = year;
-                    mmothOfYear = monthOfYear + 1;
-                    mdayOfMonth = dayOfMonth;
-                    Log.e("TAG", "onDateSet: " + myear + " " + mmothOfYear + " " + mdayOfMonth);
-                    tvBirthday.setText(String.format("%04d-%02d", myear, mmothOfYear));
+                    mYear = year;
+                    mMonthOfYear = monthOfYear + 1;
+                    mDayOfMonth = dayOfMonth;
+                    Log.e("TAG", "onDateSet: " + mYear + " " + mMonthOfYear + " " + mDayOfMonth);
+                    tvBirthday.setText(String.format(Locale.CHINA, "%04d-%02d", mYear, mMonthOfYear));
                 }
             };
-            DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), onDateSetListener, myear, mmothOfYear, mdayOfMonth);
-            datePickerDialog.show();
+            DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), onDateSetListener, mYear, mMonthOfYear, mDayOfMonth);
+            DatePickerDialog dialog = datePickerDialog;
+            dialog.getDatePicker().setMinDate(System.currentTimeMillis());
+            dialog.getDatePicker().setMaxDate(System.currentTimeMillis() - ONE_HUNDRED_YEAR);
+            dialog.show();
         }
 
     }

@@ -110,7 +110,7 @@
                 android:text="医院距离"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/filter"
@@ -363,7 +363,7 @@
                                 android:text="定位"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/font_15"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -390,6 +390,7 @@
                             android:background="@drawable/ripple_default"
                             android:drawableRight="@drawable/ic_enter"
                             android:gravity="center_vertical"
+                            android:hint="不限"
                             android:textColor="@color/color_tick"
                             android:textSize="@dimen/font_15" />
 
@@ -422,6 +423,7 @@
                             android:background="@drawable/ripple_default"
                             android:drawableRight="@drawable/ic_enter"
                             android:gravity="center_vertical"
+                            android:hint="不限"
                             android:textColor="@color/color_tick"
                             android:textSize="@dimen/font_15" />
 
