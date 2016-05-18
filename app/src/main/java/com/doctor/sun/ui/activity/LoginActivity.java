@@ -36,19 +36,7 @@ public class LoginActivity extends BaseActivity2 implements LoginHandler.LoginIn
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         handler = new LoginHandler(this);
         binding.setHandler(handler);
-        if (getRealm().where(Province.class).count() <= 0) {
-            getRealm().executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    InputStream is = getResources().openRawResource(R.raw.provinces_cities);
-                    try {
-                        getRealm().createOrUpdateAllFromJson(Province.class, is);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
+
     }
 
     @Override

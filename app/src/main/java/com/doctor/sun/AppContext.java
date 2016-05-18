@@ -9,12 +9,16 @@ import android.util.Log;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.bean.Province;
 import com.doctor.sun.im.AVChatHandler;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.util.CrashHandler;
 import com.netease.nimlib.sdk.NIMClient;
 import com.squareup.otto.Subscribe;
 import com.yuntongxun.ecsdk.ECDevice;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import cn.jpush.android.api.JPushInterface;
 import io.ganguo.library.BaseApp;
@@ -68,6 +72,17 @@ public class AppContext extends BaseApp {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
                 .schemaVersion(NEW_VERSION)
                 .migration(new DoctorSunMigration())
+                .initialData(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        InputStream is = getResources().openRawResource(R.raw.provinces_cities);
+                        try {
+                            realm.createOrUpdateAllFromJson(Province.class, is);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                })
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
