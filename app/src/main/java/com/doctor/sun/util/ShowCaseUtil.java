@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.util.SparseArray;
 import android.view.View;
 
+import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 
 import java.util.HashMap;
@@ -30,6 +31,9 @@ public class ShowCaseUtil {
 
     @BindingAdapter(value = {"android:showcase", "android:showcaseId", "android:showcaseSize", "android:showcasePosition"})
     public static void showCase(View view, String content, String id, int size, int position) {
+        if (BuildConfig.DEV_MODE) {
+            return;
+        }
         if (isShow(id)) return;
 
         MaterialShowcaseView.Builder builder = newBuilder(view, content);

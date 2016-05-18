@@ -47,7 +47,7 @@ public class FooterViewModel extends BaseObservable {
         this.realm = realm;
         final ImAccount accountDTO = Messenger.getVoipAccount();
         if (accountDTO == null) return;
-        final String voipAccount = accountDTO.getVoipAccount();
+//        final String voipAccount = accountDTO.getVoipAccount();
         RealmQuery<TextMsg> haveRead = realm.where(TextMsg.class).equalTo("haveRead", false);
         long unReadMsg = haveRead.count();
         setCount((int) unReadMsg);

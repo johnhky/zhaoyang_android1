@@ -49,6 +49,7 @@ public class ConsultingFragment extends RefreshListFragment {
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private RealmChangeListener<Realm> listener;
     private PageCallback<Appointment> callback;
+    private long lastChangeTime = 0;
 
     public ConsultingFragment() {
     }
@@ -59,6 +60,11 @@ public class ConsultingFragment extends RefreshListFragment {
         listener = new RealmChangeListener<Realm>() {
             @Override
             public void onChange(Realm element) {
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - lastChangeTime < 1000) {
+                    return;
+                }
+
                 List origin = getAdapter().getData();
                 int padding = 2;
                 if (AppContext.isDoctor()) {
@@ -77,6 +83,7 @@ public class ConsultingFragment extends RefreshListFragment {
                         getAdapter().notifyDataSetChanged();
                     }
                 });
+                lastChangeTime = currentTime;
             }
         };
         realm.addChangeListener(listener);

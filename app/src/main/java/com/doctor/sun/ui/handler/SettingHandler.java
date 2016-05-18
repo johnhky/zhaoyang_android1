@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 
+import com.doctor.sun.BuildConfig;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
@@ -146,6 +147,10 @@ public class SettingHandler extends BaseHandler {
                 realm.executeTransaction(new ClearAllTransaction());
             }
         });
+    }
+
+    public String appVersion() {
+        return BuildConfig.VERSION_NAME;
     }
 
     public interface GetWindowSize {

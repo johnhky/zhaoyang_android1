@@ -23,6 +23,11 @@ public class NotificationUtil {
 
     public static void showNotification(TextMsg msg1) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
+
+        if (msg1.getItemLayoutId() == R.layout.msg_prescription_list) {
+            return;
+        }
+
         builder.setContentText(msg1.getBody());
         builder.setContentTitle("昭阳医生新消息");
         builder.setSmallIcon(R.drawable.ic_notification);

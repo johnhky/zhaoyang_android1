@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -61,6 +60,7 @@ import java.io.File;
 import java.util.List;
 
 import io.ganguo.library.util.Systems;
+import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -119,6 +119,17 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
         binding.setHeader(header);
         keyboardWatcher = new KeyboardWatcher(this);
         keyboardWatcher.setListener(this);
+    }
+
+    @Override
+    public void onFirstMenuClicked() {
+        super.onFirstMenuClicked();
+        getRealm().executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                results.deleteAllFromRealm();
+            }
+        });
     }
 
     @Override
@@ -371,7 +382,6 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
             super.onBackPressed();
         }
     }
-
 
 
     @Override

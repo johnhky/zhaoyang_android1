@@ -192,12 +192,15 @@ public class TokenCallback {
     public static void handleToken(Token token) {
         Config.putString(Constants.TOKEN, token.getToken());
         Config.putInt(Constants.USER_TYPE, token.getType());
-        Config.putString(Constants.VOIP_ACCOUNT, JacksonUtils.toJson(token.getAccount()));
+        String account = JacksonUtils.toJson(token.getAccount());
+        Config.putString(Constants.VOIP_ACCOUNT, account);
         JPushInterface.setAlias(AppContext.me(), String.valueOf(token.getAccount().getUserId()), new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {
             }
         });
+        String key = "LAST_VISIT_TIME" + account;
+        Config.putLong(key, System.currentTimeMillis());
         Messenger.getInstance().login(token.getAccount());
     }
 
