@@ -34,7 +34,7 @@ public class AVChatNotification {
 
     public void init(String account) {
         this.account = account;
-        this.displayName ="";// NimUserInfoCache.getInstance().getUserDisplayName(account);
+        this.displayName = "";// NimUserInfoCache.getInstance().getUserDisplayName(account);
 
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
@@ -57,23 +57,18 @@ public class AVChatNotification {
 
     private void buildMissCallNotification() {
         if (missCallNotification == null) {
-//            Intent notifyIntent = new Intent(context, WelcomeActivity.class);
-//            Intent data = new Intent(context, P2PMessageActivity.class);
-//            data.putExtra(Extras.EXTRA_ACCOUNT, account);
-//            data.putExtra(Extras.EXTRA_FROM, Extras.EXTRA_FROM_NOTIFICATION);
-//            notifyIntent.putExtra(Extras.EXTRA_DATA, data);
-//            notifyIntent.putExtra(Extras.EXTRA_JUMP_P2P, true);
-//            notifyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//            notifyIntent.setAction(Intent.ACTION_VIEW);
-//            notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            PendingIntent pendingIntent = PendingIntent.getActivity(context, CALLING_NOTIFY_ID, notifyIntent, PendingIntent
-//                    .FLAG_UPDATE_CURRENT);
-//
-//            String title = context.getString(R.string.avchat_no_pickup_call);
-//            String tickerText = NimUserInfoCache.getInstance().getUserDisplayName(account) + ": 【网络通话】";
-//            int iconId = R.drawable.avchat_no_pickup;
-//
-//            missCallNotification = makeNotification(pendingIntent, title, tickerText, tickerText, iconId, true, true);
+            Intent notifyIntent = new Intent(context, WelcomeActivity.class);
+            notifyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            notifyIntent.setAction(Intent.ACTION_VIEW);
+            notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, CALLING_NOTIFY_ID, notifyIntent, PendingIntent
+                    .FLAG_UPDATE_CURRENT);
+
+            String title = context.getString(R.string.avchat_no_pickup_call);
+            String tickerText = "【网络通话】";
+            int iconId = R.drawable.avchat_no_pickup;
+
+            missCallNotification = makeNotification(pendingIntent, title, tickerText, tickerText, iconId, true, true);
         }
     }
 

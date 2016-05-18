@@ -290,6 +290,7 @@ public class AVChatActivity extends BaseActivity2 implements AVChatUI.AVChatList
             // 如果是incoming call主叫方挂断，那么通知栏有通知
             if (mIsInComingCall && !isCallEstablished) {
                 activeMissCallNotifier();
+                finish();
             }
         }
     };
