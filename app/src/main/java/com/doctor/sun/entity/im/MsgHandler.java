@@ -63,7 +63,7 @@ public class MsgHandler {
 
                                 Realm defaultInstance = Realm.getDefaultInstance();
                                 defaultInstance.executeTransaction(
-                                        setHaveReadTransaction(data));
+                                        setHaveListenTransaction(data));
                                 VoipCallUtil.disableScreenSensor(v.getContext());
                             }
                         });
@@ -74,11 +74,11 @@ public class MsgHandler {
     }
 
     @NonNull
-    private Realm.Transaction setHaveReadTransaction(final TextMsg data) {
+    private Realm.Transaction setHaveListenTransaction(final TextMsg data) {
         return new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                data.setHaveRead(true);
+                data.setHaveListen(true);
             }
         };
     }

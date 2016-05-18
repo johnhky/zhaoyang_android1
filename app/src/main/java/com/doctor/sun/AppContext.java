@@ -35,7 +35,7 @@ import io.realm.RealmSchema;
  */
 public class AppContext extends BaseApp {
     public static final String TAG = AppContext.class.getSimpleName();
-    public static final int NEW_VERSION = 4;
+    public static final int NEW_VERSION = 5;
     private static int userType = -1;
     private static boolean isInitialized;
 
@@ -175,6 +175,12 @@ public class AppContext extends BaseApp {
             if (oldVersion < 3) {
                 if (!textMsg.hasField("duration")) {
                     textMsg.addField("duration", int.class);
+                }
+                oldVersion++;
+            }
+            if (oldVersion < 4) {
+                if (!textMsg.hasField("haveListen")) {
+                    textMsg.addField("haveListen", boolean.class);
                 }
                 oldVersion++;
             }

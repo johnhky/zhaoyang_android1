@@ -9,9 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.EditText;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
@@ -183,9 +180,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         getRealm().beginTransaction();
         for (int i = 0; i < results.size(); i++) {
             TextMsg textMsg = results.get(i);
-            if (!textMsg.getType().equals(String.valueOf(TextMsg.AUDIO))) {
-                textMsg.setHaveRead(true);
-            }
+            textMsg.setHaveRead(true);
         }
         getRealm().commitTransaction();
     }

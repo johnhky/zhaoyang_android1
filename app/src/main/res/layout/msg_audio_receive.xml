@@ -81,7 +81,7 @@
                 android:layout_marginEnd="@dimen/dp_50"
                 android:layout_marginRight="@dimen/dp_50"
                 android:src="@color/red_f7"
-                android:visibility="@{!data.haveRead}"
+                android:visibility="@{!data.haveListen}"
                 bind:maskDrawable="@drawable/circle_mask" />
         </LinearLayout>
     </LinearLayout>

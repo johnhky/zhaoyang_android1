@@ -2,7 +2,6 @@ package com.doctor.sun.entity.im;
 
 
 import android.support.annotation.IntDef;
-import android.support.annotation.RequiresPermission;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -54,6 +53,7 @@ public class TextMsg extends RealmObject implements LayoutId {
     private boolean finished;
     private boolean isAnonymity;
     private boolean haveRead;
+    private boolean haveListen;
     private int imageWidth;
     private int imageHeight;
     private long duration;
@@ -280,6 +280,14 @@ public class TextMsg extends RealmObject implements LayoutId {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
+    }
+
+    public boolean isHaveListen() {
+        return haveListen;
+    }
+
+    public void setHaveListen(boolean haveListen) {
+        this.haveListen = haveListen;
     }
 
     @Retention(RetentionPolicy.SOURCE)
