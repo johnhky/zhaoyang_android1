@@ -17,10 +17,12 @@ import com.doctor.sun.ui.activity.patient.EditRecordActivity;
  * Created by rick on 6/1/2016.
  */
 public class AddMedicalRecordDialog {
+    private final boolean isRegister;
     private Context context;
 
-    public AddMedicalRecordDialog(Context context) {
+    public AddMedicalRecordDialog(Context context,boolean isRegister) {
         this.context = context;
+        this.isRegister = isRegister;
     }
 
     public void show() {
@@ -37,13 +39,13 @@ public class AddMedicalRecordDialog {
                         break;
                     }
                     case R.id.tv_self: {
-                        Intent intent = EditRecordActivity.makeIntent(context, EditRecordActivity.TYPE_SELF, isFirstTime());
+                        Intent intent = EditRecordActivity.makeIntent(context, EditRecordActivity.TYPE_SELF, isRegister);
                         context.startActivity(intent);
                         dialog.dismiss();
                         break;
                     }
                     case R.id.tv_relative: {
-                        Intent intent = EditRecordActivity.makeIntent(context, EditRecordActivity.TYPE_OTHERS, isFirstTime());
+                        Intent intent = EditRecordActivity.makeIntent(context, EditRecordActivity.TYPE_OTHERS, isRegister);
                         context.startActivity(intent);
                         dialog.dismiss();
                         break;
@@ -55,13 +57,5 @@ public class AddMedicalRecordDialog {
         binding.tvSelf.setOnClickListener(listener);
         binding.tvRelative.setOnClickListener(listener);
         dialog.show();
-    }
-
-    private boolean isFirstTime() {
-        Patient patientProfile = TokenCallback.getPatientProfile();
-        if (patientProfile == null) {
-            return true;
-        }
-        return patientProfile.getName().equals("");
     }
 }

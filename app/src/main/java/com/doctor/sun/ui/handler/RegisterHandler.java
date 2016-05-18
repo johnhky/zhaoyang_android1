@@ -91,7 +91,7 @@ public class RegisterHandler extends BaseHandler {
     private void registerPatientSuccess(Token response) {
         if (response != null) {
             TokenCallback.handleToken(response);
-            new AddMedicalRecordDialog(getContext()).show();
+            new AddMedicalRecordDialog(getContext(),true).show();
         }
     }
 

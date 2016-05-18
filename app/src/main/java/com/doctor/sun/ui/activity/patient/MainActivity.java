@@ -71,7 +71,7 @@ public class MainActivity extends BaseActivity2 {
         });
         Patient patientProfile = TokenCallback.getPatientProfile();
         if (patientProfile == null || "".equals(patientProfile.getName())) {
-            new AddMedicalRecordDialog(this).show();
+            new AddMedicalRecordDialog(this, false).show();
         }
 
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

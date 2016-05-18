@@ -55,7 +55,7 @@ public class RecordListActivity extends BaseActivity2 {
         binding.tvNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddMedicalRecordDialog(RecordListActivity.this).show();
+                new AddMedicalRecordDialog(RecordListActivity.this,false).show();
             }
         });
     }
