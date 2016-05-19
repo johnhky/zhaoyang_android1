@@ -184,6 +184,11 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
             textMsg.setHaveRead(true);
         }
         getRealm().commitTransaction();
+    }
+
+    @Override
+    public void finish(){
+        super.finish();
         ItemHelper.changeItem(getIntent(), getData());
     }
 

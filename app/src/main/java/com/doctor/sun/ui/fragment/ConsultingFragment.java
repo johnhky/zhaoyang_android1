@@ -17,6 +17,7 @@ import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.adapter.ConsultingAdapter;
@@ -54,6 +55,12 @@ public class ConsultingFragment extends RefreshListFragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        loadMore();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         NIMClient.getService(MsgServiceObserve.class).observeRecentContact(new Observer<List<RecentContact>>() {
@@ -86,7 +93,7 @@ public class ConsultingFragment extends RefreshListFragment {
                             }
                         }
                     }
-                },300);
+                }, 300);
             }
         }, true);
     }
@@ -108,12 +115,12 @@ public class ConsultingFragment extends RefreshListFragment {
         ConsultingAdapter adapter = new ConsultingAdapter(getContext(), realm);
         int userType = Config.getInt(Constants.USER_TYPE, -1);
         if (userType == AuthModule.PATIENT_TYPE) {
+            adapter.mapLayout(R.layout.item_appointment, R.layout.p_item_consulting);
             adapter.add(new SystemMsg());
             adapter.add(new MedicineStore());
-            adapter.mapLayout(R.layout.item_appointment, R.layout.p_item_consulting);
         } else {
-            adapter.add(new SystemMsg());
             adapter.mapLayout(R.layout.item_appointment, R.layout.item_consulting);
+            adapter.add(new SystemMsg());
         }
         return adapter;
     }
@@ -243,14 +250,15 @@ public class ConsultingFragment extends RefreshListFragment {
     }
 
     private void initListener() {
-        binding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        SwipeRefreshLayout.OnRefreshListener listener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 binding.swipeRefresh.setRefreshing(true);
                 callback.setRefresh();
                 loadMore();
             }
-        });
+        };
+        binding.swipeRefresh.setOnRefreshListener(listener);
     }
 
     public Comparator<Appointment> comparator() {
@@ -310,7 +318,25 @@ public class ConsultingFragment extends RefreshListFragment {
         if (appointment != null) {
             return appointment;
         } else {
+            pullAppointment(tid);
             return null;
         }
+    }
+
+    private void pullAppointment(int tid) {
+        api.appointmentInTid(String.valueOf(tid), "1").enqueue(new SimpleCallback<PageDTO<Appointment>>() {
+            @Override
+            protected void handleResponse(PageDTO<Appointment> response) {
+                List<Appointment> data = response.getData();
+                if (data != null) {
+                    int padding = 2;
+                    if (AppContext.isDoctor()) {
+                        padding = 1;
+                    }
+                    getAdapter().addAll(padding, data);
+                    getAdapter().notifyItemRangeInserted(padding, data.size());
+                }
+            }
+        });
     }
 }

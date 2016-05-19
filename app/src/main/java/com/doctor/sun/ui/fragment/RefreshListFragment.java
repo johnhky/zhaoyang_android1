@@ -46,13 +46,13 @@ public class RefreshListFragment extends Fragment {
         binding = FragmentRefreshListBinding.inflate(inflater, container, false);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = createAdapter();
-        binding.recyclerView.setAdapter(mAdapter);
         mAdapter.setLoadMoreListener(new LoadMoreListener() {
             @Override
             protected void onLoadMore() {
                 loadMore();
             }
         });
+        binding.recyclerView.setAdapter(mAdapter);
         binding.swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
 
         return binding.getRoot();
