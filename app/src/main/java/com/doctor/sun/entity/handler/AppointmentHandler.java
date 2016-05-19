@@ -62,6 +62,7 @@ import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.handler.PayMethodInterface;
 import com.doctor.sun.ui.widget.PayMethodDialog;
+import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.vo.CustomActionViewModel;
@@ -416,12 +417,29 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
-    public OnItemClickListener chat() {
-        return new OnItemClickListener() {
+    public View.OnClickListener chat() {
+        return new View.OnClickListener() {
             @Override
-            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
+            public void onClick(View view) {
                 if (data.getTid() != 0) {
                     Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
+                    view.getContext().startActivity(intent);
+                } else {
+                    Toast.makeText(view.getContext(), "", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+    }
+
+    public View.OnClickListener chat(final BaseAdapter adapter, final BaseViewHolder vh) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (data.getTid() != 0) {
+                    Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
+                    if (adapter != null && vh != null) {
+                        ItemHelper.initCallback(intent, adapter, vh);
+                    }
                     view.getContext().startActivity(intent);
                 } else {
                     Toast.makeText(view.getContext(), "", Toast.LENGTH_SHORT).show();
@@ -572,30 +590,30 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
-    public View.OnClickListener onPatientClickOrder(final Context context) {
+    public View.OnClickListener onPatientClickOrder(final BaseAdapter adapter, final BaseViewHolder vh) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch (data.getOrderStatus()) {
                     case "未付款":
                     case "未支付": {
-                        new PayMethodDialog(context, AppointmentHandler.this).show();
+                        new PayMethodDialog(adapter.getContext(), AppointmentHandler.this).show();
                         break;
                     }
                     case "已付款":
                     case "已支付": {
-                        Intent intent = FillForumActivity.makeIntent(context, data.getId());
+                        Intent intent = FillForumActivity.makeIntent(adapter.getContext(), data.getId());
                         view.getContext().startActivity(intent);
                         break;
                     }
                     case "已完成": {
-                        Intent intent = FinishedOrderActivity.makeIntent(context, data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
+                        Intent intent = FinishedOrderActivity.makeIntent(adapter.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
                         view.getContext().startActivity(intent);
                         break;
                     }
                     case "进行中":
                     case "待建议": {
-                        Intent intent = ChattingActivity.makeIntent(context, data);
+                        Intent intent = ChattingActivity.makeIntent(adapter.getContext(), data);
                         view.getContext().startActivity(intent);
                         break;
                     }
@@ -607,7 +625,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         };
     }
 
-    public View.OnClickListener onDoctorClickOrder(final BaseViewHolder vh) {
+    public View.OnClickListener onDoctorClickOrder(final BaseAdapter adapter, final BaseViewHolder vh) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -627,6 +645,13 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                     case "进行中":
                     case "待建议": {
                         Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
+                        intent.putExtra(Constants.HANDLER, new Messenger(new Handler(new Handler.Callback() {
+                            @Override
+                            public boolean handleMessage(Message msg) {
+                                adapter.notifyItemChanged(vh.getAdapterPosition());
+                                return false;
+                            }
+                        })));
                         view.getContext().startActivity(intent);
                         break;
                     }

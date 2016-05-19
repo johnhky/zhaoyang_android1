@@ -10,15 +10,15 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingDetailActivity;
-import com.doctor.sun.ui.pager.HistoryDetailAdapter;
 import com.doctor.sun.ui.fragment.FillForumFragment;
 import com.doctor.sun.ui.fragment.ListFragment;
 import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.ui.pager.HistoryDetailAdapter;
 
 /**
  * 病人端 历史纪录
- * <p/>
+ * <p>
  * Created by lucas on 1/8/16.
  */
 public class FinishedOrderActivity extends TabActivity
@@ -79,7 +79,7 @@ public class FinishedOrderActivity extends TabActivity
 
     @Override
     public void onMenuClicked() {
-        getData().getHandler().chat().onItemClick(null, binding.getRoot(), null);
+        getData().getHandler().chat().onClick(binding.getRoot());
     }
 
     @Override

@@ -39,6 +39,7 @@ import com.doctor.sun.ui.widget.ExtendedEditText;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.doctor.sun.util.FileChooser;
+import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.vo.CustomActionViewModel;
 import com.doctor.sun.vo.InputLayoutViewModel;
 import com.doctor.sun.vo.StickerViewModel;
@@ -183,6 +184,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
             textMsg.setHaveRead(true);
         }
         getRealm().commitTransaction();
+        ItemHelper.changeItem(getIntent(), getData());
     }
 
     private void initInputLayout(Appointment data) {

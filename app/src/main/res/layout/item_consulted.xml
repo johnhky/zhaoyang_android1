@@ -23,8 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:orientation="vertical"
-        app:itemClick="@{data.handler.chat}">
+        android:onClick="@{data.handler.chat(adapter,vh)}"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -39,10 +39,10 @@
                 android:layout_width="@dimen/dp_41"
                 android:layout_height="@dimen/dp_41"
                 android:layout_marginLeft="@dimen/dp_13"
+                android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
                 android:src="@{data.avatar}"
-                app:maskDrawable="@drawable/circle_mask"
-                android:drawable="@{@drawable/default_avatar}" />
+                app:maskDrawable="@drawable/circle_mask" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -125,22 +125,22 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    app:itemClick="@{data.handler.comment}"
-                    app:vh="@{vh}"
-                    app:adapter="@{adapter}"
                     android:text='@{data.handler.hasPatientComment?"已评价":"评  价"}'
                     android:textColor="#fff"
-                    android:textSize="@dimen/font_13" />
+                    android:textSize="@dimen/font_13"
+                    app:adapter="@{adapter}"
+                    app:itemClick="@{data.handler.comment}"
+                    app:vh="@{vh}" />
             </FrameLayout>
 
             <TextView
                 android:id="@+id/tv_message_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginRight="@dimen/dp_13"
                 android:background="@drawable/bg_msg_count"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:textColor="#FFFFFF"
                 android:textSize="@dimen/font_12" />
         </LinearLayout>

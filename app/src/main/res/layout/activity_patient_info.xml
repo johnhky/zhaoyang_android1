@@ -89,10 +89,6 @@
                     android:background="@color/divider_color" />
 
                 <RelativeLayout
-                    android:showcase='@{"查看该病历的历史记录"}'
-                    android:showcaseId='@{"patientInfo"}'
-                    android:showcasePosition='@{0}'
-                    android:showcaseSize='@{1}'
                     android:id="@+id/rl_history_record"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_91"
@@ -100,7 +96,11 @@
                     android:clickable="true"
                     android:paddingLeft="@dimen/dp_13"
                     android:paddingRight="@dimen/dp_13"
-                    android:paddingTop="@dimen/dp_13">
+                    android:paddingTop="@dimen/dp_13"
+                    android:showcase='@{"查看该病历的历史记录"}'
+                    android:showcaseId='@{"patientInfo"}'
+                    android:showcasePosition='@{0}'
+                    android:showcaseSize='@{1}'>
 
                     <TextView
                         android:id="@+id/tv_history"
@@ -234,7 +234,7 @@
                     android:layout_marginTop="@dimen/dp_21"
                     android:background="@drawable/btn_big_blue"
                     android:clickable="true"
-                    app:itemClick="@{appointment.handler.chat}">
+                    android:onClick="@{appointment.handler.chat()}">
 
                     <TextView
                         android:layout_width="match_parent"

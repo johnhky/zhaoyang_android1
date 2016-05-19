@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.SparseArray;
 import android.view.View;
 
 import com.doctor.sun.AppContext;
@@ -22,13 +23,14 @@ import com.doctor.sun.ui.adapter.ConsultingAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.util.JacksonUtils;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
@@ -36,8 +38,6 @@ import java.util.List;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.util.Tasks;
-import io.realm.Realm;
-import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.Sort;
 
@@ -47,46 +47,48 @@ import io.realm.Sort;
 public class ConsultingFragment extends RefreshListFragment {
     public static final String TAG = ConsultingFragment.class.getSimpleName();
     private AppointmentModule api = Api.of(AppointmentModule.class);
-    private RealmChangeListener<Realm> listener;
     private PageCallback<Appointment> callback;
-    private long lastChangeTime = 0;
+    private SparseArray<Appointment> map = new SparseArray<>();
 
     public ConsultingFragment() {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        listener = new RealmChangeListener<Realm>() {
+    public void onResume() {
+        super.onResume();
+        NIMClient.getService(MsgServiceObserve.class).observeRecentContact(new Observer<List<RecentContact>>() {
             @Override
-            public void onChange(Realm element) {
-                long currentTime = System.currentTimeMillis();
-                if (currentTime - lastChangeTime < 1000) {
-                    return;
-                }
-
-                List origin = getAdapter().getData();
+            public void onEvent(final List<RecentContact> recentContacts) {
                 int padding = 2;
                 if (AppContext.isDoctor()) {
                     padding = 1;
                 }
-                List data = origin.subList(padding, origin.size());
-                final List header = origin.subList(0, padding);
-                final List result = new ArrayList();
-                result.addAll(data);
-                Collections.sort(result, comparator());
-                result.addAll(0, header);
+                final int finalPosition = padding;
                 Tasks.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        getAdapter().setData(result);
-                        getAdapter().notifyDataSetChanged();
+                        for (int i = 0; i < recentContacts.size(); i++) {
+                            RecentContact recentContact = recentContacts.get(i);
+                            String contactId = recentContact.getContactId();
+                            if (recentContact.getSessionType() == SessionTypeEnum.Team) {
+                                Appointment appointmentByTid = getAppointmentByTid(contactId);
+                                if (appointmentByTid != null) {
+                                    int oldPosition = getAdapter().indexOf(appointmentByTid);
+                                    getAdapter().remove(oldPosition);
+                                    getAdapter().add(finalPosition, appointmentByTid);
+                                    if (oldPosition != finalPosition) {
+                                        getAdapter().notifyItemRemoved(oldPosition);
+                                        getAdapter().notifyItemInserted(finalPosition);
+                                    } else {
+                                        getAdapter().notifyItemChanged(oldPosition);
+                                    }
+                                }
+                            }
+                        }
                     }
-                });
-                lastChangeTime = currentTime;
+                },300);
             }
-        };
-        realm.addChangeListener(listener);
+        }, true);
     }
 
     @Override
@@ -97,9 +99,6 @@ public class ConsultingFragment extends RefreshListFragment {
 
     @Override
     public void onDestroy() {
-        if (!realm.isClosed()) {
-            realm.removeChangeListener(listener);
-        }
         super.onDestroy();
     }
 
@@ -135,9 +134,8 @@ public class ConsultingFragment extends RefreshListFragment {
                 @Override
                 protected void handleResponse(PageDTO<Appointment> response) {
                     ArrayList<Appointment> data = (ArrayList<Appointment>) response.getData();
-                    if (data != null) {
-                        Collections.sort(data, comparator());
-                        response.setData(data);
+                    for (Appointment appointment : data) {
+                        map.put(appointment.getTid(), appointment);
                     }
                     super.handleResponse(response);
                 }
@@ -157,7 +155,7 @@ public class ConsultingFragment extends RefreshListFragment {
                             if (recents == null) return;
 
 
-                            HashSet<String> tids = new HashSet<String>();
+                            ArrayList<String> tids = new ArrayList<>();
                             for (RecentContact recent : recents) {
                                 String contactId = recent.getContactId();
                                 if (recent.getSessionType() == SessionTypeEnum.Team) {
@@ -192,9 +190,8 @@ public class ConsultingFragment extends RefreshListFragment {
                 @Override
                 protected void handleResponse(PageDTO<Appointment> response) {
                     ArrayList<Appointment> data = (ArrayList<Appointment>) response.getData();
-                    if (data != null) {
-                        Collections.sort(data, comparator());
-                        response.setData(data);
+                    for (Appointment appointment : data) {
+                        map.put(appointment.getTid(), appointment);
                     }
                     super.handleResponse(response);
                 }
@@ -302,5 +299,18 @@ public class ConsultingFragment extends RefreshListFragment {
                 return new Date(rTime).compareTo(new Date(lTime));
             }
         };
+    }
+
+    public Appointment getAppointmentByTid(String tid) {
+        return getAppointmentByTid(Integer.valueOf(tid));
+    }
+
+    public Appointment getAppointmentByTid(int tid) {
+        Appointment appointment = map.get(tid);
+        if (appointment != null) {
+            return appointment;
+        } else {
+            return null;
+        }
     }
 }

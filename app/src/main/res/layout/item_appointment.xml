@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{data.handler.onDoctorClickOrder(vh)}"
+        android:onClick="@{data.handler.onDoctorClickOrder(adapter,vh)}"
         android:orientation="vertical">
 
         <LinearLayout
