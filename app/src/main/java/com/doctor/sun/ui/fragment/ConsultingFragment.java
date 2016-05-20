@@ -71,29 +71,7 @@ public class ConsultingFragment extends RefreshListFragment {
                     padding = 1;
                 }
                 final int finalPosition = padding;
-                Tasks.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < recentContacts.size(); i++) {
-                            RecentContact recentContact = recentContacts.get(i);
-                            String contactId = recentContact.getContactId();
-                            if (recentContact.getSessionType() == SessionTypeEnum.Team) {
-                                Appointment appointmentByTid = getAppointmentByTid(contactId);
-                                if (appointmentByTid != null) {
-                                    int oldPosition = getAdapter().indexOf(appointmentByTid);
-                                    getAdapter().remove(oldPosition);
-                                    getAdapter().add(finalPosition, appointmentByTid);
-                                    if (oldPosition != finalPosition) {
-                                        getAdapter().notifyItemRemoved(oldPosition);
-                                        getAdapter().notifyItemInserted(finalPosition);
-                                    } else {
-                                        getAdapter().notifyItemChanged(oldPosition);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }, 300);
+                Tasks.runOnUiThread(new InsertAppointmentRunnable(recentContacts, finalPosition), 300);
             }
         }, true);
     }
@@ -338,5 +316,41 @@ public class ConsultingFragment extends RefreshListFragment {
                 }
             }
         });
+    }
+
+    private class InsertAppointmentRunnable implements Runnable {
+        private final List<RecentContact> recentContacts;
+        private final int finalPosition;
+
+        public InsertAppointmentRunnable(List<RecentContact> recentContacts, int finalPosition) {
+            this.recentContacts = recentContacts;
+            this.finalPosition = finalPosition;
+        }
+
+        @Override
+        public void run() {
+            for (int i = 0; i < recentContacts.size(); i++) {
+                RecentContact recentContact = recentContacts.get(i);
+                String contactId = recentContact.getContactId();
+                if (recentContact.getSessionType() == SessionTypeEnum.Team) {
+                    getAndInsertAppointment(contactId);
+                }
+            }
+        }
+
+        private void getAndInsertAppointment(String contactId) {
+            Appointment appointmentByTid = getAppointmentByTid(contactId);
+            if (appointmentByTid != null) {
+                int oldPosition = getAdapter().indexOf(appointmentByTid);
+                getAdapter().remove(oldPosition);
+                getAdapter().add(finalPosition, appointmentByTid);
+                if (oldPosition != finalPosition) {
+                    getAdapter().notifyItemRemoved(oldPosition);
+                    getAdapter().notifyItemInserted(finalPosition);
+                } else {
+                    getAdapter().notifyItemChanged(oldPosition);
+                }
+            }
+        }
     }
 }
