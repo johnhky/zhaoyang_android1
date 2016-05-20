@@ -15,6 +15,7 @@
         <variable
             name="header"
             type="com.doctor.sun.ui.model.HeaderViewModel" />
+
         <variable
             name="qrcode"
             type="String" />
@@ -68,6 +69,7 @@
                     android:paddingLeft="@dimen/dp_4"
                     android:paddingRight="@dimen/dp_4"
                     android:singleLine="true"
+                    android:text="@{data.level}"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/font_9" />
 

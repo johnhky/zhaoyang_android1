@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
-import com.doctor.sun.ui.activity.patient.CouponListActivity;
+import com.doctor.sun.ui.activity.patient.CouponTabActivity;
 import com.doctor.sun.ui.activity.patient.DocumentActivity;
 import com.doctor.sun.ui.activity.patient.EditPatientInfoActivity;
 import com.doctor.sun.ui.activity.patient.HistoryActivity;
@@ -53,7 +53,7 @@ public class MeHandler {
     }
 
     public void coupon(View view) {
-        Intent intent = CouponListActivity.intentFor(view.getContext());
+        Intent intent = CouponTabActivity.intentFor(view.getContext());
         view.getContext().startActivity(intent);
     }
 

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by rick on 20/5/2016.
  */
-public class Coupon implements LayoutId{
+public class Coupon implements LayoutId {
 
 
     /**
@@ -78,6 +78,24 @@ public class Coupon implements LayoutId{
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    // extra method
+    public String getStatus() {
+        switch (couponStatus) {
+            case "used":
+                return "已使用";
+            case "available":
+                return "有效期: " + validBeginTime + " 至 " + validEndTime;
+            case "expire":
+                return "已过期";
+            default:
+                return "已过期";
+        }
+    }
+
+    public boolean isValid() {
+        return couponStatus.equals("available");
     }
 
     @Override

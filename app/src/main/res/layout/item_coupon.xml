@@ -8,11 +8,57 @@
             type="com.doctor.sun.entity.Coupon" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_15">
 
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_32"
+            android:layout_marginRight="@dimen/dp_32"
+            android:background="@drawable/bg_coupon"
+            android:orientation="vertical"
+            android:selected="@{data.valid}">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_30"
+                android:text='@{"¥ "+ data.couponMoney}'
+                android:textColor="@{data.valid? @color/white : @color/grey_c2}"
+                android:textSize="@dimen/font_40" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_30"
+                android:text="现金抵用券"
+                android:textColor="@{data.valid? @color/grey_42 : @color/grey_c2}"
+                android:textSize="@dimen/font_18" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_30"
+                android:text="@{data.status}"
+                android:textColor="@{data.valid? @color/grey_42 : @color/grey_c2}"
+                android:textSize="@dimen/font_9" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/dp_n15"
+            android:background="@color/dark_36" />
+
+    </FrameLayout>
 </layout>

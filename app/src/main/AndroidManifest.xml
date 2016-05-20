@@ -397,7 +397,7 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
-            android:name=".ui.activity.patient.CouponListActivity"
+            android:name=".ui.activity.patient.CouponTabActivity"
             android:screenOrientation="portrait" />
 
         <activity
