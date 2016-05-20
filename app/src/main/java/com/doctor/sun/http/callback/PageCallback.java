@@ -20,6 +20,9 @@ public class PageCallback<T> extends ApiCallback<PageDTO<T>> {
 
     @Override
     protected void handleResponse(PageDTO<T> response) {
+        if (adapter == null) {
+            return;
+        }
         if (page == 1) {
             adapter.clear();
             onInitHeader();
