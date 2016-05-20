@@ -45,10 +45,6 @@
                 android:layout_height="wrap_content">
 
                 <com.doctor.sun.ui.widget.BezelImageView
-                    android:showcase='@{"点击头像可以修改个人信息"}'
-                    android:showcaseId='@{"doctorMe"}'
-                    android:showcasePosition='@{0}'
-                    android:showcaseSize='@{2}'
                     android:id="@+id/iv_me"
                     android:layout_width="@dimen/dp_74"
                     android:layout_height="@dimen/dp_74"
@@ -56,6 +52,10 @@
                     android:layout_marginTop="@dimen/dp_10"
                     android:onClick="@{handler.head}"
                     android:scaleType="centerCrop"
+                    android:showcase='@{"点击头像可以修改个人信息"}'
+                    android:showcaseId='@{"doctorMe"}'
+                    android:showcasePosition='@{0}'
+                    android:showcaseSize='@{2}'
                     android:src="@{data.avatar}"
                     app:maskDrawable="@drawable/circle_mask" />
 
@@ -138,11 +138,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_120"
+            android:orientation="horizontal"
             android:showcase='@{"医生可以自定义自己的设置"}'
             android:showcaseId='@{"doctorMe"}'
             android:showcasePosition='@{0}'
-            android:showcaseSize='@{2}'
-            android:orientation="horizontal">
+            android:showcaseSize='@{2}'>
 
             <LinearLayout
                 android:id="@+id/btn_time_setting"
@@ -154,10 +154,16 @@
                 android:onClick="@{handler.Time}"
                 android:orientation="vertical">
 
-                <ImageView
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_time_setting" />
+                    android:layout_height="@dimen/dp_40">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_time_setting" />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -184,10 +190,16 @@
                 android:onClick="@{handler.Price}"
                 android:orientation="vertical">
 
-                <ImageView
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_price_setting" />
+                    android:layout_height="@dimen/dp_40">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_price_setting" />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -214,10 +226,16 @@
                 android:onClick="@{handler.Template}"
                 android:orientation="vertical">
 
-                <ImageView
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_template_setting" />
+                    android:layout_height="@dimen/dp_40">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_template_setting" />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -251,10 +269,16 @@
                 android:onClick="@{handler.Disturb}"
                 android:orientation="vertical">
 
-                <ImageView
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_disturb_setting" />
+                    android:layout_height="@dimen/dp_40">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_disturb_setting" />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -281,10 +305,16 @@
                 android:onClick="@{handler.Setting}"
                 android:orientation="vertical">
 
-                <ImageView
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_setting" />
+                    android:layout_height="@dimen/dp_40">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_setting" />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -301,10 +331,35 @@
                 android:layout_height="match_parent"
                 android:background="#c1cacf" />
 
-            <View
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:onClick="@{handler.myQrCode}"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_40">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_qrcode" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:text="我的二维码"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_14" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

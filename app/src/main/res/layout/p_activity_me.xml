@@ -81,10 +81,6 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:showcase='@{"历史就诊记录都在这里"}'
-                android:showcaseId='@{"patientMe"}'
-                android:showcasePosition='@{1}'
-                android:showcaseSize='@{3}'
                 android:id="@+id/btn_history"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -92,13 +88,23 @@
                 android:background="@drawable/ripple_default"
                 android:gravity="center"
                 android:onClick="@{handler.History}"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:showcase='@{"历史就诊记录都在这里"}'
+                android:showcaseId='@{"patientMe"}'
+                android:showcasePosition='@{1}'
+                android:showcaseSize='@{3}'>
 
-                <ImageView
-                    android:id="@+id/iv_time_setting"
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_history" />
+                    android:layout_height="@dimen/dp_40">
+
+                    <ImageView
+                        android:id="@+id/iv_time_setting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_history" />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -119,20 +125,26 @@
                 android:id="@+id/btn_record"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:showcase='@{"这里可以查看病历信息和新建病历"}'
-                android:showcaseId='@{"patientMe"}'
-                android:showcasePosition='@{2}'
-                android:showcaseSize='@{3}'
                 android:layout_weight="1"
                 android:background="@drawable/ripple_default"
                 android:gravity="center"
                 android:onClick="@{handler.Record}"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:showcase='@{"这里可以查看病历信息和新建病历"}'
+                android:showcaseId='@{"patientMe"}'
+                android:showcasePosition='@{2}'
+                android:showcaseSize='@{3}'>
 
-                <ImageView
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_record" />
+                    android:layout_height="@dimen/dp_40">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_record" />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -159,10 +171,16 @@
                 android:onClick="@{handler.Document}"
                 android:orientation="vertical">
 
-                <ImageView
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_document" />
+                    android:layout_height="@dimen/dp_40">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_document" />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -197,10 +215,16 @@
                 android:onClick="@{handler.Recharge}"
                 android:orientation="vertical">
 
-                <ImageView
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_recharge" />
+                    android:layout_height="@dimen/dp_40">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_recharge" />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -227,10 +251,16 @@
                 android:onClick="@{handler.Setting}"
                 android:orientation="vertical">
 
-                <ImageView
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_setting" />
+                    android:layout_height="@dimen/dp_40">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_setting" />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -247,10 +277,36 @@
                 android:layout_height="match_parent"
                 android:background="#c1cacf" />
 
-            <View
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:onClick="@{handler.coupon}"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_40">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_coupon" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_14"
+                    android:text="优惠卷"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_14" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

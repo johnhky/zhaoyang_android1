@@ -6,6 +6,7 @@ import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Article;
 import com.doctor.sun.entity.Comment;
+import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.DoctorIndex;
 import com.doctor.sun.entity.Fee;
@@ -112,4 +113,10 @@ public interface ProfileModule {
 
     @GET("profile/articles")
     Call<ApiDTO<PageDTO<Article>>> articles(@Query("doctorId") int doctorId, @Query("page") String page);
+
+    @GET("profile/coupons")
+    Call<ApiDTO<List<Coupon>>> coupons(@Query("type") String type);
+
+    @GET("profile/coupons")
+    Call<ApiDTO<String>> barcode();
 }

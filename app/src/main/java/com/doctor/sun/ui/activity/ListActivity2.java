@@ -9,18 +9,18 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityListBinding;
-import com.doctor.sun.http.callback.PageCallback;
+import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 
 /**
  * Created by rick on 20/1/2016.
  */
-public class PageActivity2 extends BaseActivity2 implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class ListActivity2<T> extends BaseActivity2 implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private ActivityListBinding binding;
     private SimpleAdapter adapter;
-    private PageCallback<Object> callback;
+    private ListCallback<T> callback;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,8 +58,8 @@ public class PageActivity2 extends BaseActivity2 implements View.OnClickListener
     }
 
     @NonNull
-    private PageCallback<Object> createCallback() {
-        return new PageCallback<Object>(adapter) {
+    private ListCallback<T> createCallback() {
+        return new ListCallback<T>(adapter) {
             @Override
             public void onFinishRefresh() {
                 super.onFinishRefresh();
@@ -89,17 +89,16 @@ public class PageActivity2 extends BaseActivity2 implements View.OnClickListener
         this.adapter = adapter;
     }
 
-    public PageCallback getCallback() {
+    public ListCallback<T> getCallback() {
         return callback;
     }
 
-    public void setCallback(PageCallback callback) {
+    public void setCallback(ListCallback callback) {
         this.callback = callback;
     }
 
     @Override
     public void onRefresh() {
-        callback.resetPage();
         adapter.clear();
         adapter.notifyDataSetChanged();
         adapter.onFinishLoadMore(false);

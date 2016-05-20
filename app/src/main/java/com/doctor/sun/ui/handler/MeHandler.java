@@ -10,6 +10,7 @@ import com.doctor.sun.ui.activity.doctor.FeeActivity;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
 import com.doctor.sun.ui.activity.doctor.TemplateActivity;
 import com.doctor.sun.ui.activity.doctor.TimeActivity;
+import com.doctor.sun.ui.activity.patient.MyQrCodeActivity;
 
 /**
  * Created by lucas on 12/4/15.
@@ -48,6 +49,11 @@ public class MeHandler {
 
     public void Setting(View view) {
         Intent intent = SettingActivity.makeIntent(view.getContext());
+        view.getContext().startActivity(intent);
+    }
+
+    public void myQrCode(View view) {
+        Intent intent = MyQrCodeActivity.intentFor(view.getContext(), data);
         view.getContext().startActivity(intent);
     }
 }

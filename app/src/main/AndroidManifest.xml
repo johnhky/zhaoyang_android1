@@ -396,6 +396,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
+        <activity
+            android:name=".ui.activity.patient.CouponListActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.MyQrCodeActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name="com.yuntongxun.ecsdk.ECClientService"
