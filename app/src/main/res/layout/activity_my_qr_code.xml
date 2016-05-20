@@ -138,7 +138,7 @@
                 android:layout_width="@dimen/dp_266"
                 android:layout_height="@dimen/dp_266"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dp_45"
+                android:layout_marginTop="@dimen/dp_20"
                 android:scaleType="fitXY"
                 android:src="@{qrcode}" />
 

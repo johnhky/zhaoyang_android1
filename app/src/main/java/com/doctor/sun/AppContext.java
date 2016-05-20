@@ -60,13 +60,13 @@ public class AppContext extends BaseApp {
             if (AppEnv.DEV_MODE) {
                 OpenSDK.initStage(this);
             } else {
+                CrashHandler.getInstance().init(this);
                 OpenSDK.initProduct(this);
             }
 
             AVChatHandler.getInstance().enableAVChat();
 
             JPushInterface.init(this);
-            CrashHandler.getInstance().init(this);
         }
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)

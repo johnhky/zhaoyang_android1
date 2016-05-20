@@ -117,6 +117,6 @@ public interface ProfileModule {
     @GET("profile/coupons")
     Call<ApiDTO<List<Coupon>>> coupons(@Query("type") String type);
 
-    @GET("profile/coupons")
+    @GET("profile/qrcode")
     Call<ApiDTO<String>> barcode();
 }
