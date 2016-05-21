@@ -12,11 +12,14 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityApplyAppointmentBinding;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.constans.CouponType;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
@@ -25,6 +28,7 @@ import com.doctor.sun.ui.widget.SelectRecordDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -38,6 +42,8 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
     private ProfileModule api = Api.of(ProfileModule.class);
     private AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
     private MedicalRecord record;
+    private List<Coupon> response;
+    private List<Coupon> coupons;
 
     public static Intent makeIntent(Context context, Doctor doctor, String bookTime, String type, String recordId) {
         Intent i = new Intent(context, ApplyAppointmentActivity.class);
@@ -113,7 +119,9 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                     protected void handleResponse(Appointment response) {
                         response.setRecordId(Integer.parseInt(doctorData.getRecordId()));
                         AppointmentHandler handler = new AppointmentHandler(response);
-                        handler.couponId = "";
+                        if (binding.cbCouponCount.isSelected()) {
+                            handler.couponId = coupons.get(0).getId();
+                        }
                         if (binding.rbWechat.isChecked()) {
                             handler.payWithWeChat(ApplyAppointmentActivity.this);
                         } else {
@@ -136,6 +144,16 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                         dialog.dismiss();
                     }
                 });
+            }
+        });
+        api.coupons(CouponType.CAN_USE_NOW).enqueue(new SimpleCallback<List<Coupon>>() {
+            @Override
+            protected void handleResponse(List<Coupon> response) {
+                if (response != null && !response.isEmpty()) {
+                    coupons = response;
+                    binding.llyCoupon.setVisibility(View.VISIBLE);
+                    binding.cbCouponCount.setText(String.format(Locale.CHINA, "您有%d张可用优惠券", response.size()));
+                }
             }
         });
     }
