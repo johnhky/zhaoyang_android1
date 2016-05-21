@@ -9,17 +9,22 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityEditPrescriptionBinding;
-import com.doctor.sun.vo.ItemButton;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.AutoComplete;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.SingleChoiceDialog;
+import com.doctor.sun.vo.ItemButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,8 +120,21 @@ public class EditPrescriptionActivity extends BaseActivity2 {
 
 
         initData();
+        initAutoComplete();
     }
 
+    public void initAutoComplete() {
+        AutoComplete autoComplete = Api.of(AutoComplete.class);
+        autoComplete.drugNames().enqueue(new SimpleCallback<List<String>>() {
+            @Override
+            protected void handleResponse(List<String> response) {
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(EditPrescriptionActivity.this,android.R.layout.simple_list_item_1, response);
+                AutoCompleteTextView etInput = binding.medicineName.etInput;
+                etInput.setAdapter(arrayAdapter);
+                etInput.setThreshold(1);
+            }
+        });
+    }
 
     @Override
     public void onMenuClicked() {

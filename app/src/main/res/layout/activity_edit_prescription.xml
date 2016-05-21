@@ -45,7 +45,7 @@
 
                 <include
                     android:id="@+id/medicineName"
-                    layout="@layout/item_text_input2" />
+                    layout="@layout/item_auto_complete" />
 
                 <View
                     android:layout_width="match_parent"
