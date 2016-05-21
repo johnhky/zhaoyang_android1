@@ -172,6 +172,25 @@ public interface AppointmentModule {
      * @return
      */
     @FormUrlEncoded
+    @POST("pay/info")
+    Call<ApiDTO<String>> buildOrder(@Field("appointmentId") int id,
+                                    @Field("type") String type, @Field("couponId") String couponId);
+
+
+    /**
+     * @param type 'alipay'或'wechat'(微信app支付)或'wechat_js'(微信公众号支付)。不传默认值为'alipay'
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("pay/info")
+    Call<ApiDTO<WeChatPayDTO>> buildWeChatOrder(@Field("appointmentId") int id,
+                                                @Field("type") String type, @Field("couponId") String couponId);
+
+    /**
+     * @param type 'alipay'或'wechat'(微信app支付)或'wechat_js'(微信公众号支付)。不传默认值为'alipay'
+     * @return
+     */
+    @FormUrlEncoded
     @POST("pay/build-order")
     Call<ApiDTO<String>> rechargeOrderWithAlipay(@Field("totalFee") int totalFee, @Field("body") String body,
                                                  @Field("type") String type);

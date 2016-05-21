@@ -98,6 +98,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public static final int PHONE_CALL_PERMISSION = 50;
     private static AppointmentModule api = Api.of(AppointmentModule.class);
     protected Appointment data;
+    public String couponId;
     private DrugModule drugModule = Api.of(DrugModule.class);
 
     public AppointmentHandler(Appointment data) {
@@ -241,7 +242,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         } else {
             id = data.getId();
         }
-        api.buildOrder(id, "alipay").enqueue(new AlipayCallback(activity, data));
+        api.buildOrder(id, "alipay", "").enqueue(new AlipayCallback(activity, data));
     }
 
     @Override
@@ -252,7 +253,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         } else {
             id = data.getId();
         }
-        api.buildWeChatOrder(id, "wechat").enqueue(new WeChatPayCallback(activity, data));
+        api.buildWeChatOrder(id, "wechat", "").enqueue(new WeChatPayCallback(activity, data));
     }
 
     @Override
@@ -733,7 +734,11 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public void makePhoneCall(final View view) {
-        String[] permissions = {Manifest.permission.RECORD_AUDIO};
+        if (!com.doctor.sun.im.Messenger.getInstance().isRIMLogin()) {
+            com.doctor.sun.im.Messenger.getInstance().login();
+        }
+
+        String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.VIBRATE};
         boolean hasSelfPermission = PermissionUtil.hasSelfPermission((Activity) view.getContext(), permissions);
         if (hasSelfPermission) {
             final String sendTo = getVoipAccount();

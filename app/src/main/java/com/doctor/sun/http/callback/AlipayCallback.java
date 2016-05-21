@@ -81,6 +81,11 @@ public class AlipayCallback extends SimpleCallback<String> {
 
     @Override
     protected void handleResponse(final String data) {
+
+        if (data.equals("finish_pay")) {
+          mCallback.onPaySuccess();
+        }
+
         if (data != null) {
             new Thread(new Runnable() {
                 @Override

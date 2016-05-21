@@ -38,4 +38,6 @@
     <color name="grey_77">#777777</color>
     <color name="grey_42">#424242</color>
     <color name="dark_36_transparent">#dd363636</color>
+
+    <color name="orange">#f76d02</color>
 </resources>

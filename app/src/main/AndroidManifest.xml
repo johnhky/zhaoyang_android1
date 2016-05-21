@@ -38,13 +38,13 @@
     // 允许应用程序修改全局声音设置的权限
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     // GPS定位权限(非必选，由应用选择是否需要)
-    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
     <!--<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />-->
     <!--// 允许程序读取用户联系人数据(非必选，由应用选择是否需要)-->
     <!--<uses-permission android:name="android.permission.READ_CONTACTS" />-->
     // 允许访问振动设备(非必选,由应用选择是否需要)
-    <!--<uses-permission android:name="android.permission.VIBRATE" />-->
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 
     //** 如果您需要实现实时音视频功能，需要增加以下配置选项**//

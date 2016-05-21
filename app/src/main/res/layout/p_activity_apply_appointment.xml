@@ -35,12 +35,12 @@
 
                 <LinearLayout
                     android:id="@+id/lly_medical_record"
-                    android:background="@drawable/ripple_default"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingRight="@dimen/dp_13"
+                    android:background="@drawable/ripple_default"
+                    android:orientation="horizontal"
                     android:paddingLeft="@dimen/dp_13"
-                    android:orientation="horizontal">
+                    android:paddingRight="@dimen/dp_13">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -226,6 +226,45 @@
                     android:background="#ebf0f3"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_13"
+                    android:text="优惠券"
+                    android:textColor="#a2aaae"
+                    android:textSize="@dimen/font_15" />
+
+                <LinearLayout
+                    android:id="@+id/lly_share"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:background="@drawable/ripple_default"
+                    android:clickable="true"
+                    android:gravity="center_vertical">
+
+                    <CheckBox
+                        android:id="@+id/tv_option"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:button="@drawable/abc_btn_radio_material"
+                        android:buttonTint="@color/grey_89"
+                        android:layout_marginLeft="@dimen/dp_13"
+                        android:singleLine="true"
+                        android:text='@{"您有"+"5"+"张可用优惠券"}'
+                        android:textColor="@color/grey_89"
+                        android:textSize="@dimen/font_15" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dp_13"
+                        android:src="@drawable/ic_enter" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_30"
+                    android:background="#ebf0f3"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dp_13"
                     android:text="支付方式"
                     android:textColor="#a2aaae"
                     android:textSize="@dimen/font_15" />
@@ -301,6 +340,16 @@
                         android:textColor="#ffffff"
                         android:textSize="@dimen/font_17" />
                 </FrameLayout>
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="*支付成功后,预约面诊成功,请尽快支付"
+                    android:textColor="@color/orange"
+                    android:textSize="@dimen/font_12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

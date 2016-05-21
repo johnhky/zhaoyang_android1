@@ -14,12 +14,12 @@ import com.doctor.sun.databinding.PActivityApplyAppointmentBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
-import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
 
@@ -30,7 +30,7 @@ import java.util.Locale;
 
 /**
  * 确认预约
- * <p>
+ * <p/>
  * Created by lucas on 1/22/16.
  */
 public class ApplyAppointmentActivity extends BaseActivity2 {
@@ -94,7 +94,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
         final String time;
         if (parse != null) {
             time = String.valueOf(parse.getTime()).substring(0, 10);
-        }else {
+        } else {
             time = "";
         }
         Log.e(TAG, "onCreate: time" + time);
@@ -113,6 +113,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                     protected void handleResponse(Appointment response) {
                         response.setRecordId(Integer.parseInt(doctorData.getRecordId()));
                         AppointmentHandler handler = new AppointmentHandler(response);
+                        handler.couponId = "";
                         if (binding.rbWechat.isChecked()) {
                             handler.payWithWeChat(ApplyAppointmentActivity.this);
                         } else {
