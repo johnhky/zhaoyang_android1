@@ -70,7 +70,7 @@ import io.realm.Sort;
  * Created by lucas on 2/14/16.
  */
 public class MedicineHelperActivity extends BaseFragmentActivity2 implements NimTeamId, ExtendedEditText.KeyboardDismissListener, SwipeRefreshLayout.OnRefreshListener, KeyboardWatcher.OnKeyboardToggleListener {
-    public static final String ADMIN_DRUG = "[\"admin\"";
+    public static final String ADMIN_DRUG = "admin";
     public static final double FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
     public static final double IMAGE_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
     private static final long ONE_DAY = 86400000;
