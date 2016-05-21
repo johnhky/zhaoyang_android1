@@ -41,6 +41,9 @@ public class ItemHelper extends Handler {
 
     @Override
     public void handleMessage(final Message msg) {
+        if (vh.getAdapterPosition() == -1) {
+            return;
+        }
         switch (msg.what) {
             case ITEM_CHANGE: {
                 mAdapter.set(vh.getAdapterPosition(), msg.obj);

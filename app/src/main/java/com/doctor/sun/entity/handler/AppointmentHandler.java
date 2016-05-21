@@ -98,7 +98,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public static final int PHONE_CALL_PERMISSION = 50;
     private static AppointmentModule api = Api.of(AppointmentModule.class);
     protected Appointment data;
-    public String couponId;
     private DrugModule drugModule = Api.of(DrugModule.class);
 
     public AppointmentHandler(Appointment data) {
@@ -235,25 +234,25 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     @Override
-    public void payWithAlipay(final Activity activity) {
+    public void payWithAlipay(final Activity activity, String couponId) {
         int id;
         if (returnNotPaid()) {
             id = data.getReturnInfo().getReturnAppointmentId();
         } else {
             id = data.getId();
         }
-        api.buildOrder(id, "alipay", "").enqueue(new AlipayCallback(activity, data));
+        api.buildOrder(id, "alipay", couponId).enqueue(new AlipayCallback(activity, data));
     }
 
     @Override
-    public void payWithWeChat(final Activity activity) {
+    public void payWithWeChat(final Activity activity, String couponId) {
         int id;
         if (returnNotPaid()) {
             id = data.getReturnInfo().getReturnAppointmentId();
         } else {
             id = data.getId();
         }
-        api.buildWeChatOrder(id, "wechat", "").enqueue(new WeChatPayCallback(activity, data));
+        api.buildWeChatOrder(id, "wechat", couponId).enqueue(new WeChatPayCallback(activity, data));
     }
 
     @Override

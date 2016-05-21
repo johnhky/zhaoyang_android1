@@ -10,9 +10,9 @@ import com.doctor.sun.ui.adapter.core.BaseAdapter;
  * Created by rick on 25/1/2016.
  */
 public interface PayInterface {
-    void payWithAlipay(Activity activity);
+    void payWithAlipay(Activity activity, String couponId);
 
-    void payWithWeChat(Activity activity);
+    void payWithWeChat(Activity activity, String couponId);
 
     void simulatedPay(BaseAdapter component, View view, BaseViewHolder vh);
 }

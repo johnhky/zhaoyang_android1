@@ -9,10 +9,8 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityAddFeeBinding;
-import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.EmergencyCall;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.EmergencyModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
@@ -54,9 +52,9 @@ public class UrgentAddFeeActivity extends BaseActivity2 {
                     protected void handleResponse(String response) {
                         EmergencyCallHandler handler = new EmergencyCallHandler(getData());
                         if (binding.rbAlipay.isChecked()) {
-                            handler.payWithAlipay(UrgentAddFeeActivity.this);
+                            handler.payWithAlipay(UrgentAddFeeActivity.this, "");
                         } else {
-                            handler.payWithWeChat(UrgentAddFeeActivity.this);
+                            handler.payWithWeChat(UrgentAddFeeActivity.this, "");
                         }
                     }
                 });

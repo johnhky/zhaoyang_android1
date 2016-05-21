@@ -83,12 +83,12 @@ public class DrugOrderAdapter extends SimpleAdapter {
                 public void onClick(View v) {
                     new PayMethodDialog(getContext(), new PayInterface() {
                         @Override
-                        public void payWithAlipay(Activity activity) {
+                        public void payWithAlipay(Activity activity, String couponId) {
                             appointmentModule.drugOrder(Integer.parseInt(drug.getMoney()), "drug order", "alipay", drug.getId()).enqueue(new AlipayCallback(activity, Integer.parseInt(drug.getMoney())));
                         }
 
                         @Override
-                        public void payWithWeChat(Activity activity) {
+                        public void payWithWeChat(Activity activity, String couponId) {
                             appointmentModule.drugOrderWithWechat(Integer.parseInt(drug.getMoney()), "drug order", "wechat", drug.getId()).enqueue(new WeChatPayCallback(activity, Integer.parseInt(drug.getMoney())));
                         }
 

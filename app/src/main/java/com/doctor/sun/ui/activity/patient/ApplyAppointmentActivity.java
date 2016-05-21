@@ -119,13 +119,15 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                     protected void handleResponse(Appointment response) {
                         response.setRecordId(Integer.parseInt(doctorData.getRecordId()));
                         AppointmentHandler handler = new AppointmentHandler(response);
+                        String couponId = "";
                         if (binding.cbCouponCount.isSelected()) {
-                            handler.couponId = coupons.get(0).getId();
+                            couponId = coupons.get(0).getId();
+                            Log.e(TAG, "handleResponse: " + coupons.get(0).getId());
                         }
                         if (binding.rbWechat.isChecked()) {
-                            handler.payWithWeChat(ApplyAppointmentActivity.this);
+                            handler.payWithWeChat(ApplyAppointmentActivity.this, couponId);
                         } else {
-                            handler.payWithAlipay(ApplyAppointmentActivity.this);
+                            handler.payWithAlipay(ApplyAppointmentActivity.this, couponId);
                         }
                     }
                 });

@@ -11,12 +11,12 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityPayFailBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.EmergencyCall;
+import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
-import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.handler.EmergencyCallHandler;
 
 import io.ganguo.library.AppManager;
@@ -93,29 +93,29 @@ public class PayFailActivity extends BaseActivity2 implements View.OnClickListen
                     case APPOINTMENT: {
                         AppointmentHandler handler = new AppointmentHandler(getAppointment());
                         if (shouldPayWithWeChat()) {
-                            handler.payWithWeChat(this);
+                            handler.payWithWeChat(this, "");
                         } else {
-                            handler.payWithAlipay(this);
+                            handler.payWithAlipay(this, "");
                         }
                         break;
                     }
                     case URGENT_CALL: {
                         EmergencyCallHandler handler = new EmergencyCallHandler(getUrgentCall());
                         if (shouldPayWithWeChat()) {
-                            handler.payWithWeChat(this);
+                            handler.payWithWeChat(this, "");
                         } else {
-                            handler.payWithAlipay(this);
+                            handler.payWithAlipay(this, "");
                         }
                         break;
                     }
                     case VOIP_PAY: {
                         switch (getPayType()) {
                             case "wechat":
-                                appointmentModule.rechargeOrderWithWechat(getIntent().getIntExtra(Constants.MONEY, -1),  "im recharge", "wechat")
+                                appointmentModule.rechargeOrderWithWechat(getIntent().getIntExtra(Constants.MONEY, -1), "im recharge", "wechat")
                                         .enqueue(new WeChatPayCallback(this, getIntent().getIntExtra(Constants.MONEY, -1)));
                                 break;
                             case "alipay":
-                                appointmentModule.rechargeOrderWithAlipay(getIntent().getIntExtra(Constants.MONEY, -1),  "im recharge", "alipay")
+                                appointmentModule.rechargeOrderWithAlipay(getIntent().getIntExtra(Constants.MONEY, -1), "im recharge", "alipay")
                                         .enqueue(new AlipayCallback(this, getIntent().getIntExtra(Constants.MONEY, -1)));
                                 break;
                         }

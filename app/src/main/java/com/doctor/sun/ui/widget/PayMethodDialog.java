@@ -7,11 +7,11 @@ import android.view.ViewGroup;
 
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
-import com.doctor.sun.vo.ItemButton;
 import com.doctor.sun.ui.activity.patient.handler.CancelHandler;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.util.PayInterface;
+import com.doctor.sun.vo.ItemButton;
 
 /**
  * Created by rick on 25/1/2016.
@@ -59,7 +59,7 @@ public class PayMethodDialog extends ListDialog {
         getAdapter().add(new ItemButton(R.layout.item_pay_method, "支付宝") {
             @Override
             public void onClick(View view) {
-                handler.payWithAlipay(activity);
+                handler.payWithAlipay(activity, "");
                 dismiss();
             }
         });
@@ -67,7 +67,7 @@ public class PayMethodDialog extends ListDialog {
         getAdapter().add(new ItemButton(R.layout.item_pay_method, "微信支付") {
             @Override
             public void onClick(View view) {
-                handler.payWithWeChat(activity);
+                handler.payWithWeChat(activity, "");
                 dismiss();
             }
         });

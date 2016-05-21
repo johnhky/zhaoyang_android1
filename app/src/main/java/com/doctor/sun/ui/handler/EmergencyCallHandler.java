@@ -185,12 +185,12 @@ public class EmergencyCallHandler implements PayInterface {
     }
 
     @Override
-    public void payWithAlipay(final Activity activity) {
+    public void payWithAlipay(final Activity activity, String couponId) {
         api.buildOrder(data.getId(), "alipay").enqueue(new AlipayCallback(activity, data));
     }
 
     @Override
-    public void payWithWeChat(final Activity activity) {
+    public void payWithWeChat(final Activity activity, String couponId) {
         api.buildWeChatOrder(data.getId(), "wechat").enqueue(new WeChatPayCallback(activity, data));
     }
 
