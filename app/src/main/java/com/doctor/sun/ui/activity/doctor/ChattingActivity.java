@@ -360,7 +360,11 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
      */
     @Subscribe
     public void hideIME(HideInputEvent event) {
-        binding.getInputLayout().setKeyboardType(0);
+        InputLayoutViewModel inputLayout = binding.getInputLayout();
+        if (inputLayout == null) {
+            return;
+        }
+        inputLayout.setKeyboardType(0);
     }
 
     @Override
@@ -443,7 +447,11 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
     @Override
     public void onKeyboardShown(int keyboardSize) {
-        binding.getInputLayout().onHideSoftInput();
+        InputLayoutViewModel inputLayout = binding.getInputLayout();
+        if (inputLayout == null) {
+            return;
+        }
+        inputLayout.onHideSoftInput();
         Log.e(TAG, "onKeyboardShown: ");
     }
 
@@ -459,6 +467,9 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     @Override
     public void onKeyboardDismiss() {
         InputLayoutViewModel inputLayout = binding.getInputLayout();
+        if (inputLayout == null) {
+            return;
+        }
         if (inputLayout.getKeyboardType() != 0) {
             inputLayout.setKeyboardType(0);
             Systems.hideKeyboard(this);

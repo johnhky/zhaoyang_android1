@@ -446,8 +446,10 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
 
     @Override
     public void onKeyboardShown(int keyboardSize) {
-        binding.getInputLayout().onHideSoftInput();
-        Log.e(TAG, "onKeyboardShown: ");
+        InputLayoutViewModel inputLayout = binding.getInputLayout();
+        if (inputLayout != null) {
+            inputLayout.onHideSoftInput();
+        }
     }
 
     @Override
@@ -462,6 +464,9 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     @Override
     public void onKeyboardDismiss() {
         InputLayoutViewModel inputLayout = binding.getInputLayout();
+        if (inputLayout == null) {
+            return;
+        }
         if (inputLayout.getKeyboardType() != 0) {
             inputLayout.setKeyboardType(0);
             Systems.hideKeyboard(this);

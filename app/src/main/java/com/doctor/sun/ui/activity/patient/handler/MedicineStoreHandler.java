@@ -22,6 +22,7 @@ public class MedicineStoreHandler {
             @Override
             public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
                 Intent intent = MedicineHelperActivity.makeIntent(view.getContext(), adapter.getItemCount() - 2);
+
                 view.getContext().startActivity(intent);
             }
         };

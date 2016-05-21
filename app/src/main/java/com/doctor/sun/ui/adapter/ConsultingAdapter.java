@@ -79,7 +79,7 @@ public class ConsultingAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> 
             bindCount(results, count, rootBinding.llyMessage, rootBinding.divider);
         } else if (vh.getItemViewType() == R.layout.p_item_medicine_helper) {
             RealmQuery<TextMsg> q = getRealm().where(TextMsg.class)
-                    .contains("userData", MedicineHelperActivity.ADMIN_DRUG);
+                    .equalTo("sessionId", MedicineHelperActivity.ADMIN_DRUG);
             long count = q.equalTo("haveRead", false).count();
             PItemMedicineHelperBinding binding = (PItemMedicineHelperBinding) vh.getBinding();
 
