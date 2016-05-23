@@ -36,6 +36,7 @@
             app:header="@{header}" />
 
         <include
+            android:id="@+id/appointment_status"
             layout="@layout/include_appointment_status"
             app:data="@{data}" />
 

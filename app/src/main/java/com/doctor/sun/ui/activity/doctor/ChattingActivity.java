@@ -87,6 +87,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     private DrugModule drugModule = Api.of(DrugModule.class);
     private RealmResults<TextMsg> results;
     private KeyboardWatcher keyboardWatcher;
+    private RealmChangeListener<RealmResults<TextMsg>> finishedMsgListener;
 
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, ChattingActivity.class);
@@ -187,7 +188,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     }
 
     @Override
-    public void finish(){
+    public void finish() {
         super.finish();
         ItemHelper.changeItem(getIntent(), getData());
     }
@@ -251,7 +252,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     @Override
     protected void onStop() {
         if (!getRealm().isClosed()) {
-            getRealm().removeChangeListener(listener);
+            getRealm().removeAllChangeListeners();
         }
         super.onStop();
     }

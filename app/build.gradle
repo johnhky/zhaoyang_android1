@@ -68,7 +68,7 @@ android {
             zipAlignEnabled false
             shrinkResources false
             minifyEnabled false
-            signingConfig signingConfigs.ganguo_dev
+            signingConfig signingConfigs.release
         }
         // 测试环境 ,zhaoyangyisheng_server
         stage {

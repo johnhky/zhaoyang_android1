@@ -898,6 +898,16 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return getFinishedTime() - System.currentTimeMillis();
     }
 
+
+    public void setFinish() {
+        String bookTime = data.getBookTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.CHINA);
+        String format = dateFormat.format(new Date(System.currentTimeMillis()));
+        String finalBookTime = bookTime.substring(0, 17) + format;
+
+        data.setBookTime(finalBookTime);
+    }
+
     private long parseDate(String date) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         Date parse = dateFormat.parse(date);
@@ -953,5 +963,9 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public boolean showCommentBtn() {
         return data.getOrderStatus().equals("已完成");
+    }
+
+    public Appointment getData() {
+        return data;
     }
 }

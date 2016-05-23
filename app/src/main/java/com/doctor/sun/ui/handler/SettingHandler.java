@@ -2,17 +2,19 @@ package com.doctor.sun.ui.handler;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.BuildConfig;
+import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.Messenger;
 import com.doctor.sun.module.AuthModule;
-import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.HelpActivity;
 import com.doctor.sun.ui.activity.LoginActivity;
 import com.doctor.sun.ui.activity.doctor.AdviceActivity;
@@ -23,6 +25,11 @@ import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.widget.ShareDialog;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
+import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import java.util.HashMap;
 
@@ -30,14 +37,14 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import io.ganguo.library.AppManager;
 import io.ganguo.library.Config;
-import io.ganguo.library.common.ToastHelper;
-import io.ganguo.opensdk.*;
+import io.ganguo.opensdk.ShareManager;
 import io.realm.Realm;
 
 /**
  * Created by lucas on 12/22/15.
  */
 public class SettingHandler extends BaseHandler {
+    public static final String imagePath = Config.getImagePath() + "/ic_share.png";
 
     public SettingHandler(Activity context) {
         super(context);
@@ -87,29 +94,49 @@ public class SettingHandler extends BaseHandler {
                         ShareManager shareManager = new ShareManager(view.getContext(), platformActionListener);
                         shareManager.shareSinaWeibo()
                                 .setContent("这是一个能让咨询者与心理/精神科医生轻松交流的App。")
+                                .setImagePath(Config.getDataPath().getAbsolutePath() + "/tutorialone.png")
+                                .setImageUrl("http://www.zhaoyang120.com/common/image/logo-nav.png")
                                 .commit()
                                 .share();
                     }
 
                     @Override
                     public void onClickFriendButton() {
-                        ShareManager shareManager = new ShareManager(view.getContext(), platformActionListener);
-                        shareManager.shareWechatMoments()
-                                .setTitle("【昭阳医生】一个专业的心理/精神科咨询平台")
-                                .setContent("这是一个能让咨询者与心理/精神科医生轻松交流的App。")
-                                .setImageUrl("http://ganguo.io/images/android.png")
-                                .commit()
-                                .share();
+                        WXWebpageObject webpageObject = new WXWebpageObject();
+                        webpageObject.webpageUrl = "http://10.0.0.108/auth/download.html?from=groupmessage&isappinstalled=1";
+                        WXMediaMessage mediaMessage = new WXMediaMessage(webpageObject);
+                        mediaMessage.title = "【昭阳医生】一个专业的心理/精神科咨询平台";
+                        mediaMessage.description = "这是一个能让咨询者与心理/精神科医生轻松交流的App。";
+                        Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_launcher);
+                        mediaMessage.thumbData = bitmap.getNinePatchChunk();
+
+                        SendMessageToWX.Req req = new SendMessageToWX.Req();
+                        req.transaction = "webpage";
+                        req.message = mediaMessage;
+                        req.scene = SendMessageToWX.Req.WXSceneTimeline;
+
+                        IWXAPI wxapi = WXAPIFactory.createWXAPI(getContext(), "wxe541efd34c189cf1");
+                        wxapi.sendReq(req);
                     }
 
                     @Override
                     public void onClickWeChatButton() {
-                        ShareManager shareManager = new ShareManager(view.getContext(), platformActionListener);
-                        shareManager.shareWechat()
-                                .setTitle("【昭阳医生】一个专业的心理/精神科咨询平台")
-                                .setContent("这是一个能让咨询者与心理/精神科医生轻松交流的App。")
-                                .commit()
-                                .share();
+                        WXWebpageObject webpageObject = new WXWebpageObject();
+                        webpageObject.webpageUrl = "http://10.0.0.108/auth/download.html?from=groupmessage&isappinstalled=1";
+                        WXMediaMessage mediaMessage = new WXMediaMessage(webpageObject);
+                        mediaMessage.title = "【昭阳医生】一个专业的心理/精神科咨询平台";
+                        mediaMessage.description = "这是一个能让咨询者与心理/精神科医生轻松交流的App。";
+                        Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_launcher);
+                        mediaMessage.thumbData = bitmap.getNinePatchChunk();
+
+                        SendMessageToWX.Req req = new SendMessageToWX.Req();
+                        req.transaction = "webpage";
+                        req.message = mediaMessage;
+                        req.scene = SendMessageToWX.Req.WXSceneSession;
+
+                        IWXAPI wxapi = WXAPIFactory.createWXAPI(getContext(), "wxe541efd34c189cf1");
+                        wxapi.sendReq(req);
+
                     }
 
                     @Override
@@ -118,6 +145,8 @@ public class SettingHandler extends BaseHandler {
                         shareManager.shareQQ()
                                 .setTitle("【昭阳医生】一个专业的心理/精神科咨询平台")
                                 .setContent("这是一个能让咨询者与心理/精神科医生轻松交流的App。")
+                                .setTitleUrl("http://10.0.0.108/auth/download.html?from=groupmessage&isappinstalled=1")
+                                .setImageUrl("http://www.zhaoyang120.com/common/image/logo-nav.png")
                                 .commit()
                                 .share();
                     }

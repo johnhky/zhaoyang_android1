@@ -61,5 +61,5 @@ public interface ToolModule {
 
     @FormUrlEncoded
     @POST("tool/crash-log")
-    Call<ApiDTO<Void>> crashLog(@Query("log") String log);
+    Call<ApiDTO<Void>> crashLog(@Field("log") String log);
 }

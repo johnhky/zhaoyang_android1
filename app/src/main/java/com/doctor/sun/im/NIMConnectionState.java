@@ -1,8 +1,9 @@
 package com.doctor.sun.im;
 
+import android.util.Log;
+
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
-import com.doctor.sun.im.cache.TeamDataCache;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
 import com.doctor.sun.util.JacksonUtils;
@@ -35,6 +36,9 @@ import io.realm.Realm;
 public class NIMConnectionState implements RequestCallback {
     public static final int THIRTY_MINUTES = 1000 * 60 * 30;
     private static NIMConnectionState instance;
+    private statusObserver observer;
+    private IMMessageObserver observer1;
+    private CustomAttachParser msgAttachmentParser;
 
     public static NIMConnectionState getInstance() {
         if (instance == null) {
@@ -46,10 +50,14 @@ public class NIMConnectionState implements RequestCallback {
 
     @Override
     public void onSuccess(Object o) {
+        observer = new statusObserver();
         NIMClient.getService(MsgServiceObserve.class)
-                .observeReceiveMessage(new statusObserver(), true);
-        NIMClient.getService(MsgServiceObserve.class).observeMsgStatus(new IMMessageObserver(), true);
-        NIMClient.getService(MsgService.class).registerCustomAttachmentParser(new CustomAttachParser());
+                .observeReceiveMessage(observer, true);
+        observer1 = new IMMessageObserver();
+        MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
+        service.observeMsgStatus(observer1, true);
+        msgAttachmentParser = new CustomAttachParser();
+        NIMClient.getService(MsgService.class).registerCustomAttachmentParser(msgAttachmentParser);
     }
 
     @Override
