@@ -72,10 +72,10 @@
                     android:layout_marginTop="@dimen/dp_2"
                     android:background="@drawable/bg_count"
                     android:gravity="center"
-                    android:text="@{footer.count}"
+                    android:text='@{footer.unReadMsgCount+""}'
                     android:textColor="#ffffff"
                     android:textSize="@dimen/font_8"
-                    app:visibility="@{footer.haveUnreadMsg}" />
+                    android:visibility="@{footer.unReadMsgCount>0}" />
 
             </FrameLayout>
 

@@ -22,7 +22,7 @@ public class OpenSDK {
     /**
      * 是否绕过审核，审核通过后应该设置为false
      */
-    private static boolean isByPassApproval = true;
+    private static boolean isByPassApproval = false;
 
     /**
      * 是否先通过客户端授权，如果没安装客户端通过网页
@@ -60,11 +60,11 @@ public class OpenSDK {
      */
     public static void initStage(Context ctx) {
         // keys
-        ShareSDK_AppKey = "b791344b1ea0";
+        ShareSDK_AppKey = "86fc089b71f0";
 
         SinaWeibo_AppKey = "431570797";
         SinaWeibo_AppSecret = "24fc9080f653703422f6b9e08d4b45e8";
-        SinaWeibo_RedirectUrl = "http://www.weibo.com";
+        SinaWeibo_RedirectUrl = "http://www.zhaoyang120.com";
 
         Wechat_AppId = "wxe541efd34c189cf1";
         Wechat_AppSecret = "9e4e7e1ecf35b3f31b611870566b6b9c";
@@ -82,11 +82,11 @@ public class OpenSDK {
      */
     public static void initProduct(Context ctx) {
         // keys
-        ShareSDK_AppKey = "b791344b1ea0";
+        ShareSDK_AppKey = "86fc089b71f0";
 
-        SinaWeibo_AppKey = "1822579878";
-        SinaWeibo_AppSecret = "ec9c54e686490fef61677cfe46a9a509";
-        SinaWeibo_RedirectUrl = "http://www.weibo.com";
+        SinaWeibo_AppKey = "431570797";
+        SinaWeibo_AppSecret = "24fc9080f653703422f6b9e08d4b45e8";
+        SinaWeibo_RedirectUrl = "http://www.zhaoyang120.com";
 
         Wechat_AppId = "wxe541efd34c189cf1";
         Wechat_AppSecret = "9e4e7e1ecf35b3f31b611870566b6b9c";

@@ -1,8 +1,13 @@
 package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
+import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
 import com.doctor.sun.ui.activity.patient.handler.MedicineStoreHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+
+import io.realm.Realm;
+import io.realm.RealmQuery;
 
 /**
  * Created by lucas on 1/29/16.
@@ -23,5 +28,12 @@ public class MedicineStore implements LayoutId {
 
     public void setHandler(MedicineStoreHandler handler) {
         this.handler = handler;
+    }
+
+    public long unReadMsgCount() {
+        RealmQuery<TextMsg> q = Realm.getDefaultInstance().where(TextMsg.class)
+                .equalTo("sessionId", MedicineHelperActivity.ADMIN_DRUG);
+        long count = q.equalTo("haveRead", false).count();
+        return count;
     }
 }

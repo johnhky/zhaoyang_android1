@@ -53,8 +53,7 @@ public class MainActivity extends BaseActivity2 {
         HeaderViewModel header = new HeaderViewModel(this);
         header.setMidTitle("昭阳医生");
         binding.setHeader(header);
-        PatientFooterView mView = new PatientFooterView(this);
-        FooterViewModel footer = FooterViewModel.getInstance(mView, getRealm(), R.id.tab_one);
+        FooterViewModel footer = getFooter();
         binding.setFooter(footer);
 
         final LinearLayoutManager layout = new LinearLayoutManager(this);
@@ -90,6 +89,11 @@ public class MainActivity extends BaseActivity2 {
         });
     }
 
+    private FooterViewModel getFooter() {
+        PatientFooterView mView = new PatientFooterView(this);
+        return FooterViewModel.getInstance(mView, R.id.tab_one);
+    }
+
     @Override
     protected void onPostResume() {
         super.onPostResume();
@@ -118,5 +122,11 @@ public class MainActivity extends BaseActivity2 {
         SimpleAdapter simpleAdapter = new SearchDoctorAdapter(this, AppointmentType.DETAIL);
         simpleAdapter.mapLayout(R.layout.item_doctor, R.layout.item_recommand_doctor);
         return simpleAdapter;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getRealm().addChangeListener(getFooter());
     }
 }

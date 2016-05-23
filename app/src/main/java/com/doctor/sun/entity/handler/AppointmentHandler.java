@@ -956,24 +956,37 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
-    public RealmResults<TextMsg> allMsgSortedByTime(Realm realm) {
-        RealmQuery<TextMsg> q = realm.where(TextMsg.class)
+
+    @NonNull
+    public RealmQuery<TextMsg> queryAllMsg(Realm realm) {
+        return realm.where(TextMsg.class)
                 .equalTo("sessionId", String.valueOf(data.getTid()));
-//                    .equalTo("userData", appointment.getHandler().getUserData());
-        RealmResults<TextMsg> results = q.findAllSorted("time");
+    }
+
+    public RealmResults<TextMsg> sortedByTime(RealmQuery<TextMsg> query) {
+        RealmResults<TextMsg> results = query.findAllSorted("time");
         return results;
     }
 
-    public TextMsg lastMsg(Realm realm) {
-        return allMsgSortedByTime(realm).last();
+    public RealmQuery<TextMsg> unreadMsgs(RealmQuery<TextMsg> query) {
+        return query.equalTo("haveRead", false);
+    }
+
+    public long unreadMsgCount() {
+        return unreadMsgs(queryAllMsg(Realm.getDefaultInstance())).count();
+    }
+
+
+    public TextMsg lastMsg() {
+        return sortedByTime(queryAllMsg(Realm.getDefaultInstance())).last();
     }
 
     public long lastMsgTime(Realm realm) {
-        return lastMsg(realm).getTime();
+        return lastMsg().getTime();
     }
 
     public String lastMsgTime() {
-        Date date = new Date(lastMsg(Realm.getDefaultInstance()).getTime());
+        Date date = new Date(lastMsg().getTime());
         return date.toString();
     }
 

@@ -45,20 +45,10 @@ public class ConsultingActivity extends BaseFragmentActivity2 {
 //        binding.pagerTabs.setViewPager(binding.vp);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-//        //TODO
-//        String json = Config.getString(Constants.VOIP_ACCOUNT);
-//        ImAccount account = JacksonUtils.fromJson(json, ImAccount.class);
-//        if (account != null) {
-//            Messenger.getInstance().login(account);
-//        }
-    }
 
     @NonNull
     private FooterViewModel getFooter() {
-        return  FooterViewModel.getInstance(new PatientFooterView(this), getRealm(), R.id.tab_two);
+        return  FooterViewModel.getInstance(new PatientFooterView(this), R.id.tab_two);
     }
 
     @Override
@@ -66,6 +56,12 @@ public class ConsultingActivity extends BaseFragmentActivity2 {
         super.onMenuClicked();
         Intent intent = ContactActivity.makeIntent(this, ContactActivity.PATIENTS_CONTACT);
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getRealm().addChangeListener(getFooter());
     }
 
 }

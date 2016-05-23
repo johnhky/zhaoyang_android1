@@ -110,9 +110,10 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_msg_count"
                         android:gravity="center"
+                        android:text='@{"" + data.unReadMsgCount}'
                         android:textColor="#ffffff"
                         android:textSize="@dimen/font_12"
-                        android:visibility="gone" />
+                        android:visibility="@{data.unReadMsgCount()>0}" />
 
                 </LinearLayout>
 

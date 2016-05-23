@@ -80,7 +80,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     private ActivityChattingBinding binding;
     private MessageAdapter adapter;
     private RealmQuery<TextMsg> query;
-    private RealmChangeListener listener;
     private AppointmentHandler handler;
     private String sendTo;
     private String userData;
@@ -88,6 +87,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     private RealmResults<TextMsg> results;
     private KeyboardWatcher keyboardWatcher;
     private RealmChangeListener<RealmResults<TextMsg>> finishedMsgListener;
+    private RealmChangeListener<RealmResults<TextMsg>> listener;
 
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, ChattingActivity.class);
@@ -238,21 +238,24 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     protected void onStart() {
         super.onStart();
         if (results != null) {
-            results.addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
-                @Override
-                public void onChange(RealmResults<TextMsg> element) {
-                    if (adapter != null) {
-                        adapter.notifyDataSetChanged();
+            if (listener == null) {
+                listener = new RealmChangeListener<RealmResults<TextMsg>>() {
+                    @Override
+                    public void onChange(RealmResults<TextMsg> element) {
+                        if (adapter != null) {
+                            adapter.notifyDataSetChanged();
+                        }
                     }
-                }
-            });
+                };
+            }
+            results.addChangeListener(listener);
         }
     }
 
     @Override
     protected void onStop() {
         if (!getRealm().isClosed()) {
-            getRealm().removeAllChangeListeners();
+            results.removeChangeListeners();
         }
         super.onStop();
     }

@@ -1,7 +1,7 @@
 package com.doctor.sun.ui.model;
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.doctor.sun.AppContext;
@@ -10,83 +10,54 @@ import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.im.Messenger;
 
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 
 /**
  * Created by rick on 10/15/15.
  */
-public class FooterViewModel extends BaseObservable {
+public class FooterViewModel extends BaseObservable implements RealmChangeListener<Realm>{
     public static final String TAG = FooterViewModel.class.getSimpleName();
     private FooterView mView;
 
     public int id;
-    private String count;
-    private Realm realm;
 
     private static FooterViewModel instance;
 
-    public static FooterViewModel getInstance(FooterView mView, final Realm realm, int position) {
+    public static FooterViewModel getInstance(FooterView mView, int position) {
         if (instance == null) {
-            instance = new FooterViewModel(mView, realm, position);
+            instance = new FooterViewModel(mView, position);
         } else {
             instance.mView = null;
-            instance.realm = null;
             instance.mView = mView;
-            instance.realm = realm;
             instance.id = position;
         }
         return instance;
     }
 
-    public FooterViewModel(FooterView mView, final Realm realm, int position) {
+    public FooterViewModel(FooterView mView, int position) {
         this.mView = mView;
         this.id = position;
-        this.realm = realm;
         final ImAccount accountDTO = Messenger.getVoipAccount();
         if (accountDTO == null) return;
-//        final String voipAccount = accountDTO.getVoipAccount();
-        RealmQuery<TextMsg> haveRead = realm.where(TextMsg.class).equalTo("haveRead", false);
-        long unReadMsg = haveRead.count();
-        setCount((int) unReadMsg);
-
-        realm.addChangeListener(new RealmChangeListener<Realm>() {
-            /**
-             * Called when a transaction is committed.
-             *
-             * @param realm
-             */
-            @Override
-            public void onChange(Realm realm) {
-                long unReadMsg = realm.where(TextMsg.class).equalTo("haveRead", false).count();
-                setCount((int) unReadMsg);
-            }
-        });
     }
 
-    public int haveUnreadMsg() {
-        long unReadMsg = realm.where(TextMsg.class).equalTo("haveRead", false).count();
-        if (unReadMsg != 0)
-            return View.VISIBLE;
-        else
-            return View.GONE;
+    @NonNull
+    public long getUnReadMsgCount() {
+        return getUnReadCount(Realm.getDefaultInstance());
+    }
+
+
+    private long getUnReadCount(Realm realm) {
+        return realm.where(TextMsg.class).equalTo("haveRead", false).count();
     }
 
     public int getId() {
         return id;
-    }
-
-    @Bindable
-    public String getCount() {
-        return count;
-    }
-
-    public FooterViewModel setCount(long count) {
-        this.count = String.valueOf(count);
-        notifyChange();
-        return this;
     }
 
     public View.OnClickListener onFooterClick() {
@@ -117,6 +88,10 @@ public class FooterViewModel extends BaseObservable {
                 }
             }
         };
+    }
+    @Override
+    public void onChange(Realm element) {
+        notifyChange();
     }
 
 

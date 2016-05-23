@@ -39,9 +39,7 @@ public class MeActivity extends BaseActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_me);
-        PatientFooterView mView = new PatientFooterView(this);
-
-        FooterViewModel footer = FooterViewModel.getInstance(mView, getRealm(), R.id.tab_three);
+        FooterViewModel footer = getFooter();
         binding.setFooter(footer);
         HeaderViewModel header = new HeaderViewModel(this);
         header.setMidTitle("我");
@@ -62,9 +60,46 @@ public class MeActivity extends BaseActivity2 {
         });
     }
 
+    private FooterViewModel getFooter() {
+        PatientFooterView mView = new PatientFooterView(this);
+
+        return FooterViewModel.getInstance(mView, R.id.tab_three);
+    }
+
     public Patient getData() {
         String json = Config.getString(Constants.PATIENT_PROFILE);
         PatientDTO patient = JacksonUtils.fromJson(json, PatientDTO.class);
         return patient.getInfo();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getRealm().addChangeListener(getFooter());
+    }
+
+    /**
+     * Called after {@link #onRestoreInstanceState}, {@link #onRestart}, or
+     * {@link #onPause}, for your activity to start interacting with the user.
+     * This is a good place to begin animations, open exclusive-access devices
+     * (such as the camera), etc.
+     * <p>
+     * <p>Keep in mind that onResume is not the best indicator that your activity
+     * is visible to the user; a system window such as the keyguard may be in
+     * front.  Use {@link #onWindowFocusChanged} to know for certain that your
+     * activity is visible to the user (for example, to resume a game).
+     * <p>
+     * <p><em>Derived classes must call through to the super class's
+     * implementation of this method.  If they do not, an exception will be
+     * thrown.</em></p>
+     *
+     * @see #onRestoreInstanceState
+     * @see #onRestart
+     * @see #onPostResume
+     * @see #onPause
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

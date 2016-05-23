@@ -43,7 +43,7 @@ public class MainActivity extends BaseDoctorActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.setFooter(FooterViewModel.getInstance(this, getRealm(), R.id.tab_one));
+        binding.setFooter(getFooter());
         binding.setHandler(new MainActivityHandler(this));
         if (Config.getInt(Constants.USER_TYPE, -1) == AuthModule.DOCTOR_PASSED && Config.getInt(Constants.PASSFIRSTTIME, -1) == ISFIRSTTIME) {
             new PassDialog(this).show();
@@ -58,6 +58,10 @@ public class MainActivity extends BaseDoctorActivity {
                 setDoctorIndex(element);
             }
         });
+    }
+
+    private FooterViewModel getFooter() {
+        return FooterViewModel.getInstance(this, R.id.tab_one);
     }
 
     private void setDoctorIndex(RealmResults<DoctorIndex> element) {
@@ -81,6 +85,7 @@ public class MainActivity extends BaseDoctorActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        getRealm().addChangeListener(getFooter());
         api.doctorIndex().enqueue(new ApiCallback<DoctorIndex>() {
             @Override
             protected void handleResponse(DoctorIndex response) {

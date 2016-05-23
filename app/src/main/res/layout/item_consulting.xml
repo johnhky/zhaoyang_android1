@@ -131,6 +131,7 @@
 
             <include
                 android:id="@+id/lly_message"
+                app:data="@{data}"
                 layout="@layout/include_message_count" />
 
             <View

@@ -3,6 +3,10 @@
 
     <data>
 
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Appointment" />
+
     </data>
 
 
@@ -20,8 +24,9 @@
             android:id="@+id/tv_message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:maxLines="2"
             android:layout_weight="1"
+            android:maxLines="2"
+            android:text="@{data.handler.lastMsg().body}"
             android:textColor="#898989"
             android:textSize="@dimen/font_12" />
 
@@ -32,8 +37,10 @@
             android:layout_marginLeft="@dimen/dp_8"
             android:background="@drawable/bg_msg_count"
             android:gravity="center"
+            android:text='@{"" + data.handler.unreadMsgCount()}'
             android:textColor="#FFFFFF"
-            android:textSize="@dimen/font_12" />
+            android:textSize="@dimen/font_12"
+            android:visibility="@{data.handler.unreadMsgsCount()>0}" />
 
     </LinearLayout>
 </layout>

@@ -17,6 +17,8 @@ import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.pager.ConsultingPagerAdapter;
 
+import io.realm.Realm;
+
 /**
  * Created by rick on 11/30/15.
  */
@@ -43,27 +45,12 @@ public class ConsultingActivity extends BaseFragmentActivity2 {
         initListener();
 
         binding.vp.setAdapter(new ConsultingPagerAdapter(getSupportFragmentManager()));
-
-//        binding.pagerTabs.setCustomTabView(R.layout.tab_custom, android.R.id.text1);
-//        binding.pagerTabs.setDistributeEvenly(true);
-//        binding.pagerTabs.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimaryDark));
-//        binding.pagerTabs.setViewPager(binding.vp);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //TODO
-//        String json = Config.getString(Constants.VOIP_ACCOUNT);
-//        ImAccount account = JacksonUtils.fromJson(json, ImAccount.class);
-//        if (account != null) {
-//            Messenger.getInstance().login(account);
-//        }
-    }
 
     @NonNull
     private FooterViewModel getFooter() {
-        return FooterViewModel.getInstance(new DoctorFooterView(this), getRealm(), R.id.tab_two);
+        return FooterViewModel.getInstance(new DoctorFooterView(this), R.id.tab_two);
     }
 
     @Override
@@ -74,5 +61,11 @@ public class ConsultingActivity extends BaseFragmentActivity2 {
     }
 
     private void initListener() {
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getRealm().addChangeListener(getFooter());
     }
 }

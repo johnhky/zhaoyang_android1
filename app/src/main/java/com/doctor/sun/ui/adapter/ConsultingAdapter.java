@@ -15,6 +15,7 @@ import com.doctor.sun.databinding.PItemSystemTipBinding;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.SystemMsg;
+import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -34,63 +35,14 @@ import io.realm.RealmResults;
  * Created by rick on 12/15/15.
  */
 public class ConsultingAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
-    private Realm realm;
     private PushModule api = Api.of(PushModule.class);
 
     public ConsultingAdapter(Context context, Realm realm) {
         super(context);
-        this.realm = realm;
     }
 
     @Override
-    public void onBindViewBinding(BaseViewHolder<ViewDataBinding> vh, int position) {
-        if (vh.getItemViewType() == R.layout.item_consulting) {
-            Appointment appointment = (Appointment) get(position);
-            RealmQuery<TextMsg> q = getRealm().where(TextMsg.class)
-                    .equalTo("sessionId", String.valueOf(appointment.getTid()));
-//                    .equalTo("userData", appointment.getHandler().getUserData());
-            final RealmResults<TextMsg> results = q.findAllSorted("time");
-            RealmResults<TextMsg> haveRead = q.equalTo("haveRead", false).findAll();
-            final int count = haveRead.size();
-            final ItemConsultingBinding rootBinding = (ItemConsultingBinding) vh.getBinding();
-            haveRead.addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
-                @Override
-                public void onChange(RealmResults<TextMsg> element) {
-                    bindCount(results, element.size(), rootBinding.llyMessage, rootBinding.divider);
-                }
-            });
-            bindCount(results, count, rootBinding.llyMessage, rootBinding.divider);
-        } else if (vh.getItemViewType() == R.layout.p_item_consulting) {
-            Appointment appointment = (Appointment) get(position);
-            Log.e(TAG, "data: " + appointment);
-            RealmQuery<TextMsg> q = getRealm().where(TextMsg.class)
-                    .equalTo("sessionId", String.valueOf(appointment.getTid()));
-//                    .equalTo("userData", appointment.getHandler().getUserData());
-            final RealmResults<TextMsg> results = q.findAllSorted("time");
-            RealmResults<TextMsg> haveRead = q.equalTo("haveRead", false).findAll();
-            final int count = haveRead.size();
-            final PItemConsultingBinding rootBinding = (PItemConsultingBinding) vh.getBinding();
-            haveRead.addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
-                @Override
-                public void onChange(RealmResults<TextMsg> element) {
-                    bindCount(results, element.size(), rootBinding.llyMessage, rootBinding.divider);
-                }
-            });
-            bindCount(results, count, rootBinding.llyMessage, rootBinding.divider);
-        } else if (vh.getItemViewType() == R.layout.p_item_medicine_helper) {
-            RealmQuery<TextMsg> q = getRealm().where(TextMsg.class)
-                    .equalTo("sessionId", MedicineHelperActivity.ADMIN_DRUG);
-            long count = q.equalTo("haveRead", false).count();
-            PItemMedicineHelperBinding binding = (PItemMedicineHelperBinding) vh.getBinding();
-
-            if (count > 0) {
-                binding.tvCount.setText(String.valueOf(count));
-                binding.tvCount.setVisibility(View.VISIBLE);
-            } else {
-                binding.tvCount.setVisibility(View.GONE);
-            }
-        }
-
+    public void onBindViewBinding(final BaseViewHolder<ViewDataBinding> vh, final int position) {
         if (vh.getItemViewType() == R.layout.p_item_system_tip) {
             final PItemSystemTipBinding binding = (PItemSystemTipBinding) vh.getBinding();
             api.systemMsg(String.valueOf(1)).enqueue(new ApiCallback<PageDTO<SystemMsg>>() {
@@ -117,32 +69,6 @@ public class ConsultingAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> 
                     }
                 }
             });
-        }
-    }
-
-    private Realm getRealm() {
-        if (realm == null || realm.isClosed()) {
-            realm = Realm.getDefaultInstance();
-        }
-        return realm;
-    }
-
-    private void bindCount(RealmResults<TextMsg> results, long count, IncludeMessageCountBinding binding, View divider) {
-        if (!results.isEmpty()) {
-            TextMsg lastMsg = results.last();
-            binding.getRoot().setVisibility(View.VISIBLE);
-            divider.setVisibility(View.VISIBLE);
-            binding.tvMessage.setText(lastMsg.getBody());
-            if (count != 0L) {
-                binding.tvMessageCount.setVisibility(View.VISIBLE);
-                binding.tvMessageCount.setText(String.valueOf(count));
-            } else {
-                binding.tvMessageCount.setVisibility(View.GONE);
-            }
-        } else {
-            binding.getRoot().setVisibility(View.GONE);
-            divider.setVisibility(View.GONE);
-            binding.tvMessageCount.setVisibility(View.GONE);
         }
     }
 }

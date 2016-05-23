@@ -27,7 +27,9 @@ public abstract class BaseFragmentActivity2 extends AppCompatActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Messenger.getInstance().login();
+        if (!Messenger.getInstance().isNIMLogin()) {
+            Messenger.getInstance().login();
+        }
         // register
         AppManager.addActivity(this);
         EventHub.register(this);

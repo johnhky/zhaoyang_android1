@@ -313,6 +313,9 @@ public class ConsultingFragment extends RefreshListFragment {
                     }
                     getAdapter().addAll(padding, data);
                     getAdapter().notifyItemRangeInserted(padding, data.size());
+                    for (Appointment appointment : data) {
+                        map.put(appointment.getTid(), appointment);
+                    }
                 }
             }
         });
