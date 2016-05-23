@@ -31,6 +31,7 @@ import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 import cn.sharesdk.framework.Platform;
@@ -103,12 +104,14 @@ public class SettingHandler extends BaseHandler {
                     @Override
                     public void onClickFriendButton() {
                         WXWebpageObject webpageObject = new WXWebpageObject();
-                        webpageObject.webpageUrl = "http://10.0.0.108/auth/download.html?from=groupmessage&isappinstalled=1";
+                        webpageObject.webpageUrl = "http://wechat.zhaoyang120.cn/auth/download.html";
                         WXMediaMessage mediaMessage = new WXMediaMessage(webpageObject);
                         mediaMessage.title = "【昭阳医生】一个专业的心理/精神科咨询平台";
                         mediaMessage.description = "这是一个能让咨询者与心理/精神科医生轻松交流的App。";
                         Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_launcher);
-                        mediaMessage.thumbData = bitmap.getNinePatchChunk();
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        mediaMessage.thumbData = stream.toByteArray();
 
                         SendMessageToWX.Req req = new SendMessageToWX.Req();
                         req.transaction = "webpage";
@@ -122,12 +125,14 @@ public class SettingHandler extends BaseHandler {
                     @Override
                     public void onClickWeChatButton() {
                         WXWebpageObject webpageObject = new WXWebpageObject();
-                        webpageObject.webpageUrl = "http://10.0.0.108/auth/download.html?from=groupmessage&isappinstalled=1";
+                        webpageObject.webpageUrl = "http://wechat.zhaoyang120.cn/auth/download.html";
                         WXMediaMessage mediaMessage = new WXMediaMessage(webpageObject);
                         mediaMessage.title = "【昭阳医生】一个专业的心理/精神科咨询平台";
                         mediaMessage.description = "这是一个能让咨询者与心理/精神科医生轻松交流的App。";
                         Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_launcher);
-                        mediaMessage.thumbData = bitmap.getNinePatchChunk();
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        mediaMessage.thumbData = stream.toByteArray();
 
                         SendMessageToWX.Req req = new SendMessageToWX.Req();
                         req.transaction = "webpage";
@@ -145,7 +150,7 @@ public class SettingHandler extends BaseHandler {
                         shareManager.shareQQ()
                                 .setTitle("【昭阳医生】一个专业的心理/精神科咨询平台")
                                 .setContent("这是一个能让咨询者与心理/精神科医生轻松交流的App。")
-                                .setTitleUrl("http://10.0.0.108/auth/download.html?from=groupmessage&isappinstalled=1")
+                                .setTitleUrl("http://wechat.zhaoyang120.cn/auth/download.html")
                                 .setImageUrl("http://www.zhaoyang120.com/common/image/logo-nav.png")
                                 .commit()
                                 .share();

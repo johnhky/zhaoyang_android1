@@ -64,7 +64,7 @@ public class OpenSDK {
 
         SinaWeibo_AppKey = "431570797";
         SinaWeibo_AppSecret = "24fc9080f653703422f6b9e08d4b45e8";
-        SinaWeibo_RedirectUrl = "http://www.sharesdk.cn";
+        SinaWeibo_RedirectUrl = "http://www.weibo.com";
 
         Wechat_AppId = "wxe541efd34c189cf1";
         Wechat_AppSecret = "9e4e7e1ecf35b3f31b611870566b6b9c";
@@ -86,7 +86,7 @@ public class OpenSDK {
 
         SinaWeibo_AppKey = "1822579878";
         SinaWeibo_AppSecret = "ec9c54e686490fef61677cfe46a9a509";
-        SinaWeibo_RedirectUrl = "http://www.sharesdk.cn";
+        SinaWeibo_RedirectUrl = "http://www.weibo.com";
 
         Wechat_AppId = "wxe541efd34c189cf1";
         Wechat_AppSecret = "9e4e7e1ecf35b3f31b611870566b6b9c";

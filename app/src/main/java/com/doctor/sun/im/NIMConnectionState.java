@@ -1,7 +1,5 @@
 package com.doctor.sun.im;
 
-import android.util.Log;
-
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.im.custom.CustomAttachment;
@@ -39,6 +37,7 @@ public class NIMConnectionState implements RequestCallback {
     private statusObserver observer;
     private IMMessageObserver observer1;
     private CustomAttachParser msgAttachmentParser;
+    private RequestCallback callback = null;
 
     public static NIMConnectionState getInstance() {
         if (instance == null) {
@@ -58,14 +57,30 @@ public class NIMConnectionState implements RequestCallback {
         service.observeMsgStatus(observer1, true);
         msgAttachmentParser = new CustomAttachParser();
         NIMClient.getService(MsgService.class).registerCustomAttachmentParser(msgAttachmentParser);
+        if (callback != null) {
+            callback.onSuccess(o);
+            callback = null;
+        }
     }
 
     @Override
     public void onFailed(int i) {
+        if (callback != null) {
+            callback.onFailed(i);
+            callback = null;
+        }
     }
 
     @Override
     public void onException(Throwable throwable) {
+        if (callback != null) {
+            callback.onException(throwable);
+            callback = null;
+        }
+    }
+
+    public void setCallback(RequestCallback callback) {
+        this.callback = callback;
     }
 
     public boolean isLogin() {

@@ -67,6 +67,7 @@ import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.vo.CustomActionViewModel;
 import com.doctor.sun.vo.InputLayoutViewModel;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECError;
@@ -689,7 +690,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         };
     }
 
-    public void sendMessage(TextView inputText) {
+    public void sendMessage(final TextView inputText) {
         if (inputText.getText().toString().equals("")) {
             Toast.makeText(inputText.getContext(), "不能发送空消息", Toast.LENGTH_SHORT).show();
             return;
@@ -703,7 +704,22 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 inputText.setText("");
             }
         } else {
-            Toast.makeText(inputText.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+            NIMConnectionState.getInstance().setCallback(new RequestCallback() {
+                @Override
+                public void onSuccess(Object o) {
+                    sendMessage(inputText);
+                }
+
+                @Override
+                public void onFailed(int i) {
+                    Toast.makeText(inputText.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onException(Throwable throwable) {
+                    Toast.makeText(inputText.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+                }
+            });
             com.doctor.sun.im.Messenger.getInstance().login();
         }
     }
