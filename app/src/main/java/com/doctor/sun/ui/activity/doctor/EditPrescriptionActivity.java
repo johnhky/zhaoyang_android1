@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
@@ -128,7 +129,7 @@ public class EditPrescriptionActivity extends BaseActivity2 {
         autoComplete.drugNames().enqueue(new SimpleCallback<List<String>>() {
             @Override
             protected void handleResponse(List<String> response) {
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(EditPrescriptionActivity.this,android.R.layout.simple_list_item_1, response);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(EditPrescriptionActivity.this, android.R.layout.simple_list_item_1, response);
                 AutoCompleteTextView etInput = binding.medicineName.etInput;
                 etInput.setAdapter(arrayAdapter);
                 etInput.setThreshold(1);
@@ -149,13 +150,13 @@ public class EditPrescriptionActivity extends BaseActivity2 {
 
         List<HashMap<String, String>> numberList = new ArrayList<>();
         HashMap<String, String> morning = new HashMap<>(1);
-        morning.put(MORNING_KEY, binding.morning.etInput.getText().toString());
+        morning.put(MORNING_KEY, getValue(binding.morning.etInput));
         HashMap<String, String> afternoon = new HashMap<>(1);
-        afternoon.put(AFTERNOON_KEY, binding.afternoon.etInput.getText().toString());
+        afternoon.put(AFTERNOON_KEY, getValue(binding.afternoon.etInput));
         HashMap<String, String> evening = new HashMap<>(1);
-        evening.put(EVENING_KEY, binding.evening.etInput.getText().toString());
+        evening.put(EVENING_KEY, getValue(binding.evening.etInput));
         HashMap<String, String> night = new HashMap<>(1);
-        night.put(NIGHT_KEY, binding.night.etInput.getText().toString());
+        night.put(NIGHT_KEY, getValue(binding.night.etInput));
         numberList.add(morning);
         numberList.add(afternoon);
         numberList.add(evening);
@@ -185,6 +186,17 @@ public class EditPrescriptionActivity extends BaseActivity2 {
         intent.putExtra(Constants.DATA, mPrescription);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    private String getValue(EditText editText) {
+        String string = editText.getText().toString();
+        if (string.equals("")) {
+            return "";
+        } else if (string.startsWith(".")) {
+            return String.valueOf(Double.valueOf(string));
+        } else {
+            return string;
+        }
     }
 
     public boolean isValid(Prescription prescription) {

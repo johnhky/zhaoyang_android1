@@ -148,6 +148,8 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
 
     @SuppressWarnings("unchecked")
     public void loadQuestions(final QuestionCategory data) {
+        if (binding == null) return;
+
         final int questionCategoryId = data.getQuestionCategoryId();
         ((TextView) binding.llRoot.findViewById(R.id.tv_check)).setText("查看用药");
         binding.llRoot.findViewById(R.id.tv_back_circle).setVisibility(View.VISIBLE);
