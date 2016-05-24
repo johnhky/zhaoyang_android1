@@ -14,6 +14,7 @@ import com.doctor.sun.im.AVChatHandler;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.util.CrashHandler;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.SDKOptions;
 import com.squareup.otto.Subscribe;
 import com.yuntongxun.ecsdk.ECDevice;
 
@@ -53,8 +54,10 @@ public class AppContext extends BaseApp {
 
         initMessenger();
 
-        // 不自动登录.  全部使用默认配置
-        NIMClient.init(this, null, null);
+        //关闭自动下载attachment
+        SDKOptions sdkOptions = new SDKOptions();
+        sdkOptions.preloadAttach = false;
+        NIMClient.init(this, null, sdkOptions);
 
         if (processName.equals(getPackageName())) {
             if (AppEnv.DEV_MODE) {

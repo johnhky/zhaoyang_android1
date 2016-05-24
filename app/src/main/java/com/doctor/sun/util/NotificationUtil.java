@@ -20,6 +20,7 @@ import java.io.File;
 public class NotificationUtil {
 
     public static final int NEW_MSG = 100;
+    public static final int UPLOAD = 101;
 
     public static void showNotification(TextMsg msg1) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
@@ -59,6 +60,29 @@ public class NotificationUtil {
         Notification notification = builder.build();
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(AppContext.me());
         managerCompat.notify(NEW_MSG, notification);
+    }
+
+    public static void showUploadProgress(int progress, int totalLength) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
+        builder.setContentText("正在上传文件消息附件");
+        builder.setContentTitle("昭阳医生");
+        builder.setSmallIcon(R.drawable.ic_notification);
+        builder.setAutoCancel(true);
+        builder.setProgress(totalLength, progress, false);
+        Notification notification = builder.build();
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(AppContext.me());
+        managerCompat.notify(UPLOAD, notification);
+    }
+
+    public static void cancelUploadMsg() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
+        builder.setContentText("附件发送成功");
+        builder.setContentTitle("昭阳医生");
+        builder.setSmallIcon(R.drawable.ic_notification);
+        builder.setAutoCancel(true);
+        Notification notification = builder.build();
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(AppContext.me());
+        managerCompat.notify(UPLOAD, notification);
     }
 
     public static void onFinishDownloadNewVersion(File file) {

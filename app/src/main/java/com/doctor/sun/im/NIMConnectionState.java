@@ -19,6 +19,7 @@ import com.netease.nimlib.sdk.msg.attachment.MsgAttachmentParser;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
+import com.netease.nimlib.sdk.msg.model.AttachmentProgress;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import org.json.JSONException;
@@ -33,6 +34,7 @@ import io.realm.Realm;
  */
 public class NIMConnectionState implements RequestCallback {
     public static final int THIRTY_MINUTES = 1000 * 60 * 30;
+    public static final int FIVE_MB = 5242880;
     private static NIMConnectionState instance;
     private statusObserver observer;
     private IMMessageObserver observer1;
@@ -55,6 +57,20 @@ public class NIMConnectionState implements RequestCallback {
         observer1 = new IMMessageObserver();
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
         service.observeMsgStatus(observer1, true);
+        service.observeAttachmentProgress(new Observer<AttachmentProgress>() {
+            @Override
+            public void onEvent(AttachmentProgress attachmentProgress) {
+                if (attachmentProgress.getTotal() > FIVE_MB) {
+                    if (attachmentProgress.getTransferred() == attachmentProgress.getTotal()) {
+                        NotificationUtil.cancelUploadMsg();
+                    } else {
+                        int transferred = (int) (attachmentProgress.getTransferred() / 1000);
+                        int total = (int) (attachmentProgress.getTotal() / 1000);
+                        NotificationUtil.showUploadProgress(transferred, total);
+                    }
+                }
+            }
+        }, true);
         msgAttachmentParser = new CustomAttachParser();
         NIMClient.getService(MsgService.class).registerCustomAttachmentParser(msgAttachmentParser);
         if (callback != null) {
