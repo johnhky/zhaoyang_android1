@@ -229,6 +229,7 @@ public class Messenger {
         CustomMessageConfig config = new CustomMessageConfig();
         config.enableUnreadCount = true; // 该消息不计入未读数
         config.enableHistory = true;
+        config.enableRoaming = true;
         message.setConfig(config);
         EventHub.post(new SendMessageEvent());
 

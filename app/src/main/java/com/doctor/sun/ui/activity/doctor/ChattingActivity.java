@@ -86,7 +86,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     private DrugModule drugModule = Api.of(DrugModule.class);
     private RealmResults<TextMsg> results;
     private KeyboardWatcher keyboardWatcher;
-    private RealmChangeListener<RealmResults<TextMsg>> finishedMsgListener;
     private RealmChangeListener<RealmResults<TextMsg>> listener;
 
     public static Intent makeIntent(Context context, Appointment appointment) {
@@ -169,7 +168,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
             loadFirstPage();
         }
 
-        setHaveRead(results);
+//        setHaveRead(results);
 
         adapter.setData(results);
         adapter.onFinishLoadMore(true);
@@ -190,6 +189,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     @Override
     public void finish() {
         super.finish();
+        setHaveRead(query.equalTo("haveRead", false).findAll());
         ItemHelper.changeItem(getIntent(), getData());
     }
 

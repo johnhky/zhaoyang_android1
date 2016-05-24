@@ -251,7 +251,7 @@
                             android:layout_marginLeft="@dimen/dp_13"
                             android:layout_weight="1"
                             android:button="@drawable/abc_btn_radio_material"
-                            android:buttonTint="@color/grey_89"
+                            android:buttonTint="@color/text_color_gray"
                             android:singleLine="true"
                             android:textColor="@color/grey_89"
                             android:textSize="@dimen/font_15" />

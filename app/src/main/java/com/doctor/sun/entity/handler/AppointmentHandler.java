@@ -968,17 +968,24 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return results;
     }
 
-    public RealmQuery<TextMsg> unreadMsgs(RealmQuery<TextMsg> query) {
+    public RealmQuery<TextMsg> unreadMsg(RealmQuery<TextMsg> query) {
         return query.equalTo("haveRead", false);
     }
 
     public long unreadMsgCount() {
-        return unreadMsgs(queryAllMsg(Realm.getDefaultInstance())).count();
+        return unreadMsg(queryAllMsg(Realm.getDefaultInstance())).count();
     }
 
+    public long msgCount() {
+        return queryAllMsg(Realm.getDefaultInstance()).count();
+    }
 
     public TextMsg lastMsg() {
-        return sortedByTime(queryAllMsg(Realm.getDefaultInstance())).last();
+        RealmResults<TextMsg> results = sortedByTime(queryAllMsg(Realm.getDefaultInstance()));
+        if (results.isEmpty()) {
+            return new TextMsg();
+        }
+        return results.last();
     }
 
     public long lastMsgTime(Realm realm) {

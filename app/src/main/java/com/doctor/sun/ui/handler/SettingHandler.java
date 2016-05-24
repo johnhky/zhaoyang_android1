@@ -94,9 +94,7 @@ public class SettingHandler extends BaseHandler {
                     public void onClickMicroblogButton() {
                         ShareManager shareManager = new ShareManager(view.getContext(), platformActionListener);
                         shareManager.shareSinaWeibo()
-                                .setContent("这是一个能让咨询者与心理/精神科医生轻松交流的App。")
-                                .setImagePath(Config.getDataPath().getAbsolutePath() + "/tutorialone.png")
-                                .setImageUrl("http://www.zhaoyang120.com/common/image/logo-nav.png")
+                                .setContent("这是一个能让咨询者与心理/精神科医生轻松交流的App http://wechat.zhaoyang120.cn/auth/download.html")
                                 .commit()
                                 .share();
                     }
