@@ -74,7 +74,7 @@ android {
         stage {
 //            applicationIdSuffix ".dev"
 //            versionNameSuffix "_dev"
-            manifestPlaceholders = [appLabel: "@string/app_name_dev", nimKey: "9439a1f4b31a23c48660c2Ø90a69f89e3"]
+            manifestPlaceholders = [appLabel: "@string/app_name_dev", nimKey: "9439a1f4b31a23c48660c290a69f89e3"]
             buildConfigField "boolean", "DEV_MODE", "true"
             buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSunDev"' //app 数据保存目录, 必改
@@ -155,7 +155,7 @@ dependencies {
     compile dependency.v4
     compile dependency.v7
     compile dependency.recyclerView
-    compile dependency.cardView
+//    compile dependency.cardView
     compile dependency.design
     compile dependency.annotations
     compile dependency.gson

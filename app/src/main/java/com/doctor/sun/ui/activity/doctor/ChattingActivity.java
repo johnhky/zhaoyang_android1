@@ -193,7 +193,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     @Override
     public void finish() {
         super.finish();
-        setHaveRead(query.equalTo("haveRead", false).findAll());
+        setHaveRead(query.or().equalTo("sessionId", getP2PId()).equalTo("haveRead", false).findAll());
         ItemHelper.changeItem(getIntent(), getData());
     }
 
