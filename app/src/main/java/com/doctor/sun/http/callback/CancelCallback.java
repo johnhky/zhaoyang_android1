@@ -9,24 +9,24 @@ import com.doctor.sun.ui.adapter.core.BaseAdapter;
  */
 public class CancelCallback extends ApiCallback<String> {
     private final BaseViewHolder vh;
-    private final BaseAdapter component;
+    private final BaseAdapter adapter;
 
-    public CancelCallback(BaseViewHolder vh, BaseAdapter component) {
+    public CancelCallback(BaseViewHolder vh, BaseAdapter adapter) {
         this.vh = vh;
-        this.component = component;
+        this.adapter = adapter;
     }
 
     @Override
     protected void handleResponse(String response) {
         int adapterPosition = vh.getAdapterPosition();
-        component.remove(adapterPosition);
-        component.notifyItemRemoved(adapterPosition);
+        adapter.remove(adapterPosition);
+        adapter.notifyItemRemoved(adapterPosition);
     }
 
     @Override
     protected void handleApi(ApiDTO<String> body) {
         int adapterPosition = vh.getAdapterPosition();
-        component.remove(adapterPosition);
-        component.notifyItemRemoved(adapterPosition);
+        adapter.remove(adapterPosition);
+        adapter.notifyItemRemoved(adapterPosition);
     }
 }

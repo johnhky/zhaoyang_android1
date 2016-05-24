@@ -1,4 +1,4 @@
-package com.doctor.sun.entity;
+package com.doctor.sun.vo;
 
 import android.databinding.BaseObservable;
 

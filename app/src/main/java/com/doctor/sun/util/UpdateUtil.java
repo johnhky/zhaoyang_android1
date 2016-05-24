@@ -32,11 +32,13 @@ import retrofit2.Response;
  */
 public class UpdateUtil {
     public static final String TAG = UpdateUtil.class.getSimpleName();
-    private static final long INTERVAL = 7200000;
+    public static final long INTERVAL = 7200000;
     public static final String APK_PATH = "newVersion.apk";
     public static final String NEWVERSION = "NEWVERSION";
     private static long lastCheckTime = 0;
     private static MaterialDialog dialog;
+
+    private static onNoNewVersion noNewVersion;
 
     public static void checkUpdate(final Activity context) {
         final ToolModule api = Api.of(ToolModule.class);
@@ -101,6 +103,11 @@ public class UpdateUtil {
             } else if (newVersion > Double.valueOf(versionName)) {
                 builder.negativeText("稍后提醒我");
                 dialog = builder.content("昭阳医生已经发布了最新版本，更新后会有更好的体验哦！").show();
+            } else {
+                if (noNewVersion != null) {
+                    noNewVersion.onNoNewVersion();
+                    noNewVersion = null;
+                }
             }
         }
         lastCheckTime = System.currentTimeMillis();
@@ -188,5 +195,13 @@ public class UpdateUtil {
         public void unregisterThis() {
             EventHub.unregister(this);
         }
+    }
+
+    public static void setNoNewVersion(onNoNewVersion noNewVersion) {
+        UpdateUtil.noNewVersion = noNewVersion;
+    }
+
+    public interface onNoNewVersion {
+        void onNoNewVersion();
     }
 }

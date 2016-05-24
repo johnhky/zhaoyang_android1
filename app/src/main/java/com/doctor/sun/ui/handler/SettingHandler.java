@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
@@ -158,9 +159,21 @@ public class SettingHandler extends BaseHandler {
         };
     }
 
-    public void checkUpdate(View view) {
-        UpdateUtil.reset();
-        UpdateUtil.checkUpdate((Activity) view.getContext());
+    public View.OnClickListener checkUpdate() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Activity context = (Activity) v.getContext();
+                UpdateUtil.reset();
+                UpdateUtil.setNoNewVersion(new UpdateUtil.onNoNewVersion() {
+                    @Override
+                    public void onNoNewVersion() {
+                        Toast.makeText(context, "当前版本已经是最新版本", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                UpdateUtil.checkUpdate(context);
+            }
+        };
     }
 
     public void logOut(final View view) {

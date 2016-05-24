@@ -40,7 +40,7 @@
                 <LinearLayout
                     android:id="@+id/lly_passwd"
                     android:layout_width="match_parent"
-                   android:layout_height="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
                     android:background="@drawable/ripple_default"
                     android:gravity="center_vertical"
                     android:onClick="@{handler.changePassword}">
@@ -75,7 +75,7 @@
                 <LinearLayout
                     android:id="@+id/lly_advice"
                     android:layout_width="match_parent"
-                   android:layout_height="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
                     android:background="@drawable/ripple_default"
                     android:gravity="center_vertical"
                     android:onClick="@{handler.giveAdvice}">
@@ -110,7 +110,7 @@
                 <LinearLayout
                     android:id="@+id/lly_help"
                     android:layout_width="match_parent"
-                   android:layout_height="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
                     android:background="@drawable/ripple_default"
                     android:gravity="center_vertical"
                     android:onClick="@{handler.help}">
@@ -145,7 +145,7 @@
                 <LinearLayout
                     android:id="@+id/lly_share"
                     android:layout_width="match_parent"
-                   android:layout_height="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
                     android:background="@drawable/ripple_default"
                     android:gravity="center_vertical"
                     app:itemClick="@{handler.share}">
@@ -180,7 +180,7 @@
                 <LinearLayout
                     android:id="@+id/lly_cache"
                     android:layout_width="match_parent"
-                   android:layout_height="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
                     android:background="@drawable/ripple_default"
                     android:gravity="center_vertical">
 
@@ -203,7 +203,7 @@
                 <LinearLayout
                     android:id="@+id/lly_update"
                     android:layout_width="match_parent"
-                   android:layout_height="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
                     android:background="@drawable/ripple_default"
                     android:gravity="center_vertical"
                     android:onClick="@{handler.checkUpdate}">
@@ -228,7 +228,7 @@
                 <LinearLayout
                     android:id="@+id/version"
                     android:layout_width="match_parent"
-                   android:layout_height="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
                     android:background="@drawable/ripple_default"
                     android:gravity="center_vertical">
 

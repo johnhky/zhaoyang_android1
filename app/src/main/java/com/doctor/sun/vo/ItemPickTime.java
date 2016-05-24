@@ -6,7 +6,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
-import com.doctor.sun.entity.BaseItem;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;

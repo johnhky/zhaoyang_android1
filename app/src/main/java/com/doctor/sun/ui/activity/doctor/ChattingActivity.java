@@ -178,6 +178,10 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     }
 
     private void setHaveRead(RealmResults<TextMsg> results) {
+        if (results.isEmpty()) {
+            return;
+        }
+
         getRealm().beginTransaction();
         for (int i = 0; i < results.size(); i++) {
             TextMsg textMsg = results.get(i);

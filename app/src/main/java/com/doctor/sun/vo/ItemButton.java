@@ -2,9 +2,6 @@ package com.doctor.sun.vo;
 
 import android.view.View;
 
-import com.doctor.sun.entity.BaseItem;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-
 /**
  * Created by rick on 12/22/15.
  */

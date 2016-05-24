@@ -239,53 +239,6 @@ public class ConsultingFragment extends RefreshListFragment {
         binding.swipeRefresh.setOnRefreshListener(listener);
     }
 
-    public Comparator<Appointment> comparator() {
-        return new Comparator<Appointment>() {
-            public static final int LEFT_BIG = 1;
-            public static final int RIGHT_BIG = -1;
-
-            @Override
-            public int compare(Appointment lhs, Appointment rhs) {
-                RealmQuery<TextMsg> lMsgQuery = realm.where(TextMsg.class)
-                        .equalTo("sessionId", String.valueOf(lhs.getTid())).beginGroup()
-                        .equalTo("haveRead", false).or().equalTo("haveRead", true).endGroup();
-
-
-                RealmQuery<TextMsg> rMsgQuery = realm.where(TextMsg.class)
-                        .equalTo("sessionId", String.valueOf(rhs.getTid())).beginGroup()
-                        .equalTo("haveRead", false).or().equalTo("haveRead", true).endGroup();
-                if (lMsgQuery.count() == 0) {
-                    if (rMsgQuery.count() > 0) {
-                        return LEFT_BIG;
-                    } else if (rMsgQuery.count() == 0) {
-                        return 0;
-                    } else {
-                        return RIGHT_BIG;
-                    }
-                }
-                if (rMsgQuery.count() == 0) {
-                    return RIGHT_BIG;
-                }
-
-                TextMsg lFirst = lMsgQuery.findAllSorted("time", Sort.DESCENDING).first();
-                long lTime = lFirst.getTime();
-                boolean lHaveRead = lFirst.isHaveRead();
-
-                TextMsg rFirst = rMsgQuery.findAllSorted("time", Sort.DESCENDING).first();
-                long rTime = rFirst.getTime();
-                boolean rHaveRead = lFirst.isHaveRead();
-
-                if (lHaveRead != rHaveRead) {
-                    if (lHaveRead) {
-                        return RIGHT_BIG;
-                    } else {
-                        return LEFT_BIG;
-                    }
-                }
-                return new Date(rTime).compareTo(new Date(lTime));
-            }
-        };
-    }
 
     public Appointment getAppointmentByTid(String tid) {
         return getAppointmentByTid(Integer.valueOf(tid));

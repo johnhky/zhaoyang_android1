@@ -683,17 +683,19 @@ public class Appointment implements LayoutId, Parcelable {
 
         Appointment that = (Appointment) o;
 
-        if (id != that.id) return false;
-        if (!voipAccount.equals(that.voipAccount)) return false;
-        return yunxinAccid.equals(that.yunxinAccid);
+        if (tid != that.tid) {
+            return false;
+        }else {
+            return true;
+        }
 
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + voipAccount.hashCode();
-        result = 31 * result + yunxinAccid.hashCode();
+        int result = tid;
+        result = 31 * result + (voipAccount != null ? voipAccount.hashCode() : 0);
+        result = 31 * result + (yunxinAccid != null ? yunxinAccid.hashCode() : 0);
         return result;
     }
 }

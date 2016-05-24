@@ -734,18 +734,22 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         if (AppContext.isDoctor()) {
             makePhoneCall(view);
         } else {
-            String question = "通话请求失败:\n①医生拒绝来电\n②医生处于免打扰状态";
-            MaterialDialog.Builder builder = new MaterialDialog.Builder(view.getContext())
-                    .content(question)
-                    .positiveText("确认")
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            dialog.dismiss();
-                        }
-                    });
-            builder.show();
+            showNotAvailableDialog(view);
         }
+    }
+
+    private void showNotAvailableDialog(View view) {
+        String question = "通话请求失败:\n①医生拒绝来电\n②医生处于免打扰状态";
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(view.getContext())
+                .content(question)
+                .positiveText("确认")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.show();
     }
 
     public void makePhoneCall(final View view) {

@@ -155,6 +155,7 @@ dependencies {
     compile dependency.v4
     compile dependency.v7
     compile dependency.recyclerView
+    compile dependency.cardView
     compile dependency.design
     compile dependency.annotations
     compile dependency.gson
