@@ -242,7 +242,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         } else {
             id = data.getId();
         }
-        api.buildOrder(id, "alipay", couponId).enqueue(new AlipayCallback(activity, data));
+        api.buildAliPayOrder(id, "alipay", couponId).enqueue(new AlipayCallback(activity, data));
     }
 
     @Override

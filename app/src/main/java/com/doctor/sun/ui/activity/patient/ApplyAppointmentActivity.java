@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -42,7 +41,6 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
     private ProfileModule api = Api.of(ProfileModule.class);
     private AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
     private MedicalRecord record;
-    private List<Coupon> response;
     private List<Coupon> coupons;
 
     public static Intent makeIntent(Context context, Doctor doctor, String bookTime, String type, String recordId) {
@@ -103,8 +101,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
         } else {
             time = "";
         }
-        Log.e(TAG, "onCreate: time" + time);
-        binding.tvApply.setOnClickListener(new View.OnClickListener() {
+        binding.tvApplyAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Doctor doctorData = getDoctorData();
@@ -113,21 +110,22 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                 }
                 String doctorId = String.valueOf(doctorData.getId());
                 int type = Integer.parseInt(getType());
+                String couponId = "";
+                if (binding.cbCouponCount.isChecked()) {
+                    couponId = coupons.get(0).getId();
+                }
+                final String finalCouponId = couponId;
                 //noinspection WrongConstant
-                appointmentModule.orderAppointment(doctorId, time, type, doctorData.getRecordId()).enqueue(new ApiCallback<Appointment>() {
+                appointmentModule.orderAppointment(doctorId, time, type, doctorData.getRecordId(), couponId).enqueue(new ApiCallback<Appointment>() {
                     @Override
                     protected void handleResponse(Appointment response) {
                         response.setRecordId(Integer.parseInt(doctorData.getRecordId()));
                         AppointmentHandler handler = new AppointmentHandler(response);
-                        String couponId = "";
-                        if (binding.cbCouponCount.isSelected()) {
-                            couponId = coupons.get(0).getId();
-                            Log.e(TAG, "handleResponse: " + coupons.get(0).getId());
-                        }
+
                         if (binding.rbWechat.isChecked()) {
-                            handler.payWithWeChat(ApplyAppointmentActivity.this, couponId);
+                            handler.payWithWeChat(ApplyAppointmentActivity.this, finalCouponId);
                         } else {
-                            handler.payWithAlipay(ApplyAppointmentActivity.this, couponId);
+                            handler.payWithAlipay(ApplyAppointmentActivity.this, finalCouponId);
                         }
                     }
                 });

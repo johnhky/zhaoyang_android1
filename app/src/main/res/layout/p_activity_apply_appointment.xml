@@ -332,12 +332,11 @@
                     android:layout_width="@dimen/dp_283"
                     android:layout_height="@dimen/dp_49"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/dp_38"
                     android:layout_marginTop="@dimen/dp_17"
                     android:background="@drawable/shape_button">
 
                     <TextView
-                        android:id="@+id/tv_apply"
+                        android:id="@+id/tv_apply_appointment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/ripple_default"
@@ -351,6 +350,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginBottom="@dimen/dp_38"
                     android:gravity="center"
                     android:text="*支付成功后,预约面诊成功,请尽快支付"
                     android:textColor="@color/orange"

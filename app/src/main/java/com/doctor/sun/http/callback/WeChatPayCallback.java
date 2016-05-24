@@ -3,6 +3,7 @@ package com.doctor.sun.http.callback;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.WeChatPayDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.EmergencyCall;
@@ -13,6 +14,8 @@ import com.doctor.sun.wxapi.WXPayEntryActivity;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
+import retrofit2.Call;
 
 /**
  * Created by rick on 23/1/2016.
@@ -59,7 +62,7 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
         WXPayEntryActivity.setCallback(mCallback);
     }
 
-    public WeChatPayCallback(final Activity activity, final int money){
+    public WeChatPayCallback(final Activity activity, final int money) {
         this.activity = activity;
         mCallback = new PayCallback() {
             @Override
@@ -70,7 +73,7 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
 
             @Override
             public void onPayFail() {
-                Intent intent = PayFailActivity.makeIntent(activity,money,"wechat");
+                Intent intent = PayFailActivity.makeIntent(activity, money, "wechat");
                 activity.startActivity(intent);
             }
         };
@@ -92,5 +95,13 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
         IWXAPI msgApi = WXAPIFactory.createWXAPI(activity, response.getAppid());
         msgApi.registerApp(response.getAppid());
         msgApi.sendReq(req);
+    }
+
+    @Override
+    public void onFailure(Call<ApiDTO<WeChatPayDTO>> call, Throwable t) {
+        super.onFailure(call, t);
+        if (t.getLocalizedMessage().contains("finish_pay")) {
+            mCallback.onPaySuccess();
+        }
     }
 }

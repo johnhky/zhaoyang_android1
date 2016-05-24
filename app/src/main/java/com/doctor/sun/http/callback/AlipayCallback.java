@@ -62,9 +62,9 @@ public class AlipayCallback extends SimpleCallback<String> {
         };
     }
 
-    public AlipayCallback(final Activity activity, final int money){
+    public AlipayCallback(final Activity activity, final int money) {
         this.activity = activity;
-        mCallback  = new PayCallback() {
+        mCallback = new PayCallback() {
             @Override
             public void onPaySuccess() {
                 Intent intent = PaySuccessActivity.makeIntent(activity);
@@ -73,7 +73,7 @@ public class AlipayCallback extends SimpleCallback<String> {
 
             @Override
             public void onPayFail() {
-                Intent intent = PayFailActivity.makeIntent(activity,money,"alipay");
+                Intent intent = PayFailActivity.makeIntent(activity, money, "alipay");
                 activity.startActivity(intent);
             }
         };
@@ -83,7 +83,8 @@ public class AlipayCallback extends SimpleCallback<String> {
     protected void handleResponse(final String data) {
 
         if (data.equals("finish_pay")) {
-          mCallback.onPaySuccess();
+            mCallback.onPaySuccess();
+            return;
         }
 
         if (data != null) {
@@ -100,8 +101,6 @@ public class AlipayCallback extends SimpleCallback<String> {
             }).start();
         }
     }
-
-
 
 
     /**

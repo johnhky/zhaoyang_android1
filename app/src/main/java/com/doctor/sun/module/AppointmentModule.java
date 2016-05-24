@@ -57,7 +57,7 @@ public interface AppointmentModule {
 
     @FormUrlEncoded
     @POST("appointment/appointment")
-    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") String doctorId, @Field("bookTime") String bookTime, @AppointmentType @Field("type") int type, @Field("recordId") String recordId, @Field("takeTime") String taketime);
+    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") String doctorId, @Field("bookTime") String bookTime, @AppointmentType @Field("type") int type, @Field("recordId") String recordId, @Field("couponId") String couponId);
 
     @GET("appointment/pAppointList")
     Call<ApiDTO<PageDTO<Appointment>>> pAppointments(@Query("page") String page);
@@ -155,8 +155,8 @@ public interface AppointmentModule {
      */
     @FormUrlEncoded
     @POST("pay/info")
-    Call<ApiDTO<String>> buildOrder(@Field("appointmentId") int id,
-                                    @Field("type") String type);
+    Call<ApiDTO<String>> buildAliPayOrder(@Field("appointmentId") int id,
+                                          @Field("type") String type);
 
     /**
      * @param type 'alipay'或'wechat'(微信app支付)或'wechat_js'(微信公众号支付)。不传默认值为'alipay'
@@ -173,8 +173,8 @@ public interface AppointmentModule {
      */
     @FormUrlEncoded
     @POST("pay/info")
-    Call<ApiDTO<String>> buildOrder(@Field("appointmentId") int id,
-                                    @Field("type") String type, @Field("couponId") String couponId);
+    Call<ApiDTO<String>> buildAliPayOrder(@Field("appointmentId") int id,
+                                          @Field("type") String type, @Field("couponId") String couponId);
 
 
     /**
