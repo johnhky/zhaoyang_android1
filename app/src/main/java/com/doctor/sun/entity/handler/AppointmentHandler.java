@@ -125,6 +125,18 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
+    public String getRecordName() {
+        if (null != data.getPatientName()) {
+            return data.getRecordName();
+        } else if (null != data.getMedicalRecord()) {
+            return data.getMedicalRecord().getName();
+        } else if (null != data.getUrgentRecord()) {
+            return data.getUrgentRecord().getName();
+        } else {
+            return "";
+        }
+    }
+
     public String getBookTime() {
         if (null != data.getBookTime()) {
             return data.getBookTime();
