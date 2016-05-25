@@ -50,8 +50,8 @@ public class AlipayCallback extends SimpleCallback<String> {
 
             @Override
             public void onPaySuccess() {
-//                Intent intent = PaySuccessActivity.makeIntent(activity, data);
-//                activity.startActivity(intent);
+                Intent intent = PaySuccessActivity.makeIntent(activity, data);
+                activity.startActivity(intent);
             }
 
             @Override

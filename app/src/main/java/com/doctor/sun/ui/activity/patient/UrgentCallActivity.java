@@ -111,7 +111,11 @@ public class UrgentCallActivity extends BaseActivity2 implements View.OnClickLis
     }
 
     public String getTime() {
-        int currentTime = Integer.valueOf(binding.etTime.getText().toString());
+        String string = binding.etTime.getText().toString();
+        if (string.equals("")) {
+            return "";
+        }
+        int currentTime = Integer.valueOf(string);
         String time = "";
         switch (binding.rgTime.getCheckedRadioButtonId()) {
             case R.id.rb_minute:
@@ -157,9 +161,9 @@ public class UrgentCallActivity extends BaseActivity2 implements View.OnClickLis
                         protected void handleResponse(EmergencyCall response) {
 //                            Log.e(TAG, "handleResponse: " + response);
                             if (binding.rbWechat.isChecked()) {
-                                api.buildWeChatOrder(response.getId(), "wechat").enqueue(new WeChatPayCallback(UrgentCallActivity.this,response));
+                                api.buildWeChatOrder(response.getId(), "wechat").enqueue(new WeChatPayCallback(UrgentCallActivity.this, response));
                             } else {
-                                api.buildOrder(response.getId(),"alipay").enqueue(new AlipayCallback(UrgentCallActivity.this,response));
+                                api.buildOrder(response.getId(), "alipay").enqueue(new AlipayCallback(UrgentCallActivity.this, response));
                             }
                         }
                     });
@@ -236,11 +240,13 @@ public class UrgentCallActivity extends BaseActivity2 implements View.OnClickLis
 
             case R.id.tv_gender1:
                 binding.tvGender1.setSelected(!binding.tvGender1.isSelected());
+                binding.tvGender2.setSelected(false);
                 binding.tvSelect3.setSelected(false);
                 break;
 
             case R.id.tv_gender2:
                 binding.tvGender2.setSelected(!binding.tvGender2.isSelected());
+                binding.tvGender1.setSelected(false);
                 binding.tvSelect3.setSelected(false);
                 break;
         }

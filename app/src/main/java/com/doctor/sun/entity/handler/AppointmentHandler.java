@@ -866,14 +866,20 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public String getStatusColor() {
         switch (data.getOrderStatus()) {
+            case "已完成":
+                return "#363636";
+            case "未支付":
             case "未付款":
-                return "#f76d02";
+                return "#ff1800";
+            case "已支付":
             case "已付款":
-                return "#88cb5a";
+                return "#ff8e43";
             case "待建议":
-                return "#82c252";
+                return "#ff1800";
+            case "进行中" :
+                return "#88cb5a";
             default:
-                return "#898989";
+                return "#acacac";
         }
     }
 

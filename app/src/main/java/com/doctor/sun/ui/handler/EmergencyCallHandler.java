@@ -129,27 +129,23 @@ public class EmergencyCallHandler implements PayInterface {
     }
 
     public boolean addOperationVisible() {
-        return data.getIsValid() == 1 && (data.getIsPay() == 1 && data.getIsPayAdd() == 1);
+        return data.getIsValid() == 1 && (data.getUnpayMoney() == 0);
     }
 
     public boolean payVisible() {
-        boolean b = data.getIsValid() == 1 && !(data.getIsPay() == 1 && data.getIsPayAdd() == 1);
+        boolean b = data.getIsValid() == 1 && !(data.getUnpayMoney() == 0);
         return b;
     }
 
     public String status() {
         if (data.getIsValid() == 1) {
-            if (data.getIsPay() == 1) {
-                if (data.getIsPayAdd() == 1) {
-                    return "<font color='#88cb5a'>已支付</font>";
-                } else {
-                    return "<font color='#f76d02'>未支付</font>";
-                }
+            if (data.getUnpayMoney() == 0) {
+                return "<font color='#ff8e43'>已支付</font>";
             } else {
-                return "<font color='#f76d02'>未支付</font>";
+                return "<font color='#ff1800'>未支付</font>";
             }
         } else {
-            return "<font color='#898989'>已关闭</font>";
+            return "<font color='#acacac'>已关闭</font>";
         }
     }
 
