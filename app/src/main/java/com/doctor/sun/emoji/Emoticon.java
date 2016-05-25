@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
+import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -113,10 +114,10 @@ public class Emoticon implements LayoutId {
     public void sendSticker(View view) {
         NimTeamId id = (NimTeamId) view.getContext();
         if (NIMConnectionState.getInstance().isLogin()) {
-            com.doctor.sun.im.Messenger.getInstance().sentSticker(id.getTeamId(), id.getType(), this);
+            IMManager.getInstance().sentSticker(id.getTeamId(), id.getType(), this);
         } else {
             Toast.makeText(view.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
-            com.doctor.sun.im.Messenger.getInstance().login();
+            IMManager.getInstance().login();
         }
     }
 }

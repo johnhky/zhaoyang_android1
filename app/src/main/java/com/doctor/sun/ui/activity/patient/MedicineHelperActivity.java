@@ -31,7 +31,7 @@ import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.im.Messenger;
+import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.module.DrugModule;
@@ -150,7 +150,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
 
     private void initChat(String sendTo) {
         binding.rvChat.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
-        mChatAdapter = new MessageAdapter(this, Messenger.getInstance().getMyAccount(), sendTo);
+        mChatAdapter = new MessageAdapter(this, IMManager.getInstance().getMyAccount(), sendTo);
         binding.rvChat.setAdapter(mChatAdapter);
 
         query = getRealm().where(TextMsg.class)
@@ -259,7 +259,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     }
 
     private void makePhoneCall() {
-        Messenger.getInstance().makePhoneCall(sendTo);
+        IMManager.getInstance().makePhoneCall(sendTo);
         Intent i = VoIPCallActivity.makeIntent(MedicineHelperActivity.this, VoIPCallActivity.CALLING, sendTo);
         startActivity(i);
     }
@@ -294,12 +294,12 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
             Toast.makeText(MedicineHelperActivity.this, "不能发送空消息", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (Messenger.getInstance().isNIMLogin()) {
-            Messenger.getInstance().sentTextMsg(sendTo, SessionTypeEnum.P2P, inputText.getText().toString());
+        if (IMManager.getInstance().isNIMLogin()) {
+            IMManager.getInstance().sentTextMsg(sendTo, SessionTypeEnum.P2P, inputText.getText().toString());
             inputText.setText("");
         } else {
             Toast.makeText(MedicineHelperActivity.this, "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
-            Messenger.getInstance().login();
+            IMManager.getInstance().login();
         }
     }
 
@@ -349,7 +349,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
             // Get the Uri of the selected file
             File file = FileChooser.onActivityResult(this, requestCode, RESULT_OK, data);
             if (file != null) {
-                Messenger.getInstance().sentFile(sendTo, getType(), file);
+                IMManager.getInstance().sentFile(sendTo, getType(), file);
             }
         }
     }
@@ -358,7 +358,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
         if (IMAGE_REQUEST_CODE == PickImageDialog.getRequestCode(requestCode)) {
             File file = PickImageDialog.handleRequest(this, data, requestCode);
             if (file != null) {
-                Messenger.getInstance().sentImage(sendTo, getType(), file);
+                IMManager.getInstance().sentImage(sendTo, getType(), file);
             }
         }
     }

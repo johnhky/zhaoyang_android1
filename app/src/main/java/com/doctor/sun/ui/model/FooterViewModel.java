@@ -8,13 +8,10 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.im.TextMsg;
-import com.doctor.sun.im.Messenger;
-
-import java.util.List;
+import com.doctor.sun.im.IMManager;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-import io.realm.RealmResults;
 
 
 /**
@@ -42,7 +39,7 @@ public class FooterViewModel extends BaseObservable implements RealmChangeListen
     public FooterViewModel(FooterView mView, int position) {
         this.mView = mView;
         this.id = position;
-        final ImAccount accountDTO = Messenger.getVoipAccount();
+        final ImAccount accountDTO = IMManager.getVoipAccount();
         if (accountDTO == null) return;
     }
 

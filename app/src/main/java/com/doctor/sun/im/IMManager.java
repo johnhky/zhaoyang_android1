@@ -42,16 +42,16 @@ import io.ganguo.library.core.event.EventHub;
 /**
  * Created by rick on 12/8/15.
  */
-public class Messenger {
-    public static final String TAG = Messenger.class.getSimpleName();
-    private static Messenger instance;
+public class IMManager {
+    public static final String TAG = IMManager.class.getSimpleName();
+    private static IMManager instance;
 
     private ImAccount account;
     private ECInitParams params;
 
-    public static Messenger getInstance() {
+    public static IMManager getInstance() {
         if (instance == null) {
-            instance = new Messenger();
+            instance = new IMManager();
         }
         return instance;
     }
@@ -59,7 +59,7 @@ public class Messenger {
     public void login() {
         ImAccount account = getVoipAccount();
         if (account != null) {
-            Messenger.getInstance().login(account);
+            IMManager.getInstance().login(account);
         }
     }
 

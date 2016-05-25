@@ -2,7 +2,7 @@ package com.doctor.sun.im.cache;
 
 import android.text.TextUtils;
 
-import com.doctor.sun.im.Messenger;
+import com.doctor.sun.im.IMManager;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.friend.FriendService;
@@ -68,7 +68,7 @@ public class FriendDataCache {
         accounts.removeAll(blacks);
 
         // 排除掉自己
-        accounts.remove(Messenger.getVoipAccount().getYunxinAccid());
+        accounts.remove(IMManager.getVoipAccount().getYunxinAccid());
 
         // 确定缓存
         friendAccountSet.addAll(accounts);

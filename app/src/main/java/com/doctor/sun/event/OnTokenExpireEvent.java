@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
-import com.doctor.sun.im.Messenger;
+import com.doctor.sun.im.IMManager;
 import com.doctor.sun.ui.activity.LoginActivity;
 import com.squareup.otto.Subscribe;
 
@@ -40,7 +40,7 @@ public class OnTokenExpireEvent implements Event {
     public void onAuthEvent(OnTokenExpireEvent event) {
         if (System.currentTimeMillis() - lastEventTime > ONE_MINUTES) {
             Toast.makeText(context, "帐号登录过期,请重新登录", Toast.LENGTH_LONG).show();
-            Messenger.getInstance().logout();
+            IMManager.getInstance().logout();
 
             Intent intent = LoginActivity.makeIntent(context);
             context.startActivity(intent);

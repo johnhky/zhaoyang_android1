@@ -2,7 +2,7 @@ package com.doctor.sun.im.cache;
 
 import android.text.TextUtils;
 
-import com.doctor.sun.im.Messenger;
+import com.doctor.sun.im.IMManager;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.team.TeamService;
@@ -299,7 +299,7 @@ public class TeamDataCache {
      * @return
      */
     public String getTeamMemberDisplayName(String tid, String account) {
-        if (account.equals(Messenger.getVoipAccount().getYunxinAccid())) {
+        if (account.equals(IMManager.getVoipAccount().getYunxinAccid())) {
             return "我";
         }
 
@@ -314,7 +314,7 @@ public class TeamDataCache {
      * @return
      */
     public String getTeamMemberDisplayNameYou(String tid, String account) {
-        if (account.equals(Messenger.getVoipAccount().getYunxinAccid())) {
+        if (account.equals(IMManager.getVoipAccount().getYunxinAccid())) {
             return "你";
         }
 

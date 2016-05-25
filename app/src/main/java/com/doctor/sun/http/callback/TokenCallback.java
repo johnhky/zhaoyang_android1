@@ -14,7 +14,7 @@ import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.RecentAppointment;
 import com.doctor.sun.entity.Token;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.im.Messenger;
+import com.doctor.sun.im.IMManager;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
@@ -201,7 +201,7 @@ public class TokenCallback {
         });
         String key = "LAST_VISIT_TIME" + account;
         Config.putLong(key, System.currentTimeMillis());
-        Messenger.getInstance().login(token.getAccount());
+        IMManager.getInstance().login(token.getAccount());
     }
 
     public static String getToken() {

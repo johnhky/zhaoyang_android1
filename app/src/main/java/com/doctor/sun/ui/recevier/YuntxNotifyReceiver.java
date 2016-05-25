@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
 
-import com.doctor.sun.im.Messenger;
 import com.doctor.sun.im.OnMessageReceiveListener;
 import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.yuntongxun.ecsdk.ECDevice;

@@ -49,7 +49,7 @@ public class ConnectionState implements ECDevice.OnECDeviceConnectListener {
                 } else {
                     setAuthType(ECInitParams.LoginAuthType.PASSWORD_AUTH);
                 }
-                Messenger.getInstance().logout();
+                IMManager.getInstance().logout();
             }
         } else if (state == ECDevice.ECConnectState.CONNECT_SUCCESS) {
             // 登陆成功

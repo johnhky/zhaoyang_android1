@@ -14,7 +14,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.im.Messenger;
+import com.doctor.sun.im.IMManager;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.HelpActivity;
 import com.doctor.sun.ui.activity.LoginActivity;
@@ -185,7 +185,7 @@ public class SettingHandler extends BaseHandler {
                 Config.putInt(Constants.USER_TYPE, -1);
                 Config.putString(Constants.VOIP_ACCOUNT, "");
                 Intent intent = LoginActivity.makeIntent(view.getContext());
-                Messenger.getInstance().logout();
+                IMManager.getInstance().logout();
                 view.getContext().startActivity(intent);
                 AppManager.finishAllActivity();
                 Realm realm = Realm.getDefaultInstance();

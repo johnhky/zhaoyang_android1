@@ -23,7 +23,7 @@ import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.event.SendMessageEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.im.Messenger;
+import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.module.AuthModule;
@@ -347,7 +347,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
             // Get the Uri of the selected file
             File file = FileChooser.onActivityResult(this, requestCode, RESULT_OK, data);
             if (file != null) {
-                Messenger.getInstance().sentFile(sendTo, getType(), file);
+                IMManager.getInstance().sentFile(sendTo, getType(), file);
             }
         }
     }
@@ -356,7 +356,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         if (IMAGE_REQUEST_CODE == PickImageDialog.getRequestCode(requestCode)) {
             File file = PickImageDialog.handleRequest(this, data, requestCode);
             if (file != null) {
-                Messenger.getInstance().sentImage(sendTo, getType(), file);
+                IMManager.getInstance().sentImage(sendTo, getType(), file);
             }
         }
     }

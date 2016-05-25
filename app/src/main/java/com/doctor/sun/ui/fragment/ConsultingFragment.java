@@ -14,14 +14,15 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.MedicineStore;
 import com.doctor.sun.entity.SystemMsg;
-import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.im.IMManager;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.adapter.ConsultingAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.util.JacksonUtils;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -32,15 +33,10 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.util.Tasks;
-import io.realm.RealmQuery;
-import io.realm.Sort;
 
 /**
  * Created by rick on 12/18/15.
@@ -50,6 +46,7 @@ public class ConsultingFragment extends RefreshListFragment {
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private PageCallback<Appointment> callback;
     private SparseArray<Appointment> map = new SparseArray<>();
+    private ArrayList<LayoutId> headers;
 
     public ConsultingFragment() {
     }
@@ -66,14 +63,19 @@ public class ConsultingFragment extends RefreshListFragment {
         NIMClient.getService(MsgServiceObserve.class).observeRecentContact(new Observer<List<RecentContact>>() {
             @Override
             public void onEvent(final List<RecentContact> recentContacts) {
-                int padding = 2;
-                if (AppContext.isDoctor()) {
-                    padding = 1;
-                }
+                int padding = getItemPadding();
                 final int finalPosition = padding;
                 Tasks.runOnUiThread(new InsertAppointmentRunnable(recentContacts, finalPosition), 300);
             }
         }, true);
+    }
+
+    private int getItemPadding() {
+        int padding = 2;
+        if (AppContext.isDoctor()) {
+            padding = 1;
+        }
+        return padding;
     }
 
     @Override
@@ -107,117 +109,21 @@ public class ConsultingFragment extends RefreshListFragment {
     @Override
     protected void loadMore() {
         int userType = Config.getInt(Constants.USER_TYPE, -1);
+        if (headers == null) {
+            initHeader(userType);
+        }
+
+        callback = new AppointmentPageCallback();
+        MsgService service = NIMClient.getService(MsgService.class);
+        service.queryRecentContacts()
+                .setCallback(new RecentContactCallback());
+    }
+
+    private void initHeader(int userType) {
+        headers = new ArrayList<>();
+        headers.add(new SystemMsg());
         if (userType == AuthModule.PATIENT_TYPE) {
-            callback = new PageCallback<Appointment>(getAdapter()) {
-                @Override
-                public void onInitHeader() {
-                    super.onInitHeader();
-                    getAdapter().add(new SystemMsg());
-                    getAdapter().add(new MedicineStore());
-                }
-
-                @Override
-                protected void handleResponse(PageDTO<Appointment> response) {
-                    ArrayList<Appointment> data = (ArrayList<Appointment>) response.getData();
-                    for (Appointment appointment : data) {
-                        map.put(appointment.getTid(), appointment);
-                    }
-                    super.handleResponse(response);
-                }
-
-                @Override
-                public void onFinishRefresh() {
-                    super.onFinishRefresh();
-                    binding.swipeRefresh.setRefreshing(false);
-                }
-            };
-            MsgService service = NIMClient.getService(MsgService.class);
-            service.queryRecentContacts()
-                    .setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
-                        @Override
-                        public void onResult(int code, List<RecentContact> recents, Throwable e) {
-                            // recents参数即为最近联系人列表（最近会话列表）
-                            if (recents == null) return;
-
-
-                            ArrayList<String> tids = new ArrayList<>();
-                            for (RecentContact recent : recents) {
-                                String contactId = recent.getContactId();
-                                if (recent.getSessionType() == SessionTypeEnum.Team) {
-                                    tids.add(contactId);
-                                }
-                            }
-                            api.appointmentInTid(JacksonUtils.toJson(tids), callback.getPage()).enqueue(callback);
-                        }
-
-                        @Override
-                        public void onFailed(int i) {
-                            super.onFailed(i);
-                            com.doctor.sun.im.Messenger.getInstance().login();
-                            getAdapter().onFinishLoadMore(true);
-                        }
-
-                        @Override
-                        public void onException(Throwable throwable) {
-                            super.onException(throwable);
-                            com.doctor.sun.im.Messenger.getInstance().login();
-                            getAdapter().onFinishLoadMore(true);
-                        }
-                    });
-        } else {
-            callback = new PageCallback<Appointment>(getAdapter()) {
-                @Override
-                public void onInitHeader() {
-                    super.onInitHeader();
-                    getAdapter().add(new SystemMsg());
-                }
-
-                @Override
-                protected void handleResponse(PageDTO<Appointment> response) {
-                    ArrayList<Appointment> data = (ArrayList<Appointment>) response.getData();
-                    for (Appointment appointment : data) {
-                        map.put(appointment.getTid(), appointment);
-                    }
-                    super.handleResponse(response);
-                }
-
-                @Override
-                public void onFinishRefresh() {
-                    super.onFinishRefresh();
-                    binding.swipeRefresh.setRefreshing(false);
-                }
-            };
-            NIMClient.getService(MsgService.class).queryRecentContacts()
-                    .setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
-                        @Override
-                        public void onResult(int code, List<RecentContact> recents, Throwable e) {
-                            // recents参数即为最近联系人列表（最近会话列表）
-                            if (recents == null) return;
-
-                            HashSet<String> tids = new HashSet<String>();
-                            for (RecentContact recent : recents) {
-                                String contactId = recent.getContactId();
-                                if (recent.getSessionType() == SessionTypeEnum.Team) {
-                                    tids.add(contactId);
-                                }
-                            }
-                            api.appointmentInTid(JacksonUtils.toJson(tids), callback.getPage()).enqueue(callback);
-                        }
-
-                        @Override
-                        public void onFailed(int i) {
-                            super.onFailed(i);
-                            com.doctor.sun.im.Messenger.getInstance().login();
-                            getAdapter().onFinishLoadMore(true);
-                        }
-
-                        @Override
-                        public void onException(Throwable throwable) {
-                            super.onException(throwable);
-                            com.doctor.sun.im.Messenger.getInstance().login();
-                            getAdapter().onFinishLoadMore(true);
-                        }
-                    });
+            headers.add(new MedicineStore());
         }
     }
 
@@ -255,23 +161,13 @@ public class ConsultingFragment extends RefreshListFragment {
     }
 
     private void pullAppointment(int tid) {
-        api.appointmentInTid(String.valueOf(tid), "1").enqueue(new SimpleCallback<PageDTO<Appointment>>() {
-            @Override
-            protected void handleResponse(PageDTO<Appointment> response) {
-                List<Appointment> data = response.getData();
-                if (data != null) {
-                    int padding = 2;
-                    if (AppContext.isDoctor()) {
-                        padding = 1;
-                    }
-                    getAdapter().addAll(padding, data);
-                    getAdapter().notifyItemRangeInserted(padding, data.size());
-                    for (Appointment appointment : data) {
-                        map.put(appointment.getTid(), appointment);
-                    }
-                }
-            }
-        });
+        api.appointmentInTid(String.valueOf(tid), "1").enqueue(new InsertAppointmentCallback());
+    }
+
+    private void cacheAppointment(List<Appointment> data) {
+        for (Appointment appointment : data) {
+            map.put(appointment.getTid(), appointment);
+        }
     }
 
     private class InsertAppointmentRunnable implements Runnable {
@@ -301,11 +197,90 @@ public class ConsultingFragment extends RefreshListFragment {
                 getAdapter().remove(oldPosition);
                 getAdapter().add(finalPosition, appointmentByTid);
                 if (oldPosition != finalPosition) {
-                    getAdapter().notifyItemRemoved(oldPosition);
-                    getAdapter().notifyItemInserted(finalPosition);
+                    getAdapter().notifyItemMoved(oldPosition, finalPosition);
+                    getAdapter().notifyItemChanged(finalPosition);
                 } else {
                     getAdapter().notifyItemChanged(oldPosition);
                 }
+            }
+        }
+    }
+
+    private class RecentContactCallback extends RequestCallbackWrapper<List<RecentContact>> {
+        @Override
+        public void onResult(int code, List<RecentContact> recents, Throwable e) {
+            // recents参数即为最近联系人列表（最近会话列表）
+            if (recents == null) return;
+
+
+            ArrayList<String> tids = getTids(recents);
+            api.appointmentInTid(JacksonUtils.toJson(tids), callback.getPage()).enqueue(callback);
+        }
+
+        @Override
+        public void onFailed(int i) {
+            super.onFailed(i);
+            IMManager.getInstance().login();
+            getAdapter().onFinishLoadMore(true);
+        }
+
+        @Override
+        public void onException(Throwable throwable) {
+            super.onException(throwable);
+            IMManager.getInstance().login();
+            getAdapter().onFinishLoadMore(true);
+        }
+    }
+
+    @NonNull
+    private ArrayList<String> getTids(List<RecentContact> recents) {
+        ArrayList<String> tids = new ArrayList<>();
+        for (RecentContact recent : recents) {
+            String contactId = recent.getContactId();
+            if (recent.getSessionType() == SessionTypeEnum.Team) {
+                tids.add(contactId);
+            }
+        }
+        return tids;
+    }
+
+
+    private class AppointmentPageCallback extends PageCallback<Appointment> {
+        public AppointmentPageCallback() {
+            super(ConsultingFragment.this.getAdapter());
+        }
+
+        @Override
+        public void onInitHeader() {
+            super.onInitHeader();
+            getAdapter().addAll(headers);
+        }
+
+        @Override
+        protected void handleResponse(PageDTO<Appointment> response) {
+            ArrayList<Appointment> data = (ArrayList<Appointment>) response.getData();
+            for (Appointment appointment : data) {
+                map.put(appointment.getTid(), appointment);
+            }
+            super.handleResponse(response);
+        }
+
+        @Override
+        public void onFinishRefresh() {
+            super.onFinishRefresh();
+            binding.swipeRefresh.setRefreshing(false);
+        }
+    }
+
+    private class InsertAppointmentCallback extends SimpleCallback<PageDTO<Appointment>> {
+        @Override
+        protected void handleResponse(PageDTO<Appointment> response) {
+            List<Appointment> data = response.getData();
+            if (data != null) {
+                int padding = getItemPadding();
+                getAdapter().addAll(padding, data);
+                getAdapter().notifyItemRangeInserted(padding, data.size());
+                cacheAppointment(data);
             }
         }
     }

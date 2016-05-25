@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 
 import com.doctor.sun.event.OnTokenExpireEvent;
-import com.doctor.sun.im.Messenger;
+import com.doctor.sun.im.IMManager;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 import io.ganguo.library.AppManager;
@@ -27,8 +27,8 @@ public abstract class BaseFragmentActivity2 extends AppCompatActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!Messenger.getInstance().isNIMLogin()) {
-            Messenger.getInstance().login();
+        if (!IMManager.getInstance().isNIMLogin()) {
+            IMManager.getInstance().login();
         }
         // register
         AppManager.addActivity(this);

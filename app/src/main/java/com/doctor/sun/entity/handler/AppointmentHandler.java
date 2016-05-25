@@ -39,6 +39,7 @@ import com.doctor.sun.http.callback.DoNothingCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
+import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.module.AppointmentModule;
@@ -709,10 +710,10 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
         if (NIMConnectionState.getInstance().isLogin()) {
             if (getTeamId() != null && !getTeamId().isEmpty()) {
-                com.doctor.sun.im.Messenger.getInstance().sentTextMsg(getTeamId(), SessionTypeEnum.Team, inputText.getText().toString());
+                IMManager.getInstance().sentTextMsg(getTeamId(), SessionTypeEnum.Team, inputText.getText().toString());
                 inputText.setText("");
             } else if (getP2PId() != null && !getP2PId().isEmpty()) {
-                com.doctor.sun.im.Messenger.getInstance().sentTextMsg(getP2PId(), SessionTypeEnum.P2P, inputText.getText().toString());
+                IMManager.getInstance().sentTextMsg(getP2PId(), SessionTypeEnum.P2P, inputText.getText().toString());
                 inputText.setText("");
             }
         } else {
@@ -732,7 +733,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                     Toast.makeText(inputText.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
                 }
             });
-            com.doctor.sun.im.Messenger.getInstance().login();
+            IMManager.getInstance().login();
         }
     }
 
@@ -765,8 +766,8 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public void makePhoneCall(final View view) {
-        if (!com.doctor.sun.im.Messenger.getInstance().isRIMLogin()) {
-            com.doctor.sun.im.Messenger.getInstance().login();
+        if (!IMManager.getInstance().isRIMLogin()) {
+            IMManager.getInstance().login();
         }
 
         String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.VIBRATE};
@@ -778,7 +779,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                     @Override
                     public void onGetUserState(ECError ecError, ECUserState ecUserState) {
                         if (ecUserState != null && ecUserState.isOnline()) {
-                            com.doctor.sun.im.Messenger.getInstance().makePhoneCall(sendTo);
+                            IMManager.getInstance().makePhoneCall(sendTo);
                             Intent i = VoIPCallActivity.makeIntent(view.getContext(), VoIPCallActivity.CALLING, sendTo);
                             view.getContext().startActivity(i);
                         } else {
@@ -804,7 +805,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             // 创建回拨呼叫参数信息
             ECVoIPCallManager.CallBackEntity callBackEntity = new ECVoIPCallManager.CallBackEntity();
             // 设置Tony的电话号码
-            ImAccount account = com.doctor.sun.im.Messenger.getVoipAccount();
+            ImAccount account = IMManager.getVoipAccount();
             if (account == null) {
                 return;
             }
