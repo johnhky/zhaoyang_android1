@@ -1,10 +1,12 @@
 package com.doctor.sun.ui.activity;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.DownloadUtil;
 import com.doctor.sun.util.MD5;
 import com.doctor.sun.util.NotificationUtil;
+import com.doctor.sun.util.PermissionUtil;
 import com.squareup.otto.Subscribe;
 
 import java.io.File;
@@ -33,6 +36,7 @@ public class FileDetailActivity extends BaseActivity2 {
     public static final String EXTENSION = "EXTENSION";
     public static final String URL = "URL";
     public static final String DURATION = "DURATION";
+    public static final String[] STORAGE_PERMISSIONS = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private ActivityFileDetailBinding binding;
 
     public static Intent makeIntent(Context context, String extension, String url, long duration) {
@@ -56,14 +60,41 @@ public class FileDetailActivity extends BaseActivity2 {
         binding.btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File file = getFile();
                 if (!isDownloaded()) {
-                    DownloadUtil.downLoadFile(getUrl(), file, new DownloadFinishCallback());
+                    if (haveStoragePermission()) {
+                        downloadFile();
+                    } else {
+                        requestStoragePermission();
+                    }
                 } else {
-                    openFile(file);
+                    openFile();
                 }
             }
+
         });
+    }
+
+    private void downloadFile() {
+        DownloadUtil.downLoadFile(getUrl(), getFile(), new DownloadFinishCallback());
+    }
+
+    private boolean haveStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return PermissionUtil.hasSelfPermission(this, STORAGE_PERMISSIONS);
+        } else {
+            return true;
+        }
+    }
+
+    private void requestStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(STORAGE_PERMISSIONS, 100);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void initView() {
@@ -91,7 +122,7 @@ public class FileDetailActivity extends BaseActivity2 {
     public void onDownloadProgress(ProgressEvent event) {
         if (event.getTotalLength() == event.getTotalRead()) {
             NotificationUtil.onFinishDownloadFile(getOpenFileIntent(getFile()));
-        }else {
+        } else {
             NotificationUtil.showNotification(event.getTotalRead(), event.getTotalLength());
         }
     }
@@ -112,12 +143,12 @@ public class FileDetailActivity extends BaseActivity2 {
         return getFile().length() == getLongExtra(DURATION, 0);
     }
 
-    public void openFile(File file) {
+    public void openFile() {
         try {
-            Intent intent = getOpenFileIntent(file);
+            Intent intent = getOpenFileIntent(getFile());
 
             startActivity(intent);
-        }catch (ActivityNotFoundException e) {
+        } catch (ActivityNotFoundException e) {
             Toast.makeText(FileDetailActivity.this, "无法打开文件", Toast.LENGTH_SHORT).show();
         }
     }

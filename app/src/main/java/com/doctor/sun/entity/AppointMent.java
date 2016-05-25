@@ -134,6 +134,8 @@ public class Appointment implements LayoutId, Parcelable {
     private String endTime;
     @JsonProperty("order_status")
     private String orderStatus;
+    @JsonProperty("need_pay")
+    private String needPay;
     @JsonProperty("medical_record")
     private MedicalRecord medicalRecord;
     @JsonProperty("doctor")
@@ -516,6 +518,14 @@ public class Appointment implements LayoutId, Parcelable {
         this.patientAvatar = patientAvatar;
     }
 
+    public String getNeedPay() {
+        return needPay;
+    }
+
+    public void setNeedPay(String needPay) {
+        this.needPay = needPay;
+    }
+
     @Override
     public String toString() {
         return "Appointment{" +
@@ -611,6 +621,7 @@ public class Appointment implements LayoutId, Parcelable {
         dest.writeParcelable(this.returnInfo, flags);
         dest.writeParcelable(this.urgentRecord, flags);
         dest.writeString(this.patientAvatar);
+        dest.writeString(this.needPay);
     }
 
     protected Appointment(Parcel in) {
@@ -658,6 +669,7 @@ public class Appointment implements LayoutId, Parcelable {
         this.returnInfo = in.readParcelable(ReturnInfo.class.getClassLoader());
         this.urgentRecord = in.readParcelable(MedicalRecord.class.getClassLoader());
         this.patientAvatar = in.readString();
+        this.needPay = in.readString();
     }
 
     public static final Creator<Appointment> CREATOR = new Creator<Appointment>() {
@@ -685,7 +697,7 @@ public class Appointment implements LayoutId, Parcelable {
 
         if (tid != that.tid) {
             return false;
-        }else {
+        } else {
             return true;
         }
 

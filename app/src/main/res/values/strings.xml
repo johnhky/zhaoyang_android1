@@ -14,6 +14,7 @@
     <string name="patient_info">%1$s&#160;&#160;&#160;&#160;&#160;%2$s</string>
     <string name="orange_money"><![CDATA[<font color=\'#f76d02\'>￥%s</font>]]></string>
     <string name="money">诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color="#f76d02">￥%s</font>]]></string>
+    <string name="need_pay">实付诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color="#f76d02">￥%s</font>]]></string>
     <string name="extra_money">追加诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color=\'#f76d02\'>￥%d</font>]]></string>
     <string name="current_money">当前诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color=\'#f76d02\'>￥%s</font>]]></string>
     <string name="should_pay">应支付诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color=\'#f76d02\'>￥%d</font>]]></string>
