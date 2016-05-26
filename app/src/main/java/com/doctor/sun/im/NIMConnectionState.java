@@ -39,7 +39,6 @@ public class NIMConnectionState implements RequestCallback {
 
     @Override
     public void onSuccess(Object o) {
-        registerMsgObserver();
         NIMClient.getService(AuthServiceObserver.class).observeLoginSyncDataStatus(new LoginSyncStatusObserver(), true);
         CustomAttachParser msgAttachmentParser = new CustomAttachParser();
         NIMClient.getService(MsgService.class).registerCustomAttachmentParser(msgAttachmentParser);
@@ -49,17 +48,7 @@ public class NIMConnectionState implements RequestCallback {
         }
     }
 
-    private void registerMsgObserver() {
-        MsgStatusObserver msgStatusObserver = new MsgStatusObserver();
-        ReceiveMsgObserver receiveMsgObserver = new ReceiveMsgObserver();
-        AttachmentProgressObserver progressObserver = new AttachmentProgressObserver();
 
-
-        MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
-        service.observeReceiveMessage(receiveMsgObserver, true);
-        service.observeMsgStatus(msgStatusObserver, true);
-        service.observeAttachmentProgress(progressObserver, true);
-    }
 
     @Override
     public void onFailed(int i) {

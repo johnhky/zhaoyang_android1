@@ -11,10 +11,14 @@ import com.bumptech.glide.MemoryCategory;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.bean.Province;
 import com.doctor.sun.im.AVChatHandler;
+import com.doctor.sun.im.observer.AttachmentProgressObserver;
+import com.doctor.sun.im.observer.MsgStatusObserver;
+import com.doctor.sun.im.observer.ReceiveMsgObserver;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.util.CrashHandler;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
+import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.squareup.otto.Subscribe;
 import com.yuntongxun.ecsdk.ECDevice;
 
@@ -35,7 +39,7 @@ import io.realm.RealmSchema;
 
 /**
  * App 上下文环境
- * <p/>
+ * <p>
  * Created by Tony on 9/30/15.
  */
 public class AppContext extends BaseApp {
@@ -67,6 +71,7 @@ public class AppContext extends BaseApp {
                 OpenSDK.initProduct(this);
             }
 
+            registerMsgObserver();
             AVChatHandler.getInstance().enableAVChat();
 
             JPushInterface.init(this);
@@ -89,6 +94,18 @@ public class AppContext extends BaseApp {
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
+    }
+
+    private void registerMsgObserver() {
+        MsgStatusObserver msgStatusObserver = new MsgStatusObserver();
+        ReceiveMsgObserver receiveMsgObserver = new ReceiveMsgObserver();
+        AttachmentProgressObserver progressObserver = new AttachmentProgressObserver();
+
+
+        MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
+        service.observeReceiveMessage(receiveMsgObserver, true);
+        service.observeMsgStatus(msgStatusObserver, true);
+        service.observeAttachmentProgress(progressObserver, true);
     }
 
     public static void initMessenger() {
