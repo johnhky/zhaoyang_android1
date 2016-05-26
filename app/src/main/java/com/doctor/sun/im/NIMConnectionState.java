@@ -2,30 +2,19 @@ package com.doctor.sun.im;
 
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
-import com.doctor.sun.im.custom.CustomAttachment;
-import com.doctor.sun.im.custom.StickerAttachment;
-import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.im.observer.AttachmentProgressObserver;
+import com.doctor.sun.im.observer.LoginSyncStatusObserver;
+import com.doctor.sun.im.observer.MsgStatusObserver;
+import com.doctor.sun.im.observer.ReceiveMsgObserver;
 import com.doctor.sun.util.NotificationUtil;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
-import com.netease.nimlib.sdk.auth.constant.LoginSyncStatus;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
-import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
-import com.netease.nimlib.sdk.msg.attachment.MsgAttachmentParser;
-import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
-import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
-import com.netease.nimlib.sdk.msg.model.AttachmentProgress;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -38,9 +27,6 @@ public class NIMConnectionState implements RequestCallback {
     public static final int THIRTY_MINUTES = 1000 * 60 * 30;
     public static final int FIVE_MB = 5242880;
     private static NIMConnectionState instance;
-    private ReceiveMsgObserver receiveMsgObserver;
-    private MsgStatusObserver msgStatusObserver;
-    private CustomAttachParser msgAttachmentParser;
     private RequestCallback callback = null;
 
     public static NIMConnectionState getInstance() {
@@ -53,28 +39,26 @@ public class NIMConnectionState implements RequestCallback {
 
     @Override
     public void onSuccess(Object o) {
-        msgStatusObserver = new MsgStatusObserver();
-        receiveMsgObserver = new ReceiveMsgObserver();
-        MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
-        service.observeReceiveMessage(receiveMsgObserver, true);
-        service.observeMsgStatus(msgStatusObserver, true);
-        service.observeAttachmentProgress(new AttachmentProgressObserver(), true);
-        NIMClient.getService(AuthServiceObserver.class).observeLoginSyncDataStatus(new Observer<LoginSyncStatus>() {
-            @Override
-            public void onEvent(LoginSyncStatus status) {
-                if (status == LoginSyncStatus.BEGIN_SYNC) {
-                } else if (status == LoginSyncStatus.SYNC_COMPLETED) {
-                } else {
-                    IMManager.getInstance().login();
-                }
-            }
-        }, true);
-        msgAttachmentParser = new CustomAttachParser();
+        registerMsgObserver();
+        NIMClient.getService(AuthServiceObserver.class).observeLoginSyncDataStatus(new LoginSyncStatusObserver(), true);
+        CustomAttachParser msgAttachmentParser = new CustomAttachParser();
         NIMClient.getService(MsgService.class).registerCustomAttachmentParser(msgAttachmentParser);
         if (callback != null) {
             callback.onSuccess(o);
             callback = null;
         }
+    }
+
+    private void registerMsgObserver() {
+        MsgStatusObserver msgStatusObserver = new MsgStatusObserver();
+        ReceiveMsgObserver receiveMsgObserver = new ReceiveMsgObserver();
+        AttachmentProgressObserver progressObserver = new AttachmentProgressObserver();
+
+
+        MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
+        service.observeReceiveMessage(receiveMsgObserver, true);
+        service.observeMsgStatus(msgStatusObserver, true);
+        service.observeAttachmentProgress(progressObserver, true);
     }
 
     @Override
@@ -144,96 +128,8 @@ public class NIMConnectionState implements RequestCallback {
         });
     }
 
-    private static class MsgStatusObserver implements Observer<IMMessage> {
-        @Override
-        public void onEvent(IMMessage imMessage) {
-            if (imMessage.getMsgType().equals(MsgTypeEnum.audio)) {
-                if (imMessage.getStatus().equals(MsgStatusEnum.read)) {
-                    saveMsg(imMessage, true);
-                } else {
-                    if (imMessage.getDirect().equals(MsgDirectionEnum.In)) {
-                        boolean haveRead = passThirtyMinutes(imMessage);
-                        saveMsg(imMessage, haveRead);
-                    } else {
-                        saveMsg(imMessage, true);
-                    }
-                }
-            } else {
-                saveMsg(imMessage, true);
-            }
-        }
-    }
-
-    private static class ReceiveMsgObserver implements Observer<List<IMMessage>> {
-        @Override
-        public void onEvent(List<IMMessage> imMessages) {
-            for (IMMessage imMessage : imMessages) {
-                boolean haveRead = passThirtyMinutes(imMessage);
-                saveMsg(imMessage, haveRead);
-            }
-        }
-    }
-
-    private static boolean passThirtyMinutes(IMMessage imMessage) {
+    public static boolean passThirtyMinutes(IMMessage imMessage) {
         return System.currentTimeMillis() - imMessage.getTime() > THIRTY_MINUTES;
     }
 
-    /**
-     * Created by rick on 11/4/2016.
-     */
-    public static class CustomAttachParser implements MsgAttachmentParser {
-        private static CustomAttachParser instance;
-
-        public static CustomAttachParser getInstance() {
-            if (instance == null) {
-                instance = new CustomAttachParser();
-            }
-            return instance;
-        }
-
-        private static final String KEY_TYPE = "type";
-        private static final String KEY_DATA = "data";
-
-        @Override
-        public MsgAttachment parse(String json) {
-            try {
-                JSONObject object = new JSONObject(json);
-
-                int type = object.getInt(KEY_TYPE);
-//                JSONObject data = object.getJSONObject(KEY_DATA);
-                switch (type) {
-                    case TextMsg.Sticker: {
-                        JavaType javaType = TypeFactory.defaultInstance()
-                                .constructParametricType(CustomAttachment.class, StickerAttachment.class);
-                        return JacksonUtils.<CustomAttachment<StickerAttachment>>fromJson(object.toString(), javaType);
-                    }
-                    case TextMsg.Drug: {
-                        CustomAttachment<JSONObject> customAttachment = new CustomAttachment<>();
-                        customAttachment.setType(TextMsg.Drug);
-                        customAttachment.setData(object.getJSONObject("data"));
-                        return customAttachment;
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
-            return null;
-        }
-    }
-
-    private static class AttachmentProgressObserver implements Observer<AttachmentProgress> {
-        @Override
-        public void onEvent(AttachmentProgress attachmentProgress) {
-            if (attachmentProgress.getTotal() > FIVE_MB) {
-                if (attachmentProgress.getTransferred() == attachmentProgress.getTotal()) {
-                    NotificationUtil.cancelUploadMsg();
-                } else {
-                    int transferred = (int) (attachmentProgress.getTransferred() / 1000);
-                    int total = (int) (attachmentProgress.getTotal() / 1000);
-                    NotificationUtil.showUploadProgress(transferred, total);
-                }
-            }
-        }
-    }
 }

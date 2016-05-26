@@ -101,6 +101,7 @@ public class ConsultingFragment extends RefreshListFragment {
             adapter.mapLayout(R.layout.item_appointment, R.layout.item_consulting);
             initHeader(AuthModule.DOCTOR_TYPE);
         }
+        adapter.addAll(headers);
         return adapter;
     }
 

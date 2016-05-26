@@ -61,7 +61,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         // }  
         // });  
 
-        api.crashLog(ex.toString()).enqueue(new Callback<ApiDTO<Void>>() {
+        api.crashLog(JacksonUtils.toJson(ex)).enqueue(new Callback<ApiDTO<Void>>() {
             @Override
             public void onResponse(Call<ApiDTO<Void>> call, Response<ApiDTO<Void>> response) {
 
