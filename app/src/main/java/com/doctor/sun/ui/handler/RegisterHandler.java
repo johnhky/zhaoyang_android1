@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Token;
 import com.doctor.sun.http.Api;
@@ -18,6 +19,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
+import com.doctor.sun.ui.activity.patient.MainActivity;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
 import com.doctor.sun.util.MD5;
 
@@ -91,7 +93,8 @@ public class RegisterHandler extends BaseHandler {
     private void registerPatientSuccess(Token response) {
         if (response != null) {
             TokenCallback.handleToken(response);
-            new AddMedicalRecordDialog(getContext(),true).show();
+            Intent i = MainActivity.makeIntent(getContext());
+            getContext().startActivity(i);
         }
     }
 

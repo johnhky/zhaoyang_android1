@@ -65,12 +65,12 @@ public class EditPrescriptionActivity extends BaseActivity2 {
         HeaderViewModel header = new HeaderViewModel(this);
         header.setLeftIcon(R.drawable.ic_back).setMidTitle("添加/编辑用药").setRightTitle("确定");
         binding.setHeader(header);
-        binding.setStopTakingMedicine(new ItemButton(-1, "停止用药") {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+//        binding.setStopTakingMedicine(new ItemButton(-1, "停止用药") {
+//            @Override
+//            public void onClick(View view) {
+//                finish();
+//            }
+//        });
         binding.medicineName.setTitle("药名/成分名");
         binding.goodsName.setTitle("商品名");
         binding.goodsName.setHint("(选填)");

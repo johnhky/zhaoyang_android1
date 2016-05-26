@@ -3,7 +3,6 @@ package com.doctor.sun.ui.model;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -362,7 +361,7 @@ public class DiagnosisViewModel {
 
         if (doctor != null && (returnType == 3)) {
             result.put("doctorRequire", String.valueOf(doctor.getId()));
-            result.put("comment", binding.msgToDoctor.etOthers.getText().toString());
+//            result.put("comment", binding.msgToDoctor.etOthers.getText().toString());
         } else if (returnType == 3) {
 //            result.put("comment", binding.mission.etInput.getText().toString());
         }

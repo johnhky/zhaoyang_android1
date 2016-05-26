@@ -238,13 +238,13 @@ public class DiagnosisFragment extends Fragment {
             viewModel.getChooseDoctor().setVisible(true);
             binding.itemDoctor.getRoot().setVisibility(View.GONE);
             binding.itemTransferTo.getRoot().setVisibility(View.GONE);
-            binding.msgToDoctor.getRoot().setVisibility(View.GONE);
+//            binding.msgToDoctor.getRoot().setVisibility(View.GONE);
         } else {
             binding.llyTransfer.setVisibility(View.VISIBLE);
             viewModel.getChooseDoctor().setVisible(false);
             binding.itemDoctor.getRoot().setVisibility(View.VISIBLE);
             binding.itemTransferTo.getRoot().setVisibility(View.VISIBLE);
-            binding.msgToDoctor.getRoot().setVisibility(View.VISIBLE);
+//            binding.msgToDoctor.getRoot().setVisibility(View.VISIBLE);
             binding.itemDoctor.setData(doctor);
         }
         binding.llyTransfer.setVisibility(View.VISIBLE);

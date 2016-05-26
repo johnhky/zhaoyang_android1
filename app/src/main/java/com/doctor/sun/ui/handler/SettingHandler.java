@@ -184,6 +184,8 @@ public class SettingHandler extends BaseHandler {
                 Config.putString(Constants.TOKEN, null);
                 Config.putInt(Constants.USER_TYPE, -1);
                 Config.putString(Constants.VOIP_ACCOUNT, "");
+                Config.putString(Constants.PATIENT_PROFILE, null);
+                Config.putString(Constants.DOCTOR_PROFILE, null);
                 Intent intent = LoginActivity.makeIntent(view.getContext());
                 IMManager.getInstance().logout();
                 view.getContext().startActivity(intent);

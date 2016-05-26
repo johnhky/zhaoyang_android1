@@ -34,24 +34,24 @@
             android:layout_width="@dimen/dp_333"
             android:layout_height="@dimen/dp_60"
             android:layout_marginTop="@dimen/dp_29"
-            android:orientation="vertical"
+            android:background="@drawable/bg_line_blue"
             android:gravity="center"
-            android:background="@drawable/bg_line_blue">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="周一至周五  早上9:30 -下午6:00"
                 android:textColor="#339de1"
-                android:textSize="@dimen/font_14"
-                android:text="周一至周五  早上9:30 -下午6:00"/>
+                android:textSize="@dimen/font_14" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="客服电话：020 - 81212600"
                 android:layout_marginTop="@dimen/dp_10"
+                android:text="客服电话：400-835-2600"
                 android:textColor="#339de1"
-                android:textSize="@dimen/font_14"/>
+                android:textSize="@dimen/font_14" />
 
         </LinearLayout>
 

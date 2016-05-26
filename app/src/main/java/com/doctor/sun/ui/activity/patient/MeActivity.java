@@ -12,6 +12,7 @@ import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.activity.patient.handler.MeHandler;
@@ -67,9 +68,7 @@ public class MeActivity extends BaseActivity2 {
     }
 
     public Patient getData() {
-        String json = Config.getString(Constants.PATIENT_PROFILE);
-        PatientDTO patient = JacksonUtils.fromJson(json, PatientDTO.class);
-        return patient.getInfo();
+        return TokenCallback.getPatientProfile();
     }
 
     @Override

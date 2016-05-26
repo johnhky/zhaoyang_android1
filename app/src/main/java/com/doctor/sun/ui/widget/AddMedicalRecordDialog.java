@@ -1,16 +1,18 @@
 package com.doctor.sun.ui.widget;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.DialogRecordTypeBinding;
-import com.doctor.sun.entity.Patient;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.ui.activity.patient.EditRecordActivity;
 
 /**
@@ -18,9 +20,9 @@ import com.doctor.sun.ui.activity.patient.EditRecordActivity;
  */
 public class AddMedicalRecordDialog {
     private final boolean isRegister;
-    private Context context;
+    private Activity context;
 
-    public AddMedicalRecordDialog(Context context,boolean isRegister) {
+    public AddMedicalRecordDialog(Activity context, boolean isRegister) {
         this.context = context;
         this.isRegister = isRegister;
     }
@@ -40,14 +42,14 @@ public class AddMedicalRecordDialog {
                     }
                     case R.id.tv_self: {
                         Intent intent = EditRecordActivity.makeIntent(context, EditRecordActivity.TYPE_SELF, isRegister);
+                        intent.putExtra(Constants.HANDLER, getMessenger(dialog));
                         context.startActivity(intent);
-                        dialog.dismiss();
                         break;
                     }
                     case R.id.tv_relative: {
                         Intent intent = EditRecordActivity.makeIntent(context, EditRecordActivity.TYPE_OTHERS, isRegister);
+                        intent.putExtra(Constants.HANDLER, getMessenger(dialog));
                         context.startActivity(intent);
-                        dialog.dismiss();
                         break;
                     }
                 }
@@ -56,6 +58,21 @@ public class AddMedicalRecordDialog {
         binding.tvCancel.setOnClickListener(listener);
         binding.tvSelf.setOnClickListener(listener);
         binding.tvRelative.setOnClickListener(listener);
+        if (isRegister) {
+            binding.tvCancel.setVisibility(View.GONE);
+            dialog.setCancelable(false);
+        }
         dialog.show();
+    }
+
+    @NonNull
+    private Messenger getMessenger(final Dialog dialog) {
+        return new Messenger(new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                dialog.dismiss();
+                return false;
+            }
+        }));
     }
 }

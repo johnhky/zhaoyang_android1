@@ -176,10 +176,10 @@
                     layout="@layout/item_transfer_doctor"
                     bind:data="@{data.doctor}" />
 
-                <include
-                    android:id="@+id/msg_to_doctor"
-                    layout="@layout/item_text_input4"
-                    bind:hint="@{@string/comment}" />
+                <!--<include-->
+                    <!--android:id="@+id/msg_to_doctor"-->
+                    <!--layout="@layout/item_text_input4"-->
+                    <!--bind:hint="@{@string/comment}" />-->
 
                 <View
                     android:layout_width="match_parent"

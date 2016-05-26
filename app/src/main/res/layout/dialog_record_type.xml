@@ -21,7 +21,7 @@
             android:layout_gravity="bottom|center_horizontal"
             android:background="@drawable/ripple_default"
             android:gravity="center"
-            android:text="本人"
+            android:text="建立本人病历"
             android:textColor="#349de1"
             android:textSize="@dimen/font_15" />
 
@@ -37,7 +37,7 @@
             android:layout_gravity="bottom|center_horizontal"
             android:background="@drawable/ripple_default"
             android:gravity="center"
-            android:text="亲友"
+            android:text="建立亲友病历"
             android:textColor="#349de1"
             android:textSize="@dimen/font_15" />
 

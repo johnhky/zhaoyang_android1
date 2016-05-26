@@ -136,10 +136,11 @@ public class DiagnosisReadOnlyFragment extends Fragment {
                     resultBinding.flMedicine.setVisibility(View.VISIBLE);
                     if (response.getPrescription() != null) {
                         setPrescription(response.getPrescription());
-                    } else {
-                        //停止用药
-                        resultBinding.flMedicine.addView(getSingleText("停止用药"));
                     }
+//                    } else {
+//                        //停止用药
+//                        resultBinding.flMedicine.addView(getSingleText("停止用药"));
+//                    }
 
                     //处理支付
 //                    setPay(response);

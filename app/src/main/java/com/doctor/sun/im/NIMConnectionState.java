@@ -12,6 +12,8 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusCode;
+import com.netease.nimlib.sdk.auth.AuthServiceObserver;
+import com.netease.nimlib.sdk.auth.constant.LoginSyncStatus;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
@@ -57,17 +59,14 @@ public class NIMConnectionState implements RequestCallback {
         observer1 = new IMMessageObserver();
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
         service.observeMsgStatus(observer1, true);
-        service.observeAttachmentProgress(new Observer<AttachmentProgress>() {
+        service.observeAttachmentProgress(new AttachmentProgressObserver(), true);
+        NIMClient.getService(AuthServiceObserver.class).observeLoginSyncDataStatus(new Observer<LoginSyncStatus>() {
             @Override
-            public void onEvent(AttachmentProgress attachmentProgress) {
-                if (attachmentProgress.getTotal() > FIVE_MB) {
-                    if (attachmentProgress.getTransferred() == attachmentProgress.getTotal()) {
-                        NotificationUtil.cancelUploadMsg();
-                    } else {
-                        int transferred = (int) (attachmentProgress.getTransferred() / 1000);
-                        int total = (int) (attachmentProgress.getTotal() / 1000);
-                        NotificationUtil.showUploadProgress(transferred, total);
-                    }
+            public void onEvent(LoginSyncStatus status) {
+                if (status == LoginSyncStatus.BEGIN_SYNC) {
+                } else if (status == LoginSyncStatus.SYNC_COMPLETED) {
+                } else {
+                    IMManager.getInstance().login();
                 }
             }
         }, true);
@@ -221,6 +220,21 @@ public class NIMConnectionState implements RequestCallback {
                 return null;
             }
             return null;
+        }
+    }
+
+    private static class AttachmentProgressObserver implements Observer<AttachmentProgress> {
+        @Override
+        public void onEvent(AttachmentProgress attachmentProgress) {
+            if (attachmentProgress.getTotal() > FIVE_MB) {
+                if (attachmentProgress.getTransferred() == attachmentProgress.getTotal()) {
+                    NotificationUtil.cancelUploadMsg();
+                } else {
+                    int transferred = (int) (attachmentProgress.getTransferred() / 1000);
+                    int total = (int) (attachmentProgress.getTotal() / 1000);
+                    NotificationUtil.showUploadProgress(transferred, total);
+                }
+            }
         }
     }
 }

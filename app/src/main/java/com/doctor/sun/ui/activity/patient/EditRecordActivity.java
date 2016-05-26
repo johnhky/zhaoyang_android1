@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.City;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.bean.Province;
 import com.doctor.sun.databinding.ActivityAddMedicalRecordBinding;
 import com.doctor.sun.ui.activity.GetLocationActivity;
@@ -191,12 +195,18 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
 
     @Override
     public void onSelfRecordAdded() {
-        if (isFirstTime()) {
-            Intent intent = MainActivity.makeIntent(this);
-            startActivity(intent);
-        }
         ToastHelper.showMessage(this, "新建成功");
+        sendCallbackMsg();
         finish();
+    }
+
+    private void sendCallbackMsg() {
+        Messenger messenger = getIntent().getParcelableExtra(Constants.HANDLER);
+        try {
+            messenger.send(Message.obtain());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
