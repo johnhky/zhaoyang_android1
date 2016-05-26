@@ -186,19 +186,6 @@ public interface AppointmentModule {
     Call<ApiDTO<WeChatPayDTO>> buildWeChatOrder(@Field("appointmentId") int id,
                                                 @Field("type") String type, @Field("couponId") String couponId);
 
-    /**
-     * @param type 'alipay'或'wechat'(微信app支付)或'wechat_js'(微信公众号支付)。不传默认值为'alipay'
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("pay/build-order")
-    Call<ApiDTO<String>> rechargeOrderWithAlipay(@Field("totalFee") int totalFee, @Field("body") String body,
-                                                 @Field("type") String type);
-
-    @FormUrlEncoded
-    @POST("pay/build-order")
-    Call<ApiDTO<WeChatPayDTO>> rechargeOrderWithWechat(@Field("totalFee") int totalFee, @Field("body") String body,
-                                                       @Field("type") String type);
 
     /**
      * @param type 'alipay'或'wechat'(微信app支付)或'wechat_js'(微信公众号支付)。不传默认值为'alipay'
@@ -206,13 +193,13 @@ public interface AppointmentModule {
      */
     @FormUrlEncoded
     @POST("pay/build-order")
-    Call<ApiDTO<String>> drugOrder(@Field("totalFee") int totalFee, @Field("body") String body,
-                                   @Field("type") String type, @Field("drugOrderId") int drugOrderId);
+    Call<ApiDTO<String>> buildAlipayGoodsOrder(@Field("totalFee") String totalFee,
+                                               @Field("type") String type, @FieldMap HashMap<String, String> extraField);
 
     @FormUrlEncoded
     @POST("pay/build-order")
-    Call<ApiDTO<WeChatPayDTO>> drugOrderWithWechat(@Field("totalFee") int totalFee, @Field("body") String body,
-                                                   @Field("type") String type, @Field("drugOrderId") int drugOrderId);
+    Call<ApiDTO<WeChatPayDTO>> buildWeChatGoodsOrder(@Field("totalFee") String totalFee,
+                                                     @Field("type") String type, @FieldMap HashMap<String, String> extraField);
 
     @GET("appointment/doctor-appoint-list")
     Call<ApiDTO<PageDTO<Appointment>>> doctorAppointment(@Query("page") String page, @Query("orderType") String orderType);

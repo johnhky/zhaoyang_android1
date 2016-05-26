@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ItemOptions2Binding;
-import com.doctor.sun.databinding.ItemOptionsBinding;
 import com.doctor.sun.databinding.ItemQuestionBinding;
 import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Question;
@@ -15,7 +14,6 @@ import com.doctor.sun.ui.activity.doctor.AddTemplateActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by lucas on 12/16/15.
@@ -46,7 +44,7 @@ public class QuestionAdapter extends SimpleAdapter<Question, ItemQuestionBinding
             for (Options options : optionsList) {
                 ItemOptions2Binding optionsBinding = ItemOptions2Binding.inflate(LayoutInflater.from(getContext()), (ViewGroup) binding.getRoot(), false);
                 binding.llyOptions.addView(optionsBinding.getRoot());
-                if (!Objects.equals(options.getOptionContent(), "{fill}")) {
+                if (!"{fill}".equals(options.getOptionContent())) {
                     optionsBinding.tvOption.setText(options.getOptionType() + "." + options.getOptionContent());
                 } else {
                     optionsBinding.tvOption.setText(options.getOptionType() + "." + "描述性回答");

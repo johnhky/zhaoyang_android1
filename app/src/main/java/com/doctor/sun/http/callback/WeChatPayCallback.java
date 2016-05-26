@@ -15,6 +15,8 @@ import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import java.util.HashMap;
+
 import retrofit2.Call;
 
 /**
@@ -62,7 +64,7 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
         WXPayEntryActivity.setCallback(mCallback);
     }
 
-    public WeChatPayCallback(final Activity activity, final int money) {
+    public WeChatPayCallback(final Activity activity, final String money, final HashMap<String, String> extraField) {
         this.activity = activity;
         mCallback = new PayCallback() {
             @Override
@@ -73,7 +75,7 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
 
             @Override
             public void onPayFail() {
-                Intent intent = PayFailActivity.makeIntent(activity, money, "wechat");
+                Intent intent = PayFailActivity.makeIntent(activity, money, true, extraField);
                 activity.startActivity(intent);
             }
         };
@@ -100,7 +102,8 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
     @Override
     public void onFailure(Call<ApiDTO<WeChatPayDTO>> call, Throwable t) {
         super.onFailure(call, t);
-        if (t.getLocalizedMessage().contains("finish_pay")) {
+        String localizedMessage = t.getLocalizedMessage();
+        if (localizedMessage != null && localizedMessage.contains("finish_pay")) {
             mCallback.onPaySuccess();
         }
     }

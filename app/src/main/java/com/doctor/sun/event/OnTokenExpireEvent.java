@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.ui.activity.LoginActivity;
+import com.doctor.sun.ui.handler.SettingHandler;
 import com.squareup.otto.Subscribe;
 
 import java.util.Set;
@@ -42,6 +43,7 @@ public class OnTokenExpireEvent implements Event {
             Toast.makeText(context, "帐号登录过期,请重新登录", Toast.LENGTH_LONG).show();
             IMManager.getInstance().logout();
 
+            SettingHandler.clearUserData();
             Intent intent = LoginActivity.makeIntent(context);
             context.startActivity(intent);
             AppManager.finishAllActivity();

@@ -19,6 +19,8 @@ import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.handler.EmergencyCallHandler;
 
+import java.util.HashMap;
+
 import io.ganguo.library.AppManager;
 
 /**
@@ -27,7 +29,7 @@ import io.ganguo.library.AppManager;
 public class PayFailActivity extends BaseActivity2 implements View.OnClickListener {
     public static final int URGENT_CALL = 1;
     public static final int APPOINTMENT = 2;
-    public static final int VOIP_PAY = 3;
+    public static final int OTHERS = 3;
     private AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
 
     private PActivityPayFailBinding binding;
@@ -48,11 +50,12 @@ public class PayFailActivity extends BaseActivity2 implements View.OnClickListen
         return i;
     }
 
-    public static Intent makeIntent(Context context, int money, String payType) {
+    public static Intent makeIntent(Context context, String money, boolean payWithWeChat, HashMap<String, String> goods) {
         Intent i = new Intent(context, PayFailActivity.class);
-        i.putExtra(Constants.TYPE, VOIP_PAY);
-        i.putExtra(Constants.PAYTYPE, payType);
+        i.putExtra(Constants.TYPE, OTHERS);
+        i.putExtra(Constants.PAY_METHOD, payWithWeChat);
         i.putExtra(Constants.MONEY, money);
+        i.putExtra(Constants.EXTRA_FIELD, goods);
         return i;
     }
 
@@ -68,8 +71,12 @@ public class PayFailActivity extends BaseActivity2 implements View.OnClickListen
         return getIntent().getBooleanExtra(Constants.PAY_METHOD, true);
     }
 
-    private String getPayType() {
-        return getIntent().getStringExtra(Constants.PAYTYPE);
+    private String getMoney() {
+        return getIntent().getStringExtra(Constants.MONEY);
+    }
+
+    private HashMap<String, String> getExtraField() {
+        return (HashMap<String, String>) getIntent().getSerializableExtra(Constants.EXTRA_FIELD);
     }
 
     @Override
@@ -108,16 +115,15 @@ public class PayFailActivity extends BaseActivity2 implements View.OnClickListen
                         }
                         break;
                     }
-                    case VOIP_PAY: {
-                        switch (getPayType()) {
-                            case "wechat":
-                                appointmentModule.rechargeOrderWithWechat(getIntent().getIntExtra(Constants.MONEY, -1), "im recharge", "wechat")
-                                        .enqueue(new WeChatPayCallback(this, getIntent().getIntExtra(Constants.MONEY, -1)));
-                                break;
-                            case "alipay":
-                                appointmentModule.rechargeOrderWithAlipay(getIntent().getIntExtra(Constants.MONEY, -1), "im recharge", "alipay")
-                                        .enqueue(new AlipayCallback(this, getIntent().getIntExtra(Constants.MONEY, -1)));
-                                break;
+                    case OTHERS: {
+                        if (shouldPayWithWeChat()) {
+                            appointmentModule.buildWeChatGoodsOrder(getMoney(), "wechat", getExtraField())
+                                    .enqueue(new WeChatPayCallback(this, getMoney(), getExtraField()));
+                            break;
+                        } else {
+                            appointmentModule.buildAlipayGoodsOrder(getMoney(), "alipay", getExtraField())
+                                    .enqueue(new AlipayCallback(this, getMoney(), getExtraField()));
+                            break;
                         }
                     }
                     default: {
@@ -126,4 +132,5 @@ public class PayFailActivity extends BaseActivity2 implements View.OnClickListen
                 }
         }
     }
+
 }

@@ -13,6 +13,8 @@ import com.doctor.sun.ui.activity.patient.PayFailActivity;
 import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
 import com.doctor.sun.util.PayCallback;
 
+import java.util.HashMap;
+
 /**
  * Created by rick on 23/1/2016.
  */
@@ -62,7 +64,7 @@ public class AlipayCallback extends SimpleCallback<String> {
         };
     }
 
-    public AlipayCallback(final Activity activity, final int money) {
+    public AlipayCallback(final Activity activity, final String money, final HashMap<String, String> extraField) {
         this.activity = activity;
         mCallback = new PayCallback() {
             @Override
@@ -73,7 +75,7 @@ public class AlipayCallback extends SimpleCallback<String> {
 
             @Override
             public void onPayFail() {
-                Intent intent = PayFailActivity.makeIntent(activity, money, "alipay");
+                Intent intent = PayFailActivity.makeIntent(activity, money, false, extraField);
                 activity.startActivity(intent);
             }
         };

@@ -38,8 +38,8 @@ public class NIMConnectionState implements RequestCallback {
     public static final int THIRTY_MINUTES = 1000 * 60 * 30;
     public static final int FIVE_MB = 5242880;
     private static NIMConnectionState instance;
-    private statusObserver observer;
-    private IMMessageObserver observer1;
+    private ReceiveMsgObserver receiveMsgObserver;
+    private MsgStatusObserver msgStatusObserver;
     private CustomAttachParser msgAttachmentParser;
     private RequestCallback callback = null;
 
@@ -53,12 +53,11 @@ public class NIMConnectionState implements RequestCallback {
 
     @Override
     public void onSuccess(Object o) {
-        observer = new statusObserver();
-        NIMClient.getService(MsgServiceObserve.class)
-                .observeReceiveMessage(observer, true);
-        observer1 = new IMMessageObserver();
+        msgStatusObserver = new MsgStatusObserver();
+        receiveMsgObserver = new ReceiveMsgObserver();
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
-        service.observeMsgStatus(observer1, true);
+        service.observeReceiveMessage(receiveMsgObserver, true);
+        service.observeMsgStatus(msgStatusObserver, true);
         service.observeAttachmentProgress(new AttachmentProgressObserver(), true);
         NIMClient.getService(AuthServiceObserver.class).observeLoginSyncDataStatus(new Observer<LoginSyncStatus>() {
             @Override
@@ -145,7 +144,7 @@ public class NIMConnectionState implements RequestCallback {
         });
     }
 
-    private static class IMMessageObserver implements Observer<IMMessage> {
+    private static class MsgStatusObserver implements Observer<IMMessage> {
         @Override
         public void onEvent(IMMessage imMessage) {
             if (imMessage.getMsgType().equals(MsgTypeEnum.audio)) {
@@ -165,7 +164,7 @@ public class NIMConnectionState implements RequestCallback {
         }
     }
 
-    private static class statusObserver implements Observer<List<IMMessage>> {
+    private static class ReceiveMsgObserver implements Observer<List<IMMessage>> {
         @Override
         public void onEvent(List<IMMessage> imMessages) {
             for (IMMessage imMessage : imMessages) {

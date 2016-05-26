@@ -20,6 +20,8 @@ import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.PayInterface;
 
+import java.util.HashMap;
+
 import io.ganguo.library.common.ToastHelper;
 
 /**
@@ -78,18 +80,23 @@ public class DrugOrderAdapter extends SimpleAdapter {
                 }
             });
 
+//            final double totalFee = Double.parseDouble(drug.getMoney());
+            final String totalFee = drug.getMoney();
+            final HashMap<String, String> extraField = new HashMap<>();
+            extraField.put("body", "drug order");
+            extraField.put("drugOrderId", String.valueOf(drug.getId()));
             binding.flPay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     new PayMethodDialog(getContext(), new PayInterface() {
                         @Override
                         public void payWithAlipay(Activity activity, String couponId) {
-                            appointmentModule.drugOrder(Integer.parseInt(drug.getMoney()), "drug order", "alipay", drug.getId()).enqueue(new AlipayCallback(activity, Integer.parseInt(drug.getMoney())));
+                            appointmentModule.buildAlipayGoodsOrder(totalFee, "alipay", extraField).enqueue(new AlipayCallback(activity, totalFee, extraField));
                         }
 
                         @Override
                         public void payWithWeChat(Activity activity, String couponId) {
-                            appointmentModule.drugOrderWithWechat(Integer.parseInt(drug.getMoney()), "drug order", "wechat", drug.getId()).enqueue(new WeChatPayCallback(activity, Integer.parseInt(drug.getMoney())));
+                            appointmentModule.buildWeChatGoodsOrder(totalFee, "wechat", extraField).enqueue(new WeChatPayCallback(activity, totalFee, extraField));
                         }
 
                         @Override

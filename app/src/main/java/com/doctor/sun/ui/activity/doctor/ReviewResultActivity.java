@@ -63,7 +63,7 @@ public class ReviewResultActivity extends BaseActivity2 implements View.OnClickL
                 break;
             }
             case R.id.action_edit: {
-                Intent intent = EditDoctorInfoActivity.makeIntent(this,null);
+                Intent intent = EditDoctorInfoActivity.makeIntent(this, getData());
                 startActivity(intent);
                 break;
             }

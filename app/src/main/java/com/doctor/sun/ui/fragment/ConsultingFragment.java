@@ -96,11 +96,10 @@ public class ConsultingFragment extends RefreshListFragment {
         int userType = Config.getInt(Constants.USER_TYPE, -1);
         if (userType == AuthModule.PATIENT_TYPE) {
             adapter.mapLayout(R.layout.item_appointment, R.layout.p_item_consulting);
-            adapter.add(new SystemMsg());
-            adapter.add(new MedicineStore());
+            initHeader(AuthModule.PATIENT_TYPE);
         } else {
             adapter.mapLayout(R.layout.item_appointment, R.layout.item_consulting);
-            adapter.add(new SystemMsg());
+            initHeader(AuthModule.DOCTOR_TYPE);
         }
         return adapter;
     }

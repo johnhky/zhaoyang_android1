@@ -181,11 +181,7 @@ public class SettingHandler extends BaseHandler {
         api.logout(Config.getString(Constants.TOKEN)).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
-                Config.putString(Constants.TOKEN, null);
-                Config.putInt(Constants.USER_TYPE, -1);
-                Config.putString(Constants.VOIP_ACCOUNT, "");
-                Config.putString(Constants.PATIENT_PROFILE, null);
-                Config.putString(Constants.DOCTOR_PROFILE, null);
+                clearUserData();
                 Intent intent = LoginActivity.makeIntent(view.getContext());
                 IMManager.getInstance().logout();
                 view.getContext().startActivity(intent);
@@ -209,5 +205,13 @@ public class SettingHandler extends BaseHandler {
         public void execute(Realm realm) {
             realm.where(TextMsg.class).findAll().deleteAllFromRealm();
         }
+    }
+
+    public static void clearUserData() {
+        Config.putString(Constants.TOKEN, null);
+        Config.putInt(Constants.USER_TYPE, -1);
+        Config.putString(Constants.VOIP_ACCOUNT, "");
+        Config.putString(Constants.PATIENT_PROFILE, null);
+        Config.putString(Constants.DOCTOR_PROFILE, null);
     }
 }

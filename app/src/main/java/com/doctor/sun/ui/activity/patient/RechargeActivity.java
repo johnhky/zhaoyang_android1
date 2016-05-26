@@ -17,6 +17,8 @@ import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 
+import java.util.HashMap;
+
 import io.ganguo.library.common.ToastHelper;
 
 /**
@@ -60,17 +62,20 @@ public class RechargeActivity extends BaseActivity2 {
         binding.tvApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                HashMap<String, String> extraField = new HashMap<String, String>();
+                extraField.put("body", "im recharge");
                 String money = binding.etMoney.getText().toString();
                 if (money.equals("")) {
                     ToastHelper.showMessage(RechargeActivity.this, "请输入充值金额");
                     return;
                 }
+                String totalFee = money + "00";
                 if (binding.rbWechat.isChecked()) {
-                    appointmentModule.rechargeOrderWithWechat(Integer.parseInt(money) * 100, "im recharge", "wechat")
-                            .enqueue(new WeChatPayCallback(RechargeActivity.this, (Integer.parseInt(money) * 100)));
+                    appointmentModule.buildWeChatGoodsOrder(totalFee, "wechat", extraField)
+                            .enqueue(new WeChatPayCallback(RechargeActivity.this, totalFee, extraField));
                 } else {
-                    appointmentModule.rechargeOrderWithAlipay(Integer.parseInt(money) * 100, "im recharge", "alipay")
-                            .enqueue(new AlipayCallback(RechargeActivity.this, (Integer.parseInt(money) * 100)));
+                    appointmentModule.buildAlipayGoodsOrder(totalFee, "alipay", extraField)
+                            .enqueue(new AlipayCallback(RechargeActivity.this, totalFee, extraField));
                 }
             }
         });

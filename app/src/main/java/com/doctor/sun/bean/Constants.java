@@ -17,7 +17,7 @@ public class Constants {
     public static final String TEMPLATE_NAME = "TEMPLATE_NAME";
     public static final String URI = "URI";
     public static final String MONEY = "MONEY";
-    public static final String PAYTYPE = "PAYTYPE";
+    public static final String EXTRA_FIELD = "EXTRA_FIELD";
     public static final String NUMBER = "NUMBER";
 
     public static final String PAY_STATUS = "PAY_STATUS";
