@@ -119,14 +119,14 @@ public class IMManager {
         }
 
         params.reset();
-        //voip账号+voip密码方式：
+        //voip账号+voip密码方式:
         params.setAppKey(BuildConfig.IM_KEY);
         params.setToken(BuildConfig.IM_TOKEN);
         params.setUserid(account.getVoipAccount());
         // 设置登陆验证模式（是否验证密码）PASSWORD_AUTH-密码登录方式
         // 1代表用户名+密码登陆（可以强制上线，踢掉已经在线的设备）
         // 2代表自动重连注册（如果账号已经在其他设备登录则会提示异地登陆）
-        // 3 LoginMode（强制上线：FORCE_LOGIN  默认登录：AUTO）
+        // 3 LoginMode（强制上线:FORCE_LOGIN  默认登录:AUTO）
         if (!account.getVoipPwd().equals("")) {
             params.setPwd(account.getVoipPwd());
         }
@@ -146,7 +146,7 @@ public class IMManager {
         }
 
 
-//        第三步：验证参数是否正确，注册SDK
+//        第三步:验证参数是否正确，注册SDK
         if (params.validate()) {
             // 判断注册参数是否正确
             if (!isRIMLogin()) {

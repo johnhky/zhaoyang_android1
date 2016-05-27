@@ -23,7 +23,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * 好友关系缓存
- * 注意：获取通讯录列表即是根据Friend列表帐号，去取对应的UserInfo
+ * 注意:获取通讯录列表即是根据Friend列表帐号，去取对应的UserInfo
  * <p/>
  * Created by huangjun on 2015/9/14.
  */

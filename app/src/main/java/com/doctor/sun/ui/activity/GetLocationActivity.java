@@ -96,14 +96,14 @@ public abstract class GetLocationActivity extends BaseActivity2 {
                     //监听状态
                     lm.addGpsStatusListener(listener);
                     //绑定监听，有4个参数
-                    //参数1，设备：有GPS_PROVIDER和NETWORK_PROVIDER两种
+                    //参数1，设备:有GPS_PROVIDER和NETWORK_PROVIDER两种
                     //参数2，位置信息更新周期，单位毫秒
-                    //参数3，位置变化最小距离：当位置距离变化超过此值时，将更新位置信息
+                    //参数3，位置变化最小距离:当位置距离变化超过此值时，将更新位置信息
                     //参数4，监听
-                    //备注：参数2和3，如果参数3不为0，则以参数3为准；参数3为0，则通过时间来定时更新；两者为0，则随时刷新
+                    //备注:参数2和3，如果参数3不为0，则以参数3为准；参数3为0，则通过时间来定时更新；两者为0，则随时刷新
 
                     // 1秒更新一次，或最小位移变化超过1米更新一次；
-                    //注意：此处更新准确度非常低，推荐在service里面启动一个Thread，在run中sleep(10000);然后执行handler.sendMessage(),更新位置
+                    //注意:此处更新准确度非常低，推荐在service里面启动一个Thread，在run中sleep(10000);然后执行handler.sendMessage(),更新位置
                     lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, locationListener);
                     //        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, locationListener);
                 } catch (SecurityException e) {
@@ -124,10 +124,10 @@ public abstract class GetLocationActivity extends BaseActivity2 {
          */
         public void onLocationChanged(Location location) {
             updateLocation(location);
-            Log.i(TAG, "时间：" + location.getTime());
-            Log.i(TAG, "经度：" + location.getLongitude());
-            Log.i(TAG, "纬度：" + location.getLatitude());
-            Log.i(TAG, "海拔：" + location.getAltitude());
+            Log.i(TAG, "时间:" + location.getTime());
+            Log.i(TAG, "经度:" + location.getLongitude());
+            Log.i(TAG, "纬度:" + location.getLatitude());
+            Log.i(TAG, "海拔:" + location.getAltitude());
         }
 
         /**
@@ -200,7 +200,7 @@ public abstract class GetLocationActivity extends BaseActivity2 {
                         GpsSatellite s = iters.next();
                         count++;
                     }
-                    Log.e(TAG, "搜索到：" + count + "颗卫星");
+                    Log.e(TAG, "搜索到:" + count + "颗卫星");
                     break;
                 //定位启动
                 case GpsStatus.GPS_EVENT_STARTED:

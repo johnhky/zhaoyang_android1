@@ -422,7 +422,7 @@ public class AVChatActivity extends BaseActivity2 implements AVChatUI.AVChatList
             }
 
             if(!TextUtils.isEmpty(parent)) {
-                msg += ", 录制文件已保存至：" + parent;
+                msg += ", 录制文件已保存至:" + parent;
             }
 
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

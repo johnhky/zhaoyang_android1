@@ -166,8 +166,8 @@ public interface QuestionModule {
     Call<ApiDTO<List<Answer>>> appendScale(@Path("appointmentId") String appointmentId, @Path("questionId") String questionId);
 
 //    ### 删除问卷里单个问题
-//    ##### 接口地址：http://域名/question/append/{问卷ID}/delete/{问题ID}
-//            ##### 请求方法：get
+//    ##### 接口地址:http://域名/question/append/{问卷ID}/delete/{问题ID}
+//            ##### 请求方法:get
 //    ##### 请求示例:
 //    http://zhaoyang.dev.ganguo.hk:8088/question/append/1/question/1
 //            ##### JSON返回示例:

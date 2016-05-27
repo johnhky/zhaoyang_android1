@@ -85,8 +85,8 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
         Doctor doctorData = getDoctorData();
         doctorData.setType(Integer.parseInt(getType()));
         binding.setData(doctorData);
-        binding.tvTime.setText(String.format("预约时间：%s", getBookTime()));
-        binding.tvType.setText(String.format("预约类型：%s", appointmentType()));
+        binding.tvTime.setText(String.format("预约时间:%s", getBookTime()));
+        binding.tvType.setText(String.format("预约类型:%s", appointmentType()));
         binding.rbAlipay.setChecked(true);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         Date parse = null;

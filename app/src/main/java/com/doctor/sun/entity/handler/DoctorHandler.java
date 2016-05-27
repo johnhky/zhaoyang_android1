@@ -91,7 +91,7 @@ public class DoctorHandler {
     @JsonIgnore
     public String getSpecial() {
         String specialist;
-        specialist = "专长病种：" + data.getSpecialist();
+        specialist = "专长病种:" + data.getSpecialist();
         return specialist;
     }
 

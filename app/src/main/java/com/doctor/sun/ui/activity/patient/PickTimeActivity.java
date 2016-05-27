@@ -89,9 +89,9 @@ public class PickTimeActivity extends BaseActivity2 {
 
     private String getTypeImpl() {
         if (getType().equals(PickDatePagerAdapter.TYPE_QUICK)) {
-            return "预约类型：简捷复诊";
+            return "预约类型:简捷复诊";
         } else if (getType().equals(PickDatePagerAdapter.TYPE_DETAIL)) {
-            return "预约类型：详细咨询";
+            return "预约类型:详细咨询";
         }
         return "";
     }

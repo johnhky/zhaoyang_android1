@@ -88,7 +88,7 @@
             android:layout_marginTop="@dimen/dp_20"
             android:textColor="#363636"
             android:textSize="@dimen/font_15"
-            app:html='@{@string/description_money("总额：", money + "元")}' />
+            app:html='@{@string/description_money("总额:", money + "元")}' />
 
 
         <LinearLayout

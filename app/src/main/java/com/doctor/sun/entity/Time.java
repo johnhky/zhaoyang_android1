@@ -201,7 +201,7 @@ public class Time implements LayoutId, Parcelable {
     }
 
     public String disturbDate() {
-        return "免打扰周期：" + getWeekLabel();
+        return "免打扰周期:" + getWeekLabel();
     }
 
     public String time() {

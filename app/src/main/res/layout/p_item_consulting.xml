@@ -132,7 +132,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="当前病历： "
+                    android:text="当前病历: "
                     android:textColor="#363636"
                     android:textSize="@dimen/font_12" />
 

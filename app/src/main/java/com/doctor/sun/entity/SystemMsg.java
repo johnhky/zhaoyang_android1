@@ -14,7 +14,7 @@ import io.realm.annotations.Ignore;
 public class SystemMsg implements LayoutId {
 
     /**
-     * title : 【昭阳医生】提醒：刘医生提醒您完善问卷，请及时登录处理。
+     * title : 【昭阳医生】提醒:刘医生提醒您完善问卷，请及时登录处理。
      * doctor_name : 刘医生
      * doctor_avatar : http://7xkt51.com2.z0.glb.qiniucdn.com/FjOdeBEi-6FnkhgIx8wMtUq475gZ
      * patient_avatar : null

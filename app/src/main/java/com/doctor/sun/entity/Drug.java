@@ -179,6 +179,6 @@ public class Drug implements LayoutId {
     }
 
     public String getDetail() {
-        return drug + "，邮寄地址：" + address + "，收件人：" + to + "，" + phone ;
+        return drug + "，邮寄地址:" + address + "，收件人:" + to + "，" + phone ;
     }
 }

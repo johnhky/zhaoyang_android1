@@ -195,7 +195,7 @@ public class AVChatUI implements AVChatUIListener {
         /**
          * 发起通话
          * account 对方帐号
-         * callTypeEnum 通话类型：语音、视频
+         * callTypeEnum 通话类型:语音、视频
          * videoParam 发起视频通话时传入，发起音频通话传null
          * AVChatCallback 回调函数，返回AVChatInfo
          */

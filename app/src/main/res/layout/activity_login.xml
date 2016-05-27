@@ -67,7 +67,6 @@
                 android:layout_height="match_parent"
                 android:background="#00000000"
                 android:drawablePadding="@dimen/dp_11"
-                android:inputType="phone"
                 android:maxLength="11"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />

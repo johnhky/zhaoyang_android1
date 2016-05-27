@@ -33,7 +33,7 @@ public interface AnswerModule {
 
 //    保存问卷答案
 //
-//    接口地址：http://域名/question/questionnaires/{预约单ID}
+//    接口地址:http://域名/question/questionnaires/{预约单ID}
 
     @GET("question/questionnaires-scale/{appointmentId}/")
     Call<ApiDTO<List<QuestionCategory>>> category(@Path("appointmentId") int appointmentId);

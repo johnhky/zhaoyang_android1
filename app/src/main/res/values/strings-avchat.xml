@@ -6,10 +6,10 @@
     <string name="avchat_switch_to_audio">切换语音</string>
     <string name="avchat_video_call_request">请求视频聊天…</string>
     <string name="avchat_audio_call_wifi_unavailable_tip">当前非WiFi环境，每分钟将产生约0.5M的流量</string>
-    <string name="avchat_network_grade_0">网络通畅：</string>
-    <string name="avchat_network_grade_1">网络正常：</string>
-    <string name="avchat_network_grade_2">网络一般：</string>
-    <string name="avchat_network_grade_3">网络较差：</string>
+    <string name="avchat_network_grade_0">网络通畅:</string>
+    <string name="avchat_network_grade_1">网络正常:</string>
+    <string name="avchat_network_grade_2">网络一般:</string>
+    <string name="avchat_network_grade_3">网络较差:</string>
     <string name="avchat_refuse">拒绝</string>
     <string name="avchat_receive">开启</string>
     <string name="avchat_pickup">接听</string>

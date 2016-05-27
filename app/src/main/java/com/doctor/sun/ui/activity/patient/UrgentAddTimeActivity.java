@@ -53,7 +53,7 @@ public class UrgentAddTimeActivity extends BaseActivity2 {
         header.setMidTitle("增加等候时间");
         binding.setHeader(header);
         binding.tvCreatTime.setText(getData().getCreatedAt().substring(0, getData().getCreatedAt().length() - 3));
-        binding.tvCurrentTime.setText("预设等候时间：" + changeTime() + "（已等候" + getPassTime() + "）");
+        binding.tvCurrentTime.setText("预设等候时间:" + changeTime() + "（已等候" + getPassTime() + "）");
         binding.tvApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
