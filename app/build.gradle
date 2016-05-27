@@ -1,145 +1,12 @@
+apply from: 'deploy.gradle'
+apply from: 'options.gradle'
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'realm-android'
 
-android {
-    compileSdkVersion rootProject.ext.compile_sdk_version
-    buildToolsVersion rootProject.ext.build_tools_version
-
-    dataBinding {
-        enabled = true
-    }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
-        }
-    }
-
-    dexOptions {
-        javaMaxHeapSize "4g"
-        incremental true
-        preDexLibraries = false
-    }
-
-    defaultConfig {
-        applicationId "com.doctor.sun"
-        minSdkVersion rootProject.ext.min_sdk_version
-//        targetSdkVersion rootProject.ext.target_sdk_version
-        versionCode 8
-        versionName "1.20"
-        multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
-            abiFilters "armeabi-v7a", "armeabi" ,"x86"
-        }
-
-        packagingOptions {
-            exclude "lib/arm64-v8a/librealm-jni.so"
-        }
-    }
-    signingConfigs {
-        ganguo_dev {
-            storeFile file("ganguo_dev.jks")
-            storePassword "120521"
-            keyAlias "ganguo_dev"
-            keyPassword "120521"
-        }
-        release {
-            storeFile file("release.jks")
-            storePassword "zhaoyang120"
-            keyAlias "昭阳医生"
-            keyPassword "zhaoyang120"
-        }
-    }
-    buildTypes {
-        dev {
-            // zhaoyang_server
-//            applicationIdSuffix ".dev12"
-//            versionNameSuffix "_dev12"
-            manifestPlaceholders = [appLabel: "@string/app_name_dev", nimKey: "84bcda3a943a3a781f5e4a8bae628a74"]
-            buildConfigField "boolean", "DEV_MODE", "true"
-//            buildConfigField "String", "BASE_URL", '"http://10.0.0.202/api/"' //host, 必改
-            buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/"' //host, 必改
-            buildConfigField "String", "DATA_PATH", '"DoctorSunDev"' //app 数据保存目录, 必改
-            buildConfigField "String", "IM_KEY", '"aaf98f89529d327b0152a02ee629035e"' //
-            buildConfigField "String", "IM_TOKEN", '"6b47a5fce4eb6d4eeebf8b5eadcb6584"' //host, 必改
-
-            debuggable true
-            zipAlignEnabled false
-            shrinkResources false
-            minifyEnabled false
-            signingConfig signingConfigs.release
-        }
-        // 测试环境 ,zhaoyangyisheng_server
-        stage {
-//            applicationIdSuffix ".dev"
-//            versionNameSuffix "_dev"
-            manifestPlaceholders = [appLabel: "@string/app_name_dev", nimKey: "9439a1f4b31a23c48660c290a69f89e3"]
-            buildConfigField "boolean", "DEV_MODE", "true"
-            buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/"' //host, 必改
-            buildConfigField "String", "DATA_PATH", '"DoctorSunDev"' //app 数据保存目录, 必改
-            buildConfigField "String", "IM_KEY", '"aaf98f89506fc2f001507e1cab440ace"' //
-            buildConfigField "String", "IM_TOKEN", '"a8d27b4500d3b3dcfbf96296091abf4d"' //host, 必改
-
-            debuggable true
-            zipAlignEnabled false
-            shrinkResources false
-            minifyEnabled false
-            signingConfig signingConfigs.release
-        }
-
-        // 生产环境
-        prod {
-            manifestPlaceholders = [appLabel: "@string/app_name", nimKey: "701994af7b0559728f9ee602a6f3c342"]
-            buildConfigField "boolean", "DEV_MODE", "false"
-            buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/"' //host, 必改
-            buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
-            buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
-            buildConfigField "String", "IM_TOKEN", '"7c54a355857a08b2dfc3769c7dc05e8a"' //host, 必改
-
-            debuggable true
-            zipAlignEnabled true
-            shrinkResources true
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
-
-        //命名各apk
-        applicationVariants.all { variant ->
-            variant.outputs.each { output ->
-                def outputFile = output.outputFile
-                def mApplicationId = variant.mergedFlavor.applicationId + (variant.buildType.applicationIdSuffix == null ? "" : variant.buildType.applicationIdSuffix)
-                def mVersionName = variant.mergedFlavor.versionName + (variant.buildType.versionNameSuffix == null ? "" : variant.buildType.versionNameSuffix)
-                if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                    def fileName = "${variant.buildType.name}_${variant.productFlavors[0].name}_${mApplicationId}_${defaultConfig.versionCode}_v${mVersionName}.apk"
-                    output.outputFile = new File(outputFile.parent, fileName)
-                }
-            }
-        }
-
-        packagingOptions {
-            exclude 'META-INF/DEPENDENCIES'
-            exclude 'META-INF/NOTICE'
-            exclude 'META-INF/LICENSE'
-            exclude 'META-INF/LICENSE.txt'
-            exclude 'META-INF/NOTICE.txt'
-        }
-    }
-    // 多渠道
-    productFlavors {
-        official {}
-    }
-    productFlavors.all { flavor ->
-        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
-    }
-    lintOptions {
-        abortOnError false
-    }
-}
 
 dependencies {
-    Map<String, String> dependency = rootProject.ext.dependencies
+    Map<String, String> libs = rootProject.ext.dependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':GGLibrary')
     compile project(':OpenSDK')
@@ -152,21 +19,21 @@ dependencies {
 
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile dependency.v4
-    compile dependency.v7
-    compile dependency.recyclerView
+    compile libs.v4
+    compile libs.v7
+    compile libs.recyclerView
 //    compile dependency.cardView
-    compile dependency.design
-    compile dependency.annotations
-    compile dependency.gson
-    compile dependency.otto
-    compile dependency.yearclass
-    compile dependency.retrofit
-    compile dependency.retrofitConverterJackson
-    compile dependency.glide
-    compile dependency.systembartint
-    compile(dependency.materialDialogs) {
+    compile libs.design
+    compile libs.annotations
+    compile libs.gson
+    compile libs.otto
+    compile libs.yearclass
+    compile libs.retrofit
+    compile libs.retrofitConverterJackson
+    compile libs.glide
+    compile libs.systembartint
+    compile(libs.materialDialogs) {
         transitive = true
     }
-    testCompile dependency.junit
+    testCompile libs.junit
 }
