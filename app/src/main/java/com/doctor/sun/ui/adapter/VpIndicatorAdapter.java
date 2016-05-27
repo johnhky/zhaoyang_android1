@@ -16,7 +16,6 @@ import java.util.List;
 public class VpIndicatorAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     private int itemCount = 0;
     private int selectedPosition = 0;
-    private EmptyLayoutId emptyLayoutId;
 
     public VpIndicatorAdapter(Context context) {
         super(context);

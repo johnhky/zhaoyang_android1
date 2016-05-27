@@ -54,6 +54,7 @@ public class NotificationUtil {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
         builder.setContentText("正在下载");
         builder.setContentTitle("昭阳医生");
+        builder.setLights(Color.GREEN, 1000, 3000);
         builder.setSmallIcon(R.drawable.ic_notification);
         builder.setAutoCancel(true);
         builder.setProgress(totalLength, progress, false);
@@ -66,6 +67,7 @@ public class NotificationUtil {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
         builder.setContentText("正在上传文件消息附件");
         builder.setContentTitle("昭阳医生");
+        builder.setLights(Color.GREEN, 1000, 3000);
         builder.setSmallIcon(R.drawable.ic_notification);
         builder.setAutoCancel(true);
         builder.setProgress(totalLength, progress, false);
@@ -78,6 +80,7 @@ public class NotificationUtil {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
         builder.setContentText("附件发送成功");
         builder.setContentTitle("昭阳医生");
+        builder.setLights(Color.GREEN, 1000, 3000);
         builder.setSmallIcon(R.drawable.ic_notification);
         builder.setAutoCancel(true);
         Notification notification = builder.build();
