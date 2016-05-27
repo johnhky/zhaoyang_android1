@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import com.doctor.sun.R;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.AppointmentModule;
-import com.doctor.sun.ui.activity.PageActivity;
 import com.doctor.sun.ui.activity.PageActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 

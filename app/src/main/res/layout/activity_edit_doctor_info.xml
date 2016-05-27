@@ -104,12 +104,12 @@
                         android:textSize="@dimen/font_15" />
 
                     <EditText
-                        android:hint="必填"
                         android:id="@+id/et_name"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00000000"
+                        android:hint="必填"
                         android:inputType="text"
                         android:text="@{data.name}"
                         android:textColor="#363636"
@@ -138,12 +138,12 @@
                         android:textSize="@dimen/font_15" />
 
                     <EditText
-                        android:hint="选填"
                         android:id="@+id/et_email"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00000000"
+                        android:hint="选填"
                         android:inputType="textEmailAddress"
                         android:text="@{data.email}"
                         android:textColor="#363636"
@@ -225,12 +225,12 @@
                         android:textSize="@dimen/font_15" />
 
                     <EditText
-                        android:hint="必填"
                         android:id="@+id/et_hospital_name"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00000000"
+                        android:hint="必填"
                         android:text="@{data.hospitalName}"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_15" />
@@ -258,12 +258,12 @@
                         android:textSize="@dimen/font_15" />
 
                     <EditText
-                        android:hint="必填"
                         android:id="@+id/et_specialist"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00000000"
+                        android:hint="必填"
                         android:text="@{data.specialist}"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_15" />
@@ -296,10 +296,10 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00000000"
+                        android:hint="选填"
                         android:inputType="phone"
                         android:maxLength="11"
                         android:text="@{data.phone}"
-                        android:hint="选填"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_15" />
 
@@ -332,7 +332,7 @@
                         android:layout_weight="1"
                         android:background="#00000000"
                         android:gravity="center_vertical"
-                        android:hint="@{必填}"
+                        android:hint="必填"
                         android:onClick="@{handler.selectTitle}"
                         android:text="@{data.title}"
                         android:textColor="#363636"
@@ -363,10 +363,10 @@
 
                         <FrameLayout
                             android:id="@+id/fy_title"
-                            android:onClick="@{handler.pickImage(2)}"
-                            android:background="@drawable/ripple_default"
                             android:layout_width="@dimen/dp_95"
-                            android:layout_height="@dimen/dp_95">
+                            android:layout_height="@dimen/dp_95"
+                            android:background="@drawable/ripple_default"
+                            android:onClick="@{handler.pickImage(2)}">
 
                             <ImageView
                                 android:id="@+id/iv_title"
@@ -401,10 +401,10 @@
 
                         <FrameLayout
                             android:id="@+id/fy_practitioner"
-                            android:onClick="@{handler.pickImage(3)}"
-                            android:background="@drawable/ripple_default"
                             android:layout_width="@dimen/dp_95"
-                            android:layout_height="@dimen/dp_95">
+                            android:layout_height="@dimen/dp_95"
+                            android:background="@drawable/ripple_default"
+                            android:onClick="@{handler.pickImage(3)}">
 
                             <ImageView
                                 android:id="@+id/iv_practitioner"
@@ -439,10 +439,10 @@
 
                         <FrameLayout
                             android:id="@+id/fy_certified"
-                            android:onClick="@{handler.pickImage(4)}"
-                            android:background="@drawable/ripple_default"
                             android:layout_width="@dimen/dp_95"
-                            android:layout_height="@dimen/dp_95">
+                            android:layout_height="@dimen/dp_95"
+                            android:background="@drawable/ripple_default"
+                            android:onClick="@{handler.pickImage(4)}">
 
                             <ImageView
                                 android:id="@+id/iv_certified"
