@@ -44,21 +44,17 @@ import io.ganguo.library.util.log.LoggerFactory;
  */
 public class DiagnosisReadOnlyFragment extends Fragment {
     public Logger logger = LoggerFactory.getLogger(DiagnosisFragment.class);
-    private static DiagnosisReadOnlyFragment instance;
     private DiagnosisModule api = Api.of(DiagnosisModule.class);
     private DiagnosisReadOnlyViewModel viewModel;
     private FragmentDiagnosisReadonlyBinding binding;
     private IncludeDiagnosisResultBinding resultBinding;
 
     public static DiagnosisReadOnlyFragment getInstance(Appointment id) {
-        if (instance == null) {
-            instance = new DiagnosisReadOnlyFragment();
-            Bundle args = new Bundle();
-            args.putParcelable(Constants.DATA, id);
-            instance.setArguments(args);
-        } else {
-            instance.getArguments().putParcelable(Constants.DATA, id);
-        }
+        DiagnosisReadOnlyFragment instance = new DiagnosisReadOnlyFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(Constants.DATA, id);
+        instance.setArguments(args);
+
         return instance;
     }
 
@@ -86,7 +82,6 @@ public class DiagnosisReadOnlyFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         viewModel = null;
-        instance = null;
     }
 
     private void initDiagnosisView() {

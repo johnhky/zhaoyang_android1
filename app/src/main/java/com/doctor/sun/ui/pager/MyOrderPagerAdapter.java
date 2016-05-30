@@ -8,6 +8,7 @@ import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.ui.fragment.ListFragment;
 import com.doctor.sun.ui.fragment.PAppointmentListFragment;
 import com.doctor.sun.ui.fragment.PUrgentCallFragment;
+import com.doctor.sun.ui.fragment.RefreshListFragment;
 
 /**
  * Created by rick on 1/3/2016.
@@ -20,7 +21,7 @@ public class MyOrderPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(final int position) {
-        ListFragment fragment = null;
+        RefreshListFragment fragment = null;
         switch (position) {
             case 0: {
                 fragment = PAppointmentListFragment.newInstance(1);

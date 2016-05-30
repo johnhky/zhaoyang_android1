@@ -11,7 +11,7 @@ import com.doctor.sun.ui.pager.AppointmentPagerAdapter;
 /**
  * Created by rick on 30/12/2015.
  */
-public class AppointmentListFragment extends ListFragment {
+public class AppointmentListFragment extends RefreshListFragment {
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private int position;
 
@@ -36,7 +36,9 @@ public class AppointmentListFragment extends ListFragment {
 
     @Override
     protected void loadMore() {
-        api.doctorAppointment(getCallback().getPage(), String.valueOf(AppointmentPagerAdapter.STATUS[position])).enqueue(getCallback());
+        String orderType = String.valueOf(AppointmentPagerAdapter.STATUS[position]);
+        String page = getPageCallback().getPage();
+        api.doctorAppointment(page, orderType).enqueue(getPageCallback());
     }
 
 }

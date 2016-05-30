@@ -9,7 +9,7 @@ import com.doctor.sun.module.AppointmentModule;
 /**
  * Created by rick on 30/12/2015.
  */
-public class PUrgentCallFragment extends ListFragment {
+public class PUrgentCallFragment extends RefreshListFragment {
     private AppointmentModule api = Api.of(AppointmentModule.class);
 
 
@@ -29,7 +29,7 @@ public class PUrgentCallFragment extends ListFragment {
 
     @Override
     protected void loadMore() {
-        api.pUrgentCalls(getCallback().getPage()).enqueue(getCallback());
+        api.pUrgentCalls(getPageCallback().getPage()).enqueue(getPageCallback());
     }
 
 }

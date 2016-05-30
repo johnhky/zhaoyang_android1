@@ -42,7 +42,6 @@ import retrofit2.Call;
 public class FillForumFragment extends ListFragment implements View.OnClickListener {
     private Logger logger = LoggerFactory.getLogger(FillForumFragment.class);
     public static final String TAG = FillForumFragment.class.getSimpleName();
-    private static FillForumFragment instance;
 
     private AnswerModule api = Api.of(AnswerModule.class);
     private FragmentListBinding binding;
@@ -54,14 +53,10 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
     private boolean adapterStatus;
 
     public static FillForumFragment getInstance(Appointment appointment) {
-        if (instance == null) {
-            instance = new FillForumFragment();
-            Bundle args = new Bundle();
-            args.putParcelable(Constants.DATA, appointment);
-            instance.setArguments(args);
-        } else {
-            instance.getArguments().putParcelable(Constants.DATA, appointment);
-        }
+        FillForumFragment instance = new FillForumFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(Constants.DATA, appointment);
+        instance.setArguments(args);
         return instance;
     }
 
@@ -141,6 +136,9 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
     @SuppressWarnings("unchecked")
     public void loadQuestions(final QuestionCategory data) {
         final int questionCategoryId = data.getQuestionCategoryId();
+        if (binding.llRoot == null) {
+            return ;
+        }
         binding.llRoot.findViewById(R.id.lly_check).setVisibility(View.VISIBLE);
         binding.llRoot.findViewById(R.id.tv_back_circle).setVisibility(View.VISIBLE);
 

@@ -7,13 +7,14 @@ import android.support.annotation.Nullable;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 
 /**
  * Created by rick on 30/12/2015.
  */
-public class PAppointmentListFragment extends ListFragment {
+public class PAppointmentListFragment extends RefreshListFragment {
     private AppointmentModule api = Api.of(AppointmentModule.class);
 
 
@@ -44,7 +45,7 @@ public class PAppointmentListFragment extends ListFragment {
 
     @Override
     protected void loadMore() {
-        api.patientAppointment(getCallback().getPage()).enqueue(getCallback());
+        api.patientAppointment(getPageCallback().getPage()).enqueue(getPageCallback());
     }
 
     private int getType() {
