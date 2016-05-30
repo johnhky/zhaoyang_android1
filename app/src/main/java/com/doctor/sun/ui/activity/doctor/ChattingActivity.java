@@ -14,6 +14,7 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingBinding;
+import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.emoji.KeyboardWatcher;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.NeedSendDrug;
@@ -23,9 +24,11 @@ import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.event.SendMessageEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.im.NimTeamId;
+import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ImModule;
@@ -123,6 +126,10 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
             listener = new RealmChangeListener<RealmResults<TextMsg>>() {
                 @Override
                 public void onChange(RealmResults<TextMsg> element) {
+                    if (Constants.FINISH_MESSAGE.equals(element.first().getBody())) {
+                        Api.of(AppointmentModule.class).appointmentInTid(getTeamId(), "1").enqueue(new RefreshAppointmentCallback());
+                        initData();
+                    }
                     if (adapter != null) {
                         adapter.notifyDataSetChanged();
                     }
@@ -491,6 +498,23 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         if (inputLayout.getKeyboardType() != 0) {
             inputLayout.setKeyboardType(0);
             Systems.hideKeyboard(this);
+        }
+    }
+
+    private class RefreshAppointmentCallback extends SimpleCallback<PageDTO<Appointment>> {
+        @Override
+        protected void handleResponse(PageDTO<Appointment> response) {
+            List<Appointment> data = response.getData();
+            if (data != null) {
+                Appointment appointment = data.get(0);
+                Intent intent = getIntent();
+                intent.putExtra(Constants.DATA, appointment);
+                setIntent(intent);
+                handler = appointment.getHandler();
+                binding.setData(appointment);
+                binding.appointmentStatus.setData(appointment);
+                adapter.setFinishedTime(handler.getFinishedTime());
+            }
         }
     }
 }

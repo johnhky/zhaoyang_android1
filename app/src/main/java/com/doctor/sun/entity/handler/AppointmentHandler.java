@@ -80,8 +80,10 @@ import java.util.Locale;
 
 import io.ganguo.library.AppManager;
 import io.ganguo.library.Config;
+import io.ganguo.library.common.LoadingHelper;
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.core.event.EventHub;
+import io.ganguo.library.util.Tasks;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -521,7 +523,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         };
     }
 
-    private static class GotoConsultingCallback extends ApiCallback<String> {
+    private static class GotoConsultingCallback extends SimpleCallback<String> {
         private final View view;
 
         public GotoConsultingCallback(View view) {
@@ -530,17 +532,16 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
         @Override
         protected void handleResponse(String response) {
-            Intent i = ConsultingActivity.makeIntent(view.getContext());
-            view.getContext().startActivity(i);
-            AppManager.finishAllActivity();
-        }
-
-        @Override
-        protected void handleApi(ApiDTO<String> body) {
-            super.handleApi(body);
-            Intent i = ConsultingActivity.makeIntent(view.getContext());
-            view.getContext().startActivity(i);
-            AppManager.finishAllActivity();
+            LoadingHelper.showMaterLoading(view.getContext(),"正在提示患者开始就诊");
+            Tasks.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    LoadingHelper.hideMaterLoading();
+                    Intent i = ConsultingActivity.makeIntent(view.getContext());
+                    view.getContext().startActivity(i);
+                    AppManager.finishAllActivity();
+                }
+            }, 350);
         }
     }
 

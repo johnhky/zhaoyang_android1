@@ -159,10 +159,8 @@ public class ConsultingFragment extends RefreshListFragment {
 
     public Appointment getAppointmentByTid(int tid) {
         Appointment appointment = map.get(tid);
-        if (isStartedMsg(tid)) {
-            int i = removeAppointment(appointment);
-            getAdapter().notifyItemRemoved(i);
-            pullAppointment(tid);
+        if (shouldRefreshAppointment(tid)) {
+            refreshAppointment(tid);
             return null;
         } else if (appointment != null) {
             return appointment;
@@ -172,12 +170,17 @@ public class ConsultingFragment extends RefreshListFragment {
         }
     }
 
-    public boolean isStartedMsg(int tid) {
+    public boolean shouldRefreshAppointment(int tid) {
         if (realm == null || realm.isClosed()) return false;
 
         RealmResults<TextMsg> time = realm.where(TextMsg.class).equalTo("sessionId", String.valueOf(tid)).findAllSorted("time", Sort.ASCENDING);
 
-        return time.last().getBody().equals("就诊开始");
+        String body = time.last().getBody();
+        return body.equals("就诊开始") || body.equals(Constants.FINISH_MESSAGE);
+    }
+
+    private void refreshAppointment(int tid) {
+        api.appointmentInTid(String.valueOf(tid), "1").enqueue(new RefreshAppointmentCallback());
     }
 
     private void pullAppointment(int tid) {
@@ -215,7 +218,9 @@ public class ConsultingFragment extends RefreshListFragment {
             if (appointmentByTid != null) {
                 int oldPosition = removeAppointment(appointmentByTid);
                 getAdapter().add(finalPosition, appointmentByTid);
-                if (oldPosition != finalPosition) {
+                if (oldPosition < 0) {
+                    getAdapter().notifyItemInserted(finalPosition);
+                } else if (oldPosition != finalPosition) {
                     getAdapter().notifyItemMoved(oldPosition, finalPosition);
                     getAdapter().notifyItemChanged(finalPosition);
                 } else {
@@ -226,9 +231,19 @@ public class ConsultingFragment extends RefreshListFragment {
     }
 
     private int removeAppointment(Appointment appointmentByTid) {
-        int oldPosition = getAdapter().indexOf(appointmentByTid);
-        getAdapter().remove(oldPosition);
-        map.remove(appointmentByTid.getTid());
+        int oldPosition = -1;
+        for (int i = getItemPadding(); i < getAdapter().size(); i++) {
+            Appointment o = (Appointment) getAdapter().get(i);
+            boolean isEqual = o.getTid() == appointmentByTid.getTid();
+            if (isEqual) {
+                oldPosition = i;
+                break;
+            }
+        }
+
+        if (oldPosition != -1) {
+            getAdapter().remove(oldPosition);
+        }
         return oldPosition;
     }
 
@@ -306,6 +321,29 @@ public class ConsultingFragment extends RefreshListFragment {
                 int padding = getItemPadding();
                 getAdapter().addAll(padding, data);
                 getAdapter().notifyItemRangeInserted(padding, data.size());
+                cacheAppointment(data);
+            }
+        }
+    }
+
+    private class RefreshAppointmentCallback extends SimpleCallback<PageDTO<Appointment>> {
+        @Override
+        protected void handleResponse(PageDTO<Appointment> response) {
+            List<Appointment> data = response.getData();
+            if (data != null) {
+                Appointment appointment = data.get(0);
+                int oldPosition = removeAppointment(appointment);
+                int finalPosition = getItemPadding();
+                getAdapter().add(finalPosition, appointment);
+                if (oldPosition < 0) {
+                    getAdapter().notifyItemInserted(finalPosition);
+                }
+                if (oldPosition != finalPosition) {
+                    getAdapter().notifyItemMoved(oldPosition, finalPosition);
+                    getAdapter().notifyItemChanged(finalPosition);
+                } else {
+                    getAdapter().notifyItemChanged(oldPosition);
+                }
                 cacheAppointment(data);
             }
         }

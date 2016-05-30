@@ -112,7 +112,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                 String doctorId = String.valueOf(doctorData.getId());
                 int type = Integer.parseInt(getType());
                 String couponId = "";
-                if (binding.cbCouponCount.isChecked()) {
+                if (binding.cbCouponCount.isChecked() && coupons != null && !coupons.isEmpty()) {
                     couponId = coupons.get(0).getId();
                 }
                 final String finalCouponId = couponId;
