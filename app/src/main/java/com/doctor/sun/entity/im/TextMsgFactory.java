@@ -48,6 +48,10 @@ public class TextMsgFactory {
     }
 
     public static TextMsg fromYXMessage(IMMessage msg) {
+        if (msg.getMsgType().equals(MsgTypeEnum.notification)) {
+            return null;
+        }
+
         TextMsg result = new TextMsg();
         result.setMsgId(msg.getUuid());
         result.setSessionId(msg.getSessionId());

@@ -2,17 +2,13 @@ package com.doctor.sun.im;
 
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
-import com.doctor.sun.im.observer.AttachmentProgressObserver;
 import com.doctor.sun.im.observer.LoginSyncStatusObserver;
-import com.doctor.sun.im.observer.MsgStatusObserver;
-import com.doctor.sun.im.observer.ReceiveMsgObserver;
 import com.doctor.sun.util.NotificationUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.MsgService;
-import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
@@ -47,7 +43,6 @@ public class NIMConnectionState implements RequestCallback {
             callback = null;
         }
     }
-
 
 
     @Override
@@ -86,6 +81,8 @@ public class NIMConnectionState implements RequestCallback {
             @Override
             public void execute(Realm realm) {
                 TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
+                if (msg1 == null) return;
+
                 if (msg1.getType().equals(MsgTypeEnum.avchat.toString())) {
                     msg1.setHaveRead(true);
                 } else {
@@ -106,6 +103,8 @@ public class NIMConnectionState implements RequestCallback {
             public void execute(Realm realm) {
                 for (IMMessage msg : msgs) {
                     TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
+                    if (msg1 == null) continue;
+
                     if (msg1.getType().equals(MsgTypeEnum.avchat.toString())) {
                         msg1.setHaveRead(true);
                     } else {
