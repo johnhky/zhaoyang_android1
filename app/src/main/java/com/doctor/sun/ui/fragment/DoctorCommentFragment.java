@@ -3,10 +3,12 @@ package com.doctor.sun.ui.fragment;
 import android.os.Bundle;
 
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Comment;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.ui.pager.DoctorDetailPagerAdapter;
 
 /**
  * Created by rick on 1/4/2016.
@@ -14,15 +16,12 @@ import com.doctor.sun.module.ProfileModule;
 public class DoctorCommentFragment extends ListFragment {
     private ProfileModule api = Api.of(ProfileModule.class);
 
-    private static DoctorCommentFragment instance;
 
     public static DoctorCommentFragment getInstance(int doctorId) {
-        if (instance == null) {
-            instance = new DoctorCommentFragment();
-            Bundle args = new Bundle();
-            args.putInt(Constants.DATA, doctorId);
-            instance.setArguments(args);
-        }
+        DoctorCommentFragment instance = new DoctorCommentFragment();
+        Bundle args = new Bundle();
+        args.putInt(Constants.DATA, doctorId);
+        instance.setArguments(args);
         return instance;
     }
 

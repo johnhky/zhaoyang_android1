@@ -3,6 +3,7 @@ package com.doctor.sun.ui.pager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v7.widget.RecyclerView;
 
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.ui.fragment.DoctorArticleFragment;
@@ -44,7 +45,8 @@ public class DoctorDetailPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return titles[position];
+        String title = titles[position];
+        return title;
     }
 
 }

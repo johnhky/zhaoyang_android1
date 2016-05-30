@@ -25,7 +25,6 @@ import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.SingleChoiceDialog;
-import com.doctor.sun.vo.ItemButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -192,10 +191,17 @@ public class EditPrescriptionActivity extends BaseActivity2 {
         String string = editText.getText().toString();
         if (string.equals("")) {
             return "";
+        } else if (string.equals(".")) {
+            return string;
         } else if (string.startsWith(".")) {
             return String.valueOf(Double.valueOf(string));
         } else {
-            return string;
+            if (string.contains(".")) {
+                return String.valueOf(Double.valueOf(string));
+            } else {
+                return String.valueOf(Integer.valueOf(string));
+            }
+
         }
     }
 

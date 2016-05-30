@@ -159,10 +159,7 @@ public class ConsultingFragment extends RefreshListFragment {
 
     public Appointment getAppointmentByTid(int tid) {
         Appointment appointment = map.get(tid);
-        if (shouldRefreshAppointment(tid)) {
-            refreshAppointment(tid);
-            return null;
-        } else if (appointment != null) {
+       if (appointment != null) {
             return appointment;
         } else {
             pullAppointment(tid);
@@ -225,6 +222,9 @@ public class ConsultingFragment extends RefreshListFragment {
                     getAdapter().notifyItemChanged(finalPosition);
                 } else {
                     getAdapter().notifyItemChanged(oldPosition);
+                }
+                if (shouldRefreshAppointment(appointmentByTid.getTid())) {
+                    refreshAppointment(appointmentByTid.getTid());
                 }
             }
         }

@@ -52,7 +52,9 @@ public class PageCallback<T> extends ApiCallback<PageDTO<T>> {
     @Override
     public void onFailure(Call call, Throwable t) {
         t.printStackTrace();
-        getAdapter().onFinishLoadMore(true);
+        if (getAdapter() != null) {
+            getAdapter().onFinishLoadMore(true);
+        }
     }
 
     public LoadMoreAdapter getAdapter() {
