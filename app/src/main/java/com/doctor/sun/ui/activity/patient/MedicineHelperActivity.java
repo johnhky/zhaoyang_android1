@@ -240,7 +240,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
             @Override
             protected void handleResponse(PageDTO<Appointment> response) {
                 super.handleResponse(response);
-                if (response.getTotal().equals("0")) {
+                if (response.getTotal() == 0) {
                     binding.rvPrescription.setVisibility(View.GONE);
                     binding.ivNoMedicine.setVisibility(View.VISIBLE);
                 } else {

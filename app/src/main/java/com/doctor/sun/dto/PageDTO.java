@@ -23,96 +23,95 @@ public class PageDTO<T> {
      */
 
     @JsonProperty("total")
-    private String total;
+    private int total;
     @JsonProperty("per_page")
-    private String perPage;
+    private int perPage;
     @JsonProperty("current_page")
-    private String currentPage;
+    private int currentPage;
     @JsonProperty("last_page")
-    private String lastPage;
+    private int lastPage;
     @JsonProperty("next_page_url")
     private String nextPageUrl;
     @JsonProperty("prev_page_url")
     private String prevPageUrl;
     @JsonProperty("from")
-    private String from;
+    private int from;
     @JsonProperty("to")
-    private String to;
+    private int to;
     @JsonProperty("data")
     private List<T> data;
 
-    public void setTotal(String total) {
-        this.total = total;
-    }
-
-    public void setPerPage(String perPage) {
-        this.perPage = perPage;
-    }
-
-    public void setCurrentPage(String currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public void setLastPage(String lastPage) {
-        this.lastPage = lastPage;
-    }
-
-    public void setNextPageUrl(String nextPageUrl) {
-        this.nextPageUrl = nextPageUrl;
-    }
-
-    public void setPrevPageUrl(String prevPageUrl) {
-        this.prevPageUrl = prevPageUrl;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
-
-    public void setData(List<T> data) {
-        this.data = data;
-    }
-
-    public String getTotal() {
+    public int getTotal() {
         return total;
     }
 
-    public String getPerPage() {
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getPerPage() {
         return perPage;
     }
 
-    public String getCurrentPage() {
+    public void setPerPage(int perPage) {
+        this.perPage = perPage;
+    }
+
+    public int getCurrentPage() {
         return currentPage;
     }
 
-    public String getLastPage() {
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public int getLastPage() {
         return lastPage;
+    }
+
+    public void setLastPage(int lastPage) {
+        this.lastPage = lastPage;
     }
 
     public String getNextPageUrl() {
         return nextPageUrl;
     }
 
+    public void setNextPageUrl(String nextPageUrl) {
+        this.nextPageUrl = nextPageUrl;
+    }
+
     public String getPrevPageUrl() {
         return prevPageUrl;
     }
 
-    public String getFrom() {
+    public void setPrevPageUrl(String prevPageUrl) {
+        this.prevPageUrl = prevPageUrl;
+    }
+
+    public int getFrom() {
         return from;
     }
 
-    public String getTo() {
+    public void setFrom(int from) {
+        this.from = from;
+    }
+
+    public int getTo() {
         return to;
+    }
+
+    public void setTo(int to) {
+        this.to = to;
     }
 
     public List<T> getData() {
         return data;
     }
 
+    public void setData(List<T> data) {
+        this.data = data;
+    }
 
     @Override
     public String toString() {
