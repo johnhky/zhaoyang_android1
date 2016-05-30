@@ -49,7 +49,7 @@
                     android:layout_marginRight="@dimen/dp_4"
                     android:background="@drawable/nim_ic_failed"
                     android:textSize="@dimen/font_13"
-                    android:visibility="@{adapter.finished}" />
+                    android:visibility="@{adapter.finished(data.time)}" />
 
                 <FrameLayout
                     android:layout_width="@dimen/dp_200"
