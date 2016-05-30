@@ -49,7 +49,7 @@
                     android:layout_marginRight="@dimen/dp_4"
                     android:background="@drawable/nim_ic_failed"
                     android:textSize="@dimen/font_13"
-                    android:visibility="@{adapter.finished(data.time)}" />
+                    android:visibility="@{adapter.isFinished(data.time)}" />
 
                 <TextView
                     android:id="@+id/body"

@@ -197,6 +197,11 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
+            android:name=".ui.activity.ChattingActivityNoMenu"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
             android:name=".ui.activity.doctor.AddTemplateActivity"
             android:screenOrientation="portrait" />
 

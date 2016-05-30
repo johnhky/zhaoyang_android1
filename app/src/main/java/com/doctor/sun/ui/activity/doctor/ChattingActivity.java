@@ -82,7 +82,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     private RealmQuery<TextMsg> query;
     private AppointmentHandler handler;
     private String sendTo;
-    private String userData;
     private DrugModule drugModule = Api.of(DrugModule.class);
     private RealmResults<TextMsg> results;
     private KeyboardWatcher keyboardWatcher;
@@ -104,6 +103,40 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         needSendDrug();
         initView();
         initData();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerRealmChangeListener();
+    }
+
+    private void registerRealmChangeListener() {
+        createRealmChangeListener();
+        if (results != null) {
+            results.addChangeListener(listener);
+        }
+    }
+
+    private void createRealmChangeListener() {
+        if (listener == null) {
+            listener = new RealmChangeListener<RealmResults<TextMsg>>() {
+                @Override
+                public void onChange(RealmResults<TextMsg> element) {
+                    if (adapter != null) {
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            };
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        if (!getRealm().isClosed()) {
+            results.removeChangeListeners();
+        }
+        super.onStop();
     }
 
     private void needSendDrug() {
@@ -150,13 +183,11 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         Appointment data = getData();
         handler = new AppointmentHandler(data);
         data.setHandler(handler);
-        binding.setHeader(getHeaderViewModel());
         binding.setData(data);
 
-        getIsFinish();
+        initActionbar();
 
         sendTo = handler.getTeamId();
-        userData = getUserData();
 
         adapter = new MessageAdapter(this, data);
         binding.recyclerView.setAdapter(adapter);
@@ -175,6 +206,62 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         initCustomAction(data);
         initSticker();
         initInputLayout(data);
+    }
+
+    private void initActionbar() {
+        binding.setHeader(getHeaderViewModel());
+        inflateMenu();
+    }
+
+    private HeaderViewModel getHeaderViewModel() {
+        return new HeaderViewModel(this);
+    }
+
+    protected void inflateMenu() {
+        api.finishStat(getData().getId()).enqueue(new ApiCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                if (response.equals("doing")) {
+                    getData().setIsFinish(0);
+                } else if (response.equals("finish")) {
+                    getData().setIsFinish(1);
+                }
+                String rightFirstTitle;
+                if (AppContext.isDoctor()) {
+                    rightFirstTitle = "查看问卷";
+                } else {
+                    rightFirstTitle = "填写问卷";
+                }
+                binding.getHeader().setLeftTitle(handler.getTitle())
+                        .setRightFirstTitle(rightFirstTitle)
+                        .setRightTitle("医生建议");
+            }
+        });
+    }
+
+
+    @Override
+    public void onFirstMenuClicked() {
+        super.onFirstMenuClicked();
+        Intent i;
+        if (getData().getIsFinish() == 1) {
+            i = HistoryDetailActivity.makeIntent(this, getData(), ConsultingDetailActivity.POSITION_ANSWER);
+        } else {
+            i = ConsultingDetailActivity.makeIntent(this, getData(), ConsultingDetailActivity.POSITION_ANSWER);
+        }
+        startActivity(i);
+    }
+
+    @Override
+    public void onMenuClicked() {
+        super.onMenuClicked();
+        Intent i;
+        if (getData().getIsFinish() == 1) {
+            i = HistoryDetailActivity.makeIntent(this, getData(), ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
+        } else {
+            i = ConsultingDetailActivity.makeIntent(this, getData(), ConsultingDetailActivity.POSITION_SUGGESTION);
+        }
+        startActivity(i);
     }
 
     private void setHaveRead(RealmResults<TextMsg> results) {
@@ -234,83 +321,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    private HeaderViewModel getHeaderViewModel() {
-        return new HeaderViewModel(this);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (results != null) {
-            if (listener == null) {
-                listener = new RealmChangeListener<RealmResults<TextMsg>>() {
-                    @Override
-                    public void onChange(RealmResults<TextMsg> element) {
-                        if (adapter != null) {
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                };
-            }
-            results.addChangeListener(listener);
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        if (!getRealm().isClosed()) {
-            results.removeChangeListeners();
-        }
-        super.onStop();
-    }
-
-
-    @Override
-    public void onFirstMenuClicked() {
-        super.onFirstMenuClicked();
-        Intent i;
-        if (getData().getIsFinish() == 1) {
-            i = HistoryDetailActivity.makeIntent(this, getData(), ConsultingDetailActivity.POSITION_ANSWER);
-        } else {
-            i = ConsultingDetailActivity.makeIntent(this, getData(), ConsultingDetailActivity.POSITION_ANSWER);
-        }
-        startActivity(i);
-    }
-
-    @Override
-    public void onMenuClicked() {
-        super.onMenuClicked();
-        Intent i;
-        if (getData().getIsFinish() == 1) {
-            i = HistoryDetailActivity.makeIntent(this, getData(), ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
-        } else {
-            i = ConsultingDetailActivity.makeIntent(this, getData(), ConsultingDetailActivity.POSITION_SUGGESTION);
-        }
-        startActivity(i);
-    }
-
-
-    private void getIsFinish() {
-        api.finishStat(getData().getId()).enqueue(new ApiCallback<String>() {
-            @Override
-            protected void handleResponse(String response) {
-                if (response.equals("doing")) {
-                    getData().setIsFinish(0);
-                } else if (response.equals("finish")) {
-                    getData().setIsFinish(1);
-                }
-                String rightFirstTitle;
-                if (AppContext.isDoctor()) {
-                    rightFirstTitle = "查看问卷";
-                } else {
-                    rightFirstTitle = "填写问卷";
-                }
-                binding.getHeader().setLeftTitle(handler.getTitle())
-                        .setRightFirstTitle(rightFirstTitle)
-                        .setRightTitle("医生建议");
-            }
-        });
-    }
 
     @Override
     public String getTeamId() {

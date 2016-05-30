@@ -42,6 +42,7 @@ import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ImModule;
+import com.doctor.sun.ui.activity.ChattingActivityNoMenu;
 import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.ui.activity.doctor.CancelAppointmentActivity;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
@@ -432,6 +433,20 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             public void onClick(View view) {
                 if (data.getTid() != 0) {
                     Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
+                    view.getContext().startActivity(intent);
+                } else {
+                    Toast.makeText(view.getContext(), "", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+    }
+
+    public View.OnClickListener chatNoMenu() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (data.getTid() != 0) {
+                    Intent intent = ChattingActivityNoMenu.makeIntent(view.getContext(), data);
                     view.getContext().startActivity(intent);
                 } else {
                     Toast.makeText(view.getContext(), "", Toast.LENGTH_SHORT).show();

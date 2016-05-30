@@ -43,18 +43,21 @@ import io.ganguo.library.util.log.LoggerFactory;
  * Created by Lynn on 1/14/16.
  */
 public class DiagnosisReadOnlyFragment extends Fragment {
-    public Logger logger = LoggerFactory.getLogger(DiagnosisFragment.class);
+    private static DiagnosisReadOnlyFragment instance;
     private DiagnosisModule api = Api.of(DiagnosisModule.class);
     private DiagnosisReadOnlyViewModel viewModel;
     private FragmentDiagnosisReadonlyBinding binding;
     private IncludeDiagnosisResultBinding resultBinding;
 
     public static DiagnosisReadOnlyFragment getInstance(Appointment id) {
-        DiagnosisReadOnlyFragment instance = new DiagnosisReadOnlyFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(Constants.DATA, id);
-        instance.setArguments(args);
-
+        if (instance == null) {
+            instance = new DiagnosisReadOnlyFragment();
+            Bundle args = new Bundle();
+            args.putParcelable(Constants.DATA, id);
+            instance.setArguments(args);
+        } else {
+            instance.getArguments().putParcelable(Constants.DATA, id);
+        }
         return instance;
     }
 
@@ -125,7 +128,6 @@ public class DiagnosisReadOnlyFragment extends Fragment {
                     //data != null
                     initDiagnosisView();
 
-                    logger.d("诊断返回结果: " + response.toString());
                     viewModel.cloneFromDiagnosisInfo(response);
                     //用药设置
                     resultBinding.flMedicine.setVisibility(View.VISIBLE);

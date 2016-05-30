@@ -79,7 +79,7 @@ public class FinishedOrderActivity extends TabActivity
 
     @Override
     public void onMenuClicked() {
-        getData().getHandler().chat().onClick(binding.getRoot());
+        getData().getHandler().chatNoMenu().onClick(binding.getRoot());
     }
 
     @Override
