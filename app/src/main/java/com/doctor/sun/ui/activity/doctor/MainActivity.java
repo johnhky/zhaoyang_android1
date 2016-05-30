@@ -83,8 +83,8 @@ public class MainActivity extends BaseDoctorActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         getRealm().addChangeListener(getFooter());
         api.doctorIndex().enqueue(new ApiCallback<DoctorIndex>() {
             @Override
