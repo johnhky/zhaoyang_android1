@@ -14,6 +14,7 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.MedicineStore;
 import com.doctor.sun.entity.SystemMsg;
+import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -37,6 +38,8 @@ import java.util.List;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.util.Tasks;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by rick on 12/18/15.
@@ -60,6 +63,10 @@ public class ConsultingFragment extends RefreshListFragment {
     @Override
     public void onResume() {
         super.onResume();
+        registerRecentContactObserver();
+    }
+
+    private void registerRecentContactObserver() {
         NIMClient.getService(MsgServiceObserve.class).observeRecentContact(new Observer<List<RecentContact>>() {
             @Override
             public void onEvent(final List<RecentContact> recentContacts) {
@@ -152,12 +159,25 @@ public class ConsultingFragment extends RefreshListFragment {
 
     public Appointment getAppointmentByTid(int tid) {
         Appointment appointment = map.get(tid);
-        if (appointment != null) {
+        if (isStartedMsg(tid)) {
+            int i = removeAppointment(appointment);
+            getAdapter().notifyItemRemoved(i);
+            pullAppointment(tid);
+            return null;
+        } else if (appointment != null) {
             return appointment;
         } else {
             pullAppointment(tid);
             return null;
         }
+    }
+
+    public boolean isStartedMsg(int tid) {
+        if (realm == null || realm.isClosed()) return false;
+
+        RealmResults<TextMsg> time = realm.where(TextMsg.class).equalTo("sessionId", String.valueOf(tid)).findAllSorted("time", Sort.ASCENDING);
+
+        return time.last().getBody().equals("就诊开始");
     }
 
     private void pullAppointment(int tid) {
@@ -193,8 +213,7 @@ public class ConsultingFragment extends RefreshListFragment {
         private void getAndInsertAppointment(String contactId) {
             Appointment appointmentByTid = getAppointmentByTid(contactId);
             if (appointmentByTid != null) {
-                int oldPosition = getAdapter().indexOf(appointmentByTid);
-                getAdapter().remove(oldPosition);
+                int oldPosition = removeAppointment(appointmentByTid);
                 getAdapter().add(finalPosition, appointmentByTid);
                 if (oldPosition != finalPosition) {
                     getAdapter().notifyItemMoved(oldPosition, finalPosition);
@@ -204,6 +223,13 @@ public class ConsultingFragment extends RefreshListFragment {
                 }
             }
         }
+    }
+
+    private int removeAppointment(Appointment appointmentByTid) {
+        int oldPosition = getAdapter().indexOf(appointmentByTid);
+        getAdapter().remove(oldPosition);
+        map.remove(appointmentByTid.getTid());
+        return oldPosition;
     }
 
     private class RecentContactCallback extends RequestCallbackWrapper<List<RecentContact>> {
