@@ -10,7 +10,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityUrgentCallBinding;
-import com.doctor.sun.entity.EmergencyCall;
+import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
@@ -156,9 +156,9 @@ public class UrgentCallActivity extends BaseActivity2 implements View.OnClickLis
                     }
                     api.publish(String.valueOf(getData().getMedicalRecordId()), getTitles(), getCity()
                             , getGender(), Integer.valueOf(string)
-                            , getTime()).enqueue(new ApiCallback<EmergencyCall>() {
+                            , getTime()).enqueue(new ApiCallback<UrgentCall>() {
                         @Override
-                        protected void handleResponse(EmergencyCall response) {
+                        protected void handleResponse(UrgentCall response) {
 //                            Log.e(TAG, "handleResponse: " + response);
                             if (binding.rbWechat.isChecked()) {
                                 api.buildWeChatOrder(response.getId(), "wechat").enqueue(new WeChatPayCallback(UrgentCallActivity.this, response));

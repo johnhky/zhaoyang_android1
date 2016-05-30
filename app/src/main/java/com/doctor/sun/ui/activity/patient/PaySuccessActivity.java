@@ -3,7 +3,6 @@ package com.doctor.sun.ui.activity.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -11,7 +10,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityPaySuccessBinding;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.EmergencyCall;
+import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.ui.activity.BaseActivity2;
 
 import io.ganguo.library.AppManager;
@@ -33,7 +32,7 @@ public class PaySuccessActivity extends BaseActivity2 implements View.OnClickLis
         return i;
     }
 
-    public static Intent makeIntent(Context context, EmergencyCall data) {
+    public static Intent makeIntent(Context context, UrgentCall data) {
         Intent i = new Intent(context, PaySuccessActivity.class);
         i.putExtra(Constants.DATA, data);
         i.putExtra(Constants.TYPE, URGENT_CALL);
@@ -50,7 +49,7 @@ public class PaySuccessActivity extends BaseActivity2 implements View.OnClickLis
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 
-    private EmergencyCall getUrgentCall() {
+    private UrgentCall getUrgentCall() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 

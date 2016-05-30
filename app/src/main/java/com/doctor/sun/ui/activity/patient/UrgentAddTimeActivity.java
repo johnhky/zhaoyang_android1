@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
@@ -14,7 +13,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityAddTimeBinding;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.EmergencyCall;
+import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.EmergencyModule;
@@ -31,13 +30,13 @@ public class UrgentAddTimeActivity extends BaseActivity2 {
     private PActivityAddTimeBinding binding;
     private EmergencyModule api = Api.of(EmergencyModule.class);
 
-    public static Intent makeIntent(Context context, EmergencyCall data) {
+    public static Intent makeIntent(Context context, UrgentCall data) {
         Intent i = new Intent(context, UrgentAddTimeActivity.class);
         i.putExtra(Constants.DATA, data);
         return i;
     }
 
-    private EmergencyCall getData() {
+    private UrgentCall getData() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 

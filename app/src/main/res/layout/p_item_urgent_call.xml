@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.EmergencyCall" />
+            type="com.doctor.sun.entity.UrgentCall" />
 
         <variable
             name="vh"

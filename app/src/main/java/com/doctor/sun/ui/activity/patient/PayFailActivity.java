@@ -10,14 +10,14 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityPayFailBinding;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.EmergencyCall;
+import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
-import com.doctor.sun.ui.handler.EmergencyCallHandler;
+import com.doctor.sun.ui.handler.UrgentCallHandler;
 
 import java.util.HashMap;
 
@@ -42,7 +42,7 @@ public class PayFailActivity extends BaseActivity2 implements View.OnClickListen
         return i;
     }
 
-    public static Intent makeIntent(Context context, EmergencyCall data, boolean payWithWeChat) {
+    public static Intent makeIntent(Context context, UrgentCall data, boolean payWithWeChat) {
         Intent i = new Intent(context, PayFailActivity.class);
         i.putExtra(Constants.PAY_METHOD, payWithWeChat);
         i.putExtra(Constants.DATA, data);
@@ -59,7 +59,7 @@ public class PayFailActivity extends BaseActivity2 implements View.OnClickListen
         return i;
     }
 
-    private EmergencyCall getUrgentCall() {
+    private UrgentCall getUrgentCall() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 
@@ -107,7 +107,7 @@ public class PayFailActivity extends BaseActivity2 implements View.OnClickListen
                         break;
                     }
                     case URGENT_CALL: {
-                        EmergencyCallHandler handler = new EmergencyCallHandler(getUrgentCall());
+                        UrgentCallHandler handler = new UrgentCallHandler(getUrgentCall());
                         if (shouldPayWithWeChat()) {
                             handler.payWithWeChat(this, "");
                         } else {

@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.CompoundButton;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -33,7 +34,7 @@ import java.util.Locale;
 
 /**
  * 确认预约
- * <p/>
+ * <p>
  * Created by lucas on 1/22/16.
  */
 public class ApplyAppointmentActivity extends BaseActivity2 {
@@ -151,8 +152,25 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
             protected void handleResponse(List<Coupon> response) {
                 if (response != null && !response.isEmpty()) {
                     coupons = response;
-                    binding.llyCoupon.setVisibility(View.VISIBLE);
                     binding.cbCouponCount.setText(String.format(Locale.CHINA, "您有%d张可用优惠券", response.size()));
+                } else {
+                    coupons = null;
+                    binding.cbCouponCount.setText(String.format(Locale.CHINA, "您暂时没有可用优惠券", response.size()));
+                }
+            }
+        });
+
+        binding.cbCouponCount.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (coupons == null) {
+                    return;
+                }
+
+                if (isChecked) {
+                    binding.cbCouponCount.setText(String.format(Locale.CHINA, "使用一张优惠券"));
+                } else {
+                    binding.cbCouponCount.setText(String.format(Locale.CHINA, "您有%d张可用优惠券", coupons.size()));
                 }
             }
         });

@@ -8,7 +8,7 @@ import android.text.TextUtils;
 
 import com.alipay.sdk.app.PayTask;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.EmergencyCall;
+import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.ui.activity.patient.PayFailActivity;
 import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
 import com.doctor.sun.util.PayCallback;
@@ -46,7 +46,7 @@ public class AlipayCallback extends SimpleCallback<String> {
         };
     }
 
-    public AlipayCallback(final Activity activity, final EmergencyCall data) {
+    public AlipayCallback(final Activity activity, final UrgentCall data) {
         this.activity = activity;
         mCallback = new PayCallback() {
 

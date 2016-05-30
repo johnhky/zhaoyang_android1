@@ -9,12 +9,12 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityAddFeeBinding;
-import com.doctor.sun.entity.EmergencyCall;
+import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.EmergencyModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
-import com.doctor.sun.ui.handler.EmergencyCallHandler;
+import com.doctor.sun.ui.handler.UrgentCallHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 /**
@@ -24,14 +24,14 @@ public class UrgentAddFeeActivity extends BaseActivity2 {
     private PActivityAddFeeBinding binding;
     private EmergencyModule api = Api.of(EmergencyModule.class);
 
-    public static Intent makeIntent(Context context, EmergencyCall data) {
+    public static Intent makeIntent(Context context, UrgentCall data) {
         Intent i = new Intent(context, UrgentAddFeeActivity.class);
         i.putExtra(Constants.DATA, data);
         return i;
     }
 
 
-    private EmergencyCall getData() {
+    private UrgentCall getData() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 
@@ -50,7 +50,7 @@ public class UrgentAddFeeActivity extends BaseActivity2 {
                 api.addMoney(getData().getId(), binding.etFee.getText().toString()).enqueue(new SimpleCallback<String>() {
                     @Override
                     protected void handleResponse(String response) {
-                        EmergencyCallHandler handler = new EmergencyCallHandler(getData());
+                        UrgentCallHandler handler = new UrgentCallHandler(getData());
                         if (binding.rbAlipay.isChecked()) {
                             handler.payWithAlipay(UrgentAddFeeActivity.this, "");
                         } else {

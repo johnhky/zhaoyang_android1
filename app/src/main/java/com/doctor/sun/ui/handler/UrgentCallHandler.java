@@ -10,7 +10,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.EmergencyCall;
+import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -36,16 +36,16 @@ import retrofit2.Call;
 /**
  * Created by rick on 22/1/2016.
  */
-public class EmergencyCallHandler implements PayInterface {
+public class UrgentCallHandler implements PayInterface {
 
     public static final int NOT_VALID = 0;
     public static final int NOT_PAY = 1;
     public static final int PAY = 2;
     private static EmergencyModule api = Api.of(EmergencyModule.class);
 
-    private final EmergencyCall data;
+    private final UrgentCall data;
 
-    public EmergencyCallHandler(EmergencyCall emergencyCall) {
+    public UrgentCallHandler(UrgentCall emergencyCall) {
         this.data = emergencyCall;
     }
 
@@ -66,7 +66,7 @@ public class EmergencyCallHandler implements PayInterface {
                         break;
                     }
                     case R.id.pay: {
-                        new PayMethodDialog(adapter.getContext(), EmergencyCallHandler.this).show();
+                        new PayMethodDialog(adapter.getContext(), UrgentCallHandler.this).show();
                         break;
                     }
                     case R.id.add_money: {

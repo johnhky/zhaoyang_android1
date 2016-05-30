@@ -5,13 +5,13 @@ import android.os.Parcelable;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.handler.EmergencyCallHandler;
+import com.doctor.sun.ui.handler.UrgentCallHandler;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by lucas on 1/20/16.
  */
-public class EmergencyCall implements LayoutId, Parcelable {
+public class UrgentCall implements LayoutId, Parcelable {
 
     /**
      * id : 935
@@ -77,7 +77,7 @@ public class EmergencyCall implements LayoutId, Parcelable {
     @JsonProperty("need_refund")
     private int needRefund;
 
-    private EmergencyCallHandler handler = new EmergencyCallHandler(this);
+    private UrgentCallHandler handler = new UrgentCallHandler(this);
 
     public void setId(int id) {
         this.id = id;
@@ -177,7 +177,7 @@ public class EmergencyCall implements LayoutId, Parcelable {
 
     @Override
     public String toString() {
-        return "EmergencyCall{" +
+        return "UrgentCall{" +
                 "id=" + id +
                 ", recordId=" + recordId +
                 ", searchTitle='" + searchTitle + '\'' +
@@ -262,11 +262,11 @@ public class EmergencyCall implements LayoutId, Parcelable {
         return R.layout.p_item_urgent_call;
     }
 
-    public EmergencyCallHandler getHandler() {
+    public UrgentCallHandler getHandler() {
         return handler;
     }
 
-    public void setHandler(EmergencyCallHandler handler) {
+    public void setHandler(UrgentCallHandler handler) {
         this.handler = handler;
     }
 
@@ -301,10 +301,10 @@ public class EmergencyCall implements LayoutId, Parcelable {
         dest.writeInt(this.needRefund);
     }
 
-    public EmergencyCall() {
+    public UrgentCall() {
     }
 
-    protected EmergencyCall(Parcel in) {
+    protected UrgentCall(Parcel in) {
         this.id = in.readInt();
         this.recordId = in.readInt();
         this.searchTitle = in.readString();
@@ -327,13 +327,13 @@ public class EmergencyCall implements LayoutId, Parcelable {
         this.needRefund = in.readInt();
     }
 
-    public static final Creator<EmergencyCall> CREATOR = new Creator<EmergencyCall>() {
-        public EmergencyCall createFromParcel(Parcel source) {
-            return new EmergencyCall(source);
+    public static final Creator<UrgentCall> CREATOR = new Creator<UrgentCall>() {
+        public UrgentCall createFromParcel(Parcel source) {
+            return new UrgentCall(source);
         }
 
-        public EmergencyCall[] newArray(int size) {
-            return new EmergencyCall[size];
+        public UrgentCall[] newArray(int size) {
+            return new UrgentCall[size];
         }
     };
 

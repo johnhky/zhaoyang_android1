@@ -22,7 +22,7 @@ public class AppointmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(final int position) {
-        ListFragment fragment = AppointmentListFragment.getInstance(position);
+        AppointmentListFragment fragment = AppointmentListFragment.getInstance(position);
         return fragment;
     }
 

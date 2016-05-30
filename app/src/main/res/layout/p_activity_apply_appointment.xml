@@ -224,8 +224,7 @@
                     android:id="@+id/lly_coupon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -346,15 +345,15 @@
                         android:textSize="@dimen/font_17" />
                 </FrameLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:layout_marginBottom="@dimen/dp_38"
-                    android:gravity="center"
-                    android:text="*支付成功后,预约面诊成功,请尽快支付"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/font_12" />
+                <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="@dimen/dp_10"-->
+                <!--android:layout_marginBottom="@dimen/dp_38"-->
+                <!--android:gravity="center"-->
+                <!--android:text="*支付成功后,预约面诊成功,请尽快支付"-->
+                <!--android:textColor="@color/orange"-->
+                <!--android:textSize="@dimen/font_12" />-->
 
             </LinearLayout>
         </ScrollView>
