@@ -28,6 +28,7 @@ import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.model.PatientFooterView;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
+import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.UpdateUtil;
 
 
@@ -128,5 +129,18 @@ public class MainActivity extends BaseActivity2 {
     public void onStart() {
         super.onStart();
         getRealm().addChangeListener(getFooter());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == UpdateUtil.STORE_REQUEST) {
+            boolean isGranted = PermissionUtil.verifyPermissions(grantResults);
+            if (isGranted) {
+                if (shouldCheck()) {
+                    UpdateUtil.checkUpdate(this);
+                }
+            }
+        }
     }
 }

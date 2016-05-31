@@ -1,7 +1,6 @@
 package com.doctor.sun.ui.activity.patient.handler;
 
 import android.app.DatePickerDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -53,22 +52,21 @@ public class PatientHandler {
         boolean editStatus = isEditMode.getIsEditMode();
         if (editStatus) {
             final TextView tvBirthday = (TextView) view.findViewById(R.id.tv_birthday);
-            final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     mYear = year;
                     mMonthOfYear = monthOfYear + 1;
                     mDayOfMonth = dayOfMonth;
-                    Log.e("TAG", "onDateSet: " + mYear + " " + mMonthOfYear + " " + mDayOfMonth);
                     tvBirthday.setText(String.format(Locale.CHINA, "%04d-%02d", mYear, mMonthOfYear));
                 }
             };
-            final DatePickerDialog dialog = new DatePickerDialog(view.getContext(), onDateSetListener, mYear, mMonthOfYear, mDayOfMonth);
+            DatePickerDialog dialog = new DatePickerDialog(view.getContext(), onDateSetListener, mYear, mMonthOfYear, mDayOfMonth);
+            final DatePicker datePicker = dialog.getDatePicker();
             dialog.show();
             view.post(new Runnable() {
                 @Override
                 public void run() {
-                    DatePicker datePicker = dialog.getDatePicker();
                     datePicker.setMinDate(System.currentTimeMillis() - ONE_HUNDRED_YEAR);
                     datePicker.setMaxDate(System.currentTimeMillis());
                 }

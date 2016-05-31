@@ -51,8 +51,7 @@
             android:layout_height="@dimen/dp_70"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="@dimen/dp_102"
@@ -67,6 +66,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:hint="选填"
                 android:background="#00000000"
                 android:inputType="textEmailAddress"
                 android:maxLength="20"

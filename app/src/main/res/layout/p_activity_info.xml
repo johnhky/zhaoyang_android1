@@ -117,7 +117,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_70"
             android:layout_marginLeft="@dimen/dp_13"
-            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -136,6 +135,7 @@
                 android:background="#00000000"
                 android:focusableInTouchMode="false"
                 android:inputType="textEmailAddress"
+                android:hint="选填"
                 android:maxLength="20"
                 android:text="@{data.email}"
                 android:textColor="#363636"
@@ -144,7 +144,6 @@
         </LinearLayout>
 
         <View
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="#c1cacf" />

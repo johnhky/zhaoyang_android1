@@ -2,6 +2,7 @@ package com.doctor.sun.ui.activity.doctor;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.handler.MainActivityHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.widget.PassDialog;
+import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.UpdateUtil;
 
 import io.ganguo.library.Config;
@@ -95,5 +97,18 @@ public class MainActivity extends BaseDoctorActivity {
                 getRealm().commitTransaction();
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == UpdateUtil.STORE_REQUEST) {
+            boolean isGranted = PermissionUtil.verifyPermissions(grantResults);
+            if (isGranted) {
+                if (shouldCheck()) {
+                    UpdateUtil.checkUpdate(this);
+                }
+            }
+        }
     }
 }

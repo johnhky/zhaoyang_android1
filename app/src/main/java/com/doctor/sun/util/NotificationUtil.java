@@ -90,7 +90,7 @@ public class NotificationUtil {
 
     public static void onFinishDownloadNewVersion(File file) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
-        builder.setContentText("下载已完成,请点击安装");
+        builder.setContentText("新版本下载已完成,请点击安装");
         builder.setContentTitle("昭阳医生");
         builder.setSmallIcon(R.drawable.ic_notification);
         Intent i = UpdateUtil.getInstallIntent(file.getAbsolutePath());

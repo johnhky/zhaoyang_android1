@@ -1,9 +1,11 @@
 package com.doctor.sun.util;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -32,20 +34,25 @@ import retrofit2.Response;
  */
 public class UpdateUtil {
     public static final String TAG = UpdateUtil.class.getSimpleName();
+    public static int requestCount = 0;
+    public static final int STORE_REQUEST = 100;
+    public static final String[] PERMISSIONS = new String[]{"android.permission.READ_EXTERNAL_STORAGE", Manifest.permission.WRITE_EXTERNAL_STORAGE};
     public static final long INTERVAL = 7200000;
     public static final String APK_PATH = "newVersion.apk";
-    public static final String NEWVERSION = "NEWVERSION";
+    public static final String NEW_VERSION = "NEW_VERSION" + BuildConfig.VERSION_CODE;
     private static long lastCheckTime = 0;
-    private static MaterialDialog dialog;
 
     private static onNoNewVersion noNewVersion;
 
+
     public static void checkUpdate(final Activity context) {
+        if (checkAndRequestPermission(context)) return;
+
         final ToolModule api = Api.of(ToolModule.class);
         final String myVersion = String.valueOf(BuildConfig.VERSION_CODE);
         if (lastCheckTime + INTERVAL > System.currentTimeMillis()) {
             Log.e(TAG, "checkUpdate: " + lastCheckTime);
-            String json = Config.getString(NEWVERSION);
+            String json = Config.getString(NEW_VERSION);
             if (json != null) {
                 Version serverVersion = JacksonUtils.fromJson(json, Version.class);
                 handleNewVersion(context, serverVersion, myVersion);
@@ -61,7 +68,7 @@ public class UpdateUtil {
             public void onResponse(Call<ApiDTO<Version>> call, Response<ApiDTO<Version>> response) {
                 if (response.isSuccessful()) {
                     final Version data = response.body().getData();
-                    Config.putString(NEWVERSION, JacksonUtils.toJson(data));
+                    Config.putString(NEW_VERSION, JacksonUtils.toJson(data));
                     handleNewVersion(context, data, myVersion);
                 } else {
                     Log.e(TAG, "onResponse: ");
@@ -77,6 +84,19 @@ public class UpdateUtil {
 
     }
 
+    private static boolean checkAndRequestPermission(Activity context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!PermissionUtil.hasSelfPermission(context, PERMISSIONS)) {
+                if (requestCount < 2) {
+                    context.requestPermissions(PERMISSIONS, STORE_REQUEST);
+                    requestCount += 1;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static void handleNewVersion(Activity context, Version data, String versionName) {
         boolean forceUpdate;
         double newVersion;
@@ -89,9 +109,6 @@ public class UpdateUtil {
         }
 
         if (context.getWindow().isActive()) {
-            if (dialog != null && dialog.isShowing()) {
-                return;
-            }
             final DownloadNewVersionCallback callback = new DownloadNewVersionCallback(data);
             MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
             builder.canceledOnTouchOutside(false);
@@ -99,10 +116,10 @@ public class UpdateUtil {
             builder.onPositive(callback);
             builder.positiveText("马上更新");
             if (forceUpdate) {
-                dialog = builder.content("昭阳医生已经发布了最新版本，更新后才可以使用哦！").show();
+                builder.content("昭阳医生已经发布了最新版本，更新后才可以使用哦！").show();
             } else if (newVersion > Double.valueOf(versionName)) {
                 builder.negativeText("稍后提醒我");
-                dialog = builder.content("昭阳医生已经发布了最新版本，更新后会有更好的体验哦！").show();
+                builder.content("昭阳医生已经发布了最新版本，更新后会有更好的体验哦！").show();
             } else {
                 if (noNewVersion != null) {
                     noNewVersion.onNoNewVersion();

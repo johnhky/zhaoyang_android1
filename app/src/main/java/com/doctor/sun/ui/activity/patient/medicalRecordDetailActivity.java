@@ -71,10 +71,10 @@ public class MedicalRecordDetailActivity extends BaseActivity2 {
             binding.othersRecord.etRelation.setFocusable(false);
             binding.othersRecord.etEmail.setFocusable(false);
         }
-        if (getData().getAddress().isEmpty())
-            binding.tvAddress.setText("无");
-        else
-            binding.tvAddress.setText(getData().getAddress());
+//        if (getData().getAddress().isEmpty())
+//            binding.tvAddress.setText("无");
+//        else
+//            binding.tvAddress.setText(getData().getAddress());
 
         if (getData().getIdentityNumber().isEmpty())
             binding.tvIdentityNumber.setText("无");

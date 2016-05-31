@@ -29,7 +29,6 @@ import java.util.HashMap;
 
 import io.ganguo.library.common.ToastHelper;
 import io.realm.RealmList;
-import io.realm.RealmResults;
 
 
 /**
@@ -86,9 +85,9 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
                 break;
             }
         }
-        binding.flLocation.setOnClickListener(this);
-        binding.tvProvince.setOnClickListener(this);
-        binding.tvCity.setOnClickListener(this);
+//        binding.flLocation.setOnClickListener(this);
+//        binding.tvProvince.setOnClickListener(this);
+//        binding.tvCity.setOnClickListener(this);
 
         handler = new AddMedicalRecordHandler(this, getRecordType());
     }
@@ -121,9 +120,9 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
             }
         }
 
-        result.put(PROVINCE, binding.tvProvince.getText().toString());
-        result.put(CITY, binding.tvCity.getText().toString());
-        result.put(ADDRESS, binding.etAddress.getText().toString());
+//        result.put(PROVINCE, binding.tvProvince.getText().toString());
+//        result.put(CITY, binding.tvCity.getText().toString());
+//        result.put(ADDRESS, binding.etAddress.getText().toString());
         result.put(IDENTITY_NUMBER, binding.etIdentityNumber.getText().toString());
         result.put(BIRTHDAY, binding.etBirthday.getText().toString());
         String gender;
@@ -240,9 +239,9 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
                         }
                     }
                 });
-                binding.tvCity.setText(copy.get(0).getCity());
+//                binding.tvCity.setText(copy.get(0).getCity());
             }
-            binding.tvProvince.setText(province.getState());
+//            binding.tvProvince.setText(province.getState());
         } else {
             Log.e(TAG, "updateLocation: not found");
         }
@@ -270,34 +269,34 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
     }
 
     private void createCityPicker() {
-        RealmResults<Province> provinces = getRealm().where(Province.class).findAll();
-        String state = binding.tvProvince.getText().toString();
-        String city = binding.tvCity.getText().toString();
-        int provinceId = 0;
-        int cityId = 0;
-        for (int i = 0; i < provinces.size(); i++) {
-            if (provinces.get(i).getState().equals(state)) {
-                provinceId = i;
-            }
-        }
-        RealmList<City> cities = provinces.get(provinceId).getCities();
-        for (int i = 0; i < cities.size(); i++) {
-            if (cities.get(i).getCity().equals(city)) {
-                cityId = i;
-            }
-        }
-
-        cityPickerDialog = new CityPickerDialog(this, provinces, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                binding.tvCity.setText(cityPickerDialog.getCity());
-                binding.tvProvince.setText(cityPickerDialog.getProvince());
-                cityPickerDialog.dismiss();
-            }
-        });
-
-        cityPickerDialog.setProvinceId(provinceId);
-        cityPickerDialog.setCityId(cityId);
+//        RealmResults<Province> provinces = getRealm().where(Province.class).findAll();
+//        String state = binding.tvProvince.getText().toString();
+//        String city = binding.tvCity.getText().toString();
+//        int provinceId = 0;
+//        int cityId = 0;
+//        for (int i = 0; i < provinces.size(); i++) {
+//            if (provinces.get(i).getState().equals(state)) {
+//                provinceId = i;
+//            }
+//        }
+//        RealmList<City> cities = provinces.get(provinceId).getCities();
+//        for (int i = 0; i < cities.size(); i++) {
+//            if (cities.get(i).getCity().equals(city)) {
+//                cityId = i;
+//            }
+//        }
+//
+//        cityPickerDialog = new CityPickerDialog(this, provinces, new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                binding.tvCity.setText(cityPickerDialog.getCity());
+//                binding.tvProvince.setText(cityPickerDialog.getProvince());
+//                cityPickerDialog.dismiss();
+//            }
+//        });
+//
+//        cityPickerDialog.setProvinceId(provinceId);
+//        cityPickerDialog.setCityId(cityId);
     }
 }

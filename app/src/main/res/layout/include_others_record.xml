@@ -52,8 +52,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:inputType="text"
                 android:hint="必填"
+                android:inputType="text"
                 android:maxLength="11"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
@@ -84,9 +84,9 @@
                 android:id="@+id/et_self_name"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:hint="必填"
                 android:layout_weight="1"
                 android:background="#00000000"
+                android:hint="必填"
                 android:inputType="text"
                 android:maxLength="11"
                 android:textColor="#363636"
@@ -97,16 +97,14 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="#c1cacf"
-            android:visibility="gone" />
+            android:background="#c1cacf"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_70"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="@dimen/dp_102"
@@ -122,6 +120,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#00000000"
+                android:hint="选填"
                 android:inputType="textEmailAddress"
                 android:maxLength="20"
                 android:textColor="#363636"
