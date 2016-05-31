@@ -354,7 +354,7 @@ public class DiagnosisViewModel {
         result.put("returnType", String.valueOf(returnType));
         result.put("recordId", String.valueOf(appointmentId.getRecordId()));
 
-        GregorianCalendar gregorianCalendar = new GregorianCalendar(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), time.getmBeginHour(), time.getmBeginMinute());
+        GregorianCalendar gregorianCalendar = new GregorianCalendar(date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth(), time.getmBeginHour(), time.getmBeginMinute());
         result.put("returnTime", String.valueOf(gregorianCalendar.getTimeInMillis()).substring(0, 10));
 //        result.put("money", binding.money.etInput.getText().toString());
 

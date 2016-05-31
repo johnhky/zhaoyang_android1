@@ -10,6 +10,7 @@ import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.QTemplate;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.doctor.AddTemplateActivity;
 import com.doctor.sun.ui.activity.doctor.TemplateActivity;
@@ -81,14 +82,9 @@ public class TemplateHandler {
                 TwoSelectorDialog.showTwoSelectorDialog(view.getContext(), question, cancel, apply, new TwoSelectorDialog.GetActionButton() {
                     @Override
                     public void onClickPositiveButton(final TwoSelectorDialog dialog) {
-                        api.deleteTemplate(String.valueOf(data.getId())).enqueue(new ApiCallback<String>() {
+                        api.deleteTemplate(String.valueOf(data.getId())).enqueue(new SimpleCallback<String>() {
                             @Override
                             protected void handleResponse(String response) {
-
-                            }
-
-                            @Override
-                            protected void handleApi(ApiDTO<String> body) {
                                 dialog.dismiss();
                                 adapter.remove(vh.getAdapterPosition());
                                 adapter.notifyItemRemoved(vh.getAdapterPosition());
