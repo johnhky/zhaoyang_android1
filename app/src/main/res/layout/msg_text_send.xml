@@ -59,6 +59,7 @@
                     android:emoticon="@{data.body}"
                     android:padding="@dimen/dp_10"
                     android:textColor="@color/white"
+                    android:textIsSelectable="true"
                     android:textSize="@dimen/font_13" />
             </LinearLayout>
 

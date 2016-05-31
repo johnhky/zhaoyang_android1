@@ -133,6 +133,7 @@
                         android:layout_height="@dimen/dp_35"
                         android:layout_gravity="end"
                         android:layout_marginRight="@dimen/dp_11"
+                        android:visibility="gone"
                         android:background="@drawable/btn_small_white">
 
                         <TextView

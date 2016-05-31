@@ -12,15 +12,11 @@ import com.doctor.sun.vo.ItemDivider;
 public class DoctorDescriptionFragment extends ListFragment {
 
 
-    private static DoctorDescriptionFragment instance;
-
     public static DoctorDescriptionFragment getInstance(String description) {
-        if (instance == null) {
-            instance = new DoctorDescriptionFragment();
-            Bundle args = new Bundle();
-            args.putString(Constants.DATA, description);
-            instance.setArguments(args);
-        }
+        DoctorDescriptionFragment instance = new DoctorDescriptionFragment();
+        Bundle args = new Bundle();
+        args.putString(Constants.DATA, description);
+        instance.setArguments(args);
         return instance;
     }
 

@@ -18,10 +18,10 @@
     </data>
 
     <LinearLayout
-        android:orientation="vertical"
-        android:paddingTop="@dimen/dp_15"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp_15">
 
         <include
             layout="@layout/include_msg_time"
@@ -60,6 +60,7 @@
                 android:paddingStart="@dimen/dp_16"
                 android:paddingTop="@dimen/dp_10"
                 android:textColor="#363636"
+                android:textIsSelectable="true"
                 android:textSize="@dimen/font_13" />
 
         </LinearLayout>

@@ -34,11 +34,13 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/lly_medical_record"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_13"
-                    android:layout_marginRight="@dimen/dp_13"
-                    android:orientation="horizontal">
+                    android:background="@drawable/ripple_default"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/dp_13"
+                    android:paddingRight="@dimen/dp_13">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -63,6 +65,7 @@
                             android:textSize="@dimen/font_15" />
 
                         <TextView
+                            android:id="@+id/tv_medcialRecord"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_marginTop="@dimen/dp_3"
@@ -208,59 +211,59 @@
 
                     </com.doctor.sun.ui.widget.FlowLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dp_11"
-                        android:layout_marginTop="@dimen/dp_11"
-                        android:text="地域"
-                        android:textColor="#363636"
-                        android:textSize="@dimen/font_15" />
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginBottom="@dimen/dp_11"-->
+                        <!--android:layout_marginTop="@dimen/dp_11"-->
+                        <!--android:text="地域"-->
+                        <!--android:textColor="#363636"-->
+                        <!--android:textSize="@dimen/font_15" />-->
 
-                    <LinearLayout
-                        android:id="@+id/lly_location"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_37"
-                        android:orientation="horizontal">
+                    <!--<LinearLayout-->
+                        <!--android:id="@+id/lly_location"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="@dimen/dp_37"-->
+                        <!--android:orientation="horizontal">-->
 
-                        <TextView
-                            android:id="@+id/tv_select2"
-                            android:layout_width="@dimen/dp_75"
-                            android:layout_height="@dimen/dp_37"
-                            android:layout_marginRight="@dimen/dp_8"
-                            android:background="@drawable/ic_week_defalut"
-                            android:gravity="center"
-                            android:text="不限"
-                            android:textColor="@color/text_color_gray"
-                            android:textSize="@dimen/font_15" />
+                        <!--<TextView-->
+                            <!--android:id="@+id/tv_select2"-->
+                            <!--android:layout_width="@dimen/dp_75"-->
+                            <!--android:layout_height="@dimen/dp_37"-->
+                            <!--android:layout_marginRight="@dimen/dp_8"-->
+                            <!--android:background="@drawable/ic_week_defalut"-->
+                            <!--android:gravity="center"-->
+                            <!--android:text="不限"-->
+                            <!--android:textColor="@color/text_color_gray"-->
+                            <!--android:textSize="@dimen/font_15" />-->
 
-                        <TextView
-                            android:id="@+id/tv_location1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/dp_37"
-                            android:layout_marginRight="@dimen/dp_8"
-                            android:background="@drawable/ic_week_defalut"
-                            android:gravity="center"
-                            android:paddingLeft="@dimen/dp_18"
-                            android:paddingRight="@dimen/dp_18"
-                            android:text="@{data.province}"
-                            android:textColor="@color/text_color_gray"
-                            android:textSize="@dimen/font_15" />
+                        <!--<TextView-->
+                            <!--android:id="@+id/tv_location1"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="@dimen/dp_37"-->
+                            <!--android:layout_marginRight="@dimen/dp_8"-->
+                            <!--android:background="@drawable/ic_week_defalut"-->
+                            <!--android:gravity="center"-->
+                            <!--android:paddingLeft="@dimen/dp_18"-->
+                            <!--android:paddingRight="@dimen/dp_18"-->
+                            <!--android:text="@{data.province}"-->
+                            <!--android:textColor="@color/text_color_gray"-->
+                            <!--android:textSize="@dimen/font_15" />-->
 
-                        <TextView
-                            android:id="@+id/tv_location2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/dp_37"
-                            android:layout_marginRight="@dimen/dp_8"
-                            android:background="@drawable/ic_week_defalut"
-                            android:gravity="center"
-                            android:paddingLeft="@dimen/dp_18"
-                            android:paddingRight="@dimen/dp_18"
-                            android:text="@{data.city}"
-                            android:textColor="@color/text_color_gray"
-                            android:textSize="@dimen/font_15" />
+                        <!--<TextView-->
+                            <!--android:id="@+id/tv_location2"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="@dimen/dp_37"-->
+                            <!--android:layout_marginRight="@dimen/dp_8"-->
+                            <!--android:background="@drawable/ic_week_defalut"-->
+                            <!--android:gravity="center"-->
+                            <!--android:paddingLeft="@dimen/dp_18"-->
+                            <!--android:paddingRight="@dimen/dp_18"-->
+                            <!--android:text="@{data.city}"-->
+                            <!--android:textColor="@color/text_color_gray"-->
+                            <!--android:textSize="@dimen/font_15" />-->
 
-                    </LinearLayout>
+                    <!--</LinearLayout>-->
 
                     <TextView
                         android:layout_width="wrap_content"

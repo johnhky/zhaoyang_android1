@@ -10,8 +10,8 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityUrgentCallBinding;
-import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -19,6 +19,7 @@ import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.module.EmergencyModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.ui.widget.SelectRecordDialog;
 
 import java.util.ArrayList;
 
@@ -49,7 +50,7 @@ public class UrgentCallActivity extends BaseActivity2 implements View.OnClickLis
         header.setMidTitle("确认预约");
         binding.setHeader(header);
         binding.tvSelect1.setSelected(true);
-        binding.tvSelect2.setSelected(true);
+//        binding.tvSelect2.setSelected(true);
         binding.tvSelect3.setSelected(true);
         binding.rbMinute.setChecked(true);
         binding.rbAlipay.setChecked(true);
@@ -83,17 +84,17 @@ public class UrgentCallActivity extends BaseActivity2 implements View.OnClickLis
 
     public String getCity() {
         String city = "";
-        if (binding.tvLocation1.isSelected())
-            city = binding.tvLocation1.getText().toString();
-
-        if (binding.tvLocation2.isSelected())
-            city = binding.tvLocation2.getText().toString();
-
-        if (binding.tvLocation1.isSelected() && binding.tvLocation2.isSelected())
-            city = binding.tvLocation2.getText().toString();
-
-        if (binding.tvSelect2.isSelected())
-            city = "all";
+//        if (binding.tvLocation1.isSelected())
+//            city = binding.tvLocation1.getText().toString();
+//
+//        if (binding.tvLocation2.isSelected())
+//            city = binding.tvLocation2.getText().toString();
+//
+//        if (binding.tvLocation1.isSelected() && binding.tvLocation2.isSelected())
+//            city = binding.tvLocation2.getText().toString();
+//
+//        if (binding.tvSelect2.isSelected())
+//            city = "all";
         return city;
     }
 
@@ -105,8 +106,8 @@ public class UrgentCallActivity extends BaseActivity2 implements View.OnClickLis
             gender = 2;
         if (binding.tvGender1.isSelected() && binding.tvGender2.isSelected())
             gender = 0;
-        if (binding.tvSelect2.isSelected())
-            gender = 0;
+//        if (binding.tvSelect2.isSelected())
+//            gender = 0;
         return gender;
     }
 
@@ -183,15 +184,15 @@ public class UrgentCallActivity extends BaseActivity2 implements View.OnClickLis
                 }
                 break;
 
-            case R.id.tv_select2:
-                if (!binding.tvSelect2.isSelected()) {
-                    binding.tvSelect2.setSelected(true);
-                    binding.llyLocation.getChildAt(1).setSelected(false);
-                    binding.llyLocation.getChildAt(2).setSelected(false);
-                } else {
-                    binding.tvSelect2.setSelected(false);
-                }
-                break;
+//            case R.id.tv_select2:
+//                if (!binding.tvSelect2.isSelected()) {
+//                    binding.tvSelect2.setSelected(true);
+//                    binding.llyLocation.getChildAt(1).setSelected(false);
+//                    binding.llyLocation.getChildAt(2).setSelected(false);
+//                } else {
+//                    binding.tvSelect2.setSelected(false);
+//                }
+//                break;
 
             case R.id.tv_select3:
                 if (!binding.tvSelect3.isSelected()) {
@@ -228,15 +229,15 @@ public class UrgentCallActivity extends BaseActivity2 implements View.OnClickLis
                 binding.tvSelect1.setSelected(false);
                 break;
 
-            case R.id.tv_location1:
-                binding.tvLocation1.setSelected(!binding.tvLocation1.isSelected());
-                binding.tvSelect2.setSelected(false);
-                break;
-
-            case R.id.tv_location2:
-                binding.tvLocation2.setSelected(!binding.tvLocation2.isSelected());
-                binding.tvSelect2.setSelected(false);
-                break;
+//            case R.id.tv_location1:
+//                binding.tvLocation1.setSelected(!binding.tvLocation1.isSelected());
+//                binding.tvSelect2.setSelected(false);
+//                break;
+//
+//            case R.id.tv_location2:
+//                binding.tvLocation2.setSelected(!binding.tvLocation2.isSelected());
+//                binding.tvSelect2.setSelected(false);
+//                break;
 
             case R.id.tv_gender1:
                 binding.tvGender1.setSelected(!binding.tvGender1.isSelected());
@@ -249,22 +250,36 @@ public class UrgentCallActivity extends BaseActivity2 implements View.OnClickLis
                 binding.tvGender1.setSelected(false);
                 binding.tvSelect3.setSelected(false);
                 break;
+
+            case R.id.lly_medical_record:
+                SelectRecordDialog.showRecordDialog(this, new SelectRecordDialog.SelectRecordListener() {
+                    @Override
+                    public void onSelectRecord(SelectRecordDialog dialog, MedicalRecord selected) {
+                        binding.setData(selected);
+                        Intent newIntent = new Intent();
+                        newIntent.putExtra(Constants.DATA, selected);
+                        setIntent(newIntent);
+
+                        dialog.dismiss();
+                    }
+                });
         }
     }
 
     private void setClickListener() {
         binding.tvApply.setOnClickListener(this);
         binding.tvSelect1.setOnClickListener(this);
-        binding.tvSelect2.setOnClickListener(this);
+//        binding.tvSelect2.setOnClickListener(this);
         binding.tvSelect3.setOnClickListener(this);
         binding.tvTitle1.setOnClickListener(this);
         binding.tvTitle2.setOnClickListener(this);
         binding.tvTitle3.setOnClickListener(this);
         binding.tvTitle4.setOnClickListener(this);
         binding.tvTitle5.setOnClickListener(this);
-        binding.tvLocation1.setOnClickListener(this);
-        binding.tvLocation2.setOnClickListener(this);
+//        binding.tvLocation1.setOnClickListener(this);
+//        binding.tvLocation2.setOnClickListener(this);
         binding.tvGender1.setOnClickListener(this);
         binding.tvGender2.setOnClickListener(this);
+        binding.llyMedicalRecord.setOnClickListener(this);
     }
 }

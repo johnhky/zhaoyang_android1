@@ -91,7 +91,7 @@ android {
             buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
             buildConfigField "String", "IM_TOKEN", '"7c54a355857a08b2dfc3769c7dc05e8a"' //host, 必改
 
-            debuggable true
+            debuggable false
             zipAlignEnabled true
             shrinkResources true
             minifyEnabled false
