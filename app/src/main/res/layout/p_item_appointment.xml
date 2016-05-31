@@ -25,15 +25,15 @@
         android:onClick="@{data.handler.onPatientClickOrder(adapter,vh)}"
         android:orientation="vertical">
 
-        <LinearLayout
+        <com.zhy.android.percent.support.PercentFrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_85"
+            android:layout_height="@dimen/dp_60"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/dp_13">
 
             <com.doctor.sun.ui.widget.BezelImageView
-                android:layout_width="@dimen/dp_60"
-                android:layout_height="@dimen/dp_60"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
                 android:layout_gravity="center_vertical"
                 android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
@@ -44,94 +44,55 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_40"
                 android:layout_marginRight="@dimen/dp_13"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/dp_1"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:text="@{data.doctor.name}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/dp_13"
-                        android:text="@{data.doctor.name}"
-                        android:textColor="#363636"
-                        android:textSize="@dimen/font_15"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/dp_4"
-                        android:background="@drawable/shape_test"
-                        android:gravity="center"
-                        android:paddingLeft="@dimen/dp_4"
-                        android:paddingRight="@dimen/dp_4"
-                        android:singleLine="true"
-                        android:text="@{data.doctor.level}"
-                        android:textColor="#ffffff"
-                        android:textSize="@dimen/font_9" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/font_13"
-                        app:html="@{data.handler.styledOrderStatus}" />
-
-
-                </LinearLayout>
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginTop="@dimen/dp_1"
+                    android:background="@drawable/shape_test"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dp_4"
+                    android:paddingRight="@dimen/dp_4"
+                    android:singleLine="true"
+                    android:text="@{data.doctor.level}"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/font_9" />
 
             </LinearLayout>
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_gravity="end"
+                android:textSize="@dimen/font_13"
+                app:html="@{data.handler.styledOrderStatus}" />
+
+        </com.zhy.android.percent.support.PercentFrameLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_marginLeft="@dimen/dp_13"
             android:background="#c1cacf" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_time(data.handler.bookTime)}"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_13" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_type(data.type)}"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_13" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_progress(data.progress)}"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_13" />
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -158,31 +119,84 @@
         </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
+            android:text="@{@string/appointment_time(data.handler.bookTime)}"
             android:textColor="#363636"
-            android:textSize="@dimen/font_13"
-            app:html="@{@string/money(data.money)}" />
+            android:textSize="@dimen/font_13" />
 
-        <View
+        <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_14"
-            android:visibility='@{data.needPay.equals("")}' />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{@string/appointment_type(data.type)}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_13"
+                app:layout_widthPercent="40%" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{@string/appointment_progress(data.progress)}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_13"
+                app:layout_widthPercent="60%" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_14"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_13"
-            android:visibility='@{!data.needPay.equals("")}'
-            app:html="@{@string/need_pay(data.needPay)}" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_13"
+                app:html="@{@string/money(data.money)}"
+                app:layout_widthPercent="40%" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility='@{!data.needPay.equals("")}'
+                app:layout_widthPercent="60%">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_13"
+                    app:html="@{@string/need_pay(data.needPay)}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text=" (已使用优惠券)"
+                    android:textColor="#f76d02"
+                    android:textSize="@dimen/font_9" />
+
+            </LinearLayout>
+        </com.zhy.android.percent.support.PercentLinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
