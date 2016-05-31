@@ -9,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
@@ -126,7 +127,16 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
             listener = new RealmChangeListener<RealmResults<TextMsg>>() {
                 @Override
                 public void onChange(RealmResults<TextMsg> element) {
-                    if (Constants.FINISH_MESSAGE.equals(element.first().getBody())) {
+                    boolean empty = element.isEmpty();
+                    boolean isFinish = false;
+                    boolean isStart = false;
+                    if (!empty) {
+                        TextMsg first = element.first();
+                        String body = first.getBody();
+                        isFinish = Constants.FINISH_MESSAGE.equals(body);
+                        isStart = Constants.START_MESSAGE.equals(body);
+                    }
+                    if (isFinish || isStart) {
                         Api.of(AppointmentModule.class).appointmentInTid(getTeamId(), "1").enqueue(new RefreshAppointmentCallback());
                         initData();
                     }

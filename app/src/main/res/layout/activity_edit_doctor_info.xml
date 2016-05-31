@@ -299,7 +299,7 @@
                         android:hint="选填"
                         android:inputType="phone"
                         android:maxLength="11"
-                        android:text="@{data.phone}"
+                        android:text="@{data.hospitalPhone}"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_15" />
 

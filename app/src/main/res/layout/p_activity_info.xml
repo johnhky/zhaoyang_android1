@@ -171,7 +171,6 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_white"
                 android:gravity="start|center_vertical"
-                android:paddingRight="@dimen/dp_13"
                 android:text="@{data.birthday}"
                 android:drawableRight="@drawable/bg_white"
                 android:textColor="@color/color_tick"

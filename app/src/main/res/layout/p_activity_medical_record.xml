@@ -70,7 +70,6 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/bg_transparent"
                         android:gravity="start|center_vertical"
-                        android:paddingLeft="@dimen/dp_13"
                         android:text="@{data.birthday}"
                         android:textColor="@color/color_tick"
                         android:textSize="@dimen/font_15" />

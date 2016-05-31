@@ -59,4 +59,5 @@ public class Constants {
     public static final boolean STATUS_ANSWER_MODIFY = true;
     public static final String HANDLER = "HANDLER";
     public static final String FINISH_MESSAGE = "温馨提醒：您的预约就诊时间已到，如有疑问，请再次预约！";
+    public static final String START_MESSAGE = "就诊开始";
 }
