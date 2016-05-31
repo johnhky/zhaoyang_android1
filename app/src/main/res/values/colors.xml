@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#339de1</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryDark">#339DE1</color>
+    <color name="colorAccent">#81D4FA</color>
 
     <color name="transparent">#00000000</color>
     <color name="button_press">#80CCCCCC</color>
@@ -23,6 +23,8 @@
     <color name="custom_text_active">#363636</color>
     <color name="color_face_day">#f76d02</color>
     <color name="color_net_day">#88cb5a</color>
+
+    <color name="blue_grey">#81D4FA</color>
 
 
     <color name="text_color_black">#363636</color>

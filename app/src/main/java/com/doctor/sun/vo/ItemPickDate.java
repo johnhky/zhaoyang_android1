@@ -98,10 +98,15 @@ public class ItemPickDate extends BaseItem {
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(v.getContext(), setBeginDate, year, monthOfYear, dayOfMonth);
-                DatePicker datePicker = datePickerDialog.getDatePicker();
-                datePicker.setMaxDate(System.currentTimeMillis());
-                datePicker.setMinDate(System.currentTimeMillis() - ONE_HUNDRED_YEAR);
+                final DatePicker datePicker = datePickerDialog.getDatePicker();
                 datePickerDialog.show();
+                v.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        datePicker.setMaxDate(System.currentTimeMillis());
+                        datePicker.setMinDate(System.currentTimeMillis() - ONE_HUNDRED_YEAR);
+                    }
+                });
             }
         };
     }

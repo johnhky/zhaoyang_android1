@@ -53,7 +53,7 @@ public class PatientHandler {
         boolean editStatus = isEditMode.getIsEditMode();
         if (editStatus) {
             final TextView tvBirthday = (TextView) view.findViewById(R.id.tv_birthday);
-            DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     mYear = year;
@@ -63,11 +63,16 @@ public class PatientHandler {
                     tvBirthday.setText(String.format(Locale.CHINA, "%04d-%02d", mYear, mMonthOfYear));
                 }
             };
-            DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), onDateSetListener, mYear, mMonthOfYear, mDayOfMonth);
-            DatePickerDialog dialog = datePickerDialog;
-            dialog.getDatePicker().setMinDate(System.currentTimeMillis());
-            dialog.getDatePicker().setMaxDate(System.currentTimeMillis() - ONE_HUNDRED_YEAR);
+            final DatePickerDialog dialog = new DatePickerDialog(view.getContext(), onDateSetListener, mYear, mMonthOfYear, mDayOfMonth);
             dialog.show();
+            view.post(new Runnable() {
+                @Override
+                public void run() {
+                    DatePicker datePicker = dialog.getDatePicker();
+                    datePicker.setMinDate(System.currentTimeMillis() - ONE_HUNDRED_YEAR);
+                    datePicker.setMaxDate(System.currentTimeMillis());
+                }
+            });
         }
 
     }
