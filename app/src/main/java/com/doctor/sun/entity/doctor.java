@@ -107,6 +107,9 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     private int needReview;
     @JsonProperty("point")
     private float point;
+    @JsonProperty("follow_up_permission")
+    private int followUpPermission;
+
     // 预约相关信息
     @JsonIgnore
     private String recordId;
@@ -385,6 +388,14 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
         this.tid = tid;
     }
 
+    public int getFollowUpPermission() {
+        return followUpPermission;
+    }
+
+    public void setFollowUpPermission(int followUpPermission) {
+        this.followUpPermission = followUpPermission;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -423,6 +434,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
         dest.writeInt(this.type);
         dest.writeString(this.yunxinAccid);
         dest.writeString(this.tid);
+        dest.writeInt(this.followUpPermission);
     }
 
     protected Doctor(Parcel in) {
@@ -458,6 +470,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
         this.type = in.readInt();
         this.yunxinAccid = in.readString();
         this.tid = in.readString();
+        this.followUpPermission = in.readInt();
     }
 
     public static final Creator<Doctor> CREATOR = new Creator<Doctor>() {

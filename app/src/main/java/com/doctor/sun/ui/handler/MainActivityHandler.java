@@ -38,7 +38,7 @@ public class MainActivityHandler extends BaseHandler {
     }
 
     /**
-     * 会诊
+     * 随访患者
      *
      * @param view
      */

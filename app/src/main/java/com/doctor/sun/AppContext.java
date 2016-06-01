@@ -39,12 +39,12 @@ import io.realm.RealmSchema;
 
 /**
  * App 上下文环境
- * <p>
+ * <p/>
  * Created by Tony on 9/30/15.
  */
 public class AppContext extends BaseApp {
     public static final String TAG = AppContext.class.getSimpleName();
-    public static final int NEW_VERSION = 5;
+    public static final int NEW_VERSION = 6;
     private static int userType = -1;
     private static boolean isInitialized;
 
@@ -198,6 +198,7 @@ public class AppContext extends BaseApp {
         public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
             RealmSchema schema = realm.getSchema();
             RealmObjectSchema textMsg = schema.get("TextMsg");
+            RealmObjectSchema doctorIndex = schema.get("DoctorIndex");
             if (oldVersion < 1) {
                 textMsg.addField("finished", boolean.class);
                 oldVersion++;
@@ -216,6 +217,12 @@ public class AppContext extends BaseApp {
             if (oldVersion < 4) {
                 if (!textMsg.hasField("haveListen")) {
                     textMsg.addField("haveListen", boolean.class);
+                }
+                oldVersion++;
+            }
+            if (oldVersion < 5) {
+                if (!doctorIndex.hasField("followUpNum")) {
+                    doctorIndex.addField("followUpNum", int.class);
                 }
                 oldVersion++;
             }

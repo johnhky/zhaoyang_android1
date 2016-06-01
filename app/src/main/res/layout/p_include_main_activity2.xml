@@ -46,7 +46,7 @@
                 android:showcaseSize='@{4}'
                 android:text="预约咨询医生"
                 android:textColor="#363636"
-                android:textSize="@dimen/font_16" />
+                android:textSize="@dimen/font_15" />
 
             <View
                 android:layout_width="2px"
@@ -70,7 +70,27 @@
                 android:showcaseSize='@{4}'
                 android:text="简捷复诊寄药"
                 android:textColor="#363636"
-                android:textSize="@dimen/font_16" />
+                android:textSize="@dimen/font_15" />
+
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="#ebf0f3" />
+
+            <TextView
+                android:id="@+id/tv_after_service"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_default"
+                android:drawablePadding="@dimen/dp_9"
+                android:drawableTop="@drawable/ic_after_service"
+                android:gravity="center_horizontal"
+                android:onClick="@{data.searchDoctorQuick}"
+                android:paddingTop="@dimen/dp_11"
+                android:text="随访请求"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
 
         </LinearLayout>
 
@@ -130,7 +150,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-                    android:text="(咨询订单,寄药订单)"
+                    android:text="(咨询订单,寄药订单,随访订单)"
                     android:textColor="#898989"
                     android:textSize="@dimen/font_13" />
 

@@ -32,6 +32,8 @@ public class DoctorIndex extends RealmObject {
     private int consultNum;
     @JsonProperty("transfer_num")
     private int transferNum;
+    @JsonProperty("follow_up_num")
+    private int followUpNum;
     @Required
     @PrimaryKey
     @JsonProperty("name")
@@ -83,5 +85,13 @@ public class DoctorIndex extends RealmObject {
 
     public String getName() {
         return name;
+    }
+
+    public int getFollowUpNum() {
+        return followUpNum;
+    }
+
+    public void setFollowUpNum(int followUpNum) {
+        this.followUpNum = followUpNum;
     }
 }
