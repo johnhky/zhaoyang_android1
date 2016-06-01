@@ -126,6 +126,15 @@ public class Contact implements LayoutId, Parcelable, NameComparator.Name {
         }
     }
 
+    public View.OnClickListener applyAfterService() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        };
+    }
+
     public void setDoctorId(int doctorId) {
         this.doctorId = doctorId;
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
@@ -48,6 +49,13 @@ public class ContactActivity extends BaseActivity2 {
     private PageCallback callback;
     private ArrayList<LayoutId> allData;
 
+    public static Intent makeIntent(Context context, int code, @LayoutRes int layoutId) {
+        Intent i = new Intent(context, ContactActivity.class);
+        i.putExtra(Constants.REQUEST_CODE, code);
+        i.putExtra(Constants.LAYOUT_ID, layoutId);
+        return i;
+    }
+
     public static Intent makeIntent(Context context, int code) {
         Intent i = new Intent(context, ContactActivity.class);
         i.putExtra(Constants.REQUEST_CODE, code);
@@ -70,6 +78,10 @@ public class ContactActivity extends BaseActivity2 {
 //      getResources().getDrawable(R.drawable.shape_divider)));
 
         mAdapter = (ContactAdapter) createAdapter();
+        int intExtra = getIntent().getIntExtra(Constants.LAYOUT_ID, -1);
+        if (intExtra != -1) {
+            mAdapter.mapLayout(R.layout.item_contact, intExtra);
+        }
         callback = createCallback();
         binding.recyclerView.setAdapter(mAdapter);
 

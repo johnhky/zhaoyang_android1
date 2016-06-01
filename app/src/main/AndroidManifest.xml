@@ -140,10 +140,17 @@
             android:name=".ui.activity.doctor.ConsultationListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.AfterServiceActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activity.doctor.AssignQuestionActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activity.doctor.MeActivity"
             android:launchMode="singleTop"

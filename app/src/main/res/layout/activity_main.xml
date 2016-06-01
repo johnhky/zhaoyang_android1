@@ -229,7 +229,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="转诊"
+                    android:text="随访"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_15" />
 
@@ -243,7 +243,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#898989"
                     android:textSize="@dimen/font_13"
-                    app:html="@{@string/label_consultation(data.followUpNum)}" />
+                    app:html="@{@string/label_after_service(data.followUpNum)}" />
 
                 <View
                     android:layout_width="match_parent"

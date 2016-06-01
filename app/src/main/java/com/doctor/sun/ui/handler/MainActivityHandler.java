@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 
+import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
 import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultationListActivity;
 import com.doctor.sun.ui.activity.doctor.UrgentListActivity;
@@ -43,7 +44,7 @@ public class MainActivityHandler extends BaseHandler {
      * @param view
      */
     public void consultation(View view) {
-        Intent intent = ConsultationListActivity.makeIntent(getContext());
+        Intent intent = AfterServiceActivity.intentFor(getContext());
         getContext().startActivity(intent);
     }
 }

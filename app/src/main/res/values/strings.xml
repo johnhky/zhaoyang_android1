@@ -8,6 +8,7 @@
     <string name="label_appointment"><![CDATA[有<font color=\'#339de1\'>%d</font>个预约病人]]></string>
     <string name="label_emergency_call"><![CDATA[有<font color=\'#339de1\'>%d</font>个急诊病人]]></string>
     <string name="label_consultation"><![CDATA[有<font color=\'#339de1\'>%d</font>个转诊病人]]></string>
+    <string name="label_after_service"><![CDATA[有<font color=\'#339de1\'>%d</font>个待完成随访]]></string>
     <string name="appointment_time">预约时间:&#160;%s</string>
     <string name="appointment_type">预约类型:&#160;%s</string>
     <string name="appointment_progress">问卷完成度:&#160;%s</string>
