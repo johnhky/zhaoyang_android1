@@ -65,6 +65,28 @@
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
+            <FrameLayout
+                android:id="@+id/fl_delete"
+                android:layout_width="@dimen/dp_65"
+                android:layout_height="@dimen/dp_25"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_13"
+                android:background="@drawable/btn_small_white"
+                android:clickable="true"
+                android:onClick="@{data.handler.deleteAnswer(data,adapter,vh)}"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ripple_default"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:text="删除问题"
+                    android:textColor="@color/red_f0"
+                    android:textSize="@dimen/font_12" />
+            </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/fl_reset"

@@ -60,10 +60,16 @@ public class AnswerAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
             bindContent(binding, answer);
 
             int userType = Config.getInt(Constants.USER_TYPE, -1);
-            if (userType == AuthModule.PATIENT_TYPE || appointment.getIsFinish() == 1) {
+            if (isPatientOrIsFinish(userType)) {
                 binding.flReset.setVisibility(View.GONE);
             } else {
-                binding.flReset.setVisibility(View.VISIBLE);
+                if (Answer.handler.isEditMode()) {
+                    binding.flReset.setVisibility(View.GONE);
+                    binding.flDelete.setVisibility(View.VISIBLE);
+                }else {
+                    binding.flReset.setVisibility(View.VISIBLE);
+                    binding.flDelete.setVisibility(View.GONE);
+                }
                 binding.flReset.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -97,6 +103,10 @@ public class AnswerAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
             }
         }
         super.onBindViewBinding(vh, position);
+    }
+
+    public boolean isPatientOrIsFinish(int userType) {
+        return userType == AuthModule.PATIENT_TYPE || appointment.getIsFinish() == 1;
     }
 
     @Override

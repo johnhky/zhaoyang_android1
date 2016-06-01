@@ -54,7 +54,6 @@ public class UrgentCallHandler implements PayInterface {
             @Override
             public void onItemClick(final BaseAdapter adapter, final View view, final BaseViewHolder vh) {
                 switch (view.getId()) {
-                    case R.id.delete:
                     case R.id.cancel: {
                         api.cancel(data.getId()).enqueue(new ApiCallback<HashMap<String, String>>() {
                             @Override

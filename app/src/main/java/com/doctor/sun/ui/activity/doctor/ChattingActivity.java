@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
@@ -44,6 +43,7 @@ import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.doctor.sun.util.FileChooser;
 import com.doctor.sun.util.ItemHelper;
+import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.vo.CustomActionViewModel;
 import com.doctor.sun.vo.InputLayoutViewModel;
 import com.doctor.sun.vo.StickerViewModel;
@@ -74,6 +74,7 @@ import io.realm.Sort;
  */
 public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId, ExtendedEditText.KeyboardDismissListener, SwipeRefreshLayout.OnRefreshListener, KeyboardWatcher.OnKeyboardToggleListener {
     public static final int IMAGE_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
+    public static final int VIDEO_REQUEST_CODE = CustomActionViewModel.VIDEO_REQUEST_CODE;
     public static final int FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
 
     public static final int ONE_DAY = 86400000;
@@ -330,8 +331,8 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == CALL_PHONE_REQ) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == AppointmentHandler.RECORD_AUDIO_PERMISSION) {
+            if (PermissionUtil.verifyPermissions(grantResults)) {
                 makePhoneCall();
             }
         }
@@ -366,6 +367,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         if (resultCode == RESULT_OK) {
             handleImageRequest(requestCode, data);
             handleFileRequest(requestCode, data);
+            handleVideoRequest(requestCode, data);
         }
     }
 
@@ -385,6 +387,13 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
             if (file != null) {
                 IMManager.getInstance().sentImage(sendTo, getType(), file);
             }
+        }
+    }
+
+    private void handleVideoRequest(int requestCode, Intent data) {
+        if (VIDEO_REQUEST_CODE == requestCode) {
+            File file = CustomActionViewModel.getVideoTempFile();
+            IMManager.getInstance().sentVideo(sendTo, getType(), file);
         }
     }
 
@@ -527,4 +536,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
             }
         }
     }
+
+
 }

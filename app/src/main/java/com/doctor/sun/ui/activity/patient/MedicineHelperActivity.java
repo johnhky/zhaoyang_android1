@@ -73,6 +73,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     public static final String ADMIN_DRUG = "admin";
     public static final double FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
     public static final double IMAGE_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
+    public static final double VIDEO_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
     private static final long ONE_DAY = 86400000;
 
     private PActivityMedicineHelperBinding binding;
@@ -341,6 +342,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
         if (resultCode == RESULT_OK) {
             handleImageRequest(requestCode, data);
             handleFileRequest(requestCode, data);
+            handleVideoRequest(requestCode, data);
         }
     }
 
@@ -360,6 +362,13 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
             if (file != null) {
                 IMManager.getInstance().sentImage(sendTo, getType(), file);
             }
+        }
+    }
+
+    private void handleVideoRequest(int requestCode, Intent data) {
+        if (VIDEO_REQUEST_CODE == requestCode) {
+            File file = CustomActionViewModel.getVideoTempFile();
+            IMManager.getInstance().sentVideo(sendTo, getType(), file);
         }
     }
 

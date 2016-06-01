@@ -210,6 +210,12 @@ public class IMManager {
         sendMsg(message);
     }
 
+
+    public void sentVideo(String to, SessionTypeEnum type, File image) {
+        final IMMessage message = MessageBuilder.createVideoMessage(to, type, image, 0, 0, 0, "");
+        sendMsg(message);
+    }
+
     public void sentImage(String to, SessionTypeEnum type, File image) {
         final IMMessage message = MessageBuilder.createImageMessage(to, type, image);
         sendMsg(message);

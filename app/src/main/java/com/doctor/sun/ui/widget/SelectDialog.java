@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -115,6 +116,10 @@ public class SelectDialog extends BaseDialog implements View.OnClickListener {
         call.enqueue(new ApiCallback<List<MedicalRecord>>() {
             @Override
             protected void handleResponse(List<MedicalRecord> response) {
+                if (response.isEmpty()) {
+                    Toast.makeText(getContext(), "没有历史记录", Toast.LENGTH_SHORT).show();
+                    dismiss();
+                }
                 mAdapter.clear();
                 mAdapter.addAll(response);
                 mAdapter.notifyDataSetChanged();

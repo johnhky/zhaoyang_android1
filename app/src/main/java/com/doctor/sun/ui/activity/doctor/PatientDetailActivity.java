@@ -83,6 +83,7 @@ public class PatientDetailActivity extends BaseActivity2 implements QCategoryHan
         binding = DataBindingUtil.setContentView(this, R.layout.activity_patient_detail);
         HeaderViewModel header = new HeaderViewModel(this);
         header.setRightTitle("补充问卷");
+        header.setRightFirstTitle("删除问题");
         binding.setHeader(header);
 
         mAdapter = new AnswerAdapter(this, getData());
@@ -129,6 +130,18 @@ public class PatientDetailActivity extends BaseActivity2 implements QCategoryHan
     public void onMenuClicked() {
         Intent intent = AssignQuestionActivity.makeIntent(this, getData());
         startActivity(intent);
+    }
+
+    @Override
+    public void onFirstMenuClicked() {
+        Answer.handler.toggleEditMode();
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Answer.handler.resetEditMode();
     }
 
     @Override

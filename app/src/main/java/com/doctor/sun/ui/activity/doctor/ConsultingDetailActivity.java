@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.event.SwitchTabEvent;
@@ -32,7 +33,7 @@ import io.ganguo.library.core.event.extend.OnPageChangeAdapter;
  * Created by rick on 12/16/15.
  */
 public class ConsultingDetailActivity extends TabActivity
-        implements QCategoryHandler.QCategoryCallback, FillForumFragment.SetHeaderListener ,Appointment.AppointmentId{
+        implements QCategoryHandler.QCategoryCallback, FillForumFragment.SetHeaderListener, Appointment.AppointmentId {
     public static final int POSITION_ANSWER = 0;
     public static final int POSITION_SUGGESTION = 1;
     public static final int POSITION_SUGGESTION_READONLY = 2;
@@ -75,7 +76,7 @@ public class ConsultingDetailActivity extends TabActivity
         if (childAt != null) {
             if (AppContext.isDoctor()) {
                 ShowCaseUtil.showCase(childAt, "记录病历和给患者建议和调药", "diagnosisResult", 1, 0);
-            }else {
+            } else {
                 ShowCaseUtil.showCase(childAt, "您可以在这里看到医生的医嘱和用药建议", "diagnosisResult", 1, 0);
             }
         }
@@ -100,6 +101,7 @@ public class ConsultingDetailActivity extends TabActivity
             //医生端
             if (!isReadOnly) {
                 header0.setRightTitle("补充问卷");
+                header0.setRightFirstTitle("删除问题");
                 header1.setRightTitle("保存");
             }
         }
@@ -113,7 +115,14 @@ public class ConsultingDetailActivity extends TabActivity
 
     @Override
     public void onFirstMenuClicked() {
-        switchTab(new SwitchTabEvent(0));
+        Answer.handler.toggleEditMode();
+        FillForumFragment.getInstance(getData()).getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Answer.handler.resetEditMode();
     }
 
     @Override
@@ -139,6 +148,7 @@ public class ConsultingDetailActivity extends TabActivity
             }
         }
     }
+
 
     @Subscribe
     public void switchTab(SwitchTabEvent event) {

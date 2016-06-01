@@ -14,8 +14,6 @@ import retrofit2.Response;
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
     public static final String TAG = "CrashHandler";  
     private static CrashHandler INSTANCE = new CrashHandler();  
-    private Context mContext;
-    private Thread.UncaughtExceptionHandler mDefaultHandler;
     private ToolModule api = Api.of(ToolModule.class);
 
     private CrashHandler() {  
@@ -26,9 +24,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     }  
   
     public void init(Context ctx) {  
-        mContext = ctx;  
-        mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();  
-        Thread.setDefaultUncaughtExceptionHandler(this);  
+        Thread.setDefaultUncaughtExceptionHandler(this);
     }  
   
     @Override  

@@ -79,6 +79,7 @@ public class DiagnosisViewModel {
         sideEffect = SymptomFactory.sideEffect();
 
         date = new ItemPickDate(R.layout.item_pick_date, "复诊日期");
+        date.setYear(date.getYear() + 18);
         time = new ItemPickTime(R.layout.item_pick_time, "复诊时间");
         money = new ItemTextInput(R.layout.item_text_input, "复诊诊金(元/次/半小时)");
         returnType = new ItemRadioGroup(R.layout.item_return_type);
@@ -354,7 +355,7 @@ public class DiagnosisViewModel {
         result.put("returnType", String.valueOf(returnType));
         result.put("recordId", String.valueOf(appointmentId.getRecordId()));
 
-        GregorianCalendar gregorianCalendar = new GregorianCalendar(date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth(), time.getmBeginHour(), time.getmBeginMinute());
+        GregorianCalendar gregorianCalendar = new GregorianCalendar(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), time.getmBeginHour(), time.getmBeginMinute());
         result.put("returnTime", String.valueOf(gregorianCalendar.getTimeInMillis()).substring(0, 10));
 //        result.put("money", binding.money.etInput.getText().toString());
 

@@ -85,10 +85,11 @@ public class ItemPickDate extends BaseItem {
         return getDate();
     }
 
+    //TODO
     public void setDate(String date) {
         String[] split = date.split("-");
         year = Integer.valueOf(split[0]);
-        monthOfYear = Integer.valueOf(split[1]);
+        monthOfYear = Integer.valueOf(split[1]) - 1;
         dayOfMonth = Integer.valueOf(split[2]);
     }
 

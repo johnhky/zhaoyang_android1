@@ -204,26 +204,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
-            <FrameLayout
-                android:layout_width="@dimen/dp_90"
-                android:layout_height="@dimen/dp_35"
-                android:layout_gravity="end"
-                android:layout_marginRight="@dimen/dp_11"
-                android:background="@drawable/btn_small_white">
 
-                <TextView
-                    android:id="@+id/delete"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_default"
-                    android:gravity="center"
-                    android:text="删除咨询"
-                    android:textColor="#339de1"
-                    android:textSize="@dimen/font_13"
-                    app:adapter="@{adapter}"
-                    app:itemClick="@{data.handler.click}"
-                    app:vh="@{vh}" />
-            </FrameLayout>
 
             <FrameLayout
                 android:layout_width="@dimen/dp_124"

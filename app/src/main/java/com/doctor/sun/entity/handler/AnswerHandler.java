@@ -16,6 +16,7 @@ import com.doctor.sun.entity.Question;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.DiagnosisModule;
+import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -30,6 +31,19 @@ import java.util.List;
  * Created by rick on 29/3/2016.
  */
 public class AnswerHandler {
+    private boolean isEditMode = false;
+
+    public boolean isEditMode() {
+        return isEditMode;
+    }
+
+    public void resetEditMode() {
+        isEditMode = false;
+    }
+
+    public void toggleEditMode() {
+        isEditMode = !isEditMode;
+    }
 
     public boolean isPills(Answer data) {
         return data.getQuestion().getQuestionType().equals(Question.TYPE_PILLS);
@@ -163,5 +177,23 @@ public class AnswerHandler {
             }
         }
         return answer;
+    }
+
+    public View.OnClickListener deleteAnswer(final Answer answer, final BaseAdapter adapter, final BaseViewHolder viewHolder) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuestionModule answerModule = Api.of(QuestionModule.class);
+                answerModule.deleteQuestion(answer.getAppointmentId(), answer.getId()).enqueue(new SimpleCallback<List<Answer>>() {
+                    @Override
+                    protected void handleResponse(List<Answer> response) {
+                        int adapterPosition = viewHolder.getAdapterPosition();
+                        adapter.remove(adapterPosition);
+                        adapter.notifyItemRemoved(adapterPosition);
+                    }
+                });
+
+            }
+        };
     }
 }

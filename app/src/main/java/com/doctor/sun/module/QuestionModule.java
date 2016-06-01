@@ -173,7 +173,7 @@ public interface QuestionModule {
 //            ##### JSON返回示例:
 
     @GET("question/append/{appointmentId}/delete/{questionId}")
-    Call<ApiDTO<String>> deleteQuestion(@Path("appointmentId") String appointmentId, @Path("questionId") String questionId);
+    Call<ApiDTO<List<Answer>>> deleteQuestion(@Path("appointmentId") int appointmentId, @Path("questionId") int questionId);
 
 
     @GET("question/scale/{appointmentId}")
