@@ -4,8 +4,9 @@ import android.content.Intent;
 import android.view.View;
 
 import com.doctor.sun.R;
-import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.constans.Gender;
+import com.doctor.sun.ui.activity.AfterServiceHistoryActivity;
 import com.doctor.sun.ui.activity.patient.MedicalRecordDetailActivity;
 import com.doctor.sun.ui.activity.patient.UrgentCallActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -87,5 +88,15 @@ public class MedicalRecordHandler {
         } else {
             return R.drawable.female_patient_avatar;
         }
+    }
+
+    public View.OnClickListener afterServiceHistory() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = AfterServiceHistoryActivity.intentFor(v.getContext(), data.getMedicalRecordId());
+                v.getContext().startActivity(intent);
+            }
+        };
     }
 }

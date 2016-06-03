@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class MedicalRecord implements Parcelable, LayoutId {
     /**
+     * can_follow_up : 1
      * 病历列表项数据
      * "patient_id": 1,
      * "name": "大明",
@@ -80,6 +81,8 @@ public class MedicalRecord implements Parcelable, LayoutId {
     private String yunxinAccid = "";
     @JsonProperty("appointment_id")
     private List<Integer> appointmentId;
+    @JsonProperty("can_follow_up")
+    public int canFollowUp;
 
     MedicalRecordHandler handler = new MedicalRecordHandler(this);
 

@@ -147,6 +147,23 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".ui.activity.patient.PAfterServiceActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.doctor.ApplyAfterServiceActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.AllowAfterServiceActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.AfterServiceHistoryActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ui.activity.doctor.AssignQuestionActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />

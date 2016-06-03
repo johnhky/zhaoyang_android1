@@ -6,8 +6,12 @@ import android.os.Parcelable;
 import android.view.View;
 
 import com.doctor.sun.R;
+import com.doctor.sun.ui.activity.doctor.ApplyAfterServiceActivity;
+import com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.DoctorInfoActivity;
+import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.widget.SelectDialog;
 import com.doctor.sun.util.NameComparator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -126,11 +130,22 @@ public class Contact implements LayoutId, Parcelable, NameComparator.Name {
         }
     }
 
-    public View.OnClickListener applyAfterService() {
+    public View.OnClickListener applyAfterService(final BaseAdapter adapter, BaseViewHolder vh) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = ApplyAfterServiceActivity.intentFor(adapter.getContext(), Contact.this);
+                adapter.getContext().startActivity(intent);
+            }
+        };
+    }
 
+    public View.OnClickListener allowAfterService(final BaseAdapter adapter, BaseViewHolder vh) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = AllowAfterServiceActivity.intentFor(adapter.getContext(), Contact.this);
+                adapter.getContext().startActivity(intent);
             }
         };
     }

@@ -1,26 +1,25 @@
-package com.doctor.sun.ui.activity.doctor;
+package com.doctor.sun.ui.activity.patient;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
-import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.PageActivity2;
+import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 /**
  * Created by rick on 1/6/2016.
  */
-public class AfterServiceActivity extends PageActivity2 {
+public class PAfterServiceActivity extends PageActivity2 {
     private AfterServiceModule api = Api.of(AfterServiceModule.class);
 
     public static Intent intentFor(Context context) {
-        Intent intent = new Intent(context, AfterServiceActivity.class);
+        Intent intent = new Intent(context, PAfterServiceActivity.class);
         return intent;
     }
 
@@ -32,21 +31,29 @@ public class AfterServiceActivity extends PageActivity2 {
 
     @Override
     protected void loadMore() {
-        api.doctorOrders("", getCallback().getPage()).enqueue(getCallback());
+        api.patientOrders("", getCallback().getPage()).enqueue(getCallback());
+    }
+
+    @NonNull
+    @Override
+    public SimpleAdapter createAdapter() {
+        SimpleAdapter adapter = super.createAdapter();
+        adapter.mapLayout(R.layout.item_after_service, R.layout.p_item_after_service);
+        return adapter;
     }
 
     @NonNull
     protected HeaderViewModel getHeaderViewModel() {
         HeaderViewModel headerViewModel = new HeaderViewModel(this);
-        headerViewModel.setMidTitle("随访列表");
-        headerViewModel.setRightTitle("我的患者");
+        headerViewModel.setMidTitle("随访请求列表");
+        headerViewModel.setRightTitle("随访医生");
         return headerViewModel;
     }
 
     @Override
     public void onMenuClicked() {
         super.onMenuClicked();
-        Intent intent = ContactActivity.makeIntent(this, ContactActivity.DOCTORS_CONTACT, R.layout.item_contact2);
+        Intent intent = ContactActivity.makeIntent(this, ContactActivity.PATIENTS_CONTACT, R.layout.item_contact3);
         startActivity(intent);
     }
 }

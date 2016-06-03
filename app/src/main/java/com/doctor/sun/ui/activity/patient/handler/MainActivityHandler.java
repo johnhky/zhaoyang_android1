@@ -16,6 +16,7 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.ui.activity.patient.AppointmentListActivity;
 import com.doctor.sun.ui.activity.patient.DrugActivity;
+import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -134,9 +135,19 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                      showRecordList(view);
+                        showRecordList(view);
                     }
                 }).build().show();
+    }
+
+    public View.OnClickListener afterService() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = PAfterServiceActivity.intentFor(getContext());
+                getContext().startActivity(intent);
+            }
+        };
     }
 
 }

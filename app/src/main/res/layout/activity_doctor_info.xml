@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
@@ -34,99 +33,9 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_150"
-                    android:background="@drawable/bg_me"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.doctor.sun.ui.widget.BezelImageView
-                            android:id="@+id/iv_me"
-                            android:layout_width="@dimen/dp_74"
-                            android:layout_height="@dimen/dp_74"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="@dimen/dp_10"
-                            android:scaleType="centerCrop"
-                            android:src="@{data.avatar}"
-                            app:maskDrawable="@drawable/circle_mask" />
-
-                        <TextView
-                            android:id="@+id/tv_test"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignLeft="@id/iv_me"
-                            android:layout_marginLeft="@dimen/dp_56"
-                            android:layout_marginTop="@dimen/dp_12"
-                            android:background="@drawable/shape_test"
-                            android:gravity="center"
-                            android:paddingLeft="@dimen/dp_4"
-                            android:paddingRight="@dimen/dp_4"
-                            android:singleLine="true"
-                            android:text="@{data.level}"
-                            android:textColor="#ffffff"
-                            android:textSize="@dimen/font_9" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal">
-
-                        <TextView
-                            android:id="@+id/tv_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:singleLine="true"
-                            android:text="@{data.name}"
-                            android:textColor="#363636"
-                            android:textSize="@dimen/font_15" />
-
-                        <RatingBar
-                            style="@style/SmallRatingBar"
-                            android:layout_centerVertical="true"
-                            android:layout_toRightOf="@id/tv_name"
-                            android:isIndicator="true"
-                            android:rating="@{data.point}" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/tv_hosptial"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@{data.hospitalName}"
-                            android:textColor="#363636"
-                            android:textSize="@dimen/font_13" />
-
-                        <TextView
-                            android:id="@+id/tv_position"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toRightOf="@id/tv_hosptial"
-                            android:paddingLeft="@dimen/dp_29"
-                            android:text="@{@string/string_of_two(data.specialist,data.title)}"
-                            android:textColor="#363636"
-                            android:textSize="@dimen/font_13" />
-
-
-                    </RelativeLayout>
-
-                </LinearLayout>
+                <include
+                    layout="@layout/include_doctor_detail"
+                    bind:data="@{data}" />
 
                 <View
                     android:layout_width="match_parent"

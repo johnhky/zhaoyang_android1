@@ -101,8 +101,8 @@ public class PageActivity2 extends BaseActivity2 implements View.OnClickListener
     public void onRefresh() {
         callback.resetPage();
         adapter.clear();
+        adapter.onFinishLoadMore(true);
         adapter.notifyDataSetChanged();
-        adapter.onFinishLoadMore(false);
         loadMore();
     }
 

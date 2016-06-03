@@ -2,8 +2,9 @@ package com.doctor.sun.ui.pager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.doctor.sun.ui.fragment.AfterServiceFragment;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.ui.fragment.PAppointmentListFragment;
 import com.doctor.sun.ui.fragment.PUrgentCallFragment;
@@ -12,7 +13,7 @@ import com.doctor.sun.ui.fragment.RefreshListFragment;
 /**
  * Created by rick on 1/3/2016.
  */
-public class MyOrderPagerAdapter extends FragmentPagerAdapter {
+public class MyOrderPagerAdapter extends FragmentStatePagerAdapter {
 
     public MyOrderPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -34,17 +35,17 @@ public class MyOrderPagerAdapter extends FragmentPagerAdapter {
                 fragment = PUrgentCallFragment.getInstance();
                 break;
             }
-            case 3: {
-                fragment = PAppointmentListFragment.newInstance(1);
-                break;
-            }
+//            case 3: {
+//                fragment = new AfterServiceFragment();
+//                break;
+//            }
         }
         return fragment;
     }
 
     @Override
     public int getCount() {
-        return 4;
+        return 3;
     }
 
     @Override
@@ -59,9 +60,9 @@ public class MyOrderPagerAdapter extends FragmentPagerAdapter {
             case 2: {
                 return "紧急咨询";
             }
-            case 3: {
-                return "随访订单";
-            }
+//            case 3: {
+//                return "随访订单";
+//            }
         }
         return "";
     }

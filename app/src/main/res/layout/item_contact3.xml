@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
         android:clickable="true"
-        android:onClick="@{data.applyAfterService(adapter,vh)}"
+        android:onClick="@{data.allowAfterService(adapter,vh)}"
         android:orientation="vertical">
 
 

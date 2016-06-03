@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.MedicalRecord" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
+    </data>
+
+    <com.zhy.android.percent.support.PercentFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_78"
+        android:background="@drawable/ripple_default"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ripple_default"
+            android:drawableLeft="@drawable/ic_record_selector"
+            android:enabled="@{data.canFollowUp == 1}"
+            android:gravity="center"
+            android:onClick="@{adapter.onItemClick(adapter,vh)}"
+            android:paddingLeft="@dimen/dp_10"
+            android:selected="@{adapter.isSelected(vh)}" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:onClick="@{data.handler.afterServiceHistory}"
+            android:background="@drawable/ripple_default"
+            android:layout_marginLeft="@dimen/dp_50"
+            android:orientation="vertical">
+
+            <com.zhy.android.percent.support.PercentFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="center_vertical"
+                    android:drawableLeft="@drawable/ic_case"
+                    android:drawablePadding="@dimen/dp_10"
+                    android:gravity="start"
+                    android:maxLength="20"
+                    android:singleLine="true"
+                    android:text='@{data.name}'
+                    android:textColor="@color/color_tick"
+                    android:textSize="@dimen/font_15"
+                    app:layout_widthPercent="40%" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="center_vertical"
+                    android:drawablePadding="@dimen/dp_10"
+                    android:gravity="start"
+                    android:maxLength="20"
+                    android:singleLine="true"
+                    android:text='@{data.handler.genderRecord}'
+                    android:textColor="@color/color_tick"
+                    android:textSize="@dimen/font_15"
+                    app:layout_marginLeftPercent="40%" />
+            </com.zhy.android.percent.support.PercentFrameLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawableLeft='@drawable/ic_record_status'
+                android:drawablePadding="@dimen/dp_10"
+                android:gravity="start"
+                android:maxLength="20"
+                android:paddingTop="@dimen/dp_2"
+                android:singleLine="true"
+                android:enabled="@{data.canFollowUp == 1}"
+                android:text='@{data.canFollowUp==1?"可以申请随访":"随访进行中"}'
+                android:textColor='@{data.canFollowUp==1?@color/dark_36:@color/orange}'
+                android:textSize="@dimen/font_15"
+                app:layout_widthPercent="40%" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="right|center"
+            android:layout_marginRight="@dimen/dp_13"
+            android:drawablePadding="@dimen/dp_5"
+            android:drawableRight="@drawable/ic_enter"
+            android:text="历史随访"
+            android:textColor="#339de1"
+            android:textSize="@dimen/font_15" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="bottom"
+            android:background="@color/divider_color" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginLeft="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_4"
+            android:background="@color/divider_color" />
+    </com.zhy.android.percent.support.PercentFrameLayout>
+
+</layout>

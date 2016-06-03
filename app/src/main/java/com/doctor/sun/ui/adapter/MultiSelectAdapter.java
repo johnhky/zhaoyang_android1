@@ -45,7 +45,7 @@ public class MultiSelectAdapter extends SimpleAdapter {
         }
     }
 
-    public void select(BaseViewHolder vh, BaseAdapter adapter,boolean shouldSelect) {
+    public void select(BaseViewHolder vh, BaseAdapter adapter, boolean shouldSelect) {
         int position = vh.getAdapterPosition();
         selectedState.put(position, shouldSelect);
         if (listener != null) {
@@ -55,6 +55,35 @@ public class MultiSelectAdapter extends SimpleAdapter {
 
     public boolean isSelected(BaseViewHolder vh) {
         return selectedState.get(vh.getAdapterPosition());
+    }
+
+    public boolean isSelected(int position) {
+        return selectedState.get(position);
+    }
+
+    public void selectAll() {
+        for (int i = 0; i < getItemCount(); i++) {
+            selectedState.put(i, true);
+        }
+        if (listener != null) {
+            listener.onSelectionChange(MultiSelectAdapter.this, selectedState);
+        }
+    }
+
+    public void unSelectAll() {
+        selectedState.clear();
+        if (listener != null) {
+            listener.onSelectionChange(MultiSelectAdapter.this, selectedState);
+        }
+    }
+
+    public boolean isAllSelected() {
+        for (int i = 0; i < getItemCount(); i++) {
+            if (!selectedState.get(i)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public interface OnSelectionChange {

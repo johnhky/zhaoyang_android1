@@ -86,7 +86,7 @@
                 android:drawablePadding="@dimen/dp_9"
                 android:drawableTop="@drawable/ic_after_service"
                 android:gravity="center_horizontal"
-                android:onClick="@{data.searchDoctorQuick}"
+                android:onClick="@{data.afterService()}"
                 android:paddingTop="@dimen/dp_11"
                 android:text="随访请求"
                 android:textColor="#363636"

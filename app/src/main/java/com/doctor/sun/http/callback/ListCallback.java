@@ -1,7 +1,9 @@
 package com.doctor.sun.http.callback;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
+import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreAdapter;
 
 import java.util.List;
@@ -14,9 +16,15 @@ import retrofit2.Call;
 public class ListCallback<T> extends ApiCallback<List<T>> {
     public static final String TAG = ListCallback.class.getSimpleName();
     private LoadMoreAdapter adapter;
+    private SwipeRefreshLayout refreshLayout;
 
     public ListCallback(LoadMoreAdapter adapter) {
         this.adapter = adapter;
+    }
+
+    public ListCallback(SimpleAdapter adapter, SwipeRefreshLayout refreshLayout) {
+        this(adapter);
+        this.refreshLayout = refreshLayout;
     }
 
     @Override
@@ -33,7 +41,9 @@ public class ListCallback<T> extends ApiCallback<List<T>> {
     }
 
     public void onFinishRefresh() {
-
+        if (refreshLayout != null) {
+            refreshLayout.setRefreshing(false);
+        }
     }
 
     public void onInitHeader() {

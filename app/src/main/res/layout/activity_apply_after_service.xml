@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Contact" />
+
+        <variable
+            name="isAllSelected"
+            type="boolean" />
+
+        <variable
+            name="confirmClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="selectAllClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+
+    <com.zhy.android.percent.support.PercentFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/include_header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            bind:header="@{header}" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_57"
+            android:layout_marginTop="@dimen/dp_49">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_148"
+                    android:clipChildren="false"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_me"
+                        android:scaleType="centerCrop" />
+
+                    <com.doctor.sun.ui.widget.BezelImageView
+                        android:id="@+id/iv_person"
+                        android:layout_width="@dimen/dp_74"
+                        android:layout_height="@dimen/dp_74"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dp_16"
+                        android:src="@{data.avatar}"
+                        app:maskDrawable="@drawable/circle_mask" />
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/iv_person"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="@dimen/dp_5"
+                        android:text="@{data.name}"
+                        android:textColor="#898989"
+                        android:textSize="@dimen/dp_15" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_color" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_default"
+                    android:onClick="@{selectAllClick}"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/dp_4"
+                    android:paddingTop="@dimen/dp_4">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="match_parent"
+                        android:drawableLeft="@drawable/ic_record_selector"
+                        android:gravity="center"
+                        android:selected="@{isAllSelected}"
+                        android:paddingLeft="@dimen/dp_10" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:text="全选"
+                        android:textColor="@color/dark_36"
+                        android:textSize="@dimen/font_13" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_color" />
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/dp_8"
+                    android:layout_weight="1" />
+
+
+            </LinearLayout>
+        </ScrollView>
+
+        <FrameLayout
+            android:layout_width="@dimen/dp_288"
+            android:layout_height="@dimen/dp_49"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:background="@drawable/shape_button"
+            android:onClick="@{confirmClick}">
+
+            <TextView
+                android:id="@+id/tv_apply"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/font_17" />
+
+        </FrameLayout>
+    </com.zhy.android.percent.support.PercentFrameLayout>
+</layout>
