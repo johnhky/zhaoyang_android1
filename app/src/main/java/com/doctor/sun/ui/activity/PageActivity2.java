@@ -16,7 +16,7 @@ import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 /**
  * Created by rick on 20/1/2016.
  */
-public class PageActivity2 extends BaseActivity2 implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private ActivityListBinding binding;
     private SimpleAdapter adapter;
@@ -90,6 +90,9 @@ public class PageActivity2 extends BaseActivity2 implements View.OnClickListener
     }
 
     public PageCallback getCallback() {
+        if (callback.getAdapter() == null) {
+            callback.setAdapter(getAdapter());
+        }
         return callback;
     }
 

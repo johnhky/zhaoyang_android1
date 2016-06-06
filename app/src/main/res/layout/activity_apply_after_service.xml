@@ -30,6 +30,7 @@
     <com.zhy.android.percent.support.PercentFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#efeff4"
         android:orientation="vertical">
 
         <include
@@ -41,8 +42,9 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_57"
-            android:layout_marginTop="@dimen/dp_49">
+            android:layout_marginBottom="@dimen/dp_66"
+            android:layout_marginTop="@dimen/dp_49"
+            android:background="@drawable/bg_white">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -103,8 +105,8 @@
                         android:layout_height="match_parent"
                         android:drawableLeft="@drawable/ic_record_selector"
                         android:gravity="center"
-                        android:selected="@{isAllSelected}"
-                        android:paddingLeft="@dimen/dp_10" />
+                        android:paddingLeft="@dimen/dp_10"
+                        android:selected="@{isAllSelected}" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -127,7 +129,6 @@
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="@dimen/dp_8"
                     android:layout_weight="1" />
 
 
@@ -135,23 +136,31 @@
         </ScrollView>
 
         <FrameLayout
-            android:layout_width="@dimen/dp_288"
-            android:layout_height="@dimen/dp_49"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="@dimen/dp_8"
-            android:background="@drawable/shape_button"
-            android:onClick="@{confirmClick}">
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_65"
+            android:layout_gravity="bottom"
+            android:background="@color/white">
 
-            <TextView
-                android:id="@+id/tv_apply"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple_default"
-                android:gravity="center"
-                android:text="确定"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/font_17" />
+            <FrameLayout
+                android:layout_width="@dimen/dp_288"
+                android:layout_height="@dimen/dp_49"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="@drawable/shape_button"
+                android:onClick="@{confirmClick}">
 
+                <TextView
+                    android:id="@+id/tv_apply"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:text="确定"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/font_17" />
+
+            </FrameLayout>
         </FrameLayout>
     </com.zhy.android.percent.support.PercentFrameLayout>
 </layout>

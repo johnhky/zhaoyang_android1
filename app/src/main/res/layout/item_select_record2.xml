@@ -14,7 +14,7 @@
 
         <variable
             name="adapter"
-            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
+            type="com.doctor.sun.ui.adapter.AllowAfterServiceAdapter" />
     </data>
 
     <LinearLayout
@@ -27,12 +27,12 @@
         <com.zhy.android.percent.support.PercentFrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/dp_8"
-            android:paddingLeft="@dimen/dp_13"
-            android:onClick="@{data.handler.afterServiceHistory()}"
             android:background="@drawable/ripple_default"
+            android:onClick="@{()->data.handler.afterServiceHistory(context)}"
+            android:orientation="horizontal"
             android:paddingBottom="@dimen/dp_8"
-            android:orientation="horizontal">
+            android:paddingLeft="@dimen/dp_13"
+            android:paddingTop="@dimen/dp_8">
 
             <TextView
                 android:layout_width="match_parent"
@@ -114,6 +114,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
+                android:checked="@{data.allowToApply == 1}"
+                android:onClick="@{()->data.handler.allowToApply(adapter.doctorId)}"
                 android:setTintColor="@{@color/colorPrimaryDark}" />
 
         </LinearLayout>

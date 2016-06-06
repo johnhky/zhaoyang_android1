@@ -40,6 +40,14 @@ public class ItemPickDate extends BaseItem {
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
     }
 
+    public ItemPickDate(int layoutId, String title, int yearBefore) {
+        super(layoutId);
+        this.title = title;
+        year = calendar.get(Calendar.YEAR) - yearBefore;
+        monthOfYear = calendar.get(Calendar.MONTH);
+        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
     private int dayOfMonth;
     private int monthOfYear;
     private int year;

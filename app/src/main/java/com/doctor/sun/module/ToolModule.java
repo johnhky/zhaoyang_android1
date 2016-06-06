@@ -1,6 +1,7 @@
 package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.entity.Area;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Hospital;
 import com.doctor.sun.entity.Photo;
@@ -62,4 +63,7 @@ public interface ToolModule {
     @FormUrlEncoded
     @POST("tool/crash-log")
     Call<ApiDTO<Void>> crashLog(@Field("log") String log);
+
+    @GET("tool/endemicAreaTrees")
+    Call<ApiDTO<List<Area>>> endemicAreaList();
 }

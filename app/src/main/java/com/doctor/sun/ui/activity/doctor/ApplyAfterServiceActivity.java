@@ -59,10 +59,14 @@ public class ApplyAfterServiceActivity extends BaseActivity2 {
             @Override
             public void onClick(View v) {
                 ArrayList<String> selectedRecords = getSelectedRecords();
+                if (selectedRecords.isEmpty()) {
+                    Toast.makeText(ApplyAfterServiceActivity.this, "请选择需要申请随访的病历", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 api.requestService(JacksonUtils.toJson(selectedRecords)).enqueue(new SimpleCallback<Void>() {
                     @Override
                     protected void handleResponse(Void response) {
-                        Toast.makeText(ApplyAfterServiceActivity.this, "成功提交随访申请,请耐心等候", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ApplyAfterServiceActivity.this, "成功提交随访申请", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -72,7 +76,7 @@ public class ApplyAfterServiceActivity extends BaseActivity2 {
             public void onClick(View v) {
                 if (binding.getIsAllSelected()) {
                     adapter.unSelectAll();
-                }else {
+                } else {
                     adapter.selectAll();
                 }
                 adapter.notifyDataSetChanged();

@@ -83,6 +83,8 @@ public class MedicalRecord implements Parcelable, LayoutId {
     private List<Integer> appointmentId;
     @JsonProperty("can_follow_up")
     public int canFollowUp;
+    @JsonProperty("can_apply_follow_up")
+    public int allowToApply;
 
     MedicalRecordHandler handler = new MedicalRecordHandler(this);
 

@@ -73,6 +73,9 @@ public class RefreshListFragment<T> extends Fragment implements SwipeRefreshLayo
                 }
             };
         }
+        if (pageCallback.getAdapter() == null) {
+            pageCallback.setAdapter(getAdapter());
+        }
         return pageCallback;
     }
 

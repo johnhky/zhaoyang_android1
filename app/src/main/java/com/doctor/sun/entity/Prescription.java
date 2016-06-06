@@ -10,9 +10,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
 
+import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.ui.activity.ViewPrescriptionActivity;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,7 +27,7 @@ import java.util.List;
  * Created by rick on 29/12/2015.
  * 用药信息
  */
-public class Prescription extends BaseObservable implements Parcelable {
+public class Prescription extends BaseObservable implements Parcelable ,LayoutId{
 
 
     /**
@@ -299,4 +301,9 @@ public class Prescription extends BaseObservable implements Parcelable {
             return new Prescription[size];
         }
     };
+
+    @Override
+    public int getItemLayoutId() {
+        return R.layout.item_prescription;
+    }
 }

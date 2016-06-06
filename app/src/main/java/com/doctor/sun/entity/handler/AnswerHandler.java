@@ -69,6 +69,14 @@ public class AnswerHandler {
         return data.getQuestion().getQuestionType().equals(Question.TYPE_UPLOADS);
     }
 
+    public boolean isTime(Answer data) {
+        return data.getQuestion().getQuestionType().equals(Question.TYPE_TIME);
+    }
+
+    public boolean isDropDown(Answer data) {
+        return data.getQuestion().getQuestionType().equals(Question.TYPE_DROP_DOWN);
+    }
+
     public SimpleAdapter getOptions(final BaseAdapter rootAdapter, BaseViewHolder viewHolder, final Answer data) {
 //        SimpleAdapter simpleAdapter = null;
 //        final int position = viewHolder.getAdapterPosition();

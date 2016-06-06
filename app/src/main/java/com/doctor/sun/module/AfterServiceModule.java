@@ -3,9 +3,11 @@ package com.doctor.sun.module;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.doctor.sun.dto.AfterServiceDTO;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.AfterService;
+import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.MedicalRecord;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -63,12 +66,30 @@ public interface AfterServiceModule {
     Call<ApiDTO<PageDTO<AfterService>>> doctorOrders(@AfterService.Status @Nullable @Query("followUpType") String type, @Query("page") String page);
 
     /**
-     *
-     * @param id 病历id
+     * @param id   病历id
      * @param page
      * @return
      */
     @GET("follow-up/record-histories")
     Call<ApiDTO<PageDTO<AfterService>>> histories(@AfterService.Status @Nullable @Query("recordId") int id, @Query("page") String page);
+
+
+    @GET("tool/doctorInfo/{doctorId}")
+    Call<ApiDTO<ContactDetail>> doctorInfo(@Path("doctorId") int doctorId, @Nullable @Query("append") String type);
+
+    /**
+     * @param id 病历的一组id，类似["1","2"]
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("follow-up/apply-auth")
+    Call<ApiDTO<Void>> allow(@NonNull @Field("doctorId") int id, @Field("followUpAuth") int allow, @Field("recordId") int recordId);
+
+    @GET("follow-up/follow-up-question")
+    Call<ApiDTO<AfterServiceDTO>> questions(@NonNull @Query("follow_order_id") String id, @Query("user_type") String userType);
+
+    @FormUrlEncoded
+    @POST("follow-up/follow-up-question")
+    Call<ApiDTO<String>> saveAnswer(@NonNull @Field("follow_order_id") String id, @Field("answer") String answer);
 
 }

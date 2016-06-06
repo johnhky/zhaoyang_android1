@@ -22,7 +22,7 @@ public class AppointmentListActivity extends TabActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getBinding().vp.setOffscreenPageLimit(4);
+        getBinding().vp.setOffscreenPageLimit(3);
     }
 
     @Override

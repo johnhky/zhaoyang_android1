@@ -39,10 +39,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:onClick="@{data.handler.afterServiceHistory}"
-            android:background="@drawable/ripple_default"
             android:layout_marginLeft="@dimen/dp_50"
+            android:background="@drawable/ripple_default"
+            android:gravity="center_vertical"
+            android:onClick="@{()->data.handler.afterServiceHistory(context)}"
             android:orientation="vertical">
 
             <com.zhy.android.percent.support.PercentFrameLayout
@@ -86,11 +86,11 @@
                 android:layout_gravity="center_vertical"
                 android:drawableLeft='@drawable/ic_record_status'
                 android:drawablePadding="@dimen/dp_10"
+                android:enabled="@{data.canFollowUp == 1}"
                 android:gravity="start"
                 android:maxLength="20"
                 android:paddingTop="@dimen/dp_2"
                 android:singleLine="true"
-                android:enabled="@{data.canFollowUp == 1}"
                 android:text='@{data.canFollowUp==1?"可以申请随访":"随访进行中"}'
                 android:textColor='@{data.canFollowUp==1?@color/dark_36:@color/orange}'
                 android:textSize="@dimen/font_15"

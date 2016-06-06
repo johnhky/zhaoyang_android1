@@ -1,15 +1,18 @@
 package com.doctor.sun.entity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.StringDef;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
+import com.doctor.sun.ui.activity.AfterServiceForumActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -103,8 +106,16 @@ public class AfterService implements LayoutId {
         return 0;
     }
 
+    public String physiologicalInfo() {
+        return record.getAge() + "岁/" + (record.getGender() == Gender.MALE ? "男" : "女");
+    }
+
+    public String relation() {
+        return record.getName() + "(" + record.getPatientName() + "的" + record.getRelation() + ")";
+    }
+
     public boolean isTodoBtnVisible() {
-        return "todo".equals(status);
+        return Status.TODO.equals(status);
     }
 
     public boolean isDoingBtnVisible() {
@@ -124,24 +135,18 @@ public class AfterService implements LayoutId {
     }
 
 
-    public View.OnClickListener reject(final BaseAdapter adapter, final RecyclerView.ViewHolder vh) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performAction(Actions.REJECT, new ItemChangedCallback(adapter, vh, Status.REJECTED));
-            }
-        };
+    public void reject(final BaseAdapter adapter, final RecyclerView.ViewHolder vh) {
+        performAction(Actions.REJECT, new ItemChangedCallback(adapter, vh, Status.REJECTED));
     }
 
-    public View.OnClickListener accept(final BaseAdapter adapter, final RecyclerView.ViewHolder vh) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performAction(Actions.ACCEPT, new ItemChangedCallback(adapter, vh, Status.DOING));
-            }
-        };
+    public void accept(final BaseAdapter adapter, final RecyclerView.ViewHolder vh) {
+        performAction(Actions.ACCEPT, new ItemChangedCallback(adapter, vh, Status.DOING));
     }
 
+    public void fillForum(Context context, String id) {
+        Intent intent = AfterServiceForumActivity.intentFor(context, id);
+        context.startActivity(intent);
+    }
 
     private class ItemChangedCallback extends SimpleCallback<Void> {
 

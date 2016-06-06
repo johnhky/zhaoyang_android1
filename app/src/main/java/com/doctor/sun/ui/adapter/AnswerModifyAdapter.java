@@ -32,13 +32,16 @@ import com.doctor.sun.databinding.ItemRadioBinding;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.entity.Question;
 import com.doctor.sun.ui.activity.ImagePreviewActivity;
+import com.doctor.sun.ui.activity.ItemSelectHospital;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.widget.FlowLayout;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.vo.ItemPickDate;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -822,11 +825,45 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             case "radio": {
                 return saveButton(answer);
             }
+            case Question.TYPE_TIME: {
+                return saveTime(answer, position);
+            }
+            case Question.TYPE_DROP_DOWN: {
+                return saveDropDown(answer, position);
+            }
             default: {
                 break;
             }
         }
         return null;
+    }
+
+    private Object saveDropDown(Answer answer, int position) {
+        LayoutId layoutId = get(position + 1);
+        if (layoutId.getItemLayoutId() == R.layout.item_hospital) {
+            ItemSelectHospital item = (ItemSelectHospital) layoutId;
+
+
+            return item.toJsonAnswer();
+        } else {
+            return null;
+        }
+    }
+
+    private Object saveTime(Answer answer, int position) {
+        LayoutId layoutId = get(position + 1);
+        if (layoutId instanceof ItemPickDate) {
+            ItemPickDate item = (ItemPickDate) layoutId;
+            HashMap<String, Object> result = new HashMap<>();
+            result.put("type", "[]");
+            String date = item.getDate();
+            String[] dateList = new String[]{date};
+            result.put("content", dateList);
+
+            return result;
+        } else {
+            return null;
+        }
     }
 
     public Object savePills(Answer answer) {

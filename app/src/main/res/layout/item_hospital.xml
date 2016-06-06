@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.ui.activity.ItemSelectHospital" />
+
+    </data>
+
+    <com.zhy.android.percent.support.PercentFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_13"
+        android:paddingRight="@dimen/dp_13">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_week_default"
+            app:layout_widthPercent="28%">
+
+            <Spinner
+                android:id="@+id/lv1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:OnItemSelectedListener="@{data.lv1Changed(lv2,lv3)}"
+                android:background="@drawable/ripple_default"
+                android:entries="@{data.lv1}"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="@dimen/dp_4"
+                android:paddingRight="@dimen/dp_4"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:background="@drawable/ic_week_default"
+                android:clickable="false"
+                android:drawableRight="@drawable/ic_enter"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="@dimen/dp_13"
+                android:paddingRight="@dimen/dp_13"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_week_default"
+            app:layout_marginLeftPercent="32%"
+            app:layout_widthPercent="28%">
+
+            <Spinner
+                android:id="@+id/lv2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:OnItemSelectedListener="@{data.lv2Changed(lv3)}"
+                android:background="@drawable/ripple_default"
+                android:entries="@{data.lv2}"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="@dimen/dp_4"
+                android:paddingRight="@dimen/dp_4"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:background="@drawable/ic_week_default"
+                android:drawableRight="@drawable/ic_enter"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="@dimen/dp_13"
+                android:paddingRight="@dimen/dp_13"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_week_default"
+            app:layout_marginLeftPercent="64%"
+            app:layout_widthPercent="28%">
+
+            <Spinner
+                android:id="@+id/lv3"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:OnItemSelectedListener="@{data.lv3Changed}"
+                android:background="@drawable/ripple_default"
+                android:entries="@{data.lv3}"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="@dimen/dp_4"
+                android:paddingRight="@dimen/dp_4"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:drawableRight="@drawable/ic_enter"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="@dimen/dp_13"
+                android:paddingRight="@dimen/dp_13"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15" />
+        </FrameLayout>
+    </com.zhy.android.percent.support.PercentFrameLayout>
+</layout>

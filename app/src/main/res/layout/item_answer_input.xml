@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemTextInput" />
+            type="com.doctor.sun.vo.TextInputViewModel" />
 
         <variable
             name="vh"
@@ -22,20 +21,7 @@
         android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:orientation="vertical"
-        app:visible="@{data.visible}">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_35"
-            android:layout_marginBottom="@dimen/dp_6"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
-            android:gravity="center"
-            android:text="@{data.title}"
-            android:textColor="@color/color_tick"
-            android:textSize="@dimen/font_15" />
+        android:orientation="vertical">
 
 
         <LinearLayout
@@ -53,12 +39,16 @@
                 android:layout_height="@dimen/dp_45"
                 android:background="@drawable/ic_week_default"
                 android:gravity="start|center_vertical"
-                android:inputType="number"
+                android:hint="@{data.hint}"
+                android:imeOptions="@{data.imeOptions}"
+                android:inputType="@{data.inputType}"
+                android:maxLength="@{data.maxLength}"
                 android:paddingLeft="@dimen/dp_13"
                 android:paddingRight="@dimen/dp_13"
-                android:text="@{data.input}"
+                android:text="@={data.result}"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
+
         </LinearLayout>
     </LinearLayout>
 </layout>

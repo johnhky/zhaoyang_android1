@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  * Created by Lynn on 12/29/15.
  */
@@ -85,6 +87,17 @@ public class ContactDetail implements Parcelable {
     private String hospitalName;
     @JsonProperty("point")
     private float point;
+
+    @JsonProperty("records")
+    private List<MedicalRecord> records;
+
+    public List<MedicalRecord> getRecords() {
+        return records;
+    }
+
+    public void setRecords(List<MedicalRecord> records) {
+        this.records = records;
+    }
 
     public String getId() {
         return id;

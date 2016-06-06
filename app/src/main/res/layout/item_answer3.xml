@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -42,7 +41,9 @@
                     android:id="@+id/iv_position"
                     android:layout_width="@dimen/dp_23"
                     android:layout_height="@dimen/dp_23"
-                    android:src="@drawable/bg_position" />
+                    android:enabled="@{data.needRefill == 1}"
+                    android:selected="@{data.isFill== 1}"
+                    android:src="@drawable/ic_position_selector" />
 
                 <TextView
                     android:id="@+id/iv_icon"
@@ -59,56 +60,13 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_6"
                 android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dp_6"
                 android:layout_weight="1"
                 android:text="@{data.question.questionContent}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
-            <FrameLayout
-                android:id="@+id/fl_delete"
-                android:layout_width="@dimen/dp_65"
-                android:layout_height="@dimen/dp_25"
-                android:layout_marginLeft="@dimen/dp_16"
-                android:layout_marginRight="@dimen/dp_13"
-                android:background="@drawable/btn_small_white"
-                android:clickable="true"
-                android:onClick="@{data.handler.deleteAnswer(data,adapter,vh)}"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:background="@drawable/ripple_default"
-                    android:clickable="false"
-                    android:gravity="center"
-                    android:text="删除问题"
-                    android:textColor="@color/red_f0"
-                    android:textSize="@dimen/font_12" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/fl_reset"
-                android:layout_width="@dimen/dp_40"
-                android:layout_height="@dimen/dp_25"
-                android:layout_marginLeft="@dimen/dp_16"
-                android:layout_marginRight="@dimen/dp_13"
-                android:background="@drawable/bg_mini_white"
-                android:clickable="true">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:background="@drawable/ripple_default"
-                    android:clickable="false"
-                    android:gravity="center"
-                    android:text="重填"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/font_12" />
-            </FrameLayout>
 
         </LinearLayout>
 
@@ -121,12 +79,5 @@
             android:layout_marginRight="@dimen/dp_13"
             android:animateLayoutChanges="true"
             android:orientation="vertical" />
-
-        <include
-            android:id="@+id/prescriptions"
-            layout="@layout/item_add_prescription"
-            bind:adapter="@{adapter}"
-            bind:data="@{data}"
-            bind:vh="@{vh}" />
     </LinearLayout>
 </layout>

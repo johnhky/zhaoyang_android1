@@ -22,6 +22,9 @@ public class Question implements LayoutId {
     public static final String TYPE_CHECKBOX = "checkbox";
     public static final String TYPE_UPLOADS = "uploads";
     public static final String TYPE_PILLS = "fills";
+    public static final String TYPE_TIME = "dtime";
+    public static final String TYPE_SEL = "sel";
+    public static final String TYPE_DROP_DOWN = "asel";
 
     @JsonIgnore
     public boolean isSelected = false;

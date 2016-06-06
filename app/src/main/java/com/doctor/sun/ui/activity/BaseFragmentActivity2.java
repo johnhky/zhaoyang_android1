@@ -3,6 +3,7 @@ package com.doctor.sun.ui.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 
@@ -89,5 +90,29 @@ public abstract class BaseFragmentActivity2 extends AppCompatActivity implements
 
     protected boolean shouldCheck() {
         return true;
+    }
+
+    public boolean getBooleanExtra(String name, boolean defaultValue) {
+        return getIntent().getBooleanExtra(name, defaultValue);
+    }
+
+    public long getLongExtra(String name, long defaultValue) {
+        return getIntent().getLongExtra(name, defaultValue);
+    }
+
+    public float getFloatExtra(String name, float defaultValue) {
+        return getIntent().getFloatExtra(name, defaultValue);
+    }
+
+    public double getDoubleExtra(String name, double defaultValue) {
+        return getIntent().getDoubleExtra(name, defaultValue);
+    }
+
+    public String getStringExtra(String name) {
+        return getIntent().getStringExtra(name);
+    }
+
+    public <T extends Parcelable> T getParcelableExtra(String name) {
+        return getIntent().getParcelableExtra(name);
     }
 }

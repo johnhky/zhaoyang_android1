@@ -1,11 +1,15 @@
 package com.doctor.sun.ui.activity.patient.handler;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.constans.Gender;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.AfterServiceHistoryActivity;
 import com.doctor.sun.ui.activity.patient.MedicalRecordDetailActivity;
 import com.doctor.sun.ui.activity.patient.UrgentCallActivity;
@@ -90,13 +94,18 @@ public class MedicalRecordHandler {
         }
     }
 
-    public View.OnClickListener afterServiceHistory() {
-        return new View.OnClickListener() {
+    public void afterServiceHistory(Context context) {
+        Intent intent = AfterServiceHistoryActivity.intentFor(context, data.getMedicalRecordId());
+        context.startActivity(intent);
+    }
+
+    public void allowToApply(int doctorId) {
+        AfterServiceModule of = Api.of(AfterServiceModule.class);
+        //注意canFollowUp 跟canApplyFollowUp别弄错了.
+        of.allow(doctorId, data.allowToApply == 1 ? 0 : 1, data.getMedicalRecordId()).enqueue(new SimpleCallback<Void>() {
             @Override
-            public void onClick(View v) {
-                Intent intent = AfterServiceHistoryActivity.intentFor(v.getContext(), data.getMedicalRecordId());
-                v.getContext().startActivity(intent);
+            protected void handleResponse(Void response) {
             }
-        };
+        });
     }
 }

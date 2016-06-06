@@ -117,7 +117,7 @@
             android:layout_height="1px"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:background="@{data.dividerColor}"/>
+            android:background="@{data.dividerColor}" />
 
         <LinearLayout
             android:id="@+id/lly_btn"
@@ -140,9 +140,9 @@
                 android:layout_width="@dimen/dp_90"
                 android:layout_height="@dimen/dp_35"
                 android:layout_gravity="end"
-                android:onClick="@{data.reject(adapter,vh)}"
                 android:layout_marginRight="@dimen/dp_11"
                 android:background="@drawable/btn_small_white"
+                android:onClick="@{()->data.reject(adapter,vh)}"
                 android:visibility="@{data.todoBtnVisible}">
 
                 <TextView
@@ -160,8 +160,8 @@
                 android:layout_width="@dimen/dp_90"
                 android:layout_height="@dimen/dp_35"
                 android:layout_gravity="end"
-                android:onClick="@{data.accept(adapter,vh)}"
                 android:background="@drawable/btn_small_blue"
+                android:onClick="@{()->data.accept(adapter,vh)}"
                 android:visibility="@{data.todoBtnVisible}">
 
                 <TextView
@@ -179,6 +179,7 @@
                 android:layout_height="@dimen/dp_35"
                 android:layout_gravity="end"
                 android:background="@drawable/btn_small_blue"
+                android:onClick="@{()->data.fillForum(context,data.id)}"
                 android:visibility="@{data.doingBtnVisible}">
 
                 <TextView
