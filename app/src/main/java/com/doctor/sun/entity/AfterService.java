@@ -12,7 +12,7 @@ import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
-import com.doctor.sun.ui.activity.AfterServiceForumActivity;
+import com.doctor.sun.ui.activity.doctor.AfterServiceDetailActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -64,7 +64,7 @@ public class AfterService implements LayoutId {
 
     public String getStatusLabel() {
         switch (status) {
-            case "todo": {
+            case Status.TODO: {
                 return "申请中";
             }
             case Status.DOING: {
@@ -144,7 +144,7 @@ public class AfterService implements LayoutId {
     }
 
     public void fillForum(Context context, String id) {
-        Intent intent = AfterServiceForumActivity.intentFor(context, id);
+        Intent intent = AfterServiceDetailActivity.intentFor(context, id);
         context.startActivity(intent);
     }
 
@@ -186,5 +186,12 @@ public class AfterService implements LayoutId {
         String ACCEPT = "accept";
         String REJECT = "reject";
     }
+
+    @StringDef
+    public @interface TYPE {
+        String PATIENT = "4";
+        String DOCTOR = "3";
+    }
+
 }
 

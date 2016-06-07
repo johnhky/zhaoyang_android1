@@ -32,6 +32,7 @@
                 android:gravity="start|center_vertical"
                 android:paddingLeft="@dimen/dp_4"
                 android:paddingRight="@dimen/dp_4"
+                android:selection="@{data.lv1Position}"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
 
@@ -65,6 +66,7 @@
                 android:gravity="start|center_vertical"
                 android:paddingLeft="@dimen/dp_4"
                 android:paddingRight="@dimen/dp_4"
+                android:selection="@{data.lv2Position}"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
 
@@ -97,6 +99,7 @@
                 android:gravity="start|center_vertical"
                 android:paddingLeft="@dimen/dp_4"
                 android:paddingRight="@dimen/dp_4"
+                android:selection="@{data.lv3Position}"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
 

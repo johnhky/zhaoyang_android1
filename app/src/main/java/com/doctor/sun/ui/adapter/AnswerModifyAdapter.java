@@ -48,6 +48,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.log.Logger;
@@ -819,7 +820,8 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             case "uploads": {
                 return saveUpload(answer);
             }
-            case "checkbox": {
+            case Question.TYPE_SEL:
+            case "checkbox" : {
                 return saveButton(answer);
             }
             case "radio": {
@@ -905,7 +907,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
 
     @SuppressWarnings("unchecked")
     public Object saveButton(Answer answer) {
-        HashMap<String, String> boxAnswer = new HashMap<>();
+        HashMap<String, Object> boxAnswer = new HashMap<>();
         ArrayList<String> type = new ArrayList<>();
         ArrayList<String> content = new ArrayList<>();
         for (Options options : answer.getQuestion().getOptions()) {
@@ -920,8 +922,8 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                 }
             }
         }
-        boxAnswer.put("type", JacksonUtils.toJson(type));
-        boxAnswer.put("content", JacksonUtils.toJson(content));
+        boxAnswer.put("type", type);
+        boxAnswer.put("content", content);
         boxAnswer.put("mark", "0");
         return boxAnswer;
     }

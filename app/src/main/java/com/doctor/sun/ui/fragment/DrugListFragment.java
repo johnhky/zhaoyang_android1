@@ -12,12 +12,10 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
  */
 public class DrugListFragment extends RefreshListFragment {
     private DrugModule api = Api.of(DrugModule.class);
-    private static DrugListFragment instance;
+//    private static DrugListFragment instance;
 
     public static DrugListFragment getInstance() {
-        if (instance == null) {
-            instance = new DrugListFragment();
-        }
+        DrugListFragment instance = new DrugListFragment();
         return instance;
     }
 

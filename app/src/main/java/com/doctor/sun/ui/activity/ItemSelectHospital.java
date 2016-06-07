@@ -30,9 +30,9 @@ public class ItemSelectHospital extends BaseObservable implements LayoutId {
     private List<Area> lv1 = new ArrayList<>();
     private List<Area> lv2 = new ArrayList<>();
     private List<Area> lv3 = new ArrayList<>();
-    private int lv1Position;
-    private int lv2Position;
-    private int lv3Position;
+    private int lv1Position = 0;
+    private int lv2Position = 0;
+    private int lv3Position = 0;
 
     public ItemSelectHospital() {
         api.endemicAreaList().enqueue(new SimpleCallback<List<Area>>() {
@@ -79,10 +79,10 @@ public class ItemSelectHospital extends BaseObservable implements LayoutId {
                 lv2Position = 0;
                 lv3Position = 0;
                 setLv3(lv3(lv1Position, lv2Position));
-                lv2Spinner.setSelection(0);
-                lv3Spinner.setSelection(0);
-                AbsSpinnerBindingAdapter.setEntries(lv2Spinner, lv2);
-                AbsSpinnerBindingAdapter.setEntries(lv3Spinner, lv3);
+//                lv2Spinner.setSelection(0);
+//                lv3Spinner.setSelection(0);
+//                AbsSpinnerBindingAdapter.setEntries(lv2Spinner, lv2);
+//                AbsSpinnerBindingAdapter.setEntries(lv3Spinner, lv3);
                 notifyChange();
             }
 
@@ -102,9 +102,9 @@ public class ItemSelectHospital extends BaseObservable implements LayoutId {
                 }
                 lv2Position = position;
                 lv3Position = 0;
-                lv3Spinner.setSelection(0);
+//                lv3Spinner.setSelection(0);
                 setLv3(lv3(lv1Position, lv2Position));
-                AbsSpinnerBindingAdapter.setEntries(lv3Spinner, lv3);
+//                AbsSpinnerBindingAdapter.setEntries(lv3Spinner, lv3);
                 notifyChange();
             }
 

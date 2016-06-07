@@ -144,6 +144,7 @@ public class OptionsHandler {
                         adapter.notifyItemRangeChanged(parentPosition + padding, optionsList.size());
                         break;
                     }
+                    case Question.TYPE_SEL:
                     case Question.TYPE_CHECKBOX: {
                         String clearOption = answer.getQuestion().getClearOption();
                         if (clearOption.equals(options.getOptionType())) {

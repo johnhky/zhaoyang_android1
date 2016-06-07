@@ -12,12 +12,9 @@ import com.doctor.sun.module.AppointmentModule;
 public class PUrgentCallFragment extends RefreshListFragment {
     private AppointmentModule api = Api.of(AppointmentModule.class);
 
-    private static PUrgentCallFragment instance;
 
     public static PUrgentCallFragment getInstance() {
-        if (instance == null) {
-            instance = new PUrgentCallFragment();
-        }
+        PUrgentCallFragment     instance = new PUrgentCallFragment();
         return instance;
     }
 

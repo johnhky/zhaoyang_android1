@@ -58,7 +58,8 @@ public class AnswerHandler {
     }
 
     public boolean isCheckbox(Answer data) {
-        return data.getQuestion().getQuestionType().equals(Question.TYPE_CHECKBOX);
+        String questionType = data.getQuestion().getQuestionType();
+        return questionType.equals(Question.TYPE_CHECKBOX) || questionType.equals(Question.TYPE_SEL);
     }
 
     public boolean isRadio(Answer data) {
@@ -168,6 +169,22 @@ public class AnswerHandler {
             }
         };
     }
+    public List<String> answerType(Answer answer) {
+        if (answer.getAnswerType() != null && answer.getAnswerType() instanceof List) {
+            List<String> answerType = (List<String>) answer.getAnswerType();
+            return answerType;
+        }
+        return null;
+    }
+
+    public List<String> answerContent(Answer answer) {
+        if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {
+            List<String> content = (List<String>) answer.getAnswerContent();
+            return content;
+        }
+        return null;
+    }
+
 
     public Answer initPrescriptions(Answer answer) {
         if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {

@@ -160,7 +160,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.AfterServiceForumActivity"
+            android:name=".ui.activity.doctor.AfterServiceDetailActivity"
             android:screenOrientation="portrait" />
 
         <activity

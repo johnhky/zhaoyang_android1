@@ -26,6 +26,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_8"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_8"
@@ -34,58 +35,5 @@
             app:html='@{@string/text_89_36("随访日期 ",  data.deadlineTime)}'
             tools:text="最迟问卷完成时间: 2015-06-07" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_13"
-            app:html='@{@string/text_89_36("受访者 ",  data.relation)}'
-            tools:text="最迟问卷完成时间: 2015-06-07" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_13"
-            app:html='@{@string/text_89_36("患者年龄性别 ",  data.physiologicalInfo())}'
-            tools:text="最迟问卷完成时间: 2015-06-07" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_13"
-            app:html='@{@string/text_89_36("随访医生 ",  data.doctor.name)}'
-            tools:text="最迟问卷完成时间: 2015-06-07" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_13"
-            app:html='@{@string/text_89_36("家庭住址 ",  "")}'
-            tools:text="最迟问卷完成时间: 2015-06-07" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_8"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_13"
-            android:text="@{data.record.handler.locate}"/>
     </LinearLayout>
 </layout>
