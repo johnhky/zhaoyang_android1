@@ -214,7 +214,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
      * @param answer
      */
     @SuppressWarnings("unchecked")
-    private void setFill(final ItemAnswerBinding binding, final Answer answer) {
+    protected void setFill(final ItemAnswerBinding binding, final Answer answer) {
         //填写文本
         ItemEditBinding editBinding = ItemEditBinding.inflate(getInflater(), binding.flAnswer, true);
         editBinding.etAnswer.setTextColor(Color.parseColor("#363636"));
@@ -530,7 +530,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
         }
     }
 
-    private View getPrescriptionView(final ItemAnswerBinding binding, final Answer answer, final Prescription data) {
+    protected View getPrescriptionView(final ItemAnswerBinding binding, final Answer answer, final Prescription data) {
         final ItemPrescriptionBinding prescriptionBinding = ItemPrescriptionBinding.inflate(LayoutInflater.from(getContext()),
                 binding.flAnswer, false);
         prescriptionBinding.tvDelete.setOnClickListener(new View.OnClickListener() {

@@ -13,7 +13,7 @@ import com.doctor.sun.entity.Question;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
-import com.doctor.sun.ui.adapter.AnswerModifyAdapter;
+import com.doctor.sun.ui.adapter.AnswerDetailAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.vo.ItemTextInput;
 
@@ -25,7 +25,7 @@ import java.util.List;
 public class ViewForumFragment extends RefreshListFragment {
     private String orderId;
     private AfterServiceModule api = Api.of(AfterServiceModule.class);
-    private AnswerModifyAdapter adapter;
+    private AnswerDetailAdapter adapter;
     private String forumType;
 
     public static ViewForumFragment newInstance(String id, String forumType) {
@@ -53,7 +53,7 @@ public class ViewForumFragment extends RefreshListFragment {
     @NonNull
     @Override
     public SimpleAdapter createAdapter() {
-        adapter = new AnswerModifyAdapter(getContext());
+        adapter = new AnswerDetailAdapter(getContext());
         if (getForumType().equals(AfterService.TYPE.DOCTOR)) {
             adapter.mapLayout(R.layout.item_after_service, R.layout.item_after_service_detail);
         } else {
@@ -113,6 +113,16 @@ public class ViewForumFragment extends RefreshListFragment {
 
                             }
                             getAdapter().add(textInput);
+                        }
+                        case Question.TYPE_FILL: {
+                            ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option, "");
+                            if (answer.getAnswerContent() instanceof List) {
+                                List<String> content = (List<String>) answer.getAnswerContent();
+                                if (!content.isEmpty()) {
+                                    textInput.setInput(content.get(0));
+                                    getAdapter().add(textInput);
+                                }
+                            }
                         }
                     }
                 }
