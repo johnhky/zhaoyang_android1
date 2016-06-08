@@ -42,7 +42,9 @@
                     android:id="@+id/iv_position"
                     android:layout_width="@dimen/dp_23"
                     android:layout_height="@dimen/dp_23"
-                    android:src="@drawable/bg_position" />
+                    android:enabled="@{data.needRefill == 1}"
+                    android:selected="@{data.isFill== 1}"
+                    android:src="@drawable/ic_position_selector" />
 
                 <TextView
                     android:id="@+id/iv_icon"
@@ -59,8 +61,8 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_6"
                 android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dp_6"
                 android:layout_weight="1"
                 android:text="@{data.question.questionContent}"
                 android:textColor="#363636"

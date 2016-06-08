@@ -54,6 +54,8 @@ public class AfterServiceHistoryActivity extends PageActivity2 {
         SimpleAdapter adapter = super.createAdapter();
         if (!AppContext.isDoctor()) {
             adapter.mapLayout(R.layout.item_after_service, R.layout.p_item_after_service2);
+        }else {
+            adapter.mapLayout(R.layout.item_after_service, R.layout.item_after_service2);
         }
         return adapter;
     }

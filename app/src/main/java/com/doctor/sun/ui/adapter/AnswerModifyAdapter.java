@@ -48,7 +48,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Objects;
 
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.log.Logger;
@@ -85,13 +84,13 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
 
             setLocalComponent(binding, answer, position);
 
-            if (answer.getNeedRefill() == 1) {
-                binding.ivPosition.setImageResource(R.drawable.bg_msg_count);
-            } else if (answer.getIsFill() == 1) {
-                binding.ivPosition.setImageResource(R.drawable.shape_position);
-            } else {
-                binding.ivPosition.setImageResource(R.drawable.bg_position);
-            }
+//            if (answer.getNeedRefill() == 1) {
+//                binding.ivPosition.setImageResource(R.drawable.bg_msg_count);
+//            } else if (answer.getIsFill() == 1) {
+//                binding.ivPosition.setImageResource(R.drawable.shape_position);
+//            } else {
+//                binding.ivPosition.setImageResource(R.drawable.bg_position);
+//            }
         }
 
         super.onBindViewBinding(vh, position);
@@ -174,10 +173,11 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                     }
                 }
             }
-            isPrescriptionInit = true;
+            isPrescriptionInit = false;
         }
 
         if (answer.getPrescriptions().size() > 0) {
+            binding.flAnswer.removeAllViews();
             for (int i = 0; i < answer.getPrescriptions().size(); i++) {
                 binding.flAnswer.addView(getPrescriptionView(binding, answer, answer.getPrescriptions().get(i)));
             }
@@ -821,7 +821,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                 return saveUpload(answer);
             }
             case Question.TYPE_SEL:
-            case "checkbox" : {
+            case "checkbox": {
                 return saveButton(answer);
             }
             case "radio": {

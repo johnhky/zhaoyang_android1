@@ -153,7 +153,7 @@ public class ContactActivity extends BaseActivity2 {
         };
     }
 
-    private void getContactList() {
+    protected void getContactList() {
         imModule.doctorContactList().enqueue(new ApiCallback<List<Contact>>() {
             @Override
             protected void handleResponse(List<Contact> response) {
@@ -166,7 +166,7 @@ public class ContactActivity extends BaseActivity2 {
         });
     }
 
-    private void getPContactList() {
+    protected void getPContactList() {
         imModule.pContactList().enqueue(new ApiCallback<List<Contact>>() {
             @Override
             protected void handleResponse(List<Contact> response) {
@@ -200,6 +200,10 @@ public class ContactActivity extends BaseActivity2 {
     }
 
     protected LoadMoreAdapter getAdapter() {
+        return mAdapter;
+    }
+
+    protected ContactAdapter getContactAdapter() {
         return mAdapter;
     }
 

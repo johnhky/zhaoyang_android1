@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.StringDef;
 import android.support.v7.widget.RecyclerView;
 
@@ -32,6 +33,8 @@ public class AfterService implements LayoutId {
      * doctor : {"id":"2","name":"waymen医生","email":"waymen@waymen.com","level":"咨询/治疗师认证","gender":"1","city":"","hospital_id":"2","specialist":"妇科","title":"副主任医师","money":"50","second_money":"20","hospital_phone":"","detail":"专业治疗各种敏感疑难杂症很多经济学家肯德基细菌学家顶焦度计先进典型经济学家大家都觉得看看书忽东忽西是解决自身建设计划下进行教学基地进行冬季新款夏季丢盔卸甲继续亟待解决的星级大酒店小姐持续下降的禁吸戒毒独具匠心。","avatar":"http://7xkt51.com2.z0.glb.qiniucdn.com/FlVGcfPFlwXY12_NjDDulah-nOqq","need_review":"0","title_img":"http://pic.baike.soso.com/p/20140401/20140401145749-1321596626.jpg","practitioner_img":"http://pic.baike.soso.com/p/20140401/20140401145749-1321596626.jpg","certified_img":"http://pic.baike.soso.com/p/20140401/20140401145749-1321596626.jpg","point":"3","hospital_name":"私人诊所","voipAccount":"8009850000000002","phone":"15918748284","yunxin_accid":"2"}
      * questionnaire_name : 常规随访问卷
      * questionnaire_progress : 0/10
+     * load_patient : 1
+     * created_at : 2016-06-03 18:48:59
      */
 
     @JsonProperty("id")
@@ -50,12 +53,17 @@ public class AfterService implements LayoutId {
     public String questionnaireName;
     @JsonProperty("questionnaire_progress")
     public String questionnaireProgress;
+    @JsonProperty("load_patient")
+    public int loadPatient;
+    @JsonProperty("created_at")
+    public String createdAt;
 
     @JsonProperty("doctor")
     public Doctor doctor;
 
     @JsonProperty("record")
     public MedicalRecord record;
+
 
     @Override
     public int getItemLayoutId() {
@@ -78,6 +86,9 @@ public class AfterService implements LayoutId {
             }
             case Status.FINISHED: {
                 return "已完成";
+            }
+            case Status.LOCKED: {
+                return "问卷已锁定";
             }
         }
         return status;
@@ -102,8 +113,24 @@ public class AfterService implements LayoutId {
             case Status.FINISHED: {
                 return Color.parseColor("#363636");
             }
+            case Status.LOCKED: {
+                return Color.parseColor("#FFFFFF");
+            }
         }
         return 0;
+    }
+
+
+    public int getBackgroundColor() {
+        switch (status) {
+
+            case Status.LOCKED: {
+                return R.drawable.shape_status;
+            }
+            default: {
+                return R.drawable.bg_transparent;
+            }
+        }
     }
 
     public String physiologicalInfo() {
@@ -179,6 +206,7 @@ public class AfterService implements LayoutId {
         String REJECTED = "rejected";
         String CLOSED = "closed";
         String FINISHED = "finished";
+        String LOCKED = "locked";
     }
 
     @StringDef

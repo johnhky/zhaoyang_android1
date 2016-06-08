@@ -113,6 +113,7 @@ public class ViewForumFragment extends RefreshListFragment {
 
                             }
                             getAdapter().add(textInput);
+                            break;
                         }
                         case Question.TYPE_FILL: {
                             ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option, "");
@@ -123,6 +124,7 @@ public class ViewForumFragment extends RefreshListFragment {
                                     getAdapter().add(textInput);
                                 }
                             }
+                            break;
                         }
                     }
                 }

@@ -2,6 +2,10 @@ package com.doctor.sun.entity.handler;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
@@ -100,6 +104,20 @@ public class DoctorHandler {
         Intent intent = new Intent();
         intent.putExtra(Constants.DATA, data);
         Activity activity = (Activity) v.getContext();
+        Messenger messenger = activity.getIntent().getParcelableExtra(Constants.HANDLER);
+        if (messenger != null) {
+            try {
+                Message message = new Message();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.DATA, data);
+                message.setData(bundle);
+                message.what = Constants.DOCTOR_REQUEST_CODE;
+                messenger.send(message);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+
         activity.setResult(Activity.RESULT_OK, intent);
         activity.finish();
     }
@@ -212,13 +230,13 @@ public class DoctorHandler {
     public HashMap<String, String> toHashMap() {
         HashMap<String, String> result = new HashMap<String, String>();
         result.put("name", data.getName() == null ? "" : data.getName());
-        result.put("email", data.getEmail()== null ? "" : data.getEmail());
+        result.put("email", data.getEmail() == null ? "" : data.getEmail());
         result.put("gender", String.valueOf(data.getGender()));
         result.put("avatar", data.getAvatar() == null ? "" : data.getAvatar());
         result.put("specialist", data.getSpecialist() == null ? "" : data.getSpecialist());
         result.put("title", data.getTitle() == null ? "" : data.getTitle());
         result.put("titleImg", data.getTitleImg() == null ? "" : data.getTitleImg());
-        result.put("practitionerImg",  data.getPractitionerImg() == null ? "" :  data.getPractitionerImg());
+        result.put("practitionerImg", data.getPractitionerImg() == null ? "" : data.getPractitionerImg());
         result.put("certifiedImg", data.getCertifiedImg() == null ? "" : data.getCertifiedImg());
         result.put("hospitalPhone", data.getHospitalPhone() == null ? "" : data.getHospitalPhone());
         result.put("detail", data.getDetail() == null ? "" : data.getDetail());

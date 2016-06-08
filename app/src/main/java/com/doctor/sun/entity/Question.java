@@ -25,6 +25,7 @@ public class Question implements LayoutId {
     public static final String TYPE_TIME = "dtime";
     public static final String TYPE_SEL = "sel";
     public static final String TYPE_DROP_DOWN = "asel";
+    public static final String TYPE_FURTHER_CONSULTATION = "keepon";
 
     @JsonIgnore
     public boolean isSelected = false;

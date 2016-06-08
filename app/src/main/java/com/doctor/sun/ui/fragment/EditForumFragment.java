@@ -17,6 +17,7 @@ import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.ItemSelectHospital;
 import com.doctor.sun.ui.adapter.AnswerModifyAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemPickDate;
 
 import java.util.List;
@@ -105,6 +106,12 @@ public class EditForumFragment extends RefreshListFragment {
                         case Question.TYPE_DROP_DOWN: {
                             ItemSelectHospital object = new ItemSelectHospital();
                             getAdapter().add(object);
+                            break;
+                        }
+                        case Question.TYPE_FURTHER_CONSULTATION: {
+                            FurtherConsultationVM vm = new FurtherConsultationVM();
+                            getAdapter().add(vm);
+                            break;
                         }
                     }
                 }

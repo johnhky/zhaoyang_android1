@@ -78,7 +78,10 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:layout_marginRight="@dimen/dp_13"
+                android:background="@{data.backgroundColor}"
                 android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_2"
+                android:paddingRight="@dimen/dp_2"
                 android:text="@{data.statusLabel}"
                 android:textColor="@{data.statusTextColor}"
                 android:textSize="@dimen/font_13" />
@@ -90,6 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
             android:background="#c1cacf" />
 
         <TextView
@@ -98,21 +102,20 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="问卷名称: 常规随访问卷"
+            android:text='@{"问卷完成度:" + data.questionnaireProgress}'
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_8"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:layout_marginBottom="@dimen/dp_6"
-            android:text='@{"最迟问卷完成时间: " + data.deadlineTime}'
+            android:text='@{"问卷发起时间:" + data.createdAt}'
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
-
 
 
         <View

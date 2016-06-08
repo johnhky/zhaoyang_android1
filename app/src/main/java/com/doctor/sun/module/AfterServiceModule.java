@@ -7,6 +7,7 @@ import com.doctor.sun.dto.AfterServiceDTO;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.AfterService;
+import com.doctor.sun.entity.Contact;
 import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.MedicalRecord;
 
@@ -92,4 +93,10 @@ public interface AfterServiceModule {
     @POST("follow-up/follow-up-question")
     Call<ApiDTO<String>> saveAnswer(@NonNull @Field("follow_order_id") String id, @Field("answer") String answer);
 
+
+    @GET("api/follow-up/doctor-list")
+    Call<ApiDTO<List<Contact>>> doctorList(@NonNull @Query("patientId") int patientId);
+
+    @GET("api/follow-up/patient-list")
+    Call<ApiDTO<List<Contact>>> patientList(@NonNull @Query("doctorId") int doctorId);
 }
