@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.pager;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -9,15 +8,15 @@ import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.ui.fragment.DoctorSugestionFragment;
 import com.doctor.sun.ui.fragment.EditForumFragment;
 import com.doctor.sun.ui.fragment.RefreshListFragment;
+import com.doctor.sun.ui.fragment.ViewForumFragment;
 
 /**
  * Created by rick on 6/6/2016.
  */
-public class PatientAfterServicePA extends FragmentStatePagerAdapter {
+public class PatientAfterServiceDonePA extends FragmentStatePagerAdapter {
     private String id;
-    private EditForumFragment afterServiceForumFragment;
 
-    public PatientAfterServicePA(FragmentManager fm, String id) {
+    public PatientAfterServiceDonePA(FragmentManager fm, String id) {
         super(fm);
         this.id = id;
     }
@@ -27,9 +26,7 @@ public class PatientAfterServicePA extends FragmentStatePagerAdapter {
         RefreshListFragment fragment = null;
         switch (position) {
             case 0: {
-                afterServiceForumFragment = EditForumFragment.newInstance(id, AfterService.TYPE.PATIENT);
-                fragment = afterServiceForumFragment;
-                break;
+                return ViewForumFragment.newInstance(id, AfterService.TYPE.PATIENT);
             }
             case 1: {
                 return DoctorSugestionFragment.newInstance(id, AfterService.TYPE.PATIENT);
@@ -56,14 +53,4 @@ public class PatientAfterServicePA extends FragmentStatePagerAdapter {
         return "";
     }
 
-    public void saveAnswer() {
-        if (afterServiceForumFragment != null) {
-            afterServiceForumFragment.saveAnswer();
-        }
-    }
-    public void handleImageResult(final int requestCode, int resultCode, Intent data) {
-        if (afterServiceForumFragment != null) {
-            afterServiceForumFragment.handleImageResult(requestCode, resultCode, data);
-        }
-    }
 }

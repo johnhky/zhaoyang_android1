@@ -4,6 +4,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.entity.handler.AnswerHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class Answer implements LayoutId {
     @JsonProperty("need_refill")
     private int needRefill;
     @JsonProperty("is_fill")
-    private int isFill;
+    private int isFill = 0;
     @JsonProperty("template_id")
     private int templateId;
     @JsonProperty("question_category_id")
@@ -65,6 +66,8 @@ public class Answer implements LayoutId {
     @JsonProperty("question")
     private Question question;
     //保存病人填写答案需要的辅助字段
+    @JsonIgnore
+    public boolean isDrugInit = false;
     @JsonIgnore
     private List<Integer> index;
     @JsonIgnore

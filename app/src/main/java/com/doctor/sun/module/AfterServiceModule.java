@@ -7,6 +7,7 @@ import com.doctor.sun.dto.AfterServiceDTO;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.AfterService;
+import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Contact;
 import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.MedicalRecord;
@@ -99,4 +100,9 @@ public interface AfterServiceModule {
 
     @GET("api/follow-up/patient-list")
     Call<ApiDTO<List<Contact>>> patientList(@NonNull @Query("doctorId") int doctorId);
+
+    @GET("follow-up/doctor-feedback")
+    Call<ApiDTO<List<Answer>>> feedback(@NonNull @Query("follow_order_id") String id);
+
+
 }

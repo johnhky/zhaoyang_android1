@@ -14,12 +14,12 @@ import com.doctor.sun.ui.pager.PatientAfterServicePA;
 /**
  * Created by rick on 3/6/2016.
  */
-public class AfterServiceDetailActivity extends TabActivity {
+public class AfterServiceDoingActivity extends TabActivity {
     private PatientAfterServicePA patientAfterServicePA;
     private DoctorAfterServicePA doctorAfterServicePA;
 
     public static Intent intentFor(Context context, String id) {
-        Intent intent = new Intent(context, AfterServiceDetailActivity.class);
+        Intent intent = new Intent(context, AfterServiceDoingActivity.class);
         intent.putExtra(Constants.DATA, id);
         return intent;
     }
@@ -51,8 +51,25 @@ public class AfterServiceDetailActivity extends TabActivity {
         super.onMenuClicked();
         if (AppContext.isDoctor()) {
             doctorAfterServicePA.saveAnswer();
-        }else {
+        } else {
             patientAfterServicePA.saveAnswer();
+        }
+    }
+
+    /**
+     * Dispatch incoming result to the correct fragment.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (AppContext.isDoctor()) {
+            doctorAfterServicePA.handleImageResult(requestCode, resultCode, data);
+        } else {
+            patientAfterServicePA.handleImageResult(requestCode, resultCode, data);
         }
     }
 }

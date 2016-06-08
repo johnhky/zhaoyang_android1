@@ -1,5 +1,7 @@
 package com.doctor.sun.ui.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
@@ -10,17 +12,25 @@ import com.doctor.sun.dto.AfterServiceDTO;
 import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Options;
+import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
+import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.ItemSelectHospital;
 import com.doctor.sun.ui.adapter.AnswerModifyAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemPickDate;
 
+import java.io.File;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 /**
  * Created by rick on 3/6/2016.
@@ -28,6 +38,7 @@ import java.util.List;
 public class EditForumFragment extends RefreshListFragment {
     private String orderId;
     private AfterServiceModule api = Api.of(AfterServiceModule.class);
+    private ToolModule uploadApi = Api.of(ToolModule.class);
     private AnswerModifyAdapter adapter;
     private String forumType;
 
@@ -134,5 +145,20 @@ public class EditForumFragment extends RefreshListFragment {
 
     public String getForumType() {
         return getArguments().getString(Constants.TYPE);
+    }
+
+    public void handleImageResult(final int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            File to = PickImageDialog.handleRequest(getContext(), data, requestCode);
+            RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"), to);
+            uploadApi.uploadPhoto(body).enqueue(new ApiCallback<Photo>() {
+                @Override
+                protected void handleResponse(Photo response) {
+                    if (getAdapter() instanceof AnswerModifyAdapter) {
+                        ((AnswerModifyAdapter) getAdapter()).addImage(response.getUrl());
+                    }
+                }
+            });
+        }
     }
 }

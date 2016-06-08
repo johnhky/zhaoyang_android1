@@ -23,7 +23,6 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.DialogPickImageBinding;
 import com.doctor.sun.util.PermissionUtil;
-import com.google.repacked.kotlin.jvm.functions.Function2;
 
 import java.io.File;
 import java.io.IOException;
@@ -196,6 +195,9 @@ public class PickImageDialog extends BottomSheetDialog {
             return file;
         }
 
+        if (file.length() == 0) {
+            return file;
+        }
         //2Mb 为基准压缩计算比率图片
         long quality = (long) 1024 * 1024 * 2 * 100 / file.length();
         if (quality > 100) {

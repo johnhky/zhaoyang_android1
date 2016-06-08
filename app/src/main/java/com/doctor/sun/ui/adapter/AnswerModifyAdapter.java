@@ -41,6 +41,7 @@ import com.doctor.sun.ui.widget.FlowLayout;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoSelectorDialog;
 import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemPickDate;
 
 import java.util.ArrayList;
@@ -64,7 +65,6 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
     private Context mActivity;
     //记录当前需要添加药品或者上传图片的position, 方便回调
     private int needPillsOrImages = -1;
-    private boolean isPrescriptionInit = false;
 
     public AnswerModifyAdapter(Context context) {
         super(context);
@@ -158,7 +158,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
 //        binding.tvAddPills.setVisibility(View.VISIBLE);
 
         //恢复历史记录
-        if (!isPrescriptionInit) {
+        if (!answer.isDrugInit) {
             if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {
                 List<Object> content = (List<Object>) answer.getAnswerContent();
                 for (int i = 0; i < content.size(); i++) {
@@ -173,7 +173,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                     }
                 }
             }
-            isPrescriptionInit = false;
+            answer.isDrugInit = true;
         }
 
         if (answer.getPrescriptions().size() > 0) {
@@ -811,20 +811,20 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
     private Object saveAnswer(int position) {
         Answer answer = (Answer) get(position);
         switch (answer.getQuestion().getQuestionType()) {
-            case "fills": {
+            case Question.TYPE_PILLS: {
                 return savePills(answer);
             }
-            case "fill": {
+            case Question.TYPE_FILL: {
                 return saveFill(answer);
             }
-            case "uploads": {
+            case Question.TYPE_UPLOADS: {
                 return saveUpload(answer);
             }
             case Question.TYPE_SEL:
-            case "checkbox": {
+            case Question.TYPE_CHECKBOX: {
                 return saveButton(answer);
             }
-            case "radio": {
+            case Question.TYPE_RADIO: {
                 return saveButton(answer);
             }
             case Question.TYPE_TIME: {
@@ -833,11 +833,26 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             case Question.TYPE_DROP_DOWN: {
                 return saveDropDown(answer, position);
             }
+            case Question.TYPE_FURTHER_CONSULTATION: {
+                return saveFurtherConsultation(answer, position);
+            }
             default: {
                 break;
             }
         }
         return null;
+    }
+
+    private Object saveFurtherConsultation(Answer answer, int position) {
+        LayoutId layoutId = get(position + 1);
+        if (layoutId.getItemLayoutId() == R.layout.item_further_consultation) {
+            FurtherConsultationVM item = (FurtherConsultationVM) layoutId;
+
+
+            return item.toJsonAnswer();
+        } else {
+            return null;
+        }
     }
 
     private Object saveDropDown(Answer answer, int position) {
@@ -970,6 +985,5 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
     @Override
     public void clear() {
         super.clear();
-        isPrescriptionInit = false;
     }
 }

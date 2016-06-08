@@ -8,6 +8,7 @@ import android.databinding.Bindable;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
+import android.util.Log;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
@@ -18,10 +19,13 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 
+import java.util.HashMap;
+
 /**
  * Created by rick on 7/6/2016.
  */
 public class FurtherConsultationVM extends BaseObservable implements LayoutId {
+    public static final String TAG = FurtherConsultationVM.class.getSimpleName();
 
     public ItemPickDate date;
     private Doctor doctor;
@@ -31,7 +35,7 @@ public class FurtherConsultationVM extends BaseObservable implements LayoutId {
     private boolean btnThreeChecked = false;
 
     public FurtherConsultationVM() {
-        date = new ItemPickDate(0, "");
+        date = new ItemPickDate(0, "", 0);
     }
 
     public void chooseDoctor(Context context, final BaseAdapter adapter, final BaseViewHolder vh) {
@@ -101,4 +105,34 @@ public class FurtherConsultationVM extends BaseObservable implements LayoutId {
         this.doctor = doctor;
         notifyPropertyChanged(BR.doctor);
     }
+
+    public HashMap<String, Object> toJsonAnswer() {
+        HashMap<String, Object> result = new HashMap<>();
+        String[] type = new String[3];
+        String[] content = new String[3];
+
+        if (btnOneChecked) {
+            type[0] = "A";
+            content[0] = "" + date.getDate();
+        }
+
+        if (btnTwoChecked) {
+            type[0] = "B";
+            content[0] = "" + date.getDate();
+        }
+        if (btnThreeChecked) {
+            type[0] = "C";
+            if (doctor != null) {
+                content[0] = "" + doctor.getId();
+            }
+        }
+
+        result.put("type", type);
+        result.put("content", content);
+
+
+        Log.e(TAG, "toJsonAnswer: " + result);
+        return result;
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.pager;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -12,11 +11,11 @@ import com.doctor.sun.ui.fragment.ViewForumFragment;
 /**
  * Created by rick on 6/6/2016.
  */
-public class DoctorAfterServicePA extends FragmentStatePagerAdapter {
+public class DoctorAfterServiceDonePA extends FragmentStatePagerAdapter {
     private String id;
     private EditForumFragment afterServiceForumFragment;
 
-    public DoctorAfterServicePA(FragmentManager fm, String id) {
+    public DoctorAfterServiceDonePA(FragmentManager fm, String id) {
         super(fm);
         this.id = id;
     }
@@ -28,8 +27,7 @@ public class DoctorAfterServicePA extends FragmentStatePagerAdapter {
                 return ViewForumFragment.newInstance(id, AfterService.TYPE.PATIENT);
             }
             case 1: {
-                afterServiceForumFragment = EditForumFragment.newInstance(id, AfterService.TYPE.DOCTOR);
-                return afterServiceForumFragment;
+                return ViewForumFragment.newInstance(id, AfterService.TYPE.DOCTOR);
             }
         }
         return null;
@@ -51,18 +49,6 @@ public class DoctorAfterServicePA extends FragmentStatePagerAdapter {
             }
         }
         return "";
-    }
-
-    public void saveAnswer() {
-        if (afterServiceForumFragment != null) {
-            afterServiceForumFragment.saveAnswer();
-        }
-    }
-
-    public void handleImageResult(final int requestCode, int resultCode, Intent data) {
-        if (afterServiceForumFragment != null) {
-            afterServiceForumFragment.handleImageResult(requestCode, resultCode, data);
-        }
     }
 
 }

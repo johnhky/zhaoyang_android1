@@ -148,6 +148,17 @@ public class ItemPickDate extends BaseItem {
         };
     }
 
+    public View.OnClickListener pickTime3() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(v.getContext(), setBeginDate, year, monthOfYear, dayOfMonth);
+                final DatePicker datePicker = datePickerDialog.getDatePicker();
+                datePickerDialog.show();
+            }
+        };
+    }
+
     public int getDayOfMonth() {
         return dayOfMonth;
     }

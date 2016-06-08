@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.support.annotation.StringDef;
 import android.support.v7.widget.RecyclerView;
 
@@ -13,7 +12,8 @@ import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
-import com.doctor.sun.ui.activity.doctor.AfterServiceDetailActivity;
+import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
+import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -171,8 +171,17 @@ public class AfterService implements LayoutId {
     }
 
     public void fillForum(Context context, String id) {
-        Intent intent = AfterServiceDetailActivity.intentFor(context, id);
-        context.startActivity(intent);
+        switch (status) {
+            case Status.DOING: {
+                Intent intent = AfterServiceDoingActivity.intentFor(context, id);
+                context.startActivity(intent);
+                break;
+            }
+            default: {
+                Intent intent = AfterServiceDoneActivity.intentFor(context, id);
+                context.startActivity(intent);
+            }
+        }
     }
 
     private class ItemChangedCallback extends SimpleCallback<Void> {

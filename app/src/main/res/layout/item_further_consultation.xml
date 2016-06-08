@@ -57,7 +57,7 @@
                 android:button="@null"
                 android:checked="@={data.btnTwoChecked}"
                 android:gravity="center"
-                android:text="转诊"
+                android:text="简捷复诊"
                 android:textColor="@color/color_return_type" />
 
             <View
@@ -74,7 +74,7 @@
                 android:button="@null"
                 android:checked="@={data.btnThreeChecked}"
                 android:gravity="center"
-                android:text="简捷复诊"
+                android:text="转诊"
                 android:textColor="@color/color_return_type" />
 
         </RadioGroup>
@@ -90,8 +90,8 @@
             android:layout_marginStart="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_4"
             android:background="@drawable/ripple_default"
-            android:onClick="@{data.date.pickTime}"
-            android:visibility="@{btnOne.checked || btnThree.checked}">
+            android:onClick="@{data.date.pickTime3()}"
+            android:visibility="@{btnOne.checked || btnTwo.checked}">
 
             <TextView
                 android:id="@+id/et_others"
@@ -112,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="@{data.btnTwoChecked}">
+            android:visibility="@{data.btnThreeChecked}">
 
             <LinearLayout
                 android:id="@+id/btn_choose"

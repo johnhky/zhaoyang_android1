@@ -147,6 +147,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".ui.activity.doctor.AfterServiceDoneActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ui.activity.patient.PAfterServiceActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -160,7 +165,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.AfterServiceDetailActivity"
+            android:name=".ui.activity.doctor.AfterServiceDoingActivity"
             android:screenOrientation="portrait" />
 
         <activity
