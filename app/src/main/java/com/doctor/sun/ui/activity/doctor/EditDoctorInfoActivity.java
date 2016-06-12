@@ -24,7 +24,7 @@ import com.doctor.sun.ui.binding.CustomBinding;
 import com.doctor.sun.ui.handler.EditDoctorInfoHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.PickImageDialog;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.PermissionsUtil;
 
 import java.io.File;
@@ -178,16 +178,16 @@ public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements Edi
             return true;
         } else {
             EventHub.post(new CloseDialogEvent(true));
-            TwoSelectorDialog.showTwoSelectorDialog(this, "需要获得相机和读文件的权限才能上传图片", "拒绝", "设置", new TwoSelectorDialog.GetActionButton() {
+            TwoChoiceDialog.show(this, "需要获得相机和读文件的权限才能上传图片", "拒绝", "设置", new TwoChoiceDialog.Options() {
                 @Override
-                public void onClickPositiveButton(TwoSelectorDialog dialog) {
+                public void onApplyClick(TwoChoiceDialog dialog) {
                     //去设置
                     PermissionsUtil.startAppSettings(EditDoctorInfoActivity.this);
                     dialog.dismiss();
                 }
 
                 @Override
-                public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                public void onCancelClick(TwoChoiceDialog dialog) {
                     dialog.dismiss();
                 }
             });

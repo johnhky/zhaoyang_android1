@@ -19,7 +19,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -71,9 +71,9 @@ public class TimeHandler {
                 String questiion = "确定删除该出诊时间？";
                 String cancel = "取消";
                 String delete = "删除";
-                TwoSelectorDialog.showTwoSelectorDialog(view.getContext(), questiion, cancel, delete, new TwoSelectorDialog.GetActionButton() {
+                TwoChoiceDialog.show(view.getContext(), questiion, cancel, delete, new TwoChoiceDialog.Options() {
                     @Override
-                    public void onClickPositiveButton(final TwoSelectorDialog deleteDialog) {
+                    public void onApplyClick(final TwoChoiceDialog deleteDialog) {
                         api.deleteTime(data.getId()).enqueue(new ApiCallback<String>() {
                             @Override
                             protected void handleResponse(String response) {
@@ -103,7 +103,7 @@ public class TimeHandler {
                     }
 
                     @Override
-                    public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                    public void onCancelClick(TwoChoiceDialog dialog) {
                         dialog.dismiss();
                     }
                 });
@@ -116,9 +116,9 @@ public class TimeHandler {
             @Override
             public void onItemClick(final BaseAdapter adapter, View view, final BaseViewHolder vh) {
                 final TimeModule api = Api.of(TimeModule.class);
-                TwoSelectorDialog.showTwoSelectorDialog(view.getContext(), "确定删除该免打扰时间？", "取消", "删除", new TwoSelectorDialog.GetActionButton() {
+                TwoChoiceDialog.show(view.getContext(), "确定删除该免打扰时间？", "取消", "删除", new TwoChoiceDialog.Options() {
                     @Override
-                    public void onClickPositiveButton(final TwoSelectorDialog dialog) {
+                    public void onApplyClick(final TwoChoiceDialog dialog) {
                         api.deleteTime(data.getId()).enqueue(new ApiCallback<String>() {
                             @Override
                             protected void handleResponse(String response) {
@@ -136,7 +136,7 @@ public class TimeHandler {
                     }
 
                     @Override
-                    public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                    public void onCancelClick(TwoChoiceDialog dialog) {
                         dialog.dismiss();
                     }
                 });

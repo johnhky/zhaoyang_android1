@@ -14,7 +14,7 @@ import com.doctor.sun.ui.adapter.AssignQuestionAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.util.List;
 
@@ -50,9 +50,9 @@ public class QCategoryHandler {
                 if (!selector.isSelected()) {
                     AssignQuestionAdapter.GetAppointmentId getAppointmentId = (AssignQuestionAdapter.GetAppointmentId) view.getContext();
                     final String appointmentId = getAppointmentId.getAppointmentId();
-                    TwoSelectorDialog.showTwoSelectorDialog(view.getContext(), "是否确认添加？", "取消", "确认", new TwoSelectorDialog.GetActionButton() {
+                    TwoChoiceDialog.show(view.getContext(), "是否确认添加？", "取消", "确认", new TwoChoiceDialog.Options() {
                         @Override
-                        public void onClickPositiveButton(final TwoSelectorDialog dialog) {
+                        public void onApplyClick(final TwoChoiceDialog dialog) {
                             QuestionModule api = Api.of(QuestionModule.class);
                             api.appendScale(appointmentId, String.valueOf(data.getId())).enqueue(new ApiCallback<List<Answer>>() {
                                 @Override
@@ -64,7 +64,7 @@ public class QCategoryHandler {
                         }
 
                         @Override
-                        public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                        public void onCancelClick(TwoChoiceDialog dialog) {
                             dialog.dismiss();
                         }
                     });

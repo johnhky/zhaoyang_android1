@@ -26,7 +26,7 @@ import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.QuestionAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.util.ArrayList;
 
@@ -184,9 +184,9 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
 
     private void setDefaultTemplate(final QTemplate data) {
         if (data.getIsDefault() == 1) {
-            TwoSelectorDialog.showTwoSelectorDialog(AddTemplateActivity.this, "取消默认", "取消", "确定", new TwoSelectorDialog.GetActionButton() {
+            TwoChoiceDialog.show(AddTemplateActivity.this, "取消默认", "取消", "确定", new TwoChoiceDialog.Options() {
                 @Override
-                public void onClickPositiveButton(TwoSelectorDialog dialog) {
+                public void onApplyClick(TwoChoiceDialog dialog) {
                     api.setNoDefaultTemplate(String.valueOf(data.getId())).enqueue(new ApiCallback<QTemplate>() {
                         @Override
                         protected void handleResponse(QTemplate response) {
@@ -198,14 +198,14 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
                 }
 
                 @Override
-                public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                public void onCancelClick(TwoChoiceDialog dialog) {
                     dialog.dismiss();
                 }
             });
         } else {
-            TwoSelectorDialog.showTwoSelectorDialog(AddTemplateActivity.this, "确认设置默认", "取消", "确定", new TwoSelectorDialog.GetActionButton() {
+            TwoChoiceDialog.show(AddTemplateActivity.this, "确认设置默认", "取消", "确定", new TwoChoiceDialog.Options() {
                 @Override
-                public void onClickPositiveButton(TwoSelectorDialog dialog) {
+                public void onApplyClick(TwoChoiceDialog dialog) {
                     api.setDefaultTemplate(String.valueOf(data.getId())).enqueue(new ApiCallback<QTemplate>() {
                         @Override
                         protected void handleResponse(QTemplate response) {
@@ -217,7 +217,7 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
                 }
 
                 @Override
-                public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                public void onCancelClick(TwoChoiceDialog dialog) {
                     dialog.dismiss();
                 }
             });

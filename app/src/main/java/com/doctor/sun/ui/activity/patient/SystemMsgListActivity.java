@@ -15,7 +15,7 @@ import com.doctor.sun.ui.activity.PageActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.SystemMsgAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.PermissionsUtil;
 
 import io.ganguo.library.Config;
@@ -78,9 +78,9 @@ public class SystemMsgListActivity extends PageActivity2 {
     @Override
     public void onMenuClicked() {
         super.onMenuClicked();
-        TwoSelectorDialog.showTwoSelectorDialog(this, "020-4008352600", "取消", "呼叫", new TwoSelectorDialog.GetActionButton() {
+        TwoChoiceDialog.show(this, "020-4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
             @Override
-            public void onClickPositiveButton(TwoSelectorDialog dialog) {
+            public void onApplyClick(TwoChoiceDialog dialog) {
                 if (permissionsUtil.lacksPermissions(PermissionsUtil.PERMISSION_CALL)) {
                     permissionsUtil.requestPermissions(SystemMsgListActivity.this, PHONE_CALL_REQUEST, PermissionsUtil.PERMISSION_CALL);
                     return;
@@ -96,7 +96,7 @@ public class SystemMsgListActivity extends PageActivity2 {
             }
 
             @Override
-            public void onClickNegativeButton(TwoSelectorDialog dialog) {
+            public void onCancelClick(TwoChoiceDialog dialog) {
                 dialog.dismiss();
             }
         });

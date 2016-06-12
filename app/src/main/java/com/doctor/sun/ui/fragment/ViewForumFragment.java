@@ -8,6 +8,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.AfterServiceDTO;
 import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.Answer;
+import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.http.Api;
@@ -15,8 +16,10 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.adapter.AnswerDetailAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.vo.ItemDivider;
 import com.doctor.sun.vo.ItemTextInput;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -62,6 +65,7 @@ public class ViewForumFragment extends RefreshListFragment {
         adapter.mapLayout(R.layout.item_options, R.layout.item_options3);
         adapter.mapLayout(R.layout.item_pick_date, R.layout.item_pick_question_date);
 //        adapter.mapLayout(R.layout.item_answer, R.layout.item_answer3);
+        adapter.mapLayout(R.layout.item_doctor, R.layout.item_transfer_doctor);
         return adapter;
     }
 
@@ -77,12 +81,13 @@ public class ViewForumFragment extends RefreshListFragment {
                     Answer answer = response.questions.get(i);
                     answer.setPosition(i + 1);
                     answer.setEditMode(false);
-                    getAdapter().add(answer);
-                    int parentPosition = getAdapter().size() - 1;
+
+                    int parentPosition = getAdapter().size();
                     switch (answer.getQuestion().getQuestionType()) {
                         case Question.TYPE_SEL:
                         case Question.TYPE_CHECKBOX:
                         case Question.TYPE_RADIO:
+                            getAdapter().add(answer);
                             List<Options> options = answer.getQuestion().getOptions();
                             for (Options option : options) {
                                 if (answer.getSelectedOptions().containsKey(option.getOptionType())) {
@@ -92,36 +97,93 @@ public class ViewForumFragment extends RefreshListFragment {
                             }
                             break;
                         case Question.TYPE_TIME: {
+                            getAdapter().add(answer);
                             ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option, "");
                             try {
                                 List<String> answerContent = Answer.handler.answerContent(answer);
-                                textInput.setInput(answerContent.get(0));
+                                if (answerContent != null && !answerContent.isEmpty()) {
+                                    String input = answerContent.get(0);
+                                    if (input != null && !input.equals("")) {
+                                        textInput.setInput(input);
+                                        getAdapter().add(textInput);
+                                    }
+                                }
                             } catch (Exception e) {
 
                             }
-                            getAdapter().add(textInput);
                             break;
                         }
                         case Question.TYPE_DROP_DOWN: {
+                            getAdapter().add(answer);
                             ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option, "");
                             try {
                                 List<String> answerContent = Answer.handler.answerContent(answer);
-                                String optionContent = answerContent.get(0) + answerContent.get(1) + answerContent.get(2);
-                                textInput.setInput(optionContent);
+                                if (answerContent != null && !answerContent.isEmpty()) {
+                                    String input = answerContent.get(0) + answerContent.get(1) + answerContent.get(2);
+                                    if (input != null && !input.equals("")) {
+                                        textInput.setInput(input);
+                                        getAdapter().add(textInput);
+                                    }
+                                }
 
                             } catch (Exception e) {
 
                             }
-                            getAdapter().add(textInput);
                             break;
                         }
                         case Question.TYPE_FILL: {
-                            ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option, "");
+                            getAdapter().add(answer);
                             if (answer.getAnswerContent() instanceof List) {
                                 List<String> content = (List<String>) answer.getAnswerContent();
                                 if (!content.isEmpty()) {
-                                    textInput.setInput(content.get(0));
-                                    getAdapter().add(textInput);
+                                    String input = content.get(0);
+                                    if (input != null && !input.equals("")) {
+                                        ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option, "");
+                                        textInput.setInput(input);
+                                        getAdapter().add(textInput);
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                        case Question.TYPE_FURTHER_CONSULTATION: {
+                            if (answer.getAnswerContent() instanceof List) {
+                                List<String> type = (List<String>) answer.getAnswerType();
+                                List<Object> content = (List<Object>) answer.getAnswerContent();
+                                if (!content.isEmpty() && !type.isEmpty()) {
+                                    if (content.get(0) != null && type.get(0) != null) {
+                                        ItemDivider divider = new ItemDivider(R.layout.item_divider2, answer.getQuestion().getQuestionContent());
+                                        getAdapter().add(divider);
+
+                                        String s = "";
+                                        switch (type.get(0)) {
+                                            case "A": {
+                                                s = "详细就诊: ";
+                                                ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
+                                                textInput.setInput(s + content.get(0));
+                                                getAdapter().add(textInput);
+                                                break;
+                                            }
+                                            case "B": {
+                                                s = "简捷复诊: ";
+                                                ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
+                                                textInput.setInput(s + content.get(0));
+                                                getAdapter().add(textInput);
+                                                break;
+                                            }
+                                            case "C": {
+                                                s = "转诊: ";
+                                                ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
+                                                textInput.setInput(s);
+                                                getAdapter().add(textInput);
+                                                HashMap<String, String> map = (HashMap<String, String>) content.get(0);
+                                                Doctor doctor = new Doctor();
+                                                doctor.fromHashMap(map);
+                                                getAdapter().add(doctor);
+
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             break;

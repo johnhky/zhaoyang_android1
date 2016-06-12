@@ -18,7 +18,7 @@ import com.doctor.sun.event.CallReleasedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ImModule;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.squareup.otto.Subscribe;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
@@ -85,16 +85,16 @@ public class VoIPCallActivity extends BaseActivity2 {
     }
 
     private void askIfAcceptCall(Avatar avatar) {
-        TwoSelectorDialog.showDialog(this, avatar.getName() + "来电", "拒绝", "接受", new TwoSelectorDialog.GetActionButton() {
+        TwoChoiceDialog.showDialog(this, avatar.getName() + "来电", "拒绝", "接受", new TwoChoiceDialog.Options() {
             @Override
-            public void onClickPositiveButton(TwoSelectorDialog dialog) {
+            public void onApplyClick(TwoChoiceDialog dialog) {
                 ECDevice.getECVoIPCallManager()
                         .acceptCall(mCallId);
                 dialog.dismiss();
             }
 
             @Override
-            public void onClickNegativeButton(TwoSelectorDialog dialog) {
+            public void onCancelClick(TwoChoiceDialog dialog) {
                 ECDevice.getECVoIPCallManager()
                         .rejectCall(mCallId, 1);
                 ECDevice.getECVoIPCallManager().releaseCall(mCallId);

@@ -19,7 +19,7 @@ import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.DocumentAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.util.ArrayList;
 
@@ -74,9 +74,9 @@ public class DocumentActivity extends BaseActivity2 implements DocumentAdapter.G
         binding.flDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TwoSelectorDialog.showTwoSelectorDialog(DocumentActivity.this, "确定要删除对该医生的收藏？", "取消", "删除", new TwoSelectorDialog.GetActionButton() {
+                TwoChoiceDialog.show(DocumentActivity.this, "确定要删除对该医生的收藏？", "取消", "删除", new TwoChoiceDialog.Options() {
                     @Override
-                    public void onClickPositiveButton(final TwoSelectorDialog dialog) {
+                    public void onApplyClick(final TwoChoiceDialog dialog) {
                         for (int i = 0; i < getDoctorId().size(); i++) {
                             api.unlikeDoctor(getDoctorId().get(i)).enqueue(new SimpleCallback<String>() {
                                 @Override
@@ -89,7 +89,7 @@ public class DocumentActivity extends BaseActivity2 implements DocumentAdapter.G
                     }
 
                     @Override
-                    public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                    public void onCancelClick(TwoChoiceDialog dialog) {
                         dialog.dismiss();
                     }
                 });

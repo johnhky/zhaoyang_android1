@@ -13,7 +13,7 @@ import com.doctor.sun.databinding.ActivitySettingBinding;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.handler.SettingHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.common.ToastHelper;
@@ -48,16 +48,16 @@ public class SettingActivity extends BaseActivity2 implements SettingHandler.Get
         binding.llyCache.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TwoSelectorDialog.showTwoSelectorDialog(SettingActivity.this, "清理缓存", "取消", "清除", new TwoSelectorDialog.GetActionButton() {
+                TwoChoiceDialog.show(SettingActivity.this, "清理缓存", "取消", "清除", new TwoChoiceDialog.Options() {
                     @Override
-                    public void onClickPositiveButton(TwoSelectorDialog dialog) {
+                    public void onApplyClick(TwoChoiceDialog dialog) {
                         Config.clearData();
                         ToastHelper.showMessage(SettingActivity.this, "清理成功");
                         dialog.dismiss();
                     }
 
                     @Override
-                    public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                    public void onCancelClick(TwoChoiceDialog dialog) {
                         dialog.dismiss();
                     }
                 });

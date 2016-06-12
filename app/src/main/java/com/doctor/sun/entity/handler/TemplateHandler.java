@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.doctor.sun.R;
-import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.QTemplate;
 import com.doctor.sun.http.Api;
@@ -18,7 +17,7 @@ import com.doctor.sun.ui.adapter.AssignQuestionAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.util.List;
 
@@ -79,9 +78,9 @@ public class TemplateHandler {
                 String question = "确定删除该免模板？";
                 String cancel = "取消";
                 String apply = "删除";
-                TwoSelectorDialog.showTwoSelectorDialog(view.getContext(), question, cancel, apply, new TwoSelectorDialog.GetActionButton() {
+                TwoChoiceDialog.show(view.getContext(), question, cancel, apply, new TwoChoiceDialog.Options() {
                     @Override
-                    public void onClickPositiveButton(final TwoSelectorDialog dialog) {
+                    public void onApplyClick(final TwoChoiceDialog dialog) {
                         api.deleteTemplate(String.valueOf(data.getId())).enqueue(new SimpleCallback<String>() {
                             @Override
                             protected void handleResponse(String response) {
@@ -93,7 +92,7 @@ public class TemplateHandler {
                     }
 
                     @Override
-                    public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                    public void onCancelClick(TwoChoiceDialog dialog) {
                         dialog.dismiss();
                     }
                 });
@@ -107,9 +106,9 @@ public class TemplateHandler {
             public void onItemClick(final BaseAdapter adapter, final View view, BaseViewHolder vh) {
                 final ImageView selector = (ImageView) view.findViewById(R.id.iv_select);
                 if(!selector.isSelected()){
-                    TwoSelectorDialog.showTwoSelectorDialog(view.getContext(), "是否确认添加？", "取消", "确认", new TwoSelectorDialog.GetActionButton() {
+                    TwoChoiceDialog.show(view.getContext(), "是否确认添加？", "取消", "确认", new TwoChoiceDialog.Options() {
                         @Override
-                        public void onClickPositiveButton(final TwoSelectorDialog dialog) {
+                        public void onApplyClick(final TwoChoiceDialog dialog) {
                             AssignQuestionAdapter.GetAppointmentId getAppointmentId = (AssignQuestionAdapter.GetAppointmentId) view.getContext();
                             String appointmentId = getAppointmentId.getAppointmentId();
                             api.appendTemplate(appointmentId, String.valueOf(data.getId())).enqueue(new ApiCallback<List<Answer>>() {
@@ -123,7 +122,7 @@ public class TemplateHandler {
                         }
 
                         @Override
-                        public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                        public void onCancelClick(TwoChoiceDialog dialog) {
                             dialog.dismiss();
                         }
                     });

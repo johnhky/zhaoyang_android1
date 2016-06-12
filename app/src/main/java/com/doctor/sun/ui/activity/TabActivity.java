@@ -40,7 +40,7 @@ public abstract class TabActivity extends BaseFragmentActivity2 implements Heade
         binding.vp.setAdapter(pagerAdapter);
     }
 
-    private void initPagerTabs() {
+    protected void initPagerTabs() {
         binding.pagerTabs.setCustomTabView(R.layout.tab_custom, android.R.id.text1);
         binding.pagerTabs.setDistributeEvenly(true);
         binding.pagerTabs.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimaryDark));

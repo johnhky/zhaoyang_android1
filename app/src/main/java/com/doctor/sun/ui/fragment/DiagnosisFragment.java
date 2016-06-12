@@ -37,7 +37,7 @@ import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.model.DiagnosisViewModel;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.ItemButton;
 
@@ -130,17 +130,17 @@ public class DiagnosisFragment extends Fragment {
     }
 
     private void askIfIsDiagnosised() {
-        TwoSelectorDialog.showTwoSelectorDialog(getActivity(), getString(R.string.is_diagnosised),
-                NOT_DIAGNOSISED, IS_DIAGNOSISED, new TwoSelectorDialog.GetActionButton() {
+        TwoChoiceDialog.show(getActivity(), getString(R.string.is_diagnosised),
+                NOT_DIAGNOSISED, IS_DIAGNOSISED, new TwoChoiceDialog.Options() {
                     @Override
-                    public void onClickPositiveButton(TwoSelectorDialog dialog) {
+                    public void onApplyClick(TwoChoiceDialog dialog) {
 //                        binding.isDiagnosis.setData(IS_DIAGNOSISED);
 //                        binding.isDiagnosis.setIsChecked(true);
                         dialog.dismiss();
                     }
 
                     @Override
-                    public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                    public void onCancelClick(TwoChoiceDialog dialog) {
 //                        binding.isDiagnosis.setData(NOT_DIAGNOSISED);
 //                        binding.isDiagnosis.setIsChecked(false);
                         dialog.dismiss();
@@ -396,16 +396,16 @@ public class DiagnosisFragment extends Fragment {
     }
 
     public void setDiagnosise() {
-        TwoSelectorDialog.showTwoSelectorDialog(getActivity(), "是否结束本次就诊",
-                "暂存", "保存并结束", new TwoSelectorDialog.GetActionButton() {
+        TwoChoiceDialog.show(getActivity(), "是否结束本次就诊",
+                "暂存", "保存并结束", new TwoChoiceDialog.Options() {
                     @Override
-                    public void onClickPositiveButton(final TwoSelectorDialog dialog) {
+                    public void onApplyClick(final TwoChoiceDialog dialog) {
                         final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
                         saveDiagnosis(dialog, query);
                     }
 
                     @Override
-                    public void onClickNegativeButton(final TwoSelectorDialog dialog) {
+                    public void onCancelClick(final TwoChoiceDialog dialog) {
                         final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
                         query.put("hold", "1");
                         saveDiagnosis(dialog, query);
@@ -413,7 +413,7 @@ public class DiagnosisFragment extends Fragment {
                 });
     }
 
-    private void saveDiagnosis(final TwoSelectorDialog dialog, HashMap<String, String> query) {
+    private void saveDiagnosis(final TwoChoiceDialog dialog, HashMap<String, String> query) {
         api.setDiagnosis(query).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {

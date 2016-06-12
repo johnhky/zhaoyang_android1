@@ -149,14 +149,14 @@ public class DiagnosisReadOnlyFragment extends Fragment {
                     resultBinding.tvDoctorAdvince.setText(response.getDoctorAdvince().trim());
                     if (response.getReturnType() == 3) {
                         resultBinding.itemDoctor.setData(response.getDoctorInfo());
-                        if (!AppContext.isDoctor()) {
-                            resultBinding.flyDoctor.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    response.getDoctorInfo().getHandler().viewDetail(v, AppointmentType.DETAIL);
-                                }
-                            });
-                        }
+//                        if (!AppContext.isDoctor()) {
+//                            resultBinding.flyDoctor.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    response.getDoctorInfo().getHandler().viewDetail(v, AppointmentType.DETAIL);
+//                                }
+//                            });
+//                        }
                     } else {
                         resultBinding.itemDoctor.getRoot().setVisibility(View.GONE);
                     }

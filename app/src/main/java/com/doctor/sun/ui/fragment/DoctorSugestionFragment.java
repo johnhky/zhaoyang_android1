@@ -7,6 +7,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.Answer;
+import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Question;
@@ -17,6 +18,7 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.vo.ItemDivider;
 import com.doctor.sun.vo.ItemTextInput;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -62,6 +64,7 @@ public class DoctorSugestionFragment extends RefreshListFragment {
         adapter.mapLayout(R.layout.item_options, R.layout.item_options3);
         adapter.mapLayout(R.layout.item_pick_date, R.layout.item_pick_question_date);
         adapter.mapLayout(R.layout.item_prescription, R.layout.item_prescription2);
+        adapter.mapLayout(R.layout.item_doctor,R.layout.item_transfer_doctor);
 //        adapter.mapLayout(R.layout.item_answer, R.layout.item_answer3);
         return adapter;
     }
@@ -141,7 +144,7 @@ public class DoctorSugestionFragment extends RefreshListFragment {
                         case Question.TYPE_FURTHER_CONSULTATION: {
                             if (answer.getAnswerContent() instanceof List) {
                                 List<String> type = (List<String>) answer.getAnswerType();
-                                List<String> content = (List<String>) answer.getAnswerContent();
+                                List<Object> content = (List<Object>) answer.getAnswerContent();
                                 if (!content.isEmpty() && !type.isEmpty()) {
                                     ItemDivider divider = new ItemDivider(R.layout.item_divider2, answer.getQuestion().getQuestionContent());
                                     getAdapter().add(divider);
@@ -164,6 +167,14 @@ public class DoctorSugestionFragment extends RefreshListFragment {
                                                 break;
                                             }
                                             case "C": {
+                                                s = "转诊: ";
+                                                ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
+                                                textInput.setInput(s);
+                                                getAdapter().add(textInput);
+                                                HashMap<String, String> map = (HashMap<String, String>) content.get(0);
+                                                Doctor doctor = new Doctor();
+                                                doctor.fromHashMap(map);
+                                                getAdapter().add(doctor);
 
                                             }
                                         }

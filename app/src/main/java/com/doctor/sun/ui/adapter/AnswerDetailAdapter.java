@@ -16,7 +16,7 @@ import com.doctor.sun.entity.Prescription;
 public class AnswerDetailAdapter extends AnswerModifyAdapter {
 
     public AnswerDetailAdapter(Context context) {
-        super(context);
+        super(context, false);
     }
 
     @Override

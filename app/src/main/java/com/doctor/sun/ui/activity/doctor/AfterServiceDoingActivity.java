@@ -3,6 +3,7 @@ package com.doctor.sun.ui.activity.doctor;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.bean.Constants;
@@ -29,6 +30,37 @@ public class AfterServiceDoingActivity extends TabActivity {
     }
 
     @Override
+    protected void initPagerTabs() {
+        super.initPagerTabs();
+        getBinding().vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                String title = "";
+                if (AppContext.isDoctor()) {
+                    if (position == 1) {
+                        title = "保存";
+                    }
+                } else {
+                    if (position == 0) {
+                        title = "保存";
+                    }
+                }
+                getBinding().getHeader().setRightTitle(title);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    @Override
     protected PagerAdapter createPagerAdapter() {
         if (AppContext.isDoctor()) {
             doctorAfterServicePA = new DoctorAfterServicePA(getSupportFragmentManager(), getData());
@@ -42,7 +74,9 @@ public class AfterServiceDoingActivity extends TabActivity {
     @Override
     protected HeaderViewModel createHeaderViewModel() {
         HeaderViewModel header = new HeaderViewModel(this);
-        header.setRightTitle("保存");
+        if (!AppContext.isDoctor()) {
+            header.setRightTitle("保存");
+        }
         return header;
     }
 

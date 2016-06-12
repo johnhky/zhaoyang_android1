@@ -2,7 +2,6 @@ package com.doctor.sun.ui.activity.doctor;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -40,7 +39,7 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.ExtendedEditText;
 import com.doctor.sun.ui.widget.PickImageDialog;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.FileChooser;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PermissionUtil;
@@ -163,16 +162,16 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                 @Override
                 protected void handleResponse(NeedSendDrug response) {
                     if (Integer.parseInt(response.getNeed()) == 1) {
-                        TwoSelectorDialog.showTwoSelectorDialog(ChattingActivity.this, "就诊已结束，\n是否需要邮寄药品？", "否", "是", new TwoSelectorDialog.GetActionButton() {
+                        TwoChoiceDialog.show(ChattingActivity.this, "就诊已结束，\n是否需要邮寄药品？", "否", "是", new TwoChoiceDialog.Options() {
                             @Override
-                            public void onClickPositiveButton(TwoSelectorDialog dialog) {
+                            public void onApplyClick(TwoChoiceDialog dialog) {
                                 dialog.dismiss();
                                 Intent intent = MedicineHelperActivity.makeIntent(ChattingActivity.this);
                                 startActivity(intent);
                             }
 
                             @Override
-                            public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                            public void onCancelClick(TwoChoiceDialog dialog) {
                                 dialog.dismiss();
                             }
                         });

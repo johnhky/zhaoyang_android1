@@ -6,4 +6,6 @@
 
     <dimen name="dimen_margin_circle">1dp</dimen>
     <dimen name="dimen_margin_circle.negative">-1dp</dimen>
+
+    <dimen name="dp_0">0dp</dimen>
 </resources>

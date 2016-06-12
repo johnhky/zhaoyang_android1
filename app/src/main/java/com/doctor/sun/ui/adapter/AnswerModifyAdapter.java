@@ -30,7 +30,6 @@ import com.doctor.sun.databinding.ItemImageBinding;
 import com.doctor.sun.databinding.ItemPrescriptionBinding;
 import com.doctor.sun.databinding.ItemRadioBinding;
 import com.doctor.sun.entity.Answer;
-import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.ui.activity.ImagePreviewActivity;
@@ -39,7 +38,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.widget.FlowLayout;
 import com.doctor.sun.ui.widget.PickImageDialog;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemPickDate;
@@ -65,6 +64,15 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
     private Context mActivity;
     //记录当前需要添加药品或者上传图片的position, 方便回调
     private int needPillsOrImages = -1;
+    private boolean isEditMode = true;
+
+    public AnswerModifyAdapter(Context context, boolean isEditMode) {
+        super(context);
+        mActivity = context;
+//        mapLayout(R.layout.item_answer,R.layout.item_answer2);
+        setUpMapKey();
+        this.isEditMode = isEditMode;
+    }
 
     public AnswerModifyAdapter(Context context) {
         super(context);
@@ -292,51 +300,55 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                     }
                 });
 
-                imageBinding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        //删除图片
-                        needPillsOrImages = position;
-                        TwoSelectorDialog.showTwoSelectorDialog(mActivity, "是否删除图片?", "取消", "确定", new TwoSelectorDialog.GetActionButton() {
-                            @Override
-                            public void onClickPositiveButton(TwoSelectorDialog dialog) {
-                                //删除对应图片
-                                dialog.dismiss();
-                                if (needPillsOrImages != -1 && getItemViewType(needPillsOrImages) == R.layout.item_answer) {
-                                    Answer answer = (Answer) get(needPillsOrImages);
-                                    if (answer.getImageUrls().contains(answer.getImageUrls().get(index))) {
-                                        answer.getImageUrls().remove(answer.getImageUrls().get(index));
-                                        answer.setAnswerContent(answer.getImageUrls());
-                                        if (answer.getImageUrls().size() == 0) {
-                                            answer.setIsFill(1);
+                if (isEditMode) {
+                    imageBinding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            //删除图片
+                            needPillsOrImages = position;
+                            TwoChoiceDialog.show(mActivity, "是否删除图片?", "取消", "确定", new TwoChoiceDialog.Options() {
+                                @Override
+                                public void onApplyClick(TwoChoiceDialog dialog) {
+                                    //删除对应图片
+                                    dialog.dismiss();
+                                    if (needPillsOrImages != -1 && getItemViewType(needPillsOrImages) == R.layout.item_answer) {
+                                        Answer answer = (Answer) get(needPillsOrImages);
+                                        if (answer.getImageUrls().contains(answer.getImageUrls().get(index))) {
+                                            answer.getImageUrls().remove(answer.getImageUrls().get(index));
+                                            answer.setAnswerContent(answer.getImageUrls());
+                                            if (answer.getImageUrls().size() == 0) {
+                                                answer.setIsFill(1);
+                                            }
+                                            notifyItemChanged(needPillsOrImages);
                                         }
-                                        notifyItemChanged(needPillsOrImages);
                                     }
                                 }
-                            }
 
-                            @Override
-                            public void onClickNegativeButton(TwoSelectorDialog dialog) {
-                                dialog.dismiss();
-                            }
-                        });
-                        return true;
-                    }
-                });
+                                @Override
+                                public void onCancelClick(TwoChoiceDialog dialog) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            return true;
+                        }
+                    });
+                }
                 imageBinding.setData(answer.getImageUrls().get(i));
             }
         }
         //上传图片button
-        ItemImageBinding uploadBinding = ItemImageBinding.inflate(getInflater(), flowLayout, true);
-        uploadBinding.practitionerImg.setBackgroundResource(R.drawable.ic_upload);
+        if (isEditMode) {
+            ItemImageBinding uploadBinding = ItemImageBinding.inflate(getInflater(), flowLayout, true);
+            uploadBinding.practitionerImg.setBackgroundResource(R.drawable.ic_upload);
 
-        uploadBinding.getRoot().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                needPillsOrImages = position;
-                new PickImageDialog(mActivity, Constants.UPLOAD_REQUEST_CODE).show();
-            }
-        });
+            uploadBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    needPillsOrImages = position;
+                    new PickImageDialog(mActivity, Constants.UPLOAD_REQUEST_CODE).show();
+                }
+            });
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -361,7 +373,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             List<Integer> index = new ArrayList<>();
             //显示点击状态
             for (int i = 0; i < answer.getQuestion().getOptions().size(); i++) {
-                Options option = answer.getQuestion().getOptions().get(i);
+                com.doctor.sun.entity.Options option = answer.getQuestion().getOptions().get(i);
                 if (type.size() > 0 && type.get(0).equals(option.getOptionType())) {
                     index.add(i);
                     if (option.getOptionContent().contains("{fill}")) {
@@ -396,7 +408,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
 
                     if (i == checkedId) {
                         //因为RadioButton，每次有且只有一个可选，会覆盖记录，不需要删除
-                        Options option = answer.getQuestion().getOptions().get(i);
+                        com.doctor.sun.entity.Options option = answer.getQuestion().getOptions().get(i);
                         if (option != null) {
                             type.add(option.getOptionType());
                             index.add(i);
@@ -447,7 +459,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
 
         for (int i = 0; i < box.getChildCount(); i++) {
             final int position = i;
-            final Options option = answer.getQuestion().getOptions().get(i);
+            final com.doctor.sun.entity.Options option = answer.getQuestion().getOptions().get(i);
 
             ((CheckBox) box.getChildAt(i)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -514,7 +526,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             content.addAll((List<String>) answer.getAnswerContent());
             type.addAll((List<String>) answer.getAnswerType());
             for (int i = 0; i < answer.getQuestion().getOptions().size(); i++) {
-                Options option = answer.getQuestion().getOptions().get(i);
+                com.doctor.sun.entity.Options option = answer.getQuestion().getOptions().get(i);
                 if (type.contains(option.getOptionType())) {
                     index.add(i);
                     if (option.getOptionContent().contains("{fill}")) {
@@ -585,7 +597,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
         // RadioGroup extends LinearLayout
         CompoundButton compoundButton = (CompoundButton) ((LinearLayout)
                 ((RelativeLayout) binding.getRoot()).getChildAt(0)).getChildAt(position);
-        Options option = answer.getQuestion().getOptions().get(position);
+        com.doctor.sun.entity.Options option = answer.getQuestion().getOptions().get(position);
 
         StringBuilder stringBuilder = new StringBuilder();
         //A. XXX
@@ -617,7 +629,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
         LinearLayout box = (LinearLayout) ((RelativeLayout) binding.getRoot()).getChildAt(0);
 
         for (int i = 0; i < answer.getQuestion().getOptions().size(); i++) {
-            final Options option = answer.getQuestion().getOptions().get(i);
+            final com.doctor.sun.entity.Options option = answer.getQuestion().getOptions().get(i);
             //加入到容器中
             box.addView(getCheckBox(i));
             setContent(binding, answer, i);
@@ -690,7 +702,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
         });
 
         //截取 "A. " 长度 调整edittext位置
-        Options option = answer.getQuestion().getOptions().get(position);
+        com.doctor.sun.entity.Options option = answer.getQuestion().getOptions().get(position);
         int endIndex = option.getOptionContent().indexOf("{fill}");
         final int width;
         if (endIndex != -1 && endIndex != 0) {
@@ -925,7 +937,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
         HashMap<String, Object> boxAnswer = new HashMap<>();
         ArrayList<String> type = new ArrayList<>();
         ArrayList<String> content = new ArrayList<>();
-        for (Options options : answer.getQuestion().getOptions()) {
+        for (com.doctor.sun.entity.Options options : answer.getQuestion().getOptions()) {
             String s = answer.getSelectedOptions().get(options.getOptionType());
             if (s != null) {
                 type.add(options.getOptionType());

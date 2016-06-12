@@ -12,7 +12,6 @@ import com.doctor.sun.dto.AfterServiceDTO;
 import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.http.Api;
@@ -24,6 +23,7 @@ import com.doctor.sun.ui.activity.ItemSelectHospital;
 import com.doctor.sun.ui.adapter.AnswerModifyAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemPickDate;
 
@@ -99,8 +99,8 @@ public class EditForumFragment extends RefreshListFragment {
                         case Question.TYPE_SEL:
                         case Question.TYPE_CHECKBOX:
                         case Question.TYPE_RADIO:
-                            List<Options> options = answer.getQuestion().getOptions();
-                            for (Options option : options) {
+                            List<com.doctor.sun.entity.Options> options = answer.getQuestion().getOptions();
+                            for (com.doctor.sun.entity.Options option : options) {
                                 option.setParentPosition(parentPosition);
                             }
                             getAdapter().addAll(options);
@@ -132,12 +132,10 @@ public class EditForumFragment extends RefreshListFragment {
                             } catch (Exception e) {
 
                             }
-                            String s = null;
                             FurtherConsultationVM vm = new FurtherConsultationVM();
                             if (type != null && !type.isEmpty()) {
-                                String s1 = type.get(0);
+                                String s = type.get(0);
 
-                                s = s1.toString();
                                 switch (s) {
                                     case "A": {
                                         vm.setBtnOneChecked(true);
@@ -175,9 +173,25 @@ public class EditForumFragment extends RefreshListFragment {
         });
     }
 
-
     public void saveAnswer() {
-        api.saveAnswer(orderId, adapter.toJsonAnswer()).enqueue(new SimpleCallback<String>() {
+        TwoChoiceDialog.show(getActivity(), "是否结束本次随访",
+                "暂存", "保存并结束", new TwoChoiceDialog.Options() {
+                    @Override
+                    public void onApplyClick(final TwoChoiceDialog dialog) {
+                        saveAnswer(1);
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelClick(final TwoChoiceDialog dialog) {
+                        saveAnswer(0);
+                        dialog.dismiss();
+                    }
+                });
+    }
+
+    public void saveAnswer(int isFinished) {
+        api.saveAnswer(orderId, adapter.toJsonAnswer(), isFinished).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
                 Toast.makeText(getContext(), "成功保存问卷", Toast.LENGTH_SHORT).show();

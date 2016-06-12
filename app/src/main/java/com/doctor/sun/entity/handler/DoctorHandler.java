@@ -1,6 +1,7 @@
 package com.doctor.sun.entity.handler;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -12,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.DialogPickDurationBinding;
@@ -125,6 +127,13 @@ public class DoctorHandler {
     public void viewDetail(View view, int type) {
         Intent intent = DoctorDetailActivity.makeIntent(view.getContext(), data, type);
         view.getContext().startActivity(intent);
+    }
+
+    public void viewDetailIfIsPatient(Context context) {
+        if (!AppContext.isDoctor()) {
+            Intent intent = DoctorDetailActivity.makeIntent(context, data, AppointmentType.DETAIL);
+            context.startActivity(intent);
+        }
     }
 
     public OnItemClickListener viewDetail() {

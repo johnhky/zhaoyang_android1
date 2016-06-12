@@ -15,7 +15,7 @@ import com.doctor.sun.ui.adapter.AssignQuestionAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.util.List;
 
@@ -54,9 +54,9 @@ public class QuestionHandler {
             public void onItemClick(BaseAdapter adapter, final View view, BaseViewHolder vh) {
                 final ImageView selector = (ImageView) view.findViewById(R.id.iv_select);
                 if (!selector.isSelected()) {
-                    TwoSelectorDialog.showTwoSelectorDialog(view.getContext(), "是否确认添加？", "取消", "确认", new TwoSelectorDialog.GetActionButton() {
+                    TwoChoiceDialog.show(view.getContext(), "是否确认添加？", "取消", "确认", new TwoChoiceDialog.Options() {
                         @Override
-                        public void onClickPositiveButton(final TwoSelectorDialog dialog) {
+                        public void onApplyClick(final TwoChoiceDialog dialog) {
                             AssignQuestionAdapter.GetAppointmentId getAppointmentId = (AssignQuestionAdapter.GetAppointmentId) view.getContext();
                             String appointmentId = getAppointmentId.getAppointmentId();
                             api.appendQuestion(appointmentId, String.valueOf(data.getId())).enqueue(new ApiCallback<List<Answer>>() {
@@ -69,7 +69,7 @@ public class QuestionHandler {
                         }
 
                         @Override
-                        public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                        public void onCancelClick(TwoChoiceDialog dialog) {
                             dialog.dismiss();
                         }
                     });

@@ -78,14 +78,52 @@
             app:html='@{@string/text_89_36("家庭住址 ",  "")}'
             tools:text="最迟问卷完成时间: 2015-06-07" />
 
-        <TextView
+        <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dp_25"
+            android:layout_marginBottom="@dimen/dp_6"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_8"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_13"
-            android:text="@{data.record.handler.locate}"/>
+            android:layout_marginTop="@dimen/dp_6"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_address"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_edit_address"
+                android:enabled="@{!data.isFinished(data.status)}"
+                android:inputType="@{data.isFinished(data.status)?0:1}"
+                android:paddingLeft="@{data.isFinished(data.status)?@dimen/dp_0:@dimen/dp_6}"
+                android:paddingRight="@{data.isFinished(data.status)?@dimen/dp_0:@dimen/dp_6}"
+                android:singleLine="true"
+                android:text="@{data.record.address}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_13"
+                app:layout_marginRightPercent="2%"
+                app:layout_widthPercent="78%" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:visibility="@{!data.isFinished(data.status)}"
+                app:layout_widthPercent="20%">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shape_btn_small"
+                    android:gravity="center"
+                    android:onClick="@{()-> data.updateAddress(context,etAddress.text.toString,data.record.medicalRecordId)}"
+                    android:paddingLeft="@dimen/dp_8"
+                    android:paddingRight="@dimen/dp_8"
+                    android:text="保存"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_13" />
+            </FrameLayout>
+        </com.zhy.android.percent.support.PercentLinearLayout>
     </LinearLayout>
 </layout>

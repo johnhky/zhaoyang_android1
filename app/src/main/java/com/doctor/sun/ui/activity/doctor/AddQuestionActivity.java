@@ -19,17 +19,13 @@ import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.OptionAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.vo.ItemTextInput;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.TreeMap;
 
 import io.ganguo.library.common.ToastHelper;
@@ -109,16 +105,16 @@ public class AddQuestionActivity extends BaseActivity2 {
         String single = "单选题";
         String multiple = "多选题";
 
-        TwoSelectorDialog.showTwoSelectorDialog(this, question, single, multiple, new TwoSelectorDialog.GetActionButton() {
+        TwoChoiceDialog.show(this, question, single, multiple, new TwoChoiceDialog.Options() {
             @Override
-            public void onClickPositiveButton(TwoSelectorDialog dialog) {
+            public void onApplyClick(TwoChoiceDialog dialog) {
                 questionType = "checkbox";
                 saveQuestion();
                 dialog.dismiss();
             }
 
             @Override
-            public void onClickNegativeButton(TwoSelectorDialog dialog) {
+            public void onCancelClick(TwoChoiceDialog dialog) {
                 questionType = "radio";
                 saveQuestion();
                 dialog.dismiss();

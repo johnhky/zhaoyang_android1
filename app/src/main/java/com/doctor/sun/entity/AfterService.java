@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.StringDef;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.Gender;
@@ -161,6 +162,15 @@ public class AfterService implements LayoutId {
         }
     }
 
+    public void updateAddress(final Context context, String address, int id) {
+        AfterServiceModule api = Api.of(AfterServiceModule.class);
+        api.updateAddress(address, id).enqueue(new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                Toast.makeText(context, "保存地址成功", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     public void reject(final BaseAdapter adapter, final RecyclerView.ViewHolder vh) {
         performAction(Actions.REJECT, new ItemChangedCallback(adapter, vh, Status.REJECTED));
@@ -205,6 +215,10 @@ public class AfterService implements LayoutId {
 
     private void performAction(@Actions String action, SimpleCallback<Void> callback) {
         Api.of(AfterServiceModule.class).perform(id, action).enqueue(callback);
+    }
+
+    public boolean isFinished(String status) {
+        return !Status.DOING.equals(status);
     }
 
     @StringDef

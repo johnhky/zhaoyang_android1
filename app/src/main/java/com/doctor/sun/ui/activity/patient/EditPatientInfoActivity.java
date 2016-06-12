@@ -24,7 +24,7 @@ import com.doctor.sun.ui.activity.patient.handler.PatientHandler;
 import com.doctor.sun.ui.binding.CustomBinding;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.PickImageDialog;
-import com.doctor.sun.ui.widget.TwoSelectorDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.io.File;
 
@@ -145,14 +145,14 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
     public void onMenuClicked() {
         super.onMenuClicked();
         if (!isEditMode()) {
-            TwoSelectorDialog.showTwoSelectorDialog(this, " 您好，昭阳医生不可以随便更改用户资料，所有用户资料的申请需要经过后台审核", "确定", "取消", new TwoSelectorDialog.GetActionButton() {
+            TwoChoiceDialog.show(this, " 您好，昭阳医生不可以随便更改用户资料，所有用户资料的申请需要经过后台审核", "确定", "取消", new TwoChoiceDialog.Options() {
                 @Override
-                public void onClickPositiveButton(TwoSelectorDialog dialog) {
+                public void onApplyClick(TwoChoiceDialog dialog) {
                     dialog.dismiss();
                 }
 
                 @Override
-                public void onClickNegativeButton(TwoSelectorDialog dialog) {
+                public void onCancelClick(TwoChoiceDialog dialog) {
                     dialog.dismiss();
                     header.setRightTitle("保存");
                     binding.setHeader(header);

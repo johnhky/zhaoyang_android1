@@ -13,6 +13,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/ripple_default"
+        android:onClick="@{() ->data.handler.viewDetailIfIsPatient(context)}"
         android:orientation="vertical">
 
         <View
@@ -30,17 +32,17 @@
                 android:layout_width="@dimen/dp_60"
                 android:layout_height="@dimen/dp_60"
                 android:layout_gravity="center_vertical"
+                android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
                 android:src="@{data.avatar}"
-                app:maskDrawable="@drawable/circle_mask"
-                android:drawable="@{@drawable/default_avatar}" />
+                app:maskDrawable="@drawable/circle_mask" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
                 android:layout_marginRight="@dimen/dp_13"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <LinearLayout

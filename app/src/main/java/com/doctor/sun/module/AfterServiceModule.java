@@ -92,17 +92,21 @@ public interface AfterServiceModule {
 
     @FormUrlEncoded
     @POST("follow-up/follow-up-question")
-    Call<ApiDTO<String>> saveAnswer(@NonNull @Field("follow_order_id") String id, @Field("answer") String answer);
+    Call<ApiDTO<String>> saveAnswer(@NonNull @Field("follow_order_id") String id, @Field("answer") String answer, @Field("finished") int isFinished);
 
 
-    @GET("api/follow-up/doctor-list")
+    @GET("follow-up/doctor-list")
     Call<ApiDTO<List<Contact>>> doctorList(@NonNull @Query("patientId") int patientId);
 
-    @GET("api/follow-up/patient-list")
+    @GET("follow-up/patient-list")
     Call<ApiDTO<List<Contact>>> patientList(@NonNull @Query("doctorId") int doctorId);
 
     @GET("follow-up/doctor-feedback")
     Call<ApiDTO<List<Answer>>> feedback(@NonNull @Query("follow_order_id") String id);
+
+    @FormUrlEncoded
+    @POST("profile/updateMedicalRecord")
+    Call<ApiDTO<String>> updateAddress(@Field("address") String address, @Field("medicalRecordId") int id);
 
 
 }
