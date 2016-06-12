@@ -130,25 +130,8 @@ public class Contact implements LayoutId, Parcelable, NameComparator.Name {
         }
     }
 
-    public View.OnClickListener applyAfterService(final BaseAdapter adapter, BaseViewHolder vh) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = ApplyAfterServiceActivity.intentFor(adapter.getContext(), Contact.this);
-                adapter.getContext().startActivity(intent);
-            }
-        };
-    }
 
-    public View.OnClickListener allowAfterService(final BaseAdapter adapter, BaseViewHolder vh) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = AllowAfterServiceActivity.intentFor(adapter.getContext(), Contact.this);
-                adapter.getContext().startActivity(intent);
-            }
-        };
-    }
+
 
     public void setDoctorId(int doctorId) {
         this.doctorId = doctorId;

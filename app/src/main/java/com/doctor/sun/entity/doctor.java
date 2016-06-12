@@ -124,6 +124,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     private String yunxinAccid;
     @JsonProperty("tid")
     private String tid;
+    
 
     public void setId(int id) {
         this.id = id;

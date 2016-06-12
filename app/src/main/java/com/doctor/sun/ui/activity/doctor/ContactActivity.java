@@ -22,6 +22,7 @@ import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.ContactAdapter;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.LoadMoreAdapter;
 import com.doctor.sun.ui.binding.CustomBinding;
@@ -214,7 +215,7 @@ public class ContactActivity extends BaseActivity2 {
 
 
     @NonNull
-    protected LoadMoreAdapter createAdapter() {
+    protected SimpleAdapter createAdapter() {
         return new ContactAdapter(this);
     }
 

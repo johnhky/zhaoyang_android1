@@ -1,12 +1,17 @@
 package com.doctor.sun.ui.activity.patient.handler;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Patient;
+import com.doctor.sun.ui.activity.doctor.ApplyAfterServiceActivity;
+import com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity;
+import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
+import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.vo.ItemPickTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -97,6 +102,17 @@ public class PatientHandler {
                 break;
         }
         return result;
+    }
+
+
+    public View.OnClickListener applyAfterService(final BaseAdapter adapter, BaseViewHolder vh) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = ApplyAfterServiceActivity.intentFor(adapter.getContext(), data);
+                adapter.getContext().startActivity(intent);
+            }
+        };
     }
 
     public interface IEditPatient {

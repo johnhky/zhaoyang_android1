@@ -15,6 +15,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityApplyAfterServiceBinding;
 import com.doctor.sun.entity.Contact;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.Patient;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -35,10 +36,10 @@ public class ApplyAfterServiceActivity extends BaseActivity2 {
     private AfterServiceModule api = Api.of(AfterServiceModule.class);
 
     private ActivityApplyAfterServiceBinding binding;
-    private Contact contact;
+    private Patient contact;
     private MultiSelectAdapter adapter;
 
-    public static Intent intentFor(Context context, Contact contact) {
+    public static Intent intentFor(Context context, Patient contact) {
         Intent intent = new Intent(context, ApplyAfterServiceActivity.class);
         intent.putExtra(Constants.DATA, contact);
         return intent;
@@ -122,7 +123,7 @@ public class ApplyAfterServiceActivity extends BaseActivity2 {
         adapter.setLoadMoreListener(new LoadMoreListener() {
             @Override
             protected void onLoadMore() {
-                api.records(contact.getPatientId()).enqueue(new ListCallback<MedicalRecord>(adapter));
+                api.records(contact.getId()).enqueue(new ListCallback<MedicalRecord>(adapter));
             }
         });
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));

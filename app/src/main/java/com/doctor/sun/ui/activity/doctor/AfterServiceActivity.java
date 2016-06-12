@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import com.doctor.sun.R;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.AfterServiceModule;
+import com.doctor.sun.ui.activity.AfterServiceContactActivity;
 import com.doctor.sun.ui.activity.PageActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
@@ -43,8 +44,8 @@ public class AfterServiceActivity extends PageActivity2 {
     @Override
     public void onMenuClicked() {
         super.onMenuClicked();
-//        Intent intent = AfterServiceContactActivity.intentFor(this, ContactActivity.DOCTORS_CONTACT, R.layout.item_contact2);
-        Intent intent = ContactActivity.makeIntent(this, ContactActivity.DOCTORS_CONTACT, R.layout.item_contact2);
+        Intent intent = AfterServiceContactActivity.intentFor(this, ContactActivity.DOCTORS_CONTACT);
+//        Intent intent = ContactActivity.makeIntent(this, ContactActivity.DOCTORS_CONTACT, R.layout.item_contact2);
         startActivity(intent);
     }
 }

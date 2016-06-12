@@ -205,16 +205,18 @@ public class EditForumFragment extends RefreshListFragment {
 
     public void handleImageResult(final int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            File to = PickImageDialog.handleRequest(getContext(), data, requestCode);
-            RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"), to);
-            uploadApi.uploadPhoto(body).enqueue(new ApiCallback<Photo>() {
-                @Override
-                protected void handleResponse(Photo response) {
-                    if (getAdapter() instanceof AnswerModifyAdapter) {
-                        ((AnswerModifyAdapter) getAdapter()).addImage(response.getUrl());
+            if (requestCode == Constants.UPLOAD_REQUEST_CODE) {
+                File to = PickImageDialog.handleRequest(getContext(), data, requestCode);
+                RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"), to);
+                uploadApi.uploadPhoto(body).enqueue(new ApiCallback<Photo>() {
+                    @Override
+                    protected void handleResponse(Photo response) {
+                        if (getAdapter() instanceof AnswerModifyAdapter) {
+                            ((AnswerModifyAdapter) getAdapter()).addImage(response.getUrl());
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 }

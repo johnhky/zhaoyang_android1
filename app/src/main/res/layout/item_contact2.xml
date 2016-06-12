@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.Contact" />
+            type="com.doctor.sun.entity.Doctor" />
 
         <variable
             name="vh"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
         android:clickable="true"
-        android:onClick="@{data.applyAfterService(adapter,vh)}"
+        android:onClick="@{data.handler.allowAfterService(adapter,vh)}"
         android:orientation="vertical">
 
 

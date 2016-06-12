@@ -20,6 +20,8 @@ import com.doctor.sun.databinding.DialogPickDurationBinding;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.ui.activity.doctor.ApplyAfterServiceActivity;
+import com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
 import com.doctor.sun.ui.activity.patient.PickDateActivity;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
@@ -230,6 +232,16 @@ public class DoctorHandler {
             default:
                 return 0;
         }
+    }
+
+    public View.OnClickListener allowAfterService(final BaseAdapter adapter, BaseViewHolder vh) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = AllowAfterServiceActivity.intentFor(adapter.getContext(), data);
+                adapter.getContext().startActivity(intent);
+            }
+        };
     }
 
     public boolean canWritePrescription() {

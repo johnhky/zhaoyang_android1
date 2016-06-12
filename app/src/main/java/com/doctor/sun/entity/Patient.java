@@ -3,16 +3,20 @@ package com.doctor.sun.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.doctor.sun.R;
 import com.doctor.sun.ui.activity.patient.handler.PatientHandler;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.util.NameComparator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by lucas on 1/4/16.
  */
-public class Patient implements Parcelable {
+public class Patient implements LayoutId, Parcelable, NameComparator.Name {
 
     /**
+     * yunxin_accid : 57
      * id : 11
      * name : 大明
      * email : waymen@ganguo.hk
@@ -43,6 +47,8 @@ public class Patient implements Parcelable {
     private String voipAccount;
     @JsonProperty("phone")
     private String phone;
+    @JsonProperty("yunxin_accid")
+    public String yunxinAccid;
     @JsonIgnore
     public PatientHandler handler = new PatientHandler(this);
 
@@ -173,6 +179,7 @@ public class Patient implements Parcelable {
         this.voipAccount = in.readString();
         this.phone = in.readString();
     }
+
     @Override
     public String toString() {
         return "Patient{" +
@@ -187,5 +194,10 @@ public class Patient implements Parcelable {
                 ", phone='" + phone + '\'' +
                 ", handler=" + handler +
                 '}';
+    }
+
+    @Override
+    public int getItemLayoutId() {
+        return R.layout.item_patient;
     }
 }

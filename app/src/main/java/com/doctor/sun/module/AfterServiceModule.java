@@ -10,7 +10,9 @@ import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Contact;
 import com.doctor.sun.entity.ContactDetail;
+import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.Patient;
 
 import java.util.List;
 
@@ -96,10 +98,10 @@ public interface AfterServiceModule {
 
 
     @GET("follow-up/doctor-list")
-    Call<ApiDTO<List<Contact>>> doctorList(@NonNull @Query("patientId") int patientId);
+    Call<ApiDTO<List<Doctor>>> doctorList(@NonNull @Query("patientId") int patientId);
 
     @GET("follow-up/patient-list")
-    Call<ApiDTO<List<Contact>>> patientList(@NonNull @Query("doctorId") int doctorId);
+    Call<ApiDTO<List<Patient>>> patientList(@NonNull @Query("doctorId") int doctorId);
 
     @GET("follow-up/doctor-feedback")
     Call<ApiDTO<List<Answer>>> feedback(@NonNull @Query("follow_order_id") String id);

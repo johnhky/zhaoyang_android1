@@ -11,7 +11,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.Contact" />
+            type="com.doctor.sun.entity.Patient" />
 
         <variable
             name="isAllSelected"
