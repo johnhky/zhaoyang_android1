@@ -196,6 +196,7 @@
 
 
             <LinearLayout
+                android:id="@+id/lly_doctor"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_85"
                 android:orientation="horizontal"
@@ -280,9 +281,17 @@
                         android:text="@{@string/string_of_two(data.doctor.specialist,data.doctor.title)}"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_13" />
+
+
                 </LinearLayout>
 
             </LinearLayout>
+
+            <View
+                android:visibility="@{llyDoctor.visibility}"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_color" />
 
         </LinearLayout>
 

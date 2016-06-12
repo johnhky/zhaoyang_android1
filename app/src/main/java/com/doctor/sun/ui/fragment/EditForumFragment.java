@@ -11,6 +11,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.AfterServiceDTO;
 import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.Answer;
+import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Question;
@@ -27,6 +28,7 @@ import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemPickDate;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -120,7 +122,47 @@ public class EditForumFragment extends RefreshListFragment {
                             break;
                         }
                         case Question.TYPE_FURTHER_CONSULTATION: {
+                            List<Object> content = null;
+                            List<String> type = null;
+                            try {
+                                if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {
+                                    content = (List<Object>) answer.getAnswerContent();
+                                    type = Answer.handler.answerType(answer);
+                                }
+                            } catch (Exception e) {
+
+                            }
+                            String s = null;
                             FurtherConsultationVM vm = new FurtherConsultationVM();
+                            if (type != null && !type.isEmpty()) {
+                                String s1 = type.get(0);
+
+                                s = s1.toString();
+                                switch (s) {
+                                    case "A": {
+                                        vm.setBtnOneChecked(true);
+                                        vm.setDate(content.get(0).toString());
+
+                                        break;
+                                    }
+                                    case "B": {
+                                        vm.setBtnTwoChecked(true);
+                                        vm.setDate(content.get(0).toString());
+
+                                        break;
+                                    }
+                                    case "C": {
+                                        vm.setBtnThreeChecked(true);
+                                        HashMap<String, String> hashMap = (HashMap<String, String>) content.get(0);
+                                        Doctor doctor = new Doctor();
+                                        doctor.fromHashMap(hashMap);
+                                        vm.setDoctor(doctor);
+                                        break;
+                                    }
+
+                                }
+                            }
+
                             getAdapter().add(vm);
                             break;
                         }

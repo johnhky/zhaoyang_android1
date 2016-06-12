@@ -11,6 +11,8 @@ import com.doctor.sun.util.NameComparator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.HashMap;
+
 
 /**
  * Created by rick on 11/17/15.
@@ -517,4 +519,34 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
                 '}';
     }
 
+    public void fromHashMap(HashMap<String, String> map) {
+        birthday = map.get("birthday");
+        isFav = map.get("is_fav");
+        id = Integer.parseInt(map.get("id"));
+        avatar = map.get("avatar");
+        name = map.get("name");
+        email = map.get("email");
+        gender = Integer.parseInt(map.get("gender"));
+        hospitalId = Integer.parseInt(map.get("hospital_id"));
+        specialist = map.get("specialist");
+        hospitalPhone = map.get("hospital_phone");
+        title = map.get("title");
+        titleImg = map.get("title_img");
+        practitionerImg = map.get("practitioner_img");
+        certifiedImg = map.get("certified_img");
+        detail = map.get("detail");
+        hospitalName = map.get("hospital_name");
+        voipAccount = map.get("voipAccount");
+        phone = map.get("phone");
+        status = map.get("status");
+        level = map.get("level");
+        city = map.get("city");
+        money = Integer.parseInt(map.get("money"));
+        secondMoney = Integer.parseInt(map.get("second_money"));
+        point = Float.parseFloat(map.get("point"));
+        recordId = map.get("record_id");
+        duration = map.get("duration");
+        yunxinAccid = map.get("yunxin_accid");
+        tid = map.get("tid");
+    }
 }

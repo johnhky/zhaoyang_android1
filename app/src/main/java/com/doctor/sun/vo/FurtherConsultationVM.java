@@ -19,6 +19,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -58,7 +59,7 @@ public class FurtherConsultationVM extends BaseObservable implements LayoutId {
             }
         })));
         Activity activity = (Activity) context;
-        activity.startActivityForResult(intent, Constants.DOCTOR_REQUEST_CODE);
+        activity.startActivity(intent);
     }
 
     @Override
@@ -104,6 +105,12 @@ public class FurtherConsultationVM extends BaseObservable implements LayoutId {
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
         notifyPropertyChanged(BR.doctor);
+    }
+
+    public void setDate(String string) {
+        if (date != null) {
+            date.setDate(string);
+        }
     }
 
     public HashMap<String, Object> toJsonAnswer() {
