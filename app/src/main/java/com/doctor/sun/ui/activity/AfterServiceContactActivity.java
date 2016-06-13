@@ -44,8 +44,7 @@ public class AfterServiceContactActivity extends ContactActivity {
     @Override
     protected void getPContactList() {
 //        int id = TokenCallback.getPatientProfile().getId();
-        int id = 57;
-        api.doctorList(id).enqueue(new ApiCallback<List<Doctor>>() {
+        api.doctorList().enqueue(new ApiCallback<List<Doctor>>() {
             @Override
             protected void handleResponse(List<Doctor> response) {
                 getAdapter().clear();
@@ -60,8 +59,7 @@ public class AfterServiceContactActivity extends ContactActivity {
     @Override
     protected void getContactList() {
 //        int id = TokenCallback.getDoctorProfile().getId();
-        int id = 2;
-        api.patientList(id).enqueue(new ApiCallback<List<Patient>>() {
+        api.patientList().enqueue(new ApiCallback<List<Patient>>() {
             @Override
             protected void handleResponse(List<Patient> response) {
                 getAdapter().clear();

@@ -285,11 +285,11 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.AppointmentListActivity"
+            android:name=".ui.activity.patient.PAppointmentListActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.ConsultingActivity"
+            android:name=".ui.activity.patient.PConsultingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
@@ -436,7 +436,7 @@
 
 
         <activity
-            android:name=".ui.activity.patient.MedicineHelperActivity"
+            android:name=".ui.activity.patient.MedicineStoreActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 

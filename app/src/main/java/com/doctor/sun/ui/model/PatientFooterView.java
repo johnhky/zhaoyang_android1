@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 
-import com.doctor.sun.ui.activity.patient.ConsultingActivity;
+import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.activity.patient.MainActivity;
 import com.doctor.sun.ui.activity.patient.MeActivity;
 
@@ -36,7 +36,7 @@ public class PatientFooterView implements FooterViewModel.FooterView {
 
     @Override
     public void gotoTabTwo() {
-        startActivity(ConsultingActivity.class);
+        startActivity(PConsultingActivity.class);
     }
 
     @Override

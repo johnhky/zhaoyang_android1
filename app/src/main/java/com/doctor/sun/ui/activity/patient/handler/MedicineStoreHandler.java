@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.View;
 
 import com.doctor.sun.entity.MedicineStore;
-import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
+import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
@@ -21,7 +21,7 @@ public class MedicineStoreHandler {
         return new OnItemClickListener() {
             @Override
             public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                Intent intent = MedicineHelperActivity.makeIntent(view.getContext(), adapter.getItemCount() - 2);
+                Intent intent = MedicineStoreActivity.makeIntent(view.getContext(), adapter.getItemCount() - 2);
 
                 view.getContext().startActivity(intent);
             }

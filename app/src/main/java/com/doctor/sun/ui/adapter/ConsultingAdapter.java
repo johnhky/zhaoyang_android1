@@ -2,34 +2,22 @@ package com.doctor.sun.ui.adapter;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
-import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.databinding.IncludeMessageCountBinding;
-import com.doctor.sun.databinding.ItemConsultingBinding;
-import com.doctor.sun.databinding.PItemConsultingBinding;
-import com.doctor.sun.databinding.PItemMedicineHelperBinding;
 import com.doctor.sun.databinding.PItemSystemTipBinding;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.SystemMsg;
-import com.doctor.sun.entity.handler.AppointmentHandler;
-import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.PushModule;
-import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
 import com.doctor.sun.ui.activity.patient.SystemMsgListActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
 import io.ganguo.library.Config;
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
 
 /**
  * Created by rick on 12/15/15.

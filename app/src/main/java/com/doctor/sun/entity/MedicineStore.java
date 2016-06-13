@@ -2,7 +2,7 @@ package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.im.TextMsg;
-import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
+import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.activity.patient.handler.MedicineStoreHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
@@ -32,7 +32,7 @@ public class MedicineStore implements LayoutId {
 
     public long unReadMsgCount() {
         RealmQuery<TextMsg> q = Realm.getDefaultInstance().where(TextMsg.class)
-                .equalTo("sessionId", MedicineHelperActivity.ADMIN_DRUG);
+                .equalTo("sessionId", MedicineStoreActivity.ADMIN_DRUG);
         long count = q.equalTo("haveRead", false).count();
         return count;
     }

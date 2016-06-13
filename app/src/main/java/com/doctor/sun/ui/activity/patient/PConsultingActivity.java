@@ -19,12 +19,12 @@ import com.doctor.sun.ui.pager.ConsultingPagerAdapter;
 /**
  * Created by rick on 11/30/15.
  */
-public class ConsultingActivity extends BaseFragmentActivity2 {
+public class PConsultingActivity extends BaseFragmentActivity2 {
 
     private ActivityConsultationBinding binding;
 
     public static Intent makeIntent(Context context) {
-        Intent i = new Intent(context, ConsultingActivity.class);
+        Intent i = new Intent(context, PConsultingActivity.class);
         return i;
     }
 

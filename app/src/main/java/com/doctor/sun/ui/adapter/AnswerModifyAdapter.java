@@ -994,6 +994,14 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
         }
     }
 
+    public boolean isEditMode() {
+        return isEditMode;
+    }
+
+    public void setEditMode(boolean editMode) {
+        isEditMode = editMode;
+    }
+
     @Override
     public void clear() {
         super.clear();

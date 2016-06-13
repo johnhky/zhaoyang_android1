@@ -1,6 +1,20 @@
 package com.doctor.sun.entity;
 
+import android.content.Context;
+import android.content.Intent;
+
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.http.callback.TokenCallback;
+import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
+import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
+import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
+import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
+import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
+import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
+import com.doctor.sun.ui.activity.patient.PConsultingActivity;
+import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.activity.patient.handler.SystemMsgHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,6 +27,17 @@ import io.realm.annotations.Ignore;
  */
 public class SystemMsg implements LayoutId {
 
+    static {
+
+    }
+
+
+    /**
+     * type : 23
+     */
+
+    @JsonProperty("type")
+    public int type;
     /**
      * title : 【昭阳医生】提醒:刘医生提醒您完善问卷，请及时登录处理。
      * doctor_name : 刘医生
@@ -108,5 +133,55 @@ public class SystemMsg implements LayoutId {
 
     public Object getPatientName() {
         return patientName;
+    }
+
+    public void itemClick(Context context) {
+        Intent i;
+        switch (type) {
+            case 1: {
+                i = PConsultingActivity.makeIntent(context);
+                break;
+            }
+            case 6:
+            case 8:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+            case 19:
+            case 20: {
+                i = PAppointmentListActivity.makeIntent(context);
+                break;
+            }
+            case 7: {
+                i = MedicineStoreActivity.makeIntent(context);
+                break;
+            }
+            case 21: {
+                i = EditDoctorInfoActivity.makeIntent(context, TokenCallback.getDoctorProfile());
+                break;
+            }
+            case 22: {
+                i = SearchDoctorActivity.makeIntent(context, AppointmentType.DETAIL);
+                break;
+            }
+            case 23: {
+                i = AppointmentListActivity.makeIntent(context);
+                break;
+            }
+            case 24: {
+                i = PAfterServiceActivity.intentFor(context);
+                break;
+            }
+            default: {
+                if (AppContext.isDoctor()) {
+                    i = ConsultingActivity.makeIntent(context);
+                } else {
+                    i = PConsultingActivity.makeIntent(context);
+                }
+            }
+        }
+        context.startActivity(i);
     }
 }

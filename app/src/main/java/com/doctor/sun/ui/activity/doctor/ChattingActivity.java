@@ -33,7 +33,7 @@ import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
-import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
+import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
@@ -166,7 +166,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                             @Override
                             public void onApplyClick(TwoChoiceDialog dialog) {
                                 dialog.dismiss();
-                                Intent intent = MedicineHelperActivity.makeIntent(ChattingActivity.this);
+                                Intent intent = MedicineStoreActivity.makeIntent(ChattingActivity.this);
                                 startActivity(intent);
                             }
 

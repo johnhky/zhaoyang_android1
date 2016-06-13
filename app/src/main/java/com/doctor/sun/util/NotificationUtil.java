@@ -11,6 +11,7 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
+import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 
 import java.io.File;
 
@@ -37,7 +38,7 @@ public class NotificationUtil {
         if (AppContext.isDoctor()) {
             i = ConsultingActivity.makeIntent(AppContext.me());
         } else {
-            i = com.doctor.sun.ui.activity.patient.ConsultingActivity.makeIntent(AppContext.me());
+            i = PConsultingActivity.makeIntent(AppContext.me());
         }
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

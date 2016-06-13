@@ -69,7 +69,7 @@ import io.realm.Sort;
 /**
  * Created by lucas on 2/14/16.
  */
-public class MedicineHelperActivity extends BaseFragmentActivity2 implements NimTeamId, ExtendedEditText.KeyboardDismissListener, SwipeRefreshLayout.OnRefreshListener, KeyboardWatcher.OnKeyboardToggleListener {
+public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimTeamId, ExtendedEditText.KeyboardDismissListener, SwipeRefreshLayout.OnRefreshListener, KeyboardWatcher.OnKeyboardToggleListener {
     public static final String ADMIN_DRUG = "admin";
     public static final double FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
     public static final double IMAGE_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
@@ -88,12 +88,12 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     private KeyboardWatcher keyboardWatcher;
 
     public static Intent makeIntent(Context context) {
-        Intent i = new Intent(context, MedicineHelperActivity.class);
+        Intent i = new Intent(context, MedicineStoreActivity.class);
         return i;
     }
 
     public static Intent makeIntent(Context context, int appointmentNumber) {
-        Intent i = new Intent(context, MedicineHelperActivity.class);
+        Intent i = new Intent(context, MedicineStoreActivity.class);
         i.putExtra(Constants.NUMBER, appointmentNumber);
         return i;
     }
@@ -177,7 +177,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
     }
 
     private void initSticker() {
-        binding.sticker.setData(new StickerViewModel(MedicineHelperActivity.this, binding.sticker));
+        binding.sticker.setData(new StickerViewModel(MedicineStoreActivity.this, binding.sticker));
     }
 
     private void initCustomAction() {
@@ -197,7 +197,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
         InputLayoutViewModel vm = new InputLayoutViewModel(binding.input, new InputLayoutViewModel.SendMessageCallback() {
             @Override
             public void sendMessage(EditText editText) {
-                MedicineHelperActivity.this.sendMessage(editText);
+                MedicineStoreActivity.this.sendMessage(editText);
             }
 
             @Override
@@ -206,7 +206,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
                     @Override
                     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                         if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            MedicineHelperActivity.this.sendMessage(v);
+                            MedicineStoreActivity.this.sendMessage(v);
                         }
                         return true;
                     }
@@ -261,7 +261,7 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
 
     private void makePhoneCall() {
         IMManager.getInstance().makePhoneCall(sendTo);
-        Intent i = VoIPCallActivity.makeIntent(MedicineHelperActivity.this, VoIPCallActivity.CALLING, sendTo);
+        Intent i = VoIPCallActivity.makeIntent(MedicineStoreActivity.this, VoIPCallActivity.CALLING, sendTo);
         startActivity(i);
     }
 
@@ -292,14 +292,14 @@ public class MedicineHelperActivity extends BaseFragmentActivity2 implements Nim
 
     private void sendMessage(TextView inputText) {
         if (inputText.getText().toString().equals("")) {
-            Toast.makeText(MedicineHelperActivity.this, "不能发送空消息", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MedicineStoreActivity.this, "不能发送空消息", Toast.LENGTH_SHORT).show();
             return;
         }
         if (IMManager.getInstance().isNIMLogin()) {
             IMManager.getInstance().sentTextMsg(sendTo, SessionTypeEnum.P2P, inputText.getText().toString());
             inputText.setText("");
         } else {
-            Toast.makeText(MedicineHelperActivity.this, "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MedicineStoreActivity.this, "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
             IMManager.getInstance().login();
         }
     }

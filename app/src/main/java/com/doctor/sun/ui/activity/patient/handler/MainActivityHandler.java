@@ -14,7 +14,7 @@ import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.RecentAppointment;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.callback.TokenCallback;
-import com.doctor.sun.ui.activity.patient.AppointmentListActivity;
+import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
 import com.doctor.sun.ui.activity.patient.DrugActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
@@ -55,7 +55,7 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
         return new OnItemClickListener() {
             @Override
             public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                Intent i = AppointmentListActivity.makeIntent(view.getContext());
+                Intent i = PAppointmentListActivity.makeIntent(view.getContext());
                 view.getContext().startActivity(i);
             }
         };

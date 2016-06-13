@@ -12,10 +12,10 @@ import com.doctor.sun.ui.pager.MyOrderPagerAdapter;
 /**
  * Created by rick on 11/1/2016.
  */
-public class AppointmentListActivity extends TabActivity {
+public class PAppointmentListActivity extends TabActivity {
 
     public static Intent makeIntent(Context context) {
-        Intent i = new Intent(context, AppointmentListActivity.class);
+        Intent i = new Intent(context, PAppointmentListActivity.class);
         return i;
     }
 

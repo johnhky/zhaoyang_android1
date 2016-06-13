@@ -14,7 +14,7 @@
 
         <variable
             name="adapter"
-            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
+            type="com.doctor.sun.ui.adapter.AnswerModifyAdapter" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -93,10 +93,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/bg_edit_address"
-                android:enabled="@{!data.isFinished(data.status)}"
-                android:inputType="@{data.isFinished(data.status)?0:1}"
-                android:paddingLeft="@{data.isFinished(data.status)?@dimen/dp_0:@dimen/dp_6}"
-                android:paddingRight="@{data.isFinished(data.status)?@dimen/dp_0:@dimen/dp_6}"
+                android:enabled="@{!(!adapter.editMode || data.isFinished(data.status))}"
+                android:paddingLeft="@{etAddress.enabled?@dimen/dp_6:@dimen/dp_0}"
+                android:paddingRight="@{etAddress.enabled?@dimen/dp_6:@dimen/dp_0}"
                 android:singleLine="true"
                 android:text="@{data.record.address}"
                 android:textColor="#363636"
@@ -108,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:visibility="@{!data.isFinished(data.status)}"
+                android:visibility="@{etAddress.enabled}"
                 app:layout_widthPercent="20%">
 
                 <TextView

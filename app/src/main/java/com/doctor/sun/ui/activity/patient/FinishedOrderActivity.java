@@ -73,7 +73,7 @@ public class FinishedOrderActivity extends TabActivity
 
     @Override
     public void onFirstMenuClicked() {
-        Intent intent = MedicineHelperActivity.makeIntent(this);
+        Intent intent = MedicineStoreActivity.makeIntent(this);
         startActivity(intent);
     }
 

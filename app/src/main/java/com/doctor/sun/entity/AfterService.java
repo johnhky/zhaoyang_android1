@@ -147,7 +147,7 @@ public class AfterService implements LayoutId {
     }
 
     public boolean isDoingBtnVisible() {
-        return Status.DOING.equals(status);
+        return true;
     }
 
     public boolean isBtnVisible() {
@@ -192,6 +192,11 @@ public class AfterService implements LayoutId {
                 context.startActivity(intent);
             }
         }
+    }
+
+    public void viewDetail(Context context, String id) {
+        Intent intent = AfterServiceDoneActivity.intentFor(context, id);
+        context.startActivity(intent);
     }
 
     private class ItemChangedCallback extends SimpleCallback<Void> {

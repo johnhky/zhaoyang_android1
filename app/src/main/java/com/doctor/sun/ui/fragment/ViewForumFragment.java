@@ -20,6 +20,7 @@ import com.doctor.sun.vo.ItemDivider;
 import com.doctor.sun.vo.ItemTextInput;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -176,10 +177,14 @@ public class ViewForumFragment extends RefreshListFragment {
                                                 ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
                                                 textInput.setInput(s);
                                                 getAdapter().add(textInput);
-                                                HashMap<String, String> map = (HashMap<String, String>) content.get(0);
-                                                Doctor doctor = new Doctor();
-                                                doctor.fromHashMap(map);
-                                                getAdapter().add(doctor);
+
+                                                Object o = content.get(0);
+                                                if (o instanceof LinkedHashMap) {
+                                                    HashMap<String, String> map = (HashMap<String, String>) o;
+                                                    Doctor doctor = new Doctor();
+                                                    doctor.fromHashMap(map);
+                                                    getAdapter().add(doctor);
+                                                }
 
                                             }
                                         }

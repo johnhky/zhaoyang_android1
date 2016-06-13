@@ -98,10 +98,10 @@ public interface AfterServiceModule {
 
 
     @GET("follow-up/doctor-list")
-    Call<ApiDTO<List<Doctor>>> doctorList(@NonNull @Query("patientId") int patientId);
+    Call<ApiDTO<List<Doctor>>> doctorList();
 
     @GET("follow-up/patient-list")
-    Call<ApiDTO<List<Patient>>> patientList(@NonNull @Query("doctorId") int doctorId);
+    Call<ApiDTO<List<Patient>>> patientList();
 
     @GET("follow-up/doctor-feedback")
     Call<ApiDTO<List<Answer>>> feedback(@NonNull @Query("follow_order_id") String id);

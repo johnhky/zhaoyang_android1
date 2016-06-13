@@ -19,8 +19,8 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{()->data.fillForum(context,data.id)}"
         android:background="@drawable/ripple_default"
+        android:onClick="@{()->data.fillForum(context,data.id)}"
         android:orientation="vertical">
 
         <com.zhy.android.percent.support.PercentFrameLayout
@@ -204,7 +204,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:text="填写问卷"
+                    android:text='@{data.isFinished(data.status) ?"查看问卷":"填写问卷"}'
                     android:textColor="#fff"
                     android:textSize="@dimen/font_13" />
             </FrameLayout>

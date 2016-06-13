@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.doctor.sun.AppContext;
-import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
+import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,7 +53,7 @@ public class JPushReceiver extends BroadcastReceiver {
 			if (AppContext.isDoctor()) {
 				cls = com.doctor.sun.ui.activity.doctor.ConsultingActivity.class;
 			}else {
-				cls = com.doctor.sun.ui.activity.patient.ConsultingActivity.class;
+				cls = PConsultingActivity.class;
 			}
 			Intent i = new Intent(context, cls);
         	i.putExtras(bundle);

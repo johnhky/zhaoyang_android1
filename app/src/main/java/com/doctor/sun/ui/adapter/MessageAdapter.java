@@ -23,7 +23,7 @@ import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.ImagePreviewActivity;
-import com.doctor.sun.ui.activity.patient.MedicineHelperActivity;
+import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.util.JacksonUtils;
 
@@ -48,7 +48,7 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
         initData(data);
     }
 
-    public MessageAdapter(MedicineHelperActivity context, String my, String your) {
+    public MessageAdapter(MedicineStoreActivity context, String my, String your) {
         super(context);
         initData(my, your);
     }
