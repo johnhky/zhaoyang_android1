@@ -2,13 +2,12 @@ package com.doctor.sun.dto;
 
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.RecentAppointment;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by rick on 12/9/15.
  */
 public class PatientDTO {
-
-
 
 
     /**
@@ -20,6 +19,8 @@ public class PatientDTO {
      */
 
     private RecentAppointment recent_appointment;
+    @JsonProperty("follow_up_doing_num")
+    public int followUpDoingNum = 0;
 
     public void setRecent_appointment(RecentAppointment recent_appointment) {
         this.recent_appointment = recent_appointment;

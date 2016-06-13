@@ -77,20 +77,37 @@
                 android:layout_height="match_parent"
                 android:background="#ebf0f3" />
 
-            <TextView
-                android:id="@+id/tv_after_service"
+            <com.zhy.android.percent.support.PercentFrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:background="@drawable/ripple_default"
-                android:drawablePadding="@dimen/dp_9"
-                android:drawableTop="@drawable/ic_after_service"
-                android:gravity="center_horizontal"
-                android:onClick="@{data.afterService()}"
-                android:paddingTop="@dimen/dp_11"
-                android:text="随访请求"
-                android:textColor="#363636"
-                android:textSize="@dimen/font_15" />
+                android:onClick="@{()->data.afterService(context)}"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_after_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="@dimen/dp_9"
+                    android:drawableTop="@drawable/ic_after_service"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="@dimen/dp_11"
+                    android:text="随访请求"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15" />
+
+
+                <TextView
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:background="@drawable/ic_after_service_count"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:text="@{data.doingAfterServiceNum}"
+                    android:textSize="@dimen/font_15"
+                    app:layout_marginLeftPercent="49.2%"
+                    app:layout_marginTopPercent="36%" />
+            </com.zhy.android.percent.support.PercentFrameLayout>
 
         </LinearLayout>
 

@@ -27,7 +27,7 @@ import java.util.List;
  * Created by rick on 29/12/2015.
  * 用药信息
  */
-public class Prescription extends BaseObservable implements Parcelable ,LayoutId{
+public class Prescription extends BaseObservable implements Parcelable, LayoutId {
 
 
     /**
@@ -146,6 +146,7 @@ public class Prescription extends BaseObservable implements Parcelable ,LayoutId
             }
         };
     }
+
     public View.OnClickListener viewDetail() {
         return new View.OnClickListener() {
             @Override
@@ -184,7 +185,13 @@ public class Prescription extends BaseObservable implements Parcelable ,LayoutId
 
     @JsonIgnore
     public String getName() {
-        return "<font color='#898989'>药名: </font>" + mediaclName + "(" + productName + ")";
+        String s = "<font color='#898989'>药名: </font>" + mediaclName;
+        if (productName != null && !productName.equals("")) {
+            s += "(" + productName + ")";
+        }else {
+            s += "(未指定商品名)";
+        }
+        return s;
     }
 
     @JsonIgnore

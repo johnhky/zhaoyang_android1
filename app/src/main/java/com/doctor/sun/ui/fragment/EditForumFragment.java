@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.AfterServiceDTO;
@@ -135,6 +136,9 @@ public class EditForumFragment extends RefreshListFragment {
                             FurtherConsultationVM vm = new FurtherConsultationVM();
                             if (type != null && !type.isEmpty()) {
                                 String s = type.get(0);
+                                if (s == null) {
+                                    return;
+                                }
 
                                 switch (s) {
                                     case "A": {
@@ -174,20 +178,24 @@ public class EditForumFragment extends RefreshListFragment {
     }
 
     public void saveAnswer() {
-        TwoChoiceDialog.show(getActivity(), "是否结束本次随访",
-                "暂存", "保存并结束", new TwoChoiceDialog.Options() {
-                    @Override
-                    public void onApplyClick(final TwoChoiceDialog dialog) {
-                        saveAnswer(1);
-                        dialog.dismiss();
-                    }
+        if (AppContext.isDoctor()) {
+            TwoChoiceDialog.show(getActivity(), "是否结束本次随访",
+                    "暂存", "保存并结束", new TwoChoiceDialog.Options() {
+                        @Override
+                        public void onApplyClick(final TwoChoiceDialog dialog) {
+                            saveAnswer(1);
+                            dialog.dismiss();
+                        }
 
-                    @Override
-                    public void onCancelClick(final TwoChoiceDialog dialog) {
-                        saveAnswer(0);
-                        dialog.dismiss();
-                    }
-                });
+                        @Override
+                        public void onCancelClick(final TwoChoiceDialog dialog) {
+                            saveAnswer(0);
+                            dialog.dismiss();
+                        }
+                    });
+        } else {
+            saveAnswer(1);
+        }
     }
 
     public void saveAnswer(int isFinished) {

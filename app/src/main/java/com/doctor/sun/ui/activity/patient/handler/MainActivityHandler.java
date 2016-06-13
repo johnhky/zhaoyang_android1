@@ -1,7 +1,9 @@
 package com.doctor.sun.ui.activity.patient.handler;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 import android.text.Html;
 import android.text.Spanned;
@@ -10,13 +12,19 @@ import android.view.View;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.RecentAppointment;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.TokenCallback;
-import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
+import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.patient.DrugActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
+import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -25,16 +33,21 @@ import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.handler.BaseHandler;
 import com.doctor.sun.ui.widget.AppointmentTypeDialog;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
+import com.doctor.sun.util.JacksonUtils;
+
+import io.ganguo.library.Config;
 
 /**
  * Created by lucas on 1/16/16.
  */
 public class MainActivityHandler extends BaseHandler implements LayoutId {
     private RecentAppointment appointment;
+    private ObservableInt doingAfterServiceNum = new ObservableInt(0);
 
     public MainActivityHandler(Activity context) {
         super(context);
         appointment = TokenCallback.getRecentAppointment();
+        updatePatientInfo();
     }
 
     @Override
@@ -140,14 +153,28 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
                 }).build().show();
     }
 
-    public View.OnClickListener afterService() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = PAfterServiceActivity.intentFor(getContext());
-                getContext().startActivity(intent);
-            }
-        };
+    public void afterService(Context context) {
+        Intent intent = PAfterServiceActivity.intentFor(getContext());
+        getContext().startActivity(intent);
     }
 
+    public void updatePatientInfo() {
+        ProfileModule api = Api.of(ProfileModule.class);
+        api.patientProfile().enqueue(new ApiCallback<PatientDTO>() {
+            @Override
+            protected void handleResponse(PatientDTO response) {
+                Config.putString(Constants.PATIENT_PROFILE, JacksonUtils.toJson(response));
+                setDoingAfterServiceNum(response.followUpDoingNum);
+            }
+        });
+    }
+
+    public String getDoingAfterServiceNum() {
+        return String.valueOf(doingAfterServiceNum.get());
+    }
+
+    public void setDoingAfterServiceNum(int doingAfterServiceNum) {
+        this.doingAfterServiceNum.set(doingAfterServiceNum);
+        this.doingAfterServiceNum.notifyChange();
+    }
 }

@@ -19,7 +19,6 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 
-import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -115,8 +114,8 @@ public class FurtherConsultationVM extends BaseObservable implements LayoutId {
 
     public HashMap<String, Object> toJsonAnswer() {
         HashMap<String, Object> result = new HashMap<>();
-        String[] type = new String[3];
-        String[] content = new String[3];
+        String[] type = new String[1];
+        String[] content = new String[1];
 
         if (btnOneChecked) {
             type[0] = "A";
