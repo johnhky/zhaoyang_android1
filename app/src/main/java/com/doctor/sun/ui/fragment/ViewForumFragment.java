@@ -10,6 +10,7 @@ import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Options;
+import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -67,6 +68,7 @@ public class ViewForumFragment extends RefreshListFragment {
         adapter.mapLayout(R.layout.item_pick_date, R.layout.item_pick_question_date);
 //        adapter.mapLayout(R.layout.item_answer, R.layout.item_answer3);
         adapter.mapLayout(R.layout.item_doctor, R.layout.item_transfer_doctor);
+        adapter.mapLayout(R.layout.item_prescription, R.layout.item_prescription2);
         return adapter;
     }
 
@@ -191,6 +193,14 @@ public class ViewForumFragment extends RefreshListFragment {
                                     }
                                 }
                             }
+                            break;
+                        }
+                        case Question.TYPE_UPLOADS: {
+                            getAdapter().add(answer);
+                            break;
+                        }
+                        case Question.TYPE_PILLS: {
+                            getAdapter().add(answer);
                             break;
                         }
                     }

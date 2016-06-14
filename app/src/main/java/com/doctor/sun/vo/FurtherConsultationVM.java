@@ -8,7 +8,6 @@ import android.databinding.Bindable;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
-import android.util.Log;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
@@ -19,6 +18,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -114,22 +114,22 @@ public class FurtherConsultationVM extends BaseObservable implements LayoutId {
 
     public HashMap<String, Object> toJsonAnswer() {
         HashMap<String, Object> result = new HashMap<>();
-        String[] type = new String[1];
-        String[] content = new String[1];
+        ArrayList<String> type = new ArrayList<>();
+        ArrayList<String> content = new ArrayList<>();
 
         if (btnOneChecked) {
-            type[0] = "A";
-            content[0] = "" + date.getDate();
+            type.add("A");
+            content.add("" + date.getDate());
         }
 
         if (btnTwoChecked) {
-            type[0] = "B";
-            content[0] = "" + date.getDate();
+            type.add("B");
+            content.add("" + date.getDate());
         }
         if (btnThreeChecked) {
-            type[0] = "C";
+            type.add("C");
             if (doctor != null) {
-                content[0] = "" + doctor.getId();
+                content.add("" + doctor.getId());
             }
         }
 
@@ -137,7 +137,6 @@ public class FurtherConsultationVM extends BaseObservable implements LayoutId {
         result.put("content", content);
 
 
-        Log.e(TAG, "toJsonAnswer: " + result);
         return result;
     }
 

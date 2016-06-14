@@ -189,7 +189,7 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         if (productName != null && !productName.equals("")) {
             s += "(" + productName + ")";
         }else {
-            s += "(未指定商品名)";
+            s += "()";
         }
         return s;
     }

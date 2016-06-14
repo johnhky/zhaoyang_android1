@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
-                android:checked="@{data.allowToApply == 1}"
+                android:checked='@{data.allowToApply.equals("1")}'
                 android:onClick="@{()->data.handler.allowToApply(adapter.doctorId)}"
                 android:setTintColor="@{@color/colorPrimaryDark}" />
 

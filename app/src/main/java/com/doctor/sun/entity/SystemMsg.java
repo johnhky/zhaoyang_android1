@@ -7,6 +7,7 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.callback.TokenCallback;
+import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
 import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
 import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
@@ -136,10 +137,15 @@ public class SystemMsg implements LayoutId {
     }
 
     public void itemClick(Context context) {
-        Intent i;
+        Intent i = null;
+        boolean isDoctor = AppContext.isDoctor();
         switch (type) {
             case 1: {
-                i = PConsultingActivity.makeIntent(context);
+                if (isDoctor) {
+                    i = ConsultingActivity.makeIntent(context);
+                } else {
+                    i = PConsultingActivity.makeIntent(context);
+                }
                 break;
             }
             case 6:
@@ -150,8 +156,13 @@ public class SystemMsg implements LayoutId {
             case 16:
             case 17:
             case 19:
+            case 23:
             case 20: {
-                i = PAppointmentListActivity.makeIntent(context);
+                if (isDoctor) {
+                    i = AppointmentListActivity.makeIntent(context);
+                } else {
+                    i = PAppointmentListActivity.makeIntent(context);
+                }
                 break;
             }
             case 7: {
@@ -159,29 +170,35 @@ public class SystemMsg implements LayoutId {
                 break;
             }
             case 21: {
-                i = EditDoctorInfoActivity.makeIntent(context, TokenCallback.getDoctorProfile());
+                if (isDoctor) {
+                    i = EditDoctorInfoActivity.makeIntent(context, TokenCallback.getDoctorProfile());
+                }
                 break;
             }
             case 22: {
-                i = SearchDoctorActivity.makeIntent(context, AppointmentType.DETAIL);
-                break;
-            }
-            case 23: {
-                i = AppointmentListActivity.makeIntent(context);
+                if (!isDoctor) {
+                    i = SearchDoctorActivity.makeIntent(context, AppointmentType.DETAIL);
+                }
                 break;
             }
             case 24: {
-                i = PAfterServiceActivity.intentFor(context);
+                if (isDoctor) {
+                    i = AfterServiceActivity.intentFor(context);
+                } else {
+                    i = PAfterServiceActivity.intentFor(context);
+                }
                 break;
             }
             default: {
-                if (AppContext.isDoctor()) {
+                if (isDoctor) {
                     i = ConsultingActivity.makeIntent(context);
                 } else {
                     i = PConsultingActivity.makeIntent(context);
                 }
             }
         }
-        context.startActivity(i);
+        if (i != null) {
+            context.startActivity(i);
+        }
     }
 }

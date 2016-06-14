@@ -29,7 +29,9 @@ public class Patient implements LayoutId, Parcelable, NameComparator.Name {
      */
 
     @JsonProperty("id")
-    private int id;
+    private int id = -1;
+    @JsonProperty("patient_id")
+    private int patientId;
 
     @JsonProperty("name")
     private String name;
@@ -90,6 +92,9 @@ public class Patient implements LayoutId, Parcelable, NameComparator.Name {
     }
 
     public int getId() {
+        if (id == -1) {
+            return patientId;
+        }
         return id;
     }
 
@@ -125,6 +130,14 @@ public class Patient implements LayoutId, Parcelable, NameComparator.Name {
         return phone;
     }
 
+    public int getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(int patientId) {
+        this.patientId = patientId;
+    }
+
     public PatientHandler getHandler() {
         return handler;
     }
@@ -136,10 +149,46 @@ public class Patient implements LayoutId, Parcelable, NameComparator.Name {
     public Patient() {
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.patientId);
+        dest.writeString(this.name);
+        dest.writeString(this.email);
+        dest.writeInt(this.gender);
+        dest.writeString(this.birthday);
+        dest.writeString(this.avatar);
+        dest.writeDouble(this.point);
+        dest.writeString(this.voipAccount);
+        dest.writeString(this.phone);
+        dest.writeString(this.yunxinAccid);
+//        dest.writeParcelable(this.handler, flags);
+    }
+
+    protected Patient(Parcel in) {
+        this.id = in.readInt();
+        this.patientId = in.readInt();
+        this.name = in.readString();
+        this.email = in.readString();
+        this.gender = in.readInt();
+        this.birthday = in.readString();
+        this.avatar = in.readString();
+        this.point = in.readDouble();
+        this.voipAccount = in.readString();
+        this.phone = in.readString();
+        this.yunxinAccid = in.readString();
+//        this.handler = in.readParcelable(PatientHandler.class.getClassLoader());
+    }
+
     public static final Creator<Patient> CREATOR = new Creator<Patient>() {
         @Override
-        public Patient createFromParcel(Parcel in) {
-            return new Patient(in);
+        public Patient createFromParcel(Parcel source) {
+            return new Patient(source);
         }
 
         @Override
@@ -148,37 +197,6 @@ public class Patient implements LayoutId, Parcelable, NameComparator.Name {
         }
     };
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(name);
-        dest.writeString(email);
-        dest.writeInt(gender);
-        dest.writeString(birthday);
-        dest.writeString(avatar);
-        dest.writeDouble(point);
-        dest.writeString(voipAccount);
-        dest.writeString(phone);
-    }
-
-
-    protected Patient(Parcel in) {
-        this.id = in.readInt();
-        this.name = in.readString();
-        this.email = in.readString();
-        this.gender = in.readInt();
-        this.birthday = in.readString();
-        this.avatar = in.readString();
-        this.point = in.readInt();
-        this.voipAccount = in.readString();
-        this.phone = in.readString();
-    }
 
     @Override
     public String toString() {

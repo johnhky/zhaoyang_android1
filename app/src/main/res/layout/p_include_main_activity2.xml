@@ -44,7 +44,7 @@
                 android:showcaseId='@{"main"}'
                 android:showcasePosition='@{0}'
                 android:showcaseSize='@{4}'
-                android:text="预约咨询医生"
+                android:text="详细咨询"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
@@ -68,7 +68,7 @@
                 android:showcaseId='@{"main"}'
                 android:showcasePosition='@{1}'
                 android:showcaseSize='@{4}'
-                android:text="简捷复诊寄药"
+                android:text="简捷复诊"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
@@ -167,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-                    android:text="(咨询订单,寄药订单,随访订单)"
+                    android:text="(咨询订单,寄药订单)"
                     android:textColor="#898989"
                     android:textSize="@dimen/font_13" />
 

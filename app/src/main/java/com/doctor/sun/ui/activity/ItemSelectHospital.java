@@ -2,7 +2,6 @@ package com.doctor.sun.ui.activity;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.adapters.AbsSpinnerBindingAdapter;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
@@ -34,13 +33,35 @@ public class ItemSelectHospital extends BaseObservable implements LayoutId {
     private int lv2Position = 0;
     private int lv3Position = 0;
 
-    public ItemSelectHospital() {
+    public ItemSelectHospital(final int lv1Id, final int lv2Id, final int lv3Id) {
         api.endemicAreaList().enqueue(new SimpleCallback<List<Area>>() {
             @Override
             protected void handleResponse(List<Area> response) {
-                lv1.addAll(response);
-                lv2.addAll(lv2(0));
-                lv3.addAll(lv3(0, 0));
+                for (int i = 0; i < response.size(); i++) {
+                    Area object = response.get(i);
+                    lv1.add(object);
+                    if (object.id == lv1Id) {
+                        lv1Position = i;
+                    }
+                }
+                List<Area> lv2Areas = lv2(lv1Position);
+                for (int i = 0; i < lv2Areas.size(); i++) {
+                    Area object = lv2Areas.get(i);
+                    lv2.add(object);
+                    if (object.id == lv2Id) {
+                        lv2Position = i;
+                    }
+                }
+
+                List<Area> lv3Areas = lv3(lv1Position,lv2Position);
+                for (int i = 0; i < lv3Areas.size(); i++) {
+                    Area object = lv3Areas.get(i);
+                    lv3.add(object);
+                    if (object.id == lv3Id) {
+                        lv3Position = i;
+                    }
+                }
+
             }
         });
     }

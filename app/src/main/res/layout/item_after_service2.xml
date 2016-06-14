@@ -49,16 +49,17 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
                 android:layout_marginRight="@dimen/dp_13"
                 android:background="@{data.backgroundColor}"
+                android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_2"
                 android:paddingRight="@dimen/dp_2"
-                android:gravity="center_vertical"
                 android:text="@{data.statusLabel}"
                 android:textColor="@{data.statusTextColor}"
                 android:textSize="@dimen/font_13" />
+
 
         </LinearLayout>
 

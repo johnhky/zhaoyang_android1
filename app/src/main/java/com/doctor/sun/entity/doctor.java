@@ -62,7 +62,9 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     @JsonProperty("is_fav")
     private String isFav;
     @JsonProperty("id")
-    private int id;
+    private int id = -1;
+    @JsonProperty("doctor_id")
+    private int doctorId = -1;
     @JsonProperty("avatar")
     private String avatar;
     @JsonProperty("name")
@@ -124,7 +126,14 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     private String yunxinAccid;
     @JsonProperty("tid")
     private String tid;
-    
+
+    public int getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(int doctorId) {
+        this.doctorId = doctorId;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -195,6 +204,9 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     }
 
     public int getId() {
+        if (id == -1) {
+            return doctorId;
+        }
         return id;
     }
 
@@ -438,6 +450,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
         dest.writeString(this.yunxinAccid);
         dest.writeString(this.tid);
         dest.writeInt(this.followUpPermission);
+        dest.writeInt(this.doctorId);
     }
 
     protected Doctor(Parcel in) {
@@ -474,6 +487,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
         this.yunxinAccid = in.readString();
         this.tid = in.readString();
         this.followUpPermission = in.readInt();
+        this.doctorId = in.readInt();
     }
 
     public static final Creator<Doctor> CREATOR = new Creator<Doctor>() {

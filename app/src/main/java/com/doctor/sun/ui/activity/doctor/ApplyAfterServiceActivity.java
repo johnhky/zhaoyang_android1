@@ -92,7 +92,7 @@ public class ApplyAfterServiceActivity extends BaseActivity2 {
             for (int i = 0; i < adapter.size(); i++) {
                 if (adapter.isSelected(i)) {
                     MedicalRecord o = (MedicalRecord) adapter.get(i);
-                    if (o.canFollowUp == 1) {
+                    if (o.canFollowUp.equals("1")) {
                         selectedRecords.add(String.valueOf(o.getMedicalRecordId()));
                     }
                 }

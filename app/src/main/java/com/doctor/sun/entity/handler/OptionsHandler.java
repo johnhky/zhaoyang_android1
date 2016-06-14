@@ -28,10 +28,13 @@ public class OptionsHandler {
 
     public String hint(Options data) {
         String optionContent = data.getOptionContent();
-        if (optionContent.equals(INDICATOR)) {
-            return "其他";
-        } else if (optionContent.contains(INDICATOR)) {
-            return "多少";
+        if (optionContent.contains(INDICATOR)) {
+            int end = optionContent.indexOf(INDICATOR);
+            if (end > 0) {
+                return optionContent.substring(0, end);
+            } else {
+                return optionContent;
+            }
         } else {
             return "";
         }
@@ -43,7 +46,7 @@ public class OptionsHandler {
         if (optionContent.equals(INDICATOR)) {
             return InputType.TYPE_CLASS_TEXT;
         } else if (optionContent.contains(INDICATOR)) {
-            return InputType.TYPE_CLASS_NUMBER;
+            return InputType.TYPE_CLASS_TEXT;
         } else {
             return InputType.TYPE_CLASS_TEXT;
         }
@@ -51,12 +54,9 @@ public class OptionsHandler {
 
     public String content(Options data) {
         String optionContent = data.getOptionContent();
-        if (optionContent.equals(INDICATOR)) {
+
+        if (optionContent.contains(INDICATOR)) {
             return data.getOptionType() + BREAK_POINT;
-        }
-        int end = optionContent.indexOf(INDICATOR);
-        if (end > 0) {
-            return data.getOptionType() + BREAK_POINT + optionContent.substring(0, end);
         } else {
             return data.getOptionType() + BREAK_POINT + optionContent;
         }

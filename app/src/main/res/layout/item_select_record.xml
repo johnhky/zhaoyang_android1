@@ -24,12 +24,13 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tv_status"
             android:layout_width="@dimen/dp_40"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:background="@drawable/ripple_default"
             android:drawableLeft="@drawable/ic_record_selector"
-            android:enabled="@{data.canFollowUp == 1}"
+            android:enabled='@{data.canFollowUp.equals("1")}'
             android:gravity="center"
             android:onClick="@{adapter.onItemClick(adapter,vh)}"
             android:paddingLeft="@dimen/dp_10"
@@ -86,13 +87,13 @@
                 android:layout_gravity="center_vertical"
                 android:drawableLeft='@drawable/ic_record_status'
                 android:drawablePadding="@dimen/dp_10"
-                android:enabled="@{data.canFollowUp == 1}"
+                android:enabled="@{tvStatus.enabled}"
                 android:gravity="start"
                 android:maxLength="20"
                 android:paddingTop="@dimen/dp_2"
                 android:singleLine="true"
-                android:text='@{data.canFollowUp==1?"可以申请随访":"随访进行中"}'
-                android:textColor='@{data.canFollowUp==1?@color/dark_36:@color/orange}'
+                android:text='@{tvStatus.enabled?"可以申请随访": data.canFollowUp}'
+                android:textColor='@{tvStatus.enabled?@color/dark_36:@color/orange}'
                 android:textSize="@dimen/font_15"
                 app:layout_widthPercent="40%" />
         </LinearLayout>

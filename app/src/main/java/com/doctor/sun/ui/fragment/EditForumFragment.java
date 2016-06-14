@@ -118,8 +118,24 @@ public class EditForumFragment extends RefreshListFragment {
                             break;
                         }
                         case Question.TYPE_DROP_DOWN: {
-                            ItemSelectHospital object = new ItemSelectHospital();
-                            getAdapter().add(object);
+                            List<String> type = null;
+                            try {
+                                if (answer.getAnswerType() != null && answer.getAnswerType() instanceof List) {
+                                    type = Answer.handler.answerType(answer);
+                                    int lv1Id = 0;
+                                    int lv2Id = 0;
+                                    int lv3Id = 0;
+                                    if (type.size() >= 3) {
+                                        lv1Id = Integer.parseInt(type.get(0));
+                                        lv2Id = Integer.parseInt(type.get(1));
+                                        lv3Id = Integer.parseInt(type.get(2));
+                                    }
+                                    ItemSelectHospital object = new ItemSelectHospital(lv1Id, lv2Id, lv3Id);
+                                    getAdapter().add(object);
+                                }
+                            } catch (Exception e) {
+
+                            }
                             break;
                         }
                         case Question.TYPE_FURTHER_CONSULTATION: {
@@ -136,32 +152,31 @@ public class EditForumFragment extends RefreshListFragment {
                             FurtherConsultationVM vm = new FurtherConsultationVM();
                             if (type != null && !type.isEmpty()) {
                                 String s = type.get(0);
-                                if (s == null) {
-                                    return;
-                                }
+                                if (s != null) {
 
-                                switch (s) {
-                                    case "A": {
-                                        vm.setBtnOneChecked(true);
-                                        vm.setDate(content.get(0).toString());
+                                    switch (s) {
+                                        case "A": {
+                                            vm.setBtnOneChecked(true);
+                                            vm.setDate(content.get(0).toString());
 
-                                        break;
+                                            break;
+                                        }
+                                        case "B": {
+                                            vm.setBtnTwoChecked(true);
+                                            vm.setDate(content.get(0).toString());
+
+                                            break;
+                                        }
+                                        case "C": {
+                                            vm.setBtnThreeChecked(true);
+                                            HashMap<String, String> hashMap = (HashMap<String, String>) content.get(0);
+                                            Doctor doctor = new Doctor();
+                                            doctor.fromHashMap(hashMap);
+                                            vm.setDoctor(doctor);
+                                            break;
+                                        }
+
                                     }
-                                    case "B": {
-                                        vm.setBtnTwoChecked(true);
-                                        vm.setDate(content.get(0).toString());
-
-                                        break;
-                                    }
-                                    case "C": {
-                                        vm.setBtnThreeChecked(true);
-                                        HashMap<String, String> hashMap = (HashMap<String, String>) content.get(0);
-                                        Doctor doctor = new Doctor();
-                                        doctor.fromHashMap(hashMap);
-                                        vm.setDoctor(doctor);
-                                        break;
-                                    }
-
                                 }
                             }
 
@@ -194,7 +209,7 @@ public class EditForumFragment extends RefreshListFragment {
                         }
                     });
         } else {
-            saveAnswer(1);
+            saveAnswer(0);
         }
     }
 
@@ -213,17 +228,23 @@ public class EditForumFragment extends RefreshListFragment {
 
     public void handleImageResult(final int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == Constants.UPLOAD_REQUEST_CODE) {
-                File to = PickImageDialog.handleRequest(getContext(), data, requestCode);
-                RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"), to);
-                uploadApi.uploadPhoto(body).enqueue(new ApiCallback<Photo>() {
-                    @Override
-                    protected void handleResponse(Photo response) {
-                        if (getAdapter() instanceof AnswerModifyAdapter) {
-                            ((AnswerModifyAdapter) getAdapter()).addImage(response.getUrl());
+            switch (PickImageDialog.getRequestCode(requestCode)) {
+                case Constants.UPLOAD_REQUEST_CODE:
+                case Constants.UPLOAD_REQUEST_CODE / 2: {
+                    File to = PickImageDialog.handleRequest(getContext(), data, requestCode);
+                    RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"), to);
+                    uploadApi.uploadPhoto(body).enqueue(new ApiCallback<Photo>() {
+                        @Override
+                        protected void handleResponse(Photo response) {
+                            if (getAdapter() instanceof AnswerModifyAdapter) {
+                                ((AnswerModifyAdapter) getAdapter()).addImage(response.getUrl());
+                            }
                         }
-                    }
-                });
+                    });
+                }
+                default: {
+
+                }
             }
         }
     }
