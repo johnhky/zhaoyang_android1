@@ -4,13 +4,15 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
+import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Answer;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.http.Api;
@@ -20,6 +22,7 @@ import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.util.JacksonUtils;
@@ -150,21 +153,54 @@ public class AnswerHandler {
     }
 
     public View.OnClickListener loadDrug(final BaseAdapter adapter, final RecyclerView.ViewHolder vh) {
+        if (AppContext.isDoctor()) {
+            return doctorLoadDrug(adapter, vh);
+        } else {
+            return patientLoadDrug(adapter, vh);
+        }
+    }
+
+    private View.OnClickListener doctorLoadDrug(final BaseAdapter adapter, final RecyclerView.ViewHolder vh) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < adapter.size(); i++) {
+                    LayoutId layoutId = (LayoutId) adapter.get(i);
+                    if (layoutId.getItemLayoutId() == R.layout.item_answer) {
+                        Answer otherAnswer = (Answer) layoutId;
+                        if (otherAnswer.isDrugInit) {
+                            Answer answer = (Answer) adapter.get(vh.getAdapterPosition());
+                            answer.getPrescriptions().addAll(otherAnswer.getPrescriptions());
+                            adapter.set(vh.getAdapterPosition(), answer);
+                            adapter.notifyItemChanged(vh.getAdapterPosition());
+                            break;
+                        }
+                    }
+                }
+
+            }
+        };
+    }
+
+    @NonNull
+    private View.OnClickListener patientLoadDrug(final BaseAdapter adapter, final RecyclerView.ViewHolder vh) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Appointment.AppointmentId id;
+                String path;
                 try {
-                    id = (Appointment.AppointmentId) adapter.getContext();
+                    path = ((Prescription.UrlToLoad) adapter.getContext()).url();
                 } catch (ClassCastException e) {
+                    e.printStackTrace();
                     return;
                 }
-                Api.of(DiagnosisModule.class).lastDrug(id.getId()).enqueue(new SimpleCallback<List<Prescription>>() {
+
+                Api.of(DiagnosisModule.class).drugs(path).enqueue(new SimpleCallback<List<Prescription>>() {
                     @Override
                     protected void handleResponse(List<Prescription> response) {
                         if (response == null || response.isEmpty()) {
-                            Toast.makeText(adapter.getContext(), "没有预约记录", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(adapter.getContext(), "没有填写记录", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -178,7 +214,21 @@ public class AnswerHandler {
         };
     }
 
-    public boolean isAnswerValide(Answer answer) {
+
+    public boolean loadDrugVisible(Answer answer) {
+        if (AppContext.isDoctor()) {
+            int position = answer.getPosition();
+            if (position == 2) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    public boolean isAnswerValid(Answer answer) {
         boolean b = answer.getAnswerType() != null && answer.getAnswerType() instanceof List;
         boolean b1 = answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List;
         return b && b1;
@@ -236,4 +286,5 @@ public class AnswerHandler {
             }
         };
     }
+
 }

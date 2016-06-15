@@ -313,4 +313,8 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
     public int getItemLayoutId() {
         return R.layout.item_prescription;
     }
+
+    public interface UrlToLoad{
+       String url();
+    }
 }

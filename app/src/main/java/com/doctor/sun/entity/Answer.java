@@ -76,6 +76,8 @@ public class Answer implements LayoutId {
     private List<String> imageUrls = new ArrayList<>();
     private boolean editMode = false;
     private HashMap<String, String> selectedOptions;
+    @JsonIgnore
+    private String drugPath = "";
 
 
     public int getId() {
@@ -254,5 +256,13 @@ public class Answer implements LayoutId {
 
     public void setEditMode(boolean editMode) {
         this.editMode = editMode;
+    }
+
+    public String getDrugPath() {
+        return drugPath;
+    }
+
+    public void setDrugPath(String drugPath) {
+        this.drugPath = drugPath;
     }
 }

@@ -142,7 +142,7 @@ public class DoctorSugestionFragment extends RefreshListFragment {
                             break;
                         }
                         case Question.TYPE_FURTHER_CONSULTATION: {
-                            if (Answer.handler.isAnswerValide(answer)) {
+                            if (Answer.handler.isAnswerValid(answer)) {
                                 List<String> type = (List<String>) answer.getAnswerType();
                                 List<Object> content = (List<Object>) answer.getAnswerContent();
                                 if (!content.isEmpty() && !type.isEmpty()) {

@@ -7,26 +7,34 @@ import android.support.v4.view.ViewPager;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.pager.DoctorAfterServicePA;
 import com.doctor.sun.ui.pager.PatientAfterServicePA;
 
+import java.util.List;
+
 /**
  * Created by rick on 3/6/2016.
  */
-public class AfterServiceDoingActivity extends TabActivity {
+public class AfterServiceDoingActivity extends TabActivity implements Prescription.UrlToLoad {
     private PatientAfterServicePA patientAfterServicePA;
     private DoctorAfterServicePA doctorAfterServicePA;
 
-    public static Intent intentFor(Context context, String id) {
+    public static Intent intentFor(Context context, String id, String recordId) {
         Intent intent = new Intent(context, AfterServiceDoingActivity.class);
         intent.putExtra(Constants.DATA, id);
+        intent.putExtra(Constants.PARAM_RECORD_ID, recordId);
         return intent;
     }
 
     public String getData() {
         return getStringExtra(Constants.DATA);
+    }
+
+    public String getRecordId() {
+        return getStringExtra(Constants.PARAM_RECORD_ID);
     }
 
     @Override
@@ -105,5 +113,10 @@ public class AfterServiceDoingActivity extends TabActivity {
         } else {
             patientAfterServicePA.handleImageResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public String url() {
+        return "drug/record-last?recordId=" + getRecordId();
     }
 }

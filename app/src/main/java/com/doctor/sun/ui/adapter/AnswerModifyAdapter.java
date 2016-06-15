@@ -382,7 +382,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             if (getItemViewType(i) == R.layout.item_further_consultation) {
                 Object addOn = saveFurtherConsultation(i);
                 if (addOn != null) {
-                    answerList.put(((FurtherConsultationVM)get(i)).getQuestionId() + "", addOn);
+                    answerList.put(((FurtherConsultationVM) get(i)).getQuestionId() + "", addOn);
                 }
             }
         }

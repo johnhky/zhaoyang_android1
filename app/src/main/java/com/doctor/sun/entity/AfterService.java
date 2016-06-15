@@ -183,7 +183,7 @@ public class AfterService implements LayoutId {
     public void fillForum(Context context, String id) {
         switch (status) {
             case Status.DOING: {
-                Intent intent = AfterServiceDoingActivity.intentFor(context, id);
+                Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId);
                 context.startActivity(intent);
                 break;
             }

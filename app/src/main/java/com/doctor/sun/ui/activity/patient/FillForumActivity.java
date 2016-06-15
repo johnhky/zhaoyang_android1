@@ -9,6 +9,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityFillForumBinding;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.fragment.FillForumFragment;
@@ -21,7 +22,11 @@ import com.doctor.sun.ui.widget.PickImageDialog;
  * 填写问卷 只读 fragment
  * Created by rick on 25/1/2016.
  */
-public class FillForumActivity extends BaseFragmentActivity2 implements QCategoryHandler.QCategoryCallback, FillForumFragment.SetHeaderListener ,Appointment.AppointmentId{
+public class FillForumActivity extends BaseFragmentActivity2 implements
+        QCategoryHandler.QCategoryCallback,
+        FillForumFragment.SetHeaderListener,
+        Appointment.AppointmentId,
+        Prescription.UrlToLoad {
 
     private boolean isFilling;
 
@@ -100,5 +105,10 @@ public class FillForumActivity extends BaseFragmentActivity2 implements QCategor
     @Override
     public int getId() {
         return getData();
+    }
+
+    @Override
+    public String url() {
+        return "diagnosis/last-drug?appointmentId=" + getId();
     }
 }

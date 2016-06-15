@@ -11,6 +11,7 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.event.SwitchTabEvent;
 import com.doctor.sun.module.AuthModule;
@@ -33,7 +34,10 @@ import io.ganguo.library.core.event.extend.OnPageChangeAdapter;
  * Created by rick on 12/16/15.
  */
 public class ConsultingDetailActivity extends TabActivity
-        implements QCategoryHandler.QCategoryCallback, FillForumFragment.SetHeaderListener, Appointment.AppointmentId {
+        implements QCategoryHandler.QCategoryCallback,
+        FillForumFragment.SetHeaderListener,
+        Appointment.AppointmentId,
+        Prescription.UrlToLoad {
     public static final int POSITION_ANSWER = 0;
     public static final int POSITION_SUGGESTION = 1;
     public static final int POSITION_SUGGESTION_READONLY = 2;
@@ -226,5 +230,10 @@ public class ConsultingDetailActivity extends TabActivity
     @Override
     public int getId() {
         return getData().getId();
+    }
+
+    @Override
+    public String url() {
+        return "diagnosis/last-drug?appointmentId=" + getId();
     }
 }

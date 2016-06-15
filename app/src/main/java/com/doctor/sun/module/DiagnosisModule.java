@@ -15,6 +15,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * Created by rick on 12/23/15.
@@ -37,4 +38,14 @@ public interface DiagnosisModule {
     @GET("diagnosis/patient-drug")
     Call<ApiDTO<List<Prescription>>> patientDrug(@Query("appointmentId") int appointmentId);
 
+
+    /**
+     * @param path path
+     *
+     *             drug/record-last?recordId=
+     *             diagnosis/patient-drug?appointmentId=
+     *             diagnosis/last-drug?appointmentId=
+     */
+    @GET()
+    Call<ApiDTO<List<Prescription>>> drugs(@Url() String path);
 }

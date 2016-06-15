@@ -6,6 +6,9 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Drug;
 import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.NeedSendDrug;
+import com.doctor.sun.entity.Prescription;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -38,5 +41,9 @@ public interface DrugModule {
     Call<ApiDTO<ImAccount>> serverAccount();
 
     @GET("drug/need-send-drug")
-    Call<ApiDTO<NeedSendDrug>> needSendDrug(@Query("appointmentId")int appointmentId);
+    Call<ApiDTO<NeedSendDrug>> needSendDrug(@Query("appointmentId") int appointmentId);
+
+
+    @GET("drug/record-last")
+    Call<ApiDTO<List<Prescription>>> patientDrug(@Query("recordId") int recordId);
 }
