@@ -139,6 +139,7 @@ public class EditPrescriptionActivity extends BaseActivity2 {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         DrugAutoComplete item = (DrugAutoComplete) parent.getAdapter().getItem(position);
                         etInput.setText(item.drugName);
+                        etInput.setSelection(item.drugName.length());
                         binding.goodsName.etInput.setText(item.productName);
                     }
                 });
