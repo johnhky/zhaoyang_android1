@@ -1,6 +1,7 @@
 package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.entity.DrugAutoComplete;
 
 import java.util.List;
 
@@ -13,6 +14,6 @@ import retrofit2.http.GET;
 public interface AutoComplete {
 
     @GET("list/drug-names")
-    Call<ApiDTO<List<String>>> drugNames();
+    Call<ApiDTO<List<DrugAutoComplete>>> drugNames();
 
 }

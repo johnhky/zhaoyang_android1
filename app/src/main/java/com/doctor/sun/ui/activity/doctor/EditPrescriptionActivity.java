@@ -9,6 +9,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityEditPrescriptionBinding;
+import com.doctor.sun.entity.DrugAutoComplete;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -124,16 +126,24 @@ public class EditPrescriptionActivity extends BaseActivity2 {
     }
 
     public void initAutoComplete() {
-//        AutoComplete autoComplete = Api.of(AutoComplete.class);
-//        autoComplete.drugNames().enqueue(new SimpleCallback<List<String>>() {
-//            @Override
-//            protected void handleResponse(List<String> response) {
-//                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(EditPrescriptionActivity.this, android.R.layout.simple_list_item_1, response);
-//                AutoCompleteTextView etInput = binding.medicineName.etInput;
-//                etInput.setAdapter(arrayAdapter);
-//                etInput.setThreshold(1);
-//            }
-//        });
+        AutoComplete autoComplete = Api.of(AutoComplete.class);
+        autoComplete.drugNames().enqueue(new SimpleCallback<List<DrugAutoComplete>>() {
+            @Override
+            protected void handleResponse(List<DrugAutoComplete> response) {
+                ArrayAdapter<DrugAutoComplete> arrayAdapter = new ArrayAdapter<>(EditPrescriptionActivity.this, android.R.layout.simple_list_item_1, response);
+                final AutoCompleteTextView etInput = binding.medicineName.etInput;
+                etInput.setAdapter(arrayAdapter);
+                etInput.setThreshold(1);
+                etInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        DrugAutoComplete item = (DrugAutoComplete) parent.getAdapter().getItem(position);
+                        etInput.setText(item.drugName);
+                        binding.goodsName.etInput.setText(item.productName);
+                    }
+                });
+            }
+        });
     }
 
     @Override

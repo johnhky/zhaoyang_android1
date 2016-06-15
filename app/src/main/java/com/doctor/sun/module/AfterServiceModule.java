@@ -97,13 +97,13 @@ public interface AfterServiceModule {
 
 
     //TODO:
-    //    @GET("follow-up/doctor-list")
-    @GET("im/pContactList")
+        @GET("follow-up/doctor-list")
+//    @GET("im/pContactList")
     Call<ApiDTO<List<Doctor>>> doctorList();
 
     //TODO:
-    //    @GET("follow-up/patient-list")
-    @GET("im/doctor-contact-list")
+        @GET("follow-up/patient-list")
+//    @GET("im/doctor-contact-list")
     Call<ApiDTO<List<Patient>>> patientList();
 
     @GET("follow-up/doctor-feedback")
