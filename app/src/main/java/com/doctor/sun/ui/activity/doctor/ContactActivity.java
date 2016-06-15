@@ -32,9 +32,9 @@ import com.doctor.sun.util.NameComparator;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -49,7 +49,7 @@ public class ContactActivity extends BaseActivity2 {
     private ActivityContactBinding binding;
     private ContactAdapter mAdapter;
     private PageCallback callback;
-    private ArrayList<LayoutId> allData;
+    private HashSet<LayoutId> allData;
 
     public static Intent makeIntent(Context context, int code, @LayoutRes int layoutId) {
         Intent i = new Intent(context, ContactActivity.class);
@@ -118,10 +118,13 @@ public class ContactActivity extends BaseActivity2 {
                         if (allData != null) {
                             mAdapter.clear();
                             mAdapter.addAll(allData);
+                            Collections.sort(getAdapter(),new NameComparator());
                             mAdapter.notifyDataSetChanged();
                         }
                     } else {
-                        allData = new ArrayList<LayoutId>(mAdapter.getData().size());
+                        if (allData == null) {
+                            allData = new HashSet<>();
+                        }
                         allData.addAll(mAdapter);
                         Collection<LayoutId> filter = Collections2.filter(allData, new Predicate<LayoutId>() {
                             @Override

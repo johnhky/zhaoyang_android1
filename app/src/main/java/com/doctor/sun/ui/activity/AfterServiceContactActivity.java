@@ -50,6 +50,7 @@ public class AfterServiceContactActivity extends ContactActivity {
                 getAdapter().addAll(response);
                 Collections.sort(getAdapter(), new NameComparator());
                 getContactAdapter().updatePosition();
+                getAdapter().onFinishLoadMore(true);
                 getAdapter().notifyDataSetChanged();
             }
         });
