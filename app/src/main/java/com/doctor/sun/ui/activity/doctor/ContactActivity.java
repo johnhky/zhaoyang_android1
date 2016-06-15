@@ -25,6 +25,7 @@ import com.doctor.sun.ui.adapter.ContactAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.LoadMoreAdapter;
+import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.binding.CustomBinding;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.NameComparator;
@@ -87,7 +88,6 @@ public class ContactActivity extends BaseActivity2 {
         binding.recyclerView.setAdapter(mAdapter);
 
         binding.fastScroller.setListView(binding.recyclerView);
-        mAdapter.onFinishLoadMore(true);
         binding.etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -139,7 +139,12 @@ public class ContactActivity extends BaseActivity2 {
             }
         });
 
-        loadMore();
+        getAdapter().setLoadMoreListener(new LoadMoreListener() {
+            @Override
+            protected void onLoadMore() {
+                loadMore();
+            }
+        });
     }
 
     @NonNull
@@ -150,6 +155,7 @@ public class ContactActivity extends BaseActivity2 {
                 super.handleResponse(response);
                 Collections.sort(getAdapter(), new NameComparator());
                 mAdapter.updatePosition();
+                mAdapter.onFinishLoadMore(true);
             }
         };
     }
@@ -162,6 +168,7 @@ public class ContactActivity extends BaseActivity2 {
                 getAdapter().addAll(response);
                 Collections.sort(getAdapter(), new NameComparator());
                 mAdapter.updatePosition();
+                getAdapter().onFinishLoadMore(true);
                 getAdapter().notifyDataSetChanged();
             }
         });
@@ -175,6 +182,7 @@ public class ContactActivity extends BaseActivity2 {
                 getAdapter().addAll(response);
                 Collections.sort(getAdapter(), new NameComparator());
                 mAdapter.updatePosition();
+                getAdapter().onFinishLoadMore(true);
                 getAdapter().notifyDataSetChanged();
             }
         });
@@ -183,6 +191,8 @@ public class ContactActivity extends BaseActivity2 {
     protected void loadMore() {
         switch (getRequestCode()) {
             case Constants.DOCTOR_REQUEST_CODE: {
+                getAdapter().onFinishLoadMore(true);
+                getAdapter().notifyDataSetChanged();
                 break;
             }
             case PATIENTS_CONTACT: {
