@@ -379,6 +379,12 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                     answerList.put(((Answer) get(i)).getQuestionId() + "", addOn);
                 }
             }
+            if (getItemViewType(i) == R.layout.item_further_consultation) {
+                Object addOn = saveFurtherConsultation(i);
+                if (addOn != null) {
+                    answerList.put(((FurtherConsultationVM)get(i)).getQuestionId() + "", addOn);
+                }
+            }
         }
         if (answerList.size() > 0) {
             return JacksonUtils.toJson(answerList);
@@ -418,9 +424,6 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             case Question.TYPE_DROP_DOWN: {
                 return saveDropDown(answer, position);
             }
-            case Question.TYPE_FURTHER_CONSULTATION: {
-                return saveFurtherConsultation(answer, position);
-            }
             default: {
                 break;
             }
@@ -428,8 +431,8 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
         return null;
     }
 
-    private Object saveFurtherConsultation(Answer answer, int position) {
-        LayoutId layoutId = get(position + 1);
+    private Object saveFurtherConsultation(int position) {
+        LayoutId layoutId = get(position);
         if (layoutId.getItemLayoutId() == R.layout.item_further_consultation) {
             FurtherConsultationVM item = (FurtherConsultationVM) layoutId;
 

@@ -10,7 +10,6 @@ import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Options;
-import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -150,7 +149,7 @@ public class ViewForumFragment extends RefreshListFragment {
                             break;
                         }
                         case Question.TYPE_FURTHER_CONSULTATION: {
-                            if (answer.getAnswerContent() instanceof List) {
+                            if (Answer.handler.isAnswerValide(answer)) {
                                 List<String> type = (List<String>) answer.getAnswerType();
                                 List<Object> content = (List<Object>) answer.getAnswerContent();
                                 if (!content.isEmpty() && !type.isEmpty()) {

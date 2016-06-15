@@ -34,6 +34,8 @@ public class DiagnosisViewModel {
     public static final String FACE_TO_FACE = "简捷复诊";
     private final Context context;
 
+    private String advice = "";
+
     private Symptom perception;
     private Symptom thinking;
     private Symptom pipedream;
@@ -122,6 +124,7 @@ public class DiagnosisViewModel {
         money.setInput(String.valueOf(response.getMoney()));
         date.setDate(response.getDate());
 //        time.setTime(response.getTime());
+        advice = response.getDoctorAdvince();
 
 
         returnType.setSelectedItem(response.getReturnType());
@@ -356,7 +359,12 @@ public class DiagnosisViewModel {
         result.put("recordId", String.valueOf(appointmentId.getRecordId()));
 
         GregorianCalendar gregorianCalendar = new GregorianCalendar(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), time.getmBeginHour(), time.getmBeginMinute());
-        result.put("returnTime", String.valueOf(gregorianCalendar.getTimeInMillis()).substring(0, 10));
+        String s = String.valueOf(gregorianCalendar.getTimeInMillis());
+        if (s.length() >= 10) {
+            result.put("returnTime", s.substring(0, 10));
+        } else {
+            result.put("returnTime", s);
+        }
 //        result.put("money", binding.money.etInput.getText().toString());
 
 
@@ -381,5 +389,16 @@ public class DiagnosisViewModel {
 
     public Description getLabelEval() {
         return labelEval;
+    }
+
+    public String getAdvice() {
+        if (advice.equals("")) {
+            return "坚持服药,定期复诊";
+        }
+        return advice;
+    }
+
+    public void setAdvice(String advice) {
+        this.advice = advice;
     }
 }

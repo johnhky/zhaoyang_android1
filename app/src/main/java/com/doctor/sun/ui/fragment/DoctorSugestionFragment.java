@@ -64,7 +64,7 @@ public class DoctorSugestionFragment extends RefreshListFragment {
         adapter.mapLayout(R.layout.item_options, R.layout.item_options3);
         adapter.mapLayout(R.layout.item_pick_date, R.layout.item_pick_question_date);
         adapter.mapLayout(R.layout.item_prescription, R.layout.item_prescription2);
-        adapter.mapLayout(R.layout.item_doctor,R.layout.item_transfer_doctor);
+        adapter.mapLayout(R.layout.item_doctor, R.layout.item_transfer_doctor);
 //        adapter.mapLayout(R.layout.item_answer, R.layout.item_answer3);
         return adapter;
     }
@@ -142,7 +142,7 @@ public class DoctorSugestionFragment extends RefreshListFragment {
                             break;
                         }
                         case Question.TYPE_FURTHER_CONSULTATION: {
-                            if (answer.getAnswerContent() instanceof List) {
+                            if (Answer.handler.isAnswerValide(answer)) {
                                 List<String> type = (List<String>) answer.getAnswerType();
                                 List<Object> content = (List<Object>) answer.getAnswerContent();
                                 if (!content.isEmpty() && !type.isEmpty()) {

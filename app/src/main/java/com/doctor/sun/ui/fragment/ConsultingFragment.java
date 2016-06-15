@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.SparseArray;
+import android.util.SparseBooleanArray;
 import android.view.View;
 
 import com.doctor.sun.AppContext;
@@ -51,6 +52,8 @@ public class ConsultingFragment extends RefreshListFragment {
     private SparseArray<Appointment> map = new SparseArray<>();
     private ArrayList<LayoutId> headers;
 
+    private SparseBooleanArray pullingTid = new SparseBooleanArray();
+
     public ConsultingFragment() {
     }
 
@@ -70,17 +73,15 @@ public class ConsultingFragment extends RefreshListFragment {
         NIMClient.getService(MsgServiceObserve.class).observeRecentContact(new Observer<List<RecentContact>>() {
             @Override
             public void onEvent(final List<RecentContact> recentContacts) {
-                int padding = getItemPadding();
-                final int finalPosition = padding;
-                Tasks.runOnUiThread(new InsertAppointmentRunnable(recentContacts, finalPosition), 300);
+                Tasks.runOnUiThread(new InsertAppointmentRunnable(recentContacts, getItemPadding()), 300);
             }
         }, true);
     }
 
     private int getItemPadding() {
-        int padding = 2;
-        if (AppContext.isDoctor()) {
-            padding = 1;
+        int padding = 1;
+        if (!AppContext.isDoctor()) {
+            padding = 2;
         }
         return padding;
     }
@@ -159,7 +160,7 @@ public class ConsultingFragment extends RefreshListFragment {
 
     public Appointment getAppointmentByTid(int tid) {
         Appointment appointment = map.get(tid);
-       if (appointment != null) {
+        if (appointment != null) {
             return appointment;
         } else {
             pullAppointment(tid);
@@ -168,15 +169,23 @@ public class ConsultingFragment extends RefreshListFragment {
     }
 
     public boolean shouldRefreshAppointment(int tid) {
+        if (pullingTid.get(tid)) {
+            return false;
+        }
         if (realm == null || realm.isClosed()) return false;
 
         RealmResults<TextMsg> time = realm.where(TextMsg.class).equalTo("sessionId", String.valueOf(tid)).findAllSorted("time", Sort.ASCENDING);
-
-        String body = time.last().getBody();
+        if (time.isEmpty()) {
+            return false;
+        }
+        TextMsg last = time.last();
+//
+        String body = last.getBody();
         return body.equals("就诊开始") || body.equals(Constants.FINISH_MESSAGE);
     }
 
     private void refreshAppointment(int tid) {
+        pullingTid.put(tid, true);
         api.appointmentInTid(String.valueOf(tid), "1").enqueue(new RefreshAppointmentCallback());
     }
 
@@ -192,11 +201,9 @@ public class ConsultingFragment extends RefreshListFragment {
 
     private class InsertAppointmentRunnable implements Runnable {
         private final List<RecentContact> recentContacts;
-        private final int finalPosition;
 
         public InsertAppointmentRunnable(List<RecentContact> recentContacts, int finalPosition) {
             this.recentContacts = recentContacts;
-            this.finalPosition = finalPosition;
         }
 
         @Override
@@ -211,6 +218,7 @@ public class ConsultingFragment extends RefreshListFragment {
         }
 
         private void getAndInsertAppointment(String contactId) {
+            int finalPosition = getItemPadding();
             Appointment appointmentByTid = getAppointmentByTid(contactId);
             if (appointmentByTid != null) {
                 int oldPosition = removeAppointment(appointmentByTid);
@@ -345,6 +353,7 @@ public class ConsultingFragment extends RefreshListFragment {
                     getAdapter().notifyItemChanged(oldPosition);
                 }
                 cacheAppointment(data);
+                pullingTid.put(appointment.getTid(), false);
             }
         }
     }

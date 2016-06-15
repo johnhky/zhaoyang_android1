@@ -46,36 +46,44 @@ public class AnswerHandler {
     }
 
     public boolean isPills(Answer data) {
-        return data.getQuestion().getQuestionType().equals(Question.TYPE_PILLS);
+        return getQuestionType(data).equals(Question.TYPE_PILLS);
+    }
+
+    private String getQuestionType(Answer data) {
+        return data.getQuestion().getQuestionType();
     }
 
     public boolean canEditPills(Answer data) {
-        return data.getQuestion().getQuestionType().equals(Question.TYPE_PILLS) && data.isEditMode();
+        return getQuestionType(data).equals(Question.TYPE_PILLS) && data.isEditMode();
     }
 
     public boolean isFill(Answer data) {
-        return data.getQuestion().getQuestionType().equals(Question.TYPE_FILL);
+        return getQuestionType(data).equals(Question.TYPE_FILL);
     }
 
     public boolean isCheckbox(Answer data) {
-        String questionType = data.getQuestion().getQuestionType();
+        String questionType = getQuestionType(data);
         return questionType.equals(Question.TYPE_CHECKBOX) || questionType.equals(Question.TYPE_SEL);
     }
 
     public boolean isRadio(Answer data) {
-        return data.getQuestion().getQuestionType().equals(Question.TYPE_RADIO);
+        return getQuestionType(data).equals(Question.TYPE_RADIO);
     }
 
     public boolean isUpload(Answer data) {
-        return data.getQuestion().getQuestionType().equals(Question.TYPE_UPLOADS);
+        return getQuestionType(data).equals(Question.TYPE_UPLOADS);
     }
 
     public boolean isTime(Answer data) {
-        return data.getQuestion().getQuestionType().equals(Question.TYPE_TIME);
+        return getQuestionType(data).equals(Question.TYPE_TIME);
     }
 
     public boolean isDropDown(Answer data) {
-        return data.getQuestion().getQuestionType().equals(Question.TYPE_DROP_DOWN);
+        return getQuestionType(data).equals(Question.TYPE_DROP_DOWN);
+    }
+
+    public boolean isTransfer(Answer data) {
+        return getQuestionType(data).equals(Question.TYPE_FURTHER_CONSULTATION);
     }
 
     public SimpleAdapter getOptions(final BaseAdapter rootAdapter, BaseViewHolder viewHolder, final Answer data) {
@@ -169,6 +177,13 @@ public class AnswerHandler {
             }
         };
     }
+
+    public boolean isAnswerValide(Answer answer) {
+        boolean b = answer.getAnswerType() != null && answer.getAnswerType() instanceof List;
+        boolean b1 = answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List;
+        return b && b1;
+    }
+
     public List<String> answerType(Answer answer) {
         if (answer.getAnswerType() != null && answer.getAnswerType() instanceof List) {
             List<String> answerType = (List<String>) answer.getAnswerType();

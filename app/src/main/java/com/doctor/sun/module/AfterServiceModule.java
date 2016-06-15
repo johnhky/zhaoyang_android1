@@ -96,10 +96,12 @@ public interface AfterServiceModule {
     Call<ApiDTO<String>> saveAnswer(@NonNull @Field("follow_order_id") String id, @Field("answer") String answer, @Field("finished") int isFinished);
 
 
+    //TODO:
     //    @GET("follow-up/doctor-list")
     @GET("im/pContactList")
     Call<ApiDTO<List<Doctor>>> doctorList();
 
+    //TODO:
     //    @GET("follow-up/patient-list")
     @GET("im/doctor-contact-list")
     Call<ApiDTO<List<Patient>>> patientList();

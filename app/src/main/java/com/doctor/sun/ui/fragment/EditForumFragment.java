@@ -77,6 +77,7 @@ public class EditForumFragment extends RefreshListFragment {
             adapter.mapLayout(R.layout.item_after_service, R.layout.p_item_after_service_detail);
         }
 
+        adapter.mapLayout(R.layout.item_options, R.layout.item_options_after_service);
         adapter.mapLayout(R.layout.item_pick_date, R.layout.item_pick_question_date);
 //        adapter.mapLayout(R.layout.item_answer, R.layout.item_answer3);
         return adapter;
@@ -94,12 +95,12 @@ public class EditForumFragment extends RefreshListFragment {
                     Answer answer = response.questions.get(i);
                     answer.setPosition(i + 1);
                     answer.setEditMode(true);
-                    getAdapter().add(answer);
-                    int parentPosition = getAdapter().size() - 1;
+                    int parentPosition = getAdapter().size();
                     switch (answer.getQuestion().getQuestionType()) {
                         case Question.TYPE_SEL:
                         case Question.TYPE_CHECKBOX:
                         case Question.TYPE_RADIO:
+                            getAdapter().add(answer);
                             List<com.doctor.sun.entity.Options> options = answer.getQuestion().getOptions();
                             for (com.doctor.sun.entity.Options option : options) {
                                 option.setParentPosition(parentPosition);
@@ -107,6 +108,7 @@ public class EditForumFragment extends RefreshListFragment {
                             getAdapter().addAll(options);
                             break;
                         case Question.TYPE_TIME: {
+                            getAdapter().add(answer);
                             ItemPickDate object = new ItemPickDate(R.layout.item_pick_question_date, "", 0);
                             try {
                                 List<String> answerContent = Answer.handler.answerContent(answer);
@@ -118,6 +120,7 @@ public class EditForumFragment extends RefreshListFragment {
                             break;
                         }
                         case Question.TYPE_DROP_DOWN: {
+                            getAdapter().add(answer);
                             List<String> type = null;
                             try {
                                 if (answer.getAnswerType() != null && answer.getAnswerType() instanceof List) {
@@ -154,6 +157,7 @@ public class EditForumFragment extends RefreshListFragment {
                                 String s = type.get(0);
                                 if (s != null) {
 
+                                    vm.setHasAnswer(true);
                                     switch (s) {
                                         case "A": {
                                             vm.setBtnOneChecked(true);
@@ -179,8 +183,15 @@ public class EditForumFragment extends RefreshListFragment {
                                     }
                                 }
                             }
+                            vm.setQuestionId(answer.getQuestionId() + "");
+                            vm.setPosition(answer.getPosition());
+                            vm.setQuestionContent(answer.getQuestion().getQuestionContent());
 
                             getAdapter().add(vm);
+                            break;
+                        }
+                        default: {
+                            getAdapter().add(answer);
                             break;
                         }
                     }

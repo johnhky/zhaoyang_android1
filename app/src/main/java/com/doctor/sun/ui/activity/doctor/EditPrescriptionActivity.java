@@ -124,16 +124,16 @@ public class EditPrescriptionActivity extends BaseActivity2 {
     }
 
     public void initAutoComplete() {
-        AutoComplete autoComplete = Api.of(AutoComplete.class);
-        autoComplete.drugNames().enqueue(new SimpleCallback<List<String>>() {
-            @Override
-            protected void handleResponse(List<String> response) {
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(EditPrescriptionActivity.this, android.R.layout.simple_list_item_1, response);
-                AutoCompleteTextView etInput = binding.medicineName.etInput;
-                etInput.setAdapter(arrayAdapter);
-                etInput.setThreshold(1);
-            }
-        });
+//        AutoComplete autoComplete = Api.of(AutoComplete.class);
+//        autoComplete.drugNames().enqueue(new SimpleCallback<List<String>>() {
+//            @Override
+//            protected void handleResponse(List<String> response) {
+//                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(EditPrescriptionActivity.this, android.R.layout.simple_list_item_1, response);
+//                AutoCompleteTextView etInput = binding.medicineName.etInput;
+//                etInput.setAdapter(arrayAdapter);
+//                etInput.setThreshold(1);
+//            }
+//        });
     }
 
     @Override

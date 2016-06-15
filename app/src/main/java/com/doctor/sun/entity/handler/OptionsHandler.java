@@ -26,7 +26,7 @@ public class OptionsHandler {
         return content.contains("{fill}");
     }
 
-    public String hint(Options data) {
+    public String hintV2(Options data) {
         String optionContent = data.getOptionContent();
         if (optionContent.contains(INDICATOR)) {
             int end = optionContent.indexOf(INDICATOR);
@@ -41,7 +41,7 @@ public class OptionsHandler {
     }
 
 
-    public int inputType(Options data) {
+    public int inputTypeV2(Options data) {
         String optionContent = data.getOptionContent();
         if (optionContent.equals(INDICATOR)) {
             return InputType.TYPE_CLASS_TEXT;
@@ -52,11 +52,48 @@ public class OptionsHandler {
         }
     }
 
-    public String content(Options data) {
+    public String contentV2(Options data) {
         String optionContent = data.getOptionContent();
 
         if (optionContent.contains(INDICATOR)) {
             return data.getOptionType() + BREAK_POINT;
+        } else {
+            return data.getOptionType() + BREAK_POINT + optionContent;
+        }
+    }
+
+
+    public String hint(Options data) {
+        String optionContent = data.getOptionContent();
+        if (optionContent.equals(INDICATOR)) {
+            return "其他";
+        } else if (optionContent.contains(INDICATOR)) {
+            return "多少";
+        } else {
+            return "";
+        }
+    }
+
+
+    public int inputType(Options data) {
+        String optionContent = data.getOptionContent();
+        if (optionContent.equals(INDICATOR)) {
+            return InputType.TYPE_CLASS_TEXT;
+        } else if (optionContent.contains(INDICATOR)) {
+            return InputType.TYPE_CLASS_NUMBER;
+        } else {
+            return InputType.TYPE_CLASS_TEXT;
+        }
+    }
+
+    public String content(Options data) {
+        String optionContent = data.getOptionContent();
+        if (optionContent.equals(INDICATOR)) {
+            return data.getOptionType() + BREAK_POINT;
+        }
+        int end = optionContent.indexOf(INDICATOR);
+        if (end > 0) {
+            return data.getOptionType() + BREAK_POINT + optionContent.substring(0, end);
         } else {
             return data.getOptionType() + BREAK_POINT + optionContent;
         }

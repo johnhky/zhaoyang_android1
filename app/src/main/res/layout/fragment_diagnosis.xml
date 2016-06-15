@@ -112,7 +112,7 @@
             <include
                 android:id="@+id/doctor_advice"
                 layout="@layout/item_text_input3"
-                bind:input='@{"坚持服药,定期复诊"}' />
+                bind:input='@={data.advice}' />
 
             <include
                 android:id="@+id/need_return"

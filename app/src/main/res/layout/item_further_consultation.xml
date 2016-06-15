@@ -24,12 +24,65 @@
         android:animateLayoutChanges="true"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dp_13">
+
+                <ImageView
+                    android:id="@+id/iv_position"
+                    android:layout_width="@dimen/dp_23"
+                    android:layout_height="@dimen/dp_23"
+                    android:enabled="@{data.hasAnswer}"
+                    android:src="@drawable/ic_position_selector" />
+
+                <TextView
+                    android:id="@+id/iv_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_23"
+                    android:gravity="center"
+                    android:minWidth="@dimen/dp_23"
+                    android:text='@{""+data.position}'
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_14" />
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dp_6"
+                android:layout_weight="1"
+                android:text="@{data.questionContent}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+
+            <com.kyleduo.switchbutton.SwitchButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_13"
+                android:checked="@={data.hasAnswer}"
+                android:setTintColor="@{@color/colorPrimaryDark}" />
+
+        </LinearLayout>
+
         <RadioGroup
             android:layout_width="@dimen/dp_216"
             android:layout_height="@dimen/dp_30"
             android:layout_gravity="center"
             android:background="@drawable/shape_rectangle_selected"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="@{data.hasAnswer}">
 
             <RadioButton
                 android:id="@+id/btn_one"
@@ -91,7 +144,7 @@
             android:layout_marginTop="@dimen/dp_4"
             android:background="@drawable/ripple_default"
             android:onClick="@{data.date.pickTime3()}"
-            android:visibility="@{btnOne.checked || btnTwo.checked}">
+            android:visibility="@{data.and(data.hasAnswer,btnOne.checked || btnTwo.checked)}">
 
             <TextView
                 android:id="@+id/et_others"
@@ -112,7 +165,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="@{data.btnThreeChecked}">
+            android:visibility="@{data.and(data.hasAnswer,data.btnThreeChecked)}">
 
             <LinearLayout
                 android:id="@+id/btn_choose"
@@ -288,10 +341,10 @@
             </LinearLayout>
 
             <View
-                android:visibility="@{llyDoctor.visibility}"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider_color" />
+                android:background="@color/divider_color"
+                android:visibility="@{llyDoctor.visibility}" />
 
         </LinearLayout>
 

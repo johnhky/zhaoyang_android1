@@ -27,12 +27,18 @@ import java.util.HashMap;
 public class FurtherConsultationVM extends BaseObservable implements LayoutId {
     public static final String TAG = FurtherConsultationVM.class.getSimpleName();
 
+    private int position = 0;
+    private boolean hasAnswer = false;
+
     public ItemPickDate date;
     private Doctor doctor;
+
+    private String questionContent;
 
     private boolean btnOneChecked = false;
     private boolean btnTwoChecked = false;
     private boolean btnThreeChecked = false;
+    private String questionId = "";
 
     public FurtherConsultationVM() {
         date = new ItemPickDate(0, "", 0);
@@ -117,20 +123,25 @@ public class FurtherConsultationVM extends BaseObservable implements LayoutId {
         ArrayList<String> type = new ArrayList<>();
         ArrayList<String> content = new ArrayList<>();
 
-        if (btnOneChecked) {
-            type.add("A");
-            content.add("" + date.getDate());
-        }
-
-        if (btnTwoChecked) {
-            type.add("B");
-            content.add("" + date.getDate());
-        }
-        if (btnThreeChecked) {
-            type.add("C");
-            if (doctor != null) {
-                content.add("" + doctor.getId());
+        if (hasAnswer) {
+            if (btnOneChecked) {
+                type.add("A");
+                content.add("" + date.getDate());
             }
+
+            if (btnTwoChecked) {
+                type.add("B");
+                content.add("" + date.getDate());
+            }
+            if (btnThreeChecked) {
+                if (doctor != null) {
+                    type.add("C");
+                    content.add("" + doctor.getId());
+                }
+            }
+
+            result.put("type", type);
+            result.put("content", content);
         }
 
         result.put("type", type);
@@ -140,4 +151,45 @@ public class FurtherConsultationVM extends BaseObservable implements LayoutId {
         return result;
     }
 
+    @Bindable
+    public boolean isHasAnswer() {
+        return hasAnswer;
+    }
+
+    public void setHasAnswer(boolean hasAnswer) {
+        this.hasAnswer = hasAnswer;
+        notifyPropertyChanged(BR.hasAnswer);
+    }
+
+    @Bindable
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+        notifyPropertyChanged(BR.position);
+    }
+
+    @Bindable
+    public String getQuestionContent() {
+        return questionContent;
+    }
+
+    public void setQuestionContent(String questionContent) {
+        this.questionContent = questionContent;
+        notifyPropertyChanged(BR.questionContent);
+    }
+
+    public String getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
+    }
+
+    public boolean and(boolean b, boolean b2) {
+        return b && b2;
+    }
 }
