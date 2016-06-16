@@ -8,13 +8,21 @@ import android.databinding.adapters.TextViewBindingAdapter;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.doctor.sun.databinding.IncludeInputLayoutBinding;
 import com.doctor.sun.event.HideInputEvent;
+import com.doctor.sun.im.IMManager;
+import com.doctor.sun.im.NIMConnectionState;
+import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.util.PermissionUtil;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Systems;
@@ -40,14 +48,14 @@ public class InputLayoutViewModel extends BaseObservable {
     private static final int AUDIO_PERMISSION_REQUEST = 30;
     private static EditText inputTextView;
 
-    private SendMessageCallback data;
+    private NimTeamId data;
     private RecordAudioViewModel recordAudioViewModel;
     private IncludeInputLayoutBinding binding;
     private boolean recordMode = false;
     private int keyboardType = 0;
     private int keyboardHeight = 0;
 
-    public InputLayoutViewModel(final IncludeInputLayoutBinding binding, SendMessageCallback callback) {
+    public InputLayoutViewModel(final IncludeInputLayoutBinding binding, NimTeamId callback) {
         this.binding = binding;
         this.data = callback;
         recordAudioViewModel = new RecordAudioViewModel(binding.getRoot().getContext());
@@ -76,14 +84,56 @@ public class InputLayoutViewModel extends BaseObservable {
     public View.OnClickListener onSendClick() {
         return new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                data.sendMessage(binding.inputText);
+            public void onClick(final View v) {
+                if (inputTextView.getText().toString().equals("")) {
+                    Toast.makeText(inputTextView.getContext(), "不能发送空消息", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (NIMConnectionState.getInstance().isLogin()) {
+                    sendMessage();
+                } else {
+                    NIMConnectionState.getInstance().setCallback(new RequestCallback() {
+                        @Override
+                        public void onSuccess(Object o) {
+                            onClick(v);
+                        }
+
+                        @Override
+                        public void onFailed(int i) {
+                            Toast.makeText(inputTextView.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onException(Throwable throwable) {
+                            Toast.makeText(inputTextView.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    IMManager.getInstance().login();
+                }
             }
         };
     }
 
+    private void sendMessage() {
+        if (data.getType() == SessionTypeEnum.Team) {
+            IMManager.getInstance().sentTextMsg(data.getTeamId(), SessionTypeEnum.Team, inputTextView.getText().toString());
+            inputTextView.setText("");
+        } else if (data.getType() == SessionTypeEnum.P2P) {
+            IMManager.getInstance().sentTextMsg(data.getP2PId(), SessionTypeEnum.P2P, inputTextView.getText().toString());
+            inputTextView.setText("");
+        }
+    }
+
     public TextView.OnEditorActionListener sendMessageAction() {
-        return data.sendMessageAction();
+        return new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    sendMessage();
+                }
+                return true;
+            }
+        };
     }
 
     public View.OnClickListener onAudioBtnClick() {

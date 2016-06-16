@@ -92,47 +92,47 @@
             android:textSize="@dimen/font_13" />
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:background="#c1cacf" />
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1px"-->
+            <!--android:layout_marginLeft="@dimen/dp_13"-->
+            <!--android:background="#c1cacf" />-->
 
-        <LinearLayout
-            android:id="@+id/lly_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_8"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_7"
-            android:orientation="horizontal"
-            android:visibility="@{data.btnVisible}">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/lly_btn"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="@dimen/dp_8"-->
+            <!--android:layout_marginLeft="@dimen/dp_13"-->
+            <!--android:layout_marginRight="@dimen/dp_13"-->
+            <!--android:layout_marginTop="@dimen/dp_7"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:visibility="@{data.btnVisible}">-->
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+            <!--<View-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1" />-->
 
-            <FrameLayout
-                android:layout_width="@dimen/dp_90"
-                android:layout_height="@dimen/dp_35"
-                android:layout_gravity="end"
-                android:background="@drawable/btn_small_blue"
-                android:onClick="@{()->data.fillForum(context,data.id)}"
-                android:visibility="@{data.doingBtnVisible}">
+            <!--<FrameLayout-->
+                <!--android:layout_width="@dimen/dp_90"-->
+                <!--android:layout_height="@dimen/dp_35"-->
+                <!--android:layout_gravity="end"-->
+                <!--android:background="@drawable/btn_small_blue"-->
+                <!--android:onClick="@{()->data.fillForum(context,data.id)}"-->
+                <!--android:visibility="@{data.doingBtnVisible}">-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_default"
-                    android:gravity="center"
-                    android:text='@{data.isFinished(data.status) ?"查看问卷":"填写问卷"}'
-                    android:textColor="#fff"
-                    android:textSize="@dimen/font_13" />
-            </FrameLayout>
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="@drawable/ripple_default"-->
+                    <!--android:gravity="center"-->
+                    <!--android:text='@{data.isFinished(data.status) ?"查看问卷":"填写问卷"}'-->
+                    <!--android:textColor="#fff"-->
+                    <!--android:textSize="@dimen/font_13" />-->
+            <!--</FrameLayout>-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
         <View
             android:id="@+id/bottom"

@@ -6,12 +6,10 @@ import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -59,12 +57,23 @@ public class AfterServiceContactActivity extends ContactActivity {
     @Override
     protected void getContactList() {
 //        int id = TokenCallback.getDoctorProfile().getId();
-        api.patientList().enqueue(new PageCallback<Patient>(getAdapter()) {
+//        api.patientList().enqueue(new PageCallback<Patient>(getAdapter()) {
+//            @Override
+//            protected void handleResponse(PageDTO response) {
+//                super.handleResponse(response);
+//                Collections.sort(getAdapter(), new NameComparator());
+//                getContactAdapter().updatePosition();
+//            }
+//        });
+        api.patientList().enqueue(new ApiCallback<List<Patient>>() {
             @Override
-            protected void handleResponse(PageDTO response) {
-                super.handleResponse(response);
+            protected void handleResponse(List<Patient> response) {
+                getAdapter().clear();
+                getAdapter().addAll(response);
                 Collections.sort(getAdapter(), new NameComparator());
                 getContactAdapter().updatePosition();
+                getAdapter().onFinishLoadMore(true);
+                getAdapter().notifyDataSetChanged();
             }
         });
     }

@@ -5,14 +5,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimTeamId;
-import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.vo.InputLayoutViewModel;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 /**
  * Created by rick on 7/4/2016.
@@ -83,7 +82,7 @@ public class Emoticon implements LayoutId {
     public void onSelect(View view) {
         Activity mActivity = (Activity) view.getContext();
         TextView textView = getTextView(mActivity);
-        if (textView == null){
+        if (textView == null) {
             return;
         }
 
@@ -104,7 +103,7 @@ public class Emoticon implements LayoutId {
     public void onDelete(View view) {
         Activity mActivity = (Activity) view.getContext();
         TextView textView = getTextView(mActivity);
-        if (textView == null){
+        if (textView == null) {
             return;
         }
 
@@ -113,11 +112,10 @@ public class Emoticon implements LayoutId {
 
     public void sendSticker(View view) {
         NimTeamId id = (NimTeamId) view.getContext();
-        if (NIMConnectionState.getInstance().isLogin()) {
+        if (id.getType() == SessionTypeEnum.Team) {
             IMManager.getInstance().sentSticker(id.getTeamId(), id.getType(), this);
         } else {
-            Toast.makeText(view.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
-            IMManager.getInstance().login();
+            IMManager.getInstance().sentSticker(id.getP2PId(), id.getType(), this);
         }
     }
 }

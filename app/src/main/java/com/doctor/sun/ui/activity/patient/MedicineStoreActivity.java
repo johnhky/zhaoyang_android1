@@ -11,10 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -194,25 +191,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimT
     }
 
     private void initInputLayout() {
-        InputLayoutViewModel vm = new InputLayoutViewModel(binding.input, new InputLayoutViewModel.SendMessageCallback() {
-            @Override
-            public void sendMessage(EditText editText) {
-                MedicineStoreActivity.this.sendMessage(editText);
-            }
-
-            @Override
-            public TextView.OnEditorActionListener sendMessageAction() {
-                return new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            MedicineStoreActivity.this.sendMessage(v);
-                        }
-                        return true;
-                    }
-                };
-            }
-        });
+        InputLayoutViewModel vm = new InputLayoutViewModel(binding.input, this);
         binding.setInputLayout(vm);
     }
 
@@ -287,25 +266,6 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimT
             getRealm().removeChangeListener(listener);
         }
         super.onStop();
-    }
-
-
-    private void sendMessage(TextView inputText) {
-        if (inputText.getText().toString().equals("")) {
-            Toast.makeText(MedicineStoreActivity.this, "不能发送空消息", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (IMManager.getInstance().isNIMLogin()) {
-            IMManager.getInstance().sentTextMsg(sendTo, SessionTypeEnum.P2P, inputText.getText().toString());
-            inputText.setText("");
-        } else {
-            Toast.makeText(MedicineStoreActivity.this, "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
-            IMManager.getInstance().login();
-        }
-    }
-
-    private String getUserData() {
-        return ADMIN_DRUG;
     }
 
     @Subscribe

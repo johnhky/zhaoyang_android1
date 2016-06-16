@@ -222,7 +222,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         adapter.onFinishLoadMore(true);
         initCustomAction(data);
         initSticker();
-        initInputLayout(data);
+        initInputLayout();
     }
 
     private void initActionbar() {
@@ -301,8 +301,8 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         ItemHelper.changeItem(getIntent(), getData());
     }
 
-    private void initInputLayout(Appointment data) {
-        InputLayoutViewModel vm = new InputLayoutViewModel(binding.input, data.getHandler().getCallback());
+    private void initInputLayout() {
+        InputLayoutViewModel vm = new InputLayoutViewModel(binding.input, this);
         binding.setInputLayout(vm);
     }
 

@@ -111,28 +111,40 @@
                     android:textSize="@dimen/font_12" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_8"
-                    android:text="@{data.handler.relation}"
+                    android:layout_weight="1"
+                    android:text="@{data.handler.recordName}"
                     android:textColor="#898989"
                     android:textSize="@dimen/font_12" />
 
+                <TextView
+                    android:id="@+id/tv_message_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_8"
+                    android:background="@drawable/bg_msg_count"
+                    android:gravity="center"
+                    android:text='@{"" + data.handler.unreadMsgCount()}'
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/font_12"
+                    android:visibility="@{data.handler.unreadMsgCount()>0}" />
             </LinearLayout>
 
 
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginLeft="@dimen/dp_13"
-                android:layout_marginStart="@dimen/dp_13"
-                android:background="@color/divider_color" />
+            <!--<View-->
+                <!--android:id="@+id/divider"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1px"-->
+                <!--android:layout_marginLeft="@dimen/dp_13"-->
+                <!--android:layout_marginStart="@dimen/dp_13"-->
+                <!--android:background="@color/divider_color" />-->
 
-            <include
-                android:id="@+id/lly_message"
-                app:data="@{data}"
-                layout="@layout/include_message_count" />
+            <!--<include-->
+                <!--android:id="@+id/lly_message"-->
+                <!--layout="@layout/include_message_count"-->
+                <!--app:data="@{data}" />-->
 
             <View
                 android:layout_width="match_parent"

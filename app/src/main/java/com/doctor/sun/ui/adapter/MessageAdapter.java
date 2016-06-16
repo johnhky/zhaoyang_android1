@@ -185,7 +185,8 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
         if (AppContext.isDoctor()) {
             return false;
         } else {
-            return finishedTime < System.currentTimeMillis() && msgTime > finishedTime;
+            return false;
+//            return finishedTime < System.currentTimeMillis() && msgTime > finishedTime;
         }
     }
 

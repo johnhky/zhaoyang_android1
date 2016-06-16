@@ -105,7 +105,7 @@ public interface AfterServiceModule {
     //TODO:
         @GET("follow-up/patient-list")
 //    @GET("im/doctor-contact-list")
-    Call<ApiDTO<PageDTO<Patient>>> patientList();
+    Call<ApiDTO<List<Patient>>> patientList();
 
     @GET("follow-up/doctor-feedback")
     Call<ApiDTO<List<Answer>>> feedback(@NonNull @Query("follow_order_id") String id);
