@@ -186,11 +186,11 @@ public class ConsultingFragment extends RefreshListFragment {
 
     private void refreshAppointment(int tid) {
         pullingTid.put(tid, true);
-        api.appointmentInTid(String.valueOf(tid), "1").enqueue(new RefreshAppointmentCallback());
+        api.appointmentInTid("[" + String.valueOf(tid) + "]", "1").enqueue(new RefreshAppointmentCallback());
     }
 
     private void pullAppointment(int tid) {
-        api.appointmentInTid(String.valueOf(tid), "1").enqueue(new InsertAppointmentCallback());
+        api.appointmentInTid("[" + String.valueOf(tid) + "]", "1").enqueue(new InsertAppointmentCallback());
     }
 
     private void cacheAppointment(List<Appointment> data) {

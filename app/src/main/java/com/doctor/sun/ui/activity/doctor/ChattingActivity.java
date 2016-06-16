@@ -9,7 +9,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingBinding;
@@ -32,7 +31,6 @@ import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -137,7 +135,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                         isStart = Constants.START_MESSAGE.equals(body);
                     }
                     if (isFinish || isStart) {
-                        Api.of(AppointmentModule.class).appointmentInTid(getTeamId(), "1").enqueue(new RefreshAppointmentCallback());
+                        Api.of(AppointmentModule.class).appointmentInTid("[" + getTeamId() + "]", "1").enqueue(new RefreshAppointmentCallback());
                         initData();
                     }
                     if (adapter != null) {
@@ -157,6 +155,10 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     }
 
     private void needSendDrug() {
+        if (getData().getType().equals("诊后随访")) {
+            return;
+        }
+
         if (Config.getInt(Constants.USER_TYPE, -1) == AuthModule.PATIENT_TYPE)
             drugModule.needSendDrug(getData().getId()).enqueue(new ApiCallback<NeedSendDrug>() {
                 @Override
@@ -235,50 +237,28 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     }
 
     protected void inflateMenu() {
-        api.finishStat(getData().getId()).enqueue(new ApiCallback<String>() {
-            @Override
-            protected void handleResponse(String response) {
-                if (response.equals("doing")) {
-                    getData().setIsFinish(0);
-                } else if (response.equals("finish")) {
-                    getData().setIsFinish(1);
-                }
-                String rightFirstTitle;
-                if (AppContext.isDoctor()) {
-                    rightFirstTitle = "查看问卷";
-                } else {
-                    rightFirstTitle = "填写问卷";
-                }
-                binding.getHeader().setLeftTitle(handler.getTitle())
-                        .setRightFirstTitle(rightFirstTitle)
-                        .setRightTitle("医生建议");
-            }
-        });
+        binding.getHeader().setLeftTitle(handler.getTitle())
+                .setRightFirstTitle(handler.getRightFirstTitle())
+                .setRightTitle(handler.getRightTitle());
     }
 
 
     @Override
     public void onFirstMenuClicked() {
         super.onFirstMenuClicked();
-        Intent i;
-        if (getData().getIsFinish() == 1) {
-            i = HistoryDetailActivity.makeIntent(this, getData(), ConsultingDetailActivity.POSITION_ANSWER);
-        } else {
-            i = ConsultingDetailActivity.makeIntent(this, getData(), ConsultingDetailActivity.POSITION_ANSWER);
+        Intent i = handler.getFirstMenu(this);
+        if (i != null) {
+            startActivity(i);
         }
-        startActivity(i);
     }
 
     @Override
     public void onMenuClicked() {
         super.onMenuClicked();
-        Intent i;
-        if (getData().getIsFinish() == 1) {
-            i = HistoryDetailActivity.makeIntent(this, getData(), ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
-        } else {
-            i = ConsultingDetailActivity.makeIntent(this, getData(), ConsultingDetailActivity.POSITION_SUGGESTION);
+        Intent i = handler.getMenu(this);
+        if (i != null) {
+            startActivity(i);
         }
-        startActivity(i);
     }
 
     private void setHaveRead(RealmResults<TextMsg> results) {
@@ -316,12 +296,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         SimpleAdapter adapter = customActionViewModel.getSimpleAdapter();
 
         binding.customAction.setAdapter(adapter);
-    }
-
-
-    private String getUserData() {
-        Appointment data = getData();
-        return "[" + data.getId() + "," + data.getRecordId() + "]";
     }
 
     private void makePhoneCall() {

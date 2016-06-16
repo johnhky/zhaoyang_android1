@@ -69,18 +69,12 @@
                     android:textColor="#363636"
                     android:textSize="@dimen/font_15" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dp_13"
-                    android:text="@{data.handler.orderStatus}"
-                    android:textColor="#363636"
-                    android:textSize="@dimen/font_15" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_4"
                     android:background="@drawable/shape_test"
                     android:gravity="center"
                     android:paddingLeft="@dimen/dp_4"
@@ -98,15 +92,38 @@
 
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:layout_marginTop="@dimen/dp_7"
-                android:text="@{@string/patient_info(data.bookTime,data.type)}"
-                android:textColor="#363636"
-                android:textSize="@dimen/font_12" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="当前病历: "
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_12" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@{data.handler.recordName2}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_12" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_12"
+                    app:html="@{data.handler.styledOrderTypeAndStatus}" />
+
+            </LinearLayout>
 
 
             <TextView
@@ -130,27 +147,21 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="当前病历: "
-                    android:textColor="#363636"
-                    android:textSize="@dimen/font_12" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{data.handler.patientName}"
-                    android:textColor="#363636"
-                    android:textSize="@dimen/font_12" />
-
-                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_8"
                     android:layout_weight="1"
-                    android:text="@{data.handler.relation}"
-                    android:textColor="#898989"
+                    android:text='@{"预约时间 : "+data.bookTime}'
+                    android:textColor="#363636"
                     android:textSize="@dimen/font_12" />
+
+                <!--<TextView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="@dimen/dp_8"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="@{data.handler.relation}"-->
+                <!--android:textColor="#898989"-->
+                <!--android:textSize="@dimen/font_12" />-->
 
                 <TextView
                     android:id="@+id/tv_message_count"

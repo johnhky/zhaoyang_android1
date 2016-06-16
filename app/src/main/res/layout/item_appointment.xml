@@ -143,7 +143,7 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_7"
             android:orientation="horizontal"
-            app:visible="@{data.status==1}">
+            android:visibility="@{data.handler.isPayed()}">
 
             <View
                 android:layout_width="0dp"

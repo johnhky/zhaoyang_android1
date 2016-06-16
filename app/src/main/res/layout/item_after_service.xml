@@ -19,120 +19,126 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ripple_default"
-        android:onClick="@{()->data.fillForum(context,data.id)}"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_8"
-            android:orientation="horizontal">
+            android:background="@drawable/ripple_default"
+            android:onClick="@{()->data.chatting(context)}"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{data.record.name}"
-                android:textColor="#363636"
-                android:textSize="@dimen/font_15" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_8"
-                android:layout_weight="1"
-                android:text='@{"("+data.record.relation+")"}'
-                android:textColor="#898989"
-                android:textSize="@dimen/font_13" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
+                android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
-                android:background="@{data.backgroundColor}"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_2"
-                android:paddingRight="@dimen/dp_2"
-                android:text="@{data.statusLabel}"
-                android:textColor="@{data.statusTextColor}"
+                android:layout_marginTop="@dimen/dp_8"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{data.record.name}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_8"
+                    android:layout_weight="1"
+                    android:text='@{"("+data.record.relation+")"}'
+                    android:textColor="#898989"
+                    android:textSize="@dimen/font_13" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:background="@{data.backgroundColor}"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dp_2"
+                    android:paddingRight="@dimen/dp_2"
+                    android:text="@{data.statusLabel}"
+                    android:textColor="@{data.statusTextColor}"
+                    android:textSize="@dimen/font_13" />
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="#c1cacf" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_6"
+                android:text='@{"问卷完成度:" + data.questionnaireProgress}'
+                android:textColor="#363636"
                 android:textSize="@dimen/font_13" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_6"
+                android:text='@{"问卷发起时间:" + data.createdAt}'
+                android:textColor="#363636"
+                android:textSize="@dimen/font_13" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:background="#c1cacf" />
         </LinearLayout>
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
-            android:background="#c1cacf" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
-            android:text='@{"问卷完成度:" + data.questionnaireProgress}'
-            android:textColor="#363636"
-            android:textSize="@dimen/font_13" />
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/lly_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_8"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
-            android:text='@{"问卷发起时间:" + data.createdAt}'
-            android:textColor="#363636"
-            android:textSize="@dimen/font_13" />
+            android:layout_marginTop="@dimen/dp_7"
+            android:orientation="horizontal"
+            android:visibility="@{data.btnVisible}">
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1px"-->
-            <!--android:layout_marginLeft="@dimen/dp_13"-->
-            <!--android:background="#c1cacf" />-->
+            <FrameLayout
+                android:layout_width="@dimen/dp_90"
+                android:layout_height="@dimen/dp_35"
+                android:layout_gravity="end"
+                android:background="@drawable/btn_small_blue"
+                android:onClick="@{()->data.fillForum(context,data.id)}"
+                android:visibility="@{data.doingBtnVisible}">
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/lly_btn"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="@dimen/dp_8"-->
-            <!--android:layout_marginLeft="@dimen/dp_13"-->
-            <!--android:layout_marginRight="@dimen/dp_13"-->
-            <!--android:layout_marginTop="@dimen/dp_7"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:visibility="@{data.btnVisible}">-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:text='@{data.isFinished(data.status) ?"查看问卷":"填写问卷"}'
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_13" />
+            </FrameLayout>
 
-            <!--<View-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="1" />-->
-
-            <!--<FrameLayout-->
-                <!--android:layout_width="@dimen/dp_90"-->
-                <!--android:layout_height="@dimen/dp_35"-->
-                <!--android:layout_gravity="end"-->
-                <!--android:background="@drawable/btn_small_blue"-->
-                <!--android:onClick="@{()->data.fillForum(context,data.id)}"-->
-                <!--android:visibility="@{data.doingBtnVisible}">-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="@drawable/ripple_default"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text='@{data.isFinished(data.status) ?"查看问卷":"填写问卷"}'-->
-                    <!--android:textColor="#fff"-->
-                    <!--android:textSize="@dimen/font_13" />-->
-            <!--</FrameLayout>-->
-
-        <!--</LinearLayout>-->
+        </LinearLayout>
 
         <View
             android:id="@+id/bottom"

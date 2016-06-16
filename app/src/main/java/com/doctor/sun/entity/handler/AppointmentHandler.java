@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.support.v4.app.ActivityCompat;
 import android.view.KeyEvent;
 import android.view.View;
@@ -44,6 +45,8 @@ import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.ChattingActivityNoMenu;
 import com.doctor.sun.ui.activity.VoIPCallActivity;
+import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
+import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.CancelAppointmentActivity;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
@@ -172,6 +175,29 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
+    public String getRelation3() {
+        String relation = data.getRelation();
+        if (null != relation && !relation.equals("")) {
+            return relation;
+        } else if (null != data.getMedicalRecord()) {
+            return getPatientName() + "(患者的" + data.getMedicalRecord().getRelation() + ")";
+        } else if (null != data.getUrgentRecord()) {
+            return getPatientName() + "(患者的" + data.getUrgentRecord().getRelation() + ")";
+        } else {
+            return "";
+        }
+    }
+
+    public String getRecordName2() {
+        if (null != data.getMedicalRecord()) {
+            return data.getMedicalRecord().getName();
+        } else if (null != data.getUrgentRecord()) {
+            return data.getUrgentRecord().getName();
+        } else {
+            return "";
+        }
+    }
+
     public String getGender() {
         if (data.getGender() == 0) {
             return "男";
@@ -194,7 +220,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public String getConsultingTitle() {
-        return "患者" + getPatientName() + getRelation2() + getOrderStatus();
+        return "病历:" + getRecordName2();
     }
 
     public String getUserData() {
@@ -523,6 +549,107 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         };
     }
 
+    public String getRightFirstTitle() {
+        if (data.getType().equals("诊后随访")) {
+            return "";
+        }
+        switch (data.getOrderStatus()) {
+            case "进行中":
+            case "待建议": {
+                return "填写问卷";
+            }
+            default: {
+                return "查看问卷";
+            }
+        }
+    }
+
+    public String getRightTitle() {
+        if (data.getType().equals("诊后随访")) {
+            switch (data.getOrderStatus()) {
+                case Status.DOING: {
+                    if (AppContext.isDoctor()) {
+                        return "医生建议";
+                    } else {
+                        return "填写问卷";
+                    }
+                }
+                default: {
+                    if (AppContext.isDoctor()) {
+                        return "查看问卷";
+                    } else {
+                        return "查看建议";
+                    }
+                }
+            }
+        }
+
+        switch (data.getOrderStatus()) {
+            case "进行中":
+            case "待建议": {
+                return "医生建议";
+            }
+            default: {
+                return "医生建议";
+            }
+        }
+    }
+
+    public Intent getFirstMenu(Context context) {
+        if (data.getType().equals("诊后随访")) {
+            switch (data.getOrderStatus()) {
+                case Status.DOING: {
+                    Intent intent = AfterServiceDoingActivity.intentFor(context, String.valueOf(data.getId()), String.valueOf(data.getUrgentRecord().getMedicalRecordId()));
+                    context.startActivity(intent);
+                    break;
+                }
+                default: {
+                    Intent intent = AfterServiceDoneActivity.intentFor(context, String.valueOf(data.getId()));
+                    context.startActivity(intent);
+                }
+            }
+
+        } else {
+            switch (data.getOrderStatus()) {
+                case "进行中":
+                case "待建议": {
+                    return ConsultingDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_ANSWER);
+                }
+                default: {
+                    return HistoryDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_ANSWER);
+                }
+            }
+        }
+        return null;
+    }
+
+    public Intent getMenu(Context context) {
+        if (data.getType().equals("诊后随访")) {
+            switch (data.getOrderStatus()) {
+                case Status.DOING: {
+                    Intent intent = AfterServiceDoingActivity.intentFor(context, String.valueOf(data.getId()), String.valueOf(data.getUrgentRecord().getMedicalRecordId()));
+                    context.startActivity(intent);
+                    break;
+                }
+                default: {
+                    Intent intent = AfterServiceDoneActivity.intentFor(context, String.valueOf(data.getId()));
+                    context.startActivity(intent);
+                }
+            }
+        } else {
+            switch (data.getOrderStatus()) {
+                case "进行中":
+                case "待建议": {
+                    return ConsultingDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_SUGGESTION);
+                }
+                default: {
+                    return HistoryDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
+                }
+            }
+        }
+        return null;
+    }
+
     private static class GotoConsultingCallback extends SimpleCallback<String> {
         private final View view;
 
@@ -532,7 +659,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
         @Override
         protected void handleResponse(String response) {
-            LoadingHelper.showMaterLoading(view.getContext(),"正在提示患者开始就诊");
+            LoadingHelper.showMaterLoading(view.getContext(), "正在提示患者开始就诊");
             Tasks.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -545,20 +672,13 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
-    public String status() {
-        if (data.getStatus() == 1) {
-            if (data.getHasPay() == 1) {
-                return "<font color='#88cb5a'>已支付</font>";
-            } else {
-                return "<font color='#f76d02'>未支付</font>";
-            }
-        } else {
-            return "<font color='#898989'>已关闭</font>";
-        }
-    }
 
     public boolean payVisible() {
-        return data.getStatus() == 1 && data.getHasPay() != 1;
+        return data.getOrderStatus().equals("未付款") || data.getOrderStatus().equals("未支付");
+    }
+
+    public boolean isPayed() {
+        return data.getOrderStatus().equals("已付款") || data.getOrderStatus().equals("已支付");
     }
 
     public boolean hasDoctorComment() {
@@ -600,20 +720,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         view.getContext().startActivity(intent);
     }
 
-    //病人端预约item点击,根据状态跳转页面
-    public void fillForum(View view) {
-        if (data.getStatus() == 1) {
-            if (data.getHasPay() == 1) {
-                Intent intent = FillForumActivity.makeIntent(view.getContext(), data.getId());
-                view.getContext().startActivity(intent);
-            } else {
-//                new PayMethodDialog(view.getContext(), AppointmentHandler.this).show();
-            }
-        } else {
-            //TODO
-            data.getDoctor().getHandler().viewDetail(view, 1);
-        }
-    }
 
     public View.OnClickListener onPatientClickOrder(final BaseAdapter adapter, final BaseViewHolder vh) {
         return new View.OnClickListener() {
@@ -749,6 +855,9 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public void alertAppointmentFinished(Context context) {
+        if (data.getType().equals("诊后随访")) {
+            return;
+        }
         if (isFinished() && !AppContext.isDoctor()) {
             Toast.makeText(context, "预约已经结束,请重新预约", Toast.LENGTH_SHORT).show();
         }
@@ -846,11 +955,15 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public String getOrderStatus() {
-        return "(" + data.getOrderStatus() + ")";
+        return "(" + getStatusLabel() + ")";
     }
 
     public String styledOrderStatus() {
-        return "<font color='" + getStatusColor() + "'>" + data.getOrderStatus() + "</font>";
+        return "<font color='" + getStatusColor() + "'>" + getStatusLabel() + "</font>";
+    }
+
+    public String styledOrderTypeAndStatus() {
+        return "<font color='" + getStatusColor() + "'>" + data.getType() + "-" + getStatusLabel() + "</font>";
     }
 
 
@@ -868,6 +981,24 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 return "#ff1800";
             case "进行中":
                 return "#88cb5a";
+            case Status.TODO: {
+                return "#ff8e43";
+            }
+            case Status.DOING: {
+                return "#88cb5a";
+            }
+            case Status.REJECTED: {
+                return "#898989";
+            }
+            case Status.CLOSED: {
+                return "#898989";
+            }
+            case Status.FINISHED: {
+                return "#363636";
+            }
+            case Status.LOCKED: {
+                return "#FFFFFF";
+            }
             default:
                 return "#acacac";
         }
@@ -949,6 +1080,10 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public String chatStatus() {
+        switch (data.getType()) {
+            case "诊后随访":
+                return "随访" + getStatusLabel();
+        }
         if (AppContext.isDoctor()) {
             return "本次咨询已结束";
         } else {
@@ -1003,5 +1138,40 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public Appointment getData() {
         return data;
+    }
+
+    public String getStatusLabel() {
+        switch (data.getOrderStatus()) {
+            case Status.TODO: {
+                return "申请中";
+            }
+            case Status.DOING: {
+                return "进行中";
+            }
+            case Status.REJECTED: {
+                return "已拒绝";
+            }
+            case Status.CLOSED: {
+                return "已关闭";
+            }
+            case Status.FINISHED: {
+                return "已完成";
+            }
+            case Status.LOCKED: {
+                return "问卷已锁定";
+            }
+        }
+        return data.getOrderStatus();
+    }
+
+    @StringDef
+    public @interface Status {
+        String ALL = "all";
+        String TODO = "todo";
+        String DOING = "doing";
+        String REJECTED = "rejected";
+        String CLOSED = "closed";
+        String FINISHED = "finished";
+        String LOCKED = "locked";
     }
 }

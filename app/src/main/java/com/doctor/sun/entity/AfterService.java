@@ -8,6 +8,7 @@ import android.support.annotation.StringDef;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.http.Api;
@@ -15,6 +16,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
+import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -58,6 +60,9 @@ public class AfterService implements LayoutId {
     public int loadPatient;
     @JsonProperty("created_at")
     public String createdAt;
+
+    @JsonProperty("tid")
+    public int tid;
 
     @JsonProperty("doctor")
     public Doctor doctor;
@@ -192,6 +197,27 @@ public class AfterService implements LayoutId {
                 context.startActivity(intent);
             }
         }
+    }
+
+    public void chatting(Context context) {
+        Appointment appointment = new Appointment();
+        appointment.setId(Integer.parseInt(id));
+        appointment.setStatus(status);
+        appointment.setOrderStatus(status);
+        appointment.setTid(tid);
+        if (AppContext.isDoctor()) {
+            appointment.setUrgentRecord(record);
+            appointment.setRecordId(record.getMedicalRecordId());
+//                    appointment.setTid(record.getTid());
+            appointment.setDoctor(doctor);
+        } else {
+            appointment.setUrgentRecord(record);
+            appointment.setRecordId(record.getMedicalRecordId());
+            appointment.setDoctor(doctor);
+        }
+        appointment.setType("诊后随访");
+        Intent intent = ChattingActivity.makeIntent(context, appointment);
+        context.startActivity(intent);
     }
 
     public void viewDetail(Context context, String id) {

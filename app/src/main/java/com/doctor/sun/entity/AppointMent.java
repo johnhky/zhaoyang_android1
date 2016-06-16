@@ -67,7 +67,7 @@ public class Appointment implements LayoutId, Parcelable {
     @JsonProperty("gender")
     private int gender;
     @JsonProperty("status")
-    private int status;
+    private String status;
     @JsonProperty("has_pay")
     private int hasPay;
     @JsonProperty("pay_time")
@@ -267,11 +267,11 @@ public class Appointment implements LayoutId, Parcelable {
         this.bookTime = bookTime;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -583,7 +583,7 @@ public class Appointment implements LayoutId, Parcelable {
         dest.writeInt(this.returnListId);
         dest.writeInt(this.appointmentId);
         dest.writeInt(this.gender);
-        dest.writeInt(this.status);
+        dest.writeString(this.status);
         dest.writeInt(this.hasPay);
         dest.writeInt(this.payTime);
         dest.writeInt(this.isPay);
@@ -631,7 +631,7 @@ public class Appointment implements LayoutId, Parcelable {
         this.returnListId = in.readInt();
         this.appointmentId = in.readInt();
         this.gender = in.readInt();
-        this.status = in.readInt();
+        this.status = in.readString();
         this.hasPay = in.readInt();
         this.payTime = in.readInt();
         this.isPay = in.readInt();
