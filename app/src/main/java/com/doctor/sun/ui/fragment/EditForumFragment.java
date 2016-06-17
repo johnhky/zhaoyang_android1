@@ -2,11 +2,13 @@ package com.doctor.sun.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.AfterServiceDTO;
@@ -23,12 +25,15 @@ import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.ItemSelectHospital;
 import com.doctor.sun.ui.adapter.AnswerModifyAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemPickDate;
+import com.doctor.sun.vo.ItemSwitch;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,6 +49,8 @@ public class EditForumFragment extends RefreshListFragment {
     private ToolModule uploadApi = Api.of(ToolModule.class);
     private AnswerModifyAdapter adapter;
     private String forumType;
+
+    private ArrayList<LayoutId> allData = new ArrayList<>();
 
     public static EditForumFragment newInstance(String id, String forumType) {
 
@@ -88,27 +95,28 @@ public class EditForumFragment extends RefreshListFragment {
         api.questions(orderId, forumType).enqueue(new SimpleCallback<AfterServiceDTO>() {
             @Override
             protected void handleResponse(AfterServiceDTO response) {
-                getAdapter().clear();
-                getAdapter().onFinishLoadMore(true);
-                getAdapter().addAll(response.followUpInfo);
+
+                allData.addAll(response.followUpInfo);
                 for (int i = 0; i < response.questions.size(); i++) {
+                    addToggleVisibility(i);
+
                     Answer answer = response.questions.get(i);
                     answer.setPosition(i + 1);
                     answer.setEditMode(true);
-                    int parentPosition = getAdapter().size();
+                    int parentPosition = allData.size();
                     switch (answer.getQuestion().getQuestionType()) {
                         case Question.TYPE_SEL:
                         case Question.TYPE_CHECKBOX:
                         case Question.TYPE_RADIO:
-                            getAdapter().add(answer);
+                            allData.add(answer);
                             List<com.doctor.sun.entity.Options> options = answer.getQuestion().getOptions();
                             for (com.doctor.sun.entity.Options option : options) {
                                 option.setParentPosition(parentPosition);
                             }
-                            getAdapter().addAll(options);
+                            allData.addAll(options);
                             break;
                         case Question.TYPE_TIME: {
-                            getAdapter().add(answer);
+                            allData.add(answer);
                             ItemPickDate object = new ItemPickDate(R.layout.item_pick_question_date, "", 0);
                             try {
                                 List<String> answerContent = Answer.handler.answerContent(answer);
@@ -116,11 +124,11 @@ public class EditForumFragment extends RefreshListFragment {
                             } catch (Exception e) {
 
                             }
-                            getAdapter().add(object);
+                            allData.add(object);
                             break;
                         }
                         case Question.TYPE_DROP_DOWN: {
-                            getAdapter().add(answer);
+                            allData.add(answer);
                             List<String> type = null;
                             try {
                                 if (answer.getAnswerType() != null && answer.getAnswerType() instanceof List) {
@@ -134,7 +142,7 @@ public class EditForumFragment extends RefreshListFragment {
                                         lv3Id = Integer.parseInt(type.get(2));
                                     }
                                     ItemSelectHospital object = new ItemSelectHospital(lv1Id, lv2Id, lv3Id);
-                                    getAdapter().add(object);
+                                    allData.add(object);
                                 }
                             } catch (Exception e) {
 
@@ -187,20 +195,48 @@ public class EditForumFragment extends RefreshListFragment {
                             vm.setPosition(answer.getPosition());
                             vm.setQuestionContent(answer.getQuestion().getQuestionContent());
 
-                            getAdapter().add(vm);
+                            allData.add(vm);
                             break;
                         }
                         default: {
-                            getAdapter().add(answer);
+                            allData.add(answer);
                             break;
                         }
                     }
                 }
 
+                getAdapter().clear();
+                getAdapter().onFinishLoadMore(true);
+                getAdapter().addAll(allData.subList(0, 33));
                 getAdapter().notifyDataSetChanged();
                 getBinding().swipeRefresh.setRefreshing(false);
             }
         });
+    }
+
+    private void addToggleVisibility(int i) {
+        if (i == 13) {
+            if (AppContext.isDoctor()) {
+                ItemSwitch object = new ItemSwitch(R.layout.item_answer_control, "病情记录(选填)");
+                object.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+                    @Override
+                    public void onPropertyChanged(Observable observable, int i) {
+                        if (i == BR.isChecked) {
+                            ItemSwitch o = (ItemSwitch) observable;
+                            getAdapter().clear();
+                            if (o.isChecked()) {
+                                getAdapter().addAll(allData);
+                                getAdapter().notifyDataSetChanged();
+                            } else {
+                                getAdapter().addAll(allData.subList(0, 33));
+                                getAdapter().notifyDataSetChanged();
+                            }
+                        }
+                    }
+                });
+                allData.add(object);
+            }
+        }
     }
 
     public void saveAnswer() {

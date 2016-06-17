@@ -24,7 +24,7 @@ import java.util.HashMap;
 /**
  * Created by rick on 7/6/2016.
  */
-public class FurtherConsultationVM extends BaseObservable implements LayoutId {
+public class FurtherConsultationVM extends BaseItem implements LayoutId {
     public static final String TAG = FurtherConsultationVM.class.getSimpleName();
 
     private int position = 0;

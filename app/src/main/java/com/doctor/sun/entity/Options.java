@@ -3,6 +3,7 @@ package com.doctor.sun.entity;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.handler.OptionsHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by rick on 11/24/15.
  * 问题选项
  */
-public class Options implements LayoutId {
+public class Options extends BaseItem {
     public static final OptionsHandler handler = new OptionsHandler();
     @JsonIgnore
     private int parentPosition;

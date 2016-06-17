@@ -62,7 +62,7 @@
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:text="@{data.handler.consultingTitle}"
-                android:textColor="#363636"
+                android:textColor="@color/dark_36"
                 android:textSize="@dimen/font_15" />
 
             <LinearLayout
@@ -77,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="交谈者: "
-                    android:textColor="#363636"
+                    android:textColor="#717171"
                     android:textSize="@dimen/font_12" />
 
                 <TextView
@@ -85,27 +85,34 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@{data.handler.relation3}"
-                    android:textColor="#363636"
+                    android:textColor="#717171"
+                    android:textSize="@dimen/font_12" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_7"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@{@string/appointment_progress(data.progress)}"
+                    android:textColor="@color/grey_ab"
                     android:textSize="@dimen/font_12" />
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#363636"
                     android:textSize="@dimen/font_12"
                     app:html="@{data.handler.styledOrderTypeAndStatus}" />
             </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_13"
-                android:layout_marginRight="@dimen/dp_13"
-                android:layout_marginTop="@dimen/dp_7"
-                android:text="@{@string/appointment_progress(data.progress)}"
-                android:textColor="#363636"
-                android:textSize="@dimen/font_12" />
 
 
             <LinearLayout
@@ -121,8 +128,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text='@{"预约时间:"+data.bookTime}'
-                    android:textColor="#363636"
+                    android:text='@{"预约时间: "+data.bookTime}'
+                    android:textColor="@color/grey_ab"
                     android:textSize="@dimen/font_12" />
 
 

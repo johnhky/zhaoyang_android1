@@ -12,6 +12,9 @@ public class BaseItem extends BaseObservable implements LayoutId {
     private boolean visible = true;
     private int itemLayoutId;
 
+    public BaseItem() {
+    }
+
     public BaseItem(int itemLayoutId) {
         this.itemLayoutId = itemLayoutId;
     }

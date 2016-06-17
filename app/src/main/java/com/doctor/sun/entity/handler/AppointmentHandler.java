@@ -220,7 +220,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public String getConsultingTitle() {
-        return "病历:" + getRecordName2();
+        return "病历: " + getRecordName2();
     }
 
     public String getUserData() {
@@ -451,7 +451,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         if (userType == AuthModule.PATIENT_TYPE) {
             return data.getDoctor().getName();
         } else {
-            return data.getPatientName() + getRelation();
+            return getPatientName();
         }
     }
 
@@ -997,7 +997,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 return "#363636";
             }
             case Status.LOCKED: {
-                return "#FFFFFF";
+                return "#898989";
             }
             default:
                 return "#acacac";

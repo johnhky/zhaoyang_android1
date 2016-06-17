@@ -80,24 +80,6 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
         super.onBindViewBinding(vh, position);
     }
 
-    @Override
-    public void onViewAttachedToWindow(BaseViewHolder<ViewDataBinding> holder) {
-        if (holder.getLayoutPosition() == getItemCount() - 1) {
-            //最后一项设置底部的padding
-            holder.getBinding().getRoot().setPadding(0, 0, 0,
-                    (int) getContext().getResources().getDimension(R.dimen.dp_130));
-        }
-        super.onViewAttachedToWindow(holder);
-    }
-
-    @Override
-    public void onViewDetachedFromWindow(BaseViewHolder<ViewDataBinding> holder) {
-        //恢复padding
-        if (holder.getLayoutPosition() == getItemCount() - 1) {
-            holder.getBinding().getRoot().setPadding(0, 0, 0, 0);
-        }
-        super.onViewDetachedFromWindow(holder);
-    }
 
     private void setLocalComponent(ItemAnswerBinding binding, Answer answer, int position) {
         binding.flAnswer.removeAllViews();

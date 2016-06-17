@@ -1,6 +1,9 @@
 package com.doctor.sun.vo;
 
+import android.databinding.Bindable;
 import android.widget.CompoundButton;
+
+import com.doctor.sun.BR;
 
 /**
  * Created by rick on 12/22/15.
@@ -20,12 +23,14 @@ public class ItemSwitch extends BaseItem {
         return content;
     }
 
+    @Bindable
     public boolean isChecked() {
         return isChecked;
     }
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+        notifyPropertyChanged(BR.isChecked);
     }
 
     public CompoundButton.OnCheckedChangeListener getListener() {

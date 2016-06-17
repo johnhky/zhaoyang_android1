@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.activity;
 
-import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,7 +11,7 @@ import com.doctor.sun.entity.Area;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.BaseItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +20,7 @@ import java.util.List;
 /**
  * Created by rick on 4/6/2016.
  */
-public class ItemSelectHospital extends BaseObservable implements LayoutId {
+public class ItemSelectHospital extends BaseItem {
     public static final String TAG = ItemSelectHospital.class.getSimpleName();
 
     private ToolModule api = Api.of(ToolModule.class);
@@ -53,7 +52,7 @@ public class ItemSelectHospital extends BaseObservable implements LayoutId {
                     }
                 }
 
-                List<Area> lv3Areas = lv3(lv1Position,lv2Position);
+                List<Area> lv3Areas = lv3(lv1Position, lv2Position);
                 for (int i = 0; i < lv3Areas.size(); i++) {
                     Area object = lv3Areas.get(i);
                     lv3.add(object);

@@ -3,6 +3,7 @@ package com.doctor.sun.entity.handler;
 import android.databinding.adapters.TextViewBindingAdapter;
 import android.text.Editable;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.entity.Answer;
@@ -11,6 +12,7 @@ import com.doctor.sun.entity.Question;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import java.util.List;
  * Created by rick on 30/3/2016.
  */
 public class OptionsHandler {
+    public static final String TAG = OptionsHandler.class.getSimpleName();
 
     public static final String BREAK_POINT = ".   ";
     public static final String INDICATOR = "{fill}";

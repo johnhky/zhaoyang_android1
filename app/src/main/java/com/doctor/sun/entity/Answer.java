@@ -2,9 +2,8 @@ package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.handler.AnswerHandler;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import java.util.List;
 /**
  * Created by rick on 11/24/15.
  */
-public class Answer implements LayoutId {
+public class Answer extends BaseItem{
     public static final AnswerHandler handler = new AnswerHandler();
 
     /**

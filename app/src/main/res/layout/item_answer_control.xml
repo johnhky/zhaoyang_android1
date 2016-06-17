@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vo.ItemSwitch" />
+    </data>
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ebf0f3"
+            android:gravity="center_vertical"
+            tools:showIn="@layout/activity_time">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="@{data.content ?? String.valueOf(' ')}"
+                android:textColor="#a2aaae"
+                android:textSize="@dimen/font_12"
+                app:visible="@{data.visible}" />
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:background="@drawable/shape_rectangle_selected">
+
+            <CheckBox
+                android:background="@drawable/ripple_default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:button="@null"
+                android:checked="@={data.checked}"
+                android:gravity="center"
+                android:text='@{data.checked?"收起" :"展开更多"}'
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/font_12" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>
