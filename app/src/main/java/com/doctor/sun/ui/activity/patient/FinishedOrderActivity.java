@@ -18,7 +18,7 @@ import com.doctor.sun.ui.pager.HistoryDetailAdapter;
 
 /**
  * 病人端 历史纪录
- * <p>
+ * <p/>
  * Created by lucas on 1/8/16.
  */
 public class FinishedOrderActivity extends TabActivity
@@ -41,7 +41,8 @@ public class FinishedOrderActivity extends TabActivity
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 
-    private int getPosition() {
+    @Override
+    public int getPosition() {
         return getIntent().getIntExtra(Constants.POSITION, ConsultingDetailActivity.POSITION_ANSWER);
     }
 

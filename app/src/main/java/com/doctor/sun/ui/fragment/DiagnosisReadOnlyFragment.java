@@ -38,7 +38,7 @@ import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
 
 /**
- * 医生建议 历史纪录 只读 - 医生端
+ * 医生记录 历史纪录 只读 - 医生端
  * <p/>
  * Created by Lynn on 1/14/16.
  */

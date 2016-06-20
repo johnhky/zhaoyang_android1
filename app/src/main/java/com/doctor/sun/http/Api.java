@@ -40,7 +40,14 @@ public class Api {
 
     @NonNull
     private static OkHttpClient getOkHttpClient() {
+//        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+//        if (BuildConfig.DEV_MODE) {
+//            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        } else {
+//            interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+//        }
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                .addInterceptor(interceptor)
                 .addInterceptor(new TokenInterceptor()).build();
         return okHttpClient;
     }
@@ -85,10 +92,12 @@ public class Api {
                     .addHeader("appVersion", version)
                     .addHeader("token", token)
                     .addHeader("from", "android")
-                    .addHeader("version", "1.20")
+                    .addHeader("version", BuildConfig.VERSION_NAME)
                     .addHeader("client", "android")
                     .build();
-            Log.e(TAG, request.method() + " " + request.url() + " token " + token);
+            if (BuildConfig.DEV_MODE) {
+                Log.e(TAG, request.method() + " " + request.url() + " token " + token);
+            }
             return chain.proceed(request);
         }
     }

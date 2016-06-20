@@ -13,7 +13,6 @@ import com.doctor.sun.ui.fragment.ViewForumFragment;
  */
 public class DoctorAfterServiceDonePA extends FragmentStatePagerAdapter {
     private String id;
-    private EditForumFragment afterServiceForumFragment;
 
     public DoctorAfterServiceDonePA(FragmentManager fm, String id) {
         super(fm);
@@ -45,7 +44,7 @@ public class DoctorAfterServiceDonePA extends FragmentStatePagerAdapter {
                 return "患者问卷";
             }
             case 1: {
-                return "医生建议";
+                return "医生记录";
             }
         }
         return "";

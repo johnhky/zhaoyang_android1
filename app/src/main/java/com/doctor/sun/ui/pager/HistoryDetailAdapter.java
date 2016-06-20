@@ -41,7 +41,7 @@ public class HistoryDetailAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             return "填写问卷";
         } else {
-            return "医生建议";
+            return "医生记录";
         }
     }
 }

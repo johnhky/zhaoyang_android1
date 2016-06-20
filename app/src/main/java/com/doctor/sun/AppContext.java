@@ -15,11 +15,11 @@ import com.doctor.sun.im.observer.AttachmentProgressObserver;
 import com.doctor.sun.im.observer.MsgStatusObserver;
 import com.doctor.sun.im.observer.ReceiveMsgObserver;
 import com.doctor.sun.module.AuthModule;
-import com.doctor.sun.util.CrashHandler;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.squareup.otto.Subscribe;
+import com.umeng.analytics.MobclickAgent;
 import com.yuntongxun.ecsdk.ECDevice;
 
 import java.io.IOException;
@@ -67,7 +67,7 @@ public class AppContext extends BaseApp {
             if (AppEnv.DEV_MODE) {
                 OpenSDK.initStage(this);
             } else {
-                CrashHandler.getInstance().init(this);
+//                CrashHandler.getInstance().init(this);
                 OpenSDK.initProduct(this);
             }
 
@@ -94,6 +94,12 @@ public class AppContext extends BaseApp {
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
+
+        MobclickAgent.UMAnalyticsConfig umConfig =
+                new MobclickAgent.UMAnalyticsConfig(this, BuildConfig.UM_KEY,
+                        BuildConfig.FLAVOR, MobclickAgent.EScenarioType.E_UM_NORMAL, true);
+        MobclickAgent.startWithConfigure(umConfig);
+        MobclickAgent.setDebugMode(BuildConfig.DEV_MODE);
     }
 
     private void registerMsgObserver() {

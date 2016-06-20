@@ -25,6 +25,7 @@ import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.adapter.ConsultingAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.ui.adapter.core.LoadMoreAdapter;
 import com.doctor.sun.util.JacksonUtils;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -53,15 +54,16 @@ public class ConsultingFragment extends RefreshListFragment {
     private ArrayList<LayoutId> headers;
 
     private SparseBooleanArray pullingTid = new SparseBooleanArray();
+    private ArrayList<String> tids;
 
     public ConsultingFragment() {
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        loadMore();
-    }
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        loadMore();
+//    }
 
     @Override
     public void onResume() {
@@ -120,11 +122,24 @@ public class ConsultingFragment extends RefreshListFragment {
         if (headers == null) {
             initHeader(userType);
         }
+        if (tids == null) {
+            MsgService service = NIMClient.getService(MsgService.class);
+            service.queryRecentContacts()
+                    .setCallback(new RecentContactCallback());
+        } else {
+            api.appointmentInTid(JacksonUtils.toJson(tids), getPageCallback().getPage()).enqueue(getPageCallback());
+        }
+    }
 
-        callback = new AppointmentPageCallback();
-        MsgService service = NIMClient.getService(MsgService.class);
-        service.queryRecentContacts()
-                .setCallback(new RecentContactCallback());
+    @Override
+    public PageCallback getPageCallback() {
+        if (callback == null) {
+            callback = new AppointmentPageCallback(getAdapter());
+        }
+        if (callback.getAdapter() == null) {
+            callback.setAdapter(getAdapter());
+        }
+        return callback;
     }
 
     private void initHeader(int userType) {
@@ -261,9 +276,8 @@ public class ConsultingFragment extends RefreshListFragment {
             // recents参数即为最近联系人列表（最近会话列表）
             if (recents == null) return;
 
-
-            ArrayList<String> tids = getTids(recents);
-            api.appointmentInTid(JacksonUtils.toJson(tids), callback.getPage()).enqueue(callback);
+            tids = getTids(recents);
+            api.appointmentInTid(JacksonUtils.toJson(tids), getPageCallback().getPage()).enqueue(getPageCallback());
         }
 
         @Override
@@ -295,8 +309,10 @@ public class ConsultingFragment extends RefreshListFragment {
 
 
     private class AppointmentPageCallback extends PageCallback<Appointment> {
-        public AppointmentPageCallback() {
-            super(ConsultingFragment.this.getAdapter());
+
+
+        public AppointmentPageCallback(LoadMoreAdapter adapter) {
+            super(adapter);
         }
 
         @Override

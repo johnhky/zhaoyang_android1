@@ -44,7 +44,8 @@ public class HistoryDetailActivity extends TabActivity
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 
-    private int getPosition() {
+    @Override
+    public int getPosition() {
         return getIntent().getIntExtra(Constants.POSITION, ConsultingDetailActivity.POSITION_ANSWER);
     }
 

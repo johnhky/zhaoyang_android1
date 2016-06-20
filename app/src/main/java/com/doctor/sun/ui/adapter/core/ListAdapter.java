@@ -119,4 +119,9 @@ public abstract class ListAdapter<T, VH extends ViewDataBinding> extends LoadMor
     public boolean remove(Object object) {
         return data.remove(object);
     }
+
+    public void removeNotify(int position) {
+        remove(position);
+        notifyItemRemoved(position);
+    }
 }

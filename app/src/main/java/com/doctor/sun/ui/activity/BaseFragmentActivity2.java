@@ -18,7 +18,7 @@ import io.realm.Realm;
 /**
  * Created by rick on 11/27/15.
  */
-public abstract class BaseFragmentActivity2 extends AppCompatActivity implements HeaderViewModel.HeaderView {
+public abstract class BaseFragmentActivity2 extends UMBaseFragmentActivity implements HeaderViewModel.HeaderView {
     protected String TAG = getClass().getSimpleName();
 
     private Realm realm;

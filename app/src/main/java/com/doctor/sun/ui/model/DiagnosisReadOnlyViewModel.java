@@ -11,7 +11,7 @@ import com.doctor.sun.module.AuthModule;
 import io.ganguo.library.Config;
 
 /**
- * 历史纪录 医生建议 viewmodel
+ * 历史纪录 医生记录 viewmodel
  * <p/>
  * Created by Lynn on 1/14/16.
  */

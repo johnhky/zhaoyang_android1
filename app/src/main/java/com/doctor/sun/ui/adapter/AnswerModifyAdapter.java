@@ -28,6 +28,7 @@ import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemPickDate;
+import com.doctor.sun.vo.ItemReminderList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -365,6 +366,13 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                 Object addOn = saveFurtherConsultation(i);
                 if (addOn != null) {
                     answerList.put(((FurtherConsultationVM) get(i)).getQuestionId() + "", addOn);
+                }
+            }
+            if (getItemViewType(i) == R.layout.item_reminder_list) {
+                ItemReminderList list = (ItemReminderList) get(i);
+                Object addOn = list.toJsonAnswer();
+                if (addOn != null) {
+                    answerList.put(list.getQuestionId() + "", addOn);
                 }
             }
         }

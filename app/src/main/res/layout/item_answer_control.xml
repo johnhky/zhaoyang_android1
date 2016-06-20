@@ -39,15 +39,15 @@
             android:layout_width="@dimen/dp_90"
             android:layout_height="@dimen/dp_30"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dp_8"
             android:layout_marginBottom="@dimen/dp_8"
-            android:background="@drawable/shape_rectangle_selected">
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@drawable/ripple_default">
 
             <CheckBox
-                android:background="@drawable/ripple_default"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:background="@drawable/shape_rectangle_selected"
                 android:button="@null"
                 android:checked="@={data.checked}"
                 android:gravity="center"

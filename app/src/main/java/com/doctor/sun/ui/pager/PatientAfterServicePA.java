@@ -50,7 +50,7 @@ public class PatientAfterServicePA extends FragmentStatePagerAdapter {
                 return "患者问卷";
             }
             case 1: {
-                return "医生建议";
+                return "医生记录";
             }
         }
         return "";

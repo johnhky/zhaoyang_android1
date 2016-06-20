@@ -58,7 +58,8 @@ public class ConsultingDetailActivity extends TabActivity
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 
-    private int getPosition() {
+    @Override
+    public int getPosition() {
         return getIntent().getIntExtra(Constants.POSITION, POSITION_ANSWER);
     }
 

@@ -13,8 +13,6 @@ import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.pager.DoctorAfterServicePA;
 import com.doctor.sun.ui.pager.PatientAfterServicePA;
 
-import java.util.List;
-
 /**
  * Created by rick on 3/6/2016.
  */
@@ -22,10 +20,11 @@ public class AfterServiceDoingActivity extends TabActivity implements Prescripti
     private PatientAfterServicePA patientAfterServicePA;
     private DoctorAfterServicePA doctorAfterServicePA;
 
-    public static Intent intentFor(Context context, String id, String recordId) {
+    public static Intent intentFor(Context context, String id, String recordId, int position) {
         Intent intent = new Intent(context, AfterServiceDoingActivity.class);
         intent.putExtra(Constants.DATA, id);
         intent.putExtra(Constants.PARAM_RECORD_ID, recordId);
+        intent.putExtra(Constants.POSITION, position);
         return intent;
     }
 

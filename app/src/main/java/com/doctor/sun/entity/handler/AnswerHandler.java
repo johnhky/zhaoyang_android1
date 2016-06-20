@@ -170,7 +170,9 @@ public class AnswerHandler {
                         Answer otherAnswer = (Answer) layoutId;
                         if (otherAnswer.isDrugInit) {
                             Answer answer = (Answer) adapter.get(vh.getAdapterPosition());
-                            answer.getPrescriptions().addAll(otherAnswer.getPrescriptions());
+                            for (Prescription prescription : otherAnswer.getPrescriptions()) {
+                                answer.getPrescriptions().add(prescription.copy());
+                            }
                             adapter.set(vh.getAdapterPosition(), answer);
                             adapter.notifyItemChanged(vh.getAdapterPosition());
                             break;

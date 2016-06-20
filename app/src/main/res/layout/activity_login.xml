@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -13,7 +14,7 @@
 
     </data>
 
-    <LinearLayout
+    <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -105,8 +106,8 @@
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:drawablePadding="@dimen/dp_11"
-                android:inputType="textPassword"
                 android:imeOptions="actionDone"
+                android:inputType="textPassword"
                 android:onEditorActionListener="@{handler.loginAction}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
@@ -207,5 +208,5 @@
             </FrameLayout>
         </LinearLayout>
 
-    </LinearLayout>
+    </com.zhy.android.percent.support.PercentLinearLayout>
 </layout>

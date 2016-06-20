@@ -6,6 +6,14 @@ import android.os.Bundle;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityWelcomeBinding;
+import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.module.ToolModule;
+import com.doctor.sun.util.JacksonUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by rick on 16/2/2016.
@@ -21,6 +29,7 @@ public class WelcomeActivity extends BaseFragmentActivity2 {
         binding.getRoot().postDelayed(new Runnable() {
             @Override
             public void run() {
+                overridePendingTransition(0, 0);
                 Intent intent = LoginActivity.makeIntent(WelcomeActivity.this);
                 startActivity(intent);
                 finish();

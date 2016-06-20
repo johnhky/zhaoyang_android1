@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 
 import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityTabTwoBinding;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
@@ -15,6 +16,10 @@ public abstract class TabActivity extends BaseFragmentActivity2 implements Heade
 
     protected ActivityTabTwoBinding binding;
     private PagerAdapter pagerAdapter;
+
+    public int getPosition() {
+        return getIntent().getIntExtra(Constants.POSITION, 0);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,7 +32,14 @@ public abstract class TabActivity extends BaseFragmentActivity2 implements Heade
 
         initPagerTabs();
 
+        setCurrentItem();
+    }
 
+    private void setCurrentItem() {
+        int position = getPosition();
+        if (position < pagerAdapter.getCount()) {
+            binding.vp.setCurrentItem(position);
+        }
     }
 
     private void initHeader() {

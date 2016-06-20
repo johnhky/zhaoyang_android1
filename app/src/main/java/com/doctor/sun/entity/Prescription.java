@@ -68,6 +68,18 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
     public Prescription() {
     }
 
+    public Prescription copy() {
+        Prescription result = new Prescription();
+        result.mediaclName = mediaclName;
+        result.productName = productName;
+        result.interval = interval;
+        result.numbers = numbers;
+        result.unit = unit;
+        result.remark = remark;
+        result.isVisible = isVisible;
+        return result;
+    }
+
     @JsonIgnore
     public boolean isVisible() {
         return isVisible;
@@ -188,7 +200,7 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         String s = "<font color='#898989'>药名: </font>" + mediaclName;
         if (productName != null && !productName.equals("")) {
             s += "(" + productName + ")";
-        }else {
+        } else {
             s += "()";
         }
         return s;
@@ -314,7 +326,8 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         return R.layout.item_prescription;
     }
 
-    public interface UrlToLoad{
-       String url();
+    public interface UrlToLoad {
+        String url();
     }
+
 }

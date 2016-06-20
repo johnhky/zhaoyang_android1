@@ -27,14 +27,15 @@ public class PageCallback<T> extends ApiCallback<PageDTO<T>> {
             adapter.clear();
             onInitHeader();
         }
+        page += 1;
         if (response != null) {
             getAdapter().addAll(response.getData());
         }
         int to = response != null ? response.getTo() : 0;
         int total = response != null ? response.getTotal() : 0;
-        getAdapter().onFinishLoadMore(to >= total);
+        int perPage = response != null ? response.getPerPage() : 0;
+        getAdapter().onFinishLoadMore(to >= total || (page - 1) * perPage >= total);
         getAdapter().notifyDataSetChanged();
-        page += 1;
         onFinishRefresh();
     }
 

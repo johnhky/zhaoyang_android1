@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.widget.EditText;
@@ -8,6 +7,7 @@ import android.widget.EditText;
 import com.doctor.sun.event.OnTokenExpireEvent;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.umeng.analytics.MobclickAgent;
 
 import io.ganguo.library.AppManager;
 import io.ganguo.library.core.event.EventHub;
@@ -17,7 +17,7 @@ import io.realm.Realm;
 /**
  * Created by rick on 10/15/15.
  */
-public abstract class BaseActivity2 extends Activity implements HeaderViewModel.HeaderView {
+public abstract class BaseActivity2 extends UMBaseActivity implements HeaderViewModel.HeaderView {
     protected String TAG = getClass().getSimpleName();
 
     private Realm realm;

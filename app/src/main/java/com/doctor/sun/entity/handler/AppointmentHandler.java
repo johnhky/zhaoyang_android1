@@ -550,61 +550,25 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public String getRightFirstTitle() {
-        if (data.getType().equals("诊后随访")) {
-            return "";
-        }
-        switch (data.getOrderStatus()) {
-            case "进行中":
-            case "待建议": {
-                return "填写问卷";
-            }
-            default: {
-                return "查看问卷";
-            }
-        }
+        return "患者问卷";
     }
 
     public String getRightTitle() {
-        if (data.getType().equals("诊后随访")) {
-            switch (data.getOrderStatus()) {
-                case Status.DOING: {
-                    if (AppContext.isDoctor()) {
-                        return "医生建议";
-                    } else {
-                        return "填写问卷";
-                    }
-                }
-                default: {
-                    if (AppContext.isDoctor()) {
-                        return "查看问卷";
-                    } else {
-                        return "查看建议";
-                    }
-                }
-            }
-        }
-
-        switch (data.getOrderStatus()) {
-            case "进行中":
-            case "待建议": {
-                return "医生建议";
-            }
-            default: {
-                return "医生建议";
-            }
-        }
+        return "医生记录";
     }
 
     public Intent getFirstMenu(Context context) {
         if (data.getType().equals("诊后随访")) {
+            String id = String.valueOf(data.getId());
             switch (data.getOrderStatus()) {
                 case Status.DOING: {
-                    Intent intent = AfterServiceDoingActivity.intentFor(context, String.valueOf(data.getId()), String.valueOf(data.getUrgentRecord().getMedicalRecordId()));
+                    String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
+                    Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
                     context.startActivity(intent);
                     break;
                 }
                 default: {
-                    Intent intent = AfterServiceDoneActivity.intentFor(context, String.valueOf(data.getId()));
+                    Intent intent = AfterServiceDoneActivity.intentFor(context, id, 0);
                     context.startActivity(intent);
                 }
             }
@@ -625,14 +589,16 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public Intent getMenu(Context context) {
         if (data.getType().equals("诊后随访")) {
+            String id = String.valueOf(data.getId());
             switch (data.getOrderStatus()) {
                 case Status.DOING: {
-                    Intent intent = AfterServiceDoingActivity.intentFor(context, String.valueOf(data.getId()), String.valueOf(data.getUrgentRecord().getMedicalRecordId()));
+                    String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
+                    Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, 1);
                     context.startActivity(intent);
                     break;
                 }
                 default: {
-                    Intent intent = AfterServiceDoneActivity.intentFor(context, String.valueOf(data.getId()));
+                    Intent intent = AfterServiceDoneActivity.intentFor(context, id, 1);
                     context.startActivity(intent);
                 }
             }

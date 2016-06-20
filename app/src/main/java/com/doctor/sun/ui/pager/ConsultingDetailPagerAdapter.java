@@ -76,7 +76,7 @@ public class ConsultingDetailPagerAdapter extends FragmentPagerAdapter {
                 return "填写问卷";
             }
         } else {
-            return "医生建议";
+            return "医生记录";
         }
     }
 }

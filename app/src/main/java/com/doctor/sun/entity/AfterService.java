@@ -188,12 +188,12 @@ public class AfterService implements LayoutId {
     public void fillForum(Context context, String id) {
         switch (status) {
             case Status.DOING: {
-                Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId);
+                Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
                 context.startActivity(intent);
                 break;
             }
             default: {
-                Intent intent = AfterServiceDoneActivity.intentFor(context, id);
+                Intent intent = AfterServiceDoneActivity.intentFor(context, id, 0);
                 context.startActivity(intent);
             }
         }
@@ -221,7 +221,7 @@ public class AfterService implements LayoutId {
     }
 
     public void viewDetail(Context context, String id) {
-        Intent intent = AfterServiceDoneActivity.intentFor(context, id);
+        Intent intent = AfterServiceDoneActivity.intentFor(context, id, 0);
         context.startActivity(intent);
     }
 

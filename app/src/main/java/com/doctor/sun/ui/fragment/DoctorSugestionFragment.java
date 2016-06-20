@@ -11,14 +11,18 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Question;
+import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.ItemDivider;
+import com.doctor.sun.vo.ItemReminderList;
 import com.doctor.sun.vo.ItemTextInput;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -179,6 +183,23 @@ public class DoctorSugestionFragment extends RefreshListFragment {
                                             }
                                         }
                                     }
+                                }
+                            }
+                            break;
+                        }
+                        case Question.REMINDER: {
+                            if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {
+                                ItemDivider divider = new ItemDivider(R.layout.item_divider2, "其它事项");
+                                getAdapter().add(divider);
+                                List<Object> content = (List<Object>) answer.getAnswerContent();
+                                for (int j = 0; j < content.size(); j++) {
+                                    Reminder data = null;
+                                    try {
+                                        data = JacksonUtils.fromMap((LinkedHashMap) content.get(j), Reminder.class);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    getAdapter().add(data);
                                 }
                             }
                             break;

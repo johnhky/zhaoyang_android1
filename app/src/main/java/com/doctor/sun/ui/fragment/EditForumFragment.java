@@ -17,6 +17,7 @@ import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Question;
+import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -28,13 +29,16 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
+import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemPickDate;
+import com.doctor.sun.vo.ItemReminderList;
 import com.doctor.sun.vo.ItemSwitch;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -44,6 +48,8 @@ import okhttp3.RequestBody;
  * Created by rick on 3/6/2016.
  */
 public class EditForumFragment extends RefreshListFragment {
+    public static final int TOGGLE_POSITION = 14;
+    public static final int CUT_OFF_POSITION = TOGGLE_POSITION + 14;
     private String orderId;
     private AfterServiceModule api = Api.of(AfterServiceModule.class);
     private ToolModule uploadApi = Api.of(ToolModule.class);
@@ -97,11 +103,12 @@ public class EditForumFragment extends RefreshListFragment {
             protected void handleResponse(AfterServiceDTO response) {
 
                 allData.addAll(response.followUpInfo);
+                int answerPosition = 1;
                 for (int i = 0; i < response.questions.size(); i++) {
                     addToggleVisibility(i);
 
                     Answer answer = response.questions.get(i);
-                    answer.setPosition(i + 1);
+                    answer.setPosition(answerPosition);
                     answer.setEditMode(true);
                     int parentPosition = allData.size();
                     switch (answer.getQuestion().getQuestionType()) {
@@ -181,10 +188,12 @@ public class EditForumFragment extends RefreshListFragment {
                                         }
                                         case "C": {
                                             vm.setBtnThreeChecked(true);
-                                            HashMap<String, String> hashMap = (HashMap<String, String>) content.get(0);
-                                            Doctor doctor = new Doctor();
-                                            doctor.fromHashMap(hashMap);
-                                            vm.setDoctor(doctor);
+                                            if (null != content && !content.isEmpty()) {
+                                                HashMap<String, String> hashMap = (HashMap<String, String>) content.get(0);
+                                                Doctor doctor = new Doctor();
+                                                doctor.fromHashMap(hashMap);
+                                                vm.setDoctor(doctor);
+                                            }
                                             break;
                                         }
 
@@ -198,16 +207,45 @@ public class EditForumFragment extends RefreshListFragment {
                             allData.add(vm);
                             break;
                         }
+                        case Question.REMINDER: {
+                            answerPosition -= 1;
+                            ItemReminderList object = new ItemReminderList();
+
+                            if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {
+                                object.adapter(getContext());
+                                List<Object> content = (List<Object>) answer.getAnswerContent();
+                                for (int j = 0; j < content.size(); j++) {
+                                    Reminder data = null;
+                                    try {
+                                        data = JacksonUtils.fromMap((LinkedHashMap) content.get(j), Reminder.class);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (data != null) {
+                                        object.addReminder(data);
+                                    }
+                                }
+                            }
+
+                            object.setQuestionId(answer.getQuestionId());
+                            allData.add(object);
+                            break;
+                        }
                         default: {
                             allData.add(answer);
                             break;
                         }
                     }
+                    answerPosition += 1;
                 }
 
                 getAdapter().clear();
                 getAdapter().onFinishLoadMore(true);
-                getAdapter().addAll(allData.subList(0, 33));
+                if (AppContext.isDoctor()) {
+                    getAdapter().addAll(allData.subList(0, CUT_OFF_POSITION));
+                } else {
+                    getAdapter().addAll(allData);
+                }
                 getAdapter().notifyDataSetChanged();
                 getBinding().swipeRefresh.setRefreshing(false);
             }
@@ -215,7 +253,7 @@ public class EditForumFragment extends RefreshListFragment {
     }
 
     private void addToggleVisibility(int i) {
-        if (i == 13) {
+        if (i == TOGGLE_POSITION) {
             if (AppContext.isDoctor()) {
                 ItemSwitch object = new ItemSwitch(R.layout.item_answer_control, "病情记录(选填)");
                 object.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
@@ -228,7 +266,7 @@ public class EditForumFragment extends RefreshListFragment {
                                 getAdapter().addAll(allData);
                                 getAdapter().notifyDataSetChanged();
                             } else {
-                                getAdapter().addAll(allData.subList(0, 33));
+                                getAdapter().addAll(allData.subList(0, CUT_OFF_POSITION));
                                 getAdapter().notifyDataSetChanged();
                             }
                         }

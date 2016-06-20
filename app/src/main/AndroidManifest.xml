@@ -664,6 +664,13 @@
             android:name="JPUSH_APPKEY"
             android:value="2c1736491f10bfbab86e90ae" /> <!--  </>值来自开发者平台取得的AppKey-->
 
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="55b8a10be0f55aa35c00174d" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+
     </application>
 
 </manifest>
