@@ -9,6 +9,7 @@ import com.doctor.sun.im.IMManager;
 import com.doctor.sun.ui.activity.LoginActivity;
 import com.doctor.sun.ui.handler.SettingHandler;
 import com.squareup.otto.Subscribe;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.Set;
 
@@ -40,6 +41,7 @@ public class OnTokenExpireEvent implements Event {
     @Subscribe
     public void onAuthEvent(OnTokenExpireEvent event) {
         if (System.currentTimeMillis() - lastEventTime > ONE_MINUTES) {
+            MobclickAgent.onProfileSignOff();
             Toast.makeText(context, "帐号登录过期,请重新登录", Toast.LENGTH_LONG).show();
             IMManager.getInstance().logout();
 

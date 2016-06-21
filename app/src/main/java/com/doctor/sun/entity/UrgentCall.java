@@ -270,8 +270,6 @@ public class UrgentCall implements LayoutId, Parcelable {
         this.handler = handler;
     }
 
-    ;
-
     @Override
     public int describeContents() {
         return 0;

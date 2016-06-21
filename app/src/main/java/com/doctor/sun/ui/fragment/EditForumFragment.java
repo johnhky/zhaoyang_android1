@@ -49,7 +49,7 @@ import okhttp3.RequestBody;
  */
 public class EditForumFragment extends RefreshListFragment {
     public static final int TOGGLE_POSITION = 14;
-    public static final int CUT_OFF_POSITION = TOGGLE_POSITION + 14;
+    public static final int CUT_OFF_POSITION = TOGGLE_POSITION + 20;
     private String orderId;
     private AfterServiceModule api = Api.of(AfterServiceModule.class);
     private ToolModule uploadApi = Api.of(ToolModule.class);

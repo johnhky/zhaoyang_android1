@@ -76,9 +76,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
     public static final int ONE_DAY = 86400000;
 
-    public static final int CALL_PHONE_REQ = 1;
-
-    private ImModule api = Api.of(ImModule.class);
     private ActivityChattingBinding binding;
     private MessageAdapter adapter;
     private RealmQuery<TextMsg> query;
@@ -126,15 +123,13 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                 @Override
                 public void onChange(RealmResults<TextMsg> element) {
                     boolean empty = element.isEmpty();
-                    boolean isFinish = false;
-                    boolean isStart = false;
+                    boolean shouldRefresh = false;
                     if (!empty) {
                         TextMsg first = element.first();
                         String body = first.getBody();
-                        isFinish = Constants.FINISH_MESSAGE.equals(body);
-                        isStart = Constants.START_MESSAGE.equals(body);
+                        shouldRefresh = Constants.refreshMsg.contains(body);
                     }
-                    if (isFinish || isStart) {
+                    if (shouldRefresh) {
                         Api.of(AppointmentModule.class).appointmentInTid("[" + getTeamId() + "]", "1").enqueue(new RefreshAppointmentCallback());
                         initData();
                     }

@@ -13,7 +13,7 @@ import com.doctor.sun.databinding.FragmentHelpBinding;
 /**
  * Created by lucas on 2/3/16.
  */
-public class HelpFragment extends android.support.v4.app.Fragment {
+public class HelpFragment extends BaseFragment {
     public static final String IMAGE_ID = "IMAGE_ID";
     private FragmentHelpBinding binding;
 

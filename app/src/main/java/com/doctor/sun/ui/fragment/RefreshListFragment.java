@@ -21,7 +21,7 @@ import io.realm.Realm;
 /**
  * Created by Lynn on 2/22/16.
  */
-public class RefreshListFragment<T> extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class RefreshListFragment<T> extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     protected FragmentRefreshListBinding binding;
     private SimpleAdapter mAdapter;
     public Realm realm;

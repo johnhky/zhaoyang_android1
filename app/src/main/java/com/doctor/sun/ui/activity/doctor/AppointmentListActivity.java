@@ -22,11 +22,11 @@ public class AppointmentListActivity extends PageActivity2 {
         return i;
     }
 
-    @Override
-    public void onMenuClicked() {
-        Intent intent = UrgentListActivity.makeIntent(this);
-        startActivity(intent);
-    }
+//    @Override
+//    public void onMenuClicked() {
+//        Intent intent = UrgentListActivity.makeIntent(this);
+//        startActivity(intent);
+//    }
 
     @Override
     protected void initHeader() {
@@ -42,8 +42,8 @@ public class AppointmentListActivity extends PageActivity2 {
     @NonNull
     protected HeaderViewModel createHeaderViewModel() {
         HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("已预约患者")
-                .setRightTitle("紧急咨询");
+        header.setMidTitle("已预约患者");
+//                .setRightTitle("紧急咨询");
         return header;
     }
 }

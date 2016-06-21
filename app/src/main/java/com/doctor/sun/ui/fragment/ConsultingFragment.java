@@ -196,7 +196,7 @@ public class ConsultingFragment extends RefreshListFragment {
         TextMsg last = time.last();
 //
         String body = last.getBody();
-        return body.equals("就诊开始") || body.equals(Constants.FINISH_MESSAGE);
+        return Constants.refreshMsg.contains(body);
     }
 
     private void refreshAppointment(int tid) {

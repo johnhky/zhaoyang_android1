@@ -21,6 +21,7 @@ import java.util.Locale;
  */
 public class ItemPickDate extends BaseItem {
     public static final long ONE_HUNDRED_YEAR = 3153600000000L;
+    public static final long ONE_DAY_MILLIS = 86400000;
 
     private final GregorianCalendar calendar = new GregorianCalendar();
     private String title;
@@ -120,17 +121,18 @@ public class ItemPickDate extends BaseItem {
         };
     }
 
-    public View.OnClickListener pickFutureTime() {
+    public View.OnClickListener pickFutureTime(final int dayRangeFromNow) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final long futureAmount = (long) Math.abs(dayRangeFromNow) * ONE_DAY_MILLIS;
                 DatePickerDialog datePickerDialog = new DatePickerDialog(v.getContext(), setBeginDate, year, monthOfYear, dayOfMonth);
                 final DatePicker datePicker = datePickerDialog.getDatePicker();
                 datePickerDialog.show();
                 v.post(new Runnable() {
                     @Override
                     public void run() {
-                        datePicker.setMaxDate(System.currentTimeMillis() + ONE_HUNDRED_YEAR);
+                        datePicker.setMaxDate(System.currentTimeMillis() + futureAmount);
                         datePicker.setMinDate(System.currentTimeMillis());
                     }
                 });

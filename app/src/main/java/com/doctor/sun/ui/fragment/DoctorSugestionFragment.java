@@ -189,17 +189,19 @@ public class DoctorSugestionFragment extends RefreshListFragment {
                         }
                         case Question.REMINDER: {
                             if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {
-                                ItemDivider divider = new ItemDivider(R.layout.item_divider2, "其它事项");
-                                getAdapter().add(divider);
                                 List<Object> content = (List<Object>) answer.getAnswerContent();
-                                for (int j = 0; j < content.size(); j++) {
-                                    Reminder data = null;
-                                    try {
-                                        data = JacksonUtils.fromMap((LinkedHashMap) content.get(j), Reminder.class);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                                if (!content.isEmpty()) {
+                                    ItemDivider divider = new ItemDivider(R.layout.item_divider2, "其它事项");
+                                    getAdapter().add(divider);
+                                    for (int j = 0; j < content.size(); j++) {
+                                        Reminder data = null;
+                                        try {
+                                            data = JacksonUtils.fromMap((LinkedHashMap) content.get(j), Reminder.class);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        getAdapter().add(data);
                                     }
-                                    getAdapter().add(data);
                                 }
                             }
                             break;

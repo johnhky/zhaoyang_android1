@@ -139,7 +139,8 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_7"
             android:orientation="horizontal"
-            app:visible="@{data.handler.payVisible}">
+            android:visibility="gone">
+            <!--app:visible="@{data.handler.payVisible}">-->
 
             <View
                 android:layout_width="0dp"
@@ -197,7 +198,8 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_7"
             android:orientation="horizontal"
-            app:visible="@{data.handler.addOperationVisible}">
+            android:visibility="gone">
+            <!--app:visible="@{data.handler.addOperationVisible}">-->
 
             <View
                 android:layout_width="0dp"

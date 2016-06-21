@@ -52,7 +52,7 @@ import retrofit2.Call;
 /**
  * Created by rick on 12/21/15.
  */
-public class DiagnosisFragment extends Fragment {
+public class DiagnosisFragment extends BaseFragment {
     public static final String TAG = DiagnosisFragment.class.getSimpleName();
     public static final String IS_DIAGNOSISED = "已面诊";
     public static final String NOT_DIAGNOSISED = "未面诊";

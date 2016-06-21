@@ -1,5 +1,7 @@
 package com.doctor.sun.bean;
 
+import java.util.ArrayList;
+
 /**
  * 常量
  * <p/>
@@ -60,4 +62,16 @@ public class Constants {
     public static final String HANDLER = "HANDLER";
     public static final String FINISH_MESSAGE = "温馨提醒：您的预约就诊时间已到，如有疑问，请再次预约！";
     public static final String START_MESSAGE = "就诊开始";
+    public static final String START_MSG2 = "随访开始";
+    public static final String FINISH_MSG2 = "随访结束";
+
+    public static final ArrayList<String> refreshMsg = new ArrayList<String>();
+
+    static {
+        refreshMsg.add(FINISH_MESSAGE);
+        refreshMsg.add(START_MESSAGE);
+        refreshMsg.add(FINISH_MSG2);
+        refreshMsg.add(START_MSG2);
+    }
+
 }

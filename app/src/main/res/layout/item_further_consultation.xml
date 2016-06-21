@@ -22,8 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:visibility="@{data.visible}"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="@{data.visible}">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,6 +81,7 @@
             android:layout_width="@dimen/dp_216"
             android:layout_height="@dimen/dp_30"
             android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dp_4"
             android:background="@drawable/shape_rectangle_selected"
             android:orientation="horizontal"
             android:visibility="@{data.hasAnswer}">
@@ -142,9 +143,8 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginStart="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_4"
             android:background="@drawable/ripple_default"
-            android:onClick="@{data.date.pickTime3()}"
+            android:onClick="@{data.date.pickFutureTime(30)}"
             android:visibility="@{data.and(data.hasAnswer,btnOne.checked || btnTwo.checked)}">
 
             <TextView

@@ -21,7 +21,7 @@ import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 /**
  * Created by lucas on 1/19/16.
  */
-public class QuestionCategoryFragment extends Fragment {
+public class QuestionCategoryFragment extends BaseFragment {
     private ItemCategoryExtendBinding binding;
     private SimpleAdapter mAdapter;
     private static QuestionCategoryFragment instance;

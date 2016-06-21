@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.bean.MobEventId;
 import com.doctor.sun.entity.Token;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -20,8 +20,8 @@ import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
 import com.doctor.sun.ui.activity.patient.MainActivity;
-import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
 import com.doctor.sun.util.MD5;
+import com.umeng.analytics.MobclickAgent;
 
 import io.ganguo.library.util.Strings;
 
@@ -83,8 +83,10 @@ public class RegisterHandler extends BaseHandler {
             protected void handleResponse(Token response) {
                 if (registerType == AuthModule.DOCTOR_TYPE) {
                     registerDoctorSuccess(response);
+                    MobclickAgent.onEvent(getContext(), MobEventId.DOCTOR_REGISTRATION);
                 } else if (registerType == AuthModule.PATIENT_TYPE) {
                     registerPatientSuccess(response);
+                    MobclickAgent.onEvent(getContext(), MobEventId.PATIENT_REGISTRATION);
                 }
             }
         });

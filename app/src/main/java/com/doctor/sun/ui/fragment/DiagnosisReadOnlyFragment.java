@@ -42,7 +42,7 @@ import io.ganguo.library.util.log.LoggerFactory;
  * <p/>
  * Created by Lynn on 1/14/16.
  */
-public class DiagnosisReadOnlyFragment extends Fragment {
+public class DiagnosisReadOnlyFragment extends BaseFragment {
     private static DiagnosisReadOnlyFragment instance;
     private DiagnosisModule api = Api.of(DiagnosisModule.class);
     private DiagnosisReadOnlyViewModel viewModel;

@@ -19,7 +19,7 @@ import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 /**
  * Created by lucas on 1/19/16.
  */
-public class TemplateExtendFragment extends Fragment {
+public class TemplateExtendFragment extends BaseFragment {
     private ItemCategoryExtendBinding binding;
     private QuestionModule api = Api.of(QuestionModule.class);
     private SimpleAdapter mAdapter;

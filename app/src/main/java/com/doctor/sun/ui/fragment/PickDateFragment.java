@@ -34,7 +34,7 @@ import retrofit2.Retrofit;
 /**
  * Created by rick on 8/1/2016.
  */
-public class PickDateFragment extends Fragment {
+public class PickDateFragment extends BaseFragment {
 
     public static final String TAG = PickDateFragment.class.getSimpleName();
     public static final int ONE_DAY = 86400000;

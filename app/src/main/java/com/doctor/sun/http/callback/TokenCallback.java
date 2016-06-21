@@ -23,6 +23,7 @@ import com.doctor.sun.ui.activity.doctor.MeActivity;
 import com.doctor.sun.ui.activity.doctor.RegisterActivity;
 import com.doctor.sun.ui.activity.doctor.ReviewResultActivity;
 import com.doctor.sun.util.JacksonUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.Set;
 
@@ -194,7 +195,8 @@ public class TokenCallback {
         Config.putInt(Constants.USER_TYPE, token.getType());
         String account = JacksonUtils.toJson(token.getAccount());
         Config.putString(Constants.VOIP_ACCOUNT, account);
-        JPushInterface.setAlias(AppContext.me(), String.valueOf(token.getAccount().getUserId()), new TagAliasCallback() {
+        long userId = token.getAccount().getUserId();
+        JPushInterface.setAlias(AppContext.me(), String.valueOf(userId), new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {
             }

@@ -15,7 +15,6 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.MedicalRecord;
-import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.RecentAppointment;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
@@ -31,7 +30,6 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.handler.BaseHandler;
-import com.doctor.sun.ui.widget.AppointmentTypeDialog;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
 import com.doctor.sun.util.JacksonUtils;
 
@@ -129,8 +127,21 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
         }
     }
 
-    public void doctorType(View view) {
-        new AppointmentTypeDialog(view.getContext(), this).show();
+    public void doctorType(final View view) {
+//        new AppointmentTypeDialog(view.getContext(), this).show();
+        Spanned question = Html.fromHtml(view.getContext().getString(R.string.appointment_brief));
+        new MaterialDialog.Builder(view.getContext()).content(question)
+                .positiveText("挑选医生")
+                .negativeText("取消")
+                .onNegative(dismissCallback())
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), AppointmentType.DETAIL);
+                        view.getContext().startActivity(intent);
+                        dialog.dismiss();
+                    }
+                }).build().show();
     }
 
     public void showWarning(final View view) {

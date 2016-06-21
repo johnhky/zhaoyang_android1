@@ -18,7 +18,7 @@ import io.realm.Realm;
 /**
  * Created by lucas on 12/24/15.
  */
-public class ApplyFragment extends android.support.v4.app.Fragment {
+public class ApplyFragment extends BaseFragment{
     private FragmentApplyBinding binding;
     private SimpleAdapter mAdapter;
     public Realm realm;

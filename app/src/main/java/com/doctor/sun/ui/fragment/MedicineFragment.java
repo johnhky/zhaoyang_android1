@@ -18,7 +18,7 @@ import io.realm.Realm;
 /**
  * Created by lucas on 1/16/16.
  */
-public class MedicineFragment extends Fragment {
+public class MedicineFragment extends BaseFragment {
     private SimpleAdapter mAdapter;
     private PFragmentMedicineBinding binding;
     private PageCallback callback;

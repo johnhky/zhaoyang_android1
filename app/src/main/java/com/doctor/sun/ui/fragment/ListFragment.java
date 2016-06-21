@@ -20,7 +20,7 @@ import io.realm.Realm;
 /**
  * Created by rick on 11/20/15.
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends BaseFragment {
     protected FragmentListBinding binding;
     private SimpleAdapter mAdapter;
     private PageCallback callback;

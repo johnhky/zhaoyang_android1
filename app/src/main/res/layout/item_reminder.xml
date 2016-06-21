@@ -34,17 +34,17 @@
                 android:layout_width="@dimen/dp_50"
                 android:layout_height="@dimen/dp_100"
                 android:layout_gravity="end"
-                android:background="@drawable/shape_top_right_triangle" />
+                android:background="@drawable/shape_top_right_triangle"
+                android:onClick="@{()->adapter.removeNotify(vh.getAdapterPosition)}" />
 
             <TextView
                 android:layout_width="@dimen/dp_15"
                 android:layout_height="@dimen/dp_15"
                 android:layout_gravity="end"
-                android:gravity="end"
-                android:onClick="@{()->adapter.removeNotify(vh.getAdapterPosition)}"
-                android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginRight="@dimen/dp_5"
-                android:background="@drawable/ic_close_grey_12dp"/>
+                android:layout_marginTop="@dimen/dp_5"
+                android:background="@drawable/ic_close_grey_12dp"
+                android:gravity="end" />
 
             <TextView
                 android:layout_width="@dimen/dp_105"
@@ -84,7 +84,7 @@
                 android:layout_marginRight="@dimen/dp_13"
                 android:layout_marginStart="@dimen/dp_13"
                 android:background="@drawable/ripple_default"
-                android:onClick="@{data.pickFutureTime()}">
+                android:onClick="@{data.pickFutureTime(30)}">
 
                 <TextView
                     android:layout_width="match_parent"
