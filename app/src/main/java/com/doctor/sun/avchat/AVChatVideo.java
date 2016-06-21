@@ -287,10 +287,7 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
         muteToggle.toggle(muteOn ? ToggleState.ON : ToggleState.OFF);
         closeCameraToggle.toggle(ToggleState.OFF);
         if(manager.canSwitchCamera()){
-            if(AVChatManager.getInstance().isFrontCamera())
-                switchCameraToggle.off(false);
-            else
-                switchCameraToggle.on(false);
+            switchCameraToggle.off(false);
         }
         recordToggle.toggle(recordOn ? ToggleState.ON : ToggleState.OFF);
 

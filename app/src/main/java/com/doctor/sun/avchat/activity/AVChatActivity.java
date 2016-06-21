@@ -130,15 +130,17 @@ public class AVChatActivity extends BaseActivity2 implements AVChatUI.AVChatList
         }
         registerNetCallObserver(true);
 
-        notifier = new AVChatNotification(this);
-        notifier.init(receiverId != null ? receiverId : avChatData.getAccount());
-        isCallEstablished = false;
+        if (avChatData != null) {
+            notifier = new AVChatNotification(this);
+            notifier.init(receiverId != null ? receiverId : avChatData.getAccount());
+            isCallEstablished = false;
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        AVChatManager.getInstance().pauseVideo(); // 暂停视频聊天（用于在视频聊天过程中，APP退到后台时必须调用）
+        avChatUI.pauseVideo(); // 暂停视频聊天（用于在视频聊天过程中，APP退到后台时必须调用）
         hasOnpause = true;
     }
 
@@ -357,12 +359,69 @@ public class AVChatActivity extends BaseActivity2 implements AVChatUI.AVChatList
      */
 
     @Override
-    public void onConnectedServer(int res) {
-        handleWithConnectServerResult(res);
+    public void onTakeSnapshotResult(String account, boolean success, String file) {
+
     }
 
     @Override
-    public void onUserJoin(String account) {
+    public void onConnectionTypeChanged(int current, int old) {
+
+    }
+
+    @Override
+    public void onLocalRecordEnd(String[] files, int event) {
+        if(files != null && files.length > 0) {
+            String file = files[0];
+            String parent = new File(file).getParent();
+            String msg;
+            if(event == 0) {
+                msg = "录制已结束";
+            } else {
+                msg = "你的手机内存不足, 录制已结束";
+            }
+
+            if(!TextUtils.isEmpty(parent)) {
+                msg += ", 录制文件已保存至：" + parent;
+            }
+
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        } else {
+            if(event == 1) {
+                Toast.makeText(this, "你的手机内存不足, 录制已结束.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "录制已结束.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        if(event == 1) {
+            if(avChatUI != null) {
+                avChatUI.resetRecordTip();
+            }
+        }
+    }
+
+    @Override
+    public void onFirstVideoFrameAvailable(String account) {
+
+    }
+
+    @Override
+    public void onVideoFpsReported(String account, int fps) {
+
+    }
+
+    @Override
+    public void onJoinedChannel(int code, String audioFile, String videoFile) {
+        handleWithConnectServerResult(code);
+    }
+
+    @Override
+    public void onLeaveChannel() {
+
+    }
+
+    @Override
+    public void onUserJoined(String account) {
         Log.d(TAG, "onUserJoin");
         avChatUI.setVideoAccount(account);
 
@@ -385,7 +444,7 @@ public class AVChatActivity extends BaseActivity2 implements AVChatUI.AVChatList
     }
 
     @Override
-    public void onNetworkStatusChange(int value) {
+    public void onNetworkQuality(String user, int value) {
 
     }
 
@@ -405,40 +464,8 @@ public class AVChatActivity extends BaseActivity2 implements AVChatUI.AVChatList
     }
 
     @Override
-    public void onOpenDeviceError(int code) {
+    public void onDeviceEvent(String account, int code, String desc) {
 
-    }
-
-    @Override
-    public void onRecordEnd(String[] files, int event) {
-        if(files != null && files.length > 0) {
-            String file = files[0];
-            String parent = new File(file).getParent();
-            String msg;
-            if(event == 0) {
-                msg = "录制已结束";
-            } else {
-                msg = "你的手机内存不足, 录制已结束";
-            }
-
-            if(!TextUtils.isEmpty(parent)) {
-                msg += ", 录制文件已保存至:" + parent;
-            }
-
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        } else {
-            if(event == 1) {
-                Toast.makeText(this, "你的手机内存不足, 录制已结束.", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "录制已结束.", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        if(event == 1) {
-            if(avChatUI != null) {
-                avChatUI.resetRecordTip();
-            }
-        }
     }
 
     /****************************** 连接建立处理 ********************/
