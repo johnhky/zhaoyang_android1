@@ -7,13 +7,6 @@
             name="data"
             type="com.doctor.sun.vo.ItemReminderList" />
 
-        <variable
-            name="vh"
-            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
-
-        <variable
-            name="adapter"
-            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

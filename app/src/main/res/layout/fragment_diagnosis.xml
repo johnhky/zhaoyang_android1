@@ -188,6 +188,7 @@
                     android:background="@color/divider_color" />
 
             </LinearLayout>
+            <include layout="@layout/item_reminder_list"/>
 
         </LinearLayout>
     </ScrollView>

@@ -244,7 +244,7 @@ public class AfterService implements LayoutId {
         }
     }
 
-    private void performAction(@Actions String action, SimpleCallback<Void> callback) {
+    public void performAction(@Actions String action, SimpleCallback<Void> callback) {
         Api.of(AfterServiceModule.class).perform(id, action).enqueue(callback);
     }
 

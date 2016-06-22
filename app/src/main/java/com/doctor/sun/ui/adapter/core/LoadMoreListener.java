@@ -7,4 +7,7 @@ public abstract class LoadMoreListener {
 
     protected abstract void onLoadMore();
 
+    protected void onFinishLoadMore() {
+
+    }
 }

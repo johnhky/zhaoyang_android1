@@ -449,7 +449,11 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public String getTitle() {
         int userType = Config.getInt(Constants.USER_TYPE, -1);
         if (userType == AuthModule.PATIENT_TYPE) {
-            return data.getDoctor().getName();
+            Doctor doctor = data.getDoctor();
+            if (doctor == null) {
+                return "";
+            }
+            return doctor.getName();
         } else {
             return getPatientName();
         }

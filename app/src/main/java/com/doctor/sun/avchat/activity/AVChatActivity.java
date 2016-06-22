@@ -1,7 +1,9 @@
 package com.doctor.sun.avchat.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.TextUtils;
@@ -16,6 +18,7 @@ import com.doctor.sun.avchat.AVChatProfile;
 import com.doctor.sun.avchat.AVChatUI;
 import com.doctor.sun.avchat.constant.CallStateEnum;
 import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.util.PermissionUtil;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.auth.ClientType;
 import com.netease.nimlib.sdk.avchat.AVChatManager;
@@ -63,6 +66,7 @@ public class AVChatActivity extends BaseActivity2 implements AVChatUI.AVChatList
      * 未知的入口
      */
     public static final int FROM_UNKNOWN = -1;
+    public static final String[] PERMISSIONS = new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO};
 
     // data
     private AVChatUI avChatUI; // 音视频总管理器
@@ -116,6 +120,7 @@ public class AVChatActivity extends BaseActivity2 implements AVChatUI.AVChatList
         }
         View root = LayoutInflater.from(this).inflate(R.layout.avchat_activity, null);
         setContentView(root);
+        checkPermission();
         mIsInComingCall = getIntent().getBooleanExtra(KEY_IN_CALLING, false);
         avChatUI = new AVChatUI(this, root, this);
         if (!avChatUI.initiation()) {
@@ -134,6 +139,14 @@ public class AVChatActivity extends BaseActivity2 implements AVChatUI.AVChatList
             notifier = new AVChatNotification(this);
             notifier.init(receiverId != null ? receiverId : avChatData.getAccount());
             isCallEstablished = false;
+        }
+    }
+
+    private void checkPermission() {
+        if (!PermissionUtil.hasSelfPermission(this, Manifest.permission.CAMERA)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(PERMISSIONS, 100);
+            }
         }
     }
 
@@ -370,31 +383,31 @@ public class AVChatActivity extends BaseActivity2 implements AVChatUI.AVChatList
 
     @Override
     public void onLocalRecordEnd(String[] files, int event) {
-        if(files != null && files.length > 0) {
+        if (files != null && files.length > 0) {
             String file = files[0];
             String parent = new File(file).getParent();
             String msg;
-            if(event == 0) {
+            if (event == 0) {
                 msg = "录制已结束";
             } else {
                 msg = "你的手机内存不足, 录制已结束";
             }
 
-            if(!TextUtils.isEmpty(parent)) {
+            if (!TextUtils.isEmpty(parent)) {
                 msg += ", 录制文件已保存至：" + parent;
             }
 
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         } else {
-            if(event == 1) {
+            if (event == 1) {
                 Toast.makeText(this, "你的手机内存不足, 录制已结束.", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "录制已结束.", Toast.LENGTH_SHORT).show();
             }
         }
 
-        if(event == 1) {
-            if(avChatUI != null) {
+        if (event == 1) {
+            if (avChatUI != null) {
                 avChatUI.resetRecordTip();
             }
         }

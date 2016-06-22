@@ -29,7 +29,6 @@ import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
-import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
@@ -85,6 +84,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     private RealmResults<TextMsg> results;
     private KeyboardWatcher keyboardWatcher;
     private RealmChangeListener<RealmResults<TextMsg>> listener;
+    private CustomActionViewModel customActionViewModel;
 
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, ChattingActivity.class);
@@ -102,11 +102,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         needSendDrug();
         initView();
         initData();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         registerRealmChangeListener();
     }
 
@@ -131,7 +126,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                     }
                     if (shouldRefresh) {
                         Api.of(AppointmentModule.class).appointmentInTid("[" + getTeamId() + "]", "1").enqueue(new RefreshAppointmentCallback());
-                        initData();
                     }
                     if (adapter != null) {
                         adapter.notifyDataSetChanged();
@@ -141,13 +135,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         }
     }
 
-    @Override
-    protected void onStop() {
-        if (!getRealm().isClosed()) {
-            results.removeChangeListeners();
-        }
-        super.onStop();
-    }
 
     private void needSendDrug() {
         if (getData().getType().equals("诊后随访")) {
@@ -189,6 +176,9 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     @Override
     protected void onDestroy() {
         keyboardWatcher.destroy();
+        if (!getRealm().isClosed()) {
+            results.removeChangeListeners();
+        }
         super.onDestroy();
     }
 
@@ -287,7 +277,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
     private void initCustomAction(Appointment data) {
         binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
-        CustomActionViewModel customActionViewModel = new CustomActionViewModel(this, data.getHandler().getAudioChatCallback());
+        customActionViewModel = new CustomActionViewModel(this, data.getHandler().getAudioChatCallback());
         SimpleAdapter adapter = customActionViewModel.getSimpleAdapter();
 
         binding.customAction.setAdapter(adapter);

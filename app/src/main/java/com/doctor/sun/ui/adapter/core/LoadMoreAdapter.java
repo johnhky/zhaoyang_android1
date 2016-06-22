@@ -93,6 +93,9 @@ public abstract class LoadMoreAdapter<T, VH extends ViewDataBinding> extends Bas
         if (loadingView != null) {
             loadingView.stop();
         }
+        if (mLoadMoreListener != null) {
+            mLoadMoreListener.onFinishLoadMore();
+        }
     }
 
     public void loadMore() {

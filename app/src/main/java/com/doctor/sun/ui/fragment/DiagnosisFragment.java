@@ -9,7 +9,6 @@ import android.os.Message;
 import android.os.Messenger;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +27,7 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -199,14 +199,14 @@ public class DiagnosisFragment extends BaseFragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case RETURN_TYPE_NET: {
-                        showReturn(DiagnosisViewModel.FURTHER_CONSULTATION);
-                        viewModel.getDate().setType(TYPE_NET);
+                        showReturn(DiagnosisViewModel.DETAIL);
+                        viewModel.getDate().setType(AppointmentType.DETAIL);
                         viewModel.getTime().setType(3);
                         break;
                     }
                     case RETURN_TYPE_FACE: {
-                        showReturn(DiagnosisViewModel.FACE_TO_FACE);
-                        viewModel.getDate().setType(TYPE_FACE);
+                        showReturn(DiagnosisViewModel.QUICK);
+                        viewModel.getDate().setType(AppointmentType.QUICK);
                         viewModel.getTime().setType(2);
                         break;
                     }
@@ -255,7 +255,7 @@ public class DiagnosisFragment extends BaseFragment {
         binding.llyReturn.setVisibility(View.VISIBLE);
         binding.llyTransfer.setVisibility(View.GONE);
         viewModel.setReturnType(furtherConsultation);
-//        if (furtherConsultation.equals(DiagnosisViewModel.FURTHER_CONSULTATION)) {
+//        if (furtherConsultation.equals(DiagnosisViewModel.DETAIL)) {
 //            binding.mission.llyRoot.setVisibility(View.GONE);
 //        } else {
 //            binding.mission.llyRoot.setVisibility(View.VISIBLE);

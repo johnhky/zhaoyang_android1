@@ -3,7 +3,6 @@ package com.doctor.sun.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -26,6 +25,7 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
     private SimpleAdapter mAdapter;
     public Realm realm;
     private PageCallback<T> pageCallback;
+    private boolean isLoading = false;
 
     public RefreshListFragment() {
     }
@@ -52,7 +52,16 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
         mAdapter.setLoadMoreListener(new LoadMoreListener() {
             @Override
             protected void onLoadMore() {
-                loadMore();
+                if (!isLoading) {
+                    loadMore();
+                    isLoading = true;
+                }
+            }
+
+            @Override
+            protected void onFinishLoadMore() {
+                super.onFinishLoadMore();
+                isLoading = false;
             }
         });
         binding.recyclerView.setAdapter(mAdapter);
@@ -98,8 +107,13 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
 
     @Override
     public void onRefresh() {
-        getPageCallback().resetPage();
-        binding.swipeRefresh.setRefreshing(true);
-        loadMore();
+        if (!isLoading) {
+            isLoading = true;
+            getPageCallback().resetPage();
+            binding.swipeRefresh.setRefreshing(true);
+            loadMore();
+        } else {
+            binding.swipeRefresh.setRefreshing(false);
+        }
     }
 }

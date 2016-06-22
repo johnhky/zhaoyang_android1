@@ -4,17 +4,15 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.databinding.BaseObservable;
-import android.databinding.adapters.TextViewBindingAdapter;
+import android.databinding.Bindable;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.text.Editable;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doctor.sun.BR;
 import com.doctor.sun.databinding.IncludeInputLayoutBinding;
 import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.im.IMManager;
@@ -55,6 +53,8 @@ public class InputLayoutViewModel extends BaseObservable {
     private int keyboardType = 0;
     private int keyboardHeight = 0;
 
+    private String msg = "";
+
     public InputLayoutViewModel(final IncludeInputLayoutBinding binding, NimTeamId callback) {
         this.binding = binding;
         this.data = callback;
@@ -71,57 +71,41 @@ public class InputLayoutViewModel extends BaseObservable {
         InputLayoutViewModel.inputTextView = inputTextView;
     }
 
-    public TextViewBindingAdapter.AfterTextChanged afterInputChanged() {
-        return new TextViewBindingAdapter.AfterTextChanged() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                binding.setIsEditing(s.length() > 0);
-                binding.executePendingBindings();
-            }
-        };
-    }
-
-    public View.OnClickListener onSendClick() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                if (inputTextView.getText().toString().equals("")) {
-                    Toast.makeText(inputTextView.getContext(), "不能发送空消息", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (NIMConnectionState.getInstance().isLogin()) {
-                    sendMessage();
-                } else {
-                    NIMConnectionState.getInstance().setCallback(new RequestCallback() {
-                        @Override
-                        public void onSuccess(Object o) {
-                            onClick(v);
-                        }
-
-                        @Override
-                        public void onFailed(int i) {
-                            Toast.makeText(inputTextView.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onException(Throwable throwable) {
-                            Toast.makeText(inputTextView.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    IMManager.getInstance().login();
-                }
-            }
-        };
-    }
-
-    private void sendMessage() {
-        if (data.getType() == SessionTypeEnum.Team) {
-            IMManager.getInstance().sentTextMsg(data.getTeamId(), SessionTypeEnum.Team, inputTextView.getText().toString());
-            inputTextView.setText("");
-        } else if (data.getType() == SessionTypeEnum.P2P) {
-            IMManager.getInstance().sentTextMsg(data.getP2PId(), SessionTypeEnum.P2P, inputTextView.getText().toString());
-            inputTextView.setText("");
+    public void sendMsg(final Context context) {
+        if (msg == null || msg.equals("")) {
+            Toast.makeText(context, "不能发送空消息", Toast.LENGTH_SHORT).show();
+            return;
         }
+        if (NIMConnectionState.getInstance().isLogin()) {
+            sendMessage(msg);
+        } else {
+            NIMConnectionState.getInstance().setCallback(new RequestCallback() {
+                @Override
+                public void onSuccess(Object o) {
+                    sendMessage(msg);
+                }
+
+                @Override
+                public void onFailed(int i) {
+                    Toast.makeText(context, "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onException(Throwable throwable) {
+                    Toast.makeText(context, "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+                }
+            });
+            IMManager.getInstance().login();
+        }
+    }
+
+    private void sendMessage(String msg) {
+        if (data.getType() == SessionTypeEnum.Team) {
+            IMManager.getInstance().sentTextMsg(data.getTeamId(), SessionTypeEnum.Team, msg);
+        } else if (data.getType() == SessionTypeEnum.P2P) {
+            IMManager.getInstance().sentTextMsg(data.getP2PId(), SessionTypeEnum.P2P, msg);
+        }
+        setMsg("");
     }
 
     public TextView.OnEditorActionListener sendMessageAction() {
@@ -129,33 +113,26 @@ public class InputLayoutViewModel extends BaseObservable {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    sendMessage();
+                    sendMessage(msg);
                 }
                 return true;
             }
         };
     }
 
-    public View.OnClickListener onAudioBtnClick() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Activity context = (Activity) binding.getRoot().getContext();
 
-                if (!hasAudioPermission(context)) return;
+    public void toggleMode(Context context, EditText inputText) {
+        Activity activity = (Activity) context;
+        if (!hasAudioPermission(activity)) return;
 
-                setRecordMode(!isRecordMode());
-                binding.setData(InputLayoutViewModel.this);
-                binding.setIsEditing(false);
-                if (!isRecordMode()) {
-                    binding.inputText.requestFocus();
-                    Systems.showKeyboard(context.getWindow(), binding.inputText);
-                } else {
-                    EventHub.post(new HideInputEvent());
-                    Systems.hideKeyboard(context);
-                }
-            }
-        };
+        setRecordMode(!isRecordMode());
+        if (!isRecordMode()) {
+            inputText.requestFocus();
+            Systems.showKeyboard(activity.getWindow(), inputText);
+        } else {
+            EventHub.post(new HideInputEvent());
+            Systems.hideKeyboard(context);
+        }
     }
 
     private boolean hasAudioPermission(Activity context) {
@@ -178,41 +155,29 @@ public class InputLayoutViewModel extends BaseObservable {
         notifyChange();
     }
 
-    @NonNull
-    public View.OnClickListener showEmoticonClick() {
-        return new View.OnClickListener() {
+
+    public void showEmoticon(Context context) {
+        Systems.hideKeyboard(context);
+        Tasks.runOnUiThread(new Runnable() {
             @Override
-            public void onClick(View v) {
-                Context context = binding.getRoot().getContext();
-                Systems.hideKeyboard(context);
-                Tasks.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        setKeyboardType(TYPE_EMOTICON);
-                        setRecordMode(false);
-                        notifyChange();
-                    }
-                }, DELAY_MILLIS);
+            public void run() {
+                setKeyboardType(TYPE_EMOTICON);
+                setRecordMode(false);
+                notifyChange();
             }
-        };
+        }, DELAY_MILLIS);
     }
 
-    @NonNull
-    public View.OnClickListener showCustomActionClick() {
-        return new View.OnClickListener() {
+
+    public void showCustomAction(Context context) {
+        Systems.hideKeyboard(context);
+        Tasks.runOnUiThread(new Runnable() {
             @Override
-            public void onClick(View v) {
-                Context context = binding.getRoot().getContext();
-                Systems.hideKeyboard(context);
-                Tasks.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        setRecordMode(false);
-                        setKeyboardType(TYPE_CUSTOM_ACTION);
-                    }
-                }, DELAY_MILLIS);
+            public void run() {
+                setRecordMode(false);
+                setKeyboardType(TYPE_CUSTOM_ACTION);
             }
-        };
+        }, DELAY_MILLIS);
     }
 
     public interface SendMessageCallback {
@@ -247,5 +212,15 @@ public class InputLayoutViewModel extends BaseObservable {
 
     public int getKeyboardHeight() {
         return keyboardHeight;
+    }
+
+    @Bindable
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+        notifyPropertyChanged(BR.msg);
     }
 }

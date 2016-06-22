@@ -249,22 +249,12 @@ public class IMManager {
 
             @Override
             public void onFailed(int i) {
-                Api.of(ToolModule.class).crashLog(TAG + i).enqueue(new SimpleCallback<Void>() {
-                    @Override
-                    protected void handleResponse(Void response) {
 
-                    }
-                });
             }
 
             @Override
             public void onException(Throwable throwable) {
-                Api.of(ToolModule.class).crashLog(TAG + throwable.toString()).enqueue(new SimpleCallback<Void>() {
-                    @Override
-                    protected void handleResponse(Void response) {
 
-                    }
-                });
             }
         });
     }

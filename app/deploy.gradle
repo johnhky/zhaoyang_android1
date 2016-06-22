@@ -47,7 +47,7 @@ android {
         }
     }
     buildTypes {
-        dev {
+        debug {
             // zhaoyang_server
 //            applicationIdSuffix ".dev12"
 //            versionNameSuffix "_dev12"
@@ -86,7 +86,7 @@ android {
         }
 
         // 生产环境
-        prod {
+        release {
             manifestPlaceholders = [appLabel: "@string/app_name", nimKey: "701994af7b0559728f9ee602a6f3c342"]
             buildConfigField "boolean", "DEV_MODE", "false"
             buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/"' //host, 必改
@@ -104,7 +104,7 @@ android {
         }
 
         // 生产环境
-        prodDebug {
+        releaseDebug {
             manifestPlaceholders = [appLabel: "@string/app_name", nimKey: "701994af7b0559728f9ee602a6f3c342"]
             buildConfigField "boolean", "DEV_MODE", "false"
             buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/"' //host, 必改
@@ -138,6 +138,7 @@ android {
     // 多渠道
     productFlavors {
         official {}
+        baidu {}
     }
     productFlavors.all { flavor ->
         flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]

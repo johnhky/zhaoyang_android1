@@ -193,6 +193,9 @@ public class AVChatUI implements AVChatUIListener {
         AVChatNotifyOption notifyOption = new AVChatNotifyOption();
         notifyOption.extendMessage = "extra_data";
 
+        if (avChatOptionalParam == null) {
+            return;
+        }
         avChatOptionalParam.enableCallProximity(true).enableMultiUser(false).enableVideoCrop(true);
         avChatOptionalParam.enableVideoRotate(true);
         avChatOptionalParam.enableServerRecordAudio(false);

@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 import com.doctor.sun.databinding.FragmentPickDateBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.ReserveDate;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.TimeModule;
-import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.squareup.timessquare.CalendarPickerView;
 
 import java.text.ParseException;
@@ -39,9 +39,9 @@ public class PickDateDialog extends Dialog {
     private FragmentPickDateBinding binding;
     private SimpleDateFormat simpleDateFormat;
     private int doctorId = -1;
-    private String type;
+    private int type;
 
-    public PickDateDialog(Context context, String type) {
+    public PickDateDialog(Context context, int type) {
         super(context);
         this.doctorId = TokenCallback.getDoctorProfile().getId();
         this.type = type;
@@ -112,14 +112,11 @@ public class PickDateDialog extends Dialog {
         });
     }
 
-    private String getType() {
-        return type;
-    }
 
     private boolean isEnable(ReserveDate reserveDate) {
-        if (type.equals(DiagnosisFragment.TYPE_NET)) {
+        if (type == AppointmentType.DETAIL) {
             return reserveDate.getDetail() == 1;
-        } else if (type.equals(DiagnosisFragment.TYPE_FACE)) {
+        } else if (type == AppointmentType.QUICK) {
             return reserveDate.getQuick() == 1;
         }
         return false;

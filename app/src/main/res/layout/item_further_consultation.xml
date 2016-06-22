@@ -144,7 +144,7 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginStart="@dimen/dp_13"
             android:background="@drawable/ripple_default"
-            android:onClick="@{data.date.pickFutureTime(30)}"
+            android:onClick="@{()-> data.pickDateImpl(context)}"
             android:visibility="@{data.and(data.hasAnswer,btnOne.checked || btnTwo.checked)}">
 
             <TextView

@@ -3,7 +3,6 @@ package com.doctor.sun.vo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +12,7 @@ import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -115,6 +115,12 @@ public class FurtherConsultationVM extends BaseItem implements LayoutId {
     public void setDate(String string) {
         if (date != null) {
             date.setDate(string);
+        }
+    }
+
+    public void pickDateImpl(Context context) {
+        if (date != null) {
+            date.pickDateImpl(context, btnOneChecked ? AppointmentType.DETAIL : AppointmentType.QUICK);
         }
     }
 

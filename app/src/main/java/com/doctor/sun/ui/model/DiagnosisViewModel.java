@@ -19,6 +19,7 @@ import com.doctor.sun.vo.ItemButton;
 import com.doctor.sun.vo.ItemPickDate;
 import com.doctor.sun.vo.ItemPickTime;
 import com.doctor.sun.vo.ItemRadioGroup;
+import com.doctor.sun.vo.ItemReminderList;
 import com.doctor.sun.vo.ItemTextInput;
 
 import java.util.GregorianCalendar;
@@ -30,8 +31,8 @@ import java.util.HashMap;
 public class DiagnosisViewModel {
 
 
-    public static final String FURTHER_CONSULTATION = "详细就诊";
-    public static final String FACE_TO_FACE = "简捷复诊";
+    public static final String DETAIL = "详细就诊";
+    public static final String QUICK = "简捷复诊";
     private final Context context;
 
     private String advice = "";
@@ -62,6 +63,8 @@ public class DiagnosisViewModel {
     private ItemButton btnGotoTabOne;
     private ItemButton chooseDoctor;
     private Doctor doctor;
+
+    public ItemReminderList reminderList;
 
     public DiagnosisViewModel(final Activity context) {
         this.context = context;
@@ -98,6 +101,7 @@ public class DiagnosisViewModel {
                 context.startActivityForResult(intent, Constants.PRESCRITION_REQUEST_CODE);
             }
         };
+        reminderList = new ItemReminderList();
     }
 
     public void setReturnType(String type) {

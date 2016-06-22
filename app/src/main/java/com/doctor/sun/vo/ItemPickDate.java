@@ -1,6 +1,7 @@
 package com.doctor.sun.vo;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.view.View;
 import android.widget.DatePicker;
 
@@ -26,11 +27,11 @@ public class ItemPickDate extends BaseItem {
     private final GregorianCalendar calendar = new GregorianCalendar();
     private String title;
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
-    private String type;
+    private int type;
 
 
     public ItemPickDate(int layoutId, String title) {
@@ -144,28 +145,31 @@ public class ItemPickDate extends BaseItem {
         return new OnItemClickListener() {
             @Override
             public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-
-                final PickDateDialog dateDialog = new PickDateDialog(view.getContext(), type);
-                dateDialog.setCellClickInterceptor(new CalendarPickerView.CellClickInterceptor() {
-                    @Override
-                    public boolean onCellClicked(Date date) {
-                        boolean result = dateDialog.isContains(date);
-                        Calendar calendar = GregorianCalendar.getInstance();
-                        calendar.setTime(date);
-                        if (result) {
-                            ItemPickDate.this.year = calendar.get(Calendar.YEAR);
-                            ItemPickDate.this.monthOfYear = calendar.get(Calendar.MONTH);
-                            ItemPickDate.this.dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
-                            notifyChange();
-                        }
-                        dateDialog.dismiss();
-                        return true;
-                    }
-                });
-                dateDialog.show();
+                pickDateImpl(view.getContext(), type);
             }
         };
+    }
+
+    public void pickDateImpl(Context context, int type) {
+        final PickDateDialog dateDialog = new PickDateDialog(context, type);
+        dateDialog.setCellClickInterceptor(new CalendarPickerView.CellClickInterceptor() {
+            @Override
+            public boolean onCellClicked(Date date) {
+                boolean result = dateDialog.isContains(date);
+                Calendar calendar = GregorianCalendar.getInstance();
+                calendar.setTime(date);
+                if (result) {
+                    ItemPickDate.this.year = calendar.get(Calendar.YEAR);
+                    ItemPickDate.this.monthOfYear = calendar.get(Calendar.MONTH);
+                    ItemPickDate.this.dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+                    notifyChange();
+                }
+                dateDialog.dismiss();
+                return true;
+            }
+        });
+        dateDialog.show();
     }
 
     public View.OnClickListener pickTime3() {

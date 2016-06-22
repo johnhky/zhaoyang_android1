@@ -96,6 +96,30 @@ public class NIMConnectionState implements RequestCallback {
         });
     }
 
+    public static void saveMsgs(final List<IMMessage> msgs) {
+        final Realm realm = Realm.getDefaultInstance();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                for (IMMessage msg : msgs) {
+                    boolean haveRead = NIMConnectionState.passThirtyMinutes(msg);
+                    TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
+                    if (msg1 == null) continue;
+
+                    if (msg1.getType().equals(MsgTypeEnum.avchat.toString())) {
+                        msg1.setHaveRead(true);
+                    } else {
+                        msg1.setHaveRead(haveRead);
+                        if (!haveRead) {
+                            NotificationUtil.showNotification(msg1);
+                        }
+                    }
+                    realm.copyToRealmOrUpdate(msg1);
+                }
+            }
+        });
+    }
+
     public static void saveMsgs(final List<IMMessage> msgs, final boolean haveRead) {
         final Realm realm = Realm.getDefaultInstance();
         realm.executeTransactionAsync(new Realm.Transaction() {

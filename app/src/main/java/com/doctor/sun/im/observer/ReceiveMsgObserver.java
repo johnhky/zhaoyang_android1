@@ -12,9 +12,6 @@ import java.util.List;
 public class ReceiveMsgObserver implements Observer<List<IMMessage>> {
     @Override
     public void onEvent(List<IMMessage> imMessages) {
-        for (IMMessage imMessage : imMessages) {
-            boolean haveRead = NIMConnectionState.passThirtyMinutes(imMessage);
-            NIMConnectionState.saveMsg(imMessage, haveRead);
-        }
+        NIMConnectionState.saveMsgs(imMessages);
     }
 }

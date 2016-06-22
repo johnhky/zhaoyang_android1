@@ -11,9 +11,6 @@
             name="audioVM"
             type="com.doctor.sun.vo.RecordAudioViewModel" />
 
-        <variable
-            name="isEditing"
-            type="boolean" />
 
     </data>
 
@@ -46,7 +43,7 @@
                 android:background="@drawable/nim_message_button_bottom_audio_selector"
                 android:clickable="true"
                 android:gravity="center"
-                android:onClick="@{data.onAudioBtnClick}"
+                android:onClick="@{()->data.toggleMode(context,inputText)}"
                 android:textColor="@color/colorPrimaryDark"
                 android:visibility="@{!data.isRecordMode}" />
 
@@ -58,7 +55,7 @@
                 android:background="@drawable/nim_message_keyboard"
                 android:clickable="true"
                 android:gravity="center"
-                android:onClick="@{data.onAudioBtnClick}"
+                android:onClick="@{()->data.toggleMode(context,inputText)}"
                 android:textColor="@color/colorPrimaryDark"
                 android:visibility="@{data.isRecordMode}" />
 
@@ -69,12 +66,12 @@
                 android:layout_marginBottom="@dimen/dp_6"
                 android:layout_marginTop="@dimen/dp_6"
                 android:layout_weight="1"
-                android:afterTextChanged="@{data.afterInputChanged}"
                 android:background="@drawable/bg_msg_input_default"
                 android:hint="请输入消息"
                 android:imeOptions="actionDone"
                 android:maxHeight="@dimen/dp_100"
                 android:setOnEditorActionListener="@{data.sendMessageAction}"
+                android:text="@={data.msg}"
                 android:textSize="@dimen/font_15"
                 android:visibility="@{!data.isRecordMode}">
 
@@ -106,7 +103,7 @@
                 android:background="@drawable/nim_message_button_bottom_emoji_selector"
                 android:clickable="true"
                 android:gravity="center"
-                android:onClick="@{data.showEmoticonClick()}"
+                android:onClick="@{()->data.showEmoticon(context)}"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
@@ -118,9 +115,9 @@
                 android:background="@drawable/nim_message_button_bottom_add_selector"
                 android:clickable="true"
                 android:gravity="center"
-                android:onClick="@{data.showCustomActionClick()}"
+                android:onClick="@{()->data.showCustomAction(context)}"
                 android:textColor="@color/colorPrimaryDark"
-                android:visibility="@{!isEditing}" />
+                android:visibility="@{data.msg.length() == 0||data.recordMode}" />
 
             <TextView
                 android:id="@+id/btn_send"
@@ -132,10 +129,10 @@
                 android:background="@drawable/btn_captcha_blue"
                 android:clickable="true"
                 android:gravity="center"
-                android:onClick="@{data.onSendClick()}"
+                android:onClick="@{()->data.sendMsg(context)}"
                 android:text="发送"
                 android:textColor="@color/white"
-                android:visibility="@{isEditing}" />
+                android:visibility="@{!btnCustomAction.visibility}" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
