@@ -65,4 +65,6 @@
     <string name="team_not_allow_anyone_join">不允许任何人申请加入</string>
 
     <string name="text_89_36"><![CDATA[<font color="#898989">%1$s:</font> <font color="#363636">%2$s</font>]]></string>
+    <string name="add_quick_time_ps">* 简捷复诊为非实时就诊方式，您可在预约当天自由安 排就诊时间，按次收费。</string>
+    <string name="add_detail_time_ps">* 预留填写病历或者休息的时间</string>
 </resources>

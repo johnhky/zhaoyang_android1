@@ -1061,6 +1061,15 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
+    public String bookTimeStatus() {
+        switch (data.getType()) {
+            case "诊后随访":
+                return "发起时间:" + getBookTime();
+            default:
+                return "预约时间:" + getBookTime();
+        }
+    }
+
 
     @NonNull
     public RealmQuery<TextMsg> queryAllMsg(Realm realm) {

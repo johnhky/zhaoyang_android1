@@ -322,6 +322,7 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
     };
 
     @Override
+    @JsonIgnore
     public int getItemLayoutId() {
         return R.layout.item_prescription;
     }

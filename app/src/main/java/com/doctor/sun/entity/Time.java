@@ -1,9 +1,12 @@
 package com.doctor.sun.entity;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
 
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -16,7 +19,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Created by lucas on 12/1/15.
  */
-public class Time implements LayoutId, Parcelable {
+public class Time extends BaseObservable implements LayoutId, Parcelable {
 
 
     public static final int TYPE_UNDEFINE = 0;
@@ -34,13 +37,15 @@ public class Time implements LayoutId, Parcelable {
      * id : 9
      */
 
+    @JsonProperty("id")
+    private int id = 0;
     @JsonProperty("doctor_id")
     private int doctorId;
     @JsonProperty("week")
     private int week;
     @Type
     @JsonProperty("type")
-    private int type;
+    private int type = TYPE_DETAIL;
     @JsonProperty("from")
     private String from;
     @JsonProperty("to")
@@ -49,8 +54,6 @@ public class Time implements LayoutId, Parcelable {
     private String updatedAt;
     @JsonProperty("created_at")
     private String createdAt;
-    @JsonProperty("id")
-    private int id;
 
 
     private TimeHandler handler = new TimeHandler(this);
@@ -82,6 +85,7 @@ public class Time implements LayoutId, Parcelable {
 
     public void setType(int type) {
         this.type = type;
+        notifyPropertyChanged(BR.type);
     }
 
     public void setFrom(String from) {
@@ -172,6 +176,7 @@ public class Time implements LayoutId, Parcelable {
         return result.toString();
     }
 
+    @Bindable
     public int getType() {
         return type;
     }

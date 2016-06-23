@@ -46,23 +46,13 @@ public class AddTimeActivity extends BaseActivity2 {
     }
 
     private void existTimeInit() {
-        binding.tvBeginTime.setText(getData().getFrom().substring(0, 5));
-        binding.tvEndTime.setText(getData().getTo().substring(0, 5));
-        switch (getData().getType()) {
-            case Time.TYPE_DETAIL:
-                binding.rbDetail.setChecked(true);
-                break;
-            case Time.TYPE_QUICK:
-                binding.rbQuick.setChecked(true);
-                break;
-        }
-        int week = getData().getWeek();
-        for (int i = 64; i > 0; i /= 2) {
-            if (week / i > 0) {
-                selectedWeek(i);
-                week -= i;
-            }
-        }
+//        int week = getData().getWeek();
+//        for (int i = 64; i > 0; i /= 2) {
+//            if (week / i > 0) {
+//                selectedWeek(i);
+//                week -= i;
+//            }
+//        }
     }
 
     public void selectedWeek(double num) {
@@ -73,7 +63,7 @@ public class AddTimeActivity extends BaseActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-        binding.setData(new Time());
+        binding.setData(getData());
     }
 
     private void initView() {
@@ -90,7 +80,7 @@ public class AddTimeActivity extends BaseActivity2 {
 
         if (getType() != 0) {
             if (getSelectedWeeks() != 0) {
-                if (getData() != null) {
+                if (getData().getId() != 0) {
                     api.updateTime(getData().getId(), getSelectedWeeks(), getType(), binding.tvBeginTime.getText().toString() + ":00", binding.tvEndTime.getText().toString() + ":00").enqueue(new ApiCallback<Time>() {
                         @Override
                         protected void handleResponse(Time response) {

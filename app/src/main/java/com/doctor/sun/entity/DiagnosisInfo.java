@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by rick on 12/23/15.
@@ -109,6 +110,8 @@ public class DiagnosisInfo {
     private String time;
     @JsonProperty("doctor_info")
     private Doctor doctorInfo;
+    @JsonProperty("reminder")
+    public List<Reminder> reminderList;
 
     public int getId() {
         return id;

@@ -75,7 +75,7 @@
 
         <LinearLayout
             android:id="@+id/lly_medicine_list"
-            android:layout_width="@dimen/dp_270"
+            android:layout_width="@dimen/dp_300"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:background="@color/white"

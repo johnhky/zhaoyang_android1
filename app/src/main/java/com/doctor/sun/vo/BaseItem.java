@@ -2,11 +2,9 @@ package com.doctor.sun.vo;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.support.v7.widget.RecyclerView;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.adapter.core.ListAdapter;
 
 /**
  * Created by rick on 24/12/2015.

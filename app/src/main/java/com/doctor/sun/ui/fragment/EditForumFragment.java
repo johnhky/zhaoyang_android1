@@ -101,6 +101,7 @@ public class EditForumFragment extends RefreshListFragment {
         api.questions(orderId, forumType).enqueue(new SimpleCallback<AfterServiceDTO>() {
             @Override
             protected void handleResponse(AfterServiceDTO response) {
+                allData.clear();
 
                 allData.addAll(response.followUpInfo);
                 int answerPosition = 1;

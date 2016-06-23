@@ -15,6 +15,7 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Symptom;
 import com.doctor.sun.entity.SymptomFactory;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
+import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.ItemButton;
 import com.doctor.sun.vo.ItemPickDate;
 import com.doctor.sun.vo.ItemPickTime;
@@ -102,6 +103,7 @@ public class DiagnosisViewModel {
             }
         };
         reminderList = new ItemReminderList();
+        reminderList.adapter(context);
     }
 
     public void setReturnType(String type) {
@@ -133,6 +135,7 @@ public class DiagnosisViewModel {
 
         returnType.setSelectedItem(response.getReturnType());
         doctor = response.getDoctorInfo();
+        reminderList.addReminders(response.reminderList);
     }
 
 
@@ -379,7 +382,7 @@ public class DiagnosisViewModel {
 //            result.put("comment", binding.mission.etInput.getText().toString());
         }
 //        Log.e("TAg", "toHashMap: " + result.toString());
-
+        result.put("reminder", JacksonUtils.toJson(reminderList.getReminders()));
         return result;
     }
 

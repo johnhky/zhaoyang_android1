@@ -8,7 +8,6 @@ import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.view.View;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PageDTO;
@@ -81,11 +80,11 @@ public class ConsultingFragment extends RefreshListFragment {
     }
 
     private int getItemPadding() {
-        int padding = 1;
-        if (!AppContext.isDoctor()) {
-            padding = 2;
+        if (headers != null) {
+            return headers.size();
+        } else {
+            return 0;
         }
-        return padding;
     }
 
     @Override
@@ -256,11 +255,15 @@ public class ConsultingFragment extends RefreshListFragment {
     private int removeAppointment(Appointment appointmentByTid) {
         int oldPosition = -1;
         for (int i = getItemPadding(); i < getAdapter().size(); i++) {
-            Appointment o = (Appointment) getAdapter().get(i);
-            boolean isEqual = o.getTid() == appointmentByTid.getTid();
-            if (isEqual) {
-                oldPosition = i;
-                break;
+            try {
+                Appointment o = (Appointment) getAdapter().get(i);
+                boolean isEqual = o.getTid() == appointmentByTid.getTid();
+                if (isEqual) {
+                    oldPosition = i;
+                    break;
+                }
+            } catch (ClassCastException e) {
+                continue;
             }
         }
 

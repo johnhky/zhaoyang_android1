@@ -41,7 +41,27 @@ public class TimeHandler {
     }
 
     public TimeHandler() {
+    }
 
+    public String getFrom() {
+        String from = data.getFrom();
+        if (from == null || from.length() < 5) {
+            return "";
+        }
+        return from.substring(0, 5);
+    }
+
+    public boolean isWeekSelected(int week) {
+        return ((data.getWeek() >> week) & 1) == 1;
+    }
+
+
+    public String getTo() {
+        String to = data.getTo();
+        if (to == null || to.length() < 5) {
+            return "";
+        }
+        return to.substring(0, 5);
     }
 
     public interface GetIsEditMode {
@@ -49,7 +69,7 @@ public class TimeHandler {
     }
 
     public void addTime(View view) {
-        Intent intent = AddTimeActivity.makeIntent(view.getContext(), null);
+        Intent intent = AddTimeActivity.makeIntent(view.getContext(), new Time());
         view.getContext().startActivity(intent);
     }
 

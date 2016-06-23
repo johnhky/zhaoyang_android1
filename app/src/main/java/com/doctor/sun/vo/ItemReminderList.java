@@ -2,6 +2,7 @@ package com.doctor.sun.vo;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Reminder;
@@ -9,6 +10,7 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by rick on 18/6/2016.
@@ -50,6 +52,15 @@ public class ItemReminderList extends BaseItem {
         }
     }
 
+    public void addReminders(List<Reminder> reminderList) {
+        if (reminderList == null) {
+            return;
+        }
+        for (Reminder reminder : reminderList) {
+            addReminder(reminder);
+        }
+    }
+
     @Override
     public int getItemLayoutId() {
         return R.layout.item_reminder_list;
@@ -66,6 +77,16 @@ public class ItemReminderList extends BaseItem {
     public HashMap<String, Object> toJsonAnswer() {
         HashMap<String, Object> result = new HashMap<>();
         ArrayList<String> type = new ArrayList<>();
+        ArrayList<Reminder> content = getReminders();
+
+        result.put("type", type);
+        result.put("content", content);
+
+        return result;
+    }
+
+    @NonNull
+    public ArrayList<Reminder> getReminders() {
         ArrayList<Reminder> content = new ArrayList<>();
         for (int i = 0; i < simpleAdapter.size(); i++) {
             ItemPickDate itemPickDate = simpleAdapter.get(i);
@@ -74,10 +95,6 @@ public class ItemReminderList extends BaseItem {
                 content.add(new Reminder(itemPickDate.getTime(), title));
             }
         }
-
-        result.put("type", type);
-        result.put("content", content);
-
-        return result;
+        return content;
     }
 }

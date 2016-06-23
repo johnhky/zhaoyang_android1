@@ -20,100 +20,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:orientation="vertical">
 
         <include
             layout="@layout/include_header"
             bind:header="@{header}" />
 
-        <RelativeLayout
-            android:id="@+id/btn_bigin_time"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_69"
-            android:background="@drawable/ripple_default"
-            android:gravity="center_vertical"
-            android:onClick="@{data.handler.beginTimeSet}">
-
-            <TextView
-                android:id="@+id/tv_begin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_13"
-                android:singleLine="true"
-                android:text="开始时间"
-                android:textColor="#000000"
-                android:textSize="@dimen/font_15" />
-
-            <TextView
-                android:id="@+id/tv_begin_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_44"
-                android:layout_toRightOf="@id/tv_begin"
-                android:singleLine="true"
-                android:text=""
-                android:textColor="#000000"
-                android:textSize="@dimen/font_15" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dp_13"
-                android:src="@drawable/ic_enter" />
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#c1cacf" />
-
-
-        <RelativeLayout
-            android:id="@+id/btn_end_time"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_69"
-            android:background="@drawable/ripple_default"
-            android:gravity="center_vertical"
-            android:onClick="@{data.handler.endTimeSet}">
-
-            <TextView
-                android:id="@+id/tv_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_13"
-                android:singleLine="true"
-                android:text="结束时间"
-                android:textColor="#000000"
-                android:textSize="@dimen/font_15" />
-
-            <TextView
-                android:id="@+id/tv_end_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_44"
-                android:layout_toRightOf="@id/tv_end"
-                android:singleLine="true"
-                android:text=""
-                android:textColor="#000000"
-                android:textSize="@dimen/font_15" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dp_13"
-                android:src="@drawable/ic_enter" />
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#c1cacf" />
-
-        <RadioGroup
+        <LinearLayout
             android:id="@+id/rl_type"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_69"
@@ -139,10 +53,11 @@
                 android:layout_marginLeft="@dimen/dp_41"
                 android:background="#00000000"
                 android:button="@null"
-                android:checked="false"
+                android:checked="@{data.type == 1}"
                 android:drawableLeft="@drawable/ic_tick"
                 android:drawablePadding="@dimen/dp_6"
                 android:gravity="center_vertical"
+                android:onClick="@{()->data.setType(1)}"
                 android:paddingLeft="@dimen/dp_4"
                 android:paddingRight="@dimen/dp_4"
                 android:text="详细就诊"
@@ -156,17 +71,18 @@
                 android:layout_marginRight="@dimen/dp_20"
                 android:background="#00000000"
                 android:button="@null"
-                android:checked="false"
+                android:checked="@{data.type == 2}"
                 android:drawableLeft="@drawable/ic_tick"
                 android:drawablePadding="@dimen/dp_6"
                 android:gravity="center_vertical"
+                android:onClick="@{()->data.setType(2)}"
                 android:paddingLeft="@dimen/dp_4"
                 android:paddingRight="@dimen/dp_4"
                 android:text="简捷复诊"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
 
-        </RadioGroup>
+        </LinearLayout>
 
         <include
             layout="@layout/item_time_category"
@@ -176,6 +92,7 @@
             android:id="@+id/fly_weeks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_18"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_18"
             android:horizontalSpacing="@{@dimen/dp_11}"
@@ -192,6 +109,7 @@
                 android:paddingLeft="@dimen/dp_12"
                 android:paddingRight="@dimen/dp_12"
                 android:paddingStart="@dimen/dp_12"
+                android:selected="@{data.handler.isWeekSelected(0)}"
                 android:text="星期一"
                 android:textColor="@color/text_color_gray"
                 android:textSize="@dimen/font_15" />
@@ -207,6 +125,7 @@
                 android:paddingLeft="@dimen/dp_12"
                 android:paddingRight="@dimen/dp_12"
                 android:paddingStart="@dimen/dp_12"
+                android:selected="@{data.handler.isWeekSelected(1)}"
                 android:text="星期二"
                 android:textColor="@color/text_color_gray"
                 android:textSize="@dimen/font_15" />
@@ -222,6 +141,7 @@
                 android:paddingLeft="@dimen/dp_12"
                 android:paddingRight="@dimen/dp_12"
                 android:paddingStart="@dimen/dp_12"
+                android:selected="@{data.handler.isWeekSelected(2)}"
                 android:text="星期三"
                 android:textColor="@color/text_color_gray"
                 android:textSize="@dimen/font_15" />
@@ -237,6 +157,7 @@
                 android:paddingLeft="@dimen/dp_12"
                 android:paddingRight="@dimen/dp_12"
                 android:paddingStart="@dimen/dp_12"
+                android:selected="@{data.handler.isWeekSelected(3)}"
                 android:text="星期四"
                 android:textColor="@color/text_color_gray"
                 android:textSize="@dimen/font_15" />
@@ -252,6 +173,7 @@
                 android:paddingLeft="@dimen/dp_12"
                 android:paddingRight="@dimen/dp_12"
                 android:paddingStart="@dimen/dp_12"
+                android:selected="@{data.handler.isWeekSelected(4)}"
                 android:text="星期五"
                 android:textColor="@color/text_color_gray"
                 android:textSize="@dimen/font_15" />
@@ -267,6 +189,7 @@
                 android:paddingLeft="@dimen/dp_12"
                 android:paddingRight="@dimen/dp_12"
                 android:paddingStart="@dimen/dp_12"
+                android:selected="@{data.handler.isWeekSelected(5)}"
                 android:text="星期六"
                 android:textColor="@color/text_color_gray"
                 android:textSize="@dimen/font_15" />
@@ -282,10 +205,163 @@
                 android:paddingLeft="@dimen/dp_12"
                 android:paddingRight="@dimen/dp_12"
                 android:paddingStart="@dimen/dp_12"
+                android:selected="@{data.handler.isWeekSelected(6)}"
                 android:text="星期日"
                 android:textColor="@color/text_color_gray"
                 android:textSize="@dimen/font_15" />
 
         </com.doctor.sun.ui.widget.FlowLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="@{data.type == 1}">
+
+            <include
+                layout="@layout/item_divider"
+                bind:data='@{"就诊时间"}' />
+
+            <LinearLayout
+                android:id="@+id/btn_bigin_time"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_69"
+                android:background="@drawable/ripple_default"
+                android:gravity="center_vertical"
+                android:onClick="@{data.handler.beginTimeSet}">
+
+                <TextView
+                    android:id="@+id/tv_begin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:singleLine="true"
+                    android:text="开始时间"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/font_15" />
+
+                <TextView
+                    android:id="@+id/tv_begin_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_44"
+                    android:layout_toRightOf="@id/tv_begin"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:text="@{data.handler.from}"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/font_15" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:src="@drawable/ic_enter" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#c1cacf" />
+
+
+            <LinearLayout
+                android:id="@+id/btn_end_time"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_69"
+                android:background="@drawable/ripple_default"
+                android:gravity="center_vertical"
+                android:onClick="@{data.handler.endTimeSet}">
+
+                <TextView
+                    android:id="@+id/tv_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:singleLine="true"
+                    android:text="结束时间"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/font_15" />
+
+                <TextView
+                    android:id="@+id/tv_end_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_44"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:text="@{data.handler.to}"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/font_15" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:src="@drawable/ic_enter" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#c1cacf" />
+
+            <include
+                layout="@layout/item_divider"
+                bind:data='@{"时间间隔"}' />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_20"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_35"
+                    android:background="@drawable/ic_week_default"
+                    android:inputType="numberSigned"
+                    android:minWidth="@dimen/dp_75"
+                    android:textColor="@color/dark_36"
+                    android:textSize="@dimen/font_15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_8"
+                    android:text="分钟"
+                    android:textColor="@color/dark_36"
+                    android:textSize="@dimen/font_15" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="@string/add_detail_time_ps"
+                android:textColor="@color/red_f0"
+                android:textSize="@dimen/font_14" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="@string/add_quick_time_ps"
+            android:textColor="@color/red_f0"
+            android:textSize="@dimen/font_14"
+            android:visibility="@{data.type == 2}" />
     </LinearLayout>
 </layout>

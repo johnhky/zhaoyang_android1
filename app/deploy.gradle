@@ -139,6 +139,8 @@ android {
     productFlavors {
         official {}
         baidu {}
+        wandoujia {}
+        xiaomi {}
     }
     productFlavors.all { flavor ->
         flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
