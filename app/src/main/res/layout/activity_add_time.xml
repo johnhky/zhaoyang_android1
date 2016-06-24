@@ -328,7 +328,7 @@
                     android:id="@+id/et_interval"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/dp_35"
-                    android:afterTextChanged="@{data.handler.constrainInterval}"
+                    android:afterTextChanged="@{(s)->data.handler.constrainInterval(context,s)}"
                     android:background="@drawable/ic_week_default"
                     android:inputType="number"
                     android:maxLength="3"

@@ -58,7 +58,6 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
     private AnswerModifyAdapter modifyAdapter;
 
     private ItemForumBarBinding barBinding;
-    private SetHeaderListener setHeaderListener;
 
     private boolean adapterStatus;
     private int appointmentId;
@@ -131,20 +130,20 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
                 adapterStatus = Constants.STATUS_QUESTION_LIST;
                 binding.recyclerView.setAdapter(getAdapter());
                 //回调隐藏标题
-                setHeaderListener.setHeaderRightTitle("");
+//                setHeaderListener.setHeaderRightTitle("");
                 break;
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        try {
-            setHeaderListener = (SetHeaderListener) context;
-        } catch (ClassCastException e) {
-            throw new IllegalArgumentException("Host must implement SetHeaderListener");
-        }
-        super.onAttach(context);
-    }
+//    @Override
+//    public void onAttach(Context context) {
+//        try {
+//            setHeaderListener = (SetHeaderListener) context;
+//        } catch (ClassCastException e) {
+//            throw new IllegalArgumentException("Host must implement SetHeaderListener");
+//        }
+//        super.onAttach(context);
+//    }
 
     @SuppressWarnings("unchecked")
     public void loadQuestions(final QuestionCategory data) {

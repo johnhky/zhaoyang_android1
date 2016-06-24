@@ -2,12 +2,13 @@ package com.doctor.sun.entity.handler;
 
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.databinding.adapters.TextViewBindingAdapter;
 import android.text.Editable;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
@@ -32,10 +33,12 @@ import java.util.Locale;
 public class TimeHandler {
     public static final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
     public static final int ONE_HOUR = 3600000;
+    long lastChangeTime = 0;
 
     private Time data;
     private int mHour;
     private int mMinute;
+    public static final int FIVE_SECOND = 5000;
 
     public TimeHandler(Time time) {
         data = time;
@@ -202,23 +205,28 @@ public class TimeHandler {
         return getFromMillis() + dateTime < System.currentTimeMillis();
     }
 
-    public TextViewBindingAdapter.AfterTextChanged constrainInterval() {
-        return new TextViewBindingAdapter.AfterTextChanged() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-                    int interval = Integer.parseInt(s.toString());
-                    if (interval > 120) {
-                        s.clear();
-                        s.append("120");
-                    } else if (interval < 0) {
-                        s.clear();
-                        s.append("0");
-                    }
-                } catch (NumberFormatException ignored) {
-
-                }
+    public void constrainInterval(final Context context, Editable s) {
+        boolean haveChanged = false;
+        try {
+            int interval = Integer.parseInt(s.toString());
+            if (interval > 60) {
+                haveChanged = true;
+                s.clear();
+                s.append("60");
+            } else if (interval < 0) {
+                haveChanged = true;
+                s.clear();
+                s.append("0");
             }
-        };
+        } catch (NumberFormatException ignored) {
+
+        }
+
+        if (haveChanged) {
+            if (System.currentTimeMillis() - lastChangeTime > FIVE_SECOND) {
+                Toast.makeText(context, "时间间隔必须介于0-60之间", Toast.LENGTH_SHORT).show();
+                lastChangeTime = System.currentTimeMillis();
+            }
+        }
     }
 }
