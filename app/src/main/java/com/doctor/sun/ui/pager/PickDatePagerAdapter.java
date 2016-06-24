@@ -13,9 +13,6 @@ import com.doctor.sun.ui.fragment.PickDateFragment;
  */
 public class PickDatePagerAdapter extends FragmentPagerAdapter {
 
-
-    public static final String TYPE_DETAIL = "1";
-    public static final String TYPE_QUICK = "2";
     private final Doctor doctor;
     private int type;
 
@@ -27,7 +24,7 @@ public class PickDatePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(final int position) {
-        PickDateFragment fragment = PickDateFragment.newInstance(doctor, String.valueOf(type));
+        PickDateFragment fragment = PickDateFragment.newInstance(doctor, type);
         return fragment;
     }
 

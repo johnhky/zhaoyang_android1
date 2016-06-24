@@ -11,7 +11,7 @@ import com.doctor.sun.databinding.ActivityAddTimeBinding;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.module.impl.TimeModuleWrapper;
+import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 

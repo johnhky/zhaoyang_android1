@@ -24,6 +24,8 @@ import com.squareup.otto.Subscribe;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
 
+import java.util.Locale;
+
 
 /**
  * Created by rick on 1/2/2016.
@@ -122,7 +124,7 @@ public class VoIPCallActivity extends BaseActivity2 {
     public void onCallAlert(CallAlertEvent event) {
         if (mCallNumber.equals("")) {
             ECVoIPCallManager.VoIPCall voIPCall = event.getVoIPCall();
-            updateVopiCall(voIPCall);
+            updateVoipCall(voIPCall);
             api.avatar(mCallNumber, "").enqueue(new SimpleCallback<Avatar>() {
                 @Override
                 protected void handleResponse(Avatar avatar) {
@@ -137,7 +139,7 @@ public class VoIPCallActivity extends BaseActivity2 {
         }
     }
 
-    private void updateVopiCall(ECVoIPCallManager.VoIPCall voIPCall) {
+    private void updateVoipCall(ECVoIPCallManager.VoIPCall voIPCall) {
         mCallNumber = voIPCall.caller;
         mCallId = voIPCall.callId;
         mCallType = voIPCall.callType;
@@ -145,14 +147,14 @@ public class VoIPCallActivity extends BaseActivity2 {
 
     @Subscribe
     public void onCallAnswered(CallAnsweredEvent event) {
-        updateVopiCall(event.getVoIPCall());
+        updateVoipCall(event.getVoIPCall());
         counter = new Counter();
         handler.post(counter);
     }
 
     @Subscribe
     public void onCallReleased(CallReleasedEvent event) {
-        updateVopiCall(event.getVoIPCall());
+        updateVoipCall(event.getVoIPCall());
         ECDevice.getECVoIPCallManager()
                 .releaseCall(mCallId);
         if (counter != null) {
@@ -164,7 +166,7 @@ public class VoIPCallActivity extends BaseActivity2 {
 
     @Subscribe
     public void onCallFailed(CallFailedEvent event) {
-        updateVopiCall(event.getVoIPCall());
+        updateVoipCall(event.getVoIPCall());
         binding.status.setText("您拨叫的用户正忙,请稍后再拨");
         ECDevice.getECVoIPCallManager()
                 .releaseCall(mCallId);
@@ -191,7 +193,7 @@ public class VoIPCallActivity extends BaseActivity2 {
         public String getTime(long time) {
             long minute = time / ONE_MINUTE;
             long second = (time % ONE_MINUTE) / ONE_SECOND;
-            return String.format("%02d:%02d", minute, second);
+            return String.format(Locale.CHINA, "%02d:%02d", minute, second);
         }
 
         public void stop() {

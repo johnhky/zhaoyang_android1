@@ -14,7 +14,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.ReserveDate;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.callback.TokenCallback;
-import com.doctor.sun.module.impl.TimeModuleWrapper;
+import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.squareup.timessquare.CalendarPickerView;
 
 import java.text.ParseException;

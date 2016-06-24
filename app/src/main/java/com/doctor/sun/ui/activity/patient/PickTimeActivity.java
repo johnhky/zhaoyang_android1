@@ -14,6 +14,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPickTimeBinding;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Time;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.module.TimeModule;
@@ -21,7 +22,6 @@ import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.PickTimeAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.ui.pager.PickDatePagerAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,7 +40,7 @@ public class PickTimeActivity extends BaseActivity2 {
     private PickTimeAdapter mAdapter;
     String[] weekOfDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 
-    public static Intent makeIntent(Context context, Doctor data, String date, String recordId, String consultType) {
+    public static Intent makeIntent(Context context, Doctor data, String date, String recordId, int consultType) {
         Intent i = new Intent(context, PickTimeActivity.class);
         i.putExtra(Constants.DATA, data);
         i.putExtra(Constants.DATE, date);
@@ -58,8 +58,8 @@ public class PickTimeActivity extends BaseActivity2 {
         return getIntent().getStringExtra(Constants.DATE);
     }
 
-    public String getType() {
-        return getIntent().getStringExtra(Constants.CONSULT_TYPE);
+    public int getType() {
+        return getIntent().getIntExtra(Constants.CONSULT_TYPE, 0);
     }
 
     private String getRecordId() {
@@ -88,9 +88,9 @@ public class PickTimeActivity extends BaseActivity2 {
     }
 
     private String getTypeImpl() {
-        if (getType().equals(PickDatePagerAdapter.TYPE_QUICK)) {
+        if (getType() == AppointmentType.QUICK) {
             return "预约类型:简捷复诊";
-        } else if (getType().equals(PickDatePagerAdapter.TYPE_DETAIL)) {
+        } else if (getType() == AppointmentType.DETAIL) {
             return "预约类型:详细咨询";
         }
         return "";
@@ -144,7 +144,7 @@ public class PickTimeActivity extends BaseActivity2 {
 
     private void loadData() {
         Doctor data = getData();
-        api.getDaySchedule(data.getId(), getDate(), Integer.parseInt(getType()), data.getDuration()).enqueue(new ListCallback<Time>(mAdapter));
+        api.getDaySchedule(data.getId(), getDate(), getType(), data.getDuration()).enqueue(new ListCallback<Time>(mAdapter));
     }
 
     private void makeAppointment() {
@@ -178,7 +178,7 @@ public class PickTimeActivity extends BaseActivity2 {
     public long getDateTime() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss", Locale.CHINA);
         try {
-            Date parse = simpleDateFormat.parse(getDate()+"-00:00:00");
+            Date parse = simpleDateFormat.parse(getDate() + "-00:00:00");
             return parse.getTime();
         } catch (ParseException e) {
             e.printStackTrace();

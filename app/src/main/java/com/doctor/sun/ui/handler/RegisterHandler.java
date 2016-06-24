@@ -2,6 +2,7 @@ package com.doctor.sun.ui.handler;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.MobEventId;
 import com.doctor.sun.entity.Token;
@@ -173,6 +175,12 @@ public class RegisterHandler extends BaseHandler {
         }
 
         return false;
+    }
+
+    public void viewRegistrationPolicy() {
+        String url = BuildConfig.BASE_URL + "readme/registration-policy";
+        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        getContext().startActivity(i);
     }
 
     public interface RegisterInput {

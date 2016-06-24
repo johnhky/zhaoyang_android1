@@ -1,9 +1,11 @@
 package com.doctor.sun.ui.model;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.view.View;
 
 import com.doctor.sun.R;
+import com.doctor.sun.BR;
 
 
 /**
@@ -20,6 +22,7 @@ public class HeaderViewModel extends BaseObservable {
     private String rightTitle = "";
     private String rightFirstTitle = "";
     private String midTitle = "";
+    private boolean enable = true;
 
     public HeaderViewModel(HeaderView mView) {
         this.mView = mView;
@@ -120,6 +123,16 @@ public class HeaderViewModel extends BaseObservable {
 
     public String getRightFirstTitle() {
         return rightFirstTitle;
+    }
+
+    @Bindable
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+        notifyPropertyChanged(BR.enable);
     }
 
     public boolean leftVisible() {

@@ -37,7 +37,7 @@ public abstract class TabActivity extends BaseFragmentActivity2 implements Heade
 
     private void setCurrentItem() {
         int position = getPosition();
-        if (position < pagerAdapter.getCount()) {
+        if (position <= pagerAdapter.getCount()) {
             binding.vp.setCurrentItem(position);
         }
     }

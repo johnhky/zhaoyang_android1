@@ -48,7 +48,6 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
     private FragmentListBinding binding;
     private ItemForumBarBinding barBinding;
     private SimpleAdapter answerAdapter;
-    private SetHeaderListener setHeaderListener;
 
     private Appointment appointment;
     private boolean adapterStatus;
@@ -121,21 +120,6 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
                 binding.recyclerView.setAdapter(getAdapter());
                 break;
         }
-    }
-
-//    public void loadQuestions(final int questionCategoryId, Runnable runnable) {
-//        loadQuestions(questionCategoryId);
-//        runnable.run();
-//    }
-
-    @Override
-    public void onAttach(Context context) {
-        try {
-            setHeaderListener = (SetHeaderListener) context;
-        } catch (ClassCastException e) {
-            throw new IllegalArgumentException("Host must implement SetHeaderListener");
-        }
-        super.onAttach(context);
     }
 
     @SuppressWarnings("unchecked")

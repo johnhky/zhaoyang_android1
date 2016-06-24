@@ -3,6 +3,8 @@ package com.doctor.sun.entity.handler;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.databinding.adapters.TextViewBindingAdapter;
+import android.text.Editable;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -11,7 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.module.impl.TimeModuleWrapper;
+import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.doctor.AddBreakTimeActivity;
 import com.doctor.sun.ui.activity.doctor.AddTimeActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -198,5 +200,25 @@ public class TimeHandler {
 
     public boolean isPast(long dateTime) {
         return getFromMillis() + dateTime < System.currentTimeMillis();
+    }
+
+    public TextViewBindingAdapter.AfterTextChanged constrainInterval() {
+        return new TextViewBindingAdapter.AfterTextChanged() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    int interval = Integer.parseInt(s.toString());
+                    if (interval > 120) {
+                        s.clear();
+                        s.append("120");
+                    } else if (interval < 0) {
+                        s.clear();
+                        s.append("0");
+                    }
+                } catch (NumberFormatException ignored) {
+
+                }
+            }
+        };
     }
 }

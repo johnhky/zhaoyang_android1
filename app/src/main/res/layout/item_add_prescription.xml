@@ -35,7 +35,7 @@
             android:paddingLeft="@dimen/dp_15"
             android:paddingRight="@dimen/dp_44"
             android:paddingTop="@dimen/dp_8"
-            android:text="1. 点击填写历史服药情况"
+            android:text="点击输入第1种历史服药情况"
             android:textColor="@color/grey_ab"
             android:textSize="@dimen/font_15"
             android:visibility='@{data.handler.drugCountGreaterThen(data,1)}' />
@@ -51,7 +51,7 @@
             android:paddingLeft="@dimen/dp_15"
             android:paddingRight="@dimen/dp_4"
             android:paddingTop="@dimen/dp_8"
-            android:text="2. 点击填写历史服药情况"
+            android:text="点击输入第2种历史服药情况"
             android:textColor="@color/grey_ab"
             android:textSize="@dimen/font_15"
             android:visibility='@{data.handler.drugCountGreaterThen(data,2)}' />

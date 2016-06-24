@@ -7,6 +7,10 @@
         <variable
             name="header"
             type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+        <variable
+            name="enable"
+            type="boolean" />
     </data>
 
     <LinearLayout
@@ -26,15 +30,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/ripple_default"
+                android:drawablePadding="@dimen/dp_10"
                 android:gravity="center"
                 android:onClick="@{header.onBackClicked}"
                 android:paddingLeft="@dimen/dp_12"
                 android:paddingRight="@dimen/dp_12"
                 android:text="@{header.leftTitle}"
                 android:textColor="@color/colorPrimary"
-                app:drawableLeft="@{header.leftIcon}"
                 android:textSize="@dimen/font_13"
-                android:drawablePadding="@dimen/dp_10"
+                app:drawableLeft="@{header.leftIcon}"
                 app:visible="@{header.leftVisible}" />
 
 
@@ -58,13 +62,14 @@
                 android:layout_toLeftOf="@+id/right_header"
                 android:layout_toStartOf="@+id/right_header"
                 android:background="@drawable/ripple_default"
-                android:clickable="false"
+                android:clickable="@{header.enable}"
+                android:enabled="@{header.enable}"
                 android:gravity="center"
                 android:onClick="@{header.onFirstMenuClicked}"
                 android:paddingLeft="@dimen/dp_12"
                 android:paddingRight="@dimen/dp_7"
                 android:text="@{header.rightFirstTitle}"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/text_color_white"
                 app:drawableLeft="@{header.rightFirstIcon}"
                 app:visible="@{header.rightFirstVisible}" />
 
@@ -74,13 +79,14 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/ripple_default"
-                android:clickable="false"
+                android:clickable="@{header.enable}"
+                android:enabled="@{header.enable}"
                 android:gravity="center"
                 android:onClick="@{header.onMenuClicked}"
                 android:paddingLeft="@dimen/dp_7"
                 android:paddingRight="@dimen/dp_12"
                 android:text="@{header.rightTitle}"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/text_color_white"
                 app:drawableLeft="@{header.rightIcon}"
                 app:visible="@{header.rightVisible}" />
         </RelativeLayout>

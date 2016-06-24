@@ -1,4 +1,4 @@
-package com.doctor.sun.module.impl;
+package com.doctor.sun.module.wraper;
 
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;

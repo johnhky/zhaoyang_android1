@@ -15,6 +15,7 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.CouponType;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.http.Api;
@@ -34,7 +35,7 @@ import java.util.Locale;
 
 /**
  * 确认预约
- * <p/>
+ * <p>
  * Created by lucas on 1/22/16.
  */
 public class ApplyAppointmentActivity extends BaseActivity2 {
@@ -47,7 +48,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
     private MedicalRecord record;
     private List<Coupon> coupons;
 
-    public static Intent makeIntent(Context context, Doctor doctor, String bookTime, String type, String recordId) {
+    public static Intent makeIntent(Context context, Doctor doctor, String bookTime, int type, String recordId) {
         Intent i = new Intent(context, ApplyAppointmentActivity.class);
         i.putExtra(Constants.DOCTOR, doctor);
         i.putExtra(Constants.BOOKTIME, bookTime);
@@ -64,8 +65,8 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
         return getIntent().getStringExtra(Constants.BOOKTIME);
     }
 
-    private String getType() {
-        return getIntent().getStringExtra(Constants.TYPE);
+    private int getType() {
+        return getIntent().getIntExtra(Constants.TYPE, 0);
     }
 
     private String getRecordId() {
@@ -87,7 +88,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
             }
         });
         Doctor doctorData = getDoctorData();
-        doctorData.setType(Integer.parseInt(getType()));
+        doctorData.setType(getType());
         binding.setData(doctorData);
         binding.tvTime.setText(String.format("预约时间:%s", getBookTime()));
         binding.tvType.setText(String.format("预约类型:%s", appointmentType()));
@@ -117,7 +118,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                     doctorData.setRecordId(String.valueOf(record.getMedicalRecordId()));
                 }
                 String doctorId = String.valueOf(doctorData.getId());
-                int type = Integer.parseInt(getType());
+                int type = getType();
                 String couponId = "";
                 if (binding.cbCouponCount.isChecked() && coupons != null && !coupons.isEmpty()) {
                     couponId = coupons.get(0).getId();
@@ -187,10 +188,10 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
     private String appointmentType() {
         String type = "";
         switch (getType()) {
-            case "1":
+            case AppointmentType.DETAIL:
                 type = "详细咨询";
                 break;
-            case "2":
+            case AppointmentType.QUICK:
                 type = "简捷复诊";
                 break;
         }

@@ -10,7 +10,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityTimeBinding;
 import com.doctor.sun.entity.handler.TimeHandler;
-import com.doctor.sun.module.impl.TimeModuleWrapper;
+import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.TimeAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;

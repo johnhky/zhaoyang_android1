@@ -209,5 +209,39 @@
             android:layout_height="1px"
             android:background="#c1cacf" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_20"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cb_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/ic_circle_tick"
+                android:checked="@={header.enable}"
+                android:drawablePadding="@dimen/dp_4"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dp_4"
+                android:textColor="@color/color_cb_text"
+                android:textSize="@dimen/font_12" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:selected="@{header.enable}"
+                android:drawablePadding="@dimen/dp_4"
+                android:gravity="center_vertical"
+                android:onClick="@{()->handler.viewRegistrationPolicy()}"
+                android:padding="@dimen/dp_4"
+                android:text="是否已知晓【注册需知】所述事项"
+                android:textColor="@color/color_cb_text"
+                android:textSize="@dimen/font_12" />
+        </LinearLayout>
+
     </LinearLayout>
 </layout>

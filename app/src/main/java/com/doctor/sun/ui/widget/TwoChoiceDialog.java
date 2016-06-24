@@ -83,23 +83,26 @@ public class TwoChoiceDialog {
 //                apply, button);
 //        deleteDialog.setCanceledOnTouchOutside(false);
 //        deleteDialog.show();
-        com.afollestad.materialdialogs.MaterialDialog.Builder builder = new com.afollestad.materialdialogs.MaterialDialog.Builder(context);
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         builder.negativeText(cancel)
                 .positiveText(apply)
                 .content(question)
-                .onPositive(new com.afollestad.materialdialogs.MaterialDialog.SingleButtonCallback() {
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(@NonNull com.afollestad.materialdialogs.MaterialDialog dialog, @NonNull DialogAction which) {
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         button.onApplyClick(dialog);
                     }
                 })
-                .onNegative(new com.afollestad.materialdialogs.MaterialDialog.SingleButtonCallback() {
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onClick(@NonNull com.afollestad.materialdialogs.MaterialDialog dialog, @NonNull DialogAction which) {
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         button.onCancelClick(dialog);
                     }
                 })
                 .negativeColor(Color.parseColor("#777777"));
+        if (apply.equals("删除")) {
+            builder.positiveColor(Color.parseColor("#f04c62"));
+        }
         builder.show();
     }
 }

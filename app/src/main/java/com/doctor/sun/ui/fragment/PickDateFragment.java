@@ -15,11 +15,11 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentPickDateBinding;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.ReserveDate;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.module.impl.TimeModuleWrapper;
+import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.patient.ApplyAppointmentActivity;
 import com.doctor.sun.ui.activity.patient.PickTimeActivity;
-import com.doctor.sun.ui.pager.PickDatePagerAdapter;
 import com.squareup.timessquare.CalendarPickerView;
 
 import java.text.ParseException;
@@ -42,14 +42,14 @@ public class PickDateFragment extends BaseFragment {
     private FragmentPickDateBinding binding;
     private SimpleDateFormat simpleDateFormat;
     private Doctor doctor;
-    private String type;
+    private int type;
     private String recordId;
 
 
-    public static PickDateFragment newInstance(Doctor doctor, String type) {
+    public static PickDateFragment newInstance(Doctor doctor, @AppointmentType int type) {
 
         Bundle args = new Bundle();
-        args.putString(Constants.POSITION, type);
+        args.putInt(Constants.POSITION, type);
         args.putParcelable(Constants.PARAM_DOCTOR_ID, doctor);
         args.putString(Constants.PARAM_RECORD_ID, doctor.getRecordId());
 
@@ -72,36 +72,7 @@ public class PickDateFragment extends BaseFragment {
         recordId = getRecordId();
         binding.calendarView.init(now.getTime(), nextMonth.getTime())
                 .inMode(CalendarPickerView.SelectionMode.MULTIPLE);
-        binding.calendarView.setCellClickInterceptor(new CalendarPickerView.CellClickInterceptor() {
-            @Override
-            public boolean onCellClicked(Date date) {
-
-                if (binding.calendarView.getSelectedDates().contains(date)) {
-                    final String bookDate = simpleDateFormat.format(date);
-                    switch (type) {
-                        case "1": {
-                            pickTime(bookDate);
-                            break;
-                        }
-                        case "2": {
-                            if (date.getTime() <= getMillisMidNight() + ONE_DAY) {
-                                showDialog(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        applyAppointment(bookDate);
-                                    }
-                                });
-                            } else {
-                                applyAppointment(bookDate);
-                            }
-                            break;
-                        }
-                    }
-                }
-
-                return true;
-            }
-        });
+        binding.calendarView.setCellClickInterceptor(new OnDateClick());
         loadData();
         return binding.getRoot();
     }
@@ -135,7 +106,7 @@ public class PickDateFragment extends BaseFragment {
     }
 
     private void loadData() {
-        api.getDateSchedule(getDoctorId(), getDuration(), Integer.parseInt(getType())).enqueue(new ApiCallback<List<ReserveDate>>() {
+        api.getDateSchedule(getDoctorId(), getDuration(), getType()).enqueue(new ApiCallback<List<ReserveDate>>() {
             @Override
             protected void handleResponse(List<ReserveDate> reserveDates) {
                 if (reserveDates == null) return;
@@ -165,14 +136,14 @@ public class PickDateFragment extends BaseFragment {
         });
     }
 
-    private String getType() {
-        return getArguments().getString(Constants.POSITION);
+    private int getType() {
+        return getArguments().getInt(Constants.POSITION);
     }
 
     private boolean isEnable(ReserveDate reserveDate) {
-        if (type.equals(PickDatePagerAdapter.TYPE_DETAIL)) {
+        if (type == AppointmentType.DETAIL) {
             return reserveDate.getDetail() == 1;
-        } else if (type.equals(PickDatePagerAdapter.TYPE_QUICK)) {
+        } else if (type == AppointmentType.QUICK) {
             return reserveDate.getQuick() == 1;
         }
         return false;
@@ -212,5 +183,36 @@ public class PickDateFragment extends BaseFragment {
 
     private String getDialogContent() {
         return String.format(getResources().getString(R.string.hours_until_midnight), getHourUntilMidNight());
+    }
+
+    private class OnDateClick implements CalendarPickerView.CellClickInterceptor {
+        @Override
+        public boolean onCellClicked(Date date) {
+
+            if (binding.calendarView.getSelectedDates().contains(date)) {
+                final String bookDate = simpleDateFormat.format(date);
+                switch (type) {
+                    case AppointmentType.DETAIL: {
+                        pickTime(bookDate);
+                        break;
+                    }
+                    case AppointmentType.QUICK: {
+                        if (date.getTime() <= getMillisMidNight() - ONE_DAY) {
+                            showDialog(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    applyAppointment(bookDate);
+                                }
+                            });
+                        } else {
+                            applyAppointment(bookDate);
+                        }
+                        break;
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 }

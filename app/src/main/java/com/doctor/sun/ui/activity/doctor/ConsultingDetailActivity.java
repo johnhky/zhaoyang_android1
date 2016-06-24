@@ -3,8 +3,8 @@ package com.doctor.sun.ui.activity.doctor;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.AppContext;
@@ -35,7 +35,6 @@ import io.ganguo.library.core.event.extend.OnPageChangeAdapter;
  */
 public class ConsultingDetailActivity extends TabActivity
         implements QCategoryHandler.QCategoryCallback,
-        FillForumFragment.SetHeaderListener,
         Appointment.AppointmentId,
         Prescription.UrlToLoad {
     public static final int POSITION_ANSWER = 0;
@@ -95,8 +94,8 @@ public class ConsultingDetailActivity extends TabActivity
 
     @Override
     protected HeaderViewModel createHeaderViewModel() {
-        header0 = new HeaderViewModel(this);
-        header1 = new HeaderViewModel(this);
+        header0 = new HeaderViewModel(getHeaderView0());
+        header1 = new HeaderViewModel(getHeaderView1());
 
         if (isUserPatient()) {
             //病人端
@@ -112,46 +111,80 @@ public class ConsultingDetailActivity extends TabActivity
         }
 
         if (getPosition() == 0) {
+            position = 0;
             return header0;
         } else {
+            position = 1;
             return header1;
         }
     }
 
-    @Override
-    public void onFirstMenuClicked() {
-        Answer.handler.toggleEditMode();
-        FillForumFragment.getInstance(getData()).getAdapter().notifyDataSetChanged();
+    @NonNull
+    private HeaderViewModel.HeaderView getHeaderView1() {
+        return new HeaderViewModel.HeaderView() {
+            @Override
+            public void onBackClicked() {
+                ConsultingDetailActivity.this.onBackClicked();
+            }
+
+            @Override
+            public void onTitleClicked() {
+
+            }
+
+            @Override
+            public void onMenuClicked() {
+                DiagnosisFragment.getInstance(null).setDiagnosise();
+            }
+
+            @Override
+            public void onFirstMenuClicked() {
+
+            }
+        };
     }
+
+    @NonNull
+    private HeaderViewModel.HeaderView getHeaderView0() {
+        return new HeaderViewModel.HeaderView() {
+            @Override
+            public void onBackClicked() {
+                ConsultingDetailActivity.this.onBackClicked();
+            }
+
+            @Override
+            public void onTitleClicked() {
+
+            }
+
+            @Override
+            public void onMenuClicked() {
+                if (isUserPatient()) {
+                    if (binding.getHeader().getRightTitle().equals("保存")) {
+                        //保存
+
+//                        Log.d("ConsultingDetailActivit", ModifyForumFragment.getInstance(getData().getAppointmentId()).toString());
+                        ModifyForumFragment.getInstance(getData().getAppointmentId()).save();
+                    }
+                } else {
+                    Intent intent = AssignQuestionActivity.makeIntent(ConsultingDetailActivity.this, getData());
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFirstMenuClicked() {
+                Answer.handler.toggleEditMode();
+                FillForumFragment.getInstance(getData()).getAdapter().notifyDataSetChanged();
+            }
+        };
+    }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Answer.handler.resetEditMode();
-    }
-
-    @Override
-    public void onMenuClicked() {
-        switch (position) {
-            case 0: {
-                if (isUserPatient()) {
-                    if (binding.getHeader().getRightTitle().equals("保存")) {
-                        //保存
-
-                        Log.d("ConsultingDetailActivit", ModifyForumFragment.getInstance(getData().getAppointmentId()).toString());
-                        ModifyForumFragment.getInstance(getData().getAppointmentId()).save();
-                    }
-                } else {
-                    Intent intent = AssignQuestionActivity.makeIntent(this, getData());
-                    startActivity(intent);
-                }
-                break;
-            }
-            case 1: {
-                DiagnosisFragment.getInstance(null).setDiagnosise();
-                break;
-            }
-        }
     }
 
 
@@ -223,10 +256,6 @@ public class ConsultingDetailActivity extends TabActivity
         return Config.getInt(Constants.USER_TYPE, -1) == AuthModule.PATIENT_TYPE;
     }
 
-    @Override
-    public void setHeaderRightTitle(String title) {
-        header0.setRightTitle(title);
-    }
 
     @Override
     public int getId() {
