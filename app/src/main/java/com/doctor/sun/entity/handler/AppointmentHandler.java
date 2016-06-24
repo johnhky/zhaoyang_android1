@@ -768,7 +768,14 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return new OnItemClickListener() {
             @Override
             public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                drugModule.pushDrug(data.getId()).enqueue(new SimpleCallback<String>() {
+                Call<ApiDTO<String>> apiDTOCall;
+                if (data.getType().equals("诊后随访")) {
+                    apiDTOCall = drugModule.pushFollowUpDrug(String.valueOf(data.getId()));
+                } else {
+                    apiDTOCall = drugModule.pushDrug(String.valueOf(data.getId()));
+                }
+
+                apiDTOCall.enqueue(new SimpleCallback<String>() {
                     @Override
                     protected void handleResponse(String response) {
                         EventHub.post(new CloseDrawerEvent());

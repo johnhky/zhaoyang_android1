@@ -86,9 +86,8 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
         final DialogPickDurationBinding binding = this.binding.duration;
         binding.setMoney(0);
         if (getType() == AppointmentType.QUICK) {
-            for (int i = 2; i < binding.rgDuration.getChildCount(); i++) {
-                binding.rgDuration.getChildAt(i).setVisibility(View.GONE);
-            }
+            binding.rgDuration.setVisibility(View.INVISIBLE);
+            binding.money.setVisibility(View.INVISIBLE);
         }
         binding.rgDuration.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -126,6 +125,8 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
                 }
             }
         });
+//        binding.rgDuration.rbOne.ch
+        binding.rbOne.setChecked(true);
     }
 
 

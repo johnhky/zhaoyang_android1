@@ -24,7 +24,7 @@ import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
 
 /**
- * 病历管理
+ * 患者管理
  * Created by lucas on 1/4/16.
  */
 public class RecordListActivity extends BaseActivity2 {
@@ -63,7 +63,7 @@ public class RecordListActivity extends BaseActivity2 {
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_record_list);
         HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("病历管理");
+        header.setMidTitle("患者管理");
         binding.setHeader(header);
         mAdapter = new SimpleAdapter(this);
         mAdapter.mapLayout(R.layout.item_text, R.layout.p_item_recordlist);

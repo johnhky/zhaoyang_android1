@@ -16,47 +16,47 @@ import retrofit2.http.Query;
 /**
  * Created by lucas on 12/1/15.
  */
-public interface TimeModule {
+public interface DayModule {
 
 
     @FormUrlEncoded
-    @POST("time/gettime")
+    @POST("day/gettime")
     Call<ApiDTO<List<Time>>> getTime(@Field("type") int type);
 
-    @POST("time/gettime")
+    @POST("day/query-time")
     Call<ApiDTO<List<Time>>> getAllTime();
 
     @FormUrlEncoded
-    @POST("time/settime")
-    Call<ApiDTO<Time>> setTime(@Field("week") int week, @Field("type") int type, @Field("from") String from, @Field("to") String to, @Field("interval") int interval);
+    @POST("day/set-time")
+    Call<ApiDTO<Time>> setTime(@Field("week") int week);
 
     @FormUrlEncoded
-    @POST("time/update-time")
-    Call<ApiDTO<Time>> updateTime(@Field("id") int id, @Field("week") int week, @Field("type") int type, @Field("from") String from, @Field("to") String to, @Field("interval") int interval);
+    @POST("day/update-time")
+    Call<ApiDTO<Time>> updateTime(@Field("id") int id, @Field("week") int week);
 
     @FormUrlEncoded
-    @POST("time/deltime")
+    @POST("day/del-time")
     Call<ApiDTO<String>> deleteTime(@Field("id") int id);
 
-    @GET("time/day-schedule")
-    Call<ApiDTO<List<Time>>> getDaySchedule(@Query("doctorId") int doctorId, @Query("date") String date, @Query("type") int type, @Query("takeTime") String takeTime);
+    @GET("day/query-time")
+    Call<ApiDTO<List<Time>>> getDaySchedule(@Query("doctorId") int doctorId, @Query("date") String date, @Query("type") String type, @Query("takeTime") String takeTime);
 
-    @GET("time/date-schedule")
-    Call<ApiDTO<List<ReserveDate>>> getDateSchedule(@Query("doctorId") int doctorId, @Query("takeTime") int takeTime);
+    @GET("day/month-schedule")
+    Call<ApiDTO<List<ReserveDate>>> getDateSchedule(@Query("doctorId") int doctorId);
 
 
 //    @FormUrlEncoded
-//    @POST("time/getdatalist")
+//    @POST("day/getdatalist")
 //    Call<> getDate(@Field("doctorId")int doctorId,@Field("data")String data);
 //
 
     @FormUrlEncoded
-    @POST("time/getresrvedate")
+    @POST("day/getresrvedate")
     Call<ApiDTO<List<ReserveDate>>> getResrveDate(@Field("doctorId") int doctorId, @Field("is_referral") String is_referral);
 
 
     @FormUrlEncoded
-    @POST("time/getdatalist")
+    @POST("day/getdatalist")
     Call<ApiDTO<List<Time>>> reserveTime(@Field("doctorId") int doctorId, @Field("data") String data);
 
 }

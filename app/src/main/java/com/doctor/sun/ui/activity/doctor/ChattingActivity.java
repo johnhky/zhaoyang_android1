@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingBinding;
@@ -35,8 +36,8 @@ import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.ExtendedEditText;
-import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
+import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.FileChooser;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PermissionUtil;
@@ -148,14 +149,14 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                     if (Integer.parseInt(response.getNeed()) == 1) {
                         TwoChoiceDialog.show(ChattingActivity.this, "就诊已结束，\n是否需要邮寄药品？", "否", "是", new TwoChoiceDialog.Options() {
                             @Override
-                            public void onApplyClick(TwoChoiceDialog dialog) {
+                            public void onApplyClick(MaterialDialog dialog) {
                                 dialog.dismiss();
                                 Intent intent = MedicineStoreActivity.makeIntent(ChattingActivity.this);
                                 startActivity(intent);
                             }
 
                             @Override
-                            public void onCancelClick(TwoChoiceDialog dialog) {
+                            public void onCancelClick(MaterialDialog dialog) {
                                 dialog.dismiss();
                             }
                         });

@@ -32,6 +32,7 @@
                 android:textSize="@dimen/font_15" />
 
             <RadioButton
+                android:id="@+id/rb_one"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_35"
                 android:layout_marginLeft="@dimen/dp_13"
@@ -81,6 +82,7 @@
         </RadioGroup>
 
         <TextView
+            android:id="@+id/money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_20"

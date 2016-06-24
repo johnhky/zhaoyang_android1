@@ -30,7 +30,7 @@ public class QuestionHandler {
         data = question;
     }
 
-    public QuestionHandler(){
+    public QuestionHandler() {
     }
 
     public OnItemClickListener select() {
@@ -56,7 +56,7 @@ public class QuestionHandler {
                 if (!selector.isSelected()) {
                     TwoChoiceDialog.show(view.getContext(), "是否确认添加？", "取消", "确认", new TwoChoiceDialog.Options() {
                         @Override
-                        public void onApplyClick(final TwoChoiceDialog dialog) {
+                        public void onApplyClick(final com.afollestad.materialdialogs.MaterialDialog dialog) {
                             AssignQuestionAdapter.GetAppointmentId getAppointmentId = (AssignQuestionAdapter.GetAppointmentId) view.getContext();
                             String appointmentId = getAppointmentId.getAppointmentId();
                             api.appendQuestion(appointmentId, String.valueOf(data.getId())).enqueue(new ApiCallback<List<Answer>>() {
@@ -69,7 +69,7 @@ public class QuestionHandler {
                         }
 
                         @Override
-                        public void onCancelClick(TwoChoiceDialog dialog) {
+                        public void onCancelClick(com.afollestad.materialdialogs.MaterialDialog dialog) {
                             dialog.dismiss();
                         }
                     });

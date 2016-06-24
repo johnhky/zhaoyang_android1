@@ -5,22 +5,18 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityTimeBinding;
-import com.doctor.sun.entity.Description;
-import com.doctor.sun.entity.Time;
-import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.module.TimeModule;
+import com.doctor.sun.entity.handler.TimeHandler;
+import com.doctor.sun.module.impl.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.TimeAdapter;
-import com.doctor.sun.entity.handler.TimeHandler;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.util.Function0;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.ganguo.library.common.ToastHelper;
@@ -32,13 +28,11 @@ import io.ganguo.library.common.ToastHelper;
  */
 public class TimeActivity extends BaseActivity2 implements TimeHandler.GetIsEditMode {
 
-    private Description networkDescription = new Description(R.layout.item_time_category, "详细就诊");
-    private Description faceDescription = new Description(R.layout.item_time_category, "简捷复诊");
     private HeaderViewModel header = new HeaderViewModel(this);
 
     private TimeAdapter mAdapter;
     private ActivityTimeBinding binding;
-    private TimeModule api = Api.of(TimeModule.class);
+    private TimeModuleWrapper api = TimeModuleWrapper.getInstance();
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, TimeActivity.class);
@@ -71,28 +65,12 @@ public class TimeActivity extends BaseActivity2 implements TimeHandler.GetIsEdit
     }
 
     private void initData() {
-        api.getAllTime().enqueue(new SimpleCallback<List<Time>>() {
+        mAdapter.onFinishLoadMore(true);
+        api.getAllTimeAsync(new Function0<List<LayoutId>>() {
             @Override
-            protected void handleResponse(List<Time> response) {
-                Log.e(TAG, "handleResponse: " + response.size());
-                ArrayList<Time> quick = new ArrayList<Time>();
-                ArrayList<Time> detail = new ArrayList<Time>();
-                for (Time time : response) {
-                    if (time.getType() == 2) {
-                        quick.add(time);
-                    } else if (time.getType() == 1) {
-                        detail.add(time);
-                    }
-                }
+            public void apply(List<LayoutId> r) {
                 mAdapter.clear();
-                if (!detail.isEmpty()) {
-                    mAdapter.add(networkDescription);
-                }
-                mAdapter.addAll(detail);
-                if (!quick.isEmpty()) {
-                    mAdapter.add(faceDescription);
-                }
-                mAdapter.addAll(quick);
+                mAdapter.addAll(r);
                 mAdapter.notifyDataSetChanged();
                 mAdapter.onFinishLoadMore(true);
             }

@@ -3,6 +3,7 @@ package com.doctor.sun.ui.adapter;
 import android.view.View;
 
 import com.doctor.sun.R;
+import com.doctor.sun.databinding.ItemQuickTimeBinding;
 import com.doctor.sun.databinding.ItemTimeBinding;
 import com.doctor.sun.ui.activity.doctor.TimeActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -38,6 +39,15 @@ public class TimeAdapter extends SimpleAdapter {
                 binding.llyDelete.setVisibility(View.INVISIBLE);
             }
         }
+        if (vh.getItemViewType() == R.layout.item_quick_time) {
+            ItemQuickTimeBinding binding = (ItemQuickTimeBinding) vh.getBinding();
+            if (isEditMode) {
+                binding.llyDelete.setVisibility(View.VISIBLE);
+            } else {
+                binding.llyDelete.setVisibility(View.INVISIBLE);
+            }
+        }
+
         super.onBindViewBinding(vh, position);
     }
 }

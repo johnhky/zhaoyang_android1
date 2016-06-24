@@ -11,11 +11,11 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityAddBreakTimeBinding;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Time;
+import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
-import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 import io.ganguo.library.common.ToastHelper;
@@ -80,7 +80,7 @@ public class AddBreakTimeActivity extends BaseActivity2 {
         super.onMenuClicked();
 
         if (getWeekSelected() != 0) {
-            api.setTime(getWeekSelected(), Time.TYPE_BREAK, binding.tvBeginTime.getText().toString() + ":00", binding.tvEndTime.getText().toString() + ":00").enqueue(new ApiCallback<Time>() {
+            api.setTime(getWeekSelected(), Time.TYPE_BREAK, binding.tvBeginTime.getText().toString() + ":00", binding.tvEndTime.getText().toString() + ":00", 0).enqueue(new ApiCallback<Time>() {
                 @Override
                 protected void handleResponse(Time response) {
                     Intent intent = new Intent();

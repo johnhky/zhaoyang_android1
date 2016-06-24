@@ -55,6 +55,7 @@ public class Appointment implements LayoutId, Parcelable {
      * end_time : 0
      * order_status : 已完成
      */
+
     private int itemLayoutId;
     @JsonProperty("id")
     private int id;

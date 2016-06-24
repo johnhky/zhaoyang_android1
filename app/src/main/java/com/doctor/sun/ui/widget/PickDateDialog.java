@@ -13,9 +13,8 @@ import com.doctor.sun.databinding.FragmentPickDateBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.ReserveDate;
 import com.doctor.sun.entity.constans.AppointmentType;
-import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.TokenCallback;
-import com.doctor.sun.module.TimeModule;
+import com.doctor.sun.module.impl.TimeModuleWrapper;
 import com.squareup.timessquare.CalendarPickerView;
 
 import java.text.ParseException;
@@ -35,7 +34,7 @@ import retrofit2.Response;
 public class PickDateDialog extends Dialog {
     public static final String TAG = PickDateDialog.class.getSimpleName();
     public static final int ONE_DAY = 86400000;
-    private TimeModule api = Api.of(TimeModule.class);
+    private TimeModuleWrapper api = TimeModuleWrapper.getInstance();
     private FragmentPickDateBinding binding;
     private SimpleDateFormat simpleDateFormat;
     private int doctorId = -1;
@@ -74,7 +73,7 @@ public class PickDateDialog extends Dialog {
 
     private void loadData() {
         Log.e(TAG, "loadData: " + getDoctorId());
-        api.getDateSchedule(getDoctorId(), 15).enqueue(new Callback<ApiDTO<List<ReserveDate>>>() {
+        api.getDateSchedule(getDoctorId(), 15, type).enqueue(new Callback<ApiDTO<List<ReserveDate>>>() {
             @Override
             public void onResponse(Call<ApiDTO<List<ReserveDate>>> call, Response<ApiDTO<List<ReserveDate>>> response) {
                 List<ReserveDate> reserveDates = response.body().getData();

@@ -7,12 +7,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
-import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Time;
-import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.module.TimeModule;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.impl.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.doctor.AddBreakTimeActivity;
 import com.doctor.sun.ui.activity.doctor.AddTimeActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -87,21 +86,16 @@ public class TimeHandler {
         return new OnItemClickListener() {
             @Override
             public void onItemClick(final BaseAdapter adapter, View view, final BaseViewHolder vh) {
-                final TimeModule api = Api.of(TimeModule.class);
+                final TimeModuleWrapper api = TimeModuleWrapper.getInstance();
                 String questiion = "确定删除该出诊时间？";
                 String cancel = "取消";
                 String delete = "删除";
                 TwoChoiceDialog.show(view.getContext(), questiion, cancel, delete, new TwoChoiceDialog.Options() {
                     @Override
-                    public void onApplyClick(final TwoChoiceDialog deleteDialog) {
-                        api.deleteTime(data.getId()).enqueue(new ApiCallback<String>() {
+                    public void onApplyClick(final MaterialDialog deleteDialog) {
+                        api.deleteTime(data.getId(), data.getType()).enqueue(new SimpleCallback<String>() {
                             @Override
                             protected void handleResponse(String response) {
-
-                            }
-
-                            @Override
-                            protected void handleApi(ApiDTO<String> body) {
                                 deleteDialog.dismiss();
                                 adapter.remove(data);
                                 adapter.notifyItemRemoved(vh.getAdapterPosition());
@@ -123,7 +117,7 @@ public class TimeHandler {
                     }
 
                     @Override
-                    public void onCancelClick(TwoChoiceDialog dialog) {
+                    public void onCancelClick(MaterialDialog dialog) {
                         dialog.dismiss();
                     }
                 });
@@ -135,28 +129,22 @@ public class TimeHandler {
         return new OnItemClickListener() {
             @Override
             public void onItemClick(final BaseAdapter adapter, View view, final BaseViewHolder vh) {
-                final TimeModule api = Api.of(TimeModule.class);
+                final TimeModuleWrapper api = TimeModuleWrapper.getInstance();
                 TwoChoiceDialog.show(view.getContext(), "确定删除该免打扰时间？", "取消", "删除", new TwoChoiceDialog.Options() {
                     @Override
-                    public void onApplyClick(final TwoChoiceDialog dialog) {
-                        api.deleteTime(data.getId()).enqueue(new ApiCallback<String>() {
+                    public void onApplyClick(final MaterialDialog dialog) {
+                        api.deleteTime(data.getId(), data.getType()).enqueue(new SimpleCallback<String>() {
                             @Override
                             protected void handleResponse(String response) {
-
-                            }
-
-                            @Override
-                            protected void handleApi(ApiDTO<String> body) {
                                 dialog.dismiss();
                                 adapter.remove(data);
                                 adapter.notifyItemRemoved(vh.getAdapterPosition());
                             }
                         });
-
                     }
 
                     @Override
-                    public void onCancelClick(TwoChoiceDialog dialog) {
+                    public void onCancelClick(MaterialDialog dialog) {
                         dialog.dismiss();
                     }
                 });

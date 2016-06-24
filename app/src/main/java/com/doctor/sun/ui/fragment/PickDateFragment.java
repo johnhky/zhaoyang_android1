@@ -2,20 +2,22 @@ package com.doctor.sun.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentPickDateBinding;
-import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.ReserveDate;
-import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.module.TimeModule;
+import com.doctor.sun.module.impl.TimeModuleWrapper;
+import com.doctor.sun.ui.activity.patient.ApplyAppointmentActivity;
 import com.doctor.sun.ui.activity.patient.PickTimeActivity;
 import com.doctor.sun.ui.pager.PickDatePagerAdapter;
 import com.squareup.timessquare.CalendarPickerView;
@@ -27,10 +29,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
 /**
  * Created by rick on 8/1/2016.
  */
@@ -38,7 +36,8 @@ public class PickDateFragment extends BaseFragment {
 
     public static final String TAG = PickDateFragment.class.getSimpleName();
     public static final int ONE_DAY = 86400000;
-    private TimeModule api = Api.of(TimeModule.class);
+    public static final int ONE_HOUR = 3600000;
+    private TimeModuleWrapper api = TimeModuleWrapper.getInstance();
 
     private FragmentPickDateBinding binding;
     private SimpleDateFormat simpleDateFormat;
@@ -78,8 +77,26 @@ public class PickDateFragment extends BaseFragment {
             public boolean onCellClicked(Date date) {
 
                 if (binding.calendarView.getSelectedDates().contains(date)) {
-                    Intent intent = PickTimeActivity.makeIntent(getContext(), doctor, simpleDateFormat.format(date), recordId, getType());
-                    startActivity(intent);
+                    final String bookDate = simpleDateFormat.format(date);
+                    switch (type) {
+                        case "1": {
+                            pickTime(bookDate);
+                            break;
+                        }
+                        case "2": {
+                            if (date.getTime() <= getMillisMidNight() + ONE_DAY) {
+                                showDialog(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        applyAppointment(bookDate);
+                                    }
+                                });
+                            } else {
+                                applyAppointment(bookDate);
+                            }
+                            break;
+                        }
+                    }
                 }
 
                 return true;
@@ -87,6 +104,16 @@ public class PickDateFragment extends BaseFragment {
         });
         loadData();
         return binding.getRoot();
+    }
+
+    private void pickTime(String bookTime) {
+        Intent intent = PickTimeActivity.makeIntent(getContext(), doctor, bookTime, recordId, getType());
+        startActivity(intent);
+    }
+
+    private void applyAppointment(String bookTime) {
+        Intent intent = ApplyAppointmentActivity.makeIntent(getContext(), doctor, bookTime, type, recordId);
+        startActivity(intent);
     }
 
     private String getRecordId() {
@@ -108,7 +135,7 @@ public class PickDateFragment extends BaseFragment {
     }
 
     private void loadData() {
-        api.getDateSchedule(getDoctorId(), getDuration()).enqueue(new ApiCallback<List<ReserveDate>>() {
+        api.getDateSchedule(getDoctorId(), getDuration(), Integer.parseInt(getType())).enqueue(new ApiCallback<List<ReserveDate>>() {
             @Override
             protected void handleResponse(List<ReserveDate> reserveDates) {
                 if (reserveDates == null) return;
@@ -153,5 +180,37 @@ public class PickDateFragment extends BaseFragment {
 
     private Doctor getDoctor() {
         return getArguments().getParcelable(Constants.PARAM_DOCTOR_ID);
+    }
+
+    public long getMillisMidNight() {
+        Calendar instance = Calendar.getInstance();
+        instance.add(Calendar.DAY_OF_MONTH, 1);
+        instance.set(Calendar.HOUR_OF_DAY, 0);
+        instance.set(Calendar.MINUTE, 0);
+        instance.set(Calendar.SECOND, 0);
+        instance.set(Calendar.MILLISECOND, 0);
+        return instance.getTimeInMillis();
+    }
+
+    public long getMillisUntilMidNight() {
+        return getMillisMidNight() - System.currentTimeMillis();
+    }
+
+    public String getHourUntilMidNight() {
+        return String.valueOf(getMillisUntilMidNight() / ONE_HOUR);
+    }
+
+    public void showDialog(MaterialDialog.SingleButtonCallback callback) {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(getContext());
+        builder.content(getDialogContent())
+                .negativeText("另选合适日期")
+                .positiveText("坚持继续预约今天")
+                .neutralText("取消")
+                .onPositive(callback);
+        builder.show();
+    }
+
+    private String getDialogContent() {
+        return String.format(getResources().getString(R.string.hours_until_midnight), getHourUntilMidNight());
     }
 }

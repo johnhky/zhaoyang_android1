@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.PActivityDocumentBinding;
 import com.doctor.sun.dto.DoctorDTO;
@@ -76,7 +77,7 @@ public class DocumentActivity extends BaseActivity2 implements DocumentAdapter.G
             public void onClick(View v) {
                 TwoChoiceDialog.show(DocumentActivity.this, "确定要删除对该医生的收藏？", "取消", "删除", new TwoChoiceDialog.Options() {
                     @Override
-                    public void onApplyClick(final TwoChoiceDialog dialog) {
+                    public void onApplyClick(final MaterialDialog dialog) {
                         for (int i = 0; i < getDoctorId().size(); i++) {
                             api.unlikeDoctor(getDoctorId().get(i)).enqueue(new SimpleCallback<String>() {
                                 @Override
@@ -89,7 +90,7 @@ public class DocumentActivity extends BaseActivity2 implements DocumentAdapter.G
                     }
 
                     @Override
-                    public void onCancelClick(TwoChoiceDialog dialog) {
+                    public void onCancelClick(MaterialDialog dialog) {
                         dialog.dismiss();
                     }
                 });

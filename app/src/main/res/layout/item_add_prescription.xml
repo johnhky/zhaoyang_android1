@@ -70,17 +70,17 @@
             android:textSize="@dimen/font_15" />
 
         <TextView
-            android:visibility="@{data.handler.loadDrugVisible(data)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_8"
             android:background="@drawable/ripple_default"
             android:drawableLeft="@drawable/ic_load_prescription"
             android:drawablePadding="@dimen/dp_10"
-            android:paddingLeft="@dimen/dp_10"
             android:onClick="@{data.handler.loadDrug(adapter,vh)}"
+            android:paddingLeft="@dimen/dp_10"
             android:text="导入医生上次用药"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/font_15" />
+            android:textSize="@dimen/font_15"
+            android:visibility="@{data.handler.loadDrugVisible(data)}" />
     </LinearLayout>
 </layout>

@@ -118,7 +118,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     @JsonIgnore
     private String recordId;
     @JsonIgnore
-    private String duration;
+    private String duration = "";
     @AppointmentType
     @JsonIgnore
     private int type = AppointmentType.DETAIL;

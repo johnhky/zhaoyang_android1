@@ -1,87 +1,105 @@
 package com.doctor.sun.ui.widget;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
 
-import com.doctor.sun.databinding.DialogDeleteBinding;
-
-import io.ganguo.library.ui.dialog.BaseDialog;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 /**
  * 是否简捷复诊对话框
  * Created by lucas on 12/22/15.
  */
-public class TwoChoiceDialog extends BaseDialog {
-    private Context context;
-    private DialogDeleteBinding binding;
-    private Options button;
-    private String question;
-    private String cancel;
-    private String apply;
+public class TwoChoiceDialog {
+//    private Context context;
+//    private DialogDeleteBinding binding;
+//    private Options button;
+//    private String question;
+//    private String cancel;
+//    private String apply;
+//
+//    public TwoChoiceDialog(Context context, String question, String cancel,
+//                           String apply, final Options button) {
+//        super(context);
+//        this.context = context;
+//        this.question = question;
+//        this.cancel = cancel;
+//        this.apply = apply;
+//        this.button = button;
+//    }
+//
+//    @Override
+//    public void beforeInitView() {
+//        binding = DialogDeleteBinding.inflate(LayoutInflater.from(context));
+//
+//    }
+//
+//    @Override
+//    public void initView() {
+//        setContentView(binding.getRoot());
+//    }
 
-    public TwoChoiceDialog(Context context, String question, String cancel,
-                           String apply, final Options button) {
-        super(context);
-        this.context = context;
-        this.question = question;
-        this.cancel = cancel;
-        this.apply = apply;
-        this.button = button;
-    }
-
-    @Override
-    public void beforeInitView() {
-        binding = DialogDeleteBinding.inflate(LayoutInflater.from(context));
-
-    }
-
-    @Override
-    public void initView() {
-        setContentView(binding.getRoot());
-    }
-
-    @Override
-    public void initListener() {
-        binding.tvDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button.onApplyClick(TwoChoiceDialog.this);
-            }
-        });
-
-        binding.tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button.onCancelClick(TwoChoiceDialog.this);
-            }
-        });
-    }
-
-    @Override
-    public void initData() {
-        binding.tvTitle.setText(question);
-        binding.tvCancel.setText(cancel);
-        binding.tvDelete.setText(apply);
-    }
+//    @Override
+//    public void initListener() {
+//        binding.tvDelete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                button.onApplyClick(TwoChoiceDialog.this);
+//            }
+//        });
+//
+//        binding.tvCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                button.onCancelClick(TwoChoiceDialog.this);
+//            }
+//        });
+//    }
+//
+//    @Override
+//    public void initData() {
+//        binding.tvTitle.setText(question);
+//        binding.tvCancel.setText(cancel);
+//        binding.tvDelete.setText(apply);
+//    }
 
     public interface Options {
-        void onApplyClick(TwoChoiceDialog dialog);
+        void onApplyClick(MaterialDialog dialog);
 
-        void onCancelClick(TwoChoiceDialog dialog);
+        void onCancelClick(MaterialDialog dialog);
     }
 
 
     public static void show(Context context, String question, String cancel, String apply, final Options button) {
-        final TwoChoiceDialog deleteDialog = new TwoChoiceDialog(context, question, cancel,
-                apply, button);
-        deleteDialog.show();
+//        final TwoChoiceDialog deleteDialog = new TwoChoiceDialog(context, question, cancel,
+//                apply, button);
+//        deleteDialog.show();
+        showDialog(context, question, cancel, apply, button);
     }
 
     public static void showDialog(Context context, String question, String cancel, String apply, final Options button) {
-        final TwoChoiceDialog deleteDialog = new TwoChoiceDialog(context, question, cancel,
-                apply, button);
-        deleteDialog.setCanceledOnTouchOutside(false);
-        deleteDialog.show();
+//        final TwoChoiceDialog deleteDialog = new TwoChoiceDialog(context, question, cancel,
+//                apply, button);
+//        deleteDialog.setCanceledOnTouchOutside(false);
+//        deleteDialog.show();
+        com.afollestad.materialdialogs.MaterialDialog.Builder builder = new com.afollestad.materialdialogs.MaterialDialog.Builder(context);
+        builder.negativeText(cancel)
+                .positiveText(apply)
+                .content(question)
+                .onPositive(new com.afollestad.materialdialogs.MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull com.afollestad.materialdialogs.MaterialDialog dialog, @NonNull DialogAction which) {
+                        button.onApplyClick(dialog);
+                    }
+                })
+                .onNegative(new com.afollestad.materialdialogs.MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull com.afollestad.materialdialogs.MaterialDialog dialog, @NonNull DialogAction which) {
+                        button.onCancelClick(dialog);
+                    }
+                })
+                .negativeColor(Color.parseColor("#777777"));
+        builder.show();
     }
 }

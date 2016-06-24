@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityAddQuestionBinding;
 import com.doctor.sun.dto.ApiDTO;
@@ -107,14 +108,14 @@ public class AddQuestionActivity extends BaseActivity2 {
 
         TwoChoiceDialog.show(this, question, single, multiple, new TwoChoiceDialog.Options() {
             @Override
-            public void onApplyClick(TwoChoiceDialog dialog) {
+            public void onApplyClick(MaterialDialog dialog) {
                 questionType = "checkbox";
                 saveQuestion();
                 dialog.dismiss();
             }
 
             @Override
-            public void onCancelClick(TwoChoiceDialog dialog) {
+            public void onCancelClick(MaterialDialog dialog) {
                 questionType = "radio";
                 saveQuestion();
                 dialog.dismiss();

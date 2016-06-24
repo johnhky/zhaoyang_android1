@@ -55,7 +55,7 @@ public class PickTimeDialog extends Dialog {
         mAdapter.setLoadMoreListener(new LoadMoreListener() {
             @Override
             protected void onLoadMore() {
-                api.getDaySchedule(getDoctorId(), getDate(), "2", "15").enqueue(new ListCallback<Time>(mAdapter));
+                api.getDaySchedule(getDoctorId(), getDate(), 2, "15").enqueue(new ListCallback<Time>(mAdapter));
             }
         });
         layout.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {

@@ -150,7 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_14"
-                    android:text="病历管理"
+                    android:text="患者管理"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_14" />
 

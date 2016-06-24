@@ -92,7 +92,7 @@ public class DoctorHandler {
 
     @JsonIgnore
     public String getQuickFee() {
-        String fee = data.getSecondMoney() + "元/次/15分钟";
+        String fee = data.getSecondMoney() + "元/次";
         return fee;
     }
 

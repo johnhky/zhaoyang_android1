@@ -35,10 +35,14 @@ public interface AppointmentModule {
      * @return
      */
     @GET("appointment/allDoctor/")
-    Call<ApiDTO<PageDTO<Doctor>>> doctors(@Query("page") String page, @QueryMap HashMap<String, String> query, @Query("title[]") ArrayList<Integer> titleParam);
+    Call<ApiDTO<PageDTO<Doctor>>> doctors(@Query("page") String page,
+                                          @QueryMap HashMap<String, String> query,
+                                          @Query("title[]") ArrayList<Integer> titleParam);
 
     @GET("appointment/recent-doctors")
-    Call<ApiDTO<List<Doctor>>> recentDoctors(@Query("page") String page, @QueryMap HashMap<String, String> query, @Query("title[]") ArrayList<Integer> titleParam);
+    Call<ApiDTO<List<Doctor>>> recentDoctors(@Query("page") String page,
+                                             @QueryMap HashMap<String, String> query,
+                                             @Query("title[]") ArrayList<Integer> titleParam);
 
     @FormUrlEncoded
     @POST("appointment/collect")
@@ -53,11 +57,19 @@ public interface AppointmentModule {
 
     @FormUrlEncoded
     @POST("appointment/appointment")
-    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") String doctorId, @Field("bookTime") String bookTime, @AppointmentType @Field("type") int type, @Field("recordId") String recordId);
+    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") String doctorId,
+                                               @Field("bookTime") String bookTime,
+                                               @AppointmentType @Field("type") int type,
+                                               @Field("recordId") String recordId);
 
     @FormUrlEncoded
     @POST("appointment/appointment")
-    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") String doctorId, @Field("bookTime") String bookTime, @AppointmentType @Field("type") int type, @Field("recordId") String recordId, @Field("couponId") String couponId);
+    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") String doctorId,
+                                               @Field("bookTime") String bookTime,
+                                               @AppointmentType @Field("type") int type,
+                                               @Field("recordId") String recordId,
+                                               @Field("couponId") String couponId,
+                                               @Field("takeTime") String takeTime);
 
     @GET("appointment/pAppointList")
     Call<ApiDTO<PageDTO<Appointment>>> pAppointments(@Query("page") String page);
@@ -115,7 +127,9 @@ public interface AppointmentModule {
 
     @FormUrlEncoded
     @POST("appointment/evaluate-patient")
-    Call<ApiDTO<String>> evaluatePatient(@Field("point") String point, @Field("appointmentId") String appointmentId, @Field("detail") String detail);
+    Call<ApiDTO<String>> evaluatePatient(@Field("point") String point,
+                                         @Field("appointmentId") String appointmentId,
+                                         @Field("detail") String detail);
 
     @GET("urgent/doctor-list")
     Call<ApiDTO<PageDTO<Appointment>>> urgentCalls(@Query("page") String page);
@@ -194,21 +208,25 @@ public interface AppointmentModule {
     @FormUrlEncoded
     @POST("pay/build-order")
     Call<ApiDTO<String>> buildAlipayGoodsOrder(@Field("totalFee") String totalFee,
-                                               @Field("type") String type, @FieldMap HashMap<String, String> extraField);
+                                               @Field("type") String type,
+                                               @FieldMap HashMap<String, String> extraField);
 
     @FormUrlEncoded
     @POST("pay/build-order")
     Call<ApiDTO<WeChatPayDTO>> buildWeChatGoodsOrder(@Field("totalFee") String totalFee,
-                                                     @Field("type") String type, @FieldMap HashMap<String, String> extraField);
+                                                     @Field("type") String type,
+                                                     @FieldMap HashMap<String, String> extraField);
 
     @GET("appointment/doctor-appoint-list")
-    Call<ApiDTO<PageDTO<Appointment>>> doctorAppointment(@Query("page") String page, @Query("orderType") String orderType);
+    Call<ApiDTO<PageDTO<Appointment>>> doctorAppointment(@Query("page") String page,
+                                                         @Query("orderType") String orderType);
 
     @GET("appointment/patient-appoint-list")
     Call<ApiDTO<PageDTO<Appointment>>> patientAppointment(@Query("page") String page);
 
     @FormUrlEncoded
     @POST("im/list-info")
-    Call<ApiDTO<PageDTO<Appointment>>> appointmentInTid(@Field("tidArray") String tid, @Field("page") String page);
+    Call<ApiDTO<PageDTO<Appointment>>> appointmentInTid(@Field("tidArray") String tid,
+                                                        @Field("page") String page);
 
 }

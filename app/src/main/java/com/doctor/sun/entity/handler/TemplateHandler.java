@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.QTemplate;
@@ -80,7 +81,7 @@ public class TemplateHandler {
                 String apply = "删除";
                 TwoChoiceDialog.show(view.getContext(), question, cancel, apply, new TwoChoiceDialog.Options() {
                     @Override
-                    public void onApplyClick(final TwoChoiceDialog dialog) {
+                    public void onApplyClick(final MaterialDialog dialog) {
                         api.deleteTemplate(String.valueOf(data.getId())).enqueue(new SimpleCallback<String>() {
                             @Override
                             protected void handleResponse(String response) {
@@ -92,7 +93,7 @@ public class TemplateHandler {
                     }
 
                     @Override
-                    public void onCancelClick(TwoChoiceDialog dialog) {
+                    public void onCancelClick(MaterialDialog dialog) {
                         dialog.dismiss();
                     }
                 });
@@ -108,7 +109,7 @@ public class TemplateHandler {
                 if(!selector.isSelected()){
                     TwoChoiceDialog.show(view.getContext(), "是否确认添加？", "取消", "确认", new TwoChoiceDialog.Options() {
                         @Override
-                        public void onApplyClick(final TwoChoiceDialog dialog) {
+                        public void onApplyClick(final MaterialDialog dialog) {
                             AssignQuestionAdapter.GetAppointmentId getAppointmentId = (AssignQuestionAdapter.GetAppointmentId) view.getContext();
                             String appointmentId = getAppointmentId.getAppointmentId();
                             api.appendTemplate(appointmentId, String.valueOf(data.getId())).enqueue(new ApiCallback<List<Answer>>() {
@@ -122,7 +123,7 @@ public class TemplateHandler {
                         }
 
                         @Override
-                        public void onCancelClick(TwoChoiceDialog dialog) {
+                        public void onCancelClick(MaterialDialog dialog) {
                             dialog.dismiss();
                         }
                     });

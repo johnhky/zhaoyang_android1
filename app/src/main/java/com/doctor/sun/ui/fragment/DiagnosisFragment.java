@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentDiagnosisBinding;
@@ -133,14 +134,14 @@ public class DiagnosisFragment extends BaseFragment {
         TwoChoiceDialog.show(getActivity(), getString(R.string.is_diagnosised),
                 NOT_DIAGNOSISED, IS_DIAGNOSISED, new TwoChoiceDialog.Options() {
                     @Override
-                    public void onApplyClick(TwoChoiceDialog dialog) {
+                    public void onApplyClick(MaterialDialog dialog) {
 //                        binding.isDiagnosis.setData(IS_DIAGNOSISED);
 //                        binding.isDiagnosis.setIsChecked(true);
                         dialog.dismiss();
                     }
 
                     @Override
-                    public void onCancelClick(TwoChoiceDialog dialog) {
+                    public void onCancelClick(MaterialDialog dialog) {
 //                        binding.isDiagnosis.setData(NOT_DIAGNOSISED);
 //                        binding.isDiagnosis.setIsChecked(false);
                         dialog.dismiss();
@@ -399,13 +400,13 @@ public class DiagnosisFragment extends BaseFragment {
         TwoChoiceDialog.show(getActivity(), "是否结束本次就诊",
                 "暂存", "保存并结束", new TwoChoiceDialog.Options() {
                     @Override
-                    public void onApplyClick(final TwoChoiceDialog dialog) {
+                    public void onApplyClick(final MaterialDialog dialog) {
                         final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
                         saveDiagnosis(dialog, query);
                     }
 
                     @Override
-                    public void onCancelClick(final TwoChoiceDialog dialog) {
+                    public void onCancelClick(final MaterialDialog dialog) {
                         final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
                         query.put("hold", "1");
                         saveDiagnosis(dialog, query);
@@ -413,7 +414,7 @@ public class DiagnosisFragment extends BaseFragment {
                 });
     }
 
-    private void saveDiagnosis(final TwoChoiceDialog dialog, HashMap<String, String> query) {
+    private void saveDiagnosis(final MaterialDialog dialog, HashMap<String, String> query) {
         api.setDiagnosis(query).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {

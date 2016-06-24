@@ -362,37 +362,37 @@
                             android:layout_weight="1" />
 
                         <FrameLayout
-                            android:id="@+id/fy_title"
+                            android:id="@+id/fy_certified"
                             android:layout_width="@dimen/dp_95"
                             android:layout_height="@dimen/dp_95"
                             android:background="@drawable/ripple_default"
                             android:onClick="@{handler.pickImage(2)}">
 
                             <ImageView
-                                android:id="@+id/iv_title"
+                                android:id="@+id/iv_certified"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
-                                android:src="@{data.titleImg}" />
+                                android:src="@{data.certifiedImg}" />
 
                             <ImageView
-                                android:id="@+id/title_img"
+                                android:id="@+id/certified_img"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/bg_certificate" />
 
                             <TextView
-                                android:id="@+id/tv_title"
+                                android:id="@+id/tv_certified"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/ripple_default"
                                 android:gravity="center"
                                 android:text="上传\n执业资格"
                                 android:textColor="#898989"
                                 android:textSize="@dimen/font_13" />
 
                         </FrameLayout>
+
 
                         <View
                             android:layout_width="0dp"
@@ -438,36 +438,38 @@
                             android:layout_weight="1" />
 
                         <FrameLayout
-                            android:id="@+id/fy_certified"
+                            android:id="@+id/fy_title"
                             android:layout_width="@dimen/dp_95"
                             android:layout_height="@dimen/dp_95"
                             android:background="@drawable/ripple_default"
                             android:onClick="@{handler.pickImage(4)}">
 
                             <ImageView
-                                android:id="@+id/iv_certified"
+                                android:id="@+id/iv_title"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
-                                android:src="@{data.certifiedImg}" />
+                                android:src="@{data.titleImg}" />
 
                             <ImageView
-                                android:id="@+id/certified_img"
+                                android:id="@+id/title_img"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/bg_certificate" />
 
                             <TextView
-                                android:id="@+id/tv_certified"
+                                android:id="@+id/tv_title"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:background="@drawable/ripple_default"
                                 android:gravity="center"
                                 android:text="上传\n职称证书"
                                 android:textColor="#898989"
                                 android:textSize="@dimen/font_13" />
 
                         </FrameLayout>
+
 
                         <View
                             android:layout_width="0dp"

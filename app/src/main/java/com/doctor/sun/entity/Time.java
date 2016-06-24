@@ -27,6 +27,7 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
     public static final int TYPE_QUICK = 2;
     public static final int TYPE_BREAK = 3;
     /**
+     * interval :
      * doctor_id : 1
      * week : 16
      * type : 1
@@ -54,6 +55,8 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
     private String updatedAt;
     @JsonProperty("created_at")
     private String createdAt;
+    @JsonProperty("interval")
+    public int interval = 5;
 
 
     private TimeHandler handler = new TimeHandler(this);
@@ -120,57 +123,35 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
     public String getWeekLabel() {
 
         StringBuilder result = new StringBuilder();
-        double weekDouble = (double) week;
-
-        while (weekDouble / 64f >= 1) {
-            weekDouble -= 64f;
-            result.insert(0, "  星期日");
-        }
-
-
-        while (weekDouble / 32f >= 1) {
-            weekDouble -= 32f;
-            result.insert(0, "  星期六");
-        }
-
-
-        while (weekDouble / 16f >= 1) {
-            weekDouble -= 16f;
-            result.insert(0, "  星期五");
-        }
-
-
-        while (weekDouble / 8f >= 1) {
-            weekDouble -= 8f;
-            result.insert(0, "  星期四");
-        }
-
-
-        while (weekDouble / 4f >= 1) {
-            weekDouble -= 4f;
-            result.insert(0, "  星期三");
-        }
-
-
-        while (weekDouble / 2f >= 1) {
-            weekDouble -= 2f;
-            result.insert(0, "  星期二");
-        }
-
-
-        while (weekDouble / 1f >= 1) {
-            weekDouble -= 1f;
-            result.insert(0, "  星期一");
-        }
 
         if (week == 127) {
-            result = new StringBuilder();
-            result.insert(0, "  每天");
+            return "每天";
+        }
+        if ((week & 31) == 31) {
+            result.append("  工作日");
+        } else {
+            if ((week & 1) == 1) {
+                result.append("  星期一");
+            }
+            if ((week >> 1 & 1) == 1) {
+                result.append("  星期二");
+            }
+            if ((week >> 2 & 1) == 1) {
+                result.append("  星期三");
+            }
+            if ((week >> 3 & 1) == 1) {
+                result.append("  星期四");
+            }
+            if ((week >> 4 & 1) == 1) {
+                result.append("  星期五");
+            }
         }
 
-        if (week == 31) {
-            result = new StringBuilder();
-            result.insert(0, "  工作日");
+        if ((week >> 5 & 1) == 1) {
+            result.append("  星期六");
+        }
+        if ((week >> 6 & 1) == 1) {
+            result.append("  星期日");
         }
 
         return result.toString();
@@ -202,7 +183,7 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
     }
 
     public String date() {
-        return (type == TYPE_QUICK ? "简捷复诊" : "详细就诊") + ':' + getWeekLabel();
+        return (type == TYPE_QUICK ? "简捷复诊\n" : "详细就诊") + ':' + getWeekLabel();
     }
 
     public String disturbDate() {
@@ -210,15 +191,24 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
     }
 
     public String time() {
+        if (from == null || from.equals("")) {
+            return "";
+        }
         return from.substring(0, 5) + " - " + to.substring(0, 5);
     }
 
     public String disturbTime() {
+        if (from == null || from.equals("")) {
+            return "";
+        }
         return from.substring(0, 5) + ' ' + '-' + ' ' + to.substring(0, 5);
     }
 
     @Override
     public int getItemLayoutId() {
+        if (type == TYPE_QUICK) {
+            return R.layout.item_quick_time;
+        }
         return R.layout.item_time;
     }
 
@@ -272,6 +262,7 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
         dest.writeInt(this.id);
         dest.writeInt(this.reserva);
         dest.writeInt(this.optional);
+        dest.writeInt(this.interval);
     }
 
     protected Time(Parcel in) {
@@ -286,6 +277,7 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
         this.id = in.readInt();
         this.reserva = in.readInt();
         this.optional = in.readInt();
+        this.interval = in.readInt();
     }
 
     public static final Creator<Time> CREATOR = new Creator<Time>() {

@@ -260,41 +260,41 @@
             android:layout_height="@dimen/dp_120"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/btn_disturb_setting"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_default"
-                android:gravity="center"
-                android:onClick="@{handler.Disturb}"
-                android:orientation="vertical">
+            <!--<LinearLayout-->
+            <!--android:id="@+id/btn_disturb_setting"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/ripple_default"-->
+            <!--android:gravity="center"-->
+            <!--android:onClick="@{handler.Disturb}"-->
+            <!--android:orientation="vertical">-->
 
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp_40">
+            <!--<FrameLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="@dimen/dp_40">-->
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_disturb_setting" />
-                </FrameLayout>
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:src="@drawable/ic_disturb_setting" />-->
+            <!--</FrameLayout>-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_15"
-                    android:text="免打扰"
-                    android:textColor="#363636"
-                    android:textSize="@dimen/font_14" />
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/dp_15"-->
+            <!--android:text="免打扰"-->
+            <!--android:textColor="#363636"-->
+            <!--android:textSize="@dimen/font_14" />-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
-            <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:background="#c1cacf" />
+            <!--<View-->
+            <!--android:layout_width="1px"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="#c1cacf" />-->
 
             <LinearLayout
                 android:id="@+id/btn_setting"
@@ -361,6 +361,17 @@
                     android:textSize="@dimen/font_14" />
 
             </LinearLayout>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="#c1cacf" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center" />
 
         </LinearLayout>
 

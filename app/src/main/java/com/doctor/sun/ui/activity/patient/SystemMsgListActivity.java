@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
@@ -80,7 +81,7 @@ public class SystemMsgListActivity extends PageActivity2 {
         super.onMenuClicked();
         TwoChoiceDialog.show(this, "020-4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
             @Override
-            public void onApplyClick(TwoChoiceDialog dialog) {
+            public void onApplyClick(MaterialDialog dialog) {
                 if (permissionsUtil.lacksPermissions(PermissionsUtil.PERMISSION_CALL)) {
                     permissionsUtil.requestPermissions(SystemMsgListActivity.this, PHONE_CALL_REQUEST, PermissionsUtil.PERMISSION_CALL);
                     return;
@@ -96,7 +97,7 @@ public class SystemMsgListActivity extends PageActivity2 {
             }
 
             @Override
-            public void onCancelClick(TwoChoiceDialog dialog) {
+            public void onCancelClick(MaterialDialog dialog) {
                 dialog.dismiss();
             }
         });

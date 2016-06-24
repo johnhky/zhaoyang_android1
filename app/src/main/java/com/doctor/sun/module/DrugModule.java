@@ -35,7 +35,11 @@ public interface DrugModule {
 
     @FormUrlEncoded
     @POST("drug/push-drug")
-    Call<ApiDTO<String>> pushDrug(@Field("appointmentId") int appointmentId);
+    Call<ApiDTO<String>> pushDrug(@Field("appointmentId") String appointmentId);
+
+    @FormUrlEncoded
+    @POST("drug/push-drug")
+    Call<ApiDTO<String>> pushFollowUpDrug(@Field("followUpId") String followUpId);
 
     @GET("drug/admin-im-account")
     Call<ApiDTO<ImAccount>> serverAccount();

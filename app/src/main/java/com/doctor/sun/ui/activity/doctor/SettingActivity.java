@@ -8,6 +8,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivitySettingBinding;
 import com.doctor.sun.ui.activity.BaseActivity2;
@@ -50,14 +51,14 @@ public class SettingActivity extends BaseActivity2 implements SettingHandler.Get
             public void onClick(View v) {
                 TwoChoiceDialog.show(SettingActivity.this, "清理缓存", "取消", "清除", new TwoChoiceDialog.Options() {
                     @Override
-                    public void onApplyClick(TwoChoiceDialog dialog) {
+                    public void onApplyClick(MaterialDialog dialog) {
                         Config.clearData();
                         ToastHelper.showMessage(SettingActivity.this, "清理成功");
                         dialog.dismiss();
                     }
 
                     @Override
-                    public void onCancelClick(TwoChoiceDialog dialog) {
+                    public void onCancelClick(MaterialDialog dialog) {
                         dialog.dismiss();
                     }
                 });

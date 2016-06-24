@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityInfoBinding;
@@ -23,8 +24,8 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.handler.PatientHandler;
 import com.doctor.sun.ui.binding.CustomBinding;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
+import com.doctor.sun.ui.widget.PickImageDialog;
 
 import java.io.File;
 
@@ -145,14 +146,9 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
     public void onMenuClicked() {
         super.onMenuClicked();
         if (!isEditMode()) {
-            TwoChoiceDialog.show(this, " 您好，昭阳医生不可以随便更改用户资料，所有用户资料的申请需要经过后台审核", "确定", "取消", new TwoChoiceDialog.Options() {
+            TwoChoiceDialog.show(this, " 您好，昭阳医生不可以随便更改用户资料，所有用户资料的申请需要经过后台审核", "取消", "确定", new TwoChoiceDialog.Options() {
                 @Override
-                public void onApplyClick(TwoChoiceDialog dialog) {
-                    dialog.dismiss();
-                }
-
-                @Override
-                public void onCancelClick(TwoChoiceDialog dialog) {
+                public void onApplyClick(MaterialDialog dialog) {
                     dialog.dismiss();
                     header.setRightTitle("保存");
                     binding.setHeader(header);
@@ -165,6 +161,11 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
                     binding.rbFemale.setVisibility(View.VISIBLE);
                     CustomBinding.drawableRight(binding.tvBirthday, R.drawable.ic_enter);
                     setIsEditMode(!isEditMode());
+                }
+
+                @Override
+                public void onCancelClick(MaterialDialog dialog) {
+                    dialog.dismiss();
                 }
             });
         } else {

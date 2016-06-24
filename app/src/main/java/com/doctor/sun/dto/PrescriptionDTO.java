@@ -16,6 +16,8 @@ public class PrescriptionDTO implements MsgAttachment {
 
     @JsonProperty("appointment_info")
     private Appointment appointmentInfo;
+    @JsonProperty("follow_up_info")
+    private Appointment followUpInfo;
     /**
      * mediaclName : 好好保护
      * productName :
@@ -29,6 +31,9 @@ public class PrescriptionDTO implements MsgAttachment {
 
 
     public Appointment getAppointmentInfo() {
+        if (appointmentInfo == null) {
+            return followUpInfo;
+        }
         return appointmentInfo;
     }
 

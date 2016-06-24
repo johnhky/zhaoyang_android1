@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
@@ -27,8 +28,8 @@ import com.doctor.sun.ui.activity.ItemSelectHospital;
 import com.doctor.sun.ui.adapter.AnswerModifyAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
+import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemPickDate;
@@ -283,13 +284,13 @@ public class EditForumFragment extends RefreshListFragment {
             TwoChoiceDialog.show(getActivity(), "是否结束本次随访",
                     "暂存", "保存并结束", new TwoChoiceDialog.Options() {
                         @Override
-                        public void onApplyClick(final TwoChoiceDialog dialog) {
+                        public void onApplyClick(final MaterialDialog dialog) {
                             saveAnswer(1);
                             dialog.dismiss();
                         }
 
                         @Override
-                        public void onCancelClick(final TwoChoiceDialog dialog) {
+                        public void onCancelClick(final MaterialDialog dialog) {
                             saveAnswer(0);
                             dialog.dismiss();
                         }

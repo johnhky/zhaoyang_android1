@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityVoipCallBinding;
@@ -87,14 +88,14 @@ public class VoIPCallActivity extends BaseActivity2 {
     private void askIfAcceptCall(Avatar avatar) {
         TwoChoiceDialog.showDialog(this, avatar.getName() + "来电", "拒绝", "接受", new TwoChoiceDialog.Options() {
             @Override
-            public void onApplyClick(TwoChoiceDialog dialog) {
+            public void onApplyClick(MaterialDialog dialog) {
                 ECDevice.getECVoIPCallManager()
                         .acceptCall(mCallId);
                 dialog.dismiss();
             }
 
             @Override
-            public void onCancelClick(TwoChoiceDialog dialog) {
+            public void onCancelClick(MaterialDialog dialog) {
                 ECDevice.getECVoIPCallManager()
                         .rejectCall(mCallId, 1);
                 ECDevice.getECVoIPCallManager().releaseCall(mCallId);

@@ -160,13 +160,13 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
                     } else {
                         id = newData.getId();
                     }
-                    new MaterialDialog.Builder(AddTemplateActivity.this)
+                    new com.afollestad.materialdialogs.MaterialDialog.Builder(AddTemplateActivity.this)
                             .content("确定删除该免模板?")
                             .positiveText("删除")
                             .negativeText("取消")
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            .onPositive(new com.afollestad.materialdialogs.MaterialDialog.SingleButtonCallback() {
                                 @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                public void onClick(@NonNull com.afollestad.materialdialogs.MaterialDialog dialog, @NonNull DialogAction which) {
                                     dialog.dismiss();
                                     api.deleteTemplate(String.valueOf(id)).enqueue(new SimpleCallback<String>() {
                                         @Override
@@ -186,7 +186,7 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
         if (data.getIsDefault() == 1) {
             TwoChoiceDialog.show(AddTemplateActivity.this, "取消默认", "取消", "确定", new TwoChoiceDialog.Options() {
                 @Override
-                public void onApplyClick(TwoChoiceDialog dialog) {
+                public void onApplyClick(MaterialDialog dialog) {
                     api.setNoDefaultTemplate(String.valueOf(data.getId())).enqueue(new ApiCallback<QTemplate>() {
                         @Override
                         protected void handleResponse(QTemplate response) {
@@ -198,14 +198,14 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
                 }
 
                 @Override
-                public void onCancelClick(TwoChoiceDialog dialog) {
+                public void onCancelClick(MaterialDialog dialog) {
                     dialog.dismiss();
                 }
             });
         } else {
             TwoChoiceDialog.show(AddTemplateActivity.this, "确认设置默认", "取消", "确定", new TwoChoiceDialog.Options() {
                 @Override
-                public void onApplyClick(TwoChoiceDialog dialog) {
+                public void onApplyClick(MaterialDialog dialog) {
                     api.setDefaultTemplate(String.valueOf(data.getId())).enqueue(new ApiCallback<QTemplate>() {
                         @Override
                         protected void handleResponse(QTemplate response) {
@@ -217,7 +217,7 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
                 }
 
                 @Override
-                public void onCancelClick(TwoChoiceDialog dialog) {
+                public void onCancelClick(MaterialDialog dialog) {
                     dialog.dismiss();
                 }
             });

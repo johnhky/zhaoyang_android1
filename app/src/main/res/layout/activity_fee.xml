@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_17"
                 android:singleLine="true"
-                android:text="复诊诊金 （元/次/15分钟）"
+                android:text="复诊诊金 （元/次)"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 

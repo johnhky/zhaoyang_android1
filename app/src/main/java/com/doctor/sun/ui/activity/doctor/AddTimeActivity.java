@@ -10,9 +10,8 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityAddTimeBinding;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Time;
-import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.module.TimeModule;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.impl.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
@@ -25,7 +24,7 @@ import io.ganguo.library.common.ToastHelper;
 public class AddTimeActivity extends BaseActivity2 {
 
 
-    private TimeModule api = Api.of(TimeModule.class);
+    private TimeModuleWrapper api = TimeModuleWrapper.getInstance();
     private ActivityAddTimeBinding binding;
 
     public static Intent makeIntent(Context context, Time data) {
@@ -39,27 +38,6 @@ public class AddTimeActivity extends BaseActivity2 {
     }
 
     @Override
-    protected void onStart() {
-        if (getData() != null)
-            existTimeInit();
-        super.onStart();
-    }
-
-    private void existTimeInit() {
-//        int week = getData().getWeek();
-//        for (int i = 64; i > 0; i /= 2) {
-//            if (week / i > 0) {
-//                selectedWeek(i);
-//                week -= i;
-//            }
-//        }
-    }
-
-    public void selectedWeek(double num) {
-        binding.flyWeeks.getChildAt((int) (Math.log(num) / Math.log((double) 2))).setSelected(true);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
@@ -69,7 +47,11 @@ public class AddTimeActivity extends BaseActivity2 {
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_time);
         HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("添加出诊时间").setRightTitle("保存");
+        if (getData().getId() == 0) {
+            header.setMidTitle("添加出诊时间").setRightTitle("保存");
+        } else {
+            header.setMidTitle("设置出诊时间").setRightTitle("保存");
+        }
         binding.setHeader(header);
         binding.setDescription(new Description(R.layout.item_time_category, "就诊周期"));
     }
@@ -80,15 +62,18 @@ public class AddTimeActivity extends BaseActivity2 {
 
         if (getType() != 0) {
             if (getSelectedWeeks() != 0) {
+                String to = binding.tvEndTime.getText().toString() + ":00";
+                String from = binding.tvBeginTime.getText().toString() + ":00";
+                int interval = getInterval();
                 if (getData().getId() != 0) {
-                    api.updateTime(getData().getId(), getSelectedWeeks(), getType(), binding.tvBeginTime.getText().toString() + ":00", binding.tvEndTime.getText().toString() + ":00").enqueue(new ApiCallback<Time>() {
+                    api.updateTime(getData().getId(), getSelectedWeeks(), getType(), from, to, interval).enqueue(new SimpleCallback<Time>() {
                         @Override
                         protected void handleResponse(Time response) {
                             finish();
                         }
                     });
                 } else {
-                    api.setTime(getSelectedWeeks(), getType(), binding.tvBeginTime.getText().toString() + ":00", binding.tvEndTime.getText().toString() + ":00").enqueue(new ApiCallback<Time>() {
+                    api.setTime(getSelectedWeeks(), getType(), from, to, interval).enqueue(new SimpleCallback<Time>() {
                         @Override
                         protected void handleResponse(Time response) {
                             finish();
@@ -101,6 +86,16 @@ public class AddTimeActivity extends BaseActivity2 {
         } else {
             ToastHelper.showMessage(AddTimeActivity.this, "问诊类型错误");
         }
+    }
+
+    private int getInterval() {
+        int interval;
+        try {
+            interval = Integer.parseInt(binding.etInterval.getText().toString());
+        } catch (NumberFormatException e) {
+            interval = 0;
+        }
+        return interval;
     }
 
 

@@ -144,7 +144,7 @@ public class PickTimeActivity extends BaseActivity2 {
 
     private void loadData() {
         Doctor data = getData();
-        api.getDaySchedule(data.getId(), getDate(), getType(), data.getDuration()).enqueue(new ListCallback<Time>(mAdapter));
+        api.getDaySchedule(data.getId(), getDate(), Integer.parseInt(getType()), data.getDuration()).enqueue(new ListCallback<Time>(mAdapter));
     }
 
     private void makeAppointment() {

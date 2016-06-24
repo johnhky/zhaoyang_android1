@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.QuestionCategory;
@@ -52,7 +53,7 @@ public class QCategoryHandler {
                     final String appointmentId = getAppointmentId.getAppointmentId();
                     TwoChoiceDialog.show(view.getContext(), "是否确认添加？", "取消", "确认", new TwoChoiceDialog.Options() {
                         @Override
-                        public void onApplyClick(final TwoChoiceDialog dialog) {
+                        public void onApplyClick(final MaterialDialog dialog) {
                             QuestionModule api = Api.of(QuestionModule.class);
                             api.appendScale(appointmentId, String.valueOf(data.getId())).enqueue(new ApiCallback<List<Answer>>() {
                                 @Override
@@ -64,7 +65,7 @@ public class QCategoryHandler {
                         }
 
                         @Override
-                        public void onCancelClick(TwoChoiceDialog dialog) {
+                        public void onCancelClick(MaterialDialog dialog) {
                             dialog.dismiss();
                         }
                     });

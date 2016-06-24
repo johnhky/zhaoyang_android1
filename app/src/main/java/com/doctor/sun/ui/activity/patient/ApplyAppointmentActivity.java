@@ -34,10 +34,13 @@ import java.util.Locale;
 
 /**
  * 确认预约
- * <p>
+ * <p/>
  * Created by lucas on 1/22/16.
  */
 public class ApplyAppointmentActivity extends BaseActivity2 {
+    public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
+    public static final String YYYY_MM_DD = "yyyy-MM-dd";
+
     private PActivityApplyAppointmentBinding binding;
     private ProfileModule api = Api.of(ProfileModule.class);
     private AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
@@ -89,7 +92,11 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
         binding.tvTime.setText(String.format("预约时间:%s", getBookTime()));
         binding.tvType.setText(String.format("预约类型:%s", appointmentType()));
         binding.rbAlipay.setChecked(true);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+        String dateFormat = YYYY_MM_DD_HH_MM;
+        if ("2".equals(getType())) {
+            dateFormat = YYYY_MM_DD;
+        }
+        SimpleDateFormat format = new SimpleDateFormat(dateFormat, Locale.CHINA);
         Date parse = null;
         try {
             parse = format.parse(getBookTime());
@@ -117,7 +124,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                 }
                 final String finalCouponId = couponId;
                 //noinspection WrongConstant
-                appointmentModule.orderAppointment(doctorId, time, type, doctorData.getRecordId(), couponId).enqueue(new ApiCallback<Appointment>() {
+                appointmentModule.orderAppointment(doctorId, time, type, doctorData.getRecordId(), couponId, doctorData.getDuration()).enqueue(new ApiCallback<Appointment>() {
                     @Override
                     protected void handleResponse(Appointment response) {
                         response.setRecordId(Integer.parseInt(doctorData.getRecordId()));

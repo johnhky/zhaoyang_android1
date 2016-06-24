@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -23,8 +24,8 @@ import com.doctor.sun.ui.activity.ItemSelectHospital;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.widget.FlowLayout;
-import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
+import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemPickDate;
@@ -249,7 +250,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                             needPillsOrImages = position;
                             TwoChoiceDialog.show(mActivity, "是否删除图片?", "取消", "确定", new TwoChoiceDialog.Options() {
                                 @Override
-                                public void onApplyClick(TwoChoiceDialog dialog) {
+                                public void onApplyClick(MaterialDialog dialog) {
                                     //删除对应图片
                                     dialog.dismiss();
                                     if (needPillsOrImages != -1 && getItemViewType(needPillsOrImages) == R.layout.item_answer) {
@@ -266,7 +267,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                                 }
 
                                 @Override
-                                public void onCancelClick(TwoChoiceDialog dialog) {
+                                public void onCancelClick(MaterialDialog dialog) {
                                     dialog.dismiss();
                                 }
                             });

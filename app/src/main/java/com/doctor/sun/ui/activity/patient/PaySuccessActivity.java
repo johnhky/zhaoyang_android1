@@ -80,7 +80,7 @@ public class PaySuccessActivity extends BaseActivity2 implements View.OnClickLis
                 break;
             }
             case APPOINTMENT: {
-                String bookTime = getAppointment().getBookTime().substring(0, getAppointment().getBookTime().length() - 12);
+                String bookTime = getAppointment().getHandler().getBookTime();
                 binding.setData(bookTime);
                 break;
             }

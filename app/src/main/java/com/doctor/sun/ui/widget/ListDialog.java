@@ -47,7 +47,6 @@ public class ListDialog extends Dialog {
                 loadMore();
             }
         });
-
     }
 
     protected void loadMore() {

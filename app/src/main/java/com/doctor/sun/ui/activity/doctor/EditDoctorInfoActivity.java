@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityEditDoctorInfoBinding;
@@ -23,8 +24,8 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.binding.CustomBinding;
 import com.doctor.sun.ui.handler.EditDoctorInfoHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
+import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.PermissionsUtil;
 
 import java.io.File;
@@ -180,14 +181,14 @@ public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements Edi
             EventHub.post(new CloseDialogEvent(true));
             TwoChoiceDialog.show(this, "需要获得相机和读文件的权限才能上传图片", "拒绝", "设置", new TwoChoiceDialog.Options() {
                 @Override
-                public void onApplyClick(TwoChoiceDialog dialog) {
+                public void onApplyClick(MaterialDialog dialog) {
                     //去设置
                     PermissionsUtil.startAppSettings(EditDoctorInfoActivity.this);
                     dialog.dismiss();
                 }
 
                 @Override
-                public void onCancelClick(TwoChoiceDialog dialog) {
+                public void onCancelClick(MaterialDialog dialog) {
                     dialog.dismiss();
                 }
             });
