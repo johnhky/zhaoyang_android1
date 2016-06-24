@@ -991,6 +991,10 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
      * @return
      */
     public long getFinishedTime() {
+        if (!(getOrderStatus().equals(Status.DOING) && getOrderStatus().equals("进行中"))) {
+            return 0;
+        }
+
         String bookTime = data.getBookTime();
         try {
             String substring;

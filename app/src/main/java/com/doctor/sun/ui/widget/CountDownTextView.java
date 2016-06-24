@@ -1,7 +1,6 @@
 package com.doctor.sun.ui.widget;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.TextView;
@@ -47,7 +46,7 @@ public class CountDownTextView extends TextView {
         post(new Runnable() {
             @Override
             public void run() {
-                setText(String.format(Locale.CHINA, "剩余就诊时长%02d分%02d秒", getMinus(), getSecond()));
+                setText(String.format(Locale.CHINA, "剩余就诊时长%s", getReadableTime(remainTime)));
                 remainTime -= ONE_SECOND;
                 if (remainTime > 0) {
                     postDelayed(this, ONE_SECOND);
@@ -59,12 +58,16 @@ public class CountDownTextView extends TextView {
         });
     }
 
-    private long getMinus() {
-        long l = remainTime / 1000 / 60;
-        return l;
-    }
-
-    private long getSecond() {
-        return (remainTime / 1000) % 60;
+    public static String getReadableTime(long timeMillis) {
+        String result = "";
+        long second = (timeMillis / 10000) % 60;
+        long minute = timeMillis / 60000 % 60;
+        long hour = timeMillis / 3600000;
+        if (hour > 1) {
+            result += hour + "小时";
+        }
+        result += minute + "分";
+        result += second + "秒";
+        return result;
     }
 }
