@@ -60,24 +60,24 @@ public class AfterServiceContactActivity extends ContactActivity {
     @Override
     protected void getContactList() {
 //        int id = TokenCallback.getDoctorProfile().getId();
-//        api.patientList().enqueue(new PageCallback<Patient>(getAdapter()) {
-//            @Override
-//            protected void handleResponse(PageDTO response) {
-//                super.handleResponse(response);
-//                Collections.sort(getAdapter(), new NameComparator());
-//                getContactAdapter().updatePosition();
-//            }
-//        });
-        api.patientList().enqueue(new ApiCallback<List<Patient>>() {
+        api.patientList().enqueue(new PageCallback<Patient>(getAdapter()) {
             @Override
-            protected void handleResponse(List<Patient> response) {
-                getAdapter().clear();
-                getAdapter().addAll(response);
+            protected void handleResponse(PageDTO response) {
+                super.handleResponse(response);
                 Collections.sort(getAdapter(), new NameComparator());
                 getContactAdapter().updatePosition();
-                getAdapter().onFinishLoadMore(true);
-                getAdapter().notifyDataSetChanged();
             }
         });
+//        api.patientList().enqueue(new ApiCallback<List<Patient>>() {
+//            @Override
+//            protected void handleResponse(List<Patient> response) {
+//                getAdapter().clear();
+//                getAdapter().addAll(response);
+//                Collections.sort(getAdapter(), new NameComparator());
+//                getContactAdapter().updatePosition();
+//                getAdapter().onFinishLoadMore(true);
+//                getAdapter().notifyDataSetChanged();
+//            }
+//        });
     }
 }

@@ -12,7 +12,6 @@ import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.Patient;
-import com.doctor.sun.http.callback.PageCallback;
 
 import java.util.List;
 
@@ -98,14 +97,14 @@ public interface AfterServiceModule {
 
 
     //TODO:
-//        @GET("follow-up/doctor-list")
-    @GET("im/pContactList")
+//    @GET("im/pContactList")
+    @GET("follow-up/doctor-list")
     Call<ApiDTO<List<Doctor>>> doctorList();
 
     //TODO:
-//        @GET("follow-up/patient-list")
-    @GET("im/doctor-contact-list")
-    Call<ApiDTO<List<Patient>>> patientList();
+//    @GET("im/doctor-contact-list")
+    @GET("follow-up/patient-list")
+    Call<ApiDTO<PageDTO<Patient>>> patientList();
 
     @GET("follow-up/doctor-feedback")
     Call<ApiDTO<List<Answer>>> feedback(@NonNull @Query("follow_order_id") String id);
