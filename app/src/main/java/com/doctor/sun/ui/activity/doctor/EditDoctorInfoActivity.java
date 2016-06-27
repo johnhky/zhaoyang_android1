@@ -24,8 +24,8 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.binding.CustomBinding;
 import com.doctor.sun.ui.handler.EditDoctorInfoHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.ui.widget.PickImageDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.PermissionsUtil;
 
 import java.io.File;
@@ -262,11 +262,11 @@ public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements Edi
                             avatarImg = imgUrl;
                             break;
                         case 2:
-                            data.setTitleImg(imgUrl);
-                            CustomBinding.loadImage(binding.ivTitle, imgUrl, null);
-                            binding.tvTitle.setVisibility(View.GONE);
-                            binding.titleImg.setVisibility(View.GONE);
-                            titleImg = imgUrl;
+                            data.setCertifiedImg(imgUrl);
+                            CustomBinding.loadImage(binding.ivCertified, imgUrl, null);
+                            binding.tvCertified.setVisibility(View.GONE);
+                            binding.certifiedImg.setVisibility(View.GONE);
+                            certifiedImg = imgUrl;
                             break;
                         case 3:
                             data.setPractitionerImg(imgUrl);
@@ -276,11 +276,11 @@ public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements Edi
                             practitionerImg = imgUrl;
                             break;
                         case 4:
-                            data.setCertifiedImg(imgUrl);
-                            CustomBinding.loadImage(binding.ivCertified, imgUrl, null);
-                            binding.tvCertified.setVisibility(View.GONE);
-                            binding.certifiedImg.setVisibility(View.GONE);
-                            certifiedImg = imgUrl;
+                            data.setTitleImg(imgUrl);
+                            CustomBinding.loadImage(binding.ivTitle, imgUrl, null);
+                            binding.tvTitle.setVisibility(View.GONE);
+                            binding.titleImg.setVisibility(View.GONE);
+                            titleImg = imgUrl;
                             break;
                     }
                 }

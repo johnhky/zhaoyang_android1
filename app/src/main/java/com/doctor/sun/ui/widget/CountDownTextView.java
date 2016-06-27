@@ -60,14 +60,14 @@ public class CountDownTextView extends TextView {
 
     public static String getReadableTime(long timeMillis) {
         String result = "";
-        long second = (timeMillis / 10000) % 60;
+        long second = (timeMillis / 1000) % 60;
         long minute = timeMillis / 60000 % 60;
         long hour = timeMillis / 3600000;
         if (hour > 1) {
-            result += hour + "小时";
+            result += String.format(Locale.CHINA, "%02d小时", hour);
         }
-        result += minute + "分";
-        result += second + "秒";
+        result += String.format(Locale.CHINA, "%02d分", minute);
+        result += String.format(Locale.CHINA, "%02d秒", second);
         return result;
     }
 }

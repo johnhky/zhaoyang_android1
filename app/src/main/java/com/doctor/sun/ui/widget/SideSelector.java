@@ -1,6 +1,7 @@
 package com.doctor.sun.ui.widget;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,13 +10,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.SectionIndexer;
-import android.widget.TextView;
 
 import com.doctor.sun.R;
+import com.doctor.sun.databinding.ItemCharBinding;
 
 
 /**
@@ -29,7 +31,7 @@ public class SideSelector extends View {
     Paint paint = new Paint();
     boolean showBkg = false;
     private PopupWindow mPopupWindow;
-    private TextView mPopupText;
+    private ItemCharBinding binding;
     private Handler handler = new Handler();
     private RecyclerView listView;
     private SectionIndexer indexer;
@@ -89,8 +91,8 @@ public class SideSelector extends View {
                 showBkg = true;
                 if (oldChoose != c) {
                     if (c >= 0 && c < ALPHABET.length) { //让第一个字母响应点击事件
-                        showPopup(c);
                         int positionForSection = indexer.getPositionForSection(c);
+                        showPopup(indexer.getSectionForPosition(positionForSection));
                         layoutManager.scrollToPositionWithOffset(positionForSection, -itemHeight);
                         choose = c;
                         invalidate();
@@ -101,8 +103,8 @@ public class SideSelector extends View {
             case MotionEvent.ACTION_MOVE:
                 if (oldChoose != c) {
                     if (c >= 0 && c < ALPHABET.length) { //让第一个字母响应点击事件
-                        showPopup(c);
                         int positionForSection = indexer.getPositionForSection(c);
+                        showPopup(indexer.getSectionForPosition(positionForSection));
                         layoutManager.scrollToPositionWithOffset(positionForSection, -itemHeight);
                         choose = c;
                         invalidate();
@@ -120,19 +122,20 @@ public class SideSelector extends View {
     }
 
     private void showPopup(int item) {
+        if (item < 0) {
+            return;
+        }
         if (mPopupWindow == null) {
 
             handler.removeCallbacks(dismissRunnable);
-            mPopupText = new TextView(getContext());
-            mPopupText.setBackgroundColor(Color.GRAY);
-            mPopupText.setTextColor(Color.WHITE);
-            mPopupText.setTextSize(getResources().getDimensionPixelSize(R.dimen.font_20));
-            mPopupText.setGravity(Gravity.CENTER_HORIZONTAL
-                    | Gravity.CENTER_VERTICAL);
+
+            binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.item_char, null, false);
+
 
             int height = getResources().getDimensionPixelSize(R.dimen.dp_80);
+            int width = height;
 
-            mPopupWindow = new PopupWindow(mPopupText, height, height);
+            mPopupWindow = new PopupWindow(binding.getRoot(), width, height);
         }
 
         /*String text = "";
@@ -142,7 +145,7 @@ public class SideSelector extends View {
             text = Character.toString((char) ('A' + item));
         }*/
         String text = ALPHABET[item];
-        mPopupText.setText(text);
+        binding.setData(text);
         if (mPopupWindow.isShowing()) {
             mPopupWindow.update();
         } else {

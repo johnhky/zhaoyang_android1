@@ -8,7 +8,7 @@ import com.doctor.sun.util.NameComparator;
 /**
  * Created by lucas on 12/2/15.
  */
-public class Description extends BaseObservable implements LayoutId ,NameComparator.Name{
+public class Description extends BaseObservable implements LayoutId, NameComparator.Name {
     public Description(int layoutId, String content) {
         this.layoutId = layoutId;
         this.content = content;
@@ -17,6 +17,7 @@ public class Description extends BaseObservable implements LayoutId ,NameCompara
     private int layoutId;
     private String content;
     private boolean visible = true;
+    private int indexPosition;
 
     public String getContent() {
         return content;
@@ -38,6 +39,14 @@ public class Description extends BaseObservable implements LayoutId ,NameCompara
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public int getIndexPosition() {
+        return indexPosition;
+    }
+
+    public void setIndexPosition(int indexPosition) {
+        this.indexPosition = indexPosition;
     }
 
     @Override

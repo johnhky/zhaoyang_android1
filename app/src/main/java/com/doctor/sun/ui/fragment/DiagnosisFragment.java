@@ -279,6 +279,9 @@ public class DiagnosisFragment extends BaseFragment {
         api.diagnosisInfo(appointment.getId()).enqueue(new ApiCallback<DiagnosisInfo>() {
             @Override
             protected void handleResponse(DiagnosisInfo response) {
+                if (response == null) {
+                    return;
+                }
                 viewModel.cloneFromDiagnosisInfo(response);
                 returnType = response.getReturnType();
                 binding.setData(viewModel);

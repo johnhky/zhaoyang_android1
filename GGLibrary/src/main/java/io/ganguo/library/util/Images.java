@@ -520,4 +520,26 @@ public class Images {
 
         return (bitmap);
     }
+
+    public static Bitmap getCorrectOrientationBitmap(File file, Bitmap smallBitmap) throws IOException {
+        ExifInterface exif = new ExifInterface(file.getPath());
+        int orientation = exif.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_NORMAL);
+
+        int angle = 0;
+
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
+            angle = 90;
+        } else if (orientation == ExifInterface.ORIENTATION_ROTATE_180) {
+            angle = 180;
+        } else if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
+            angle = 270;
+        }
+
+        Matrix mat = new Matrix();
+        mat.postRotate(angle);
+        return Bitmap.createBitmap(smallBitmap, 0, 0, smallBitmap.getWidth(),
+                smallBitmap.getHeight(), mat, true);
+    }
 }

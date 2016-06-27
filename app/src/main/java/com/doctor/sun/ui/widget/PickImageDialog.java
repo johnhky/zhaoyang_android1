@@ -209,7 +209,8 @@ public class PickImageDialog extends BottomSheetDialog {
         Log.d("image size", "compressImage: " + quality);
         Bitmap smallBitmap = Images.getSmallBitmap(file.getPath());
         try {
-            Images.saveJPEG(smallBitmap, (int) quality, to);
+            Bitmap rotatedBmp = Images.getCorrectOrientationBitmap(file, smallBitmap);
+            Images.saveJPEG(rotatedBmp, (int) quality, to);
             return to;
         } catch (IOException e) {
             e.printStackTrace();

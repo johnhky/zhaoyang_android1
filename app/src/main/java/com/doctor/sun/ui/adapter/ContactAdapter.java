@@ -35,6 +35,7 @@ public class ContactAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> imp
         String[] clone = SideSelector.ALPHABET.clone();
         for (int i = clone.length - 1; i >= 0; i--) {
             Description object = new Description(R.layout.item_time_category, String.valueOf(clone[i]));
+            object.setIndexPosition(i);
             object.setVisible(false);
             this.add(object);
         }
@@ -113,7 +114,16 @@ public class ContactAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> imp
 
     @Override
     public int getSectionForPosition(int position) {
-        return 0;
+        try {
+            Description description = (Description) get(position);
+            if (description.isVisible()) {
+                return description.getIndexPosition();
+            } else {
+                return getSectionForPosition(position + 1);
+            }
+        } catch (Exception e) {
+            return -1;
+        }
     }
 
     public void clear() {
