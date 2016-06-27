@@ -853,11 +853,29 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public void alertAppointmentFinished(Context context) {
-        if (isAfterService()) {
-            return;
-        }
-        if (isFinished() && !AppContext.isDoctor()) {
-            Toast.makeText(context, "预约已经结束,请重新预约", Toast.LENGTH_SHORT).show();
+        if (!AppContext.isDoctor()) {
+            switch (data.getOrderStatus()) {
+                case Status.AFinished:
+                case Status.A_UNPAY:
+                case Status.A_UNPAY_LOCALE2:
+                    Toast.makeText(context, "预约已经结束,请重新预约", Toast.LENGTH_SHORT).show();
+                    break;
+                case Status.REJECTED:
+                case Status.CLOSED: {
+                    Toast.makeText(context, "随访已经结束,请耐心等待下次随访", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                case Status.FINISHED: {
+                    Toast.makeText(context, "随访已经结束,请耐心等待下次随访", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                case Status.LOCKED: {
+                    Toast.makeText(context, "随访已经锁定,请耐心等待下次随访", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                default:
+                    break;
+            }
         }
     }
 
@@ -967,17 +985,17 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public String getStatusColor() {
         switch (data.getOrderStatus()) {
-            case "已完成":
+            case Status.AFinished:
                 return "#363636";
-            case "未支付":
-            case "未付款":
+            case Status.A_UNPAY:
+            case Status.A_UNPAY_LOCALE2:
                 return "#ff1800";
-            case "已支付":
-            case "已付款":
+            case Status.A_PAY:
+            case Status.A_PAY_LOCALE2:
                 return "#ff8e43";
-            case "待建议":
+            case Status.A_WAITING:
                 return "#ff1800";
-            case "进行中":
+            case Status.A_DOING:
                 return "#88cb5a";
             case Status.TODO: {
                 return "#ff8e43";
@@ -1188,5 +1206,12 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         String CLOSED = "closed";
         String FINISHED = "finished";
         String LOCKED = "locked";
+        String A_DOING = "进行中";
+        String AFinished = "已完成";
+        String A_UNPAY = "未支付";
+        String A_UNPAY_LOCALE2 = "未付款";
+        String A_PAY = "已支付";
+        String A_PAY_LOCALE2 = "已付款";
+        String A_WAITING = "待建议";
     }
 }
