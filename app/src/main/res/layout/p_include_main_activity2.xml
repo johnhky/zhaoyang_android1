@@ -44,7 +44,7 @@
                 android:showcaseId='@{"main"}'
                 android:showcasePosition='@{0}'
                 android:showcaseSize='@{4}'
-                android:text="详细咨询"
+                android:text="专属咨询"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
@@ -68,7 +68,7 @@
                 android:showcaseId='@{"main"}'
                 android:showcasePosition='@{1}'
                 android:showcaseSize='@{4}'
-                android:text="简捷复诊"
+                android:text="留言咨询"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
