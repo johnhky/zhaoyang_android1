@@ -397,7 +397,7 @@ public class DiagnosisFragment extends BaseFragment {
     }
 
     public void setDiagnosise() {
-        TwoChoiceDialog.show(getActivity(), "是否结束本次就诊",
+        TwoChoiceDialog.show(getContext(), "是否结束本次就诊",
                 "暂存", "保存并结束", new TwoChoiceDialog.Options() {
                     @Override
                     public void onApplyClick(final MaterialDialog dialog) {
