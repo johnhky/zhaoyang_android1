@@ -141,11 +141,24 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public String getBookTime() {
         if (null != data.getBookTime()) {
+            if (isQuick()) {
+                return splitBookTime();
+            }
             return data.getBookTime();
         } else if (null != data.getCreatedAt()) {
             return data.getCreatedAt();
         } else {
             return "";
+        }
+    }
+
+    private String splitBookTime() {
+        String bookTime = data.getBookTime();
+        try {
+            String[] split = bookTime.split(" ");
+            return split[0];
+        } catch (Exception e) {
+            return bookTime;
         }
     }
 
@@ -562,7 +575,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public Intent getFirstMenu(Context context) {
-        if (data.getType().equals("诊后随访")) {
+        if (isAfterService()) {
             String id = String.valueOf(data.getId());
             switch (data.getOrderStatus()) {
                 case Status.DOING: {
@@ -592,7 +605,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public Intent getMenu(Context context) {
-        if (data.getType().equals("诊后随访")) {
+        if (isAfterService()) {
             String id = String.valueOf(data.getId());
             switch (data.getOrderStatus()) {
                 case Status.DOING: {
@@ -769,7 +782,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             @Override
             public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
                 Call<ApiDTO<String>> apiDTOCall;
-                if (data.getType().equals("诊后随访")) {
+                if (isAfterService()) {
                     apiDTOCall = drugModule.pushFollowUpDrug(String.valueOf(data.getId()));
                 } else {
                     apiDTOCall = drugModule.pushDrug(String.valueOf(data.getId()));
@@ -783,6 +796,14 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 });
             }
         };
+    }
+
+    private boolean isAfterService() {
+        return data.getType().equals("诊后随访");
+    }
+
+    private boolean isQuick() {
+        return data.getType().equals("简捷复诊");
     }
 
     public EditText.OnEditorActionListener sendMessageAction() {
@@ -832,7 +853,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public void alertAppointmentFinished(Context context) {
-        if (data.getType().equals("诊后随访")) {
+        if (isAfterService()) {
             return;
         }
         if (isFinished() && !AppContext.isDoctor()) {

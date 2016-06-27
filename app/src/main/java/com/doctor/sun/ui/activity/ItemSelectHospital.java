@@ -221,14 +221,29 @@ public class ItemSelectHospital extends BaseItem {
         String[] type = new String[3];
         String[] content = new String[3];
 
-        type[0] = String.valueOf(lv1.get(lv1Position).id);
-        content[0] = lv1.get(lv1Position).name;
+        if (!lv1.isEmpty()) {
+            type[0] = String.valueOf(lv1.get(lv1Position).id);
+            content[0] = lv1.get(lv1Position).name;
+        } else {
+            type[0] = "";
+            content[0] = "";
+        }
 
-        type[1] = String.valueOf(lv2.get(lv2Position).id);
-        content[1] = lv2.get(lv2Position).name;
+        if (!lv2.isEmpty()) {
+            type[1] = String.valueOf(lv2.get(lv2Position).id);
+            content[1] = lv2.get(lv2Position).name;
+        } else {
+            type[1] = "";
+            content[1] = "";
+        }
 
-        type[2] = String.valueOf(lv3.get(lv3Position).id);
-        content[2] = lv3.get(lv3Position).name;
+        if (!lv2.isEmpty()) {
+            type[2] = String.valueOf(lv3.get(lv3Position).id);
+            content[2] = lv3.get(lv3Position).name;
+        } else {
+            type[2] = "";
+            content[2] = "";
+        }
 
         result.put("type", type);
         result.put("content", content);
