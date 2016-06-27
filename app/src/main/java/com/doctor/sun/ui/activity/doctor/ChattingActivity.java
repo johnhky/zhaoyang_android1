@@ -36,13 +36,14 @@ import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.ExtendedEditText;
-import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.ui.widget.PickImageDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.FileChooser;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.vo.CustomActionViewModel;
 import com.doctor.sun.vo.InputLayoutViewModel;
+import com.doctor.sun.vo.ItemDivider;
 import com.doctor.sun.vo.StickerViewModel;
 import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
@@ -77,7 +78,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     public static final int ONE_DAY = 86400000;
 
     private ActivityChattingBinding binding;
-    private MessageAdapter adapter;
+    private MessageAdapter mAdapter;
     private RealmQuery<TextMsg> query;
     private AppointmentHandler handler;
     private String sendTo;
@@ -128,8 +129,12 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                     if (shouldRefresh) {
                         Api.of(AppointmentModule.class).appointmentInTid("[" + getTeamId() + "]", "1").enqueue(new RefreshAppointmentCallback());
                     }
-                    if (adapter != null) {
-                        adapter.notifyDataSetChanged();
+                    if (mAdapter != null) {
+                        mAdapter.clear();
+                        mAdapter.add(new ItemDivider(R.layout.divider_dp13));
+                        mAdapter.addAll(element);
+                        mAdapter.notifyDataSetChanged();
+                        binding.recyclerView.scrollToPosition(0);
                     }
                 }
             };
@@ -194,8 +199,8 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
         sendTo = handler.getTeamId();
 
-        adapter = new MessageAdapter(this, data);
-        binding.recyclerView.setAdapter(adapter);
+        mAdapter = new MessageAdapter(this, data);
+        binding.recyclerView.setAdapter(mAdapter);
 
         query = getRealm().where(TextMsg.class)
                 .equalTo("sessionId", sendTo);
@@ -206,8 +211,9 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
 //        setHaveRead(results);
 
-        adapter.setData(results);
-        adapter.onFinishLoadMore(true);
+        mAdapter.add(new ItemDivider(R.layout.divider_dp13));
+        mAdapter.addAll(results);
+        mAdapter.onFinishLoadMore(true);
         initCustomAction(data);
         initSticker();
         initInputLayout();
@@ -384,11 +390,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
     @Override
     public void onRefresh() {
-        long time = System.currentTimeMillis();
-        if (adapter != null && adapter.size() > 0) {
-            TextMsg msg = adapter.get(adapter.size() - 1);
-            time = msg.getTime();
-        }
+        long time = getRefreshReferenceTime(System.currentTimeMillis());
         Log.e(TAG, "onRefresh: " + time);
         MsgService service = NIMClient.getService(MsgService.class);
         IMMessage emptyMessage = MessageBuilder.createEmptyMessage(sendTo, SessionTypeEnum.Team, time);
@@ -412,12 +414,22 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         });
     }
 
-    private void loadFirstPage() {
-        long time = 0;
-        if (adapter != null && adapter.size() > 0) {
-            TextMsg msg = adapter.get(adapter.size() - 1);
-            time = msg.getTime();
+    private long getRefreshReferenceTime(long initValue) {
+        long time = initValue;
+        if (mAdapter != null && mAdapter.size() > 0) {
+            try {
+                TextMsg msg = (TextMsg) mAdapter.get(mAdapter.size() - 1);
+
+                time = msg.getTime();
+            } catch (ClassCastException e) {
+                time = System.currentTimeMillis();
+            }
         }
+        return time;
+    }
+
+    private void loadFirstPage() {
+        long time = getRefreshReferenceTime(0);
 
         MsgService service = NIMClient.getService(MsgService.class);
         IMMessage emptyMessage = MessageBuilder.createEmptyMessage(sendTo, SessionTypeEnum.Team, time);
@@ -491,7 +503,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                 handler = appointment.getHandler();
                 binding.setData(appointment);
                 binding.appointmentStatus.setData(appointment);
-                adapter.setFinishedTime(handler.getFinishedTime());
+                mAdapter.setFinishedTime(handler.getFinishedTime());
             }
         }
     }

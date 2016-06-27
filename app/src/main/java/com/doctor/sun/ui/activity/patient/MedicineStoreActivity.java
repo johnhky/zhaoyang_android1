@@ -3,7 +3,6 @@ package com.doctor.sun.ui.activity.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,8 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -42,6 +39,7 @@ import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.FileChooser;
 import com.doctor.sun.vo.CustomActionViewModel;
 import com.doctor.sun.vo.InputLayoutViewModel;
+import com.doctor.sun.vo.ItemDivider;
 import com.doctor.sun.vo.StickerViewModel;
 import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
@@ -77,7 +75,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimT
     private DrugModule api = Api.of(DrugModule.class);
     private SimpleAdapter mAppointmentAdapter;
 
-    private SimpleAdapter<TextMsg, ViewDataBinding> mChatAdapter;
+    private MessageAdapter mChatAdapter;
     private RealmQuery<TextMsg> query;
     private String sendTo;
     private RealmResults<TextMsg> results;
@@ -158,7 +156,8 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimT
         if (results.isEmpty()) {
             pullHistory();
         }
-        mChatAdapter.setData(results);
+        mChatAdapter.add(new ItemDivider(R.layout.divider_dp13));
+        mChatAdapter.addAll(results);
         mChatAdapter.onFinishLoadMore(true);
         binding.refreshLayout.setOnRefreshListener(this);
         binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
@@ -252,7 +251,11 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimT
                 @Override
                 public void onChange(RealmResults<TextMsg> element) {
                     if (mChatAdapter != null) {
+                        mChatAdapter.clear();
+                        mChatAdapter.add(new ItemDivider(R.layout.divider_dp13));
+                        mChatAdapter.addAll(element);
                         mChatAdapter.notifyDataSetChanged();
+                        binding.rvChat.scrollToPosition(0);
                     }
                 }
             });
@@ -355,11 +358,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimT
 
     @Override
     public void onRefresh() {
-        long time = System.currentTimeMillis();
-        if (mChatAdapter != null && mChatAdapter.size() > 0) {
-            TextMsg msg = mChatAdapter.get(mChatAdapter.size() - 1);
-            time = msg.getTime();
-        }
+        long time = getReferenceTime(System.currentTimeMillis());
         Log.e(TAG, "onRefresh: " + time);
         MsgService service = NIMClient.getService(MsgService.class);
         IMMessage emptyMessage = MessageBuilder.createEmptyMessage(sendTo, SessionTypeEnum.P2P, time);
@@ -384,11 +383,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimT
     }
 
     private void loadFirstPage() {
-        long time = 0;
-        if (mChatAdapter != null && mChatAdapter.size() > 0) {
-            TextMsg msg = mChatAdapter.get(mChatAdapter.size() - 1);
-            time = msg.getTime();
-        }
+        long time = getReferenceTime(0);
 
         MsgService service = NIMClient.getService(MsgService.class);
         IMMessage emptyMessage = MessageBuilder.createEmptyMessage(sendTo, SessionTypeEnum.P2P, time);
@@ -410,6 +405,19 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimT
                 binding.refreshLayout.setRefreshing(false);
             }
         });
+    }
+
+    private long getReferenceTime(long initValue) {
+        long time = initValue;
+        if (mChatAdapter != null && mChatAdapter.size() > 0) {
+            try {
+                TextMsg msg = (TextMsg) mChatAdapter.get(mChatAdapter.size() - 1);
+                time = msg.getTime();
+            } catch (ClassCastException e) {
+
+            }
+        }
+        return time;
     }
 
 

@@ -25,6 +25,7 @@ import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.ImagePreviewActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.util.JacksonUtils;
 
 import java.text.SimpleDateFormat;
@@ -37,7 +38,7 @@ import io.ganguo.library.Config;
 /**
  * Created by rick on 12/15/15.
  */
-public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
+public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     private String myAvatar;
     private String yourAvatar;
     private boolean shouldUpdate;
@@ -130,7 +131,7 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
             case R.layout.msg_prescription_list: {
                 MsgPrescriptionListBinding binding = (MsgPrescriptionListBinding) vh.getBinding();
                 binding.prescription.removeAllViews();
-                TextMsg textMsg = get(position);
+                TextMsg textMsg = (TextMsg) get(position);
                 if (textMsg.getBody() == null) {
                     return;
                 }
@@ -176,10 +177,11 @@ public class MessageAdapter extends SimpleAdapter<TextMsg, ViewDataBinding> {
 
     public boolean timeVisible(BaseViewHolder vh) {
         int adapterPosition = vh.getAdapterPosition();
+        if (adapterPosition == 0) return false;
         if (adapterPosition + 1 >= size()) return true;
 
-        TextMsg thisMsg = get(adapterPosition);
-        TextMsg otherMsg = get(adapterPosition + 1);
+        TextMsg thisMsg = (TextMsg) get(adapterPosition);
+        TextMsg otherMsg = (TextMsg) get(adapterPosition + 1);
 
         return thisMsg.getTime() - otherMsg.getTime() > 1000 * 60 * 5;
     }
