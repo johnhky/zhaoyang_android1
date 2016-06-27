@@ -69,7 +69,7 @@ public interface AppointmentModule {
                                                @AppointmentType @Field("type") int type,
                                                @Field("recordId") String recordId,
                                                @Field("couponId") String couponId,
-                                               @Field("takeTime") String takeTime);
+                                               @FieldMap HashMap<String, String> otherParam);
 
     @GET("appointment/pAppointList")
     Call<ApiDTO<PageDTO<Appointment>>> pAppointments(@Query("page") String page);

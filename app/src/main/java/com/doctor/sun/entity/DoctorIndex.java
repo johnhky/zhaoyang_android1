@@ -10,7 +10,7 @@ import io.realm.annotations.Required;
  * Created by rick on 11/20/15.
  * 医生首页
  */
-public class DoctorIndex extends RealmObject {
+public class DoctorIndex  {
 
 
     /**
@@ -34,8 +34,6 @@ public class DoctorIndex extends RealmObject {
     private int transferNum;
     @JsonProperty("follow_up_num")
     private int followUpNum;
-    @Required
-    @PrimaryKey
     @JsonProperty("name")
     private String name;
 

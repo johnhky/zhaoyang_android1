@@ -2,7 +2,6 @@ package com.doctor.sun.ui.activity.doctor;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
@@ -18,6 +17,7 @@ import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.handler.MainActivityHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.widget.PassDialog;
+import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.UpdateUtil;
 
@@ -33,8 +33,10 @@ public class MainActivity extends BaseDoctorActivity {
 
     public static final int NOTFIRSTTIME = 2;
     public static final int ISFIRSTTIME = 1;
+    public static final String DOCTOR_INDEX = "DOCTOR_INDEX";
     private ProfileModule api = Api.of(ProfileModule.class);
     private ActivityMainBinding binding;
+    private RealmResults<TextMsg> unReadMsg;
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, MainActivity.class);
@@ -51,28 +53,28 @@ public class MainActivity extends BaseDoctorActivity {
             new PassDialog(this).show();
             Config.putInt(Constants.PASSFIRSTTIME, NOTFIRSTTIME);
         }
-        RealmResults<DoctorIndex> doctorIndexes = getRealm().where(DoctorIndex.class).findAll();
-        setDoctorIndex(doctorIndexes);
-
-        doctorIndexes.addChangeListener(new RealmChangeListener<RealmResults<DoctorIndex>>() {
+        String string = Config.getString(DOCTOR_INDEX);
+        if (string != null && !string.equals("")) {
+            setDoctorIndex(JacksonUtils.fromJson(string, DoctorIndex.class));
+        }
+        unReadMsg = getRealm().where(TextMsg.class).equalTo("haveRead", false).findAll();
+        unReadMsg.addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
             @Override
-            public void onChange(RealmResults<DoctorIndex> element) {
-                setDoctorIndex(element);
+            public void onChange(RealmResults<TextMsg> element) {
+                binding.setCount(element.size());
             }
         });
+        binding.setCount(unReadMsg.size());
     }
 
     private FooterViewModel getFooter() {
         return FooterViewModel.getInstance(this, R.id.tab_one);
     }
 
-    private void setDoctorIndex(RealmResults<DoctorIndex> element) {
-        if (!element.isEmpty()) {
-            DoctorIndex first = element.first();
-            binding.setData(first);
+    private void setDoctorIndex(DoctorIndex doctorIndex) {
+        if (doctorIndex != null) {
+            binding.setData(doctorIndex);
             binding.executePendingBindings();
-            long unReadCount = getRealm().where(TextMsg.class).equalTo("haveRead", false).count();
-            binding.setCount((int) unReadCount);
         }
     }
 
@@ -91,12 +93,18 @@ public class MainActivity extends BaseDoctorActivity {
         api.doctorIndex().enqueue(new ApiCallback<DoctorIndex>() {
             @Override
             protected void handleResponse(DoctorIndex response) {
-                getRealm().beginTransaction();
-                getRealm().delete(DoctorIndex.class);
-                getRealm().copyToRealmOrUpdate(response);
-                getRealm().commitTransaction();
+                setDoctorIndex(response);
+                Config.putString(DOCTOR_INDEX, JacksonUtils.toJson(response));
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (unReadMsg != null) {
+            unReadMsg.removeChangeListeners();
+        }
     }
 
     @Override

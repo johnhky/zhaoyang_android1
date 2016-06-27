@@ -204,7 +204,6 @@ public class AppContext extends BaseApp {
         public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
             RealmSchema schema = realm.getSchema();
             RealmObjectSchema textMsg = schema.get("TextMsg");
-            RealmObjectSchema doctorIndex = schema.get("DoctorIndex");
             if (oldVersion < 1) {
                 textMsg.addField("finished", boolean.class);
                 oldVersion++;
@@ -227,9 +226,7 @@ public class AppContext extends BaseApp {
                 oldVersion++;
             }
             if (oldVersion < 5) {
-                if (!doctorIndex.hasField("followUpNum")) {
-                    doctorIndex.addField("followUpNum", int.class);
-                }
+                schema.remove("DoctorIndex");
                 oldVersion++;
             }
         }

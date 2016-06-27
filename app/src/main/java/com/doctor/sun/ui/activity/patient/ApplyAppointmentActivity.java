@@ -29,13 +29,14 @@ import com.doctor.sun.ui.widget.SelectRecordDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 
 /**
  * 确认预约
- * <p>
+ * <p/>
  * Created by lucas on 1/22/16.
  */
 public class ApplyAppointmentActivity extends BaseActivity2 {
@@ -94,7 +95,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
         binding.tvType.setText(String.format("预约类型:%s", appointmentType()));
         binding.rbAlipay.setChecked(true);
         String dateFormat = YYYY_MM_DD_HH_MM;
-        if ("2".equals(getType())) {
+        if (getType() == 2) {
             dateFormat = YYYY_MM_DD;
         }
         SimpleDateFormat format = new SimpleDateFormat(dateFormat, Locale.CHINA);
@@ -124,8 +125,12 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                     couponId = coupons.get(0).getId();
                 }
                 final String finalCouponId = couponId;
+                HashMap<String, String> params = new HashMap<String, String>();
+                if (type == AppointmentType.DETAIL) {
+                    params.put("takeTime", doctorData.getDuration());
+                }
                 //noinspection WrongConstant
-                appointmentModule.orderAppointment(doctorId, time, type, doctorData.getRecordId(), couponId, doctorData.getDuration()).enqueue(new ApiCallback<Appointment>() {
+                appointmentModule.orderAppointment(doctorId, time, type, doctorData.getRecordId(), couponId, params).enqueue(new ApiCallback<Appointment>() {
                     @Override
                     protected void handleResponse(Appointment response) {
                         response.setRecordId(Integer.parseInt(doctorData.getRecordId()));
