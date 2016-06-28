@@ -27,7 +27,7 @@ import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NIMConnectionState;
-import com.doctor.sun.im.NimTeamId;
+import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.VoIPCallActivity;
@@ -64,7 +64,7 @@ import io.realm.Sort;
 /**
  * Created by lucas on 2/14/16.
  */
-public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimTeamId, ExtendedEditText.KeyboardDismissListener, SwipeRefreshLayout.OnRefreshListener, KeyboardWatcher.OnKeyboardToggleListener {
+public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimMsgInfo, ExtendedEditText.KeyboardDismissListener, SwipeRefreshLayout.OnRefreshListener, KeyboardWatcher.OnKeyboardToggleListener {
     public static final String ADMIN_DRUG = "admin";
     public static final double FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
     public static final double IMAGE_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
@@ -266,7 +266,9 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimT
     protected void onStop() {
         if (!getRealm().isClosed()) {
             setReadStatus(results);
-            getRealm().removeChangeListener(listener);
+            if (listener != null) {
+                getRealm().removeChangeListener(listener);
+            }
         }
         super.onStop();
     }
@@ -284,6 +286,11 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimT
     @Override
     public String getP2PId() {
         return sendTo;
+    }
+
+    @Override
+    public boolean enablePush() {
+        return true;
     }
 
     @Override
@@ -314,7 +321,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimT
             // Get the Uri of the selected file
             File file = FileChooser.onActivityResult(this, requestCode, RESULT_OK, data);
             if (file != null) {
-                IMManager.getInstance().sentFile(sendTo, getType(), file);
+                IMManager.getInstance().sentFile(sendTo, getType(), file, enablePush());
             }
         }
     }
@@ -323,7 +330,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimT
         if (IMAGE_REQUEST_CODE == PickImageDialog.getRequestCode(requestCode)) {
             File file = PickImageDialog.handleRequest(this, data, requestCode);
             if (file != null) {
-                IMManager.getInstance().sentImage(sendTo, getType(), file);
+                IMManager.getInstance().sentImage(sendTo, getType(), file, enablePush());
             }
         }
     }
@@ -331,7 +338,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimT
     private void handleVideoRequest(int requestCode, Intent data) {
         if (VIDEO_REQUEST_CODE == requestCode) {
             File file = CustomActionViewModel.getVideoTempFile();
-            IMManager.getInstance().sentVideo(sendTo, getType(), file);
+            IMManager.getInstance().sentVideo(sendTo, getType(), file, enablePush());
         }
     }
 

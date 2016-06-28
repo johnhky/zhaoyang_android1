@@ -20,13 +20,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_74"
         android:background="#eff3f5"
+        android:orientation="vertical"
         android:showcase='@{"昭阳医生系统会向您推送所有的系统消息"}'
+        android:isRect="@{true}"
         android:showcaseId='@{"consulting`"}'
         android:showcasePosition='@{0}'
-        android:showcaseSize='@{2}'
-        android:orientation="vertical">
+        android:showcaseSize='@{2}'>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.doctor.sun.R;
 import com.doctor.sun.im.IMManager;
-import com.doctor.sun.im.NimTeamId;
+import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.vo.InputLayoutViewModel;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
@@ -111,11 +111,11 @@ public class Emoticon implements LayoutId {
     }
 
     public void sendSticker(View view) {
-        NimTeamId id = (NimTeamId) view.getContext();
+        NimMsgInfo id = (NimMsgInfo) view.getContext();
         if (id.getType() == SessionTypeEnum.Team) {
-            IMManager.getInstance().sentSticker(id.getTeamId(), id.getType(), this);
+            IMManager.getInstance().sentSticker(id.getTeamId(), id.getType(), this, id.enablePush());
         } else {
-            IMManager.getInstance().sentSticker(id.getP2PId(), id.getType(), this);
+            IMManager.getInstance().sentSticker(id.getP2PId(), id.getType(), this, id.enablePush());
         }
     }
 }

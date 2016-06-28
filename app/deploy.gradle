@@ -19,7 +19,7 @@ android {
         applicationId "com.doctor.sun"
         minSdkVersion rootProject.ext.min_sdk_version
 //        targetSdkVersion rootProject.ext.target_sdk_version
-        versionCode 11
+        versionCode 12
         versionName "1.22"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true

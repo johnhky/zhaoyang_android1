@@ -142,7 +142,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
                     return;
                 }
                 binding.name.setText(String.format("%s  %s", appointment.getRecordName(), appointment.getRelation()));
-                binding.time.setText(String.format("%s  %s", appointment.getBookTime(), appointment.getType()));
+                binding.time.setText(String.format("%s  %s", appointment.getBookTime(), appointment.getDisplayType()));
 
                 for (Prescription prescription : prescriptionDTO.getDrug()) {
                     ItemPrescription2Binding item = ItemPrescription2Binding.inflate(getInflater(), binding.prescription, true);

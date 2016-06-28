@@ -1,23 +1,23 @@
 package com.doctor.sun.util;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.databinding.BindingAdapter;
-import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.util.SparseArray;
 import android.view.View;
 
-import com.doctor.sun.BuildConfig;
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 
 import java.util.HashMap;
 
-import io.ganguo.library.Config;
+import io.ganguo.library.BaseApp;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
-import uk.co.deanwild.materialshowcaseview.shape.RectangleShape;
 
 /**
  * Created by rick on 3/5/2016.
@@ -29,14 +29,19 @@ public class ShowCaseUtil {
 
     private static HashMap<String, SparseArray<MaterialShowcaseView.Builder>> buildersMap = new HashMap<>();
 
-    @BindingAdapter(value = {"android:showcase", "android:showcaseId", "android:showcaseSize", "android:showcasePosition"})
-    public static void showCase(View view, String content, String id, int size, int position) {
-        if (BuildConfig.DEV_MODE) {
-            return;
-        }
+    @BindingAdapter(requireAll = false,
+            value = {"android:showcase"
+                    , "android:showcaseId"
+                    , "android:showcaseSize"
+                    , "android:showcasePosition"
+                    , "android:isRect"})
+    public static void showCase(View view, String content, String id, int size, int position, boolean isRect) {
+//        if (BuildConfig.DEV_MODE) {
+//            return;
+//        }
         if (isShow(id)) return;
 
-        MaterialShowcaseView.Builder builder = newBuilder(view, content);
+        MaterialShowcaseView.Builder builder = newBuilder(view, content, isRect);
 
 
         SparseArray<MaterialShowcaseView.Builder> builders = buildersMap.get(id);
@@ -56,16 +61,16 @@ public class ShowCaseUtil {
     }
 
     public static void setHaveShow(String id) {
-        Config.putBoolean(SHOWCASE_ID + id, true);
+        putBoolean(SHOWCASE_ID + id, true);
     }
 
     public static boolean isShow(String id) {
-        return Config.getBoolean(SHOWCASE_ID + id, false);
+        return getBoolean(SHOWCASE_ID + id, false);
     }
 
     public static void reset() {
         for (String key : keys) {
-            Config.remove(SHOWCASE_ID + key);
+            remove(SHOWCASE_ID + key);
         }
     }
 
@@ -84,21 +89,46 @@ public class ShowCaseUtil {
         return showcaseSequence;
     }
 
-    private static MaterialShowcaseView.Builder newBuilder(View view, String content) {
+    private static MaterialShowcaseView.Builder newBuilder(View view, String content, boolean isRect) {
         Activity context = (Activity) view.getContext();
 
-        Rect rect = new Rect();
-        view.getDrawingRect(rect);
-        RectangleShape shape = new RectangleShape(rect);
-        shape.setAdjustToTarget(true);
-
         Resources resources = context.getResources();
-        return new MaterialShowcaseView.Builder(context)
+        MaterialShowcaseView.Builder builder = new MaterialShowcaseView.Builder(context)
                 .setTarget(view)
                 .setContentText(content)
                 .setDismissText("我知道了")
                 .setDismissTextColor(resources.getColor(R.color.colorPrimaryDark))
-                .setShape(shape)
                 .setMaskColour(resources.getColor(R.color.dark_36_transparent));
+        if (isRect) {
+            builder.withRectangleShape(true);
+        } else {
+            builder.withCircleShape();
+        }
+        return builder;
+    }
+
+    public static SharedPreferences getSharedPreferences() {
+        BaseApp me = AppContext.me();
+        return me.getSharedPreferences("SHOW_CASE", Context.MODE_PRIVATE);
+    }
+
+    public static boolean getBoolean(String key, boolean def) {
+        return getSharedPreferences().getBoolean(key, def);
+    }
+
+    public static void putBoolean(String key, boolean value) {
+        SharedPreferences sharedPref = getSharedPreferences();
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(key, value);
+        editor.apply();
+    }
+
+    public static void remove(String... keys) {
+        SharedPreferences sharedPref = getSharedPreferences();
+        SharedPreferences.Editor editor = sharedPref.edit();
+        for (String key : keys) {
+            editor.remove(key);
+        }
+        editor.apply();
     }
 }

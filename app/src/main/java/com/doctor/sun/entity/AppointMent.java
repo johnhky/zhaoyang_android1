@@ -20,7 +20,7 @@ public class Appointment implements LayoutId, Parcelable {
      * id : 25
      * record_id : 1
      * patient_name : 大明
-     * type : 详细就诊
+     * type : 专属就诊
      * book_time : 2015-08-21 18:02－18:32
      * status : 1
      * has_pay : 1
@@ -115,8 +115,8 @@ public class Appointment implements LayoutId, Parcelable {
     private String birthday;
     @JsonProperty("patient_name")
     private String patientName;
-    @JsonProperty("type")
-    private String type = "";
+    @JsonProperty("display_type")
+    private String displayType = "";
     @JsonProperty("book_time")
     private String bookTime;
     @JsonProperty("name")
@@ -145,6 +145,8 @@ public class Appointment implements LayoutId, Parcelable {
     private ReturnInfo returnInfo;
     @JsonProperty("record")
     private MedicalRecord urgentRecord;
+    @JsonProperty("type")
+    private int appointmentType = 0;
 
     private AppointmentHandler handler = new AppointmentHandler(this);
 
@@ -252,12 +254,12 @@ public class Appointment implements LayoutId, Parcelable {
         this.patientName = patientName;
     }
 
-    public String getType() {
-        return type;
+    public String getDisplayType() {
+        return displayType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setDisplayType(String displayType) {
+        this.displayType = displayType;
     }
 
     public String getBookTime() {
@@ -541,7 +543,7 @@ public class Appointment implements LayoutId, Parcelable {
                 ", gender=" + gender +
                 ", birthday='" + birthday + '\'' +
                 ", patientName='" + patientName + '\'' +
-                ", type='" + type + '\'' +
+                ", displayType='" + displayType + '\'' +
                 ", bookTime='" + bookTime + '\'' +
                 ", status=" + status +
                 ", hasPay=" + hasPay +
@@ -607,7 +609,7 @@ public class Appointment implements LayoutId, Parcelable {
         dest.writeString(this.yunxinAccid);
         dest.writeString(this.birthday);
         dest.writeString(this.patientName);
-        dest.writeString(this.type);
+        dest.writeString(this.displayType);
         dest.writeString(this.bookTime);
         dest.writeString(this.name);
         dest.writeString(this.relation);
@@ -623,6 +625,7 @@ public class Appointment implements LayoutId, Parcelable {
         dest.writeParcelable(this.urgentRecord, flags);
         dest.writeString(this.patientAvatar);
         dest.writeString(this.needPay);
+        dest.writeInt(this.appointmentType);
     }
 
     protected Appointment(Parcel in) {
@@ -655,7 +658,7 @@ public class Appointment implements LayoutId, Parcelable {
         this.yunxinAccid = in.readString();
         this.birthday = in.readString();
         this.patientName = in.readString();
-        this.type = in.readString();
+        this.displayType = in.readString();
         this.bookTime = in.readString();
         this.name = in.readString();
         this.relation = in.readString();
@@ -671,6 +674,7 @@ public class Appointment implements LayoutId, Parcelable {
         this.urgentRecord = in.readParcelable(MedicalRecord.class.getClassLoader());
         this.patientAvatar = in.readString();
         this.needPay = in.readString();
+        this.appointmentType = in.readInt();
     }
 
     public static final Creator<Appointment> CREATOR = new Creator<Appointment>() {
@@ -684,6 +688,14 @@ public class Appointment implements LayoutId, Parcelable {
             return new Appointment[size];
         }
     };
+
+    public void setAppointmentType(int appointmentType) {
+        this.appointmentType = appointmentType;
+    }
+
+    public int getAppointmentType() {
+        return appointmentType;
+    }
 
     public interface AppointmentId {
         int getId();

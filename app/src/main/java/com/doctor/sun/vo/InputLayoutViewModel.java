@@ -17,7 +17,7 @@ import com.doctor.sun.databinding.IncludeInputLayoutBinding;
 import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NIMConnectionState;
-import com.doctor.sun.im.NimTeamId;
+import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.util.PermissionUtil;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
@@ -46,7 +46,7 @@ public class InputLayoutViewModel extends BaseObservable {
     private static final int AUDIO_PERMISSION_REQUEST = 30;
     private static EditText inputTextView;
 
-    private NimTeamId data;
+    private NimMsgInfo data;
     private RecordAudioViewModel recordAudioViewModel;
     private IncludeInputLayoutBinding binding;
     private boolean recordMode = false;
@@ -55,7 +55,7 @@ public class InputLayoutViewModel extends BaseObservable {
 
     private String msg = "";
 
-    public InputLayoutViewModel(final IncludeInputLayoutBinding binding, NimTeamId callback) {
+    public InputLayoutViewModel(final IncludeInputLayoutBinding binding, NimMsgInfo callback) {
         this.binding = binding;
         this.data = callback;
         recordAudioViewModel = new RecordAudioViewModel(binding.getRoot().getContext());
@@ -101,9 +101,9 @@ public class InputLayoutViewModel extends BaseObservable {
 
     private void sendMessage(String msg) {
         if (data.getType() == SessionTypeEnum.Team) {
-            IMManager.getInstance().sentTextMsg(data.getTeamId(), SessionTypeEnum.Team, msg);
+            IMManager.getInstance().sentTextMsg(data.getTeamId(), SessionTypeEnum.Team, msg, data.enablePush());
         } else if (data.getType() == SessionTypeEnum.P2P) {
-            IMManager.getInstance().sentTextMsg(data.getP2PId(), SessionTypeEnum.P2P, msg);
+            IMManager.getInstance().sentTextMsg(data.getP2PId(), SessionTypeEnum.P2P, msg, data.enablePush());
         }
         setMsg("");
     }

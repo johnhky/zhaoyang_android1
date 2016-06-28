@@ -11,11 +11,8 @@ import com.doctor.sun.emoji.Emoticon;
 import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.SendMessageEvent;
-import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
-import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.util.JacksonUtils;
 import com.netease.nimlib.sdk.InvocationFuture;
@@ -190,16 +187,16 @@ public class IMManager {
         return null;
     }
 
-    public void sentTextMsg(String to, SessionTypeEnum type, String text) {
+    public void sentTextMsg(String to, SessionTypeEnum type, String text, boolean enablePush) {
         final IMMessage message = MessageBuilder.createTextMessage(
                 to, // 聊天对象的 ID，如果是单聊，为用户帐号，如果是群聊，为群组 ID
                 type, // 聊天类型，单聊或群组
                 text// 文本内容
         );
-        sendMsg(message);
+        sendMsg(message, enablePush);
     }
 
-    public void sentSticker(String to, SessionTypeEnum type, Emoticon emoticon) {
+    public void sentSticker(String to, SessionTypeEnum type, Emoticon emoticon, boolean enablePush) {
         CustomAttachment<StickerAttachment> customAttachment = new CustomAttachment<>();
         StickerAttachment msgAttachment = new StickerAttachment();
         msgAttachment.setCatalog(emoticon.getId());
@@ -207,35 +204,36 @@ public class IMManager {
         customAttachment.setType(TextMsg.Sticker);
         customAttachment.setData(msgAttachment);
         final IMMessage message = MessageBuilder.createCustomMessage(to, type, customAttachment);
-        sendMsg(message);
+        sendMsg(message, enablePush);
     }
 
 
-    public void sentVideo(String to, SessionTypeEnum type, File image) {
+    public void sentVideo(String to, SessionTypeEnum type, File image, boolean enablePush) {
         final IMMessage message = MessageBuilder.createVideoMessage(to, type, image, 0, 0, 0, "");
-        sendMsg(message);
+        sendMsg(message, enablePush);
     }
 
-    public void sentImage(String to, SessionTypeEnum type, File image) {
+    public void sentImage(String to, SessionTypeEnum type, File image, boolean enablePush) {
         final IMMessage message = MessageBuilder.createImageMessage(to, type, image);
-        sendMsg(message);
+        sendMsg(message, enablePush);
     }
 
-    public void sentAudio(String to, SessionTypeEnum type, File audio, long time) {
+    public void sentAudio(String to, SessionTypeEnum type, File audio, long time, boolean enablePush) {
         final IMMessage message = MessageBuilder.createAudioMessage(to, type, audio, time);
-        sendMsg(message);
+        sendMsg(message, enablePush);
     }
 
-    public void sentFile(String to, SessionTypeEnum type, File file) {
+    public void sentFile(String to, SessionTypeEnum type, File file, boolean enablePush) {
         final IMMessage message = MessageBuilder.createFileMessage(to, type, file, "文件");
-        sendMsg(message);
+        sendMsg(message, enablePush);
     }
 
-    private void sendMsg(IMMessage message) {
+    private void sendMsg(IMMessage message, boolean enablePush) {
         CustomMessageConfig config = new CustomMessageConfig();
         config.enableUnreadCount = true; // 该消息不计入未读数
         config.enableHistory = true;
         config.enableRoaming = true;
+        config.enablePush = enablePush;
         message.setConfig(config);
         EventHub.post(new SendMessageEvent());
 

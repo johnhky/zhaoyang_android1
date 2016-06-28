@@ -1,8 +1,5 @@
 package com.doctor.sun.im;
 
-import com.doctor.sun.entity.im.TextMsg;
-import com.doctor.sun.entity.im.TextMsgFactory;
-import com.doctor.sun.util.NotificationUtil;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECMessage;
@@ -11,8 +8,6 @@ import com.yuntongxun.ecsdk.im.ECMessageNotify;
 import com.yuntongxun.ecsdk.im.group.ECGroupNoticeMessage;
 
 import java.util.List;
-
-import io.realm.Realm;
 
 /**
  * Created by rick on 30/1/2016.
@@ -34,16 +29,16 @@ public class OnMessageReceiveListener implements OnChatReceiveListener, ECDevice
 
     @Override
     public void OnReceivedMessage(ECMessage msg) {
-        // 收到新消息
-        if (msg.getType() == ECMessage.Type.TXT) {
-            Realm realm = ConnectionState.getInstance().getRealm();
-            realm.beginTransaction();
-            TextMsg msg1 = TextMsgFactory.fromECMessage(msg);
-            msg1.setHaveRead(false);
-            realm.copyToRealmOrUpdate(msg1);
-            NotificationUtil.showNotification(msg1);
-            realm.commitTransaction();
-        }
+//        // 收到新消息
+//        if (msg.getType() == ECMessage.Type.TXT) {
+//            Realm realm = ConnectionState.getInstance().getRealm();
+//            realm.beginTransaction();
+//            TextMsg msg1 = TextMsgFactory.fromECMessage(msg);
+//            msg1.setHaveRead(false);
+//            realm.copyToRealmOrUpdate(msg1);
+//            NotificationUtil.showNotification(msg1);
+//            realm.commitTransaction();
+//        }
     }
 
 

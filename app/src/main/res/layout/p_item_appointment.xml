@@ -139,7 +139,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{@string/appointment_type(data.type)}"
+                android:text="@{@string/appointment_type(data.displayType)}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_13"
                 app:layout_widthPercent="40%" />

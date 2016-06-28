@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_24"
             android:gravity="left|center_vertical"
-            android:text="@{@string/appointment_type(data.type)}"
+            android:text="@{@string/appointment_type(data.displayType)}"
             android:textColor="#282828"
             android:textSize="@dimen/font_14" />
 

@@ -168,7 +168,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                     binding.cbCouponCount.setText(String.format(Locale.CHINA, "您有%d张可用优惠券", response.size()));
                 } else {
                     coupons = null;
-                    binding.cbCouponCount.setText(String.format(Locale.CHINA, "您暂时没有可用优惠券", response.size()));
+                    binding.cbCouponCount.setText("您暂时没有可用优惠券");
                 }
             }
         });
@@ -181,7 +181,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                 }
 
                 if (isChecked) {
-                    binding.cbCouponCount.setText(String.format(Locale.CHINA, "使用一张优惠券"));
+                    binding.cbCouponCount.setText("使用一张优惠券");
                 } else {
                     binding.cbCouponCount.setText(String.format(Locale.CHINA, "您有%d张可用优惠券", coupons.size()));
                 }
@@ -194,10 +194,10 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
         String type = "";
         switch (getType()) {
             case AppointmentType.DETAIL:
-                type = "详细咨询";
+                type = "专属咨询";
                 break;
             case AppointmentType.QUICK:
-                type = "简捷复诊";
+                type = "留言咨询";
                 break;
         }
         return type;

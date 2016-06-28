@@ -238,7 +238,7 @@
                 android:gravity="center_vertical"
                 android:onClick="@{()->handler.viewRegistrationPolicy()}"
                 android:padding="@dimen/dp_4"
-                android:text="是否已知晓【注册需知】所述事项"
+                android:text="是否已知晓【注册须知】所述事项"
                 android:textColor="@color/color_cb_text"
                 android:textSize="@dimen/font_12" />
         </LinearLayout>

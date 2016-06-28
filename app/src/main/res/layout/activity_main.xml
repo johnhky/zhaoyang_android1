@@ -78,6 +78,7 @@
             android:background="@drawable/ripple_default"
             android:onClick="@{handler.appointment}"
             android:orientation="horizontal"
+            android:isRect="@{true}"
             android:showcase='@{"所有已预约患者都在这里"}'
             android:showcaseId='@{"doctorMain"}'
             android:showcasePosition='@{0}'

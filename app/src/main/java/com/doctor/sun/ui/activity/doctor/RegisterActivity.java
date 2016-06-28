@@ -76,7 +76,7 @@ public class RegisterActivity extends BaseActivity2 implements RegisterHandler.R
         if (type == AuthModule.FORGOT_PASSWORD) {
             handler.resetPassword(null);
         } else {
-            handler.register(null);
+            handler.register();
         }
     }
 

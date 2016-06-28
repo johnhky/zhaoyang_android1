@@ -162,14 +162,14 @@ public class ViewForumFragment extends RefreshListFragment {
                                         String s = "";
                                         switch (type.get(0)) {
                                             case "A": {
-                                                s = "详细就诊: ";
+                                                s = "专属就诊: ";
                                                 ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
                                                 textInput.setInput(s + content.get(0));
                                                 getAdapter().add(textInput);
                                                 break;
                                             }
                                             case "B": {
-                                                s = "简捷复诊: ";
+                                                s = "留言咨询: ";
                                                 ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
                                                 textInput.setInput(s + content.get(0));
                                                 getAdapter().add(textInput);

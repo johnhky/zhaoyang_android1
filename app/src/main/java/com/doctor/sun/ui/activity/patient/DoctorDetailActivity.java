@@ -64,9 +64,9 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_doctor_detail);
         binding.setType(getType());
         if (getType() == AppointmentType.DETAIL) {
-            binding.setTypeLabel("详细咨询");
+            binding.setTypeLabel("专属咨询");
         } else {
-            binding.setTypeLabel("简捷复诊");
+            binding.setTypeLabel("留言咨询");
         }
         binding.setData(getData());
         headerViewModel = new HeaderViewModel(this);

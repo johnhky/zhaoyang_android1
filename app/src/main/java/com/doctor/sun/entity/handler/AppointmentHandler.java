@@ -10,11 +10,7 @@ import android.os.Messenger;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 import android.support.v4.app.ActivityCompat;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -37,8 +33,7 @@ import com.doctor.sun.http.callback.DoNothingCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.im.IMManager;
-import com.doctor.sun.im.NIMConnectionState;
-import com.doctor.sun.im.NimTeamId;
+import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
@@ -68,8 +63,6 @@ import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.vo.CustomActionViewModel;
-import com.doctor.sun.vo.InputLayoutViewModel;
-import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECError;
@@ -96,7 +89,7 @@ import retrofit2.Call;
  * Created by rick on 11/20/15.
  * 所有关于预约的逻辑都在这里, 跳转界面,是否过期等,剩下的进行中时间
  */
-public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.util.PayInterface, NimTeamId {
+public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.util.PayInterface, NimMsgInfo {
     public static final int RECORD_AUDIO_PERMISSION = 40;
     public static final int PHONE_CALL_PERMISSION = 50;
     private static AppointmentModule api = Api.of(AppointmentModule.class);
@@ -105,14 +98,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public AppointmentHandler(Appointment data) {
         this.data = data;
-    }
-
-    public String getConsultationType() {
-        if (data.getType().equals("1")) {
-            return "详细就诊";
-        } else {
-            return "简捷复诊";
-        }
     }
 
     public String getPatientName() {
@@ -543,19 +528,32 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return data.getYunxinAccid();
     }
 
-    public InputLayoutViewModel.SendMessageCallback getCallback() {
-        return new InputLayoutViewModel.SendMessageCallback() {
-            @Override
-            public void sendMessage(EditText editText) {
-                AppointmentHandler.this.sendMessage(editText);
-            }
-
-            @Override
-            public TextView.OnEditorActionListener sendMessageAction() {
-                return AppointmentHandler.this.sendMessageAction();
-            }
-        };
+    @Override
+    public boolean enablePush() {
+        if (AppContext.isDoctor()) {
+            return true;
+        }
+        switch (data.getOrderStatus()) {
+            case Status.A_DOING:
+                return true;
+            default:
+                return false;
+        }
     }
+
+//    public InputLayoutViewModel.SendMessageCallback getCallback() {
+//        return new InputLayoutViewModel.SendMessageCallback() {
+//            @Override
+//            public void sendMessage(EditText editText) {
+//                AppointmentHandler.this.sendMessage(editText);
+//            }
+//
+//            @Override
+//            public TextView.OnEditorActionListener sendMessageAction() {
+//                return AppointmentHandler.this.sendMessageAction();
+//            }
+//        };
+//    }
 
     public CustomActionViewModel.AudioChatCallback getAudioChatCallback() {
         return new CustomActionViewModel.AudioChatCallback() {
@@ -799,58 +797,58 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     private boolean isAfterService() {
-        return data.getType().equals("诊后随访");
+        return data.getAppointmentType() == AppointmentType.AFTER_SERVICE;
     }
 
     private boolean isQuick() {
-        return data.getType().equals("简捷复诊");
+        return data.getAppointmentType() == AppointmentType.QUICK;
     }
 
-    public EditText.OnEditorActionListener sendMessageAction() {
-        return new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    sendMessage(v);
-                }
-                return true;
-            }
-        };
-    }
+//    public EditText.OnEditorActionListener sendMessageAction() {
+//        return new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if (actionId == EditorInfo.IME_ACTION_DONE) {
+//                    sendMessage(v);
+//                }
+//                return true;
+//            }
+//        };
+//    }
 
-    public void sendMessage(final TextView inputText) {
-        if (inputText.getText().toString().equals("")) {
-            Toast.makeText(inputText.getContext(), "不能发送空消息", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (NIMConnectionState.getInstance().isLogin()) {
-            if (getTeamId() != null && !getTeamId().isEmpty()) {
-                IMManager.getInstance().sentTextMsg(getTeamId(), SessionTypeEnum.Team, inputText.getText().toString());
-                inputText.setText("");
-            } else if (getP2PId() != null && !getP2PId().isEmpty()) {
-                IMManager.getInstance().sentTextMsg(getP2PId(), SessionTypeEnum.P2P, inputText.getText().toString());
-                inputText.setText("");
-            }
-        } else {
-            NIMConnectionState.getInstance().setCallback(new RequestCallback() {
-                @Override
-                public void onSuccess(Object o) {
-                    sendMessage(inputText);
-                }
-
-                @Override
-                public void onFailed(int i) {
-                    Toast.makeText(inputText.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onException(Throwable throwable) {
-                    Toast.makeText(inputText.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
-                }
-            });
-            IMManager.getInstance().login();
-        }
-    }
+//    public void sendMessage(final TextView inputText) {
+//        if (inputText.getText().toString().equals("")) {
+//            Toast.makeText(inputText.getContext(), "不能发送空消息", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        if (NIMConnectionState.getInstance().isLogin()) {
+//            if (getTeamId() != null && !getTeamId().isEmpty()) {
+//                IMManager.getInstance().sentTextMsg(getTeamId(), SessionTypeEnum.Team, inputText.getText().toString());
+//                inputText.setText("");
+//            } else if (getP2PId() != null && !getP2PId().isEmpty()) {
+//                IMManager.getInstance().sentTextMsg(getP2PId(), SessionTypeEnum.P2P, inputText.getText().toString());
+//                inputText.setText("");
+//            }
+//        } else {
+//            NIMConnectionState.getInstance().setCallback(new RequestCallback() {
+//                @Override
+//                public void onSuccess(Object o) {
+//                    sendMessage(inputText);
+//                }
+//
+//                @Override
+//                public void onFailed(int i) {
+//                    Toast.makeText(inputText.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                @Override
+//                public void onException(Throwable throwable) {
+//                    Toast.makeText(inputText.getContext(), "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//            IMManager.getInstance().login();
+//        }
+//    }
 
     public void alertAppointmentFinished(Context context) {
         if (!AppContext.isDoctor()) {
@@ -979,7 +977,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public String styledOrderTypeAndStatus() {
-        return "<font color='" + getStatusColor() + "'>" + data.getType() + "-" + getStatusLabel() + "</font>";
+        return "<font color='" + getStatusColor() + "'>" + data.getDisplayType() + "-" + getStatusLabel() + "</font>";
     }
 
 
@@ -1104,8 +1102,8 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public String chatStatus() {
-        switch (data.getType()) {
-            case "诊后随访":
+        switch (data.getAppointmentType()) {
+            case AppointmentType.AFTER_SERVICE:
                 return "随访" + getStatusLabel();
         }
         if (AppContext.isDoctor()) {
@@ -1116,8 +1114,8 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public String bookTimeStatus() {
-        switch (data.getType()) {
-            case "诊后随访":
+        switch (data.getAppointmentType()) {
+            case AppointmentType.AFTER_SERVICE:
                 return "发起时间:" + getBookTime();
             default:
                 return "预约时间:" + getBookTime();

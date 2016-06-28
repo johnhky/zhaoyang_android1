@@ -22,9 +22,9 @@ public class SearchDoctorAdapter extends SimpleAdapter {
     }
     public String getTypeLabel() {
         if (type == AppointmentType.DETAIL) {
-            return "详细咨询";
+            return "专属咨询";
         } else {
-            return "简捷复诊";
+            return "留言咨询";
         }
     }
 

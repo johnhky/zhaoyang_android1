@@ -79,9 +79,9 @@ public class ConsultingDetailActivity extends TabActivity
         View childAt = binding.showcase;
         if (childAt != null) {
             if (AppContext.isDoctor()) {
-                ShowCaseUtil.showCase(childAt, "记录病历和给患者建议和调药", "diagnosisResult", 1, 0);
+                ShowCaseUtil.showCase(childAt, "记录病历和给患者建议和调药", "diagnosisResult", 1, 0, true);
             } else {
-                ShowCaseUtil.showCase(childAt, "您可以在这里看到医生的医嘱和用药建议", "diagnosisResult", 1, 0);
+                ShowCaseUtil.showCase(childAt, "您可以在这里看到医生的医嘱和用药建议", "diagnosisResult", 1, 0, true);
             }
         }
     }

@@ -17,6 +17,7 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.emoji.KeyboardWatcher;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.NeedSendDrug;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.HideInputEvent;
@@ -26,7 +27,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NIMConnectionState;
-import com.doctor.sun.im.NimTeamId;
+import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
@@ -70,7 +71,7 @@ import io.realm.Sort;
  * 聊天模块
  * Created by rick on 12/11/15.
  */
-public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId, ExtendedEditText.KeyboardDismissListener, SwipeRefreshLayout.OnRefreshListener, KeyboardWatcher.OnKeyboardToggleListener {
+public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInfo, ExtendedEditText.KeyboardDismissListener, SwipeRefreshLayout.OnRefreshListener, KeyboardWatcher.OnKeyboardToggleListener {
     public static final int IMAGE_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
     public static final int VIDEO_REQUEST_CODE = CustomActionViewModel.VIDEO_REQUEST_CODE;
     public static final int FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
@@ -87,6 +88,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     private KeyboardWatcher keyboardWatcher;
     private RealmChangeListener<RealmResults<TextMsg>> listener;
     private CustomActionViewModel customActionViewModel;
+    private boolean isLoadMore = false;
 
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, ChattingActivity.class);
@@ -134,7 +136,11 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
                         mAdapter.add(new ItemDivider(R.layout.divider_dp13));
                         mAdapter.addAll(element);
                         mAdapter.notifyDataSetChanged();
-                        binding.recyclerView.scrollToPosition(0);
+                        if (isLoadMore) {
+                            isLoadMore = false;
+                        } else {
+                            binding.recyclerView.scrollToPosition(0);
+                        }
                     }
                 }
             };
@@ -143,7 +149,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
 
     private void needSendDrug() {
-        if (getData().getType().equals("诊后随访")) {
+        if (getData().getAppointmentType() == AppointmentType.AFTER_SERVICE) {
             return;
         }
 
@@ -315,6 +321,11 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     }
 
     @Override
+    public boolean enablePush() {
+        return handler.enablePush();
+    }
+
+    @Override
     public SessionTypeEnum getType() {
         return SessionTypeEnum.Team;
     }
@@ -341,7 +352,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
             // Get the Uri of the selected file
             File file = FileChooser.onActivityResult(this, requestCode, RESULT_OK, data);
             if (file != null) {
-                IMManager.getInstance().sentFile(sendTo, getType(), file);
+                IMManager.getInstance().sentFile(sendTo, getType(), file, enablePush());
             }
         }
     }
@@ -350,7 +361,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
         if (IMAGE_REQUEST_CODE == PickImageDialog.getRequestCode(requestCode)) {
             File file = PickImageDialog.handleRequest(this, data, requestCode);
             if (file != null) {
-                IMManager.getInstance().sentImage(sendTo, getType(), file);
+                IMManager.getInstance().sentImage(sendTo, getType(), file, enablePush());
             }
         }
     }
@@ -358,7 +369,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
     private void handleVideoRequest(int requestCode, Intent data) {
         if (VIDEO_REQUEST_CODE == requestCode) {
             File file = CustomActionViewModel.getVideoTempFile();
-            IMManager.getInstance().sentVideo(sendTo, getType(), file);
+            IMManager.getInstance().sentVideo(sendTo, getType(), file, enablePush());
         }
     }
 
@@ -390,6 +401,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimTeamId
 
     @Override
     public void onRefresh() {
+        isLoadMore = true;
         long time = getRefreshReferenceTime(System.currentTimeMillis());
         Log.e(TAG, "onRefresh: " + time);
         MsgService service = NIMClient.getService(MsgService.class);

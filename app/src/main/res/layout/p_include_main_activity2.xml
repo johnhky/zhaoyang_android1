@@ -43,7 +43,7 @@
                 android:showcase='@{"点击这里可以找到适合您的医生"}'
                 android:showcaseId='@{"main"}'
                 android:showcasePosition='@{0}'
-                android:showcaseSize='@{4}'
+                android:showcaseSize='@{5}'
                 android:text="专属咨询"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
@@ -67,7 +67,7 @@
                 android:showcase='@{"点击这里预约您咨询过的医生进行便捷复诊和寄药"}'
                 android:showcaseId='@{"main"}'
                 android:showcasePosition='@{1}'
-                android:showcaseSize='@{4}'
+                android:showcaseSize='@{5}'
                 android:text="留言咨询"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
@@ -80,9 +80,9 @@
             <com.zhy.android.percent.support.PercentFrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/ripple_default"
-                android:onClick="@{()->data.afterService(context)}"
-                android:layout_weight="1">
+                android:onClick="@{()->data.afterService(context)}">
 
                 <TextView
                     android:id="@+id/tv_after_service"
@@ -92,6 +92,10 @@
                     android:drawableTop="@drawable/ic_after_service"
                     android:gravity="center_horizontal"
                     android:paddingTop="@dimen/dp_11"
+                    android:showcase='@{"点击这里向随访医生反馈诊后/出院后病情恢复情况"}'
+                    android:showcaseId='@{"main"}'
+                    android:showcasePosition='@{2}'
+                    android:showcaseSize='@{5}'
                     android:text="随访请求"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_15" />
@@ -101,9 +105,9 @@
                     android:layout_width="@dimen/dp_25"
                     android:layout_height="@dimen/dp_25"
                     android:background="@drawable/ic_after_service_count"
-                    android:textColor="@color/white"
                     android:gravity="center"
                     android:text="@{data.doingAfterServiceNum}"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/font_15"
                     app:layout_marginLeftPercent="49.2%"
                     app:layout_marginTopPercent="36%" />
@@ -121,11 +125,12 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_55"
             android:background="@drawable/ripple_default"
+            android:isRect="@{true}"
             android:orientation="horizontal"
             android:showcase='@{"点这里可以查询所有类型的订单"}'
             android:showcaseId='@{"main"}'
-            android:showcasePosition='@{2}'
-            android:showcaseSize='@{4}'
+            android:showcasePosition='@{3}'
+            android:showcaseSize='@{5}'
             app:adapter="@{adapter}"
             app:itemClick="@{data.appointmentList}"
             app:vh="@{vh}">

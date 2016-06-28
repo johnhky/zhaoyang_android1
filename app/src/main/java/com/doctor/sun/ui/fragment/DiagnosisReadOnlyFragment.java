@@ -220,7 +220,7 @@ public class DiagnosisReadOnlyFragment extends BaseFragment {
 //        timeBinding.setData(response.getDate() + " " + response.getTime().trim());
 //
 //        ItemTagBinding moneyBinding = ItemTagBinding.inflate(LayoutInflater.from(getContext()));
-//        moneyBinding.setLabel("详细就诊诊金 : ");
+//        moneyBinding.setLabel("专属就诊诊金 : ");
 //        moneyBinding.setData("￥" + response.getMoney());
 //
 //        resultBinding.flReturn.addView(remarkBinding.getRoot());
@@ -312,12 +312,12 @@ public class DiagnosisReadOnlyFragment extends BaseFragment {
         String type = "";
         switch (returnType) {
             case 1:
-                //详细就诊
-                type = "详细就诊";
+                //专属就诊
+                type = "专属就诊";
                 break;
             case 2:
-                //详细就诊
-                type = "简捷复诊";
+                //专属就诊
+                type = "留言咨询";
                 break;
             case 3:
                 //转诊

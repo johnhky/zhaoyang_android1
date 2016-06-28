@@ -13,4 +13,5 @@ import java.lang.annotation.RetentionPolicy;
 public @interface AppointmentType {
     int DETAIL = 1;
     int QUICK = 2;
+    int AFTER_SERVICE = 3;
 }

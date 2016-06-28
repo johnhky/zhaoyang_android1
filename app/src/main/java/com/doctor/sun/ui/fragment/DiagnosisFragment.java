@@ -59,9 +59,9 @@ public class DiagnosisFragment extends BaseFragment {
     public static final String NOT_DIAGNOSISED = "未面诊";
     //转诊
     public static final int RETURN_TYPE_TRANSFER = 3;
-    //详细就诊
+    //专属就诊
     public static final int RETURN_TYPE_FACE = 2;
-    //详细就诊
+    //专属就诊
     public static final int RETURN_TYPE_NET = 1;
     public static final String TYPE_NET = "";
     public static final String TYPE_FACE = "1";
@@ -109,7 +109,7 @@ public class DiagnosisFragment extends BaseFragment {
         }
 //        binding.isDiagnosis.setData(NOT_DIAGNOSISED);
 //        binding.isDiagnosis.setIsChecked(false);
-        binding.needReturn.setData("需要详细就诊/转诊/详细就诊");
+        binding.needReturn.setData("需要专属就诊/转诊/专属就诊");
         binding.needReturn.setIsChecked(false);
         binding.swRoot.setVerticalScrollBarEnabled(false);
         viewModel.getReturnType().setVisible(false);
@@ -251,7 +251,7 @@ public class DiagnosisFragment extends BaseFragment {
         binding.llyTransfer.setVisibility(View.VISIBLE);
     }
 
-    //详细就诊或者详细就诊
+    //专属就诊或者专属就诊
     private void showReturn(String furtherConsultation) {
         binding.llyReturn.setVisibility(View.VISIBLE);
         binding.llyTransfer.setVisibility(View.GONE);

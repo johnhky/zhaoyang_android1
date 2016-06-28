@@ -23,7 +23,6 @@ import io.realm.RealmChangeListener;
 
 /**
  * Created by rick on 12/18/15.
- *
  */
 @Deprecated
 public class ConsultedFragment extends RefreshListFragment {
@@ -70,7 +69,9 @@ public class ConsultedFragment extends RefreshListFragment {
     @Override
     public void onDestroy() {
         if (!realm.isClosed()) {
-            realm.removeChangeListener(listener);
+            if (listener != null) {
+                realm.removeChangeListener(listener);
+            }
         }
         super.onDestroy();
     }

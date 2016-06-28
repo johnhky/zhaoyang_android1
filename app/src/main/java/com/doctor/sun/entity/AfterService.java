@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -215,7 +216,8 @@ public class AfterService implements LayoutId {
             appointment.setRecordId(record.getMedicalRecordId());
             appointment.setDoctor(doctor);
         }
-        appointment.setType("诊后随访");
+        appointment.setDisplayType("诊后随访");
+        appointment.setAppointmentType(AppointmentType.AFTER_SERVICE);
         Intent intent = ChattingActivity.makeIntent(context, appointment);
         context.startActivity(intent);
     }

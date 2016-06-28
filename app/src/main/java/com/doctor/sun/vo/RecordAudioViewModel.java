@@ -13,8 +13,8 @@ import android.view.WindowManager;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.PopupAudioBinding;
-import com.doctor.sun.im.NimTeamId;
 import com.doctor.sun.im.IMManager;
+import com.doctor.sun.im.NimMsgInfo;
 import com.netease.nimlib.sdk.media.record.AudioRecorder;
 import com.netease.nimlib.sdk.media.record.IAudioRecordCallback;
 import com.netease.nimlib.sdk.media.record.RecordType;
@@ -203,8 +203,8 @@ public class RecordAudioViewModel extends BaseObservable implements IAudioRecord
 
     @Override
     public void onRecordSuccess(File file, long l, RecordType recordType) {
-        NimTeamId id = (NimTeamId) activity;
-        IMManager.getInstance().sentAudio(id.getTeamId(), id.getType(), file, l);
+        NimMsgInfo id = (NimMsgInfo) activity;
+        IMManager.getInstance().sentAudio(id.getTeamId(), id.getType(), file, l, id.enablePush());
     }
 
     @Override

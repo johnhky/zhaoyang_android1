@@ -37,10 +37,10 @@
                 android:layout_width="@dimen/dp_60"
                 android:layout_height="@dimen/dp_60"
                 android:layout_gravity="center_vertical"
+                android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
                 android:src="@{data.doctor.avatar}"
-                app:maskDrawable="@drawable/circle_mask"
-                android:drawable="@{@drawable/default_avatar}" />
+                app:maskDrawable="@drawable/circle_mask" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -120,7 +120,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_type(data.type)}"
+            android:text="@{@string/appointment_type(data.displayType)}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 
@@ -170,7 +170,7 @@
                     android:onClick="@{data.handler.newOrPayAppointment(adapter.context)}"
                     android:text='@{data.handler.returnNotPaid()?"复诊支付":"再次预约"}'
                     android:textColor="#fff"
-                    android:textSize="@dimen/font_13"/>
+                    android:textSize="@dimen/font_13" />
 
             </FrameLayout>
 

@@ -17,7 +17,7 @@ import io.realm.RealmChangeListener;
 /**
  * Created by rick on 10/15/15.
  */
-public class FooterViewModel extends BaseObservable implements RealmChangeListener<Realm>{
+public class FooterViewModel extends BaseObservable implements RealmChangeListener<Realm> {
     public static final String TAG = FooterViewModel.class.getSimpleName();
     private FooterView mView;
 
@@ -86,6 +86,7 @@ public class FooterViewModel extends BaseObservable implements RealmChangeListen
             }
         };
     }
+
     @Override
     public void onChange(Realm element) {
         notifyChange();
@@ -122,7 +123,7 @@ public class FooterViewModel extends BaseObservable implements RealmChangeListen
         if (AppContext.isDoctor()) {
             return 1;
         } else {
-            return 3;
+            return 4;
         }
     }
 
@@ -130,7 +131,7 @@ public class FooterViewModel extends BaseObservable implements RealmChangeListen
         if (AppContext.isDoctor()) {
             return 2;
         } else {
-            return 4;
+            return 5;
         }
     }
 }

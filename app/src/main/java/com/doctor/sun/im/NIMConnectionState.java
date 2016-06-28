@@ -87,7 +87,7 @@ public class NIMConnectionState implements RequestCallback {
                     msg1.setHaveRead(true);
                 } else {
                     msg1.setHaveRead(haveRead);
-                    if (!haveRead) {
+                    if (!haveRead && msg.getConfig().enablePush) {
                         NotificationUtil.showNotification(msg1);
                     }
                 }
@@ -110,7 +110,7 @@ public class NIMConnectionState implements RequestCallback {
                         msg1.setHaveRead(true);
                     } else {
                         msg1.setHaveRead(haveRead);
-                        if (!haveRead) {
+                        if (!haveRead && msg.getConfig().enablePush) {
                             NotificationUtil.showNotification(msg1);
                         }
                     }

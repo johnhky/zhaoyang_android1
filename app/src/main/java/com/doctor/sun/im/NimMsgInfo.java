@@ -5,10 +5,12 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 /**
  * Created by rick on 11/4/2016.
  */
-public interface NimTeamId {
+public interface NimMsgInfo {
     SessionTypeEnum getType();
 
     String getTeamId();
 
     String getP2PId();
+
+    boolean enablePush();
 }

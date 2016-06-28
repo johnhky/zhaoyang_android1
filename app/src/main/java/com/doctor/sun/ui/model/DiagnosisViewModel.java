@@ -32,8 +32,8 @@ import java.util.HashMap;
 public class DiagnosisViewModel {
 
 
-    public static final String DETAIL = "详细就诊";
-    public static final String QUICK = "简捷复诊";
+    public static final String DETAIL = "专属就诊";
+    public static final String QUICK = "留言咨询";
     private final Context context;
 
     private String advice = "";

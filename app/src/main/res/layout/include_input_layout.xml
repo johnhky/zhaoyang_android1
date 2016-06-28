@@ -119,14 +119,14 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:visibility="@{data.msg.length() == 0||data.recordMode}" />
 
-            <TextView
+            <Button
                 android:id="@+id/btn_send"
                 android:layout_width="@dimen/dp_45"
-                android:layout_height="@dimen/dp_25"
+                android:layout_height="@dimen/dp_35"
                 android:layout_gravity="bottom"
-                android:layout_marginBottom="@dimen/dp_3"
+                android:layout_marginBottom="@dimen/dp_2"
                 android:layout_marginRight="@dimen/dp_3"
-                android:background="@drawable/btn_captcha_blue"
+                android:background="@drawable/ripple_blue_rect"
                 android:clickable="true"
                 android:gravity="center"
                 android:onClick="@{()->data.sendMsg(context)}"

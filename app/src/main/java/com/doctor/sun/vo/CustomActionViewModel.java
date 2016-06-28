@@ -14,7 +14,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.avchat.activity.AVChatActivity;
-import com.doctor.sun.im.NimTeamId;
+import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.FileChooser;
@@ -70,7 +70,7 @@ public class CustomActionViewModel {
             @Override
             public void onClick(View v) {
                 if (AppContext.isDoctor()) {
-                    NimTeamId nimTeamId = (NimTeamId) mActivity;
+                    NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
                     AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL);
                 } else {
                     alertNotAvailable(v);

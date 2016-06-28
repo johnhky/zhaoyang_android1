@@ -70,7 +70,7 @@ public class RegisterHandler extends BaseHandler {
         lastPressTime = pressTime;
     }
 
-    public void register(View view) {
+    public void register() {
         if (TokenCallback.isLogin()) {
             Intent i = EditDoctorInfoActivity.makeIntent(getContext(), null);
             getContext().startActivity(i);
