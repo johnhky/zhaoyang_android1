@@ -5,16 +5,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.databinding.BindingAdapter;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.databinding.IncludeSkipShowcaseBinding;
 
 import java.util.HashMap;
 
 import io.ganguo.library.BaseApp;
+import uk.co.deanwild.materialshowcaseview.IShowcaseListener;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
@@ -28,6 +32,7 @@ public class ShowCaseUtil {
     public static final String[] keys = new String[]{"doctorMain", "doctorMe", "patientDetail", "patientInfo", "diagnosisResult", "patientMe", "main", "consulting"};
 
     private static HashMap<String, SparseArray<MaterialShowcaseView.Builder>> buildersMap = new HashMap<>();
+    private static SparseArray<MaterialShowcaseView.Builder> builders;
 
     @BindingAdapter(requireAll = false,
             value = {"android:showcase"
@@ -35,7 +40,7 @@ public class ShowCaseUtil {
                     , "android:showcaseSize"
                     , "android:showcasePosition"
                     , "android:isRect"})
-    public static void showCase(View view, String content, String id, int size, int position, boolean isRect) {
+    public static void showCase(View view, String content, final String id, int size, int position, boolean isRect) {
 //        if (BuildConfig.DEV_MODE) {
 //            return;
 //        }
@@ -44,7 +49,7 @@ public class ShowCaseUtil {
         MaterialShowcaseView.Builder builder = newBuilder(view, content, isRect);
 
 
-        SparseArray<MaterialShowcaseView.Builder> builders = buildersMap.get(id);
+        builders = buildersMap.get(id);
         if (builders == null) {
             builders = new SparseArray<>();
         }
@@ -52,11 +57,45 @@ public class ShowCaseUtil {
         buildersMap.put(id, builders);
 
         if (builders.size() >= size) {
-            MaterialShowcaseSequence showcaseSequence = getShowcaseSequence(view, builders);
-//            showcaseSequence.singleUse(id);
-            showcaseSequence.start();
+            for (int i = 0; i < builders.size(); i++) {
+                final MaterialShowcaseView.Builder currentBuilder = builders.get(i);
+                final int nextPosition = i + 1;
+                currentBuilder.setListener(new IShowcaseListener() {
+                    @Override
+                    public void onShowcaseDisplayed(final MaterialShowcaseView materialShowcaseView) {
+                        LayoutInflater from = LayoutInflater.from(materialShowcaseView.getContext());
+                        IncludeSkipShowcaseBinding inflate = DataBindingUtil.inflate(from, R.layout.include_skip_showcase, materialShowcaseView, true);
+                        inflate.setData("跳过新手教程");
+                        inflate.dismissShowcase.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (builders != null) {
+                                    builders.clear();
+                                }
+                                materialShowcaseView.onClick(v);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onShowcaseDismissed(MaterialShowcaseView materialShowcaseView) {
+                        if (builders == null) {
+                            setHaveShow(id);
+                        }
+                        final MaterialShowcaseView.Builder nextBuilder = builders.get(nextPosition);
+                        if (nextBuilder != null) {
+                            nextBuilder.show();
+                        } else {
+                            setHaveShow(id);
+                        }
+                    }
+                });
+            }
+            MaterialShowcaseView.Builder builder1 = builders.get(0);
+            if (builder1 != null) {
+                builder1.show();
+            }
             buildersMap.remove(id);
-            setHaveShow(id);
         }
     }
 
