@@ -46,7 +46,7 @@ public class ShowCaseUtil {
 //        }
         if (isShow(id)) return;
 
-        MaterialShowcaseView.Builder builder = newBuilder(view, content, isRect);
+        final MaterialShowcaseView.Builder builder = newBuilder(view, content, isRect);
 
 
         builders = buildersMap.get(id);
@@ -65,7 +65,7 @@ public class ShowCaseUtil {
                     public void onShowcaseDisplayed(final MaterialShowcaseView materialShowcaseView) {
                         LayoutInflater from = LayoutInflater.from(materialShowcaseView.getContext());
                         IncludeSkipShowcaseBinding inflate = DataBindingUtil.inflate(from, R.layout.include_skip_showcase, materialShowcaseView, true);
-                        inflate.setData("跳过新手教程");
+                        inflate.setData("跳过帮助教程");
                         inflate.dismissShowcase.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -86,6 +86,7 @@ public class ShowCaseUtil {
                         if (nextBuilder != null) {
                             nextBuilder.show();
                         } else {
+                            builders.clear();
                             setHaveShow(id);
                         }
                     }
