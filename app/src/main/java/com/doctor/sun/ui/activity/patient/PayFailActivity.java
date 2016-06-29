@@ -91,7 +91,7 @@ public class PayFailActivity extends BaseActivity2 implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_main:
-                Intent intent = MainActivity.makeIntent(PayFailActivity.this);
+                Intent intent = PMainActivity.makeIntent(PayFailActivity.this);
                 startActivity(intent);
                 AppManager.finishAllActivity();
                 break;

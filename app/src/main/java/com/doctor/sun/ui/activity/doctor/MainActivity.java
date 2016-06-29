@@ -10,6 +10,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityMainBinding;
 import com.doctor.sun.entity.DoctorIndex;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.AuthModule;
@@ -20,6 +21,7 @@ import com.doctor.sun.ui.widget.PassDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.UpdateUtil;
+import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.Config;
 import io.realm.RealmChangeListener;
@@ -116,6 +118,15 @@ public class MainActivity extends BaseDoctorActivity {
                 if (shouldCheck()) {
                     UpdateUtil.checkUpdate(this);
                 }
+            }
+        }
+    }
+
+    @Subscribe
+    public void onShowCaseFinished(ShowCaseFinishedEvent e) {
+        if (getIntent().getBooleanExtra(Constants.IS_SHOWCASE, false)) {
+            if (e.id.equals("doctorMain")) {
+                finish();
             }
         }
     }

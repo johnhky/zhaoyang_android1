@@ -300,7 +300,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.MainActivity"
+            android:name=".ui.activity.patient.PMainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
@@ -309,7 +309,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.MeActivity"
+            android:name=".ui.activity.patient.PMeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 

@@ -23,9 +23,9 @@
         android:layout_height="@dimen/dp_74"
         android:background="#eff3f5"
         android:orientation="vertical"
-        android:showcase='@{"在这里联系小助手使用代寄药服务."}'
+        android:showcase='@{"在这里联系小助手使用代寄药服务"}'
         android:isRect="@{true}"
-        android:showcaseId='@{"consulting`"}'
+        android:showcaseId='@{"consulting"}'
         android:showcasePosition='@{1}'
         android:showcaseSize='@{2}'>
 

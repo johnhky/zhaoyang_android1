@@ -2,7 +2,6 @@ package com.doctor.sun.ui.activity.doctor;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +10,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityMeBinding;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.TokenCallback;
@@ -19,6 +19,7 @@ import com.doctor.sun.ui.handler.MeHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.JacksonUtils;
+import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.Config;
 
@@ -52,7 +53,7 @@ public class MeActivity extends BaseDoctorActivity {
             String level = doctor.getLevel();
             if (level.equals("")) {
                 binding.tvTest.setVisibility(View.GONE);
-            }else {
+            } else {
                 binding.tvTest.setText(level);
             }
         } else {
@@ -78,5 +79,14 @@ public class MeActivity extends BaseDoctorActivity {
     public void onStart() {
         super.onStart();
         getRealm().addChangeListener(getFooter());
+    }
+
+    @Subscribe
+    public void onShowCaseFinished(ShowCaseFinishedEvent e) {
+        if (getIntent().getBooleanExtra(Constants.IS_SHOWCASE, false)) {
+            if (e.id.equals("doctorMe")) {
+                finish();
+            }
+        }
     }
 }

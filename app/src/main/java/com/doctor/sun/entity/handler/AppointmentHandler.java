@@ -533,27 +533,9 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         if (AppContext.isDoctor()) {
             return true;
         }
-        switch (data.getOrderStatus()) {
-            case Status.A_DOING:
-                return true;
-            default:
-                return false;
-        }
+        boolean isDetailAppointment = isDetail();
+        return isDetailAppointment && data.getOrderStatus().equals(Status.A_DOING);
     }
-
-//    public InputLayoutViewModel.SendMessageCallback getCallback() {
-//        return new InputLayoutViewModel.SendMessageCallback() {
-//            @Override
-//            public void sendMessage(EditText editText) {
-//                AppointmentHandler.this.sendMessage(editText);
-//            }
-//
-//            @Override
-//            public TextView.OnEditorActionListener sendMessageAction() {
-//                return AppointmentHandler.this.sendMessageAction();
-//            }
-//        };
-//    }
 
     public CustomActionViewModel.AudioChatCallback getAudioChatCallback() {
         return new CustomActionViewModel.AudioChatCallback() {
@@ -804,6 +786,10 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return data.getAppointmentType() == AppointmentType.QUICK;
     }
 
+    private boolean isDetail() {
+        return data.getAppointmentType() == AppointmentType.DETAIL;
+    }
+
 
     public void alertAppointmentFinished(Context context) {
         if (!AppContext.isDoctor()) {
@@ -938,36 +924,30 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public String getStatusColor() {
         switch (data.getOrderStatus()) {
+            case Status.FINISHED:
             case Status.A_FINISHED:
                 return "#363636";
+
             case Status.A_UNPAID:
             case Status.A_UNPAID_LOCALE2:
                 return "#ff1800";
+
+            case Status.TODO:
             case Status.A_PAID:
             case Status.A_PAID_LOCALE2:
                 return "#ff8e43";
+
             case Status.A_WAITING:
                 return "#ff1800";
+
             case Status.A_DOING:
+            case Status.DOING:
                 return "#88cb5a";
-            case Status.TODO: {
-                return "#ff8e43";
-            }
-            case Status.DOING: {
-                return "#88cb5a";
-            }
-            case Status.REJECTED: {
+
+            case Status.LOCKED:
+            case Status.REJECTED:
+            case Status.CLOSED:
                 return "#898989";
-            }
-            case Status.CLOSED: {
-                return "#898989";
-            }
-            case Status.FINISHED: {
-                return "#363636";
-            }
-            case Status.LOCKED: {
-                return "#898989";
-            }
             default:
                 return "#acacac";
         }

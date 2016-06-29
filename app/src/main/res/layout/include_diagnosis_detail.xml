@@ -49,7 +49,7 @@
             android:paddingBottom="@dimen/dp_14"
             android:paddingLeft="@dimen/dp_14"
             android:paddingTop="@dimen/dp_14"
-            android:text="@{data.description ?? String.valueOf(' ')}"
+            android:text="@{data.description.input ?? String.valueOf(' ')}"
             android:textColor="#363636"
             android:textSize="@dimen/font_15" />
 
@@ -65,7 +65,7 @@
             android:paddingBottom="@dimen/dp_14"
             android:paddingLeft="@dimen/dp_14"
             android:paddingTop="@dimen/dp_14"
-            android:text="@{data.diagnosis ?? String.valueOf(' ')}"
+            android:text="@{data.diagnosis.input ?? String.valueOf(' ')}"
             android:textColor="#363636"
             android:textSize="@dimen/font_15" />
 

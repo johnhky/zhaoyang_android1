@@ -2,6 +2,7 @@ package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -27,6 +28,7 @@ public class Reminder implements LayoutId{
         this.content = content;
     }
 
+    @JsonIgnore
     @Override
     public int getItemLayoutId() {
         return R.layout.r_item_reminder;

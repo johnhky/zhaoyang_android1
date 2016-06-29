@@ -14,10 +14,12 @@ import android.view.View;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.IncludeSkipShowcaseBinding;
+import com.doctor.sun.event.ShowCaseFinishedEvent;
 
 import java.util.HashMap;
 
 import io.ganguo.library.BaseApp;
+import io.ganguo.library.core.event.EventHub;
 import uk.co.deanwild.materialshowcaseview.IShowcaseListener;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
@@ -29,7 +31,10 @@ import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 public class ShowCaseUtil {
     public static final String SHOWCASE_ID = "SHOWCASE_ID";
 
-    public static final String[] keys = new String[]{"doctorMain", "doctorMe", "patientDetail", "patientInfo", "diagnosisResult", "patientMe", "main", "consulting"};
+    public static final String[] keys = new String[]{"doctorMain",
+            "doctorMe", "patientDetail",
+            "patientInfo", "diagnosisResult",
+            "patientMe", "main", "consulting"};
 
     private static HashMap<String, SparseArray<MaterialShowcaseView.Builder>> buildersMap = new HashMap<>();
     private static SparseArray<MaterialShowcaseView.Builder> builders;
@@ -87,6 +92,7 @@ public class ShowCaseUtil {
                             nextBuilder.show();
                         } else {
                             builders.clear();
+                            buildersMap.remove(id);
                             setHaveShow(id);
                         }
                     }
@@ -96,12 +102,12 @@ public class ShowCaseUtil {
             if (builder1 != null) {
                 builder1.show();
             }
-            buildersMap.remove(id);
         }
     }
 
     public static void setHaveShow(String id) {
         putBoolean(SHOWCASE_ID + id, true);
+        EventHub.post(new ShowCaseFinishedEvent(id));
     }
 
     public static boolean isShow(String id) {
@@ -109,9 +115,7 @@ public class ShowCaseUtil {
     }
 
     public static void reset() {
-        for (String key : keys) {
-            remove(SHOWCASE_ID + key);
-        }
+        getSharedPreferences().edit().clear().apply();
     }
 
     @NonNull

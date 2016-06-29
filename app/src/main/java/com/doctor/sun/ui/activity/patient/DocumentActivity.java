@@ -10,7 +10,6 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.PActivityDocumentBinding;
-import com.doctor.sun.dto.DoctorDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.Api;
@@ -108,6 +107,7 @@ public class DocumentActivity extends BaseActivity2 implements DocumentAdapter.G
         api.favoriteDoctors().enqueue(new ApiCallback<PageDTO<Doctor>>() {
             @Override
             protected void handleResponse(PageDTO<Doctor> response) {
+                mAdapter.unSelectAll();
                 mAdapter.clear();
                 mAdapter.addAll(response.getData());
                 mAdapter.notifyDataSetChanged();
@@ -152,9 +152,9 @@ public class DocumentActivity extends BaseActivity2 implements DocumentAdapter.G
     public ArrayList<String> getDoctorId() {
         ArrayList<String> doctorId = new ArrayList<String>();
         doctorId.clear();
-        for (Object object : mAdapter) {
-            DoctorDTO doctor = (DoctorDTO) object;
-            if (doctor.getIsSelected()) {
+        for (int i = 0; i < mAdapter.size(); i++) {
+            if (mAdapter.isSelected(i)) {
+                Doctor doctor = (Doctor) mAdapter.get(i);
                 doctorId.add(String.valueOf(doctor.getId()));
             }
         }

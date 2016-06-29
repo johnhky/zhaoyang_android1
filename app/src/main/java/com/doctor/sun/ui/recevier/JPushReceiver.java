@@ -107,18 +107,18 @@ public class JPushReceiver extends BroadcastReceiver {
 		return sb.toString();
 	}
 	
-	//send msg to MainActivity
+	//send msg to PMainActivity
 	private void processCustomMessage(Context context, Bundle bundle) {
-//		if (MainActivity.isForeground) {
+//		if (PMainActivity.isForeground) {
 //			String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
 //			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-//			Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION);
-//			msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
+//			Intent msgIntent = new Intent(PMainActivity.MESSAGE_RECEIVED_ACTION);
+//			msgIntent.putExtra(PMainActivity.KEY_MESSAGE, message);
 //			if (!ExampleUtil.isEmpty(extras)) {
 //				try {
 //					JSONObject extraJson = new JSONObject(extras);
 //					if (null != extraJson && extraJson.length() > 0) {
-//						msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
+//						msgIntent.putExtra(PMainActivity.KEY_EXTRAS, extras);
 //					}
 //				} catch (JSONException e) {
 //

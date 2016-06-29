@@ -10,10 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMainBinding;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.http.callback.TokenCallback;
@@ -30,12 +32,13 @@ import com.doctor.sun.ui.model.PatientFooterView;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.UpdateUtil;
+import com.squareup.otto.Subscribe;
 
 
 /**
  * Created by rick on 10/23/15.
  */
-public class MainActivity extends BaseActivity2 {
+public class PMainActivity extends BaseActivity2 {
 
     private PActivityMainBinding binding;
     private SimpleAdapter mAdapter;
@@ -43,7 +46,7 @@ public class MainActivity extends BaseActivity2 {
     private ListCallback<Doctor> callback;
 
     public static Intent makeIntent(Context context) {
-        Intent i = new Intent(context, MainActivity.class);
+        Intent i = new Intent(context, PMainActivity.class);
         return i;
     }
 
@@ -140,6 +143,15 @@ public class MainActivity extends BaseActivity2 {
                 if (shouldCheck()) {
                     UpdateUtil.checkUpdate(this);
                 }
+            }
+        }
+    }
+
+    @Subscribe
+    public void onShowCaseFinished(ShowCaseFinishedEvent e) {
+        if (getIntent().getBooleanExtra(Constants.IS_SHOWCASE, false)) {
+            if (e.id.equals("main")) {
+                finish();
             }
         }
     }

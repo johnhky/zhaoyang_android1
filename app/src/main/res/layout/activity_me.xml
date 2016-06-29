@@ -139,10 +139,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_120"
+            android:isRect="@{true}"
             android:orientation="horizontal"
             android:showcase='@{"医生可以自定义自己的设置"}'
             android:showcaseId='@{"doctorMe"}'
-            android:showcasePosition='@{0}'
+            android:showcasePosition='@{1}'
             android:showcaseSize='@{2}'>
 
             <LinearLayout

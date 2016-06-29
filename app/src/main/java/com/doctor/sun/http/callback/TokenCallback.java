@@ -22,8 +22,8 @@ import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.activity.doctor.MeActivity;
 import com.doctor.sun.ui.activity.doctor.RegisterActivity;
 import com.doctor.sun.ui.activity.doctor.ReviewResultActivity;
+import com.doctor.sun.ui.activity.patient.PMainActivity;
 import com.doctor.sun.util.JacksonUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.Set;
 
@@ -69,7 +69,7 @@ public class TokenCallback {
                     if (patientProfile == null) {
                         loadPatientProfile(context);
                     } else {
-                        Intent i = com.doctor.sun.ui.activity.patient.MainActivity.makeIntent(context);
+                        Intent i = PMainActivity.makeIntent(context);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                             context.finishAffinity();
                         } else {
@@ -168,7 +168,7 @@ public class TokenCallback {
                     context.startActivity(i);
                     context.finish();
                 } else {
-                    Intent i = com.doctor.sun.ui.activity.patient.MainActivity.makeIntent(context);
+                    Intent i = PMainActivity.makeIntent(context);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         context.finishAffinity();
                     } else {

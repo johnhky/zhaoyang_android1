@@ -21,7 +21,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
-import com.doctor.sun.ui.activity.patient.MainActivity;
+import com.doctor.sun.ui.activity.patient.PMainActivity;
 import com.doctor.sun.util.MD5;
 import com.umeng.analytics.MobclickAgent;
 
@@ -97,7 +97,7 @@ public class RegisterHandler extends BaseHandler {
     private void registerPatientSuccess(Token response) {
         if (response != null) {
             TokenCallback.handleToken(response);
-            Intent i = MainActivity.makeIntent(getContext());
+            Intent i = PMainActivity.makeIntent(getContext());
             getContext().startActivity(i);
         }
     }

@@ -16,7 +16,7 @@ import com.doctor.sun.ui.adapter.core.BaseAdapter;
  * 也可以重写handleMessage来自定义回调.
  * <p/>
  * 用法:
- * Intent i = new Intent(context, MainActivity.class);
+ * Intent i = new Intent(context, PMainActivity.class);
  * ItemHelper.initCallback(i,adapter, vh);
  * startActivity(i);
  * <p/>

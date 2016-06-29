@@ -97,6 +97,7 @@
                     android:paddingLeft="@dimen/dp_13"
                     android:paddingRight="@dimen/dp_13"
                     android:paddingTop="@dimen/dp_13"
+                    android:isRect="@{true}"
                     android:showcase='@{"查看该病历的历史记录"}'
                     android:showcaseId='@{"patientInfo"}'
                     android:showcasePosition='@{0}'

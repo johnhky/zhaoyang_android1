@@ -66,6 +66,7 @@ public class Constants {
     public static final String FINISH_MSG2 = "随访结束";
 
     public static final ArrayList<String> refreshMsg = new ArrayList<String>();
+    public static final String IS_SHOWCASE = "IS_SHOWCASE";
 
     static {
         refreshMsg.add(FINISH_MESSAGE);

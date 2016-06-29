@@ -94,7 +94,7 @@ public class PaySuccessActivity extends BaseActivity2 implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_main: {
-                Intent intent = MainActivity.makeIntent(this);
+                Intent intent = PMainActivity.makeIntent(this);
                 startActivity(intent);
                 AppManager.finishAllActivity();
                 break;
@@ -134,7 +134,7 @@ public class PaySuccessActivity extends BaseActivity2 implements View.OnClickLis
     public void onBackPressed() {
 
         super.onBackPressed();
-        Intent intent = MainActivity.makeIntent(this);
+        Intent intent = PMainActivity.makeIntent(this);
         startActivity(intent);
         AppManager.finishAllActivity();
 

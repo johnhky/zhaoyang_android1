@@ -174,7 +174,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
                 @Override
                 protected void handleResponse(Patient response) {
                     ToastHelper.showMessage(EditPatientInfoActivity.this, "保存成功,请耐心等待资料审核");
-                    Intent intent = MainActivity.makeIntent(EditPatientInfoActivity.this);
+                    Intent intent = PMainActivity.makeIntent(EditPatientInfoActivity.this);
                     startActivity(intent);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         finishAffinity();

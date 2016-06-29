@@ -1,12 +1,22 @@
 package com.doctor.sun.ui.model;
 
+import android.databinding.BaseObservable;
+
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
+import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.Symptom;
 import com.doctor.sun.entity.SymptomFactory;
 import com.doctor.sun.module.AuthModule;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.ItemTextInput;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.ganguo.library.Config;
 
@@ -15,7 +25,8 @@ import io.ganguo.library.Config;
  * <p/>
  * Created by Lynn on 1/14/16.
  */
-public class DiagnosisReadOnlyViewModel {
+public class DiagnosisReadOnlyViewModel extends BaseObservable {
+    private Description labelSymptom;
     private Symptom perception;
     private Symptom thinking;
     private Symptom pipedream;
@@ -23,19 +34,23 @@ public class DiagnosisReadOnlyViewModel {
     private Symptom memory;
     private Symptom insight;
 
+    private Description labelConsultation;
     private Symptom currentStatus;
     private Symptom recovered;
     private Symptom treatment;
     private Symptom sideEffect;
 
-    private Description labelSymptom;
-    private Description labelConsultation;
     private Description labelAdvice;
+    private ItemTextInput adviceContent;
+    private ItemTextInput description;
     private Description labelAssess;
-//    private Description labelPay;
+    private ItemTextInput diagnosis;
 
-    private String description;
-    private String diagnosis;
+    private List<Reminder> reminderList = new ArrayList<>();
+    private List<Prescription> prescriptions = new ArrayList<>();
+
+    private Doctor doctor;
+    private Reminder furtherConsultation;
 
     public DiagnosisReadOnlyViewModel() {
         if (!isPatient()) {
@@ -60,8 +75,21 @@ public class DiagnosisReadOnlyViewModel {
 //            只有病人端显示
 //            labelPay = new Description(R.layout.item_time_category, "支付方式");
 //        }
+        description = new ItemTextInput(R.layout.item_text_option_display, "");
+        adviceContent = new ItemTextInput(R.layout.item_text_option_display, "");
+        diagnosis = new ItemTextInput(R.layout.item_text_option_display, "");
+
         //两个端都有
         labelAdvice = new Description(R.layout.item_time_category, "医嘱");
+        furtherConsultation = new Reminder();
+    }
+
+    public List<Reminder> getReminderList() {
+        return reminderList;
+    }
+
+    public void setReminderList(List<Reminder> reminderList) {
+        this.reminderList = reminderList;
     }
 
     public Description getLabelSymptom() {
@@ -184,19 +212,20 @@ public class DiagnosisReadOnlyViewModel {
 //        this.labelPay = labelPay;
 //    }
 
-    public String getDescription() {
+
+    public ItemTextInput getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(ItemTextInput description) {
         this.description = description;
     }
 
-    public String getDiagnosis() {
+    public ItemTextInput getDiagnosis() {
         return diagnosis;
     }
 
-    public void setDiagnosis(String diagnosis) {
+    public void setDiagnosis(ItemTextInput diagnosis) {
         this.diagnosis = diagnosis;
     }
 
@@ -213,14 +242,96 @@ public class DiagnosisReadOnlyViewModel {
             recovered.setSelectedItem(response.getRecovered());
             treatment.setSelectedItem(response.getTreatment());
             sideEffect.setSelectedItem(response.getEffect());
-
-            description = response.getDescription();
-            diagnosis = response.getDiagnosisRecord();
         }
+        adviceContent.setInput(response.getDoctorAdvince());
+        description.setInput(response.getDescription());
+        diagnosis.setInput(response.getDiagnosisRecord());
+        List<Reminder> reminderList = response.reminderList;
+        if (reminderList != null) {
+            this.reminderList.addAll(reminderList);
+        }
+        ArrayList<Prescription> prescription = response.getPrescription();
+        if (prescription != null) {
+            prescriptions.addAll(prescription);
+        }
+        doctor = response.getDoctorInfo();
+        furtherConsultation.content = getReturnTypeAndInterval(response);
+        furtherConsultation.time = response.getDate();
     }
 
     private boolean isPatient() {
         //true - 病人端 / false - 医生端
         return Config.getInt(Constants.USER_TYPE, -1) == AuthModule.PATIENT_TYPE;
+    }
+
+    public ArrayList<LayoutId> toList() {
+
+        ArrayList<LayoutId> result = new ArrayList<>();
+        if (!isPatient()) {
+            result.add(labelSymptom);
+            result.add(perception);
+            result.add(thinking);
+            result.add(pipedream);
+            result.add(emotion);
+            result.add(memory);
+            result.add(insight);
+
+            result.add(description);
+            result.add(labelConsultation);
+            result.add(diagnosis);
+
+            result.add(labelAssess);
+            result.add(currentStatus);
+            result.add(recovered);
+            result.add(treatment);
+            result.add(sideEffect);
+        }
+
+        result.add(labelAdvice);
+        result.add(adviceContent);
+        if (!prescriptions.isEmpty()) {
+            result.add(new Description(R.layout.item_time_category, "建议用药"));
+            result.addAll(prescriptions);
+        }
+        if (furtherConsultation != null) {
+            result.add(new Description(R.layout.item_time_category, "专属咨询/留言咨询/转诊"));
+            result.add(furtherConsultation);
+            if (doctor != null) {
+                result.add(doctor);
+            }
+        }
+
+
+        if (!reminderList.isEmpty()) {
+            result.add(new Description(R.layout.item_time_category, "其它事项"));
+            result.addAll(reminderList);
+        }
+        return result;
+    }
+
+    private String getReturnTypeAndInterval(DiagnosisInfo response) {
+        if (response.getReturnX() == 1) {
+            return getDiagnosisType(response.getReturnType());
+        }
+        return "无需复诊";
+    }
+
+    private String getDiagnosisType(int returnType) {
+        String type = "";
+        switch (returnType) {
+            case 1:
+                //专属就诊
+                type = "专属就诊";
+                break;
+            case 2:
+                //专属就诊
+                type = "留言咨询";
+                break;
+            case 3:
+                //转诊
+                type = "转诊";
+                break;
+        }
+        return type;
     }
 }

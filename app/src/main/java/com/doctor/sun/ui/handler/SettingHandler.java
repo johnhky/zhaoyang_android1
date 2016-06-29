@@ -1,6 +1,7 @@
 package com.doctor.sun.ui.handler;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -16,10 +18,14 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.module.AuthModule;
-import com.doctor.sun.ui.activity.HelpActivity;
 import com.doctor.sun.ui.activity.LoginActivity;
 import com.doctor.sun.ui.activity.doctor.AdviceActivity;
+import com.doctor.sun.ui.activity.doctor.MainActivity;
+import com.doctor.sun.ui.activity.doctor.MeActivity;
 import com.doctor.sun.ui.activity.doctor.PasswordActivity;
+import com.doctor.sun.ui.activity.patient.PConsultingActivity;
+import com.doctor.sun.ui.activity.patient.PMainActivity;
+import com.doctor.sun.ui.activity.patient.PMeActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.OnItemClickListener;
@@ -65,8 +71,29 @@ public class SettingHandler extends BaseHandler {
 
     public void help(View view) {
         ShowCaseUtil.reset();
-        Intent intent = HelpActivity.makeIntent(view.getContext(), Config.getInt(Constants.USER_TYPE, -1));
-        view.getContext().startActivity(intent);
+        Context context = view.getContext();
+        if (AppContext.isDoctor()) {
+
+            Intent meActivity = MeActivity.makeIntent(context);
+            startShowCase(context, meActivity);
+
+            Intent intent = MainActivity.makeIntent(context);
+            startShowCase(context, intent);
+        } else {
+            Intent pMe = PMeActivity.makeIntent(context);
+            startShowCase(context, pMe);
+
+            Intent consulting = PConsultingActivity.makeIntent(context);
+            startShowCase(context, consulting);
+
+            Intent intent = PMainActivity.makeIntent(context);
+            startShowCase(context, intent);
+        }
+    }
+
+    private void startShowCase(Context context, Intent meActivity) {
+        meActivity.putExtra(Constants.IS_SHOWCASE, true);
+        context.startActivity(meActivity);
     }
 
     private PlatformActionListener platformActionListener = new PlatformActionListener() {

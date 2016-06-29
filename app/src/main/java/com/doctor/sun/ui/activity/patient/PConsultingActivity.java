@@ -8,13 +8,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityConsultationBinding;
+import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.model.PatientFooterView;
 import com.doctor.sun.ui.pager.ConsultingPagerAdapter;
+import com.squareup.otto.Subscribe;
 
 /**
  * Created by rick on 11/30/15.
@@ -64,4 +67,12 @@ public class PConsultingActivity extends BaseFragmentActivity2 {
         getRealm().addChangeListener(getFooter());
     }
 
+    @Subscribe
+    public void onShowCaseFinished(ShowCaseFinishedEvent e) {
+        if (getIntent().getBooleanExtra(Constants.IS_SHOWCASE, false)) {
+            if (e.id.equals("consulting")) {
+                finish();
+            }
+        }
+    }
 }

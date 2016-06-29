@@ -12,6 +12,7 @@ import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.fragment.DiagnosisReadOnlyFragment;
 import com.doctor.sun.ui.fragment.FillForumFragment;
 import com.doctor.sun.ui.fragment.ModifyForumFragment;
+import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
 
 import io.ganguo.library.Config;
 
@@ -40,7 +41,7 @@ public class ConsultingDetailPagerAdapter extends FragmentPagerAdapter {
                 }
                 case 1: {
 //                appointment.setId(325);
-                    return DiagnosisReadOnlyFragment.getInstance(appointment);
+                    return ReadDiagnosisFragment.newInstance(appointment.getId());
                 }
             }
         } else {
@@ -54,7 +55,7 @@ public class ConsultingDetailPagerAdapter extends FragmentPagerAdapter {
                     if (!isReadOnly) {
                         return DiagnosisFragment.newInstance(appointment);
                     } else {
-                        return DiagnosisReadOnlyFragment.getInstance(appointment);
+                        return ReadDiagnosisFragment.newInstance(appointment.getId());
                     }
                 }
             }

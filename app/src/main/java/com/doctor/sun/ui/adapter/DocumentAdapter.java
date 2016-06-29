@@ -1,5 +1,7 @@
 package com.doctor.sun.ui.adapter;
 
+import android.content.Context;
+import android.util.SparseBooleanArray;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -10,7 +12,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 /**
  * Created by lucas on 1/7/16.
  */
-public class DocumentAdapter extends SimpleAdapter {
+public class DocumentAdapter extends MultiSelectAdapter {
 
     public interface GetEditMode {
         boolean getEditMode();
@@ -21,21 +23,12 @@ public class DocumentAdapter extends SimpleAdapter {
         return R.layout.p_item_document;
     }
 
-    public DocumentAdapter(DocumentActivity documentActivity) {
-        super(documentActivity);
+    public DocumentAdapter(Context context){
+        super(context, null);
     }
 
-    @Override
-    public void onBindViewBinding(final BaseViewHolder vh, int position) {
+    public boolean isEditMode() {
         GetEditMode getEditMode = (GetEditMode) getContext();
-        boolean editStatue = getEditMode.getEditMode();
-        if(vh.getItemViewType() == R.layout.p_item_document){
-            PItemDocumentBinding binding = (PItemDocumentBinding)vh.getBinding();
-            if(editStatue){
-                binding.ivSelect.setVisibility(View.VISIBLE);
-            }else{
-                binding.ivSelect.setVisibility(View.GONE);
-            }
-        }
+        return getEditMode.getEditMode();
     }
 }

@@ -97,6 +97,9 @@ public class Symptom extends BaseObservable implements LayoutId {
     }
 
     public void setStates(HashMap<String, String> from) {
+        if (from == null) {
+            return;
+        }
         for (String key : from.keySet()) {
             String s = from.get(key);
             if (null != s && !key.equals("otherContent")) {
