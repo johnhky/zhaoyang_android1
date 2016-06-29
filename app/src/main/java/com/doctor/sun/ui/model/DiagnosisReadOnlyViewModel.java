@@ -26,31 +26,31 @@ import io.ganguo.library.Config;
  * Created by Lynn on 1/14/16.
  */
 public class DiagnosisReadOnlyViewModel extends BaseObservable {
-    private Description labelSymptom;
-    private Symptom perception;
-    private Symptom thinking;
-    private Symptom pipedream;
-    private Symptom emotion;
-    private Symptom memory;
-    private Symptom insight;
+    public Description labelSymptom;
+    public Symptom perception;
+    public Symptom thinking;
+    public Symptom pipedream;
+    public Symptom emotion;
+    public Symptom memory;
+    public Symptom insight;
 
-    private Description labelConsultation;
-    private Symptom currentStatus;
-    private Symptom recovered;
-    private Symptom treatment;
-    private Symptom sideEffect;
+    public Description labelConsultation;
+    public Symptom currentStatus;
+    public Symptom recovered;
+    public Symptom treatment;
+    public Symptom sideEffect;
 
-    private Description labelAdvice;
-    private ItemTextInput adviceContent;
-    private ItemTextInput description;
-    private Description labelAssess;
-    private ItemTextInput diagnosis;
+    public Description labelAdvice;
+    public ItemTextInput adviceContent;
+    public ItemTextInput description;
+    public Description labelAssess;
+    public ItemTextInput diagnosis;
 
-    private List<Reminder> reminderList = new ArrayList<>();
-    private List<Prescription> prescriptions = new ArrayList<>();
+    public List<Reminder> reminderList = new ArrayList<>();
+    public List<Prescription> prescriptions = new ArrayList<>();
 
-    private Doctor doctor;
-    private Reminder furtherConsultation;
+    public Doctor doctor;
+    public Reminder furtherConsultation;
 
     public DiagnosisReadOnlyViewModel() {
         if (!isPatient()) {
@@ -84,150 +84,7 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         furtherConsultation = new Reminder();
     }
 
-    public List<Reminder> getReminderList() {
-        return reminderList;
-    }
 
-    public void setReminderList(List<Reminder> reminderList) {
-        this.reminderList = reminderList;
-    }
-
-    public Description getLabelSymptom() {
-        return labelSymptom;
-    }
-
-    public void setLabelSymptom(Description labelSymptom) {
-        this.labelSymptom = labelSymptom;
-    }
-
-    public Description getLabelConsultation() {
-        return labelConsultation;
-    }
-
-    public void setLabelConsultation(Description labelConsultation) {
-        this.labelConsultation = labelConsultation;
-    }
-
-    public Description getLabelAdvice() {
-        return labelAdvice;
-    }
-
-    public void setLabelAdvice(Description labelAdvice) {
-        this.labelAdvice = labelAdvice;
-    }
-
-    public Description getLabelAssess() {
-        return labelAssess;
-    }
-
-    public void setLabelAssess(Description labelAssess) {
-        this.labelAssess = labelAssess;
-    }
-
-    public Symptom getPerception() {
-        return perception;
-    }
-
-    public void setPerception(Symptom perception) {
-        this.perception = perception;
-    }
-
-    public Symptom getThinking() {
-        return thinking;
-    }
-
-    public void setThinking(Symptom thinking) {
-        this.thinking = thinking;
-    }
-
-    public Symptom getPipedream() {
-        return pipedream;
-    }
-
-    public void setPipedream(Symptom pipedream) {
-        this.pipedream = pipedream;
-    }
-
-    public Symptom getEmotion() {
-        return emotion;
-    }
-
-    public void setEmotion(Symptom emotion) {
-        this.emotion = emotion;
-    }
-
-    public Symptom getMemory() {
-        return memory;
-    }
-
-    public void setMemory(Symptom memory) {
-        this.memory = memory;
-    }
-
-    public Symptom getInsight() {
-        return insight;
-    }
-
-    public void setInsight(Symptom insight) {
-        this.insight = insight;
-    }
-
-    public Symptom getCurrentStatus() {
-        return currentStatus;
-    }
-
-    public void setCurrentStatus(Symptom currentStatus) {
-        this.currentStatus = currentStatus;
-    }
-
-    public Symptom getRecovered() {
-        return recovered;
-    }
-
-    public void setRecovered(Symptom recovered) {
-        this.recovered = recovered;
-    }
-
-    public Symptom getTreatment() {
-        return treatment;
-    }
-
-    public void setTreatment(Symptom treatment) {
-        this.treatment = treatment;
-    }
-
-    public Symptom getSideEffect() {
-        return sideEffect;
-    }
-
-    public void setSideEffect(Symptom sideEffect) {
-        this.sideEffect = sideEffect;
-    }
-//
-//    public Description getLabelPay() {
-//        return labelPay;
-//    }
-//
-//    public void setLabelPay(Description labelPay) {
-//        this.labelPay = labelPay;
-//    }
-
-
-    public ItemTextInput getDescription() {
-        return description;
-    }
-
-    public void setDescription(ItemTextInput description) {
-        this.description = description;
-    }
-
-    public ItemTextInput getDiagnosis() {
-        return diagnosis;
-    }
-
-    public void setDiagnosis(ItemTextInput diagnosis) {
-        this.diagnosis = diagnosis;
-    }
 
     public void cloneFromDiagnosisInfo(DiagnosisInfo response) {
         if (!isPatient()) {
@@ -259,10 +116,6 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         furtherConsultation.time = response.getDate();
     }
 
-    private boolean isPatient() {
-        //true - 病人端 / false - 医生端
-        return Config.getInt(Constants.USER_TYPE, -1) == AuthModule.PATIENT_TYPE;
-    }
 
     public ArrayList<LayoutId> toList() {
 
@@ -276,6 +129,9 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
             result.add(memory);
             result.add(insight);
 
+            /**
+             * 诊断
+             */
             result.add(description);
             result.add(labelConsultation);
             result.add(diagnosis);
@@ -287,6 +143,9 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
             result.add(sideEffect);
         }
 
+        /**
+         * 医嘱
+         */
         result.add(labelAdvice);
         result.add(adviceContent);
         if (!prescriptions.isEmpty()) {
@@ -320,11 +179,11 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         String type = "";
         switch (returnType) {
             case 1:
-                //专属就诊
-                type = "专属就诊";
+                //专属咨询
+                type = "专属咨询";
                 break;
             case 2:
-                //专属就诊
+                //留言咨询
                 type = "留言咨询";
                 break;
             case 3:
@@ -333,5 +192,10 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
                 break;
         }
         return type;
+    }
+
+    private boolean isPatient() {
+        //true - 病人端 / false - 医生端
+        return Config.getInt(Constants.USER_TYPE, -1) == AuthModule.PATIENT_TYPE;
     }
 }

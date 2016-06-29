@@ -72,6 +72,14 @@ public class FurtherConsultationVM extends BaseItem implements LayoutId {
         return R.layout.item_further_consultation;
     }
 
+    public void setTesting(boolean b, int position) {
+
+    }
+
+    public boolean isTesting(int position) {
+        return false;
+    }
+
     @Bindable
     public boolean isBtnTwoChecked() {
         return btnTwoChecked;

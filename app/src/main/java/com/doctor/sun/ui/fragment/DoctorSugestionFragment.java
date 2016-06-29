@@ -157,7 +157,7 @@ public class DoctorSugestionFragment extends RefreshListFragment {
                                         String s = "";
                                         switch (type.get(0)) {
                                             case "A": {
-                                                s = "专属就诊: ";
+                                                s = "专属咨询: ";
                                                 ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
                                                 textInput.setInput(s + content.get(0));
                                                 getAdapter().add(textInput);

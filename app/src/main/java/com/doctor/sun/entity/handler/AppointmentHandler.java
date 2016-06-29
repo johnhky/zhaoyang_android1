@@ -557,8 +557,8 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public Intent getFirstMenu(Context context) {
         if (isAfterService()) {
             String id = String.valueOf(data.getId());
-            switch (data.getOrderStatus()) {
-                case Status.DOING: {
+            switch (data.getDisplayStatus()) {
+                case Status.A_DOING: {
                     String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
                     Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
                     context.startActivity(intent);
@@ -571,7 +571,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             }
 
         } else {
-            switch (data.getOrderStatus()) {
+            switch (data.getDisplayStatus()) {
                 case Status.A_DOING:
                 case Status.A_WAITING: {
                     return ConsultingDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_ANSWER);
@@ -587,8 +587,8 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public Intent getMenu(Context context) {
         if (isAfterService()) {
             String id = String.valueOf(data.getId());
-            switch (data.getOrderStatus()) {
-                case Status.DOING: {
+            switch (data.getDisplayStatus()) {
+                case Status.A_DOING: {
                     String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
                     Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, 1);
                     context.startActivity(intent);
@@ -600,7 +600,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 }
             }
         } else {
-            switch (data.getOrderStatus()) {
+            switch (data.getDisplayStatus()) {
                 case Status.A_DOING:
                 case Status.A_WAITING: {
                     return ConsultingDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_SUGGESTION);
@@ -688,7 +688,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (data.getOrderStatus()) {
+                switch (data.getDisplayStatus()) {
                     case Status.A_UNPAID:
                     case Status.A_UNPAID_LOCALE2: {
                         new PayMethodDialog(adapter.getContext(), AppointmentHandler.this).show();
@@ -723,7 +723,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (data.getOrderStatus()) {
+                switch (data.getDisplayStatus()) {
                     case Status.A_PAID:
                     case Status.A_PAID_LOCALE2: {
                         detailImpl(view, vh.getItemViewType());
@@ -793,27 +793,25 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public void alertAppointmentFinished(Context context) {
         if (!AppContext.isDoctor()) {
-            switch (data.getOrderStatus()) {
+            switch (data.getDisplayStatus()) {
+                case Status.REJECTED:
+                case Status.CLOSED:
+                case Status.FINISHED:
+                case Status.LOCKED:
                 case Status.A_FINISHED:
                 case Status.A_UNPAID:
                 case Status.A_UNPAID_LOCALE2:
-                    Toast.makeText(context, "预约已经结束,请重新预约", Toast.LENGTH_SHORT).show();
+                    switch (data.getAppointmentType()) {
+                        case AppointmentType.AFTER_SERVICE:
+                            Toast.makeText(context, "随访已经结束,请耐心等待下次随访", Toast.LENGTH_SHORT).show();
+                            break;
+                        default: {
+                            Toast.makeText(context, "预约已经结束,请重新预约", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
                     break;
-                case Status.REJECTED:
-                case Status.CLOSED: {
-                    Toast.makeText(context, "随访已经结束,请耐心等待下次随访", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                case Status.FINISHED: {
-                    Toast.makeText(context, "随访已经结束,请耐心等待下次随访", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                case Status.LOCKED: {
-                    Toast.makeText(context, "随访已经锁定,请耐心等待下次随访", Toast.LENGTH_SHORT).show();
-                    break;
-                }
                 default:
-                    break;
             }
         }
     }
@@ -923,7 +921,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
 
     public String getStatusColor() {
-        switch (data.getOrderStatus()) {
+        switch (data.getDisplayStatus()) {
             case Status.FINISHED:
             case Status.A_FINISHED:
                 return "#363636";
@@ -947,6 +945,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             case Status.LOCKED:
             case Status.REJECTED:
             case Status.CLOSED:
+            case Status.A_CANCEL:
                 return "#898989";
             default:
                 return "#acacac";
@@ -1118,7 +1117,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         String REJECTED = "rejected";
         String CLOSED = "closed";
         String FINISHED = "finished";
-        String LOCKED = "locked";
+        String LOCKED = "问卷已锁定";
         String A_DOING = "进行中";
         String A_FINISHED = "已完成";
         String A_UNPAID = "未支付";
@@ -1126,5 +1125,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         String A_PAID = "已支付";
         String A_PAID_LOCALE2 = "已付款";
         String A_WAITING = "待建议";
+        String A_CANCEL = "医生取消";
     }
 }

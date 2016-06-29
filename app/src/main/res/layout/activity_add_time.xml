@@ -61,7 +61,7 @@
                 android:onClick="@{()->data.setType(1)}"
                 android:paddingLeft="@dimen/dp_4"
                 android:paddingRight="@dimen/dp_4"
-                android:text="详细就诊"
+                android:text="专属咨询"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
 
@@ -80,7 +80,7 @@
                 android:onClick="@{()->data.setType(2)}"
                 android:paddingLeft="@dimen/dp_4"
                 android:paddingRight="@dimen/dp_4"
-                android:text="简捷复诊"
+                android:text="留言咨询"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
 

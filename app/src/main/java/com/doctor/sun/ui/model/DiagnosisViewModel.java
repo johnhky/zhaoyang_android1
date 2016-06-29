@@ -32,7 +32,7 @@ import java.util.HashMap;
 public class DiagnosisViewModel {
 
 
-    public static final String DETAIL = "专属就诊";
+    public static final String DETAIL = "专属咨询";
     public static final String QUICK = "留言咨询";
     private final Context context;
 
@@ -372,16 +372,10 @@ public class DiagnosisViewModel {
         } else {
             result.put("returnTime", s);
         }
-//        result.put("money", binding.money.etInput.getText().toString());
-
 
         if (doctor != null && (returnType == 3)) {
             result.put("doctorRequire", String.valueOf(doctor.getId()));
-//            result.put("comment", binding.msgToDoctor.etOthers.getText().toString());
-        } else if (returnType == 3) {
-//            result.put("comment", binding.mission.etInput.getText().toString());
         }
-//        Log.e("TAg", "toHashMap: " + result.toString());
         result.put("reminder", JacksonUtils.toJson(reminderList.getReminders()));
         return result;
     }

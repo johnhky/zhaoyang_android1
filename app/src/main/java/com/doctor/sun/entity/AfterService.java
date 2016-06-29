@@ -203,19 +203,21 @@ public class AfterService implements LayoutId {
     public void chatting(Context context) {
         Appointment appointment = new Appointment();
         appointment.setId(Integer.parseInt(id));
-        appointment.setStatus(status);
-        appointment.setOrderStatus(status);
+        String statusLabel = getStatusLabel();
+        appointment.setStatus(statusLabel);
+        appointment.setOrderStatus(statusLabel);
         appointment.setTid(tid);
         if (AppContext.isDoctor()) {
             appointment.setUrgentRecord(record);
             appointment.setRecordId(record.getMedicalRecordId());
-//                    appointment.setTid(record.getTid());
             appointment.setDoctor(doctor);
         } else {
             appointment.setUrgentRecord(record);
             appointment.setRecordId(record.getMedicalRecordId());
             appointment.setDoctor(doctor);
         }
+        appointment.setDisplayStatus(statusLabel);
+        appointment.setOrderStatus(statusLabel);
         appointment.setDisplayType("诊后随访");
         appointment.setAppointmentType(AppointmentType.AFTER_SERVICE);
         Intent intent = ChattingActivity.makeIntent(context, appointment);

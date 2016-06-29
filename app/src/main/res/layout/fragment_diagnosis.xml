@@ -150,7 +150,7 @@
                 <!--<include-->
                 <!--android:id="@+id/mission"-->
                 <!--layout="@layout/item_text_input5"-->
-                <!--bind:title='@{"详细就诊前完成的任务"}' />-->
+                <!--bind:title='@{"专属咨询前完成的任务"}' />-->
 
             </LinearLayout>
 

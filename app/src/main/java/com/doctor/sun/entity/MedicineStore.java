@@ -17,7 +17,7 @@ import io.realm.RealmQuery;
 public class MedicineStore implements LayoutId {
     @Override
     public int getItemLayoutId() {
-        return R.layout.p_item_medicine_helper;
+        return R.layout.p_item_medicine_store;
     }
 
     private MedicineStoreHandler handler = new MedicineStoreHandler(this);

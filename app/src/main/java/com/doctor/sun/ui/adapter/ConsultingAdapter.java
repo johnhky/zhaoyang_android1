@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.databinding.PItemSystemTipBinding;
+import com.doctor.sun.databinding.PItemSystemMsgBinding;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.http.Api;
@@ -31,8 +31,8 @@ public class ConsultingAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> 
 
     @Override
     public void onBindViewBinding(final BaseViewHolder<ViewDataBinding> vh, final int position) {
-        if (vh.getItemViewType() == R.layout.p_item_system_tip) {
-            final PItemSystemTipBinding binding = (PItemSystemTipBinding) vh.getBinding();
+        if (vh.getItemViewType() == R.layout.p_item_system_msg) {
+            final PItemSystemMsgBinding binding = (PItemSystemMsgBinding) vh.getBinding();
             api.systemMsg(String.valueOf(1)).enqueue(new ApiCallback<PageDTO<SystemMsg>>() {
                 @Override
                 protected void handleResponse(PageDTO<SystemMsg> response) {

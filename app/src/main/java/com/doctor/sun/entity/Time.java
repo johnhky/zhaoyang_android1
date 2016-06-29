@@ -183,7 +183,7 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
     }
 
     public String date() {
-        return (type == TYPE_QUICK ? "留言咨询\n" : "专属就诊") + ':' + getWeekLabel();
+        return (type == TYPE_QUICK ? "留言咨询\n" : "专属咨询") + ':' + getWeekLabel();
     }
 
     public String disturbDate() {

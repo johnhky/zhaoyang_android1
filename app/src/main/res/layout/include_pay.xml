@@ -93,7 +93,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/dp_17"
             android:gravity="center"
-            android:text="*支付成功后，预约简捷复诊成功，请尽快支付"
+            android:text="*支付成功后，预约留言咨询成功，请尽快支付"
             android:textColor="#f76d02"
             android:textSize="@dimen/font_12"
             android:visibility="gone" />

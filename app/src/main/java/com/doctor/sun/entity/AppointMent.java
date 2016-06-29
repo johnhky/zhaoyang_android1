@@ -20,7 +20,7 @@ public class Appointment implements LayoutId, Parcelable {
      * id : 25
      * record_id : 1
      * patient_name : 大明
-     * type : 专属就诊
+     * type : 专属咨询
      * book_time : 2015-08-21 18:02－18:32
      * status : 1
      * has_pay : 1

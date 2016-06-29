@@ -28,9 +28,6 @@ import io.realm.annotations.Ignore;
  */
 public class SystemMsg implements LayoutId {
 
-    static {
-
-    }
 
 
     /**
@@ -60,7 +57,7 @@ public class SystemMsg implements LayoutId {
     private Object patientName;
 
     @Ignore
-    private int itemLayoutId = R.layout.p_item_system_tip;
+    private int itemLayoutId = R.layout.p_item_system_msg;
 
     @Override
     public int getItemLayoutId() {

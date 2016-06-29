@@ -4,10 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.doctor.sun.ui.fragment.AfterServiceFragment;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.ui.fragment.PAppointmentListFragment;
-import com.doctor.sun.ui.fragment.PUrgentCallFragment;
 import com.doctor.sun.ui.fragment.RefreshListFragment;
 
 /**
@@ -31,10 +29,10 @@ public class MyOrderPagerAdapter extends FragmentStatePagerAdapter {
                 fragment = DrugListFragment.getInstance();
                 break;
             }
-            case 2: {
-                fragment = PUrgentCallFragment.getInstance();
-                break;
-            }
+//            case 2: {
+//                fragment = PUrgentCallFragment.getInstance();
+//                break;
+//            }
 //            case 3: {
 //                fragment = new AfterServiceFragment();
 //                break;
@@ -45,7 +43,7 @@ public class MyOrderPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Override
@@ -57,9 +55,9 @@ public class MyOrderPagerAdapter extends FragmentStatePagerAdapter {
             case 1: {
                 return "寄药订单";
             }
-            case 2: {
-                return "紧急咨询";
-            }
+//            case 2: {
+//                return "紧急咨询";
+//            }
 //            case 3: {
 //                return "随访订单";
 //            }

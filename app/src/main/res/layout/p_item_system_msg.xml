@@ -18,7 +18,7 @@
 
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_74"
         android:background="#eff3f5"
@@ -129,9 +129,10 @@
         </LinearLayout>
 
         <View
+            android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/divider_color" />
 
-    </LinearLayout>
+    </FrameLayout>
 </layout>

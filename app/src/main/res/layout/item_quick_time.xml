@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:singleLine="false"
-                    android:text="简捷复诊:"
+                    android:text="留言咨询:"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_14" />
 

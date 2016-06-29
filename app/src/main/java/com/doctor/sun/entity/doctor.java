@@ -101,7 +101,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     private String level;
     @JsonProperty("city")
     private String city;
-    //专属就诊金额
+    //专属咨询金额
     @JsonProperty("money")
     private int money;
     //简捷就诊金额
