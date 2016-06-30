@@ -5,16 +5,12 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.doctor.sun.R;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.adapter.AssignQuestionAdapter;
-import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
-import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.util.List;
@@ -43,35 +39,29 @@ public class QCategoryHandler {
         };
     }
 
-    public OnItemClickListener selector() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                final ImageView selector = (ImageView) view.findViewById(R.id.iv_select);
-                if (!selector.isSelected()) {
-                    AssignQuestionAdapter.GetAppointmentId getAppointmentId = (AssignQuestionAdapter.GetAppointmentId) view.getContext();
-                    final String appointmentId = getAppointmentId.getAppointmentId();
-                    TwoChoiceDialog.show(view.getContext(), "是否确认添加？", "取消", "确认", new TwoChoiceDialog.Options() {
+    public void showAppendDialog(Context context, final ImageView selector) {
+        if (!selector.isSelected()) {
+            AssignQuestionAdapter.GetAppointmentId getAppointmentId = (AssignQuestionAdapter.GetAppointmentId) context;
+            final String appointmentId = getAppointmentId.getAppointmentId();
+            TwoChoiceDialog.show(context, "是否确认添加？", "取消", "确认", new TwoChoiceDialog.Options() {
+                @Override
+                public void onApplyClick(final MaterialDialog dialog) {
+                    QuestionModule api = Api.of(QuestionModule.class);
+                    api.appendScale(appointmentId, String.valueOf(data.getId())).enqueue(new ApiCallback<List<Answer>>() {
                         @Override
-                        public void onApplyClick(final MaterialDialog dialog) {
-                            QuestionModule api = Api.of(QuestionModule.class);
-                            api.appendScale(appointmentId, String.valueOf(data.getId())).enqueue(new ApiCallback<List<Answer>>() {
-                                @Override
-                                protected void handleResponse(List<Answer> response) {
-                                    selector.setSelected(true);
-                                    dialog.dismiss();
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCancelClick(MaterialDialog dialog) {
+                        protected void handleResponse(List<Answer> response) {
+                            selector.setSelected(true);
                             dialog.dismiss();
                         }
                     });
                 }
-            }
-        };
+
+                @Override
+                public void onCancelClick(MaterialDialog dialog) {
+                    dialog.dismiss();
+                }
+            });
+        }
     }
 
     public interface QCategoryCallback {

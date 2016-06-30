@@ -1,18 +1,16 @@
 package com.doctor.sun.vo;
 
 import android.app.TimePickerDialog;
-import android.view.View;
+import android.content.Context;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
-import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
-import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.widget.PickTimeDialog;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by rick on 12/22/15.
@@ -77,36 +75,27 @@ public class ItemPickTime extends BaseItem {
     }
 
     public String getTime() {
-        return String.format("%02d:%02d-%02d:%02d", mBeginHour, mBeginMinute, mEndHour, mEndMinute);
+        return String.format(Locale.CHINA, "%02d:%02d-%02d:%02d", mBeginHour, mBeginMinute, mEndHour, mEndMinute);
     }
 
 
-    public OnItemClickListener pickTime() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                Toast.makeText(view.getContext(), "请选择开始时间", Toast.LENGTH_SHORT).show();
-                TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), setBeginTime, mBeginHour, mBeginMinute, true);
-                timePickerDialog.show();
-            }
-        };
+    public void pickTime(Context context) {
+        Toast.makeText(context, "请选择开始时间", Toast.LENGTH_SHORT).show();
+        TimePickerDialog timePickerDialog = new TimePickerDialog(context, setBeginTime, mBeginHour, mBeginMinute, true);
+        timePickerDialog.show();
     }
 
-    public OnItemClickListener pickTime2() {
-        return new OnItemClickListener() {
+
+    public void pickTime2(Context context) {
+        final PickTimeDialog pickTimeDialog = new PickTimeDialog(context, date, type) {
             @Override
-            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                final PickTimeDialog pickTimeDialog = new PickTimeDialog(view.getContext(), date, type) {
-                    @Override
-                    protected void onTimeSelected(String time) {
-                        setTime(time);
-                        notifyChange();
-                        dismiss();
-                    }
-                };
-                pickTimeDialog.show();
+            protected void onTimeSelected(String time) {
+                setTime(time);
+                notifyChange();
+                dismiss();
             }
         };
+        pickTimeDialog.show();
     }
 
     public void setTime(String time) {

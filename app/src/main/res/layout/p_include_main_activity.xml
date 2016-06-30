@@ -62,9 +62,7 @@
             android:layout_height="@dimen/dp_77"
             android:background="@drawable/ripple_default"
             android:orientation="horizontal"
-            app:adapter="@{adapter}"
-            app:itemClick="@{data.appointmentList}"
-            app:vh="@{vh}">
+            android:onClick="@{()->data.appointmentList(context)}">
 
             <TextView
                 android:layout_width="wrap_content"

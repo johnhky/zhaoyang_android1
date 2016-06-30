@@ -20,14 +20,12 @@ import com.doctor.sun.databinding.DialogPickDurationBinding;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.constans.AppointmentType;
-import com.doctor.sun.ui.activity.doctor.ApplyAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
 import com.doctor.sun.ui.activity.patient.PickDateActivity;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
-import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.widget.BottomDialog;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -45,15 +43,15 @@ public class DoctorHandler {
         data = doctorDTO;
     }
 
-    public OnItemClickListener select() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                setSelected(!isSelected());
-                view.setSelected(isSelected());
-            }
-        };
-    }
+//    public OnItemClickListener select() {
+//        return new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
+//                setSelected(!isSelected());
+//                view.setSelected(isSelected());
+//            }
+//        };
+//    }
 
     public void setSelected(boolean selected) {
         isSelected = selected;
@@ -126,9 +124,14 @@ public class DoctorHandler {
         activity.finish();
     }
 
-    public void viewDetail(View view, int type) {
-        Intent intent = DoctorDetailActivity.makeIntent(view.getContext(), data, type);
-        view.getContext().startActivity(intent);
+    public void viewDetail(BaseAdapter temp) {
+        SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
+        viewDetail(adapter.getContext(), adapter.getType());
+    }
+
+    public void viewDetail(Context context, int type) {
+        Intent intent = DoctorDetailActivity.makeIntent(context, data, type);
+        context.startActivity(intent);
     }
 
     public void viewDetailIfIsPatient(Context context) {
@@ -138,34 +141,22 @@ public class DoctorHandler {
         }
     }
 
-    public OnItemClickListener viewDetail() {
-        return new OnItemClickListener() {
+
+    public void pickDate(final Context context, final int type) {
+        SelectRecordDialog.showRecordDialog(context, new SelectRecordDialog.SelectRecordListener() {
             @Override
-            public void onItemClick(BaseAdapter temp, View view, BaseViewHolder vh) {
-                SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
-                viewDetail(view, adapter.getType());
+            public void onSelectRecord(SelectRecordDialog dialog, MedicalRecord record) {
+                data.setRecordId(String.valueOf(record.getMedicalRecordId()));
+                Intent intent = PickDateActivity.makeIntent(context, data, type);
+                context.startActivity(intent);
+                dialog.dismiss();
             }
-        };
+        });
     }
 
-
-    public OnItemClickListener pickDate() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(final BaseAdapter temp, final View v, BaseViewHolder vh) {
-
-                SelectRecordDialog.showRecordDialog(v.getContext(), new SelectRecordDialog.SelectRecordListener() {
-                    @Override
-                    public void onSelectRecord(SelectRecordDialog dialog, MedicalRecord record) {
-                        SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
-                        data.setRecordId(String.valueOf(record.getMedicalRecordId()));
-                        Intent intent = PickDateActivity.makeIntent(v.getContext(), data, adapter.getType());
-                        v.getContext().startActivity(intent);
-                        dialog.dismiss();
-                    }
-                });
-            }
-        };
+    private int getType(BaseAdapter temp) {
+        SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
+        return adapter.getType();
     }
 
     public void pickDuration(final View root) {

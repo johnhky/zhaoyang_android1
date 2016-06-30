@@ -36,9 +36,7 @@
             android:orientation="horizontal"
             android:paddingLeft="@dimen/dp_13"
             android:paddingRight="@dimen/dp_13"
-            app:adapter="@{adapter}"
-            app:itemClick="@{data.handler.systemMsgList}"
-            app:vh="@{vh}">
+            android:onClick="@{()->data.handler.systemMsgList(adapter)}">
 
             <com.doctor.sun.ui.widget.BezelImageView
                 android:layout_width="@dimen/dp_53"

@@ -64,12 +64,15 @@ public class ApplyAfterServiceActivity extends BaseActivity2 {
                     Toast.makeText(ApplyAfterServiceActivity.this, "请选择需要申请随访的病历", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                api.requestService(JacksonUtils.toJson(selectedRecords)).enqueue(new SimpleCallback<Void>() {
-                    @Override
-                    protected void handleResponse(Void response) {
-                        Toast.makeText(ApplyAfterServiceActivity.this, "成功提交随访申请", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                String id = JacksonUtils.toJson(selectedRecords);
+                if (id != null) {
+                    api.requestService(id).enqueue(new SimpleCallback<Void>() {
+                        @Override
+                        protected void handleResponse(Void response) {
+                            Toast.makeText(ApplyAfterServiceActivity.this, "成功提交随访申请", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
         binding.setSelectAllClick(new View.OnClickListener() {

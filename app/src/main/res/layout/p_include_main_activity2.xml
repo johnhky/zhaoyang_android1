@@ -131,9 +131,7 @@
             android:showcaseId='@{"main"}'
             android:showcasePosition='@{3}'
             android:showcaseSize='@{5}'
-            app:adapter="@{adapter}"
-            app:itemClick="@{data.appointmentList}"
-            app:vh="@{vh}">
+            android:onClick="@{()->data.appointmentList(context)}">
 
             <TextView
                 android:layout_width="wrap_content"

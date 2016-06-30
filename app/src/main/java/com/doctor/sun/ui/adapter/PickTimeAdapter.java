@@ -1,14 +1,11 @@
 package com.doctor.sun.ui.adapter;
 
 import android.content.Context;
-import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ReserveTimeBinding;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
-import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 
@@ -49,17 +46,13 @@ public class PickTimeAdapter extends SimpleAdapter<Time, ReserveTimeBinding> {
         }
     }
 
-    public OnItemClickListener select() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                ReserveTimeBinding binding = (ReserveTimeBinding) vh.getBinding();
-                if (!binding.tvTime.isActivated()) {
-                    selectedItem = vh.getAdapterPosition();
-                    notifyDataSetChanged();
-                }
-            }
-        };
+
+    public void select(BaseViewHolder vh) {
+        ReserveTimeBinding binding = (ReserveTimeBinding) vh.getBinding();
+        if (!binding.tvTime.isActivated()) {
+            selectedItem = vh.getAdapterPosition();
+            notifyDataSetChanged();
+        }
     }
 
 

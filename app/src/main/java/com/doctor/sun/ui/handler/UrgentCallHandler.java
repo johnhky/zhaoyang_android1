@@ -23,7 +23,6 @@ import com.doctor.sun.ui.activity.patient.UrgentAddFeeActivity;
 import com.doctor.sun.ui.activity.patient.UrgentAddTimeActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
-import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.util.PayInterface;
@@ -49,47 +48,43 @@ public class UrgentCallHandler implements PayInterface {
         this.data = emergencyCall;
     }
 
-    public OnItemClickListener click() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(final BaseAdapter adapter, final View view, final BaseViewHolder vh) {
-                switch (view.getId()) {
-                    case R.id.cancel: {
-                        api.cancel(data.getId()).enqueue(new ApiCallback<HashMap<String, String>>() {
-                            @Override
-                            protected void handleResponse(HashMap<String, String> response) {
-                                data.setIsValid(0);
-                                adapter.notifyItemChanged(vh.getAdapterPosition());
-                            }
-                        });
-                        break;
+
+    public void click(View view, final BaseAdapter adapter, final BaseViewHolder vh) {
+        switch (view.getId()) {
+            case R.id.cancel: {
+                api.cancel(data.getId()).enqueue(new ApiCallback<HashMap<String, String>>() {
+                    @Override
+                    protected void handleResponse(HashMap<String, String> response) {
+                        data.setIsValid(0);
+                        adapter.notifyItemChanged(vh.getAdapterPosition());
                     }
-                    case R.id.pay: {
-                        new PayMethodDialog(adapter.getContext(), UrgentCallHandler.this).show();
-                        break;
-                    }
-                    case R.id.add_money: {
-                        Intent intent = UrgentAddFeeActivity.makeIntent(view.getContext(), data);
-                        view.getContext().startActivity(intent);
-                        break;
-                    }
-                    case R.id.add_time: {
-                        Intent intent = UrgentAddTimeActivity.makeIntent(view.getContext(), data);
-                        Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
-                            @Override
-                            public boolean handleMessage(Message msg) {
-                                data.setWaitingTime(data.getWaitingTime() + Long.parseLong(String.valueOf(msg.obj)));
-                                adapter.notifyItemChanged(vh.getAdapterPosition());
-                                return false;
-                            }
-                        }));
-                        intent.putExtra(Constants.HANDLER, messenger);
-                        view.getContext().startActivity(intent);
-                        break;
-                    }
-                }
+                });
+                break;
             }
-        };
+            case R.id.pay: {
+                new PayMethodDialog(adapter.getContext(), UrgentCallHandler.this).show();
+                break;
+            }
+            case R.id.add_money: {
+                Intent intent = UrgentAddFeeActivity.makeIntent(view.getContext(), data);
+                view.getContext().startActivity(intent);
+                break;
+            }
+            case R.id.add_time: {
+                Intent intent = UrgentAddTimeActivity.makeIntent(view.getContext(), data);
+                Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+                        data.setWaitingTime(data.getWaitingTime() + Long.parseLong(String.valueOf(msg.obj)));
+                        adapter.notifyItemChanged(vh.getAdapterPosition());
+                        return false;
+                    }
+                }));
+                intent.putExtra(Constants.HANDLER, messenger);
+                view.getContext().startActivity(intent);
+                break;
+            }
+        }
     }
 
     public String displayTime() {

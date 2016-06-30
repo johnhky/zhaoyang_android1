@@ -33,13 +33,13 @@
 
 
             <View
+                android:layout_width="@dimen/dp_90"
+                android:layout_height="@dimen/dp_48"
                 android:layout_gravity="end"
                 android:showcase='@{"问卷不够全面?这里补充"}'
                 android:showcaseId='@{"patientDetail"}'
                 android:showcasePosition='@{0}'
-                android:showcaseSize='@{3}'
-                android:layout_width="@dimen/dp_90"
-                android:layout_height="@dimen/dp_48" />
+                android:showcaseSize='@{3}' />
         </FrameLayout>
 
         <FrameLayout
@@ -96,7 +96,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:onClick="@{data.handler.remind}"
+                    android:onClick="@{()->data.handler.remind(context,data.id,data.medicalRecord.patientId)}"
                     android:text="提  醒"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_17" />

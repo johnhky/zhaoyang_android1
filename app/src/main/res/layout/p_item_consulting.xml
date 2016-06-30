@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{data.handler.chat(adapter,vh)}"
+        android:onClick="@{()->data.handler.chat(adapter,vh)}"
         android:orientation="horizontal"
         android:paddingTop="@dimen/dp_13">
 

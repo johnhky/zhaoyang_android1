@@ -86,9 +86,7 @@
                 android:background="@drawable/ripple_default"
                 android:gravity="center"
                 android:visibility="invisible"
-                app:adapter="@{adapter}"
-                app:itemClick="@{data.handler.deleteDialog}"
-                app:vh="@{vh}">
+                android:onClick="@{()->data.handler.showDeleteDialog(adapter,vh)}">
 
                 <ImageView
                     android:layout_width="wrap_content"

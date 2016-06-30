@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -29,15 +28,13 @@
             android:id="@+id/tv_time"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
+            android:background="@drawable/full_rect"
             android:gravity="center"
+            android:onClick="@{()->adapter.select(vh)}"
             android:singleLine="true"
             android:text="@{data.time}"
             android:textColor="@color/text_color_pick_time"
-            android:textSize="@dimen/font_15"
-            android:background="@drawable/full_rect"
-            app:adapter="@{adapter}"
-            app:itemClick="@{adapter.select}"
-            app:vh="@{vh}" />
+            android:textSize="@dimen/font_15" />
 
     </FrameLayout>
 

@@ -23,8 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:orientation="vertical"
-        app:itemClick="@{data.handler.consultedChat}">
+        android:onClick="@{()->data.handler.chat(adapter,vh)}"
+        android:orientation="vertical">
 
 
         <LinearLayout
@@ -167,7 +167,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:onClick="@{data.handler.newOrPayAppointment(adapter.context)}"
+                    android:onClick="@{()->data.handler.newOrPayAppointment(adapter.context)}"
                     android:text='@{data.handler.returnNotPaid()?"复诊支付":"再次预约"}'
                     android:textColor="#fff"
                     android:textSize="@dimen/font_13" />
@@ -189,12 +189,10 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
+                    android:onClick="@{()->data.handler.pComment(adapter,vh)}"
                     android:text='@{data.handler.hasDoctorComment()?"已评价":"评  价"}'
                     android:textColor="#fff"
-                    android:textSize="@dimen/font_13"
-                    app:adapter="@{adapter}"
-                    app:itemClick="@{data.handler.pComment}"
-                    app:vh="@{vh}" />
+                    android:textSize="@dimen/font_13" />
 
             </FrameLayout>
 

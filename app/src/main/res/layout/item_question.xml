@@ -22,13 +22,11 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:adapter="@{adapter}"
-        app:itemClick="@{data.handler.select}"
-        android:selected="@{data.isSelected}"
-        app:vh="@{vh}">
+        android:onClick="@{()->data.handler.select(root)}">
 
         <RelativeLayout
             android:id="@+id/rl_question"

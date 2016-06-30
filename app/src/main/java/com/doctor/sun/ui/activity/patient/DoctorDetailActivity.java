@@ -119,7 +119,7 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
 
                 if (selectedItem != -1) {
                     doctor.setDuration(String.valueOf((selectedItem) * 15));
-                    doctor.getHandler().pickDate().onItemClick(new SearchDoctorAdapter(DoctorDetailActivity.this, getType()), binding.tvPickDuration, null);
+                    doctor.getHandler().pickDate(DoctorDetailActivity.this,getType());
                 } else {
                     Toast.makeText(DoctorDetailActivity.this, "请选择时长", Toast.LENGTH_SHORT).show();
                 }

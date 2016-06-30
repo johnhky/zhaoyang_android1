@@ -42,9 +42,7 @@
             android:layout_marginStart="@dimen/dp_13"
             android:layout_width="match_parent"
             android:background="@drawable/ripple_default"
-            app:itemClick="@{data.pickTime}"
-            app:vh="@{vh}"
-            app:adapter="@{adapter}"
+            android:onClick="@{()->data.pickTime(context)}"
             android:layout_height="wrap_content">
 
             <TextView

@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{data.handler.onPatientClickOrder(adapter,vh)}"
+        android:onClick="@{()->data.handler.onPatientClickOrder(adapter)}"
         android:orientation="vertical">
 
         <com.zhy.android.percent.support.PercentFrameLayout
@@ -80,9 +80,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:layout_marginRight="@dimen/dp_13"
                 android:layout_gravity="end"
+                android:layout_marginRight="@dimen/dp_13"
+                android:gravity="center_vertical"
                 android:textSize="@dimen/font_13"
                 app:html="@{data.handler.styledOrderStatus}" />
 
@@ -239,12 +239,10 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
+                    android:onClick="@{()->data.handler.pCancel(adapter,vh,data.id)}"
                     android:text="取消预约"
                     android:textColor="#339de1"
-                    android:textSize="@dimen/font_13"
-                    app:adapter="@{adapter}"
-                    app:itemClick="@{data.handler.pCancel}"
-                    app:vh="@{vh}" />
+                    android:textSize="@dimen/font_13"/>
             </FrameLayout>
 
             <FrameLayout
@@ -262,9 +260,7 @@
                     android:text="立即支付"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_13"
-                    app:adapter="@{adapter}"
-                    app:itemClick="@{data.handler.pay}"
-                    app:vh="@{vh}" />
+                    android:onClick="@{()->data.handler.showPayDialog(adapter)}" />
             </FrameLayout>
 
         </LinearLayout>
@@ -289,9 +285,7 @@
                 android:text='@{data.handler.hasDoctorComment()?"已评价":"评  价"}'
                 android:textColor="#fff"
                 android:textSize="@dimen/font_13"
-                app:adapter="@{adapter}"
-                app:itemClick="@{data.handler.pComment}"
-                app:vh="@{vh}" />
+                android:onClick="@{()->data.handler.pComment(adapter,vh)}"/>
 
         </FrameLayout>
 

@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{data.handler.onDoctorClickOrder(adapter,vh)}"
+        android:onClick="@{()->data.handler.onDoctorClickOrder(vh,adapter)}"
         android:orientation="vertical">
 
         <LinearLayout
@@ -163,12 +163,10 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
+                    android:onClick="@{()->data.handler.cancel2(adapter,vh,data)}"
                     android:text="取消预约"
                     android:textColor="#339de1"
-                    android:textSize="@dimen/font_13"
-                    app:adapter="@{adapter}"
-                    app:itemClick="@{data.handler.cancel}"
-                    app:vh="@{vh}" />
+                    android:textSize="@dimen/font_13" />
             </FrameLayout>
 
             <FrameLayout
@@ -183,7 +181,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:onClick="@{data.handler.remind}"
+                    android:onClick="@{()->data.handler.remind(context,data.id,data.medicalRecord.patientId)}"
                     android:text="提  醒"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_13" />
@@ -208,12 +206,10 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/ripple_default"
                 android:gravity="center"
+                android:onClick="@{()->data.handler.comment(adapter,vh)}"
                 android:text='@{data.handler.hasPatientComment?"已评价":"评  价"}'
                 android:textColor="#fff"
-                android:textSize="@dimen/font_13"
-                app:adapter="@{adapter}"
-                app:itemClick="@{data.handler.comment}"
-                app:vh="@{vh}" />
+                android:textSize="@dimen/font_13" />
 
         </FrameLayout>
 

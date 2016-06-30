@@ -36,9 +36,7 @@
             android:orientation="horizontal"
             android:paddingLeft="@dimen/dp_13"
             android:paddingRight="@dimen/dp_13"
-            app:adapter="@{adapter}"
-            app:itemClick="@{data.handler.medicineHelper}"
-            app:vh="@{vh}">
+            android:onClick="@{()->data.medicineStore(context,adapter.itemCount-2)}">
 
             <com.doctor.sun.ui.widget.BezelImageView
                 android:layout_width="@dimen/dp_53"

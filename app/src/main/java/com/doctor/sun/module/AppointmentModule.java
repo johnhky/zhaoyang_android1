@@ -79,7 +79,7 @@ public interface AppointmentModule {
 
     @FormUrlEncoded
     @POST("appointment/patient-cancel")
-    Call<ApiDTO<String>> pCancel(@Field("appointmentId") String appointmentId);
+    Call<ApiDTO<String>> pCancel(@Field("appointmentId") int appointmentId);
 
     @GET("appointment/dAppointList")
     Call<ApiDTO<PageDTO<Appointment>>> dAppointments(@Query("page") String page, @Query("paid") String paid);
@@ -90,7 +90,7 @@ public interface AppointmentModule {
 
     @FormUrlEncoded
     @POST("appointment/remind-answer")
-    Call<ApiDTO<String>> remind(@Field("appointmentId") String appointmentId, @Field("patientId") String patientId);
+    Call<ApiDTO<String>> remind(@Field("appointmentId") int appointmentId, @Field("patientId") int patientId);
 
 
     @FormUrlEncoded

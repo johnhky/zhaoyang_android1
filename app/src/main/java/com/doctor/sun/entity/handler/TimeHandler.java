@@ -20,7 +20,6 @@ import com.doctor.sun.ui.activity.doctor.AddTimeActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
-import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.text.ParseException;
@@ -87,74 +86,65 @@ public class TimeHandler {
         view.getContext().startActivity(intent);
     }
 
-    public OnItemClickListener deleteDialog() {
-        return new OnItemClickListener() {
+
+    public void showDeleteDialog(final BaseAdapter adapter, final BaseViewHolder vh) {
+        final TimeModuleWrapper api = TimeModuleWrapper.getInstance();
+        String questiion = "确定删除该出诊时间？";
+        String cancel = "取消";
+        String delete = "删除";
+        TwoChoiceDialog.show(adapter.getContext(), questiion, cancel, delete, new TwoChoiceDialog.Options() {
             @Override
-            public void onItemClick(final BaseAdapter adapter, View view, final BaseViewHolder vh) {
-                final TimeModuleWrapper api = TimeModuleWrapper.getInstance();
-                String questiion = "确定删除该出诊时间？";
-                String cancel = "取消";
-                String delete = "删除";
-                TwoChoiceDialog.show(view.getContext(), questiion, cancel, delete, new TwoChoiceDialog.Options() {
+            public void onApplyClick(final MaterialDialog deleteDialog) {
+                api.deleteTime(data.getId(), data.getType()).enqueue(new SimpleCallback<String>() {
                     @Override
-                    public void onApplyClick(final MaterialDialog deleteDialog) {
-                        api.deleteTime(data.getId(), data.getType()).enqueue(new SimpleCallback<String>() {
-                            @Override
-                            protected void handleResponse(String response) {
-                                deleteDialog.dismiss();
-                                adapter.remove(data);
-                                adapter.notifyItemRemoved(vh.getAdapterPosition());
+                    protected void handleResponse(String response) {
+                        deleteDialog.dismiss();
+                        adapter.remove(data);
+                        adapter.notifyItemRemoved(vh.getAdapterPosition());
 
-                                LayoutId objectFace = (LayoutId) adapter.get(adapter.size() - 1);
-                                if (objectFace.getItemLayoutId() == R.layout.item_time_category) {
-                                    adapter.remove(adapter.size() - 1);
-                                    adapter.notifyItemRemoved(adapter.size() - 1);
-                                }
-                                if (adapter.size() > 2) {
-                                    LayoutId objectNetwork = (LayoutId) adapter.get(1);
-                                    if (objectNetwork.getItemLayoutId() == R.layout.item_time_category) {
-                                        adapter.remove(0);
-                                        adapter.notifyItemRemoved(0);
-                                    }
-                                }
+                        LayoutId objectFace = (LayoutId) adapter.get(adapter.size() - 1);
+                        if (objectFace.getItemLayoutId() == R.layout.item_time_category) {
+                            adapter.remove(adapter.size() - 1);
+                            adapter.notifyItemRemoved(adapter.size() - 1);
+                        }
+                        if (adapter.size() > 2) {
+                            LayoutId objectNetwork = (LayoutId) adapter.get(1);
+                            if (objectNetwork.getItemLayoutId() == R.layout.item_time_category) {
+                                adapter.remove(0);
+                                adapter.notifyItemRemoved(0);
                             }
-                        });
-                    }
-
-                    @Override
-                    public void onCancelClick(MaterialDialog dialog) {
-                        dialog.dismiss();
+                        }
                     }
                 });
             }
-        };
+
+            @Override
+            public void onCancelClick(MaterialDialog dialog) {
+                dialog.dismiss();
+            }
+        });
     }
 
-    public OnItemClickListener deleteDisturb() {
-        return new OnItemClickListener() {
+    public void showDeleteDisturb(final BaseAdapter adapter, final BaseViewHolder vh) {
+        final TimeModuleWrapper api = TimeModuleWrapper.getInstance();
+        TwoChoiceDialog.show(adapter.getContext(), "确定删除该免打扰时间？", "取消", "删除", new TwoChoiceDialog.Options() {
             @Override
-            public void onItemClick(final BaseAdapter adapter, View view, final BaseViewHolder vh) {
-                final TimeModuleWrapper api = TimeModuleWrapper.getInstance();
-                TwoChoiceDialog.show(view.getContext(), "确定删除该免打扰时间？", "取消", "删除", new TwoChoiceDialog.Options() {
+            public void onApplyClick(final MaterialDialog dialog) {
+                api.deleteTime(data.getId(), data.getType()).enqueue(new SimpleCallback<String>() {
                     @Override
-                    public void onApplyClick(final MaterialDialog dialog) {
-                        api.deleteTime(data.getId(), data.getType()).enqueue(new SimpleCallback<String>() {
-                            @Override
-                            protected void handleResponse(String response) {
-                                dialog.dismiss();
-                                adapter.remove(data);
-                                adapter.notifyItemRemoved(vh.getAdapterPosition());
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onCancelClick(MaterialDialog dialog) {
+                    protected void handleResponse(String response) {
                         dialog.dismiss();
+                        adapter.remove(data);
+                        adapter.notifyItemRemoved(vh.getAdapterPosition());
                     }
                 });
             }
-        };
+
+            @Override
+            public void onCancelClick(MaterialDialog dialog) {
+                dialog.dismiss();
+            }
+        });
     }
 
 

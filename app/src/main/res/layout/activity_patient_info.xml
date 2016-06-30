@@ -235,7 +235,7 @@
                     android:layout_marginTop="@dimen/dp_21"
                     android:background="@drawable/btn_big_blue"
                     android:clickable="true"
-                    android:onClick="@{appointment.handler.chat()}">
+                    android:onClick="@{()->appointment.handler.chat(context,appointment)}">
 
                     <TextView
                         android:layout_width="match_parent"

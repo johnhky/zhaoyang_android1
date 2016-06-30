@@ -160,12 +160,10 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
+                    android:onClick="@{()->data.handler.click(cancel,adapter,vh)}"
                     android:text="取消咨询"
                     android:textColor="#339de1"
-                    android:textSize="@dimen/font_13"
-                    app:adapter="@{adapter}"
-                    app:itemClick="@{data.handler.click}"
-                    app:vh="@{vh}" />
+                    android:textSize="@dimen/font_13" />
             </FrameLayout>
 
             <FrameLayout
@@ -180,12 +178,10 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
+                    android:onClick="@{()->data.handler.click(pay,adapter,vh)}"
                     android:text="立即支付"
                     android:textColor="#fff"
-                    android:textSize="@dimen/font_13"
-                    app:adapter="@{adapter}"
-                    app:itemClick="@{data.handler.click}"
-                    app:vh="@{vh}" />
+                    android:textSize="@dimen/font_13" />
             </FrameLayout>
 
         </LinearLayout>
@@ -207,7 +203,6 @@
                 android:layout_weight="1" />
 
 
-
             <FrameLayout
                 android:layout_width="@dimen/dp_124"
                 android:layout_height="@dimen/dp_35"
@@ -220,12 +215,10 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
+                    android:onClick="@{()->data.handler.click(addTime,adapter,vh)}"
                     android:text="增加等候时间"
                     android:textColor="#fff"
-                    android:textSize="@dimen/font_13"
-                    app:adapter="@{adapter}"
-                    app:itemClick="@{data.handler.click}"
-                    app:vh="@{vh}" />
+                    android:textSize="@dimen/font_13" />
             </FrameLayout>
 
             <FrameLayout
@@ -240,12 +233,10 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
+                    android:onClick="@{()->data.handler.click(addMoney,adapter,vh)}"
                     android:text="增加诊金"
                     android:textColor="#fff"
-                    android:textSize="@dimen/font_13"
-                    app:adapter="@{adapter}"
-                    app:itemClick="@{data.handler.click}"
-                    app:vh="@{vh}" />
+                    android:textSize="@dimen/font_13" />
             </FrameLayout>
 
         </LinearLayout>

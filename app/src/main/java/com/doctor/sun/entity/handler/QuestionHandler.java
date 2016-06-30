@@ -1,10 +1,11 @@
 package com.doctor.sun.entity.handler;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.doctor.sun.R;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.http.Api;
@@ -12,9 +13,6 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.doctor.CustomDetailActivity;
 import com.doctor.sun.ui.adapter.AssignQuestionAdapter;
-import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
-import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.util.List;
@@ -33,14 +31,9 @@ public class QuestionHandler {
     public QuestionHandler() {
     }
 
-    public OnItemClickListener select() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                data.setIsSelected(!data.getIsSelected());
-                view.setSelected(data.getIsSelected());
-            }
-        };
+    public void select(View view) {
+        data.setIsSelected(!data.getIsSelected());
+        view.setSelected(data.getIsSelected());
     }
 
     public void customQuestionDetail(View view) {
@@ -48,33 +41,28 @@ public class QuestionHandler {
         view.getContext().startActivity(intent);
     }
 
-    public OnItemClickListener selector() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseAdapter adapter, final View view, BaseViewHolder vh) {
-                final ImageView selector = (ImageView) view.findViewById(R.id.iv_select);
-                if (!selector.isSelected()) {
-                    TwoChoiceDialog.show(view.getContext(), "是否确认添加？", "取消", "确认", new TwoChoiceDialog.Options() {
-                        @Override
-                        public void onApplyClick(final com.afollestad.materialdialogs.MaterialDialog dialog) {
-                            AssignQuestionAdapter.GetAppointmentId getAppointmentId = (AssignQuestionAdapter.GetAppointmentId) view.getContext();
-                            String appointmentId = getAppointmentId.getAppointmentId();
-                            api.appendQuestion(appointmentId, String.valueOf(data.getId())).enqueue(new ApiCallback<List<Answer>>() {
-                                @Override
-                                protected void handleResponse(List<Answer> response) {
-                                    selector.setSelected(true);
-                                    dialog.dismiss();
-                                }
-                            });
-                        }
 
+    public void selector(final Context context, final ImageView selector) {
+        if (!selector.isSelected()) {
+            TwoChoiceDialog.show(context, "是否确认添加？", "取消", "确认", new TwoChoiceDialog.Options() {
+                @Override
+                public void onApplyClick(final MaterialDialog dialog) {
+                    AssignQuestionAdapter.GetAppointmentId getAppointmentId = (AssignQuestionAdapter.GetAppointmentId) context;
+                    String appointmentId = getAppointmentId.getAppointmentId();
+                    api.appendQuestion(appointmentId, String.valueOf(data.getId())).enqueue(new ApiCallback<List<Answer>>() {
                         @Override
-                        public void onCancelClick(com.afollestad.materialdialogs.MaterialDialog dialog) {
+                        protected void handleResponse(List<Answer> response) {
+                            selector.setSelected(true);
                             dialog.dismiss();
                         }
                     });
                 }
-            }
-        };
+
+                @Override
+                public void onCancelClick(MaterialDialog dialog) {
+                    dialog.dismiss();
+                }
+            });
+        }
     }
 }

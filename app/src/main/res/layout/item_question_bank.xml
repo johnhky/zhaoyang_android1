@@ -10,11 +10,12 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:selected="@{data.isSelected}"
-        app:itemClick="@{data.handler.select}">
+        android:onClick="@{()->data.handler.select(root)}">
 
         <RelativeLayout
             android:layout_width="match_parent"

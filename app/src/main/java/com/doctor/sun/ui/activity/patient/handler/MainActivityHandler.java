@@ -28,7 +28,6 @@ import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
-import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.handler.BaseHandler;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
 import com.doctor.sun.util.JacksonUtils;
@@ -53,23 +52,10 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
         return R.layout.p_include_main_activity2;
     }
 
-    public OnItemClickListener record() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
 
-            }
-        };
-    }
-
-    public OnItemClickListener appointmentList() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                Intent i = PAppointmentListActivity.makeIntent(view.getContext());
-                view.getContext().startActivity(i);
-            }
-        };
+    public void appointmentList(Context context) {
+        Intent i = PAppointmentListActivity.makeIntent(context);
+        context.startActivity(i);
     }
 
     public void showRecordList(final View view) {

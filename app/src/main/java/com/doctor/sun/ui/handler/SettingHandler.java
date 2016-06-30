@@ -26,9 +26,6 @@ import com.doctor.sun.ui.activity.doctor.PasswordActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.activity.patient.PMainActivity;
 import com.doctor.sun.ui.activity.patient.PMeActivity;
-import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
-import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.widget.ShareDialog;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
@@ -113,77 +110,72 @@ public class SettingHandler extends BaseHandler {
         }
     };
 
-    public OnItemClickListener share() {
-        return new OnItemClickListener() {
+    public void share(final Context context) {
+        ShareDialog.showShareDialog(context, new ShareDialog.GetActionButton() {
             @Override
-            public void onItemClick(BaseAdapter adapter, final View view, BaseViewHolder vh) {
-                ShareDialog.showShareDialog(view.getContext(), new ShareDialog.GetActionButton() {
-                    @Override
-                    public void onClickMicroblogButton() {
-                        ShareManager shareManager = new ShareManager(view.getContext(), platformActionListener);
-                        shareManager.shareSinaWeibo()
-                                .setContent("这是一个能让咨询者与心理/精神科医生轻松交流的App http://wechat.zhaoyang120.cn/auth/download.html")
-                                .commit()
-                                .share();
-                    }
-
-                    @Override
-                    public void onClickFriendButton() {
-                        WXWebpageObject webpageObject = new WXWebpageObject();
-                        webpageObject.webpageUrl = "http://wechat.zhaoyang120.cn/auth/download.html";
-                        WXMediaMessage mediaMessage = new WXMediaMessage(webpageObject);
-                        mediaMessage.title = "【昭阳医生】一个专业的心理/精神科咨询平台";
-                        mediaMessage.description = "这是一个能让咨询者与心理/精神科医生轻松交流的App。";
-                        Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_launcher);
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        mediaMessage.thumbData = stream.toByteArray();
-
-                        SendMessageToWX.Req req = new SendMessageToWX.Req();
-                        req.transaction = "webpage";
-                        req.message = mediaMessage;
-                        req.scene = SendMessageToWX.Req.WXSceneTimeline;
-
-                        IWXAPI wxapi = WXAPIFactory.createWXAPI(getContext(), "wxe541efd34c189cf1");
-                        wxapi.sendReq(req);
-                    }
-
-                    @Override
-                    public void onClickWeChatButton() {
-                        WXWebpageObject webpageObject = new WXWebpageObject();
-                        webpageObject.webpageUrl = "http://wechat.zhaoyang120.cn/auth/download.html";
-                        WXMediaMessage mediaMessage = new WXMediaMessage(webpageObject);
-                        mediaMessage.title = "【昭阳医生】一个专业的心理/精神科咨询平台";
-                        mediaMessage.description = "这是一个能让咨询者与心理/精神科医生轻松交流的App。";
-                        Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_launcher);
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        mediaMessage.thumbData = stream.toByteArray();
-
-                        SendMessageToWX.Req req = new SendMessageToWX.Req();
-                        req.transaction = "webpage";
-                        req.message = mediaMessage;
-                        req.scene = SendMessageToWX.Req.WXSceneSession;
-
-                        IWXAPI wxapi = WXAPIFactory.createWXAPI(getContext(), "wxe541efd34c189cf1");
-                        wxapi.sendReq(req);
-
-                    }
-
-                    @Override
-                    public void onClickQqButton() {
-                        ShareManager shareManager = new ShareManager(view.getContext(), platformActionListener);
-                        shareManager.shareQQ()
-                                .setTitle("【昭阳医生】一个专业的心理/精神科咨询平台")
-                                .setContent("这是一个能让咨询者与心理/精神科医生轻松交流的App。")
-                                .setTitleUrl("http://wechat.zhaoyang120.cn/auth/download.html")
-                                .setImageUrl("http://www.zhaoyang120.com/common/image/logo-nav.png")
-                                .commit()
-                                .share();
-                    }
-                });
+            public void onClickMicroblogButton() {
+                ShareManager shareManager = new ShareManager(context, platformActionListener);
+                shareManager.shareSinaWeibo()
+                        .setContent("这是一个能让咨询者与心理/精神科医生轻松交流的App http://wechat.zhaoyang120.cn/auth/download.html")
+                        .commit()
+                        .share();
             }
-        };
+
+            @Override
+            public void onClickFriendButton() {
+                WXWebpageObject webpageObject = new WXWebpageObject();
+                webpageObject.webpageUrl = "http://wechat.zhaoyang120.cn/auth/download.html";
+                WXMediaMessage mediaMessage = new WXMediaMessage(webpageObject);
+                mediaMessage.title = "【昭阳医生】一个专业的心理/精神科咨询平台";
+                mediaMessage.description = "这是一个能让咨询者与心理/精神科医生轻松交流的App。";
+                Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_launcher);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                mediaMessage.thumbData = stream.toByteArray();
+
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = "webpage";
+                req.message = mediaMessage;
+                req.scene = SendMessageToWX.Req.WXSceneTimeline;
+
+                IWXAPI wxapi = WXAPIFactory.createWXAPI(getContext(), "wxe541efd34c189cf1");
+                wxapi.sendReq(req);
+            }
+
+            @Override
+            public void onClickWeChatButton() {
+                WXWebpageObject webpageObject = new WXWebpageObject();
+                webpageObject.webpageUrl = "http://wechat.zhaoyang120.cn/auth/download.html";
+                WXMediaMessage mediaMessage = new WXMediaMessage(webpageObject);
+                mediaMessage.title = "【昭阳医生】一个专业的心理/精神科咨询平台";
+                mediaMessage.description = "这是一个能让咨询者与心理/精神科医生轻松交流的App。";
+                Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_launcher);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                mediaMessage.thumbData = stream.toByteArray();
+
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = "webpage";
+                req.message = mediaMessage;
+                req.scene = SendMessageToWX.Req.WXSceneSession;
+
+                IWXAPI wxapi = WXAPIFactory.createWXAPI(getContext(), "wxe541efd34c189cf1");
+                wxapi.sendReq(req);
+
+            }
+
+            @Override
+            public void onClickQqButton() {
+                ShareManager shareManager = new ShareManager(context, platformActionListener);
+                shareManager.shareQQ()
+                        .setTitle("【昭阳医生】一个专业的心理/精神科咨询平台")
+                        .setContent("这是一个能让咨询者与心理/精神科医生轻松交流的App。")
+                        .setTitleUrl("http://wechat.zhaoyang120.cn/auth/download.html")
+                        .setImageUrl("http://www.zhaoyang120.com/common/image/logo-nav.png")
+                        .commit()
+                        .share();
+            }
+        });
     }
 
     public View.OnClickListener checkUpdate() {

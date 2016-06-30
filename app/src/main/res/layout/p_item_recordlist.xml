@@ -28,9 +28,7 @@
             android:layout_height="@dimen/dp_90"
             android:background="@drawable/ripple_default"
             android:paddingLeft="@dimen/dp_13"
-            app:adapter="@{adapter}"
-            app:itemClick="@{data.handler.updateRecord}"
-            app:vh="@{vh}">
+            android:onClick="@{()->data.handler.updateRecord(context)}">
 
             <TextView
                 android:id="@+id/tv_name"

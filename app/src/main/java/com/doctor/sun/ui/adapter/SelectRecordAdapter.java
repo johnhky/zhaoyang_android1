@@ -1,12 +1,9 @@
 package com.doctor.sun.ui.adapter;
 
 import android.content.Context;
-import android.view.View;
 
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
-import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
 
 /**
@@ -20,12 +17,7 @@ public class SelectRecordAdapter extends SimpleAdapter {
         this.dialog = listener;
     }
 
-    public OnItemClickListener selectRecord() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                dialog.getListener().onSelectRecord(dialog, (MedicalRecord) get(vh.getAdapterPosition()));
-            }
-        };
+    public void onRecordSelected(BaseViewHolder vh) {
+        dialog.getListener().onSelectRecord(dialog, (MedicalRecord) get(vh.getAdapterPosition()));
     }
 }

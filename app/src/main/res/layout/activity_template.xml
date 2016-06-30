@@ -53,7 +53,7 @@
                     android:text="添加问诊模板"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/font_17"
-                    app:itemClick="@{handler.addTemplate}" />
+                    android:onClick="@{()->handler.addTemplate(context)}"/>
 
             </LinearLayout>
         </LinearLayout>

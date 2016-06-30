@@ -22,9 +22,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
         android:orientation="vertical"
-        app:adapter="@{adapter}"
-        app:itemClick="@{data.handler.viewDetail}"
-        app:vh="@{vh}">
+        android:onClick="@{()->data.handler.viewDetail(adapter)}">
 
         <View
             android:layout_width="match_parent"

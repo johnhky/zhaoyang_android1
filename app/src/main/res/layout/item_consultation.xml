@@ -23,9 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        app:itemClick="@{data.handler.detail}"
-        app:vh="@{vh}"
-        app:adapter="@{adapter}"
+        android:onClick="@{()->data.handler.detail(context,vh.itemViewType)}"
         android:orientation="vertical">
 
         <TextView

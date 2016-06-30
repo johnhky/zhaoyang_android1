@@ -6,9 +6,6 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.doctor.sun.R;
-import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
-import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.widget.PickDateDialog;
 import com.squareup.timessquare.CalendarPickerView;
 
@@ -141,13 +138,8 @@ public class ItemPickDate extends BaseItem {
         };
     }
 
-    public OnItemClickListener pickTime2() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                pickDateImpl(view.getContext(), type);
-            }
-        };
+    public void pickTime2(Context context) {
+        pickDateImpl(context, type);
     }
 
     public void pickDateImpl(Context context, int type) {

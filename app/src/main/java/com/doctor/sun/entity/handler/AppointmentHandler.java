@@ -56,7 +56,6 @@ import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
 import com.doctor.sun.ui.activity.patient.PickDateActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
-import com.doctor.sun.ui.adapter.core.OnItemClickListener;
 import com.doctor.sun.ui.handler.PayMethodInterface;
 import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.ItemHelper;
@@ -226,47 +225,32 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
 
-    public OnItemClickListener cancel() {
-        return new OnItemClickListener() {
+    public void cancel2(final BaseAdapter adapter, final BaseViewHolder vh, Appointment data) {
+        Intent intent = CancelAppointmentActivity.makeIntent(adapter.getContext(), data);
+        final Handler target = new Handler(new Handler.Callback() {
             @Override
-            public void onItemClick(final BaseAdapter component, final View view, final BaseViewHolder vh) {
-                Intent intent = CancelAppointmentActivity.makeIntent(view.getContext(), data);
-                final Handler target = new Handler(new Handler.Callback() {
+            public boolean handleMessage(Message msg) {
+                Tasks.runOnUiThread(new Runnable() {
                     @Override
-                    public boolean handleMessage(Message msg) {
-                        view.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                component.remove(vh.getAdapterPosition());
-                                component.notifyItemRemoved(vh.getAdapterPosition());
-                            }
-                        }, 1000);
-                        return false;
+                    public void run() {
+                        adapter.remove(vh.getAdapterPosition());
+                        adapter.notifyItemRemoved(vh.getAdapterPosition());
                     }
-                });
-                android.os.Messenger msg = new android.os.Messenger(target);
-                intent.putExtra(Constants.HANDLER, msg);
-                view.getContext().startActivity(intent);
+                }, 1000);
+                return false;
             }
-        };
+        });
+        Messenger msg = new Messenger(target);
+        intent.putExtra(Constants.HANDLER, msg);
+        adapter.getContext().startActivity(intent);
     }
 
-    public OnItemClickListener pCancel() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(final BaseAdapter component, View view, final BaseViewHolder vh) {
-                api.pCancel(String.valueOf(data.getId())).enqueue(new CancelCallback(vh, component));
-            }
-        };
+    public void pCancel(BaseAdapter component, BaseViewHolder vh, int id) {
+        api.pCancel(id).enqueue(new CancelCallback(vh, component));
     }
 
-    public OnItemClickListener pay() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(final BaseAdapter component, final View view, final BaseViewHolder vh) {
-                new PayMethodDialog(component.getContext(), AppointmentHandler.this).show();
-            }
-        };
+    public void showPayDialog(BaseAdapter component) {
+        new PayMethodDialog(component.getContext(), AppointmentHandler.this).show();
     }
 
     @Override
@@ -327,15 +311,20 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         });
     }
 
-    public void remind(final View view) {
-        String appointmentId = String.valueOf(data.getId());
-        String patientId = String.valueOf(data.getMedicalRecord().getPatientId());
 
+    /**
+     * android:onClick="@{()->data.handler.remind(context,data.id,data.medicalRecord.patientId)}"
+     *
+     * @param context
+     * @param appointmentId
+     * @param patientId
+     */
+    public void remind(final Context context, int appointmentId, int patientId) {
         api.remind(appointmentId, patientId)
                 .enqueue(new SimpleCallback<String>() {
                     @Override
                     protected void handleResponse(String response) {
-                        Toast.makeText(view.getContext(), "成功提醒患者", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "成功提醒患者", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -372,67 +361,50 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 .enqueue(callback);
     }
 
-    public OnItemClickListener detail() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                detailImpl(view, vh.getItemViewType());
-            }
-        };
-    }
-
-    public void detailImpl(View view, int type) {
-        Context context = view.getContext();
+    /**
+     * android:onClick="@{()->data.handler.detail(context,vh.itemViewType)}"
+     */
+    public void detail(Context context, int type) {
         Intent i = PatientDetailActivity.makeIntent(context, data, type);
         context.startActivity(i);
     }
 
-    public OnItemClickListener comment() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(final BaseAdapter adapter, View view, final BaseViewHolder vh) {
-                if (!hasPatientComment()) {
-                    Context context = view.getContext();
-                    Intent i = FeedbackActivity.makeIntent(context, data);
-                    Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
-                        @Override
-                        public boolean handleMessage(Message msg) {
-                            data.setPatientPoint((Double) msg.obj);
-                            adapter.notifyItemChanged(vh.getAdapterPosition());
-                            return false;
-                        }
-                    }));
-                    i.putExtra(Constants.HANDLER, messenger);
-                    context.startActivity(i);
-                } else {
-                    ToastHelper.showMessage(view.getContext(), "已经评价过此预约");
+    public void comment(final BaseAdapter adapter, final BaseViewHolder vh) {
+        if (!hasPatientComment()) {
+            Context context = adapter.getContext();
+            Intent i = FeedbackActivity.makeIntent(context, data);
+            Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
+                @Override
+                public boolean handleMessage(Message msg) {
+                    data.setPatientPoint((Double) msg.obj);
+                    adapter.notifyItemChanged(vh.getAdapterPosition());
+                    return false;
                 }
-            }
-        };
+            }));
+            i.putExtra(Constants.HANDLER, messenger);
+            context.startActivity(i);
+        } else {
+            ToastHelper.showMessage(adapter.getContext(), "已经评价过此预约");
+        }
     }
 
-    public OnItemClickListener pComment() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(final BaseAdapter adapter, View view, final BaseViewHolder vh) {
-                if (!hasDoctorComment()) {
-                    Context context = view.getContext();
-                    Intent i = com.doctor.sun.ui.activity.patient.FeedbackActivity.makeIntent(context, data);
-                    Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
-                        @Override
-                        public boolean handleMessage(Message msg) {
-                            data.setDoctorPoint((Double) msg.obj);
-                            adapter.notifyItemChanged(vh.getAdapterPosition());
-                            return false;
-                        }
-                    }));
-                    i.putExtra(Constants.HANDLER, messenger);
-                    context.startActivity(i);
-                } else {
-                    ToastHelper.showMessage(view.getContext(), "已经评价过此预约");
+    public void pComment(final BaseAdapter adapter, final BaseViewHolder vh) {
+        if (!hasDoctorComment()) {
+            Context context = adapter.getContext();
+            Intent i = com.doctor.sun.ui.activity.patient.FeedbackActivity.makeIntent(context, data);
+            Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
+                @Override
+                public boolean handleMessage(Message msg) {
+                    data.setDoctorPoint((Double) msg.obj);
+                    adapter.notifyItemChanged(vh.getAdapterPosition());
+                    return false;
                 }
-            }
-        };
+            }));
+            i.putExtra(Constants.HANDLER, messenger);
+            context.startActivity(i);
+        } else {
+            ToastHelper.showMessage(adapter.getContext(), "已经评价过此预约");
+        }
     }
 
     public HashMap<String, String> toParams() {
@@ -457,59 +429,34 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
-    public View.OnClickListener chat() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (data.getTid() != 0) {
-                    Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
-                    view.getContext().startActivity(intent);
-                } else {
-                    Toast.makeText(view.getContext(), "", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
+    public void chat(Context context, Appointment data) {
+        if (data.getTid() != 0) {
+            Intent intent = ChattingActivity.makeIntent(context, data);
+            context.startActivity(intent);
+        } else {
+            Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public View.OnClickListener chatNoMenu() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (data.getTid() != 0) {
-                    Intent intent = ChattingActivityNoMenu.makeIntent(view.getContext(), data);
-                    view.getContext().startActivity(intent);
-                } else {
-                    Toast.makeText(view.getContext(), "", Toast.LENGTH_SHORT).show();
-                }
+    public void chat(BaseAdapter adapter, BaseViewHolder vh) {
+        if (data.getTid() != 0) {
+            Intent intent = ChattingActivity.makeIntent(adapter.getContext(), data);
+            if (adapter != null && vh != null) {
+                ItemHelper.initCallback(intent, adapter, vh);
             }
-        };
+            adapter.getContext().startActivity(intent);
+        } else {
+            Toast.makeText(adapter.getContext(), "", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public View.OnClickListener chat(final BaseAdapter adapter, final BaseViewHolder vh) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (data.getTid() != 0) {
-                    Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
-                    if (adapter != null && vh != null) {
-                        ItemHelper.initCallback(intent, adapter, vh);
-                    }
-                    view.getContext().startActivity(intent);
-                } else {
-                    Toast.makeText(view.getContext(), "", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-    }
-
-    public OnItemClickListener consultedChat() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseAdapter adapter, final View view, BaseViewHolder vh) {
-                Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
-                view.getContext().startActivity(intent);
-            }
-        };
+    public void chatNoMenu(Context context) {
+        if (data.getTid() != 0) {
+            Intent intent = ChattingActivityNoMenu.makeIntent(context, data);
+            context.startActivity(intent);
+        } else {
+            Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -661,21 +608,16 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return data.getReturnInfo() != null && data.getReturnInfo().getReturnPaid() != 1 && data.getReturnInfo().getNeedReturn() == 1;
     }
 
-    public View.OnClickListener newOrPayAppointment(final Context context) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (needReturn() && returnNotPaid()) {
-                    new PayMethodDialog(context, AppointmentHandler.this).show();
-                } else {
-                    //复诊支付
-                    Doctor doctor = data.getDoctor();
-                    doctor.setRecordId(String.valueOf(data.getRecordId()));
-                    Intent intent = PickDateActivity.makeIntent(context, doctor, AppointmentType.QUICK);
-                    v.getContext().startActivity(intent);
-                }
-            }
-        };
+    public void newOrPayAppointment(Context context) {
+        if (needReturn() && returnNotPaid()) {
+            new PayMethodDialog(context, AppointmentHandler.this).show();
+        } else {
+            //复诊支付
+            Doctor doctor = data.getDoctor();
+            doctor.setRecordId(String.valueOf(data.getRecordId()));
+            Intent intent = PickDateActivity.makeIntent(context, doctor, AppointmentType.QUICK);
+            context.startActivity(intent);
+        }
     }
 
     public void historyDetail(View view) {
@@ -684,98 +626,83 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
 
-    public View.OnClickListener onPatientClickOrder(final BaseAdapter adapter, final BaseViewHolder vh) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (data.getDisplayStatus()) {
-                    case Status.A_UNPAID:
-                    case Status.A_UNPAID_LOCALE2: {
-                        new PayMethodDialog(adapter.getContext(), AppointmentHandler.this).show();
-                        break;
-                    }
-                    case Status.A_PAID:
-                    case Status.A_PAID_LOCALE2: {
-                        Intent intent = FillForumActivity.makeIntent(adapter.getContext(), data.getId());
-                        view.getContext().startActivity(intent);
-                        break;
-                    }
-                    case Status.A_FINISHED: {
-                        Intent intent = FinishedOrderActivity.makeIntent(adapter.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
-                        view.getContext().startActivity(intent);
-                        break;
-                    }
-                    case Status.A_DOING:
-                    case Status.A_WAITING: {
-                        Intent intent = ChattingActivity.makeIntent(adapter.getContext(), data);
-                        view.getContext().startActivity(intent);
-                        break;
-                    }
-                    default: {
-                        break;
-                    }
-                }
+    public void onPatientClickOrder(BaseAdapter adapter) {
+        switch (data.getDisplayStatus()) {
+            case Status.A_UNPAID:
+            case Status.A_UNPAID_LOCALE2: {
+                showPayDialog(adapter);
+                break;
             }
-        };
+            case Status.A_PAID:
+            case Status.A_PAID_LOCALE2: {
+                Intent intent = FillForumActivity.makeIntent(adapter.getContext(), data.getId());
+                adapter.getContext().startActivity(intent);
+                break;
+            }
+            case Status.A_FINISHED: {
+                Intent intent = FinishedOrderActivity.makeIntent(adapter.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
+                adapter.getContext().startActivity(intent);
+                break;
+            }
+            case Status.A_DOING:
+            case Status.A_WAITING: {
+                Intent intent = ChattingActivity.makeIntent(adapter.getContext(), data);
+                adapter.getContext().startActivity(intent);
+                break;
+            }
+            default: {
+                break;
+            }
+        }
     }
 
-    public View.OnClickListener onDoctorClickOrder(final BaseAdapter adapter, final BaseViewHolder vh) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (data.getDisplayStatus()) {
-                    case Status.A_PAID:
-                    case Status.A_PAID_LOCALE2: {
-                        detailImpl(view, vh.getItemViewType());
-                        break;
-                    }
-                    case Status.A_FINISHED: {
-                        Intent chat = ChattingActivity.makeIntent(view.getContext(), data);
-                        view.getContext().startActivity(chat);
-                        Intent intent = HistoryDetailActivity.makeIntent(view.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
-                        view.getContext().startActivity(intent);
-                        break;
-                    }
-                    case Status.A_DOING:
-                    case Status.A_WAITING: {
-                        Intent intent = ChattingActivity.makeIntent(view.getContext(), data);
-                        intent.putExtra(Constants.HANDLER, new Messenger(new Handler(new Handler.Callback() {
-                            @Override
-                            public boolean handleMessage(Message msg) {
-                                adapter.notifyItemChanged(vh.getAdapterPosition());
-                                return false;
-                            }
-                        })));
-                        view.getContext().startActivity(intent);
-                        break;
-                    }
-                    default: {
-                        break;
-                    }
-                }
+    public void onDoctorClickOrder(final BaseViewHolder vh, final BaseAdapter adapter) {
+        switch (data.getDisplayStatus()) {
+            case Status.A_PAID:
+            case Status.A_PAID_LOCALE2: {
+                detail(adapter.getContext(), vh.getItemViewType());
+                break;
             }
-        };
-    }
-
-    public OnItemClickListener drugPush() {
-        return new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-                Call<ApiDTO<String>> apiDTOCall;
-                if (isAfterService()) {
-                    apiDTOCall = drugModule.pushFollowUpDrug(String.valueOf(data.getId()));
-                } else {
-                    apiDTOCall = drugModule.pushDrug(String.valueOf(data.getId()));
-                }
-
-                apiDTOCall.enqueue(new SimpleCallback<String>() {
+            case Status.A_FINISHED: {
+                Intent chat = ChattingActivity.makeIntent(adapter.getContext(), data);
+                adapter.getContext().startActivity(chat);
+                Intent intent = HistoryDetailActivity.makeIntent(adapter.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
+                adapter.getContext().startActivity(intent);
+                break;
+            }
+            case Status.A_DOING:
+            case Status.A_WAITING: {
+                Intent intent = ChattingActivity.makeIntent(adapter.getContext(), data);
+                intent.putExtra(Constants.HANDLER, new Messenger(new Handler(new Handler.Callback() {
                     @Override
-                    protected void handleResponse(String response) {
-                        EventHub.post(new CloseDrawerEvent());
+                    public boolean handleMessage(Message msg) {
+                        adapter.notifyItemChanged(vh.getAdapterPosition());
+                        return false;
                     }
-                });
+                })));
+                adapter.getContext().startActivity(intent);
+                break;
             }
-        };
+            default: {
+                break;
+            }
+        }
+    }
+
+    public void drugPush(int id) {
+        Call<ApiDTO<String>> apiDTOCall;
+        if (isAfterService()) {
+            apiDTOCall = drugModule.pushFollowUpDrug(String.valueOf(id));
+        } else {
+            apiDTOCall = drugModule.pushDrug(String.valueOf(id));
+        }
+
+        apiDTOCall.enqueue(new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                EventHub.post(new CloseDrawerEvent());
+            }
+        });
     }
 
     private boolean isAfterService() {

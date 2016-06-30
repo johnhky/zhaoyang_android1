@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{data.handler.chat(adapter,vh)}"
+        android:onClick="@{()->data.handler.chat(adapter,vh)}"
         android:orientation="vertical">
 
         <LinearLayout
@@ -128,9 +128,7 @@
                     android:text='@{data.handler.hasPatientComment?"已评价":"评  价"}'
                     android:textColor="#fff"
                     android:textSize="@dimen/font_13"
-                    app:adapter="@{adapter}"
-                    app:itemClick="@{data.handler.comment}"
-                    app:vh="@{vh}" />
+                    android:onClick="@{()->data.handler.comment(adapter,vh)}"/>
             </FrameLayout>
 
             <TextView
