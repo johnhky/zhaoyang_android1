@@ -79,8 +79,8 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     private RealmQuery<TextMsg> query;
     private String sendTo;
     private RealmResults<TextMsg> results;
-    private RealmChangeListener listener;
     private KeyboardWatcher keyboardWatcher;
+    private RealmChangeListener<RealmResults<TextMsg>> listener;
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, MedicineStoreActivity.class);
@@ -131,6 +131,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     @Override
     protected void onDestroy() {
         keyboardWatcher.destroy();
+        results.removeChangeListeners();
         super.onDestroy();
     }
 
@@ -161,12 +162,15 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         mChatAdapter.onFinishLoadMore(true);
         binding.refreshLayout.setOnRefreshListener(this);
         binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
-        results.addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
+        listener = new RealmChangeListener<RealmResults<TextMsg>>() {
             @Override
             public void onChange(RealmResults<TextMsg> element) {
+                mChatAdapter.clear();
+                mChatAdapter.addAll(element);
                 mChatAdapter.notifyDataSetChanged();
             }
-        });
+        };
+        results.addChangeListener(listener);
         initCustomAction();
         initSticker();
         initInputLayout();
@@ -266,9 +270,6 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     protected void onStop() {
         if (!getRealm().isClosed()) {
             setReadStatus(results);
-            if (listener != null) {
-                getRealm().removeChangeListener(listener);
-            }
         }
         super.onStop();
     }
