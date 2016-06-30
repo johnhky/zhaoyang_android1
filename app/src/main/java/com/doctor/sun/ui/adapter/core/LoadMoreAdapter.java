@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.doctor.sun.R;
@@ -19,8 +16,9 @@ import io.ganguo.library.core.drawable.MaterialProgressDrawable;
  * Created by rick on 10/23/15.
  */
 public abstract class LoadMoreAdapter<T, VH extends ViewDataBinding> extends BaseAdapter<T, VH> {
-    private LoadingView loadingView;
+//    private LoadingView loadingView;
 
+    private boolean isLoading = false;
     private LoadMoreListener mLoadMoreListener;
     private boolean isLastPage = false;
 
@@ -40,7 +38,7 @@ public abstract class LoadMoreAdapter<T, VH extends ViewDataBinding> extends Bas
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == R.layout.include_loading) {
             IncludeLoadingBinding binding = IncludeLoadingBinding.inflate(getInflater(), parent, false);
-            loadingView = new LoadingView(getContext(), binding);
+//            loadingView = new LoadingView(getContext(), binding);
             return new BaseViewHolder<>(binding);
         } else {
             return super.onCreateViewHolder(parent, viewType);
@@ -51,9 +49,9 @@ public abstract class LoadMoreAdapter<T, VH extends ViewDataBinding> extends Bas
     public final void onBindViewHolder(BaseViewHolder holder, int position) {
         if (holder.getItemViewType() == R.layout.include_loading) {
             if (!isLastPage) {
-                IncludeLoadingBinding binding = (IncludeLoadingBinding) holder.getBinding();
-                binding.imageView.setVisibility(View.VISIBLE);
-                loadingView.start();
+//                IncludeLoadingBinding binding = (IncludeLoadingBinding) holder.getBinding();
+//                binding.imageView.setVisibility(View.VISIBLE);
+//                loadingView.start();
                 loadMore();
             }
         } else {
@@ -81,45 +79,50 @@ public abstract class LoadMoreAdapter<T, VH extends ViewDataBinding> extends Bas
 
     public void hideLoadMore() {
         isLastPage = true;
-        if (loadingView != null) {
-            loadingView.stop();
-            loadingView = null;
-        }
+//        if (loadingView != null) {
+//            loadingView.stop();
+//            loadingView = null;
+//        }
         notifyItemRemoved(getItemCount());
     }
 
     public void onFinishLoadMore(boolean lastPage) {
         isLastPage = lastPage;
-        if (loadingView != null) {
-            loadingView.stop();
-        }
+//        if (loadingView != null) {
+//            loadingView.stop();
+//        }
+        isLoading = false;
         if (mLoadMoreListener != null) {
             mLoadMoreListener.onFinishLoadMore();
         }
     }
 
     public void loadMore() {
-        if (mLoadMoreListener != null) {
-            new Handler(Looper.myLooper()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mLoadMoreListener.onLoadMore();
-                }
-            }, 500);
-        }
-    }
-
-
-    @Override
-    public void onViewDetachedFromWindow(BaseViewHolder<VH> holder) {
-        if (loadingView == null) {
+        if (isLoading) {
             return;
         }
-        if (holder.getItemViewType() == R.layout.include_loading) {
-            loadingView.stop();
+        if (mLoadMoreListener != null) {
+//            new Handler(Looper.myLooper()).postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+            isLoading = true;
+            mLoadMoreListener.onLoadMore();
+//                }
+//            }, 500);
         }
-        super.onViewDetachedFromWindow(holder);
     }
+
+
+//    @Override
+//    public void onViewDetachedFromWindow(BaseViewHolder<VH> holder) {
+//        if (loadingView == null) {
+//            return;
+//        }
+//        if (holder.getItemViewType() == R.layout.include_loading) {
+//            loadingView.stop();
+//        }
+//        super.onViewDetachedFromWindow(holder);
+//    }
 
     private class LoadingView {
         private MaterialProgressDrawable mFooterProgress;

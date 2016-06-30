@@ -37,6 +37,7 @@ public class AfterServiceHistoryActivity extends PageActivity2 {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.histories(getData(), getCallback().getPage()).enqueue(getCallback());
     }
 

@@ -75,6 +75,7 @@ public class ViewForumFragment extends RefreshListFragment {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.questions(orderId, forumType).enqueue(new SimpleCallback<AfterServiceDTO>() {
             @Override
             protected void handleResponse(AfterServiceDTO response) {

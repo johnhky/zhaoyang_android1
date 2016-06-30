@@ -90,7 +90,6 @@ import retrofit2.Call;
  */
 public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.util.PayInterface, NimMsgInfo {
     public static final int RECORD_AUDIO_PERMISSION = 40;
-    public static final int PHONE_CALL_PERMISSION = 50;
     private static AppointmentModule api = Api.of(AppointmentModule.class);
     protected Appointment data;
     private DrugModule drugModule = Api.of(DrugModule.class);

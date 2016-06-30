@@ -2,6 +2,7 @@ package com.doctor.sun.ui.activity;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,8 @@ import com.doctor.sun.databinding.ActivityListBinding;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
+
+import io.ganguo.library.util.Tasks;
 
 /**
  * Created by rick on 20/1/2016.
@@ -63,7 +66,12 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
             @Override
             public void onFinishRefresh() {
                 super.onFinishRefresh();
-                binding.refreshLayout.setRefreshing(false);
+                Tasks.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.refreshLayout.setRefreshing(false);
+                    }
+                },1000);
             }
         };
     }
@@ -73,7 +81,9 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
         return new SimpleAdapter(this);
     }
 
+    @CallSuper
     protected void loadMore() {
+        binding.refreshLayout.setRefreshing(true);
     }
 
 

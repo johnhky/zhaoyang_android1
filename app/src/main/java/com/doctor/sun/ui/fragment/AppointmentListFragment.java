@@ -36,6 +36,7 @@ public class AppointmentListFragment extends RefreshListFragment {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         String orderType = String.valueOf(AppointmentPagerAdapter.STATUS[position]);
         String page = getPageCallback().getPage();
         api.doctorAppointment(page, orderType).enqueue(getPageCallback());

@@ -30,6 +30,7 @@ public class CouponsFragment extends RefreshListFragment {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         if (callback == null) {
             callback = new Callback(getAdapter());
         }

@@ -41,6 +41,7 @@ public class DrugActivity extends PageActivity2 {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.orderList(getCallback().getPage()).enqueue(getCallback());
     }
 }

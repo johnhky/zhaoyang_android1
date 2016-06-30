@@ -32,6 +32,7 @@ public class PAfterServiceActivity extends PageActivity2 {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.patientOrders("", getCallback().getPage()).enqueue(getCallback());
     }
 

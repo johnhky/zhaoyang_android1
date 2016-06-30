@@ -30,6 +30,7 @@ public class ConsultationListActivity extends PageActivity2 {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.consultations(getCallback().getPage()).enqueue(getCallback());
 
         getAdapter().onFinishLoadMore(true);

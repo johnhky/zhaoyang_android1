@@ -45,6 +45,7 @@ public class HistoryActivity extends PageActivity2 {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.histories(Integer.parseInt(getCallback().getPage())).enqueue(getCallback());
     }
 }

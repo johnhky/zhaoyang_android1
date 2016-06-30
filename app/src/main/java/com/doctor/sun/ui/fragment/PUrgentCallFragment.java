@@ -23,6 +23,7 @@ public class PUrgentCallFragment extends RefreshListFragment {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.pUrgentCalls(getPageCallback().getPage()).enqueue(getPageCallback());
     }
 

@@ -38,6 +38,7 @@ public class UrgentListActivity extends PageActivity2 {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.urgentCalls(getCallback().getPage()).enqueue(getCallback());
     }
 

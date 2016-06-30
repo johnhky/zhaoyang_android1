@@ -36,6 +36,7 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.diagnosisInfo(getAppointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
             @Override
             protected void handleResponse(DiagnosisInfo response) {

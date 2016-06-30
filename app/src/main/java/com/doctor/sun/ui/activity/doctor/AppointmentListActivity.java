@@ -36,6 +36,7 @@ public class AppointmentListActivity extends PageActivity2 {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.doctorAppointment(getCallback().getPage(), "1").enqueue(getCallback());
     }
 

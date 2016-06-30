@@ -75,6 +75,7 @@ public class DoctorSugestionFragment extends RefreshListFragment {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.feedback(orderId).enqueue(new SimpleCallback<List<Answer>>() {
             @Override
             protected void handleResponse(List<Answer> response) {

@@ -8,6 +8,7 @@ import android.databinding.DataBindingUtil;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,6 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.ganguo.library.util.Systems;
+import io.ganguo.library.util.Tasks;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 import retrofit2.Response;
@@ -47,7 +49,7 @@ import retrofit2.Response;
 /**
  * Created by rick on 20/1/2016.
  */
-public class SearchDoctorActivity extends GetLocationActivity implements View.OnClickListener {
+public class SearchDoctorActivity extends GetLocationActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     public static final int INTERVAL = 1000;
 
@@ -68,17 +70,19 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     private PageCallback<Doctor> callback;
 
     private boolean sortByPoint = true;
-    private boolean isFirstTime = true;
 
     private CityPickerDialog cityPickerDialog;
     private Location location;
+    private List<Doctor> favoriteDoctorList;
 
-    public static Intent makeIntent(Context context, int type) {
+    public static Intent makeIntent(Context context, @AppointmentType int type) {
         Intent i = new Intent(context, SearchDoctorActivity.class);
         i.putExtra(Constants.DATA, type);
         return i;
     }
 
+
+    @AppointmentType
     public int getType() {
         return getIntent().getIntExtra(Constants.DATA, -1);
     }
@@ -90,7 +94,13 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
         initHeader();
         initAdapter();
         initRecyclerView();
+        initRefreshLayout();
         initFilter();
+    }
+
+    private void initRefreshLayout() {
+        binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
+        binding.refreshLayout.setOnRefreshListener(this);
     }
 
     private void initHeader() {
@@ -153,11 +163,24 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
 
     private void initAdapter() {
         adapter = new SearchDoctorAdapter(this, getType());
-        callback = new PageCallback<Doctor>(adapter);
+        callback = new PageCallback<Doctor>(adapter) {
+
+            @Override
+            public void onFinishRefresh() {
+                super.onFinishRefresh();
+                Tasks.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.refreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        };
         adapter.mapLayout(R.layout.item_doctor, R.layout.item_search_doctor);
         adapter.setLoadMoreListener(new LoadMoreListener() {
             @Override
             protected void onLoadMore() {
+                binding.refreshLayout.setRefreshing(true);
                 loadMore();
             }
         });
@@ -165,7 +188,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     }
 
     private void loadMore() {
-        if (isFirstTime && getType() == AppointmentType.QUICK) {
+        if (getType() == AppointmentType.QUICK) {
             loadKnowDoctor();
         } else {
             api.doctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);
@@ -177,8 +200,14 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
             @Override
             public void run() {
                 try {
+                    binding.refreshLayout.setRefreshing(true);
                     final Response<ApiDTO<List<Doctor>>> recentDoctors = api.recentDoctors(callback.getPage(), getQueryParam(), getTitleParam()).execute();
-                    final Response<ApiDTO<PageDTO<Doctor>>> favoriteDoctors = api.favoriteDoctors().execute();
+                    final Response<ApiDTO<PageDTO<Doctor>>> favoriteDoctors;
+                    if (callback.getPage().equals("1")) {
+                        favoriteDoctors = api.favoriteDoctors().execute();
+                    } else {
+                        favoriteDoctors = null;
+                    }
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -188,16 +217,15 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
                                     adapter.addAll(recentDoctors.body().getData());
                                 }
                             }
-                            if (favoriteDoctors.isSuccessful()) {
-                                List<Doctor> data = favoriteDoctors.body().getData().getData();
-                                if (!data.isEmpty()) {
+                            if (favoriteDoctors != null && favoriteDoctors.isSuccessful()) {
+                                favoriteDoctorList = favoriteDoctors.body().getData().getData();
+                                if (!favoriteDoctorList.isEmpty()) {
                                     adapter.add(new Description(R.layout.item_time_category, "我的收藏"));
-                                    adapter.addAll(data);
+                                    adapter.addAll(favoriteDoctorList);
                                 }
                             }
-                            adapter.onFinishLoadMore(true);
+                            binding.refreshLayout.setRefreshing(false);
                             adapter.notifyDataSetChanged();
-                            isFirstTime = false;
                         }
                     });
                 } catch (IOException e) {
@@ -438,5 +466,13 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     @Override
     protected void updateLocation(Location location) {
         this.location = location;
+    }
+
+    @Override
+    public void onRefresh() {
+        callback.setPage(1);
+        adapter.clear();
+        adapter.notifyDataSetChanged();
+        loadMore();
     }
 }

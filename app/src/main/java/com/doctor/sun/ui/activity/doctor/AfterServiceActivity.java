@@ -30,6 +30,7 @@ public class AfterServiceActivity extends PageActivity2 {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.doctorOrders("", getCallback().getPage()).enqueue(getCallback());
     }
 

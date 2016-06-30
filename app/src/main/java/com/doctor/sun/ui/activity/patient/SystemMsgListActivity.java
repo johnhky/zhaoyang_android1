@@ -59,6 +59,7 @@ public class SystemMsgListActivity extends PageActivity2 {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.systemMsg(getCallback().getPage()).enqueue(getCallback());
     }
 

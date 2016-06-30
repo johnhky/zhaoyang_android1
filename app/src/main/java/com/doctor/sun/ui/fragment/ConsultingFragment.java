@@ -117,6 +117,7 @@ public class ConsultingFragment extends RefreshListFragment {
     @SuppressWarnings("unchecked")
     @Override
     protected void loadMore() {
+        super.loadMore();
         int userType = Config.getInt(Constants.USER_TYPE, -1);
         if (headers == null) {
             initHeader(userType);
@@ -336,7 +337,12 @@ public class ConsultingFragment extends RefreshListFragment {
         @Override
         public void onFinishRefresh() {
             super.onFinishRefresh();
-            binding.swipeRefresh.setRefreshing(false);
+            Tasks.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    binding.swipeRefresh.setRefreshing(false);
+                }
+            }, 500);
         }
     }
 

@@ -34,9 +34,10 @@ public class ListCallback<T> extends ApiCallback<List<T>> {
             return;
         }
         onInitHeader();
+        int originSize = getAdapter().size();
         getAdapter().addAll(response);
         getAdapter().onFinishLoadMore(true);
-        getAdapter().notifyDataSetChanged();
+        getAdapter().notifyItemRangeInserted(originSize, response.size());
         onFinishRefresh();
     }
 

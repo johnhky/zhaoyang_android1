@@ -24,6 +24,7 @@ public class AfterServiceFragment extends RefreshListFragment<AfterService> {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.patientOrders("", getPageCallback().getPage()).enqueue(getPageCallback());
     }
 }

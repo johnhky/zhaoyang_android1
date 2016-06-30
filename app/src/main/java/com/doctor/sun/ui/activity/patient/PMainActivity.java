@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -34,11 +35,13 @@ import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.UpdateUtil;
 import com.squareup.otto.Subscribe;
 
+import io.ganguo.library.util.Tasks;
+
 
 /**
  * Created by rick on 10/23/15.
  */
-public class PMainActivity extends BaseActivity2 {
+public class PMainActivity extends BaseActivity2 implements SwipeRefreshLayout.OnRefreshListener {
 
     private PActivityMainBinding binding;
     private SimpleAdapter mAdapter;
@@ -63,7 +66,18 @@ public class PMainActivity extends BaseActivity2 {
         final LinearLayoutManager layout = new LinearLayoutManager(this);
         binding.recyclerView.setLayoutManager(layout);
         mAdapter = createAdapter();
-        callback = new ListCallback<Doctor>(mAdapter);
+        callback = new ListCallback<Doctor>(mAdapter) {
+            @Override
+            public void onFinishRefresh() {
+                super.onFinishRefresh();
+                Tasks.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.refreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        };
         binding.recyclerView.setAdapter(mAdapter);
 
         mAdapter.setLoadMoreListener(new LoadMoreListener() {
@@ -91,6 +105,8 @@ public class PMainActivity extends BaseActivity2 {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+        binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
+        binding.refreshLayout.setOnRefreshListener(this);
     }
 
     private FooterViewModel getFooter() {
@@ -107,6 +123,8 @@ public class PMainActivity extends BaseActivity2 {
     }
 
     protected void loadMore() {
+        binding.refreshLayout.setRefreshing(true);
+        mAdapter.clear();
         mAdapter.add(new MainActivityHandler(this));
         mAdapter.add(new LayoutId() {
             @Override
@@ -154,5 +172,10 @@ public class PMainActivity extends BaseActivity2 {
                 finish();
             }
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        binding.refreshLayout.setRefreshing(false);
     }
 }

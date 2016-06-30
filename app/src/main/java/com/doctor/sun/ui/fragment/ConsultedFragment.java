@@ -91,6 +91,7 @@ public class ConsultedFragment extends RefreshListFragment {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         callback = new PageCallback<Appointment>(getAdapter()) {
             @Override
             public void onFinishRefresh() {

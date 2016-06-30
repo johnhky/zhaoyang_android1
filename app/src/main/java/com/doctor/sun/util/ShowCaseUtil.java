@@ -100,7 +100,11 @@ public class ShowCaseUtil {
             }
             MaterialShowcaseView.Builder builder1 = builders.get(0);
             if (builder1 != null) {
-                builder1.show();
+                try {
+                    builder1.show();
+                } catch (Exception e) {
+
+                }
             }
         }
     }

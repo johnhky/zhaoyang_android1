@@ -45,6 +45,7 @@ public class PAppointmentListFragment extends RefreshListFragment {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.patientAppointment(getPageCallback().getPage()).enqueue(getPageCallback());
     }
 

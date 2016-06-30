@@ -1,8 +1,10 @@
 package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 
+import io.ganguo.library.util.Tasks;
 import io.realm.Realm;
 
 /**
@@ -78,7 +81,12 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
                 @Override
                 public void onFinishRefresh() {
                     super.onFinishRefresh();
-                    binding.swipeRefresh.setRefreshing(false);
+                    Tasks.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.swipeRefresh.setRefreshing(false);
+                        }
+                    }, 1000);
                 }
             };
         }
@@ -93,8 +101,9 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
         return new SimpleAdapter(getContext());
     }
 
+    @CallSuper
     protected void loadMore() {
-
+        binding.swipeRefresh.setRefreshing(true);
     }
 
     public SimpleAdapter getAdapter() {

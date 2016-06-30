@@ -106,9 +106,8 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.activity.LoginActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.LoginActivity" />
+        <!--android:screenOrientation="portrait" />-->
 
 
         <activity

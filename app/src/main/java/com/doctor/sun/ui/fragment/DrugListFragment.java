@@ -28,6 +28,7 @@ public class DrugListFragment extends RefreshListFragment {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         api.orderList(getPageCallback().getPage()).enqueue(getPageCallback());
     }
 }
