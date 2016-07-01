@@ -89,7 +89,7 @@ public class ShowCaseUtil {
                         }
                         final MaterialShowcaseView.Builder nextBuilder = builders.get(nextPosition);
                         if (nextBuilder != null) {
-                            nextBuilder.show();
+                           show(nextBuilder);
                         } else {
                             builders.clear();
                             buildersMap.remove(id);
@@ -98,14 +98,18 @@ public class ShowCaseUtil {
                     }
                 });
             }
-            MaterialShowcaseView.Builder builder1 = builders.get(0);
-            if (builder1 != null) {
-                try {
-                    builder1.show();
-                } catch (Exception e) {
-
-                }
+            MaterialShowcaseView.Builder firstBuilder = builders.get(0);
+            if (firstBuilder != null) {
+                show(firstBuilder);
             }
+        }
+    }
+
+    public static void show(MaterialShowcaseView.Builder builder1) {
+        try {
+            builder1.show();
+        } catch (Exception e) {
+
         }
     }
 

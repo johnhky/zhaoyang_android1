@@ -77,6 +77,7 @@ public class SelectRecordDialog extends BaseDialog {
                 mAdapter.onFinishLoadMore(true);
                 mAdapter.add(new NewRecordHandler(getOwnerActivity(), SelectRecordDialog.this));
                 mAdapter.add(new CancelHandler(getOwnerActivity(), SelectRecordDialog.this));
+                mAdapter.notifyDataSetChanged();
             }
         });
     }

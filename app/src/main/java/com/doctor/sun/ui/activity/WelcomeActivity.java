@@ -5,17 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.doctor.sun.R;
-import com.doctor.sun.bean.MobEventId;
 import com.doctor.sun.databinding.ActivityWelcomeBinding;
-import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.http.Api;
-import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.util.JacksonUtils;
-import com.umeng.analytics.MobclickAgent;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by rick on 16/2/2016.

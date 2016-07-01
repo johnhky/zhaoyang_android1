@@ -30,16 +30,16 @@ public class PayMethodDialog extends ListDialog {
     @Override
     protected void initRecyclerView() {
         super.initRecyclerView();
-        ViewGroup.LayoutParams layoutParams = getBinding().recyclerView.getLayoutParams();
-        int itemHeight = getContext().getResources().getDimensionPixelSize(R.dimen.dp_59);
-        layoutParams.width = getContext().getResources().getDimensionPixelSize(R.dimen.dp_240);
-        if (BuildConfig.DEV_MODE) {
-            layoutParams.height = itemHeight * 4;
-        } else {
-            layoutParams.height = itemHeight * 3;
-        }
-
-        getBinding().recyclerView.setLayoutParams(layoutParams);
+//        ViewGroup.LayoutParams layoutParams = getBinding().recyclerView.getLayoutParams();
+//        int itemHeight = getContext().getResources().getDimensionPixelSize(R.dimen.dp_59);
+//        layoutParams.width = getContext().getResources().getDimensionPixelSize(R.dimen.dp_240);
+//        if (BuildConfig.DEV_MODE) {
+//            layoutParams.height = itemHeight * 4;
+//        } else {
+//            layoutParams.height = itemHeight * 3;
+//        }
+//
+//        getBinding().recyclerView.setLayoutParams(layoutParams);
     }
 
     @Override
@@ -51,7 +51,9 @@ public class PayMethodDialog extends ListDialog {
                 loadMore();
             }
         });
+        adapter.onFinishLoadMore(true);
         setAdapter(adapter);
+        loadMore();
     }
 
     @Override
@@ -82,7 +84,6 @@ public class PayMethodDialog extends ListDialog {
         }
 
         getAdapter().add(new CancelHandler(getOwnerActivity(), this));
-        getAdapter().onFinishLoadMore(true);
         getAdapter().notifyDataSetChanged();
     }
 
