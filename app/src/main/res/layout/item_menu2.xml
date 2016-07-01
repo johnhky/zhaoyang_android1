@@ -14,35 +14,38 @@
     <FrameLayout
         android:layout_width="@dimen/dp_90"
         android:layout_height="@dimen/dp_90"
-        android:onClick="@{data.itemClick}">
+        android:onClick="@{data.itemClick}"
+        android:orientation="vertical">
 
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <FrameLayout
+            android:layout_width="@dimen/dp_55"
+            android:layout_height="@dimen/dp_55"
             android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:background="@drawable/ripple_white_rect"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="top"
+                android:layout_gravity="center"
                 android:textColor="@color/dark_36"
                 android:textSize="@dimen/font_15"
                 bind:drawableLeft="@{data.icon}"
-                tool:drawableLeft="@drawable/nim_message_plus_video_selector" />
+                tool:drawableLeft="@drawable/nim_message_plus_video_selector2" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@{data.title}"
-                android:textColor="@color/dark_36"
-                android:textSize="@dimen/font_13"
-                tool:text="标题" />
+        </FrameLayout>
 
-        </LinearLayout>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/dp_2"
+            android:text="@{data.title}"
+            android:textColor="#6d93ac"
+            android:textSize="@dimen/font_15"
+            tool:text="有四个字" />
 
     </FrameLayout>
 </layout>
