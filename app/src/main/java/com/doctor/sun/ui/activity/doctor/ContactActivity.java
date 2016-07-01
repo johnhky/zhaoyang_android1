@@ -118,7 +118,7 @@ public class ContactActivity extends BaseActivity2 {
                         if (allData != null) {
                             mAdapter.clear();
                             mAdapter.addAll(allData);
-                            Collections.sort(getAdapter(),new NameComparator());
+                            Collections.sort(getAdapter(), new NameComparator());
                             mAdapter.notifyDataSetChanged();
                         }
                     } else {
@@ -195,7 +195,7 @@ public class ContactActivity extends BaseActivity2 {
         switch (getRequestCode()) {
             case Constants.DOCTOR_REQUEST_CODE: {
                 getAdapter().onFinishLoadMore(true);
-                getAdapter().notifyDataSetChanged();
+//                getAdapter().notifyDataSetChanged();
                 break;
             }
             case PATIENTS_CONTACT: {

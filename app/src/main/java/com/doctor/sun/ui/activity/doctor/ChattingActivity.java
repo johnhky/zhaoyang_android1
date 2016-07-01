@@ -1,5 +1,8 @@
 package com.doctor.sun.ui.activity.doctor;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -8,6 +11,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
@@ -42,6 +50,7 @@ import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.FileChooser;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PermissionUtil;
+import com.doctor.sun.vo.ClickMenu;
 import com.doctor.sun.vo.CustomActionViewModel;
 import com.doctor.sun.vo.InputLayoutViewModel;
 import com.doctor.sun.vo.ItemDivider;
@@ -133,7 +142,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
                     }
                     if (mAdapter != null) {
                         mAdapter.clear();
-                        mAdapter.add(new ItemDivider(R.layout.divider_dp13));
+                        addExtraItems();
                         mAdapter.addAll(element);
                         mAdapter.notifyDataSetChanged();
                         if (isLoadMore) {
@@ -147,8 +156,12 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         }
     }
 
+    public void addExtraItems() {
+        mAdapter.add(new ItemDivider(R.layout.divider_dp13));
+    }
 
     private void needSendDrug() {
+        //TODO:
         if (getData().getAppointmentType() == AppointmentType.AFTER_SERVICE) {
             return;
         }
@@ -217,7 +230,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
 //        setHaveRead(results);
 
-        mAdapter.add(new ItemDivider(R.layout.divider_dp13));
+        addExtraItems();
         mAdapter.addAll(results);
         mAdapter.onFinishLoadMore(true);
         initCustomAction(data);

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vo.BaseMenu" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100">
+
+
+        <ImageView
+            android:layout_width="@dimen/dp_142"
+            android:layout_height="@dimen/dp_100"
+            android:layout_gravity="center_horizontal|bottom"
+            android:onClick="@{data.itemClick()}"
+            android:translationY="@dimen/dp_20"/>
+
+
+    </FrameLayout>
+</layout>
