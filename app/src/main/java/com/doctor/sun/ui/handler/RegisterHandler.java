@@ -2,7 +2,6 @@ package com.doctor.sun.ui.handler;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
@@ -20,6 +19,7 @@ import com.doctor.sun.http.callback.DoNothingCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
+import com.doctor.sun.ui.activity.WebBrowserActivity;
 import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
 import com.doctor.sun.ui.activity.patient.PMainActivity;
 import com.doctor.sun.util.MD5;
@@ -179,7 +179,7 @@ public class RegisterHandler extends BaseHandler {
 
     public void viewRegistrationPolicy() {
         String url = BuildConfig.BASE_URL + "readme/registration-policy";
-        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        Intent i = WebBrowserActivity.intentFor(getContext(), url);
         getContext().startActivity(i);
     }
 

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
+import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
@@ -433,7 +434,9 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             Intent intent = ChattingActivity.makeIntent(context, data);
             context.startActivity(intent);
         } else {
-            Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+            if (BuildConfig.DEV_MODE) {
+                Toast.makeText(context, "云信群id为0", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -445,7 +448,9 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             }
             adapter.getContext().startActivity(intent);
         } else {
-            Toast.makeText(adapter.getContext(), "", Toast.LENGTH_SHORT).show();
+            if (BuildConfig.DEV_MODE) {
+                Toast.makeText(adapter.getContext(), "云信群id为0", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -454,7 +459,9 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             Intent intent = ChattingActivityNoMenu.makeIntent(context, data);
             context.startActivity(intent);
         } else {
-            Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+            if (BuildConfig.DEV_MODE) {
+                Toast.makeText(context, "云信群id为0", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -645,8 +652,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             }
             case Status.A_DOING:
             case Status.A_WAITING: {
-                Intent intent = ChattingActivity.makeIntent(adapter.getContext(), data);
-                adapter.getContext().startActivity(intent);
+                chat(adapter.getContext(), data);
                 break;
             }
             default: {
@@ -663,23 +669,14 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 break;
             }
             case Status.A_FINISHED: {
-                Intent chat = ChattingActivity.makeIntent(adapter.getContext(), data);
-                adapter.getContext().startActivity(chat);
+                chat(adapter, vh);
                 Intent intent = HistoryDetailActivity.makeIntent(adapter.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
                 adapter.getContext().startActivity(intent);
                 break;
             }
             case Status.A_DOING:
             case Status.A_WAITING: {
-                Intent intent = ChattingActivity.makeIntent(adapter.getContext(), data);
-                intent.putExtra(Constants.HANDLER, new Messenger(new Handler(new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(Message msg) {
-                        adapter.notifyItemChanged(vh.getAdapterPosition());
-                        return false;
-                    }
-                })));
-                adapter.getContext().startActivity(intent);
+                chat(adapter, vh);
                 break;
             }
             default: {

@@ -447,6 +447,10 @@
             android:name=".ui.activity.patient.MyQrCodeActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.activity.WebBrowserActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name="com.yuntongxun.ecsdk.ECClientService"
             android:enabled="true" />
