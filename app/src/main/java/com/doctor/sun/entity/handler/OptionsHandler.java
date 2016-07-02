@@ -3,7 +3,6 @@ package com.doctor.sun.entity.handler;
 import android.databinding.adapters.TextViewBindingAdapter;
 import android.text.Editable;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.entity.Answer;
@@ -12,7 +11,6 @@ import com.doctor.sun.entity.Question;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -174,58 +172,68 @@ public class OptionsHandler {
 
                 switch (answer.getQuestion().getQuestionType()) {
                     case Question.TYPE_RADIO: {
-                        selectedOptions.clear();
-                        if (isFill(options.getOptionContent())) {
-                            selectedOptions.put(options.getOptionType(), options.getOptionInput());
-                        } else {
-                            selectedOptions.put(options.getOptionType(), options.getOptionContent());
-                        }
-                        adapter.set(parentPosition, answer);
-                        adapter.notifyItemRangeChanged(parentPosition + padding, optionsList.size());
+                        selectThisClearOthers(options, selectedOptions);
+                        notifyDataSetChange(parentPosition, answer, adapter);
                         break;
                     }
                     case Question.TYPE_SEL:
                     case Question.TYPE_CHECKBOX: {
-                        String clearOption = answer.getQuestion().getClearOption();
-                        if (clearOption.equals(options.getOptionType())) {
-                            //选择了清除选项
-                            selectedOptions.clear();
-                            if (isFill(options.getOptionContent())) {
-                                selectedOptions.put(options.getOptionType(), options.getOptionInput());
-                            } else {
-                                selectedOptions.put(options.getOptionType(), options.getOptionContent());
-                            }
-                            adapter.set(parentPosition, answer);
-                            adapter.notifyItemRangeChanged(parentPosition + padding, optionsList.size());
-
-                        } else {
-                            //一般的checkbox
-                            String s = selectedOptions.get(options.getOptionType());
-
-                            if (s == null) {
-                                if (isFill(options.getOptionContent())) {
-                                    selectedOptions.put(options.getOptionType(), options.getOptionInput());
-                                } else {
-                                    selectedOptions.put(options.getOptionType(), options.getOptionContent());
-                                }
-                            } else {
-                                selectedOptions.remove(options.getOptionType());
-                            }
-                            selectedOptions.remove(clearOption);
-                            answer.setAnswerContent(selectedOptions.values());
-                            answer.setAnswerType(selectedOptions.keySet());
-                            adapter.set(parentPosition, answer);
-                            if (selectedOptions.isEmpty()) {
-                                padding = 0;
-                                answer.setIsFill(1);
-                            }
-                            adapter.notifyItemRangeChanged(parentPosition + padding, optionsList.size());
-                        }
+                        handleCheckBox(options, parentPosition, answer, selectedOptions, adapter);
                         break;
                     }
                 }
             }
         };
+    }
+
+    public void handleCheckBox(Options options, int parentPosition, Answer answer, HashMap<String, String> selectedOptions, BaseAdapter adapter) {
+        int padding;
+        String clearOption = answer.getQuestion().getClearOption();
+        if (clearOption.equals(options.getOptionType())) {
+            //选择了清除选项
+            selectThisClearOthers(options, selectedOptions);
+            notifyDataSetChange(parentPosition, answer, adapter);
+
+        } else {
+            //一般的checkbox
+            toggleSelection(options, answer, selectedOptions, clearOption);
+            if (selectedOptions.isEmpty()) {
+                padding = 0;
+                answer.setIsFill(1);
+            }
+            notifyDataSetChange(parentPosition, answer, adapter);
+        }
+    }
+
+    public void toggleSelection(Options options, Answer answer, HashMap<String, String> selectedOptions, String clearOption) {
+        String s = selectedOptions.get(options.getOptionType());
+
+        if (s == null) {
+            if (isFill(options.getOptionContent())) {
+                selectedOptions.put(options.getOptionType(), options.getOptionInput());
+            } else {
+                selectedOptions.put(options.getOptionType(), options.getOptionContent());
+            }
+        } else {
+            selectedOptions.remove(options.getOptionType());
+        }
+        selectedOptions.remove(clearOption);
+        answer.setAnswerContent(selectedOptions.values());
+        answer.setAnswerType(selectedOptions.keySet());
+    }
+
+    public void notifyDataSetChange(int parentPosition, Answer answer, BaseAdapter adapter) {
+        adapter.set(parentPosition, answer);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void selectThisClearOthers(Options options, HashMap<String, String> selectedOptions) {
+        selectedOptions.clear();
+        if (isFill(options.getOptionContent())) {
+            selectedOptions.put(options.getOptionType(), options.getOptionInput());
+        } else {
+            selectedOptions.put(options.getOptionType(), options.getOptionContent());
+        }
     }
 
     public boolean isSelected(final BaseAdapter adapter, final BaseViewHolder viewHolder) {

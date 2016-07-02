@@ -19,6 +19,7 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.Reminder;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -84,7 +85,7 @@ public class EditForumFragment extends RefreshListFragment {
     @NonNull
     @Override
     public SimpleAdapter createAdapter() {
-        adapter = new AnswerModifyAdapter(getContext());
+        adapter = new AnswerModifyAdapter(getContext(), AppointmentType.AFTER_SERVICE);
         if (getForumType().equals(AfterService.TYPE.DOCTOR)) {
             adapter.mapLayout(R.layout.item_after_service, R.layout.item_after_service_detail);
         } else {

@@ -22,6 +22,7 @@ import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.QuestionCategory;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.ListCallback;
@@ -82,7 +83,7 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appointmentId = getData();
-        modifyAdapter = new AnswerModifyAdapter(getContext());
+        modifyAdapter = new AnswerModifyAdapter(getContext(), AppointmentType.DETAIL);
     }
 
     @Override

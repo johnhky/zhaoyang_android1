@@ -19,6 +19,7 @@ import com.doctor.sun.databinding.ItemPrescriptionBinding;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Question;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.ui.activity.ImagePreviewActivity;
 import com.doctor.sun.ui.activity.ItemSelectHospital;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -27,6 +28,7 @@ import com.doctor.sun.ui.widget.FlowLayout;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.util.OptionsUtil;
 import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemPickDate;
 import com.doctor.sun.vo.ItemReminderList;
@@ -52,6 +54,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
     //记录当前需要添加药品或者上传图片的position, 方便回调
     private int needPillsOrImages = -1;
     private boolean isEditMode = true;
+    public int type = -1;
 
     public AnswerModifyAdapter(Context context, boolean isEditMode) {
         super(context);
@@ -61,9 +64,10 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
         this.isEditMode = isEditMode;
     }
 
-    public AnswerModifyAdapter(Context context) {
+    public AnswerModifyAdapter(Context context, @AppointmentType int type) {
         super(context);
-        mActivity = context;
+        this.type = type;
+        this.mActivity = context;
 //        mapLayout(R.layout.item_answer,R.layout.item_answer2);
         setUpMapKey();
     }
@@ -360,20 +364,29 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             if (getItemViewType(i) == R.layout.item_answer) {
                 Object addOn = saveAnswer(i);
                 if (addOn != null) {
-                    answerList.put(((Answer) get(i)).getQuestionId() + "", addOn);
+                    int questionId = ((Answer) get(i)).getQuestionId();
+                    if (isQuestionEnable(questionId)) {
+                        answerList.put(questionId + "", addOn);
+                    }
                 }
             }
             if (getItemViewType(i) == R.layout.item_further_consultation) {
                 Object addOn = saveFurtherConsultation(i);
                 if (addOn != null) {
-                    answerList.put(((FurtherConsultationVM) get(i)).getQuestionId() + "", addOn);
+                    int questionId = Integer.parseInt(((FurtherConsultationVM) get(i)).getQuestionId());
+                    if (isQuestionEnable(questionId)) {
+                        answerList.put(questionId + "", addOn);
+                    }
                 }
             }
             if (getItemViewType(i) == R.layout.item_reminder_list) {
                 ItemReminderList list = (ItemReminderList) get(i);
                 Object addOn = list.toJsonAnswer();
                 if (addOn != null) {
-                    answerList.put(list.getQuestionId() + "", addOn);
+                    int questionId = list.getQuestionId();
+                    if (isQuestionEnable(questionId)) {
+                        answerList.put(questionId + "", addOn);
+                    }
                 }
             }
         }
@@ -383,6 +396,10 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             ToastHelper.showMessage(getContext(), "请填写答案");
             return null;
         }
+    }
+
+    public boolean isQuestionEnable(int questionId) {
+        return type != AppointmentType.AFTER_SERVICE || OptionsUtil.isQuestionEnable(this, questionId);
     }
 
     /**
