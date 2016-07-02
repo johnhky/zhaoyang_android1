@@ -1,16 +1,18 @@
 package com.doctor.sun.ui.adapter;
 
 import android.content.Context;
+import android.databinding.ViewDataBinding;
 import android.util.SparseBooleanArray;
 import android.view.View;
 
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 
 /**
  * Created by rick on 16/3/2016.
  */
-public class MultiSelectAdapter extends SimpleAdapter {
+public class MultiSelectAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     private final OnSelectionChange listener;
     private SparseBooleanArray selectedState = new SparseBooleanArray();
 

@@ -93,11 +93,11 @@
                         android:background="@drawable/ripple_default"
                         android:drawableRight="@drawable/ic_enter"
                         android:gravity="center_vertical"
-                        android:onClick="@{time.pickTime}"
+                        android:onClick="@{()->time.pickTime(context)}"
                         android:text='@{time.birthMonth}'
-                        tool:text="2015-11"
                         android:textColor="@color/color_tick"
-                        android:textSize="@dimen/font_15" />
+                        android:textSize="@dimen/font_15"
+                        tool:text="2015-11" />
 
                 </LinearLayout>
 

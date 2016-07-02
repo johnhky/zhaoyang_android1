@@ -14,6 +14,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import io.ganguo.library.util.Tasks;
+
 /**
  * Created by rick on 12/22/15.
  */
@@ -101,22 +103,17 @@ public class ItemPickDate extends BaseItem {
     }
 
 
-    public View.OnClickListener pickTime() {
-        return new View.OnClickListener() {
+    public void pickTime(Context context) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(context, setBeginDate, year, monthOfYear, dayOfMonth);
+        final DatePicker datePicker = datePickerDialog.getDatePicker();
+        datePickerDialog.show();
+        Tasks.runOnUiThread(new Runnable() {
             @Override
-            public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(v.getContext(), setBeginDate, year, monthOfYear, dayOfMonth);
-                final DatePicker datePicker = datePickerDialog.getDatePicker();
-                datePickerDialog.show();
-                v.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        datePicker.setMaxDate(System.currentTimeMillis());
-                        datePicker.setMinDate(System.currentTimeMillis() - ONE_HUNDRED_YEAR);
-                    }
-                });
+            public void run() {
+                datePicker.setMaxDate(System.currentTimeMillis());
+                datePicker.setMinDate(System.currentTimeMillis() - ONE_HUNDRED_YEAR);
             }
-        };
+        });
     }
 
     public View.OnClickListener pickFutureTime(final int dayRangeFromNow) {

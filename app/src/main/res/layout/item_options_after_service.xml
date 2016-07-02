@@ -14,6 +14,8 @@
         <variable
             name="adapter"
             type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
+
+        <import type="com.doctor.sun.util.OptionsUtil" />
     </data>
 
     <LinearLayout
@@ -31,6 +33,7 @@
             android:layout_marginTop="@dimen/dp_6"
             android:button="@drawable/ic_options"
             android:checked="@{data.handler.isSelected(adapter,vh)}"
+            android:enabled="@{OptionsUtil.isEnable(adapter,vh)}"
             android:onClick="@{data.handler.select(adapter,vh)}"
             android:paddingLeft="@dimen/dp_14"
             android:paddingStart="@dimen/dp_14"
@@ -48,6 +51,7 @@
             android:afterTextChanged="@{data.handler.isFill(data.optionContent)?data.handler.contentChanged(adapter,vh):null}"
             android:background="@drawable/bg_options"
             android:button="@drawable/ic_options"
+            android:enabled="@{tvOption.enabled}"
             android:hint="@{data.handler.hintV2(data)}"
             android:inputType="@{data.handler.inputTypeV2(data)}"
             android:paddingBottom="@dimen/dp_4"
@@ -56,10 +60,11 @@
             android:paddingRight="@dimen/dp_8"
             android:paddingStart="@dimen/dp_8"
             android:paddingTop="@dimen/dp_4"
-            android:selected="@{adapter.isSelected(vh)}"
+            android:selected="@{tvOption.checked}"
             android:singleLine="false"
             android:text="@{data.handler.optionInput(adapter,vh)}"
             android:textColor="@color/primary_color_selector"
+            android:textColorHint="@color/primary_color_selector"
             android:textSize="@dimen/font_15"
             android:visibility="@{data.handler.isFill(data.optionContent)}" />
 
@@ -70,7 +75,8 @@
             android:layout_marginBottom="@dimen/dp_6"
             android:layout_marginTop="@dimen/dp_6"
             android:button="@drawable/ic_options"
-            android:selected="@{adapter.isSelected(vh)}"
+            android:enabled="@{tvOption.enabled}"
+            android:selected="@{tvOption.checked}"
             android:singleLine="false"
             android:text='@{data.handler.remainingContent(data)}'
             android:textColor="@color/primary_color_selector"
