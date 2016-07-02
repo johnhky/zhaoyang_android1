@@ -15,8 +15,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_72"
-        android:orientation="horizontal"
-        >
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="@dimen/dp_100"
@@ -40,7 +41,7 @@
             android:layout_marginStart="@dimen/dp_13"
             android:background="@drawable/ripple_default">
 
-            <AutoCompleteTextView
+            <com.doctor.sun.ui.widget.AlwaysFilterTextView
                 android:id="@+id/et_input"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
