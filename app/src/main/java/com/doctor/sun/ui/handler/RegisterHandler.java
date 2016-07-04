@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.MobEventId;
@@ -179,6 +180,9 @@ public class RegisterHandler extends BaseHandler {
 
     public void viewRegistrationPolicy() {
         String url = BuildConfig.BASE_URL + "readme/registration-policy";
+        if (AppContext.isDoctor()) {
+            url += "?client=doctor";
+        }
         Intent i = WebBrowserActivity.intentFor(getContext(), url);
         getContext().startActivity(i);
     }

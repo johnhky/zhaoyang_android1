@@ -14,11 +14,11 @@ public class BaseFragment extends Fragment {
 
 
     public void onResume() {
+        MobclickAgent.onPageStart(TAG); //统计页面，"MainScreen"为页面名称，可自定义
         super.onResume();
         if (BuildConfig.DEV_MODE) {
             Log.e(TAG, "onResume: " + TAG);
         }
-        MobclickAgent.onPageStart(TAG); //统计页面，"MainScreen"为页面名称，可自定义
     }
 
     public void onPause() {

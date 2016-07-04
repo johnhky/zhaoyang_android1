@@ -53,6 +53,7 @@ public class WaitingSuggestionFragment extends RefreshListFragment {
     protected void loadMore() {
         super.loadMore();
         getAdapter().onFinishLoadMore(true);
+        getAdapter().clear();
         ItemDivider divider = new ItemDivider(R.layout.item_divider2, "待医生诊断");
         getAdapter().add(divider);
         Tasks.runOnUiThread(new Runnable() {
