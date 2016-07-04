@@ -49,7 +49,7 @@ public class CustomActionViewModel {
         adapter.add(cameraMenu());
         adapter.add(videoChatMenu());
         adapter.add(chooseFileMenu());
-        adapter.add(extendTimeMenu());
+//        adapter.add(extendTimeMenu());
 
         adapter.onFinishLoadMore(true);
         return adapter;

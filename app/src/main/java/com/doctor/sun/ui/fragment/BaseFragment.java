@@ -1,7 +1,9 @@
 package com.doctor.sun.ui.fragment;
 
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
+import com.doctor.sun.BuildConfig;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -13,6 +15,9 @@ public class BaseFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
+        if (BuildConfig.DEV_MODE) {
+            Log.e(TAG, "onResume: " + TAG);
+        }
         MobclickAgent.onPageStart(TAG); //统计页面，"MainScreen"为页面名称，可自定义
     }
 

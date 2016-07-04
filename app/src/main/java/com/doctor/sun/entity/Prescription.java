@@ -180,9 +180,13 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
     @JsonIgnore
     public String getLabel() {
         StringBuilder builder = new StringBuilder();
-        builder.append(mediaclName).
-                append("(").append(productName).append(")/")
-                .append(interval).append("/");
+        builder.append(mediaclName);
+        if (productName != null && !productName.isEmpty()) {
+            builder.append("(").append(productName).append(")/");
+        } else {
+            builder.append("/");
+        }
+        builder.append(interval).append("/");
 
         for (int i = 0; i < numbers.size(); i++) {
             String amount = numbers.get(i).get(keys.get(i));
@@ -201,7 +205,7 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         if (productName != null && !productName.equals("")) {
             s += "(" + productName + ")";
         } else {
-            s += "()";
+            s += "";
         }
         return s;
     }

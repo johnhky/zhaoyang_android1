@@ -5,8 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.doctor.sun.entity.AfterService;
-import com.doctor.sun.ui.fragment.DoctorSugestionFragment;
-import com.doctor.sun.ui.fragment.EditForumFragment;
+import com.doctor.sun.ui.fragment.DoctorSuggestionFragment;
 import com.doctor.sun.ui.fragment.RefreshListFragment;
 import com.doctor.sun.ui.fragment.ViewForumFragment;
 
@@ -29,7 +28,7 @@ public class PatientAfterServiceDonePA extends FragmentStatePagerAdapter {
                 return ViewForumFragment.newInstance(id, AfterService.TYPE.PATIENT);
             }
             case 1: {
-                return DoctorSugestionFragment.newInstance(id, AfterService.TYPE.PATIENT);
+                return DoctorSuggestionFragment.newInstance(id, AfterService.TYPE.PATIENT);
             }
         }
         return fragment;

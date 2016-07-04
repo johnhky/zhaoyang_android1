@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * 常量
- * <p/>
+ * <p>
  * Created by Tony on 11/10/15.
  */
 public class Constants {
@@ -75,4 +75,5 @@ public class Constants {
         refreshMsg.add(START_MSG2);
     }
 
+    public static final String IS_DONE = "IS_DONE";
 }

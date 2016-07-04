@@ -37,8 +37,7 @@ public class AfterServiceDoneActivity extends TabActivity {
 
     @Override
     protected HeaderViewModel createHeaderViewModel() {
-        HeaderViewModel header = new HeaderViewModel(this);
-        return header;
+        return new HeaderViewModel(this);
     }
 
 }

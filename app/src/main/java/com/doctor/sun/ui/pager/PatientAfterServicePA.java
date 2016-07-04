@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.doctor.sun.entity.AfterService;
-import com.doctor.sun.ui.fragment.DoctorSugestionFragment;
 import com.doctor.sun.ui.fragment.EditForumFragment;
 import com.doctor.sun.ui.fragment.RefreshListFragment;
+import com.doctor.sun.ui.fragment.WaitingSuggestionFragment;
 
 /**
  * Created by rick on 6/6/2016.
@@ -32,7 +32,7 @@ public class PatientAfterServicePA extends FragmentStatePagerAdapter {
                 break;
             }
             case 1: {
-                return DoctorSugestionFragment.newInstance(id, AfterService.TYPE.PATIENT);
+                return WaitingSuggestionFragment.newInstance(id, AfterService.TYPE.PATIENT);
             }
         }
         return fragment;
@@ -61,6 +61,7 @@ public class PatientAfterServicePA extends FragmentStatePagerAdapter {
             afterServiceForumFragment.saveAnswer();
         }
     }
+
     public void handleImageResult(final int requestCode, int resultCode, Intent data) {
         if (afterServiceForumFragment != null) {
             afterServiceForumFragment.handleImageResult(requestCode, resultCode, data);

@@ -27,6 +27,7 @@ import java.util.List;
 
 /**
  * Created by rick on 3/6/2016.
+ * 随访只读
  */
 public class ViewForumFragment extends RefreshListFragment {
     private String orderId;

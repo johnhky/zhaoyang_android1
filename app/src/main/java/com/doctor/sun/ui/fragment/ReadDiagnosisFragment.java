@@ -11,9 +11,12 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.DiagnosisReadOnlyViewModel;
+import com.doctor.sun.vo.ItemDivider;
+import com.doctor.sun.vo.ItemTextInput;
 
 /**
  * Created by rick on 29/6/2016.
+ * 就诊医生建议只读
  */
 public class ReadDiagnosisFragment extends RefreshListFragment {
     private DiagnosisModule api = Api.of(DiagnosisModule.class);
@@ -41,6 +44,13 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
             @Override
             protected void handleResponse(DiagnosisInfo response) {
                 if (response == null) {
+                    ItemDivider divider = new ItemDivider(R.layout.item_divider2, "医嘱");
+                    ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
+                    textInput.setInput("坚持用药，定期复诊");
+                    getAdapter().add(divider);
+                    getAdapter().add(textInput);
+                    getAdapter().notifyDataSetChanged();
+                    binding.swipeRefresh.setRefreshing(false);
                     return;
                 }
                 viewModel = new DiagnosisReadOnlyViewModel();

@@ -200,8 +200,35 @@ public class Symptom extends BaseObservable implements LayoutId {
         return new TextViewBindingAdapter.AfterTextChanged() {
             @Override
             public void afterTextChanged(Editable s) {
-                others = s.toString();
+                String temp = s.toString();
+                if (others != null && others.equals(temp)) {
+                    return;
+                }
+
+                others = temp;
+                if (!others.isEmpty()) {
+                    states.put(0, false);
+                } else {
+                    //没有选择其它的时候
+                    states.put(0, !hasSelection());
+                }
+                notifyChange();
             }
         };
+    }
+
+    //是否有选择除了0以外的选项选择其它的时候
+    public boolean hasSelection() {
+        boolean hasSelection = false;
+        for (int i = 0; i < states.size(); i++) {
+            int key = states.keyAt(i);
+            if (key != 0) {
+                if (states.get(key)) {
+                    hasSelection = true;
+                    break;
+                }
+            }
+        }
+        return hasSelection;
     }
 }

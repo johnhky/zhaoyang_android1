@@ -18,7 +18,6 @@ import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.ItemDivider;
-import com.doctor.sun.vo.ItemReminderList;
 import com.doctor.sun.vo.ItemTextInput;
 
 import java.util.HashMap;
@@ -27,20 +26,21 @@ import java.util.List;
 
 /**
  * Created by rick on 3/6/2016.
+ * 随访医生建议
  */
-public class DoctorSugestionFragment extends RefreshListFragment {
+public class DoctorSuggestionFragment extends RefreshListFragment {
     private String orderId;
     private AfterServiceModule api = Api.of(AfterServiceModule.class);
     private SimpleAdapter adapter;
     private String forumType;
 
-    public static DoctorSugestionFragment newInstance(String id, String forumType) {
+    public static DoctorSuggestionFragment newInstance(String id, String forumType) {
 
         Bundle args = new Bundle();
         args.putString(Constants.TYPE, forumType);
         args.putString(Constants.DATA, id);
 
-        DoctorSugestionFragment fragment = new DoctorSugestionFragment();
+        DoctorSuggestionFragment fragment = new DoctorSuggestionFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -210,6 +210,13 @@ public class DoctorSugestionFragment extends RefreshListFragment {
                     }
                 }
 
+                if (getAdapter().isEmpty()) {
+                    ItemDivider divider = new ItemDivider(R.layout.item_divider2, "医嘱");
+                    ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
+                    textInput.setInput("坚持用药，定期复诊");
+                    getAdapter().add(divider);
+                    getAdapter().add(textInput);
+                }
                 getAdapter().notifyDataSetChanged();
                 getBinding().swipeRefresh.setRefreshing(false);
             }

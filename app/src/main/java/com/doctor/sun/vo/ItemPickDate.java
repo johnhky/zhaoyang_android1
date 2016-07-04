@@ -21,7 +21,7 @@ import io.ganguo.library.util.Tasks;
  */
 public class ItemPickDate extends BaseItem {
     public static final long ONE_HUNDRED_YEAR = 3153600000000L;
-    public static final long ONE_DAY_MILLIS = 86400000;
+    public static final long ONE_DAY_MILLIS = 86400000L;
 
     private final GregorianCalendar calendar = new GregorianCalendar();
     private String title;

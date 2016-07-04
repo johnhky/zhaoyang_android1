@@ -3,6 +3,7 @@ package com.doctor.sun.ui.pager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.bean.Constants;

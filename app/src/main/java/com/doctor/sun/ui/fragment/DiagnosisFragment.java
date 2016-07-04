@@ -31,7 +31,6 @@ import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.DiagnosisModule;
@@ -276,7 +275,7 @@ public class DiagnosisFragment extends BaseFragment {
         if (appointment == null) {
             return;
         }
-        api.diagnosisInfo(appointment.getId()).enqueue(new ApiCallback<DiagnosisInfo>() {
+        api.diagnosisInfo(appointment.getId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
             @Override
             protected void handleResponse(DiagnosisInfo response) {
                 if (response == null) {
