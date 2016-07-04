@@ -15,6 +15,7 @@ public class CountDownTextView extends TextView {
     public static final int ONE_SECOND = 1000;
 
 
+    private String stringToFormat = "";
     private long remainTime;
 
     public CountDownTextView(Context context) {
@@ -46,7 +47,10 @@ public class CountDownTextView extends TextView {
         post(new Runnable() {
             @Override
             public void run() {
-                setText(String.format(Locale.CHINA, "剩余就诊时长%s", getReadableTime(remainTime)));
+                if (stringToFormat.equals("")) {
+                    stringToFormat = getText().toString();
+                }
+                setText(String.format(Locale.CHINA, stringToFormat, getReadableTime(remainTime)));
                 remainTime -= ONE_SECOND;
                 if (remainTime > 0) {
                     postDelayed(this, ONE_SECOND);

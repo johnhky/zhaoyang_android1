@@ -160,7 +160,6 @@ public class ConsultingFragment extends RefreshListFragment {
         SwipeRefreshLayout.OnRefreshListener listener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                binding.swipeRefresh.setRefreshing(true);
                 callback.setRefresh();
                 loadMore();
             }

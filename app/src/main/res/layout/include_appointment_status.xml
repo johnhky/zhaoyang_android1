@@ -29,6 +29,7 @@
             android:layout_gravity="center"
             android:background="#f2e493"
             android:gravity="center"
+            android:text="剩余就诊时长%s"
             android:textColor="#a36140"
             android:textSize="@dimen/font_14"
             android:time="@{data.handler.getFinishedTime()}"
