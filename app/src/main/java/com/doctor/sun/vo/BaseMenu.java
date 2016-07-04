@@ -18,6 +18,7 @@ public abstract class BaseMenu extends BaseObservable implements LayoutId {
     protected String title;
     protected String subTitle;
     protected String detail;
+    protected boolean enable = true;
 
     public BaseMenu(@LayoutRes int itemLayoutId, @DrawableRes int icon, String title) {
         this.itemLayoutId = itemLayoutId;
@@ -64,6 +65,16 @@ public abstract class BaseMenu extends BaseObservable implements LayoutId {
     public void setDetail(String detail) {
         this.detail = detail;
         notifyPropertyChanged(BR.detail);
+    }
+
+    @Bindable
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+        notifyPropertyChanged(BR.enable);
     }
 
     public abstract View.OnClickListener itemClick();

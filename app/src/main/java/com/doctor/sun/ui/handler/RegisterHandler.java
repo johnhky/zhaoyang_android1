@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ import io.ganguo.library.util.Strings;
  * Created by rick on 11/17/15.
  */
 public class RegisterHandler extends BaseHandler {
+    public static final String TAG = RegisterHandler.class.getSimpleName();
     private static final int ONE_SECOND = 1000;
     private AuthModule api = Api.of(AuthModule.class);
     private RegisterInput mInput;
@@ -180,9 +182,10 @@ public class RegisterHandler extends BaseHandler {
 
     public void viewRegistrationPolicy() {
         String url = BuildConfig.BASE_URL + "readme/registration-policy";
-        if (AppContext.isDoctor()) {
+        if (mInput.isDoctor()) {
             url += "?client=doctor";
         }
+        Log.e(TAG, "viewRegistrationPolicy: " + url);
         Intent i = WebBrowserActivity.intentFor(getContext(), url);
         getContext().startActivity(i);
     }
@@ -197,6 +200,8 @@ public class RegisterHandler extends BaseHandler {
         String getPassword();
 
         String getPassword2();
+
+        boolean isDoctor();
     }
 
 }

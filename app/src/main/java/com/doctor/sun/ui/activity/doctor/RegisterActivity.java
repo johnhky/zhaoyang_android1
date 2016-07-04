@@ -4,18 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityRegisterBinding;
-import com.doctor.sun.http.Api;
 import com.doctor.sun.module.AuthModule;
-import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.handler.RegisterHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.util.MD5;
 
 
 /**
@@ -102,6 +98,11 @@ public class RegisterActivity extends BaseActivity2 implements RegisterHandler.R
 
     @Override
     public String getPassword2() {
-        return  binding.etPasswd2.getText().toString();
+        return binding.etPasswd2.getText().toString();
+    }
+
+    @Override
+    public boolean isDoctor() {
+        return getData() == AuthModule.DOCTOR_TYPE;
     }
 }

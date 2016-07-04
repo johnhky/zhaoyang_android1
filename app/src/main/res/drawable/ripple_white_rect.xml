@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <stroke android:width="2px" android:color="@color/colorPrimaryDark"/>
+    <corners android:radius="@dimen/dp_5" />
+    <solid android:color="@color/white" />
 
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/btn_white_rect_pressed" android:state_pressed="true" />
-    <item android:drawable="@drawable/btn_white_rect" />
-</selector>
+</shape>
