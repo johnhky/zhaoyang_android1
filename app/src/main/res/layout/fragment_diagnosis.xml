@@ -27,7 +27,7 @@
             <!--layout="@layout/item_switch" />-->
 
             <include
-                layout="@layout/item_time_category"
+                layout="@layout/item_description"
                 bind:data="@{data.labelSymptom}" />
 
             <include
@@ -66,7 +66,7 @@
                 bind:data="@{data.description}" />
 
             <include
-                layout="@layout/item_symptom_divider"
+                layout="@layout/item_description"
                 bind:data="@{data.labelConsultation}" />
 
             <include
@@ -75,7 +75,7 @@
                 bind:data="@{data.diagnosisRecord}" />
 
             <include
-                layout="@layout/item_symptom_divider"
+                layout="@layout/item_description"
                 bind:data="@{data.labelEval}" />
 
             <include
@@ -96,7 +96,7 @@
 
 
             <include
-                layout="@layout/item_symptom_divider"
+                layout="@layout/item_description"
                 bind:data="@{data.labelAllCanSee}" />
 
 
@@ -106,7 +106,7 @@
                 bind:data="@{data.btnGotoTabOne}" />
 
             <include
-                layout="@layout/item_divider"
+                layout="@layout/item_string_description"
                 bind:data='@{"医嘱"}' />
 
             <include

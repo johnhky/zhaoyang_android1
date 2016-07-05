@@ -41,7 +41,7 @@
                     android:id="@+id/iv_position"
                     android:layout_width="@dimen/dp_23"
                     android:layout_height="@dimen/dp_23"
-                    android:src="@drawable/bg_position" />
+                    android:src="@drawable/shape_blue_oval_dp24" />
 
                 <TextView
                     android:id="@+id/iv_icon"

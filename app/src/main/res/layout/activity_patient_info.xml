@@ -233,7 +233,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="@dimen/dp_21"
                     android:layout_marginTop="@dimen/dp_21"
-                    android:background="@drawable/btn_big_blue"
+                    android:background="@drawable/shape_blue_rect"
                     android:clickable="true"
                     android:onClick="@{()->appointment.handler.chat(context,appointment)}">
 

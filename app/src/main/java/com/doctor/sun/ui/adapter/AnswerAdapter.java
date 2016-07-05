@@ -2,7 +2,6 @@ package com.doctor.sun.ui.adapter;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
-import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.BR;
@@ -81,7 +80,7 @@ public class AnswerAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
                             protected void handleResponse(List<Answer> response) {
                                 ToastHelper.showMessage(getContext(), "保存重填数据成功");
                                 binding.getData().setNeedRefill(1);
-                                binding.ivPosition.setImageDrawable(getContext().getResources().getDrawable(R.drawable.bg_msg_count));
+                                binding.ivPosition.setImageDrawable(getContext().getResources().getDrawable(R.drawable.shape_red_oval_dp17));
                             }
 
                             @Override
@@ -95,11 +94,11 @@ public class AnswerAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
             }
 
             if (answer.getNeedRefill() == 1 && appointment.getIsFinish() != 1) {
-                binding.ivPosition.setImageResource(R.drawable.bg_msg_count);
+                binding.ivPosition.setImageResource(R.drawable.shape_red_oval_dp17);
             } else if (answer.getIsFill() == 1) {
-                binding.ivPosition.setImageResource(R.drawable.shape_position);
+                binding.ivPosition.setImageResource(R.drawable.shape_grey_oval_dp24);
             } else {
-                binding.ivPosition.setImageResource(R.drawable.bg_position);
+                binding.ivPosition.setImageResource(R.drawable.shape_blue_oval_dp24);
             }
         }
         super.onBindViewBinding(vh, position);

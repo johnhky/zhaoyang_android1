@@ -175,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_8"
-                    android:background="@drawable/bg_msg_count"
+                    android:background="@drawable/shape_red_oval_dp17"
                     android:gravity="center"
                     android:text='@{"" + data.handler.unreadMsgCount()}'
                     android:textColor="#FFFFFF"

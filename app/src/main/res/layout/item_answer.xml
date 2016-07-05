@@ -75,7 +75,7 @@
                 android:layout_height="@dimen/dp_25"
                 android:layout_marginLeft="@dimen/dp_16"
                 android:layout_marginRight="@dimen/dp_13"
-                android:background="@drawable/btn_small_white"
+                android:background="@drawable/shape_white_rect"
                 android:clickable="true"
                 android:onClick="@{data.handler.deleteAnswer(data,adapter,vh)}"
                 android:visibility="gone">

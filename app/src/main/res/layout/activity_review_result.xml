@@ -75,7 +75,7 @@
             android:layout_height="@dimen/dp_49"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/dp_92"
-            android:background="@drawable/btn_big_blue">
+            android:background="@drawable/shape_blue_rect">
 
             <TextView
                 android:id="@+id/action_edit"
@@ -93,7 +93,7 @@
             android:layout_height="@dimen/dp_49"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/dp_25"
-            android:background="@drawable/btn_big_white">
+            android:background="@drawable/shape_white_rect">
 
             <TextView
                 android:id="@+id/action_back"

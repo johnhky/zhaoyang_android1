@@ -9,15 +9,21 @@ import com.doctor.sun.util.NameComparator;
  * Created by lucas on 12/2/15.
  */
 public class Description extends BaseObservable implements LayoutId, NameComparator.Name {
-    public Description(int layoutId, String content) {
-        this.layoutId = layoutId;
-        this.content = content;
-    }
 
     private int layoutId;
     private String content;
     private boolean visible = true;
     private int indexPosition;
+
+    public Description(int layoutId) {
+        this.layoutId = layoutId;
+        this.content = "";
+    }
+
+    public Description(int layoutId, String content) {
+        this.layoutId = layoutId;
+        this.content = content;
+    }
 
     public String getContent() {
         return content;

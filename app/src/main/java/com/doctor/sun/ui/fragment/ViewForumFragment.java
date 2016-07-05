@@ -8,6 +8,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.AfterServiceDTO;
 import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.Answer;
+import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Question;
@@ -18,7 +19,6 @@ import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.adapter.AnswerDetailAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.util.JacksonUtils;
-import com.doctor.sun.vo.ItemDivider;
 import com.doctor.sun.vo.ItemTextInput;
 
 import java.util.HashMap;
@@ -158,7 +158,7 @@ public class ViewForumFragment extends RefreshListFragment {
                                 List<Object> content = (List<Object>) answer.getAnswerContent();
                                 if (!content.isEmpty() && !type.isEmpty()) {
                                     if (content.get(0) != null && type.get(0) != null) {
-                                        ItemDivider divider = new ItemDivider(R.layout.item_divider2, answer.getQuestion().getQuestionContent());
+                                        Description divider = new Description(R.layout.item_description, answer.getQuestion().getQuestionContent());
                                         getAdapter().add(divider);
 
                                         String s = "";
@@ -210,7 +210,7 @@ public class ViewForumFragment extends RefreshListFragment {
                             getAdapter().add(answer);
                             if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {
                                 List<Object> content = (List<Object>) answer.getAnswerContent();
-                                ItemDivider divider = new ItemDivider(R.layout.divider_1px2, "");
+                                Description divider = new Description(R.layout.divider_1px2, "");
                                 getAdapter().add(divider);
                                 for (int j = 0; j < content.size(); j++) {
                                     Reminder data = null;

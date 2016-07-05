@@ -7,6 +7,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.Answer;
+import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Prescription;
@@ -17,7 +18,6 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.util.JacksonUtils;
-import com.doctor.sun.vo.ItemDivider;
 import com.doctor.sun.vo.ItemTextInput;
 
 import java.util.HashMap;
@@ -127,7 +127,7 @@ public class DoctorSuggestionFragment extends RefreshListFragment {
                             if (answer.getAnswerContent() instanceof List) {
                                 List<String> content = (List<String>) answer.getAnswerContent();
                                 if (!content.isEmpty()) {
-                                    ItemDivider divider = new ItemDivider(R.layout.item_divider2, answer.getQuestion().getQuestionContent());
+                                    Description divider = new Description(R.layout.item_description, answer.getQuestion().getQuestionContent());
                                     getAdapter().add(divider);
                                     ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
                                     textInput.setInput(content.get(0));
@@ -137,7 +137,7 @@ public class DoctorSuggestionFragment extends RefreshListFragment {
                             break;
                         }
                         case Question.TYPE_PILLS: {
-                            ItemDivider divider = new ItemDivider(R.layout.item_divider2, answer.getQuestion().getQuestionContent());
+                            Description divider = new Description(R.layout.item_description, answer.getQuestion().getQuestionContent());
                             Answer result = Answer.handler.initPrescriptions(answer);
                             List<Prescription> prescriptions = result.getPrescriptions();
                             if (!prescriptions.isEmpty()) {
@@ -151,7 +151,7 @@ public class DoctorSuggestionFragment extends RefreshListFragment {
                                 List<String> type = (List<String>) answer.getAnswerType();
                                 List<Object> content = (List<Object>) answer.getAnswerContent();
                                 if (!content.isEmpty() && !type.isEmpty()) {
-                                    ItemDivider divider = new ItemDivider(R.layout.item_divider2, answer.getQuestion().getQuestionContent());
+                                    Description divider = new Description(R.layout.item_description, answer.getQuestion().getQuestionContent());
                                     getAdapter().add(divider);
                                     if (content.get(0) != null && type.get(0) != null) {
 
@@ -192,7 +192,7 @@ public class DoctorSuggestionFragment extends RefreshListFragment {
                             if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {
                                 List<Object> content = (List<Object>) answer.getAnswerContent();
                                 if (!content.isEmpty()) {
-                                    ItemDivider divider = new ItemDivider(R.layout.item_divider2, "其它事项");
+                                    Description divider = new Description(R.layout.item_description, "其它事项");
                                     getAdapter().add(divider);
                                     for (int j = 0; j < content.size(); j++) {
                                         Reminder data = null;
@@ -211,7 +211,7 @@ public class DoctorSuggestionFragment extends RefreshListFragment {
                 }
 
                 if (getAdapter().isEmpty()) {
-                    ItemDivider divider = new ItemDivider(R.layout.item_divider2, "医嘱");
+                    Description divider = new Description(R.layout.item_description, "医嘱");
                     ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
                     textInput.setInput("坚持用药，定期复诊");
                     getAdapter().add(divider);

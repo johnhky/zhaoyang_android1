@@ -185,7 +185,7 @@
                     android:layout_width="@dimen/dp_283"
                     android:layout_height="@dimen/dp_49"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/btn_big_blue">
+                    android:background="@drawable/shape_blue_rect">
 
                     <TextView
                         android:layout_width="match_parent"

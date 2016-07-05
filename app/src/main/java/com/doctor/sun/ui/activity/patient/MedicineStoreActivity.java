@@ -18,6 +18,7 @@ import com.doctor.sun.databinding.PActivityMedicineHelperBinding;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.emoji.KeyboardWatcher;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
@@ -39,7 +40,6 @@ import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.FileChooser;
 import com.doctor.sun.vo.CustomActionViewModel;
 import com.doctor.sun.vo.InputLayoutViewModel;
-import com.doctor.sun.vo.ItemDivider;
 import com.doctor.sun.vo.StickerViewModel;
 import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
@@ -157,7 +157,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         if (results.isEmpty()) {
             pullHistory();
         }
-        mChatAdapter.add(new ItemDivider(R.layout.divider_dp13));
+        mChatAdapter.add(new Description(R.layout.divider_dp13));
         mChatAdapter.addAll(results);
         mChatAdapter.onFinishLoadMore(true);
         binding.refreshLayout.setOnRefreshListener(this);
@@ -256,7 +256,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
                 public void onChange(RealmResults<TextMsg> element) {
                     if (mChatAdapter != null) {
                         mChatAdapter.clear();
-                        mChatAdapter.add(new ItemDivider(R.layout.divider_dp13));
+                        mChatAdapter.add(new Description(R.layout.divider_dp13));
                         mChatAdapter.addAll(element);
                         mChatAdapter.notifyDataSetChanged();
                         binding.rvChat.scrollToPosition(0);

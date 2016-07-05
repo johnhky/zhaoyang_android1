@@ -8,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.MenuInflater;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
@@ -43,9 +42,9 @@ import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.FileChooser;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PermissionUtil;
+import com.doctor.sun.vo.BaseItem;
 import com.doctor.sun.vo.CustomActionViewModel;
 import com.doctor.sun.vo.InputLayoutViewModel;
-import com.doctor.sun.vo.ItemDivider;
 import com.doctor.sun.vo.StickerViewModel;
 import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
@@ -149,7 +148,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
     public void addExtraItems() {
-        mAdapter.add(new ItemDivider(R.layout.divider_dp13));
+        mAdapter.add(new BaseItem(R.layout.divider_dp13));
     }
 
     private void needSendDrug() {

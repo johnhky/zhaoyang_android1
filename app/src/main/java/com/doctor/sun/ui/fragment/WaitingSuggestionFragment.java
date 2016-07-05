@@ -7,8 +7,8 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.Description;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.vo.ItemDivider;
 
 import io.ganguo.library.util.Tasks;
 
@@ -54,7 +54,7 @@ public class WaitingSuggestionFragment extends RefreshListFragment {
         super.loadMore();
         getAdapter().onFinishLoadMore(true);
         getAdapter().clear();
-        ItemDivider divider = new ItemDivider(R.layout.item_divider2, "待医生诊断");
+        Description divider = new Description(R.layout.item_description, "待医生诊断");
         getAdapter().add(divider);
         Tasks.runOnUiThread(new Runnable() {
             @Override

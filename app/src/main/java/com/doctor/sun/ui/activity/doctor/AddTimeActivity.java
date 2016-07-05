@@ -53,7 +53,7 @@ public class AddTimeActivity extends BaseActivity2 {
             header.setMidTitle("设置出诊时间").setRightTitle("保存");
         }
         binding.setHeader(header);
-        binding.setDescription(new Description(R.layout.item_time_category, "就诊周期"));
+        binding.setDescription(new Description(R.layout.item_description, "就诊周期"));
     }
 
     @Override

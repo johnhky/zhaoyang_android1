@@ -543,13 +543,13 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
     private void setPositionFill(ItemAnswerBinding binding, Answer answer) {
         if (answer.getIsFill() == 1) {
             answer.setIsFill(0);
-            binding.ivPosition.setImageResource(R.drawable.bg_position);
+            binding.ivPosition.setImageResource(R.drawable.shape_blue_oval_dp24);
         }
     }
 
     private void clearPositionFill(ItemAnswerBinding binding, Answer answer) {
         answer.setIsFill(1);
-        binding.ivPosition.setImageResource(R.drawable.shape_position);
+        binding.ivPosition.setImageResource(R.drawable.shape_grey_oval_dp24);
     }
 
     private void setUpMapKey() {

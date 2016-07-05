@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/shape_position" android:state_selected="true" />
-    <item android:drawable="@drawable/bg_position" />
+    <item android:drawable="@drawable/shape_grey_oval_dp24" android:state_selected="true" />
+    <item android:drawable="@drawable/shape_blue_oval_dp24" />
 </selector>

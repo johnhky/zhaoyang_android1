@@ -67,9 +67,9 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
             treatment = SymptomFactory.treatment();
             sideEffect = SymptomFactory.sideEffect();
 
-            labelSymptom = new Description(R.layout.item_time_category, "症状");
-            labelConsultation = new Description(R.layout.item_time_category, "诊断");
-            labelAssess = new Description(R.layout.item_time_category, "评估");
+            labelSymptom = new Description(R.layout.item_description, "症状");
+            labelConsultation = new Description(R.layout.item_description, "诊断");
+            labelAssess = new Description(R.layout.item_description, "评估");
         }
 //        else {
 //            只有病人端显示
@@ -80,7 +80,7 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         diagnosis = new ItemTextInput(R.layout.item_text_option_display, "");
 
         //两个端都有
-        labelAdvice = new Description(R.layout.item_time_category, "医嘱");
+        labelAdvice = new Description(R.layout.item_description, "医嘱");
         furtherConsultation = new Reminder();
     }
 
@@ -149,11 +149,11 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         result.add(labelAdvice);
         result.add(adviceContent);
         if (!prescriptions.isEmpty()) {
-            result.add(new Description(R.layout.item_time_category, "建议用药"));
+            result.add(new Description(R.layout.item_description, "建议用药"));
             result.addAll(prescriptions);
         }
         if (furtherConsultation != null) {
-            result.add(new Description(R.layout.item_time_category, "专属咨询/留言咨询/转诊"));
+            result.add(new Description(R.layout.item_description, "专属咨询/留言咨询/转诊"));
             result.add(furtherConsultation);
             if (doctor != null) {
                 result.add(doctor);
@@ -162,7 +162,7 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
 
 
         if (!reminderList.isEmpty()) {
-            result.add(new Description(R.layout.item_time_category, "其它事项"));
+            result.add(new Description(R.layout.item_description, "其它事项"));
             result.addAll(reminderList);
         }
         return result;

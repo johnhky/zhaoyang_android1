@@ -80,7 +80,7 @@
                     android:background="@color/divider_color" />
 
                 <include
-                    layout="@layout/item_divider"
+                    layout="@layout/item_string_description"
                     bind:data="@{@string/num}" />
 
                 <LinearLayout

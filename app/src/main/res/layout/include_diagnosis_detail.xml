@@ -15,7 +15,7 @@
         android:orientation="vertical">
         <!-- 症状-->
         <include
-            layout="@layout/item_time_category"
+            layout="@layout/item_description"
             bind:data="@{data.labelSymptom}" />
 
         <include
@@ -55,7 +55,7 @@
 
         <!-- 诊断-->
         <include
-            layout="@layout/item_time_category"
+            layout="@layout/item_description"
             bind:data="@{data.labelConsultation}" />
 
         <TextView
@@ -71,7 +71,7 @@
 
         <!-- 评估-->
         <include
-            layout="@layout/item_time_category"
+            layout="@layout/item_description"
             bind:data="@{data.labelAssess}" />
 
         <include

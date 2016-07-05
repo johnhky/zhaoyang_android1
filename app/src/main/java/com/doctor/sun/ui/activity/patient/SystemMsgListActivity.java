@@ -45,7 +45,7 @@ public class SystemMsgListActivity extends PageActivity2 {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getAdapter().mapLayout(R.layout.p_item_system_msg, R.layout.item_system_tip);
+        getAdapter().mapLayout(R.layout.p_item_system_msg, R.layout.item_system_msg);
         permissionsUtil = new PermissionsUtil(this);
 
         Config.putLong(visitTimeKey, System.currentTimeMillis());

@@ -42,7 +42,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/dp_26"
                 android:layout_marginRight="@dimen/dp_26"
-                android:background="@drawable/btn_big_blue">
+                android:background="@drawable/shape_blue_rect">
 
                 <TextView
                     android:id="@+id/tv_check"

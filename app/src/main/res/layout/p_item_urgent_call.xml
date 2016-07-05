@@ -152,7 +152,7 @@
                 android:layout_height="@dimen/dp_35"
                 android:layout_gravity="end"
                 android:layout_marginRight="@dimen/dp_11"
-                android:background="@drawable/btn_small_white">
+                android:background="@drawable/shape_white_rect">
 
                 <TextView
                     android:id="@+id/cancel"
@@ -170,7 +170,7 @@
                 android:layout_width="@dimen/dp_90"
                 android:layout_height="@dimen/dp_35"
                 android:layout_gravity="end"
-                android:background="@drawable/btn_small_blue">
+                android:background="@drawable/shape_white_rect">
 
                 <TextView
                     android:id="@+id/pay"
@@ -207,7 +207,7 @@
                 android:layout_width="@dimen/dp_124"
                 android:layout_height="@dimen/dp_35"
                 android:layout_marginRight="@dimen/dp_11"
-                android:background="@drawable/btn_mid_blue">
+                android:background="@drawable/shape_blue_rect">
 
                 <TextView
                     android:id="@+id/add_time"
@@ -225,7 +225,7 @@
                 android:layout_width="@dimen/dp_90"
                 android:layout_height="@dimen/dp_35"
                 android:layout_gravity="end"
-                android:background="@drawable/btn_small_blue">
+                android:background="@drawable/shape_blue_rect">
 
                 <TextView
                     android:id="@+id/add_money"

@@ -87,7 +87,7 @@
         </LinearLayout>
 
         <include
-            layout="@layout/item_time_category"
+            layout="@layout/item_description"
             bind:data="@{description}" />
 
         <com.doctor.sun.ui.widget.FlowLayout
@@ -221,7 +221,7 @@
             android:visibility="@{data.type == 1}">
 
             <include
-                layout="@layout/item_divider"
+                layout="@layout/item_string_description"
                 bind:data='@{"就诊时间"}' />
 
             <LinearLayout
@@ -313,7 +313,7 @@
                 android:background="#c1cacf" />
 
             <include
-                layout="@layout/item_divider"
+                layout="@layout/item_string_description"
                 bind:data='@{"时间间隔"}' />
 
             <LinearLayout

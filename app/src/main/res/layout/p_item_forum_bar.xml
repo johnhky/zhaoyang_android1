@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_64"
         android:background="#eff3f5"
+        android:baselineAligned="false"
         android:clickable="false"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:baselineAligned="false">
+        android:orientation="horizontal">
 
         <FrameLayout
             android:layout_width="0dp"
@@ -21,7 +21,7 @@
             android:layout_marginLeft="@dimen/dp_26"
             android:layout_marginRight="@dimen/dp_15"
             android:layout_weight="1"
-            android:background="@drawable/btn_big_blue">
+            android:background="@drawable/shape_blue_rect">
 
             <TextView
                 android:id="@+id/tv_record"
@@ -41,7 +41,7 @@
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_marginRight="@dimen/dp_26"
             android:layout_weight="1"
-            android:background="@drawable/btn_big_blue">
+            android:background="@drawable/shape_blue_rect">
 
             <TextView
                 android:id="@+id/tv_check"

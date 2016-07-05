@@ -203,7 +203,7 @@
                 android:layout_width="@dimen/dp_90"
                 android:layout_height="@dimen/dp_35"
                 android:layout_gravity="end"
-                android:background="@drawable/btn_small_blue"
+                android:background="@drawable/shape_blue_rect"
                 android:onClick="@{()->data.fillForum(context,data.id)}"
                 android:visibility="@{data.doingBtnVisible}">
 

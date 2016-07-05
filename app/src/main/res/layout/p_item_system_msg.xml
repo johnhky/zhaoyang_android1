@@ -114,7 +114,7 @@
                         android:id="@+id/tv_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_msg_count"
+                        android:background="@drawable/shape_red_oval_dp17"
                         android:gravity="center"
                         android:textColor="#ffffff"
                         android:textSize="@dimen/font_12"

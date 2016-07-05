@@ -136,7 +136,7 @@
             android:layout_height="@dimen/dp_49"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/dp_37"
-            android:background="@drawable/btn_big_blue">
+            android:background="@drawable/shape_blue_rect">
 
             <TextView
                 android:layout_width="match_parent"

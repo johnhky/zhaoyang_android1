@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_15"
-                android:background="@drawable/btn_captcha_blue">
+                android:background="@drawable/shape_blue_rect">
 
                 <TextView
                     android:layout_width="@dimen/dp_120"

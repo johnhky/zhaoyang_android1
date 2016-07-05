@@ -34,7 +34,7 @@ public class ContactAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> imp
     public void addIndex() {
         String[] clone = SideSelector.ALPHABET.clone();
         for (int i = clone.length - 1; i >= 0; i--) {
-            Description object = new Description(R.layout.item_time_category, String.valueOf(clone[i]));
+            Description object = new Description(R.layout.item_description, String.valueOf(clone[i]));
             object.setIndexPosition(i);
             object.setVisible(false);
             this.add(object);
@@ -80,7 +80,7 @@ public class ContactAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> imp
                 Description lastDivider = null;
                 for (int i = 0; i < data.size(); i++) {
                     LayoutId layoutId = data.get(i);
-                    if (layoutId.getItemLayoutId() == R.layout.item_time_category) {
+                    if (layoutId.getItemLayoutId() == R.layout.item_description) {
                         if (i - lastDividerPosition > 1) {
                             if (lastDivider != null)
                                 lastDivider.setVisible(true);

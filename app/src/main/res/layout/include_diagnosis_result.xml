@@ -16,7 +16,7 @@
 
         <!-- 医嘱-->
         <include
-            layout="@layout/item_time_category"
+            layout="@layout/item_description"
             bind:data="@{data.labelAdvice}" />
 
         <TextView

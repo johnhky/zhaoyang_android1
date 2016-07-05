@@ -5,13 +5,13 @@ import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.DiagnosisReadOnlyViewModel;
-import com.doctor.sun.vo.ItemDivider;
 import com.doctor.sun.vo.ItemTextInput;
 
 /**
@@ -44,7 +44,7 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
             @Override
             protected void handleResponse(DiagnosisInfo response) {
                 if (response == null) {
-                    ItemDivider divider = new ItemDivider(R.layout.item_divider2, "医嘱");
+                    Description divider = new Description(R.layout.item_description, "医嘱");
                     ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
                     textInput.setInput("坚持用药，定期复诊");
                     getAdapter().add(divider);

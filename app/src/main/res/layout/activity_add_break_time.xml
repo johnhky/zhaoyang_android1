@@ -111,7 +111,7 @@
 
         </RelativeLayout>
 
-        <include layout="@layout/item_time_category"
+        <include layout="@layout/item_description"
             bind:data="@{description}"/>
 
         <LinearLayout

@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.vo.ItemDivider;
+import com.doctor.sun.entity.Description;
 
 /**
  * Created by rick on 1/4/2016.
@@ -28,9 +28,7 @@ public class DoctorDescriptionFragment extends ListFragment {
     @Override
     protected void loadMore() {
         getAdapter().onFinishLoadMore(true);
-        ItemDivider data = new ItemDivider(R.layout.item_doctor_description);
-        data.setContent(getDescription());
+        Description data = new Description(R.layout.item_doctor_description, getDescription());
         getAdapter().add(data);
-//        getAdapter().notifyDataSetChanged();
     }
 }

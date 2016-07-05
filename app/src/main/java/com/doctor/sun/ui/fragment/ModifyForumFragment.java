@@ -1,7 +1,6 @@
 package com.doctor.sun.ui.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +17,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ItemForumBarBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Answer;
+import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Prescription;
@@ -35,7 +35,6 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.widget.PickImageDialog;
-import com.doctor.sun.vo.ItemDivider;
 
 import java.io.File;
 import java.util.List;
@@ -258,9 +257,9 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
                 }
 
                 getAdapter().addAll(answer.getQuestion().getOptions());
-                getAdapter().add(new ItemDivider(R.layout.divider_1px));
+                getAdapter().add(new Description(R.layout.divider_1px_marginl_13dp));
             }
-            getAdapter().add(new ItemDivider(R.layout.space_30dp));
+            getAdapter().add(new Description(R.layout.space_30dp));
             getAdapter().onFinishLoadMore(true);
             getAdapter().notifyDataSetChanged();
         }

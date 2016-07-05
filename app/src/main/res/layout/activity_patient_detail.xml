@@ -85,7 +85,7 @@
                 android:layout_width="@dimen/dp_144"
                 android:layout_height="@dimen/dp_49"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/btn_mid_blue"
+                android:background="@drawable/shape_blue_rect"
                 android:showcase='@{"提醒患者完成问卷"}'
                 android:showcaseId='@{"patientDetail"}'
                 android:showcasePosition='@{1}'
@@ -128,7 +128,7 @@
                 android:layout_width="@dimen/dp_144"
                 android:layout_height="@dimen/dp_49"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/btn_mid_blue">
+                android:background="@drawable/shape_blue_rect">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -164,7 +164,7 @@
                 android:layout_width="@dimen/dp_144"
                 android:layout_height="@dimen/dp_49"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/btn_mid_white">
+                android:background="@drawable/shape_white_rect">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -186,7 +186,7 @@
                 android:layout_width="@dimen/dp_144"
                 android:layout_height="@dimen/dp_49"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/btn_mid_blue">
+                android:background="@drawable/shape_blue_rect">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -222,7 +222,7 @@
                 android:layout_width="@dimen/dp_283"
                 android:layout_height="@dimen/dp_49"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/btn_big_blue">
+                android:background="@drawable/shape_blue_rect">
 
                 <!--会诊-->
                 <TextView

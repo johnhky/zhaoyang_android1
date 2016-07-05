@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/dp_4"
-                    android:src="@drawable/bg_msg_count" />
+                    android:src="@drawable/shape_red_oval_dp17" />
 
                 <TextView
                     android:layout_width="wrap_content"
