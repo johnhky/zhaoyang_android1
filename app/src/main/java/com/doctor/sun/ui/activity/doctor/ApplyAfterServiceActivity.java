@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityApplyAfterServiceBinding;
-import com.doctor.sun.entity.Contact;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.http.Api;
@@ -28,6 +27,8 @@ import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.JacksonUtils;
 
 import java.util.ArrayList;
+
+import io.ganguo.library.core.event.extend.OnSingleClickListener;
 
 /**
  * Created by rick on 1/6/2016.
@@ -56,9 +57,9 @@ public class ApplyAfterServiceActivity extends BaseActivity2 {
     }
 
     private void initView() {
-        binding.setConfirmClick(new View.OnClickListener() {
+        binding.setConfirmClick(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 ArrayList<String> selectedRecords = getSelectedRecords();
                 if (selectedRecords.isEmpty()) {
                     Toast.makeText(ApplyAfterServiceActivity.this, "请选择需要申请随访的病历", Toast.LENGTH_SHORT).show();
