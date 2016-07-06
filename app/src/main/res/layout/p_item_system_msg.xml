@@ -102,6 +102,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="bottom"
                         android:singleLine="true"
+                        android:hint="系统消息"
                         android:text="@{data.lastMsg}"
                         android:textColor="#898989"
                         android:textSize="@dimen/font_12" />

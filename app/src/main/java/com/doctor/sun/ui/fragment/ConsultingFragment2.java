@@ -3,7 +3,6 @@ package com.doctor.sun.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
 import com.doctor.sun.AppContext;
@@ -17,7 +16,6 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.module.AppointmentModule;
-import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.ItemConsulting;
 import com.netease.nimlib.sdk.NIMClient;
@@ -43,7 +41,6 @@ public class ConsultingFragment2 extends SortedListFragment {
     public static final String TAG = ConsultingFragment2.class.getSimpleName();
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private HashMap<String, Appointment> appointments = new HashMap<>();
-    private SortedListAdapter adapter;
     private Observer<List<RecentContact>> observer;
     private ArrayList<String> keys = new ArrayList<>();
     private int page = 1;
@@ -60,8 +57,8 @@ public class ConsultingFragment2 extends SortedListFragment {
         super.onResume();
         registerRecentContactObserver();
         initSystemMsgListener();
-        if (adapter != null) {
-            adapter.update(new SystemMsg());
+        if (getAdapter() != null) {
+            getAdapter().update(new SystemMsg());
         }
         if (systemMsgs != null) {
             systemMsgs.addChangeListener(listener);
@@ -73,8 +70,8 @@ public class ConsultingFragment2 extends SortedListFragment {
             listener = new RealmChangeListener<RealmResults<TextMsg>>() {
                 @Override
                 public void onChange(RealmResults<TextMsg> element) {
-                    if (adapter != null) {
-                        adapter.update(new SystemMsg());
+                    if (getAdapter() != null) {
+                        getAdapter().update(new SystemMsg());
                     }
                 }
             };
@@ -112,7 +109,7 @@ public class ConsultingFragment2 extends SortedListFragment {
                                         pullAppointment(s, tids.get(s));
                                     } else {
                                         ItemConsulting itemConsulting = new ItemConsulting(tids.get(s), appointment);
-                                        adapter.update(itemConsulting);
+                                        getAdapter().update(itemConsulting);
                                     }
                                 } else {
                                     pullAppointment(s, tids.get(s));
@@ -134,7 +131,7 @@ public class ConsultingFragment2 extends SortedListFragment {
                     String tid = String.valueOf(appointment.getTid());
                     ItemConsulting itemConsulting = new ItemConsulting(recentContact, appointment);
                     appointments.put(tid, appointment);
-                    adapter.insert(itemConsulting);
+                    getAdapter().insert(itemConsulting);
                 }
             }
         });
@@ -143,18 +140,21 @@ public class ConsultingFragment2 extends SortedListFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initListener();
-        adapter = new SortedListAdapter(getContext());
+//        loadMore();
         insertHeader();
-        binding.recyclerView.setAdapter(adapter);
-        loadMore();
+        Tasks.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                onRefresh();
+            }
+        }, 100);
         systemMsgs = SystemMsg.getAllMsg(realm).findAll();
     }
 
     public void insertHeader() {
-        adapter.insert(new SystemMsg());
+        getAdapter().insert(new SystemMsg());
         if (!AppContext.isDoctor()) {
-            adapter.insert(new MedicineStore());
+            getAdapter().insert(new MedicineStore());
         }
     }
 
@@ -178,19 +178,13 @@ public class ConsultingFragment2 extends SortedListFragment {
     }
 
 
-    private void initListener() {
-        SwipeRefreshLayout.OnRefreshListener listener = new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                adapter.clear();
-                insertHeader();
-                keys.clear();
-                loadMore();
-            }
-        };
-        binding.swipeRefresh.setOnRefreshListener(listener);
+    @Override
+    public void onRefresh() {
+        getAdapter().clear();
+        insertHeader();
+        keys.clear();
+        super.onRefresh();
     }
-
 
     private class RecentContactCallback extends RequestCallbackWrapper<List<RecentContact>> {
         @Override
@@ -206,15 +200,24 @@ public class ConsultingFragment2 extends SortedListFragment {
         public void onFailed(int i) {
             super.onFailed(i);
             IMManager.getInstance().login();
-            binding.swipeRefresh.setRefreshing(false);
+            hideRefreshing();
         }
 
         @Override
         public void onException(Throwable throwable) {
             super.onException(throwable);
             IMManager.getInstance().login();
-            binding.swipeRefresh.setRefreshing(false);
+            hideRefreshing();
         }
+    }
+
+    public void hideRefreshing() {
+        Tasks.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                binding.swipeRefresh.setRefreshing(false);
+            }
+        }, 500);
     }
 
     @NonNull
@@ -226,9 +229,9 @@ public class ConsultingFragment2 extends SortedListFragment {
                     String tid = String.valueOf(appointment.getTid());
                     appointments.put(tid, appointment);
                     ItemConsulting itemConsulting = new ItemConsulting(tids.get(tid), appointment);
-                    adapter.insert(itemConsulting);
+                    getAdapter().insert(itemConsulting);
                 }
-                binding.swipeRefresh.setRefreshing(false);
+                hideRefreshing();
             }
         };
     }
