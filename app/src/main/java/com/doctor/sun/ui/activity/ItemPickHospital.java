@@ -20,8 +20,8 @@ import java.util.List;
 /**
  * Created by rick on 4/6/2016.
  */
-public class ItemSelectHospital extends BaseItem {
-    public static final String TAG = ItemSelectHospital.class.getSimpleName();
+public class ItemPickHospital extends BaseItem {
+    public static final String TAG = ItemPickHospital.class.getSimpleName();
 
     private ToolModule api = Api.of(ToolModule.class);
 
@@ -32,7 +32,7 @@ public class ItemSelectHospital extends BaseItem {
     private int lv2Position = 0;
     private int lv3Position = 0;
 
-    public ItemSelectHospital(final int lv1Id, final int lv2Id, final int lv3Id) {
+    public ItemPickHospital(final int lv1Id, final int lv2Id, final int lv3Id) {
         api.endemicAreaList().enqueue(new SimpleCallback<List<Area>>() {
             @Override
             protected void handleResponse(List<Area> response) {

@@ -2,10 +2,13 @@ package com.doctor.sun.entity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
 import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
@@ -18,16 +21,21 @@ import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.activity.patient.handler.SystemMsgHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.ganguo.library.Config;
+import io.ganguo.library.core.event.Event;
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 import io.realm.annotations.Ignore;
 
 /**
  * Created by lucas on 1/29/16.
  * 系统信息
  */
-public class SystemMsg implements LayoutId {
-
+public class SystemMsg implements LayoutId, SortedItem, Event {
 
 
     /**
@@ -197,5 +205,67 @@ public class SystemMsg implements LayoutId {
         if (i != null) {
             context.startActivity(i);
         }
+    }
+
+    @Override
+    public int getLayoutId() {
+        return getItemLayoutId();
+    }
+
+    @Override
+    public long getCreated() {
+        return Long.MAX_VALUE;
+    }
+
+    @Override
+    public String getKey() {
+        return "SYSTEM_MSG";
+    }
+
+    public static String getConfigKey() {
+        return "SYSTEM_MSG" + Config.getString(Constants.VOIP_ACCOUNT);
+    }
+
+    public static long getUnreadMsgCount() {
+        return getAllMsg(Realm.getDefaultInstance()).equalTo("haveRead", false).count();
+    }
+
+    public static String getLastMsg() {
+        RealmResults<TextMsg> all = getAllMsg(Realm.getDefaultInstance()).findAll();
+        if (all.isEmpty()) {
+            return "";
+        }
+        return all.last().getBody();
+    }
+
+    public static void setLastMsg(final String msg, final int notificationId) {
+        Realm.getDefaultInstance().executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                TextMsg msg1 = new TextMsg();
+                msg1.setMsgId(String.valueOf(notificationId));
+                msg1.setSessionId(getConfigKey());
+                msg1.setHaveRead(false);
+                msg1.setBody(msg);
+                msg1.setTime(System.currentTimeMillis());
+                Realm.getDefaultInstance().copyToRealm(msg1);
+            }
+        });
+    }
+
+    public static void reset() {
+        Realm.getDefaultInstance().executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                for (TextMsg msg : getAllMsg(realm).findAll()) {
+                    msg.setHaveRead(true);
+                }
+            }
+        });
+    }
+
+    @NonNull
+    public static RealmQuery<TextMsg> getAllMsg(Realm realm) {
+        return realm.where(TextMsg.class).equalTo("sessionId", getConfigKey());
     }
 }

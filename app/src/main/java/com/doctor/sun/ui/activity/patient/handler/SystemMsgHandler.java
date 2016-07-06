@@ -1,10 +1,10 @@
 package com.doctor.sun.ui.activity.patient.handler;
 
+import android.content.Context;
 import android.content.Intent;
 
 import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.ui.activity.patient.SystemMsgListActivity;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,9 +23,9 @@ public class SystemMsgHandler {
     }
 
 
-    public void systemMsgList(BaseAdapter adapter) {
-        Intent intent = SystemMsgListActivity.makeIntent(adapter.getContext(), adapter.getItemCount() - 2);
-        adapter.getContext().startActivity(intent);
+    public void systemMsgList(Context context, int count) {
+        Intent intent = SystemMsgListActivity.makeIntent(context, count);
+        context.startActivity(intent);
     }
 
     public boolean haveRead(long time) {

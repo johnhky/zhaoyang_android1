@@ -21,7 +21,7 @@ import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.ui.activity.ImagePreviewActivity;
-import com.doctor.sun.ui.activity.ItemSelectHospital;
+import com.doctor.sun.ui.activity.ItemPickHospital;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.widget.FlowLayout;
@@ -454,7 +454,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
     private Object saveDropDown(Answer answer, int position) {
         LayoutId layoutId = get(position + 1);
         if (layoutId.getItemLayoutId() == R.layout.item_hospital) {
-            ItemSelectHospital item = (ItemSelectHospital) layoutId;
+            ItemPickHospital item = (ItemPickHospital) layoutId;
 
 
             return item.toJsonAnswer();

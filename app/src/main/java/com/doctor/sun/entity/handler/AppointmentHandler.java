@@ -1019,6 +1019,10 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         Date date = new Date(lastMsg().getTime());
         return date.toString();
     }
+    public long lastMsgTimeMillis() {
+        return lastMsg().getTime();
+    }
+
 
     public boolean showCommentBtn() {
         return data.getOrderStatus().equals(Status.A_FINISHED);

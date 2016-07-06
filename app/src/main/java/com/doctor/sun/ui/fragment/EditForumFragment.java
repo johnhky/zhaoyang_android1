@@ -25,7 +25,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.activity.ItemSelectHospital;
+import com.doctor.sun.ui.activity.ItemPickHospital;
 import com.doctor.sun.ui.adapter.AnswerModifyAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -152,7 +152,7 @@ public class EditForumFragment extends RefreshListFragment {
                                         lv2Id = Integer.parseInt(type.get(1));
                                         lv3Id = Integer.parseInt(type.get(2));
                                     }
-                                    ItemSelectHospital object = new ItemSelectHospital(lv1Id, lv2Id, lv3Id);
+                                    ItemPickHospital object = new ItemPickHospital(lv1Id, lv2Id, lv3Id);
                                     allData.add(object);
                                 }
                             } catch (Exception e) {

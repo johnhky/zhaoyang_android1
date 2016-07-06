@@ -14,7 +14,7 @@
 
         <variable
             name="adapter"
-            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
 
     </data>
 
@@ -22,9 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_74"
         android:background="#eff3f5"
+        android:isRect="@{true}"
         android:orientation="vertical"
         android:showcase='@{"昭阳医生系统会向您推送所有的系统消息"}'
-        android:isRect="@{true}"
         android:showcaseId='@{"consulting"}'
         android:showcasePosition='@{0}'
         android:showcaseSize='@{2}'>
@@ -33,10 +33,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/ripple_dark"
+            android:onClick="@{()->data.handler.systemMsgList(context,adapter.size()-2)}"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/dp_13"
-            android:paddingRight="@dimen/dp_13"
-            android:onClick="@{()->data.handler.systemMsgList(adapter)}">
+            android:paddingRight="@dimen/dp_13">
 
             <com.doctor.sun.ui.widget.BezelImageView
                 android:layout_width="@dimen/dp_53"
@@ -102,6 +102,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="bottom"
                         android:singleLine="true"
+                        android:text="@{data.lastMsg}"
                         android:textColor="#898989"
                         android:textSize="@dimen/font_12" />
 
@@ -116,9 +117,10 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/shape_red_oval_dp17"
                         android:gravity="center"
+                        android:text='@{""+data.unreadMsgCount}'
                         android:textColor="#ffffff"
                         android:textSize="@dimen/font_12"
-                        android:visibility="gone" />
+                        android:visibility="@{data.unreadMsgCount>0}" />
 
                 </LinearLayout>
 
@@ -127,9 +129,9 @@
         </LinearLayout>
 
         <View
-            android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="1px"
+            android:layout_gravity="bottom"
             android:background="@color/divider_color" />
 
     </FrameLayout>

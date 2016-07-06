@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.PushModule;
@@ -49,6 +50,7 @@ public class SystemMsgListActivity extends PageActivity2 {
         permissionsUtil = new PermissionsUtil(this);
 
         Config.putLong(visitTimeKey, System.currentTimeMillis());
+        SystemMsg.reset();
     }
 
     @Override

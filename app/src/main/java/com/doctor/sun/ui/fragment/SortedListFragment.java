@@ -12,24 +12,21 @@ import android.view.ViewGroup;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.FragmentRefreshListBinding;
-import com.doctor.sun.http.callback.PageCallback;
-import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
-import io.ganguo.library.util.Tasks;
 import io.realm.Realm;
 
 /**
  * Created by Lynn on 2/22/16.
  */
-public class RefreshListFragment<T> extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class SortedListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     protected FragmentRefreshListBinding binding;
-    private SimpleAdapter mAdapter;
+    private SortedListAdapter mAdapter;
     public Realm realm;
-    private PageCallback<T> pageCallback;
     private boolean isLoading = false;
 
-    public RefreshListFragment() {
+    public SortedListFragment() {
     }
 
     @Override
@@ -51,53 +48,16 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
         binding = FragmentRefreshListBinding.inflate(inflater, container, false);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = createAdapter();
-        mAdapter.setLoadMoreListener(new LoadMoreListener() {
-            @Override
-            protected void onLoadMore() {
-                if (!isLoading) {
-                    loadMore();
-                    isLoading = true;
-                }
-            }
-
-            @Override
-            protected void onFinishLoadMore() {
-                super.onFinishLoadMore();
-                isLoading = false;
-            }
-        });
         binding.recyclerView.setAdapter(mAdapter);
         binding.swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
         binding.swipeRefresh.setOnRefreshListener(this);
 
-        getPageCallback();
         return binding.getRoot();
     }
 
-    public PageCallback getPageCallback() {
-        if (pageCallback == null) {
-            pageCallback = new PageCallback<T>(mAdapter) {
-                @Override
-                public void onFinishRefresh() {
-                    super.onFinishRefresh();
-                    Tasks.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            binding.swipeRefresh.setRefreshing(false);
-                        }
-                    }, 1000);
-                }
-            };
-        }
-        if (pageCallback.getAdapter() == null) {
-            pageCallback.setAdapter(getAdapter());
-        }
-        return pageCallback;
-    }
-
     @NonNull
-    public SimpleAdapter createAdapter() {
-        return new SimpleAdapter(getContext());
+    public SortedListAdapter createAdapter() {
+        return new SortedListAdapter(getContext());
     }
 
     @CallSuper
@@ -105,7 +65,7 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
         binding.swipeRefresh.setRefreshing(true);
     }
 
-    public SimpleAdapter getAdapter() {
+    public SortedListAdapter getAdapter() {
         return mAdapter;
     }
 
@@ -117,7 +77,6 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
     public void onRefresh() {
         if (!isLoading) {
             isLoading = true;
-            getPageCallback().resetPage();
             binding.swipeRefresh.setRefreshing(true);
             loadMore();
         } else {
