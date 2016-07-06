@@ -3,12 +3,12 @@ package com.doctor.sun.ui.binding;
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.Html;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,10 +38,17 @@ public class CustomBinding {
     public static void loadImage(ImageView imageView, String url, int width, int height) {
         Glide.with(imageView.getContext()).load(url).override(width, height).into(imageView);
     }
-//    @android.databinding.BindingAdapter(value = {"android:src"})
+
+    //    @android.databinding.BindingAdapter(value = {"android:src"})
 //    public static void loadImage(ImageView imageView, int resource) {
 //        Glide.with(imageView.getContext()).load(resource).into(imageView);
 //    }
+    @BindingAdapter(value = "app:srcCompat")
+    public static void srcCompat(ImageView imageView, int resourceId) {
+        Drawable d = VectorDrawableCompat.create(imageView.getResources(), resourceId, null);
+        d = DrawableCompat.wrap(d);
+        imageView.setImageDrawable(d);
+    }
 
     @android.databinding.BindingAdapter("bind:onClick")
     public static void onClick(View view, View.OnClickListener listener) {

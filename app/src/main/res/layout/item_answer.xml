@@ -24,8 +24,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="@{data.visible}"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="@{data.visible}">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                     android:layout_width="@dimen/dp_23"
                     android:layout_height="@dimen/dp_23"
                     android:enabled="@{data.needRefill == 1}"
-                    android:selected="@{data.isFill== 1}"
+                    android:selected="@{data.hasSelectedOptions}"
                     android:src="@drawable/ic_position_selector" />
 
                 <TextView

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools">
 
     <data>
@@ -28,14 +28,14 @@
             android:enabled="@{data.enable}"
             android:orientation="vertical">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:enabled="@{data.enable}"
                 android:textColor="@color/dark_36"
                 android:textSize="@dimen/font_15"
-                bind:drawableLeft="@{data.icon}"
+                app:srcCompat="@{data.icon}"
                 tool:drawableLeft="@drawable/nim_message_plus_video_selector2" />
 
         </FrameLayout>

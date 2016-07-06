@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by rick on 11/24/15.
  */
-public class Answer extends BaseItem{
+public class Answer extends BaseItem {
     public static final AnswerHandler handler = new AnswerHandler();
 
     /**
@@ -234,6 +234,10 @@ public class Answer extends BaseItem{
 
     public void setSelectedOptions(HashMap<String, String> selectedOptions) {
         this.selectedOptions = selectedOptions;
+    }
+
+    public boolean hasSelectedOptions() {
+        return !getSelectedOptions().isEmpty();
     }
 
     public int getPosition() {

@@ -56,6 +56,9 @@ public class ItemPickDate extends BaseItem {
             ItemPickDate.this.year = year;
             ItemPickDate.this.monthOfYear = monthOfYear;
             ItemPickDate.this.dayOfMonth = dayOfMonth;
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
             notifyChange();
         }
@@ -141,9 +144,22 @@ public class ItemPickDate extends BaseItem {
         });
     }
 
+    public void pickTime(Context context, final long minDate, final long maxDate) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(context, setBeginDate, year, monthOfYear, dayOfMonth);
+        final DatePicker datePicker = datePickerDialog.getDatePicker();
+        datePickerDialog.show();
+        Tasks.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                datePicker.setMaxDate(maxDate);
+                datePicker.setMinDate(minDate);
+            }
+        });
+    }
+
     public void pickFutureTime(Context context, final int dayRangeBeforeNow, final int dayRangeFromNow) {
-        final long passMillis = (long) Math.abs(dayRangeBeforeNow) * ONE_DAY_MILLIS;
-        final long futureAmount = (long) Math.abs(dayRangeFromNow) * ONE_DAY_MILLIS;
+        final long passMillis = (long) dayRangeBeforeNow * ONE_DAY_MILLIS;
+        final long futureAmount = (long) dayRangeFromNow * ONE_DAY_MILLIS;
         DatePickerDialog datePickerDialog = new DatePickerDialog(context, setBeginDate, year, monthOfYear, dayOfMonth);
         final DatePicker datePicker = datePickerDialog.getDatePicker();
         datePickerDialog.show();
@@ -180,5 +196,9 @@ public class ItemPickDate extends BaseItem {
             }
         });
         dateDialog.show();
+    }
+
+    public long getMillis() {
+        return calendar.getTimeInMillis();
     }
 }

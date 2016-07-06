@@ -47,6 +47,8 @@ import io.ganguo.library.util.log.LoggerFactory;
  * Created by Lynn on 1/19/16.
  */
 public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
+    public static final int FIRST_PICK_DATE_ADAPTER_POSITION = 7;
+    public static final int SECOND_PICK_DATE_ADAPTER_POSITION = 9;
     private Logger logger = LoggerFactory.getLogger(AnswerModifyAdapter.class);
     //区分填写数字的部分量词表, 用于显示hint
     private static final HashMap<Character, Boolean> PARAM_CLASSIFIER = new HashMap<>();
@@ -574,5 +576,49 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
     @Override
     public void clear() {
         super.clear();
+    }
+
+    public boolean isAnswerValid() {
+        if (type == AppointmentType.AFTER_SERVICE) {
+            return getTime(FIRST_PICK_DATE_ADAPTER_POSITION) < getTime(SECOND_PICK_DATE_ADAPTER_POSITION);
+        }
+        return true;
+    }
+
+    public long getMaxDate(BaseViewHolder viewHolder) {
+        if (viewHolder.getAdapterPosition() == FIRST_PICK_DATE_ADAPTER_POSITION) {
+            long time = getTime(SECOND_PICK_DATE_ADAPTER_POSITION);
+            if (time == 0) {
+                return System.currentTimeMillis();
+            }
+            return time;
+        }
+        if (viewHolder.getAdapterPosition() == SECOND_PICK_DATE_ADAPTER_POSITION) {
+            return System.currentTimeMillis();
+        }
+        return 0;
+    }
+
+    public long getMinDate(BaseViewHolder viewHolder) {
+        if (viewHolder.getAdapterPosition() == FIRST_PICK_DATE_ADAPTER_POSITION) {
+            return System.currentTimeMillis() - ItemPickDate.ONE_HUNDRED_YEAR;
+        }
+        if (viewHolder.getAdapterPosition() == SECOND_PICK_DATE_ADAPTER_POSITION) {
+            long time = getTime(FIRST_PICK_DATE_ADAPTER_POSITION);
+            if (time == 0) {
+                return System.currentTimeMillis() - ItemPickDate.ONE_HUNDRED_YEAR;
+            }
+            return time;
+        }
+        return 0;
+    }
+
+
+    public long getTime(int adapterPosition) {
+        if (getItemViewType(adapterPosition) == R.layout.item_pick_question_date) {
+            ItemPickDate pickDate = (ItemPickDate) get(adapterPosition);
+            return pickDate.getMillis();
+        }
+        return 0;
     }
 }

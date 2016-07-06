@@ -4,8 +4,8 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
-import com.doctor.sun.R;
 import com.doctor.sun.BR;
+import com.doctor.sun.R;
 
 
 /**
@@ -39,6 +39,7 @@ public class HeaderViewModel extends BaseObservable {
     public void onMenuClicked(View view) {
         mView.onMenuClicked();
     }
+
     public void onFirstMenuClicked(View view) {
         mView.onFirstMenuClicked();
     }
@@ -138,13 +139,16 @@ public class HeaderViewModel extends BaseObservable {
     public boolean leftVisible() {
         return getLeftIcon() != 0 || !getLeftTitle().equals("");
     }
+
     public boolean midVisible() {
         return getMidIcon() != 0 || !getMidTitle().equals("");
     }
-    public boolean  rightVisible() {
+
+    public boolean rightVisible() {
         return getRightIcon() != 0 || !getRightTitle().equals("");
     }
-    public boolean  rightFirstVisible() {
+
+    public boolean rightFirstVisible() {
         return getRightFirstIcon() != 0 || !getRightFirstTitle().equals("");
     }
 

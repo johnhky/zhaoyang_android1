@@ -303,12 +303,14 @@ public class EditForumFragment extends RefreshListFragment {
     }
 
     public void saveAnswer(int isFinished) {
-        api.saveAnswer(orderId, adapter.toJsonAnswer(), isFinished).enqueue(new SimpleCallback<String>() {
-            @Override
-            protected void handleResponse(String response) {
-                Toast.makeText(getContext(), "成功保存问卷", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (adapter.isAnswerValid()) {
+            api.saveAnswer(orderId, adapter.toJsonAnswer(), isFinished).enqueue(new SimpleCallback<String>() {
+                @Override
+                protected void handleResponse(String response) {
+                    Toast.makeText(getContext(), "成功保存问卷", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     public String getForumType() {

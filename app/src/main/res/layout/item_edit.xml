@@ -13,9 +13,10 @@
         <EditText
             android:id="@+id/et_answer"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_35"
+            android:layout_height="wrap_content"
             android:background="@drawable/shape_pre_edit"
             android:hint="描述性回答"
+            android:minHeight="@dimen/dp_35"
             android:paddingLeft="@dimen/dp_12"
             android:text=""
             android:textColor="#898989"
