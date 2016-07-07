@@ -182,16 +182,18 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         StringBuilder builder = new StringBuilder();
         builder.append(mediaclName);
         if (productName != null && !productName.isEmpty()) {
-            builder.append("(").append(productName).append(")/");
+            builder.append("(").append(productName).append("),");
         } else {
-            builder.append("/");
+            builder.append(",");
         }
-        builder.append(interval).append("/");
+        if (!interval.equals("每天")) {
+            builder.append(interval).append(":");
+        }
 
         for (int i = 0; i < numbers.size(); i++) {
             String amount = numbers.get(i).get(keys.get(i));
             if (null != amount && !amount.equals("")) {
-                builder.append(keys.get(i)).append(amount).append(unit).append("/");
+                builder.append(keys.get(i)).append(amount).append(unit).append(",");
             }
         }
 

@@ -228,7 +228,7 @@ public class IMManager {
         sendMsg(message, enablePush);
     }
 
-    private void sendMsg(IMMessage message, boolean enablePush) {
+    public void sendMsg(IMMessage message, boolean enablePush) {
         CustomMessageConfig config = new CustomMessageConfig();
         config.enableUnreadCount = true; // 该消息不计入未读数
         config.enableHistory = true;

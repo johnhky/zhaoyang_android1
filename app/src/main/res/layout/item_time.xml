@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -54,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:singleLine="false"
-                    android:text="@{data.date}"
+                    android:text="@{data.dateLabel()}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_14" />
 

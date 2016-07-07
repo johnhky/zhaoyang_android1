@@ -59,4 +59,8 @@ public interface TimeModule {
     @POST("time/getdatalist")
     Call<ApiDTO<List<Time>>> reserveTime(@Field("doctorId") int doctorId, @Field("data") String data);
 
+
+    @GET("013/time/latest-avaliable-time")
+    Call<ApiDTO<Time>> latestAvailableTime(@Query("doctorId") int doctorId, @Query("takeTime") int data, @Query("date") String date);
+
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
@@ -10,7 +11,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.Doctor" />
+            type="com.doctor.sun.entity.AppointmentBuilder" />
 
         <variable
             name="type"
@@ -32,35 +33,68 @@
 
         <include
             layout="@layout/item_doctor_dates"
-            bind:data="@{data}" />
+            bind:data="@{data.doctor}" />
+
+        <com.zhy.android.percent.support.PercentFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                app:layout_widthPercent="70%">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:text="@{type}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_13" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:text="@{date}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_13" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_143"
+                android:layout_height="@dimen/dp_33"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginEnd="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:background="@drawable/shape_white_rect"
+                android:onClick="@{()->data.latestAvailableTime(context,data.doctor.id,data.duration)}"
+                app:layout_widthPercent="30%">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:text="一键预约"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/font_13" />
+            </FrameLayout>
+
+        </com.zhy.android.percent.support.PercentFrameLayout>
+
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_12"
-            android:text="@{type}"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_12" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_12"
-            android:text="@{date}"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_12" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="@dimen/dp_12"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_12"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_25"
+            android:layout_gravity="center"
+            android:background="#dee5e9"
+            android:gravity="center"
             android:text="请选择预约时间"
             android:textColor="#339de1"
             android:textSize="@dimen/font_12" />

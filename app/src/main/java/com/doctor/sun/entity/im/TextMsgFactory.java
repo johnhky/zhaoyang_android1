@@ -6,6 +6,7 @@ import com.doctor.sun.emoji.StickerManager;
 import com.doctor.sun.im.TeamNotificationHelper;
 import com.doctor.sun.im.custom.AttachmentData;
 import com.doctor.sun.im.custom.CustomAttachment;
+import com.doctor.sun.im.custom.ExtendTimeAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
 import com.netease.nimlib.sdk.msg.attachment.AudioAttachment;
 import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
@@ -28,24 +29,6 @@ public class TextMsgFactory {
     public static final String ADMIN_DRUG = "[\"admin\",\"drug\"]";
     public static final int ONE_SECOND = 1000;
 
-    public static TextMsg fromECMessage(ECMessage msg) {
-        TextMsg result = new TextMsg();
-        result.setId(msg.getId());
-        result.setSessionId(msg.getSessionId());
-        result.setType(msg.getType().toString());
-        result.setDirection(msg.getDirection().toString());
-        String body = msg.getBody().toString();
-        result.setBody(body.substring(19, body.length() - 1));
-        result.setMsgId(msg.getMsgId());
-        result.setTime(msg.getMsgTime());
-        result.setNickName(msg.getNickName());
-        result.setFrom(msg.getForm());
-        result.setTo(msg.getTo());
-        result.setUserData(msg.getUserData().replaceAll("\\s*|\t|\r|\n", ""));
-        result.setMessageStatus(msg.getMsgStatus().toString());
-        result.setIsAnonymity(msg.isAnonymity());
-        return result;
-    }
 
     public static TextMsg fromYXMessage(IMMessage msg) {
         if (msg.getMsgType().equals(MsgTypeEnum.notification)) {
@@ -69,7 +52,7 @@ public class TextMsgFactory {
             result.setUserData(ADMIN_DRUG);
         }
         AttachmentData s = parseAttachment(msg);
-        if (s.getType() != -1) {
+        if (s != null && s.getType() != -1) {
             result.setBody(s.getBody());
             result.setMessageStatus(s.getData());
             result.setUserData(s.getExtension());
@@ -176,6 +159,13 @@ public class TextMsgFactory {
 //                        textAttachment.setData(text);
                 result.setBody(data.toString());
                 result.setType(TextMsg.Drug);
+                return result;
+            }
+            case TextMsg.EXTEND_TIME: {
+                ExtendTimeAttachment data = (ExtendTimeAttachment) attachment.getData();
+//                        textAttachment.setData(text);
+                result.setBody(data.getContent());
+                result.setType(TextMsg.EXTEND_TIME);
                 return result;
             }
         }

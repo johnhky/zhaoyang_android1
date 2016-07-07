@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPickTimeBinding;
-import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
@@ -39,36 +39,23 @@ public class PickTimeActivity extends BaseActivity2 {
     private ActivityPickTimeBinding binding;
     private PickTimeAdapter mAdapter;
     String[] weekOfDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+    private AppointmentBuilder data;
 
-    public static Intent makeIntent(Context context, Doctor data, String date, String recordId, int consultType) {
+    public static Intent makeIntent(Context context, AppointmentBuilder builder) {
         Intent i = new Intent(context, PickTimeActivity.class);
-        i.putExtra(Constants.DATA, data);
-        i.putExtra(Constants.DATE, date);
-        i.putExtra(Constants.PARAM_RECORD_ID, recordId);
-        i.putExtra(Constants.CONSULT_TYPE, consultType);
+        i.putExtra(Constants.DATA, builder);
         return i;
     }
 
 
-    private Doctor getData() {
+    private AppointmentBuilder getData() {
         return getIntent().getParcelableExtra(Constants.DATA);
-    }
-
-    private String getDate() {
-        return getIntent().getStringExtra(Constants.DATE);
-    }
-
-    public int getType() {
-        return getIntent().getIntExtra(Constants.CONSULT_TYPE, 0);
-    }
-
-    private String getRecordId() {
-        return getIntent().getStringExtra(Constants.PARAM_RECORD_ID);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        data = getData();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_pick_time);
 
         binding.setHeader(getHeaderViewModel());
@@ -88,22 +75,22 @@ public class PickTimeActivity extends BaseActivity2 {
     }
 
     private String getTypeImpl() {
-        if (getType() == AppointmentType.QUICK) {
+        if (data.getType() == AppointmentType.QUICK) {
             return "预约类型:留言咨询";
-        } else if (getType() == AppointmentType.DETAIL) {
+        } else if (data.getType() == AppointmentType.DETAIL) {
             return "预约类型:专属咨询";
         }
         return "";
     }
 
     private String getDateImpl() {
-        return getDate();
+        return data.getTime().getDate();
     }
 
     private String getWeek() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         try {
-            Date parse = simpleDateFormat.parse(getDate());
+            Date parse = simpleDateFormat.parse(data.getTime().getDate());
             Calendar calendar = GregorianCalendar.getInstance();
             calendar.setTime(parse);
             int w = calendar.get(Calendar.DAY_OF_WEEK) - 1;
@@ -143,18 +130,19 @@ public class PickTimeActivity extends BaseActivity2 {
     }
 
     private void loadData() {
-        Doctor data = getData();
-        api.getDaySchedule(data.getId(), getDate(), getType(), data.getDuration()).enqueue(new ListCallback<Time>(mAdapter));
+        api.getDaySchedule(data.getDoctor().getId(), data.getTime().getDate(), data.getType(), String.valueOf(data.getDuration())).enqueue(new ListCallback<Time>(mAdapter));
     }
 
     private void makeAppointment() {
-        String selectedTime = mAdapter.getSelectedTime();
-        if (selectedTime.equals("")) {
+        Time selectedTime = mAdapter.getSelectedItem();
+        if (selectedTime == null) {
             Toast.makeText(PickTimeActivity.this, "请选择一个时间", Toast.LENGTH_SHORT).show();
             return;
         }
-        String bookTime = getDate() + " " + selectedTime.replace(" ", "");
-        Intent intent = ApplyAppointmentActivity.makeIntent(this, getData(), bookTime, getType(), getRecordId());
+        AppointmentBuilder data = getData();
+        selectedTime.setDate(data.getTime().getDate());
+        data.setTime(selectedTime);
+        Intent intent = ApplyAppointmentActivity.makeIntent(this, data);
         startActivity(intent);
     }
 
@@ -170,7 +158,7 @@ public class PickTimeActivity extends BaseActivity2 {
 
     @NonNull
     protected PickTimeAdapter createAdapter() {
-        PickTimeAdapter simpleAdapter = new PickTimeAdapter(this, getType(), getDateTime());
+        PickTimeAdapter simpleAdapter = new PickTimeAdapter(this, data.getType(), getDateTime());
         simpleAdapter.mapLayout(R.layout.item_time, R.layout.reserve_time);
         return simpleAdapter;
     }
@@ -178,7 +166,7 @@ public class PickTimeActivity extends BaseActivity2 {
     public long getDateTime() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss", Locale.CHINA);
         try {
-            Date parse = simpleDateFormat.parse(getDate() + "-00:00:00");
+            Date parse = simpleDateFormat.parse(data.getTime().getDate() + "-00:00:00");
             return parse.getTime();
         } catch (ParseException e) {
             e.printStackTrace();

@@ -14,6 +14,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityDoctorDetailBinding;
 import com.doctor.sun.databinding.DialogPickDurationBinding;
+import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
@@ -21,7 +22,6 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.pager.DoctorDetailPagerAdapter;
 
@@ -36,6 +36,7 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
     private ActivityDoctorDetailBinding binding;
     private HeaderViewModel headerViewModel;
     private Doctor doctor;
+    private AppointmentBuilder builder = new AppointmentBuilder();
 
     private FragmentPagerAdapter pagerAdapter;
 
@@ -61,6 +62,7 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         doctor = getData();
+        builder.setDoctor(doctor);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_doctor_detail);
         binding.setType(getType());
         if (getType() == AppointmentType.DETAIL) {
@@ -118,8 +120,9 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
                 }
 
                 if (selectedItem != -1) {
-                    doctor.setDuration(String.valueOf((selectedItem) * 15));
-                    doctor.getHandler().pickDate(DoctorDetailActivity.this,getType());
+                    builder.setDuration((selectedItem) * 15);
+                    builder.setType(getType());
+                    builder.pickDate(DoctorDetailActivity.this);
                 } else {
                     Toast.makeText(DoctorDetailActivity.this, "请选择时长", Toast.LENGTH_SHORT).show();
                 }

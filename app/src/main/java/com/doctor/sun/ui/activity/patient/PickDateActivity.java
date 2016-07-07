@@ -9,7 +9,7 @@ import android.support.v4.view.PagerAdapter;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPickDateBinding;
-import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.pager.PickDatePagerAdapter;
@@ -22,19 +22,7 @@ public class PickDateActivity extends BaseFragmentActivity2 {
     protected ActivityPickDateBinding binding;
     private PagerAdapter pagerAdapter;
 
-
-    public static Intent makeIntent(Context context, Doctor data, int type) {
-        Intent i = new Intent(context, PickDateActivity.class);
-        i.putExtra(Constants.DATA, data);
-        i.putExtra(Constants.TYPE, type);
-        return i;
-    }
-
-    public int getType() {
-        return getIntent().getIntExtra(Constants.TYPE, -1);
-    }
-
-    private Doctor getData() {
+    private AppointmentBuilder getData() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 
@@ -58,8 +46,8 @@ public class PickDateActivity extends BaseFragmentActivity2 {
     }
 
     protected PagerAdapter createPagerAdapter() {
-        Doctor data = getData();
-        return new PickDatePagerAdapter(getSupportFragmentManager(), data, getType());
+        AppointmentBuilder data = getData();
+        return new PickDatePagerAdapter(getSupportFragmentManager(), data);
     }
 
     protected HeaderViewModel createHeaderViewModel() {
@@ -68,4 +56,9 @@ public class PickDateActivity extends BaseFragmentActivity2 {
         return headerViewModel;
     }
 
+    public static Intent makeIntent(Context context, AppointmentBuilder builder) {
+        Intent i = new Intent(context, PickDateActivity.class);
+        i.putExtra(Constants.DATA, builder);
+        return i;
+    }
 }

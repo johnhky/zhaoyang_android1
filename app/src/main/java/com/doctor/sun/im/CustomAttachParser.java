@@ -2,6 +2,7 @@ package com.doctor.sun.im;
 
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.im.custom.CustomAttachment;
+import com.doctor.sun.im.custom.ExtendTimeAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
 import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.databind.JavaType;
@@ -45,6 +46,15 @@ public class CustomAttachParser implements MsgAttachmentParser {
                     CustomAttachment<JSONObject> customAttachment = new CustomAttachment<>();
                     customAttachment.setType(TextMsg.Drug);
                     customAttachment.setData(object.getJSONObject("data"));
+                    return customAttachment;
+                }
+
+                case TextMsg.EXTEND_TIME: {
+                    CustomAttachment<ExtendTimeAttachment> customAttachment = new CustomAttachment<>();
+                    customAttachment.setType(TextMsg.EXTEND_TIME);
+                    JSONObject data = object.getJSONObject("data");
+                    ExtendTimeAttachment extendTimeAttachment = JacksonUtils.fromJson(data.toString(), ExtendTimeAttachment.class);
+                    customAttachment.setData(extendTimeAttachment);
                     return customAttachment;
                 }
             }

@@ -90,6 +90,13 @@ public class PickTimeAdapter extends SimpleAdapter<Time, ReserveTimeBinding> {
         return get(selectedItem).getFrom().substring(0, 5);
     }
 
+    public Time getSelectedItem() {
+        if (selectedItem == -1) {
+            return null;
+        }
+        return get(selectedItem);
+    }
+
     public String getTime() {
         return get(selectedItem).time();
     }

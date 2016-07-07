@@ -14,12 +14,18 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.avchat.activity.AVChatActivity;
+import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimMsgInfo;
+import com.doctor.sun.im.custom.CustomAttachment;
+import com.doctor.sun.im.custom.ExtendTimeAttachment;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.FileChooser;
 import com.doctor.sun.util.PermissionUtil;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import java.io.File;
 
@@ -59,10 +65,29 @@ public class CustomActionViewModel {
         return new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_alarm_selector, "发起延时", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
-//                IMManager.getInstance().sentTextMsg(nimTeamId.getTeamId(), nimTeamId.getType(), "发起延时", true);
+                NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
+                sendExtendTimeMsg(nimTeamId);
             }
         });
+    }
+
+    public void sendExtendTimeMsg(NimMsgInfo nimTeamId) {
+        CustomAttachment<ExtendTimeAttachment> data = new CustomAttachment<>();
+        ExtendTimeAttachment data1 = new ExtendTimeAttachment();
+        data1.setCancelText("确认");
+        data1.setConfirmText("取消");
+        data1.setCountDownText("测试时间");
+        data1.setContent("患者已取消本次延时申请");
+        data1.setTimeToCountDown(0);
+        data.setType(TextMsg.EXTEND_TIME);
+        data.setData(data1);
+
+        final IMMessage message = MessageBuilder.createCustomMessage(
+                nimTeamId.getTeamId(), // 聊天对象的 ID，如果是单聊，为用户帐号，如果是群聊，为群组 ID
+                nimTeamId.getType(), // 聊天类型，单聊或群组
+                data
+        );
+        IMManager.getInstance().sendMsg(message, nimTeamId.enablePush());
     }
 
     @NonNull

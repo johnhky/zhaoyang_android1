@@ -24,6 +24,7 @@ public class TextMsg extends RealmObject implements LayoutId {
     public static final int SnapChat = 2;
     public static final int Sticker = 3;
     public static final int RTS = 4;
+    public static final int EXTEND_TIME = 98;
     public static final int Drug = 99;
 
     public static final int IMAGE = 11;
@@ -204,53 +205,53 @@ public class TextMsg extends RealmObject implements LayoutId {
         if (getType().equals(String.valueOf(MsgTypeEnum.notification))) {
             return R.layout.msg_notification;
         }
-
-        if (getType().equals(String.valueOf(Sticker))) {
-            if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
-                return R.layout.msg_sticker_send;
-            } else if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
-                return R.layout.msg_sticker_receive;
-            }
-        }
-        if (getType().equals(String.valueOf(Drug))) {
-            if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
-                return R.layout.msg_prescription_list;
-            } else if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
-                return R.layout.msg_prescription_list;
-            }
-        }
-        if (getType().equals(String.valueOf(IMAGE))) {
-            if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
-                return R.layout.msg_image_send;
-            } else if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
-                return R.layout.msg_image_receive;
-            }
-        }
-        if (getType().equals(String.valueOf(AUDIO))) {
-            if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
-                return R.layout.msg_audio_send;
-            } else if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
-                return R.layout.msg_audio_receive;
-            }
-        }
-        if (getType().equals(String.valueOf(FILE))) {
-            if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
-                return R.layout.msg_file_send;
-            } else if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
-                return R.layout.msg_file_receive;
-            }
-        }
         if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
+            if (getType().equals(String.valueOf(Sticker))) {
+                return R.layout.msg_sticker_send;
+            }
+            if (getType().equals(String.valueOf(Drug))) {
+                return R.layout.msg_prescription_list;
+            }
+            if (getType().equals(String.valueOf(IMAGE))) {
+                return R.layout.msg_image_send;
+            }
+            if (getType().equals(String.valueOf(AUDIO))) {
+                return R.layout.msg_audio_send;
+            }
+            if (getType().equals(String.valueOf(FILE))) {
+                return R.layout.msg_file_send;
+            }
             if (TextMsgFactory.ADMIN_DRUG.equals(getUserData())) {
                 return R.layout.msg_prescription_list;
             }
+            if (getType().equals(String.valueOf(TextMsg.EXTEND_TIME))) {
+                return R.layout.msg_extend_time;
+            }
             return R.layout.msg_text_send;
-        } else if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
+        }
+
+        if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
+            if (getType().equals(String.valueOf(Sticker))) {
+                return R.layout.msg_sticker_receive;
+            }
+            if (getType().equals(String.valueOf(Drug))) {
+                return R.layout.msg_prescription_list;
+            }
+            if (getType().equals(String.valueOf(IMAGE))) {
+                return R.layout.msg_image_receive;
+            }
+            if (getType().equals(String.valueOf(AUDIO))) {
+                return R.layout.msg_audio_receive;
+            }
+            if (getType().equals(String.valueOf(FILE))) {
+                return R.layout.msg_file_receive;
+            }
             if (TextMsgFactory.ADMIN_DRUG.equals(getUserData())) {
                 return R.layout.msg_prescription_list;
             }
             return R.layout.msg_text_receive;
         }
+
         return itemLayoutId;
     }
 

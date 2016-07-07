@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.ui.fragment.PickDateFragment;
 
@@ -13,18 +13,17 @@ import com.doctor.sun.ui.fragment.PickDateFragment;
  */
 public class PickDatePagerAdapter extends FragmentPagerAdapter {
 
-    private final Doctor doctor;
-    private int type;
 
-    public PickDatePagerAdapter(FragmentManager fm, Doctor doctor, int type) {
-        super(fm);
-        this.doctor = doctor;
-        this.type = type;
+    private final AppointmentBuilder data;
+
+    public PickDatePagerAdapter(FragmentManager supportFragmentManager, AppointmentBuilder data) {
+        super(supportFragmentManager);
+        this.data = data;
     }
 
     @Override
     public Fragment getItem(final int position) {
-        PickDateFragment fragment = PickDateFragment.newInstance(doctor, type);
+        PickDateFragment fragment = PickDateFragment.newInstance(data);
         return fragment;
     }
 
@@ -35,7 +34,7 @@ public class PickDatePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (type == AppointmentType.DETAIL) {
+        if (data.getType() == AppointmentType.DETAIL) {
             return "专属咨询";
         } else {
             return "留言咨询";

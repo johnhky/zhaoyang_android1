@@ -13,8 +13,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentPickDateBinding;
-import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.ReserveDate;
+import com.doctor.sun.entity.Time;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
@@ -41,17 +42,13 @@ public class PickDateFragment extends BaseFragment {
 
     private FragmentPickDateBinding binding;
     private SimpleDateFormat simpleDateFormat;
-    private Doctor doctor;
-    private int type;
-    private String recordId;
+    private AppointmentBuilder builder;
 
 
-    public static PickDateFragment newInstance(Doctor doctor, @AppointmentType int type) {
+    public static PickDateFragment newInstance(AppointmentBuilder builder) {
 
         Bundle args = new Bundle();
-        args.putInt(Constants.POSITION, type);
-        args.putParcelable(Constants.PARAM_DOCTOR_ID, doctor);
-        args.putString(Constants.PARAM_RECORD_ID, doctor.getRecordId());
+        args.putParcelable(Constants.DATA, builder);
 
         PickDateFragment fragment = new PickDateFragment();
         fragment.setArguments(args);
@@ -67,9 +64,7 @@ public class PickDateFragment extends BaseFragment {
         final Calendar nextMonth = Calendar.getInstance();
         nextMonth.add(Calendar.MONTH, 5);
 
-        type = getType();
-        doctor = getDoctor();
-        recordId = getRecordId();
+        builder = getData();
         binding.calendarView.init(now.getTime(), nextMonth.getTime())
                 .inMode(CalendarPickerView.SelectionMode.MULTIPLE);
         binding.calendarView.setCellClickInterceptor(new OnDateClick());
@@ -78,29 +73,31 @@ public class PickDateFragment extends BaseFragment {
     }
 
     private void pickTime(String bookTime) {
-        Intent intent = PickTimeActivity.makeIntent(getContext(), doctor, bookTime, recordId, getType());
+        Time time = new Time();
+        time.setDate(bookTime);
+        builder.setTime(time);
+        Intent intent = PickTimeActivity.makeIntent(getContext(), builder);
         startActivity(intent);
     }
 
     private void applyAppointment(String bookTime) {
-        Intent intent = ApplyAppointmentActivity.makeIntent(getContext(), doctor, bookTime, type, recordId);
+        Time time = new Time();
+        time.setDate(bookTime);
+        builder.setTime(time);
+        Intent intent = ApplyAppointmentActivity.makeIntent(getContext(), builder);
         startActivity(intent);
     }
 
-    private String getRecordId() {
-        return getArguments().getString(Constants.PARAM_RECORD_ID);
-    }
-
     private int getDoctorId() {
-        if (doctor != null) {
-            return doctor.getId();
+        if (builder != null) {
+            return builder.getDoctor().getId();
         }
         return -1;
     }
 
     private int getDuration() {
-        if (doctor != null) {
-            return Integer.parseInt(doctor.getDuration());
+        if (builder != null) {
+            return builder.getDuration();
         }
         return -1;
     }
@@ -137,20 +134,20 @@ public class PickDateFragment extends BaseFragment {
     }
 
     private int getType() {
-        return getArguments().getInt(Constants.POSITION);
+        return builder.getType();
     }
 
     private boolean isEnable(ReserveDate reserveDate) {
-        if (type == AppointmentType.DETAIL) {
+        if (builder.getType() == AppointmentType.DETAIL) {
             return reserveDate.getDetail() == 1;
-        } else if (type == AppointmentType.QUICK) {
+        } else if (builder.getType() == AppointmentType.QUICK) {
             return reserveDate.getQuick() == 1;
         }
         return false;
     }
 
-    private Doctor getDoctor() {
-        return getArguments().getParcelable(Constants.PARAM_DOCTOR_ID);
+    private AppointmentBuilder getData() {
+        return getArguments().getParcelable(Constants.DATA);
     }
 
     public long getMillisMidNight() {
@@ -191,7 +188,7 @@ public class PickDateFragment extends BaseFragment {
 
             if (binding.calendarView.getSelectedDates().contains(date)) {
                 final String bookDate = simpleDateFormat.format(date);
-                switch (type) {
+                switch (builder.getType()) {
                     case AppointmentType.DETAIL: {
                         pickTime(bookDate);
                         break;

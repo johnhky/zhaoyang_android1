@@ -282,15 +282,6 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
         this.recordId = recordId;
     }
 
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-
     public int getType() {
         return type;
     }

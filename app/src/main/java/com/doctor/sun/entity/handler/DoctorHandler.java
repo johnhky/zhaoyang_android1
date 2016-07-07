@@ -7,27 +7,18 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.databinding.DialogPickDurationBinding;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
-import com.doctor.sun.ui.activity.patient.PickDateActivity;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
-import com.doctor.sun.ui.widget.BottomDialog;
-import com.doctor.sun.ui.widget.SelectRecordDialog;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashMap;
@@ -141,62 +132,24 @@ public class DoctorHandler {
         }
     }
 
-
-    public void pickDate(final Context context, final int type) {
-        SelectRecordDialog.showRecordDialog(context, new SelectRecordDialog.SelectRecordListener() {
-            @Override
-            public void onSelectRecord(SelectRecordDialog dialog, MedicalRecord record) {
-                data.setRecordId(String.valueOf(record.getMedicalRecordId()));
-                Intent intent = PickDateActivity.makeIntent(context, data, type);
-                context.startActivity(intent);
-                dialog.dismiss();
-            }
-        });
-    }
+//
+//    public void pickDate(final Context context, final int type) {
+//        SelectRecordDialog.showRecordDialog(context, new SelectRecordDialog.SelectRecordListener() {
+//            @Override
+//            public void onSelectRecord(SelectRecordDialog dialog, MedicalRecord record) {
+//                data.setRecordId(String.valueOf(record.getMedicalRecordId()));
+//                Intent intent = PickDateActivity.makeIntent(context, data, type);
+//                context.startActivity(intent);
+//                dialog.dismiss();
+//            }
+//        });
+//    }
 
     private int getType(BaseAdapter temp) {
         SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
         return adapter.getType();
     }
 
-    public void pickDuration(final View root) {
-        LayoutInflater inflater = LayoutInflater.from(root.getContext());
-        final DialogPickDurationBinding binding = DialogPickDurationBinding.inflate(inflater, null, false);
-        binding.setMoney(0);
-        binding.rgDuration.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                int selectedItem = -1;
-                for (int i = 0; i < binding.rgDuration.getChildCount(); i++) {
-                    RadioButton childAt = (RadioButton) binding.rgDuration.getChildAt(i);
-                    if (childAt.isChecked()) {
-                        selectedItem = i;
-                    }
-                }
-                binding.setMoney(data.getMoney() * (selectedItem + 1));
-            }
-        });
-        binding.tvPickDuration.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int selectedItem = -1;
-                for (int i = 0; i < binding.rgDuration.getChildCount(); i++) {
-                    RadioButton childAt = (RadioButton) binding.rgDuration.getChildAt(i);
-                    if (childAt.isChecked()) {
-                        selectedItem = i;
-                    }
-                }
-
-                if (selectedItem != -1) {
-                    data.setDuration(String.valueOf((selectedItem + 1) * 15));
-//                    pickDate(root);
-                } else {
-                    Toast.makeText(root.getContext(), "请选择时长", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        BottomDialog.showDialog((Activity) root.getContext(), binding.getRoot());
-    }
 
     @JsonIgnore
     public boolean getDetailVisible() {
@@ -213,17 +166,17 @@ public class DoctorHandler {
         return result;
     }
 
-    public int money() {
-        switch (data.getType()) {
-            case AppointmentType.QUICK:
-                return data.getSecondMoney();
-            case AppointmentType.DETAIL:
-                int scalar = Integer.parseInt(data.getDuration()) / 15;
-                return data.getMoney() * scalar;
-            default:
-                return 0;
-        }
-    }
+//    public int money() {
+//        switch (data.getType()) {
+//            case AppointmentType.QUICK:
+//                return data.getSecondMoney();
+//            case AppointmentType.DETAIL:
+//                int scalar = Integer.parseInt(data.getDuration()) / 15;
+//                return data.getMoney() * scalar;
+//            default:
+//                return 0;
+//        }
+//    }
 
     public View.OnClickListener allowAfterService(final BaseAdapter adapter, BaseViewHolder vh) {
         return new View.OnClickListener() {
@@ -234,6 +187,7 @@ public class DoctorHandler {
             }
         };
     }
+
 
     public boolean canWritePrescription() {
         return data.getLevel().equals("执业医师认证");

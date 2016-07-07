@@ -48,13 +48,15 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
     @JsonProperty("type")
     private int type = TYPE_DETAIL;
     @JsonProperty("from")
-    private String from;
+    private String from = "";
     @JsonProperty("to")
-    private String to;
+    private String to = "";
     @JsonProperty("updated_at")
     private String updatedAt;
     @JsonProperty("created_at")
     private String createdAt;
+    @JsonProperty("date")
+    private String date;
     @JsonProperty("interval")
     public int interval = 5;
 
@@ -117,6 +119,14 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
 
     public int getWeek() {
         return week;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     //TODO 修改这里
@@ -182,7 +192,7 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
         return id;
     }
 
-    public String date() {
+    public String dateLabel() {
         return (type == TYPE_QUICK ? "留言咨询\n" : "专属咨询") + ':' + getWeekLabel();
     }
 
@@ -263,6 +273,7 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
         dest.writeInt(this.reserva);
         dest.writeInt(this.optional);
         dest.writeInt(this.interval);
+        dest.writeString(this.date);
     }
 
     protected Time(Parcel in) {
@@ -278,6 +289,7 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
         this.reserva = in.readInt();
         this.optional = in.readInt();
         this.interval = in.readInt();
+        this.date = in.readString();
     }
 
     public static final Creator<Time> CREATOR = new Creator<Time>() {

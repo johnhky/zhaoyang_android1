@@ -12,9 +12,10 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityApplyAppointmentBinding;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Coupon;
-import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.Time;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.CouponType;
 import com.doctor.sun.entity.handler.AppointmentHandler;
@@ -40,86 +41,63 @@ import java.util.Locale;
  * Created by lucas on 1/22/16.
  */
 public class ApplyAppointmentActivity extends BaseActivity2 {
-    public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
+    public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm:ss";
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
     private PActivityApplyAppointmentBinding binding;
     private ProfileModule api = Api.of(ProfileModule.class);
     private AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
-    private MedicalRecord record;
     private List<Coupon> coupons;
+    private AppointmentBuilder data;
 
-    public static Intent makeIntent(Context context, Doctor doctor, String bookTime, int type, String recordId) {
+    public static Intent makeIntent(Context context, AppointmentBuilder builder) {
         Intent i = new Intent(context, ApplyAppointmentActivity.class);
-        i.putExtra(Constants.DOCTOR, doctor);
-        i.putExtra(Constants.BOOKTIME, bookTime);
-        i.putExtra(Constants.TYPE, type);
-        i.putExtra(Constants.RECORDID, recordId);
+        i.putExtra(Constants.DATA, builder);
         return i;
     }
 
-    private Doctor getDoctorData() {
-        return getIntent().getParcelableExtra(Constants.DOCTOR);
-    }
-
-    private String getBookTime() {
-        return getIntent().getStringExtra(Constants.BOOKTIME);
-    }
-
-    private int getType() {
-        return getIntent().getIntExtra(Constants.TYPE, 0);
-    }
-
-    private String getRecordId() {
-        return getIntent().getStringExtra(Constants.RECORDID);
+    private AppointmentBuilder getData() {
+        return getIntent().getParcelableExtra(Constants.DATA);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        data = getData();
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_apply_appointment);
+        binding.setData(data);
         HeaderViewModel header = new HeaderViewModel(this);
         header.setMidTitle("确认预约");
         binding.setHeader(header);
-        api.recordDetail(getRecordId()).enqueue(new ApiCallback<MedicalRecord>() {
-            @Override
-            protected void handleResponse(MedicalRecord response) {
-                binding.tvMedcialRecord.setText(response.getHandler().getRecordDetail());
-                record = response;
-            }
-        });
-        Doctor doctorData = getDoctorData();
-        doctorData.setType(getType());
-        binding.setData(doctorData);
-        binding.tvTime.setText(String.format("预约时间:%s", getBookTime()));
+        binding.tvMedcialRecord.setText(data.getRecord().getHandler().getRecordDetail());
+        data.setRecord(data.getRecord());
+        Time time = data.getTime();
+        String s =  time.getDate() + " " + time.getFrom() + "-" + time.getTo();
+        binding.tvTime.setText(String.format("预约时间:%s", s));
         binding.tvType.setText(String.format("预约类型:%s", appointmentType()));
         binding.rbAlipay.setChecked(true);
         String dateFormat = YYYY_MM_DD_HH_MM;
-        if (getType() == 2) {
+        if (data.getType() == AppointmentType.QUICK) {
             dateFormat = YYYY_MM_DD;
         }
         SimpleDateFormat format = new SimpleDateFormat(dateFormat, Locale.CHINA);
         Date parse = null;
         try {
-            parse = format.parse(getBookTime());
+            parse = format.parse(time.getDate() + " " + time.getFrom());
         } catch (java.text.ParseException e) {
             e.printStackTrace();
         }
-        final String time;
+        final String timestamp;
         if (parse != null) {
-            time = String.valueOf(parse.getTime()).substring(0, 10);
+            timestamp = String.valueOf(parse.getTime()).substring(0, 10);
         } else {
-            time = "";
+            timestamp = "";
         }
         binding.tvApplyAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Doctor doctorData = getDoctorData();
-                if (record != null) {
-                    doctorData.setRecordId(String.valueOf(record.getMedicalRecordId()));
-                }
-                String doctorId = String.valueOf(doctorData.getId());
-                int type = getType();
+                int doctorId = data.getDoctor().getId();
+                int type = data.getType();
                 String couponId = "";
                 if (binding.cbCouponCount.isChecked() && coupons != null && !coupons.isEmpty()) {
                     couponId = coupons.get(0).getId();
@@ -127,13 +105,14 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                 final String finalCouponId = couponId;
                 HashMap<String, String> params = new HashMap<String, String>();
                 if (type == AppointmentType.DETAIL) {
-                    params.put("takeTime", doctorData.getDuration());
+                    params.put("takeTime", String.valueOf(data.getDuration()));
                 }
+                final String medicalRecordId = String.valueOf(data.getRecord().getMedicalRecordId());
                 //noinspection WrongConstant
-                appointmentModule.orderAppointment(doctorId, time, type, doctorData.getRecordId(), couponId, params).enqueue(new ApiCallback<Appointment>() {
+                appointmentModule.orderAppointment(doctorId, timestamp, type, medicalRecordId, couponId, params).enqueue(new ApiCallback<Appointment>() {
                     @Override
                     protected void handleResponse(Appointment response) {
-                        response.setRecordId(Integer.parseInt(doctorData.getRecordId()));
+                        response.setRecordId(Integer.parseInt(medicalRecordId));
                         AppointmentHandler handler = new AppointmentHandler(response);
 
                         if (binding.rbWechat.isChecked()) {
@@ -154,7 +133,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                     public void onSelectRecord(SelectRecordDialog dialog, MedicalRecord selected) {
                         binding.tvMedcialRecord.setText(selected.getHandler().getRecordDetail());
 
-                        record = selected;
+                        data.setRecord(selected);
                         dialog.dismiss();
                     }
                 });
@@ -192,7 +171,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
     @NonNull
     private String appointmentType() {
         String type = "";
-        switch (getType()) {
+        switch (data.getType()) {
             case AppointmentType.DETAIL:
                 type = "专属咨询";
                 break;

@@ -21,6 +21,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
@@ -621,7 +622,10 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             //复诊支付
             Doctor doctor = data.getDoctor();
             doctor.setRecordId(String.valueOf(data.getRecordId()));
-            Intent intent = PickDateActivity.makeIntent(context, doctor, AppointmentType.QUICK);
+            AppointmentBuilder appointmentBuilder = new AppointmentBuilder();
+            appointmentBuilder.setDoctor(doctor)
+                    .setType(AppointmentType.QUICK);
+            Intent intent = PickDateActivity.makeIntent(context, appointmentBuilder);
             context.startActivity(intent);
         }
     }
@@ -1019,6 +1023,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         Date date = new Date(lastMsg().getTime());
         return date.toString();
     }
+
     public long lastMsgTimeMillis() {
         return lastMsg().getTime();
     }

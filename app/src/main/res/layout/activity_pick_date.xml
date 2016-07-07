@@ -10,7 +10,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.Doctor" />
+            type="com.doctor.sun.entity.AppointmentBuilder" />
 
     </data>
 
@@ -25,7 +25,7 @@
 
         <include
             layout="@layout/item_doctor_dates"
-            bind:data="@{data}" />
+            bind:data="@{data.doctor}" />
 
         <TextView
             android:layout_width="match_parent"

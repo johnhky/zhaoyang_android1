@@ -75,6 +75,8 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     private Location location;
     private List<Doctor> favoriteDoctorList;
 
+    private boolean isSearching = false;
+
     public static Intent makeIntent(Context context, @AppointmentType int type) {
         Intent i = new Intent(context, SearchDoctorActivity.class);
         i.putExtra(Constants.DATA, type);
@@ -128,6 +130,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
                 if (now - lastSearchTime > INTERVAL) {
                     refreshData(sortByPoint);
                     lastSearchTime = now;
+                    isSearching = !s.toString().isEmpty();
                 }
             }
         });
@@ -188,6 +191,10 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     }
 
     private void loadMore() {
+        if (isSearching) {
+            api.doctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);
+            return;
+        }
         if (getType() == AppointmentType.QUICK) {
             loadKnowDoctor();
         } else {

@@ -51,6 +51,7 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.SystemMessageObserver;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
@@ -162,7 +163,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
                 @Override
                 protected void handleResponse(NeedSendDrug response) {
                     if (Integer.parseInt(response.getNeed()) == 1) {
-                        TwoChoiceDialog.show(ChattingActivity.this, "就诊已结束，\n是否需要邮寄药品？", "否", "是", new TwoChoiceDialog.Options() {
+                        TwoChoiceDialog.show(ChattingActivity.this, "医生已给出建议，就诊结束。请问你是否需要代取并邮寄药物？", "否", "是", new TwoChoiceDialog.Options() {
                             @Override
                             public void onApplyClick(MaterialDialog dialog) {
                                 dialog.dismiss();

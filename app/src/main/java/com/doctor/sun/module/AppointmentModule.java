@@ -64,7 +64,7 @@ public interface AppointmentModule {
 
     @FormUrlEncoded
     @POST("appointment/appointment")
-    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") String doctorId,
+    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") int  doctorId,
                                                @Field("bookTime") String bookTime,
                                                @AppointmentType @Field("type") int type,
                                                @Field("recordId") String recordId,
