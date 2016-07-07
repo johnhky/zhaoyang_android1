@@ -666,7 +666,7 @@
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="2c1736491f10bfbab86e90ae" /> <!--  </>值来自开发者平台取得的AppKey-->
+            android:value="${jPushKey}" /> <!--  </>值来自开发者平台取得的AppKey-->
 
         <meta-data
             android:name="UMENG_APPKEY"

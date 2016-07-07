@@ -19,8 +19,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="@{data.visible}"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="@{data.visible}">
 
         <CheckBox
             android:id="@+id/tv_option"
@@ -32,10 +32,10 @@
             android:layout_marginTop="@dimen/dp_6"
             android:button="@drawable/ic_options"
             android:checked="@{data.handler.isSelected(adapter,vh)}"
-            android:onClick="@{data.handler.select(adapter,vh)}"
+            android:maxLines="1"
+            android:onClick="@{()->data.handler.select(adapter,vh)}"
             android:paddingLeft="@dimen/dp_14"
             android:paddingStart="@dimen/dp_14"
-            android:singleLine="false"
             android:text='@{data.handler.content(data)}'
             android:textColor="@color/primary_color_selector"
             android:textSize="@dimen/font_15" />
@@ -51,6 +51,7 @@
             android:button="@drawable/ic_options"
             android:hint="@{data.handler.hint(data)}"
             android:inputType="@{data.handler.inputType(data)}"
+            android:onEditorActionListener="@{()->data.handler.selectWrapper(adapter,vh)}"
             android:paddingBottom="@dimen/dp_4"
             android:paddingEnd="@dimen/dp_8"
             android:paddingLeft="@dimen/dp_8"
@@ -58,7 +59,6 @@
             android:paddingStart="@dimen/dp_8"
             android:paddingTop="@dimen/dp_4"
             android:selected="@{adapter.isSelected(vh)}"
-            android:singleLine="false"
             android:text="@{data.handler.optionInput(adapter,vh)}"
             android:textColor="@color/primary_color_selector"
             android:textSize="@dimen/font_15"
@@ -71,8 +71,8 @@
             android:layout_marginBottom="@dimen/dp_6"
             android:layout_marginTop="@dimen/dp_6"
             android:button="@drawable/ic_options"
+            android:maxLines="1"
             android:selected="@{adapter.isSelected(vh)}"
-            android:singleLine="false"
             android:text='@{data.handler.remainingContent(data)}'
             android:textColor="@color/primary_color_selector"
             android:textSize="@dimen/font_15" />

@@ -1,11 +1,13 @@
 package com.doctor.sun.ui.fragment;
 
+import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.doctor.sun.AppContext;
+import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
@@ -17,7 +19,9 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.vo.ItemConsulting;
+import com.doctor.sun.vo.ItemLoadMore;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -180,6 +184,7 @@ public class ConsultingFragment2 extends SortedListFragment {
 
     @Override
     public void onRefresh() {
+        page = 1;
         getAdapter().clear();
         insertHeader();
         keys.clear();
@@ -225,15 +230,51 @@ public class ConsultingFragment2 extends SortedListFragment {
         return new SimpleCallback<PageDTO<Appointment>>() {
             @Override
             protected void handleResponse(PageDTO<Appointment> response) {
+                page += 1;
                 for (Appointment appointment : response.getData()) {
                     String tid = String.valueOf(appointment.getTid());
                     appointments.put(tid, appointment);
                     ItemConsulting itemConsulting = new ItemConsulting(tids.get(tid), appointment);
                     getAdapter().insert(itemConsulting);
                 }
+                int to = response.getTo();
+                int total = response.getTotal();
+                int perPage = response.getPerPage();
+                boolean finished = to >= total || (page - 1) * perPage >= total;
+                if (!finished) {
+                    insertLoadMore();
+                } else {
+                    getAdapter().remove(new ItemLoadMore());
+                }
+                isLoading = false;
+                showShowCase();
+
                 hideRefreshing();
             }
         };
+    }
+
+    private void insertLoadMore() {
+        final ItemLoadMore item = new ItemLoadMore();
+        item.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                loadMore();
+            }
+        });
+        getAdapter().insert(item);
+    }
+
+
+    private void showShowCase() {
+        if (ShowCaseUtil.isShow(TAG)) {
+            return;
+        }
+        View systemMsg = binding.recyclerView.findViewById(R.id.system_msg);
+        View medicineStore = binding.recyclerView.findViewById(R.id.medicine_store);
+
+        ShowCaseUtil.showCase(systemMsg, "昭阳医生系统会向您推送所有的系统消息", TAG, 2, 0, true);
+        ShowCaseUtil.showCase(medicineStore, "昭阳医生系统会向您推送所有的系统消息", TAG, 2, 1, true);
     }
 
     @NonNull

@@ -3,7 +3,6 @@ package com.doctor.sun.entity.handler;
 import android.databinding.adapters.TextViewBindingAdapter;
 import android.text.Editable;
 import android.text.InputType;
-import android.view.View;
 
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Options;
@@ -12,7 +11,6 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by rick on 30/3/2016.
@@ -126,6 +124,9 @@ public class OptionsHandler {
             @Override
             public void afterTextChanged(Editable s) {
                 int childAdapterPosition = vh.getAdapterPosition();
+                if (childAdapterPosition < 0 || childAdapterPosition > adapter.size()) {
+                    return;
+                }
                 Options options = (Options) adapter.get(childAdapterPosition);
                 options.setOptionInput(s.toString());
                 int parentPosition = options.getParentPosition();
@@ -147,60 +148,46 @@ public class OptionsHandler {
         return (Answer) adapter.get(position);
     }
 
-    public View.OnClickListener select(final BaseAdapter adapter, final BaseViewHolder viewHolder) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int adapterPosition = viewHolder.getAdapterPosition();
+    //lambda listener binding, method return type must match the return type of the listener
+    public boolean selectWrapper(BaseAdapter adapter, BaseViewHolder viewHolder) {
+        select(adapter, viewHolder);
+        return false;
+    }
 
-                Options options = (Options) adapter.get(adapterPosition);
+    public void select(final BaseAdapter adapter, final BaseViewHolder viewHolder) {
+        int adapterPosition = viewHolder.getAdapterPosition();
 
-                int parentPosition = options.getParentPosition();
-                Answer answer = getParent(adapter, parentPosition);
+        Options options = (Options) adapter.get(adapterPosition);
 
-                HashMap<String, String> selectedOptions = answer.getSelectedOptions();
+        int parentPosition = options.getParentPosition();
+        Answer answer = getParent(adapter, parentPosition);
 
-                List<Options> optionsList = answer.getQuestion().getOptions();
+        HashMap<String, String> selectedOptions = answer.getSelectedOptions();
 
-                int padding;
-                if (answer.getIsFill() != 0) {
-                    answer.setIsFill(0);
-                    padding = 0;
-                } else {
-                    padding = 1;
-                }
-
-                switch (answer.getQuestion().getQuestionType()) {
-                    case Question.TYPE_RADIO: {
-                        selectThisClearOthers(options, selectedOptions);
-                        notifyDataSetChange(parentPosition, answer, adapter);
-                        break;
-                    }
-                    case Question.TYPE_SEL:
-                    case Question.TYPE_CHECKBOX: {
-                        handleCheckBox(options, parentPosition, answer, selectedOptions, adapter);
-                        break;
-                    }
-                }
+        switch (answer.getQuestion().getQuestionType()) {
+            case Question.TYPE_SEL:
+            case Question.TYPE_RADIO: {
+                HashMap<String, String> stringStringHashMap = selectThisClearOthers(options, selectedOptions);
+                answer.setSelectedOptions(stringStringHashMap);
+                notifyDataSetChange(parentPosition, answer, adapter);
+                break;
             }
-        };
+            case Question.TYPE_CHECKBOX: {
+                handleCheckBox(options, parentPosition, answer, selectedOptions, adapter);
+                break;
+            }
+        }
     }
 
     public void handleCheckBox(Options options, int parentPosition, Answer answer, HashMap<String, String> selectedOptions, BaseAdapter adapter) {
-        int padding;
         String clearOption = answer.getQuestion().getClearOption();
         if (clearOption.equals(options.getOptionType())) {
             //选择了清除选项
             selectThisClearOthers(options, selectedOptions);
             notifyDataSetChange(parentPosition, answer, adapter);
-
         } else {
             //一般的checkbox
             toggleSelection(options, answer, selectedOptions, clearOption);
-            if (selectedOptions.isEmpty()) {
-                padding = 0;
-                answer.setIsFill(1);
-            }
             notifyDataSetChange(parentPosition, answer, adapter);
         }
     }
@@ -227,13 +214,14 @@ public class OptionsHandler {
         adapter.notifyDataSetChanged();
     }
 
-    public void selectThisClearOthers(Options options, HashMap<String, String> selectedOptions) {
+    public HashMap<String, String> selectThisClearOthers(Options options, HashMap<String, String> selectedOptions) {
         selectedOptions.clear();
         if (isFill(options.getOptionContent())) {
             selectedOptions.put(options.getOptionType(), options.getOptionInput());
         } else {
             selectedOptions.put(options.getOptionType(), options.getOptionContent());
         }
+        return selectedOptions;
     }
 
     public boolean isSelected(final BaseAdapter adapter, final BaseViewHolder viewHolder) {

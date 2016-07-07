@@ -51,7 +51,9 @@ android {
             // zhaoyang_server
 //            applicationIdSuffix ".dev12"
 //            versionNameSuffix "_dev12"
-            manifestPlaceholders = [appLabel: "@string/app_name_dev", nimKey: "84bcda3a943a3a781f5e4a8bae628a74"]
+            manifestPlaceholders = [appLabel  : "@string/app_name_dev"
+                                    , nimKey  : "84bcda3a943a3a781f5e4a8bae628a74"
+                                    , jPushKey: "c29f700e97249bca7e40c395"]
             buildConfigField "boolean", "DEV_MODE", "true"
 //            buildConfigField "String", "BASE_URL", '"http://10.0.0.202/api/"' //host, 必改
             buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/"' //host, 必改
@@ -70,7 +72,9 @@ android {
         stage {
 //            applicationIdSuffix ".dev"
 //            versionNameSuffix "_dev"
-            manifestPlaceholders = [appLabel: "@string/app_name_dev", nimKey: "9439a1f4b31a23c48660c290a69f89e3"]
+            manifestPlaceholders = [appLabel  : "@string/app_name_dev"
+                                    , nimKey  : "9439a1f4b31a23c48660c290a69f89e3"
+                                    , jPushKey: "6c38b35f29958e228e378484"]
             buildConfigField "boolean", "DEV_MODE", "true"
             buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSunDev"' //app 数据保存目录, 必改
@@ -87,7 +91,9 @@ android {
 
         // 生产环境
         release {
-            manifestPlaceholders = [appLabel: "@string/app_name", nimKey: "701994af7b0559728f9ee602a6f3c342"]
+            manifestPlaceholders = [appLabel  : "@string/app_name"
+                                    , nimKey  : "701994af7b0559728f9ee602a6f3c342"
+                                    , jPushKey: "2c1736491f10bfbab86e90ae"]
             buildConfigField "boolean", "DEV_MODE", "false"
             buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
@@ -105,7 +111,9 @@ android {
 
         // 生产环境
         releaseDebug {
-            manifestPlaceholders = [appLabel: "@string/app_name", nimKey: "701994af7b0559728f9ee602a6f3c342"]
+            manifestPlaceholders = [appLabel  : "@string/app_name"
+                                    , nimKey  : "701994af7b0559728f9ee602a6f3c342"
+                                    , jPushKey: "2c1736491f10bfbab86e90ae"]
             buildConfigField "boolean", "DEV_MODE", "false"
             buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改

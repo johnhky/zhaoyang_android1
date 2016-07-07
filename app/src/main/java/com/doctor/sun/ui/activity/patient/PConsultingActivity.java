@@ -13,6 +13,7 @@ import com.doctor.sun.databinding.ActivityConsultationBinding;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
+import com.doctor.sun.ui.fragment.ConsultingFragment2;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.model.PatientFooterView;
@@ -51,7 +52,7 @@ public class PConsultingActivity extends BaseFragmentActivity2 {
 
     @NonNull
     private FooterViewModel getFooter() {
-        return  FooterViewModel.getInstance(new PatientFooterView(this), R.id.tab_two);
+        return FooterViewModel.getInstance(new PatientFooterView(this), R.id.tab_two);
     }
 
     @Override
@@ -70,7 +71,7 @@ public class PConsultingActivity extends BaseFragmentActivity2 {
     @Subscribe
     public void onShowCaseFinished(ShowCaseFinishedEvent e) {
         if (getIntent().getBooleanExtra(Constants.IS_SHOWCASE, false)) {
-            if (e.id.equals("consulting")) {
+            if (e.id.equals(ConsultingFragment2.TAG)) {
                 finish();
             }
         }

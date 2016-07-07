@@ -23,7 +23,7 @@ public class SortedListFragment extends BaseFragment implements SwipeRefreshLayo
     protected FragmentRefreshListBinding binding;
     private SortedListAdapter mAdapter;
     public Realm realm;
-    private boolean isLoading = false;
+    protected boolean isLoading = false;
 
     public SortedListFragment() {
     }

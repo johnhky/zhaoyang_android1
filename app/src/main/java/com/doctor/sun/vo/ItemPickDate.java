@@ -141,7 +141,7 @@ public class ItemPickDate extends BaseItem {
                 datePicker.setMaxDate(System.currentTimeMillis());
                 datePicker.setMinDate(System.currentTimeMillis() - ONE_HUNDRED_YEAR);
             }
-        });
+        }, 100);
     }
 
     public void pickTime(Context context, final long minDate, final long maxDate) {
@@ -154,7 +154,7 @@ public class ItemPickDate extends BaseItem {
                 datePicker.setMaxDate(maxDate);
                 datePicker.setMinDate(minDate);
             }
-        });
+        }, 100);
     }
 
     public void pickFutureTime(Context context, final int dayRangeBeforeNow, final int dayRangeFromNow) {
@@ -163,13 +163,14 @@ public class ItemPickDate extends BaseItem {
         DatePickerDialog datePickerDialog = new DatePickerDialog(context, setBeginDate, year, monthOfYear, dayOfMonth);
         final DatePicker datePicker = datePickerDialog.getDatePicker();
         datePickerDialog.show();
+        //有些机子,looper机制可能不一样,post runnable没有放到最后才运行,所以延迟100毫秒
         Tasks.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 datePicker.setMaxDate(System.currentTimeMillis() + futureAmount);
                 datePicker.setMinDate(System.currentTimeMillis() - passMillis);
             }
-        });
+        }, 100);
     }
 
     public void pickTime2(Context context) {

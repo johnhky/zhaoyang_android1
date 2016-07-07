@@ -1,13 +1,13 @@
 package com.doctor.sun.ui.activity;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by rick on 20/6/2016.
  */
-public class UMBaseActivity extends Activity {
+public class UMBaseActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {

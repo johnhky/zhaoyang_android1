@@ -591,7 +591,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             if (time == 0) {
                 return System.currentTimeMillis();
             }
-            return time;
+            return time - ItemPickDate.ONE_DAY_MILLIS;
         }
         if (viewHolder.getAdapterPosition() == SECOND_PICK_DATE_ADAPTER_POSITION) {
             return System.currentTimeMillis();

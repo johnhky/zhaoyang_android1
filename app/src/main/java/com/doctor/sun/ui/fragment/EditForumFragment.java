@@ -20,6 +20,7 @@ import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.handler.OptionsHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
