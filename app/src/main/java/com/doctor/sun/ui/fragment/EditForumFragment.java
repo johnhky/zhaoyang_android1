@@ -311,6 +311,8 @@ public class EditForumFragment extends RefreshListFragment {
                     Toast.makeText(getContext(), "成功保存问卷", Toast.LENGTH_SHORT).show();
                 }
             });
+        }else {
+            Toast.makeText(getContext(), "第三题的入院时间不能大于或等于出院时间", Toast.LENGTH_SHORT).show();
         }
     }
 

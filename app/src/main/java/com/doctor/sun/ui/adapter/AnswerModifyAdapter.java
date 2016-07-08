@@ -580,7 +580,7 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
 
     public boolean isAnswerValid() {
         if (type == AppointmentType.AFTER_SERVICE) {
-            return getTime(FIRST_PICK_DATE_ADAPTER_POSITION) < getTime(SECOND_PICK_DATE_ADAPTER_POSITION);
+            return getTime(FIRST_PICK_DATE_ADAPTER_POSITION) <= getTime(SECOND_PICK_DATE_ADAPTER_POSITION);
         }
         return true;
     }
