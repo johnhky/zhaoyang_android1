@@ -24,53 +24,55 @@
         android:orientation="vertical">
 
 
-        <LinearLayout
+        <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_121"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_appoint_doctor"
-                android:layout_width="0dp"
+            <FrameLayout
+                android:id="@+id/tv_sync_consultation"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_default"
-                android:drawablePadding="@dimen/dp_9"
-                android:drawableTop="@drawable/ic_find_doctor"
-                android:gravity="center_horizontal"
-                android:onClick="@{data.doctorType}"
-                android:paddingTop="@dimen/dp_11"
-                android:showcase='@{"点击这里可以找到适合您的医生"}'
-                android:showcaseId='@{"main"}'
-                android:showcasePosition='@{0}'
-                android:showcaseSize='@{5}'
-                android:text="专属咨询"
-                android:textColor="#363636"
-                android:textSize="@dimen/font_15" />
+                app:layout_widthPercent="33%">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:drawablePadding="@dimen/dp_9"
+                    android:drawableTop="@drawable/ic_find_doctor"
+                    android:gravity="center_horizontal"
+                    android:onClick="@{data.doctorType}"
+                    android:paddingTop="@dimen/dp_11"
+                    android:text="专属咨询"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15" />
+            </FrameLayout>
 
             <View
                 android:layout_width="2px"
                 android:layout_height="match_parent"
                 android:background="#ebf0f3" />
 
-            <TextView
-                android:id="@+id/tv_medicine"
-                android:layout_width="0dp"
+            <FrameLayout
+                android:id="@+id/tv_async_consultation"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_default"
-                android:drawablePadding="@dimen/dp_9"
-                android:drawableTop="@drawable/ic_buy_drug"
-                android:gravity="center_horizontal"
-                android:onClick="@{data.searchDoctorQuick}"
-                android:paddingTop="@dimen/dp_11"
-                android:showcase='@{"点击这里预约您咨询过的医生进行便捷复诊和寄药"}'
-                android:showcaseId='@{"main"}'
-                android:showcasePosition='@{1}'
-                android:showcaseSize='@{5}'
-                android:text="留言咨询"
-                android:textColor="#363636"
-                android:textSize="@dimen/font_15" />
+                app:layout_widthPercent="33%">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:drawablePadding="@dimen/dp_9"
+                    android:drawableTop="@drawable/ic_buy_drug"
+                    android:gravity="center_horizontal"
+                    android:onClick="@{data.searchDoctorQuick}"
+                    android:paddingTop="@dimen/dp_11"
+                    android:text="留言咨询"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15" />
+            </FrameLayout>
 
             <View
                 android:layout_width="2px"
@@ -78,24 +80,20 @@
                 android:background="#ebf0f3" />
 
             <com.zhy.android.percent.support.PercentFrameLayout
-                android:layout_width="0dp"
+                android:id="@+id/tv_after_service"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:background="@drawable/ripple_default"
-                android:onClick="@{()->data.afterService(context)}">
+                android:onClick="@{()->data.afterService(context)}"
+                app:layout_widthPercent="33%">
 
                 <TextView
-                    android:id="@+id/tv_after_service"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:drawablePadding="@dimen/dp_9"
                     android:drawableTop="@drawable/ic_after_service"
                     android:gravity="center_horizontal"
                     android:paddingTop="@dimen/dp_11"
-                    android:showcase='@{"点击这里向随访医生反馈诊后/出院后病情恢复情况"}'
-                    android:showcaseId='@{"main"}'
-                    android:showcasePosition='@{2}'
-                    android:showcaseSize='@{5}'
                     android:text="随访请求"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_15" />
@@ -113,7 +111,7 @@
                     app:layout_marginTopPercent="36%" />
             </com.zhy.android.percent.support.PercentFrameLayout>
 
-        </LinearLayout>
+        </com.zhy.android.percent.support.PercentLinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -125,13 +123,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_55"
             android:background="@drawable/ripple_default"
-            android:isRect="@{true}"
-            android:orientation="horizontal"
-            android:showcase='@{"点这里可以查询所有类型的订单"}'
-            android:showcaseId='@{"main"}'
-            android:showcasePosition='@{3}'
-            android:showcaseSize='@{5}'
-            android:onClick="@{()->data.appointmentList(context)}">
+            android:onClick="@{()->data.appointmentList(context)}"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"

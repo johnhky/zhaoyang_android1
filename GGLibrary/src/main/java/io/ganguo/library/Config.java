@@ -18,7 +18,7 @@ public class Config {
     /**
      * 数据目录
      */
-    public static String DATA_PATH = "GanGuo";
+    public static String DATA_PATH = "doctor";
 
     /**
      * 图片目录

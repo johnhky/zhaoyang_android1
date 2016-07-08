@@ -31,10 +31,6 @@ import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 public class ShowCaseUtil {
     public static final String SHOWCASE_ID = "SHOWCASE_ID";
 
-    public static final String[] keys = new String[]{"doctorMain",
-            "doctorMe", "patientDetail",
-            "patientInfo", "diagnosisResult",
-            "patientMe", "main", "consulting"};
 
     private static HashMap<String, SparseArray<MaterialShowcaseView.Builder>> buildersMap = new HashMap<>();
     private static SparseArray<MaterialShowcaseView.Builder> builders;
@@ -50,6 +46,10 @@ public class ShowCaseUtil {
 //            return;
 //        }
         if (isShow(id)) return;
+
+        if (view == null) {
+            return;
+        }
 
         final MaterialShowcaseView.Builder builder = newBuilder(view, content, isRect);
 
@@ -89,7 +89,7 @@ public class ShowCaseUtil {
                         }
                         final MaterialShowcaseView.Builder nextBuilder = builders.get(nextPosition);
                         if (nextBuilder != null) {
-                           show(nextBuilder);
+                            show(nextBuilder);
                         } else {
                             builders.clear();
                             buildersMap.remove(id);

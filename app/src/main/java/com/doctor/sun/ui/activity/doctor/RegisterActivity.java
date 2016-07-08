@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -57,6 +58,7 @@ public class RegisterActivity extends BaseActivity2 implements RegisterHandler.R
                 header.setMidTitle("重置密码");
                 header.setRightTitle("确定");
 //                binding.llyEmail.setVisibility(View.VISIBLE);
+                binding.llyPolicy.setVisibility(View.GONE);
                 break;
             }
             default:

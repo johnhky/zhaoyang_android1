@@ -131,7 +131,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_appoint_doctor"
+                android:id="@+id/tv_sync_consultation"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -178,7 +178,7 @@
 
 
             <TextView
-                android:id="@+id/tv_medicine"
+                android:id="@+id/tv_async_consultation"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

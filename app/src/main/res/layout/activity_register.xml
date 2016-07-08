@@ -210,6 +210,7 @@
             android:background="#c1cacf" />
 
         <LinearLayout
+            android:id="@+id/lly_policy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_13"

@@ -31,7 +31,7 @@
                 android:layout_height="@dimen/dp_49">
 
                 <TextView
-                    android:id="@+id/tv_medicine"
+                    android:id="@+id/tv_async_consultation"
                     android:layout_width="match_parent"
                     android:gravity="center"
                     android:text="查看用药"

@@ -42,13 +42,10 @@
                 app:selected="@{footer.id}" />
 
             <FrameLayout
+                android:id="@+id/fl_tab_two"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:showcase='@{footer.getShowCaseContent}'
-                android:showcaseId='@{footer.getShowCaseId}'
-                android:showcasePosition='@{footer.getShowPosition}'
-                android:showcaseSize='@{footer.getShowCaseSize}'>
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/tab_two"

@@ -68,6 +68,7 @@
 
 
         <include
+            android:id="@+id/include_footer"
             layout="@layout/include_footer"
             bind:footer="@{footer}" />
     </LinearLayout>

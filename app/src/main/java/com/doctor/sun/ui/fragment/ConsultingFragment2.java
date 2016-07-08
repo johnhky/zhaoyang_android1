@@ -270,11 +270,13 @@ public class ConsultingFragment2 extends SortedListFragment {
         if (ShowCaseUtil.isShow(TAG)) {
             return;
         }
-        View systemMsg = binding.recyclerView.findViewById(R.id.system_msg);
-        View medicineStore = binding.recyclerView.findViewById(R.id.medicine_store);
+        if (!AppContext.isDoctor()) {
+            View systemMsg = binding.recyclerView.findViewById(R.id.system_msg);
+            View medicineStore = binding.recyclerView.findViewById(R.id.medicine_store);
 
-        ShowCaseUtil.showCase(systemMsg, "昭阳医生系统会向您推送所有的系统消息", TAG, 2, 0, true);
-        ShowCaseUtil.showCase(medicineStore, "昭阳医生系统会向您推送所有的系统消息", TAG, 2, 1, true);
+            ShowCaseUtil.showCase(systemMsg, "昭阳医生系统会向您推送所有的系统消息", TAG, 2, 0, true);
+            ShowCaseUtil.showCase(medicineStore, "昭阳医生系统会向您推送所有的系统消息", TAG, 2, 1, true);
+        }
     }
 
     @NonNull

@@ -3,13 +3,14 @@ package com.doctor.sun.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.doctor.sun.R;
 import com.doctor.sun.databinding.FragmentListBinding;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -54,6 +55,13 @@ public class ListFragment extends BaseFragment {
             @Override
             protected void onLoadMore() {
                 loadMore();
+            }
+        });
+        binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
+        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                binding.refreshLayout.setRefreshing(false);
             }
         });
 

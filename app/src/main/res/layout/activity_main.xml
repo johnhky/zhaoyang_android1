@@ -72,17 +72,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lly_appointment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/ripple_default"
             android:onClick="@{handler.appointment}"
-            android:orientation="horizontal"
-            android:isRect="@{true}"
-            android:showcase='@{"所有已预约患者都在这里"}'
-            android:showcaseId='@{"doctorMain"}'
-            android:showcasePosition='@{0}'
-            android:showcaseSize='@{2}'>
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="@dimen/dp_192"
@@ -199,6 +195,7 @@
         <!--android:background="#c1cacf" />-->
 
         <LinearLayout
+            android:id="@+id/lly_after_service"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -331,6 +328,7 @@
             android:orientation="horizontal" />
 
         <include
+            android:id="@+id/include_footer"
             layout="@layout/include_footer"
             bind:footer="@{footer}" />
     </LinearLayout>

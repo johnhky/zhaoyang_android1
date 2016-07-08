@@ -151,6 +151,11 @@ public class CustomActionViewModel {
 
                                         intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
                                         mActivity.startActivityForResult(intentFromCamera, VIDEO_REQUEST_CODE);
+//                                        Uri image = FileProvider.getUriForFile(mActivity, BuildConfig.FILE_PROVIDER, getVideoTempFile());
+//                                        Intent intentFromCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                                        intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
+//                                        intentFromCamera.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//                                        mActivity.startActivityForResult(intentFromCamera, VIDEO_REQUEST_CODE);
                                     }
                                 });
                                 break;
@@ -177,6 +182,8 @@ public class CustomActionViewModel {
     @NonNull
     public static File getVideoTempFile() {
         return new File(Config.getDataPath(), "video");
+//        File cacheDir = AppContext.me().getCacheDir();
+//        return new File(new File(cacheDir,"images"),"videoFromCamera");
     }
 
     @NonNull

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityMainBinding;
@@ -20,6 +21,7 @@ import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.widget.PassDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PermissionUtil;
+import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
 import com.squareup.otto.Subscribe;
 
@@ -86,6 +88,7 @@ public class MainActivity extends BaseDoctorActivity {
         if (shouldCheck()) {
             UpdateUtil.checkUpdate(this);
         }
+        showShowCase();
     }
 
     @Override
@@ -125,9 +128,20 @@ public class MainActivity extends BaseDoctorActivity {
     @Subscribe
     public void onShowCaseFinished(ShowCaseFinishedEvent e) {
         if (getIntent().getBooleanExtra(Constants.IS_SHOWCASE, false)) {
-            if (e.id.equals("doctorMain")) {
+            if (e.id.equals(TAG)) {
                 finish();
             }
+        }
+    }
+
+    public void showShowCase() {
+        if (ShowCaseUtil.isShow(TAG)) {
+            return;
+        }
+        if (AppContext.isDoctor()) {
+            ShowCaseUtil.showCase(binding.llyAppointment, "所有已预约患者都在这里", TAG, 3, 0, true);
+            ShowCaseUtil.showCase(binding.llyAfterService, "点击这里向已出院患者或者就诊后的患者进行随访", TAG, 3, 1, true);
+            ShowCaseUtil.showCase(binding.includeFooter.flTabTwo, "您可以在这里与患者通过文字信息或者电话进行沟通", TAG, 3, 2, false);
         }
     }
 }

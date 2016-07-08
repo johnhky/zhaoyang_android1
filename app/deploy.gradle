@@ -53,7 +53,7 @@ android {
 //            versionNameSuffix "_dev12"
             manifestPlaceholders = [appLabel  : "@string/app_name_dev"
                                     , nimKey  : "84bcda3a943a3a781f5e4a8bae628a74"
-                                    , jPushKey: "c29f700e97249bca7e40c395"]
+                                    , jPushKey: "b421412f29b79d12b1760f2f"]
             buildConfigField "boolean", "DEV_MODE", "true"
 //            buildConfigField "String", "BASE_URL", '"http://10.0.0.202/api/"' //host, 必改
             buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/"' //host, 必改
@@ -61,6 +61,7 @@ android {
             buildConfigField "String", "IM_KEY", '"aaf98f89529d327b0152a02ee629035e"' //
             buildConfigField "String", "IM_TOKEN", '"6b47a5fce4eb6d4eeebf8b5eadcb6584"' //host, 必改
             buildConfigField "String", "UM_KEY", '"55b8a10be0f55aa35c00174d"'
+            buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.fileprovider"'
 
             debuggable true
             zipAlignEnabled false
@@ -74,7 +75,7 @@ android {
 //            versionNameSuffix "_dev"
             manifestPlaceholders = [appLabel  : "@string/app_name_dev"
                                     , nimKey  : "9439a1f4b31a23c48660c290a69f89e3"
-                                    , jPushKey: "6c38b35f29958e228e378484"]
+                                    , jPushKey: "b421412f29b79d12b1760f2f"]
             buildConfigField "boolean", "DEV_MODE", "true"
             buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSunDev"' //app 数据保存目录, 必改

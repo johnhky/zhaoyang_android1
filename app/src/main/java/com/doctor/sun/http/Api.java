@@ -41,11 +41,11 @@ public class Api {
     @NonNull
     private static OkHttpClient getOkHttpClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        if (BuildConfig.DEV_MODE) {
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        } else {
-            interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
-        }
+//        if (BuildConfig.DEV_MODE) {
+//            interceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+//        } else {
+//            interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+//        }
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .addInterceptor(new TokenInterceptor()).build();

@@ -126,6 +126,12 @@ public class PickImageDialog extends BottomSheetDialog {
         checkPermission(mActivity, new Runnable() {
             @Override
             public void run() {
+//                Uri image = FileProvider.getUriForFile(mActivity, BuildConfig.FILE_PROVIDER, handleCameraRequest());
+//                Intent intentFromCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
+//                intentFromCamera.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//                mActivity.startActivityForResult(intentFromCamera, imageRequestCode | CAMERA_MASK);
+//
                 final Uri image = Uri.fromFile(handleCameraRequest());
                 Intent intentFromCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
@@ -154,6 +160,8 @@ public class PickImageDialog extends BottomSheetDialog {
 
     @NonNull
     private static File handleCameraRequest() {
+//        File cacheDir = AppContext.me().getCacheDir();
+//        return new File(new File(cacheDir, "images"), "imageFromCamera");
         return new File(Config.getImagePath(), "image");
     }
 
