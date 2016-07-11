@@ -9,10 +9,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
+import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityFileDetailBinding;
 import com.doctor.sun.event.ProgressEvent;
@@ -70,7 +72,6 @@ public class FileDetailActivity extends BaseActivity2 {
                     openFile();
                 }
             }
-
         });
     }
 
@@ -161,8 +162,9 @@ public class FileDetailActivity extends BaseActivity2 {
 
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        Uri uri = Uri.fromFile(file);
+        Uri uri = FileProvider.getUriForFile(this, BuildConfig.FILE_PROVIDER, file);
 
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setDataAndType(uri, MimeTypeMap.getSingleton().getMimeTypeFromExtension(getExtension()));
         return intent;
     }

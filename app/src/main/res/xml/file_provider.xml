@@ -1,5 +1,21 @@
 <paths>
     <cache-path
-        name="name"
-        path="images"/>
+        name="images_cache_path"
+        path="DoctorSun/images" />
+    <path
+        name="images_path"
+        path="DoctorSun/images" />
+    <external-path
+        name="images_external_path"
+        path="DoctorSun/images" />
+
+    <cache-path
+        name="temp_cache_path"
+        path="DoctorSun/temp" />
+    <path
+        name="temp_path"
+        path="DoctorSun/temp" />
+    <external-path
+        name="temp_external_path"
+        path="DoctorSun/temp" />
 </paths>

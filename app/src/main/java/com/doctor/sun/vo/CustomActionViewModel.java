@@ -1,17 +1,20 @@
 package com.doctor.sun.vo;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
+import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.entity.im.TextMsg;
@@ -55,7 +58,9 @@ public class CustomActionViewModel {
         adapter.add(cameraMenu());
         adapter.add(videoChatMenu());
         adapter.add(chooseFileMenu());
-//        adapter.add(extendTimeMenu());
+        ClickMenu object = extendTimeMenu();
+        object.setEnable(true);
+        adapter.add(object);
 
         adapter.onFinishLoadMore(true);
         return adapter;
@@ -146,16 +151,14 @@ public class CustomActionViewModel {
                                 checkPermission(mActivity, new Runnable() {
                                     @Override
                                     public void run() {
-                                        final Uri image = Uri.fromFile(getVideoTempFile());
+                                        final Uri image = getFileUrlForCameraRequest(mActivity);
                                         Intent intentFromCamera = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-
+                                        intentFromCamera.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                                        intentFromCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                        ClipData clip = ClipData.newRawUri(null, image);
+                                        intentFromCamera.setClipData(clip);
                                         intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
                                         mActivity.startActivityForResult(intentFromCamera, VIDEO_REQUEST_CODE);
-//                                        Uri image = FileProvider.getUriForFile(mActivity, BuildConfig.FILE_PROVIDER, getVideoTempFile());
-//                                        Intent intentFromCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                                        intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
-//                                        intentFromCamera.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-//                                        mActivity.startActivityForResult(intentFromCamera, VIDEO_REQUEST_CODE);
                                     }
                                 });
                                 break;
@@ -165,6 +168,10 @@ public class CustomActionViewModel {
                 }).show();
             }
         });
+    }
+
+    public static Uri getFileUrlForCameraRequest(Context mActivity) {
+        return FileProvider.getUriForFile(mActivity, BuildConfig.FILE_PROVIDER, getVideoTempFile());
     }
 
     public static void checkPermission(Activity mActivity, Runnable runnable) {
@@ -181,7 +188,7 @@ public class CustomActionViewModel {
 
     @NonNull
     public static File getVideoTempFile() {
-        return new File(Config.getDataPath(), "video");
+        return new File(Config.getDataPath(), "videoFromCamera");
 //        File cacheDir = AppContext.me().getCacheDir();
 //        return new File(new File(cacheDir,"images"),"videoFromCamera");
     }

@@ -57,7 +57,7 @@ android {
             buildConfigField "boolean", "DEV_MODE", "true"
 //            buildConfigField "String", "BASE_URL", '"http://10.0.0.202/api/"' //host, 必改
             buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/"' //host, 必改
-            buildConfigField "String", "DATA_PATH", '"DoctorSunDev"' //app 数据保存目录, 必改
+            buildConfigField "String", "DATA_PATH", '"DoctorSun"' //app 数据保存目录, 必改
             buildConfigField "String", "IM_KEY", '"aaf98f89529d327b0152a02ee629035e"' //
             buildConfigField "String", "IM_TOKEN", '"6b47a5fce4eb6d4eeebf8b5eadcb6584"' //host, 必改
             buildConfigField "String", "UM_KEY", '"55b8a10be0f55aa35c00174d"'
@@ -78,10 +78,11 @@ android {
                                     , jPushKey: "b421412f29b79d12b1760f2f"]
             buildConfigField "boolean", "DEV_MODE", "true"
             buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/"' //host, 必改
-            buildConfigField "String", "DATA_PATH", '"DoctorSunDev"' //app 数据保存目录, 必改
+            buildConfigField "String", "DATA_PATH", '"DoctorSun"' //app 数据保存目录, 必改
             buildConfigField "String", "IM_KEY", '"aaf98f89506fc2f001507e1cab440ace"' //
             buildConfigField "String", "IM_TOKEN", '"a8d27b4500d3b3dcfbf96296091abf4d"' //host, 必改
             buildConfigField "String", "UM_KEY", '"55b8a10be0f55aa35c00174d"'
+            buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.fileprovider"'
 
             debuggable true
             zipAlignEnabled false
@@ -101,6 +102,7 @@ android {
             buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
             buildConfigField "String", "IM_TOKEN", '"7c54a355857a08b2dfc3769c7dc05e8a"' //host, 必改
             buildConfigField "String", "UM_KEY", '"55b8a10be0f55aa35c00174d"'
+            buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.fileprovider"'
 
             debuggable false
             zipAlignEnabled true
@@ -121,6 +123,7 @@ android {
             buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
             buildConfigField "String", "IM_TOKEN", '"7c54a355857a08b2dfc3769c7dc05e8a"' //host, 必改
             buildConfigField "String", "UM_KEY", '"55b8a10be0f55aa35c00174d"'
+            buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.fileprovider"'
 
             debuggable true
             zipAlignEnabled true

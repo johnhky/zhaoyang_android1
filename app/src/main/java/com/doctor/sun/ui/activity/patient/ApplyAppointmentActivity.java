@@ -72,8 +72,12 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
         binding.tvMedcialRecord.setText(data.getRecord().getHandler().getRecordDetail());
         data.setRecord(data.getRecord());
         Time time = data.getTime();
-        String s =  time.getDate() + " " + time.getFrom() + "-" + time.getTo();
-        binding.tvTime.setText(String.format("预约时间:%s", s));
+        StringBuilder builder = new StringBuilder();
+        builder.append(time.getDate());
+        if (data.getType() == AppointmentType.DETAIL) {
+            builder.append(" ").append(time.getFrom()).append("-").append(time.getTo());
+        }
+        binding.tvTime.setText(String.format("预约时间:%s", builder));
         binding.tvType.setText(String.format("预约类型:%s", appointmentType()));
         binding.rbAlipay.setChecked(true);
         String dateFormat = YYYY_MM_DD_HH_MM;
@@ -148,6 +152,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                 } else {
                     coupons = null;
                     binding.cbCouponCount.setText("您暂时没有可用优惠券");
+                    binding.cbCouponCount.setEnabled(false);
                 }
             }
         });

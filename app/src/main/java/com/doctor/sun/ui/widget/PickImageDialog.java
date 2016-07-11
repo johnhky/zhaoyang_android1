@@ -2,6 +2,7 @@ package com.doctor.sun.ui.widget;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,11 +16,13 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 
+import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.DialogPickImageBinding;
 import com.doctor.sun.util.PermissionUtil;
@@ -126,18 +129,20 @@ public class PickImageDialog extends BottomSheetDialog {
         checkPermission(mActivity, new Runnable() {
             @Override
             public void run() {
-//                Uri image = FileProvider.getUriForFile(mActivity, BuildConfig.FILE_PROVIDER, handleCameraRequest());
-//                Intent intentFromCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
-//                intentFromCamera.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-//                mActivity.startActivityForResult(intentFromCamera, imageRequestCode | CAMERA_MASK);
-//
-                final Uri image = Uri.fromFile(handleCameraRequest());
+                final Uri image = getFileUrlForCameraRequest(mActivity);
                 Intent intentFromCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intentFromCamera.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                intentFromCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                ClipData clip = ClipData.newRawUri(null, image);
+                intentFromCamera.setClipData(clip);
                 intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
                 mActivity.startActivityForResult(intentFromCamera, imageRequestCode | CAMERA_MASK);
             }
         });
+    }
+
+    public static Uri getFileUrlForCameraRequest(Context mActivity) {
+        return FileProvider.getUriForFile(mActivity, BuildConfig.FILE_PROVIDER, handleCameraRequest());
     }
 
     public static File handleRequest(Context context, Intent data, int requestCode) {
@@ -162,13 +167,18 @@ public class PickImageDialog extends BottomSheetDialog {
     private static File handleCameraRequest() {
 //        File cacheDir = AppContext.me().getCacheDir();
 //        return new File(new File(cacheDir, "images"), "imageFromCamera");
-        return new File(Config.getImagePath(), "image");
+        return new File(Config.getTempPath(), "imageFromCamera");
     }
 
     private static File handleGalleryRequest(Context context, Intent data) {
-        File file;
         Uri selectedImage = data.getData();
         //log: selectedImage.getScheme() --> file / content
+        return handleImageUrl(context, selectedImage);
+    }
+
+    @Nullable
+    public static File handleImageUrl(Context context, Uri selectedImage) {
+        File file;
         switch (selectedImage.getScheme()) {
             case "content": {
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};

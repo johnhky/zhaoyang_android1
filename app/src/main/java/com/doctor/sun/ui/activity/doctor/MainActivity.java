@@ -41,6 +41,7 @@ public class MainActivity extends BaseDoctorActivity {
     private ProfileModule api = Api.of(ProfileModule.class);
     private ActivityMainBinding binding;
     private RealmResults<TextMsg> unReadMsg;
+    private boolean isShowing = false;
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, MainActivity.class);
@@ -135,10 +136,14 @@ public class MainActivity extends BaseDoctorActivity {
     }
 
     public void showShowCase() {
+        if (isShowing) {
+            return;
+        }
         if (ShowCaseUtil.isShow(TAG)) {
             return;
         }
         if (AppContext.isDoctor()) {
+            isShowing = true;
             ShowCaseUtil.showCase(binding.llyAppointment, "所有已预约患者都在这里", TAG, 3, 0, true);
             ShowCaseUtil.showCase(binding.llyAfterService, "点击这里向已出院患者或者就诊后的患者进行随访", TAG, 3, 1, true);
             ShowCaseUtil.showCase(binding.includeFooter.flTabTwo, "您可以在这里与患者通过文字信息或者电话进行沟通", TAG, 3, 2, false);
