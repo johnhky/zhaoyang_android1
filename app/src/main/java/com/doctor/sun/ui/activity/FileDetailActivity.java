@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityFileDetailBinding;
+import com.doctor.sun.entity.Try;
 import com.doctor.sun.event.ProgressEvent;
 import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.ui.model.HeaderViewModel;
@@ -169,11 +170,28 @@ public class FileDetailActivity extends BaseActivity2 {
         return intent;
     }
 
-    private class DownloadFinishCallback implements Runnable {
+    private class DownloadFinishCallback implements Try {
 
-        @Override
-        public void run() {
+        public void success() {
             binding.setIsDownload(true);
         }
+
+        @Override
+        public void fail() {
+            Toast.makeText(FileDetailActivity.this, "无法下载文件,请检测您的网络状态", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Subscribe
+    public void onProgressEvent(ProgressEvent e) {
+//        if (e.getFrom().equals(getUrl())) {
+//            if (e.getTotalLength() == e.getTotalRead()) {
+//                binding.progress.setMax(e.getTotalLength());
+//                binding.progress.setProgress(e.getTotalRead());
+//                binding.progress.setVisibility(View.VISIBLE);
+//            } else {
+//                binding.progress.setVisibility(View.GONE);
+//            }
+//        }
     }
 }

@@ -1,5 +1,8 @@
 package com.doctor.sun.util;
 
+import android.widget.Toast;
+
+import com.doctor.sun.entity.Try;
 import com.doctor.sun.event.ProgressEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ToolModule;
@@ -20,11 +23,11 @@ import retrofit2.Response;
  * Created by rick on 9/5/2016.
  */
 public class DownloadUtil {
-    public static void downLoadFile(String from, final File to, final Runnable callback) {
+    public static void downLoadFile(final String from, final File to, final Try callback) {
         Call<ResponseBody> downloadCall = Api.of(ToolModule.class).downloadFile(from);
         downloadCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, final Response<ResponseBody> response) {
+            public void onResponse(final Call<ResponseBody> call, final Response<ResponseBody> response) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -42,19 +45,24 @@ public class DownloadUtil {
                             int loopCounter = 0;
                             int read;
                             byte[] buffer = new byte[32768];
-                            EventHub.post(new ProgressEvent(0, totalLength));
+                            EventHub.post(new ProgressEvent(from,0, totalLength));
                             while ((read = is.read(buffer)) > 0) {
                                 os.write(buffer, 0, read);
                                 totalRead += read;
                                 if (loopCounter % 300 == 0) {
-                                    EventHub.post(new ProgressEvent(totalRead, totalLength));
+                                    EventHub.post(new ProgressEvent(from,totalRead, totalLength));
                                 }
                                 loopCounter += 1;
                             }
-                            EventHub.post(new ProgressEvent(totalLength, totalLength));
+                            EventHub.post(new ProgressEvent(from,totalLength, totalLength));
                             os.close();
                             is.close();
-                            Tasks.runOnUiThread(callback);
+                            Tasks.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    callback.success();
+                                }
+                            });
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -64,7 +72,12 @@ public class DownloadUtil {
 
             @Override
             public void onFailure(Call call, Throwable t) {
-
+                Tasks.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.fail();
+                    }
+                });
             }
         });
     }

@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.entity.Try;
 import com.doctor.sun.entity.Version;
 import com.doctor.sun.event.ProgressEvent;
 import com.doctor.sun.http.Api;
@@ -22,6 +23,7 @@ import com.doctor.sun.module.ToolModule;
 import com.squareup.otto.Subscribe;
 
 import java.io.File;
+import java.util.concurrent.Future;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
@@ -153,7 +155,7 @@ public class UpdateUtil {
         return intent;
     }
 
-    private static class InstallApkCallback implements Runnable {
+    private static class InstallApkCallback implements Try {
         private final File file;
         private final DownloadNewVersionCallback callback;
 
@@ -163,9 +165,14 @@ public class UpdateUtil {
         }
 
         @Override
-        public void run() {
+        public void success() {
             callback.unregisterThis();
             installPackage(AppContext.me(), file.getAbsolutePath());
+        }
+
+        @Override
+        public void fail() {
+
         }
     }
 
@@ -180,11 +187,11 @@ public class UpdateUtil {
         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
             EventHub.register(this);
             File to = new File(Config.getTempPath(), APK_PATH);
-            InstallApkCallback callback = new InstallApkCallback(to, this);
+            final InstallApkCallback callback = new InstallApkCallback(to, this);
             if (!isDownloaded(data.getMd5(), to)) {
                 DownloadUtil.downLoadFile(data.getDownloadUrl(), to, callback);
             } else {
-                callback.run();
+                callback.success();
             }
         }
 
