@@ -127,9 +127,9 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public String getBookTime() {
         if (null != data.getBookTime()) {
-            if (isQuick()) {
-                return splitBookTime();
-            }
+//            if (isQuick()) {
+//                return splitBookTime();
+//            }
             return data.getBookTime();
         } else if (null != data.getCreatedAt()) {
             return data.getCreatedAt();
@@ -480,7 +480,15 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     @Override
     public String getP2PId() {
-        return data.getYunxinAccid();
+        if (AppContext.isDoctor()) {
+            return data.getYunxinAccid();
+        } else {
+            if (data.getDoctor() != null) {
+                return data.getDoctor().getYunxinAccid();
+            } else {
+                return data.getYunxinAccid();
+            }
+        }
     }
 
     @Override

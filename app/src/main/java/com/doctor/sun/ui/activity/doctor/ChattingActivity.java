@@ -538,15 +538,15 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
 
     @Subscribe
-    public void onRejectIncommingCallEvent(RejectInComingCallEvent e){
-       if (AppContext.isDoctor()) {
-           AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
-           appointmentModule.rejectCommunication(e.getType(), handler.appointmentId()).enqueue(new SimpleCallback<String>() {
-               @Override
-               protected void handleResponse(String response) {
-
-               }
-           });
-       }
+    public void onRejectIncomingCallEvent(RejectInComingCallEvent e) {
+        if (!AppContext.isDoctor()) {
+            AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
+            appointmentModule.rejectCommunication(e.getType(), handler.appointmentId()).enqueue(new SimpleCallback<String>() {
+                @Override
+                protected void handleResponse(String response) {
+                    Log.d(TAG, "handleResponse() called with: response = [" + response + "]");
+                }
+            });
+        }
     }
 }

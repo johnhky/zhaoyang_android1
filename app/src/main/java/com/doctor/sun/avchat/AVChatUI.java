@@ -354,7 +354,6 @@ public class AVChatUI implements AVChatUIListener {
         AVChatManager.getInstance().hangUp(new AVChatCallback<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                EventHub.post(new RejectInComingCallEvent(getAccount(), ComunicationType.VIDEO_CALL));
             }
 
             @Override

@@ -119,4 +119,7 @@ public interface ProfileModule {
 
     @GET("profile/qrcode")
     Call<ApiDTO<String>> barcode();
+
+    @GET("im/doctor-contact")
+    Call<ApiDTO<Doctor>> doctorContact(@Query("doctorId") int doctorId);
 }

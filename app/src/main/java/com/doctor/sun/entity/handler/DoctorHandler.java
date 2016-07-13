@@ -34,16 +34,6 @@ public class DoctorHandler {
         data = doctorDTO;
     }
 
-//    public OnItemClickListener select() {
-//        return new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(BaseAdapter adapter, View view, BaseViewHolder vh) {
-//                setSelected(!isSelected());
-//                view.setSelected(isSelected());
-//            }
-//        };
-//    }
-
     public void setSelected(boolean selected) {
         isSelected = selected;
     }

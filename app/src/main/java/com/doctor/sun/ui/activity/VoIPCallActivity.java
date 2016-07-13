@@ -117,7 +117,6 @@ public class VoIPCallActivity extends BaseActivity2 {
             public void onClick(View v) {
                 ECDevice.getECVoIPCallManager()
                         .releaseCall(mCallId);
-                EventHub.post(new RejectInComingCallEvent(mCallId, ComunicationType.PHONE_CALL));
                 if (counter == null) {
                     finishDelay();
                 }
@@ -162,6 +161,7 @@ public class VoIPCallActivity extends BaseActivity2 {
         updateVoipCall(event.getVoIPCall());
         ECDevice.getECVoIPCallManager()
                 .releaseCall(mCallId);
+        EventHub.post(new RejectInComingCallEvent(mCallId, ComunicationType.PHONE_CALL));
         if (counter != null) {
             counter.stop();
         } else {

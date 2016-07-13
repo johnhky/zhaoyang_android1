@@ -17,6 +17,8 @@ import com.doctor.sun.avchat.AVChatNotification;
 import com.doctor.sun.avchat.AVChatProfile;
 import com.doctor.sun.avchat.AVChatUI;
 import com.doctor.sun.avchat.constant.CallStateEnum;
+import com.doctor.sun.entity.constans.ComunicationType;
+import com.doctor.sun.event.RejectInComingCallEvent;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.util.PermissionUtil;
 import com.netease.nimlib.sdk.Observer;
@@ -34,6 +36,7 @@ import com.netease.nimlib.sdk.avchat.model.AVChatOnlineAckEvent;
 
 import java.io.File;
 
+import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Networks;
 
 /**
@@ -247,6 +250,7 @@ public class AVChatActivity extends BaseActivity2 implements AVChatUI.AVChatList
             if (ackInfo.getEvent() == AVChatEventType.CALLEE_ACK_BUSY) {
                 avChatUI.closeSessions(AVChatExitCode.PEER_BUSY);
             } else if (ackInfo.getEvent() == AVChatEventType.CALLEE_ACK_REJECT) {
+                EventHub.post(new RejectInComingCallEvent("", ComunicationType.VIDEO_CALL));
                 avChatUI.closeSessions(AVChatExitCode.REJECT);
             } else if (ackInfo.getEvent() == AVChatEventType.CALLEE_ACK_AGREE) {
                 if (ackInfo.isDeviceReady()) {

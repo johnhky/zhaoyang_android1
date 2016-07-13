@@ -128,7 +128,7 @@ public class CustomActionViewModel {
         NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
         if (nimTeamId.shouldAskServer()) {
             AppointmentModule api = Api.of(AppointmentModule.class);
-            api.canUse(ComunicationType.PHONE_CALL, nimTeamId.appointmentId()).enqueue(new SimpleCallback<String>() {
+            api.canUse(ComunicationType.VIDEO_CALL, nimTeamId.appointmentId()).enqueue(new SimpleCallback<String>() {
                 @Override
                 protected void handleResponse(String response) {
                     if ("1".equals(response)) {

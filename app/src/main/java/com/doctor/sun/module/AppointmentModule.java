@@ -246,7 +246,7 @@ public interface AppointmentModule {
      * @return
      */
     @FormUrlEncoded
-    @POST("appointment/communicate-avaliable")
+    @POST("appointment/communicate-unable")
     Call<ApiDTO<String>> rejectCommunication(@ComunicationType @Field("type") int type
             , @Field("appointmentId") int appointmentId);
 

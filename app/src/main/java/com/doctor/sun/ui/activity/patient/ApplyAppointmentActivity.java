@@ -82,7 +82,10 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
         binding.rbAlipay.setChecked(true);
         String dateFormat = YYYY_MM_DD_HH_MM;
         if (data.getType() == AppointmentType.QUICK) {
-            dateFormat = YYYY_MM_DD;
+            Date date = new Date(System.currentTimeMillis());
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
+            String hours = format.format(date);
+            data.getTime().setFrom(hours);
         }
         SimpleDateFormat format = new SimpleDateFormat(dateFormat, Locale.CHINA);
         Date parse = null;

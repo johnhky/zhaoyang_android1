@@ -79,8 +79,6 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
         binding.tvHosptial.setOnClickListener(this);
         initDurationPicker();
 
-        initPagerAdapter();
-        initPagerTabs();
     }
 
     private void initDurationPicker() {
@@ -176,6 +174,8 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
                 }
                 binding.setData(response);
                 binding.setHeader(headerViewModel);
+                initPagerAdapter();
+                initPagerTabs();
             }
         });
     }

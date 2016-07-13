@@ -2,8 +2,10 @@ package com.doctor.sun.ui.activity.doctor;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -26,6 +28,7 @@ import com.doctor.sun.ui.adapter.AnswerAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.util.PermissionUtil;
 
 import java.util.List;
 
@@ -188,5 +191,17 @@ public class PatientDetailActivity extends BaseActivity2 implements QCategoryHan
             t.printStackTrace();
             mAdapter.onFinishLoadMore(true);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == AppointmentHandler.RECORD_AUDIO_PERMISSION) {
+            if (PermissionUtil.verifyPermissions(grantResults)) {
+                if (data!=null) {
+                    data.getHandler().makePhoneCall(binding.getRoot());
+                }
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
