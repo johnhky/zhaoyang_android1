@@ -20,7 +20,6 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
-import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
@@ -89,44 +88,16 @@ public class AnswerHandler {
         return getQuestionType(data).equals(Question.TYPE_FURTHER_CONSULTATION);
     }
 
-    public SimpleAdapter getOptions(final BaseAdapter rootAdapter, BaseViewHolder viewHolder, final Answer data) {
-//        SimpleAdapter simpleAdapter = null;
-//        final int position = viewHolder.getAdapterPosition();
-//        if (isPills(data)) {
-//            simpleAdapter = new SimpleAdapter(rootAdapter.getContext());
-//            simpleAdapter.addAll(data.getPrescriptions());
-//            simpleAdapter.onFinishLoadMore(true);
-//        } else if (isRadio(data)) {
-//            simpleAdapter = new SingleSelectAdapter(rootAdapter.getContext(), new SingleSelectAdapter.OnSelectionChange() {
-//                @Override
-//                public void onSelectionChange(BaseAdapter adapter, int newSelectItem) {
-//                    data.setSelectedOptions(newSelectItem);
-//                    rootAdapter.set(position, data);
-//                }
-//            },data.getSelectedOptions());
-//            simpleAdapter.addAll(data.getQuestion().getOptions());
-//            simpleAdapter.onFinishLoadMore(true);
-//        } else if (isCheckbox(data)) {
-//            simpleAdapter = new MultiSelectAdapter(rootAdapter.getContext(), new MultiSelectAdapter.OnSelectionChange() {
-//                @Override
-//                public void onSelectionChange(BaseAdapter adapter, SparseBooleanArray selectedItems) {
-//                    data.setSelectedOptions(selectedItems);
-//                    rootAdapter.set(position, data);
-//                }
-//            },data.getSelectedOptions());
-//            simpleAdapter.addAll(data.getQuestion().getOptions());
-//            simpleAdapter.onFinishLoadMore(true);
-//        }
-
-        return null;
-    }
-
     public boolean hasAnswered(Answer data) {
         return data.hasSelectedOptions()
-                || data.getIsFill() == 1
+                || hasAnswerContent(data)
                 || !data.getPrescriptions().isEmpty()
                 || haveImageUrls(data)
                 || isTime(data);
+    }
+
+    public boolean hasAnswerContent(Answer data) {
+        return data.fillContent != null && !data.fillContent.equals("");
     }
 
     public boolean haveImageUrls(Answer answer) {

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">昭阳医生</string>
-    <string name="app_name_dev">昭阳医生_dev</string>
+    <string name="app_name_dev">昭阳医生开发服</string>
+    <string name="app_name_stage">昭阳医生测试服</string>
     <string name="action_settings">Settings</string>
     <string name="get_captcha">重新获取(%02d)</string>
     <string name="welcome">%s，欢迎您登录昭阳医生</string>

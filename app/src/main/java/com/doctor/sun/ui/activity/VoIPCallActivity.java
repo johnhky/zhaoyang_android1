@@ -12,10 +12,12 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityVoipCallBinding;
 import com.doctor.sun.entity.Avatar;
+import com.doctor.sun.entity.constans.ComunicationType;
 import com.doctor.sun.event.CallAlertEvent;
 import com.doctor.sun.event.CallAnsweredEvent;
 import com.doctor.sun.event.CallFailedEvent;
 import com.doctor.sun.event.CallReleasedEvent;
+import com.doctor.sun.event.RejectInComingCallEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ImModule;
@@ -25,6 +27,8 @@ import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
 
 import java.util.Locale;
+
+import io.ganguo.library.core.event.EventHub;
 
 
 /**
@@ -113,6 +117,7 @@ public class VoIPCallActivity extends BaseActivity2 {
             public void onClick(View v) {
                 ECDevice.getECVoIPCallManager()
                         .releaseCall(mCallId);
+                EventHub.post(new RejectInComingCallEvent(mCallId, ComunicationType.PHONE_CALL));
                 if (counter == null) {
                     finishDelay();
                 }

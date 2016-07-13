@@ -194,13 +194,9 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().equals("")) {
-                    answer.setIsFill(0);
-                } else {
-                    answer.setIsFill(1);
-                }
                 List<String> content = new ArrayList<>();
                 content.add(s.toString());
+                answer.fillContent = s.toString();
                 answer.setAnswerContent(content);
                 answer.notifyChange();
             }
@@ -342,7 +338,6 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
             Answer answer = (Answer) get(needPillsOrImages);
             logger.d("return image url: " + imageUrl);
             answer.getImageUrls().add(imageUrl);
-            answer.setIsFill(0);
             notifyItemChanged(needPillsOrImages);
         }
         needPillsOrImages = -1;

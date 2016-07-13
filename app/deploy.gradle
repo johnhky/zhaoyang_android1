@@ -73,7 +73,7 @@ android {
         stage {
 //            applicationIdSuffix ".dev"
 //            versionNameSuffix "_dev"
-            manifestPlaceholders = [appLabel  : "@string/app_name_dev"
+            manifestPlaceholders = [appLabel  : "@string/app_name_stage"
                                     , nimKey  : "9439a1f4b31a23c48660c290a69f89e3"
                                     , jPushKey: "b421412f29b79d12b1760f2f"]
             buildConfigField "boolean", "DEV_MODE", "true"

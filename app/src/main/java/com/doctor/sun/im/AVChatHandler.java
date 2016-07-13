@@ -1,10 +1,8 @@
 package com.doctor.sun.im;
 
 import com.doctor.sun.AppContext;
-import com.doctor.sun.R;
 import com.doctor.sun.avchat.AVChatProfile;
 import com.doctor.sun.avchat.activity.AVChatActivity;
-import com.doctor.sun.util.PermissionUtil;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.avchat.AVChatManager;
 import com.netease.nimlib.sdk.avchat.model.AVChatData;

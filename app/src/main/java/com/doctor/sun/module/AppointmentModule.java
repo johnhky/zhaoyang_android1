@@ -240,5 +240,14 @@ public interface AppointmentModule {
     Call<ApiDTO<String>> canUse(@ComunicationType @Query("type") long type
             , @Query("appointmentId") int appointmentId);
 
+    /**
+     * @param appointmentId 预约单id
+     * @param type          1表示电话；2表示视频
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("appointment/communicate-avaliable")
+    Call<ApiDTO<String>> rejectCommunication(@ComunicationType @Field("type") int type
+            , @Field("appointmentId") int appointmentId);
 
 }

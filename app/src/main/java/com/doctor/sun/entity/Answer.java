@@ -77,6 +77,8 @@ public class Answer extends BaseItem {
     private HashMap<String, String> selectedOptions;
     @JsonIgnore
     private String drugPath = "";
+    @JsonIgnore
+    public String fillContent;
 
 
     public int getId() {

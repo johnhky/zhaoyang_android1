@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingBinding;
@@ -21,6 +22,7 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.HideInputEvent;
+import com.doctor.sun.event.RejectInComingCallEvent;
 import com.doctor.sun.event.SendMessageEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -535,4 +537,16 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
 
+    @Subscribe
+    public void onRejectIncommingCallEvent(RejectInComingCallEvent e){
+       if (AppContext.isDoctor()) {
+           AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
+           appointmentModule.rejectCommunication(e.getType(), handler.appointmentId()).enqueue(new SimpleCallback<String>() {
+               @Override
+               protected void handleResponse(String response) {
+
+               }
+           });
+       }
+    }
 }

@@ -12,6 +12,8 @@
             name="handler"
             type="com.doctor.sun.ui.handler.LoginHandler" />
 
+        <import type="com.doctor.sun.BuildConfig"/>
+
     </data>
 
     <com.zhy.android.percent.support.PercentLinearLayout
@@ -21,6 +23,7 @@
 
 
         <LinearLayout
+            android:id="@+id/change_server"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_254"
             android:orientation="vertical">

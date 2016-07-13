@@ -31,7 +31,7 @@ public class Api {
     /**
      * api base
      */
-    public static final String API_BASE_URL = BuildConfig.BASE_URL;
+    public static final String API_BASE_URL = Config.getString(Constants.BASE_URI,BuildConfig.BASE_URL);
 
     /**
      * okhttp

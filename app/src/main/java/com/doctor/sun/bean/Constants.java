@@ -10,6 +10,8 @@ import java.util.ArrayList;
 public class Constants {
     public static final String TOKEN = "TOKEN";
 
+    public static final String BASE_URI = "URI";
+
     public static final String DATA = "DATA";
     public static final String EMAIL = "EMAIL";
     public static final String POSITION = "POSITION";

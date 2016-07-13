@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.avchat.activity.AVChatExitCode;
 import com.doctor.sun.avchat.constant.CallStateEnum;
+import com.doctor.sun.entity.constans.ComunicationType;
+import com.doctor.sun.event.RejectInComingCallEvent;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.avchat.AVChatCallback;
 import com.netease.nimlib.sdk.avchat.AVChatManager;
@@ -28,6 +30,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * 音视频管理器, 音视频相关功能管理
@@ -283,6 +287,7 @@ public class AVChatUI implements AVChatUIListener {
      */
     public void closeSessions(int exitCode) {
         //not  user  hang up active  and warning tone is playing,so wait its end
+        SoundPlayer.instance(context).stop();
         Log.i(TAG, "close session -> " + AVChatExitCode.getExitString(exitCode));
         if (avChatAudio != null)
             avChatAudio.closeSession(exitCode);
@@ -349,6 +354,7 @@ public class AVChatUI implements AVChatUIListener {
         AVChatManager.getInstance().hangUp(new AVChatCallback<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                EventHub.post(new RejectInComingCallEvent(getAccount(), ComunicationType.VIDEO_CALL));
             }
 
             @Override

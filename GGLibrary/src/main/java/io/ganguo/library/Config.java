@@ -199,6 +199,16 @@ public class Config {
      * @param key
      * @return
      */
+    public static String getString(String key, String defaultValue) {
+        return getSharedPreferences().getString(key, defaultValue);
+    }
+
+    /**
+     * 读取配置信息
+     *
+     * @param key
+     * @return
+     */
     public static int getInt(String key, int def) {
         return getSharedPreferences().getInt(key, def);
     }

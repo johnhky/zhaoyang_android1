@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.AppCompatDelegate;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
@@ -46,8 +45,8 @@ public class CustomBinding {
     @BindingAdapter(value = "app:srcCompat")
     public static void srcCompat(ImageView imageView, int resourceId) {
         Drawable d = VectorDrawableCompat.create(imageView.getResources(), resourceId, null);
-        d = DrawableCompat.wrap(d);
-        imageView.setImageDrawable(d);
+        Drawable dWrap = DrawableCompat.wrap(d);
+        imageView.setImageDrawable(dWrap);
     }
 
     @android.databinding.BindingAdapter("bind:onClick")

@@ -94,7 +94,7 @@ public class AnswerAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
             }
 
             if (answer.getNeedRefill() == 1 && appointment.getIsFinish() != 1) {
-                binding.ivPosition.setImageResource(R.drawable.shape_red_oval_dp17);
+                binding.ivPosition.setImageResource(R.drawable.shape_red_oval_dp24);
             } else if (answer.getIsFill() == 1) {
                 binding.ivPosition.setImageResource(R.drawable.shape_grey_oval_dp24);
             } else {
