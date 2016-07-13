@@ -17,6 +17,7 @@ public class CountDownTextView extends TextView {
 
     private String stringToFormat = "";
     private long remainTime;
+    private boolean isRunning = false;
 
     public CountDownTextView(Context context) {
         super(context);
@@ -44,6 +45,10 @@ public class CountDownTextView extends TextView {
 
     public void countDown() {
         Log.d(TAG, "countDown() called with: " + "");
+        if (isRunning) {
+            return;
+        }
+        isRunning = true;
         post(new Runnable() {
             @Override
             public void run() {
