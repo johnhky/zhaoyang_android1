@@ -147,7 +147,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/dp_8"
                 android:layout_marginTop="@dimen/dp_8"
-                android:background="@drawable/shape_button"
+                android:background="@drawable/btn_blue"
                 android:onClick="@{confirmClick}">
 
                 <TextView

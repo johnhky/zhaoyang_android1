@@ -91,7 +91,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ic_week_default"
+                    android:background="@drawable/selector_grey_rect"
                     android:drawableRight="@drawable/ic_enter"
                     android:gravity="start|center_vertical"
                     android:minHeight="@dimen/dp_45"
@@ -134,7 +134,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_45"
-                    android:background="@drawable/ic_week_default"
+                    android:background="@drawable/selector_grey_rect"
                     android:gravity="start|center_vertical"
                     android:imeOptions="actionDone"
                     android:paddingLeft="@dimen/dp_13"

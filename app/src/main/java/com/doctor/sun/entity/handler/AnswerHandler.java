@@ -121,6 +121,22 @@ public class AnswerHandler {
         return null;
     }
 
+    public boolean hasAnswered(Answer data) {
+        return data.hasSelectedOptions()
+                || data.getIsFill() == 1
+                || !data.getPrescriptions().isEmpty()
+                || haveImageUrls(data)
+                || isTime(data);
+    }
+
+    public boolean haveImageUrls(Answer answer) {
+        if (answer.getImageUrls().size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean drugCountGreaterThen(Answer answer, int count) {
         return answer.getPrescriptions().size() < count;
     }
@@ -138,7 +154,6 @@ public class AnswerHandler {
                                 Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
                                 Answer answer = (Answer) adapter.get(vh.getAdapterPosition());
                                 answer.getPrescriptions().add(parcelable);
-                                answer.setIsFill(0);
                                 adapter.set(vh.getAdapterPosition(), answer);
                                 adapter.notifyItemChanged(vh.getAdapterPosition());
                             }

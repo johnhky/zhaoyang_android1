@@ -59,6 +59,7 @@ public class RegisterActivity extends BaseActivity2 implements RegisterHandler.R
                 header.setRightTitle("确定");
 //                binding.llyEmail.setVisibility(View.VISIBLE);
                 binding.llyPolicy.setVisibility(View.GONE);
+                header.setEnable(true);
                 break;
             }
             default:

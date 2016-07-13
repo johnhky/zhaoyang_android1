@@ -37,7 +37,7 @@
                 android:id="@+id/et_input"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
-                android:background="@drawable/ic_week_default"
+                android:background="@drawable/selector_grey_rect"
                 android:gravity="start|center_vertical"
                 android:hint="@{data.hint}"
                 android:imeOptions="@{data.imeOptions}"

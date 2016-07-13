@@ -41,8 +41,9 @@
                     android:id="@+id/iv_position"
                     android:layout_width="@dimen/dp_23"
                     android:layout_height="@dimen/dp_23"
-                    android:enabled="@{data.hasAnswer}"
-                    android:src="@drawable/ic_position_selector" />
+                    android:enabled="true"
+                    android:selected="@{data.hasAnswer}"
+                    android:src="@drawable/oval_dp24_selector" />
 
                 <TextView
                     android:id="@+id/iv_icon"
@@ -82,7 +83,7 @@
             android:layout_height="@dimen/dp_30"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/dp_4"
-            android:background="@drawable/shape_rectangle_selected"
+            android:background="@drawable/shape_blue_rect_stroke"
             android:orientation="horizontal"
             android:visibility="@{data.hasAnswer}">
 
@@ -151,7 +152,7 @@
                 android:id="@+id/et_others"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
-                android:background="@drawable/ic_week_default"
+                android:background="@drawable/selector_grey_rect"
                 android:drawableRight="@drawable/ic_enter"
                 android:gravity="start|center_vertical"
                 android:paddingLeft="@dimen/dp_13"

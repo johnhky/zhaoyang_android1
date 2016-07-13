@@ -27,7 +27,7 @@
             android:layout_marginRight="@dimen/dp_22"
             android:layout_marginTop="@dimen/dp_7"
             android:singleLine="true"
-            android:background="@drawable/shape_rectangle_default"
+            android:background="@drawable/shape_grey_rect_stroke"
             android:drawableLeft="@drawable/ic_search_clicked"
             android:gravity="center"
             android:hint="搜索"

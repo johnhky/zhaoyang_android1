@@ -78,7 +78,7 @@
                 android:id="@+id/et_time"
                 android:layout_width="@dimen/dp_166"
                 android:layout_height="match_parent"
-                android:background="@drawable/shape_rectangle_default"
+                android:background="@drawable/shape_grey_rect_stroke"
                 android:inputType="number"
                 android:paddingLeft="@dimen/dp_12"
                 android:textColor="#363636"

@@ -75,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
                 android:layout_marginBottom="@dimen/dp_17"
-                android:background="@drawable/shape_rectangle_default"
+                android:background="@drawable/shape_grey_rect_stroke"
                 android:inputType="number"
                 android:paddingLeft="@dimen/dp_12"
                 android:textColor="#363636"

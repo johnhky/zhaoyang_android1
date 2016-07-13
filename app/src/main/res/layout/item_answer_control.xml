@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="@drawable/shape_rectangle_selected"
+                android:background="@drawable/shape_blue_rect_stroke"
                 android:button="@null"
                 android:checked="@={data.checked}"
                 android:gravity="center"

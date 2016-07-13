@@ -224,9 +224,6 @@ public class TextMsg extends RealmObject implements LayoutId {
             if (TextMsgFactory.ADMIN_DRUG.equals(getUserData())) {
                 return R.layout.msg_prescription_list;
             }
-            if (getType().equals(String.valueOf(TextMsg.EXTEND_TIME))) {
-                return R.layout.msg_extend_time;
-            }
             return R.layout.msg_text_send;
         }
 
@@ -248,6 +245,9 @@ public class TextMsg extends RealmObject implements LayoutId {
             }
             if (TextMsgFactory.ADMIN_DRUG.equals(getUserData())) {
                 return R.layout.msg_prescription_list;
+            }
+            if (getType().equals(String.valueOf(TextMsg.EXTEND_TIME))) {
+                return R.layout.msg_extend_time;
             }
             return R.layout.msg_text_receive;
         }

@@ -194,15 +194,15 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (s.toString().equals("")) {
+                    answer.setIsFill(0);
+                } else {
+                    answer.setIsFill(1);
+                }
                 List<String> content = new ArrayList<>();
                 content.add(s.toString());
                 answer.setAnswerContent(content);
-
-                if (!s.toString().equals("")) {
-                    setPositionFill(binding, answer);
-                } else {
-                    clearPositionFill(binding, answer);
-                }
+                answer.notifyChange();
             }
         });
     }
@@ -264,9 +264,6 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                                         if (answer.getImageUrls().contains(answer.getImageUrls().get(index))) {
                                             answer.getImageUrls().remove(answer.getImageUrls().get(index));
                                             answer.setAnswerContent(answer.getImageUrls());
-                                            if (answer.getImageUrls().size() == 0) {
-                                                answer.setIsFill(1);
-                                            }
                                             notifyItemChanged(needPillsOrImages);
                                         }
                                     }
@@ -310,9 +307,6 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                 if (prescriptions.contains(data)) {
                     prescriptions.remove(data);
                     //用药信息为空
-                    if (prescriptions.size() == 0) {
-                        clearPositionFill(binding, answer);
-                    }
                     answer.setPrescriptions(prescriptions);
                     set(binding.getVh().getAdapterPosition(), answer);
                     notifyItemChanged(binding.getVh().getAdapterPosition());
@@ -332,7 +326,6 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
         if (needPillsOrImages != -1 && getItemViewType(needPillsOrImages) == R.layout.item_answer) {
             Answer answer = (Answer) get(needPillsOrImages);
             answer.getPrescriptions().add(prescription);
-            answer.setIsFill(0);
             notifyItemChanged(needPillsOrImages);
         }
         needPillsOrImages = -1;
@@ -541,18 +534,6 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
         return boxAnswer;
     }
 
-
-    private void setPositionFill(ItemAnswerBinding binding, Answer answer) {
-        if (answer.getIsFill() == 1) {
-            answer.setIsFill(0);
-            binding.ivPosition.setImageResource(R.drawable.shape_blue_oval_dp24);
-        }
-    }
-
-    private void clearPositionFill(ItemAnswerBinding binding, Answer answer) {
-        answer.setIsFill(1);
-        binding.ivPosition.setImageResource(R.drawable.shape_grey_oval_dp24);
-    }
 
     private void setUpMapKey() {
         //根据部分量词调整hint文本

@@ -3,6 +3,6 @@
     android:color="?android:colorControlHighlight">
     <item
         android:id="@android:id/mask"
-        android:drawable="@drawable/btn_blue_rect" />
-    <item android:drawable="@drawable/btn_blue_rect" />
+        android:drawable="@drawable/shape_blue_rect" />
+    <item android:drawable="@drawable/shape_blue_rect" />
 </ripple>

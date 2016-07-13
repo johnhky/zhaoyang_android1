@@ -194,15 +194,14 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
             String amount = numbers.get(i).get(keys.get(i));
             if (null != amount && !amount.equals("")) {
                 builder.append(keys.get(i)).append(amount).append(unit);
-                if (i != numbers.size()) {
-                    builder.append(",");
-                }
+                builder.append(",");
             }
         }
 
         if (remark != null && !remark.isEmpty()) {
-            builder.append(",");
             builder.append(remark);
+        } else {
+            builder.deleteCharAt(builder.length() - 1);
         }
         return builder.toString();
     }
@@ -232,7 +231,7 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         for (int i = 0; i < numbers.size(); i++) {
             String amount = numbers.get(i).get(keys.get(i));
             if (null != amount && !amount.equals("")) {
-                builder.append(keys.get(i)).append(amount).append(unit).append("/");
+                builder.append(keys.get(i)).append(amount).append(unit).append(",");
             }
         }
         return builder.toString();
@@ -244,7 +243,7 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         for (int i = 0; i < numbers.size(); i++) {
             String amount = numbers.get(i).get(keys.get(i));
             if (null != amount && !amount.equals("")) {
-                builder.append(keys.get(i)).append(amount).append(unit).append("/");
+                builder.append(keys.get(i)).append(amount).append(unit).append(",");
             }
         }
         return builder.toString();

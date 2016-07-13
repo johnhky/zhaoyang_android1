@@ -13,4 +13,8 @@ public interface NimMsgInfo {
     String getP2PId();
 
     boolean enablePush();
+
+    int appointmentId();
+
+    boolean shouldAskServer();
 }

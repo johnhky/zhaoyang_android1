@@ -17,11 +17,15 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.avchat.activity.AVChatActivity;
+import com.doctor.sun.entity.constans.ComunicationType;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.ExtendTimeAttachment;
+import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.FileChooser;
@@ -58,9 +62,9 @@ public class CustomActionViewModel {
         adapter.add(cameraMenu());
         adapter.add(videoChatMenu());
         adapter.add(chooseFileMenu());
-        ClickMenu object = extendTimeMenu();
-        object.setEnable(true);
-        adapter.add(object);
+//        ClickMenu object = extendTimeMenu();
+//        object.setEnable(true);
+//        adapter.add(object);
 
         adapter.onFinishLoadMore(true);
         return adapter;
@@ -120,9 +124,28 @@ public class CustomActionViewModel {
         });
     }
 
-    private void alertNotAvailable(View v) {
-        String question = "该功能暂未开通，敬请期待";
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(v.getContext())
+    private void alertNotAvailable(final View view) {
+        NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
+        if (nimTeamId.shouldAskServer()) {
+            AppointmentModule api = Api.of(AppointmentModule.class);
+            api.canUse(ComunicationType.PHONE_CALL, nimTeamId.appointmentId()).enqueue(new SimpleCallback<String>() {
+                @Override
+                protected void handleResponse(String response) {
+                    if ("1".equals(response)) {
+                        NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
+                        AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL);
+                    } else {
+                        showConfirmDialog(view, "医生因个人原因暂时停止该功能，请用文字、图片等继续与医生咨询");
+                    }
+                }
+            });
+        } else {
+            showConfirmDialog(view, "该功能仅限于专属实时咨询的就诊时间内使用");
+        }
+    }
+
+    private void showConfirmDialog(View view, String question) {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(view.getContext())
                 .content(question)
                 .positiveText("确认")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -153,11 +176,13 @@ public class CustomActionViewModel {
                                     public void run() {
                                         final Uri image = getFileUrlForCameraRequest(mActivity);
                                         Intent intentFromCamera = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                            ClipData clip = ClipData.newRawUri(null, image);
+                                            intentFromCamera.setClipData(clip);
+                                        }
+                                        intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
                                         intentFromCamera.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                                         intentFromCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                        ClipData clip = ClipData.newRawUri(null, image);
-                                        intentFromCamera.setClipData(clip);
-                                        intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
                                         mActivity.startActivityForResult(intentFromCamera, VIDEO_REQUEST_CODE);
                                     }
                                 });
@@ -188,9 +213,7 @@ public class CustomActionViewModel {
 
     @NonNull
     public static File getVideoTempFile() {
-        return new File(Config.getDataPath(), "videoFromCamera");
-//        File cacheDir = AppContext.me().getCacheDir();
-//        return new File(new File(cacheDir,"images"),"videoFromCamera");
+        return new File(Config.getTempPath(), "videoFromCamera");
     }
 
     @NonNull

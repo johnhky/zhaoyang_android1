@@ -59,7 +59,7 @@ public class ApplyAfterServiceActivity extends BaseActivity2 {
     private void initView() {
         binding.setConfirmClick(new OnSingleClickListener() {
             @Override
-            public void onSingleClick(View v) {
+            public void onSingleClick(final View v) {
                 ArrayList<String> selectedRecords = getSelectedRecords();
                 if (selectedRecords.isEmpty()) {
                     Toast.makeText(ApplyAfterServiceActivity.this, "请选择需要申请随访的病历", Toast.LENGTH_SHORT).show();
@@ -74,6 +74,13 @@ public class ApplyAfterServiceActivity extends BaseActivity2 {
                         }
                     });
                 }
+                v.setEnabled(false);
+                v.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        v.setEnabled(true);
+                    }
+                }, 5000);
             }
         });
         binding.setSelectAllClick(new View.OnClickListener() {

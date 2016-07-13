@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="@drawable/shape_rectangle_selected"
+                android:background="@drawable/shape_blue_rect_stroke"
                 android:button="@null"
                 android:gravity="center"
                 android:text='添加更多事项提醒'

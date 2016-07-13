@@ -51,7 +51,6 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
-import com.netease.nimlib.sdk.msg.SystemMessageObserver;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
@@ -328,6 +327,16 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     @Override
     public boolean enablePush() {
         return handler.enablePush();
+    }
+
+    @Override
+    public int appointmentId() {
+        return handler.appointmentId();
+    }
+
+    @Override
+    public boolean shouldAskServer() {
+        return handler.shouldAskServer();
     }
 
     @Override

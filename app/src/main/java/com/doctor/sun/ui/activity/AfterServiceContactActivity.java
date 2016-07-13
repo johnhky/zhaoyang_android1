@@ -15,6 +15,7 @@ import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.NameComparator;
 
 import java.util.Collections;
@@ -38,6 +39,13 @@ public class AfterServiceContactActivity extends ContactActivity {
         SimpleAdapter adapter = super.createAdapter();
         adapter.mapLayout(R.layout.item_doctor, R.layout.item_contact2);
         return adapter;
+    }
+
+
+    @NonNull
+    @Override
+    protected HeaderViewModel getHeaderViewModel() {
+        return new HeaderViewModel(this).setMidTitle("随访通讯录");
     }
 
     @Override

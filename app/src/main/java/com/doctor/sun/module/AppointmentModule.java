@@ -7,6 +7,7 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.constans.ComunicationType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +65,7 @@ public interface AppointmentModule {
 
     @FormUrlEncoded
     @POST("appointment/appointment")
-    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") int  doctorId,
+    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") int doctorId,
                                                @Field("bookTime") String bookTime,
                                                @AppointmentType @Field("type") int type,
                                                @Field("recordId") String recordId,
@@ -228,5 +229,16 @@ public interface AppointmentModule {
     @POST("im/list-info")
     Call<ApiDTO<PageDTO<Appointment>>> appointmentInTid(@Field("tidArray") String tid,
                                                         @Field("page") String page);
+
+
+    /**
+     * @param appointmentId 预约单id
+     * @param type          1表示电话；2表示视频
+     * @return
+     */
+    @GET("appointment/communicate-avaliable")
+    Call<ApiDTO<String>> canUse(@ComunicationType @Query("type") long type
+            , @Query("appointmentId") int appointmentId);
+
 
 }

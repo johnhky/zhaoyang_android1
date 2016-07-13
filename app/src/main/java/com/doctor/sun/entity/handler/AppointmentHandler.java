@@ -24,6 +24,7 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.constans.ComunicationType;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
@@ -491,6 +492,16 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return isDetailAppointment && data.getOrderStatus().equals(Status.A_DOING);
     }
 
+    @Override
+    public int appointmentId() {
+        return data.getId();
+    }
+
+    @Override
+    public boolean shouldAskServer() {
+        return data.getAppointmentType() == AppointmentType.DETAIL && Status.A_DOING.equals(data.getOrderStatus());
+    }
+
     public CustomActionViewModel.AudioChatCallback getAudioChatCallback() {
         return new CustomActionViewModel.AudioChatCallback() {
             @Override
@@ -751,8 +762,24 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
-    private void showNotAvailableDialog(View view) {
-        String question = "通话请求失败:\n①医生拒绝来电\n②医生处于免打扰状态";
+    private void showNotAvailableDialog(final View view) {
+        if (shouldAskServer()) {
+            api.canUse(ComunicationType.PHONE_CALL, appointmentId()).enqueue(new SimpleCallback<String>() {
+                @Override
+                protected void handleResponse(String response) {
+                    if ("1".equals(response)) {
+                        makePhoneCall(view);
+                    } else {
+                        showConfirmDialog(view, "医生因个人原因暂时停止该功能，请用文字、图片等继续与医生咨询");
+                    }
+                }
+            });
+        } else {
+            showConfirmDialog(view, "该功能仅限于专属实时咨询的就诊时间内使用");
+        }
+    }
+
+    private void showConfirmDialog(View view, String question) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(view.getContext())
                 .content(question)
                 .positiveText("确认")

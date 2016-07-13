@@ -85,7 +85,7 @@
             android:layout_height="@dimen/dp_49"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/dp_25"
-            android:background="@drawable/shape_rectangle_selected">
+            android:background="@drawable/shape_blue_rect_stroke">
 
             <TextView
                 android:id="@+id/tv_main"

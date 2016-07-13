@@ -1,10 +1,12 @@
 package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Description;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
 
 /**
  * Created by rick on 1/4/2016.
@@ -25,10 +27,13 @@ public class DoctorDescriptionFragment extends ListFragment {
         return getArguments().getString(Constants.DATA);
     }
 
+    @NonNull
     @Override
-    protected void loadMore() {
-        getAdapter().onFinishLoadMore(true);
+    public SimpleAdapter createAdapter() {
+        SimpleAdapter adapter = super.createAdapter();
+        adapter.onFinishLoadMore(true);
         Description data = new Description(R.layout.item_doctor_description, getDescription());
-        getAdapter().add(data);
+        adapter.add(data);
+        return adapter;
     }
 }

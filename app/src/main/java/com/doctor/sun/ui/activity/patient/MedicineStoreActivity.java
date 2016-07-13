@@ -295,6 +295,16 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     }
 
     @Override
+    public int appointmentId() {
+        return -1;
+    }
+
+    @Override
+    public boolean shouldAskServer() {
+        return false;
+    }
+
+    @Override
     public SessionTypeEnum getType() {
         return SessionTypeEnum.P2P;
     }

@@ -42,7 +42,7 @@
                 android:id="@+id/et_others"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
-                android:background="@drawable/ic_week_default"
+                android:background="@drawable/selector_grey_rect"
                 android:drawableRight="@drawable/ic_enter"
                 android:enabled="@{llyRoot.enabled}"
                 android:gravity="start|center_vertical"

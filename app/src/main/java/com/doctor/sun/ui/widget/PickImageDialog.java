@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
@@ -129,14 +130,20 @@ public class PickImageDialog extends BottomSheetDialog {
         checkPermission(mActivity, new Runnable() {
             @Override
             public void run() {
-                final Uri image = getFileUrlForCameraRequest(mActivity);
-                Intent intentFromCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intentFromCamera.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                intentFromCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                ClipData clip = ClipData.newRawUri(null, image);
-                intentFromCamera.setClipData(clip);
-                intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
-                mActivity.startActivityForResult(intentFromCamera, imageRequestCode | CAMERA_MASK);
+                try {
+                    final Uri image = getFileUrlForCameraRequest(mActivity);
+                    Intent intentFromCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        ClipData clip = ClipData.newRawUri(null, image);
+                        intentFromCamera.setClipData(clip);
+                    }
+                    intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
+                    intentFromCamera.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    intentFromCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    mActivity.startActivityForResult(intentFromCamera, imageRequestCode | CAMERA_MASK);
+                } catch (Exception e) {
+                    Toast.makeText(mActivity, "无法打开拍摄应用", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -165,14 +172,11 @@ public class PickImageDialog extends BottomSheetDialog {
 
     @NonNull
     private static File handleCameraRequest() {
-//        File cacheDir = AppContext.me().getCacheDir();
-//        return new File(new File(cacheDir, "images"), "imageFromCamera");
         return new File(Config.getTempPath(), "imageFromCamera");
     }
 
     private static File handleGalleryRequest(Context context, Intent data) {
         Uri selectedImage = data.getData();
-        //log: selectedImage.getScheme() --> file / content
         return handleImageUrl(context, selectedImage);
     }
 
