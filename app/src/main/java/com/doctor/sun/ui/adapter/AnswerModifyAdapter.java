@@ -105,17 +105,6 @@ public class AnswerModifyAdapter extends SimpleAdapter<LayoutId, ViewDataBinding
                 uploadImages(binding, answer, position);
                 break;
             }
-            case "checkbox": {
-//                boxAnswer(binding, answer);
-                break;
-            }
-            case "radio": {
-//                radioAnswer(binding, answer);
-                break;
-            }
-            default: {
-                break;
-            }
         }
     }
 

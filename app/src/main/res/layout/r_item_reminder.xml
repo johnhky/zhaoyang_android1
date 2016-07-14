@@ -21,6 +21,8 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:gravity="center_vertical"
             android:minHeight="@dimen/dp_30"
+            android:paddingBottom="@dimen/dp_4"
+            android:paddingTop="@dimen/dp_4"
             android:text="@{data.content}"
             android:textColor="@color/grey_89"
             android:textSize="@dimen/font_15"
@@ -28,10 +30,10 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_30"
+            android:layout_height="match_parent"
             android:layout_gravity="end"
             android:layout_marginRight="@dimen/dp_13"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:maxLines="1"
             android:text="@{data.time}"
             android:textColor="@color/grey_89"

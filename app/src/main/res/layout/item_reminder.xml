@@ -133,10 +133,11 @@
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_45"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/selector_grey_rect"
                     android:gravity="start|center_vertical"
                     android:imeOptions="actionDone"
+                    android:minHeight="@dimen/dp_45"
                     android:paddingLeft="@dimen/dp_13"
                     android:paddingRight="@dimen/dp_13"
                     android:text="@={data.title}"
