@@ -21,6 +21,7 @@ import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.event.BidirectionalEvent;
 import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.event.RejectInComingCallEvent;
 import com.doctor.sun.event.SendMessageEvent;
@@ -51,6 +52,7 @@ import com.doctor.sun.vo.StickerViewModel;
 import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
@@ -296,14 +298,14 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     private void initCustomAction(Appointment data) {
         binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
-        customActionViewModel = new CustomActionViewModel(this, data.getHandler().getAudioChatCallback());
+        customActionViewModel = new CustomActionViewModel(this);
         SimpleAdapter adapter = customActionViewModel.getSimpleAdapter();
 
         binding.customAction.setAdapter(adapter);
     }
 
     private void makePhoneCall() {
-        handler.makePhoneCall(binding.getRoot());
+        handler.makePhoneCall(this);
     }
 
     @Override
@@ -547,6 +549,15 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
                     Log.d(TAG, "handleResponse() called with: response = [" + response + "]");
                 }
             });
+        }
+    }
+
+    @Subscribe
+    public void onRejectIncomingCallEvent(BidirectionalEvent e) {
+        if (handler != null) {
+            if (e.getChatType().equals(AVChatType.AUDIO)) {
+                handler.callTelephone(this);
+            }
         }
     }
 }

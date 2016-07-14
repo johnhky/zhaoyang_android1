@@ -250,7 +250,11 @@ public class AVChatActivity extends BaseActivity2 implements AVChatUI.AVChatList
             if (ackInfo.getEvent() == AVChatEventType.CALLEE_ACK_BUSY) {
                 avChatUI.closeSessions(AVChatExitCode.PEER_BUSY);
             } else if (ackInfo.getEvent() == AVChatEventType.CALLEE_ACK_REJECT) {
-                EventHub.post(new RejectInComingCallEvent("", ComunicationType.VIDEO_CALL));
+                if (state == AVChatType.VIDEO.getValue() ) {
+                    EventHub.post(new RejectInComingCallEvent("", ComunicationType.VIDEO_CALL));
+                }else if (state == AVChatType.AUDIO.getValue() ){
+                    EventHub.post(new RejectInComingCallEvent("", ComunicationType.PHONE_CALL));
+                }
                 avChatUI.closeSessions(AVChatExitCode.REJECT);
             } else if (ackInfo.getEvent() == AVChatEventType.CALLEE_ACK_AGREE) {
                 if (ackInfo.isDeviceReady()) {

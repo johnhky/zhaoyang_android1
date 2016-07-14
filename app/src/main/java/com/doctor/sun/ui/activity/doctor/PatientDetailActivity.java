@@ -2,10 +2,8 @@ package com.doctor.sun.ui.activity.doctor;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -18,6 +16,7 @@ import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.entity.handler.AppointmentHandler;
+import com.doctor.sun.event.BidirectionalEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AnswerCallback;
 import com.doctor.sun.http.callback.ListCallback;
@@ -29,6 +28,8 @@ import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.PermissionUtil;
+import com.netease.nimlib.sdk.avchat.constant.AVChatType;
+import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
@@ -197,11 +198,21 @@ public class PatientDetailActivity extends BaseActivity2 implements QCategoryHan
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == AppointmentHandler.RECORD_AUDIO_PERMISSION) {
             if (PermissionUtil.verifyPermissions(grantResults)) {
-                if (data!=null) {
-                    data.getHandler().makePhoneCall(binding.getRoot());
+                if (data != null) {
+                    data.getHandler().makePhoneCall(this);
                 }
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    @Subscribe
+    public void onRejectIncomingCallEvent(BidirectionalEvent e) {
+        if (data != null) {
+            if (e.getChatType().equals(AVChatType.AUDIO)) {
+                data.getHandler().callTelephone(this);
+            }
+        }
     }
 }

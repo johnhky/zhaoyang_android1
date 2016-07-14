@@ -10,14 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.MobEventId;
 import com.doctor.sun.entity.Token;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.http.callback.DoNothingCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
@@ -57,7 +55,7 @@ public class RegisterHandler extends BaseHandler {
         }
     }
 
-    public void sendCaptcha(View view) {
+    public void sendCaptcha(final View view) {
         String phone = mInput.getPhone();
         if (!Strings.isMobile(phone)) {
             Toast.makeText(getContext(), "手机号码格式错误", Toast.LENGTH_SHORT).show();
@@ -67,8 +65,12 @@ public class RegisterHandler extends BaseHandler {
 
         long pressTime = System.currentTimeMillis();
         if (pressTime - lastPressTime >= DOUBLE_PRESS_INTERVAL) {
-            countDown(view);
-            api.sendCaptcha(phone).enqueue(new DoNothingCallback());
+            api.sendCaptcha(phone).enqueue(new SimpleCallback<String>() {
+                @Override
+                protected void handleResponse(String response) {
+                    countDown(view);
+                }
+            });
         }
         lastPressTime = pressTime;
     }

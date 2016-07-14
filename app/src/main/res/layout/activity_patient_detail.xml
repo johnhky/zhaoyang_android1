@@ -109,7 +109,7 @@
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_marginRight="@dimen/dp_8"
                 android:background="@drawable/ripple_default"
-                android:onClick="@{data.handler.makePhoneCall}"
+                android:onClick="@{()->data.handler.makePhoneCall(context)}"
                 android:showcase='@{"就诊前也可以联系患者"}'
                 android:showcaseId='@{"patientDetail"}'
                 android:showcasePosition='@{2}'

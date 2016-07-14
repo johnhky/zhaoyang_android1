@@ -1,6 +1,5 @@
 package com.doctor.sun.entity.handler;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.os.Message;
 import android.os.Messenger;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,6 +16,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
+import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
@@ -35,14 +34,12 @@ import com.doctor.sun.http.callback.CancelCallback;
 import com.doctor.sun.http.callback.DoNothingCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
-import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.ChattingActivityNoMenu;
-import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.CancelAppointmentActivity;
@@ -63,12 +60,9 @@ import com.doctor.sun.ui.handler.PayMethodInterface;
 import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PayCallback;
-import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.vo.CustomActionViewModel;
+import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-import com.yuntongxun.ecsdk.ECDevice;
-import com.yuntongxun.ecsdk.ECError;
-import com.yuntongxun.ecsdk.ECUserState;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -509,15 +503,15 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public boolean shouldAskServer() {
         return data.getAppointmentType() == AppointmentType.DETAIL && Status.A_DOING.equals(data.getOrderStatus());
     }
-
-    public CustomActionViewModel.AudioChatCallback getAudioChatCallback() {
-        return new CustomActionViewModel.AudioChatCallback() {
-            @Override
-            public void startAudioChat(View v) {
-                checkCallStatus(v);
-            }
-        };
-    }
+//
+//    public CustomActionViewModel.AudioChatCallback getAudioChatCallback() {
+//        return new CustomActionViewModel.AudioChatCallback() {
+//            @Override
+//            public void startAudioChat(View v) {
+//                checkCallStatus(v);
+//            }
+//        };
+//    }
 
     public String getRightFirstTitle() {
         if (AppContext.isDoctor()) {
@@ -768,30 +762,30 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
-    public void checkCallStatus(View view) {
-        if (AppContext.isDoctor()) {
-            makePhoneCall(view);
-        } else {
-            showNotAvailableDialog(view);
-        }
-    }
+//    public void checkCallStatus(View view) {
+//        if (AppContext.isDoctor()) {
+//            makePhoneCall(view);
+//        } else {
+//            showNotAvailableDialog(view);
+//        }
+//    }
 
-    private void showNotAvailableDialog(final View view) {
-        if (shouldAskServer()) {
-            api.canUse(ComunicationType.PHONE_CALL, appointmentId()).enqueue(new SimpleCallback<String>() {
-                @Override
-                protected void handleResponse(String response) {
-                    if ("1".equals(response)) {
-                        makePhoneCall(view);
-                    } else {
-                        showConfirmDialog(view, "医生因个人原因暂时停止该功能，请用文字、图片等继续与医生咨询");
-                    }
-                }
-            });
-        } else {
-            showConfirmDialog(view, "该功能仅限于专属实时咨询的就诊时间内使用");
-        }
-    }
+//    private void showNotAvailableDialog(final View view) {
+//        if (shouldAskServer()) {
+//            api.canUse(ComunicationType.PHONE_CALL, appointmentId()).enqueue(new SimpleCallback<String>() {
+//                @Override
+//                protected void handleResponse(String response) {
+//                    if ("1".equals(response)) {
+//                        makePhoneCall(view);
+//                    } else {
+//                        showConfirmDialog(view, "医生因个人原因暂时停止该功能，请用文字、图片等继续与医生咨询");
+//                    }
+//                }
+//            });
+//        } else {
+//            showConfirmDialog(view, "该功能仅限于专属实时咨询的就诊时间内使用");
+//        }
+//    }
 
     private void showConfirmDialog(View view, String question) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(view.getContext())
@@ -806,43 +800,46 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         builder.show();
     }
 
-    public void makePhoneCall(final View view) {
-        if (!IMManager.getInstance().isRIMLogin()) {
-            IMManager.getInstance().login();
-        }
-
-        String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.VIBRATE};
-        boolean hasSelfPermission = PermissionUtil.hasSelfPermission((Activity) view.getContext(), permissions);
-        if (hasSelfPermission) {
-            final String sendTo = getVoipAccount();
-            try {
-                ECDevice.getUserState(sendTo, new ECDevice.OnGetUserStateListener() {
-                    @Override
-                    public void onGetUserState(ECError ecError, ECUserState ecUserState) {
-                        if (ecUserState != null && ecUserState.isOnline()) {
-                            IMManager.getInstance().makePhoneCall(sendTo);
-                            Intent i = VoIPCallActivity.makeIntent(view.getContext(), VoIPCallActivity.CALLING, sendTo);
-                            view.getContext().startActivity(i);
-                        } else {
-                            callTelephone(view);
-                        }
-                    }
-                });
-            } catch (Exception e) {
-                callTelephone(view);
-            }
-        } else {
-            ActivityCompat.requestPermissions((Activity) view.getContext(), permissions, RECORD_AUDIO_PERMISSION);
-            return;
-        }
+    //    public void makePhoneCall(final View view) {
+//        if (!IMManager.getInstance().isRIMLogin()) {
+//            IMManager.getInstance().login();
+//        }
+//
+//        String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.VIBRATE};
+//        boolean hasSelfPermission = PermissionUtil.hasSelfPermission((Activity) view.getContext(), permissions);
+//        if (hasSelfPermission) {
+//            final String sendTo = getVoipAccount();
+//            try {
+//                ECDevice.getUserState(sendTo, new ECDevice.OnGetUserStateListener() {
+//                    @Override
+//                    public void onGetUserState(ECError ecError, ECUserState ecUserState) {
+//                        if (ecUserState != null && ecUserState.isOnline()) {
+//                            IMManager.getInstance().makePhoneCall(sendTo);
+//                            Intent i = VoIPCallActivity.makeIntent(view.getContext(), VoIPCallActivity.CALLING, sendTo);
+//                            view.getContext().startActivity(i);
+//                        } else {
+//                            callTelephone(view.getContext());
+//                        }
+//                    }
+//                });
+//            } catch (Exception e) {
+//                callTelephone(view.getContext());
+//            }
+//        } else {
+//            ActivityCompat.requestPermissions((Activity) view.getContext(), permissions, RECORD_AUDIO_PERMISSION);
+//            return;
+//        }
+//    }
+    public void makePhoneCall(final Context context) {
+        AVChatActivity.start(context, getP2PId(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
     }
 
-    private void callTelephone(final View view) {
+    public void callTelephone(final Context context) {
         ImModule imModule = Api.of(ImModule.class);
         imModule.makePhoneCall(getPhoneNO()).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
-                Toast.makeText(view.getContext(), "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
             }
         });
     }

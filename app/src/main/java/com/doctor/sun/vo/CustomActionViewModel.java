@@ -46,11 +46,9 @@ public class CustomActionViewModel {
     public static final int VIDEO_REQUEST_CODE = 101;
 
     private Activity mActivity;
-    private AudioChatCallback data;
 
-    public CustomActionViewModel(Context context, AudioChatCallback data) {
+    public CustomActionViewModel(Context context) {
         this.mActivity = (Activity) context;
-        this.data = data;
     }
 
     @NonNull
@@ -231,7 +229,12 @@ public class CustomActionViewModel {
         return new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_phone2, "语音电话", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                data.startAudioChat(v);
+                if (AppContext.isDoctor()) {
+                    NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
+                    AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+                } else {
+                    alertNotAvailable(v);
+                }
             }
         });
     }

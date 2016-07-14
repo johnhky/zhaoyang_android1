@@ -182,12 +182,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 
     private void initCustomAction() {
         binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
-        CustomActionViewModel customActionViewModel = new CustomActionViewModel(this, new CustomActionViewModel.AudioChatCallback() {
-            @Override
-            public void startAudioChat(View v) {
-                makePhoneCall();
-            }
-        });
+        CustomActionViewModel customActionViewModel = new CustomActionViewModel(this);
         SimpleAdapter adapter = customActionViewModel.getSimpleAdapter();
 
         binding.customAction.setAdapter(adapter);
