@@ -96,8 +96,13 @@ public class AnswerHandler {
                 || isTime(data);
     }
 
+
     public boolean hasAnswerContent(Answer data) {
-        return data.fillContent != null && !data.fillContent.equals("");
+        if (data.getAnswerContent() instanceof List) {
+            List<String> answerContent = (List<String>) data.getAnswerContent();
+            return !answerContent.isEmpty();
+        }
+        return false;
     }
 
     public boolean haveImageUrls(Answer answer) {

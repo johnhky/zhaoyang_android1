@@ -6,15 +6,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.doctor.sun.R;
-import com.doctor.sun.bean.Province;
 import com.doctor.sun.databinding.ActivityLoginBinding;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.ui.handler.LoginHandler;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import io.realm.Realm;
 
 
 /**

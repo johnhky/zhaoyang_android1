@@ -42,7 +42,7 @@
                     android:layout_width="@dimen/dp_23"
                     android:layout_height="@dimen/dp_23"
                     android:enabled="@{data.needRefill == 1}"
-                    android:selected="@{data.hasSelectedOptions}"
+                    android:selected="@{data.handler.hasAnswered(data)}"
                     android:src="@drawable/ic_position_selector" />
 
                 <TextView

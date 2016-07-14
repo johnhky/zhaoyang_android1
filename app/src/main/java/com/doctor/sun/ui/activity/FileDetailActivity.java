@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityFileDetailBinding;
-import com.doctor.sun.entity.Try;
+import com.doctor.sun.util.Try;
 import com.doctor.sun.event.ProgressEvent;
 import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.ui.model.HeaderViewModel;

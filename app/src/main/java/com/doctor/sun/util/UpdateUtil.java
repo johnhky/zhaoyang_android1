@@ -15,7 +15,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.Try;
 import com.doctor.sun.entity.Version;
 import com.doctor.sun.event.ProgressEvent;
 import com.doctor.sun.http.Api;
@@ -23,7 +22,6 @@ import com.doctor.sun.module.ToolModule;
 import com.squareup.otto.Subscribe;
 
 import java.io.File;
-import java.util.concurrent.Future;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
