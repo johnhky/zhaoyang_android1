@@ -198,10 +198,12 @@ public class PickDateFragment extends BaseFragment {
                             showDialog(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    builder.setToday(true);
                                     applyAppointment(bookDate);
                                 }
                             });
                         } else {
+                            builder.setToday(false);
                             applyAppointment(bookDate);
                         }
                         break;

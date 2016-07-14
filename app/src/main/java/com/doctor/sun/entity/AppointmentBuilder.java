@@ -21,6 +21,7 @@ public class AppointmentBuilder implements Parcelable {
     private int type;
     private int duration;
     private Time time;
+    private boolean isToday;
 
     private Doctor doctor;
     private MedicalRecord record;
@@ -110,6 +111,13 @@ public class AppointmentBuilder implements Parcelable {
         }
     }
 
+    public boolean isToday() {
+        return isToday;
+    }
+
+    public void setToday(boolean today) {
+        isToday = today;
+    }
 
     public AppointmentBuilder() {
     }
@@ -124,6 +132,7 @@ public class AppointmentBuilder implements Parcelable {
         dest.writeInt(this.type);
         dest.writeInt(this.duration);
         dest.writeParcelable(this.time, flags);
+        dest.writeByte(isToday ? (byte) 1 : (byte) 0);
         dest.writeParcelable(this.doctor, flags);
         dest.writeParcelable(this.record, flags);
     }
@@ -132,6 +141,7 @@ public class AppointmentBuilder implements Parcelable {
         this.type = in.readInt();
         this.duration = in.readInt();
         this.time = in.readParcelable(Time.class.getClassLoader());
+        this.isToday = in.readByte() != 0;
         this.doctor = in.readParcelable(Doctor.class.getClassLoader());
         this.record = in.readParcelable(MedicalRecord.class.getClassLoader());
     }

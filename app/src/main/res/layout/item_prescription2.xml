@@ -44,6 +44,14 @@
             android:textSize="@dimen/font_13"
             app:html="@{data.amount}" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#363636"
+            android:textSize="@dimen/font_13"
+            android:visibility="@{data.remark!=null}"
+            app:html="@{data.remarkLabel}" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"

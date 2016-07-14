@@ -42,7 +42,6 @@ import java.util.Locale;
  */
 public class ApplyAppointmentActivity extends BaseActivity2 {
     public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm:ss";
-    public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
     private PActivityApplyAppointmentBinding binding;
     private ProfileModule api = Api.of(ProfileModule.class);
@@ -82,10 +81,14 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
         binding.rbAlipay.setChecked(true);
         String dateFormat = YYYY_MM_DD_HH_MM;
         if (data.getType() == AppointmentType.QUICK) {
-            Date date = new Date(System.currentTimeMillis());
-            SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
-            String hours = format.format(date);
-            data.getTime().setFrom(hours);
+            if (!data.isToday()) {
+                data.getTime().setFrom("00:00:00");
+            } else {
+                Date date = new Date(System.currentTimeMillis());
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
+                String hours = format.format(date);
+                data.getTime().setFrom(hours);
+            }
         }
         SimpleDateFormat format = new SimpleDateFormat(dateFormat, Locale.CHINA);
         Date parse = null;

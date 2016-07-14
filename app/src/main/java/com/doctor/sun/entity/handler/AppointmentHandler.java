@@ -520,11 +520,17 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public String getRightFirstTitle() {
-        return "患者问卷";
+        if (AppContext.isDoctor()) {
+            return "患者问卷";
+        }
+        return "我的问卷";
     }
 
     public String getRightTitle() {
-        return "医生记录";
+        if (AppContext.isDoctor()) {
+            return "病历记录";
+        }
+        return "医生建议";
     }
 
     public Intent getFirstMenu(Context context) {
@@ -822,7 +828,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                         }
                     }
                 });
-            } catch (NullPointerException e) {
+            } catch (Exception e) {
                 callTelephone(view);
             }
         } else {
