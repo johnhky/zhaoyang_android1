@@ -23,6 +23,7 @@ import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.PMainActivity2;
 import com.doctor.sun.ui.activity.patient.handler.MainActivityHandler;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -51,7 +52,7 @@ public class PMainActivity extends BaseActivity2 implements SwipeRefreshLayout.O
     private ListCallback<Doctor> callback;
 
     public static Intent makeIntent(Context context) {
-        Intent i = new Intent(context, PMainActivity.class);
+        Intent i = new Intent(context, PMainActivity2.class);
         return i;
     }
 

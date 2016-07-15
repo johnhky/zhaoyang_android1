@@ -3,14 +3,12 @@ package com.doctor.sun.ui.pager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
-import com.doctor.sun.ui.fragment.DiagnosisReadOnlyFragment;
 import com.doctor.sun.ui.fragment.FillForumFragment;
 import com.doctor.sun.ui.fragment.ModifyForumFragment;
 import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
@@ -73,12 +71,16 @@ public class ConsultingDetailPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         if (position == 0) {
             if (AppContext.isDoctor()) {
-                return "查看问卷";
-            }else {
-                return "填写问卷";
+                return "患者问卷";
+            } else {
+                return "我的问卷";
             }
         } else {
-            return "医生记录";
+            if (AppContext.isDoctor()) {
+                return "病历记录";
+            } else {
+                return "医生建议";
+            }
         }
     }
 }

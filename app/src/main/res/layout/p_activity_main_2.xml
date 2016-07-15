@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="footer"
+            type="com.doctor.sun.ui.model.FooterViewModel" />
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+        <variable
+            name="handler"
+            type="com.doctor.sun.ui.handler.patient.PMainActivityHandler" />
+    </data>
+
+    <com.zhy.android.percent.support.PercentFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_heightPercent="60%">
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/bg_patient_main" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_gradient" />
+
+
+            <View
+                android:layout_width="@dimen/dp_200"
+                android:layout_height="@dimen/dp_200"
+                android:layout_gravity="center"
+                android:background="@drawable/ripple_make_appointment"
+                android:onClick="@{()->handler.makeNewAppointment()}" />
+
+            <TextView
+                android:layout_width="@dimen/dp_200"
+                android:layout_height="@dimen/dp_200"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_30"
+                android:gravity="center"
+                android:text="预约医生"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/font_18" />
+
+
+            <include
+                layout="@layout/include_header2"
+                bind:header="@{header}" />
+        </FrameLayout>
+
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_heightPercent="35%"
+            app:layout_marginTopPercent="60%">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_eb"
+                app:layout_widthPercent="1%" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:onClick="@{()->handler.makeNewAppointment()}"
+                app:layout_widthPercent="48%">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_8"
+                    android:background="@color/gray_eb" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="@dimen/dp_10"
+                    android:drawableTop="@drawable/ic_my_orders"
+                    android:gravity="center"
+                    android:text="咨询订单和\n寄药订单"
+                    android:textColor="#fac000"
+                    android:textSize="@dimen/font_18" />
+
+                <TextView
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/dp_52"
+                    android:layout_marginLeft="@dimen/dp_22"
+                    android:layout_marginStart="@dimen/dp_22"
+                    android:background="@drawable/shape_yellow_circle"
+                    android:gravity="center"
+                    android:text="200"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_15" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_eb"
+                app:layout_widthPercent="2%" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:onClick="@{()->handler.makeNewAppointment()}"
+                app:layout_widthPercent="48%">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_8"
+                    android:background="@color/gray_eb" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="@dimen/dp_10"
+                    android:drawableTop="@drawable/ic_other_orders"
+                    android:gravity="center"
+                    android:text="医生发起的\n随访订单"
+                    android:textColor="#88cb5a"
+                    android:textSize="@dimen/font_18" />
+
+
+                <TextView
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/dp_52"
+                    android:layout_marginLeft="@dimen/dp_22"
+                    android:layout_marginStart="@dimen/dp_22"
+                    android:background="@drawable/shape_green_circle"
+                    android:gravity="center"
+                    android:text="200"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_15" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_eb"
+                app:layout_widthPercent="1%" />
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_8"
+                android:background="@color/gray_eb" />
+
+            <include
+                android:id="@+id/include_footer"
+                layout="@layout/include_footer"
+                bind:footer="@{footer}" />
+        </LinearLayout>
+    </com.zhy.android.percent.support.PercentFrameLayout>
+</layout>

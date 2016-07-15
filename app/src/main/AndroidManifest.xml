@@ -47,7 +47,9 @@
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     // 允许使用PowerManager的WakeLocks保持进程在休眠时从屏幕消失(非必选,由应用选择是否需要)
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
 
 
@@ -296,6 +298,10 @@
 
         <activity
             android:name=".ui.activity.patient.PMainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.PMainActivity2"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 

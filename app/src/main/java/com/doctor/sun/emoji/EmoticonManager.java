@@ -35,8 +35,6 @@ public class EmoticonManager {
             emoticon.setTag(s);
             defaultEntries.add(emoticon);
         }
-        for (int i = 0; i < EmoticonRepo.emoticons.size(); i++) {
-        }
     }
 
     //
