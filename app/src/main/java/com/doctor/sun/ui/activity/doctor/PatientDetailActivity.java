@@ -210,7 +210,7 @@ public class PatientDetailActivity extends BaseActivity2 implements QCategoryHan
     @Subscribe
     public void onRejectIncomingCallEvent(BidirectionalEvent e) {
         if (data != null) {
-            if (e.getChatType().equals(AVChatType.AUDIO)) {
+            if (AVChatType.AUDIO.getValue() == e.getChatType()) {
                 data.getHandler().callTelephone(this);
             }
         }

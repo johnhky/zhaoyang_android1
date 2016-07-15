@@ -106,7 +106,7 @@ android {
 
             debuggable false
             zipAlignEnabled true
-            shrinkResources true
+            shrinkResources false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -153,6 +153,7 @@ android {
         baidu {}
         wandoujia {}
         xiaomi {}
+        yingyongbao {}
     }
     productFlavors.all { flavor ->
         flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]

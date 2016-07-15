@@ -56,3 +56,7 @@ dependencies {
 //        exclude module: 'recyclerview-v7'
 //    };
 }
+
+android {
+    buildToolsVersion '24'
+}

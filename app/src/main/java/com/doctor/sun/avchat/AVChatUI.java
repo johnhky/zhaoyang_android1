@@ -228,6 +228,7 @@ public class AVChatUI implements AVChatUIListener {
                 } else {
                     Toast.makeText(context, R.string.avchat_call_failed, Toast.LENGTH_SHORT).show();
                 }
+                EventHub.post(new BidirectionalEvent(AVChatType.AUDIO));
                 closeSessions(-1);
             }
 
@@ -311,7 +312,6 @@ public class AVChatUI implements AVChatUIListener {
             case AVChatExitCode.NET_ERROR: // 网络异常
             case AVChatExitCode.CONFIG_ERROR: // 服务器返回数据错误
                 Toast.makeText(context, R.string.avchat_net_error_then_quit, Toast.LENGTH_SHORT).show();
-                EventHub.post(new BidirectionalEvent(avChatData.getChatType()));
                 break;
             case AVChatExitCode.PEER_HANGUP:
             case AVChatExitCode.HANGUP:
@@ -324,11 +324,9 @@ public class AVChatUI implements AVChatUIListener {
                 break;
             case AVChatExitCode.PROTOCOL_INCOMPATIBLE_PEER_LOWER:
                 Toast.makeText(context, R.string.avchat_peer_protocol_low_version, Toast.LENGTH_SHORT).show();
-                EventHub.post(new BidirectionalEvent(avChatData.getChatType()));
                 break;
             case AVChatExitCode.PROTOCOL_INCOMPATIBLE_SELF_LOWER:
                 Toast.makeText(context, R.string.avchat_local_protocol_low_version, Toast.LENGTH_SHORT).show();
-                EventHub.post(new BidirectionalEvent(avChatData.getChatType()));
                 break;
             case AVChatExitCode.INVALIDE_CHANNELID:
                 Toast.makeText(context, R.string.avchat_invalid_channel_id, Toast.LENGTH_SHORT).show();
@@ -337,7 +335,6 @@ public class AVChatUI implements AVChatUIListener {
                 Toast.makeText(context, R.string.avchat_local_call_busy, Toast.LENGTH_SHORT).show();
                 break;
             default:
-                EventHub.post(new BidirectionalEvent(avChatData.getChatType()));
                 break;
         }
     }

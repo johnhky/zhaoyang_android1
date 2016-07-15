@@ -17,26 +17,32 @@ import com.bumptech.glide.Glide;
 /**
  */
 public class CustomBinding {
-    @android.databinding.BindingAdapter(value = {"android:src", "android:drawable"}, requireAll = false)
-    public static void loadImage(ImageView imageView, String url, Drawable icon) {
-        Glide.with(imageView.getContext()).load(url).placeholder(icon).into(imageView);
+
+    @android.databinding.BindingAdapter(value = {"android:src"})
+    public static void loadImage(ImageView imageView, String url) {
+        Glide.with(imageView.getContext()).load(url).into(imageView);
     }
 
-    @android.databinding.BindingAdapter(value = {"android:src", "android:drawable"}, requireAll = false)
-    public static void loadAvatar(ImageView imageView, String url, @DrawableRes int icon) {
-        Glide.with(imageView.getContext()).load(url).placeholder(icon).into(imageView);
-    }
-
-
-    @android.databinding.BindingAdapter(value = {"android:src"}, requireAll = false)
+    @android.databinding.BindingAdapter(value = {"android:src"})
     public static void loadImage(ImageView imageView, int resourceId) {
         Glide.with(imageView.getContext()).load(resourceId).into(imageView);
     }
 
-    @android.databinding.BindingAdapter(value = {"android:src", "app:width", "app:height"}, requireAll = false)
+    @android.databinding.BindingAdapter(value = {"android:src", "app:width", "app:height"})
     public static void loadImage(ImageView imageView, String url, int width, int height) {
         Glide.with(imageView.getContext()).load(url).override(width, height).into(imageView);
     }
+
+    @android.databinding.BindingAdapter(value = {"android:src", "android:drawable"})
+    public static void loadImage(ImageView imageView, String url, Drawable icon) {
+        Glide.with(imageView.getContext()).load(url).placeholder(icon).into(imageView);
+    }
+
+    @android.databinding.BindingAdapter(value = {"android:src", "android:drawable"})
+    public static void loadAvatar(ImageView imageView, String url, @DrawableRes int icon) {
+        Glide.with(imageView.getContext()).load(url).placeholder(icon).into(imageView);
+    }
+
 
     //    @android.databinding.BindingAdapter(value = {"android:src"})
 //    public static void loadImage(ImageView imageView, int resource) {

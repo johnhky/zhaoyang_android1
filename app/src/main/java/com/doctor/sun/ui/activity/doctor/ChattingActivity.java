@@ -555,9 +555,10 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     @Subscribe
     public void onRejectIncomingCallEvent(BidirectionalEvent e) {
         if (handler != null) {
-            if (e.getChatType().equals(AVChatType.AUDIO)) {
+            if (AVChatType.AUDIO.getValue() == e.getChatType()) {
                 handler.callTelephone(this);
             }
         }
     }
+
 }

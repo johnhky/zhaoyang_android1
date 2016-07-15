@@ -9,13 +9,13 @@ import io.ganguo.library.core.event.Event;
  */
 public class BidirectionalEvent implements Event {
 
-    private final AVChatType chatType;
+    private final int chatType;
 
     public BidirectionalEvent(AVChatType chatType) {
-        this.chatType = chatType;
+        this.chatType = chatType.getValue();
     }
 
-    public AVChatType getChatType() {
+    public int getChatType() {
         return chatType;
     }
 }

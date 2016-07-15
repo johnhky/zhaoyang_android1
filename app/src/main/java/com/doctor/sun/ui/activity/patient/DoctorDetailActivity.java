@@ -87,7 +87,7 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
         binding.setMoney(0);
         if (getType() == AppointmentType.QUICK) {
             binding.rgDuration.setVisibility(View.INVISIBLE);
-            binding.money.setVisibility(View.INVISIBLE);
+            binding.tvMoney.setVisibility(View.INVISIBLE);
         }
         binding.rgDuration.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
