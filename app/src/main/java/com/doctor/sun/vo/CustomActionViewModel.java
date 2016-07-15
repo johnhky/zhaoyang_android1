@@ -116,13 +116,13 @@ public class CustomActionViewModel {
                     NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
                     AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL);
                 } else {
-                    alertNotAvailable(v);
+                    alertNotAvailable(v, AVChatType.VIDEO.getValue());
                 }
             }
         });
     }
 
-    private void alertNotAvailable(final View view) {
+    private void alertNotAvailable(final View view, final int callType) {
         NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
         if (nimTeamId.shouldAskServer()) {
             AppointmentModule api = Api.of(AppointmentModule.class);
@@ -131,7 +131,7 @@ public class CustomActionViewModel {
                 protected void handleResponse(String response) {
                     if ("1".equals(response)) {
                         NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
-                        AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL);
+                        AVChatActivity.start(mActivity, nimTeamId.getP2PId(), callType, AVChatActivity.FROM_INTERNAL);
                     } else {
                         showConfirmDialog(view, "医生因个人原因暂时停止该功能，请用文字、图片等继续与医生咨询");
                     }
@@ -233,7 +233,7 @@ public class CustomActionViewModel {
                     NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
                     AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
                 } else {
-                    alertNotAvailable(v);
+                    alertNotAvailable(v, AVChatType.AUDIO.getValue());
                 }
             }
         });
