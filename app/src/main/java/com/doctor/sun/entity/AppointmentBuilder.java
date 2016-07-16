@@ -2,22 +2,26 @@ package com.doctor.sun.entity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.doctor.sun.BR;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.ui.activity.patient.ApplyAppointmentActivity;
 import com.doctor.sun.ui.activity.patient.PickDateActivity;
+import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
 
 /**
  * Created by rick on 6/7/2016.
  */
 
-public class AppointmentBuilder implements Parcelable {
+public class AppointmentBuilder extends BaseObservable implements Parcelable {
     private int type;
     private int duration;
     private Time time;
@@ -26,13 +30,14 @@ public class AppointmentBuilder implements Parcelable {
     private Doctor doctor;
     private MedicalRecord record;
 
+    @Bindable
     public int getType() {
         return type;
     }
 
-    public AppointmentBuilder setType(int type) {
+    public void setType(int type) {
         this.type = type;
-        return this;
+        notifyPropertyChanged(BR.type);
     }
 
     public int getDuration() {
@@ -70,6 +75,11 @@ public class AppointmentBuilder implements Parcelable {
     public AppointmentBuilder setTime(Time time) {
         this.time = time;
         return this;
+    }
+
+    public void searchDoctor(Context context, int type) {
+        Intent intent = SearchDoctorActivity.makeIntent(context, type);
+        context.startActivity(intent);
     }
 
     public void pickDate(final Context context) {

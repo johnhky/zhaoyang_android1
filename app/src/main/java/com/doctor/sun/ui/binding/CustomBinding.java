@@ -81,8 +81,9 @@ public class CustomBinding {
         view.setCompoundDrawablesWithIntrinsicBounds(0, 0, id, 0);
     }
 
-    @android.databinding.BindingAdapter("bind:html")
+    @android.databinding.BindingAdapter("app:html")
     public static void fromHtml(TextView view, String text) {
+        if (text == null) return;
         view.setText(Html.fromHtml(text));
     }
 

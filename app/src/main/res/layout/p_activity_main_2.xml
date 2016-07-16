@@ -14,6 +14,10 @@
             type="com.doctor.sun.ui.model.HeaderViewModel" />
 
         <variable
+            name="data"
+            type="com.doctor.sun.dto.PatientDTO" />
+
+        <variable
             name="handler"
             type="com.doctor.sun.ui.handler.patient.PMainActivityHandler" />
     </data>
@@ -47,7 +51,7 @@
                 android:layout_height="@dimen/dp_200"
                 android:layout_gravity="center"
                 android:background="@drawable/ripple_make_appointment"
-                android:onClick="@{()->handler.makeNewAppointment()}" />
+                android:onClick="@{()->handler.selectAppointmentType(context)}" />
 
             <TextView
                 android:layout_width="@dimen/dp_200"
@@ -82,7 +86,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/ripple_default"
-                android:onClick="@{()->handler.makeNewAppointment()}"
+                android:onClick="@{()->handler.appointmentList(context)}"
                 app:layout_widthPercent="48%">
 
                 <View
@@ -110,9 +114,10 @@
                     android:layout_marginStart="@dimen/dp_22"
                     android:background="@drawable/shape_yellow_circle"
                     android:gravity="center"
-                    android:text="200"
+                    android:text="@{&quot;&quot;+data.appointmentNum}"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/font_15" />
+                    android:textSize="@dimen/font_15"
+                    android:visibility="@{data.appointmentNum>0}" />
             </FrameLayout>
 
             <View
@@ -125,7 +130,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/ripple_default"
-                android:onClick="@{()->handler.makeNewAppointment()}"
+                android:onClick="@{()->handler.afterService(context)}"
                 app:layout_widthPercent="48%">
 
                 <View
@@ -155,9 +160,10 @@
                     android:layout_marginStart="@dimen/dp_22"
                     android:background="@drawable/shape_green_circle"
                     android:gravity="center"
-                    android:text="200"
+                    android:text="@{&quot;&quot;+data.followUpDoingNum}"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/font_15" />
+                    android:textSize="@dimen/font_15"
+                    android:visibility="@{data.followUpDoingNum>0}" />
             </FrameLayout>
 
             <View

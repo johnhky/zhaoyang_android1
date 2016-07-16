@@ -19,7 +19,7 @@ android {
         applicationId "com.doctor.sun"
         minSdkVersion rootProject.ext.min_sdk_version
 //        targetSdkVersion rootProject.ext.target_sdk_version
-        versionCode 10
+        versionCode 12
         versionName "1.2.2"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -127,7 +127,7 @@ android {
 
             debuggable true
             zipAlignEnabled true
-            shrinkResources true
+            shrinkResources false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release

@@ -21,6 +21,8 @@ public class PatientDTO {
     private RecentAppointment recent_appointment;
     @JsonProperty("follow_up_doing_num")
     public int followUpDoingNum = 0;
+    @JsonProperty("appointment_num")
+    public int appointmentNum = 0;
 
     public void setRecent_appointment(RecentAppointment recent_appointment) {
         this.recent_appointment = recent_appointment;

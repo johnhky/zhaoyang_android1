@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.AppointmentBuilder" />
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/header_layout"
+            layout="@layout/include_header" />
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_193"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_widthPercent="50%">
+
+                <RadioButton
+                    android:id="@+id/premium"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/selector_premium_product"
+                    android:button="@null"
+                    android:checked="@{data.type==1}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableTop="@drawable/ic_premium_service"
+                    android:gravity="center"
+                    android:selected="@{premium.checked}"
+                    android:text="@string/premium_product"
+                    android:textColor="@color/color_premium"
+                    android:textSize="@dimen/font_18"
+                    android:textStyle="normal" />
+
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_widthPercent="50%">
+
+                <RadioButton
+                    android:id="@+id/normal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/selector_normal_product"
+                    android:button="@null"
+                    android:checked="@{data.type==2}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableTop="@drawable/ic_buy_drug"
+                    android:gravity="center"
+                    android:selected="@{!premium.checked}"
+                    android:text="@string/premium_product"
+                    android:textColor="@color/color_normal"
+                    android:textSize="@dimen/font_18"
+                    android:textStyle="normal" />
+
+
+            </FrameLayout>
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_120"
+            android:orientation="horizontal">
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_283"
+                android:layout_height="@dimen/dp_49"
+                android:layout_gravity="center_vertical"
+                android:background="@{premium.checked?@drawable/shape_green_rect:@drawable/shape_pink_rect}">
+
+                <!--会诊-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:onClick="@{()->data.searchDoctor(context,data.type)}"
+                    android:text="下一步"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_17" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

@@ -25,9 +25,7 @@ import com.doctor.sun.ui.activity.patient.DrugActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
-import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.handler.BaseHandler;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
 import com.doctor.sun.util.JacksonUtils;
@@ -79,7 +77,7 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
     }
 
     public void searchDoctorQuick(final View view) {
-        Spanned question = Html.fromHtml(view.getContext().getString(R.string.quick_appointment));
+        Spanned question = Html.fromHtml(view.getContext().getString(R.string.normal_product_brief));
         new MaterialDialog.Builder(view.getContext()).content(question)
                 .positiveText("下一步")
                 .negativeText("返回")
@@ -115,7 +113,7 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
 
     public void doctorType(final View view) {
 //        new AppointmentTypeDialog(view.getContext(), this).show();
-        Spanned question = Html.fromHtml(view.getContext().getString(R.string.appointment_brief));
+        Spanned question = Html.fromHtml(view.getContext().getString(R.string.premium_product_brief));
         new MaterialDialog.Builder(view.getContext()).content(question)
                 .positiveText("挑选医生")
                 .negativeText("取消")
