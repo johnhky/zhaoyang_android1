@@ -23,7 +23,6 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
-import com.doctor.sun.entity.constans.ComunicationType;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
@@ -60,7 +59,6 @@ import com.doctor.sun.ui.handler.PayMethodInterface;
 import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PayCallback;
-import com.doctor.sun.vo.CustomActionViewModel;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
@@ -642,8 +640,8 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             Doctor doctor = data.getDoctor();
             doctor.setRecordId(String.valueOf(data.getRecordId()));
             AppointmentBuilder appointmentBuilder = new AppointmentBuilder();
-            appointmentBuilder.setDoctor(doctor)
-                    .setType(AppointmentType.QUICK);
+            appointmentBuilder.setDoctor(doctor);
+            appointmentBuilder.setType(AppointmentType.QUICK);
             Intent intent = PickDateActivity.makeIntent(context, appointmentBuilder);
             context.startActivity(intent);
         }

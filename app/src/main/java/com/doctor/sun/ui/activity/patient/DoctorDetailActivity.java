@@ -6,14 +6,11 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityDoctorDetailBinding;
-import com.doctor.sun.databinding.DialogPickDurationBinding;
 import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
@@ -39,6 +36,7 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
     private AppointmentBuilder builder = new AppointmentBuilder();
 
     private FragmentPagerAdapter pagerAdapter;
+    private AppointmentBuilder data;
 
     public static Intent makeIntent(Context context, Doctor data, int type) {
         Intent i = new Intent(context, DoctorDetailActivity.class);
@@ -77,57 +75,11 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
         binding.setHeader(header);
         initData();
         binding.tvHosptial.setOnClickListener(this);
-        initDurationPicker();
+        data = new AppointmentBuilder();
+        data.setDoctor(doctor);
+        data.setType(getType());
+        binding.duration.setData(data);
 
-    }
-
-    private void initDurationPicker() {
-
-        final DialogPickDurationBinding binding = this.binding.duration;
-        binding.setMoney(0);
-        if (getType() == AppointmentType.QUICK) {
-            binding.rgDuration.setVisibility(View.INVISIBLE);
-            binding.tvMoney.setVisibility(View.INVISIBLE);
-        }
-        binding.rgDuration.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                int selectedItem = -1;
-                for (int i = 1; i < binding.rgDuration.getChildCount(); i++) {
-                    RadioButton childAt = (RadioButton) binding.rgDuration.getChildAt(i);
-                    if (childAt.isChecked()) {
-                        selectedItem = i;
-                    }
-                }
-                if (getType() == AppointmentType.QUICK) {
-                    binding.setMoney(doctor.getSecondMoney() * (selectedItem));
-                } else {
-                    binding.setMoney(doctor.getMoney() * (selectedItem));
-                }
-            }
-        });
-        binding.tvPickDuration.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int selectedItem = -1;
-                for (int i = 1; i < binding.rgDuration.getChildCount(); i++) {
-                    RadioButton childAt = (RadioButton) binding.rgDuration.getChildAt(i);
-                    if (childAt.isChecked()) {
-                        selectedItem = i;
-                    }
-                }
-
-                if (selectedItem != -1) {
-                    builder.setDuration((selectedItem) * 15);
-                    builder.setType(getType());
-                    builder.pickDate(DoctorDetailActivity.this);
-                } else {
-                    Toast.makeText(DoctorDetailActivity.this, "请选择时长", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-//        binding.rgDuration.rbOne.ch
-        binding.rbOne.setChecked(true);
     }
 
 

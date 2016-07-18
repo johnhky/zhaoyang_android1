@@ -22,13 +22,25 @@ import com.doctor.sun.ui.widget.SelectRecordDialog;
  */
 
 public class AppointmentBuilder extends BaseObservable implements Parcelable {
-    private int type;
-    private int duration;
+    private int type = AppointmentType.DETAIL;
+    private int duration = 15;
     private Time time;
     private boolean isToday;
 
     private Doctor doctor;
     private MedicalRecord record;
+
+    public void setIsPremium(boolean isPremium) {
+        if (isPremium) {
+            setType(AppointmentType.DETAIL);
+        }
+    }
+
+    public void setIsNormal(boolean isNormal) {
+        if (isNormal) {
+            setType(AppointmentType.QUICK);
+        }
+    }
 
     @Bindable
     public int getType() {
@@ -37,44 +49,66 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
 
     public void setType(int type) {
         this.type = type;
-        notifyPropertyChanged(BR.type);
+        notifyChange();
     }
 
+    @Bindable
     public int getDuration() {
         return duration;
     }
 
-    public AppointmentBuilder setDuration(int duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
-        return this;
+        notifyPropertyChanged(BR.duration);
     }
 
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public AppointmentBuilder setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-        return this;
-    }
-
-    public MedicalRecord getRecord() {
-        return record;
-    }
-
-    public AppointmentBuilder setRecord(MedicalRecord record) {
-        this.record = record;
-        return this;
-    }
-
+    @Bindable
     public Time getTime() {
         return time;
     }
 
-    public AppointmentBuilder setTime(Time time) {
+    public void setTime(Time time) {
         this.time = time;
-        return this;
+        notifyPropertyChanged(BR.time);
+    }
+
+    @Bindable
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+        notifyPropertyChanged(BR.doctor);
+    }
+
+
+    @Bindable
+    public MedicalRecord getRecord() {
+        return record;
+    }
+
+    public boolean canIncrement() {
+        return duration < 60;
+    }
+
+    public boolean canDecrement() {
+        return duration > 15;
+    }
+
+    public void incrementDuration() {
+        duration += 15;
+        notifyChange();
+    }
+
+    public void decrementDuration() {
+        duration -= 15;
+        notifyChange();
+    }
+
+    public void setRecord(MedicalRecord record) {
+        this.record = record;
+        notifyPropertyChanged(BR.record);
     }
 
     public void searchDoctor(Context context, int type) {
