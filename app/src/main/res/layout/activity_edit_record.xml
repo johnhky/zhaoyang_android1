@@ -322,7 +322,6 @@
                         android:layout_weight="1"
                         android:background="#00000000"
                         android:hint="选填"
-                        android:inputType="number"
                         android:maxLength="18"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_15" />

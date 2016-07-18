@@ -4,6 +4,7 @@ import android.databinding.BaseObservable;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.util.Try;
 
 import io.ganguo.library.core.event.Event;
 
@@ -11,15 +12,19 @@ import io.ganguo.library.core.event.Event;
  * Created by rick on 7/7/2016.
  */
 
-public class ItemLoadMore extends BaseObservable implements SortedItem, Event {
+public class ItemLoadMore  implements SortedItem, Event {
 
-    private boolean isTriggered = false;
+    private Try aTry;
 
+    public void setLoadMoreListener(Try aTry) {
+        this.aTry = aTry;
+    }
 
     public int loadMore() {
-        if (!isTriggered) {
-            notifyChange();
-            isTriggered = true;
+        try {
+            aTry.success();
+        } catch (Exception e) {
+            aTry.fail();
         }
         return R.color.white;
     }

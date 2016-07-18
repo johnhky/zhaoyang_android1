@@ -22,7 +22,7 @@ dependencies {
     compile libs.v4
     compile libs.v7
     compile libs.recyclerView
-//    compile dependency.cardView
+    compile libs.cardView
     compile libs.design
     compile libs.annotations
     compile libs.gson

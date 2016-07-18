@@ -69,7 +69,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     private SimpleAdapter adapter;
     private PageCallback<Doctor> callback;
 
-    private boolean sortByPoint = true;
+    private boolean sortByPoint = false;
 
     private CityPickerDialog cityPickerDialog;
     private Location location;
@@ -219,14 +219,16 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
                         @Override
                         public void run() {
                             if (recentDoctors.isSuccessful()) {
-                                if (!recentDoctors.body().getData().isEmpty()) {
+                                List<Doctor> data = recentDoctors.body().getData();
+                                if (data != null && !data.isEmpty()) {
                                     adapter.add(new Description(R.layout.item_description, "最近预约"));
-                                    adapter.addAll(recentDoctors.body().getData());
+                                    adapter.addAll(data);
                                 }
                             }
                             if (favoriteDoctors != null && favoriteDoctors.isSuccessful()) {
-                                favoriteDoctorList = favoriteDoctors.body().getData().getData();
-                                if (!favoriteDoctorList.isEmpty()) {
+                                PageDTO<Doctor> data = favoriteDoctors.body().getData();
+                                favoriteDoctorList = data.getData();
+                                if (favoriteDoctors != null && !favoriteDoctorList.isEmpty()) {
                                     adapter.add(new Description(R.layout.item_description, "我的收藏"));
                                     adapter.addAll(favoriteDoctorList);
                                 }
@@ -261,12 +263,12 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
                 hashMap.put(SORT, DESC);
             }
         } else {
-            hashMap.put(SORT_BY, "distance");
-            if (binding.distance.isSelected()) {
-                hashMap.put(SORT, ASC);
-            } else {
-                hashMap.put(SORT, DESC);
-            }
+//            hashMap.put(SORT_BY, "distance");
+//            if (binding.distance.isSelected()) {
+//                hashMap.put(SORT, ASC);
+//            } else {
+//                hashMap.put(SORT, DESC);
+//            }
         }
 
         hashMap.put(SEARCH, binding.search.getText().toString());

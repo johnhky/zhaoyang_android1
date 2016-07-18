@@ -3,6 +3,7 @@ package com.doctor.sun.ui.activity.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,6 +17,8 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.fragment.TextViewFragment;
 import com.doctor.sun.ui.model.HeaderViewModel;
+
+import io.ganguo.library.util.Systems;
 
 /**
  * Created by rick on 14/7/2016.
@@ -38,6 +41,9 @@ public class SelectAppointmentTypeActivity extends BaseFragmentActivity2 {
         HeaderViewModel header = new HeaderViewModel(this);
         header.setMidTitle("预约医生");
         binding.headerLayout.setHeader(header);
+        int color = Color.parseColor("#8dc63f");
+        binding.headerLayout.header.setBackgroundColor(color);
+        Systems.setStatusColor(SelectAppointmentTypeActivity.this, color);
         data = new AppointmentBuilder();
         data.setType(AppointmentType.DETAIL);
         binding.setData(data);
@@ -56,15 +62,24 @@ public class SelectAppointmentTypeActivity extends BaseFragmentActivity2 {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 setCurrentItem(b);
+                if (b) {
+                    int color = Color.parseColor("#8dc63f");
+                    binding.headerLayout.header.setBackgroundColor(color);
+                    Systems.setStatusColor(SelectAppointmentTypeActivity.this, color);
+                }
             }
         });
         binding.normal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 setCurrentItem(!b);
+                if (b) {
+                    int color = Color.parseColor("#f26d7e");
+                    binding.headerLayout.header.setBackgroundColor(color);
+                    Systems.setStatusColor(SelectAppointmentTypeActivity.this, color);
+                }
             }
         });
-
 
         binding.vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

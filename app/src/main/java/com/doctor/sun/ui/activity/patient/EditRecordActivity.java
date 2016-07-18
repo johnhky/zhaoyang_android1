@@ -10,16 +10,16 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.City;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.bean.Province;
-import com.doctor.sun.databinding.ActivityAddMedicalRecordBinding;
+import com.doctor.sun.databinding.ActivityEditRecordBinding;
 import com.doctor.sun.ui.activity.GetLocationActivity;
 import com.doctor.sun.ui.activity.patient.handler.AddMedicalRecordHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.ui.widget.CityPickerDialog;
 import com.doctor.sun.vo.ItemPickDate;
 
 import java.util.ArrayList;
@@ -28,6 +28,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import io.ganguo.library.common.ToastHelper;
+import io.ganguo.library.util.Strings;
 import io.realm.RealmList;
 
 
@@ -51,9 +52,8 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
     public static final String GENDER = "gender";
     public static final String FIRST_TIME = "FIRST_TIME";
 
-    private ActivityAddMedicalRecordBinding binding;
+    private ActivityEditRecordBinding binding;
     private AddMedicalRecordHandler handler;
-    private CityPickerDialog cityPickerDialog;
 
     public static Intent makeIntent(Context context, int type, boolean firstTime) {
         Intent i = new Intent(context, EditRecordActivity.class);
@@ -69,7 +69,7 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_medical_record);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_record);
         HeaderViewModel header = new HeaderViewModel(this);
         header.setMidTitle("新建病历")
                 .setRightTitle("完成");
@@ -189,6 +189,10 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
             }
         }
 
+        if (!Strings.isIDCard(map.get(IDENTITY_NUMBER))) {
+            Toast.makeText(this, "身份证号码格式错误", Toast.LENGTH_SHORT).show();
+        }
+
         return true;
     }
 
@@ -259,11 +263,11 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
                 //点这个跟点下面的按钮事件是相同的.所以没有break;
             }
             case R.id.tv_city: {
-                if (cityPickerDialog == null) {
-                    createCityPicker();
-                }
-                cityPickerDialog.show();
-                break;
+//                if (cityPickerDialog == null) {
+//                    createCityPicker();
+//                }
+//                cityPickerDialog.show();
+//                break;
             }
         }
     }

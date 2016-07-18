@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.fragment;
 
-import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +19,7 @@ import com.doctor.sun.im.IMManager;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.ShowCaseUtil;
+import com.doctor.sun.util.Try;
 import com.doctor.sun.vo.ItemConsulting;
 import com.doctor.sun.vo.ItemLoadMore;
 import com.netease.nimlib.sdk.NIMClient;
@@ -256,10 +256,14 @@ public class ConsultingFragment2 extends SortedListFragment {
 
     private void insertLoadMore() {
         final ItemLoadMore item = new ItemLoadMore();
-        item.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        item.setLoadMoreListener(new Try() {
             @Override
-            public void onPropertyChanged(Observable observable, int i) {
+            public void success() {
                 loadMore();
+            }
+
+            @Override
+            public void fail() {
             }
         });
         getAdapter().insert(item);

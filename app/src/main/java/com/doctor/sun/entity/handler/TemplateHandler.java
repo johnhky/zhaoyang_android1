@@ -63,7 +63,7 @@ public class TemplateHandler {
 
 
     public void showDeleteDialog(final BaseAdapter adapter, final BaseViewHolder vh) {
-        String question = "确定删除该免模板？";
+        String question = "确定删除该问诊模板？";
         String cancel = "取消";
         String apply = "删除";
         TwoChoiceDialog.show(adapter.getContext(), question, cancel, apply, new TwoChoiceDialog.Options() {

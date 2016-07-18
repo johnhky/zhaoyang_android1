@@ -68,4 +68,7 @@ public interface ToolModule {
 
     @GET("tool/endemicAreaTrees")
     Call<ApiDTO<List<Area>>> endemicAreaList();
+
+    @GET("tool/homepage-display")
+    Call<ApiDTO<String>> patientBanner();
 }
