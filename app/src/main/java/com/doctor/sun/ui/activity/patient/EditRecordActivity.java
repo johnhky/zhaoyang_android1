@@ -189,8 +189,10 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
             }
         }
 
-        if (!Strings.isIDCard(map.get(IDENTITY_NUMBER))) {
+        String text = map.get(IDENTITY_NUMBER);
+        if (text != null && !text.equals("") && !Strings.isIDCard(text)) {
             Toast.makeText(this, "身份证号码格式错误", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         return true;

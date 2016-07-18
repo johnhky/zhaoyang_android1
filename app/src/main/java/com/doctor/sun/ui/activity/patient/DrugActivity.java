@@ -7,8 +7,6 @@ import android.support.annotation.NonNull;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.PageActivity2;
-import com.doctor.sun.ui.adapter.DrugOrderAdapter;
-import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 /**
@@ -20,12 +18,6 @@ public class DrugActivity extends PageActivity2 {
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, DrugActivity.class);
         return i;
-    }
-
-    @NonNull
-    @Override
-    public SimpleAdapter createAdapter() {
-        return new DrugOrderAdapter(DrugActivity.this);
     }
 
     @Override

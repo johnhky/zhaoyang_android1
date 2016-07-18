@@ -58,10 +58,10 @@ public class AddMedicalRecordDialog {
         binding.tvCancel.setOnClickListener(listener);
         binding.tvSelf.setOnClickListener(listener);
         binding.tvRelative.setOnClickListener(listener);
-        if (isRegister) {
-            binding.tvCancel.setVisibility(View.GONE);
-            dialog.setCancelable(false);
-        }
+//        if (isRegister) {
+//        }
+        binding.tvCancel.setVisibility(View.GONE);
+        dialog.setCancelable(false);
         dialog.show();
     }
 
