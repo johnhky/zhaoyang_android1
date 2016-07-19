@@ -8,14 +8,19 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
+import com.doctor.sun.ui.activity.patient.HospitalDetailActivity;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
@@ -167,6 +172,37 @@ public class DoctorHandler {
 //                return 0;
 //        }
 //    }
+
+    public void toggleFav(final Context context, final Doctor doctor) {
+        ToolModule api = Api.of(ToolModule.class);
+        if (doctor.getIsFav().equals("1")) {
+            api.unlikeDoctor(doctor.getId()).enqueue(new SimpleCallback<String>() {
+                @Override
+                protected void handleResponse(String response) {
+                    //改状态,不然下次点击还是会跑到这里,但是医生已经取消收藏了.
+                    doctor.setIsFav("0");
+                    doctor.notifyChange();
+                    Toast.makeText(context, "取消收藏医生", Toast.LENGTH_SHORT).show();
+                }
+
+            });
+        } else {
+            api.likeDoctor(doctor.getId()).enqueue(new SimpleCallback<String>() {
+                @Override
+                protected void handleResponse(String response) {
+                    //改状态,不然下次点击还是会跑到这里,但是医生已经收藏过了.
+                    doctor.setIsFav("1");
+                    doctor.notifyChange();
+                    Toast.makeText(context, "成功收藏医生", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    public void hospital(Context context, Doctor data) {
+        Intent intent = HospitalDetailActivity.makeIntent(context, data);
+        context.startActivity(intent);
+    }
 
     public View.OnClickListener allowAfterService(final BaseAdapter adapter, BaseViewHolder vh) {
         return new View.OnClickListener() {

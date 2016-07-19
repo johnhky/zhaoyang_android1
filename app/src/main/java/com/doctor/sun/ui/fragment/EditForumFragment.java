@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -20,7 +21,6 @@ import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.constans.AppointmentType;
-import com.doctor.sun.entity.handler.OptionsHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -30,8 +30,8 @@ import com.doctor.sun.ui.activity.ItemPickHospital;
 import com.doctor.sun.ui.adapter.AnswerModifyAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.ui.widget.PickImageDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemPickDate;
@@ -253,6 +253,11 @@ public class EditForumFragment extends RefreshListFragment {
                 }
                 getAdapter().notifyDataSetChanged();
                 getBinding().swipeRefresh.setRefreshing(false);
+                if (getAdapter().isEmpty()) {
+                    binding.emptyIndicator.setVisibility(View.VISIBLE);
+                } else {
+                    binding.emptyIndicator.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -311,7 +316,7 @@ public class EditForumFragment extends RefreshListFragment {
                     Toast.makeText(getContext(), "成功保存问卷", Toast.LENGTH_SHORT).show();
                 }
             });
-        }else {
+        } else {
             Toast.makeText(getContext(), "第三题的入院时间不能大于或等于出院时间", Toast.LENGTH_SHORT).show();
         }
     }

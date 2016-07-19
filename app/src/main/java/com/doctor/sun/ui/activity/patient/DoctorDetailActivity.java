@@ -26,7 +26,7 @@ import com.doctor.sun.ui.pager.DoctorDetailPagerAdapter;
  * 医生详情
  * Created by rick on 20/1/2016.
  */
-public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.OnClickListener {
+public class DoctorDetailActivity extends BaseFragmentActivity2{
     public static final String TAG = DoctorDetailActivity.class.getSimpleName();
 
     private ToolModule api = Api.of(ToolModule.class);
@@ -71,15 +71,12 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
         binding.setData(getData());
         headerViewModel = new HeaderViewModel(this);
         HeaderViewModel header = headerViewModel;
-        header.setMidTitle("医生详情").setRightIcon(R.drawable.ic_not_like_doctor);
         binding.setHeader(header);
         initData();
-        binding.tvHosptial.setOnClickListener(this);
         data = new AppointmentBuilder();
         data.setDoctor(doctor);
         data.setType(getType());
         binding.duration.setData(data);
-
     }
 
 
@@ -90,28 +87,6 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
     @Override
     public void onMenuClicked() {
         super.onMenuClicked();
-        if (doctor != null) {
-            if (doctor.getIsFav().equals("1")) {
-                api.unlikeDoctor(doctor.getId()).enqueue(new SimpleCallback<String>() {
-                    @Override
-                    protected void handleResponse(String response) {
-                        //改状态,不然下次点击还是会跑到这里,但是医生已经取消收藏了.
-                        setIsFav("0", R.drawable.ic_not_like_doctor, headerViewModel);
-                        Toast.makeText(DoctorDetailActivity.this, "取消收藏医生", Toast.LENGTH_SHORT).show();
-                    }
-
-                });
-            } else {
-                api.likeDoctor(doctor.getId()).enqueue(new SimpleCallback<String>() {
-                    @Override
-                    protected void handleResponse(String response) {
-                        //改状态,不然下次点击还是会跑到这里,但是医生已经收藏过了.
-                        setIsFav("1", R.drawable.ic_like_doctor, headerViewModel);
-                        Toast.makeText(DoctorDetailActivity.this, "成功收藏医生", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }
     }
 
     private void getDoctorInfo() {
@@ -119,33 +94,12 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 implements View.
             @Override
             protected void handleResponse(Doctor response) {
                 doctor = response;
-                if (response.getIsFav().equals("1")) {
-                    headerViewModel.setRightIcon(R.drawable.ic_like_doctor);
-                } else {
-                    headerViewModel.setRightIcon(R.drawable.ic_not_like_doctor);
-                }
                 binding.setData(response);
                 binding.setHeader(headerViewModel);
                 initPagerAdapter();
                 initPagerTabs();
             }
         });
-    }
-
-    private void setIsFav(String isFav, int ic_not_like_doctor, HeaderViewModel headerViewModel) {
-        doctor.setIsFav(isFav);
-        headerViewModel.setRightIcon(ic_not_like_doctor);
-        binding.setHeader(headerViewModel);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_hosptial:
-                Intent intent = HospitalDetailActivity.makeIntent(this, getData());
-                startActivity(intent);
-                break;
-        }
     }
 
     private void initPagerAdapter() {

@@ -2,6 +2,7 @@ package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -219,6 +220,11 @@ public class DoctorSuggestionFragment extends RefreshListFragment {
                 }
                 getAdapter().notifyDataSetChanged();
                 getBinding().swipeRefresh.setRefreshing(false);
+                if (getAdapter().isEmpty()){
+                    binding.emptyIndicator.setVisibility(View.VISIBLE);
+                }else {
+                    binding.emptyIndicator.setVisibility(View.GONE);
+                }
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.doctor.sun.entity;
 
+import android.databinding.BaseObservable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -17,7 +18,7 @@ import java.util.HashMap;
 /**
  * Created by rick on 11/17/15.
  */
-public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
+public class Doctor extends BaseObservable implements LayoutId, Parcelable, NameComparator.Name {
 
     public static final String STATUS_PENDING = "pending";
     public static final String STATUS_PASS = "pass";
@@ -60,7 +61,7 @@ public class Doctor implements LayoutId, Parcelable, NameComparator.Name {
     @JsonProperty("birthday")
     private String birthday;
     @JsonProperty("is_fav")
-    private String isFav;
+    private String isFav = "";
     @JsonProperty("id")
     private int id = -1;
     @JsonProperty("doctor_id")

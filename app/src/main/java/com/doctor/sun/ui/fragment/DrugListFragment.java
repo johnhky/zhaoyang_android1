@@ -87,16 +87,10 @@ public class DrugListFragment extends RefreshListFragment {
     }
 
     public void showSnackBar() {
-        if (!isVisibleToUser) {
-            return;
-        }
-        if (coupons.isEmpty()) {
+        if (shouldDismissSnackbar()) {
             if (snackbar != null && snackbar.isShown()) {
                 snackbar.dismiss();
             }
-            return;
-        }
-        if (adapter != null && adapter.isEmpty()) {
             return;
         }
         if (!useCoupon) {
@@ -125,6 +119,19 @@ public class DrugListFragment extends RefreshListFragment {
             });
             snackbar.show();
         }
+    }
+
+    public boolean shouldDismissSnackbar() {
+        if (!isVisibleToUser) {
+            return true;
+        }
+        if (coupons.isEmpty()) {
+            return true;
+        }
+        if (adapter != null && adapter.isEmpty()) {
+            return true;
+        }
+        return false;
     }
 
     @Override

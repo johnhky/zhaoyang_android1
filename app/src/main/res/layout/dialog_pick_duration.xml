@@ -61,7 +61,7 @@
                         android:gravity="center"
                         android:onCheckedChanged="@{(v,b)->data.setIsPremium(b)}"
                         android:text="@string/premium_product"
-                        android:textColor="@color/text_color_white" />
+                        android:textColor="@color/text_color_white2" />
 
 
                 </FrameLayout>
@@ -81,7 +81,7 @@
                         android:gravity="center"
                         android:onCheckedChanged="@{(v,b)->data.setIsNormal(b)}"
                         android:text="@string/normal_product"
-                        android:textColor="@color/text_color_white" />
+                        android:textColor="@color/text_color_white2" />
 
                 </FrameLayout>
             </com.zhy.android.percent.support.PercentLinearLayout>

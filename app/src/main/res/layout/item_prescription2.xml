@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            android:visibility="@{data.remark!=null}"
+            android:visibility="@{data.remark!=null&amp;&amp;!data.remark.equals(&quot;&quot;)}"
             app:html="@{data.remarkLabel}" />
 
         <View

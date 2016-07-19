@@ -59,6 +59,8 @@ public class Drug extends BaseObservable implements LayoutId {
     private String remark;
     @JsonProperty("money")
     private String money;
+    @JsonProperty("need_pay")
+    private int needPay = -1;
     @JsonProperty("has_pay")
     private int hasPay;
     @JsonProperty("status")
@@ -155,6 +157,14 @@ public class Drug extends BaseObservable implements LayoutId {
         notifyPropertyChanged(BR.status);
     }
 
+    public int getNeedPay() {
+        return needPay;
+    }
+
+    public void setNeedPay(int needPay) {
+        this.needPay = needPay;
+    }
+
     @Override
     public String toString() {
         return "Drug{" +
@@ -213,9 +223,16 @@ public class Drug extends BaseObservable implements LayoutId {
     }
 
     public void showPayMethod(Context context, String money, int id) {
-        final String totalFee = money;
         final HashMap<String, String> extraField = DrugListFragment.getDrugExtraField();
         extraField.put("drugOrderId", String.valueOf(id));
+
+        final String totalFee;
+        if (needPay > 0) {
+            totalFee = String.valueOf(needPay);
+            extraField.remove(DrugListFragment.COUPON_ID);
+        } else {
+            totalFee = money;
+        }
         final AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
         new PayMethodDialog(context, new PayInterface() {
             @Override

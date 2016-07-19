@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Doctor" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_105"
+        android:background="@drawable/bg_me"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_85"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:orientation="vertical">
+
+
+            <com.doctor.sun.ui.widget.BezelImageView
+                android:id="@+id/iv_me"
+                android:layout_width="@dimen/dp_74"
+                android:layout_height="@dimen/dp_74"
+                android:background="@drawable/semi_circle_mask"
+                android:scaleType="centerCrop"
+                android:src="@{data.avatar}"
+                app:maskDrawable="@drawable/semi_circle_mask" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:background="@color/transparent"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                app:cardCornerRadius="@dimen/dp_5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_red_rect"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/dp_6"
+                    android:paddingRight="@dimen/dp_6"
+                    android:text="@{data.level}"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/font_9"
+                    tool:text="执业医师认证" />
+            </android.support.v7.widget.CardView>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="@{data.name}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15"
+                    tool:text="张力" />
+
+                <RatingBar
+                    style="@style/SmallRatingBar"
+                    android:layout_gravity="end|center_vertical"
+                    android:isIndicator="true"
+                    android:rating="@{data.point}" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_hosptial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:drawableLeft="@drawable/ic_hospital"
+                android:drawablePadding="@dimen/dp_7"
+                android:drawableStart="@drawable/ic_hospital"
+                android:maxLines="1"
+                android:onClick="@{()->data.handler.hospital(context,data)}"
+                android:text="@{data.hospitalName}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_13"
+                tool:text="广州市第一人民医院" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8">
+
+                <TextView
+                    android:id="@+id/tv_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:drawableLeft="@drawable/tab_me_selected_small"
+                    android:drawablePadding="@dimen/dp_7"
+                    android:drawableStart="@drawable/tab_me_selected_small"
+                    android:text="@{@string/string_of_two(data.specialist,data.title)}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_13"
+                    tool:text="精神科/科室主任" />
+
+                <TextView
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_24"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginLeft="@dimen/dp_1"
+                    android:layout_marginStart="@dimen/dp_1"
+                    android:background="@drawable/rounded_rect"
+                    android:gravity="center"
+                    android:onClick="@{()->data.handler.toggleFav(context,data)}"
+                    android:selected="@{data.isFav.equals(&quot;1&quot;)}"
+                    android:text="收藏"
+                    android:textColor="@color/text_color_blue" />
+            </FrameLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>
