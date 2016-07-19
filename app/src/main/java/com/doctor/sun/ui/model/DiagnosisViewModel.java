@@ -355,26 +355,28 @@ public class DiagnosisViewModel {
             result.put("prescription", prescriptions);
         }
         result.put("doctor_advince", binding.doctorAdvice.etOthers.getText().toString());
-        result.put("return", binding.needReturn.switchButton.isChecked() ? "1" : "0");
-        int selectedItem = returnType.getSelectedItem();
-        if (selectedItem < 0) {
-            selectedItem = 1;
-        }
-        int returnType = selectedItem;
+        boolean needReturn = binding.needReturn.switchButton.isChecked();
+        result.put("return", needReturn ? "1" : "0");
+        if (needReturn) {
+            int selectedItem = returnType.getSelectedItem();
+            if (selectedItem < 0) {
+                selectedItem = 1;
+            }
+            int returnType = selectedItem;
 
-        result.put("returnType", String.valueOf(returnType));
-        result.put("recordId", String.valueOf(appointmentId.getRecordId()));
+            result.put("returnType", String.valueOf(returnType));
+            result.put("recordId", String.valueOf(appointmentId.getRecordId()));
 
-        GregorianCalendar gregorianCalendar = new GregorianCalendar(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), time.getmBeginHour(), time.getmBeginMinute());
-        String s = String.valueOf(gregorianCalendar.getTimeInMillis());
-        if (s.length() >= 10) {
-            result.put("returnTime", s.substring(0, 10));
-        } else {
-            result.put("returnTime", s);
-        }
-
-        if (doctor != null && (returnType == 3)) {
-            result.put("doctorRequire", String.valueOf(doctor.getId()));
+            GregorianCalendar gregorianCalendar = new GregorianCalendar(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), time.getmBeginHour(), time.getmBeginMinute());
+            String s = String.valueOf(gregorianCalendar.getTimeInMillis());
+            if (s.length() >= 10) {
+                result.put("returnTime", s.substring(0, 10));
+            } else {
+                result.put("returnTime", s);
+            }
+            if (doctor != null && (returnType == 3)) {
+                result.put("doctorRequire", String.valueOf(doctor.getId()));
+            }
         }
         result.put("reminder", JacksonUtils.toJson(reminderList.getReminders()));
         return result;

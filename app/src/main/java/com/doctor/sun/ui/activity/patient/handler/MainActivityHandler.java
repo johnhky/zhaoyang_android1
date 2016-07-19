@@ -21,7 +21,6 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.ui.activity.patient.DrugActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
@@ -67,8 +66,8 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
     }
 
     public void drugList(View view) {
-        Intent intent = DrugActivity.makeIntent(view.getContext());
-        view.getContext().startActivity(intent);
+//        Intent intent = DrugActivity.makeIntent(view.getContext());
+//        view.getContext().startActivity(intent);
     }
 
     public void searchDoctor(final View view) {

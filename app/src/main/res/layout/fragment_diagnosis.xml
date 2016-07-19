@@ -137,20 +137,6 @@
                     layout="@layout/item_pick_date"
                     bind:data="@{data.date}" />
 
-                <!--<include-->
-                <!--android:id="@+id/pick_time"-->
-                <!--layout="@layout/item_pick_time2"-->
-                <!--bind:data="@{data.time}" />-->
-
-                <!--<include-->
-                <!--android:id="@+id/money"-->
-                <!--layout="@layout/item_text_input"-->
-                <!--bind:data="@{data.money}" />-->
-
-                <!--<include-->
-                <!--android:id="@+id/mission"-->
-                <!--layout="@layout/item_text_input5"-->
-                <!--bind:title='@{"专属咨询前完成的任务"}' />-->
 
             </LinearLayout>
 
@@ -175,11 +161,6 @@
                     android:id="@+id/item_doctor"
                     layout="@layout/item_transfer_doctor"
                     bind:data="@{data.doctor}" />
-
-                <!--<include-->
-                <!--android:id="@+id/msg_to_doctor"-->
-                <!--layout="@layout/item_text_input4"-->
-                <!--bind:hint="@{@string/comment}" />-->
 
                 <View
                     android:layout_width="match_parent"

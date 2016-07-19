@@ -123,4 +123,10 @@ public class SystemMsgListActivity extends PageActivity2 {
         return new SystemMsgAdapter(this, Config.getLong(visitTimeKey, -1));
     }
 
+
+    @NonNull
+    @Override
+    public String getEmptyIndicatorText() {
+        return "没有任何系统消息";
+    }
 }

@@ -49,4 +49,10 @@ public class AfterServiceActivity extends PageActivity2 {
 //        Intent intent = ContactActivity.makeIntent(this, ContactActivity.DOCTORS_CONTACT, R.layout.item_contact2);
         startActivity(intent);
     }
+
+    @NonNull
+    @Override
+    public String getEmptyIndicatorText() {
+        return "没有任何进随访任务";
+    }
 }

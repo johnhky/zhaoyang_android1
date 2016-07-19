@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 
@@ -49,8 +48,9 @@ public class PAppointmentListFragment extends RefreshListFragment {
         api.patientAppointment(getPageCallback().getPage()).enqueue(getPageCallback());
     }
 
-    private int getType() {
-        return getArguments().getInt(Constants.DATA);
+    @NonNull
+    @Override
+    protected String getEmptyIndicatorText() {
+        return "没有任何咨询订单";
     }
-
 }

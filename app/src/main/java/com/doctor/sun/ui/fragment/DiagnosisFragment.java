@@ -54,16 +54,12 @@ import retrofit2.Call;
  */
 public class DiagnosisFragment extends BaseFragment {
     public static final String TAG = DiagnosisFragment.class.getSimpleName();
-    public static final String IS_DIAGNOSISED = "已面诊";
-    public static final String NOT_DIAGNOSISED = "未面诊";
     //转诊
     public static final int RETURN_TYPE_TRANSFER = 3;
     //专属咨询
     public static final int RETURN_TYPE_FACE = 2;
     //专属咨询
     public static final int RETURN_TYPE_NET = 1;
-    public static final String TYPE_NET = "";
-    public static final String TYPE_FACE = "1";
     public static final int EDIT_PRESCRITPION = 1;
     private static DiagnosisFragment instance;
 
@@ -106,8 +102,6 @@ public class DiagnosisFragment extends BaseFragment {
         if (viewModel == null) {
             viewModel = new DiagnosisViewModel((Activity) getContext());
         }
-//        binding.isDiagnosis.setData(NOT_DIAGNOSISED);
-//        binding.isDiagnosis.setIsChecked(false);
         binding.needReturn.setData("需要专属咨询/转诊/留言咨询");
         binding.needReturn.setIsChecked(false);
         binding.swRoot.setVerticalScrollBarEnabled(false);
@@ -128,26 +122,6 @@ public class DiagnosisFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initListener();
     }
-
-    private void askIfIsDiagnosised() {
-        TwoChoiceDialog.show(getActivity(), getString(R.string.is_diagnosised),
-                NOT_DIAGNOSISED, IS_DIAGNOSISED, new TwoChoiceDialog.Options() {
-                    @Override
-                    public void onApplyClick(MaterialDialog dialog) {
-//                        binding.isDiagnosis.setData(IS_DIAGNOSISED);
-//                        binding.isDiagnosis.setIsChecked(true);
-                        dialog.dismiss();
-                    }
-
-                    @Override
-                    public void onCancelClick(MaterialDialog dialog) {
-//                        binding.isDiagnosis.setData(NOT_DIAGNOSISED);
-//                        binding.isDiagnosis.setIsChecked(false);
-                        dialog.dismiss();
-                    }
-                });
-    }
-
 
     @Override
     public void onDestroyView() {
@@ -238,13 +212,11 @@ public class DiagnosisFragment extends BaseFragment {
             viewModel.getChooseDoctor().setVisible(true);
             binding.itemDoctor.getRoot().setVisibility(View.GONE);
             binding.itemTransferTo.getRoot().setVisibility(View.GONE);
-//            binding.msgToDoctor.getRoot().setVisibility(View.GONE);
         } else {
             binding.llyTransfer.setVisibility(View.VISIBLE);
             viewModel.getChooseDoctor().setVisible(false);
             binding.itemDoctor.getRoot().setVisibility(View.VISIBLE);
             binding.itemTransferTo.getRoot().setVisibility(View.VISIBLE);
-//            binding.msgToDoctor.getRoot().setVisibility(View.VISIBLE);
             binding.itemDoctor.setData(doctor);
         }
         binding.llyTransfer.setVisibility(View.VISIBLE);
@@ -255,11 +227,6 @@ public class DiagnosisFragment extends BaseFragment {
         binding.llyReturn.setVisibility(View.VISIBLE);
         binding.llyTransfer.setVisibility(View.GONE);
         viewModel.setReturnType(furtherConsultation);
-//        if (furtherConsultation.equals(DiagnosisViewModel.DETAIL)) {
-//            binding.mission.llyRoot.setVisibility(View.GONE);
-//        } else {
-//            binding.mission.llyRoot.setVisibility(View.VISIBLE);
-//        }
     }
 
     @Override
@@ -333,7 +300,6 @@ public class DiagnosisFragment extends BaseFragment {
             @Override
             protected void handleResponse(List<Prescription> response) {
                 if (response == null) {
-//                    Toast.makeText(getContext(), "患者没有填写用药信息", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 for (Prescription prescription : response) {
@@ -420,9 +386,6 @@ public class DiagnosisFragment extends BaseFragment {
         api.setDiagnosis(query).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
-
-//                                Log.d(TAG, response.toString());
-
                 ToastHelper.showMessage(getActivity(), "保存成功");
                 dialog.dismiss();
                 getActivity().finish();
@@ -447,19 +410,4 @@ public class DiagnosisFragment extends BaseFragment {
         }
     }
 
-//
-//    @Override
-//    public void setUserVisibleHint(final boolean isVisibleToUser) {
-//        super.setUserVisibleHint(isVisibleToUser);
-//
-//        if (isVisibleToUser && shouldAsk) {
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    askIfIsDiagnosised();
-//                    shouldAsk = false;
-//                }
-//            }, 100);
-//        }
-//    }
 }

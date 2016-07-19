@@ -42,16 +42,16 @@ public class DownloadUtil {
                             int loopCounter = 0;
                             int read;
                             byte[] buffer = new byte[32768];
-                            EventHub.post(new ProgressEvent(from,0, totalLength));
+                            EventHub.post(new ProgressEvent(from, 0, totalLength));
                             while ((read = is.read(buffer)) > 0) {
                                 os.write(buffer, 0, read);
                                 totalRead += read;
-                                if (loopCounter % 300 == 0) {
-                                    EventHub.post(new ProgressEvent(from,totalRead, totalLength));
+                                if (loopCounter % 600 == 0) {
+                                    EventHub.post(new ProgressEvent(from, totalRead, totalLength));
                                 }
                                 loopCounter += 1;
                             }
-                            EventHub.post(new ProgressEvent(from,totalLength, totalLength));
+                            EventHub.post(new ProgressEvent(from, totalLength, totalLength));
                             os.close();
                             is.close();
                             Tasks.runOnUiThread(new Runnable() {

@@ -47,4 +47,10 @@ public class AppointmentListActivity extends PageActivity2 {
 //                .setRightTitle("紧急咨询");
         return header;
     }
+
+    @NonNull
+    @Override
+    public String getEmptyIndicatorText() {
+        return "没有预约任何患者";
+    }
 }

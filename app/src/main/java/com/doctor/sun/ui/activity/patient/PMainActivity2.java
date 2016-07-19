@@ -47,7 +47,10 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
         binding.setHandler(handler);
         Patient patientProfile = TokenCallback.getPatientProfile();
         if (patientProfile == null || "".equals(patientProfile.getName())) {
-            new AddMedicalRecordDialog(this, true).show();
+            if (Config.getBoolean(Constants.SHOULD_SHOW_ADD_RECORD_DIALOG, true)) {
+                new AddMedicalRecordDialog(this, true).show();
+                Config.putBoolean(Constants.SHOULD_SHOW_ADD_RECORD_DIALOG, false);
+            }
         }
         updateProfileInfo();
     }

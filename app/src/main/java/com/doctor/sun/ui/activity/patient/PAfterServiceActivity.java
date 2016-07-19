@@ -59,4 +59,10 @@ public class PAfterServiceActivity extends PageActivity2 {
 //        Intent intent = ContactActivity.makeIntent(this, ContactActivity.PATIENTS_CONTACT, R.layout.item_contact3);
         startActivity(intent);
     }
+
+    @NonNull
+    @Override
+    public String getEmptyIndicatorText() {
+        return "没有任何随访请求";
+    }
 }

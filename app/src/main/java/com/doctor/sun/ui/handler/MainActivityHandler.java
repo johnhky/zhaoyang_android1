@@ -6,8 +6,6 @@ import android.view.View;
 
 import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
 import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
-import com.doctor.sun.ui.activity.doctor.ConsultationListActivity;
-import com.doctor.sun.ui.activity.doctor.UrgentListActivity;
 
 /**
  * Created by rick on 11/20/15.
@@ -34,8 +32,8 @@ public class MainActivityHandler extends BaseHandler {
      * @param view
      */
     public void emergencyCall(View view) {
-        Intent intent = UrgentListActivity.makeIntent(getContext());
-        getContext().startActivity(intent);
+//        Intent intent = UrgentListActivity.makeIntent(getContext());
+//        getContext().startActivity(intent);
     }
 
     /**

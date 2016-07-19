@@ -70,10 +70,21 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
                     @Override
                     public void run() {
                         binding.refreshLayout.setRefreshing(false);
+                        if (adapter != null && adapter.isEmpty()) {
+                            binding.emptyIndicator.setText(getEmptyIndicatorText());
+                            binding.emptyIndicator.setVisibility(View.VISIBLE);
+                        } else {
+                            binding.emptyIndicator.setVisibility(View.GONE);
+                        }
                     }
-                },1000);
+                }, 1000);
             }
         };
+    }
+
+    @NonNull
+    public String getEmptyIndicatorText() {
+        return "";
     }
 
     @NonNull
@@ -128,5 +139,6 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
     public void onClick(View v) {
 
     }
+
 }
 

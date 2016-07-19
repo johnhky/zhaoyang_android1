@@ -48,4 +48,10 @@ public class HistoryActivity extends PageActivity2 {
         super.loadMore();
         api.histories(Integer.parseInt(getCallback().getPage())).enqueue(getCallback());
     }
+
+    @NonNull
+    @Override
+    public String getEmptyIndicatorText() {
+        return "没有历史记录";
+    }
 }

@@ -60,4 +60,10 @@ public class AfterServiceHistoryActivity extends PageActivity2 {
         }
         return adapter;
     }
+
+    @NonNull
+    @Override
+    public String getEmptyIndicatorText() {
+        return "没有任何历史随访";
+    }
 }

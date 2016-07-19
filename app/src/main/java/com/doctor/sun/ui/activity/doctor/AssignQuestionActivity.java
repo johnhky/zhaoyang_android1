@@ -53,12 +53,6 @@ public class AssignQuestionActivity extends BaseFragmentActivity2 implements Ass
     }
 
     @Override
-    public void onMenuClicked() {
-        Intent intent = UrgentListActivity.makeIntent(this);
-        startActivity(intent);
-    }
-
-    @Override
     public String getAppointmentId() {
         return appointmentId;
     }
