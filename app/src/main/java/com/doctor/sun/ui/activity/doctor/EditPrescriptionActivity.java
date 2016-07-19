@@ -211,14 +211,25 @@ public class EditPrescriptionActivity extends BaseActivity2 {
         } else if (string.equals(".")) {
             return string;
         } else if (string.startsWith(".")) {
-            return String.valueOf(Double.valueOf(string));
+            Double obj = Double.valueOf(string);
+            if (obj <= 0) {
+                return "";
+            }
+            return String.valueOf(obj);
         } else {
             if (string.contains(".")) {
-                return String.valueOf(Double.valueOf(string));
+                Double obj = Double.valueOf(string);
+                if (obj <= 0) {
+                    return "";
+                }
+                return String.valueOf(obj);
             } else {
-                return String.valueOf(Integer.valueOf(string));
+                Integer obj = Integer.valueOf(string);
+                if (obj <= 0) {
+                    return "";
+                }
+                return String.valueOf(obj);
             }
-
         }
     }
 

@@ -64,6 +64,7 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
             protected void onFinishLoadMore() {
                 super.onFinishLoadMore();
                 isLoading = false;
+                showEmptyIndicator();
             }
         });
         binding.recyclerView.setAdapter(mAdapter);
@@ -72,6 +73,21 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
 
         getPageCallback();
         return binding.getRoot();
+    }
+
+    private void showEmptyIndicator() {
+        if (mAdapter != null && !mAdapter.isEmpty()) {
+            binding.emptyIndicator.setText(getEmptyIndicatorText());
+            binding.emptyIndicator.setVisibility(View.GONE);
+        } else {
+            binding.emptyIndicator.setText(getEmptyIndicatorText());
+            binding.emptyIndicator.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @NonNull
+    protected String getEmptyIndicatorText() {
+        return "";
     }
 
     public PageCallback getPageCallback() {

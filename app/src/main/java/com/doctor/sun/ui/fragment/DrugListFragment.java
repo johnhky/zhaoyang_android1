@@ -100,7 +100,7 @@ public class DrugListFragment extends RefreshListFragment {
             return;
         }
         if (!useCoupon) {
-            String format = "您有一张100元优惠券可以使用,是否使用优惠券?";
+            String format = "您有一张100元优惠券可以使用";
             snackbar = Snackbar.make(binding.getRoot(), format, Snackbar.LENGTH_INDEFINITE);
             snackbar.setAction("使用优惠券", new View.OnClickListener() {
                 @Override
@@ -131,5 +131,11 @@ public class DrugListFragment extends RefreshListFragment {
     protected void loadMore() {
         super.loadMore();
         api.orderList(getPageCallback().getPage()).enqueue(getPageCallback());
+    }
+
+    @NonNull
+    @Override
+    protected String getEmptyIndicatorText() {
+        return "没有任何寄药订单";
     }
 }

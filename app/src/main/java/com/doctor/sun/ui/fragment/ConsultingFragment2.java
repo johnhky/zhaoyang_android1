@@ -250,8 +250,21 @@ public class ConsultingFragment2 extends SortedListFragment {
                 showShowCase();
 
                 hideRefreshing();
+                if (getAdapter().getItemCount() <= getHeaderItemCount()) {
+                    binding.emptyIndicator.setText("您当前没有进行中的聊天");
+                    binding.emptyIndicator.setVisibility(View.VISIBLE);
+                } else {
+                    binding.emptyIndicator.setVisibility(View.GONE);
+                }
             }
         };
+    }
+
+    private int getHeaderItemCount() {
+        if (AppContext.isDoctor()) {
+            return 1;
+        }
+        return 2;
     }
 
     private void insertLoadMore() {

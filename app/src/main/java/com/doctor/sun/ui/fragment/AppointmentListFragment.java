@@ -1,6 +1,7 @@
 package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.doctor.sun.bean.Constants;
@@ -42,4 +43,9 @@ public class AppointmentListFragment extends RefreshListFragment {
         api.doctorAppointment(page, orderType).enqueue(getPageCallback());
     }
 
+    @NonNull
+    @Override
+    protected String getEmptyIndicatorText() {
+        return "没有任何订单";
+    }
 }

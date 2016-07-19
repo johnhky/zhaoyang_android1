@@ -1,6 +1,7 @@
 package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -66,5 +67,11 @@ public class CouponsFragment extends RefreshListFragment {
             super.onFinishRefresh();
             binding.swipeRefresh.setRefreshing(false);
         }
+    }
+
+    @NonNull
+    @Override
+    protected String getEmptyIndicatorText() {
+        return "没有任何优惠券";
     }
 }
