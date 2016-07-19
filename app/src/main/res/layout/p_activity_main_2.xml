@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.doctor.sun.R" />
+
         <variable
             name="footer"
             type="com.doctor.sun.ui.model.FooterViewModel" />
@@ -46,12 +48,13 @@
                 android:background="@drawable/shape_gradient" />
 
 
-            <View
+            <ImageView
+                android:id="@+id/image_view"
                 android:layout_width="@dimen/dp_200"
                 android:layout_height="@dimen/dp_200"
                 android:layout_gravity="center"
-                android:background="@drawable/ripple_make_appointment"
-                android:onClick="@{()->handler.selectAppointmentType(context)}" />
+                android:onClick="@{()->handler.selectAppointmentType(context)}"
+                app:srcCompat="@drawable/ripple_make_appointment" />
 
             <TextView
                 android:layout_width="@dimen/dp_200"
@@ -99,11 +102,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:drawablePadding="@dimen/dp_10"
-                    android:drawableTop="@drawable/ic_my_orders"
                     android:gravity="center"
                     android:text="咨询订单和\n寄药订单"
                     android:textColor="#fac000"
-                    android:textSize="@dimen/font_18" />
+                    android:textSize="@dimen/font_18"
+                    app:drawableTop="@{R.drawable.ic_my_orders}" />
 
                 <TextView
                     android:layout_width="@dimen/dp_30"
@@ -144,11 +147,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:drawablePadding="@dimen/dp_10"
-                    android:drawableTop="@drawable/ic_other_orders"
                     android:gravity="center"
                     android:text="医生发起的\n随访订单"
                     android:textColor="#88cb5a"
-                    android:textSize="@dimen/font_18" />
+                    android:textSize="@dimen/font_18"
+                    app:drawableTop="@{R.drawable.ic_other_orders}" />
 
 
                 <TextView

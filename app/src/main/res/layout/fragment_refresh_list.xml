@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data></data>
+    <data>
+
+        <import type="com.doctor.sun.R" />
+    </data>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -25,12 +29,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:drawableTop="@drawable/vector_grey_launcher"
-            android:maxLines="1"
             android:drawablePadding="@dimen/dp_16"
+            android:maxLines="1"
             android:text="您当前没有任何进行中的聊天"
-            android:textSize="@dimen/font_15"
             android:textColor="@color/grey_ab"
-            android:visibility="gone"/>
+            android:textSize="@dimen/font_15"
+            android:visibility="gone"
+            app:drawableTop="@{R.drawable.vector_grey_launcher}" />
     </FrameLayout>
 </layout>

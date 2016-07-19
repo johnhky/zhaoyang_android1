@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="com.doctor.sun.R" />
+
         <variable
             name="data"
             type="com.doctor.sun.entity.AppointmentBuilder" />
@@ -30,24 +32,22 @@
                 android:background="@drawable/ripple_default"
                 app:layout_widthPercent="50%">
 
-                <RadioButton
+                <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/selector_premium_product"
-                    android:button="@null"
-                    android:checked="@{data.type==1}" />
+                    app:backgroundCompat="@{data.type==1?R.drawable.shape_arrow_rect_green:R.drawable.ic_bg_grey}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:drawableTop="@drawable/ic_premium_service"
                     android:gravity="center"
                     android:selected="@{data.type==1}"
                     android:text="@string/premium_product"
                     android:textColor="@color/color_premium"
                     android:textSize="@dimen/font_18"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                    app:drawableTop="@{data.type==1?R.drawable.ic_premium_service_selected:R.drawable.ic_premium_service_default}" />
 
                 <RadioButton
                     android:id="@+id/premium"
@@ -66,24 +66,22 @@
                 android:background="@drawable/ripple_default"
                 app:layout_widthPercent="50%">
 
-                <RadioButton
+                <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/selector_normal_product"
-                    android:button="@null"
-                    android:checked="@{data.type==2}" />
+                    app:backgroundCompat="@{data.type==2?R.drawable.shape_arrow_rect:R.drawable.ic_bg_grey}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:drawableTop="@drawable/ic_buy_drug"
                     android:gravity="center"
                     android:selected="@{!premium.checked}"
                     android:text="@string/premium_product"
                     android:textColor="@color/color_normal"
                     android:textSize="@dimen/font_18"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                    app:drawableTop="@{data.type==2?R.drawable.ic_buy_drug_selected:R.drawable.ic_buy_drug_default}" />
 
                 <RadioButton
                     android:id="@+id/normal"
