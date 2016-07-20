@@ -95,8 +95,8 @@ public class DoctorInfoActivity extends BaseActivity2 implements View.OnClickLis
                 }
                 break;
             case R.id.rl_history_record:
-                startActivity(new Intent(DoctorInfoActivity.this, HistoryRecordActivity.class)
-                        .putExtra(Constants.PARAM_RECORD_ID, binding.getData().getRecordId()));
+                Intent intent = HistoryRecordActivity.intentFor(DoctorInfoActivity.this, binding.getData().getRecordId());
+                startActivity(intent);
                 break;
             case R.id.rl_modify_nickname:
                 startActivityForResult(new Intent(DoctorInfoActivity.this, ModifyNicknameActivity.class)
@@ -110,6 +110,7 @@ public class DoctorInfoActivity extends BaseActivity2 implements View.OnClickLis
                 break;
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

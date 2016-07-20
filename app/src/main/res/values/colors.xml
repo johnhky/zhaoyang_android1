@@ -44,4 +44,5 @@
 
     <color name="orange">#f76d02</color>
     <color name="extend_time">#FFff8e43</color>
+    <color name="color_normal_selected">#f26d7e</color>
 </resources>

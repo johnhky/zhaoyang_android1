@@ -175,6 +175,12 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
                     @Override
                     public void run() {
                         binding.refreshLayout.setRefreshing(false);
+                        if (adapter != null && adapter.isEmpty()) {
+                            binding.emptyIndicator.setText("找不到任何医生,请更换搜索条件");
+                            binding.emptyIndicator.setVisibility(View.VISIBLE);
+                        } else {
+                            binding.emptyIndicator.setVisibility(View.GONE);
+                        }
                     }
                 }, 1000);
             }
@@ -235,6 +241,12 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
                             }
                             binding.refreshLayout.setRefreshing(false);
                             adapter.notifyDataSetChanged();
+                            if (adapter != null && adapter.isEmpty()) {
+                                binding.emptyIndicator.setText("找不到任何医生,请更换搜索条件");
+                                binding.emptyIndicator.setVisibility(View.VISIBLE);
+                            } else {
+                                binding.emptyIndicator.setVisibility(View.GONE);
+                            }
                         }
                     });
                 } catch (IOException e) {

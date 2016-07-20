@@ -1,5 +1,7 @@
 package com.doctor.sun.ui.activity.doctor;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,12 +13,10 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
-import com.doctor.sun.ui.adapter.RecordHistoriesAdapter;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.DividerItemDecoration;
 
@@ -29,7 +29,7 @@ import retrofit2.Call;
 public class HistoryRecordActivity extends BaseActivity2 {
     private ActivityHistoryRecordBinding binding;
     private AppointmentModule api = Api.of(AppointmentModule.class);
-    private RecordHistoriesAdapter mAdapter;
+    private SimpleAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,8 @@ public class HistoryRecordActivity extends BaseActivity2 {
     }
 
     private void initData() {
-        mAdapter = new RecordHistoriesAdapter(this);
+        mAdapter = new SimpleAdapter<>(this);
+        mAdapter.mapLayout(R.layout.item_appointment, R.layout.p_item_history);
         binding.rvRecord.setAdapter(mAdapter);
         getRecordHistories();
     }
@@ -64,6 +65,10 @@ public class HistoryRecordActivity extends BaseActivity2 {
                 getAdapter().onFinishLoadMore(true);
             }
         });
+    }
 
+    public static Intent intentFor(Context context, int recordId) {
+        return new Intent(context, HistoryRecordActivity.class)
+                .putExtra(Constants.PARAM_RECORD_ID, recordId);
     }
 }

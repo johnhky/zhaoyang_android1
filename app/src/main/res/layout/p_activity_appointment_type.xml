@@ -77,7 +77,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:selected="@{!premium.checked}"
-                    android:text="@string/premium_product"
+                    android:text="@string/normal_product"
                     android:textColor="@color/color_normal"
                     android:textSize="@dimen/font_18"
                     android:textStyle="normal"

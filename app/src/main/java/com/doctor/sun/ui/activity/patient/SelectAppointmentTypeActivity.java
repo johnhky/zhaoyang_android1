@@ -74,7 +74,7 @@ public class SelectAppointmentTypeActivity extends BaseFragmentActivity2 {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 setCurrentItem(!b);
                 if (b) {
-                    int color = Color.parseColor("#f26d7e");
+                    int color = getResources().getColor(R.color.color_normal_selected);
                     binding.headerLayout.header.setBackgroundColor(color);
                     Systems.setStatusColor(SelectAppointmentTypeActivity.this, color);
                 }

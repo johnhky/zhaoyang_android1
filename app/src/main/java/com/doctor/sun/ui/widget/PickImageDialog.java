@@ -48,6 +48,7 @@ public class PickImageDialog extends BottomSheetDialog {
 
     public static final int PERMISSION_REQUEST_CODE = 100;
     public static final String[] PERMISSIONS = new String[]{
+            Manifest.permission.RECORD_AUDIO,
             Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             "android.permission.READ_EXTERNAL_STORAGE"};

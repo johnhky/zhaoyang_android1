@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.view.View;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -172,16 +173,20 @@ public class CustomActionViewModel {
                                 checkPermission(mActivity, new Runnable() {
                                     @Override
                                     public void run() {
-                                        final Uri image = getFileUrlForCameraRequest(mActivity);
-                                        Intent intentFromCamera = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                            ClipData clip = ClipData.newRawUri(null, image);
-                                            intentFromCamera.setClipData(clip);
+                                        try {
+                                            final Uri image = getFileUrlForCameraRequest(mActivity);
+                                            Intent intentFromCamera = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                                ClipData clip = ClipData.newRawUri(null, image);
+                                                intentFromCamera.setClipData(clip);
+                                            }
+                                            intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
+                                            intentFromCamera.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                                            intentFromCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                            mActivity.startActivityForResult(intentFromCamera, VIDEO_REQUEST_CODE);
+                                        } catch (Exception e) {
+                                            Toast.makeText(mActivity, "无法打开拍摄应用", Toast.LENGTH_SHORT).show();
                                         }
-                                        intentFromCamera.putExtra(MediaStore.EXTRA_OUTPUT, image);
-                                        intentFromCamera.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                                        intentFromCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                        mActivity.startActivityForResult(intentFromCamera, VIDEO_REQUEST_CODE);
                                     }
                                 });
                                 break;

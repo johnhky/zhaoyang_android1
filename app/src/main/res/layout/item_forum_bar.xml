@@ -50,7 +50,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:text="查看用药"
+                    android:text="历史记录"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_17" />
 

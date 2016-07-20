@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -13,8 +14,13 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
         android:clickable="true"
+        android:onClick="@{()->data.handler.historyList(context,data)}"
         android:orientation="vertical"
         android:padding="@dimen/dp_12">
+
+        <include
+            layout="@layout/item_doctor"
+            app:data="@{data.doctor}" />
 
         <TextView
             android:layout_width="match_parent"
@@ -37,8 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_24"
             android:gravity="left|center_vertical"
-            android:text=""
             android:textColor="#282828"
-            android:textSize="@dimen/font_14" />
+            android:textSize="@dimen/font_14"
+            app:html="@{@string/money(data.money)}" />
     </LinearLayout>
 </layout>

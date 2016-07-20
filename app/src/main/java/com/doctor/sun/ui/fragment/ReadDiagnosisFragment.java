@@ -2,6 +2,7 @@ package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -60,6 +61,12 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
                 getAdapter().addAll(viewModel.toList());
                 getAdapter().notifyDataSetChanged();
                 binding.swipeRefresh.setRefreshing(false);
+                if (getAdapter().isEmpty()) {
+                    binding.emptyIndicator.setText("请耐心等待");
+                    binding.emptyIndicator.setVisibility(View.VISIBLE);
+                } else {
+                    binding.emptyIndicator.setVisibility(View.GONE);
+                }
             }
         });
     }

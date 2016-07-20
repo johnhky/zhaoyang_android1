@@ -1,6 +1,7 @@
 package com.doctor.sun.ui.fragment;
 
-import android.content.Context;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,6 +24,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AnswerModule;
+import com.doctor.sun.ui.activity.doctor.HistoryRecordActivity;
 import com.doctor.sun.ui.adapter.AnswerAdapter;
 import com.doctor.sun.ui.adapter.ForumAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -84,7 +86,7 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         binding = getBinding();
-        barBinding = ItemForumBarBinding.inflate(LayoutInflater.from(getContext()), binding.llRoot, false);
+        barBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.item_forum_bar, binding.llRoot, false);
         binding.llRoot.addView(barBinding.getRoot(), 1);
         barBinding.tvBackCircle.setVisibility(View.GONE);
         barBinding.tvBackCircle.setOnClickListener(this);
@@ -111,7 +113,8 @@ public class FillForumFragment extends ListFragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_check:
-                binding.recyclerView.scrollToPosition(0);
+                Intent intent = HistoryRecordActivity.intentFor(getContext(), appointment.getRecordId());
+                getContext().startActivity(intent);
                 break;
             case R.id.tv_back_circle:
                 binding.llRoot.findViewById(R.id.tv_back_circle).setVisibility(View.GONE);

@@ -652,6 +652,11 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         view.getContext().startActivity(intent);
     }
 
+    public void historyList(Context context, Appointment data) {
+        context.startActivity(ConsultingDetailActivity.makeIntent(context,
+                data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY));
+    }
+
 
     public void onPatientClickOrder(BaseAdapter adapter) {
         switch (data.getDisplayStatus()) {

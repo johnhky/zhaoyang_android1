@@ -162,7 +162,6 @@ public class ConsultingDetailActivity extends TabActivity
                 if (isUserPatient()) {
                     if (binding.getHeader().getRightTitle().equals("保存")) {
                         //保存
-
 //                        Log.d("ConsultingDetailActivit", ModifyForumFragment.getInstance(getData().getAppointmentId()).toString());
                         ModifyForumFragment.getInstance(getData().getAppointmentId()).save();
                     }

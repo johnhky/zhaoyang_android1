@@ -134,12 +134,6 @@ public class EditPrescriptionActivity extends BaseActivity2 {
                 final AutoCompleteTextView etInput = binding.medicineName.etInput;
                 etInput.setAdapter(arrayAdapter);
                 etInput.setThreshold(-1);
-//                etInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//                    @Override
-//                    public void onFocusChange(View v, boolean hasFocus) {
-//                        etInput.performCompletion();
-//                    }
-//                });
                 etInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
