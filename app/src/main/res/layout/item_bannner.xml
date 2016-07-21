@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -8,10 +8,12 @@
             type="com.doctor.sun.entity.Banner" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:background="@drawable/ripple_default"
+        android:onClick="@{()->data.viewDetail(context)}"
+        android:orientation="vertical"
+        android:scaleType="fitXY"
+        android:src="@{data.activityPicSmall}" />
 </layout>

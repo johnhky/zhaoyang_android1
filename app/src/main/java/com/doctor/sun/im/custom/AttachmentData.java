@@ -11,6 +11,7 @@ public class AttachmentData {
     private int imageHeight;
     private int imageWidth;
     private long duration;
+    private boolean shouldSkip = false;
 
     public String getBody() {
         return msg;
@@ -67,5 +68,13 @@ public class AttachmentData {
 
     public void setExtension(String extension) {
         this.extension = extension;
+    }
+
+    public boolean isShouldSkip() {
+        return shouldSkip;
+    }
+
+    public void setShouldSkip(boolean shouldSkip) {
+        this.shouldSkip = shouldSkip;
     }
 }

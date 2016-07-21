@@ -328,6 +328,9 @@ public class DiagnosisFragment extends BaseFragment {
     }
 
     private void addPrescription(final Prescription prescription) {
+        if (prescriptions == null) {
+            prescriptions = new ArrayList<>();
+        }
         prescriptions.add(prescription);
         final LinearLayout llyRoot = binding.editPrescription.llyRoot;
         final ItemPrescriptionBinding prescriptionBinding = ItemPrescriptionBinding.inflate(LayoutInflater.from(getContext()), llyRoot, false);

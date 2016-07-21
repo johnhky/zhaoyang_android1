@@ -175,6 +175,9 @@ public class IMManager {
     }
 
     public String getMyAccount() {
+        if (account == null) {
+            return "";
+        }
         return account.getVoipAccount();
     }
 

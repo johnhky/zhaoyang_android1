@@ -1,21 +1,21 @@
 package com.doctor.sun.entity;
 
+import android.content.Context;
+import android.content.Intent;
+
+import com.doctor.sun.R;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.ToolModule;
+import com.doctor.sun.ui.activity.WebBrowserActivity;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by rick on 20/7/2016.
  */
 
-public class Banner {
+public class Banner implements LayoutId {
 
     /**
      * id : 12
@@ -26,7 +26,7 @@ public class Banner {
     @JsonProperty("id")
     private String id;
     @JsonProperty("activity_display_type")
-    private String activityDisplayType;
+    private int activityDisplayType;
     @JsonProperty("activity_pic_small")
     private String activityPicSmall;
 
@@ -38,19 +38,30 @@ public class Banner {
         this.id = id;
     }
 
-    public String getActivityDisplayType() {
-        return activityDisplayType;
-    }
-
-    public void setActivityDisplayType(String activityDisplayType) {
-        this.activityDisplayType = activityDisplayType;
-    }
-
     public String getActivityPicSmall() {
         return activityPicSmall;
     }
 
     public void setActivityPicSmall(String activityPicSmall) {
         this.activityPicSmall = activityPicSmall;
+    }
+
+    public void viewDetail(final Context context) {
+        ToolModule api = Api.of(ToolModule.class);
+
+        api.bannerDetail(id).enqueue(new SimpleCallback<BannerDetail>() {
+            @Override
+            protected void handleResponse(BannerDetail response) {
+                if (response != null) {
+                    response.viewDetail(context);
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public int getItemLayoutId() {
+        return R.layout.item_bannner;
     }
 }

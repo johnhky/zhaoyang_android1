@@ -18,8 +18,13 @@ import com.doctor.sun.ui.model.HeaderViewModel;
  */
 public class ImagePreviewActivity extends BaseActivity2 {
     public static Intent makeIntent(Context context, String url) {
+        return makeIntent(context, url, "");
+    }
+
+    public static Intent makeIntent(Context context, String url, String header) {
         Intent intent = new Intent(context, ImagePreviewActivity.class);
         intent.putExtra(Constants.DATA, url);
+        intent.putExtra(Constants.HEADER, header);
         return intent;
     }
 
@@ -36,7 +41,9 @@ public class ImagePreviewActivity extends BaseActivity2 {
 
     private void initView() {
         ActivityImagePreviewBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_image_preview);
-        binding.setHeader(new HeaderViewModel(this));
+        HeaderViewModel header = new HeaderViewModel(this);
+        header.setMidTitle(getStringExtra(Constants.HEADER));
+        binding.setHeader(header);
         binding.setData(getData());
     }
 

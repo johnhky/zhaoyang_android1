@@ -188,7 +188,7 @@ public class RegisterHandler extends BaseHandler {
             url += "?client=doctor";
         }
         Log.e(TAG, "viewRegistrationPolicy: " + url);
-        Intent i = WebBrowserActivity.intentFor(getContext(), url);
+        Intent i = WebBrowserActivity.intentFor(getContext(), url, "注册须知");
         getContext().startActivity(i);
     }
 

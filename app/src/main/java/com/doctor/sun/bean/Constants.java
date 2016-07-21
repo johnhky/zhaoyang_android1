@@ -70,6 +70,7 @@ public class Constants {
     public static final ArrayList<String> refreshMsg = new ArrayList<String>();
     public static final String IS_SHOWCASE = "IS_SHOWCASE";
     public static final String SHOULD_SHOW_ADD_RECORD_DIALOG = "SHOULD_SHOW_ADD_RECORD_DIALOG";
+    public static final String HEADER = "HEADER";
 
     static {
         refreshMsg.add(FINISH_MESSAGE);

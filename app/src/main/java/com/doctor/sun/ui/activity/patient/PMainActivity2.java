@@ -83,12 +83,7 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
                     return;
                 }
                 AutoScrollViewModel autoScrollViewModel = new AutoScrollViewModel();
-                ArrayList<String> result = new ArrayList<String>();
-                for (int i = 0; i < response.size(); i++) {
-                    Banner banner = response.get(i);
-                    result.add(banner.getActivityPicSmall());
-                }
-                autoScrollViewModel.setBannerImages(result);
+                autoScrollViewModel.setBannerImages(response);
                 binding.setBanner(autoScrollViewModel);
             }
         });

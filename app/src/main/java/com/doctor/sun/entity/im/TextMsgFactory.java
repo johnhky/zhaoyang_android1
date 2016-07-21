@@ -16,7 +16,6 @@ import com.netease.nimlib.sdk.msg.attachment.VideoAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.yuntongxun.ecsdk.ECMessage;
 
 import org.json.JSONObject;
 
@@ -53,6 +52,9 @@ public class TextMsgFactory {
         }
         AttachmentData s = parseAttachment(msg);
         if (s != null && s.getType() != -1) {
+            if (s.isShouldSkip()) {
+               return null;
+            }
             result.setBody(s.getBody());
             result.setMessageStatus(s.getData());
             result.setUserData(s.getExtension());
@@ -157,8 +159,12 @@ public class TextMsgFactory {
             case TextMsg.Drug: {
                 JSONObject data = (JSONObject) attachment.getData();
 //                        textAttachment.setData(text);
-                result.setBody(data.toString());
+                String msg1 = data.toString();
+                result.setBody(msg1);
                 result.setType(TextMsg.Drug);
+                if (msg1 == null || msg1.equals("")) {
+                    result.setShouldSkip(true);
+                }
                 return result;
             }
             case TextMsg.EXTEND_TIME: {

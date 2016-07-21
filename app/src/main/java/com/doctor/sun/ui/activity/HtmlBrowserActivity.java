@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -20,7 +21,7 @@ import com.doctor.sun.ui.model.HeaderViewModel;
  * 浏览器
  * <p>
  */
-public class WebBrowserActivity extends BaseFragmentActivity2 {
+public class HtmlBrowserActivity extends BaseFragmentActivity2 {
 
     private ActivityWebBrowserBinding binding;
 
@@ -41,6 +42,7 @@ public class WebBrowserActivity extends BaseFragmentActivity2 {
             // 缩放文字
             settings.setTextZoom(95);
         }
+        binding.wvContent.setWebChromeClient(new WebChromeClient());
         loadUrl(getIntent().getStringExtra(Constants.URI));
     }
 
@@ -69,7 +71,7 @@ public class WebBrowserActivity extends BaseFragmentActivity2 {
         if (url == null || url.isEmpty()) {
             return;
         }
-        binding.wvContent.loadUrl(url);
+        binding.wvContent.loadDataWithBaseURL(null, url, "text/html", "UTF-8", "");
     }
 
     @Override
@@ -84,7 +86,7 @@ public class WebBrowserActivity extends BaseFragmentActivity2 {
     }
 
     public static Intent intentFor(Context context, String url, String header) {
-        Intent intent = new Intent(context, WebBrowserActivity.class);
+        Intent intent = new Intent(context, HtmlBrowserActivity.class);
         intent.putExtra(Constants.URI, url);
         intent.putExtra(Constants.HEADER, header);
         return intent;

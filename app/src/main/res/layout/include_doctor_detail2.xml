@@ -136,7 +136,7 @@
                     android:gravity="center"
                     android:onClick="@{()->data.handler.toggleFav(context,data)}"
                     android:selected="@{data.isFav.equals(&quot;1&quot;)}"
-                    android:text="收藏"
+                    android:text="@{data.isFav.equals(&quot;1&quot;)?&quot;已收藏&quot;:&quot;收藏&quot;}"
                     android:textColor="@color/text_color_blue" />
             </FrameLayout>
 

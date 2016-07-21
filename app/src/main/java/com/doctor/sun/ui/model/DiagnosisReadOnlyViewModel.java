@@ -113,7 +113,9 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         }
         doctor = response.getDoctorInfo();
         furtherConsultation.content = getReturnTypeAndInterval(response);
-        furtherConsultation.time = response.getDate();
+        if (response.getReturnX() == 1) {
+            furtherConsultation.time = response.getDate();
+        }
     }
 
 

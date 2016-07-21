@@ -234,7 +234,7 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
                 call.enqueue(new ApiCallback<List<Answer>>() {
                     @Override
                     protected void handleResponse(List<Answer> response) {
-                        Toast.makeText(getActivity(), "问卷已保存成功，请留意信息提醒及保持电话畅通，医生可能会要求您补充、修改或进行提前就诊。", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "问卷已保存成功，请留意信息提醒及保持电话畅通，医生可能会要求您补充、修改或进行提前就诊。", Toast.LENGTH_LONG).show();
                     }
                 });
             }

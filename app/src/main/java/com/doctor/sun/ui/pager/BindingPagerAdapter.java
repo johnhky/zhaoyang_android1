@@ -1,19 +1,22 @@
 package com.doctor.sun.ui.pager;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.support.v4.view.PagerAdapter;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.doctor.sun.databinding.ItemBannerImageBinding;
+import com.android.databinding.library.baseAdapters.BR;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
 import java.util.List;
 
 
 /**
  */
-public class ImagePagerAdapter<T> extends PagerAdapter {
+public class BindingPagerAdapter<T extends LayoutId> extends PagerAdapter {
     private List<T> items;
     private SparseArray<View> mScrapList = new SparseArray<>();
 
@@ -53,14 +56,15 @@ public class ImagePagerAdapter<T> extends PagerAdapter {
         this.items = items;
     }
 
-
-    protected String getImage(int position) {
-        return items.get(position).toString();
+    protected LayoutId getItem(int position) {
+        return items.get(position);
     }
 
     protected View onCreateView(ViewGroup parent, int position) {
-        ItemBannerImageBinding binding = ItemBannerImageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        binding.setData(getImage(position));
+        LayoutInflater from = LayoutInflater.from(parent.getContext());
+        LayoutId item = getItem(position);
+        ViewDataBinding binding = DataBindingUtil.inflate(from, item.getItemLayoutId(), parent, false);
+        binding.setVariable(BR.data, item);
         return binding.getRoot();
     }
 }

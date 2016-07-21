@@ -6,7 +6,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.doctor.sun.R;
-import com.doctor.sun.ui.pager.ImagePagerAdapter;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.ui.pager.BindingPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,19 +20,19 @@ import io.ganguo.library.ui.widget.AutoScrollViewPager;
  */
 public class AutoScrollViewModel {
 
-    private List<String> bannerImages = new ArrayList<>();
-    private ImagePagerAdapter<String> stringImagePagerAdapter = new ImagePagerAdapter<>();
+    private List<LayoutId> bannerImages = new ArrayList<>();
+    private BindingPagerAdapter<LayoutId> stringImagePagerAdapter = new BindingPagerAdapter<>();
 
-    public List<String> getBannerImages() {
+    public List<LayoutId> getBannerImages() {
         return bannerImages;
     }
 
-    public void setBannerImages(List<String> bannerImages) {
-        this.bannerImages = bannerImages;
+    public void setBannerImages(List<? extends LayoutId> bannerImages) {
+        this.bannerImages.addAll(bannerImages);
     }
 
     public PagerAdapter getPagerAdapter() {
-        ImagePagerAdapter<String> mAdapter = stringImagePagerAdapter;
+        BindingPagerAdapter mAdapter = stringImagePagerAdapter;
         mAdapter.setItems(bannerImages);
         return mAdapter;
     }
