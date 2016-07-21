@@ -2,6 +2,7 @@ package com.doctor.sun.entity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.BaseObservable;
 import android.support.annotation.NonNull;
 
 import com.doctor.sun.AppContext;
@@ -27,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.Event;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.annotations.Ignore;
@@ -35,7 +37,7 @@ import io.realm.annotations.Ignore;
  * Created by lucas on 1/29/16.
  * 系统信息
  */
-public class SystemMsg implements LayoutId, SortedItem, Event {
+public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, Event {
 
 
     /**
@@ -267,5 +269,15 @@ public class SystemMsg implements LayoutId, SortedItem, Event {
     @NonNull
     public static RealmQuery<TextMsg> getAllMsg(Realm realm) {
         return realm.where(TextMsg.class).equalTo("sessionId", getConfigKey());
+    }
+
+
+    public void registerMsgsChangedListener() {
+        getAllMsg(Realm.getDefaultInstance()).findAll().addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
+            @Override
+            public void onChange(RealmResults<TextMsg> element) {
+                notifyChange();
+            }
+        });
     }
 }

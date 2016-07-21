@@ -76,8 +76,8 @@ public class DiagnosisViewModel {
         memory = SymptomFactory.memorySymptom();
         insight = SymptomFactory.insightSymptom();
 
-        description = new ItemTextInput(R.layout.item_description_input, "");
-        diagnosisRecord = new ItemTextInput(R.layout.item_description_input, "");
+        description = new ItemTextInput(R.layout.item_description_input, "病情的简单描述");
+        diagnosisRecord = new ItemTextInput(R.layout.item_description_input, "请按ICD或DSM规范填写");
 
         currentStatus = SymptomFactory.currentStatus();
         recovered = SymptomFactory.recovered();

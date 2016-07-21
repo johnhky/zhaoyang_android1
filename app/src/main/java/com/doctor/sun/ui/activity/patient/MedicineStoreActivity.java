@@ -131,7 +131,9 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     @Override
     protected void onDestroy() {
         keyboardWatcher.destroy();
-        results.removeChangeListeners();
+        if (results != null) {
+            results.removeChangeListeners();
+        }
         super.onDestroy();
     }
 
@@ -153,13 +155,12 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         query = getRealm().where(TextMsg.class)
                 .equalTo("sessionId", sendTo).or().equalTo("sessionId", "admin");
         results = query.findAllSorted("time", Sort.DESCENDING);
-        setReadStatus(results);
         if (results.isEmpty()) {
             pullHistory();
         }
+        mChatAdapter.onFinishLoadMore(true);
         mChatAdapter.add(new Description(R.layout.divider_dp13));
         mChatAdapter.addAll(results);
-        mChatAdapter.onFinishLoadMore(true);
         binding.refreshLayout.setOnRefreshListener(this);
         binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
         listener = new RealmChangeListener<RealmResults<TextMsg>>() {
@@ -174,6 +175,12 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         initCustomAction();
         initSticker();
         initInputLayout();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        setReadStatus();
     }
 
     private void initSticker() {
@@ -197,14 +204,11 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         loadFirstPage();
     }
 
-    private void setReadStatus(RealmResults<TextMsg> results) {
+    private void setReadStatus() {
         getRealm().beginTransaction();
-        if (results == null) {
-            getRealm().commitTransaction();
-            return;
-        }
-        for (int i = 0; i < results.size(); i++) {
-            results.get(i).setHaveRead(true);
+        RealmResults<TextMsg> haveRead = query.equalTo("haveRead", false).findAll();
+        for (TextMsg msg : haveRead) {
+            msg.setHaveRead(true);
         }
         getRealm().commitTransaction();
     }
@@ -246,7 +250,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     protected void onStart() {
         super.onStart();
         if (results != null) {
-            results.addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
+            listener = new RealmChangeListener<RealmResults<TextMsg>>() {
                 @Override
                 public void onChange(RealmResults<TextMsg> element) {
                     if (mChatAdapter != null) {
@@ -257,14 +261,15 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
                         binding.rvChat.scrollToPosition(0);
                     }
                 }
-            });
+            };
+            results.addChangeListener(listener);
         }
     }
 
     @Override
     protected void onStop() {
         if (!getRealm().isClosed()) {
-            setReadStatus(results);
+            setReadStatus();
         }
         super.onStop();
     }
@@ -404,7 +409,9 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
             @Override
             public void onSuccess(List<IMMessage> imMessages) {
-                NIMConnectionState.saveMsgs(imMessages, true);
+                if (!imMessages.isEmpty()) {
+                    NIMConnectionState.saveMsgs(imMessages, true);
+                }
                 binding.refreshLayout.setRefreshing(false);
             }
 
@@ -444,11 +451,6 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 
     @Override
     public void onKeyboardClosed() {
-//        InputLayoutViewModel inputLayout = binding.getInputLayout();
-//        if (inputLayout.getKeyboardType() != 0) {
-//            inputLayout.setKeyboardType(0);
-//            Systems.hideKeyboard(this);
-//        }
     }
 
     @Override

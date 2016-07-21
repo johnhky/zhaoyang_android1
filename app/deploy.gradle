@@ -20,7 +20,7 @@ android {
         minSdkVersion rootProject.ext.min_sdk_version
 //        targetSdkVersion rootProject.ext.target_sdk_version
         versionCode 12
-        versionName "1.2.2"
+        versionName "1.2.3"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -49,11 +49,11 @@ android {
     buildTypes {
         debug {
             // zhaoyang_server
-//            applicationIdSuffix ".dev"
-//            versionNameSuffix "_dev"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "_dev"
             manifestPlaceholders = [appLabel  : "@string/app_name_dev"
                                     , nimKey  : "84bcda3a943a3a781f5e4a8bae628a74"
-                                    , jPushKey: "b421412f29b79d12b1760f2f"]
+                                    , jPushKey: "c29f700e97249bca7e40c395"]
             buildConfigField "boolean", "DEV_MODE", "true"
 //            buildConfigField "String", "BASE_URL", '"http://10.0.0.202/api/"' //host, 必改
             buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/"' //host, 必改
@@ -71,8 +71,8 @@ android {
         }
         // 测试环境 ,zhaoyangyisheng_server
         stage {
-//            applicationIdSuffix ".dev"
-//            versionNameSuffix "_dev"
+            applicationIdSuffix ".dev12"
+            versionNameSuffix "_dev"
             manifestPlaceholders = [appLabel  : "@string/app_name_stage"
                                     , nimKey  : "9439a1f4b31a23c48660c290a69f89e3"
                                     , jPushKey: "b421412f29b79d12b1760f2f"]

@@ -112,13 +112,13 @@ public class EditPrescriptionActivity extends BaseActivity2 {
         binding.morning.etInput.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
 
         binding.afternoon.setTitle("午");
-        binding.afternoon.etInput.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
+        binding.afternoon.etAfternoon.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
 
         binding.evening.setTitle("晚");
-        binding.evening.etInput.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
+        binding.evening.etEvening.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
 
         binding.night.setTitle("睡前");
-        binding.night.etInput.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
+        binding.night.etNight.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
 
 
         initData();
@@ -162,11 +162,11 @@ public class EditPrescriptionActivity extends BaseActivity2 {
         HashMap<String, String> morning = new HashMap<>(1);
         morning.put(MORNING_KEY, getValue(binding.morning.etInput));
         HashMap<String, String> afternoon = new HashMap<>(1);
-        afternoon.put(AFTERNOON_KEY, getValue(binding.afternoon.etInput));
+        afternoon.put(AFTERNOON_KEY, getValue(binding.afternoon.etAfternoon));
         HashMap<String, String> evening = new HashMap<>(1);
-        evening.put(EVENING_KEY, getValue(binding.evening.etInput));
+        evening.put(EVENING_KEY, getValue(binding.evening.etEvening));
         HashMap<String, String> night = new HashMap<>(1);
-        night.put(NIGHT_KEY, getValue(binding.night.etInput));
+        night.put(NIGHT_KEY, getValue(binding.night.etNight));
         numberList.add(morning);
         numberList.add(afternoon);
         numberList.add(evening);
@@ -286,9 +286,9 @@ public class EditPrescriptionActivity extends BaseActivity2 {
         binding.medicineName.etInput.setText(data.getMediaclName());
         binding.goodsName.etInput.setText(data.getProductName());
         binding.morning.etInput.setText(data.getNumbers().get(0).get("早"));
-        binding.afternoon.etInput.setText(data.getNumbers().get(1).get("午"));
-        binding.evening.etInput.setText(data.getNumbers().get(2).get("晚"));
-        binding.night.etInput.setText(data.getNumbers().get(3).get("睡前"));
+        binding.afternoon.etAfternoon.setText(data.getNumbers().get(1).get("午"));
+        binding.evening.etEvening.setText(data.getNumbers().get(2).get("晚"));
+        binding.night.etNight.setText(data.getNumbers().get(3).get("睡前"));
         for (int i = 0; i < units.size(); i++) {
             if (units.get(i).equals(data.getUnit())) {
                 binding.unit.setSelectedItem(i);

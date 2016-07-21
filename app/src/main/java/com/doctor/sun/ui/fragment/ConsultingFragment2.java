@@ -12,7 +12,6 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.MedicineStore;
 import com.doctor.sun.entity.SystemMsg;
-import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
@@ -35,8 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.ganguo.library.util.Tasks;
-import io.realm.RealmChangeListener;
-import io.realm.RealmResults;
 
 /**
  * Created by rick on 12/18/15.
@@ -49,8 +46,8 @@ public class ConsultingFragment2 extends SortedListFragment {
     private ArrayList<String> keys = new ArrayList<>();
     private int page = 1;
     private HashMap<String, RecentContact> tids;
-    private RealmChangeListener<RealmResults<TextMsg>> listener;
-    private RealmResults<TextMsg> systemMsgs;
+    private SystemMsg systemMsg;
+    private MedicineStore medicineStore;
 
     public ConsultingFragment2() {
     }
@@ -59,34 +56,15 @@ public class ConsultingFragment2 extends SortedListFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (systemMsg != null) {
+            systemMsg.notifyChange();
+            systemMsg.registerMsgsChangedListener();
+        }
+        if (medicineStore != null) {
+            medicineStore.notifyChange();
+            medicineStore.registerRealmChanged();
+        }
         registerRecentContactObserver();
-        initSystemMsgListener();
-        if (getAdapter() != null) {
-            getAdapter().update(new SystemMsg());
-        }
-        if (systemMsgs != null) {
-            systemMsgs.addChangeListener(listener);
-        }
-    }
-
-    public void initSystemMsgListener() {
-        if (listener == null)
-            listener = new RealmChangeListener<RealmResults<TextMsg>>() {
-                @Override
-                public void onChange(RealmResults<TextMsg> element) {
-                    if (getAdapter() != null) {
-                        getAdapter().update(new SystemMsg());
-                    }
-                }
-            };
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (systemMsgs != null) {
-            systemMsgs.removeChangeListeners();
-        }
     }
 
     private void registerRecentContactObserver() {
@@ -152,21 +130,16 @@ public class ConsultingFragment2 extends SortedListFragment {
                 onRefresh();
             }
         }, 100);
-        systemMsgs = SystemMsg.getAllMsg(realm).findAll();
     }
 
     public void insertHeader() {
-        getAdapter().insert(new SystemMsg());
+        systemMsg = new SystemMsg();
+        getAdapter().insert(systemMsg);
         if (!AppContext.isDoctor()) {
-            getAdapter().insert(new MedicineStore());
+            medicineStore = new MedicineStore();
+            getAdapter().insert(medicineStore);
         }
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
 
     @SuppressWarnings("unchecked")
     @Override

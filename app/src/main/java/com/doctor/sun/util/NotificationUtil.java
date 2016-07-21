@@ -4,6 +4,8 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
@@ -45,6 +47,10 @@ public class NotificationUtil {
         PendingIntent pendingIntent = PendingIntent.getActivity(AppContext.me(), NEW_MSG, i, 0);
         builder.setContentIntent(pendingIntent);
         builder.setAutoCancel(true);
+        long[] longs = new long[]{0, 300, 150, 300};
+        builder.setVibrate(longs);
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        builder.setSound(uri);
         Notification notification = builder.build();
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(AppContext.me());
         managerCompat.notify(NEW_MSG, notification);

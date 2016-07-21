@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_transparent"
                 android:gravity="start"
-                android:hint="病情的简单描述"
+                android:hint="@{data.title}"
                 android:minHeight="@dimen/dp_118"
                 android:padding="@dimen/dp_13"
                 android:text="@{data.input}"

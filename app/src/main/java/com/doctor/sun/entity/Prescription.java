@@ -241,8 +241,10 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
     @JsonIgnore
     public String getRemarkLabel() {
         StringBuilder builder = new StringBuilder();
-        builder.append("<font color='#898989'>备注:   </font>");
-        builder.append(remark);
+        if (remark!=null && !remark.equals("")) {
+            builder.append("<font color='#898989'>备注:   </font>");
+            builder.append(remark);
+        }
         return builder.toString();
     }
 

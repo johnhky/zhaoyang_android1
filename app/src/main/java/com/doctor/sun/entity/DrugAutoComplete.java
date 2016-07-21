@@ -19,6 +19,10 @@ public class DrugAutoComplete {
 
     @Override
     public String toString() {
-        return drugName + "(" + productName + ")";
+        if (productName!=null && !productName.equals("")) {
+            return drugName + "(" + productName + ")";
+        }else {
+            return drugName;
+        }
     }
 }

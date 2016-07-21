@@ -2,6 +2,7 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Area;
+import com.doctor.sun.entity.Banner;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Hospital;
 import com.doctor.sun.entity.Photo;
@@ -70,5 +71,5 @@ public interface ToolModule {
     Call<ApiDTO<List<Area>>> endemicAreaList();
 
     @GET("tool/homepage-display")
-    Call<ApiDTO<String>> patientBanner();
+    Call<ApiDTO<List<Banner>>> patientBanner();
 }

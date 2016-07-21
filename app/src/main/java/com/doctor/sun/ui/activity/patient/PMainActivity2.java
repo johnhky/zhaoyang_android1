@@ -7,11 +7,14 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMain2Binding;
 import com.doctor.sun.dto.PatientDTO;
+import com.doctor.sun.entity.Banner;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.handler.patient.PMainActivityHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
@@ -21,6 +24,8 @@ import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.UpdateUtil;
+
+import java.util.List;
 
 import io.ganguo.library.Config;
 
@@ -65,6 +70,16 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
             }
         });
     }
+//
+//    private void loadBannerInfo(){
+//        ToolModule api = Api.of(ToolModule.class);
+//        api.patientBanner().enqueue(new SimpleCallback<List<Banner>>() {
+//            @Override
+//            protected void handleResponse(List<Banner> response) {
+//
+//            }
+//        });
+//    }
 
     @Override
     protected void onPostResume() {

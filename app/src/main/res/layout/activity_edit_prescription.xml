@@ -110,7 +110,7 @@
 
                         <include
                             android:id="@+id/afternoon"
-                            layout="@layout/item_number_input" />
+                            layout="@layout/item_number_input2" />
                     </FrameLayout>
 
                 </LinearLayout>
@@ -132,7 +132,7 @@
 
                         <include
                             android:id="@+id/evening"
-                            layout="@layout/item_number_input" />
+                            layout="@layout/item_number_input3" />
                     </FrameLayout>
 
                     <View
@@ -147,7 +147,7 @@
 
                         <include
                             android:id="@+id/night"
-                            layout="@layout/item_number_input" />
+                            layout="@layout/item_number_input4" />
                     </FrameLayout>
 
                 </LinearLayout>

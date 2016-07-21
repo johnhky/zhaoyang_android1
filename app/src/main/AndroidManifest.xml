@@ -131,14 +131,14 @@
         <activity
             android:name=".ui.activity.doctor.PatientDetailActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.doctor.UrgentListActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.doctor.ConsultationListActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name=".ui.activity.doctor.UrgentListActivity"-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:screenOrientation="portrait" />-->
+        <!--<activity-->
+            <!--android:name=".ui.activity.doctor.ConsultationListActivity"-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name=".ui.activity.doctor.AfterServiceActivity"
@@ -380,9 +380,9 @@
             android:name=".ui.activity.patient.UrgentCallActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".ui.activity.patient.DrugActivity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name=".ui.activity.patient.DrugActivity"-->
+            <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name=".ui.activity.patient.ApplyAppointmentActivity"
