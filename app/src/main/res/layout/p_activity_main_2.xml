@@ -22,6 +22,10 @@
         <variable
             name="handler"
             type="com.doctor.sun.ui.handler.patient.PMainActivityHandler" />
+
+        <variable
+            name="banner"
+            type="com.doctor.sun.vo.AutoScrollViewModel" />
     </data>
 
     <com.zhy.android.percent.support.PercentFrameLayout
@@ -70,6 +74,16 @@
             <include
                 layout="@layout/include_header2"
                 bind:header="@{header}" />
+
+            <io.ganguo.library.ui.widget.AutoScrollViewPager
+                android:id="@+id/vp_banner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_60"
+                android:layout_gravity="bottom"
+                android:adapter="@{banner.pagerAdapter}"
+                android:background="@color/gray_eb"
+                android:paddingTop="@dimen/dp_8"
+                android:visibility="@{banner.autoScroll(vpBanner,null,true)}" />
         </FrameLayout>
 
 

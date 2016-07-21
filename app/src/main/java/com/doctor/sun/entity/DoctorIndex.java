@@ -2,15 +2,11 @@ package com.doctor.sun.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.Required;
-
 /**
  * Created by rick on 11/20/15.
  * 医生首页
  */
-public class DoctorIndex  {
+public class DoctorIndex {
 
 
     /**
@@ -23,19 +19,19 @@ public class DoctorIndex  {
      */
 
     @JsonProperty("login_num")
-    private int loginNum;
+    private int loginNum = 0;
     @JsonProperty("last_login")
-    private String lastLogin;
+    private String lastLogin = "";
     @JsonProperty("appointment_num")
-    private int appointmentNum;
+    private int appointmentNum = 0;
     @JsonProperty("consult_num")
-    private int consultNum;
+    private int consultNum = 0;
     @JsonProperty("transfer_num")
-    private int transferNum;
+    private int transferNum = 0;
     @JsonProperty("follow_up_num")
-    private int followUpNum;
+    private int followUpNum = 0;
     @JsonProperty("name")
-    private String name;
+    private String name = "";
 
     public void setLoginNum(int loginNum) {
         this.loginNum = loginNum;

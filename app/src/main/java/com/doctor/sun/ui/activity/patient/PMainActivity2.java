@@ -24,7 +24,9 @@ import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.UpdateUtil;
+import com.doctor.sun.vo.AutoScrollViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.ganguo.library.Config;
@@ -58,6 +60,7 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
             }
         }
         updateProfileInfo();
+        loadBannerInfo();
     }
 
     private void updateProfileInfo() {
@@ -70,16 +73,26 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
             }
         });
     }
-//
-//    private void loadBannerInfo(){
-//        ToolModule api = Api.of(ToolModule.class);
-//        api.patientBanner().enqueue(new SimpleCallback<List<Banner>>() {
-//            @Override
-//            protected void handleResponse(List<Banner> response) {
-//
-//            }
-//        });
-//    }
+
+    private void loadBannerInfo() {
+        ToolModule api = Api.of(ToolModule.class);
+        api.patientBanner().enqueue(new SimpleCallback<List<Banner>>() {
+            @Override
+            protected void handleResponse(List<Banner> response) {
+                if (response == null || response.isEmpty()) {
+                    return;
+                }
+                AutoScrollViewModel autoScrollViewModel = new AutoScrollViewModel();
+                ArrayList<String> result = new ArrayList<String>();
+                for (int i = 0; i < response.size(); i++) {
+                    Banner banner = response.get(i);
+                    result.add(banner.getActivityPicSmall());
+                }
+                autoScrollViewModel.setBannerImages(result);
+                binding.setBanner(autoScrollViewModel);
+            }
+        });
+    }
 
     @Override
     protected void onPostResume() {
