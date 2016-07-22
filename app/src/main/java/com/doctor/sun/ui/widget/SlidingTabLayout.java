@@ -220,9 +220,16 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 try {
                     String[] pageTitle = pagerTitle.split(",");
                     tabTitleView.setText(pageTitle[0]);
-                    tabCountView.setText(pageTitle[1]);
+                    String text = pageTitle[1];
+                    int num = Integer.parseInt(text);
+                    if (num > 0) {
+                        tabCountView.setVisibility(VISIBLE);
+                        tabCountView.setText(text);
+                    } else {
+                        tabCountView.setVisibility(GONE);
+                    }
                 } catch (Exception e) {
-                    tabTitleView.setText(pagerTitle.replaceAll(",",""));
+                    tabTitleView.setText(pagerTitle.replaceAll(",", ""));
                 }
             }
             tabView.setOnClickListener(tabClickListener);
