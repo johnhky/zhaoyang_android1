@@ -1,13 +1,8 @@
 package com.doctor.sun.ui.adapter;
 
 import android.content.Context;
-import android.util.SparseBooleanArray;
-import android.view.View;
 
 import com.doctor.sun.R;
-import com.doctor.sun.databinding.PItemDocumentBinding;
-import com.doctor.sun.ui.activity.patient.DocumentActivity;
-import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 
 /**
  * Created by lucas on 1/7/16.

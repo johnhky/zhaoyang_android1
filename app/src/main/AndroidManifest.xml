@@ -338,7 +338,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.DocumentActivity"
+            android:name=".ui.activity.patient.FavDoctorActivity"
             android:screenOrientation="portrait" />
 
         <activity

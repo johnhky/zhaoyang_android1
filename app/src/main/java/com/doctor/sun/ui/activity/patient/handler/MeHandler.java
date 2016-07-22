@@ -6,7 +6,7 @@ import android.view.View;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
 import com.doctor.sun.ui.activity.patient.CouponTabActivity;
-import com.doctor.sun.ui.activity.patient.DocumentActivity;
+import com.doctor.sun.ui.activity.patient.FavDoctorActivity;
 import com.doctor.sun.ui.activity.patient.EditPatientInfoActivity;
 import com.doctor.sun.ui.activity.patient.HistoryActivity;
 import com.doctor.sun.ui.activity.patient.RechargeActivity;
@@ -38,7 +38,7 @@ public class MeHandler {
     }
 
     public void Document(View view) {
-        Intent intent = DocumentActivity.makeIntent(view.getContext());
+        Intent intent = FavDoctorActivity.makeIntent(view.getContext());
         view.getContext().startActivity(intent);
     }
 

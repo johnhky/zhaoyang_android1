@@ -15,8 +15,10 @@ import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.MultiSelectAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.google.common.collect.Collections2;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 

@@ -29,10 +29,6 @@ public class PAppointmentListFragment extends RefreshListFragment {
     public PAppointmentListFragment() {
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @NonNull
     @Override

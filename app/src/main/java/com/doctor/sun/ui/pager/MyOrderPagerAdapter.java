@@ -4,17 +4,28 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.ui.fragment.PAppointmentListFragment;
 import com.doctor.sun.ui.fragment.RefreshListFragment;
+import com.doctor.sun.util.JacksonUtils;
+
+import io.ganguo.library.Config;
 
 /**
  * Created by rick on 1/3/2016.
  */
 public class MyOrderPagerAdapter extends FragmentStatePagerAdapter {
 
+    private PatientDTO patientDTO;
+
     public MyOrderPagerAdapter(FragmentManager fm) {
         super(fm);
+        String string = Config.getString(Constants.PATIENT_PROFILE);
+        if (string != null && !string.equals("")) {
+            patientDTO = JacksonUtils.fromJson(string, PatientDTO.class);
+        }
     }
 
     @Override
@@ -50,10 +61,10 @@ public class MyOrderPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0: {
-                return "咨询订单";
+                return "咨询订单," + patientDTO.appointmentNum;
             }
             case 1: {
-                return "寄药订单";
+                return "寄药订单," + patientDTO.drugOrderNum;
             }
 //            case 2: {
 //                return "紧急咨询";
@@ -64,5 +75,6 @@ public class MyOrderPagerAdapter extends FragmentStatePagerAdapter {
         }
         return "";
     }
+
 
 }

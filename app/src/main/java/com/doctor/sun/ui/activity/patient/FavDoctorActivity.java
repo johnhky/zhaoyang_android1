@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
-import com.doctor.sun.databinding.PActivityDocumentBinding;
+import com.doctor.sun.databinding.PActivityFavDoctorBinding;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.Api;
@@ -23,16 +23,14 @@ import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.util.ArrayList;
 
-import io.ganguo.library.common.ToastHelper;
-
 /**
  * Created by lucas on 1/4/16.
  * 我收藏的医生
  */
-public class DocumentActivity extends BaseActivity2 implements DocumentAdapter.GetEditMode {
+public class FavDoctorActivity extends BaseActivity2 implements DocumentAdapter.GetEditMode {
     private boolean isEditMode;
     private DocumentAdapter mAdapter;
-    private PActivityDocumentBinding binding;
+    private PActivityFavDoctorBinding binding;
     private HeaderViewModel header = new HeaderViewModel(this);
     private AppointmentModule api = Api.of(AppointmentModule.class);
 
@@ -50,7 +48,7 @@ public class DocumentActivity extends BaseActivity2 implements DocumentAdapter.G
     }
 
     public static Intent makeIntent(Context context) {
-        Intent i = new Intent(context, DocumentActivity.class);
+        Intent i = new Intent(context, FavDoctorActivity.class);
         return i;
     }
 
@@ -62,7 +60,7 @@ public class DocumentActivity extends BaseActivity2 implements DocumentAdapter.G
     }
 
     private void initView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.p_activity_document);
+        binding = DataBindingUtil.setContentView(this, R.layout.p_activity_fav_doctor);
         header.setMidTitle("我的收藏").setRightTitle("编辑");
         binding.setHeader(header);
         mAdapter = new DocumentAdapter(this);
@@ -74,7 +72,7 @@ public class DocumentActivity extends BaseActivity2 implements DocumentAdapter.G
         binding.flDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TwoChoiceDialog.show(DocumentActivity.this, "确定要删除对该医生的收藏？", "取消", "删除", new TwoChoiceDialog.Options() {
+                TwoChoiceDialog.show(FavDoctorActivity.this, "确定要删除对该医生的收藏？", "取消", "删除", new TwoChoiceDialog.Options() {
                     @Override
                     public void onApplyClick(final MaterialDialog dialog) {
                         for (int i = 0; i < getDoctorId().size(); i++) {
@@ -115,7 +113,10 @@ public class DocumentActivity extends BaseActivity2 implements DocumentAdapter.G
                 if (mAdapter.getItemCount() == 0) {
                     header.setRightTitle("");
                     binding.flDelete.setVisibility(View.GONE);
-                    ToastHelper.showMessage(DocumentActivity.this, "当前我的收藏为空");
+                    binding.emptyIndicator.setText("当前我的收藏为空");
+                    binding.emptyIndicator.setVisibility(View.VISIBLE);
+                } else {
+                    binding.emptyIndicator.setVisibility(View.GONE);
                 }
             }
         });

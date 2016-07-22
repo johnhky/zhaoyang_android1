@@ -26,7 +26,6 @@ import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.UpdateUtil;
 import com.doctor.sun.vo.AutoScrollViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.ganguo.library.Config;
@@ -54,9 +53,14 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
         binding.setHandler(handler);
         Patient patientProfile = TokenCallback.getPatientProfile();
         if (patientProfile == null || "".equals(patientProfile.getName())) {
-            if (Config.getBoolean(Constants.SHOULD_SHOW_ADD_RECORD_DIALOG, true)) {
+            if (patientProfile != null) {
+                String phone = patientProfile.getPhone();
+                if (Config.getBoolean(Constants.SHOULD_SHOW_ADD_RECORD_DIALOG + phone, true)) {
+                    new AddMedicalRecordDialog(this, true).show();
+                    Config.putBoolean(Constants.SHOULD_SHOW_ADD_RECORD_DIALOG + phone, false);
+                }
+            }else {
                 new AddMedicalRecordDialog(this, true).show();
-                Config.putBoolean(Constants.SHOULD_SHOW_ADD_RECORD_DIALOG, false);
             }
         }
         updateProfileInfo();

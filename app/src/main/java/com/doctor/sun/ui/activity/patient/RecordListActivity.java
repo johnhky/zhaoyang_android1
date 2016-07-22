@@ -55,7 +55,7 @@ public class RecordListActivity extends BaseActivity2 {
         binding.tvNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddMedicalRecordDialog(RecordListActivity.this,false).show();
+                new AddMedicalRecordDialog(RecordListActivity.this, false).show();
             }
         });
     }
@@ -79,6 +79,12 @@ public class RecordListActivity extends BaseActivity2 {
                 mAdapter.addAll(response);
                 mAdapter.notifyDataSetChanged();
                 mAdapter.onFinishLoadMore(true);
+
+                if (mAdapter.isEmpty()) {
+                    binding.emptyIndicator.setVisibility(View.VISIBLE);
+                } else {
+                    binding.emptyIndicator.setVisibility(View.GONE);
+                }
             }
         });
     }

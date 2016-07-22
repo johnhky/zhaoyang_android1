@@ -11,15 +11,13 @@ import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityTemplateBinding;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.QTemplate;
+import com.doctor.sun.entity.handler.TemplateHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.adapter.TemplateAdapter;
-import com.doctor.sun.entity.handler.TemplateHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
-
-import io.ganguo.library.common.ToastHelper;
 
 /**
  * Created by lucas on 12/3/15.
@@ -61,7 +59,7 @@ public class TemplateActivity extends BaseActivity2 implements TemplateHandler.G
 
     private void initData() {
         mAdapter.clear();
-        mAdapter.mapLayout(R.layout.item_question_template,R.layout.item_template);
+        mAdapter.mapLayout(R.layout.item_question_template, R.layout.item_template);
         api.templates().enqueue(new PageCallback<QTemplate>(mAdapter) {
             @Override
             protected void handleResponse(PageDTO<QTemplate> response) {
@@ -76,9 +74,10 @@ public class TemplateActivity extends BaseActivity2 implements TemplateHandler.G
     public void onMenuClicked() {
         super.onMenuClicked();
         if (mAdapter.getItemCount() == 0) {
-            ToastHelper.showMessage(this, "没有问诊模板");
             header.setRightTitle("编辑");
             binding.llAdd.setVisibility(View.VISIBLE);
+            binding.emptyIndicator.setText("您还没有任何问诊模块");
+            binding.emptyIndicator.setVisibility(View.VISIBLE);
         } else {
             mAdapter.setIsEditMode(!mAdapter.isEditMode());
             if (mAdapter.isEditMode()) {
@@ -88,6 +87,7 @@ public class TemplateActivity extends BaseActivity2 implements TemplateHandler.G
                 header.setRightTitle("编辑");
                 binding.llAdd.setVisibility(View.VISIBLE);
             }
+            binding.emptyIndicator.setVisibility(View.GONE);
         }
         binding.setHeader(header);
         mAdapter.notifyDataSetChanged();

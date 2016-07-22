@@ -173,6 +173,7 @@ public class AutoScrollViewPager extends ViewPager {
      */
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+        startAutoScroll();
         if (stopScrollWhenTouch) {
             if (ev.getAction() == MotionEvent.ACTION_DOWN && isAutoScroll) {
                 isStopByTouch = true;

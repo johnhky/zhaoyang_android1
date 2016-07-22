@@ -73,6 +73,12 @@ public class TimeActivity extends BaseActivity2 implements TimeHandler.GetIsEdit
                 mAdapter.addAll(r);
                 mAdapter.notifyDataSetChanged();
                 mAdapter.onFinishLoadMore(true);
+                if (mAdapter.isEmpty()) {
+                    binding.emptyIndicator.setText("您还没有设置任何出诊时间");
+                    binding.emptyIndicator.setVisibility(View.VISIBLE);
+                } else {
+                    binding.emptyIndicator.setVisibility(View.GONE);
+                }
             }
         });
     }

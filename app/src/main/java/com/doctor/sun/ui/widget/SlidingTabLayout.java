@@ -189,12 +189,14 @@ public class SlidingTabLayout extends HorizontalScrollView {
         for (int i = 0; i < adapter.getCount(); i++) {
             View tabView = null;
             TextView tabTitleView = null;
+            TextView tabCountView = null;
 
             if (mTabViewLayoutId != 0) {
                 // If there is a custom tab view layout id set, try and inflate it
                 tabView = LayoutInflater.from(getContext()).inflate(mTabViewLayoutId, mTabStrip,
                         false);
                 tabTitleView = (TextView) tabView.findViewById(mTabViewTextViewId);
+                tabCountView = (TextView) tabView.findViewById(android.R.id.text2);
             }
 
             if (tabView == null) {
@@ -211,7 +213,18 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 lp.weight = 1;
             }
 
-            tabTitleView.setText(adapter.getPageTitle(i));
+            if (tabCountView == null) {
+                tabTitleView.setText(adapter.getPageTitle(i));
+            } else {
+                String pagerTitle = adapter.getPageTitle(i).toString();
+                try {
+                    String[] pageTitle = pagerTitle.split(",");
+                    tabTitleView.setText(pageTitle[0]);
+                    tabCountView.setText(pageTitle[1]);
+                } catch (Exception e) {
+                    tabTitleView.setText(pagerTitle.replaceAll(",",""));
+                }
+            }
             tabView.setOnClickListener(tabClickListener);
             String desc = mContentDescriptions.get(i, null);
             if (desc != null) {
