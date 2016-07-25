@@ -347,4 +347,9 @@ public class EditForumFragment extends RefreshListFragment {
             }
         }
     }
+
+    @Override
+    public void onRefresh() {
+        binding.swipeRefresh.setRefreshing(false);
+    }
 }

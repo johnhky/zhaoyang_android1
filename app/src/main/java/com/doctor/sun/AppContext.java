@@ -11,6 +11,7 @@ import com.bumptech.glide.MemoryCategory;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.bean.Province;
 import com.doctor.sun.im.AVChatHandler;
+import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.observer.AttachmentProgressObserver;
 import com.doctor.sun.im.observer.MsgStatusObserver;
 import com.doctor.sun.im.observer.ReceiveMsgObserver;
@@ -75,6 +76,7 @@ public class AppContext extends BaseApp {
             AVChatHandler.getInstance().enableAVChat();
 
             JPushInterface.init(this);
+            IMManager.setUpRVoipCallback();
         }
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)

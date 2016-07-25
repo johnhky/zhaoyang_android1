@@ -92,23 +92,6 @@ public class IMManager {
             return;
         }
 
-        Intent intent = new Intent(AppContext.me(), VoIPCallActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(AppContext.me(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        ECDevice.setPendingIntent(pendingIntent);
-
-        ECDevice.setOnDeviceConnectListener(ConnectionState.getInstance());
-        ECDevice.setOnChatReceiveListener(OnMessageReceiveListener.getInstance());
-        ECVoIPSetupManager setupManager = ECDevice.getECVoIPSetupManager();
-        if (setupManager != null) {
-            // 目前支持下面三种路径查找方式
-            // 1、如果是assets目录则设置为前缀[assets://]
-            setupManager.setInComingRingUrl(true, "assets://phonering.mp3");
-            setupManager.setOutGoingRingUrl(true, "assets://phonering.mp3");
-            setupManager.setBusyRingTone(true, "assets://played.mp3");
-            // 2、如果是raw目录则设置为前缀[raw://]
-            // 3、如果是SDCard目录则设置为前缀[file://]
-        }
-
 
         this.account = account;
         if (params == null) {
@@ -149,6 +132,25 @@ public class IMManager {
             if (!isRIMLogin()) {
                 ECDevice.login(params);
             }
+        }
+    }
+
+    public static void setUpRVoipCallback() {
+        Intent intent = new Intent(AppContext.me(), VoIPCallActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(AppContext.me(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        ECDevice.setPendingIntent(pendingIntent);
+
+        ECDevice.setOnDeviceConnectListener(ConnectionState.getInstance());
+        ECDevice.setOnChatReceiveListener(OnMessageReceiveListener.getInstance());
+        ECVoIPSetupManager setupManager = ECDevice.getECVoIPSetupManager();
+        if (setupManager != null) {
+            // 目前支持下面三种路径查找方式
+            // 1、如果是assets目录则设置为前缀[assets://]
+            setupManager.setInComingRingUrl(true, "assets://phonering.mp3");
+            setupManager.setOutGoingRingUrl(true, "assets://phonering.mp3");
+            setupManager.setBusyRingTone(true, "assets://played.mp3");
+            // 2、如果是raw目录则设置为前缀[raw://]
+            // 3、如果是SDCard目录则设置为前缀[file://]
         }
     }
 

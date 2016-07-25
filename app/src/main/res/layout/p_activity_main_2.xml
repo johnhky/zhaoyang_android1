@@ -53,13 +53,18 @@
                 android:background="@drawable/shape_gradient" />
 
 
-            <ImageView
+            <FrameLayout
                 android:id="@+id/image_view"
-                android:layout_width="@dimen/dp_200"
-                android:layout_height="@dimen/dp_200"
                 android:layout_gravity="center"
-                android:onClick="@{()->handler.selectAppointmentType(context)}"
-                app:srcCompat="@drawable/ripple_make_appointment" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_200"
+                    android:layout_height="@dimen/dp_200"
+                    android:onClick="@{()->handler.selectAppointmentType(context)}"
+                    app:srcCompat="@drawable/ripple_make_appointment" />
+            </FrameLayout>
 
             <TextView
                 android:layout_width="@dimen/dp_200"
@@ -101,6 +106,7 @@
                 app:layout_widthPercent="1%" />
 
             <FrameLayout
+                android:id="@+id/fly_orders"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:animateLayoutChanges="true"
@@ -146,6 +152,7 @@
                 app:layout_widthPercent="2%" />
 
             <FrameLayout
+                android:id="@+id/fly_after_service"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:animateLayoutChanges="true"

@@ -60,7 +60,7 @@ public class ItemPickHospital extends BaseItem {
                         lv3Position = i;
                     }
                 }
-
+                notifyChange();
             }
         });
     }
