@@ -23,6 +23,7 @@ import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.PayInterface;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 import io.ganguo.library.common.ToastHelper;
@@ -60,7 +61,7 @@ public class Drug extends BaseObservable implements LayoutId {
     @JsonProperty("money")
     private String money;
     @JsonProperty("need_pay")
-    private int needPay = -1;
+    private double needPay = -1;
     @JsonProperty("has_pay")
     private int hasPay;
     @JsonProperty("status")
@@ -157,11 +158,11 @@ public class Drug extends BaseObservable implements LayoutId {
         notifyPropertyChanged(BR.status);
     }
 
-    public int getNeedPay() {
+    public double getNeedPay() {
         return needPay;
     }
 
-    public void setNeedPay(int needPay) {
+    public void setNeedPay(double needPay) {
         this.needPay = needPay;
     }
 

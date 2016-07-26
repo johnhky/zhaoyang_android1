@@ -32,8 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
-                android:singleLine="true"
-                android:text="初诊诊金 （元/次/15分钟）"
+                android:maxLines="1"
+                android:text="专属咨询诊金 （元/次/15分钟）"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
@@ -51,8 +51,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_17"
-                android:singleLine="true"
-                android:text="复诊诊金 （元/次)"
+                android:maxLines="1"
+                android:text="留言咨询诊金 （元/次)"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_21"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:text="附加诊金 （元/次）"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
@@ -116,7 +116,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:text="确定"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/font_17" />

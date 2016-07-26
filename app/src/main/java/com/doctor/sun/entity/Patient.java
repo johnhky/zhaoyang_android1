@@ -214,6 +214,7 @@ public class Patient implements LayoutId, Parcelable, NameComparator.Name {
                 '}';
     }
 
+    @JsonIgnore
     @Override
     public int getItemLayoutId() {
         return R.layout.item_patient;

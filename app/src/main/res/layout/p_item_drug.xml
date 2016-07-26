@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/dp_15"
                     android:textSize="@dimen/font_13"
-                    app:html="@{data.getStatuses}" />
+                    app:html="@{data.styledStatus}" />
 
             </LinearLayout>
 
@@ -81,7 +81,7 @@
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13"
                     android:visibility="@{data.needPay>0}"
-                    app:html="@{&quot;(此订单已使用优惠券)&quot;}"/>
+                    app:html="@{&quot;(此订单已使用优惠券)&quot;}" />
 
 
             </LinearLayout>
@@ -136,10 +136,10 @@
 
             <LinearLayout
                 android:id="@+id/lly_selector"
-                android:visibility="@{data.hasPay==0}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="@{data.hasPay==0}">
 
                 <View
                     android:layout_width="match_parent"

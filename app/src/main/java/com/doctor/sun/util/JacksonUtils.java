@@ -15,7 +15,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +50,7 @@ public class JacksonUtils {
             return null;
         }
     }
+
     /**
      * json string convert to javaBean
      */
@@ -62,6 +62,7 @@ public class JacksonUtils {
             return null;
         }
     }
+
     /**
      * json string convert to javaBean
      */

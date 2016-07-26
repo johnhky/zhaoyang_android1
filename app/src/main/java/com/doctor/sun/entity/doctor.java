@@ -127,6 +127,10 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
     private String yunxinAccid;
     @JsonProperty("tid")
     private String tid;
+    @JsonProperty("is_recommend")
+    private String isRecommend;
+    @JsonProperty("is_ban")
+    private String isBan;
 
     public int getDoctorId() {
         return doctorId;
@@ -401,6 +405,22 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
 
     public void setFollowUpPermission(int followUpPermission) {
         this.followUpPermission = followUpPermission;
+    }
+
+    public String getIsRecommend() {
+        return isRecommend;
+    }
+
+    public void setIsRecommend(String isRecommend) {
+        this.isRecommend = isRecommend;
+    }
+
+    public String getIsBan() {
+        return isBan;
+    }
+
+    public void setIsBan(String isBan) {
+        this.isBan = isBan;
     }
 
     @Override

@@ -1,7 +1,10 @@
 package com.doctor.sun.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+
+import io.realm.annotations.Ignore;
 
 /**
  * Created by rick on 11/18/15.
@@ -21,6 +24,8 @@ public class ImAccount {
     private String yunxinAccid;
     @JsonProperty("yunxin_token")
     private String yunxinToken;
+    @JsonProperty("phone")
+    private String phone;
 
 
     public void setUserId(long userId) {
@@ -79,6 +84,14 @@ public class ImAccount {
         this.yunxinToken = yunxinToken;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "AccountEntity{" +
@@ -90,6 +103,7 @@ public class ImAccount {
                 '}';
     }
 
+    @JsonIgnore
     public LoginInfo getLoginInfo() {
         return new LoginInfo(getYunxinAccid(), getYunxinToken());
     }
