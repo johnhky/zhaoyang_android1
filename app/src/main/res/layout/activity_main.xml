@@ -302,9 +302,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{@string/unread_message(count)}"
                     android:textColor="#898989"
-                    android:textSize="@dimen/font_13" />
+                    android:textSize="@dimen/font_13"
+                    app:html="@{@string/unread_message(count)}" />
 
                 <View
                     android:layout_width="match_parent"

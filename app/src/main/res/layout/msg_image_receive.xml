@@ -18,10 +18,10 @@
     </data>
 
     <LinearLayout
-        android:orientation="vertical"
-        android:paddingTop="@dimen/dp_15"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp_15">
 
         <include
             layout="@layout/include_msg_time"
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/nim_message_left_white_bg"
-                android:onClick="@{adapter.previewImage(data.messageStatus)}"
+                android:onClick="@{adapter.previewImage(data.attachmentData(&quot;url&quot;))}"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/dp_4"
                 android:paddingEnd="@dimen/dp_4"
@@ -64,10 +64,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="fitCenter"
-                    android:src="@{data.messageStatus}"
-                    bind:height="@{data.imageHeight}"
+                    android:src="@{data.attachmentData(&quot;url&quot;)}"
+                    bind:height="@{Integer.valueOf(data.attachmentData(&quot;height&quot;))}"
                     bind:maskDrawable="@drawable/shape_rect_r12"
-                    bind:width="@{data.imageWidth}" />
+                    bind:width="@{Integer.valueOf(data.attachmentData(&quot;width&quot;))}" />
             </LinearLayout>
 
         </LinearLayout>

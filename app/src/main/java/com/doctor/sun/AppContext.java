@@ -45,7 +45,7 @@ import io.realm.RealmSchema;
  */
 public class AppContext extends BaseApp {
     public static final String TAG = AppContext.class.getSimpleName();
-    public static final int NEW_VERSION = 6;
+    public static final int NEW_VERSION = 7;
     private static int userType = -1;
     private static boolean isInitialized;
 
@@ -229,6 +229,14 @@ public class AppContext extends BaseApp {
             }
             if (oldVersion < 5) {
                 schema.remove("DoctorIndex");
+                oldVersion++;
+            }
+            if (oldVersion <= 6) {
+                RealmObjectSchema pair = schema.create("AttachmentPair");
+                pair.addField("key", String.class);
+                pair.addField("value", String.class);
+                textMsg.addRealmListField("attachment", pair);
+                realm.where("TextMsg").findAll().deleteAllFromRealm();
                 oldVersion++;
             }
         }

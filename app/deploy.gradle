@@ -71,8 +71,8 @@ android {
         }
         // 测试环境 ,zhaoyangyisheng_server
         stage {
-            applicationIdSuffix ".dev12"
-            versionNameSuffix "_dev"
+//            applicationIdSuffix ".dev12"
+//            versionNameSuffix "_dev"
             manifestPlaceholders = [appLabel  : "@string/app_name_stage"
                                     , nimKey  : "9439a1f4b31a23c48660c290a69f89e3"
                                     , jPushKey: "b421412f29b79d12b1760f2f"]

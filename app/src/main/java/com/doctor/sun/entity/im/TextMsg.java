@@ -4,12 +4,14 @@ package com.doctor.sun.entity.im;
 import android.support.annotation.IntDef;
 
 import com.doctor.sun.R;
+import com.doctor.sun.im.AttachmentPair;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
@@ -35,17 +37,19 @@ public class TextMsg extends RealmObject implements LayoutId {
     public static final String TAG = TextMsg.class.getSimpleName();
     public static final MsgHandler handler = new MsgHandler();
 
-
+    //uuid
+    @Required
+    @PrimaryKey
+    private String msgId;
     private long id;
     private String sessionId;
     private String type;
     private String direction;
+    //content
     private String body;
-    @Required
-    @PrimaryKey
-    private String msgId;
     private long time;
     private String nickName;
+    //fromAccount
     private String from;
     private String to;
     private String userData;
@@ -55,6 +59,7 @@ public class TextMsg extends RealmObject implements LayoutId {
     private boolean isAnonymity;
     private boolean haveRead;
     private boolean haveListen;
+
     private int imageWidth;
     private int imageHeight;
     private long duration;
@@ -62,7 +67,33 @@ public class TextMsg extends RealmObject implements LayoutId {
     private int itemLayoutId = -1;
     @Ignore
     private String avatar;
+    private RealmList<AttachmentPair> attachment;
 
+    public RealmList<AttachmentPair> getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(RealmList<AttachmentPair> attachment) {
+        this.attachment = attachment;
+    }
+
+    public String attachmentData(String fieldKey) {
+        if (attachment == null) {
+            return "";
+        }
+        AttachmentPair key = attachment.where().equalTo("key", msgId + fieldKey).findFirst();
+        if (key == null) return "";
+
+        return key.getValue();
+    }
+
+    public int attachmentInt(String fieldKey) {
+        return Integer.parseInt(attachmentData(fieldKey));
+    }
+
+    public long attachmentLong(String fieldKey) {
+        return Long.parseLong(attachmentData(fieldKey));
+    }
 
     public long getId() {
         return id;

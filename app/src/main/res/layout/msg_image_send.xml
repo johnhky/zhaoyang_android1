@@ -49,7 +49,7 @@
                     android:layout_marginRight="@dimen/dp_4"
                     android:background="@drawable/nim_ic_failed"
                     android:textSize="@dimen/font_13"
-                    android:visibility="@{adapter.isFinished(data.time)}"/>
+                    android:visibility="@{adapter.isFinished(data.time)}" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
                     android:layout_gravity="center"
                     android:layout_toLeftOf="@+id/avatar"
                     android:background="@drawable/nim_message_right_blue_bg"
-                    android:onClick="@{adapter.previewImage(data.messageStatus)}"
+                    android:onClick="@{adapter.previewImage(data.attachmentData(&quot;url&quot;))}"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/dp_4"
                     android:paddingEnd="@dimen/dp_8"
@@ -70,10 +70,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="centerCrop"
-                        android:src="@{data.messageStatus}"
-                        bind:height="@{data.imageHeight}"
+                        android:src="@{data.attachmentData(&quot;url&quot;)}"
+                        bind:height="@{Integer.valueOf(data.attachmentData(&quot;height&quot;))}"
                         bind:maskDrawable="@drawable/shape_rect_r12"
-                        bind:width="@{data.imageWidth}" />
+                        bind:width="@{Integer.valueOf(data.attachmentData(&quot;width&quot;))}" />
                 </LinearLayout>
             </LinearLayout>
 

@@ -19,6 +19,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -76,4 +77,8 @@ public interface ToolModule {
 
     @GET("tool/activity-detail")
     Call<ApiDTO<BannerDetail>> bannerDetail(@Query("activityId") String activityId);
+
+    @FormUrlEncoded
+    @PUT("http://10.0.0.62:8080/index.php/api/013/tags/1468985882GSoYswBcFY")
+    Call<ApiDTO<String>> test(@Field("key") String key);
 }

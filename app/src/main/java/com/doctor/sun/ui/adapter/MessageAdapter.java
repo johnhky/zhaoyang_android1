@@ -132,18 +132,19 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
                 MsgPrescriptionListBinding binding = (MsgPrescriptionListBinding) vh.getBinding();
                 binding.prescription.removeAllViews();
                 TextMsg textMsg = (TextMsg) get(position);
-                if (textMsg.getBody() == null) {
+                String body = textMsg.attachmentData("body");
+                if (body == null || body.equals("")) {
                     return;
                 }
-                PrescriptionDTO prescriptionDTO = JacksonUtils.fromJson(textMsg.getBody(), PrescriptionDTO.class);
-                if (prescriptionDTO == null || prescriptionDTO.getDrug() == null) return;
+                PrescriptionDTO prescriptionDTO = JacksonUtils.fromJson(body, PrescriptionDTO.class);
+                if (prescriptionDTO == null) return;
                 Appointment appointment = prescriptionDTO.getAppointmentInfo();
-                if (appointment == null) {
-                    return;
+                if (appointment != null) {
+                    binding.name.setText(String.format("%s  %s", appointment.getRecordName(), appointment.getRelation()));
+                    binding.time.setText(String.format("%s  %s", appointment.getBookTime(), appointment.getDisplayType()));
                 }
-                binding.name.setText(String.format("%s  %s", appointment.getRecordName(), appointment.getRelation()));
-                binding.time.setText(String.format("%s  %s", appointment.getBookTime(), appointment.getDisplayType()));
 
+                if (prescriptionDTO.getDrug() == null) return;
                 for (Prescription prescription : prescriptionDTO.getDrug()) {
                     ItemPrescription2Binding item = ItemPrescription2Binding.inflate(getInflater(), binding.prescription, true);
                     item.setData(prescription);

@@ -72,7 +72,7 @@ public class CountDownTextView extends TextView {
         long second = (timeMillis / 1000) % 60;
         long minute = timeMillis / 60000 % 60;
         long hour = timeMillis / 3600000;
-        if (hour > 1) {
+        if (hour >= 1) {
             result += String.format(Locale.CHINA, "%02d小时", hour);
         }
         result += String.format(Locale.CHINA, "%02d分", minute);

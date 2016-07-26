@@ -3,10 +3,9 @@ package com.doctor.sun.entity.im;
 import android.support.annotation.NonNull;
 
 import com.doctor.sun.emoji.StickerManager;
+import com.doctor.sun.im.AttachmentPair;
 import com.doctor.sun.im.TeamNotificationHelper;
-import com.doctor.sun.im.custom.AttachmentData;
 import com.doctor.sun.im.custom.CustomAttachment;
-import com.doctor.sun.im.custom.ExtendTimeAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
 import com.netease.nimlib.sdk.msg.attachment.AudioAttachment;
 import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
@@ -19,6 +18,8 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import org.json.JSONObject;
 
+import io.realm.RealmList;
+
 /**
  * Created by rick on 13/4/2016.
  */
@@ -27,6 +28,16 @@ public class TextMsgFactory {
     public static final String DIRECTION_RECEIVE = "RECEIVE";
     public static final String ADMIN_DRUG = "[\"admin\",\"drug\"]";
     public static final int ONE_SECOND = 1000;
+
+    public static final String ATTACHMENT_TYPE = "type";
+    public static final String ATTACHMENT_URL = "url";
+    public static final String DURATION = "duration";
+    public static final String BODY = "body";
+    public static final String DATA = "data";
+    public static final String EXTENSION = "extension";
+    public static final String FILE_SIZE = "fileSize";
+    public static final String WIDTH = "width";
+    public static final String HEIGHT = "height";
 
 
     public static TextMsg fromYXMessage(IMMessage msg) {
@@ -50,19 +61,12 @@ public class TextMsgFactory {
         if (pushContent != null && pushContent.equals("用药信息提醒")) {
             result.setUserData(ADMIN_DRUG);
         }
-        AttachmentData s = parseAttachment(msg);
-        if (s != null && s.getType() != -1) {
-            if (s.isShouldSkip()) {
-               return null;
-            }
-            result.setBody(s.getBody());
-            result.setMessageStatus(s.getData());
-            result.setUserData(s.getExtension());
-            result.setType(String.valueOf(s.getType()));
-            result.setImageHeight(s.getImageHeight());
-            result.setImageWidth(s.getImageWidth());
-            result.setDuration(s.getDuration());
+        RealmList<AttachmentPair> attachment = parseAttachment2(msg);
+        if (attachment != null) {
+            result.setAttachment(attachment);
+            result.setType(attachment.get(0).getValue());
         }
+
         if (msg.getMsgType().equals(MsgTypeEnum.notification)) {
             String msgShowText = TeamNotificationHelper.getTeamNotificationText(msg, "");
             result.setBody(msgShowText);
@@ -70,60 +74,73 @@ public class TextMsgFactory {
         return result;
     }
 
-    public static AttachmentData parseAttachment(IMMessage msg) {
+    private static RealmList<AttachmentPair> parseAttachment2(IMMessage msg) {
         MsgAttachment attachment = msg.getAttachment();
-        AttachmentData result = new AttachmentData();
         if (attachment instanceof ImageAttachment) {
-            return parseImageData((ImageAttachment) attachment, result);
+            return parseImageAttachment(msg, (ImageAttachment) attachment);
         } else if (attachment instanceof CustomAttachment) {
-            result = parseCustom(msg);
+            return parseCustomAttachment(msg);
         } else if (attachment instanceof AudioAttachment) {
-            result = parseAudio((AudioAttachment) attachment);
+            return parseAudio2(msg, (AudioAttachment) attachment);
         } else if (attachment instanceof VideoAttachment) {
-            return parseVideoData((VideoAttachment) attachment);
+            return parseVideoAttachment(msg, (VideoAttachment) attachment);
         } else if (attachment instanceof FileAttachment) {
-            result = parseFile((FileAttachment) attachment);
+            return parseFileAttachment(msg, (FileAttachment) attachment);
+        } else {
+            return null;
         }
-
-        return result;
     }
 
-    private static AttachmentData parseFile(FileAttachment attachment) {
-        AttachmentData result = new AttachmentData();
-        result.setBody(attachment.getDisplayName());
-        result.setExtension(attachment.getExtension());
-        result.setType(TextMsg.FILE);
-        result.setData(attachment.getUrl());
-        result.setDuration(attachment.getSize());
-        return result;
-    }
+    private static RealmList<AttachmentPair> parseAudio2(IMMessage msg, AudioAttachment attachment) {
+        RealmList<AttachmentPair> result = new RealmList<>();
 
-    private static AttachmentData parseAudio(AudioAttachment attachment) {
-        AttachmentData result = new AttachmentData();
         long duration = attachment.getDuration() / ONE_SECOND;
-        result.setBody(String.valueOf(duration) + "\"");
-        result.setType(TextMsg.AUDIO);
-        result.setData(attachment.getUrl());
-        result.setDuration(duration);
+        result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.AUDIO)));
+        result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_URL, attachment.getUrl()));
+        result.add(createAttachmentPair(msg.getUuid() + DURATION, String.valueOf(duration)));
+
         return result;
     }
 
-    @NonNull
-    private static AttachmentData parseVideoData(VideoAttachment attachment) {
-        AttachmentData result = new AttachmentData();
-        result.setBody("视频");
-        result.setExtension(attachment.getExtension());
-        result.setType(TextMsg.FILE);
-        result.setData(attachment.getUrl());
-        result.setDuration(attachment.getSize());
-        return result;
+    private static RealmList<AttachmentPair> parseCustomAttachment(IMMessage msg) {
+        CustomAttachment attachment = (CustomAttachment) msg.getAttachment();
+        RealmList<AttachmentPair> result = new RealmList<>();
+
+        int type = attachment.getType();
+//                JSONObject data = object.getJSONObject(KEY_DATA);
+        switch (type) {
+            case TextMsg.Sticker: {
+                result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.Sticker)));
+                result.add(createAttachmentPair(msg.getUuid() + BODY, "照片"));
+                StickerAttachment sticker = (StickerAttachment) attachment.getData();
+                String text = (StickerManager.FILE_ANDROID_ASSET_STICKER + sticker.getCatalog() + "/" + sticker.getChartlet() + ".png");
+                result.add(createAttachmentPair(msg.getUuid() + DATA, text));
+
+                return result;
+            }
+            case TextMsg.Drug: {
+                JSONObject data = (JSONObject) attachment.getData();
+                String msg1 = data.toString();
+                result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.Drug)));
+                result.add(createAttachmentPair(msg.getUuid() + BODY, msg1));
+                return result;
+            }
+            case TextMsg.EXTEND_TIME: {
+//                ExtendTimeAttachment data = (ExtendTimeAttachment) attachment.getData();
+//                result.setBody(data.getContent());
+//                result.setType(TextMsg.EXTEND_TIME);
+                return null;
+            }
+        }
+        return null;
     }
 
-    @NonNull
-    private static AttachmentData parseImageData(ImageAttachment attachment, AttachmentData result) {
-        result.setType(TextMsg.IMAGE);
-        result.setData(attachment.getUrl());
-        result.setBody("照片");
+    private static RealmList<AttachmentPair> parseImageAttachment(IMMessage msg, ImageAttachment attachment) {
+        RealmList<AttachmentPair> result = new RealmList<>();
+
+        result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.IMAGE)));
+        result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_URL, attachment.getUrl()));
+        result.add(createAttachmentPair(msg.getUuid() + BODY, "照片"));
         int imageWidth = attachment.getWidth();
         int imageHeight = attachment.getHeight();
         while (imageWidth > 300 || imageHeight > 800) {
@@ -134,47 +151,38 @@ public class TextMsgFactory {
             imageWidth *= 2;
             imageHeight *= 2;
         }
-        result.setImageWidth(imageWidth);
-        result.setImageHeight(imageHeight);
+        result.add(createAttachmentPair(msg.getUuid() + WIDTH, String.valueOf(imageWidth)));
+        result.add(createAttachmentPair(msg.getUuid() + HEIGHT, String.valueOf(imageHeight)));
         return result;
     }
 
-    private static AttachmentData parseCustom(IMMessage msg) {
-        CustomAttachment attachment = (CustomAttachment) msg.getAttachment();
-        AttachmentData result = new AttachmentData();
+    private static RealmList<AttachmentPair> parseFileAttachment(IMMessage msg, FileAttachment attachment) {
+        RealmList<AttachmentPair> result = new RealmList<>();
 
-        int type = attachment.getType();
-//                JSONObject data = object.getJSONObject(KEY_DATA);
-        switch (type) {
-            case TextMsg.Sticker: {
-                result.setBody("贴图");
+        result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.FILE)));
+        result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_URL, attachment.getUrl()));
+        result.add(createAttachmentPair(msg.getUuid() + BODY, attachment.getDisplayName()));
+        result.add(createAttachmentPair(msg.getUuid() + EXTENSION, attachment.getExtension()));
+        result.add(createAttachmentPair(msg.getUuid() + FILE_SIZE, String.valueOf(attachment.getSize())));
+        return result;
+    }
 
-                StickerAttachment sticker = (StickerAttachment) attachment.getData();
-                String text = (StickerManager.FILE_ANDROID_ASSET_STICKER + sticker.getCatalog() + "/" + sticker.getChartlet() + ".png");
-//                        textAttachment.setData(text);
-                result.setData(text);
-                result.setType(TextMsg.Sticker);
-                return result;
-            }
-            case TextMsg.Drug: {
-                JSONObject data = (JSONObject) attachment.getData();
-//                        textAttachment.setData(text);
-                String msg1 = data.toString();
-                result.setBody(msg1);
-                result.setType(TextMsg.Drug);
-                if (msg1 == null || msg1.equals("")) {
-                    result.setShouldSkip(true);
-                }
-                return result;
-            }
-            case TextMsg.EXTEND_TIME: {
-                ExtendTimeAttachment data = (ExtendTimeAttachment) attachment.getData();
-//                        textAttachment.setData(text);
-                result.setBody(data.getContent());
-                result.setType(TextMsg.EXTEND_TIME);
-                return result;
-            }
-        }
-        return null;
+    private static RealmList<AttachmentPair> parseVideoAttachment(IMMessage msg, VideoAttachment attachment) {
+        RealmList<AttachmentPair> result = new RealmList<>();
+
+        result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.VIDEO)));
+        result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_URL, attachment.getUrl()));
+        result.add(createAttachmentPair(msg.getUuid() + BODY, "视频"));
+        result.add(createAttachmentPair(msg.getUuid() + EXTENSION, attachment.getExtension()));
+        result.add(createAttachmentPair(msg.getUuid() + FILE_SIZE, String.valueOf(attachment.getSize())));
+        return result;
+    }
+
+    @NonNull
+    private static AttachmentPair createAttachmentPair(String key, String value) {
+        AttachmentPair object = new AttachmentPair();
+        object.setKey(key);
+        object.setValue(value);
+        return object;
     }
 }

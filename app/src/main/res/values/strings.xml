@@ -26,7 +26,7 @@
     <string name="string_of_two">%1$s / %2$s</string>
     <string name="string_of_three">%1$s / %2$s / %3$s</string>
     <string name="record">病历:%s</string>
-    <string name="unread_message">有%d条未查看消息</string>
+    <string name="unread_message"><![CDATA[有<font color=\'#339de1\'>%d</font>条未查看消息]]></string>
     <string name="num">数量</string>
     <string name="comment">留言</string>
     <string name="ps">备注消息</string>

@@ -3,10 +3,7 @@ package com.doctor.sun.entity.im;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.PowerManager;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -55,7 +52,8 @@ public class MsgHandler {
                 Tasks.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        AudioController.getInstance().play(data.getMessageStatus(), new MediaPlayer.OnCompletionListener() {
+                        String url = data.attachmentData("url");
+                        AudioController.getInstance().play(url, new MediaPlayer.OnCompletionListener() {
                             @Override
                             public void onCompletion(MediaPlayer mp) {
                                 stop(imageView);
@@ -120,12 +118,13 @@ public class MsgHandler {
     }
 
     public View.OnClickListener fileDetail(final TextMsg msg) {
-        final String extension = msg.getUserData();
-        final String url = msg.getMessageStatus();
+        final String extension = msg.attachmentData("extension");
+        final String url = msg.attachmentData("url");
+        final long fileSize = Long.parseLong(msg.attachmentData("fileSize"));
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = FileDetailActivity.makeIntent(v.getContext(), extension, url, msg.getDuration());
+                Intent i = FileDetailActivity.makeIntent(v.getContext(), extension, url, fileSize);
                 v.getContext().startActivity(i);
             }
         };

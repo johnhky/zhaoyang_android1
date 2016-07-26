@@ -159,4 +159,20 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
             ShowCaseUtil.showCase(view4, "您可以在这里与医生通过文字信息或者电话进行沟通", TAG, 4, 3, false);
         }
     }
+//
+//    public void testIng(){
+//        ToolModule api = Api.of(ToolModule.class);
+//        api.test("[{\n" +
+//                "drug_name:'药名',\n" +
+//                "drug_scientific:'学名',\n" +
+//                "drug_unit:'单位',\n" +
+//                "frequency:'频率',\n" +
+//                "morning:'早',\n" +
+//                "noon:'午',\n" +
+//                "night:'晚',\n" +
+//                "before_sleep:'睡前',\n" +
+//                "remark:'备注'\n" +
+//                "}]");
+//
+//    }
 }

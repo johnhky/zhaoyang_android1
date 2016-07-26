@@ -161,7 +161,7 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
                         id = newData.getId();
                     }
                     new com.afollestad.materialdialogs.MaterialDialog.Builder(AddTemplateActivity.this)
-                            .content("确定删除该免模板?")
+                            .content("确定删除该模板?")
                             .positiveText("删除")
                             .negativeText("取消")
                             .onPositive(new com.afollestad.materialdialogs.MaterialDialog.SingleButtonCallback() {

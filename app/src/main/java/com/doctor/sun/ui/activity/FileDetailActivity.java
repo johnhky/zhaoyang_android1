@@ -37,7 +37,7 @@ import io.ganguo.library.Config;
 public class FileDetailActivity extends BaseActivity2 {
 
     public static final String EXTENSION = "EXTENSION";
-    public static final String URL = "URL";
+    public static final String URL = "ATTACHMENT_URL";
     public static final String DURATION = "DURATION";
     public static final String[] STORAGE_PERMISSIONS = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private ActivityFileDetailBinding binding;
