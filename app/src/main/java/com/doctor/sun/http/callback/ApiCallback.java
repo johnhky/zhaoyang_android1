@@ -80,6 +80,8 @@ public abstract class ApiCallback<T> implements Callback<ApiDTO<T>> {
             if (retryTime == 0) {
                 retryTime += 1;
                 call.clone().enqueue(this);
+            } else {
+                Toast.makeText(AppContext.me(), "无法连接服务器,请检查您的网络连接", Toast.LENGTH_SHORT).show();
             }
         }
     }
