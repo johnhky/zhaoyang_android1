@@ -18,7 +18,7 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.avchat.activity.AVChatActivity;
-import com.doctor.sun.entity.constans.ComunicationType;
+import com.doctor.sun.entity.constans.CommunicationType;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -127,7 +127,7 @@ public class CustomActionViewModel {
         NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
         if (nimTeamId.shouldAskServer()) {
             AppointmentModule api = Api.of(AppointmentModule.class);
-            api.canUse(ComunicationType.VIDEO_CALL, nimTeamId.appointmentId()).enqueue(new SimpleCallback<String>() {
+            api.canUse(CommunicationType.VIDEO_CALL, nimTeamId.appointmentId()).enqueue(new SimpleCallback<String>() {
                 @Override
                 protected void handleResponse(String response) {
                     if ("1".equals(response)) {

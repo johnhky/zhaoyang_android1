@@ -1,6 +1,6 @@
 package com.doctor.sun.event;
 
-import com.doctor.sun.entity.constans.ComunicationType;
+import com.doctor.sun.entity.constans.CommunicationType;
 
 import io.ganguo.library.core.event.Event;
 
@@ -16,7 +16,7 @@ public class RejectInComingCallEvent implements Event {
         this.type = type;
     }
 
-    @ComunicationType
+    @CommunicationType
     public int getType() {
         return type;
     }

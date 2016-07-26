@@ -10,8 +10,8 @@ import java.lang.annotation.RetentionPolicy;
  */
 
 @Retention(RetentionPolicy.SOURCE)
-@IntDef({ComunicationType.PHONE_CALL, ComunicationType.VIDEO_CALL})
-public @interface ComunicationType {
+@IntDef({CommunicationType.PHONE_CALL, CommunicationType.VIDEO_CALL})
+public @interface CommunicationType {
     int PHONE_CALL = 1;
     int VIDEO_CALL = 2;
 }

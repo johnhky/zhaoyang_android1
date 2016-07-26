@@ -775,7 +775,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
 //    private void showNotAvailableDialog(final View view) {
 //        if (shouldAskServer()) {
-//            api.canUse(ComunicationType.PHONE_CALL, appointmentId()).enqueue(new SimpleCallback<String>() {
+//            api.canUse(CommunicationType.PHONE_CALL, appointmentId()).enqueue(new SimpleCallback<String>() {
 //                @Override
 //                protected void handleResponse(String response) {
 //                    if ("1".equals(response)) {

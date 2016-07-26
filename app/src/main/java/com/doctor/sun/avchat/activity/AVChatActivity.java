@@ -18,8 +18,7 @@ import com.doctor.sun.avchat.AVChatProfile;
 import com.doctor.sun.avchat.AVChatUI;
 import com.doctor.sun.avchat.SoundPlayer;
 import com.doctor.sun.avchat.constant.CallStateEnum;
-import com.doctor.sun.entity.constans.ComunicationType;
-import com.doctor.sun.event.BidirectionalEvent;
+import com.doctor.sun.entity.constans.CommunicationType;
 import com.doctor.sun.event.RejectInComingCallEvent;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.util.PermissionUtil;
@@ -254,9 +253,9 @@ public class AVChatActivity extends BaseActivity2 implements AVChatUI.AVChatList
                 avChatUI.closeSessions(AVChatExitCode.PEER_BUSY);
             } else if (ackInfo.getEvent() == AVChatEventType.CALLEE_ACK_REJECT) {
                 if (state == AVChatType.VIDEO.getValue()) {
-                    EventHub.post(new RejectInComingCallEvent("", ComunicationType.VIDEO_CALL));
+                    EventHub.post(new RejectInComingCallEvent("", CommunicationType.VIDEO_CALL));
                 } else if (state == AVChatType.AUDIO.getValue()) {
-                    EventHub.post(new RejectInComingCallEvent("", ComunicationType.PHONE_CALL));
+                    EventHub.post(new RejectInComingCallEvent("", CommunicationType.PHONE_CALL));
                 }
                 avChatUI.closeSessions(AVChatExitCode.REJECT);
             } else if (ackInfo.getEvent() == AVChatEventType.CALLEE_ACK_AGREE) {

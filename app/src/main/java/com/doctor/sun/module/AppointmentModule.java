@@ -7,7 +7,7 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.entity.constans.AppointmentType;
-import com.doctor.sun.entity.constans.ComunicationType;
+import com.doctor.sun.entity.constans.CommunicationType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -237,7 +237,7 @@ public interface AppointmentModule {
      * @return
      */
     @GET("appointment/communicate-avaliable")
-    Call<ApiDTO<String>> canUse(@ComunicationType @Query("type") long type
+    Call<ApiDTO<String>> canUse(@CommunicationType @Query("type") long type
             , @Query("appointmentId") int appointmentId);
 
     /**
@@ -247,7 +247,7 @@ public interface AppointmentModule {
      */
     @FormUrlEncoded
     @POST("appointment/communicate-unable")
-    Call<ApiDTO<String>> rejectCommunication(@ComunicationType @Field("type") int type
+    Call<ApiDTO<String>> rejectCommunication(@CommunicationType @Field("type") int type
             , @Field("appointmentId") int appointmentId);
 
 }

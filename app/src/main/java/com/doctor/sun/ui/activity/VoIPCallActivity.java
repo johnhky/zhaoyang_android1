@@ -12,7 +12,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityVoipCallBinding;
 import com.doctor.sun.entity.Avatar;
-import com.doctor.sun.entity.constans.ComunicationType;
+import com.doctor.sun.entity.constans.CommunicationType;
 import com.doctor.sun.event.CallAlertEvent;
 import com.doctor.sun.event.CallAnsweredEvent;
 import com.doctor.sun.event.CallFailedEvent;
@@ -161,7 +161,7 @@ public class VoIPCallActivity extends BaseActivity2 {
         updateVoipCall(event.getVoIPCall());
         ECDevice.getECVoIPCallManager()
                 .releaseCall(mCallId);
-        EventHub.post(new RejectInComingCallEvent(mCallId, ComunicationType.PHONE_CALL));
+        EventHub.post(new RejectInComingCallEvent(mCallId, CommunicationType.PHONE_CALL));
         if (counter != null) {
             counter.stop();
         } else {
