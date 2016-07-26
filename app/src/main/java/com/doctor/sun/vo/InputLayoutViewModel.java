@@ -87,12 +87,12 @@ public class InputLayoutViewModel extends BaseObservable {
 
                 @Override
                 public void onFailed(int i) {
-                    Toast.makeText(context, "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "服务器繁忙,请稍后重新发送", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onException(Throwable throwable) {
-                    Toast.makeText(context, "正在连接IM服务器,聊天功能关闭", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "服务器繁忙,请稍后重新发送", Toast.LENGTH_SHORT).show();
                 }
             });
             IMManager.getInstance().login();

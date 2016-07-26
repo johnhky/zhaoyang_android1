@@ -3,6 +3,7 @@ package com.doctor.sun.im;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
@@ -198,7 +199,7 @@ public class IMManager {
                 type, // 聊天类型，单聊或群组
                 text// 文本内容
         );
-        sendMsg(message, enablePush);
+        sendMsgImpl(message, enablePush);
     }
 
     public void sentSticker(String to, SessionTypeEnum type, Emoticon emoticon, boolean enablePush) {
@@ -233,7 +234,31 @@ public class IMManager {
         sendMsg(message, enablePush);
     }
 
-    public void sendMsg(IMMessage message, boolean enablePush) {
+    public void sendMsg(final IMMessage message, final boolean enablePush) {
+        if (NIMConnectionState.getInstance().isLogin()) {
+            sendMsgImpl(message, enablePush);
+        } else {
+            NIMConnectionState.getInstance().setCallback(new RequestCallback() {
+                @Override
+                public void onSuccess(Object o) {
+                    sendMsgImpl(message, enablePush);
+                }
+
+                @Override
+                public void onFailed(int i) {
+                    Toast.makeText(AppContext.me(), "服务器繁忙,请稍后重新发送", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onException(Throwable throwable) {
+                    Toast.makeText(AppContext.me(), "服务器繁忙,请稍后重新发送", Toast.LENGTH_SHORT).show();
+                }
+            });
+            IMManager.getInstance().login();
+        }
+    }
+
+    public void sendMsgImpl(IMMessage message, boolean enablePush) {
         CustomMessageConfig config = new CustomMessageConfig();
         config.enableUnreadCount = true; // 该消息不计入未读数
         config.enableHistory = true;
@@ -252,12 +277,12 @@ public class IMManager {
 
             @Override
             public void onFailed(int i) {
-
+                Toast.makeText(AppContext.me(), "服务器繁忙,请稍后重新发送", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onException(Throwable throwable) {
-
+                Toast.makeText(AppContext.me(), "服务器繁忙,请稍后重新发送", Toast.LENGTH_SHORT).show();
             }
         });
     }
