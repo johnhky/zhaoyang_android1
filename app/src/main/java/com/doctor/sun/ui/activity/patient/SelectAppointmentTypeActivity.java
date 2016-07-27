@@ -45,7 +45,7 @@ public class SelectAppointmentTypeActivity extends BaseFragmentActivity2 {
         binding.headerLayout.header.setBackgroundColor(color);
         Systems.setStatusColor(SelectAppointmentTypeActivity.this, color);
         data = new AppointmentBuilder();
-        data.setType(AppointmentType.DETAIL);
+        data.setType(AppointmentType.PREMIUM);
         binding.setData(data);
         binding.vp.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -90,9 +90,9 @@ public class SelectAppointmentTypeActivity extends BaseFragmentActivity2 {
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
-                    binding.getData().setType(AppointmentType.DETAIL);
+                    binding.getData().setType(AppointmentType.PREMIUM);
                 } else if (position == 1) {
-                    binding.getData().setType(AppointmentType.QUICK);
+                    binding.getData().setType(AppointmentType.STANDARD);
                 }
             }
 

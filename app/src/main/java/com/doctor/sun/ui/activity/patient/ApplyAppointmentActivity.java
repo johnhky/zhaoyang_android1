@@ -73,14 +73,14 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
         Time time = data.getTime();
         StringBuilder builder = new StringBuilder();
         builder.append(time.getDate());
-        if (data.getType() == AppointmentType.DETAIL) {
+        if (data.getType() == AppointmentType.PREMIUM) {
             builder.append(" ").append(time.getFrom()).append("-").append(time.getTo());
         }
         binding.tvTime.setText(String.format("预约时间:%s", builder));
         binding.tvType.setText(String.format("预约类型:%s", appointmentType()));
         binding.rbAlipay.setChecked(true);
         String dateFormat = YYYY_MM_DD_HH_MM;
-        if (data.getType() == AppointmentType.QUICK) {
+        if (data.getType() == AppointmentType.STANDARD) {
             if (!data.isToday()) {
                 data.getTime().setFrom("00:00:00");
             } else {
@@ -114,7 +114,7 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                 }
                 final String finalCouponId = couponId;
                 HashMap<String, String> params = new HashMap<String, String>();
-                if (type == AppointmentType.DETAIL) {
+                if (type == AppointmentType.PREMIUM) {
                     params.put("takeTime", String.valueOf(data.getDuration()));
                 }
                 final String medicalRecordId = String.valueOf(data.getRecord().getMedicalRecordId());
@@ -183,10 +183,10 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
     private String appointmentType() {
         String type = "";
         switch (data.getType()) {
-            case AppointmentType.DETAIL:
+            case AppointmentType.PREMIUM:
                 type = "专属咨询";
                 break;
-            case AppointmentType.QUICK:
+            case AppointmentType.STANDARD:
                 type = "留言咨询";
                 break;
         }

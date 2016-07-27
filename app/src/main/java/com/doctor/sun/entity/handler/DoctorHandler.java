@@ -48,7 +48,7 @@ public class DoctorHandler {
     }
 
     public void detail(View view) {
-        Intent intent = DoctorDetailActivity.makeIntent(view.getContext(), data, AppointmentType.DETAIL);
+        Intent intent = DoctorDetailActivity.makeIntent(view.getContext(), data, AppointmentType.PREMIUM);
         view.getContext().startActivity(intent);
     }
 
@@ -61,7 +61,7 @@ public class DoctorHandler {
 
     @JsonIgnore
     public String getFee(@AppointmentType int type) {
-        if (type == AppointmentType.DETAIL) {
+        if (type == AppointmentType.PREMIUM) {
             return getDetailFee();
         } else {
             return getQuickFee();
@@ -122,7 +122,7 @@ public class DoctorHandler {
 
     public void viewDetailIfIsPatient(Context context) {
         if (!Settings.isDoctor()) {
-            Intent intent = DoctorDetailActivity.makeIntent(context, data, AppointmentType.DETAIL);
+            Intent intent = DoctorDetailActivity.makeIntent(context, data, AppointmentType.PREMIUM);
             context.startActivity(intent);
         }
     }
@@ -163,9 +163,9 @@ public class DoctorHandler {
 
 //    public int money() {
 //        switch (data.getType()) {
-//            case AppointmentType.QUICK:
+//            case AppointmentType.STANDARD:
 //                return data.getSecondMoney();
-//            case AppointmentType.DETAIL:
+//            case AppointmentType.PREMIUM:
 //                int scalar = Integer.parseInt(data.getDuration()) / 15;
 //                return data.getMoney() * scalar;
 //            default:

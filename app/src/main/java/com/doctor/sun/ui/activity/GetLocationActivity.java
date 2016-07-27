@@ -103,7 +103,7 @@ public abstract class GetLocationActivity extends BaseActivity2 {
                     //备注:参数2和3，如果参数3不为0，则以参数3为准；参数3为0，则通过时间来定时更新；两者为0，则随时刷新
 
                     // 1秒更新一次，或最小位移变化超过1米更新一次；
-                    //注意:此处更新准确度非常低，推荐在service里面启动一个Thread，在run中sleep(10000);然后执行handler.sendMessage(),更新位置
+                    //注意:此处更新准确度非常低，推荐在service里面启动一个Thread，在run中sleep(10000);然后执行handler.resendMessage(),更新位置
                     lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, locationListener);
                     //        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, locationListener);
                 } catch (SecurityException e) {

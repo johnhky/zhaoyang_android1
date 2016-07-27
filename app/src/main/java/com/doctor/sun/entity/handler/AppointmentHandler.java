@@ -499,7 +499,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     @Override
     public boolean shouldAskServer() {
-        return data.getAppointmentType() == AppointmentType.DETAIL && Status.A_DOING.equals(data.getOrderStatus());
+        return data.getAppointmentType() == AppointmentType.PREMIUM && Status.A_DOING.equals(data.getOrderStatus());
     }
 //
 //    public CustomActionViewModel.AudioChatCallback getAudioChatCallback() {
@@ -641,7 +641,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             doctor.setRecordId(String.valueOf(data.getRecordId()));
             AppointmentBuilder appointmentBuilder = new AppointmentBuilder();
             appointmentBuilder.setDoctor(doctor);
-            appointmentBuilder.setType(AppointmentType.QUICK);
+            appointmentBuilder.setType(AppointmentType.STANDARD);
             Intent intent = PickDateActivity.makeIntent(context, appointmentBuilder);
             context.startActivity(intent);
         }
@@ -732,11 +732,11 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     private boolean isQuick() {
-        return data.getAppointmentType() == AppointmentType.QUICK;
+        return data.getAppointmentType() == AppointmentType.STANDARD;
     }
 
     private boolean isDetail() {
-        return data.getAppointmentType() == AppointmentType.DETAIL;
+        return data.getAppointmentType() == AppointmentType.PREMIUM;
     }
 
 

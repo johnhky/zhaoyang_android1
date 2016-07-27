@@ -82,7 +82,7 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appointmentId = getData();
-        modifyAdapter = new AnswerModifyAdapter(getContext(), AppointmentType.DETAIL);
+        modifyAdapter = new AnswerModifyAdapter(getContext(), AppointmentType.PREMIUM);
     }
 
     @Override

@@ -189,6 +189,15 @@ public class CustomBinding {
         }
     }
 
+    @android.databinding.BindingAdapter("android:visibility2")
+    public static void visibility2(View view, boolean visible) {
+        if (visible) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.INVISIBLE);
+        }
+    }
+
     @android.databinding.BindingAdapter("android:paddingLeft")
     public static void paddingLeft(View view, int padding) {
         view.setPadding(padding, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());

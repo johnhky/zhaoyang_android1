@@ -183,7 +183,7 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
             }
             case 22: {
                 if (!isDoctor) {
-                    i = SearchDoctorActivity.makeIntent(context, AppointmentType.DETAIL);
+                    i = SearchDoctorActivity.makeIntent(context, AppointmentType.PREMIUM);
                 }
                 break;
             }

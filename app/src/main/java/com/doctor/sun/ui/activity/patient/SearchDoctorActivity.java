@@ -201,7 +201,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
             api.doctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);
             return;
         }
-        if (getType() == AppointmentType.QUICK) {
+        if (getType() == AppointmentType.STANDARD) {
             loadKnowDoctor();
         } else {
             api.doctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);

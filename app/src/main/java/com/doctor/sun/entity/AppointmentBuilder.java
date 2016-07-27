@@ -22,7 +22,7 @@ import com.doctor.sun.ui.widget.SelectRecordDialog;
  */
 
 public class AppointmentBuilder extends BaseObservable implements Parcelable {
-    private int type = AppointmentType.DETAIL;
+    private int type = AppointmentType.PREMIUM;
     private int duration = 15;
     private Time time;
     private boolean isToday;
@@ -32,13 +32,13 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
 
     public void setIsPremium(boolean isPremium) {
         if (isPremium) {
-            setType(AppointmentType.DETAIL);
+            setType(AppointmentType.PREMIUM);
         }
     }
 
     public void setIsNormal(boolean isNormal) {
         if (isNormal) {
-            setType(AppointmentType.QUICK);
+            setType(AppointmentType.STANDARD);
         }
     }
 
@@ -145,9 +145,9 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
 
     public int money() {
         switch (getType()) {
-            case AppointmentType.QUICK:
+            case AppointmentType.STANDARD:
                 return doctor.getSecondMoney();
-            case AppointmentType.DETAIL:
+            case AppointmentType.PREMIUM:
                 int scalar = getDuration() / 15;
                 return doctor.getMoney() * scalar;
             default:

@@ -13,7 +13,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
-import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.RecentAppointment;
@@ -27,9 +26,6 @@ import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.handler.BaseHandler;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
-import com.doctor.sun.util.JacksonUtils;
-
-import io.ganguo.library.Config;
 
 /**
  * Created by lucas on 1/16/16.
@@ -71,7 +67,7 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
     }
 
     public void searchDoctor(final View view) {
-        Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), AppointmentType.DETAIL);
+        Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), AppointmentType.PREMIUM);
         view.getContext().startActivity(intent);
     }
 
@@ -84,7 +80,7 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), AppointmentType.QUICK);
+                        Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), AppointmentType.STANDARD);
                         view.getContext().startActivity(intent);
                         dialog.dismiss();
                     }
@@ -120,7 +116,7 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), AppointmentType.DETAIL);
+                        Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), AppointmentType.PREMIUM);
                         view.getContext().startActivity(intent);
                         dialog.dismiss();
                     }

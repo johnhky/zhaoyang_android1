@@ -2,6 +2,7 @@ package com.doctor.sun.ui.adapter;
 
 import android.content.Context;
 
+import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.AppointmentType;
 
 
@@ -20,11 +21,12 @@ public class SearchDoctorAdapter extends SimpleAdapter {
     public int getType() {
         return type;
     }
+
     public String getTypeLabel() {
-        if (type == AppointmentType.DETAIL) {
-            return "专属咨询";
+        if (type == AppointmentType.PREMIUM) {
+            return getString(R.string.premium_product);
         } else {
-            return "留言咨询";
+            return getString(R.string.standard_product);
         }
     }
 

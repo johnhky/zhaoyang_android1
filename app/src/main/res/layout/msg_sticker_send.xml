@@ -47,7 +47,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_4"
                     android:layout_marginRight="@dimen/dp_4"
-                    android:background="@drawable/nim_ic_failed"
                     android:textSize="@dimen/font_13"
                     android:visibility="@{adapter.isFinished(data.time)}" />
 
@@ -64,7 +63,8 @@
                         android:layout_width="@dimen/dp_100"
                         android:layout_height="@dimen/dp_100"
                         android:scaleType="fitCenter"
-                        android:src="@{data.attachmentData(&quot;data&quot;)}" />
+                        android:src="@{data.attachmentData(&quot;data&quot;)}"
+                        android:id="@+id/imageView2" />
                 </LinearLayout>
 
             </LinearLayout>

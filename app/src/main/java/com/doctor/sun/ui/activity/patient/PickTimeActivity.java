@@ -75,9 +75,9 @@ public class PickTimeActivity extends BaseActivity2 {
     }
 
     private String getTypeImpl() {
-        if (data.getType() == AppointmentType.QUICK) {
+        if (data.getType() == AppointmentType.STANDARD) {
             return "预约类型:留言咨询";
-        } else if (data.getType() == AppointmentType.DETAIL) {
+        } else if (data.getType() == AppointmentType.PREMIUM) {
             return "预约类型:专属咨询";
         }
         return "";

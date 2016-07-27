@@ -13,6 +13,7 @@ import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.VideoAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
+import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
@@ -54,6 +55,8 @@ public class TextMsgFactory {
         } else if (msg.getDirect().equals(MsgDirectionEnum.Out)) {
             result.setDirection(DIRECTION_SEND);
         }
+        result.setMessageStatus(msg.getStatus().toString());
+        result.setSessionType(msg.getSessionType().toString());
         result.setBody(msg.getContent());
         result.setTime(msg.getTime());
         result.setFrom(msg.getFromAccount());

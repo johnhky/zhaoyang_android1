@@ -113,9 +113,9 @@ public class PickDateDialog extends Dialog {
 
 
     private boolean isEnable(ReserveDate reserveDate) {
-        if (type == AppointmentType.DETAIL) {
+        if (type == AppointmentType.PREMIUM) {
             return reserveDate.getDetail() == 1;
-        } else if (type == AppointmentType.QUICK) {
+        } else if (type == AppointmentType.STANDARD) {
             return reserveDate.getQuick() == 1;
         }
         return false;

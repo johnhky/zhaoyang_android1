@@ -51,12 +51,13 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="@dimen/dp_4"
                     android:layout_marginRight="@dimen/dp_4"
-                    android:background="@drawable/nim_ic_failed"
+                    android:gravity="center_vertical"
+                    android:onClick="@{()->data.handler.onResendClick(context,data.msgId)}"
                     android:textSize="@dimen/font_13"
                     android:visibility="@{adapter.isFinished(data.time)}" />
 

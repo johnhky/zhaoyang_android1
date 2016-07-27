@@ -6,7 +6,9 @@ import android.support.annotation.IntDef;
 import com.doctor.sun.R;
 import com.doctor.sun.im.AttachmentPair;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -67,6 +69,7 @@ public class TextMsg extends RealmObject implements LayoutId {
     private int itemLayoutId = -1;
     @Ignore
     private String avatar;
+    private String sessionType;
     private RealmList<AttachmentPair> attachment;
 
     public RealmList<AttachmentPair> getAttachment() {
@@ -191,6 +194,20 @@ public class TextMsg extends RealmObject implements LayoutId {
         this.messageStatus = messageStatus;
     }
 
+    public boolean isFailed() {
+        if (messageStatus == null) {
+            return false;
+        }
+        return messageStatus.equals(MsgStatusEnum.fail.toString());
+    }
+
+    public boolean isSending() {
+        if (messageStatus == null) {
+            return false;
+        }
+        return messageStatus.equals(MsgStatusEnum.sending.toString());
+    }
+
     public int getVersion() {
         return version;
     }
@@ -286,6 +303,10 @@ public class TextMsg extends RealmObject implements LayoutId {
         return itemLayoutId;
     }
 
+    public SessionTypeEnum getSessionTypeEnum() {
+        return SessionTypeEnum.valueOf(getSessionType());
+    }
+
     public void setItemLayoutId(int itemLayoutId) {
         this.itemLayoutId = itemLayoutId;
     }
@@ -320,6 +341,14 @@ public class TextMsg extends RealmObject implements LayoutId {
 
     public void setHaveListen(boolean haveListen) {
         this.haveListen = haveListen;
+    }
+
+    public void setSessionType(String sessionType) {
+        this.sessionType = sessionType;
+    }
+
+    public String getSessionType() {
+        return sessionType;
     }
 
     @Retention(RetentionPolicy.SOURCE)

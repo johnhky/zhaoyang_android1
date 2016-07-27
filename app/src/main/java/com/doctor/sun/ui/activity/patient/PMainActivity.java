@@ -148,7 +148,7 @@ public class PMainActivity extends BaseActivity2 implements SwipeRefreshLayout.O
 
     @NonNull
     protected SimpleAdapter createAdapter() {
-        SimpleAdapter simpleAdapter = new SearchDoctorAdapter(this, AppointmentType.DETAIL);
+        SimpleAdapter simpleAdapter = new SearchDoctorAdapter(this, AppointmentType.PREMIUM);
         simpleAdapter.mapLayout(R.layout.item_doctor, R.layout.item_recommand_doctor);
         return simpleAdapter;
     }

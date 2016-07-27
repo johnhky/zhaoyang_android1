@@ -120,7 +120,7 @@ public class FurtherConsultationVM extends BaseItem implements LayoutId {
 
     public void pickDateImpl(Context context) {
         if (date != null) {
-            date.pickDateImpl(context, btnOneChecked ? AppointmentType.DETAIL : AppointmentType.QUICK);
+            date.pickDateImpl(context, btnOneChecked ? AppointmentType.PREMIUM : AppointmentType.STANDARD);
         }
     }
 

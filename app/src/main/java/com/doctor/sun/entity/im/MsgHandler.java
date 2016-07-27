@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
+import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.media.AudioController;
@@ -17,9 +21,15 @@ import com.doctor.sun.ui.activity.FileDetailActivity;
 import com.doctor.sun.util.NotificationUtil;
 import com.doctor.sun.util.TimeUtils;
 import com.doctor.sun.util.VoipCallUtil;
+import com.netease.nimlib.sdk.InvocationFuture;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import io.ganguo.library.util.Tasks;
@@ -102,6 +112,57 @@ public class MsgHandler {
                 }
             }
         });
+    }
+
+    public void onResendClick(Context context, final String msgId) {
+        showResendDialog(context, msgId);
+    }
+
+    private void showResendDialog(Context context, final String msgId) {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+        builder.content("重新发送这条消息?")
+                .positiveText("重新发送")
+                .negativeText("取消");
+        builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                resendMessage(msgId);
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void resendMessage(final String msgId) {
+        MsgService service = NIMClient.getService(MsgService.class);
+        LinkedList<String> list = new LinkedList<>();
+        list.add(msgId);
+        InvocationFuture<List<IMMessage>> listInvocationFuture = service.queryMessageListByUuid(list);
+        listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
+            @Override
+            public void onSuccess(List<IMMessage> imMessages) {
+                if (imMessages != null && !imMessages.isEmpty()) {
+                    for (IMMessage imMessage : imMessages) {
+                        if (imMessage.getStatus().equals(MsgStatusEnum.fail)) {
+                            Log.e(TAG, "onSuccess: " + imMessage);
+                            IMManager.getInstance().sendMsg(imMessage, false);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(int i) {
+                Log.e(TAG, "onFailed: " + i);
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+                Log.e(TAG, "onException() called with: throwable = [" + throwable + "]");
+            }
+        });
+
+
     }
 
     /* 短语音消息  消息长度,点击事件,
@@ -213,5 +274,11 @@ public class MsgHandler {
         return TimeUtils.formatChatMsgShortDate(time);
     }
 
-
+    public String statusText(String status) {
+        if (String.valueOf(MsgStatusEnum.fail).equals(status)) {
+            return "发送失败";
+        }else {
+            return "正在发送";
+        }
+    }
 }

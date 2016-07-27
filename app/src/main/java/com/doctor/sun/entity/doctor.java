@@ -122,7 +122,7 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
     private String duration = "";
     @AppointmentType
     @JsonIgnore
-    private int type = AppointmentType.DETAIL;
+    private int type = AppointmentType.PREMIUM;
     @JsonProperty("yunxin_accid")
     private String yunxinAccid;
     @JsonProperty("tid")

@@ -138,9 +138,9 @@ public class PickDateFragment extends BaseFragment {
     }
 
     private boolean isEnable(ReserveDate reserveDate) {
-        if (builder.getType() == AppointmentType.DETAIL) {
+        if (builder.getType() == AppointmentType.PREMIUM) {
             return reserveDate.getDetail() == 1;
-        } else if (builder.getType() == AppointmentType.QUICK) {
+        } else if (builder.getType() == AppointmentType.STANDARD) {
             return reserveDate.getQuick() == 1;
         }
         return false;
@@ -189,11 +189,11 @@ public class PickDateFragment extends BaseFragment {
             if (binding.calendarView.getSelectedDates().contains(date)) {
                 final String bookDate = simpleDateFormat.format(date);
                 switch (builder.getType()) {
-                    case AppointmentType.DETAIL: {
+                    case AppointmentType.PREMIUM: {
                         pickTime(bookDate);
                         break;
                     }
-                    case AppointmentType.QUICK: {
+                    case AppointmentType.STANDARD: {
                         if (date.getTime() <= getMillisMidNight() - ONE_DAY) {
                             showDialog(new MaterialDialog.SingleButtonCallback() {
                                 @Override

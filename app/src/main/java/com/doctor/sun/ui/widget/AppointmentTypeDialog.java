@@ -60,7 +60,7 @@ public class AppointmentTypeDialog extends ListDialog {
         getAdapter().add(new ItemButton(R.layout.item_blue_text, "我自己挑选医生") {
             @Override
             public void onClick(View view) {
-                Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), AppointmentType.DETAIL);
+                Intent intent = SearchDoctorActivity.makeIntent(view.getContext(), AppointmentType.PREMIUM);
                 view.getContext().startActivity(intent);
                 dismiss();
             }

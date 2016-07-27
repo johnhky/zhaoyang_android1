@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.View;
-import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -16,7 +14,6 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
@@ -63,7 +60,7 @@ public class DoctorDetailActivity extends BaseFragmentActivity2{
         builder.setDoctor(doctor);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_doctor_detail);
         binding.setType(getType());
-        if (getType() == AppointmentType.DETAIL) {
+        if (getType() == AppointmentType.PREMIUM) {
             binding.setTypeLabel("专属咨询");
         } else {
             binding.setTypeLabel("留言咨询");

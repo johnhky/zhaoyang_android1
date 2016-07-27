@@ -34,7 +34,7 @@ public class PickDatePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (data.getType() == AppointmentType.DETAIL) {
+        if (data.getType() == AppointmentType.PREMIUM) {
             return "专属咨询";
         } else {
             return "留言咨询";

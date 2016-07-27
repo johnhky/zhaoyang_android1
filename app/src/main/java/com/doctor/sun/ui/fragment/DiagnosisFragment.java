@@ -174,13 +174,13 @@ public class DiagnosisFragment extends BaseFragment {
                 switch (checkedId) {
                     case RETURN_TYPE_NET: {
                         showReturn(DiagnosisViewModel.DETAIL);
-                        viewModel.getDate().setType(AppointmentType.DETAIL);
+                        viewModel.getDate().setType(AppointmentType.PREMIUM);
                         viewModel.getTime().setType(3);
                         break;
                     }
                     case RETURN_TYPE_FACE: {
                         showReturn(DiagnosisViewModel.QUICK);
-                        viewModel.getDate().setType(AppointmentType.QUICK);
+                        viewModel.getDate().setType(AppointmentType.STANDARD);
                         viewModel.getTime().setType(2);
                         break;
                     }

@@ -154,6 +154,7 @@ android {
         wandoujia {}
         xiaomi {}
         yingyongbao {}
+        qihoo360 {}
     }
     productFlavors.all { flavor ->
         flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]

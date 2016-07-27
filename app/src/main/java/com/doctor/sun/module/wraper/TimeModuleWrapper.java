@@ -42,7 +42,7 @@ public class TimeModuleWrapper {
     }
 
     public Call<ApiDTO<List<Time>>> getTime(int type) {
-        if (type == AppointmentType.QUICK) {
+        if (type == AppointmentType.STANDARD) {
             return day.getTime(type);
         } else {
             return time.getTime(type);
@@ -100,7 +100,7 @@ public class TimeModuleWrapper {
     }
 
     public Call<ApiDTO<Time>> setTime(@Field("week") int week, @Field("type") int type, @Field("from") String from, @Field("to") String to, int interval) {
-        if (type == AppointmentType.QUICK) {
+        if (type == AppointmentType.STANDARD) {
             return day.setTime(week);
         } else {
             return time.setTime(week, type, from, to, interval);
@@ -108,7 +108,7 @@ public class TimeModuleWrapper {
     }
 
     public Call<ApiDTO<Time>> updateTime(@Field("id") int id, @Field("week") int week, @Field("type") int type, @Field("from") String from, @Field("to") String to, int interval) {
-        if (type == AppointmentType.QUICK) {
+        if (type == AppointmentType.STANDARD) {
             return day.updateTime(id, week);
         } else {
             return time.updateTime(id, week, type, from, to,interval);
@@ -116,7 +116,7 @@ public class TimeModuleWrapper {
     }
 
     public Call<ApiDTO<String>> deleteTime(@Field("id") int id, int type) {
-        if (type == AppointmentType.QUICK) {
+        if (type == AppointmentType.STANDARD) {
             return day.deleteTime(id);
         } else {
             return time.deleteTime(id);
@@ -124,7 +124,7 @@ public class TimeModuleWrapper {
     }
 
 //    public Call<ApiDTO<List<Time>>> getDaySchedule(@Query("doctorId") int doctorId, @Query("date") String date, @Query("type") int type, @Query("takeTime") String takeTime) {
-//        if (type == AppointmentType.QUICK) {
+//        if (type == AppointmentType.STANDARD) {
 //            return day.getDaySchedule(doctorId, date, type, takeTime);
 //        } else {
 //            return time.getDaySchedule(doctorId, date, type, takeTime);
@@ -132,7 +132,7 @@ public class TimeModuleWrapper {
 //    }
 
     public Call<ApiDTO<List<ReserveDate>>> getDateSchedule(@Query("doctorId") int doctorId, @Query("takeTime") int takeTime, int type) {
-        if (type == AppointmentType.QUICK) {
+        if (type == AppointmentType.STANDARD) {
             return day.getDateSchedule(doctorId);
         } else {
             return time.getDateSchedule(doctorId, takeTime);

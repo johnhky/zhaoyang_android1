@@ -153,7 +153,7 @@ public class DiagnosisReadOnlyFragment extends BaseFragment {
 //                            resultBinding.flyDoctor.setOnClickListener(new View.OnClickListener() {
 //                                @Override
 //                                public void onClick(View v) {
-//                                    response.getDoctorInfo().getHandler().viewDetail(v, AppointmentType.DETAIL);
+//                                    response.getDoctorInfo().getHandler().viewDetail(v, AppointmentType.PREMIUM);
 //                                }
 //                            });
 //                        }

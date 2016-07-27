@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.doctor.sun.R;
 import com.doctor.sun.databinding.FragmentApplyBinding;
 import com.doctor.sun.entity.QTemplate;
 import com.doctor.sun.entity.Question;
@@ -12,7 +13,6 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.QuestionModule;
-import com.doctor.sun.ui.adapter.QuestionDefaultAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 
 import java.util.ArrayList;
@@ -27,15 +27,12 @@ public class QuestionDefaultFragment extends ApplyFragment {
     private HashSet<String> defaultQuestionId = new HashSet<String>();
     private FragmentApplyBinding binding;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @NonNull
     @Override
     public SimpleAdapter createAdapter() {
-        return new QuestionDefaultAdapter(getContext());
+        SimpleAdapter simpleAdapter = new SimpleAdapter(getContext());
+        simpleAdapter.mapLayout(R.layout.item_question, R.layout.item_question_bank);
+        return simpleAdapter;
     }
 
     public static QuestionDefaultFragment getInstance() {

@@ -10,6 +10,7 @@ import com.doctor.sun.BuildConfig;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.emoji.Emoticon;
 import com.doctor.sun.entity.ImAccount;
+import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.SendMessageEvent;
 import com.doctor.sun.im.custom.CustomAttachment;
@@ -193,13 +194,13 @@ public class IMManager {
         return null;
     }
 
-    public void sentTextMsg(String to, SessionTypeEnum type, String text, boolean enablePush) {
+    public InvocationFuture<Void> sentTextMsg(String to, SessionTypeEnum type, String text, boolean enablePush) {
         final IMMessage message = MessageBuilder.createTextMessage(
                 to, // 聊天对象的 ID，如果是单聊，为用户帐号，如果是群聊，为群组 ID
                 type, // 聊天类型，单聊或群组
                 text// 文本内容
         );
-        sendMsg(message, enablePush);
+        return sendMsg(message, enablePush);
     }
 
     public void sentSticker(String to, SessionTypeEnum type, Emoticon emoticon, boolean enablePush) {
@@ -234,31 +235,11 @@ public class IMManager {
         sendMsg(message, enablePush);
     }
 
-    public void sendMsg(final IMMessage message, final boolean enablePush) {
-        if (NIMConnectionState.getInstance().isLogin()) {
-            sendMsgImpl(message, enablePush);
-        } else {
-            NIMConnectionState.getInstance().setCallback(new RequestCallback() {
-                @Override
-                public void onSuccess(Object o) {
-                    sendMsgImpl(message, enablePush);
-                }
-
-                @Override
-                public void onFailed(int i) {
-                    Toast.makeText(AppContext.me(), "网络信号不好,请检测网络设置", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onException(Throwable throwable) {
-                    Toast.makeText(AppContext.me(), "网络信号不好,请检测网络设置", Toast.LENGTH_SHORT).show();
-                }
-            });
-            IMManager.getInstance().login();
-        }
+    public InvocationFuture<Void> sendMsg(final IMMessage message, final boolean enablePush) {
+        return sendMsgImpl(message, enablePush);
     }
 
-    public void sendMsgImpl(IMMessage message, boolean enablePush) {
+    public InvocationFuture<Void> sendMsgImpl(final IMMessage message, boolean enablePush) {
         CustomMessageConfig config = new CustomMessageConfig();
         config.enableUnreadCount = true; // 该消息不计入未读数
         config.enableHistory = true;
@@ -266,6 +247,7 @@ public class IMManager {
         config.enablePush = enablePush;
         message.setConfig(config);
         EventHub.post(new SendMessageEvent());
+        MsgHandler.saveMsg(message);
 
         InvocationFuture<Void> voidInvocationFuture = NIMClient.getService(MsgService.class).sendMessage(message, true);
 
@@ -277,14 +259,17 @@ public class IMManager {
 
             @Override
             public void onFailed(int i) {
+                MsgHandler.saveMsg(message);
                 Toast.makeText(AppContext.me(), "网络开了会小差,消息发送延迟,请耐心等待", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onException(Throwable throwable) {
+                MsgHandler.saveMsg(message);
                 Toast.makeText(AppContext.me(), "网络开了会小差,消息发送延迟,请耐心等待", Toast.LENGTH_SHORT).show();
             }
         });
+        return voidInvocationFuture;
     }
 
     public boolean isRIMLogin() {

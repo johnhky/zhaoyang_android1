@@ -80,7 +80,7 @@
                         android:checked="@{data.type==2}"
                         android:gravity="center"
                         android:onCheckedChanged="@{(v,b)->data.setIsNormal(b)}"
-                        android:text="@string/normal_product"
+                        android:text="@string/standard_product"
                         android:textColor="@color/text_color_white2" />
 
                 </FrameLayout>
