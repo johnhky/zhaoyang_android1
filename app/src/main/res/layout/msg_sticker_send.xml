@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -25,9 +26,9 @@
 
         <include
             layout="@layout/include_msg_time"
-            bind:adapter="@{adapter}"
-            bind:data="@{data}"
-            bind:vh="@{vh}" />
+            app:adapter="@{adapter}"
+            app:data="@{data}"
+            app:vh="@{vh}" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -42,32 +43,37 @@
                 android:layout_toLeftOf="@+id/avatar"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ImageView
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginEnd="@dimen/dp_4"
                     android:layout_marginRight="@dimen/dp_4"
+                    android:background="@drawable/shape_red_oval_dp24"
+                    android:gravity="center_vertical"
+                    android:onClick="@{()->data.handler.onResendClick(context,data.msgId)}"
                     android:textSize="@dimen/font_13"
-                    android:visibility="@{adapter.isFinished(data.time)}" />
+                    android:visibility="@{data.failed}"
+                    app:srcCompat="@drawable/ic_refresh_white_24dp" />
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="@dimen/dp_8"
                     android:layout_marginRight="@dimen/dp_8"
-                    android:layout_toLeftOf="@+id/avatar"
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/imageView2"
                         android:layout_width="@dimen/dp_100"
                         android:layout_height="@dimen/dp_100"
                         android:scaleType="fitCenter"
-                        android:src="@{data.attachmentData(&quot;data&quot;)}"
-                        android:id="@+id/imageView2" />
-                </LinearLayout>
+                        android:src="@{data.attachmentData(&quot;data&quot;)}" />
+                </FrameLayout>
 
             </LinearLayout>
+
 
             <com.doctor.sun.ui.widget.BezelImageView
                 android:id="@+id/avatar"
@@ -81,7 +87,7 @@
                 android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
                 android:src="@{adapter.myAvatar}"
-                bind:maskDrawable="@drawable/circle_mask" />
+                app:maskDrawable="@drawable/circle_mask" />
         </RelativeLayout>
     </LinearLayout>
 </layout>

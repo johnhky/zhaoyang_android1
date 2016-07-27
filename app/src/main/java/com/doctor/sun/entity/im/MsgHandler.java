@@ -145,6 +145,7 @@ public class MsgHandler {
                     for (IMMessage imMessage : imMessages) {
                         if (imMessage.getStatus().equals(MsgStatusEnum.fail)) {
                             Log.e(TAG, "onSuccess: " + imMessage);
+                            imMessage.setStatus(MsgStatusEnum.sending);
                             IMManager.getInstance().sendMsg(imMessage, false);
                         }
                     }
@@ -277,7 +278,7 @@ public class MsgHandler {
     public String statusText(String status) {
         if (String.valueOf(MsgStatusEnum.fail).equals(status)) {
             return "发送失败";
-        }else {
+        } else {
             return "正在发送";
         }
     }

@@ -33,8 +33,8 @@ public class NotificationUtil {
             return;
         }
 
-        builder.setContentText(msg1.getBody());
         builder.setContentTitle("昭阳医生新消息");
+        builder.setContentText(msg1.getBody());
         builder.setSmallIcon(R.drawable.ic_notification);
         builder.setLights(Color.GREEN, 1000, 3000);
         Intent i;
