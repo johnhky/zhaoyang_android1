@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityMeBinding;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.handler.MeHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
@@ -46,7 +46,7 @@ public class MeActivity extends BaseDoctorActivity {
         HeaderViewModel header = new HeaderViewModel(this);
         header.setMidTitle("我");
         binding.setHeader(header);
-        Doctor doctor = TokenCallback.getDoctorProfile();
+        Doctor doctor = Settings.getDoctorProfile();
         binding.setData(doctor);
         binding.setHandler(new MeHandler(doctor));
         if (doctor != null) {

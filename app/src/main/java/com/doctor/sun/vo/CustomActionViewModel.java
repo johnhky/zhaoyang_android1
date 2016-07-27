@@ -14,9 +14,9 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.entity.constans.CommunicationType;
 import com.doctor.sun.entity.im.TextMsg;
@@ -113,7 +113,7 @@ public class CustomActionViewModel {
         return new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector2, "视频聊天", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AppContext.isDoctor()) {
+                if (Settings.isDoctor()) {
                     NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
                     AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL);
                 } else {
@@ -234,7 +234,7 @@ public class CustomActionViewModel {
         return new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_phone2, "语音电话", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AppContext.isDoctor()) {
+                if (Settings.isDoctor()) {
                     NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
                     AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
                 } else {

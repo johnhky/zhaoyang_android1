@@ -199,7 +199,7 @@ public class IMManager {
                 type, // 聊天类型，单聊或群组
                 text// 文本内容
         );
-        sendMsgImpl(message, enablePush);
+        sendMsg(message, enablePush);
     }
 
     public void sentSticker(String to, SessionTypeEnum type, Emoticon emoticon, boolean enablePush) {
@@ -246,12 +246,12 @@ public class IMManager {
 
                 @Override
                 public void onFailed(int i) {
-                    Toast.makeText(AppContext.me(), "服务器繁忙,请稍后重新发送", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AppContext.me(), "网络信号不好,请检测网络设置", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onException(Throwable throwable) {
-                    Toast.makeText(AppContext.me(), "服务器繁忙,请稍后重新发送", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AppContext.me(), "网络信号不好,请检测网络设置", Toast.LENGTH_SHORT).show();
                 }
             });
             IMManager.getInstance().login();
@@ -277,12 +277,12 @@ public class IMManager {
 
             @Override
             public void onFailed(int i) {
-                Toast.makeText(AppContext.me(), "服务器繁忙,请稍后重新发送", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AppContext.me(), "网络开了会小差,消息发送延迟,请耐心等待", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onException(Throwable throwable) {
-                Toast.makeText(AppContext.me(), "服务器繁忙,请稍后重新发送", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AppContext.me(), "网络开了会小差,消息发送延迟,请耐心等待", Toast.LENGTH_SHORT).show();
             }
         });
     }

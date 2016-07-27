@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.databinding.DialogPickTimeBinding;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.ui.adapter.PickTimeAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
@@ -87,7 +87,7 @@ public class PickTimeDialog extends Dialog {
     }
 
     private int getDoctorId() {
-        return TokenCallback.getDoctorProfile().getId();
+        return Settings.getDoctorProfile().getId();
     }
 
     protected PickTimeAdapter getAdapter() {

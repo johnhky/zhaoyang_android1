@@ -7,11 +7,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
-import com.doctor.sun.entity.RecentAppointment;
 import com.doctor.sun.entity.Token;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.im.IMManager;
@@ -65,7 +65,7 @@ public class TokenCallback {
                 }
                 case AuthModule.PATIENT_TYPE: {
 
-                    Patient patientProfile = getPatientProfile();
+                    Patient patientProfile = Settings.getPatientProfile();
                     if (patientProfile == null) {
                         loadPatientProfile(context);
                     } else {
@@ -155,14 +155,7 @@ public class TokenCallback {
             @Override
             protected void handleResponse(PatientDTO response) {
                 LoadingHelper.hideMaterLoading();
-                Log.e(TAG, "handleResponse: " + response.toString());
-                String value = null;
-                try {
-                    value = JacksonUtils.toJson(response);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                Config.putString(Constants.PATIENT_PROFILE, value);
+                Settings.setPatientProfile(response);
                 if (response == null) {
                     Intent i = RegisterActivity.makeIntent(context, AuthModule.PATIENT_TYPE);
                     context.startActivity(i);
@@ -206,52 +199,4 @@ public class TokenCallback {
         IMManager.getInstance().login(token.getAccount());
     }
 
-    public static String getToken() {
-        return Config.getString(Constants.TOKEN);
-    }
-
-    public static Patient getPatientProfile() {
-        String json = Config.getString(Constants.PATIENT_PROFILE);
-        if (json == null || json.equals("")) {
-            return null;
-        }
-        PatientDTO patient = JacksonUtils.fromJson(json, PatientDTO.class);
-        return patient != null ? patient.getInfo() : null;
-    }
-
-    public static RecentAppointment getRecentAppointment() {
-        String json = Config.getString(Constants.PATIENT_PROFILE);
-        if (json == null) {
-            return null;
-        }
-        PatientDTO patient = JacksonUtils.fromJson(json, PatientDTO.class);
-        return patient != null ? patient.getRecent_appointment() : null;
-    }
-
-    public static Doctor getDoctorProfile() {
-        String json = Config.getString(Constants.DOCTOR_PROFILE);
-        if (json == null) {
-            return new Doctor();
-        }
-        Doctor doctor = JacksonUtils.fromJson(json, Doctor.class);
-        return doctor;
-    }
-
-    public static String getPhone() {
-        if (AppContext.isDoctor()) {
-            return getDoctorProfile().getPhone();
-        } else {
-
-            Patient patientProfile = getPatientProfile();
-            if (patientProfile == null) {
-                return "";
-            }
-            return patientProfile.getPhone();
-        }
-    }
-
-    public static boolean isLogin() {
-        String token = TokenCallback.getToken();
-        return token != null && !token.equals("");
-    }
 }

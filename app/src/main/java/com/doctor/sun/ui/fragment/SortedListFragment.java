@@ -17,7 +17,7 @@ import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import io.realm.Realm;
 
 /**
- * Created by Lynn on 2/22/16.
+ * Created by Rick on 6/7/16.
  */
 public class SortedListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     protected FragmentRefreshListBinding binding;

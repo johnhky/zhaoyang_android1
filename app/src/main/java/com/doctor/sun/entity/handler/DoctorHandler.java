@@ -10,8 +10,8 @@ import android.os.RemoteException;
 import android.view.View;
 import android.widget.Toast;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
@@ -121,7 +121,7 @@ public class DoctorHandler {
     }
 
     public void viewDetailIfIsPatient(Context context) {
-        if (!AppContext.isDoctor()) {
+        if (!Settings.isDoctor()) {
             Intent intent = DoctorDetailActivity.makeIntent(context, data, AppointmentType.DETAIL);
             context.startActivity(intent);
         }

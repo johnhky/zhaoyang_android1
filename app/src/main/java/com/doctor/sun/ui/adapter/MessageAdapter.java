@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.view.View;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ItemPrescription2Binding;
 import com.doctor.sun.databinding.MsgPrescriptionListBinding;
@@ -15,11 +15,11 @@ import com.doctor.sun.dto.PrescriptionDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Avatar;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.ImagePreviewActivity;
@@ -64,18 +64,17 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
         switch (Config.getInt(Constants.USER_TYPE, -1)) {
             case AuthModule.PATIENT_TYPE: {
                 Doctor doctor = data.getDoctor();
-                String json = Config.getString(Constants.PATIENT_PROFILE);
-                PatientDTO dto = JacksonUtils.fromJson(json, PatientDTO.class);
+                Patient dto = Settings.getPatientProfile();
                 yourAvatar = doctor.getAvatar();
                 if (dto != null) {
-                    myAvatar = dto.getInfo().getAvatar();
+                    myAvatar = dto.getAvatar();
                 } else {
                     myAvatar = "";
                 }
                 break;
             }
             default: {
-                Doctor doctor = TokenCallback.getDoctorProfile();
+                Doctor doctor = Settings.getDoctorProfile();
                 yourAvatar = data.getAvatar();
                 if (doctor != null) {
                     myAvatar = doctor.getAvatar();
@@ -188,7 +187,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     }
 
     public boolean isFinished(long msgTime) {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return false;
         } else {
             return false;

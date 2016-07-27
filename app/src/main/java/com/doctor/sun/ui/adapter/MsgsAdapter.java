@@ -8,11 +8,11 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.databinding.ItemMsgsBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
@@ -46,8 +46,8 @@ public class MsgsAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
             String avatar;
             String name;
             if (((TextMsg) get(position)).getDirection() == TextMsgFactory.DIRECTION_SEND) {
-                avatar = TokenCallback.getDoctorProfile().getAvatar();
-                name = TokenCallback.getDoctorProfile().getName();
+                avatar = Settings.getDoctorProfile().getAvatar();
+                name = Settings.getDoctorProfile().getName();
             } else {
                 //receive
                 avatar = appointment.getAvatar();

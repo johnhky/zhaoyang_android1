@@ -7,9 +7,9 @@ import android.os.Message;
 import android.os.Messenger;
 import android.widget.Toast;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.handler.AppointmentHandler;
@@ -51,7 +51,7 @@ public class ItemConsulting implements SortedItem {
 
     @Override
     public int getLayoutId() {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return R.layout.item_consulting2;
         } else {
             return R.layout.p_item_consulting2;

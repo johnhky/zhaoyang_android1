@@ -10,8 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMainBinding;
 import com.doctor.sun.entity.Doctor;
@@ -20,7 +20,6 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.activity.patient.handler.MainActivityHandler;
@@ -94,7 +93,7 @@ public class PMainActivity extends BaseActivity2 implements SwipeRefreshLayout.O
                 loadMore();
             }
         });
-        Patient patientProfile = TokenCallback.getPatientProfile();
+        Patient patientProfile = Settings.getPatientProfile();
         if (patientProfile == null || "".equals(patientProfile.getName())) {
             new AddMedicalRecordDialog(this, true).show();
         }
@@ -186,7 +185,7 @@ public class PMainActivity extends BaseActivity2 implements SwipeRefreshLayout.O
         if (ShowCaseUtil.isShow(TAG)) {
             return;
         }
-        if (!AppContext.isDoctor()) {
+        if (!Settings.isDoctor()) {
             View view1 = binding.recyclerView.findViewById(R.id.tv_sync_consultation);
             View view2 = binding.recyclerView.findViewById(R.id.tv_async_consultation);
             View view3 = binding.recyclerView.findViewById(R.id.tv_after_service);

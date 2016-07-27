@@ -20,6 +20,7 @@ import android.widget.ScrollView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentDiagnosisBinding;
 import com.doctor.sun.databinding.ItemPrescriptionBinding;
@@ -32,7 +33,6 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
@@ -287,7 +287,7 @@ public class DiagnosisFragment extends BaseFragment {
     }
 
     public boolean canWritePrescription() {
-        Doctor doctorProfile = TokenCallback.getDoctorProfile();
+        Doctor doctorProfile = Settings.getDoctorProfile();
         if (doctorProfile == null) {
             return false;
         }

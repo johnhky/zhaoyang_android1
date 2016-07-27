@@ -8,8 +8,8 @@ import android.support.annotation.StringDef;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.http.Api;
@@ -188,7 +188,7 @@ public class AfterService implements LayoutId {
 
     public void fillForum(Context context, String id) {
         int position = 0;
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             position = 1;
         }
         switch (status) {
@@ -211,7 +211,7 @@ public class AfterService implements LayoutId {
         appointment.setStatus(statusLabel);
         appointment.setOrderStatus(statusLabel);
         appointment.setTid(tid);
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             appointment.setUrgentRecord(record);
             appointment.setRecordId(record.getMedicalRecordId());
             appointment.setDoctor(doctor);

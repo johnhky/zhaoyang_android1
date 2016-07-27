@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityMainBinding;
 import com.doctor.sun.entity.DoctorIndex;
@@ -142,7 +142,7 @@ public class MainActivity extends BaseDoctorActivity {
         if (ShowCaseUtil.isShow(TAG)) {
             return;
         }
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             isShowing = true;
             ShowCaseUtil.showCase(binding.llyAppointment, "所有已预约患者都在这里", TAG, 3, 0, true);
             ShowCaseUtil.showCase(binding.llyAfterService, "点击这里向已出院患者或者就诊后的患者进行随访", TAG, 3, 1, true);

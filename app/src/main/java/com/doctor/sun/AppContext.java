@@ -46,7 +46,6 @@ import io.realm.RealmSchema;
 public class AppContext extends BaseApp {
     public static final String TAG = AppContext.class.getSimpleName();
     public static final int NEW_VERSION = 7;
-    private static int userType = -1;
     private static boolean isInitialized;
 
     @Override
@@ -156,11 +155,6 @@ public class AppContext extends BaseApp {
     @Subscribe
     public void onExitEvent(OnExitEvent event) {
 
-    }
-
-    public static boolean isDoctor() {
-        userType = Config.getInt(Constants.USER_TYPE, -1);
-        return userType != AuthModule.PATIENT_TYPE;
     }
 
     public static boolean isInitialized() {

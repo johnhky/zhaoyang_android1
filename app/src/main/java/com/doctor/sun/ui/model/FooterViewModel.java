@@ -4,8 +4,8 @@ import android.databinding.BaseObservable;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.im.IMManager;
@@ -104,7 +104,7 @@ public class FooterViewModel extends BaseObservable implements RealmChangeListen
     }
 
     public String getShowCaseContent() {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return "您可以在这里与患者通过文字信息或者电话进行沟通";
         } else {
             return "您可以在这里与医生通过文字信息或者电话进行沟通";
@@ -112,7 +112,7 @@ public class FooterViewModel extends BaseObservable implements RealmChangeListen
     }
 
     public String getShowCaseId() {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return "doctorMain";
         } else {
             return "main";
@@ -120,7 +120,7 @@ public class FooterViewModel extends BaseObservable implements RealmChangeListen
     }
 
     public int getShowPosition() {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return 1;
         } else {
             return 4;
@@ -128,7 +128,7 @@ public class FooterViewModel extends BaseObservable implements RealmChangeListen
     }
 
     public int getShowCaseSize() {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return 2;
         } else {
             return 5;

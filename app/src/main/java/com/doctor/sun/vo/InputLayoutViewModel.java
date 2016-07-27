@@ -16,10 +16,8 @@ import com.doctor.sun.BR;
 import com.doctor.sun.databinding.IncludeInputLayoutBinding;
 import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.im.IMManager;
-import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.util.PermissionUtil;
-import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 import io.ganguo.library.core.event.EventHub;
@@ -76,32 +74,12 @@ public class InputLayoutViewModel extends BaseObservable {
             Toast.makeText(context, "不能发送空消息", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (NIMConnectionState.getInstance().isLogin()) {
-            sendMessage(msg);
-        } else {
-            NIMConnectionState.getInstance().setCallback(new RequestCallback() {
-                @Override
-                public void onSuccess(Object o) {
-                    sendMessage(msg);
-                }
-
-                @Override
-                public void onFailed(int i) {
-                    Toast.makeText(context, "服务器繁忙,请稍后重新发送", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onException(Throwable throwable) {
-                    Toast.makeText(context, "服务器繁忙,请稍后重新发送", Toast.LENGTH_SHORT).show();
-                }
-            });
-            IMManager.getInstance().login();
-        }
+        sendMessage(msg);
     }
 
     private void sendMessage(String msg) {
         if (data.getType() == SessionTypeEnum.Team) {
-            IMManager.getInstance().sentTextMsg(data.getTeamId(), SessionTypeEnum.Team, msg, data.enablePush());
+            IMManager.getInstance().sentTextMsg(data.getTeamId(), data.getType(), msg, data.enablePush());
         } else if (data.getType() == SessionTypeEnum.P2P) {
             IMManager.getInstance().sentTextMsg(data.getP2PId(), SessionTypeEnum.P2P, msg, data.enablePush());
         }

@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.doctor.sun.AppContext;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.module.AuthModule;
@@ -70,13 +70,13 @@ public class ConsultingDetailPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         if (position == 0) {
-            if (AppContext.isDoctor()) {
+            if (Settings.isDoctor()) {
                 return "患者问卷";
             } else {
                 return "我的问卷";
             }
         } else {
-            if (AppContext.isDoctor()) {
+            if (Settings.isDoctor()) {
                 return "病历记录";
             } else {
                 return "医生建议";

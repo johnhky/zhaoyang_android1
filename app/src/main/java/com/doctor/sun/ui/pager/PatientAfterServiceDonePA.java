@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.doctor.sun.AppContext;
+import com.doctor.sun.Settings;
 import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.ui.fragment.DoctorSuggestionFragment;
 import com.doctor.sun.ui.fragment.RefreshListFragment;
@@ -42,7 +42,7 @@ public class PatientAfterServiceDonePA extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (!AppContext.isDoctor()) {
+        if (!Settings.isDoctor()) {
             if (position == 0) {
                 return "我的问卷";
             } else {

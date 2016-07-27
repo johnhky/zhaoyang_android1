@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.AfterServiceModule;
@@ -53,7 +53,7 @@ public class AfterServiceHistoryActivity extends PageActivity2 {
     @Override
     public SimpleAdapter createAdapter() {
         SimpleAdapter adapter = super.createAdapter();
-        if (!AppContext.isDoctor()) {
+        if (!Settings.isDoctor()) {
             adapter.mapLayout(R.layout.item_after_service, R.layout.p_item_after_service2);
         }else {
             adapter.mapLayout(R.layout.item_after_service, R.layout.item_after_service2);

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.MobEventId;
 import com.doctor.sun.entity.Token;
 import com.doctor.sun.http.Api;
@@ -76,7 +77,7 @@ public class RegisterHandler extends BaseHandler {
     }
 
     public void register() {
-        if (TokenCallback.isLogin()) {
+        if (Settings.isLogin()) {
             Intent i = EditDoctorInfoActivity.makeIntent(getContext(), null);
             getContext().startActivity(i);
         }

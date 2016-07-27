@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityHelpBinding;
 import com.doctor.sun.dto.ApiDTO;
@@ -51,7 +51,7 @@ public class HelpActivity extends BaseFragmentActivity2 implements View.OnClickL
         binding = DataBindingUtil.setContentView(this, R.layout.activity_help);
         binding.ivExit.setOnClickListener(this);
         String type = "";
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             type = "doctor";
         } else {
             type = "patient";

@@ -12,6 +12,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.MedicalRecord;
@@ -19,7 +20,6 @@ import com.doctor.sun.entity.RecentAppointment;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
@@ -40,7 +40,7 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
 
     public MainActivityHandler(Activity context) {
         super(context);
-        appointment = TokenCallback.getRecentAppointment();
+        appointment = Settings.getRecentAppointment();
         updatePatientInfo();
     }
 
@@ -157,7 +157,7 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
         api.patientProfile().enqueue(new ApiCallback<PatientDTO>() {
             @Override
             protected void handleResponse(PatientDTO response) {
-                Config.putString(Constants.PATIENT_PROFILE, JacksonUtils.toJson(response));
+                Settings.setPatientProfile(response);
                 setDoingAfterServiceNum(response.followUpDoingNum);
             }
         });

@@ -6,15 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.doctor.sun.AppContext;
+import com.doctor.sun.Settings;
 import com.doctor.sun.entity.SystemMsg;
-import com.doctor.sun.entity.im.TextMsg;
-import com.doctor.sun.entity.im.TextMsgFactory;
-import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 
 import cn.jpush.android.api.JPushInterface;
-import io.realm.Realm;
 
 /**
  * 自定义接收器
@@ -50,7 +46,7 @@ public class JPushReceiver extends BroadcastReceiver {
 
             //打开自定义的Activity
             Class cls;
-            if (AppContext.isDoctor()) {
+            if (Settings.isDoctor()) {
                 cls = com.doctor.sun.ui.activity.doctor.ConsultingActivity.class;
             } else {
                 cls = PConsultingActivity.class;

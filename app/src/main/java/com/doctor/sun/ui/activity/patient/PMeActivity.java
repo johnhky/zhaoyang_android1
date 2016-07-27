@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMeBinding;
 import com.doctor.sun.dto.PatientDTO;
@@ -13,7 +14,6 @@ import com.doctor.sun.entity.Patient;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.activity.patient.handler.MeHandler;
@@ -21,7 +21,6 @@ import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.model.PatientFooterView;
 import com.doctor.sun.util.JacksonUtils;
-import com.doctor.sun.util.ShowCaseUtil;
 import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.Config;
@@ -57,7 +56,7 @@ public class PMeActivity extends BaseActivity2 {
             @Override
             protected void handleResponse(PatientDTO response) {
                 Patient data = response.getInfo();
-                Config.putString(Constants.PATIENT_PROFILE, JacksonUtils.toJson(response));
+                Settings.setPatientProfile(response);
                 handler.setData(data);
                 binding.setData(data);
             }
@@ -71,7 +70,7 @@ public class PMeActivity extends BaseActivity2 {
     }
 
     public Patient getData() {
-        return TokenCallback.getPatientProfile();
+        return Settings.getPatientProfile();
     }
 
     @Override

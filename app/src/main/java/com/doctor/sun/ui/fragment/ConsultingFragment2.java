@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
@@ -135,7 +135,7 @@ public class ConsultingFragment2 extends SortedListFragment {
     public void insertHeader() {
         systemMsg = new SystemMsg();
         getAdapter().insert(systemMsg);
-        if (!AppContext.isDoctor()) {
+        if (!Settings.isDoctor()) {
             medicineStore = new MedicineStore();
             getAdapter().insert(medicineStore);
         }
@@ -234,7 +234,7 @@ public class ConsultingFragment2 extends SortedListFragment {
     }
 
     private int getHeaderItemCount() {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return 1;
         }
         return 2;
@@ -260,7 +260,7 @@ public class ConsultingFragment2 extends SortedListFragment {
         if (ShowCaseUtil.isShow(TAG)) {
             return;
         }
-        if (!AppContext.isDoctor()) {
+        if (!Settings.isDoctor()) {
             View systemMsg = binding.recyclerView.findViewById(R.id.system_msg);
             View medicineStore = binding.recyclerView.findViewById(R.id.medicine_store);
 

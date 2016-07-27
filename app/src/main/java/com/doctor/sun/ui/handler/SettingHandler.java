@@ -9,9 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
@@ -69,7 +69,7 @@ public class SettingHandler extends BaseHandler {
     public void help(View view) {
         ShowCaseUtil.reset();
         Context context = view.getContext();
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
 
             Intent meActivity = MeActivity.makeIntent(context);
             startShowCase(context, meActivity);
@@ -230,7 +230,7 @@ public class SettingHandler extends BaseHandler {
         Config.putString(Constants.TOKEN, null);
         Config.putInt(Constants.USER_TYPE, -1);
         Config.putString(Constants.VOIP_ACCOUNT, "");
-        Config.putString(Constants.PATIENT_PROFILE, null);
+        Settings.setPatientProfile(null);
         Config.putString(Constants.DOCTOR_PROFILE, null);
     }
 }

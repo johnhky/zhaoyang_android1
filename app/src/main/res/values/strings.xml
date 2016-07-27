@@ -51,7 +51,7 @@
     <string name="description_money"><![CDATA[<font color="#363636">%1$s</font> <font color="#f76d02">%2$s</font>]]></string>
     <string name="patient_realtionship">%1$s(%2$s/%3$s)</string>
     <string name="appointment_time_type">%1$s %2$s</string>
-    <string name="diagnosis_money"><![CDATA[<font size="15">诊金:</font> <font color="#f76d02">%1$s</font>]]></string>
+    <string name="diagnosis_money"><![CDATA[<font size="15"></font> <font color="#f76d02">%1$s</font>]]></string>
     <string name="custom_comment">用户评价(%1$s)</string>
     <string name="emergency_call_warn">如果您不确定需要找什么类型的医生，请先提供病历资料并预先支付诊金，订单发出后，医生会根据自己的专长抢单，若在您设定的时间内没有医生接受预约订单，系统会将预付诊金返还至原支付账户。</string>
     <string name="network_is_not_available">网络不可用</string>

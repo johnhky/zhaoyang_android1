@@ -13,9 +13,9 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
@@ -472,7 +472,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     @Override
     public String getP2PId() {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return data.getYunxinAccid();
         } else {
             if (data.getDoctor() != null) {
@@ -485,7 +485,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     @Override
     public boolean enablePush() {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return true;
         }
         boolean isDetailAppointment = isDetail();
@@ -512,14 +512,14 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 //    }
 
     public String getRightFirstTitle() {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return "患者问卷";
         }
         return "我的问卷";
     }
 
     public String getRightTitle() {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return "病历记录";
         }
         return "医生建议";
@@ -741,7 +741,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
 
     public void alertAppointmentFinished(Context context) {
-        if (!AppContext.isDoctor()) {
+        if (!Settings.isDoctor()) {
             switch (data.getDisplayStatus()) {
                 case Status.REJECTED:
                 case Status.CLOSED:
@@ -849,7 +849,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public String getVoipAccount() {
         //假如是医生的话,就发消息给病人
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return data.getVoipAccount();
         } else {
             //假如不是医生的话,就发消息给医生
@@ -863,7 +863,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public String getPhoneNO() {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return data.getPhone();
         } else {
             Doctor doctor = data.getDoctor();
@@ -987,7 +987,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public int getDefaultAvatar() {
         int result;
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             if (data.getGender() == Gender.FEMALE) {
                 result = R.drawable.female_patient_avatar;
             } else {
@@ -1008,7 +1008,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             case AppointmentType.AFTER_SERVICE:
                 return "随访" + getStatusLabel();
         }
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return "本次咨询已结束";
         } else {
             return "本次咨询已结束,如需咨询,请再次预约";

@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.doctor.sun.AppContext;
+import com.doctor.sun.Settings;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.ui.fragment.FillForumFragment;
 import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
@@ -39,7 +39,7 @@ public class HistoryDetailAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (!AppContext.isDoctor()) {
+        if (!Settings.isDoctor()) {
             if (position == 0) {
                 return "我的问卷";
             } else {

@@ -20,6 +20,7 @@ import com.doctor.sun.emoji.KeyboardWatcher;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.ImAccount;
+import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
 import com.doctor.sun.event.HideInputEvent;
@@ -27,7 +28,6 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
-import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
@@ -384,7 +384,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
             @Override
             public void onSuccess(List<IMMessage> imMessages) {
-                NIMConnectionState.saveMsgs(imMessages, true);
+                MsgHandler.saveMsgs(imMessages, true);
                 binding.refreshLayout.setRefreshing(false);
             }
 
@@ -410,7 +410,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
             @Override
             public void onSuccess(List<IMMessage> imMessages) {
                 if (!imMessages.isEmpty()) {
-                    NIMConnectionState.saveMsgs(imMessages, true);
+                    MsgHandler.saveMsgs(imMessages, true);
                 }
                 binding.refreshLayout.setRefreshing(false);
             }

@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.support.annotation.NonNull;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.im.TextMsg;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
 import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
@@ -145,7 +144,7 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
 
     public void itemClick(Context context) {
         Intent i = null;
-        boolean isDoctor = AppContext.isDoctor();
+        boolean isDoctor = Settings.isDoctor();
         switch (type) {
             case 1: {
                 if (isDoctor) {
@@ -178,7 +177,7 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
             }
             case 21: {
                 if (isDoctor) {
-                    i = EditDoctorInfoActivity.makeIntent(context, TokenCallback.getDoctorProfile());
+                    i = EditDoctorInfoActivity.makeIntent(context, Settings.getDoctorProfile());
                 }
                 break;
             }

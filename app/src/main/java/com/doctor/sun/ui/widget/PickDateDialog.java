@@ -9,11 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.doctor.sun.Settings;
 import com.doctor.sun.databinding.FragmentPickDateBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.ReserveDate;
 import com.doctor.sun.entity.constans.AppointmentType;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.squareup.timessquare.CalendarPickerView;
 
@@ -42,7 +42,7 @@ public class PickDateDialog extends Dialog {
 
     public PickDateDialog(Context context, int type) {
         super(context);
-        this.doctorId = TokenCallback.getDoctorProfile().getId();
+        this.doctorId = Settings.getDoctorProfile().getId();
         this.type = type;
         View view = onCreateView(getLayoutInflater(), null, null);
         setContentView(view);

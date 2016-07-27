@@ -12,6 +12,7 @@ import android.widget.CompoundButton;
 
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPatientInfoBinding;
 import com.doctor.sun.dto.ApiDTO;
@@ -20,7 +21,6 @@ import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.BaseActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
@@ -172,7 +172,7 @@ public class PatientInfoActivity extends BaseActivity2 implements View.OnClickLi
         appointment.setVoipAccount(binding.getData().getVoipAccount());
         appointment.setPatientName(patient.getPatientName());
         appointment.setAvatar(binding.getData().getAvatar());
-        appointment.setDoctor(TokenCallback.getDoctorProfile());
+        appointment.setDoctor(Settings.getDoctorProfile());
         appointment.setTid(patient.getTid());
         appointment.setYunxinAccid(patient.getYunxinAccid());
         binding.setAppointment(appointment);

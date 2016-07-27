@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.doctor.sun.AppContext;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.ui.activity.TabActivity;
@@ -48,7 +48,7 @@ public class AfterServiceDoingActivity extends TabActivity implements Prescripti
             @Override
             public void onPageSelected(int position) {
                 String title = "";
-                if (AppContext.isDoctor()) {
+                if (Settings.isDoctor()) {
                     if (position == 1) {
                         title = "保存";
                     }
@@ -69,7 +69,7 @@ public class AfterServiceDoingActivity extends TabActivity implements Prescripti
 
     @Override
     protected PagerAdapter createPagerAdapter() {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             doctorAfterServicePA = new DoctorAfterServicePA(getSupportFragmentManager(), getData());
             return doctorAfterServicePA;
         } else {
@@ -81,7 +81,7 @@ public class AfterServiceDoingActivity extends TabActivity implements Prescripti
     @Override
     protected HeaderViewModel createHeaderViewModel() {
         HeaderViewModel header = new HeaderViewModel(this);
-        if (!AppContext.isDoctor()) {
+        if (!Settings.isDoctor()) {
             header.setRightTitle("保存");
         }
         return header;
@@ -90,7 +90,7 @@ public class AfterServiceDoingActivity extends TabActivity implements Prescripti
     @Override
     public void onMenuClicked() {
         super.onMenuClicked();
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             doctorAfterServicePA.saveAnswer();
         } else {
             patientAfterServicePA.saveAnswer();
@@ -107,7 +107,7 @@ public class AfterServiceDoingActivity extends TabActivity implements Prescripti
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             doctorAfterServicePA.handleImageResult(requestCode, resultCode, data);
         } else {
             patientAfterServicePA.handleImageResult(requestCode, resultCode, data);

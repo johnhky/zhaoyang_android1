@@ -10,8 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingBinding;
 import com.doctor.sun.dto.PageDTO;
@@ -20,6 +20,7 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.AppointmentHandler;
+import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.BidirectionalEvent;
 import com.doctor.sun.event.HideInputEvent;
@@ -29,7 +30,6 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
-import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
@@ -428,7 +428,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
             @Override
             public void onSuccess(List<IMMessage> imMessages) {
-                NIMConnectionState.saveMsgs(imMessages, true);
+                MsgHandler.saveMsgs(imMessages, true);
                 binding.refreshLayout.setRefreshing(false);
             }
 
@@ -467,7 +467,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
             @Override
             public void onSuccess(List<IMMessage> imMessages) {
-                NIMConnectionState.saveMsgs(imMessages, true);
+                MsgHandler.saveMsgs(imMessages, true);
                 binding.refreshLayout.setRefreshing(false);
             }
 
@@ -541,7 +541,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     @Subscribe
     public void onRejectIncomingCallEvent(RejectInComingCallEvent e) {
-        if (!AppContext.isDoctor()) {
+        if (!Settings.isDoctor()) {
             AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
             appointmentModule.rejectCommunication(e.getType(), handler.appointmentId()).enqueue(new SimpleCallback<String>() {
                 @Override

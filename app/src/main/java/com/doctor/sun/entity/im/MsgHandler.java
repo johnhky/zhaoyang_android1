@@ -10,11 +10,17 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.doctor.sun.R;
+import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.media.AudioController;
 import com.doctor.sun.ui.activity.FileDetailActivity;
+import com.doctor.sun.util.NotificationUtil;
 import com.doctor.sun.util.TimeUtils;
 import com.doctor.sun.util.VoipCallUtil;
+import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
+
+import java.util.List;
 
 import io.ganguo.library.util.Tasks;
 import io.realm.Realm;
@@ -28,6 +34,75 @@ public class MsgHandler {
     public static final int WIDTH_PER_SECOND = 25;
     public static final int WIDTH_PER_SECOND_EXCEED_10 = 3;
     private MediaPlayer mSuffixPlayer;
+
+    public static void saveMsg(IMMessage msg) {
+        saveMsg(msg, false);
+    }
+
+    public static void saveMsg(final IMMessage msg, final boolean haveRead) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
+                if (msg1 == null) return;
+
+                if (msg1.getType().equals(MsgTypeEnum.avchat.toString())) {
+                    msg1.setHaveRead(true);
+                } else {
+                    msg1.setHaveRead(haveRead);
+                    if (!haveRead && msg.getConfig() != null && msg.getConfig().enablePush) {
+                        NotificationUtil.showNotification(msg1);
+                    }
+                }
+                realm.copyToRealmOrUpdate(msg1);
+            }
+        });
+    }
+
+    public static void saveMsgs(final List<IMMessage> msgs) {
+        final Realm realm = Realm.getDefaultInstance();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                for (IMMessage msg : msgs) {
+                    boolean haveRead = NIMConnectionState.passThirtyMinutes(msg);
+                    TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
+                    if (msg1 == null) continue;
+
+                    if (msg1.getType().equals(MsgTypeEnum.avchat.toString())) {
+                        msg1.setHaveRead(true);
+                    } else {
+                        msg1.setHaveRead(haveRead);
+                        if (!haveRead && msg.getConfig() != null && msg.getConfig().enablePush) {
+                            NotificationUtil.showNotification(msg1);
+                        }
+                    }
+                    realm.copyToRealmOrUpdate(msg1);
+                }
+            }
+        });
+    }
+
+    public static void saveMsgs(final List<IMMessage> msgs, final boolean haveRead) {
+        final Realm realm = Realm.getDefaultInstance();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                for (IMMessage msg : msgs) {
+                    TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
+                    if (msg1 == null) continue;
+
+                    if (msg1.getType().equals(MsgTypeEnum.avchat.toString())) {
+                        msg1.setHaveRead(true);
+                    } else {
+                        msg1.setHaveRead(haveRead);
+                    }
+                    realm.copyToRealmOrUpdate(msg1);
+                }
+            }
+        });
+    }
 
     /* 短语音消息  消息长度,点击事件,
      *

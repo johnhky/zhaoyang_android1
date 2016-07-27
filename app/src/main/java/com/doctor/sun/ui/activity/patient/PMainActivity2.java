@@ -4,8 +4,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMain2Binding;
 import com.doctor.sun.dto.PatientDTO;
@@ -15,7 +15,6 @@ import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
@@ -56,7 +55,7 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
         binding.setFooter(footer);
         handler = new PMainActivityHandler();
         binding.setHandler(handler);
-        Patient patientProfile = TokenCallback.getPatientProfile();
+        Patient patientProfile = Settings.getPatientProfile();
         if (patientProfile == null || "".equals(patientProfile.getName())) {
             if (patientProfile != null) {
                 String phone = patientProfile.getPhone();
@@ -79,7 +78,7 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
         api.patientProfile().enqueue(new ApiCallback<PatientDTO>() {
             @Override
             protected void handleResponse(PatientDTO response) {
-                Config.putString(Constants.PATIENT_PROFILE, JacksonUtils.toJson(response));
+                Settings.setPatientProfile(response);
                 binding.setData(response);
             }
         });
@@ -146,7 +145,7 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
         if (ShowCaseUtil.isShow(TAG)) {
             return;
         }
-        if (!AppContext.isDoctor()) {
+        if (!Settings.isDoctor()) {
             View view1 = binding.imageView;
             View view3 = binding.flyAfterService;
             View view2 = binding.flyOrders;

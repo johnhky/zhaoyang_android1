@@ -9,8 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Prescription;
@@ -144,7 +144,7 @@ public class AnswerHandler {
     }
 
     public View.OnClickListener loadDrug(final BaseAdapter adapter, final RecyclerView.ViewHolder vh) {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             return doctorLoadDrug(adapter, vh);
         } else {
             return patientLoadDrug(adapter, vh);
@@ -209,7 +209,7 @@ public class AnswerHandler {
 
 
     public boolean loadDrugVisible(Answer answer) {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             int position = answer.getPosition();
             if (position == 2) {
                 return false;

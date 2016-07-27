@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.doctor.sun.AppContext;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.AfterServiceDTO;
 import com.doctor.sun.entity.AfterService;
@@ -246,7 +246,7 @@ public class EditForumFragment extends RefreshListFragment {
 
                 getAdapter().clear();
                 getAdapter().onFinishLoadMore(true);
-                if (AppContext.isDoctor()) {
+                if (Settings.isDoctor()) {
                     getAdapter().addAll(allData.subList(0, CUT_OFF_POSITION));
                 } else {
                     getAdapter().addAll(allData);
@@ -264,7 +264,7 @@ public class EditForumFragment extends RefreshListFragment {
 
     private void addToggleVisibility(int i) {
         if (i == TOGGLE_POSITION) {
-            if (AppContext.isDoctor()) {
+            if (Settings.isDoctor()) {
                 ItemSwitch object = new ItemSwitch(R.layout.item_answer_control, "病情记录(选填)");
                 object.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
                     @Override
@@ -288,7 +288,7 @@ public class EditForumFragment extends RefreshListFragment {
     }
 
     public void saveAnswer() {
-        if (AppContext.isDoctor()) {
+        if (Settings.isDoctor()) {
             TwoChoiceDialog.show(getActivity(), "是否结束本次随访",
                     "暂存", "保存并结束", new TwoChoiceDialog.Options() {
                         @Override

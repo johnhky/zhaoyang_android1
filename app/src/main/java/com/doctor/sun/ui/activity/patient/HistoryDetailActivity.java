@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 
-import com.doctor.sun.AppContext;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.QuestionCategory;
@@ -72,7 +72,7 @@ public class HistoryDetailActivity extends TabActivity
     private void showCase() {
         View childAt = binding.showcase;
         if (childAt != null) {
-            if (AppContext.isDoctor()) {
+            if (Settings.isDoctor()) {
                 ShowCaseUtil.showCase(childAt, "记录病历和给患者建议和调药", "diagnosisResult", 1, 0, true);
             } else {
                 ShowCaseUtil.showCase(childAt, "您可以在这里看到医生的医嘱和用药建议", "diagnosisResult", 1, 0, true);

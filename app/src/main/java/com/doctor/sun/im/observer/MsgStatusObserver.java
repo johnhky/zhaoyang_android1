@@ -1,5 +1,6 @@
 package com.doctor.sun.im.observer;
 
+import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.im.NIMConnectionState;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
@@ -15,17 +16,17 @@ public class MsgStatusObserver implements Observer<IMMessage> {
     public void onEvent(IMMessage imMessage) {
         if (imMessage.getMsgType().equals(MsgTypeEnum.audio)) {
             if (imMessage.getStatus().equals(MsgStatusEnum.read)) {
-                NIMConnectionState.saveMsg(imMessage, true);
+                MsgHandler.saveMsg(imMessage, true);
             } else {
                 if (imMessage.getDirect().equals(MsgDirectionEnum.In)) {
                     boolean haveRead = NIMConnectionState.passThirtyMinutes(imMessage);
-                    NIMConnectionState.saveMsg(imMessage, haveRead);
+                    MsgHandler.saveMsg(imMessage, haveRead);
                 } else {
-                    NIMConnectionState.saveMsg(imMessage, true);
+                    MsgHandler.saveMsg(imMessage, true);
                 }
             }
         } else {
-            NIMConnectionState.saveMsg(imMessage, true);
+            MsgHandler.saveMsg(imMessage, true);
         }
     }
 }

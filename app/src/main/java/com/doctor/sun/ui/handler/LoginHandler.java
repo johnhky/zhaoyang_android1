@@ -8,6 +8,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doctor.sun.Settings;
 import com.doctor.sun.entity.Token;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -39,7 +40,7 @@ public class LoginHandler extends BaseHandler {
             throw new IllegalArgumentException("The host Activity must implement LoginInput");
         }
 
-        if (TokenCallback.isLogin()) {
+        if (Settings.isLogin()) {
             TokenCallback.checkToken(getContext());
         }
     }

@@ -41,7 +41,7 @@
             <com.doctor.sun.ui.widget.BezelImageView
                 android:layout_width="@dimen/dp_60"
                 android:layout_height="@dimen/dp_60"
-                android:layout_gravity="center"
+                android:layout_gravity="top"
                 android:layout_marginBottom="@dimen/dp_4"
                 android:layout_marginTop="@dimen/dp_4"
                 android:drawable="@{@drawable/default_avatar}"
@@ -113,27 +113,27 @@
                     android:textSize="@dimen/font_13"
                     tools:text="医院名" />
 
-                <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="@dimen/dp_4"-->
-                <!--android:layout_marginLeft="@dimen/dp_13"-->
-                <!--android:layout_marginRight="@dimen/dp_13"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:textColor="#363636"-->
-                <!--android:textSize="@dimen/font_13"-->
-                <!--tools:text="诊金"-->
-                <!--app:html="@{@string/diagnosis_money(adapter.typeLabel + data.handler.getFee(adapter.type))}" />-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_4"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:gravity="center_vertical"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_13"
+                    app:html="@{@string/diagnosis_money(adapter.typeLabel + data.handler.getFee(adapter.type))}"
+                    tools:text="诊金" />
 
-                <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="@dimen/dp_13"-->
-                <!--android:layout_marginRight="@dimen/dp_13"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:textColor="#363636"-->
-                <!--android:textSize="@dimen/font_13"-->
-                <!--app:html='@{"专长病种:  " + data.specialist}' />-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:gravity="center_vertical"
+                    android:text='@{data.specialist}'
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_13" />
             </LinearLayout>
 
         </LinearLayout>
