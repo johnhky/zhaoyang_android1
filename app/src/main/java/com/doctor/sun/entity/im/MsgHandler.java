@@ -32,6 +32,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.ganguo.library.util.Files;
 import io.ganguo.library.util.Tasks;
 import io.realm.Realm;
 
@@ -44,6 +45,22 @@ public class MsgHandler {
     public static final int WIDTH_PER_SECOND = 25;
     public static final int WIDTH_PER_SECOND_EXCEED_10 = 3;
     private MediaPlayer mSuffixPlayer;
+
+    public static void removeMsg(final String msgId) {
+        if (msgId == null || "".equals(msgId)) {
+            return;
+        }
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                TextMsg target = realm.where(TextMsg.class).equalTo("msgId", msgId).findFirst();
+                if (target != null) {
+                    target.deleteFromRealm();
+                }
+            }
+        });
+    }
 
     public static void saveMsg(IMMessage msg) {
         saveMsg(msg, false);
@@ -134,6 +151,7 @@ public class MsgHandler {
     }
 
     private void resendMessage(final String msgId) {
+        Log.d(TAG, "resendMessage() called with: msgId = [" + msgId + "]");
         MsgService service = NIMClient.getService(MsgService.class);
         LinkedList<String> list = new LinkedList<>();
         list.add(msgId);
@@ -141,6 +159,7 @@ public class MsgHandler {
         listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
             @Override
             public void onSuccess(List<IMMessage> imMessages) {
+                Log.d(TAG, "onSuccess() called with: imMessages = [" + imMessages + "]");
                 if (imMessages != null && !imMessages.isEmpty()) {
                     for (IMMessage imMessage : imMessages) {
                         if (imMessage.getStatus().equals(MsgStatusEnum.fail)) {
@@ -281,5 +300,13 @@ public class MsgHandler {
         } else {
             return "正在发送";
         }
+    }
+
+    public boolean localPathExits(TextMsg msg) {
+        String path = msg.attachmentData("path");
+        if (null == path || "".equals(path)) {
+            return false;
+        }
+        return Files.checkFileExists(path.replace("file://", ""));
     }
 }

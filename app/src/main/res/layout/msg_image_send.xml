@@ -76,7 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="centerCrop"
-                        android:src="@{data.attachmentData(&quot;path&quot;)}"
+                        android:src="@{data.attachmentData(data.handler.localPathExits(data)?&quot;path&quot;:&quot;url&quot;)}"
                         app:height="@{Integer.valueOf(data.attachmentData(&quot;height&quot;))}"
                         app:maskDrawable="@drawable/shape_rect_r12"
                         app:width="@{Integer.valueOf(data.attachmentData(&quot;width&quot;))}" />

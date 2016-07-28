@@ -33,12 +33,12 @@ public class LoginHandler {
     public LoginHandler() {
     }
 
-    public boolean loginAction(Context context) {
-        login(context);
+    public boolean loginAction(Context context, String phone, String password) {
+        login(context, phone, password);
         return false;
     }
 
-    public void login(final Context context) {
+    public void login(final Context context, String phone, String password) {
         if (!Strings.isMobile(phone)) {
             Toast.makeText(context, "手机号码格式错误", Toast.LENGTH_SHORT).show();
             return;

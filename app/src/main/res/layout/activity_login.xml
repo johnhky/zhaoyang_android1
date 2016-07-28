@@ -111,7 +111,7 @@
                 android:drawablePadding="@dimen/dp_11"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
-                android:onEditorAction="@{()->handler.loginAction(context)}"
+                android:onEditorAction="@{()->handler.loginAction(context,handler.phone,handler.password)}"
                 android:text="@={handler.password}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
@@ -148,7 +148,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/ripple_default"
                 android:gravity="center"
-                android:onClick="@{()->handler.login(context)}"
+                android:onClick="@{()->handler.login(context,handler.phone,handler.password)}"
                 android:text="登录"
                 android:textColor="#fff"
                 android:textSize="@dimen/font_17" />

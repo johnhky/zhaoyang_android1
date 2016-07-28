@@ -43,6 +43,7 @@ import io.ganguo.library.core.event.EventHub;
  */
 public class IMManager {
     public static final String TAG = IMManager.class.getSimpleName();
+    public static final int RETRY_THREHOLD = 4;
     private static IMManager instance;
 
     private ImAccount account;
@@ -236,10 +237,10 @@ public class IMManager {
     }
 
     public InvocationFuture<Void> sendMsg(final IMMessage message, final boolean enablePush) {
-        return sendMsgImpl(message, enablePush);
+        return sendMsgImpl(message, enablePush, 0);
     }
 
-    public InvocationFuture<Void> sendMsgImpl(final IMMessage message, boolean enablePush) {
+    public InvocationFuture<Void> sendMsgImpl(final IMMessage message, final boolean enablePush, final int retryCount) {
         CustomMessageConfig config = new CustomMessageConfig();
         config.enableUnreadCount = true; // 该消息不计入未读数
         config.enableHistory = true;
@@ -247,9 +248,10 @@ public class IMManager {
         config.enablePush = enablePush;
         message.setConfig(config);
         EventHub.post(new SendMessageEvent());
-        MsgHandler.saveMsg(message);
+        MsgHandler.saveMsg(message, true);
 
-        InvocationFuture<Void> voidInvocationFuture = NIMClient.getService(MsgService.class).sendMessage(message, true);
+        final MsgService service = NIMClient.getService(MsgService.class);
+        InvocationFuture<Void> voidInvocationFuture = service.sendMessage(message, true);
 
         voidInvocationFuture.setCallback(new RequestCallback<Void>() {
             @Override
@@ -259,14 +261,16 @@ public class IMManager {
 
             @Override
             public void onFailed(int i) {
+                service.saveMessageToLocal(message, false);
                 MsgHandler.saveMsg(message);
-                Toast.makeText(AppContext.me(), "网络开了会小差,消息发送延迟,请耐心等待", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AppContext.me(), "发送消息失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onException(Throwable throwable) {
+                service.saveMessageToLocal(message, false);
                 MsgHandler.saveMsg(message);
-                Toast.makeText(AppContext.me(), "网络开了会小差,消息发送延迟,请耐心等待", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AppContext.me(), "发送消息失败", Toast.LENGTH_SHORT).show();
             }
         });
         return voidInvocationFuture;

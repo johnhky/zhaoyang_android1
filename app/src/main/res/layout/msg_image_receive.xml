@@ -50,6 +50,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/dp_55"
+                android:layout_marginRight="@dimen/dp_55"
                 android:background="@drawable/nim_message_left_white_bg"
                 android:onClick="@{adapter.previewImage(data.attachmentData(&quot;url&quot;))}"
                 android:orientation="vertical"
@@ -63,7 +65,7 @@
                 <com.doctor.sun.ui.widget.BezelImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     android:src="@{data.attachmentData(&quot;url&quot;)}"
                     bind:height="@{Integer.valueOf(data.attachmentData(&quot;height&quot;))}"
                     bind:maskDrawable="@drawable/shape_rect_r12"
