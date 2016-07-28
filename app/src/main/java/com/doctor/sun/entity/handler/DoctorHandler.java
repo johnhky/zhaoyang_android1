@@ -175,7 +175,7 @@ public class DoctorHandler {
 
     public void toggleFav(final Context context, final Doctor doctor) {
         ToolModule api = Api.of(ToolModule.class);
-        if (doctor.getIsFav().equals("1")) {
+        if ("1".equals(doctor.getIsFav())) {
             api.unlikeDoctor(doctor.getId()).enqueue(new SimpleCallback<String>() {
                 @Override
                 protected void handleResponse(String response) {

@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityFileDetailBinding;
-import com.doctor.sun.util.Try;
 import com.doctor.sun.event.ProgressEvent;
 import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.ui.model.HeaderViewModel;
@@ -25,6 +24,7 @@ import com.doctor.sun.util.DownloadUtil;
 import com.doctor.sun.util.MD5;
 import com.doctor.sun.util.NotificationUtil;
 import com.doctor.sun.util.PermissionUtil;
+import com.doctor.sun.util.Try;
 import com.squareup.otto.Subscribe;
 
 import java.io.File;
@@ -130,6 +130,9 @@ public class FileDetailActivity extends BaseActivity2 {
     }
 
     public String getLocalPathFor(String url) {
+        if (url == null) {
+            return "";
+        }
         return MD5.getMessageDigest(url.getBytes());
     }
 

@@ -3,6 +3,7 @@ package com.doctor.sun.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.doctor.sun.databinding.FragmentApplyBinding;
@@ -55,7 +56,10 @@ public class QuestionCustomFragment extends ApplyFragment {
                 api.updateTemplate(String.valueOf(qTemplate.getId()), templateName, questionId).enqueue(new ApiCallback<QTemplate>() {
                     @Override
                     protected void handleResponse(QTemplate response) {
-                        getActivity().finish();
+                        FragmentActivity activity = getActivity();
+                        if (activity != null) {
+                            activity.finish();
+                        }
                     }
                 });
             }

@@ -130,7 +130,9 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 
     @Override
     protected void onDestroy() {
-        keyboardWatcher.destroy();
+        if (keyboardWatcher != null) {
+            keyboardWatcher.destroy();
+        }
         if (results != null) {
             results.removeChangeListeners();
         }

@@ -51,7 +51,7 @@ public class MeActivity extends BaseDoctorActivity {
         binding.setHandler(new MeHandler(doctor));
         if (doctor != null) {
             String level = doctor.getLevel();
-            if (level == null || level.equals("")) {
+            if (level == null || "".equals(level)) {
                 binding.tvTest.setVisibility(View.GONE);
             } else {
                 binding.tvTest.setText(level);
