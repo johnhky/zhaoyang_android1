@@ -68,8 +68,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:emoticon="@{data.body}"
-                    android:paddingLeft="@{data.handler.msgWidth(data.duration)}"
+                    android:emoticon="@{data.attachmentLong(&quot;duration&quot;)+&quot;&quot;&quot;}"
+                    android:paddingLeft="@{data.handler.msgWidth(data.attachmentLong(&quot;duration&quot;))}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13" />
             </FrameLayout>

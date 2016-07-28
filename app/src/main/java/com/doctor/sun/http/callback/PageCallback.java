@@ -1,7 +1,13 @@
 package com.doctor.sun.http.callback;
 
+import android.widget.Toast;
+
+import com.doctor.sun.AppContext;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.ui.adapter.core.LoadMoreAdapter;
+
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 import retrofit2.Call;
 
@@ -53,9 +59,15 @@ public class PageCallback<T> extends ApiCallback<PageDTO<T>> {
     @Override
     public void onFailure(Call call, Throwable t) {
         t.printStackTrace();
+        if (t instanceof UnknownHostException) {
+            Toast.makeText(AppContext.me(), "无法连接服务器,请检查您的网络连接", Toast.LENGTH_SHORT).show();
+        } else if (t instanceof SocketTimeoutException) {
+            Toast.makeText(AppContext.me(), "无法连接服务器,请检查您的网络连接", Toast.LENGTH_SHORT).show();
+        }
         if (getAdapter() != null) {
             getAdapter().onFinishLoadMore(true);
         }
+        onFinishRefresh();
     }
 
     public LoadMoreAdapter getAdapter() {

@@ -13,7 +13,6 @@ import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.VideoAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
-import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
@@ -39,6 +38,7 @@ public class TextMsgFactory {
     public static final String FILE_SIZE = "fileSize";
     public static final String WIDTH = "width";
     public static final String HEIGHT = "height";
+    public static final String ATTACHMENT_PATH = "path";
 
 
     public static TextMsg fromYXMessage(IMMessage msg) {
@@ -100,6 +100,7 @@ public class TextMsgFactory {
         long duration = attachment.getDuration() / ONE_SECOND;
         result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.AUDIO)));
         result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_URL, attachment.getUrl()));
+        result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_PATH, "file://" + attachment.getPath()));
         result.add(createAttachmentPair(msg.getUuid() + DURATION, String.valueOf(duration)));
 
         return result;
@@ -143,6 +144,7 @@ public class TextMsgFactory {
 
         result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.IMAGE)));
         result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_URL, attachment.getUrl()));
+        result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_PATH, "file://" + attachment.getPath()));
         result.add(createAttachmentPair(msg.getUuid() + BODY, "照片"));
         int imageWidth = attachment.getWidth();
         int imageHeight = attachment.getHeight();
@@ -164,6 +166,7 @@ public class TextMsgFactory {
 
         result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.FILE)));
         result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_URL, attachment.getUrl()));
+        result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_PATH, "file://" + attachment.getPath()));
         result.add(createAttachmentPair(msg.getUuid() + BODY, attachment.getDisplayName()));
         result.add(createAttachmentPair(msg.getUuid() + EXTENSION, attachment.getExtension()));
         result.add(createAttachmentPair(msg.getUuid() + FILE_SIZE, String.valueOf(attachment.getSize())));
@@ -175,6 +178,7 @@ public class TextMsgFactory {
 
         result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.VIDEO)));
         result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_URL, attachment.getUrl()));
+        result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_PATH, "file://" + attachment.getPath()));
         result.add(createAttachmentPair(msg.getUuid() + BODY, "视频"));
         result.add(createAttachmentPair(msg.getUuid() + EXTENSION, attachment.getExtension()));
         result.add(createAttachmentPair(msg.getUuid() + FILE_SIZE, String.valueOf(attachment.getSize())));

@@ -149,4 +149,10 @@ public class MainActivity extends BaseDoctorActivity {
             ShowCaseUtil.showCase(binding.includeFooter.flTabTwo, "您可以在这里与患者通过文字信息或者电话进行沟通", TAG, 3, 2, false);
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        UpdateUtil.onPause();
+    }
 }

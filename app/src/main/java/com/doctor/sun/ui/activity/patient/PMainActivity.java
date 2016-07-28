@@ -206,4 +206,10 @@ public class PMainActivity extends BaseActivity2 implements SwipeRefreshLayout.O
     public void onRefresh() {
         binding.refreshLayout.setRefreshing(false);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        UpdateUtil.onPause();
+    }
 }

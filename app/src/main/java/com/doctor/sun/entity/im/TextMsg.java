@@ -84,10 +84,10 @@ public class TextMsg extends RealmObject implements LayoutId {
         if (attachment == null) {
             return "";
         }
-        AttachmentPair key = attachment.where().equalTo("key", msgId + fieldKey).findFirst();
-        if (key == null) return "";
+        AttachmentPair pair = attachment.where().equalTo("key", msgId + fieldKey).findFirst();
+        if (pair == null) return "";
 
-        return key.getValue();
+        return pair.getValue();
     }
 
     public int attachmentInt(String fieldKey) {

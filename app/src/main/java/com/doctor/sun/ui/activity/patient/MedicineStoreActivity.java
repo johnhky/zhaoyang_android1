@@ -205,6 +205,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     }
 
     private void setReadStatus() {
+        if (query == null) return;
         getRealm().beginTransaction();
         RealmResults<TextMsg> haveRead = query.equalTo("haveRead", false).findAll();
         for (TextMsg msg : haveRead) {

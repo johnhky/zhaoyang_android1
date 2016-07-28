@@ -42,6 +42,7 @@ public class UpdateUtil {
     public static final String APK_PATH = "newVersion.apk";
     public static final String NEW_VERSION = "NEW_VERSION" + BuildConfig.VERSION_CODE;
     private static long lastCheckTime = 0;
+    private static boolean isHostActivityPaused = false;
 
     private static onNoNewVersion noNewVersion;
 
@@ -109,7 +110,7 @@ public class UpdateUtil {
             newVersion = data.getNowVersion();
         }
 
-        if (context.getWindow().isActive()) {
+        if (context.getWindow().isActive() && !isHostActivityPaused) {
             final DownloadNewVersionCallback callback = new DownloadNewVersionCallback(data);
             MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
             builder.canceledOnTouchOutside(false);
@@ -133,6 +134,11 @@ public class UpdateUtil {
 
     public static void reset() {
         lastCheckTime = 0;
+        isHostActivityPaused = false;
+    }
+
+    public static void onPause() {
+        isHostActivityPaused = true;
     }
 
 
