@@ -6,6 +6,7 @@ import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.QTemplate;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.QuestionCategory;
+import com.doctor.sun.entity.Questions2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -180,4 +181,7 @@ public interface QuestionModule {
     Call<ApiDTO<List<QuestionCategory>>> scaleCategory(@Path("appointmentId") String appointmentId);
 
 
+    //    @GET("api/013/smartQuestionnaires/{appointmentId}")
+    @GET("http://10.0.0.62:8080/index.php/api/013/smartQuestionnaires/{appointmentId}")
+    Call<ApiDTO<List<Questions2>>> questions2(@Path("appointmentId") String appointmentId);
 }

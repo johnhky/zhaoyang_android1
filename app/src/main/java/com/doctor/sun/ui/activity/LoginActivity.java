@@ -13,7 +13,7 @@ import com.doctor.sun.ui.handler.LoginHandler;
 /**
  * Created by rick on 10/23/15.
  */
-public class LoginActivity extends BaseActivity2 implements LoginHandler.LoginInput {
+public class LoginActivity extends BaseActivity2  {
 
     private ActivityLoginBinding binding;
     private LoginHandler handler;
@@ -27,24 +27,8 @@ public class LoginActivity extends BaseActivity2 implements LoginHandler.LoginIn
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-        handler = new LoginHandler(this);
+        handler = new LoginHandler();
         binding.setHandler(handler);
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        handler = null;
-    }
-
-    @Override
-    public String getPhone() {
-        return binding.etPhone.getText().toString();
-    }
-
-    @Override
-    public String getPassword() {
-        return binding.etPassword.getText().toString();
     }
 }

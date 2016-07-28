@@ -89,6 +89,7 @@
                         android:drawablePadding="@dimen/dp_11"
                         android:inputType="phone"
                         android:maxLength="11"
+                        android:text="@={handler.phone}"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_15" />
                 </LinearLayout>
@@ -127,7 +128,8 @@
                         android:drawablePadding="@dimen/dp_11"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword"
-                        android:onEditorActionListener="@{handler.loginAction}"
+                        android:onEditorAction="@{()->handler.loginAction(context)}"
+                        android:text="@={handler.password}"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_15" />
 
@@ -138,7 +140,7 @@
                         android:drawablePadding="@dimen/dp_11"
                         android:drawableRight="@drawable/ic_forgot"
                         android:gravity="center_vertical"
-                        android:onClick="@{handler.resetPassword}"
+                        android:onClick="@{()->handler.resetPassword(context)}"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_15" />
                 </LinearLayout>
@@ -162,7 +164,7 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/ripple_default"
                         android:gravity="center"
-                        android:onClick="@{handler.login}"
+                        android:onClick="@{()->handler.login(context)}"
                         android:text="登录"
                         android:textColor="#fff"
                         android:textSize="@dimen/font_17" />
@@ -196,7 +198,7 @@
                 android:layout_height="@dimen/dp_55"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_default"
-                android:onClick="@{handler.registerDoctor}"
+                android:onClick="@{()->handler.registerDoctor(context)}"
                 android:orientation="horizontal">
 
                 <TextView
@@ -217,7 +219,7 @@
                 android:layout_height="@dimen/dp_55"
                 android:layout_weight="1"
                 android:background="@drawable/ripple_default"
-                android:onClick="@{handler.registerPatient}"
+                android:onClick="@{()->handler.registerPatient(context)}"
                 android:orientation="horizontal">
 
                 <TextView
