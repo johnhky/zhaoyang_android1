@@ -154,8 +154,8 @@ public class EditPrescriptionActivity extends BaseActivity2 {
         Prescription mPrescription = new Prescription();
 
         String mediaclName = binding.medicineName.etInput.getText().toString();
-        mPrescription.setMediaclName(mediaclName);
-        mPrescription.setProductName(binding.goodsName.etInput.getText().toString());
+        mPrescription.setDrugName(mediaclName);
+        mPrescription.setScientificName(binding.goodsName.etInput.getText().toString());
         mPrescription.setInterval(binding.interval.getValues().get(binding.interval.getSelectedItem()));
 
         List<HashMap<String, String>> numberList = new ArrayList<>();
@@ -229,7 +229,7 @@ public class EditPrescriptionActivity extends BaseActivity2 {
 
     public boolean isValid(Prescription prescription) {
 
-        if (prescription.getMediaclName().equals("")) {
+        if (prescription.getDrugName().equals("")) {
             Toast.makeText(EditPrescriptionActivity.this, "药名不能为空", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -283,8 +283,8 @@ public class EditPrescriptionActivity extends BaseActivity2 {
     public void initData() {
         Prescription data = getData();
         if (data == null) return;
-        binding.medicineName.etInput.setText(data.getMediaclName());
-        binding.goodsName.etInput.setText(data.getProductName());
+        binding.medicineName.etInput.setText(data.getDrugName());
+        binding.goodsName.etInput.setText(data.getScientificName());
         binding.morning.etInput.setText(data.getNumbers().get(0).get("早"));
         binding.afternoon.etAfternoon.setText(data.getNumbers().get(1).get("午"));
         binding.evening.etEvening.setText(data.getNumbers().get(2).get("晚"));

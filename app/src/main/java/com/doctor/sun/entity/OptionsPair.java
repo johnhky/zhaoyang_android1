@@ -1,15 +1,17 @@
-package com.doctor.sun.im;
+package com.doctor.sun.entity;
 
-import io.realm.RealmObject;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by rick on 25/7/2016.
  */
 
-public class AttachmentPair extends RealmObject {
+public class OptionsPair {
 
 
+    @JsonProperty("key")
     private String key;
+    @JsonProperty("val")
     private String value;
 
 

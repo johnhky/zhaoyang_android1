@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentDiagnosisReadonlyBinding;
@@ -24,7 +22,6 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Prescription;
-import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.AuthModule;
@@ -34,8 +31,6 @@ import com.doctor.sun.ui.model.DiagnosisReadOnlyViewModel;
 import java.util.List;
 
 import io.ganguo.library.Config;
-import io.ganguo.library.util.log.Logger;
-import io.ganguo.library.util.log.LoggerFactory;
 
 /**
  * 医生记录 历史纪录 只读 - 医生端
@@ -178,7 +173,7 @@ public class DiagnosisReadOnlyFragment extends BaseFragment {
         for (int i = 0; i < prescription.size(); i++) {
             ItemTagBinding nameBinding = ItemTagBinding.inflate(LayoutInflater.from(getContext()));
             nameBinding.setLabel("用药 : ");
-            nameBinding.setData(prescription.get(i).getMediaclName().trim());
+            nameBinding.setData(prescription.get(i).getDrugName().trim());
 
             ItemTagBinding intervalBinding = ItemTagBinding.inflate(LayoutInflater.from(getContext()));
             intervalBinding.setLabel("间隔 : ");

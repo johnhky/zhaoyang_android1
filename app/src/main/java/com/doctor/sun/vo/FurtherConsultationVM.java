@@ -3,6 +3,7 @@ package com.doctor.sun.vo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Handler;
 import android.os.Message;
@@ -13,10 +14,11 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
+import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +26,7 @@ import java.util.HashMap;
 /**
  * Created by rick on 7/6/2016.
  */
-public class FurtherConsultationVM extends BaseItem implements LayoutId {
+public class FurtherConsultationVM extends BaseObservable implements SortedItem {
     public static final String TAG = FurtherConsultationVM.class.getSimpleName();
 
     private int position = 0;
@@ -44,7 +46,7 @@ public class FurtherConsultationVM extends BaseItem implements LayoutId {
         date = new ItemPickDate(0, "", 0);
     }
 
-    public void chooseDoctor(Context context, final BaseAdapter adapter, final BaseViewHolder vh) {
+    public void chooseDoctor(Context context, final SortedListAdapter adapter, final BaseViewHolder vh) {
         Intent intent = ContactActivity.makeIntent(context, Constants.DOCTOR_REQUEST_CODE);
         intent.putExtra(Constants.HANDLER, new Messenger(new Handler(new Handler.Callback() {
             @Override
@@ -55,8 +57,7 @@ public class FurtherConsultationVM extends BaseItem implements LayoutId {
                         FurtherConsultationVM o = (FurtherConsultationVM) adapter.get(adapterPosition);
                         Doctor data = msg.getData().getParcelable(Constants.DATA);
                         o.setDoctor(data);
-                        adapter.set(adapterPosition, o);
-                        adapter.notifyItemChanged(adapterPosition);
+                        adapter.update(o);
                         break;
                     }
                 }
@@ -65,11 +66,6 @@ public class FurtherConsultationVM extends BaseItem implements LayoutId {
         })));
         Activity activity = (Activity) context;
         activity.startActivity(intent);
-    }
-
-    @Override
-    public int getItemLayoutId() {
-        return R.layout.item_further_consultation;
     }
 
     @Bindable
@@ -169,7 +165,7 @@ public class FurtherConsultationVM extends BaseItem implements LayoutId {
 
     @Bindable
     public int getPosition() {
-        return position;
+        return position / QuestionsModel.PADDING + 1;
     }
 
     public void setPosition(int position) {
@@ -197,5 +193,20 @@ public class FurtherConsultationVM extends BaseItem implements LayoutId {
 
     public boolean and(boolean b, boolean b2) {
         return b && b2;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.item_further_consultation;
+    }
+
+    @Override
+    public long getCreated() {
+        return -position;
+    }
+
+    @Override
+    public String getKey() {
+        return questionId;
     }
 }

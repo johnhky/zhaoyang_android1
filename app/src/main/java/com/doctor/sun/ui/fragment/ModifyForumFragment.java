@@ -62,17 +62,8 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
     private boolean adapterStatus;
     private int appointmentId;
 
-    public static ModifyForumFragment getInstance(int appointmentId) {
-        if (instance == null) {
-            instance = new ModifyForumFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(Constants.DATA, appointmentId);
-            //arguments 只能在attach to activity 之前调用, 贯穿整个fragment生命周期
-            instance.setArguments(bundle);
-        } else {
-            instance.getArguments().putInt(Constants.DATA, appointmentId);
-        }
-        return instance;
+    public static AnswerQuestionFragment getInstance(int appointmentId) {
+       return AnswerQuestionFragment.getInstance(String.valueOf(appointmentId));
     }
 
     public ModifyForumFragment() {

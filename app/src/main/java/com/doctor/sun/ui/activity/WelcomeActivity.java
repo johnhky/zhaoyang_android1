@@ -5,7 +5,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.databinding.ActivityWelcomeBinding;
+import com.doctor.sun.http.callback.TokenCallback;
 
 /**
  * Created by rick on 16/2/2016.
@@ -22,9 +24,13 @@ public class WelcomeActivity extends BaseFragmentActivity2 {
             @Override
             public void run() {
                 overridePendingTransition(0, 0);
-                Intent intent = LoginActivity.makeIntent(WelcomeActivity.this);
-                startActivity(intent);
-                finish();
+                if (Settings.isLogin()) {
+                    TokenCallback.checkToken(WelcomeActivity.this);
+                }else {
+                    Intent intent = LoginActivity.makeIntent(WelcomeActivity.this);
+                    startActivity(intent);
+                    finish();
+                }
             }
         }, 1000);
     }

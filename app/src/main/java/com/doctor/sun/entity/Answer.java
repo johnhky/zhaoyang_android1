@@ -270,4 +270,5 @@ public class Answer extends BaseItem {
     public void setDrugPath(String drugPath) {
         this.drugPath = drugPath;
     }
+
 }

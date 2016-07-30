@@ -11,6 +11,7 @@ import com.doctor.sun.entity.Area;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ToolModule;
+import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.vo.BaseItem;
 
 import java.util.ArrayList;
@@ -20,10 +21,12 @@ import java.util.List;
 /**
  * Created by rick on 4/6/2016.
  */
-public class ItemPickHospital extends BaseItem {
+public class ItemPickHospital extends BaseItem implements SortedItem{
     public static final String TAG = ItemPickHospital.class.getSimpleName();
 
     private ToolModule api = Api.of(ToolModule.class);
+
+    public String itemId;
 
     private List<Area> lv1 = new ArrayList<>();
     private List<Area> lv2 = new ArrayList<>();
@@ -250,5 +253,20 @@ public class ItemPickHospital extends BaseItem {
 
 
         return result;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.item_hospital;
+    }
+
+    @Override
+    public long getCreated() {
+        return -getPosition();
+    }
+
+    @Override
+    public String getKey() {
+        return itemId;
     }
 }

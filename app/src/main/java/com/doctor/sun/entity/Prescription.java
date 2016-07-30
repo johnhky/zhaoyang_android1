@@ -1,6 +1,7 @@
 package com.doctor.sun.entity;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.ui.activity.ViewPrescriptionActivity;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,17 +24,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rick on 29/12/2015.
  * 用药信息
  */
-public class Prescription extends BaseObservable implements Parcelable, LayoutId {
+public class Prescription extends BaseObservable implements Parcelable, LayoutId, SortedItem {
 
 
     /**
-     * mediaclName : 1米没信号
-     * productName : 还整个
+     * drugName : 1米没信号
+     * scientificName : 还整个
      * interval : 4
      * numbers : [{"早":"1"},{"午":"1"},{"晚":"1"},{"睡前":"1"}]
      * unit : A
@@ -48,11 +51,13 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         keys.add("睡前");
     }
 
+    public long position;
+    public String itemId;
 
     @JsonProperty("mediaclName")
-    private String mediaclName;
+    private String drugName;
     @JsonProperty("productName")
-    private String productName;
+    private String scientificName;
     @JsonProperty("interval")
     private String interval;
     @JsonProperty("numbers")
@@ -70,8 +75,8 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
 
     public Prescription copy() {
         Prescription result = new Prescription();
-        result.mediaclName = mediaclName;
-        result.productName = productName;
+        result.drugName = drugName;
+        result.scientificName = scientificName;
         result.interval = interval;
         result.numbers = numbers;
         result.unit = unit;
@@ -89,20 +94,20 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         isVisible = visible;
     }
 
-    public String getMediaclName() {
-        return mediaclName;
+    public String getDrugName() {
+        return drugName;
     }
 
-    public void setMediaclName(String mediaclName) {
-        this.mediaclName = mediaclName;
+    public void setDrugName(String drugName) {
+        this.drugName = drugName;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getScientificName() {
+        return scientificName;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setScientificName(String scientificName) {
+        this.scientificName = scientificName;
     }
 
     public String getInterval() {
@@ -129,34 +134,32 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         this.remark = remark;
     }
 
-    public View.OnClickListener modify() {
-        return new View.OnClickListener() {
+    public void modify(Context context) {
+        Intent intent = EditPrescriptionActivity.makeIntent(context, Prescription.this);
+        Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
             @Override
-            public void onClick(View v) {
-                Intent intent = EditPrescriptionActivity.makeIntent(v.getContext(), Prescription.this);
-                Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(Message msg) {
-                        switch (msg.what) {
-                            case DiagnosisFragment.EDIT_PRESCRITPION: {
-                                Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
-                                mediaclName = parcelable.mediaclName;
-                                productName = parcelable.productName;
-                                interval = parcelable.interval;
-                                numbers = parcelable.numbers;
-                                unit = parcelable.unit;
-                                remark = parcelable.remark;
-                                isVisible = parcelable.isVisible;
-                                notifyChange();
-                            }
+            public boolean handleMessage(Message msg) {
+                switch (msg.what) {
+                    case DiagnosisFragment.EDIT_PRESCRITPION: {
+                        Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
+                        if (parcelable == null) {
+                            return false;
                         }
-                        return false;
+                        drugName = parcelable.drugName;
+                        scientificName = parcelable.scientificName;
+                        interval = parcelable.interval;
+                        numbers = parcelable.numbers;
+                        unit = parcelable.unit;
+                        remark = parcelable.remark;
+                        isVisible = parcelable.isVisible;
+                        notifyChange();
                     }
-                }));
-                intent.putExtra(Constants.HANDLER, messenger);
-                v.getContext().startActivity(intent);
+                }
+                return false;
             }
-        };
+        }));
+        intent.putExtra(Constants.HANDLER, messenger);
+        context.startActivity(intent);
     }
 
     public View.OnClickListener viewDetail() {
@@ -180,9 +183,9 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
     @JsonIgnore
     public String getLabel() {
         StringBuilder builder = new StringBuilder();
-        builder.append(mediaclName);
-        if (productName != null && !productName.isEmpty()) {
-            builder.append("(").append(productName).append("),");
+        builder.append(drugName);
+        if (scientificName != null && !scientificName.isEmpty()) {
+            builder.append("(").append(scientificName).append("),");
         } else {
             builder.append(",");
         }
@@ -208,9 +211,9 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
 
     @JsonIgnore
     public String getName() {
-        String s = "<font color='#898989'>药名: </font>" + mediaclName;
-        if (productName != null && !productName.equals("")) {
-            s += "(" + productName + ")";
+        String s = "<font color='#898989'>药名: </font>" + drugName;
+        if (scientificName != null && !scientificName.equals("")) {
+            s += "(" + scientificName + ")";
         } else {
             s += "";
         }
@@ -241,7 +244,7 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
     @JsonIgnore
     public String getRemarkLabel() {
         StringBuilder builder = new StringBuilder();
-        if (remark!=null && !remark.equals("")) {
+        if (remark != null && !remark.equals("")) {
             builder.append("<font color='#898989'>备注:   </font>");
             builder.append(remark);
         }
@@ -263,8 +266,8 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
     @Override
     public String toString() {
         return "Prescription{" +
-                "mediaclName='" + mediaclName + '\'' +
-                ", productName='" + productName + '\'' +
+                "drugName='" + drugName + '\'' +
+                ", scientificName='" + scientificName + '\'' +
                 ", interval='" + interval + '\'' +
                 ", numbers=" + numbers +
                 ", unit='" + unit + '\'' +
@@ -281,9 +284,9 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         Prescription that = (Prescription) o;
 
         if (isVisible != that.isVisible) return false;
-        if (mediaclName != null ? !mediaclName.equals(that.mediaclName) : that.mediaclName != null)
+        if (drugName != null ? !drugName.equals(that.drugName) : that.drugName != null)
             return false;
-        if (productName != null ? !productName.equals(that.productName) : that.productName != null)
+        if (scientificName != null ? !scientificName.equals(that.scientificName) : that.scientificName != null)
             return false;
         if (interval != null ? !interval.equals(that.interval) : that.interval != null)
             return false;
@@ -295,8 +298,8 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
 
     @Override
     public int hashCode() {
-        int result = mediaclName != null ? mediaclName.hashCode() : 0;
-        result = 31 * result + (productName != null ? productName.hashCode() : 0);
+        int result = drugName != null ? drugName.hashCode() : 0;
+        result = 31 * result + (scientificName != null ? scientificName.hashCode() : 0);
         result = 31 * result + (interval != null ? interval.hashCode() : 0);
         result = 31 * result + (numbers != null ? numbers.hashCode() : 0);
         result = 31 * result + (unit != null ? unit.hashCode() : 0);
@@ -313,8 +316,8 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.mediaclName);
-        dest.writeString(this.productName);
+        dest.writeString(this.drugName);
+        dest.writeString(this.scientificName);
         dest.writeString(this.interval);
         dest.writeList(this.numbers);
         dest.writeString(this.unit);
@@ -323,8 +326,8 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
     }
 
     protected Prescription(Parcel in) {
-        this.mediaclName = in.readString();
-        this.productName = in.readString();
+        this.drugName = in.readString();
+        this.scientificName = in.readString();
         this.interval = in.readString();
         this.numbers = new ArrayList<HashMap<String, String>>();
         in.readList(this.numbers, List.class.getClassLoader());
@@ -349,8 +352,45 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         return R.layout.item_prescription;
     }
 
-    public interface UrlToLoad {
-        String url();
+    @Override
+    public int getLayoutId() {
+        return R.layout.item_prescription3;
     }
 
+    @Override
+    public long getCreated() {
+        return -position;
+    }
+
+    @Override
+    public String getKey() {
+        return itemId;
+    }
+
+    public interface UrlToLoad {
+        String url();
+
+    }
+
+    public void fromHashMap(Map<String, String> map) {
+        drugName = map.get("drug_name");
+        scientificName = map.get("scientific_name");
+        interval = map.get("frequency");
+        unit = map.get("drug_unit");
+        remark = map.get("remark");
+//        [{"早":"1"},{"午":"1"},{"晚":"1"},{"睡前":"1"}]
+        numbers = new ArrayList<>();
+        HashMap<String, String> morning = new HashMap<>();
+        morning.put("早", map.get("morning"));
+        numbers.add(morning);
+        HashMap<String, String> afternoon = new HashMap<>();
+        afternoon.put("午", map.get("noon"));
+        numbers.add(afternoon);
+        HashMap<String, String> evening = new HashMap<>();
+        evening.put("晚", map.get("night"));
+        numbers.add(evening);
+        HashMap<String, String> night = new HashMap<>();
+        night.put("睡前", map.get("before_sleep"));
+        numbers.add(night);
+    }
 }

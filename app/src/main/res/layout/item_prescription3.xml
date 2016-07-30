@@ -8,6 +8,10 @@
             name="data"
             type="com.doctor.sun.entity.Prescription" />
 
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
+
     </data>
 
 
@@ -43,7 +47,8 @@
             android:layout_gravity="top"
             android:layout_marginEnd="@dimen/dp_35"
             android:layout_marginRight="@dimen/dp_35"
-            android:background="@drawable/ic_delete_prescription">
+            android:background="@drawable/ic_delete_prescription"
+            android:onClick="@{()->adapter.remove(data)}">
 
             <TextView
                 android:layout_width="match_parent"

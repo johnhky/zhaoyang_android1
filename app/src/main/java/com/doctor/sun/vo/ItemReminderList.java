@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,11 +16,12 @@ import java.util.List;
 /**
  * Created by rick on 18/6/2016.
  */
-public class ItemReminderList extends BaseItem {
+public class ItemReminderList extends BaseItem implements SortedItem {
 
     private int questionId;
 
     private SimpleAdapter<ItemPickDate, ViewDataBinding> simpleAdapter;
+    private String itemId;
 
     public SimpleAdapter adapter(Context context) {
         if (simpleAdapter == null) {
@@ -96,5 +98,24 @@ public class ItemReminderList extends BaseItem {
             }
         }
         return content;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.item_reminder_list;
+    }
+
+    @Override
+    public long getCreated() {
+        return -getPosition();
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    @Override
+    public String getKey() {
+        return itemId;
     }
 }

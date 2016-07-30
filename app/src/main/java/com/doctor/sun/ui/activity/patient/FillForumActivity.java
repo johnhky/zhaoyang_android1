@@ -12,6 +12,7 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.FillForumFragment;
 import com.doctor.sun.ui.fragment.ModifyForumFragment;
 import com.doctor.sun.ui.handler.QCategoryHandler;
@@ -31,7 +32,7 @@ public class FillForumActivity extends BaseFragmentActivity2 implements
     private boolean isFilling;
 
     private ActivityFillForumBinding binding;
-    private ModifyForumFragment fragment;
+    private AnswerQuestionFragment fragment;
 
     public static Intent makeIntent(Context context, int appointmentId) {
         Intent i = new Intent(context, FillForumActivity.class);

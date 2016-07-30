@@ -96,8 +96,8 @@ public class ViewPrescriptionActivity extends BaseActivity2 {
     public void initData() {
         Prescription data = getData();
         if (data == null) return;
-        binding.medicineName.etInput.setText(data.getMediaclName());
-        binding.goodsName.etInput.setText(data.getProductName());
+        binding.medicineName.etInput.setText(data.getDrugName());
+        binding.goodsName.etInput.setText(data.getScientificName());
         binding.morning.etInput.setText(data.getNumbers().get(0).get("早"));
         binding.afternoon.etInput.setText(data.getNumbers().get(1).get("午"));
         binding.evening.etInput.setText(data.getNumbers().get(2).get("晚"));
