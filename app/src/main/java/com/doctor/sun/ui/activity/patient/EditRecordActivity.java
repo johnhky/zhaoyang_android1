@@ -280,13 +280,13 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
 //        String city = binding.tvCity.getText().toString();
 //        int provinceId = 0;
 //        int cityId = 0;
-//        for (int i = 0; i < provinces.size(); i++) {
+//        for (int i = 0; i < provinces.inbetweenItemCount(); i++) {
 //            if (provinces.get(i).getState().equals(state)) {
 //                provinceId = i;
 //            }
 //        }
 //        RealmList<City> cities = provinces.get(provinceId).getCities();
-//        for (int i = 0; i < cities.size(); i++) {
+//        for (int i = 0; i < cities.inbetweenItemCount(); i++) {
 //            if (cities.get(i).getCity().equals(city)) {
 //                cityId = i;
 //            }

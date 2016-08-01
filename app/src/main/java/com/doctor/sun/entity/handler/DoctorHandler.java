@@ -216,7 +216,7 @@ public class DoctorHandler {
 
 
     public boolean canWritePrescription() {
-        return data.getLevel().equals("执业医师认证");
+        return "执业医师认证".equals(data.getLevel());
     }
 
     public HashMap<String, String> toHashMap() {

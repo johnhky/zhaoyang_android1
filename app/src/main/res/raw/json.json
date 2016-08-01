@@ -1,0 +1,193 @@
+[
+  {
+    "base_question_id": "1469672551XEt1OTRqTf",
+    "old_question_id": "1467173060F4ormiZcUW",
+    "base_question_content": "用药",
+    "base_question_type": "drug",
+    "extend_type": "",
+    "refill": "0",
+    "array_content": [
+      {
+        "drug_name": "药名",
+        "scientific_name": "学名",
+        "frequency": "频率",
+        "morning": "早",
+        "noon": "午",
+        "night": "晚",
+        "before_sleep": "'睡前",
+        "drug_unit": "单位",
+        "remark": "备注"
+      }
+    ]
+  },
+  {
+    "base_question_id": "1469672551XEt1OaRqTf",
+    "old_question_id": "1467173067F4ormiZcUW",
+    "base_question_content": "闹钟提醒",
+    "base_question_type": "alarmclock",
+    "extend_type": "",
+    "refill": "0",
+    "array_content": []
+  },
+  {
+    "base_question_id": "1469672552XEt2ObRqTf",
+    "old_question_id": "1468172067F4ormiZcU8",
+    "base_question_content": "对比本次起病初，目前的治疗效果？",
+    "base_question_type": "sel",
+    "extend_type": "",
+    "refill": "0",
+    "fill_content": ""
+  },
+  {
+    "base_question_id": "1469672551FNGXeAXuZr",
+    "old_question_id": "1468306931ZKcXE7A2Iw",
+    "base_question_content": "全国往返三亚5-6天双人自由行",
+    "base_question_type": "checkbox",
+    "extend_type": "0",
+    "refill": "0",
+    "fill_content": "",
+    "option": [
+      {
+        "base_option_id": "1469672551N8LZifMQJ6",
+        "base_option_type": "B",
+        "base_option_content": "有##fill##@@多少@@钱，你家一共",
+        "reply_content": "30",
+        "clear_rule": "1",
+        "selected": "0"
+      }
+    ]
+  },
+  {
+    "base_question_id": "1469672551wYGK2kauzu",
+    "old_question_id": "1468307069QUTQyt5SmU",
+    "base_question_content": "歌诗达赛琳娜号上海往返济州+鹿儿岛 5天4晚邮轮之旅",
+    "base_question_type": "fill",
+    "extend_type": "500",
+    "refill": "0",
+    "fill_content": "字符串"
+  },
+  {
+    "base_question_id": "1469672551NgRT2dgOeM",
+    "old_question_id": "1468308698au1A2lqjbL",
+    "base_question_content": "附加费 ",
+    "base_question_type": "rectangle",
+    "extend_type": "0",
+    "refill": "1",
+    "fill_content": "",
+    "option": [
+      {
+        "base_option_id": "1469672551Q1QX3pRzhA",
+        "base_option_type": "B",
+        "base_option_content": "2块",
+        "reply_content": "",
+        "clear_rule": "0",
+        "selected": "0"
+      }
+    ]
+  },
+  {
+    "base_question_id": "1469672551b0GILTx15Q",
+    "old_question_id": "1468305806tx8YKhpITn",
+    "base_question_content": "要让360浏览器保存你的密码吗？",
+    "base_question_type": "radio",
+    "extend_type": "0",
+    "refill": "0",
+    "fill_content": "",
+    "option": [
+      {
+        "base_option_id": "1469672551IMWdmfJlme",
+        "base_option_type": "B",
+        "base_option_content": "此网站一律不保存",
+        "reply_content": "",
+        "clear_rule": "0",
+        "selected": "0"
+      }
+    ]
+  },
+  {
+    "base_question_id": "1469672551XEt2OaRqTf",
+    "old_question_id": "1468172067F4ormiZcUW",
+    "base_question_content": "末次住院的医院/科室",
+    "base_question_type": "asel",
+    "extend_type": "3",
+    "refill": "0",
+    "array_content": [
+      {
+        "val": "广州市惠爱医院",
+        "key": "1"
+      },
+      {
+        "val": "成人科",
+        "key": "2"
+      },
+      {
+        "val": "一病区",
+        "key": "5"
+      }
+    ],
+    "option": [
+      {
+        "base_option_id": "1469672551i7SQ37Dpmb",
+        "base_option_type": "B",
+        "base_option_content": "tool/endemicAreaList",
+        "reply_content": "",
+        "clear_rule": "0",
+        "selected": "0"
+      }
+    ]
+  },
+  {
+    "base_question_id": "1469672551CEjWkGPE1B",
+    "old_question_id": "1468308810MfejvIIrbe",
+    "base_question_content": "选择日期",
+    "base_question_type": "sdate",
+    "extend_type": "1",
+    "refill": "1",
+    "fill_content": ""
+  },
+  {
+    "base_question_id": "1469672552XEt2OaRqTf",
+    "old_question_id": "1468172067F4ormiZcU9",
+    "base_question_content": "专属就诊/简捷复诊/转诊",
+    "base_question_type": "keepon",
+    "extend_type": "",
+    "refill": "0",
+    "fill_content": "",
+    "option": [
+      {
+        "base_option_id": "1469672551Q1QX4pRzhA",
+        "base_option_type": "A",
+        "base_option_content": "专属就诊",
+        "reply_content": "",
+        "clear_rule": "0",
+        "selected": "0"
+      },
+      {
+        "base_option_id": "1469672551Q3QX4pRzhA",
+        "base_option_type": "B",
+        "base_option_content": "转诊",
+        "reply_content": "12",
+        "clear_rule": "1",
+        "selected": "1"
+      }
+    ]
+  },
+  {
+    "base_question_id": "1469672552XEt2ObRqTa",
+    "old_question_id": "1468172067F4ormiZcU7",
+    "base_question_content": "选择时间",
+    "base_question_type": "stime",
+    "extend_type": "1",
+    "refill": "0",
+    "fill_content": ""
+  },
+  {
+    "base_question_id": "1469672551laXB1F3VR6",
+    "old_question_id": "1467173085nnPr4HVs8C",
+    "base_question_content": "第三条独立问题",
+    "base_question_type": "upImg",
+    "extend_type": "0",
+    "refill": "0",
+    "fill_content": ""
+  }
+]

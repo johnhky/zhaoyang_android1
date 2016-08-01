@@ -22,6 +22,7 @@ import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.activity.patient.handler.SystemMsgHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.ganguo.library.Config;
@@ -221,6 +222,16 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
     @Override
     public String getKey() {
         return "SYSTEM_MSG";
+    }
+
+    @Override
+    public float getSpan() {
+        return 1;
+    }
+
+    @Override
+    public String toJson(SortedListAdapter adapter) {
+        return "";
     }
 
     public static String getConfigKey() {

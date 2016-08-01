@@ -38,7 +38,7 @@ public class AVChatSurface {
     // view
     private LinearLayout largeSizePreviewLayout;
     public SurfaceView mCapturePreview ;
-    private SurfaceView smallSizeSurfaceView;// always added into small size layout
+    private SurfaceView smallSizeSurfaceView;// always added into small inbetweenItemCount layout
     private FrameLayout smallSizePreviewFrameLayout;
     private LinearLayout smallSizePreviewLayout;
     private ImageView smallSizePreviewCoverImg;//stands for peer or local close camera
@@ -263,9 +263,9 @@ public class AVChatSurface {
      */
     public void peerVideoOff(){
         isPeerVideoOff = true;
-        if(localPreviewInSmallSize){ //local preview in small size layout, then peer preview should in large size layout
+        if(localPreviewInSmallSize){ //local preview in small inbetweenItemCount layout, then peer preview should in large inbetweenItemCount layout
             showNotificationLayout(PEER_CLOSE_CAMERA);
-        }else{  // peer preview in small size layout
+        }else{  // peer preview in small inbetweenItemCount layout
             closeSmallSizePreview();
         }
     }

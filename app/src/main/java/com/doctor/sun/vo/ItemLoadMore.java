@@ -1,9 +1,8 @@
 package com.doctor.sun.vo;
 
-import android.databinding.BaseObservable;
-
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.Try;
 
 import io.ganguo.library.core.event.Event;
@@ -12,7 +11,7 @@ import io.ganguo.library.core.event.Event;
  * Created by rick on 7/7/2016.
  */
 
-public class ItemLoadMore  implements SortedItem, Event {
+public class ItemLoadMore implements SortedItem, Event {
 
     private Try aTry;
 
@@ -43,5 +42,15 @@ public class ItemLoadMore  implements SortedItem, Event {
     @Override
     public String getKey() {
         return "ITEM_LOAD_MORE";
+    }
+
+    @Override
+    public float getSpan() {
+        return 1;
+    }
+
+    @Override
+    public String toJson(SortedListAdapter adapter) {
+        return "";
     }
 }

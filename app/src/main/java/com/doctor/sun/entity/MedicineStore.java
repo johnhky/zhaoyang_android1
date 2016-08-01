@@ -10,6 +10,7 @@ import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -68,5 +69,15 @@ public class MedicineStore extends BaseObservable implements LayoutId, SortedIte
     @Override
     public String getKey() {
         return "MEDICINE_STORE";
+    }
+
+    @Override
+    public float getSpan() {
+        return 1;
+    }
+
+    @Override
+    public String toJson(SortedListAdapter adapter) {
+        return "";
     }
 }

@@ -68,6 +68,16 @@ public class ItemConsulting implements SortedItem {
         return String.valueOf(data.getTid());
     }
 
+    @Override
+    public float getSpan() {
+        return 1;
+    }
+
+    @Override
+    public String toJson(SortedListAdapter adapter) {
+        return "";
+    }
+
     public Doctor getDoctor() {
         return data.getDoctor();
     }

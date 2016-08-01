@@ -33,7 +33,7 @@ public class ItemAddPrescription2 extends BaseObservable implements SortedItem {
             @Override
             public boolean handleMessage(Message msg) {
                 if (opCount == -1) {
-                    opCount = size(adapter);
+                    opCount = inBetweenItemCount(adapter);
                 }
                 switch (msg.what) {
                     case DiagnosisFragment.EDIT_PRESCRITPION: {
@@ -52,14 +52,13 @@ public class ItemAddPrescription2 extends BaseObservable implements SortedItem {
         context.startActivity(intent);
     }
 
-    public int size(SortedListAdapter adapter) {
+    public int inBetweenItemCount(SortedListAdapter adapter) {
         int thisPosition = adapter.indexOf(this);
-        int parentPosition = adapter.indexOf(adapter.get(itemId.replace("drug", "")));
-        return thisPosition - parentPosition;
+        return adapter.inBetweenItemCount(thisPosition, itemId.replace("drug", ""));
     }
 
     public boolean sizeLessThen(int i, SortedListAdapter adapter) {
-        return size(adapter) - 1 < i;
+        return inBetweenItemCount(adapter) - 1 < i;
     }
 
 
@@ -84,5 +83,15 @@ public class ItemAddPrescription2 extends BaseObservable implements SortedItem {
     @Override
     public String getKey() {
         return itemId;
+    }
+
+    @Override
+    public float getSpan() {
+        return 1;
+    }
+
+    @Override
+    public String toJson(SortedListAdapter adapter) {
+        return "";
     }
 }

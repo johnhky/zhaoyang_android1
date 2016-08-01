@@ -4,12 +4,13 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.doctor.sun.BuildConfig;
+import com.doctor.sun.ui.model.HeaderViewModel;
 import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by rick on 20/6/2016.
  */
-public class BaseFragment extends Fragment {
+public class BaseFragment extends Fragment implements HeaderViewModel.HeaderView{
     public final String TAG = getClass().getSimpleName();
 
 
@@ -26,4 +27,27 @@ public class BaseFragment extends Fragment {
         MobclickAgent.onPageEnd(TAG);
     }
 
+    public HeaderViewModel getHeader() {
+        return null;
+    }
+
+    @Override
+    public void onBackClicked() {
+
+    }
+
+    @Override
+    public void onTitleClicked() {
+
+    }
+
+    @Override
+    public void onMenuClicked() {
+
+    }
+
+    @Override
+    public void onFirstMenuClicked() {
+
+    }
 }

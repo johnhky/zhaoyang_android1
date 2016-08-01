@@ -17,7 +17,9 @@ import com.doctor.sun.ui.activity.ViewPrescriptionActivity;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
+import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -43,12 +45,18 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
      */
 
     private static final List<String> keys = new ArrayList<>();
+    private static final List<String> fieldKeys = new ArrayList<>();
 
     static {
         keys.add("早");
         keys.add("午");
         keys.add("晚");
         keys.add("睡前");
+
+        fieldKeys.add("morning");
+        fieldKeys.add("noon");
+        fieldKeys.add("night");
+        fieldKeys.add("before_sleep");
     }
 
     public long position;
@@ -367,6 +375,11 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         return itemId;
     }
 
+    @Override
+    public float getSpan() {
+        return 1;
+    }
+
     public interface UrlToLoad {
         String url();
 
@@ -392,5 +405,25 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         HashMap<String, String> night = new HashMap<>();
         night.put("睡前", map.get("before_sleep"));
         numbers.add(night);
+    }
+
+    @Override
+    public String toJson(SortedListAdapter adapter) {
+        HashMap<String, String> result = new HashMap<String, String>();
+
+        result.put("drug_name", drugName);
+        result.put("scientific_name", scientificName);
+        result.put("frequency", interval);
+        result.put("drug_unit", unit);
+        result.put("remark", remark);
+
+        for (int i = 0; i < numbers.size(); i++) {
+            String amount = numbers.get(i).get(keys.get(i));
+            if (null != amount && !amount.equals("")) {
+                result.put(fieldKeys.get(i), amount);
+            }
+        }
+
+        return JacksonUtils.toJson(result);
     }
 }

@@ -81,7 +81,7 @@
 //
 //    private int getItemPadding() {
 //        if (headers != null) {
-//            return headers.size();
+//            return headers.inbetweenItemCount();
 //        } else {
 //            return 0;
 //        }
@@ -222,7 +222,7 @@
 //
 //        @Override
 //        public void run() {
-//            for (int i = 0; i < recentContacts.size(); i++) {
+//            for (int i = 0; i < recentContacts.inbetweenItemCount(); i++) {
 //                RecentContact recentContact = recentContacts.get(i);
 //                String contactId = recentContact.getContactId();
 //                if (recentContact.getSessionType() == SessionTypeEnum.Team) {
@@ -254,7 +254,7 @@
 //
 //    private int removeAppointment(Appointment appointmentByTid) {
 //        int oldPosition = -1;
-//        for (int i = getItemPadding(); i < getAdapter().size(); i++) {
+//        for (int i = getItemPadding(); i < getAdapter().inbetweenItemCount(); i++) {
 //            try {
 //                Appointment o = (Appointment) getAdapter().get(i);
 //                boolean isEqual = o.getTid() == appointmentByTid.getTid();
@@ -352,7 +352,7 @@
 //            if (data != null) {
 //                int padding = getItemPadding();
 //                getAdapter().addAll(padding, data);
-//                getAdapter().notifyItemRangeInserted(padding, data.size());
+//                getAdapter().notifyItemRangeInserted(padding, data.inbetweenItemCount());
 //                cacheAppointment(data);
 //            }
 //        }

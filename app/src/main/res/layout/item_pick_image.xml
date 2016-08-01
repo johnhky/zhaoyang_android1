@@ -9,8 +9,11 @@
 
         <variable
             name="vh"
-            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
 
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
 
     </data>
 
@@ -19,26 +22,25 @@
         android:layout_height="@dimen/dp_100"
         android:orientation="vertical">
 
-        <!--<TextView-->
-        <!--android:layout_width="@dimen/dp_100"-->
-        <!--android:layout_height="@dimen/dp_100"-->
-        <!--android:drawableTop="@drawable/ic_add_image"-->
-        <!--android:gravity="center"-->
-        <!--android:paddingTop="@dimen/dp_15"-->
-        <!--android:text="@string/upload_image" />-->
+        <TextView
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
+            android:gravity="center"
+            android:paddingTop="@dimen/dp_15" />
 
-        <!--<ImageView-->
-        <!--android:layout_width="@dimen/dp_100"-->
-        <!--android:layout_height="@dimen/dp_100"-->
-        <!--android:background="@drawable/bg_pick_image"-->
-        <!--android:padding="@dimen/dp_1"-->
-        <!--android:scaleType="centerCrop"-->
-        <!--android:src="@{data.src}" />-->
+        <ImageView
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
+            android:background="@drawable/ic_upload"
+            android:padding="@dimen/dp_1"
+            android:scaleType="centerCrop"
+            android:src="@{data.src}" />
 
-        <!--<View-->
-        <!--android:layout_width="@dimen/dp_100"-->
-        <!--android:layout_height="@dimen/dp_100"-->
-        <!--android:background="@drawable/ripple_default"-->
-        <!--android:onClick="@{data.pickImage(vh)}" />-->
+        <View
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
+            android:background="@drawable/ripple_default"
+            android:onLongClick="@{()->data.onLongClick(context,adapter)}"
+            android:onClick="@{()->data.onClick(context,adapter,vh)}" />
     </FrameLayout>
 </layout>

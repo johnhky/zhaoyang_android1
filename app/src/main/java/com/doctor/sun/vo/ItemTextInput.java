@@ -1,5 +1,7 @@
 package com.doctor.sun.vo;
 
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+
 /**
  * Created by rick on 12/22/15.
  */
@@ -31,4 +33,8 @@ public class ItemTextInput extends BaseItem {
         this.input = input;
     }
 
+    @Override
+    public String toJson(SortedListAdapter adapter) {
+        return input + "\"}";
+    }
 }

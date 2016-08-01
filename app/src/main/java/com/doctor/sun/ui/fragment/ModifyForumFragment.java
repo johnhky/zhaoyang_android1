@@ -63,7 +63,7 @@ public class ModifyForumFragment extends ListFragment implements View.OnClickLis
     private int appointmentId;
 
     public static AnswerQuestionFragment getInstance(int appointmentId) {
-       return AnswerQuestionFragment.getInstance(String.valueOf(appointmentId));
+        return AnswerQuestionFragment.getInstance(appointmentId);
     }
 
     public ModifyForumFragment() {

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.doctor.sun.Settings;
@@ -16,13 +18,13 @@ import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.event.SwitchTabEvent;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.TabActivity;
+import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.fragment.FillForumFragment;
 import com.doctor.sun.ui.fragment.ModifyForumFragment;
 import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.pager.ConsultingDetailPagerAdapter;
-import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.squareup.otto.Subscribe;
 
@@ -46,8 +48,7 @@ public class ConsultingDetailActivity extends TabActivity
     private boolean isReadOnly;
 
     public static Intent makeIntent(Context context, Appointment data, int position) {
-        Intent i = new Intent(context, ConsultingDetailActivity.class);
-        i.putExtra(Constants.DATA, data);
+        Intent i = AppointmentDetailActivity.intentFor(context, data);
         i.putExtra(Constants.POSITION, position);
         return i;
     }
@@ -215,20 +216,7 @@ public class ConsultingDetailActivity extends TabActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (PickImageDialog.getRequestCode(requestCode)) {
-            case Constants.DOCTOR_REQUEST_CODE:
-            case Constants.PRESCRITION_REQUEST_CODE:
-                DiagnosisFragment.getInstance(getData()).handlerResult(requestCode, resultCode, data);
-                break;
-            case Constants.PATIENT_PRESCRITION_REQUEST_CODE:
-                ModifyForumFragment.getInstance(getData().getAppointmentId()).handleResult(requestCode, resultCode, data);
-                break;
-            case Constants.UPLOAD_REQUEST_CODE:
-            case Constants.UPLOAD_REQUEST_CODE / 2:
-                ModifyForumFragment.getInstance(getData().getAppointmentId()).handleImageResult(requestCode, resultCode, data);
-                break;
-        }
+        getActiveFragment(binding.vp, binding.vp.getCurrentItem()).onActivityResult(requestCode, resultCode, data);
     }
 
     private void initListener() {

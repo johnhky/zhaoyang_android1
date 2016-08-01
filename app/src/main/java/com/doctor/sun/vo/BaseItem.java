@@ -5,15 +5,20 @@ import android.databinding.Bindable;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
 /**
  * Created by rick on 24/12/2015.
  */
-public class BaseItem extends BaseObservable implements LayoutId {
+public class BaseItem extends BaseObservable implements LayoutId ,SortedItem{
+
+    private String itemId;
 
     private boolean visible = true;
     private int itemLayoutId;
     private int position;
+    private int span = 1;
 
     public BaseItem() {
     }
@@ -48,5 +53,38 @@ public class BaseItem extends BaseObservable implements LayoutId {
     public void setPosition(int position) {
         this.position = position;
         notifyPropertyChanged(BR.position);
+    }
+
+    public void setSpan(int span) {
+        this.span = span;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    @Override
+    public int getLayoutId() {
+        return getItemLayoutId();
+    }
+
+    @Override
+    public long getCreated() {
+        return -position;
+    }
+
+    @Override
+    public String getKey() {
+        return itemId;
+    }
+
+    @Override
+    public float getSpan() {
+        return span;
+    }
+
+    @Override
+    public String toJson(SortedListAdapter adapter) {
+        return "";
     }
 }

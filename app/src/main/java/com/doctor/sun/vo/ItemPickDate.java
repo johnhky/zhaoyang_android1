@@ -4,7 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.widget.DatePicker;
 
-import com.doctor.sun.R;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.widget.PickDateDialog;
 import com.squareup.timessquare.CalendarPickerView;
 
@@ -65,9 +65,9 @@ public class ItemPickDate extends BaseItem {
     };
 
 
-    public int getItemLayoutId() {
-        return R.layout.item_pick_date;
-    }
+//    public int getItemLayoutId() {
+//        return R.layout.item_pick_date;
+//    }
 
     public void setType(int type) {
         this.type = type;
@@ -201,5 +201,13 @@ public class ItemPickDate extends BaseItem {
 
     public long getMillis() {
         return calendar.getTimeInMillis();
+    }
+
+    @Override
+    public String toJson(SortedListAdapter adapter) {
+        if (getDate() == null || getDate().equals("")) {
+            return "\"}";
+        }
+        return getDate() + "\"}";
     }
 }

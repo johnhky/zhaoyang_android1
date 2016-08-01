@@ -1,5 +1,6 @@
 package com.doctor.sun.model;
 
+import com.doctor.sun.R;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Options2;
 import com.doctor.sun.entity.Prescription;
@@ -13,7 +14,11 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.util.Function0;
 import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemAddPrescription2;
+import com.doctor.sun.vo.ItemPickDate;
+import com.doctor.sun.vo.ItemPickTime;
 import com.doctor.sun.vo.ItemReminderList;
+import com.doctor.sun.vo.ItemTextInput;
+import com.doctor.sun.vo.PickImageViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,14 +75,38 @@ public class QuestionsModel {
 
                 //TODO
                 case QuestionType.fill:
+                    ItemTextInput textInput = new ItemTextInput(R.layout.item_text_input6, "");
+                    textInput.setPosition((i + 1) * PADDING - 1);
+                    items.add(textInput);
                     break;
                 case QuestionType.upImg:
+
+                    if (questions2.fillContent != null && !questions2.fillContent.equals("")) {
+                        String[] split = questions2.fillContent.split(",");
+                        for (int j = 0; j < split.length; j++) {
+                            PickImageViewModel item = new PickImageViewModel(R.layout.item_pick_image, split[j]);
+                            item.setPosition(i * PADDING + j + 1);
+                            item.setItemId(UUID.randomUUID().toString());
+                            items.add(item);
+                        }
+                    }
+                    PickImageViewModel itemPickImage = new PickImageViewModel(R.layout.item_pick_image, "");
+                    itemPickImage.setPosition((i + 1) * PADDING - 1);
+                    itemPickImage.setItemId(questions2.baseQuestionId + "pick_image");
+                    items.add(itemPickImage);
                     break;
+
                 case QuestionType.sTime:
+                    ItemPickTime itemPickTime = new ItemPickTime(R.layout.item_pick_question_time, "");
+                    itemPickTime.setPosition((i + 1) * PADDING - 1);
+                    itemPickTime.setItemId(questions2.baseQuestionId + "pick_time");
+                    items.add(itemPickTime);
                     break;
                 case QuestionType.sDate:
-                    break;
-                case QuestionType.rectangle:
+                    ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_pick_date3, "");
+                    itemPickDate.setPosition((i + 1) * PADDING - 1);
+                    itemPickDate.setItemId(questions2.baseQuestionId + "pick_date");
+                    items.add(itemPickDate);
                     break;
 
                 case QuestionType.asel:
@@ -123,7 +152,7 @@ public class QuestionsModel {
 
                     items.add(vm);
                     break;
-
+                case QuestionType.rectangle:
                 default:
                     List<Options2> option = questions2.option;
                     if (option == null || option.isEmpty()) continue;

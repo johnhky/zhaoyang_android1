@@ -98,7 +98,7 @@ public class FillForumActivity extends BaseFragmentActivity2 implements
                 break;
             case Constants.UPLOAD_REQUEST_CODE:
             case Constants.UPLOAD_REQUEST_CODE / 2:
-                ModifyForumFragment.getInstance(getData()).handleImageResult(requestCode, resultCode, data);
+//                ModifyForumFragment.getInstance(getData()).handleImageResult(requestCode, resultCode, data);
                 break;
         }
     }

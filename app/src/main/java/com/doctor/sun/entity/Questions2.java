@@ -1,8 +1,10 @@
 package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -66,5 +68,23 @@ public class Questions2 implements SortedItem {
     @Override
     public String getKey() {
         return baseQuestionId;
+    }
+
+    @Override
+    public float getSpan() {
+        return 1;
+    }
+
+    @Override
+    public String toJson(SortedListAdapter adapter) {
+        switch (baseQuestionType) {
+            case QuestionType.upImg:
+            case QuestionType.fill:
+            case QuestionType.sDate:
+            case QuestionType.sTime:
+                return "{\"question_id\":\"" + baseQuestionId + "\", \"fill_content\":\"";
+            default:
+                return "";
+        }
     }
 }

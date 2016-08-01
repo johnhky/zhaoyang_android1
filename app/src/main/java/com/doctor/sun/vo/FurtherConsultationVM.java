@@ -209,4 +209,14 @@ public class FurtherConsultationVM extends BaseObservable implements SortedItem 
     public String getKey() {
         return questionId;
     }
+
+    @Override
+    public float getSpan() {
+        return 1;
+    }
+
+    @Override
+    public String toJson(SortedListAdapter adapter) {
+        return "";
+    }
 }

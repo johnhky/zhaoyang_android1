@@ -79,6 +79,20 @@ public class Options2 extends BaseObservable implements SortedItem {
         return optionId;
     }
 
+    @Override
+    public float getSpan() {
+        return 1;
+    }
+
+    @Override
+    public String toJson(SortedListAdapter adapter) {
+        if (selected) {
+            return "{option_id:" + optionId + ",replay_content:" + inputContent + "}";
+        } else {
+            return "";
+        }
+    }
+
     public Boolean getSelected() {
         return selected;
     }

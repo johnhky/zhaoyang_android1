@@ -5,7 +5,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +45,14 @@ public class SortedListFragment extends BaseFragment implements SwipeRefreshLayo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentRefreshListBinding.inflate(inflater, container, false);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 4);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return (int) (getAdapter().get(position).getSpan() * 4);
+            }
+        });
+        binding.recyclerView.setLayoutManager(gridLayoutManager);
         mAdapter = createAdapter();
         binding.recyclerView.setAdapter(mAdapter);
         binding.swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));

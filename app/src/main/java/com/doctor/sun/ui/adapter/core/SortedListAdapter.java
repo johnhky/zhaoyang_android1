@@ -167,6 +167,7 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
     public int size() {
         return mList.size();
     }
+
     public int indexOf(SortedItem sortedItem) {
         return mList.indexOf(sortedItem);
     }
@@ -177,5 +178,10 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
 
     public SortedItem get(String key) {
         return mUniqueMapping.get(key);
+    }
+
+    public int inBetweenItemCount(int adapterPosition, String itemId) {
+        int parentPosition = indexOf(get(itemId));
+        return adapterPosition - parentPosition;
     }
 }

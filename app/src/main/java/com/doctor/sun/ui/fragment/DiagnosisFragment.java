@@ -37,6 +37,7 @@ import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.model.DiagnosisViewModel;
+import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.ItemButton;
@@ -413,4 +414,10 @@ public class DiagnosisFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public HeaderViewModel getHeader() {
+        HeaderViewModel headerViewModel = new HeaderViewModel(this);
+        headerViewModel.setRightTitle("保存");
+        return headerViewModel;
+    }
 }

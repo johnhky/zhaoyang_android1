@@ -29,6 +29,7 @@ public class TextMsgFactory {
     public static final String ADMIN_DRUG = "[\"admin\",\"drug\"]";
     public static final int ONE_SECOND = 1000;
 
+    //attachment 字段
     public static final String ATTACHMENT_TYPE = "type";
     public static final String ATTACHMENT_URL = "url";
     public static final String DURATION = "duration";

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by rick on 18/6/2016.
  */
-public class ItemReminderList extends BaseItem implements SortedItem {
+public class ItemReminderList extends BaseItem {
 
     private int questionId;
 

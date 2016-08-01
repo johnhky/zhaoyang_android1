@@ -61,9 +61,6 @@ public class ItemPickTime extends BaseItem {
         }
     };
 
-    public int getItemLayoutId() {
-        return R.layout.item_pick_time;
-    }
 
     public String getTitle() {
         return title;

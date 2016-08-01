@@ -113,6 +113,9 @@
         <activity
             android:name=".ui.activity.doctor.RegisterActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.patient.AppointmentDetailActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.activity.doctor.EditDoctorInfoActivity"
