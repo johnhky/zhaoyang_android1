@@ -6,10 +6,13 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.QuestionType;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.widget.PickTimeDialog;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -144,5 +147,16 @@ public class ItemPickTime extends BaseItem {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    @Override
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        if (getTime() == null || getTime().equals("")) {
+            return null;
+        }
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("question_id", getKey().replace(QuestionType.sDate, ""));
+        result.put("fill_content", getTime());
+        return result;
     }
 }

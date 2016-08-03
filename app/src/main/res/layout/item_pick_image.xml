@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.PickImageViewModel" />
+            type="com.doctor.sun.vo.ItemPickImage" />
 
         <variable
             name="vh"
@@ -34,13 +34,13 @@
             android:background="@drawable/ic_upload"
             android:padding="@dimen/dp_1"
             android:scaleType="centerCrop"
-            android:src="@{data.src}" />
+            android:src="@{data.getImageToLoad()}" />
 
         <View
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_100"
             android:background="@drawable/ripple_default"
-            android:onLongClick="@{()->data.onLongClick(context,adapter)}"
-            android:onClick="@{()->data.onClick(context,adapter,vh)}" />
+            android:onClick="@{()->data.onClick(context,adapter,vh)}"
+            android:onLongClick="@{()->data.onLongClick(context,adapter)}" />
     </FrameLayout>
 </layout>

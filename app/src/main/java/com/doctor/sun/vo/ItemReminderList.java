@@ -6,8 +6,9 @@ import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Reminder;
+import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,5 +118,27 @@ public class ItemReminderList extends BaseItem {
     @Override
     public String getKey() {
         return itemId;
+    }
+
+    @Override
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        if (simpleAdapter.isEmpty()) {
+            return null;
+        } else {
+            ArrayList<Object> arrayList = new ArrayList<>();
+            for (int i = 0; i < simpleAdapter.size(); i++) {
+                ItemPickDate itemPickDate = simpleAdapter.get(i);
+
+                HashMap<String, String> object = new HashMap<>();
+                object.put("alarm_time", itemPickDate.getDate());
+                object.put("alarm_content", itemPickDate.getTitle());
+
+                arrayList.add(object);
+            }
+            HashMap<String, Object> result = new HashMap<>();
+            result.put("question_id", getKey().replace(QuestionType.reminder, ""));
+            result.put("fill_content", arrayList);
+            return result;
+        }
     }
 }

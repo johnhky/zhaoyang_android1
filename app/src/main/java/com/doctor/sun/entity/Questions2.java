@@ -8,6 +8,7 @@ import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,15 +77,14 @@ public class Questions2 implements SortedItem {
     }
 
     @Override
-    public String toJson(SortedListAdapter adapter) {
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         switch (baseQuestionType) {
             case QuestionType.upImg:
             case QuestionType.fill:
             case QuestionType.sDate:
             case QuestionType.sTime:
-                return "{\"question_id\":\"" + baseQuestionId + "\", \"fill_content\":\"";
             default:
-                return "";
+                return null;
         }
     }
 }

@@ -20,6 +20,8 @@ import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.ItemHelper;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
+import java.util.HashMap;
+
 /**
  * Created by rick on 5/7/2016.
  */
@@ -74,8 +76,8 @@ public class ItemConsulting implements SortedItem {
     }
 
     @Override
-    public String toJson(SortedListAdapter adapter) {
-        return "";
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        return null;
     }
 
     public Doctor getDoctor() {

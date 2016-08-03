@@ -13,7 +13,9 @@ import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.OptionsPair;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -216,7 +218,40 @@ public class FurtherConsultationVM extends BaseObservable implements SortedItem 
     }
 
     @Override
-    public String toJson(SortedListAdapter adapter) {
-        return "";
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        HashMap<String, Object> result = new HashMap<>();
+        ArrayList<OptionsPair> content = new ArrayList<>();
+
+        if (hasAnswer) {
+            if (btnOneChecked) {
+                OptionsPair e = new OptionsPair();
+                e.setKey("A");
+                e.setValue(date.getDate());
+                content.add(e);
+            }
+
+            if (btnTwoChecked) {
+                OptionsPair e = new OptionsPair();
+                e.setKey("B");
+                e.setValue(date.getDate());
+                content.add(e);
+            }
+            if (btnThreeChecked) {
+                if (doctor != null) {
+                    OptionsPair e = new OptionsPair();
+                    e.setKey("C");
+                    e.setValue("" + doctor.getId());
+                    content.add(e);
+                }
+            }
+
+            result.put("question_id", getKey().replace(QuestionType.keepon, ""));
+            result.put("fill_content", content);
+
+            return result;
+        }
+
+
+        return null;
     }
 }

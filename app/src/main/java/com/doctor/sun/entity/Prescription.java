@@ -19,7 +19,6 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
-import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -407,8 +406,7 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
         numbers.add(night);
     }
 
-    @Override
-    public String toJson(SortedListAdapter adapter) {
+    public HashMap<String, String> toHashMap() {
         HashMap<String, String> result = new HashMap<String, String>();
 
         result.put("drug_name", drugName);
@@ -421,9 +419,15 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
             String amount = numbers.get(i).get(keys.get(i));
             if (null != amount && !amount.equals("")) {
                 result.put(fieldKeys.get(i), amount);
+            } else {
+                result.put(fieldKeys.get(i), "0");
             }
         }
 
-        return JacksonUtils.toJson(result);
+        return result;
+    }
+
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        return null;
     }
 }

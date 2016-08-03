@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,11 +86,14 @@ public class Options2 extends BaseObservable implements SortedItem {
     }
 
     @Override
-    public String toJson(SortedListAdapter adapter) {
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         if (selected) {
-            return "{option_id:" + optionId + ",replay_content:" + inputContent + "}";
+            HashMap<String, Object> result = new HashMap<>();
+            result.put("option_id", optionId);
+            result.put("replay_content", inputContent);
+            return result;
         } else {
-            return "";
+            return null;
         }
     }
 

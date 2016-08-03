@@ -8,10 +8,12 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
+import java.util.HashMap;
+
 /**
  * Created by rick on 24/12/2015.
  */
-public class BaseItem extends BaseObservable implements LayoutId ,SortedItem{
+public class BaseItem extends BaseObservable implements LayoutId, SortedItem {
 
     private String itemId;
 
@@ -84,7 +86,7 @@ public class BaseItem extends BaseObservable implements LayoutId ,SortedItem{
     }
 
     @Override
-    public String toJson(SortedListAdapter adapter) {
-        return "";
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        return null;
     }
 }

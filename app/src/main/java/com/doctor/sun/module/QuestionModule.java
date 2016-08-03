@@ -17,9 +17,8 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -186,4 +185,8 @@ public interface QuestionModule {
     //    @GET("api/013/smartQuestionnaires/{appointmentId}")
     @GET("http://10.0.0.62:8080/index.php/api/013/smartQuestionnaires/{appointmentId}")
     Call<ApiDTO<List<Questions2>>> questions2(@Path("appointmentId") String appointmentId);
+
+    @FormUrlEncoded
+    @PUT("http://10.0.0.62:8080/index.php/api/013/smartQuestionnaires/{appointmentId}")
+    Call<ApiDTO<String>> saveQuestions2(@Path("appointmentId") int appointmentId, @Field("answer") String answer);
 }

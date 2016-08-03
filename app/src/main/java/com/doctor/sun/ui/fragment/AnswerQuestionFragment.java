@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -15,7 +14,7 @@ import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.JacksonUtils;
-import com.doctor.sun.vo.PickImageViewModel;
+import com.doctor.sun.vo.ItemPickImage;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
@@ -66,12 +65,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
     }
 
     public void save() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < getAdapter().size(); i++) {
-            SortedItem sortedItem = getAdapter().get(i);
-            sb.append(sortedItem.toJson(getAdapter()));
-        }
-        Log.e(TAG, "save: " + sb.toString());
+        model.saveAnswer(appointmentId, getAdapter());
     }
 
     public void loadQuestions(QuestionCategory data) {
@@ -96,7 +90,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
             Tasks.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    PickImageViewModel.handleRequest(getActivity(), getAdapter(), data, requestCode);
+                    ItemPickImage.handleRequest(getActivity(), getAdapter(), data, requestCode);
                 }
             }, 100);
         }

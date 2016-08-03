@@ -25,6 +25,8 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.HashMap;
+
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.Event;
 import io.realm.Realm;
@@ -230,8 +232,8 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
     }
 
     @Override
-    public String toJson(SortedListAdapter adapter) {
-        return "";
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        return null;
     }
 
     public static String getConfigKey() {

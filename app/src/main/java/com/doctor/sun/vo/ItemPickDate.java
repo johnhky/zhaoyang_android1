@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.widget.DatePicker;
 
+import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.widget.PickDateDialog;
 import com.squareup.timessquare.CalendarPickerView;
@@ -11,6 +12,7 @@ import com.squareup.timessquare.CalendarPickerView;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
 
 import io.ganguo.library.util.Tasks;
@@ -204,10 +206,13 @@ public class ItemPickDate extends BaseItem {
     }
 
     @Override
-    public String toJson(SortedListAdapter adapter) {
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         if (getDate() == null || getDate().equals("")) {
-            return "\"}";
+            return null;
         }
-        return getDate() + "\"}";
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("question_id", getKey().replace(QuestionType.sDate, ""));
+        result.put("fill_content", getDate());
+        return result;
     }
 }

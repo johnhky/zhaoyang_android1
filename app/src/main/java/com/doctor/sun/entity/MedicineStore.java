@@ -12,6 +12,8 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
+import java.util.HashMap;
+
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
@@ -77,7 +79,7 @@ public class MedicineStore extends BaseObservable implements LayoutId, SortedIte
     }
 
     @Override
-    public String toJson(SortedListAdapter adapter) {
-        return "";
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        return null;
     }
 }

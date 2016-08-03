@@ -5,6 +5,8 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.Try;
 
+import java.util.HashMap;
+
 import io.ganguo.library.core.event.Event;
 
 /**
@@ -50,7 +52,7 @@ public class ItemLoadMore implements SortedItem, Event {
     }
 
     @Override
-    public String toJson(SortedListAdapter adapter) {
-        return "";
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        return null;
     }
 }

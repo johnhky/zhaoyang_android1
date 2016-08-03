@@ -8,10 +8,12 @@ import android.widget.Spinner;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Area;
+import com.doctor.sun.entity.OptionsPair;
+import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.BaseItem;
 
 import java.util.ArrayList;
@@ -21,12 +23,11 @@ import java.util.List;
 /**
  * Created by rick on 4/6/2016.
  */
-public class ItemPickHospital extends BaseItem implements SortedItem{
+public class ItemPickHospital extends BaseItem {
     public static final String TAG = ItemPickHospital.class.getSimpleName();
 
     private ToolModule api = Api.of(ToolModule.class);
 
-    public String itemId;
 
     private List<Area> lv1 = new ArrayList<>();
     private List<Area> lv2 = new ArrayList<>();
@@ -255,18 +256,33 @@ public class ItemPickHospital extends BaseItem implements SortedItem{
         return result;
     }
 
+    public ArrayList<OptionsPair> toJsonAnswer2() {
+        ArrayList<OptionsPair> result = new ArrayList<>();
+        OptionsPair optionsPair = new OptionsPair();
+        optionsPair.setKey(String.valueOf(lv1.get(lv1Position).id));
+        optionsPair.setValue(lv1.get(lv1Position).name);
+
+        OptionsPair optionsPair2 = new OptionsPair();
+        optionsPair2.setKey(String.valueOf(lv2.get(lv2Position).id));
+        optionsPair2.setValue(lv2.get(lv2Position).name);
+
+        OptionsPair optionsPair3 = new OptionsPair();
+        optionsPair3.setKey(String.valueOf(lv3.get(lv3Position).id));
+        optionsPair3.setValue(lv3.get(lv3Position).name);
+
+        return result;
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.item_hospital;
     }
 
     @Override
-    public long getCreated() {
-        return -getPosition();
-    }
-
-    @Override
-    public String getKey() {
-        return itemId;
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("question_id", getKey().replace(QuestionType.asel, ""));
+        result.put("fill_content", toJsonAnswer2());
+        return result;
     }
 }

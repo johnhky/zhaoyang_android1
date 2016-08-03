@@ -4,9 +4,6 @@
 
     <data>
 
-        <variable
-            name="data"
-            type="com.doctor.sun.vo.ImageListViewModel" />
 
     </data>
 
@@ -17,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="1px"
         android:orientation="vertical"
-        android:setAdapter="@{data.adapter(context)}"
         app:layoutManager="android.support.v7.widget.GridLayoutManager" />
 
 </layout>
