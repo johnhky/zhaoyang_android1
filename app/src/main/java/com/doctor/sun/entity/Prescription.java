@@ -376,7 +376,7 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
 
     @Override
     public float getSpan() {
-        return 1;
+        return 12;
     }
 
     public interface UrlToLoad {

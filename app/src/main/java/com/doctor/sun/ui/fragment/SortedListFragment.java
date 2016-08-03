@@ -45,11 +45,11 @@ public class SortedListFragment extends BaseFragment implements SwipeRefreshLayo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentRefreshListBinding.inflate(inflater, container, false);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 4);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 12);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return (int) (getAdapter().get(position).getSpan() * 4);
+                return (int) (getAdapter().get(position).getSpan());
             }
         });
         binding.recyclerView.setLayoutManager(gridLayoutManager);

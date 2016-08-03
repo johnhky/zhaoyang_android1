@@ -2,6 +2,7 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
+import com.doctor.sun.dto.QuestionDTO;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.QTemplate;
 import com.doctor.sun.entity.Question;
@@ -184,7 +185,7 @@ public interface QuestionModule {
 
     //    @GET("api/013/smartQuestionnaires/{appointmentId}")
     @GET("http://10.0.0.62:8080/index.php/api/013/smartQuestionnaires/{appointmentId}")
-    Call<ApiDTO<List<Questions2>>> questions2(@Path("appointmentId") String appointmentId);
+    Call<ApiDTO<QuestionDTO>> questions2(@Path("appointmentId") int appointmentId);
 
     @FormUrlEncoded
     @PUT("http://10.0.0.62:8080/index.php/api/013/smartQuestionnaires/{appointmentId}")

@@ -6,20 +6,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.QuestionCategory;
-import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.util.Function0;
 import com.doctor.sun.vo.ItemPickImage;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import java.util.List;
 
+import io.ganguo.library.Config;
 import io.ganguo.library.util.Tasks;
 
 /**
@@ -43,25 +40,29 @@ public class AnswerQuestionFragment extends SortedListFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        appointmentId = getArguments().getInt(Constants.DATA);
+        appointmentId = 138;
+//        appointmentId = getArguments().getInt(Constants.DATA);
         model = new QuestionsModel();
     }
 
     @Override
     protected void loadMore() {
         super.loadMore();
-//        model.questions(appointmentId, new Function0<List<? extends SortedItem>>() {
-//            @Override
-//            public void apply(List<? extends SortedItem> sortedItems) {
-//                getAdapter().insertAll(sortedItems);
-//                binding.swipeRefresh.setRefreshing(false);
-//            }
-//        });
-        JavaType type = TypeFactory.defaultInstance().constructCollectionType(List.class, Questions2.class);
-        List<Questions2> questions = JacksonUtils.fromResource(getContext(), R.raw.json, type);
-        List<SortedItem> sortedItems = model.parseQuestions(questions);
-        getAdapter().insertAll(sortedItems);
-        binding.swipeRefresh.setRefreshing(false);
+        final String string = Config.getString(Constants.TOKEN);
+        Config.putString(Constants.TOKEN, "5d8f8d7946a49e696f4b298666762723");
+        model.questions(appointmentId, new Function0<List<? extends SortedItem>>() {
+            @Override
+            public void apply(List<? extends SortedItem> sortedItems) {
+                getAdapter().insertAll(sortedItems);
+                binding.swipeRefresh.setRefreshing(false);
+                Config.putString(Constants.TOKEN, string);
+            }
+        });
+//        JavaType type = TypeFactory.defaultInstance().constructCollectionType(List.class, Questions2.class);
+//        List<Questions2> questions = JacksonUtils.fromResource(getContext(), R.raw.json, type);
+//        List<SortedItem> sortedItems = model.parseQuestions(questions);
+//        getAdapter().insertAll(sortedItems);
+//        binding.swipeRefresh.setRefreshing(false);
     }
 
     public void save() {

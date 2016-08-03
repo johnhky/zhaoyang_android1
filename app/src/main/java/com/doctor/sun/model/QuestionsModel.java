@@ -2,6 +2,7 @@ package com.doctor.sun.model;
 
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.dto.QuestionDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Options2;
 import com.doctor.sun.entity.Prescription;
@@ -41,18 +42,20 @@ public class QuestionsModel {
     private QuestionModule api = Api.of(QuestionModule.class);
 
 
-    public void questions(String appointmentId, final Function0<List<? extends SortedItem>> function0) {
-        api.questions2(appointmentId).enqueue(new SimpleCallback<List<Questions2>>() {
+    public void questions(int appointmentId, final Function0<List<? extends SortedItem>> function0) {
+        api.questions2(appointmentId).enqueue(new SimpleCallback<QuestionDTO>() {
             @Override
-            protected void handleResponse(List<Questions2> response) {
-                parseQuestions(response);
-                function0.apply(parseQuestions(response));
+            protected void handleResponse(QuestionDTO response) {
+                function0.apply(parseQuestions(response.questions));
             }
         });
     }
 
     public List<SortedItem> parseQuestions(List<Questions2> response) {
         List<SortedItem> items = new ArrayList<SortedItem>();
+        if (response == null || response.isEmpty()) {
+            return items;
+        }
         for (int i = 0; i < response.size(); i++) {
             Questions2 questions2 = response.get(i);
             questions2.position = i * PADDING;
@@ -132,33 +135,34 @@ public class QuestionsModel {
                     vm.setQuestionId(questions2.baseQuestionId);
                     vm.setQuestionContent(questions2.baseQuestionContent);
 
-                    for (Options2 options2 : questions2.option) {
-                        if (options2.getSelected()) {
-                            vm.setHasAnswer(true);
-                            switch (options2.optionType) {
-                                case "A": {
-                                    vm.setBtnOneChecked(true);
+                    if (questions2.option != null)
+                        for (Options2 options2 : questions2.option) {
+                            if (options2.getSelected()) {
+                                vm.setHasAnswer(true);
+                                switch (options2.optionType) {
+                                    case "A": {
+                                        vm.setBtnOneChecked(true);
 //                                            vm.setDate(content.get(0).toString());
 
-                                    break;
-                                }
-                                case "B": {
-                                    vm.setBtnTwoChecked(true);
+                                        break;
+                                    }
+                                    case "B": {
+                                        vm.setBtnTwoChecked(true);
 //                                            vm.setDate(content.get(0).toString());
 
-                                    break;
-                                }
-                                case "C": {
-                                    vm.setBtnThreeChecked(true);
-                                    Doctor doctor = new Doctor();
-                                    doctor.fromHashMap(options2.selectedOption);
-                                    vm.setDoctor(doctor);
-                                    break;
-                                }
+                                        break;
+                                    }
+                                    case "C": {
+                                        vm.setBtnThreeChecked(true);
+                                        Doctor doctor = new Doctor();
+                                        doctor.fromHashMap(options2.selectedOption);
+                                        vm.setDoctor(doctor);
+                                        break;
+                                    }
 
+                                }
                             }
                         }
-                    }
 
                     items.add(vm);
                     break;
@@ -173,7 +177,7 @@ public class QuestionsModel {
                         options2.questionId = questions2.baseQuestionId;
                         options2.questionType = questions2.baseQuestionType;
 
-                        options2.position = i * PADDING + j + 1;
+                        options2.setPosition(i * PADDING + j + 1);
                         items.add(options2);
                     }
                     break;

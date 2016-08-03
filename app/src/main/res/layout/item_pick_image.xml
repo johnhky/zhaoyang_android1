@@ -19,18 +19,19 @@
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="@dimen/dp_114"
-        android:layout_height="@dimen/dp_100"
-        android:orientation="vertical">
+        android:layout_height="@dimen/dp_114">
 
         <TextView
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_100"
+            android:layout_gravity="end"
             android:gravity="center"
             android:paddingTop="@dimen/dp_15" />
 
         <ImageView
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_100"
+            android:layout_gravity="end"
             android:background="@drawable/ic_upload"
             android:padding="@dimen/dp_1"
             android:scaleType="centerCrop"
@@ -39,6 +40,7 @@
         <View
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_100"
+            android:layout_gravity="end"
             android:background="@drawable/ripple_default"
             android:onClick="@{()->data.onClick(context,adapter,vh)}"
             android:onLongClick="@{()->data.onLongClick(context,adapter)}" />

@@ -1,16 +1,15 @@
 package com.doctor.sun.entity;
 
 import android.content.Context;
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
-import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.NumericBooleanDeserializer;
 import com.doctor.sun.util.NumericBooleanSerializer;
+import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -24,7 +23,7 @@ import java.util.Map;
  * Created by rick on 28/7/2016.
  */
 
-public class Options2 extends BaseObservable implements SortedItem {
+public class Options2 extends BaseItem {
     public static final String TAG = Options2.class.getSimpleName();
 
     /**
@@ -35,8 +34,6 @@ public class Options2 extends BaseObservable implements SortedItem {
      * reply_content :
      * selected : 0
      */
-    @JsonIgnore
-    public int position;
     @JsonIgnore
     public String questionId;
     @JsonIgnore
@@ -56,7 +53,8 @@ public class Options2 extends BaseObservable implements SortedItem {
     public String optionContent;
     @JsonProperty("base_option_array")
     public List<OptionsPair> childOptions;
-    @Bindable
+    @JsonProperty("reply_index")
+    public int selectedIndex = -1;
     @JsonProperty("reply_object")
     public Map<String, String> selectedOption;
     @JsonProperty("reply_content")
@@ -64,15 +62,14 @@ public class Options2 extends BaseObservable implements SortedItem {
 
     @Override
     public int getLayoutId() {
-        if (questionType != null && questionType.equals("sel")) {
-            return R.layout.new_item_options_dialog;
+        switch (questionType) {
+            case QuestionType.sel:
+                return R.layout.new_item_options_dialog;
+            case QuestionType.rectangle:
+                return R.layout.new_item_options_rect;
+            default:
+                return R.layout.new_item_options;
         }
-        return R.layout.new_item_options;
-    }
-
-    @Override
-    public long getCreated() {
-        return -position;
     }
 
     @Override
@@ -81,17 +78,21 @@ public class Options2 extends BaseObservable implements SortedItem {
     }
 
     @Override
-    public float getSpan() {
-        return 1;
-    }
-
-    @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         if (selected) {
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("option_id", optionId);
-            result.put("replay_content", inputContent);
-            return result;
+            if (getLayoutId() == R.layout.new_item_options_dialog) {
+                if (selectedIndex > 0) {
+                    return childOptions.get(selectedIndex).toHashMap();
+                } else {
+                    return null;
+                }
+            } else {
+                HashMap<String, Object> result = new HashMap<>();
+                result.put("option_id", optionId);
+                result.put("replay_content", inputContent);
+                return result;
+            }
+
         } else {
             return null;
         }
@@ -105,43 +106,34 @@ public class Options2 extends BaseObservable implements SortedItem {
         this.selected = selected;
     }
 
-    public OptionsPair getOption(String index) {
+    public OptionsPair getOption(int index) {
         try {
-            return childOptions.get(Integer.parseInt(index));
+            return childOptions.get(index);
         } catch (Exception e) {
             return childOptions.get(0);
         }
     }
 
     public void clear(SortedListAdapter adapter) {
-        if (clearRule == 0) {
-            return;
-        }
-
         if (!selected) {
             return;
         }
 
         Questions2 sortedItem = (Questions2) adapter.get(questionId);
         for (Options2 options2 : sortedItem.option) {
-            if (options2.optionId.equals(this.optionId)) {
-                continue;
-            } else {
-                options2.selected = Boolean.FALSE;
-                adapter.insert(options2);
+            if (!options2.optionId.equals(this.optionId)) {
+                if (options2.clearRule != clearRule) {
+                    options2.selected = Boolean.FALSE;
+                    adapter.insert(options2);
+                }
             }
         }
+        adapter.insert(sortedItem);
     }
 
     public void showDialog(Context context) {
         if (childOptions == null || childOptions.isEmpty()) {
             return;
-        }
-        Integer selectedIndex;
-        try {
-            selectedIndex = Integer.valueOf(inputContent);
-        } catch (Exception e) {
-            selectedIndex = 0;
         }
         new MaterialDialog.Builder(context)
                 .title("")
@@ -149,7 +141,8 @@ public class Options2 extends BaseObservable implements SortedItem {
                 .itemsCallbackSingleChoice(selectedIndex, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View item, int which, CharSequence text) {
-                        inputContent = String.valueOf(which);
+                        selected = Boolean.TRUE;
+                        selectedIndex = which;
                         notifyChange();
                         return true;
                     }
@@ -158,5 +151,12 @@ public class Options2 extends BaseObservable implements SortedItem {
                 .show();
     }
 
-
+    @Override
+    public float getSpan() {
+        if (questionType.equals(QuestionType.rectangle)) {
+            double i = optionContent.length();
+            return Math.min(12f, Math.max(2f, (float) i));
+        }
+        return super.getSpan();
+    }
 }

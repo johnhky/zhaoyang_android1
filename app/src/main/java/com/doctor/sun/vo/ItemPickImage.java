@@ -120,7 +120,7 @@ public class ItemPickImage extends BaseItem {
 
     @Override
     public float getSpan() {
-        return 0.25f;
+        return 4;
     }
 
     @Override
@@ -128,7 +128,7 @@ public class ItemPickImage extends BaseItem {
         if (src == null || src.equals("")) {
             int adapterPosition = adapter.indexOf(this);
             int distance = adapter.inBetweenItemCount(adapterPosition, getKey().replace(QuestionType.upImg, ""));
-            if (distance == 0) {
+            if (distance <= 1) {
                 return null;
             }
             StringBuilder sb = new StringBuilder();

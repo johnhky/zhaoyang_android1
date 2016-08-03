@@ -48,7 +48,7 @@ public class ItemLoadMore implements SortedItem, Event {
 
     @Override
     public float getSpan() {
-        return 1;
+        return 12;
     }
 
     @Override

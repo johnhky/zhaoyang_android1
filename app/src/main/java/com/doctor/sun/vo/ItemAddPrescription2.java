@@ -73,7 +73,7 @@ public class ItemAddPrescription2 extends BaseItem {
 
     @Override
     public float getSpan() {
-        return 1;
+        return 12;
     }
 
     @Override

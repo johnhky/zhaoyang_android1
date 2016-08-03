@@ -73,7 +73,7 @@ public class Questions2 implements SortedItem {
 
     @Override
     public float getSpan() {
-        return 1;
+        return 12;
     }
 
     @Override

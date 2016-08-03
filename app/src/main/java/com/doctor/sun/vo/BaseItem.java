@@ -20,7 +20,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem {
     private boolean visible = true;
     private int itemLayoutId;
     private int position;
-    private int span = 1;
+    private int span = 12;
 
     public BaseItem() {
     }
