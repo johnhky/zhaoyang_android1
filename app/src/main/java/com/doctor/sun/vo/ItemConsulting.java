@@ -71,7 +71,7 @@ public class ItemConsulting implements SortedItem {
     }
 
     @Override
-    public float getSpan() {
+    public int getSpan() {
         return 12;
     }
 

@@ -375,7 +375,7 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
     }
 
     @Override
-    public float getSpan() {
+    public int getSpan() {
         return 12;
     }
 

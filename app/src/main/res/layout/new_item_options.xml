@@ -31,11 +31,44 @@
             android:enabled="true"
             android:maxLines="1"
             android:onClick="@{()->data.clear(adapter)}"
-            android:paddingEnd="@dimen/dp_14"
             android:paddingLeft="@dimen/dp_14"
-            android:paddingRight="@dimen/dp_14"
             android:paddingStart="@dimen/dp_14"
-            android:text="@{data.optionType+&quot;.&quot;+data.optionContent}"
+            android:text="@{data.optionType+&quot;.&quot; +data.optionContent+data.contentHead}"
+            android:textColor="@color/primary_color_selector"
+            android:textSize="@dimen/font_15" />
+
+        <EditText
+            android:id="@+id/input_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:layout_marginTop="@dimen/dp_6"
+            android:background="@drawable/bg_options"
+            android:button="@drawable/ic_options"
+            android:hint="@{data.optionInputHint}"
+            android:inputType="@{data.optionInputType}"
+            android:minWidth="@dimen/dp_35"
+            android:paddingBottom="@dimen/dp_4"
+            android:paddingEnd="@dimen/dp_8"
+            android:paddingLeft="@dimen/dp_8"
+            android:paddingRight="@dimen/dp_8"
+            android:paddingStart="@dimen/dp_8"
+            android:paddingTop="@dimen/dp_4"
+            android:selected="@{data.selected}"
+            android:text="@={data.inputContent}"
+            android:textColor="@color/primary_color_selector"
+            android:textSize="@dimen/font_15"
+            android:visibility="@{!data.contentTail.equals(&quot;&quot;)}" />
+
+        <TextView
+            android:id="@+id/remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:layout_marginTop="@dimen/dp_6"
+            android:button="@drawable/ic_options"
+            android:selected="@{data.selected}"
+            android:text='@{data.contentTail}'
             android:textColor="@color/primary_color_selector"
             android:textSize="@dimen/font_15" />
     </LinearLayout>

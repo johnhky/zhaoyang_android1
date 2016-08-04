@@ -74,7 +74,7 @@ public class MedicineStore extends BaseObservable implements LayoutId, SortedIte
     }
 
     @Override
-    public float getSpan() {
+    public int getSpan() {
         return 12;
     }
 

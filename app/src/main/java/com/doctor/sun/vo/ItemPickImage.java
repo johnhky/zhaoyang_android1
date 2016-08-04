@@ -119,7 +119,7 @@ public class ItemPickImage extends BaseItem {
 
 
     @Override
-    public float getSpan() {
+    public int getSpan() {
         return 4;
     }
 

@@ -38,6 +38,8 @@ public class Options2 extends BaseItem {
     public String questionId;
     @JsonIgnore
     public String questionType;
+    @JsonIgnore
+    public String questionContent;
 
     @JsonSerialize(using = NumericBooleanSerializer.class)
     @JsonDeserialize(using = NumericBooleanDeserializer.class)
@@ -50,9 +52,17 @@ public class Options2 extends BaseItem {
     @JsonProperty("base_option_type")
     public String optionType;
     @JsonProperty("base_option_content")
-    public String optionContent;
+    public String optionContent = "";
+    @JsonProperty("content_head")
+    public String contentHead = "";
+    @JsonProperty("option_input_hint")
+    public String optionInputHint = "";
+    @JsonProperty("option_input_type")
+    public int optionInputType = 1;
+    @JsonProperty("content_tail")
+    public String contentTail = "";
     @JsonProperty("base_option_array")
-    public List<OptionsPair> childOptions;
+    public List<String> childOptions;
     @JsonProperty("reply_index")
     public int selectedIndex = -1;
     @JsonProperty("reply_object")
@@ -82,7 +92,10 @@ public class Options2 extends BaseItem {
         if (selected) {
             if (getLayoutId() == R.layout.new_item_options_dialog) {
                 if (selectedIndex > 0) {
-                    return childOptions.get(selectedIndex).toHashMap();
+                    HashMap<String, Object> result = new HashMap<>();
+                    result.put("option_id", optionId);
+                    result.put("replay_content", selectedIndex);
+                    return result;
                 } else {
                     return null;
                 }
@@ -106,7 +119,7 @@ public class Options2 extends BaseItem {
         this.selected = selected;
     }
 
-    public OptionsPair getOption(int index) {
+    public String getOption(int index) {
         try {
             return childOptions.get(index);
         } catch (Exception e) {
@@ -115,6 +128,7 @@ public class Options2 extends BaseItem {
     }
 
     public void clear(SortedListAdapter adapter) {
+        notifyChange();
         if (!selected) {
             return;
         }
@@ -136,7 +150,7 @@ public class Options2 extends BaseItem {
             return;
         }
         new MaterialDialog.Builder(context)
-                .title("")
+                .title(questionContent)
                 .items(childOptions)
                 .itemsCallbackSingleChoice(selectedIndex, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
@@ -152,10 +166,13 @@ public class Options2 extends BaseItem {
     }
 
     @Override
-    public float getSpan() {
+    public int getSpan() {
         if (questionType.equals(QuestionType.rectangle)) {
-            double i = optionContent.length();
-            return Math.min(12f, Math.max(2f, (float) i));
+            if (optionContent == null) {
+                return 0;
+            }
+            int i = optionContent.length();
+            return Math.min(12, Math.max(2, i));
         }
         return super.getSpan();
     }

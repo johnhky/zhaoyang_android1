@@ -1,5 +1,7 @@
 package com.doctor.sun.model;
 
+import android.util.Log;
+
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.QuestionDTO;
@@ -119,6 +121,7 @@ public class QuestionsModel {
                     ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_pick_date3, "");
                     itemPickDate.setPosition((i + 1) * PADDING - 1);
                     itemPickDate.setItemId(questions2.baseQuestionId + QuestionType.sDate);
+                    itemPickDate.setDate(questions2.fillContent);
                     items.add(itemPickDate);
                     break;
 
@@ -134,7 +137,6 @@ public class QuestionsModel {
                     vm.setPosition(i * PADDING);
                     vm.setQuestionId(questions2.baseQuestionId);
                     vm.setQuestionContent(questions2.baseQuestionContent);
-
                     if (questions2.option != null)
                         for (Options2 options2 : questions2.option) {
                             if (options2.getSelected()) {
@@ -142,13 +144,13 @@ public class QuestionsModel {
                                 switch (options2.optionType) {
                                     case "A": {
                                         vm.setBtnOneChecked(true);
-//                                            vm.setDate(content.get(0).toString());
+                                        vm.setDate(options2.questionContent);
 
                                         break;
                                     }
                                     case "B": {
                                         vm.setBtnTwoChecked(true);
-//                                            vm.setDate(content.get(0).toString());
+                                        vm.setDate(options2.questionContent);
 
                                         break;
                                     }
@@ -176,6 +178,7 @@ public class QuestionsModel {
 
                         options2.questionId = questions2.baseQuestionId;
                         options2.questionType = questions2.baseQuestionType;
+                        options2.questionContent = questions2.baseQuestionContent;
 
                         options2.setPosition(i * PADDING + j + 1);
                         items.add(options2);
@@ -212,7 +215,9 @@ public class QuestionsModel {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                postAnswer(appointmentId, composeAnswer(adapter));
+                String string = composeAnswer(adapter);
+                Log.e(TAG, "run: " + string);
+                postAnswer(appointmentId, string);
             }
         }).start();
 

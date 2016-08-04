@@ -227,7 +227,7 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
     }
 
     @Override
-    public float getSpan() {
+    public int getSpan() {
         return 12;
     }
 

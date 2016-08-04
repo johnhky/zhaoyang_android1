@@ -49,7 +49,7 @@ public class SortedListFragment extends BaseFragment implements SwipeRefreshLayo
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return (int) (getAdapter().get(position).getSpan());
+                return getAdapter().get(position).getSpan();
             }
         });
         binding.recyclerView.setLayoutManager(gridLayoutManager);

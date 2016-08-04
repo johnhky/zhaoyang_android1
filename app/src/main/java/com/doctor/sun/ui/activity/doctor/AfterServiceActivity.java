@@ -53,6 +53,6 @@ public class AfterServiceActivity extends PageActivity2 {
     @NonNull
     @Override
     public String getEmptyIndicatorText() {
-        return "没有任何进随访任务";
+        return "没有任何随访任务";
     }
 }

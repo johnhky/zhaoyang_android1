@@ -213,7 +213,7 @@ public class FurtherConsultationVM extends BaseObservable implements SortedItem 
     }
 
     @Override
-    public float getSpan() {
+    public int getSpan() {
         return 12;
     }
 

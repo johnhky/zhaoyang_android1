@@ -81,7 +81,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem {
     }
 
     @Override
-    public float getSpan() {
+    public int getSpan() {
         return span;
     }
 

@@ -14,7 +14,7 @@ public interface SortedItem  {
 
     String getKey();
 
-    float getSpan();
+    int getSpan();
 
     HashMap<String, Object> toJson(SortedListAdapter adapter);
 }
