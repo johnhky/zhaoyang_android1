@@ -5,10 +5,12 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Map;
+
 /**
  * Created by rick on 18/6/2016.
  */
-public class Reminder implements LayoutId{
+public class Reminder implements LayoutId {
 
     /**
      * time : 日期字符串
@@ -32,5 +34,9 @@ public class Reminder implements LayoutId{
     @Override
     public int getItemLayoutId() {
         return R.layout.r_item_reminder;
+    }
+
+    public static Reminder fromMap(Map<String, String> stringStringMap) {
+        return new Reminder(stringStringMap.get("alarm_time"), stringStringMap.get("alarm_content"));
     }
 }

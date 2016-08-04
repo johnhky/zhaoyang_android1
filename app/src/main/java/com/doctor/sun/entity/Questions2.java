@@ -49,7 +49,7 @@ public class Questions2 implements SortedItem {
 
     //不懂找颜升
     @JsonProperty("array_content")
-    public List<Map<String, String>> wtfContent;
+    public List<Map<String, String>> arrayContent;
 
     public String positionString() {
         return String.valueOf(position / QuestionsModel.PADDING + 1);

@@ -59,6 +59,8 @@ public class Options2 extends BaseItem {
     public String optionInputHint = "";
     @JsonProperty("option_input_type")
     public int optionInputType = 1;
+    @JsonProperty("option_input_length")
+    public int optionInputLength = 0;
     @JsonProperty("content_tail")
     public String contentTail = "";
     @JsonProperty("base_option_array")

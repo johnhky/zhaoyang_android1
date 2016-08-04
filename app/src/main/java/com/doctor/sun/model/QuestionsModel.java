@@ -66,11 +66,11 @@ public class QuestionsModel {
             switch (questions2.baseQuestionType) {
                 case QuestionType.drug:
                     ItemAddPrescription2 itemAddPrescription = new ItemAddPrescription2();
-                    for (int j = 0; j < questions2.wtfContent.size(); j++) {
+                    for (int j = 0; j < questions2.arrayContent.size(); j++) {
                         Prescription prescription = new Prescription();
                         prescription.position = i * PADDING + j + 1;
                         prescription.itemId = UUID.randomUUID().toString();
-                        prescription.fromHashMap(questions2.wtfContent.get(j));
+                        prescription.fromHashMap(questions2.arrayContent.get(j));
                         items.add(prescription);
                         itemAddPrescription.getPrescriptions().add(prescription);
                     }
@@ -84,6 +84,7 @@ public class QuestionsModel {
                     ItemReminderList list = new ItemReminderList();
                     list.setPosition((i + 1) * PADDING - 1);
                     list.setItemId(questions2.baseQuestionId + QuestionType.reminder);
+                    list.addReminder(questions2.arrayContent);
                     items.add(list);
                     break;
 
@@ -92,6 +93,7 @@ public class QuestionsModel {
                     ItemTextInput textInput = new ItemTextInput(R.layout.item_text_input6, "");
                     textInput.setPosition((i + 1) * PADDING - 1);
                     textInput.setItemId(questions2.baseQuestionId + QuestionType.fill);
+                    textInput.setInput(questions2.fillContent);
                     items.add(textInput);
                     break;
                 case QuestionType.upImg:
@@ -126,7 +128,15 @@ public class QuestionsModel {
                     break;
 
                 case QuestionType.asel:
-                    ItemPickHospital pickHospital = new ItemPickHospital(1, 1, 1);
+                    int lv1Id = 1;
+                    int lv2Id = 1;
+                    int lv3Id = 1;
+                    if (questions2.arrayContent != null && questions2.arrayContent.size() >= 3) {
+                        lv1Id = Integer.parseInt(questions2.arrayContent.get(0).get("key"));
+                        lv2Id = Integer.parseInt(questions2.arrayContent.get(1).get("key"));
+                        lv3Id = Integer.parseInt(questions2.arrayContent.get(2).get("key"));
+                    }
+                    ItemPickHospital pickHospital = new ItemPickHospital(lv1Id, lv2Id, lv3Id);
                     pickHospital.setPosition((i + 1) * PADDING - 1);
                     pickHospital.setItemId(questions2.baseQuestionId + QuestionType.asel);
                     items.add(pickHospital);
@@ -134,6 +144,7 @@ public class QuestionsModel {
 
                 case QuestionType.keepon:
                     FurtherConsultationVM vm = new FurtherConsultationVM();
+                    vm.questions2 = questions2;
                     vm.setPosition(i * PADDING);
                     vm.setQuestionId(questions2.baseQuestionId);
                     vm.setQuestionContent(questions2.baseQuestionContent);

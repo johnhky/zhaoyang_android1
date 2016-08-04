@@ -14,8 +14,8 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.OptionsPair;
+import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.AppointmentType;
-import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -34,6 +34,7 @@ public class FurtherConsultationVM extends BaseObservable implements SortedItem 
     private int position = 0;
     private boolean hasAnswer = false;
 
+    public Questions2 questions2;
     public ItemPickDate date;
     private Doctor doctor;
 
@@ -220,35 +221,36 @@ public class FurtherConsultationVM extends BaseObservable implements SortedItem 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         HashMap<String, Object> result = new HashMap<>();
-        ArrayList<OptionsPair> content = new ArrayList<>();
 
+        String optionId = "";
+        String replayContent = "";
         if (hasAnswer) {
             if (btnOneChecked) {
-                OptionsPair e = new OptionsPair();
-                e.setKey("A");
-                e.setValue(date.getDate());
-                content.add(e);
+                optionId = questions2.option.get(0).optionId;
+                replayContent = date.getDate();
+                result.put("option_id", optionId);
+                result.put("replay_content", replayContent);
+                return result;
             }
 
             if (btnTwoChecked) {
-                OptionsPair e = new OptionsPair();
-                e.setKey("B");
-                e.setValue(date.getDate());
-                content.add(e);
+                optionId = questions2.option.get(1).optionId;
+                replayContent = date.getDate();
+                result.put("option_id", optionId);
+                result.put("replay_content", replayContent);
+                return result;
             }
             if (btnThreeChecked) {
+                optionId = questions2.option.get(2).optionId;
                 if (doctor != null) {
                     OptionsPair e = new OptionsPair();
-                    e.setKey("C");
-                    e.setValue("" + doctor.getId());
-                    content.add(e);
+                    e.setKey(questions2.option.get(2).optionId);
+                    replayContent = String.valueOf(doctor.getId());
+                    result.put("option_id", optionId);
+                    result.put("replay_content", replayContent);
+                    return result;
                 }
             }
-
-            result.put("question_id", getKey().replace(QuestionType.keepon, ""));
-            result.put("fill_content", content);
-
-            return result;
         }
 
 

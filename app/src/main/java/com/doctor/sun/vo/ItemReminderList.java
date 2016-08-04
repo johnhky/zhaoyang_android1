@@ -13,6 +13,7 @@ import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rick on 18/6/2016.
@@ -21,12 +22,14 @@ public class ItemReminderList extends BaseItem {
 
     private int questionId;
 
+    private ArrayList<ItemPickDate> dates = new ArrayList<>();
     private SimpleAdapter<ItemPickDate, ViewDataBinding> simpleAdapter;
     private String itemId;
 
     public SimpleAdapter adapter(Context context) {
         if (simpleAdapter == null) {
             simpleAdapter = new SimpleAdapter<>(context);
+            simpleAdapter.setData(dates);
             simpleAdapter.mapLayout(R.layout.item_pick_date, R.layout.item_reminder);
             simpleAdapter.onFinishLoadMore(true);
         }
@@ -34,11 +37,13 @@ public class ItemReminderList extends BaseItem {
     }
 
     public void addReminder() {
-        if (simpleAdapter != null) {
+        if (dates != null) {
             ItemPickDate object = new ItemPickDate(R.layout.item_pick_date, "", 0);
-            object.setPosition(simpleAdapter.size() + 1);
-            simpleAdapter.add(object);
-            simpleAdapter.notifyItemInserted(simpleAdapter.size() - 1);
+            object.setPosition(dates.size() + 1);
+            dates.add(object);
+            if (simpleAdapter != null) {
+                simpleAdapter.notifyItemInserted(dates.size() - 1);
+            }
         }
     }
 
@@ -46,12 +51,14 @@ public class ItemReminderList extends BaseItem {
         if (reminder == null) {
             return;
         }
-        if (simpleAdapter != null) {
+        if (dates != null) {
             ItemPickDate object = new ItemPickDate(R.layout.item_pick_date, reminder.content, 0);
-            object.setPosition(simpleAdapter.size() + 1);
+            object.setPosition(dates.size() + 1);
             object.setDate(reminder.time);
-            simpleAdapter.add(object);
-            simpleAdapter.notifyItemInserted(simpleAdapter.size());
+            dates.add(object);
+            if (simpleAdapter != null) {
+                simpleAdapter.notifyItemInserted(dates.size());
+            }
         }
     }
 
@@ -60,6 +67,13 @@ public class ItemReminderList extends BaseItem {
             return;
         }
         for (Reminder reminder : reminderList) {
+            addReminder(reminder);
+        }
+    }
+
+    public void addReminder(List<Map<String, String>> reminders) {
+        for (int j = 0; j < reminders.size(); j++) {
+            Reminder reminder = Reminder.fromMap(reminders.get(j));
             addReminder(reminder);
         }
     }

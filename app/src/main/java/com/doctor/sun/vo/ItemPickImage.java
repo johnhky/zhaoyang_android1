@@ -30,7 +30,7 @@ import okhttp3.RequestBody;
  */
 public class ItemPickImage extends BaseItem {
     public static final String TAG = ItemPickImage.class.getSimpleName();
-    private String src;
+    private String src = "";
     private String localPath = "";
 
     public ItemPickImage(int itemLayoutId, String path) {
@@ -57,6 +57,10 @@ public class ItemPickImage extends BaseItem {
             return src;
         }
     }
+
+//    public String getImageToLoad() {
+//        return src;
+//    }
 
     public boolean onLongClick(Context context, final SortedListAdapter adapter) {
         if (src == null || src.equals("")) {
@@ -132,16 +136,14 @@ public class ItemPickImage extends BaseItem {
                 return null;
             }
             StringBuilder sb = new StringBuilder();
-            for (int i = distance; i > 0; i--) {
-                int index = adapterPosition - distance + 1;
+            for (int i = distance; i > 1; i--) {
+                int index = adapterPosition - i + 1;
                 try {
                     ItemPickImage sortedItem = (ItemPickImage) adapter.get(index);
                     String src = sortedItem.getSrc();
-                    sb.append(src);
-                    sb.append(",");
                     if (src != null && !src.equals("")) {
                         sb.append(src);
-                        if (i != 1) {
+                        if (i != 2) {
                             sb.append(",");
                         }
                     }

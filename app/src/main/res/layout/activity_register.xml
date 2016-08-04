@@ -165,7 +165,7 @@
                 android:inputType="textPassword"
                 android:maxLength="11"
                 android:textColor="#363636"
-                android:textSize="@dimen/font_15" />
+                android:textSize="@dimen/font_12" />
 
         </LinearLayout>
 
@@ -200,7 +200,7 @@
                 android:inputType="textPassword"
                 android:maxLength="11"
                 android:textColor="#363636"
-                android:textSize="@dimen/font_15" />
+                android:textSize="@dimen/font_12" />
 
         </LinearLayout>
 
@@ -234,11 +234,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:button="@null"
-                android:selected="@{header.enable}"
                 android:drawablePadding="@dimen/dp_4"
                 android:gravity="center_vertical"
                 android:onClick="@{()->handler.viewRegistrationPolicy()}"
                 android:padding="@dimen/dp_4"
+                android:selected="@{header.enable}"
                 android:text="是否已知晓【注册须知】所述事项"
                 android:textColor="@color/color_cb_text"
                 android:textSize="@dimen/font_12" />

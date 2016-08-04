@@ -258,17 +258,26 @@ public class ItemPickHospital extends BaseItem {
 
     public ArrayList<OptionsPair> toJsonAnswer2() {
         ArrayList<OptionsPair> result = new ArrayList<>();
-        OptionsPair optionsPair = new OptionsPair();
-        optionsPair.setKey(String.valueOf(lv1.get(lv1Position).id));
-        optionsPair.setValue(lv1.get(lv1Position).name);
+        if (!lv1.isEmpty()) {
+            OptionsPair optionsPair = new OptionsPair();
+            optionsPair.setKey(String.valueOf(lv1.get(lv1Position).id));
+            optionsPair.setValue(lv1.get(lv1Position).name);
+            result.add(optionsPair);
+        }
 
-        OptionsPair optionsPair2 = new OptionsPair();
-        optionsPair2.setKey(String.valueOf(lv2.get(lv2Position).id));
-        optionsPair2.setValue(lv2.get(lv2Position).name);
+        if (!lv2.isEmpty()) {
+            OptionsPair optionsPair2 = new OptionsPair();
+            optionsPair2.setKey(String.valueOf(lv2.get(lv2Position).id));
+            optionsPair2.setValue(lv2.get(lv2Position).name);
+            result.add(optionsPair2);
+        }
 
-        OptionsPair optionsPair3 = new OptionsPair();
-        optionsPair3.setKey(String.valueOf(lv3.get(lv3Position).id));
-        optionsPair3.setValue(lv3.get(lv3Position).name);
+        if (!lv2.isEmpty()) {
+            OptionsPair optionsPair3 = new OptionsPair();
+            optionsPair3.setKey(String.valueOf(lv3.get(lv3Position).id));
+            optionsPair3.setValue(lv3.get(lv3Position).name);
+            result.add(optionsPair3);
+        }
 
         return result;
     }
