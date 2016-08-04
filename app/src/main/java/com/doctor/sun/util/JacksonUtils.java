@@ -79,7 +79,7 @@ public class JacksonUtils {
     /**
      * json string convert to map
      */
-    public static <T> Map<String, Object> toMap(String jsonStr)
+    public static <T> Map toMap(String jsonStr)
             throws Exception {
         return getInstance().readValue(jsonStr, Map.class);
     }

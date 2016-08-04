@@ -144,8 +144,8 @@ public class ItemReminderList extends BaseItem {
                 ItemPickDate itemPickDate = simpleAdapter.get(i);
 
                 HashMap<String, String> object = new HashMap<>();
-                object.put("alarm_time", itemPickDate.getDate());
-                object.put("alarm_content", itemPickDate.getTitle());
+                object.put("time", itemPickDate.getDate());
+                object.put("content", itemPickDate.getTitle());
 
                 arrayList.add(object);
             }

@@ -2,6 +2,7 @@ package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -37,6 +38,6 @@ public class Reminder implements LayoutId {
     }
 
     public static Reminder fromMap(Map<String, String> stringStringMap) {
-        return new Reminder(stringStringMap.get("alarm_time"), stringStringMap.get("alarm_content"));
+        return JacksonUtils.fromMap(stringStringMap, Reminder.class);
     }
 }
