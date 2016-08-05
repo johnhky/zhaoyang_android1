@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.http.Api;
@@ -21,8 +22,10 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.UUID;
 
+import io.ganguo.library.common.LoadingHelper;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import retrofit2.Call;
 
 
 /**
@@ -108,6 +111,8 @@ public class ItemPickImage extends BaseItem {
         item.setItemId(UUID.randomUUID().toString());
         adapter.insert(item);
 
+
+        LoadingHelper.showMaterLoading(context, "正在上传图片");
         RequestBody body = RequestBody.create(MediaType.parse("multipart/form-intent"), file);
         ToolModule api = Api.of(ToolModule.class);
         api.uploadPhoto(body).enqueue(new SimpleCallback<Photo>() {
@@ -116,6 +121,13 @@ public class ItemPickImage extends BaseItem {
             protected void handleResponse(Photo response) {
                 item.setSrc(response.getUrl());
                 adapter.insert(item);
+                LoadingHelper.hideMaterLoading();
+            }
+
+            @Override
+            public void onFailure(Call<ApiDTO<Photo>> call, Throwable t) {
+                super.onFailure(call, t);
+                LoadingHelper.hideMaterLoading();
             }
         });
 

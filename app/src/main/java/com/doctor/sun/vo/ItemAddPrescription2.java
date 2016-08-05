@@ -2,10 +2,12 @@ package com.doctor.sun.vo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.Observable;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Prescription;
@@ -25,7 +27,7 @@ import java.util.UUID;
 
 public class ItemAddPrescription2 extends BaseItem {
     private int opCount = -1;
-    private ArrayList<Prescription> prescriptions = new ArrayList<>();
+    private int itemSize = -1;
 
     public void addDrug(Context context, final SortedListAdapter adapter) {
         Intent intent = EditPrescriptionActivity.makeIntent(context, null);
@@ -34,16 +36,20 @@ public class ItemAddPrescription2 extends BaseItem {
             public boolean handleMessage(Message msg) {
                 if (opCount == -1) {
                     opCount = inBetweenItemCount(adapter);
+                    itemSize = opCount;
                 }
                 switch (msg.what) {
                     case DiagnosisFragment.EDIT_PRESCRITPION: {
                         Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
+                        if (parcelable == null) return false;
+
                         parcelable.position = getPosition() - QuestionsModel.PADDING + 2 + opCount;
                         parcelable.itemId = UUID.randomUUID().toString();
-                        prescriptions.add(parcelable);
+                        registerItemChangedListener(parcelable);
                         adapter.insert(parcelable);
                         notifyChange();
                         opCount += 1;
+                        itemSize += 1;
                     }
                 }
                 return false;
@@ -51,6 +57,18 @@ public class ItemAddPrescription2 extends BaseItem {
         }));
         intent.putExtra(Constants.HANDLER, messenger);
         context.startActivity(intent);
+    }
+
+    public void registerItemChangedListener(Prescription parcelable) {
+        parcelable.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                if (i == BR.removed) {
+                    itemSize -= 1;
+                    notifyChange();
+                }
+            }
+        });
     }
 
     public int inBetweenItemCount(SortedListAdapter adapter) {
@@ -62,19 +80,9 @@ public class ItemAddPrescription2 extends BaseItem {
         return inBetweenItemCount(adapter) - 1 < i;
     }
 
-    public ArrayList<Prescription> getPrescriptions() {
-        return prescriptions;
-    }
-
     @Override
     public int getLayoutId() {
         return R.layout.item_add_prescription3;
-    }
-
-
-    @Override
-    public int getSpan() {
-        return 12;
     }
 
     @Override
@@ -101,5 +109,9 @@ public class ItemAddPrescription2 extends BaseItem {
         result.put("fill_content", hashMaps);
 
         return result;
+    }
+
+    public int itemSize() {
+        return itemSize - 1;
     }
 }

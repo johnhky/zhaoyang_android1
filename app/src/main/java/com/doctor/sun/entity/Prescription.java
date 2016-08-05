@@ -11,6 +11,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
 
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.ui.activity.ViewPrescriptionActivity;
@@ -382,6 +383,11 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
     public interface UrlToLoad {
         String url();
 
+    }
+
+    public void removeThis(SortedListAdapter adapter) {
+        notifyPropertyChanged(BR.removed);
+        adapter.remove(this);
     }
 
     public void fromHashMap(Map<String, String> map) {

@@ -1,6 +1,7 @@
 package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -83,6 +84,10 @@ public class Questions2 extends BaseItem {
         }
         int i = adapter.inBetweenItemCount(vh.getAdapterPosition(), baseQuestionId + baseQuestionType);
         if (Math.abs(i) > 1) {
+            return true;
+        }
+
+        if (baseQuestionType.equals(QuestionType.asel)) {
             return true;
         }
 

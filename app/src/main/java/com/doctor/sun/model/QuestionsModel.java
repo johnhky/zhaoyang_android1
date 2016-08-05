@@ -67,16 +67,23 @@ public class QuestionsModel {
 
             switch (questions2.baseQuestionType) {
                 case QuestionType.drug:
-                    ItemAddPrescription2 itemAddPrescription = new ItemAddPrescription2();
+                    final ItemAddPrescription2 itemAddPrescription = new ItemAddPrescription2();
                     for (int j = 0; j < questions2.arrayContent.size(); j++) {
                         Prescription prescription = new Prescription();
                         prescription.position = i * PADDING + j + 1;
                         prescription.itemId = UUID.randomUUID().toString();
                         prescription.fromHashMap(questions2.arrayContent.get(j));
+                        itemAddPrescription.registerItemChangedListener(prescription);
                         items.add(prescription);
-                        itemAddPrescription.getPrescriptions().add(prescription);
                     }
 
+                    itemAddPrescription.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+                        @Override
+                        public void onPropertyChanged(Observable observable, int i) {
+                            questions2.answerCount = itemAddPrescription.itemSize();
+                            questions2.notifyChange();
+                        }
+                    });
                     itemAddPrescription.setPosition((i + 1) * PADDING - 1);
                     itemAddPrescription.setItemId(questions2.baseQuestionId + QuestionType.drug);
                     items.add(itemAddPrescription);

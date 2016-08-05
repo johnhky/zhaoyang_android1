@@ -9,7 +9,7 @@
             type="com.doctor.sun.ui.model.HeaderViewModel" />
 
         <variable
-            name="stopTakingMedicine"
+            name="removed"
             type="com.doctor.sun.vo.ItemButton" />
 
 
