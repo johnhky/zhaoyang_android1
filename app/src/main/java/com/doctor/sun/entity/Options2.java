@@ -96,7 +96,7 @@ public class Options2 extends BaseItem {
                 if (selectedIndex > 0) {
                     HashMap<String, Object> result = new HashMap<>();
                     result.put("option_id", optionId);
-                    result.put("replay_content", selectedIndex);
+                    result.put("reply_content", selectedIndex);
                     return result;
                 } else {
                     return null;
@@ -104,7 +104,7 @@ public class Options2 extends BaseItem {
             } else {
                 HashMap<String, Object> result = new HashMap<>();
                 result.put("option_id", optionId);
-                result.put("replay_content", inputContent);
+                result.put("reply_content", inputContent);
                 return result;
             }
 
@@ -132,6 +132,7 @@ public class Options2 extends BaseItem {
     public void clear(SortedListAdapter adapter) {
         notifyChange();
         if (!selected) {
+            adapter.update(adapter.get(questionId));
             return;
         }
 

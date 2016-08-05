@@ -6,6 +6,15 @@
         <variable
             name="data"
             type="com.doctor.sun.entity.Questions2" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
+
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,6 +40,7 @@
                     android:layout_width="@dimen/dp_23"
                     android:layout_height="@dimen/dp_23"
                     android:enabled="@{data.refill == 1}"
+                    android:selected="@{data.isSelected(adapter,vh)}"
                     android:src="@drawable/ic_position_selector" />
 
 

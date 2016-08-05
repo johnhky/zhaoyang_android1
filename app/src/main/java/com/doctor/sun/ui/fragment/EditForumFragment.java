@@ -150,7 +150,7 @@ public class EditForumFragment extends RefreshListFragment {
                                         lv2Id = Integer.parseInt(type.get(1));
                                         lv3Id = Integer.parseInt(type.get(2));
                                     }
-                                    ItemPickHospital object = new ItemPickHospital(lv1Id, lv2Id, lv3Id);
+                                    ItemPickHospital object = new ItemPickHospital("", lv1Id, lv2Id, lv3Id);
                                     allData.add(object);
                                 }
                             } catch (Exception e) {

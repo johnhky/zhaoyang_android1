@@ -3,6 +3,7 @@ package com.doctor.sun.vo;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Reminder;
@@ -25,6 +26,8 @@ public class ItemReminderList extends BaseItem {
     private ArrayList<ItemPickDate> dates = new ArrayList<>();
     private SimpleAdapter<ItemPickDate, ViewDataBinding> simpleAdapter;
     private String itemId;
+    private RecyclerView.AdapterDataObserver observer;
+
 
     public SimpleAdapter adapter(Context context) {
         if (simpleAdapter == null) {
@@ -32,6 +35,9 @@ public class ItemReminderList extends BaseItem {
             simpleAdapter.setData(dates);
             simpleAdapter.mapLayout(R.layout.item_pick_date, R.layout.item_reminder);
             simpleAdapter.onFinishLoadMore(true);
+            if (observer != null) {
+                simpleAdapter.registerAdapterDataObserver(observer);
+            }
         }
         return simpleAdapter;
     }
@@ -102,6 +108,14 @@ public class ItemReminderList extends BaseItem {
         return result;
     }
 
+    public int itemCount() {
+        if (simpleAdapter == null) {
+            return dates.size();
+        } else {
+            return simpleAdapter.size();
+        }
+    }
+
     @NonNull
     public ArrayList<Reminder> getReminders() {
         ArrayList<Reminder> content = new ArrayList<>();
@@ -154,5 +168,9 @@ public class ItemReminderList extends BaseItem {
             result.put("fill_content", arrayList);
             return result;
         }
+    }
+
+    public void setChangeListener(RecyclerView.AdapterDataObserver observer) {
+        this.observer = observer;
     }
 }

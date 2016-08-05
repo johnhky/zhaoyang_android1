@@ -6,13 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.QuestionCategory;
+import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.Function0;
+import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.ItemPickImage;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import java.util.List;
 

@@ -69,8 +69,8 @@ public interface ToolModule {
     @POST("tool/crash-log")
     Call<ApiDTO<Void>> crashLog(@Field("log") String log);
 
-    @GET("tool/endemicAreaTrees")
-    Call<ApiDTO<List<Area>>> endemicAreaList();
+    @GET("{path}")
+    Call<ApiDTO<List<Area>>> endemicAreaList(@Path("path") String path);
 
     @GET("tool/homepage-display")
     Call<ApiDTO<List<Banner>>> patientBanner();

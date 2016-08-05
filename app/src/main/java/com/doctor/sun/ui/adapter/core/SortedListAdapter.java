@@ -181,7 +181,11 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
     }
 
     public int inBetweenItemCount(int adapterPosition, String itemId) {
-        int parentPosition = indexOf(get(itemId));
+        SortedItem sortedItem = get(itemId);
+        if (sortedItem == null) {
+            return 0;
+        }
+        int parentPosition = indexOf(sortedItem);
         return adapterPosition - parentPosition;
     }
 }

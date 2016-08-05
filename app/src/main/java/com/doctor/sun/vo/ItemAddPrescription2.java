@@ -9,6 +9,7 @@ import android.os.Messenger;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -54,7 +55,7 @@ public class ItemAddPrescription2 extends BaseItem {
 
     public int inBetweenItemCount(SortedListAdapter adapter) {
         int thisPosition = adapter.indexOf(this);
-        return adapter.inBetweenItemCount(thisPosition, getKey().replace("drug", ""));
+        return adapter.inBetweenItemCount(thisPosition, getKey().replace(QuestionType.drug, ""));
     }
 
     public boolean sizeLessThen(int i, SortedListAdapter adapter) {
@@ -78,14 +79,24 @@ public class ItemAddPrescription2 extends BaseItem {
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
-        if (prescriptions == null || prescriptions.isEmpty()) {
+
+        int adapterPosition = adapter.indexOf(this);
+        String questionId = getKey().replace(QuestionType.drug, "");
+        int distance = adapter.inBetweenItemCount(adapterPosition, questionId);
+        if (distance <= 1) {
             return null;
         }
         HashMap<String, Object> result = new HashMap<>();
-        result.put("question_id", getKey().replace("drug", ""));
+        result.put("question_id", questionId);
         ArrayList<HashMap<String, String>> hashMaps = new ArrayList<>();
-        for (Prescription prescription : prescriptions) {
-            hashMaps.add(prescription.toHashMap());
+        for (int i = distance; i > 1; i--) {
+            int index = adapterPosition - i + 1;
+            try {
+                Prescription sortedItem = (Prescription) adapter.get(index);
+                hashMaps.add(sortedItem.toHashMap());
+            } catch (ClassCastException ignored) {
+                ignored.printStackTrace();
+            }
         }
         result.put("fill_content", hashMaps);
 

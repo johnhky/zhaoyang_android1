@@ -21,6 +21,7 @@ import io.ganguo.library.util.Tasks;
  * Created by rick on 12/22/15.
  */
 public class ItemPickDate extends BaseItem {
+    public static final String TAG = ItemPickDate.class.getSimpleName();
     public static final long ONE_HUNDRED_YEAR = 3153600000000L;
     public static final long ONE_DAY_MILLIS = 86400000L;
 
@@ -126,11 +127,15 @@ public class ItemPickDate extends BaseItem {
 
     //TODO
     public void setDate(String date) {
-        if (date == null) return;
-        String[] split = date.split("-");
-        year = Integer.valueOf(split[0]);
-        monthOfYear = Integer.valueOf(split[1]) - 1;
-        dayOfMonth = Integer.valueOf(split[2]);
+        try {
+            if (date == null || date.equals("")) return;
+            String[] split = date.split("-");
+            year = Integer.valueOf(split[0]);
+            monthOfYear = Integer.valueOf(split[1]) - 1;
+            dayOfMonth = Integer.valueOf(split[2]);
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+        }
     }
 
 

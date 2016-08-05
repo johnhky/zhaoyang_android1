@@ -1,21 +1,12 @@
 package com.doctor.sun.im;
 
-import com.doctor.sun.entity.im.TextMsg;
-import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.im.observer.LoginSyncStatusObserver;
-import com.doctor.sun.util.NotificationUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.MsgService;
-import com.netease.nimlib.sdk.msg.MsgServiceObserve;
-import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-
-import java.util.List;
-
-import io.realm.Realm;
 
 /**
  * Created by rick on 1/4/2016.

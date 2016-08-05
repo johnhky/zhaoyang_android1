@@ -1,11 +1,10 @@
 package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
-import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.model.QuestionsModel;
-import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
@@ -16,7 +15,7 @@ import java.util.Map;
  * Created by rick on 28/7/2016.
  */
 
-public class Questions2 implements SortedItem {
+public class Questions2 extends BaseItem {
 
 
     /**
@@ -29,8 +28,6 @@ public class Questions2 implements SortedItem {
      * refill : 0
      */
 
-    @JsonIgnore
-    public int position;
     @JsonProperty("base_question_id")
     public String baseQuestionId;
     @JsonProperty("base_question_type")
@@ -43,6 +40,7 @@ public class Questions2 implements SortedItem {
     public String oldQuestionId;
     @JsonProperty("refill")
     public int refill;
+    public int answerCount = 0;
 
     @JsonProperty("option")
     public List<Options2> option;
@@ -52,7 +50,7 @@ public class Questions2 implements SortedItem {
     public List<Map<String, String>> arrayContent;
 
     public String positionString() {
-        return String.valueOf(position / QuestionsModel.PADDING + 1);
+        return String.valueOf(getPosition() / QuestionsModel.PADDING + 1);
     }
 
 
@@ -61,10 +59,6 @@ public class Questions2 implements SortedItem {
         return R.layout.item_question2;
     }
 
-    @Override
-    public long getCreated() {
-        return -position;
-    }
 
     @Override
     public String getKey() {
@@ -72,19 +66,26 @@ public class Questions2 implements SortedItem {
     }
 
     @Override
-    public int getSpan() {
-        return 12;
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        return null;
     }
 
-    @Override
-    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
-        switch (baseQuestionType) {
-            case QuestionType.upImg:
-            case QuestionType.fill:
-            case QuestionType.sDate:
-            case QuestionType.sTime:
-            default:
-                return null;
+    public boolean isSelected(SortedListAdapter adapter, BaseViewHolder vh) {
+        if (option != null) {
+            for (Options2 options2 : option) {
+                if (options2.getSelected()) {
+                    return true;
+                }
+            }
         }
+        if (answerCount > 0) {
+            return true;
+        }
+        int i = adapter.inBetweenItemCount(vh.getAdapterPosition(), baseQuestionId + baseQuestionType);
+        if (Math.abs(i) > 1) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -1,5 +1,7 @@
 package com.doctor.sun.model;
 
+import android.databinding.Observable;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.doctor.sun.R;
@@ -59,8 +61,8 @@ public class QuestionsModel {
             return items;
         }
         for (int i = 0; i < response.size(); i++) {
-            Questions2 questions2 = response.get(i);
-            questions2.position = i * PADDING;
+            final Questions2 questions2 = response.get(i);
+            questions2.setPosition(i * PADDING);
             items.add(questions2);
 
             switch (questions2.baseQuestionType) {
@@ -81,19 +83,42 @@ public class QuestionsModel {
                     break;
 
                 case QuestionType.reminder:
-                    ItemReminderList list = new ItemReminderList();
+                    final ItemReminderList list = new ItemReminderList();
                     list.setPosition((i + 1) * PADDING - 1);
                     list.setItemId(questions2.baseQuestionId + QuestionType.reminder);
                     list.addReminder(questions2.arrayContent);
+                    questions2.answerCount = list.itemCount();
+                    list.setChangeListener(new RecyclerView.AdapterDataObserver() {
+                        @Override
+                        public void onItemRangeInserted(int positionStart, int itemCount) {
+                            super.onItemRangeInserted(positionStart, itemCount);
+                            questions2.answerCount = list.itemCount();
+                            questions2.notifyChange();
+                        }
+
+                        @Override
+                        public void onItemRangeRemoved(int positionStart, int itemCount) {
+                            super.onItemRangeRemoved(positionStart, itemCount);
+                            questions2.answerCount = list.itemCount();
+                            questions2.notifyChange();
+                        }
+                    });
                     items.add(list);
                     break;
 
                 //TODO
                 case QuestionType.fill:
-                    ItemTextInput textInput = new ItemTextInput(R.layout.item_text_input6, "");
+                    final ItemTextInput textInput = new ItemTextInput(R.layout.item_text_input6, "");
                     textInput.setPosition((i + 1) * PADDING - 1);
                     textInput.setItemId(questions2.baseQuestionId + QuestionType.fill);
                     textInput.setInput(questions2.fillContent);
+                    textInput.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+                        @Override
+                        public void onPropertyChanged(Observable observable, int i) {
+                            questions2.answerCount = textInput.getInput().length();
+                            questions2.notifyChange();
+                        }
+                    });
                     items.add(textInput);
                     break;
                 case QuestionType.upImg:
@@ -117,6 +142,13 @@ public class QuestionsModel {
                     ItemPickTime itemPickTime = new ItemPickTime(R.layout.item_pick_question_time, "");
                     itemPickTime.setPosition((i + 1) * PADDING - 1);
                     itemPickTime.setItemId(questions2.baseQuestionId + QuestionType.sTime);
+                    itemPickTime.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+                        @Override
+                        public void onPropertyChanged(Observable observable, int i) {
+                            questions2.answerCount = 1;
+                            questions2.notifyChange();
+                        }
+                    });
                     items.add(itemPickTime);
                     break;
                 case QuestionType.sDate:
@@ -124,6 +156,13 @@ public class QuestionsModel {
                     itemPickDate.setPosition((i + 1) * PADDING - 1);
                     itemPickDate.setItemId(questions2.baseQuestionId + QuestionType.sDate);
                     itemPickDate.setDate(questions2.fillContent);
+                    itemPickDate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+                        @Override
+                        public void onPropertyChanged(Observable observable, int i) {
+                            questions2.answerCount = 1;
+                            questions2.notifyChange();
+                        }
+                    });
                     items.add(itemPickDate);
                     break;
 
@@ -131,12 +170,16 @@ public class QuestionsModel {
                     int lv1Id = 1;
                     int lv2Id = 1;
                     int lv3Id = 1;
-                    if (questions2.arrayContent != null && questions2.arrayContent.size() >= 3) {
-                        lv1Id = Integer.parseInt(questions2.arrayContent.get(0).get("key"));
-                        lv2Id = Integer.parseInt(questions2.arrayContent.get(1).get("key"));
-                        lv3Id = Integer.parseInt(questions2.arrayContent.get(2).get("key"));
+                    try {
+                        if (questions2.arrayContent != null && questions2.arrayContent.size() >= 3) {
+                            lv1Id = Integer.parseInt(questions2.arrayContent.get(0).get("key"));
+                            lv2Id = Integer.parseInt(questions2.arrayContent.get(1).get("key"));
+                            lv3Id = Integer.parseInt(questions2.arrayContent.get(2).get("key"));
+                        }
+                    } catch (NumberFormatException ignored) {
+
                     }
-                    ItemPickHospital pickHospital = new ItemPickHospital(lv1Id, lv2Id, lv3Id);
+                    ItemPickHospital pickHospital = new ItemPickHospital(questions2.option.get(0).optionContent, lv1Id, lv2Id, lv3Id);
                     pickHospital.setPosition((i + 1) * PADDING - 1);
                     pickHospital.setItemId(questions2.baseQuestionId + QuestionType.asel);
                     items.add(pickHospital);

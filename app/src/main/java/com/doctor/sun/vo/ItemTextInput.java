@@ -12,7 +12,7 @@ public class ItemTextInput extends BaseItem {
 
 
     private String title;
-    private String input;
+    private String input = "";
 
     public ItemTextInput(int itemLayoutId, String title) {
         super(itemLayoutId);
@@ -34,6 +34,7 @@ public class ItemTextInput extends BaseItem {
 
     public void setInput(String input) {
         this.input = input;
+        notifyChange();
     }
 
     @Override
