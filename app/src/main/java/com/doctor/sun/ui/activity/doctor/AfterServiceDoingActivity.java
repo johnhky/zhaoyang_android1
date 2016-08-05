@@ -57,7 +57,10 @@ public class AfterServiceDoingActivity extends TabActivity implements Prescripti
                         title = "保存";
                     }
                 }
-                getBinding().getHeader().setRightTitle(title);
+                HeaderViewModel header = getBinding().getHeader();
+                if (header != null) {
+                    header.setRightTitle(title);
+                }
             }
 
             @Override

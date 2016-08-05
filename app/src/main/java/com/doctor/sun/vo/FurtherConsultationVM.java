@@ -13,7 +13,6 @@ import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.OptionsPair;
 import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.model.QuestionsModel;
@@ -226,7 +225,7 @@ public class FurtherConsultationVM extends BaseObservable implements SortedItem 
         String replayContent = "";
         if (hasAnswer) {
             if (btnOneChecked) {
-                optionId = questions2.option.get(0).optionId;
+                optionId = questions2.getOptionID(0);
                 replayContent = date.getDate();
                 result.put("option_id", optionId);
                 result.put("replay_content", replayContent);
@@ -234,17 +233,15 @@ public class FurtherConsultationVM extends BaseObservable implements SortedItem 
             }
 
             if (btnTwoChecked) {
-                optionId = questions2.option.get(1).optionId;
+                optionId = questions2.getOptionID(1);
                 replayContent = date.getDate();
                 result.put("option_id", optionId);
                 result.put("replay_content", replayContent);
                 return result;
             }
             if (btnThreeChecked) {
-                optionId = questions2.option.get(2).optionId;
+                optionId = questions2.getOptionContent(2);
                 if (doctor != null) {
-                    OptionsPair e = new OptionsPair();
-                    e.setKey(questions2.option.get(2).optionId);
                     replayContent = String.valueOf(doctor.getId());
                     result.put("option_id", optionId);
                     result.put("replay_content", replayContent);

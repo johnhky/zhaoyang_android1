@@ -71,6 +71,20 @@ public class Questions2 extends BaseItem {
         return null;
     }
 
+    public String getOptionContent(int position) {
+        if (option == null || option.size() < position) {
+            return "";
+        }
+        return option.get(position).optionContent;
+    }
+
+    public String getOptionID(int position) {
+        if (option == null || option.size() < position) {
+            return "";
+        }
+        return option.get(position).optionId;
+    }
+
     public boolean isSelected(SortedListAdapter adapter, BaseViewHolder vh) {
         if (option != null) {
             for (Options2 options2 : option) {

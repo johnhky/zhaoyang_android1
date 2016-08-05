@@ -37,6 +37,10 @@ public class ItemPickHospital extends BaseItem {
     private int lv3Position = 0;
 
     public ItemPickHospital(String path, final int lv1Id, final int lv2Id, final int lv3Id) {
+        if (path.equals("")) {
+            return;
+        }
+
         api.endemicAreaList(path).enqueue(new SimpleCallback<List<Area>>() {
             @Override
             protected void handleResponse(List<Area> response) {

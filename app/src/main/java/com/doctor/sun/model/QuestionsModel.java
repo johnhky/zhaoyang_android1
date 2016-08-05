@@ -67,188 +67,216 @@ public class QuestionsModel {
 
             switch (questions2.baseQuestionType) {
                 case QuestionType.drug:
-                    final ItemAddPrescription2 itemAddPrescription = new ItemAddPrescription2();
-                    for (int j = 0; j < questions2.arrayContent.size(); j++) {
-                        Prescription prescription = new Prescription();
-                        prescription.position = i * PADDING + j + 1;
-                        prescription.itemId = UUID.randomUUID().toString();
-                        prescription.fromHashMap(questions2.arrayContent.get(j));
-                        itemAddPrescription.registerItemChangedListener(prescription);
-                        items.add(prescription);
-                    }
-
-                    itemAddPrescription.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-                        @Override
-                        public void onPropertyChanged(Observable observable, int i) {
-                            questions2.answerCount = itemAddPrescription.itemSize();
-                            questions2.notifyChange();
-                        }
-                    });
-                    itemAddPrescription.setPosition((i + 1) * PADDING - 1);
-                    itemAddPrescription.setItemId(questions2.baseQuestionId + QuestionType.drug);
-                    items.add(itemAddPrescription);
+                    parseDrugs(items, i, questions2);
                     break;
-
                 case QuestionType.reminder:
-                    final ItemReminderList list = new ItemReminderList();
-                    list.setPosition((i + 1) * PADDING - 1);
-                    list.setItemId(questions2.baseQuestionId + QuestionType.reminder);
-                    list.addReminder(questions2.arrayContent);
-                    questions2.answerCount = list.itemCount();
-                    list.setChangeListener(new RecyclerView.AdapterDataObserver() {
-                        @Override
-                        public void onItemRangeInserted(int positionStart, int itemCount) {
-                            super.onItemRangeInserted(positionStart, itemCount);
-                            questions2.answerCount = list.itemCount();
-                            questions2.notifyChange();
-                        }
-
-                        @Override
-                        public void onItemRangeRemoved(int positionStart, int itemCount) {
-                            super.onItemRangeRemoved(positionStart, itemCount);
-                            questions2.answerCount = list.itemCount();
-                            questions2.notifyChange();
-                        }
-                    });
-                    items.add(list);
+                    parseReminder(items, i, questions2);
                     break;
-
-                //TODO
                 case QuestionType.fill:
-                    final ItemTextInput textInput = new ItemTextInput(R.layout.item_text_input6, "");
-                    textInput.setPosition((i + 1) * PADDING - 1);
-                    textInput.setItemId(questions2.baseQuestionId + QuestionType.fill);
-                    textInput.setInput(questions2.fillContent);
-                    textInput.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-                        @Override
-                        public void onPropertyChanged(Observable observable, int i) {
-                            questions2.answerCount = textInput.getInput().length();
-                            questions2.notifyChange();
-                        }
-                    });
-                    items.add(textInput);
+                    parseFill(items, i, questions2);
                     break;
                 case QuestionType.upImg:
-
-                    if (questions2.fillContent != null && !questions2.fillContent.equals("")) {
-                        String[] split = questions2.fillContent.split(",");
-                        for (int j = 0; j < split.length; j++) {
-                            ItemPickImage item = new ItemPickImage(R.layout.item_pick_image, split[j]);
-                            item.setPosition(i * PADDING + j + 1);
-                            item.setItemId(UUID.randomUUID().toString());
-                            items.add(item);
-                        }
-                    }
-                    ItemPickImage itemPickImage = new ItemPickImage(R.layout.item_pick_image, "");
-                    itemPickImage.setPosition((i + 1) * PADDING - 1);
-                    itemPickImage.setItemId(questions2.baseQuestionId + QuestionType.upImg);
-                    items.add(itemPickImage);
+                    parseUpImg(items, i, questions2);
                     break;
-
                 case QuestionType.sTime:
-                    ItemPickTime itemPickTime = new ItemPickTime(R.layout.item_pick_question_time, "");
-                    itemPickTime.setPosition((i + 1) * PADDING - 1);
-                    itemPickTime.setItemId(questions2.baseQuestionId + QuestionType.sTime);
-                    itemPickTime.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-                        @Override
-                        public void onPropertyChanged(Observable observable, int i) {
-                            questions2.answerCount = 1;
-                            questions2.notifyChange();
-                        }
-                    });
-                    items.add(itemPickTime);
+                    parsePickTime(items, i, questions2);
                     break;
                 case QuestionType.sDate:
-                    ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_pick_date3, "");
-                    itemPickDate.setPosition((i + 1) * PADDING - 1);
-                    itemPickDate.setItemId(questions2.baseQuestionId + QuestionType.sDate);
-                    itemPickDate.setDate(questions2.fillContent);
-                    itemPickDate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-                        @Override
-                        public void onPropertyChanged(Observable observable, int i) {
-                            questions2.answerCount = 1;
-                            questions2.notifyChange();
-                        }
-                    });
-                    items.add(itemPickDate);
+                    parsePickDate(items, i, questions2);
                     break;
-
                 case QuestionType.asel:
-                    int lv1Id = 1;
-                    int lv2Id = 1;
-                    int lv3Id = 1;
-                    try {
-                        if (questions2.arrayContent != null && questions2.arrayContent.size() >= 3) {
-                            lv1Id = Integer.parseInt(questions2.arrayContent.get(0).get("key"));
-                            lv2Id = Integer.parseInt(questions2.arrayContent.get(1).get("key"));
-                            lv3Id = Integer.parseInt(questions2.arrayContent.get(2).get("key"));
-                        }
-                    } catch (NumberFormatException ignored) {
-
-                    }
-                    ItemPickHospital pickHospital = new ItemPickHospital(questions2.option.get(0).optionContent, lv1Id, lv2Id, lv3Id);
-                    pickHospital.setPosition((i + 1) * PADDING - 1);
-                    pickHospital.setItemId(questions2.baseQuestionId + QuestionType.asel);
-                    items.add(pickHospital);
+                    parsePickHospital(items, i, questions2);
                     break;
-
                 case QuestionType.keepon:
-                    FurtherConsultationVM vm = new FurtherConsultationVM();
-                    vm.questions2 = questions2;
-                    vm.setPosition(i * PADDING);
-                    vm.setQuestionId(questions2.baseQuestionId);
-                    vm.setQuestionContent(questions2.baseQuestionContent);
-                    if (questions2.option != null)
-                        for (Options2 options2 : questions2.option) {
-                            if (options2.getSelected()) {
-                                vm.setHasAnswer(true);
-                                switch (options2.optionType) {
-                                    case "A": {
-                                        vm.setBtnOneChecked(true);
-                                        vm.setDate(options2.questionContent);
-
-                                        break;
-                                    }
-                                    case "B": {
-                                        vm.setBtnTwoChecked(true);
-                                        vm.setDate(options2.questionContent);
-
-                                        break;
-                                    }
-                                    case "C": {
-                                        vm.setBtnThreeChecked(true);
-                                        Doctor doctor = new Doctor();
-                                        doctor.fromHashMap(options2.selectedOption);
-                                        vm.setDoctor(doctor);
-                                        break;
-                                    }
-
-                                }
-                            }
-                        }
-
-                    items.add(vm);
+                    parseFutherConsultation(items, i, questions2);
                     break;
                 case QuestionType.rectangle:
                 default:
-                    List<Options2> option = questions2.option;
-                    if (option == null || option.isEmpty()) continue;
-
-                    for (int j = 0; j < option.size(); j++) {
-                        Options2 options2 = option.get(j);
-
-                        options2.questionId = questions2.baseQuestionId;
-                        options2.questionType = questions2.baseQuestionType;
-                        options2.questionContent = questions2.baseQuestionContent;
-
-                        options2.setPosition(i * PADDING + j + 1);
-                        items.add(options2);
-                    }
+                    parseOptions(items, i, questions2);
                     break;
-
             }
         }
         return items;
+    }
+
+    public void parseOptions(List<SortedItem> items, int i, Questions2 questions2) {
+        List<Options2> option = questions2.option;
+        if (option == null || option.isEmpty()) return;
+
+        for (int j = 0; j < option.size(); j++) {
+            Options2 options2 = option.get(j);
+
+            options2.questionId = questions2.baseQuestionId;
+            options2.questionType = questions2.baseQuestionType;
+            options2.questionContent = questions2.baseQuestionContent;
+
+            options2.setPosition(i * PADDING + j + 1);
+            items.add(options2);
+        }
+    }
+
+    public void parseFutherConsultation(List<SortedItem> items, int i, Questions2 questions2) {
+        FurtherConsultationVM vm = new FurtherConsultationVM();
+        vm.questions2 = questions2;
+        vm.setPosition(i * PADDING);
+        vm.setQuestionId(questions2.baseQuestionId);
+        vm.setQuestionContent(questions2.baseQuestionContent);
+        if (questions2.option != null)
+            for (Options2 options2 : questions2.option) {
+                if (options2.getSelected()) {
+                    vm.setHasAnswer(true);
+                    switch (options2.optionType) {
+                        case "A": {
+                            vm.setBtnOneChecked(true);
+                            vm.setDate(options2.questionContent);
+
+                            break;
+                        }
+                        case "B": {
+                            vm.setBtnTwoChecked(true);
+                            vm.setDate(options2.questionContent);
+
+                            break;
+                        }
+                        case "C": {
+                            vm.setBtnThreeChecked(true);
+                            Doctor doctor = new Doctor();
+                            doctor.fromHashMap(options2.selectedOption);
+                            vm.setDoctor(doctor);
+                            break;
+                        }
+
+                    }
+                }
+            }
+
+        items.add(vm);
+    }
+
+    public void parsePickHospital(List<SortedItem> items, int i, Questions2 questions2) {
+        int lv1Id = 1;
+        int lv2Id = 1;
+        int lv3Id = 1;
+        try {
+            if (questions2.arrayContent != null && questions2.arrayContent.size() >= 3) {
+                lv1Id = Integer.parseInt(questions2.arrayContent.get(0).get("key"));
+                lv2Id = Integer.parseInt(questions2.arrayContent.get(1).get("key"));
+                lv3Id = Integer.parseInt(questions2.arrayContent.get(2).get("key"));
+            }
+        } catch (NumberFormatException ignored) {
+
+        }
+        ItemPickHospital pickHospital = new ItemPickHospital(questions2.getOptionContent(0), lv1Id, lv2Id, lv3Id);
+        pickHospital.setPosition((i + 1) * PADDING - 1);
+        pickHospital.setItemId(questions2.baseQuestionId + QuestionType.asel);
+        items.add(pickHospital);
+    }
+
+    public void parsePickDate(List<SortedItem> items, int i, final Questions2 questions2) {
+        ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_pick_date3, "");
+        itemPickDate.setPosition((i + 1) * PADDING - 1);
+        itemPickDate.setItemId(questions2.baseQuestionId + QuestionType.sDate);
+        itemPickDate.setDate(questions2.fillContent);
+        itemPickDate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                questions2.answerCount = 1;
+                questions2.notifyChange();
+            }
+        });
+        items.add(itemPickDate);
+    }
+
+    public void parsePickTime(List<SortedItem> items, int i, final Questions2 questions2) {
+        ItemPickTime itemPickTime = new ItemPickTime(R.layout.item_pick_question_time, "");
+        itemPickTime.setPosition((i + 1) * PADDING - 1);
+        itemPickTime.setItemId(questions2.baseQuestionId + QuestionType.sTime);
+        itemPickTime.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                questions2.answerCount = 1;
+                questions2.notifyChange();
+            }
+        });
+        items.add(itemPickTime);
+    }
+
+    public void parseUpImg(List<SortedItem> items, int i, Questions2 questions2) {
+        if (questions2.fillContent != null && !questions2.fillContent.equals("")) {
+            String[] split = questions2.fillContent.split(",");
+            for (int j = 0; j < split.length; j++) {
+                ItemPickImage item = new ItemPickImage(R.layout.item_pick_image, split[j]);
+                item.setPosition(i * PADDING + j + 1);
+                item.setItemId(UUID.randomUUID().toString());
+                items.add(item);
+            }
+        }
+        ItemPickImage itemPickImage = new ItemPickImage(R.layout.item_pick_image, "");
+        itemPickImage.setPosition((i + 1) * PADDING - 1);
+        itemPickImage.setItemId(questions2.baseQuestionId + QuestionType.upImg);
+        items.add(itemPickImage);
+    }
+
+    public void parseFill(List<SortedItem> items, int i, final Questions2 questions2) {
+        final ItemTextInput textInput = new ItemTextInput(R.layout.item_text_input6, "");
+        textInput.setPosition((i + 1) * PADDING - 1);
+        textInput.setItemId(questions2.baseQuestionId + QuestionType.fill);
+        textInput.setInput(questions2.fillContent);
+        textInput.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                questions2.answerCount = textInput.getInput().length();
+                questions2.notifyChange();
+            }
+        });
+        items.add(textInput);
+    }
+
+    public void parseReminder(List<SortedItem> items, int i, final Questions2 questions2) {
+        final ItemReminderList list = new ItemReminderList();
+        list.setPosition((i + 1) * PADDING - 1);
+        list.setItemId(questions2.baseQuestionId + QuestionType.reminder);
+        list.addReminder(questions2.arrayContent);
+        questions2.answerCount = list.itemCount();
+        list.setChangeListener(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                questions2.answerCount = list.itemCount();
+                questions2.notifyChange();
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                questions2.answerCount = list.itemCount();
+                questions2.notifyChange();
+            }
+        });
+        items.add(list);
+    }
+
+    public void parseDrugs(List<SortedItem> items, int i, final Questions2 questions2) {
+        final ItemAddPrescription2 itemAddPrescription = new ItemAddPrescription2();
+        for (int j = 0; j < questions2.arrayContent.size(); j++) {
+            Prescription prescription = new Prescription();
+            prescription.position = i * PADDING + j + 1;
+            prescription.itemId = UUID.randomUUID().toString();
+            prescription.fromHashMap(questions2.arrayContent.get(j));
+            itemAddPrescription.registerItemChangedListener(prescription);
+            items.add(prescription);
+        }
+
+        itemAddPrescription.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                questions2.answerCount = itemAddPrescription.itemSize();
+                questions2.notifyChange();
+            }
+        });
+        itemAddPrescription.setPosition((i + 1) * PADDING - 1);
+        itemAddPrescription.setItemId(questions2.baseQuestionId + QuestionType.drug);
+        items.add(itemAddPrescription);
     }
 
     private String composeAnswer(SortedListAdapter adapter) {
