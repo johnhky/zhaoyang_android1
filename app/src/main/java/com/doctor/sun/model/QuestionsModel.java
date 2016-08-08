@@ -55,7 +55,7 @@ public class QuestionsModel {
         });
     }
 
-    public List<SortedItem> parseQuestions(List<Questions2> response) {
+    private List<SortedItem> parseQuestions(List<Questions2> response) {
         List<SortedItem> items = new ArrayList<SortedItem>();
         if (response == null || response.isEmpty()) {
             return items;
@@ -88,7 +88,7 @@ public class QuestionsModel {
                     parsePickHospital(items, i, questions2);
                     break;
                 case QuestionType.keepon:
-                    parseFutherConsultation(items, i, questions2);
+                    parseFurtherConsultation(items, i, questions2);
                     break;
                 case QuestionType.rectangle:
                 default:
@@ -99,7 +99,7 @@ public class QuestionsModel {
         return items;
     }
 
-    public void parseOptions(List<SortedItem> items, int i, Questions2 questions2) {
+    private void parseOptions(List<SortedItem> items, int i, Questions2 questions2) {
         List<Options2> option = questions2.option;
         if (option == null || option.isEmpty()) return;
 
@@ -115,7 +115,7 @@ public class QuestionsModel {
         }
     }
 
-    public void parseFutherConsultation(List<SortedItem> items, int i, Questions2 questions2) {
+    private void parseFurtherConsultation(List<SortedItem> items, int i, Questions2 questions2) {
         FurtherConsultationVM vm = new FurtherConsultationVM();
         vm.questions2 = questions2;
         vm.setPosition(i * PADDING);
@@ -153,7 +153,7 @@ public class QuestionsModel {
         items.add(vm);
     }
 
-    public void parsePickHospital(List<SortedItem> items, int i, Questions2 questions2) {
+    private void parsePickHospital(List<SortedItem> items, int i, Questions2 questions2) {
         int lv1Id = 1;
         int lv2Id = 1;
         int lv3Id = 1;
@@ -172,7 +172,7 @@ public class QuestionsModel {
         items.add(pickHospital);
     }
 
-    public void parsePickDate(List<SortedItem> items, int i, final Questions2 questions2) {
+    private void parsePickDate(List<SortedItem> items, int i, final Questions2 questions2) {
         ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_pick_date3, "");
         itemPickDate.setPosition((i + 1) * PADDING - 1);
         itemPickDate.setItemId(questions2.baseQuestionId + QuestionType.sDate);
@@ -187,7 +187,7 @@ public class QuestionsModel {
         items.add(itemPickDate);
     }
 
-    public void parsePickTime(List<SortedItem> items, int i, final Questions2 questions2) {
+    private void parsePickTime(List<SortedItem> items, int i, final Questions2 questions2) {
         ItemPickTime itemPickTime = new ItemPickTime(R.layout.item_pick_question_time, "");
         itemPickTime.setPosition((i + 1) * PADDING - 1);
         itemPickTime.setItemId(questions2.baseQuestionId + QuestionType.sTime);
@@ -201,7 +201,7 @@ public class QuestionsModel {
         items.add(itemPickTime);
     }
 
-    public void parseUpImg(List<SortedItem> items, int i, Questions2 questions2) {
+    private void parseUpImg(List<SortedItem> items, int i, Questions2 questions2) {
         if (questions2.fillContent != null && !questions2.fillContent.equals("")) {
             String[] split = questions2.fillContent.split(",");
             for (int j = 0; j < split.length; j++) {
@@ -217,11 +217,12 @@ public class QuestionsModel {
         items.add(itemPickImage);
     }
 
-    public void parseFill(List<SortedItem> items, int i, final Questions2 questions2) {
+    private void parseFill(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemTextInput textInput = new ItemTextInput(R.layout.item_text_input6, "");
         textInput.setPosition((i + 1) * PADDING - 1);
         textInput.setItemId(questions2.baseQuestionId + QuestionType.fill);
         textInput.setInput(questions2.fillContent);
+        questions2.answerCount = textInput.getInput().length();
         textInput.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -232,7 +233,7 @@ public class QuestionsModel {
         items.add(textInput);
     }
 
-    public void parseReminder(List<SortedItem> items, int i, final Questions2 questions2) {
+    private void parseReminder(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemReminderList list = new ItemReminderList();
         list.setPosition((i + 1) * PADDING - 1);
         list.setItemId(questions2.baseQuestionId + QuestionType.reminder);
@@ -256,7 +257,7 @@ public class QuestionsModel {
         items.add(list);
     }
 
-    public void parseDrugs(List<SortedItem> items, int i, final Questions2 questions2) {
+    private void parseDrugs(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemAddPrescription2 itemAddPrescription = new ItemAddPrescription2();
         for (int j = 0; j < questions2.arrayContent.size(); j++) {
             Prescription prescription = new Prescription();

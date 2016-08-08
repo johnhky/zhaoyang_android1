@@ -1,18 +1,15 @@
 package com.doctor.sun.entity;
 
-import android.databinding.BaseObservable;
-
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.util.NameComparator;
+import com.doctor.sun.vo.BaseItem;
 
 /**
  * Created by lucas on 12/2/15.
  */
-public class Description extends BaseObservable implements LayoutId, NameComparator.Name {
+public class Description extends BaseItem implements NameComparator.Name {
 
     private int layoutId;
     private String content;
-    private boolean visible = true;
     private int indexPosition;
 
     public Description(int layoutId) {
@@ -37,14 +34,6 @@ public class Description extends BaseObservable implements LayoutId, NameCompara
     @Override
     public String getName() {
         return getContent();
-    }
-
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
     }
 
     public int getIndexPosition() {

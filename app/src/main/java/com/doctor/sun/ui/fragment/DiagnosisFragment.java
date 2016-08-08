@@ -106,7 +106,7 @@ public class DiagnosisFragment extends BaseFragment {
         binding.needReturn.setData("需要专属咨询/转诊/留言咨询");
         binding.needReturn.setIsChecked(false);
         binding.swRoot.setVerticalScrollBarEnabled(false);
-        viewModel.getReturnType().setVisible(false);
+        viewModel.getReturnType().setEnabled(false);
         binding.setData(viewModel);
         prescriptions = new ArrayList<>();
         viewModel.getDate().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
@@ -141,7 +141,7 @@ public class DiagnosisFragment extends BaseFragment {
                 context.startActivityForResult(intent, Constants.DOCTOR_REQUEST_CODE);
             }
         };
-        chooseDoctor.setVisible(false);
+        chooseDoctor.setEnabled(false);
         viewModel.setChooseDoctor(chooseDoctor);
         returnTypeChangeListener = getReturnTypeChangeListener();
         binding.needReturn.switchButton.setOnCheckedChangeListener(getNeedReturnChangeListener());
@@ -155,11 +155,11 @@ public class DiagnosisFragment extends BaseFragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    viewModel.getReturnType().setVisible(true);
+                    viewModel.getReturnType().setEnabled(true);
                     viewModel.getReturnType().setSelectedItem(returnType);
                     returnType = viewModel.getReturnType().getSelectedItem();
                 } else {
-                    viewModel.getReturnType().setVisible(false);
+                    viewModel.getReturnType().setEnabled(false);
                     returnType = viewModel.getReturnType().getSelectedItem();
                     viewModel.getReturnType().setSelectedItem(-1);
                 }
@@ -210,12 +210,12 @@ public class DiagnosisFragment extends BaseFragment {
     private void showTransfer() {
         binding.llyReturn.setVisibility(View.GONE);
         if (doctor == null) {
-            viewModel.getChooseDoctor().setVisible(true);
+            viewModel.getChooseDoctor().setEnabled(true);
             binding.itemDoctor.getRoot().setVisibility(View.GONE);
             binding.itemTransferTo.getRoot().setVisibility(View.GONE);
         } else {
             binding.llyTransfer.setVisibility(View.VISIBLE);
-            viewModel.getChooseDoctor().setVisible(false);
+            viewModel.getChooseDoctor().setEnabled(false);
             binding.itemDoctor.getRoot().setVisibility(View.VISIBLE);
             binding.itemTransferTo.getRoot().setVisibility(View.VISIBLE);
             binding.itemDoctor.setData(doctor);

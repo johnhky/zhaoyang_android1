@@ -3,7 +3,6 @@ package com.doctor.sun.entity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.BaseObservable;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
@@ -16,10 +15,9 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.ui.activity.ViewPrescriptionActivity;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
+import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -32,7 +30,7 @@ import java.util.Map;
  * Created by rick on 29/12/2015.
  * 用药信息
  */
-public class Prescription extends BaseObservable implements Parcelable, LayoutId, SortedItem {
+public class Prescription extends BaseItem implements Parcelable {
 
 
     /**
@@ -280,7 +278,7 @@ public class Prescription extends BaseObservable implements Parcelable, LayoutId
                 ", numbers=" + numbers +
                 ", unit='" + unit + '\'' +
                 ", remark='" + remark + '\'' +
-                ", isVisible=" + isVisible +
+                ", isEnabled=" + isVisible +
                 '}';
     }
 

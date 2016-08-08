@@ -3,7 +3,6 @@ package com.doctor.sun.vo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Handler;
 import android.os.Message;
@@ -18,7 +17,6 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
 import java.util.ArrayList;
@@ -27,7 +25,7 @@ import java.util.HashMap;
 /**
  * Created by rick on 7/6/2016.
  */
-public class FurtherConsultationVM extends BaseObservable implements SortedItem {
+public class FurtherConsultationVM extends BaseItem {
     public static final String TAG = FurtherConsultationVM.class.getSimpleName();
 
     private int position = 0;
@@ -195,6 +193,11 @@ public class FurtherConsultationVM extends BaseObservable implements SortedItem 
 
     public boolean and(boolean b, boolean b2) {
         return b && b2;
+    }
+
+    @Override
+    public int getItemLayoutId() {
+        return R.layout.item_further_consultation;
     }
 
     @Override

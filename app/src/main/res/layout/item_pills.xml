@@ -17,7 +17,7 @@
         android:orientation="horizontal"
         android:paddingBottom="@dimen/dp_9"
         android:paddingLeft="@dimen/dp_25"
-        bind:visible="@{data.visible}">
+        android:visibility="@{data.enabled}">
 
         <TextView
             android:id="@+id/et_others"

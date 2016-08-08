@@ -3,6 +3,7 @@ package com.doctor.sun.ui.adapter.core;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.support.annotation.NonNull;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
@@ -28,6 +29,7 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
     final LayoutInflater mInflater;
     final SortedList<SortedItem> mList;
     final Map<String, SortedItem> mUniqueMapping = new HashMap<>();
+    private LayoutIdInterceptor idInterceptor = new DefaultLayoutIdInterceptor();
 
     public SortedListAdapter(Context context, SortedList<SortedItem> mList) {
         this.mContext = context;
@@ -87,7 +89,8 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
 
     @Override
     public int getItemViewType(int position) {
-        return mList.get(position).getLayoutId();
+        int layoutId = mList.get(position).getLayoutId();
+        return idInterceptor.intercept(layoutId);
     }
 
     @Override
@@ -187,5 +190,22 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
         }
         int parentPosition = indexOf(sortedItem);
         return adapterPosition - parentPosition;
+    }
+
+
+    public void setLayoutIdInterceptor(@NonNull LayoutIdInterceptor idInterceptor) {
+        this.idInterceptor = idInterceptor;
+        notifyDataSetChanged();
+    }
+
+    public interface LayoutIdInterceptor {
+        int intercept(int origin);
+    }
+
+    public class DefaultLayoutIdInterceptor implements LayoutIdInterceptor {
+        @Override
+        public int intercept(int origin) {
+            return origin;
+        }
     }
 }

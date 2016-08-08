@@ -17,7 +17,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem {
 
     private String itemId;
 
-    private boolean visible = true;
+    private boolean enabled = true;
     private int itemLayoutId;
     private int position;
     private int span = 12;
@@ -38,12 +38,12 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem {
         this.itemLayoutId = itemLayoutId;
     }
 
-    public boolean isVisible() {
-        return visible;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setVisible(boolean visible) {
-        this.visible = visible;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
         notifyChange();
     }
 

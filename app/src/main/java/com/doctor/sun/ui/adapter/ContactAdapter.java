@@ -36,7 +36,7 @@ public class ContactAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> imp
         for (int i = clone.length - 1; i >= 0; i--) {
             Description object = new Description(R.layout.item_description, String.valueOf(clone[i]));
             object.setIndexPosition(i);
-            object.setVisible(false);
+            object.setEnabled(false);
             this.add(object);
         }
     }
@@ -83,7 +83,7 @@ public class ContactAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> imp
                     if (layoutId.getItemLayoutId() == R.layout.item_description) {
                         if (i - lastDividerPosition > 1) {
                             if (lastDivider != null)
-                                lastDivider.setVisible(true);
+                                lastDivider.setEnabled(true);
                         }
                         intArray.put(intArray.size(), i);
 
@@ -116,7 +116,7 @@ public class ContactAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> imp
     public int getSectionForPosition(int position) {
         try {
             Description description = (Description) get(position);
-            if (description.isVisible()) {
+            if (description.isEnabled()) {
                 return description.getIndexPosition();
             } else {
                 return getSectionForPosition(position + 1);

@@ -30,22 +30,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_8"
                 android:layout_marginTop="@dimen/dp_18"
                 android:text="支付成功"
                 android:textColor="#ffffff"
-                android:layout_marginBottom="@dimen/dp_8"
                 android:textSize="@dimen/font_20" />
 
             <TextView
                 android:id="@+id/tv_system_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/pay_success_tip"
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
-                android:visibility="visible"
+                android:text="@string/pay_success_tip"
                 android:textColor="#ffffff"
-                android:textSize="@dimen/font_13" />
+                android:textSize="@dimen/font_13"
+                android:visibility="visible" />
 
         </LinearLayout>
 

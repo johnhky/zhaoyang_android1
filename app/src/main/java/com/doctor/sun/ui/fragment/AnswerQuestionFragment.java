@@ -3,6 +3,7 @@ package com.doctor.sun.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -12,6 +13,7 @@ import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.Function0;
 import com.doctor.sun.util.JacksonUtils;
@@ -76,6 +78,27 @@ public class AnswerQuestionFragment extends SortedListFragment {
 
     public void loadQuestions(QuestionCategory data) {
 
+    }
+
+    @NonNull
+    @Override
+    public SortedListAdapter createAdapter() {
+        SortedListAdapter adapter = super.createAdapter();
+        adapter.setLayoutIdInterceptor(new SortedListAdapter.LayoutIdInterceptor() {
+            @Override
+            public int intercept(int origin) {
+                switch (origin) {
+                    case R.layout.item_further_consultation: {
+
+                    }
+                    case R.layout.new_item_options: {
+
+                    }
+                }
+                return origin;
+            }
+        });
+        return adapter;
     }
 
     public void handleResult(int requestCode, int resultCode, Intent data) {

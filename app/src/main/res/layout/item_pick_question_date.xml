@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:enabled="@{OptionsUtil.isEnable(adapter,vh.adapterPosition-1)}"
         android:orientation="vertical"
-        android:visibility="@{data.visible}">
+        android:visibility="@{data.enabled}">
 
 
         <LinearLayout

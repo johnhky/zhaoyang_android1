@@ -266,6 +266,9 @@ public class TextMsg extends RealmObject implements LayoutId {
             if (getType().equals(String.valueOf(AUDIO))) {
                 return R.layout.msg_audio_send;
             }
+            if (getType().equals(String.valueOf(VIDEO))) {
+                return R.layout.msg_file_receive;
+            }
             if (getType().equals(String.valueOf(FILE))) {
                 return R.layout.msg_file_send;
             }
@@ -284,6 +287,9 @@ public class TextMsg extends RealmObject implements LayoutId {
             }
             if (getType().equals(String.valueOf(IMAGE))) {
                 return R.layout.msg_image_receive;
+            }
+            if (getType().equals(String.valueOf(VIDEO))) {
+                return R.layout.msg_file_receive;
             }
             if (getType().equals(String.valueOf(AUDIO))) {
                 return R.layout.msg_audio_receive;

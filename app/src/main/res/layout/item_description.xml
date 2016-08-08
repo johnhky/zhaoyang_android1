@@ -25,7 +25,7 @@
             android:text="@{data.content ?? String.valueOf(' ')}"
             android:textColor="#a2aaae"
             android:textSize="@dimen/font_15"
-            app:visible="@{data.visible}" />
+            app:visible="@{data.enabled}" />
 
     </LinearLayout>
 </layout>

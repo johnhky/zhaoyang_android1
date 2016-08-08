@@ -16,6 +16,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.AfterServiceDTO;
 import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.Answer;
+import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.Reminder;
@@ -32,12 +33,14 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemPickDate;
 import com.doctor.sun.vo.ItemReminderList;
 import com.doctor.sun.vo.ItemSwitch;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -159,54 +162,54 @@ public class EditForumFragment extends RefreshListFragment {
                             break;
                         }
                         case Question.TYPE_FURTHER_CONSULTATION: {
-//                            List<Object> content = null;
-//                            List<String> type = null;
-//                            try {
-//                                if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {
-//                                    content = (List<Object>) answer.getAnswerContent();
-//                                    type = Answer.handler.answerType(answer);
-//                                }
-//                            } catch (Exception e) {
-//
-//                            }
-//                            FurtherConsultationVM vm = new FurtherConsultationVM();
-//                            if (type != null && !type.isEmpty()) {
-//                                String s = type.get(0);
-//                                if (s != null) {
-//
-//                                    vm.setHasAnswer(true);
-//                                    switch (s) {
-//                                        case "A": {
-//                                            vm.setBtnOneChecked(true);
-//                                            vm.setDate(content.get(0).toString());
-//
-//                                            break;
-//                                        }
-//                                        case "B": {
-//                                            vm.setBtnTwoChecked(true);
-//                                            vm.setDate(content.get(0).toString());
-//
-//                                            break;
-//                                        }
-//                                        case "C": {
-//                                            vm.setBtnThreeChecked(true);
-//                                            if (null != content && !content.isEmpty()) {
-//                                                HashMap<String, String> hashMap = (HashMap<String, String>) content.get(0);
-//                                                Doctor doctor = new Doctor();
-//                                                doctor.fromHashMap(hashMap);
-//                                                vm.setDoctor(doctor);
-//                                            }
-//                                            break;
-//                                        }
-//
-//                                    }
-//                                }
-//                            }
-//                            vm.setQuestionId(answer.getQuestionId() + "");
-//                            vm.setPosition(answer.getPosition());
-//                            vm.setQuestionContent(answer.getQuestion().getQuestionContent());
-//
-//                            allData.add(vm);
+                            List<Object> content = null;
+                            List<String> type = null;
+                            try {
+                                if (answer.getAnswerContent() != null && answer.getAnswerContent() instanceof List) {
+                                    content = (List<Object>) answer.getAnswerContent();
+                                    type = Answer.handler.answerType(answer);
+                                }
+                            } catch (Exception e) {
+
+                            }
+                            FurtherConsultationVM vm = new FurtherConsultationVM();
+                            if (type != null && !type.isEmpty()) {
+                                String s = type.get(0);
+                                if (s != null) {
+
+                                    vm.setHasAnswer(true);
+                                    switch (s) {
+                                        case "A": {
+                                            vm.setBtnOneChecked(true);
+                                            vm.setDate(content.get(0).toString());
+
+                                            break;
+                                        }
+                                        case "B": {
+                                            vm.setBtnTwoChecked(true);
+                                            vm.setDate(content.get(0).toString());
+
+                                            break;
+                                        }
+                                        case "C": {
+                                            vm.setBtnThreeChecked(true);
+                                            if (null != content && !content.isEmpty()) {
+                                                HashMap<String, String> hashMap = (HashMap<String, String>) content.get(0);
+                                                Doctor doctor = new Doctor();
+                                                doctor.fromHashMap(hashMap);
+                                                vm.setDoctor(doctor);
+                                            }
+                                            break;
+                                        }
+
+                                    }
+                                }
+                            }
+                            vm.setQuestionId(answer.getQuestionId() + "");
+                            vm.setPosition(answer.getPosition());
+                            vm.setQuestionContent(answer.getQuestion().getQuestionContent());
+
+                            allData.add(vm);
                             break;
                         }
                         case Question.REMINDER: {
