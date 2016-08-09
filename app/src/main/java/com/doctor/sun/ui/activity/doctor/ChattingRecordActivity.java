@@ -42,7 +42,6 @@ public class ChattingRecordActivity extends BaseFragmentActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chatting_record);
-        binding.setHeader(getHeaderViewModel());
 
         initView();
         initListener();
@@ -125,9 +124,5 @@ public class ChattingRecordActivity extends BaseFragmentActivity2 {
         mAdapter.onFinishLoadMore(true);
         binding.rvMsgs.setAdapter(mAdapter);
         realm = Realm.getDefaultInstance();
-    }
-
-    private HeaderViewModel getHeaderViewModel() {
-        return new HeaderViewModel(this);
     }
 }

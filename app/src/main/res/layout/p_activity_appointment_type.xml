@@ -18,7 +18,6 @@
         android:orientation="vertical">
 
         <include
-            android:id="@+id/header_layout"
             layout="@layout/include_header" />
 
         <com.zhy.android.percent.support.PercentLinearLayout

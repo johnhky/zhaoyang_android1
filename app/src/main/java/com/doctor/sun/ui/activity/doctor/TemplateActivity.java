@@ -27,7 +27,6 @@ import com.doctor.sun.ui.model.HeaderViewModel;
  */
 public class TemplateActivity extends BaseFragmentActivity2 implements TemplateHandler.GetIsEditMode {
 
-    private HeaderViewModel header = new HeaderViewModel(this);
 
     private TemplateAdapter mAdapter;
     private ActivityTemplateBinding binding;
@@ -86,7 +85,7 @@ public class TemplateActivity extends BaseFragmentActivity2 implements TemplateH
             }
             binding.emptyIndicator.setVisibility(View.GONE);
         }
-        binding.setHeader(header);
+        invalidateOptionsMenu();
         mAdapter.notifyDataSetChanged();
     }
 
@@ -98,16 +97,13 @@ public class TemplateActivity extends BaseFragmentActivity2 implements TemplateH
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        mAdapter.setIsEditMode(!mAdapter.isEditMode());
         switch (item.getItemId()) {
             case R.id.action_edit: {
                 onMenuClicked();
-                invalidateOptionsMenu();
                 return true;
             }
             case R.id.action_save: {
                 onMenuClicked();
-                invalidateOptionsMenu();
                 return true;
             }
         }

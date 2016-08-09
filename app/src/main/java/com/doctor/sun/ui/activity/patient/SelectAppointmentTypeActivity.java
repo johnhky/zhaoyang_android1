@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,7 +17,6 @@ import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.fragment.TextViewFragment;
-import com.doctor.sun.ui.model.HeaderViewModel;
 
 import io.ganguo.library.util.Systems;
 
@@ -39,7 +39,6 @@ public class SelectAppointmentTypeActivity extends BaseFragmentActivity2 {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_appointment_type);
         int color = Color.parseColor("#8dc63f");
-        binding.headerLayout.toolBar.setBackgroundColor(color);
         Systems.setStatusColor(SelectAppointmentTypeActivity.this, color);
         data = new AppointmentBuilder();
         data.setType(AppointmentType.PREMIUM);
@@ -61,7 +60,8 @@ public class SelectAppointmentTypeActivity extends BaseFragmentActivity2 {
                 setCurrentItem(b);
                 if (b) {
                     int color = Color.parseColor("#8dc63f");
-                    binding.headerLayout.toolBar.setBackgroundColor(color);
+//                    binding.headerLayout.toolBar.setBackgroundColor(color);
+                    getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
                     Systems.setStatusColor(SelectAppointmentTypeActivity.this, color);
                 }
             }
@@ -72,7 +72,7 @@ public class SelectAppointmentTypeActivity extends BaseFragmentActivity2 {
                 setCurrentItem(!b);
                 if (b) {
                     int color = getResources().getColor(R.color.color_normal_selected);
-                    binding.headerLayout.toolBar.setBackgroundColor(color);
+                    getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
                     Systems.setStatusColor(SelectAppointmentTypeActivity.this, color);
                 }
             }
@@ -112,6 +112,7 @@ public class SelectAppointmentTypeActivity extends BaseFragmentActivity2 {
         Intent intent = new Intent(context, SelectAppointmentTypeActivity.class);
         return intent;
     }
+
     @Override
     public int getMidTitle() {
         return R.string.title_appoint_doctor;

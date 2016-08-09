@@ -30,6 +30,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="@color/colorPrimary"
+            android:background="@color/transparent"
             android:textSize="17sp"
             android:textStyle="bold" />
 

@@ -76,9 +76,11 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
                 } else {
                     binding.emptyIndicator.setVisibility(View.GONE);
                 }
+                invalidateOptionsMenu();
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         if (mAdapter.isEditMode()) {
@@ -95,7 +97,7 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
             ToastHelper.showMessage(this, "目前没有出诊时间安排");
             binding.llAdd.setVisibility(View.VISIBLE);
         } else {
-            mAdapter.setIsEditMode(!mAdapter.isEditMode());
+//            mAdapter.setIsEditMode(!mAdapter.isEditMode());
             if (mAdapter.isEditMode()) {
                 binding.llAdd.setVisibility(View.GONE);
             } else {
@@ -139,6 +141,9 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.clear();
+        if (mAdapter.getItemCount() == 0) {
+            return false;
+        }
         MenuInflater menuInflater = getMenuInflater();
         if (mAdapter.isEditMode()) {
             menuInflater.inflate(R.menu.menu_save, menu);

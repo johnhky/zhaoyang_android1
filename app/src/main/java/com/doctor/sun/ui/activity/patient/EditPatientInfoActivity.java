@@ -49,7 +49,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
     private String avatar = "";
 
 
-    private boolean isEditMode = false;
+    private boolean isEditMode = true;
     private Patient patient;
 
     public boolean isEditMode() {
@@ -58,6 +58,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
 
     public void setIsEditMode(boolean isEditMode) {
         this.isEditMode = isEditMode;
+        invalidateOptionsMenu();
     }
 
     public static Intent makeIntent(Context context, Patient data) {
@@ -142,7 +143,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
     }
 
     public void onMenuClicked() {
-        if (!isEditMode()) {
+        if (isEditMode()) {
             TwoChoiceDialog.show(this, " 您好，昭阳医生不可以随便更改用户资料，所有用户资料的申请需要经过后台审核", "取消", "确定", new TwoChoiceDialog.Options() {
                 @Override
                 public void onApplyClick(MaterialDialog dialog) {
@@ -168,6 +169,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
                     binding.tvBirthday.getText().toString(), getGender(), avatar).enqueue(new SimpleCallback<Patient>() {
                 @Override
                 protected void handleResponse(Patient response) {
+                    setIsEditMode(!isEditMode());
                     ToastHelper.showMessage(EditPatientInfoActivity.this, "保存成功,请耐心等待资料审核");
                     Intent intent = PMainActivity.makeIntent(EditPatientInfoActivity.this);
                     startActivity(intent);
@@ -215,9 +217,11 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
         switch (item.getItemId()) {
             case R.id.action_save: {
                 onMenuClicked();
+                break;
             }
             case R.id.action_edit: {
                 onMenuClicked();
+                break;
             }
         }
         return super.onOptionsItemSelected(item);
@@ -225,12 +229,13 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
         menu.clear();
-        if (isEditMode()) {
+        if (!isEditMode()) {
             getMenuInflater().inflate(R.menu.menu_save, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_edit, menu);
         }
-        return true;
+        return super.onPrepareOptionsMenu(menu);
     }
 }
