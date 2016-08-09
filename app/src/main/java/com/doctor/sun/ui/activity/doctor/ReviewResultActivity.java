@@ -10,13 +10,13 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityReviewResultBinding;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 
 /**
  * Created by rick on 11/19/15.
  */
-public class ReviewResultActivity extends BaseActivity2 implements View.OnClickListener {
+public class ReviewResultActivity extends BaseFragmentActivity2 implements View.OnClickListener {
 
     private ActivityReviewResultBinding binding;
 

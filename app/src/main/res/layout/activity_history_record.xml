@@ -17,7 +17,7 @@
 
         <include
             layout="@layout/include_header"
-            app:header="@{header}" />
+            app:data="@{header}" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_record"

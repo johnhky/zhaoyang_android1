@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -15,14 +18,14 @@ import com.doctor.sun.entity.handler.TemplateHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.QuestionModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.TemplateAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 /**
  * Created by lucas on 12/3/15.
  */
-public class TemplateActivity extends BaseActivity2 implements TemplateHandler.GetIsEditMode {
+public class TemplateActivity extends BaseFragmentActivity2 implements TemplateHandler.GetIsEditMode {
 
     private HeaderViewModel header = new HeaderViewModel(this);
 
@@ -49,8 +52,6 @@ public class TemplateActivity extends BaseActivity2 implements TemplateHandler.G
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_template);
-        header.setLeftIcon(R.drawable.ic_back).setMidTitle("问诊模板").setRightTitle("编辑");
-        binding.setHeader(header);
         mAdapter = new TemplateAdapter(this);
         binding.rvTemplate.setLayoutManager(new LinearLayoutManager(this));
         binding.rvTemplate.setAdapter(mAdapter);
@@ -70,21 +71,17 @@ public class TemplateActivity extends BaseActivity2 implements TemplateHandler.G
         mAdapter.notifyDataSetChanged();
     }
 
-    @Override
     public void onMenuClicked() {
-        super.onMenuClicked();
+//        super.onMenuClicked();
         if (mAdapter.getItemCount() == 0) {
-            header.setRightTitle("编辑");
             binding.llAdd.setVisibility(View.VISIBLE);
             binding.emptyIndicator.setText("您还没有任何问诊模块");
             binding.emptyIndicator.setVisibility(View.VISIBLE);
         } else {
             mAdapter.setIsEditMode(!mAdapter.isEditMode());
             if (mAdapter.isEditMode()) {
-                header.setRightTitle("保存");
                 binding.llAdd.setVisibility(View.GONE);
             } else {
-                header.setRightTitle("编辑");
                 binding.llAdd.setVisibility(View.VISIBLE);
             }
             binding.emptyIndicator.setVisibility(View.GONE);
@@ -96,5 +93,42 @@ public class TemplateActivity extends BaseActivity2 implements TemplateHandler.G
     @Override
     public boolean getIsEditMode() {
         return mAdapter.isEditMode();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        mAdapter.setIsEditMode(!mAdapter.isEditMode());
+        switch (item.getItemId()) {
+            case R.id.action_edit: {
+                onMenuClicked();
+                invalidateOptionsMenu();
+                return true;
+            }
+            case R.id.action_save: {
+                onMenuClicked();
+                invalidateOptionsMenu();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.clear();
+        MenuInflater menuInflater = getMenuInflater();
+        if (mAdapter.isEditMode()) {
+            menuInflater.inflate(R.menu.menu_save, menu);
+        } else {
+            menuInflater.inflate(R.menu.menu_edit, menu);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_template;
     }
 }

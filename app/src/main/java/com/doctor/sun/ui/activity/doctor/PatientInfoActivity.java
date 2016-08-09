@@ -22,7 +22,7 @@ import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ImModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.CancelHistoryDialog;
 import com.kyleduo.switchbutton.SwitchButton;
@@ -37,7 +37,7 @@ import retrofit2.Call;
  * 个人信息
  * Created by Lynn on 12/29/15.
  */
-public class PatientInfoActivity extends BaseActivity2 implements View.OnClickListener {
+public class PatientInfoActivity extends BaseFragmentActivity2 implements View.OnClickListener {
     private ActivityPatientInfoBinding binding;
     private ImModule api = Api.of(ImModule.class);
     private MedicalRecord patient;
@@ -46,7 +46,6 @@ public class PatientInfoActivity extends BaseActivity2 implements View.OnClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_patient_info);
-        binding.setHeader(getHeaderViewModel());
         binding.blackList.setData("加入黑名单");
         binding.allowCall.setData("允许对方打电话");
 
@@ -178,9 +177,9 @@ public class PatientInfoActivity extends BaseActivity2 implements View.OnClickLi
         binding.setAppointment(appointment);
     }
 
-    @Nullable
-    private HeaderViewModel getHeaderViewModel() {
-        return new HeaderViewModel(this).setMidTitle("个人信息");
-    }
 
+    @Override
+    public int getMidTitle() {
+        return  R.string.title_profile_info;
+    }
 }

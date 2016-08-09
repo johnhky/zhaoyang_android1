@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by rick on 6/5/2016.
  */
-public class ViewPrescriptionActivity extends BaseActivity2 {
+public class ViewPrescriptionActivity extends BaseFragmentActivity2 {
 
     private ActivityViewPrescriptionBinding binding;
     private ArrayList<String> units;
@@ -38,9 +38,6 @@ public class ViewPrescriptionActivity extends BaseActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_view_prescription);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setLeftIcon(R.drawable.ic_back).setMidTitle("用药详情");
-        binding.setHeader(header);
         binding.medicineName.setTitle("药名/成分名");
         binding.goodsName.setTitle("商品名");
         binding.goodsName.setHint("(选填)");
@@ -117,4 +114,8 @@ public class ViewPrescriptionActivity extends BaseActivity2 {
         binding.remark.setInput(data.getRemark());
     }
 
+    @Override
+    public int getMidTitle() {
+        return R.string.title_add_prescription;
+    }
 }

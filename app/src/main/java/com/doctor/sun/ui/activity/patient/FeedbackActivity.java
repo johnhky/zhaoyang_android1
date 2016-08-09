@@ -17,14 +17,14 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 
 /**
  * Created by rick on 12/17/15.
  */
-public class FeedbackActivity extends BaseActivity2 {
+public class FeedbackActivity extends BaseFragmentActivity2 {
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private PActivityFeedbackBinding binding;
 
@@ -47,10 +47,6 @@ public class FeedbackActivity extends BaseActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_feedback);
-
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("评价");
-        binding.setHeader(header);
 
         binding.setData(getData());
 
@@ -109,5 +105,9 @@ public class FeedbackActivity extends BaseActivity2 {
                     ", sincerity=" + sincerity +
                     '}';
         }
+    }
+    @Override
+    public int getMidTitle() {
+        return R.string.title_feed_back;
     }
 }

@@ -19,7 +19,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.MultiSelectAdapter;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
@@ -33,7 +33,7 @@ import io.ganguo.library.core.event.extend.OnSingleClickListener;
 /**
  * Created by rick on 1/6/2016.
  */
-public class ApplyAfterServiceActivity extends BaseActivity2 {
+public class ApplyAfterServiceActivity extends BaseFragmentActivity2 {
     private AfterServiceModule api = Api.of(AfterServiceModule.class);
 
     private ActivityApplyAfterServiceBinding binding;
@@ -51,7 +51,6 @@ public class ApplyAfterServiceActivity extends BaseActivity2 {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_apply_after_service);
         initData();
-        initHeader();
         initRecyclerView();
         initView();
     }
@@ -117,11 +116,6 @@ public class ApplyAfterServiceActivity extends BaseActivity2 {
         binding.setData(contact);
     }
 
-    private void initHeader() {
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("患者信息");
-        binding.setHeader(header);
-    }
 
     private void initRecyclerView() {
         adapter = new MultiSelectAdapter(this, new MultiSelectAdapter.OnSelectionChange() {
@@ -141,4 +135,9 @@ public class ApplyAfterServiceActivity extends BaseActivity2 {
         binding.recyclerView.setAdapter(adapter);
     }
 
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_patient_detail;
+    }
 }

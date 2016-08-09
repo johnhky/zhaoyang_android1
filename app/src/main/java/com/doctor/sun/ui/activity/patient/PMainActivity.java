@@ -21,7 +21,7 @@ import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.handler.MainActivityHandler;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -42,7 +42,7 @@ import io.ganguo.library.util.Tasks;
 /**
  * Created by rick on 10/23/15.
  */
-public class PMainActivity extends BaseActivity2 implements SwipeRefreshLayout.OnRefreshListener {
+public class PMainActivity extends BaseFragmentActivity2 implements SwipeRefreshLayout.OnRefreshListener {
 
     private PActivityMainBinding binding;
     private SimpleAdapter mAdapter;
@@ -58,9 +58,6 @@ public class PMainActivity extends BaseActivity2 implements SwipeRefreshLayout.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_main);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("昭阳医生");
-        binding.setHeader(header);
         FooterViewModel footer = getFooter();
         binding.setFooter(footer);
 
@@ -211,5 +208,10 @@ public class PMainActivity extends BaseActivity2 implements SwipeRefreshLayout.O
     protected void onPause() {
         super.onPause();
         UpdateUtil.onPause();
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_main;
     }
 }

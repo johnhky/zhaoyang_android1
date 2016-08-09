@@ -16,7 +16,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:header="@{header}" />
+            bind:data="@{header}" />
 
         <EditText
             android:id="@+id/et_search"
@@ -26,13 +26,13 @@
             android:layout_marginLeft="@dimen/dp_22"
             android:layout_marginRight="@dimen/dp_22"
             android:layout_marginTop="@dimen/dp_7"
-            android:singleLine="true"
             android:background="@drawable/shape_grey_rect_stroke"
             android:drawableLeft="@drawable/ic_search_clicked"
             android:gravity="center"
             android:hint="搜索"
             android:paddingLeft="@dimen/dp_8"
             android:paddingRight="@dimen/dp_8"
+            android:singleLine="true"
             android:textSize="@dimen/font_14" />
 
         <FrameLayout

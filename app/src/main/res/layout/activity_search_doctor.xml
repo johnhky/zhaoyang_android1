@@ -30,7 +30,6 @@
                 android:background="@drawable/ripple_default"
                 android:drawablePadding="@dimen/dp_10"
                 android:gravity="center"
-                android:onClick="@{header.onBackClicked}"
                 android:paddingLeft="@dimen/dp_12"
                 android:paddingRight="@dimen/dp_12"
                 android:text="@{header.leftTitle}"

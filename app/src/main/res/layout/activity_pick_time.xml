@@ -29,7 +29,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:header="@{header}" />
+            bind:data="@{header}" />
 
         <include
             layout="@layout/item_doctor_dates"
@@ -67,23 +67,23 @@
             </LinearLayout>
 
             <!--<FrameLayout-->
-                <!--android:layout_width="@dimen/dp_143"-->
-                <!--android:layout_height="@dimen/dp_33"-->
-                <!--android:layout_gravity="start|center_vertical"-->
-                <!--android:layout_marginEnd="@dimen/dp_13"-->
-                <!--android:layout_marginRight="@dimen/dp_13"-->
-                <!--android:background="@drawable/shape_white_rect"-->
-                <!--android:onClick="@{()->data.latestAvailableTime(context,data.doctor.id,data.duration)}"-->
-                <!--app:layout_widthPercent="30%">-->
+            <!--android:layout_width="@dimen/dp_143"-->
+            <!--android:layout_height="@dimen/dp_33"-->
+            <!--android:layout_gravity="start|center_vertical"-->
+            <!--android:layout_marginEnd="@dimen/dp_13"-->
+            <!--android:layout_marginRight="@dimen/dp_13"-->
+            <!--android:background="@drawable/shape_white_rect"-->
+            <!--android:onClick="@{()->data.latestAvailableTime(context,data.doctor.id,data.duration)}"-->
+            <!--app:layout_widthPercent="30%">-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="@drawable/ripple_default"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="一键预约"-->
-                    <!--android:textColor="@color/colorPrimaryDark"-->
-                    <!--android:textSize="@dimen/font_13" />-->
+            <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@drawable/ripple_default"-->
+            <!--android:gravity="center"-->
+            <!--android:text="一键预约"-->
+            <!--android:textColor="@color/colorPrimaryDark"-->
+            <!--android:textSize="@dimen/font_13" />-->
             <!--</FrameLayout>-->
 
         </com.zhy.android.percent.support.PercentFrameLayout>

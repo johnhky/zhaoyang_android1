@@ -17,7 +17,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:header="@{header}" />
+            bind:data="@{header}" />
 
         <FrameLayout
             android:id="@+id/lly_content"

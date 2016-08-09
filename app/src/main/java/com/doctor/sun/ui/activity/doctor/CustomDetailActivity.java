@@ -7,13 +7,13 @@ import android.os.Bundle;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityCustomDetailBinding;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 /**
  * Created by lucas on 12/26/15.
  */
-public class CustomDetailActivity extends BaseActivity2 {
+public class CustomDetailActivity extends BaseFragmentActivity2 {
     private ActivityCustomDetailBinding binding;
 
     public static Intent makeIntent(Context context) {
@@ -25,8 +25,9 @@ public class CustomDetailActivity extends BaseActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_custom_detail);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("自编题目服务说明");
-        binding.setHeader(header);
+    }
+    @Override
+    public int getMidTitle() {
+        return  R.string.title_question_description;
     }
 }

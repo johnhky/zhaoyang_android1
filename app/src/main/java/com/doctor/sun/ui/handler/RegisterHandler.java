@@ -1,15 +1,18 @@
 package com.doctor.sun.ui.handler;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doctor.sun.BR;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
@@ -31,35 +34,35 @@ import io.ganguo.library.util.Strings;
 /**
  * Created by rick on 11/17/15.
  */
-public class RegisterHandler extends BaseHandler {
+public class RegisterHandler extends BaseObservable {
     public static final String TAG = RegisterHandler.class.getSimpleName();
     private static final int ONE_SECOND = 1000;
     private AuthModule api = Api.of(AuthModule.class);
-    private RegisterInput mInput;
     private Handler handler;
     private int remainTime;
 
     private int registerType;
+    private boolean enable;
+
+    public String phone = "";
+    public String captcha = "";
+    public String password = "";
+    public String password2 = "";
+    public boolean isDoctor = false;
+
 
     private static final long DOUBLE_PRESS_INTERVAL = 600;
     private long lastPressTime = 0;
 
-    public RegisterHandler(Activity context, int registerType) {
-        super(context);
+    public RegisterHandler(int registerType) {
         this.registerType = registerType;
         handler = new Handler(Looper.myLooper());
-
-        try {
-            mInput = (RegisterInput) context;
-        } catch (ClassCastException e) {
-            throw new IllegalArgumentException("The host Activity must implement RegisterInput");
-        }
+        isDoctor = registerType == AuthModule.DOCTOR_TYPE;
     }
 
-    public void sendCaptcha(final View view) {
-        String phone = mInput.getPhone();
+    public void sendCaptcha(final Context context, final ViewGroup viewGroup) {
         if (!Strings.isMobile(phone)) {
-            Toast.makeText(getContext(), "手机号码格式错误", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "手机号码格式错误", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -69,59 +72,58 @@ public class RegisterHandler extends BaseHandler {
             api.sendCaptcha(phone).enqueue(new SimpleCallback<String>() {
                 @Override
                 protected void handleResponse(String response) {
-                    countDown(view);
+                    countDown(context, viewGroup);
                 }
             });
         }
         lastPressTime = pressTime;
     }
 
-    public void register() {
+    public void register(final Context context) {
         if (Settings.isLogin()) {
-            Intent i = EditDoctorInfoActivity.makeIntent(getContext(), null);
-            getContext().startActivity(i);
+            Intent i = EditDoctorInfoActivity.makeIntent(context, null);
+            context.startActivity(i);
         }
-        String phone = mInput.getPhone();
-        if (notValid()) return;
+        if (notValid(context)) return;
 
         api.register(
                 registerType, phone,
-                mInput.getCaptcha(), getPasswordMd5()).enqueue(new ApiCallback<Token>() {
+                captcha, getPasswordMd5()).enqueue(new ApiCallback<Token>() {
             @Override
             protected void handleResponse(Token response) {
                 if (registerType == AuthModule.DOCTOR_TYPE) {
-                    registerDoctorSuccess(response);
-                    MobclickAgent.onEvent(getContext(), MobEventId.DOCTOR_REGISTRATION);
+                    registerDoctorSuccess(context, response);
+                    MobclickAgent.onEvent(context, MobEventId.DOCTOR_REGISTRATION);
                 } else if (registerType == AuthModule.PATIENT_TYPE) {
-                    registerPatientSuccess(response);
-                    MobclickAgent.onEvent(getContext(), MobEventId.PATIENT_REGISTRATION);
+                    registerPatientSuccess(context, response);
+                    MobclickAgent.onEvent(context, MobEventId.PATIENT_REGISTRATION);
                 }
             }
         });
     }
 
-    private void registerPatientSuccess(Token response) {
+    private void registerPatientSuccess(Context context, Token response) {
         if (response != null) {
             TokenCallback.handleToken(response);
-            Intent i = PMainActivity.makeIntent(getContext());
-            getContext().startActivity(i);
+            Intent i = PMainActivity.makeIntent(context);
+            context.startActivity(i);
         }
     }
 
-    private void registerDoctorSuccess(Token response) {
+    private void registerDoctorSuccess(Context context, Token response) {
         if (response == null) {
             //TODO
-            Intent i = EditDoctorInfoActivity.makeIntent(getContext(), null);
-            getContext().startActivity(i);
+            Intent i = EditDoctorInfoActivity.makeIntent(context, null);
+            context.startActivity(i);
         } else {
             TokenCallback.handleToken(response);
-            Intent i = EditDoctorInfoActivity.makeIntent(getContext(), null);
-            getContext().startActivity(i);
+            Intent i = EditDoctorInfoActivity.makeIntent(context, null);
+            context.startActivity(i);
         }
     }
 
 
-    private void countDown(View view) {
+    private void countDown(Context context, final ViewGroup view) {
         remainTime = 60;
         final ViewGroup parent = (ViewGroup) view;
         final TextView textView = (TextView) parent.getChildAt(0);
@@ -135,7 +137,7 @@ public class RegisterHandler extends BaseHandler {
                     textView.setText("重新获取");
                     handler.removeCallbacks(this);
                 } else {
-                    textView.setText(getContext().getResources().getString(R.string.get_captcha, remainTime));
+                    textView.setText(view.getResources().getString(R.string.get_captcha, remainTime));
                     textView.setEnabled(false);
                     parent.setEnabled(false);
                     handler.postDelayed(this, ONE_SECOND);
@@ -145,66 +147,78 @@ public class RegisterHandler extends BaseHandler {
         handler.postDelayed(runnable, ONE_SECOND);
     }
 
-    public void resetPassword(View view) {
-        if (notValid()) return;
-        api.reset(mInput.getPhone(), getPasswordMd5(), mInput.getCaptcha()).enqueue(new SimpleCallback<String>() {
+    public void resetPassword(final Context context) {
+        if (notValid(context)) return;
+        api.reset(phone, getPasswordMd5(), captcha).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
-                Toast.makeText(getContext(), "重置密码成功", Toast.LENGTH_SHORT).show();
-                getContext().finish();
+                Toast.makeText(context, "重置密码成功", Toast.LENGTH_SHORT).show();
+                Activity activity = (Activity) context;
+                activity.finish();
+                ;
             }
         });
     }
 
     private String getPasswordMd5() {
-        return MD5.getMessageDigest(mInput.getPassword().getBytes());
+        return MD5.getMessageDigest(password.getBytes());
     }
 
-    private boolean notValid() {
-        if (!Strings.isMobile(mInput.getPhone())) {
-            Toast.makeText(getContext(), "手机号码格式错误", Toast.LENGTH_SHORT).show();
+    private boolean notValid(Context context) {
+        if (!Strings.isMobile(phone)) {
+            Toast.makeText(context, "手机号码格式错误", Toast.LENGTH_SHORT).show();
             return true;
         }
-        if (mInput.getPassword() == null || mInput.getPassword().equals("")) {
-            Toast.makeText(getContext(), "请输入密码", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
-        if (!Strings.isEquals(mInput.getPassword(), mInput.getPassword2())) {
-            Toast.makeText(getContext(), "两次输入的密码不相同", Toast.LENGTH_SHORT).show();
+        if (password == null || password.equals("")) {
+            Toast.makeText(context, "请输入密码", Toast.LENGTH_SHORT).show();
             return true;
         }
 
-        if (mInput.getPassword().length() < 6) {
-            Toast.makeText(getContext(), "密码不能少于6个字", Toast.LENGTH_SHORT).show();
+        if (!Strings.isEquals(password, password2)) {
+            Toast.makeText(context, "两次输入的密码不相同", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        if (password.length() < 6) {
+            Toast.makeText(context, "密码不能少于6个字", Toast.LENGTH_SHORT).show();
             return true;
         }
 
         return false;
     }
 
-    public void viewRegistrationPolicy() {
+    public void viewRegistrationPolicy(Context context) {
         String url = BuildConfig.BASE_URL + "readme/registration-policy";
-        if (mInput.isDoctor()) {
+        if (isDoctor) {
             url += "?client=doctor";
         }
         Log.e(TAG, "viewRegistrationPolicy: " + url);
-        Intent i = WebBrowserActivity.intentFor(getContext(), url, "注册须知");
-        getContext().startActivity(i);
+        Intent i = WebBrowserActivity.intentFor(context, url, "注册须知");
+        context.startActivity(i);
     }
 
-    public interface RegisterInput {
-        String getEmail();
-
-        String getPhone();
-
-        String getCaptcha();
-
-        String getPassword();
-
-        String getPassword2();
-
-        boolean isDoctor();
+    @Bindable
+    public boolean isEnable() {
+        return enable;
     }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+        notifyPropertyChanged(BR.enable);
+    }
+//
+//    public interface RegisterInput {
+//        String getEmail();
+//
+//        String getPhone();
+//
+//        String getCaptcha();
+//
+//        String getPassword();
+//
+//        String getPassword2();
+//
+//        boolean isDoctor();
+//    }
 
 }

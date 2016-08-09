@@ -3,6 +3,8 @@ package com.doctor.sun.ui.activity.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.doctor.sun.R;
 import com.doctor.sun.http.Api;
@@ -46,15 +48,10 @@ public class PAfterServiceActivity extends PageActivity2 {
 
     @NonNull
     protected HeaderViewModel getHeaderViewModel() {
-        HeaderViewModel headerViewModel = new HeaderViewModel(this);
-        headerViewModel.setMidTitle("随访请求列表");
-        headerViewModel.setRightTitle("随访医生");
-        return headerViewModel;
+        return null;
     }
 
-    @Override
     public void onMenuClicked() {
-        super.onMenuClicked();
         Intent intent = AfterServiceContactActivity.intentFor(this, ContactActivity.PATIENTS_CONTACT);
 //        Intent intent = ContactActivity.makeIntent(this, ContactActivity.PATIENTS_CONTACT, R.layout.item_contact3);
         startActivity(intent);
@@ -64,5 +61,27 @@ public class PAfterServiceActivity extends PageActivity2 {
     @Override
     public String getEmptyIndicatorText() {
         return "没有任何随访请求";
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_doctor_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_doctor_list: {
+                onMenuClicked();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_p_follow_up;
     }
 }

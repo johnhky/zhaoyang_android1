@@ -28,7 +28,7 @@ import io.ganguo.library.common.ToastHelper;
  * 获取定位
  * Created by rick on 6/1/2016.
  */
-public abstract class GetLocationActivity extends BaseActivity2 {
+public abstract class GetLocationActivity extends BaseFragmentActivity2 {
     private static final int LOCATION_REQUEST_CODE = 10;
     private static final int PRE_LOCATION_REQUEST_CODE = 11;
     public LocationManager lm;

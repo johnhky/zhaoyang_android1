@@ -34,7 +34,7 @@ import io.ganguo.library.Config;
 /**
  * Created by rick on 21/4/2016.
  */
-public class FileDetailActivity extends BaseActivity2 {
+public class FileDetailActivity extends BaseFragmentActivity2 {
 
     public static final String EXTENSION = "EXTENSION";
     public static final String URL = "ATTACHMENT_URL";
@@ -54,7 +54,6 @@ public class FileDetailActivity extends BaseActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_file_detail);
         initView();
-        initHeader();
         initListener();
         super.onCreate(savedInstanceState);
     }
@@ -114,11 +113,7 @@ public class FileDetailActivity extends BaseActivity2 {
         return String.valueOf(longExtra / 1000) + "KB";
     }
 
-    private void initHeader() {
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("文件");
-        binding.setHeader(header);
-    }
+
 
     @Subscribe
     public void onDownloadProgress(ProgressEvent event) {
@@ -196,5 +191,10 @@ public class FileDetailActivity extends BaseActivity2 {
 //                binding.progress.setVisibility(View.GONE);
 //            }
 //        }
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_file_detail;
     }
 }

@@ -5,18 +5,18 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.PushModule;
 import com.doctor.sun.ui.activity.PageActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.SystemMsgAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.PermissionsUtil;
 
@@ -53,35 +53,33 @@ public class SystemMsgListActivity extends PageActivity2 {
         SystemMsg.reset();
     }
 
-    @Override
-    protected void initHeader() {
-        super.initHeader();
-        getBinding().setHeader(getHeaderViewModel());
-    }
+//    @Override
+//    protected void initHeader() {
+//        super.initHeader();
+//        getBinding().setHeader(getHeaderViewModel());
+//    }
 
     @Override
     protected void loadMore() {
         super.loadMore();
         api.systemMsg(getCallback().getPage()).enqueue(getCallback());
     }
+//
+//    @NonNull
+//    protected HeaderViewModel getHeaderViewModel() {
+//        int appointmentNumber = 0;
+//        HeaderViewModel header = new HeaderViewModel(this);
+//        header.setRightTitle("联系客服");
+//        if (Config.getInt(Constants.USER_TYPE, -1) == AuthModule.PATIENT_TYPE) {
+//            appointmentNumber = getAppointmentNumber();
+//        } else {
+//            appointmentNumber = getAppointmentNumber() + 1;
+//        }
+//        header.setLeftTitle("就诊(" + appointmentNumber + ")");
+//        return header;
+//    }
 
-    @NonNull
-    protected HeaderViewModel getHeaderViewModel() {
-        int appointmentNumber = 0;
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setRightTitle("联系客服");
-        if (Config.getInt(Constants.USER_TYPE, -1) == AuthModule.PATIENT_TYPE) {
-            appointmentNumber = getAppointmentNumber();
-        } else {
-            appointmentNumber = getAppointmentNumber() + 1;
-        }
-        header.setLeftTitle("就诊(" + appointmentNumber + ")");
-        return header;
-    }
-
-    @Override
     public void onMenuClicked() {
-        super.onMenuClicked();
         TwoChoiceDialog.show(this, "020-4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
             @Override
             public void onApplyClick(MaterialDialog dialog) {
@@ -128,5 +126,27 @@ public class SystemMsgListActivity extends PageActivity2 {
     @Override
     public String getEmptyIndicatorText() {
         return "没有任何系统消息";
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_help_service, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_call: {
+                onMenuClicked();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_system_msg;
     }
 }

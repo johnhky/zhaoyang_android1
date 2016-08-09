@@ -17,14 +17,4 @@ public class ChattingActivityNoMenu extends ChattingActivity {
         i.putExtra(Constants.DATA, appointment);
         return i;
     }
-
-    @Override
-    public void onFirstMenuClicked() {
-        finish();
-    }
-
-    @Override
-    public void onMenuClicked() {
-        finish();
-    }
 }

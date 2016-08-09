@@ -13,14 +13,14 @@ import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.EmergencyModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.handler.UrgentCallHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 /**
  * Created by lucas on 1/23/16.
  */
-public class UrgentAddFeeActivity extends BaseActivity2 {
+public class UrgentAddFeeActivity extends BaseFragmentActivity2 {
     private PActivityAddFeeBinding binding;
     private EmergencyModule api = Api.of(EmergencyModule.class);
 
@@ -39,10 +39,7 @@ public class UrgentAddFeeActivity extends BaseActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_add_fee);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("增加诊金");
         binding.setData(getData());
-        binding.setHeader(header);
         binding.tvTime.setText(getData().getCreatedAt().substring(0, getData().getCreatedAt().length() - 3));
         binding.tvApply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,5 +57,10 @@ public class UrgentAddFeeActivity extends BaseActivity2 {
                 });
             }
         });
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_add_fee;
     }
 }

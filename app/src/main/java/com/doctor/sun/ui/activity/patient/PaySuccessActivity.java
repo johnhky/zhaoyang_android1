@@ -11,14 +11,14 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityPaySuccessBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.UrgentCall;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 import io.ganguo.library.AppManager;
 
 /**
  * Created by lucas on 1/23/16.
  */
-public class PaySuccessActivity extends BaseActivity2 implements View.OnClickListener {
+public class PaySuccessActivity extends BaseFragmentActivity2 implements View.OnClickListener {
     public static final int URGENT_CALL = 1;
     public static final int APPOINTMENT = 2;
     public static final int VOIP_PAY = 3;

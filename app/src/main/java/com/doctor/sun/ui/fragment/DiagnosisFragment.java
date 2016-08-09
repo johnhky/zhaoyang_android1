@@ -11,6 +11,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -413,11 +416,27 @@ public class DiagnosisFragment extends BaseFragment {
             return "";
         }
     }
+//
+//    @Override
+//    public HeaderViewModel getHeader() {
+//        HeaderViewModel headerViewModel = new HeaderViewModel(null);
+//        headerViewModel.setRightTitle("保存");
+//        return headerViewModel;
+//    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_save, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
     @Override
-    public HeaderViewModel getHeader() {
-        HeaderViewModel headerViewModel = new HeaderViewModel(this);
-        headerViewModel.setRightTitle("保存");
-        return headerViewModel;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save: {
+                setDiagnosise();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

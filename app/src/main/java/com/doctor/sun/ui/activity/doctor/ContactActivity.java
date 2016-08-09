@@ -20,7 +20,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.module.ImModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.ContactAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -40,7 +40,7 @@ import java.util.List;
 /**
  * Created by rick on 11/25/15.
  */
-public class ContactActivity extends BaseActivity2 {
+public class ContactActivity extends BaseFragmentActivity2 {
     public static final int DOCTORS_CONTACT = 33;
     public static final int PATIENTS_CONTACT = 22;
 
@@ -74,7 +74,6 @@ public class ContactActivity extends BaseActivity2 {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_contact);
 
-        binding.setHeader(getHeaderViewModel());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 //
 //      getResources().getDrawable(R.drawable.shape_divider)));
@@ -223,7 +222,7 @@ public class ContactActivity extends BaseActivity2 {
 
     @NonNull
     protected HeaderViewModel getHeaderViewModel() {
-        return new HeaderViewModel(this).setMidTitle("通讯录");
+        return null;
     }
 
 
@@ -241,5 +240,10 @@ public class ContactActivity extends BaseActivity2 {
     protected void onDestroy() {
         super.onDestroy();
         binding.fastScroller.removeDis();
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_contact;
     }
 }

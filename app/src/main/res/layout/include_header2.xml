@@ -9,52 +9,24 @@
             type="com.doctor.sun.ui.model.HeaderViewModel" />
     </data>
 
-    <LinearLayout
-        android:id="@+id/header"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_48"
-            android:orientation="horizontal">
+        android:orientation="vertical"
+        app:navigationIcon="@drawable/bg_transparent"
+        app:theme="@style/ToolbarTheme">
 
 
-            <TextView
-                android:id="@+id/mid_header"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:onClick="@{header.onTitleClicked}"
-                android:text="@{header.midTitle}"
-                android:textColor="@color/colorPrimary"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                app:drawableLeft="@{header.midIcon}" />
-
-
-            <TextView
-                android:id="@+id/right_header"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/ripple_default"
-                android:clickable="false"
-                android:gravity="center"
-                android:onClick="@{header.onMenuClicked}"
-                android:paddingLeft="@dimen/dp_12"
-                android:paddingRight="@dimen/dp_12"
-                android:text="@{header.rightTitle}"
-                android:textColor="@color/colorPrimary"
-                app:drawableLeft="@{header.rightIcon}" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@{header.lineBackground}" />
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tb_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+    </android.support.v7.widget.Toolbar>
 </layout>

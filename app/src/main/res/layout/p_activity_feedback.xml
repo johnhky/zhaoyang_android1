@@ -22,7 +22,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:header="@{header}" />
+            bind:data="@{header}" />
 
         <include
             layout="@layout/include_comment_doctor"

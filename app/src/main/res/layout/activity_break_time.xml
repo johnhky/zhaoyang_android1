@@ -6,7 +6,7 @@
 
         <variable
             name="handler"
-            type="com.doctor.sun.entity.handler.TimeHandler"/>
+            type="com.doctor.sun.entity.handler.TimeHandler" />
 
         <variable
             name="header"
@@ -21,7 +21,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:header="@{header}" />
+            bind:data="@{header}" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_disturb"
@@ -49,10 +49,10 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
+                    android:onClick="@{handler.addDisturb}"
                     android:text="添加免打扰时段"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/font_17"
-                    android:onClick="@{handler.addDisturb}"/>
+                    android:textSize="@dimen/font_17" />
 
             </LinearLayout>
 

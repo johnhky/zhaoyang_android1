@@ -3,10 +3,7 @@ package com.doctor.sun.ui.activity.doctor;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.doctor.sun.Settings;
@@ -14,15 +11,10 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Prescription;
-import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.event.SwitchTabEvent;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
-import com.doctor.sun.ui.fragment.DiagnosisFragment;
-import com.doctor.sun.ui.fragment.FillForumFragment;
-import com.doctor.sun.ui.fragment.ModifyForumFragment;
-import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.pager.ConsultingDetailPagerAdapter;
 import com.doctor.sun.util.ShowCaseUtil;
@@ -36,8 +28,7 @@ import io.ganguo.library.core.event.extend.OnPageChangeAdapter;
  * Created by rick on 12/16/15.
  */
 public class ConsultingDetailActivity extends TabActivity
-        implements QCategoryHandler.QCategoryCallback,
-        Appointment.AppointmentId,
+        implements Appointment.AppointmentId,
         Prescription.UrlToLoad {
     public static final int POSITION_ANSWER = 0;
     public static final int POSITION_SUGGESTION = 1;
@@ -92,93 +83,98 @@ public class ConsultingDetailActivity extends TabActivity
         return new ConsultingDetailPagerAdapter(getSupportFragmentManager(), getData(), isReadOnly);
     }
 
-
     @Override
     protected HeaderViewModel createHeaderViewModel() {
-        header0 = new HeaderViewModel(getHeaderView0());
-        header1 = new HeaderViewModel(getHeaderView1());
-
-        if (isUserPatient()) {
-            //病人端
-            header0.setRightTitle("");
-            header1.setLeftTitle(getData().getHandler().getTitle());
-        } else {
-            //医生端
-            if (!isReadOnly) {
-                header0.setRightTitle("补充问卷");
-                header0.setRightFirstTitle("删除问题");
-                header1.setRightTitle("保存");
-            }
-        }
-
-        if (getPosition() == 0) {
-            position = 0;
-            return header0;
-        } else {
-            position = 1;
-            return header1;
-        }
+        return null;
     }
 
-    @NonNull
-    private HeaderViewModel.HeaderView getHeaderView1() {
-        return new HeaderViewModel.HeaderView() {
-            @Override
-            public void onBackClicked() {
-                ConsultingDetailActivity.this.onBackClicked();
-            }
-
-            @Override
-            public void onTitleClicked() {
-
-            }
-
-            @Override
-            public void onMenuClicked() {
-                DiagnosisFragment.getInstance(null).setDiagnosise();
-            }
-
-            @Override
-            public void onFirstMenuClicked() {
-
-            }
-        };
-    }
-
-    @NonNull
-    private HeaderViewModel.HeaderView getHeaderView0() {
-        return new HeaderViewModel.HeaderView() {
-            @Override
-            public void onBackClicked() {
-                ConsultingDetailActivity.this.onBackClicked();
-            }
-
-            @Override
-            public void onTitleClicked() {
-
-            }
-
-            @Override
-            public void onMenuClicked() {
-                if (isUserPatient()) {
-                    if (binding.getHeader().getRightTitle().equals("保存")) {
-                        //保存
-//                        Log.d("ConsultingDetailActivit", ModifyForumFragment.getInstance(getData().getAppointmentId()).toString());
-                        ModifyForumFragment.getInstance(getData().getAppointmentId()).save();
-                    }
-                } else {
-                    Intent intent = AssignQuestionActivity.makeIntent(ConsultingDetailActivity.this, getData());
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onFirstMenuClicked() {
-                Answer.handler.toggleEditMode();
-                FillForumFragment.getInstance(getData()).getAdapter().notifyDataSetChanged();
-            }
-        };
-    }
+//
+//    @Override
+//    protected HeaderViewModel createHeaderViewModel() {
+//        header0 = new HeaderViewModel(this);
+//        header1 = new HeaderViewModel(this);
+//
+//        if (isUserPatient()) {
+//            //病人端
+//            header0.setRightTitle("");
+//            header1.setLeftTitle(getData().getHandler().getTitle());
+//        } else {
+//            //医生端
+//            if (!isReadOnly) {
+//                header0.setRightTitle("补充问卷");
+//                header0.setRightFirstTitle("删除问题");
+//                header1.setRightTitle("保存");
+//            }
+//        }
+//
+//        if (getPosition() == 0) {
+//            position = 0;
+//            return header0;
+//        } else {
+//            position = 1;
+//            return header1;
+//        }
+//    }
+//
+//    @NonNull
+//    private HeaderViewModel.HeaderView getHeaderView1() {
+//        return new HeaderViewModel.HeaderView() {
+//            @Override
+//            public void onBackClicked() {
+//                ConsultingDetailActivity.this.onBackClicked();
+//            }
+//
+//            @Override
+//            public void onTitleClicked() {
+//
+//            }
+//
+//            @Override
+//            public void onMenuClicked() {
+//                DiagnosisFragment.getInstance(null).setDiagnosise();
+//            }
+//
+//            @Override
+//            public void onFirstMenuClicked() {
+//
+//            }
+//        };
+//    }
+//
+//    @NonNull
+//    private HeaderViewModel.HeaderView getHeaderView0() {
+//        return new HeaderViewModel.HeaderView() {
+//            @Override
+//            public void onBackClicked() {
+//                ConsultingDetailActivity.this.onBackClicked();
+//            }
+//
+//            @Override
+//            public void onTitleClicked() {
+//
+//            }
+//
+//            @Override
+//            public void onMenuClicked() {
+//                if (isUserPatient()) {
+//                    if (binding.getHeader().getRightTitle().equals("保存")) {
+//                        //保存
+////                        Log.d("ConsultingDetailActivit", ModifyForumFragment.getInstance(getData().getAppointmentId()).toString());
+//                        ModifyForumFragment.getInstance(getData().getAppointmentId()).save();
+//                    }
+//                } else {
+//                    Intent intent = AssignQuestionActivity.makeIntent(ConsultingDetailActivity.this, getData());
+//                    startActivity(intent);
+//                }
+//            }
+//
+//            @Override
+//            public void onFirstMenuClicked() {
+//                Answer.handler.toggleEditMode();
+//                FillForumFragment.getInstance(getData()).getAdapter().notifyDataSetChanged();
+//            }
+//        };
+//    }
 
 
     @Override
@@ -196,16 +192,16 @@ public class ConsultingDetailActivity extends TabActivity
         binding.vp.setCurrentItem(event.getPosition());
     }
 
-    @Override
-    public void onCategorySelect(QuestionCategory data) {
-        if (isUserPatient()) {
-            //病人端 具体问卷查看时 －－> 保存(有效)
-            header0.setRightTitle("保存");
-            ModifyForumFragment.getInstance(getData().getId()).loadQuestions(data);
-        } else {
-            FillForumFragment.getInstance(getData()).loadQuestions(data);
-        }
-    }
+//    @Override
+//    public void onCategorySelect(QuestionCategory data) {
+//        if (isUserPatient()) {
+//            //病人端 具体问卷查看时 －－> 保存(有效)
+//            header0.setRightTitle("保存");
+//            ModifyForumFragment.getInstance(getData().getId()).loadQuestions(data);
+//        } else {
+//            FillForumFragment.getInstance(getData()).loadQuestions(data);
+//        }
+//    }
 
     @Override
     protected void onPostResume() {

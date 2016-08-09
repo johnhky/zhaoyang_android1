@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 
+import com.doctor.sun.R;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.pager.CouponPagerAdapter;
@@ -25,8 +26,11 @@ public class CouponTabActivity extends TabActivity {
 
     @Override
     protected HeaderViewModel createHeaderViewModel() {
-        HeaderViewModel headerViewModel = new HeaderViewModel(this);
-        headerViewModel.setMidTitle("优惠券");
-        return headerViewModel;
+        return null;
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_coupon;
     }
 }

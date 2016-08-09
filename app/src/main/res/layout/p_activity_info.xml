@@ -22,7 +22,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:header="@{header}" />
+            bind:data="@{header}" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,25 +50,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/dp_13"
-                android:onClick="@{data.handler.setAvatar}"
-                android:background="@drawable/bg_white">
+                android:background="@drawable/bg_white"
+                android:onClick="@{data.handler.setAvatar}">
 
                 <com.doctor.sun.ui.widget.BezelImageView
                     android:id="@+id/biv_avatar"
                     android:layout_width="@dimen/dp_63"
                     android:layout_height="@dimen/dp_63"
                     android:layout_gravity="center"
-                    android:src="@{data.avatar}"
                     android:scaleType="centerCrop"
+                    android:src="@{data.avatar}"
                     app:maskDrawable="@drawable/circle_mask" />
 
                 <TextView
                     android:id="@+id/tv_avatar"
                     android:layout_width="@dimen/dp_61"
                     android:layout_height="@dimen/dp_61"
-                    android:visibility="gone"
                     android:layout_gravity="center"
-                    android:background="@drawable/ic_default_avatar" />
+                    android:background="@drawable/ic_default_avatar"
+                    android:visibility="gone" />
 
             </FrameLayout>
 
@@ -134,8 +134,8 @@
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:focusableInTouchMode="false"
-                android:inputType="textEmailAddress"
                 android:hint="选填"
+                android:inputType="textEmailAddress"
                 android:maxLength="20"
                 android:text="@{data.email}"
                 android:textColor="#363636"
@@ -170,9 +170,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_white"
+                android:drawableRight="@drawable/bg_white"
                 android:gravity="start|center_vertical"
                 android:text="@{data.birthday}"
-                android:drawableRight="@drawable/bg_white"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
 

@@ -16,7 +16,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.module.AppointmentModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.handler.UrgentCallHandler;
 
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import io.ganguo.library.AppManager;
 /**
  * Created by lucas on 1/23/16.
  */
-public class PayFailActivity extends BaseActivity2 implements View.OnClickListener {
+public class PayFailActivity extends BaseFragmentActivity2 implements View.OnClickListener {
     public static final int URGENT_CALL = 1;
     public static final int APPOINTMENT = 2;
     public static final int OTHERS = 3;

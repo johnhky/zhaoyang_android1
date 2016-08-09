@@ -20,7 +20,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:header="@{header}" />
+            bind:data="@{header}" />
 
         <com.doctor.sun.ui.widget.ZoomAndTransImageView
             android:id="@+id/iv_preview"

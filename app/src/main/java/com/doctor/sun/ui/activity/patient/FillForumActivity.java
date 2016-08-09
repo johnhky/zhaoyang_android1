@@ -25,7 +25,6 @@ import com.doctor.sun.ui.widget.PickImageDialog;
  */
 public class FillForumActivity extends BaseFragmentActivity2 implements
         QCategoryHandler.QCategoryCallback,
-        FillForumFragment.SetHeaderListener,
         Appointment.AppointmentId,
         Prescription.UrlToLoad {
 
@@ -49,7 +48,6 @@ public class FillForumActivity extends BaseFragmentActivity2 implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_fill_forum);
-        initHeader();
         initFragment();
     }
 
@@ -61,30 +59,25 @@ public class FillForumActivity extends BaseFragmentActivity2 implements
                 .commit();
     }
 
-    private void initHeader() {
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("填写问卷");
-        binding.setHeader(header);
-    }
+
 
     @Override
     public void onCategorySelect(QuestionCategory data) {
-        binding.getHeader().setRightTitle("保存");
+//        binding.getHeader().setRightTitle("保存");
         fragment.loadQuestions(data);
         isFilling = true;
     }
 
-    @Override
-    public void onMenuClicked() {
-        if (isFilling) {
-            fragment.save();
-        }
-    }
-
-    @Override
-    public void setHeaderRightTitle(String title) {
-        binding.getHeader().setRightTitle(title);
-    }
+//    public void onMenuClicked() {
+//        if (isFilling) {
+//            fragment.save();
+//        }
+//    }
+//
+//    @Override
+//    public void setHeaderRightTitle(String title) {
+//        binding.getHeader().setRightTitle(title);
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -111,5 +104,10 @@ public class FillForumActivity extends BaseFragmentActivity2 implements
     @Override
     public String url() {
         return "diagnosis/last-drug?appointmentId=" + getId();
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_answer_question;
     }
 }

@@ -71,4 +71,55 @@
     <string name="premium_product">专属咨询</string>
     <string name="premium_product_brief"><![CDATA[&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;医生预留专属时间为预约的客户进行详细咨询。建议<font color="#ff405a>第一次就诊</font>或者<font color="#ff405a>病情有变化、不稳定</font>的患者选择“专属咨询”服务，可与医生进行实时的互动交流，时间以15分钟为单位，可根据个人需要调节长短，推荐30~45分钟，以免时间不足影响咨询效果。]]></string>
     <string name="normal_product_brief"><![CDATA[&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;建议<font color="#ff405a>病情稳定、需要定期复诊寄药</font>的患者选择“留言咨询”，费用较少，医生将用空闲时间回复您的留言，虽然并非即时通讯，但保证24小时内给出用药建议和48小时内寄出药物。（如果是第一次就诊或病情不稳定，推荐选择“专属咨询”，获取更完善的咨询服务。）]]></string>
+
+
+    <string name="title" />
+    <string name="title_favorite_doctor">我的收藏</string>
+    <string name="title_add_break_time">添加免打扰时段</string>
+    <string name="title_consulting">就诊</string>
+    <string name="default_title">昭阳医生</string>
+    <string name="title_advice">建议反馈</string>
+    <string name="title_add_template"></string>
+    <string name="title_follow_up">随访列表</string>
+    <string name="title_profile_info">个人信息</string>
+    <string name="title_edit_prescription">添加/编辑用药</string>
+    <string name="title_edit_record">新建病历</string>
+    <string name="title_edit_nickname">修改备注</string>
+    <string name="title_my_qrcode">我的二维码</string>
+    <string name="title_times">出诊时间</string>
+    <string name="title_template">问诊模板</string>
+    <string name="title_system_msg">系统消息</string>
+    <string name="title_edit_password">修改密码</string>
+    <string name="title_p_follow_up">随访请求列表</string>
+    <string name="title_doctor_detail">医生详情</string>
+    <string name="title_patient_detail">患者信息</string>
+    <string name="title_confirm_order">确认预约</string>
+    <string name="title_feed_back">评价</string>
+    <string name="title_appointment_list">已预约患者</string>
+    <string name="title_add_question">补充问卷</string>
+    <string name="title_answer_question">填写问卷</string>
+
+
+    <string name="title_follow_up_history">历史随访</string>
+
+    <string name="title_contact">通讯录</string>
+    <string name="title_follow_up_contact">随访通讯录</string>
+    <string name="title_history">历史记录</string>
+    <string name="title_coupon">优惠券</string>
+    <string name="title_question_description">自编题目服务说明</string>
+    <string name="title_my_order">我的订单</string>
+    <string name="title_edit_fee">诊金设置</string>
+    <string name="title_file_detail">文件</string>
+    <string name="title_hospital_detail">医院详情</string>
+    <string name="title_record_detail">病历详情</string>
+    <string name="title_add_fee">增加诊金</string>
+    <string name="title_me">我</string>
+    <string name="title_main">昭阳医生</string>
+    <string name="title_image_preview" />
+    <string name="title_pick_date">选择日期</string>
+    <string name="title_pick_time">选择时间</string>
+    <string name="title_manage_patient">患者管理</string>
+    <string name="title_appoint_doctor">预约医生</string>
+    <string name="title_extend_time">增加等候时间</string>
+    <string name="title_add_prescription">用药详情</string>
 </resources>

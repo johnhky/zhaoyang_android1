@@ -14,7 +14,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.DoNothingCallback;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 import io.ganguo.library.common.ToastHelper;
@@ -22,7 +22,7 @@ import io.ganguo.library.common.ToastHelper;
 /**
  * Created by lucas on 12/8/15.
  */
-public class FeeActivity extends BaseActivity2 {
+public class FeeActivity extends BaseFragmentActivity2 {
 
     private ActivityFeeBinding binding;
 
@@ -43,9 +43,6 @@ public class FeeActivity extends BaseActivity2 {
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_fee);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("诊金设置");
-        binding.setHeader(header);
     }
 
     private void initData() {
@@ -82,5 +79,11 @@ public class FeeActivity extends BaseActivity2 {
                 }
             }
         });
+    }
+
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_edit_fee;
     }
 }

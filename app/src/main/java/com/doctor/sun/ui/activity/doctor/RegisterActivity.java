@@ -3,25 +3,27 @@ package com.doctor.sun.ui.activity.doctor;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.Observable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityRegisterBinding;
 import com.doctor.sun.module.AuthModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.handler.RegisterHandler;
-import com.doctor.sun.ui.model.HeaderViewModel;
 
 
 /**
  * Created by rick on 11/17/15.
  */
-public class RegisterActivity extends BaseActivity2 implements RegisterHandler.RegisterInput {
+public class RegisterActivity extends BaseFragmentActivity2 {
 
     private ActivityRegisterBinding binding;
-    private HeaderViewModel header;
     private RegisterHandler handler;
 
     public static Intent makeIntent(Context context, int data) {
@@ -39,73 +41,107 @@ public class RegisterActivity extends BaseActivity2 implements RegisterHandler.R
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register);
-        header = new HeaderViewModel(this);
-        header.setEnable(false);
         int type = getData();
-        header.setRightTitle("下一步");
+        handler = new RegisterHandler(type);
         switch (type) {
-            case AuthModule.DOCTOR_TYPE: {
-                header.setMidTitle("医生注册");
-                break;
-            }
-
-            case AuthModule.PATIENT_TYPE: {
-                header.setMidTitle("公众注册");
-                break;
-            }
-
             case AuthModule.FORGOT_PASSWORD: {
-                header.setMidTitle("重置密码");
-                header.setRightTitle("确定");
-//                binding.llyEmail.setVisibility(View.VISIBLE);
                 binding.llyPolicy.setVisibility(View.GONE);
-                header.setEnable(true);
+                handler.setEnable(true);
                 break;
             }
             default:
         }
-        binding.setHeader(header);
-        handler = new RegisterHandler(this, type);
+        handler.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                switch (i) {
+                    case BR.enable: {
+                        supportInvalidateOptionsMenu();
+                    }
+                }
+            }
+        });
         binding.setHandler(handler);
     }
 
-    @Override
     public void onMenuClicked() {
         int type = getData();
         if (type == AuthModule.FORGOT_PASSWORD) {
             handler.resetPassword(null);
         } else {
-            handler.register();
+            handler.register(this);
         }
     }
 
+
     @Override
-    public String getEmail() {
-        return binding.etEmail.getText().toString();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        switch (getData()) {
+            case AuthModule.DOCTOR_TYPE: {
+                getMenuInflater().inflate(R.menu.menu_next, menu);
+                break;
+            }
+            case AuthModule.PATIENT_TYPE: {
+                getMenuInflater().inflate(R.menu.menu_next, menu);
+                break;
+            }
+            case AuthModule.FORGOT_PASSWORD: {
+                getMenuInflater().inflate(R.menu.menu_confirm, menu);
+                break;
+            }
+        }
+        return true;
     }
 
     @Override
-    public String getPhone() {
-        return binding.etPhone.getText().toString();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_next:
+            case R.id.action_confirm: {
+                onMenuClicked();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public String getCaptcha() {
-        return binding.etCaptcha.getText().toString();
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
+        if (handler.isEnable()) {
+            switch (getData()) {
+                case AuthModule.DOCTOR_TYPE: {
+                    getMenuInflater().inflate(R.menu.menu_next, menu);
+                    break;
+                }
+                case AuthModule.PATIENT_TYPE: {
+                    getMenuInflater().inflate(R.menu.menu_next, menu);
+                    break;
+                }
+                case AuthModule.FORGOT_PASSWORD: {
+                    getMenuInflater().inflate(R.menu.menu_confirm, menu);
+                    break;
+                }
+            }
+            return true;
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
-    public String getPassword() {
-        return binding.etPasswd.getText().toString();
-    }
-
-    @Override
-    public String getPassword2() {
-        return binding.etPasswd2.getText().toString();
-    }
-
-    @Override
-    public boolean isDoctor() {
-        return getData() == AuthModule.DOCTOR_TYPE;
+    public String getMidTitleString() {
+        switch (getData()) {
+            case AuthModule.DOCTOR_TYPE: {
+                return "医生注册";
+            }
+            case AuthModule.PATIENT_TYPE: {
+                return "公众注册";
+            }
+            case AuthModule.FORGOT_PASSWORD: {
+                return "重置密码";
+            }
+            default:
+                return "";
+        }
     }
 }

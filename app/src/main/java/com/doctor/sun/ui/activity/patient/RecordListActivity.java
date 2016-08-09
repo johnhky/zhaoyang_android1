@@ -13,7 +13,7 @@ import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
@@ -27,7 +27,7 @@ import io.ganguo.library.util.log.LoggerFactory;
  * 患者管理
  * Created by lucas on 1/4/16.
  */
-public class RecordListActivity extends BaseActivity2 {
+public class RecordListActivity extends BaseFragmentActivity2 {
     private Logger logger = LoggerFactory.getLogger(RecordListActivity.class);
     private PActivityRecordListBinding binding;
     private SimpleAdapter mAdapter;
@@ -62,9 +62,6 @@ public class RecordListActivity extends BaseActivity2 {
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_record_list);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("患者管理");
-        binding.setHeader(header);
         mAdapter = new SimpleAdapter(this);
         mAdapter.mapLayout(R.layout.item_text, R.layout.p_item_recordlist);
         binding.rvList.setLayoutManager(new LinearLayoutManager(this));
@@ -87,5 +84,11 @@ public class RecordListActivity extends BaseActivity2 {
                 }
             }
         });
+    }
+
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_manage_patient;
     }
 }

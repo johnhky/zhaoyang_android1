@@ -16,7 +16,7 @@
 ///**
 // * Created by rick on 20/1/2016.
 // */
-//public class ListActivity2<T> extends BaseActivity2 implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+//public class ListActivity2<T> extends BaseFragmentActivity2 implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 //
 //    private ActivityListBinding binding;
 //    private SimpleAdapter adapter;

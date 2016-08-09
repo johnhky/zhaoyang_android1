@@ -51,14 +51,18 @@ public class PickDateActivity extends BaseFragmentActivity2 {
     }
 
     protected HeaderViewModel createHeaderViewModel() {
-        HeaderViewModel headerViewModel = new HeaderViewModel(this);
-        headerViewModel.setMidTitle("选择日期");
-        return headerViewModel;
+        return null;
     }
 
     public static Intent makeIntent(Context context, AppointmentBuilder builder) {
         Intent i = new Intent(context, PickDateActivity.class);
         i.putExtra(Constants.DATA, builder);
         return i;
+    }
+
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_pick_date;
     }
 }

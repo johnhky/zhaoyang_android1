@@ -5,16 +5,18 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityTimeBinding;
 import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.TimeAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.Function0;
 
 import java.util.List;
@@ -26,9 +28,8 @@ import io.ganguo.library.common.ToastHelper;
  * <p/>
  * Created by lucas on 12/1/15.
  */
-public class TimeActivity extends BaseActivity2 implements TimeHandler.GetIsEditMode {
+public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.GetIsEditMode {
 
-    private HeaderViewModel header = new HeaderViewModel(this);
 
     private TimeAdapter mAdapter;
     private ActivityTimeBinding binding;
@@ -54,10 +55,6 @@ public class TimeActivity extends BaseActivity2 implements TimeHandler.GetIsEdit
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_time);
-        header.setLeftIcon(R.drawable.ic_back)
-                .setMidTitle("出诊时间")
-                .setRightTitle("编辑");
-        binding.setHeader(header);
         mAdapter = new TimeAdapter(this);
         binding.rvTime.setLayoutManager(new LinearLayoutManager(this));
         binding.rvTime.setAdapter(mAdapter);
@@ -82,36 +79,29 @@ public class TimeActivity extends BaseActivity2 implements TimeHandler.GetIsEdit
             }
         });
     }
-
     @Override
-    public void onBackClicked() {
+    public void onBackPressed() {
         if (mAdapter.isEditMode()) {
             mAdapter.setIsEditMode(!mAdapter.isEditMode());
-            header.setRightTitle("编辑");
             binding.llAdd.setVisibility(View.VISIBLE);
             mAdapter.notifyDataSetChanged();
-        } else super.onBackClicked();
-        binding.setHeader(header);
+        } else {
+            super.onBackPressed();
+        }
     }
 
-    @Override
     public void onMenuClicked() {
-        super.onMenuClicked();
         if (mAdapter.getItemCount() == 0) {
             ToastHelper.showMessage(this, "目前没有出诊时间安排");
-            header.setRightTitle("编辑");
             binding.llAdd.setVisibility(View.VISIBLE);
         } else {
             mAdapter.setIsEditMode(!mAdapter.isEditMode());
             if (mAdapter.isEditMode()) {
-                header.setRightTitle("保存");
                 binding.llAdd.setVisibility(View.GONE);
             } else {
-                header.setRightTitle("编辑");
                 binding.llAdd.setVisibility(View.VISIBLE);
             }
         }
-        binding.setHeader(header);
         mAdapter.notifyDataSetChanged();
     }
 
@@ -120,4 +110,46 @@ public class TimeActivity extends BaseActivity2 implements TimeHandler.GetIsEdit
         return mAdapter.isEditMode();
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_save, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        mAdapter.setIsEditMode(!mAdapter.isEditMode());
+        switch (item.getItemId()) {
+            case R.id.action_edit: {
+                onMenuClicked();
+                invalidateOptionsMenu();
+                return true;
+            }
+            case R.id.action_save: {
+                onMenuClicked();
+                invalidateOptionsMenu();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.clear();
+        MenuInflater menuInflater = getMenuInflater();
+        if (mAdapter.isEditMode()) {
+            menuInflater.inflate(R.menu.menu_save, menu);
+        } else {
+            menuInflater.inflate(R.menu.menu_edit, menu);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_times;
+    }
 }

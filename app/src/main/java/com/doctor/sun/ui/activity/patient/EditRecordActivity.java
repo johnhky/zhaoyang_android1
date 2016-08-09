@@ -9,6 +9,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -70,10 +72,10 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_record);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("新建病历")
-                .setRightTitle("完成");
-        binding.setHeader(header);
+//        HeaderViewModel header = new HeaderViewModel(this);
+//        header.setMidTitle("新建病历")
+//                .setRightTitle("完成");
+//        binding.setHeader(header);
         binding.setTime(new ItemPickDate(-1, ""));
         switch (getRecordType()) {
             case TYPE_OTHERS: {
@@ -96,9 +98,7 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
         return getIntent().getIntExtra(RECORD_TYPE, -1);
     }
 
-    @Override
     public void onMenuClicked() {
-        super.onMenuClicked();
         handler.done(null);
     }
 
@@ -304,5 +304,28 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
 //
 //        cityPickerDialog.setProvinceId(provinceId);
 //        cityPickerDialog.setCityId(cityId);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_confirm, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_confirm: {
+                onMenuClicked();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_edit_record;
     }
 }

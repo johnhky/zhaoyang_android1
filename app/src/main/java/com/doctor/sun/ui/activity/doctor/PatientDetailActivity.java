@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.util.SparseIntArray;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -22,7 +24,7 @@ import com.doctor.sun.http.callback.AnswerCallback;
 import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AnswerModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.AnswerAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.handler.QCategoryHandler;
@@ -39,7 +41,7 @@ import retrofit2.Call;
 /**
  * Created by rick on 11/24/15.
  */
-public class PatientDetailActivity extends BaseActivity2 implements QCategoryHandler.QCategoryCallback {
+public class PatientDetailActivity extends BaseFragmentActivity2 implements QCategoryHandler.QCategoryCallback {
 
     private static final SparseIntArray idMap = new SparseIntArray();
 
@@ -85,11 +87,6 @@ public class PatientDetailActivity extends BaseActivity2 implements QCategoryHan
         super.onCreate(savedInstanceState);
         final int position = getPosition();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_patient_detail);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setRightTitle("补充问卷");
-        header.setRightFirstTitle("删除问题");
-        binding.setHeader(header);
-
         mAdapter = new AnswerAdapter(this, getData());
         mAdapter.mapLayout(R.layout.item_appointment, idMap.get(position));
         binding.recyclerView.setAdapter(mAdapter);
@@ -130,13 +127,11 @@ public class PatientDetailActivity extends BaseActivity2 implements QCategoryHan
 
     }
 
-    @Override
     public void onMenuClicked() {
         Intent intent = AssignQuestionActivity.makeIntent(this, getData());
         startActivity(intent);
     }
 
-    @Override
     public void onFirstMenuClicked() {
         Answer.handler.toggleEditMode();
         mAdapter.notifyDataSetChanged();
@@ -214,5 +209,26 @@ public class PatientDetailActivity extends BaseActivity2 implements QCategoryHan
                 data.getHandler().callTelephone(this);
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_patient_detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete_question: {
+                onFirstMenuClicked();
+                return true;
+            }
+            case R.id.action_add_template: {
+                onMenuClicked();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

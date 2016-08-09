@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivitySettingBinding;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.handler.SettingHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
@@ -22,7 +22,7 @@ import io.ganguo.library.common.ToastHelper;
 /**
  * Created by lucas on 12/21/15.
  */
-public class SettingActivity extends BaseActivity2 implements SettingHandler.GetWindowSize {
+public class SettingActivity extends BaseFragmentActivity2 implements SettingHandler.GetWindowSize {
     private ActivitySettingBinding binding;
 
     public static Intent makeIntent(Context context) {
@@ -39,9 +39,6 @@ public class SettingActivity extends BaseActivity2 implements SettingHandler.Get
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_setting);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("设置");
-        binding.setHeader(header);
         binding.setHandler(new SettingHandler(SettingActivity.this));
     }
 
@@ -71,5 +68,10 @@ public class SettingActivity extends BaseActivity2 implements SettingHandler.Get
         WindowManager windowManager = getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         return display.getWidth();
+    }
+
+    @Override
+    public String getMidTitleString() {
+        return "设置";
     }
 }

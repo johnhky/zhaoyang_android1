@@ -10,13 +10,13 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMedicalRecordBinding;
 import com.doctor.sun.entity.MedicalRecord;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 /**
  * Created by lucas on 1/12/16.
  */
-public class MedicalRecordDetailActivity extends BaseActivity2 {
+public class MedicalRecordDetailActivity extends BaseFragmentActivity2 {
     private boolean isEditMode;
     private PActivityMedicalRecordBinding binding;
     private HeaderViewModel header = new HeaderViewModel(this);
@@ -47,9 +47,6 @@ public class MedicalRecordDetailActivity extends BaseActivity2 {
     }
 
     private void initView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.p_activity_medical_record);
-        header.setMidTitle("病历详情");
-        binding.setHeader(header);
         binding.setData(getData());
     }
 
@@ -80,5 +77,10 @@ public class MedicalRecordDetailActivity extends BaseActivity2 {
             binding.tvIdentityNumber.setText("无");
         else
             binding.tvIdentityNumber.setText(getData().getIdentityNumber());
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_record_detail;
     }
 }

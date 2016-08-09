@@ -24,7 +24,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
 
@@ -40,7 +40,7 @@ import java.util.Locale;
  * <p/>
  * Created by lucas on 1/22/16.
  */
-public class ApplyAppointmentActivity extends BaseActivity2 {
+public class ApplyAppointmentActivity extends BaseFragmentActivity2 {
     public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm:ss";
 
     private PActivityApplyAppointmentBinding binding;
@@ -65,9 +65,6 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
         data = getData();
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_apply_appointment);
         binding.setData(data);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("确认预约");
-        binding.setHeader(header);
         binding.tvMedcialRecord.setText(data.getRecord().getHandler().getRecordDetail());
         data.setRecord(data.getRecord());
         Time time = data.getTime();
@@ -191,5 +188,10 @@ public class ApplyAppointmentActivity extends BaseActivity2 {
                 break;
         }
         return type;
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_confirm_order;
     }
 }

@@ -1,5 +1,6 @@
 package com.doctor.sun.ui.model;
 
+import android.app.Activity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
@@ -12,7 +13,6 @@ import com.doctor.sun.R;
  * Created by rick on 10/15/15.
  */
 public class HeaderViewModel extends BaseObservable {
-    private HeaderView mView;
     private int lineBackground = 0;
     private int leftIcon = R.drawable.ic_back;
     private int rightIcon = 0;
@@ -23,25 +23,7 @@ public class HeaderViewModel extends BaseObservable {
     private String rightFirstTitle = "";
     private String midTitle = "";
     private boolean enable = true;
-
-    public HeaderViewModel(HeaderView mView) {
-        this.mView = mView;
-    }
-
-    public void onBackClicked(View view) {
-        mView.onBackClicked();
-    }
-
-    public void onTitleClicked(View view) {
-        mView.onTitleClicked();
-    }
-
-    public void onMenuClicked(View view) {
-        mView.onMenuClicked();
-    }
-
-    public void onFirstMenuClicked(View view) {
-        mView.onFirstMenuClicked();
+    public HeaderViewModel(Activity ignored) {
     }
 
     public int getLineBackground() {

@@ -20,7 +20,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:header="@{header}" />
+            bind:data="@{header}" />
 
         <ScrollView
             android:layout_width="match_parent"

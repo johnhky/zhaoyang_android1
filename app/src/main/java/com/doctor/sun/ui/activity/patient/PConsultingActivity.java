@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -36,10 +38,6 @@ public class PConsultingActivity extends BaseFragmentActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_consultation);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("就诊")
-                .setRightTitle("通讯录");
-        binding.setHeader(header);
         binding.setFooter(getFooter());
         binding.vp.setAdapter(new ConsultingPagerAdapter(getSupportFragmentManager()));
 //
@@ -55,9 +53,7 @@ public class PConsultingActivity extends BaseFragmentActivity2 {
         return FooterViewModel.getInstance(new PatientFooterView(this), R.id.tab_two);
     }
 
-    @Override
     public void onMenuClicked() {
-        super.onMenuClicked();
         Intent intent = ContactActivity.makeIntent(this, ContactActivity.PATIENTS_CONTACT);
         startActivity(intent);
     }
@@ -75,5 +71,29 @@ public class PConsultingActivity extends BaseFragmentActivity2 {
                 finish();
             }
         }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_consulting, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_contact: {
+                onMenuClicked();
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_consulting;
     }
 }

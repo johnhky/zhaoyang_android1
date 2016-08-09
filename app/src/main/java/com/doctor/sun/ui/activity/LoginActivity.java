@@ -13,7 +13,7 @@ import com.doctor.sun.ui.handler.LoginHandler;
 /**
  * Created by rick on 10/23/15.
  */
-public class LoginActivity extends BaseActivity2  {
+public class LoginActivity extends BaseFragmentActivity2  {
 
     private ActivityLoginBinding binding;
     private LoginHandler handler;

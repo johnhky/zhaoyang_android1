@@ -36,39 +36,6 @@ public class AfterServiceDoingActivity extends TabActivity implements Prescripti
         return getStringExtra(Constants.PARAM_RECORD_ID);
     }
 
-    @Override
-    protected void initPagerTabs() {
-        super.initPagerTabs();
-        getBinding().vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                String title = "";
-                if (Settings.isDoctor()) {
-                    if (position == 1) {
-                        title = "保存";
-                    }
-                } else {
-                    if (position == 0) {
-                        title = "保存";
-                    }
-                }
-                HeaderViewModel header = getBinding().getHeader();
-                if (header != null) {
-                    header.setRightTitle(title);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-    }
 
     @Override
     protected PagerAdapter createPagerAdapter() {
@@ -83,21 +50,7 @@ public class AfterServiceDoingActivity extends TabActivity implements Prescripti
 
     @Override
     protected HeaderViewModel createHeaderViewModel() {
-        HeaderViewModel header = new HeaderViewModel(this);
-        if (!Settings.isDoctor()) {
-            header.setRightTitle("保存");
-        }
-        return header;
-    }
-
-    @Override
-    public void onMenuClicked() {
-        super.onMenuClicked();
-        if (Settings.isDoctor()) {
-            doctorAfterServicePA.saveAnswer();
-        } else {
-            patientAfterServicePA.saveAnswer();
-        }
+        return null;
     }
 
     /**

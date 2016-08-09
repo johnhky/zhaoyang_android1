@@ -22,7 +22,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:header="@{header}" />
+            bind:data="@{header}" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -35,8 +35,8 @@
 
 
                 <!--<include-->
-                    <!--layout="@layout/item_big_button"-->
-                    <!--bind:data="@{stopTakingMedicine}" />-->
+                <!--layout="@layout/item_big_button"-->
+                <!--bind:data="@{stopTakingMedicine}" />-->
 
                 <View
                     android:layout_width="match_parent"

@@ -34,7 +34,7 @@ import io.ganguo.library.core.event.EventHub;
 /**
  * Created by rick on 1/2/2016.
  */
-public class VoIPCallActivity extends BaseActivity2 {
+public class VoIPCallActivity extends BaseFragmentActivity2 {
     public static final int THREE_SECOND = 1500;
     public static final int CALLING = 1;
 

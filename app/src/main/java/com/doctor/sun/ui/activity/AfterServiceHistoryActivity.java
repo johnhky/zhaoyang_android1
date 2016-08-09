@@ -44,9 +44,7 @@ public class AfterServiceHistoryActivity extends PageActivity2 {
 
     @NonNull
     protected HeaderViewModel getHeaderViewModel() {
-        HeaderViewModel headerViewModel = new HeaderViewModel(this);
-        headerViewModel.setMidTitle("历史随访");
-        return headerViewModel;
+        return null;
     }
 
     @NonNull
@@ -65,5 +63,11 @@ public class AfterServiceHistoryActivity extends PageActivity2 {
     @Override
     public String getEmptyIndicatorText() {
         return "没有任何历史随访";
+    }
+
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_follow_up_history;
     }
 }

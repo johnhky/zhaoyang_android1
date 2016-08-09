@@ -15,7 +15,7 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AppointmentModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.DividerItemDecoration;
@@ -26,7 +26,7 @@ import retrofit2.Call;
  * 医生端 历史记录
  * Created by Lynn on 1/8/16.
  */
-public class HistoryRecordActivity extends BaseActivity2 {
+public class HistoryRecordActivity extends BaseFragmentActivity2 {
     private ActivityHistoryRecordBinding binding;
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private SimpleAdapter mAdapter;
@@ -35,10 +35,6 @@ public class HistoryRecordActivity extends BaseActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_history_record);
-
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("历史记录");
-        binding.setHeader(header);
 
         initView();
         initData();
@@ -70,5 +66,10 @@ public class HistoryRecordActivity extends BaseActivity2 {
     public static Intent intentFor(Context context, int recordId) {
         return new Intent(context, HistoryRecordActivity.class)
                 .putExtra(Constants.PARAM_RECORD_ID, recordId);
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_history;
     }
 }

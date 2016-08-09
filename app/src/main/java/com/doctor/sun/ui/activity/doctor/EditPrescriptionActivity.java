@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -23,9 +25,8 @@ import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AutoComplete;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.SingleChoiceDialog;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ import io.ganguo.library.util.log.LoggerFactory;
 /**
  * Created by rick on 29/12/2015.
  */
-public class EditPrescriptionActivity extends BaseActivity2 {
+public class EditPrescriptionActivity extends BaseFragmentActivity2 {
     public static final String MORNING_KEY = "早";
     public static final String AFTERNOON_KEY = "午";
     public static final String EVENING_KEY = "晚";
@@ -63,9 +64,6 @@ public class EditPrescriptionActivity extends BaseActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_prescription);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setLeftIcon(R.drawable.ic_back).setMidTitle("添加/编辑用药").setRightTitle("确定");
-        binding.setHeader(header);
 //        binding.setStopTakingMedicine(new ItemButton(-1, "停止用药") {
 //            @Override
 //            public void onClick(View view) {
@@ -147,9 +145,9 @@ public class EditPrescriptionActivity extends BaseActivity2 {
         });
     }
 
-    @Override
+    //    @Override
     public void onMenuClicked() {
-        super.onMenuClicked();
+//        super.onMenuClicked();
         Intent intent = new Intent();
         Prescription mPrescription = new Prescription();
 
@@ -302,5 +300,27 @@ public class EditPrescriptionActivity extends BaseActivity2 {
             }
         }
         binding.remark.setInput(data.getRemark());
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_edit_prescription;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_confirm, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_confirm: {
+                onMenuClicked();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

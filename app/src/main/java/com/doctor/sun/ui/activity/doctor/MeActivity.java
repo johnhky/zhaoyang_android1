@@ -43,9 +43,7 @@ public class MeActivity extends BaseDoctorActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_me);
         binding.setFooter(getFooter());
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("我");
-        binding.setHeader(header);
+
         Doctor doctor = Settings.getDoctorProfile();
         binding.setData(doctor);
         binding.setHandler(new MeHandler(doctor));
@@ -88,5 +86,10 @@ public class MeActivity extends BaseDoctorActivity {
                 finish();
             }
         }
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_me;
     }
 }

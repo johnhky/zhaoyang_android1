@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.QTemplate;
 import com.doctor.sun.ui.activity.TabActivity;
@@ -47,12 +50,9 @@ public class QuestionActivity extends TabActivity implements QuestionCustomFragm
 
     @Override
     protected HeaderViewModel createHeaderViewModel() {
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setRightTitle("添加自定义题目");
-        return header;
+        return null;
     }
 
-    @Override
     public void onMenuClicked() {
         Intent intent = AddQuestionActivity.makeIntent(this);
         startActivity(intent);
@@ -76,5 +76,22 @@ public class QuestionActivity extends TabActivity implements QuestionCustomFragm
     @Override
     public String getTemplateName() {
         return newTemplateName();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add_question, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add_question: {
+                onMenuClicked();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

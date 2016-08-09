@@ -16,7 +16,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:header="@{header}" />
+            bind:data="@{header}" />
 
         <EditText
             android:id="@+id/et_modify"

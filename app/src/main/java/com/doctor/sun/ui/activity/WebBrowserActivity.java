@@ -27,8 +27,6 @@ public class WebBrowserActivity extends BaseFragmentActivity2 {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_web_browser);
-        initHeader();
         initWebView();
     }
 
@@ -54,11 +52,6 @@ public class WebBrowserActivity extends BaseFragmentActivity2 {
         };
     }
 
-    public void initHeader() {
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle(getStringExtra(Constants.HEADER));
-        binding.headerLayout.setHeader(header);
-    }
 
     /**
      * 浏览url内容
@@ -88,5 +81,10 @@ public class WebBrowserActivity extends BaseFragmentActivity2 {
         intent.putExtra(Constants.URI, url);
         intent.putExtra(Constants.HEADER, header);
         return intent;
+    }
+
+    @Override
+    public String getMidTitleString() {
+        return getStringExtra(Constants.HEADER);
     }
 }

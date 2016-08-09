@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -16,7 +18,7 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.SingleChoiceDialog;
 
@@ -28,11 +30,10 @@ import io.ganguo.library.common.ToastHelper;
 /**
  * Created by rick on 14/2/2016.
  */
-public class CancelAppointmentActivity extends BaseActivity2 {
+public class CancelAppointmentActivity extends BaseFragmentActivity2 {
 
     private AppointmentModule api = Api.of(AppointmentModule.class);
 
-    private HeaderViewModel header;
     private ActivityCancelAppointmentBinding binding;
     private ArrayList<String> reasons = new ArrayList<String>();
     private Appointment data;
@@ -58,9 +59,6 @@ public class CancelAppointmentActivity extends BaseActivity2 {
         super.onCreate(savedInstanceState);
         data = getData();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_cancel_appointment);
-        header = new HeaderViewModel(this);
-        header.setRightTitle("确定");
-        binding.setHeader(header);
         reasons.add("身体不适");
         reasons.add("出差公干");
         reasons.add("预约已满");
@@ -74,9 +72,9 @@ public class CancelAppointmentActivity extends BaseActivity2 {
         });
     }
 
-    @Override
+//    @Override
     public void onMenuClicked() {
-        super.onMenuClicked();
+//        super.onMenuClicked();
         api.dCancel(String.valueOf(data.getId()), binding.reason.etInput.getText().toString()).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
@@ -89,5 +87,22 @@ public class CancelAppointmentActivity extends BaseActivity2 {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_confirm, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_confirm: {
+                onMenuClicked();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

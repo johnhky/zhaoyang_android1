@@ -25,7 +25,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:header="@{header}" />
+            bind:data="@{header}" />
 
         <LinearLayout
             android:id="@+id/rl_type"

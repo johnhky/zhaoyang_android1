@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -18,14 +20,14 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.PermissionUtil;
 
 /**
  * Created by rick on 20/5/2016.
  */
-public class MyQrCodeActivity extends BaseActivity2 {
+public class MyQrCodeActivity extends BaseFragmentActivity2 {
     public static final String WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private ProfileModule api = Api.of(ProfileModule.class);
     private String data = "";
@@ -46,10 +48,6 @@ public class MyQrCodeActivity extends BaseActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_my_qr_code);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("我的二维码");
-        header.setRightTitle("保存本地");
-        binding.setHeader(header);
         binding.setData(getData());
         loadData();
     }
@@ -64,9 +62,7 @@ public class MyQrCodeActivity extends BaseActivity2 {
         });
     }
 
-    @Override
     public void onMenuClicked() {
-        super.onMenuClicked();
         boolean hasSelfPermission = PermissionUtil.hasSelfPermission(this, WRITE_EXTERNAL_STORAGE);
         if (hasSelfPermission) {
             if (!data.equals("")) {
@@ -95,5 +91,27 @@ public class MyQrCodeActivity extends BaseActivity2 {
         if (grantResults[0]== RESULT_OK) {
             onMenuClicked();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_save_locally, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save_locally: {
+                onMenuClicked();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_my_qrcode;
     }
 }

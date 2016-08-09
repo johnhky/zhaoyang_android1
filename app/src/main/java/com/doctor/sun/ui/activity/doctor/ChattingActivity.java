@@ -8,6 +8,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
@@ -38,7 +40,6 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.ExtendedEditText;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
@@ -234,36 +235,51 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
     private void initActionbar() {
-        binding.setHeader(getHeaderViewModel());
-        inflateMenu();
+//        binding.setHeader(getHeaderViewModel());
+//        inflateMenu();
     }
 
-    private HeaderViewModel getHeaderViewModel() {
-        return new HeaderViewModel(this);
-    }
+
+//    private HeaderViewModel getHeaderViewModel() {
+//        return new HeaderViewModel(this);
+//    }
 
     protected void inflateMenu() {
-        binding.getHeader().setLeftTitle(handler.getTitle())
-                .setRightFirstTitle(handler.getRightFirstTitle())
-                .setRightTitle(handler.getRightTitle());
+//        binding.getHeader().setLeftTitle(handler.getTitle())
+//                .setRightFirstTitle(handler.getRightFirstTitle())
+//                .setRightTitle(handler.getRightTitle());
     }
 
-
     @Override
-    public void onFirstMenuClicked() {
-        super.onFirstMenuClicked();
-        Intent i = handler.getFirstMenu(this);
-        if (i != null) {
-            startActivity(i);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (Settings.isDoctor()) {
+            getMenuInflater().inflate(R.menu.menu_chatting, menu);
+            return true;
+        } else {
+            getMenuInflater().inflate(R.menu.p_menu_chatting, menu);
+            return true;
         }
     }
 
     @Override
-    public void onMenuClicked() {
-        super.onMenuClicked();
-        Intent i = handler.getMenu(this);
-        if (i != null) {
-            startActivity(i);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit: {
+                Intent i = handler.getFirstMenu(this);
+                if (i != null) {
+                    startActivity(i);
+                }
+                return true;
+            }
+            case R.id.action_view: {
+                Intent i = handler.getMenu(this);
+                if (i != null) {
+                    startActivity(i);
+                }
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

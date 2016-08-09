@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -23,9 +25,8 @@ import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.handler.PatientHandler;
 import com.doctor.sun.ui.binding.CustomBinding;
-import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.ui.widget.PickImageDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.io.File;
 
@@ -46,7 +47,6 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
 
     private PActivityInfoBinding binding;
     private String avatar = "";
-    private HeaderViewModel header = new HeaderViewModel(this);
 
 
     private boolean isEditMode = false;
@@ -85,13 +85,12 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_info);
-        header.setMidTitle("个人信息").setRightTitle("编辑");
         patient = getPatient();
         if (patient == null) {
             patient = new Patient();
         }
         binding.setData(patient);
-        binding.setHeader(header);
+
     }
 
     private void initData() {
@@ -142,16 +141,12 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
         }
     }
 
-    @Override
     public void onMenuClicked() {
-        super.onMenuClicked();
         if (!isEditMode()) {
             TwoChoiceDialog.show(this, " 您好，昭阳医生不可以随便更改用户资料，所有用户资料的申请需要经过后台审核", "取消", "确定", new TwoChoiceDialog.Options() {
                 @Override
                 public void onApplyClick(MaterialDialog dialog) {
                     dialog.dismiss();
-                    header.setRightTitle("保存");
-                    binding.setHeader(header);
                     binding.bivAvatar.setBackgroundResource(R.drawable.ripple_default);
                     binding.etName.setFocusableInTouchMode(true);
                     binding.etEmail.setFocusableInTouchMode(true);
@@ -203,4 +198,39 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
         return isEditMode();
     }
 
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_profile_info;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_save, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save: {
+                onMenuClicked();
+            }
+            case R.id.action_edit: {
+                onMenuClicked();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
+        if (isEditMode()) {
+            getMenuInflater().inflate(R.menu.menu_save, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_edit, menu);
+        }
+        return true;
+    }
 }

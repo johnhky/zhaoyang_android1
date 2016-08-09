@@ -39,9 +39,6 @@ public class AssignQuestionActivity extends BaseFragmentActivity2 implements Ass
         super.onCreate(savedInstanceState);
         appointmentId = String.valueOf(getData().getId());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_assign_question);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("补充问卷");
-        binding.setHeader(header);
 
         binding.vp.setAdapter(new QuestionPagerAdapter(getSupportFragmentManager(), appointmentId));
 
@@ -55,5 +52,10 @@ public class AssignQuestionActivity extends BaseFragmentActivity2 implements Ass
     @Override
     public String getAppointmentId() {
         return appointmentId;
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_add_question;
     }
 }

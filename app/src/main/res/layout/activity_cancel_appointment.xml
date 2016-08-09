@@ -17,7 +17,7 @@
 
         <include
             layout="@layout/include_header"
-            app:header="@{header}" />
+            app:data="@{header}" />
 
         <TextView
             android:layout_width="wrap_content"

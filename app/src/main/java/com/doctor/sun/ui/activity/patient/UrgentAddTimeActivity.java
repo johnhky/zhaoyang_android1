@@ -17,7 +17,7 @@ import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.EmergencyModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.TimeUtils;
 
@@ -26,7 +26,7 @@ import io.ganguo.library.common.ToastHelper;
 /**
  * Created by lucas on 1/23/16.
  */
-public class UrgentAddTimeActivity extends BaseActivity2 {
+public class UrgentAddTimeActivity extends BaseFragmentActivity2 {
     private PActivityAddTimeBinding binding;
     private EmergencyModule api = Api.of(EmergencyModule.class);
 
@@ -48,9 +48,6 @@ public class UrgentAddTimeActivity extends BaseActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_add_time);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("增加等候时间");
-        binding.setHeader(header);
         binding.tvCreatTime.setText(getData().getCreatedAt().substring(0, getData().getCreatedAt().length() - 3));
         binding.tvCurrentTime.setText("预设等候时间:" + changeTime() + "（已等候" + getPassTime() + "）");
         binding.tvApply.setOnClickListener(new View.OnClickListener() {
@@ -107,5 +104,10 @@ public class UrgentAddTimeActivity extends BaseActivity2 {
             addTime = Integer.parseInt(binding.etTime.getText().toString()) * 60;
         }
         return addTime;
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_extend_time;
     }
 }

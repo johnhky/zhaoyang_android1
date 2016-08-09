@@ -8,7 +8,7 @@ import android.widget.NumberPicker;
 import com.doctor.sun.bean.City;
 import com.doctor.sun.bean.Province;
 import com.doctor.sun.databinding.ItemCityPickerBinding;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,7 +20,7 @@ import io.realm.RealmResults;
  * Created by rick on 11/13/15.
  */
 public class CityPickerDialog {
-    private final BaseActivity2 context;
+    private final BaseFragmentActivity2 context;
     private final View.OnClickListener confirm;
     private RealmResults<Province> mProvince;
 
@@ -29,7 +29,7 @@ public class CityPickerDialog {
     private RealmList<City> mCity;
     private int mCityId;
 
-    public CityPickerDialog(BaseActivity2 context, RealmResults<Province> province, View.OnClickListener confirm) {
+    public CityPickerDialog(BaseFragmentActivity2 context, RealmResults<Province> province, View.OnClickListener confirm) {
         mProvince = province;
         mCity = province.get(0).getCities();
         this.context = context;

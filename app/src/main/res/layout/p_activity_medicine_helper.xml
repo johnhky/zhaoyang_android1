@@ -30,7 +30,7 @@
 
             <include
                 layout="@layout/include_header"
-                bind:header="@{header}" />
+                bind:data="@{header}" />
 
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/refresh_layout"

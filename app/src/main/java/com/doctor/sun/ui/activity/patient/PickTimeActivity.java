@@ -18,7 +18,7 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ListCallback;
 import com.doctor.sun.module.TimeModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.PickTimeAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.model.HeaderViewModel;
@@ -33,7 +33,7 @@ import java.util.Locale;
 /**
  * Created by rick on 11/1/2016.
  */
-public class PickTimeActivity extends BaseActivity2 {
+public class PickTimeActivity extends BaseFragmentActivity2 {
 
     private TimeModule api = Api.of(TimeModule.class);
     private ActivityPickTimeBinding binding;
@@ -148,7 +148,7 @@ public class PickTimeActivity extends BaseActivity2 {
 
     @NonNull
     protected HeaderViewModel getHeaderViewModel() {
-        return new HeaderViewModel(this).setMidTitle("选择时间");
+        return null;
     }
 
 
@@ -174,4 +174,8 @@ public class PickTimeActivity extends BaseActivity2 {
         }
     }
 
+    @Override
+    public int getMidTitle() {
+        return R.string.title_pick_time;
+    }
 }

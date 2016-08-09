@@ -47,8 +47,11 @@ public class PAppointmentListActivity extends TabActivity {
 
     @Override
     protected HeaderViewModel createHeaderViewModel() {
-        HeaderViewModel headerViewModel = new HeaderViewModel(this);
-        headerViewModel.setMidTitle("我的订单");
-        return headerViewModel;
+        return null;
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_my_order;
     }
 }

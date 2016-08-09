@@ -21,7 +21,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:header="@{header}" />
+            bind:data="@{header}" />
 
         <include
             layout="@layout/item_doctor_dates"

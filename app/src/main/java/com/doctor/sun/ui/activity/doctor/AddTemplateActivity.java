@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -23,7 +26,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.QuestionAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
@@ -39,7 +42,7 @@ import retrofit2.Response;
 /**
  * Created by lucas on 12/15/15.
  */
-public class AddTemplateActivity extends BaseActivity2 implements TemplateHandler.GetIsEditMode {
+public class AddTemplateActivity extends BaseFragmentActivity2 implements TemplateHandler.GetIsEditMode {
 
     private HeaderViewModel header = new HeaderViewModel(this);
 
@@ -47,6 +50,7 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
     private ActivityAddTemplateBinding binding;
     private QuestionAdapter mAdapter;
     private QTemplate newData;
+    private boolean isEditing;
 
     public static Intent makeIntent(Context context, QTemplate data, boolean editStatue) {
         Intent i = new Intent(context, AddTemplateActivity.class);
@@ -85,6 +89,9 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
             binding.tvDefault.setText(getData().getIsDefault() == 1 ? "取消设置默认" : "设置默认");
         else
             binding.tvDefault.setText("设置默认");
+
+        isEditing = getData() == null;
+
         if (getEditStatue()) {
             editMode(header);
         } else {
@@ -261,9 +268,9 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
         });
     }
 
-    @Override
+    //    @Override
     public void onMenuClicked() {
-        super.onMenuClicked();
+//        super.onMenuClicked();
         if (getData() == null && newData == null) {
             editMode(header);
             if (binding.etName.getText().toString().equals("")) {
@@ -283,6 +290,7 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
             if (mAdapter.isEditMode()) {
                 editMode(header);
             } else {
+                notEditMode(header);
                 if (getData() == null) {
                     api.updateTemplate(String.valueOf(newData.getId()), binding.etName.getText().toString(), getQuestionId())
                             .enqueue(new ApiCallback<QTemplate>() {
@@ -300,7 +308,6 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
                                 }
                             });
                 }
-                notEditMode(header);
                 Systems.hideKeyboard(this);
             }
         }
@@ -331,9 +338,8 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
 
     private void notEditMode(HeaderViewModel header) {
         mAdapter.setIsEditMode(false);
-
         binding.etName.setFocusable(false);
-        header.setRightTitle("编辑");
+//        header.setRightTitle("编辑");
         binding.llyEdit.setBackgroundResource(R.drawable.bg_template_notedit);
         binding.flDefault.setBackgroundResource(R.drawable.bg_transparent);
         binding.tvDefault.setTextColor(Color.parseColor("#339de1"));
@@ -347,8 +353,7 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
     }
 
     private void editMode(HeaderViewModel header) {
-        mAdapter.setIsEditMode(true);
-        header.setRightTitle("保存");
+//        header.setRightTitle("保存");
         binding.etName.setFocusableInTouchMode(true);
         binding.llyEdit.setBackgroundResource(R.drawable.bg_template_edit);
         binding.flDefault.setBackgroundResource(R.drawable.shape_button);
@@ -362,5 +367,43 @@ public class AddTemplateActivity extends BaseActivity2 implements TemplateHandle
     public void addQuestion(QTemplate data) {
         Intent intent = QuestionActivity.makeIntent(AddTemplateActivity.this, data, getQuestionId(), String.valueOf(binding.etName.getText()));
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_save, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit: {
+                isEditing = true;
+                onMenuClicked();
+                invalidateOptionsMenu();
+                return true;
+            }
+            case R.id.action_save: {
+                isEditing = false;
+                onMenuClicked();
+                invalidateOptionsMenu();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.clear();
+        MenuInflater menuInflater = getMenuInflater();
+        if (isEditing) {
+            menuInflater.inflate(R.menu.menu_save, menu);
+        } else {
+            menuInflater.inflate(R.menu.menu_edit, menu);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 }

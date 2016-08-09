@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -17,7 +19,7 @@ import com.doctor.sun.entity.handler.QuestionHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.QuestionModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.OptionAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
@@ -34,7 +36,7 @@ import io.ganguo.library.common.ToastHelper;
 /**
  * Created by lucas on 12/25/15.
  */
-public class AddQuestionActivity extends BaseActivity2 {
+public class AddQuestionActivity extends BaseFragmentActivity2 {
     private ActivityAddQuestionBinding binding;
     private OptionAdapter mAdapter;
     private ItemTextInput optionAnswer;
@@ -85,9 +87,9 @@ public class AddQuestionActivity extends BaseActivity2 {
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_question);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setRightTitle("保存");
-        binding.setHeader(header);
+//        HeaderViewModel header = new HeaderViewModel(this);
+//        header.setRightTitle("保存");
+//        binding.setHeader(header);
         mAdapter = new OptionAdapter(this);
         binding.rvOptions.setLayoutManager(new LinearLayoutManager(this));
         binding.rvOptions.setAdapter(mAdapter);
@@ -96,8 +98,22 @@ public class AddQuestionActivity extends BaseActivity2 {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_save, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save: {
+                onMenuClicked();
+            }
+        }
+        return true;
+    }
+
     public void onMenuClicked() {
-        super.onMenuClicked();
         getType();
     }
 

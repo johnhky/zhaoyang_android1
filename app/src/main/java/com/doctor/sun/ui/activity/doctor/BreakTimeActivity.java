@@ -14,7 +14,7 @@ import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.TimeModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.BreakTimeAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
@@ -28,7 +28,7 @@ import retrofit2.Call;
 /**
  * Created by lucas on 12/3/15.
  */
-public class BreakTimeActivity extends BaseActivity2 implements TimeHandler.GetIsEditMode {
+public class BreakTimeActivity extends BaseFragmentActivity2 implements TimeHandler.GetIsEditMode {
     private final static Logger LOG = LoggerFactory.getLogger(BreakTimeActivity.class);
     public static final int ADD_BREAK_TIME = 1;
 
@@ -57,8 +57,8 @@ public class BreakTimeActivity extends BaseActivity2 implements TimeHandler.GetI
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_break_time);
-        header.setLeftIcon(R.drawable.ic_back).setMidTitle("免打扰").setRightTitle("编辑");
-        binding.setHeader(header);
+//        header.setLeftIcon(R.drawable.ic_back).setMidTitle("免打扰").setRightTitle("编辑");
+//        binding.setHeader(header);
         mAdapter = new BreakTimeAdapter(this);
         mAdapter.mapLayout(R.layout.item_time, R.layout.item_break_time);
         binding.rvDisturb.setLayoutManager(new LinearLayoutManager(this));
@@ -85,39 +85,38 @@ public class BreakTimeActivity extends BaseActivity2 implements TimeHandler.GetI
         });
     }
 
-    @Override
-    public void onBackClicked() {
-        binding.setHeader(header);
-        if (mAdapter.isEditMode()) {
-            mAdapter.setIsEditMode(!mAdapter.isEditMode());
-            header.setRightTitle("编辑");
-            binding.llAdd.setVisibility(View.VISIBLE);
-            mAdapter.notifyDataSetChanged();
-        } else {
-            super.onBackClicked();
-        }
-    }
-
-    @Override
-    public void onMenuClicked() {
-        super.onMenuClicked();
-        if (mAdapter.getItemCount() == 0) {
-            ToastHelper.showMessage(this, "目前没有免打扰时间");
-            header.setRightTitle("编辑");
-            binding.llAdd.setVisibility(View.VISIBLE);
-        } else {
-            mAdapter.setIsEditMode(!mAdapter.isEditMode());
-            if (mAdapter.isEditMode()) {
-                header.setRightTitle("保存");
-                binding.llAdd.setVisibility(View.GONE);
-            } else {
-                header.setRightTitle("编辑");
-                binding.llAdd.setVisibility(View.VISIBLE);
-            }
-        }
-        binding.setHeader(header);
-        mAdapter.notifyDataSetChanged();
-    }
+//    public void onBackClicked() {
+//        binding.setHeader(header);
+//        if (mAdapter.isEditMode()) {
+//            mAdapter.setIsEditMode(!mAdapter.isEditMode());
+//            header.setRightTitle("编辑");
+//            binding.llAdd.setVisibility(View.VISIBLE);
+//            mAdapter.notifyDataSetChanged();
+//        } else {
+//            super.onBackClicked();
+//        }
+//    }
+//
+//    @Override
+//    public void onMenuClicked() {
+//        super.onMenuClicked();
+//        if (mAdapter.getItemCount() == 0) {
+//            ToastHelper.showMessage(this, "目前没有免打扰时间");
+//            header.setRightTitle("编辑");
+//            binding.llAdd.setVisibility(View.VISIBLE);
+//        } else {
+//            mAdapter.setIsEditMode(!mAdapter.isEditMode());
+//            if (mAdapter.isEditMode()) {
+//                header.setRightTitle("保存");
+//                binding.llAdd.setVisibility(View.GONE);
+//            } else {
+//                header.setRightTitle("编辑");
+//                binding.llAdd.setVisibility(View.VISIBLE);
+//            }
+//        }
+//        binding.setHeader(header);
+//        mAdapter.notifyDataSetChanged();
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

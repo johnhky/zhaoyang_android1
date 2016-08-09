@@ -13,7 +13,7 @@ import com.doctor.sun.entity.Question;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.QuestionModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.AssignQuestionAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
@@ -21,7 +21,7 @@ import com.doctor.sun.ui.model.HeaderViewModel;
 /**
  * Created by lucas on 1/19/16.
  */
-public class QuestionBankActivity extends BaseActivity2 implements AssignQuestionAdapter.GetAppointmentId {
+public class QuestionBankActivity extends BaseFragmentActivity2 implements AssignQuestionAdapter.GetAppointmentId {
     private ActivityQuestionBankBinding binding;
     private SimpleAdapter mAdapter;
     private QuestionModule api = Api.of(QuestionModule.class);

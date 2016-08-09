@@ -16,7 +16,7 @@ import com.doctor.sun.ui.model.HeaderViewModel;
  * <p/>
  * Created by Lynn on 2/1/16.
  */
-public class ImagePreviewActivity extends BaseActivity2 {
+public class ImagePreviewActivity extends BaseFragmentActivity2 {
     public static Intent makeIntent(Context context, String url) {
         return makeIntent(context, url, "");
     }
@@ -34,20 +34,17 @@ public class ImagePreviewActivity extends BaseActivity2 {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public void onBackClicked() {
-        super.onBackClicked();
-    }
-
     private void initView() {
         ActivityImagePreviewBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_image_preview);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle(getStringExtra(Constants.HEADER));
-        binding.setHeader(header);
         binding.setData(getData());
     }
 
     private String getData() {
         return getIntent().getStringExtra(Constants.DATA);
+    }
+
+    @Override
+    public String getMidTitleString() {
+        return getStringExtra(Constants.HEADER);
     }
 }

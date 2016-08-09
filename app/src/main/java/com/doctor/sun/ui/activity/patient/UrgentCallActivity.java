@@ -17,7 +17,7 @@ import com.doctor.sun.http.callback.AlipayCallback;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.module.EmergencyModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
 
@@ -28,7 +28,7 @@ import io.ganguo.library.common.ToastHelper;
 /**
  * Created by lucas on 1/20/16.
  */
-public class UrgentCallActivity extends BaseActivity2 implements View.OnClickListener {
+public class UrgentCallActivity extends BaseFragmentActivity2 implements View.OnClickListener {
     private PActivityUrgentCallBinding binding;
     private EmergencyModule api = Api.of(EmergencyModule.class);
 
@@ -46,9 +46,9 @@ public class UrgentCallActivity extends BaseActivity2 implements View.OnClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_urgent_call);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("确认预约");
-        binding.setHeader(header);
+//        HeaderViewModel header = new HeaderViewModel(this);
+//        header.setMidTitle("确认预约");
+//        binding.setHeader(header);
         binding.tvSelect1.setSelected(true);
 //        binding.tvSelect2.setSelected(true);
         binding.tvSelect3.setSelected(true);

@@ -21,8 +21,7 @@
             android:orientation="vertical">
 
             <include
-                layout="@layout/include_header"
-                bind:header="@{header}" />
+                layout="@layout/include_header"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_document"

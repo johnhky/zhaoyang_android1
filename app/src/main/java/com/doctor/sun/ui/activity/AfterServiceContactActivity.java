@@ -42,12 +42,6 @@ public class AfterServiceContactActivity extends ContactActivity {
     }
 
 
-    @NonNull
-    @Override
-    protected HeaderViewModel getHeaderViewModel() {
-        return new HeaderViewModel(this).setMidTitle("随访通讯录");
-    }
-
     @Override
     protected void getPContactList() {
 //        int id = TokenCallback.getPatientProfile().getId();
@@ -85,5 +79,10 @@ public class AfterServiceContactActivity extends ContactActivity {
 //                getAdapter().notifyDataSetChanged();
 //            }
 //        });
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_follow_up_contact;
     }
 }

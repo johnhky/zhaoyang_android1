@@ -55,7 +55,7 @@ public class QuestionsModel {
         });
     }
 
-    private List<SortedItem> parseQuestions(List<Questions2> response) {
+    public List<SortedItem> parseQuestions(List<Questions2> response) {
         List<SortedItem> items = new ArrayList<SortedItem>();
         if (response == null || response.isEmpty()) {
             return items;

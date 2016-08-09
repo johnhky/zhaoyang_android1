@@ -15,7 +15,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ImModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 import java.util.HashMap;
 
@@ -24,7 +24,7 @@ import io.ganguo.library.common.ToastHelper;
 /**
  * Created by lucas on 1/6/16.
  */
-public class RechargeActivity extends BaseActivity2 {
+public class RechargeActivity extends BaseFragmentActivity2 {
     private PActivityRechargeBinding binding;
     private ImModule api = Api.of(ImModule.class);
     private AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
@@ -46,7 +46,7 @@ public class RechargeActivity extends BaseActivity2 {
         binding.ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackClicked();
+                onBackPressed();
             }
         });
         binding.setData(new PatientMoney());

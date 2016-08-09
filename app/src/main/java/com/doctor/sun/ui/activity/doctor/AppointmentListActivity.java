@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.doctor.sun.R;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.PageActivity2;
@@ -42,10 +43,7 @@ public class AppointmentListActivity extends PageActivity2 {
 
     @NonNull
     protected HeaderViewModel createHeaderViewModel() {
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("已预约患者");
-//                .setRightTitle("紧急咨询");
-        return header;
+        return null;
     }
 
     @NonNull
@@ -53,4 +51,10 @@ public class AppointmentListActivity extends PageActivity2 {
     public String getEmptyIndicatorText() {
         return "没有预约任何患者";
     }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_appointment_list;
+    }
+
 }

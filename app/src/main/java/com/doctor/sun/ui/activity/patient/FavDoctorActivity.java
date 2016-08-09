@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -16,7 +18,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.DocumentAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
@@ -27,11 +29,10 @@ import java.util.ArrayList;
  * Created by lucas on 1/4/16.
  * 我收藏的医生
  */
-public class FavDoctorActivity extends BaseActivity2 implements DocumentAdapter.GetEditMode {
+public class FavDoctorActivity extends BaseFragmentActivity2 implements DocumentAdapter.GetEditMode {
     private boolean isEditMode;
     private DocumentAdapter mAdapter;
     private PActivityFavDoctorBinding binding;
-    private HeaderViewModel header = new HeaderViewModel(this);
     private AppointmentModule api = Api.of(AppointmentModule.class);
 
     public boolean isEditMode() {
@@ -61,8 +62,7 @@ public class FavDoctorActivity extends BaseActivity2 implements DocumentAdapter.
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_fav_doctor);
-        header.setMidTitle("我的收藏").setRightTitle("编辑");
-        binding.setHeader(header);
+//        binding.setHeader(header);
         mAdapter = new DocumentAdapter(this);
         binding.rvDocument.setLayoutManager(new LinearLayoutManager(this));
         binding.rvDocument.setAdapter(mAdapter);
@@ -111,7 +111,6 @@ public class FavDoctorActivity extends BaseActivity2 implements DocumentAdapter.
                 mAdapter.notifyDataSetChanged();
                 mAdapter.onFinishLoadMore(true);
                 if (mAdapter.getItemCount() == 0) {
-                    header.setRightTitle("");
                     binding.flDelete.setVisibility(View.GONE);
                     binding.emptyIndicator.setText("当前我的收藏为空");
                     binding.emptyIndicator.setVisibility(View.VISIBLE);
@@ -123,31 +122,24 @@ public class FavDoctorActivity extends BaseActivity2 implements DocumentAdapter.
     }
 
     @Override
-    public void onBackClicked() {
+    public void onBackPressed() {
         if (isEditMode() && mAdapter.getItemCount() != 0) {
             setIsEditMode(!isEditMode());
-            header.setRightTitle("编辑");
             binding.flDelete.setVisibility(View.GONE);
-            binding.setHeader(header);
             mAdapter.notifyDataSetChanged();
-        } else {
-            super.onBackClicked();
+        }else {
+            super.onBackPressed();
         }
     }
 
-    @Override
     public void onMenuClicked() {
-        super.onMenuClicked();
         setIsEditMode(!isEditMode());
         if (isEditMode()) {
-            header.setRightTitle("完成");
             binding.flDelete.setVisibility(View.VISIBLE);
         } else {
-            header.setRightTitle("编辑");
             binding.flDelete.setVisibility(View.GONE);
         }
         mAdapter.notifyDataSetChanged();
-        binding.setHeader(header);
     }
 
     public ArrayList<String> getDoctorId() {
@@ -160,5 +152,43 @@ public class FavDoctorActivity extends BaseActivity2 implements DocumentAdapter.
             }
         }
         return doctorId;
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit: {
+                onMenuClicked();
+                return true;
+            }
+            case R.id.action_confirm: {
+                onMenuClicked();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
+        if (isEditMode()) {
+            getMenuInflater().inflate(R.menu.menu_confirm, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_edit, menu);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_favorite_doctor;
     }
 }

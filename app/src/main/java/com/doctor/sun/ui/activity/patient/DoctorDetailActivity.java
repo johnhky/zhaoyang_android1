@@ -15,7 +15,7 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.pager.DoctorDetailPagerAdapter;
 
@@ -79,11 +79,6 @@ public class DoctorDetailActivity extends BaseFragmentActivity2{
 
     private void initData() {
         getDoctorInfo();
-    }
-
-    @Override
-    public void onMenuClicked() {
-        super.onMenuClicked();
     }
 
     private void getDoctorInfo() {

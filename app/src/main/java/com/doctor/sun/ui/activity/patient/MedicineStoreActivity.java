@@ -10,6 +10,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -34,7 +36,6 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.ExtendedEditText;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.FileChooser;
@@ -55,7 +56,6 @@ import java.io.File;
 import java.util.List;
 
 import io.ganguo.library.util.Systems;
-import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -107,26 +107,20 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_medicine_helper);
-        HeaderViewModel header = new HeaderViewModel(this);
-        if (getAppointmentNumber() == -1)
-            header.setLeftTitle("就诊").setRightTitle("选择用药");
-        else
-            header.setLeftTitle("就诊(" + getAppointmentNumber() + ")").setRightTitle("选择用药");
-        binding.setHeader(header);
         keyboardWatcher = new KeyboardWatcher(this);
         keyboardWatcher.setListener(this);
     }
 
-    @Override
-    public void onFirstMenuClicked() {
-        super.onFirstMenuClicked();
-        getRealm().executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                results.deleteAllFromRealm();
-            }
-        });
-    }
+//    @Override
+//    public void onFirstMenuClicked() {
+//        super.onFirstMenuClicked();
+//        getRealm().executeTransaction(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm realm) {
+//                results.deleteAllFromRealm();
+//            }
+//        });
+//    }
 
     @Override
     protected void onDestroy() {
@@ -237,12 +231,9 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         api.appointments(pageCallback.getPage()).enqueue(pageCallback);
     }
 
-    @Override
-    public void onMenuClicked() {
-        super.onMenuClicked();
-        binding.drawerLayout.openDrawer(Gravity.RIGHT);
-    }
-
+    //    public void onMenuClicked() {
+//    }
+//
     private void makePhoneCall() {
         IMManager.getInstance().makePhoneCall(sendTo);
         Intent i = VoIPCallActivity.makeIntent(MedicineStoreActivity.this, VoIPCallActivity.CALLING, sendTo);
@@ -465,6 +456,35 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         if (inputLayout.getKeyboardType() != 0) {
             inputLayout.setKeyboardType(0);
             Systems.hideKeyboard(this);
+        }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_pick_prescription, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_pick_prescription: {
+                binding.drawerLayout.openDrawer(Gravity.RIGHT);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public String getMidTitleString() {
+        if (getAppointmentNumber() == -1) {
+            String s = "就诊";
+            return s;
+        } else {
+            String s = "就诊(" + getAppointmentNumber() + ")";
+            return s;
         }
     }
 }

@@ -21,7 +21,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:header="@{header}" />
+            bind:data="@{header}" />
 
         <LinearLayout
             android:id="@+id/lly_email"
@@ -82,6 +82,7 @@
                 android:background="#00000000"
                 android:inputType="phone"
                 android:maxLength="11"
+                android:text="@={handler.phone}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
@@ -114,15 +115,17 @@
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:inputType="text"
+                android:text="@={handler.captcha}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
             <FrameLayout
+                android:id="@+id/fl_captcha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/btn_blue"
-                android:onClick="@{handler.sendCaptcha}">
+                android:onClick="@{()->handler.sendCaptcha(context, flCaptcha)}">
 
                 <TextView
                     android:layout_width="@dimen/dp_120"
@@ -164,6 +167,7 @@
                 android:hint="请输入6-10个字符(包含数字和字母)"
                 android:inputType="textPassword"
                 android:maxLength="11"
+                android:text="@={handler.password}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_12" />
 
@@ -199,6 +203,7 @@
                 android:hint="请输入6-10个字符(包含数字和字母)"
                 android:inputType="textPassword"
                 android:maxLength="11"
+                android:text="@={handler.password2}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_12" />
 
@@ -223,7 +228,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@drawable/ic_circle_tick"
-                android:checked="@={header.enable}"
+                android:checked="@={handler.enable}"
                 android:drawablePadding="@dimen/dp_4"
                 android:gravity="center_vertical"
                 android:padding="@dimen/dp_4"
@@ -236,7 +241,7 @@
                 android:button="@null"
                 android:drawablePadding="@dimen/dp_4"
                 android:gravity="center_vertical"
-                android:onClick="@{()->handler.viewRegistrationPolicy()}"
+                android:onClick="@{()->handler.viewRegistrationPolicy(context)}"
                 android:padding="@dimen/dp_4"
                 android:selected="@{header.enable}"
                 android:text="是否已知晓【注册须知】所述事项"

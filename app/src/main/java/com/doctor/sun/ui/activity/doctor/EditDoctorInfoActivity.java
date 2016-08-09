@@ -7,6 +7,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,7 +25,6 @@ import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.binding.CustomBinding;
 import com.doctor.sun.ui.handler.EditDoctorInfoHandler;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.PermissionsUtil;
@@ -50,7 +51,6 @@ public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements Edi
     private Logger logger = LoggerFactory.getLogger(EditDoctorInfoActivity.class);
     private ToolModule api = Api.of(ToolModule.class);
     private ActivityEditDoctorInfoBinding binding;
-    private HeaderViewModel header;
     private EditDoctorInfoHandler handler;
     private int gender = 0;
     private String avatarImg = "";
@@ -78,10 +78,6 @@ public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements Edi
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_doctor_info);
-        header = new HeaderViewModel(this);
-        header.setMidTitle("个人信息");
-        header.setRightTitle("完成");
-        binding.setHeader(header);
     }
 
     private void initData() {
@@ -136,10 +132,10 @@ public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements Edi
         }
     }
 
-    @Override
-    public void onMenuClicked() {
-        handler.done(binding.getRoot());
-    }
+//    @Override
+//    public void onMenuClicked() {
+//        handler.done(binding.getRoot());
+//    }
 
     @Override
     public Doctor getDoctorInfo() {
@@ -304,5 +300,26 @@ public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements Edi
                 break;
         }
         return gender;
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_profile_info;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_finish, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_finish: {
+                handler.done(binding.getRoot());
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

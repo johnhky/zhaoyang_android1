@@ -38,11 +38,8 @@ public class SelectAppointmentTypeActivity extends BaseFragmentActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_appointment_type);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("预约医生");
-        binding.headerLayout.setHeader(header);
         int color = Color.parseColor("#8dc63f");
-        binding.headerLayout.header.setBackgroundColor(color);
+        binding.headerLayout.toolBar.setBackgroundColor(color);
         Systems.setStatusColor(SelectAppointmentTypeActivity.this, color);
         data = new AppointmentBuilder();
         data.setType(AppointmentType.PREMIUM);
@@ -64,7 +61,7 @@ public class SelectAppointmentTypeActivity extends BaseFragmentActivity2 {
                 setCurrentItem(b);
                 if (b) {
                     int color = Color.parseColor("#8dc63f");
-                    binding.headerLayout.header.setBackgroundColor(color);
+                    binding.headerLayout.toolBar.setBackgroundColor(color);
                     Systems.setStatusColor(SelectAppointmentTypeActivity.this, color);
                 }
             }
@@ -75,7 +72,7 @@ public class SelectAppointmentTypeActivity extends BaseFragmentActivity2 {
                 setCurrentItem(!b);
                 if (b) {
                     int color = getResources().getColor(R.color.color_normal_selected);
-                    binding.headerLayout.header.setBackgroundColor(color);
+                    binding.headerLayout.toolBar.setBackgroundColor(color);
                     Systems.setStatusColor(SelectAppointmentTypeActivity.this, color);
                 }
             }
@@ -114,5 +111,9 @@ public class SelectAppointmentTypeActivity extends BaseFragmentActivity2 {
     public static Intent intentFor(Context context) {
         Intent intent = new Intent(context, SelectAppointmentTypeActivity.class);
         return intent;
+    }
+    @Override
+    public int getMidTitle() {
+        return R.string.title_appoint_doctor;
     }
 }

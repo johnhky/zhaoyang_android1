@@ -24,8 +24,7 @@ import com.doctor.sun.util.ShowCaseUtil;
  * <p/>
  * Created by lucas on 1/8/16.
  */
-public class HistoryDetailActivity extends TabActivity
-        implements ListFragment.SetHeaderListener, QCategoryHandler.QCategoryCallback {
+public class HistoryDetailActivity extends TabActivity {
 
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, HistoryDetailActivity.class);
@@ -80,13 +79,13 @@ public class HistoryDetailActivity extends TabActivity
         }
     }
 
-    @Override
-    public void setHeaderRightTitle(String title) {
-        binding.getHeader().setRightTitle(title);
-    }
+//    @Override
+//    public void setHeaderRightTitle(String title) {
+////        binding.getHeader().setRightTitle(title);
+//    }
 
-    @Override
-    public void onCategorySelect(QuestionCategory data) {
-        FillForumFragment.getInstance(getData()).loadQuestions(data);
-    }
+//    @Override
+//    public void onCategorySelect(QuestionCategory data) {
+//        FillForumFragment.getInstance(getData()).loadQuestions(data);
+//    }
 }

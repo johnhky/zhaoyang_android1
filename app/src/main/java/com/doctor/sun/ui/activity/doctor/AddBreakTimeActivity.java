@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -15,15 +17,14 @@ import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.TimeModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
-import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 import io.ganguo.library.common.ToastHelper;
 
 /**
  * Created by lucas on 12/9/15.
  */
-public class AddBreakTimeActivity extends BaseActivity2 {
+public class AddBreakTimeActivity extends BaseFragmentActivity2 {
     public static final int ADDDISTURB = 1;
     private TimeModule api = Api.of(TimeModule.class);
     private ActivityAddBreakTimeBinding binding;
@@ -41,12 +42,26 @@ public class AddBreakTimeActivity extends BaseActivity2 {
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_break_time);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("添加免打扰时段").setRightTitle("保存");
-        binding.setHeader(header);
         binding.setDescription(new Description(R.layout.item_description, "就诊周期"));
         binding.setHandler(new TimeHandler());
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_save, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save: {
+                onMenuClicked();
+            }
+        }
+        return true;
+    }
+
 
     private int getWeekSelected() {
         boolean[] isSelected = new boolean[7];
@@ -75,10 +90,7 @@ public class AddBreakTimeActivity extends BaseActivity2 {
             binding.llyWeeks2.getChildAt(num).setSelected(true);
     }
 
-    @Override
     public void onMenuClicked() {
-        super.onMenuClicked();
-
         if (getWeekSelected() != 0) {
             api.setTime(getWeekSelected(), Time.TYPE_BREAK, binding.tvBeginTime.getText().toString() + ":00", binding.tvEndTime.getText().toString() + ":00", 0).enqueue(new ApiCallback<Time>() {
                 @Override
@@ -92,5 +104,10 @@ public class AddBreakTimeActivity extends BaseActivity2 {
         } else {
             ToastHelper.showMessage(this, "免打扰周期不能为空");
         }
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_add_break_time;
     }
 }

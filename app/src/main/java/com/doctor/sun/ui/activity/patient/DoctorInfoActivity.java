@@ -22,7 +22,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.doctor.ChattingRecordActivity;
 import com.doctor.sun.ui.activity.doctor.HistoryRecordActivity;
 import com.doctor.sun.ui.activity.doctor.ModifyNicknameActivity;
@@ -45,7 +45,7 @@ import retrofit2.Call;
  * <p/>
  * Created by Lynn on 12/29/15.
  */
-public class DoctorInfoActivity extends BaseActivity2 implements View.OnClickListener {
+public class DoctorInfoActivity extends BaseFragmentActivity2 implements View.OnClickListener {
     private Logger logger = LoggerFactory.getLogger(DoctorInfoActivity.class);
     private ActivityDoctorInfoBinding binding;
     private ImModule api = Api.of(ImModule.class);
@@ -67,7 +67,6 @@ public class DoctorInfoActivity extends BaseActivity2 implements View.OnClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_doctor_info);
-        binding.setHeader(getHeaderViewModel());
         binding.blackList.setData("加入黑名单");
         binding.allowCall.setData("允许对方打电话");
 
@@ -200,9 +199,7 @@ public class DoctorInfoActivity extends BaseActivity2 implements View.OnClickLis
 
     }
 
-    @Nullable
-    private HeaderViewModel getHeaderViewModel() {
-        return new HeaderViewModel(this).setMidTitle("个人信息");
+    public int getMidTitle() {
+        return R.string.title_profile_info;
     }
-
 }

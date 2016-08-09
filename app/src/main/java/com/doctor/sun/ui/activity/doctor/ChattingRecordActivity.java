@@ -16,7 +16,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingRecordBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.im.TextMsg;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.MsgsAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.DividerItemDecoration;
@@ -32,7 +32,7 @@ import io.realm.RealmResults;
  * 查找聊天记录
  * Created by Lynn on 1/8/16.
  */
-public class ChattingRecordActivity extends BaseActivity2 {
+public class ChattingRecordActivity extends BaseFragmentActivity2 {
     private Logger logger = LoggerFactory.getLogger(ChattingRecordActivity.class);
     private ActivityChattingRecordBinding binding;
     private Realm realm;
@@ -59,10 +59,6 @@ public class ChattingRecordActivity extends BaseActivity2 {
         }
     }
 
-    @Override
-    public void onBackClicked() {
-        super.onBackClicked();
-    }
 
     private void initView() {
         binding.rvMsgs.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

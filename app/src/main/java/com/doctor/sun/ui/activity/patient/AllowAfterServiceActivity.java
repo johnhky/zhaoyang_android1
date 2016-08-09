@@ -15,14 +15,14 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.AllowAfterServiceAdapter;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 /**
  * Created by rick on 1/6/2016.
  */
-public class AllowAfterServiceActivity extends BaseActivity2 {
+public class AllowAfterServiceActivity extends BaseFragmentActivity2 {
     private AfterServiceModule api = Api.of(AfterServiceModule.class);
 
     private Doctor contact;
@@ -40,7 +40,6 @@ public class AllowAfterServiceActivity extends BaseActivity2 {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_allow_after_service);
         contact = getIntent().getParcelableExtra(Constants.DATA);
-        initHeader();
         initRecyclerView();
         initData();
     }
@@ -60,12 +59,7 @@ public class AllowAfterServiceActivity extends BaseActivity2 {
             }
         });
     }
-
-    private void initHeader() {
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("医生详情");
-        binding.setHeader(header);
-    }
+//
 
     private void initRecyclerView() {
         adapter = new AllowAfterServiceAdapter(this, contact.getId());
@@ -75,4 +69,9 @@ public class AllowAfterServiceActivity extends BaseActivity2 {
         binding.recyclerView.setAdapter(adapter);
     }
 
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_doctor_detail;
+    }
 }

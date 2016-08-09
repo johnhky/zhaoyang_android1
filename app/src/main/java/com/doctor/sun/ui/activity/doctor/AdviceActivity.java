@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -13,8 +15,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
-import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.common.ToastHelper;
@@ -22,7 +23,7 @@ import io.ganguo.library.common.ToastHelper;
 /**
  * Created by lucas on 1/15/16.
  */
-public class AdviceActivity extends BaseActivity2 {
+public class AdviceActivity extends BaseFragmentActivity2 {
     private ActivityAdviceBinding binding;
     private ProfileModule api = Api.of(ProfileModule.class);
 
@@ -39,14 +40,31 @@ public class AdviceActivity extends BaseActivity2 {
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_advice);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("建议反馈").setRightTitle("发送");
-        binding.setHeader(header);
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_send, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_send: {
+                onMenuClicked();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_advice;
+    }
+
     public void onMenuClicked() {
-        super.onMenuClicked();
         switch (Config.getInt(Constants.USER_TYPE, -1)) {
             case AuthModule.PATIENT_TYPE:
                 api.setPatientFeedback(binding.etFeedback.getText().toString()).enqueue(new ApiCallback<String>() {
@@ -77,4 +95,5 @@ public class AdviceActivity extends BaseActivity2 {
                 });
         }
     }
+
 }

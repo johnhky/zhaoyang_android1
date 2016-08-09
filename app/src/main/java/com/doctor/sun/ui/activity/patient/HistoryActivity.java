@@ -32,16 +32,6 @@ public class HistoryActivity extends PageActivity2 {
         return adapter;
     }
 
-    @Override
-    protected void initHeader() {
-        super.initHeader();
-        getBinding().setHeader(getHeaderViewModel());
-    }
-
-    @NonNull
-    protected HeaderViewModel getHeaderViewModel() {
-        return new HeaderViewModel(this).setMidTitle("历史记录");
-    }
 
     @Override
     protected void loadMore() {
@@ -53,5 +43,10 @@ public class HistoryActivity extends PageActivity2 {
     @Override
     public String getEmptyIndicatorText() {
         return "没有历史记录";
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_history;
     }
 }

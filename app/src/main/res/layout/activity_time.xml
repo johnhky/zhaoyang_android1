@@ -28,7 +28,7 @@
 
             <include
                 layout="@layout/include_header"
-                bind:header="@{header}" />
+                bind:data="@{header}" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_time"

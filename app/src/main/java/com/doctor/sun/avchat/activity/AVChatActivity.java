@@ -20,7 +20,7 @@ import com.doctor.sun.avchat.SoundPlayer;
 import com.doctor.sun.avchat.constant.CallStateEnum;
 import com.doctor.sun.entity.constans.CommunicationType;
 import com.doctor.sun.event.RejectInComingCallEvent;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.util.PermissionUtil;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.auth.ClientType;
@@ -44,7 +44,7 @@ import io.ganguo.library.util.Networks;
  * 音视频界面
  * Created by hzxuwen on 2015/4/21.
  */
-public class AVChatActivity extends BaseActivity2 implements AVChatUI.AVChatListener, AVChatStateObserver {
+public class AVChatActivity extends BaseFragmentActivity2 implements AVChatUI.AVChatListener, AVChatStateObserver {
     // constant
     private static final String TAG = "AVChatActivity";
     private static final String KEY_IN_CALLING = "KEY_IN_CALLING";

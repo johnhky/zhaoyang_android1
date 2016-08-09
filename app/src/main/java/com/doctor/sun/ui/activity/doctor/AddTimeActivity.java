@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -12,7 +14,7 @@ import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 import io.ganguo.library.common.ToastHelper;
@@ -21,7 +23,7 @@ import io.ganguo.library.common.ToastHelper;
 /**
  * Created by lucas on 12/8/15.
  */
-public class AddTimeActivity extends BaseActivity2 {
+public class AddTimeActivity extends BaseFragmentActivity2 {
 
 
     private TimeModuleWrapper api = TimeModuleWrapper.getInstance();
@@ -46,19 +48,26 @@ public class AddTimeActivity extends BaseActivity2 {
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_time);
-        HeaderViewModel header = new HeaderViewModel(this);
-        if (getData().getId() == 0) {
-            header.setMidTitle("添加出诊时间").setRightTitle("保存");
-        } else {
-            header.setMidTitle("设置出诊时间").setRightTitle("保存");
-        }
-        binding.setHeader(header);
         binding.setDescription(new Description(R.layout.item_description, "就诊周期"));
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_save, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save: {
+                onMenuClicked();
+            }
+        }
+        return true;
+    }
+
     public void onMenuClicked() {
-        super.onMenuClicked();
 
         if (getType() != 0) {
             if (getSelectedWeeks() != 0) {
@@ -125,5 +134,14 @@ public class AddTimeActivity extends BaseActivity2 {
             }
         }
         return result;
+    }
+
+    @Override
+    public String getMidTitleString() {
+        if (getData().getId() == 0) {
+            return "添加出诊时间";
+        } else {
+            return "设置出诊时间";
+        }
     }
 }

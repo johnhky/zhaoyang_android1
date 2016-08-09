@@ -20,7 +20,6 @@ import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.handler.patient.PMainActivityHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.model.PatientFooterView;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
 import com.doctor.sun.util.PermissionUtil;
@@ -47,9 +46,6 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_main_2);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("昭阳医生");
-        binding.setHeader(header);
         FooterViewModel footer = getFooter();
         binding.setFooter(footer);
         handler = new PMainActivityHandler();
@@ -157,26 +153,15 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
             ShowCaseUtil.showCase(view4, "您可以在这里与医生通过文字信息或者电话进行沟通", TAG, 4, 3, false);
         }
     }
-//
-//    public void testIng(){
-//        ToolModule api = Api.of(ToolModule.class);
-//        api.test("[{\n" +
-//                "drug_name:'药名',\n" +
-//                "drug_scientific:'学名',\n" +
-//                "drug_unit:'单位',\n" +
-//                "frequency:'频率',\n" +
-//                "morning:'早',\n" +
-//                "noon:'午',\n" +
-//                "night:'晚',\n" +
-//                "before_sleep:'睡前',\n" +
-//                "remark:'备注'\n" +
-//                "}]");
-//
-//    }
 
     @Override
     protected void onPause() {
         super.onPause();
         UpdateUtil.onPause();
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.default_title;
     }
 }

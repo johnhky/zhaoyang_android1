@@ -33,7 +33,7 @@
 
         <include
             layout="@layout/include_header"
-            app:header="@{header}" />
+            bind:data="@{header}" />
 
         <include
             android:id="@+id/appointment_status"

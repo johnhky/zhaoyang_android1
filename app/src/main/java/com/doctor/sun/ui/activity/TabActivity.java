@@ -9,13 +9,12 @@ import android.support.v4.view.ViewPager;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityTabTwoBinding;
-import com.doctor.sun.ui.fragment.BaseFragment;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 /**
  * Created by rick on 12/18/15.
  */
-public abstract class TabActivity extends BaseFragmentActivity2 implements HeaderViewModel.HeaderView {
+public abstract class TabActivity extends BaseFragmentActivity2 {
 
     protected ActivityTabTwoBinding binding;
     private PagerAdapter pagerAdapter;
@@ -36,7 +35,6 @@ public abstract class TabActivity extends BaseFragmentActivity2 implements Heade
 
         setCurrentItem();
 
-        initHeader();
     }
 
     private void setCurrentItem() {
@@ -46,15 +44,6 @@ public abstract class TabActivity extends BaseFragmentActivity2 implements Heade
         }
     }
 
-    private void initHeader() {
-        BaseFragment activeFragment = (BaseFragment) getActiveFragment(binding.vp, getPosition());
-        if (activeFragment != null && activeFragment.getHeader() != null) {
-            binding.setHeader(activeFragment.getHeader());
-        } else {
-            HeaderViewModel header = createHeaderViewModel();
-            binding.setHeader(header);
-        }
-    }
 
     private void initPagerAdapter() {
         pagerAdapter = createPagerAdapter();
@@ -66,25 +55,6 @@ public abstract class TabActivity extends BaseFragmentActivity2 implements Heade
         binding.pagerTabs.setDistributeEvenly(true);
         binding.pagerTabs.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimaryDark));
         binding.pagerTabs.setViewPager(binding.vp);
-        binding.vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                BaseFragment activeFragment = (BaseFragment) getActiveFragment(binding.vp, position);
-                if (activeFragment != null && activeFragment.getHeader() != null) {
-                    binding.setHeader(activeFragment.getHeader());
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     protected Fragment getActiveFragment(ViewPager container, int position) {

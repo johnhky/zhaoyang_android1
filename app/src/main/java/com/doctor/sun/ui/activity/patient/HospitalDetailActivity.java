@@ -15,13 +15,13 @@ import com.doctor.sun.entity.Hospital;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.activity.BaseActivity2;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.HeaderViewModel;
 
 /**
  * Created by lucas on 1/26/16.
  */
-public class HospitalDetailActivity extends BaseActivity2 implements View.OnClickListener {
+public class HospitalDetailActivity extends BaseFragmentActivity2 implements View.OnClickListener {
     private PActivityHospitalBinding binding;
     private ToolModule api = Api.of(ToolModule.class);
     private Hospital data;
@@ -41,9 +41,6 @@ public class HospitalDetailActivity extends BaseActivity2 implements View.OnClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_hospital);
-        HeaderViewModel header = new HeaderViewModel(this);
-        header.setMidTitle("医院详情");
-        binding.setHeader(header);
         api.hospitalInfo(getData().getHospitalId()).enqueue(new ApiCallback<Hospital>() {
             @Override
             protected void handleResponse(Hospital response) {
@@ -63,5 +60,10 @@ public class HospitalDetailActivity extends BaseActivity2 implements View.OnClic
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    public int getMidTitle() {
+        return R.string.title_hospital_detail;
     }
 }
