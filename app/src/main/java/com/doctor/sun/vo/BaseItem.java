@@ -29,6 +29,11 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem {
         this.itemLayoutId = itemLayoutId;
     }
 
+    public void removeThis(SortedListAdapter adapter) {
+        notifyPropertyChanged(BR.removed);
+        adapter.remove(this);
+    }
+
     @Override
     public int getItemLayoutId() {
         return itemLayoutId;

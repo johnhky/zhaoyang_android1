@@ -28,6 +28,7 @@ public class ItemPickDate extends BaseItem {
     private final GregorianCalendar calendar = new GregorianCalendar();
     private String title;
 
+    private int subPosition;
 
     private int type;
     private int dayOfMonth;
@@ -68,9 +69,13 @@ public class ItemPickDate extends BaseItem {
     };
 
 
-//    public int getItemLayoutId() {
-//        return R.layout.item_pick_date;
-//    }
+    public int getSubPosition() {
+        return subPosition;
+    }
+
+    public void setSubPosition(int subPosition) {
+        this.subPosition = subPosition;
+    }
 
     public void setType(int type) {
         this.type = type;

@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vo.FurtherConsultationVM" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dp_13">
+
+                <ImageView
+                    android:id="@+id/iv_position"
+                    android:layout_width="@dimen/dp_23"
+                    android:layout_height="@dimen/dp_23"
+                    android:enabled="true"
+                    android:selected="@{data.hasAnswer}"
+                    android:src="@drawable/oval_dp24_selector" />
+
+                <TextView
+                    android:id="@+id/iv_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_23"
+                    android:gravity="center"
+                    android:minWidth="@dimen/dp_23"
+                    android:text='@{""+data.position}'
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_14" />
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dp_6"
+                android:layout_weight="1"
+                android:text="@{data.questionContent}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+
+
+        </LinearLayout>
+
+        <RadioGroup
+            android:layout_width="@dimen/dp_216"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:background="@drawable/shape_blue_rect_stroke"
+            android:orientation="horizontal"
+            android:visibility="@{data.hasAnswer}">
+
+            <RadioButton
+                android:id="@+id/btn_one"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/round_left_rect"
+                android:button="@null"
+                android:checked="@={data.btnOneChecked}"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="专属咨询"
+                android:textColor="@color/color_return_type" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark" />
+
+            <RadioButton
+                android:id="@+id/btn_two"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/full_rect"
+                android:button="@null"
+                android:checked="@={data.btnTwoChecked}"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="留言咨询"
+                android:textColor="@color/color_return_type" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark" />
+
+            <RadioButton
+                android:id="@+id/btn_three"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/round_right_rect"
+                android:button="@null"
+                android:checked="@={data.btnThreeChecked}"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="转诊"
+                android:textColor="@color/color_return_type" />
+
+        </RadioGroup>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:background="@drawable/ripple_default"
+            android:visibility="@{data.and(data.hasAnswer,btnOne.checked || btnTwo.checked)}">
+
+            <TextView
+                android:id="@+id/et_others"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:background="@drawable/selector_grey_rect"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="@dimen/dp_13"
+                android:paddingRight="@dimen/dp_13"
+                android:text="@{data.date.date}"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_15" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="@{data.and(data.hasAnswer,data.btnThreeChecked)}">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_60"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="@{data.doctor != null}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:maxLines="1"
+                    android:text="转诊到"
+                    android:textColor="@color/color_tick"
+                    android:textSize="@dimen/font_15" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_color" />
+
+
+            <LinearLayout
+                android:id="@+id/lly_doctor"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_85"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/dp_13"
+                android:visibility="@{data.doctor != null}">
+
+                <com.doctor.sun.ui.widget.BezelImageView
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/dp_60"
+                    android:layout_gravity="center_vertical"
+                    android:drawable="@{@drawable/default_avatar}"
+                    android:scaleType="centerCrop"
+                    android:src="@{data.doctor.avatar}"
+                    app:maskDrawable="@drawable/circle_mask" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/dp_13"
+                            android:text="@{data.doctor.name}"
+                            android:textColor="#363636"
+                            android:textSize="@dimen/font_15"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/dp_4"
+                            android:background="@drawable/shape_red_rect"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/dp_4"
+                            android:paddingRight="@dimen/dp_4"
+                            android:singleLine="true"
+                            android:text="@{data.doctor.level}"
+                            android:textColor="#ffffff"
+                            android:textSize="@dimen/font_9" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <RatingBar
+                            android:id="@+id/rating_bar_0"
+                            style="@style/SmallRatingBar"
+                            android:layout_gravity="center_vertical"
+                            android:isIndicator="true"
+                            android:rating="@{data.doctor.point}" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_13"
+                        android:layout_marginRight="@dimen/dp_13"
+                        android:text="@{data.doctor.hospitalName}"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_13" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_13"
+                        android:layout_marginRight="@dimen/dp_13"
+                        android:text="@{@string/string_of_two(data.doctor.specialist,data.doctor.title)}"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_13" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_color"
+                android:visibility="@{llyDoctor.visibility}" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

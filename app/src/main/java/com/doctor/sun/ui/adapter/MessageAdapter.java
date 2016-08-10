@@ -8,9 +8,8 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.databinding.ItemPrescription2Binding;
+import com.doctor.sun.databinding.ItemRPrescriptionBinding;
 import com.doctor.sun.databinding.MsgPrescriptionListBinding;
-import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.dto.PrescriptionDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Avatar;
@@ -145,7 +144,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
 
                 if (prescriptionDTO.getDrug() == null) return;
                 for (Prescription prescription : prescriptionDTO.getDrug()) {
-                    ItemPrescription2Binding item = ItemPrescription2Binding.inflate(getInflater(), binding.prescription, true);
+                    ItemRPrescriptionBinding item = ItemRPrescriptionBinding.inflate(getInflater(), binding.prescription, true);
                     item.setData(prescription);
                 }
             }

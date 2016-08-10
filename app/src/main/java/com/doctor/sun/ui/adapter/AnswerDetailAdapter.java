@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.doctor.sun.databinding.ItemAnswerBinding;
-import com.doctor.sun.databinding.ItemPrescription2Binding;
+import com.doctor.sun.databinding.ItemRPrescriptionBinding;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Prescription;
 
@@ -21,7 +21,7 @@ public class AnswerDetailAdapter extends AnswerModifyAdapter {
 
     @Override
     protected View getPrescriptionView(ItemAnswerBinding binding, Answer answer, Prescription data) {
-        final ItemPrescription2Binding prescriptionBinding = ItemPrescription2Binding.inflate(LayoutInflater.from(getContext()),
+        final ItemRPrescriptionBinding prescriptionBinding = ItemRPrescriptionBinding.inflate(LayoutInflater.from(getContext()),
                 binding.flAnswer, false);
         prescriptionBinding.setData(data);
         return prescriptionBinding.getRoot();

@@ -1,7 +1,6 @@
 package com.doctor.sun.model;
 
 import android.databinding.Observable;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.doctor.sun.R;
@@ -11,6 +10,7 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Options2;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Questions2;
+import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -22,10 +22,10 @@ import com.doctor.sun.util.Function0;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemAddPrescription2;
+import com.doctor.sun.vo.ItemAddReminder;
 import com.doctor.sun.vo.ItemPickDate;
 import com.doctor.sun.vo.ItemPickImage;
 import com.doctor.sun.vo.ItemPickTime;
-import com.doctor.sun.vo.ItemReminderList;
 import com.doctor.sun.vo.ItemTextInput;
 
 import java.io.IOException;
@@ -157,16 +157,20 @@ public class QuestionsModel {
         int lv1Id = 1;
         int lv2Id = 1;
         int lv3Id = 1;
+        String[] answerContent = new String[3];
         try {
             if (questions2.arrayContent != null && questions2.arrayContent.size() >= 3) {
                 lv1Id = Integer.parseInt(questions2.arrayContent.get(0).get("key"));
                 lv2Id = Integer.parseInt(questions2.arrayContent.get(1).get("key"));
                 lv3Id = Integer.parseInt(questions2.arrayContent.get(2).get("key"));
+                answerContent[0] = questions2.arrayContent.get(0).get("val");
+                answerContent[1] = questions2.arrayContent.get(1).get("val");
+                answerContent[2] = questions2.arrayContent.get(2).get("val");
             }
         } catch (NumberFormatException ignored) {
 
         }
-        ItemPickHospital pickHospital = new ItemPickHospital(questions2.getOptionContent(0), lv1Id, lv2Id, lv3Id);
+        ItemPickHospital pickHospital = new ItemPickHospital(answerContent, questions2.getOptionContent(0), lv1Id, lv2Id, lv3Id);
         pickHospital.setPosition((i + 1) * PADDING - 1);
         pickHospital.setItemId(questions2.baseQuestionId + QuestionType.asel);
         items.add(pickHospital);
@@ -205,7 +209,7 @@ public class QuestionsModel {
         if (questions2.fillContent != null && !questions2.fillContent.equals("")) {
             String[] split = questions2.fillContent.split(",");
             for (int j = 0; j < split.length; j++) {
-                ItemPickImage item = new ItemPickImage(R.layout.item_pick_image, split[j]);
+                ItemPickImage item = new ItemPickImage(R.layout.item_view_image, split[j]);
                 item.setPosition(i * PADDING + j + 1);
                 item.setItemId(UUID.randomUUID().toString());
                 items.add(item);
@@ -234,26 +238,27 @@ public class QuestionsModel {
     }
 
     private void parseReminder(List<SortedItem> items, int i, final Questions2 questions2) {
-        final ItemReminderList list = new ItemReminderList();
-        list.setPosition((i + 1) * PADDING - 1);
-        list.setItemId(questions2.baseQuestionId + QuestionType.reminder);
-        list.addReminder(questions2.arrayContent);
-        questions2.answerCount = list.itemCount();
-        list.setChangeListener(new RecyclerView.AdapterDataObserver() {
+        final ItemAddReminder list = new ItemAddReminder();
+        for (int j = 0; j < questions2.arrayContent.size(); j++) {
+            Reminder reminder = Reminder.fromMap(questions2.arrayContent.get(j));
+            ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_reminder2, reminder.content);
+            itemPickDate.setItemId(UUID.randomUUID().toString());
+            itemPickDate.setPosition(i * PADDING + j + i);
+            itemPickDate.setSubPosition(j);
+            itemPickDate.setDate(reminder.time);
+            list.registerItemChangedListener(itemPickDate);
+            items.add(itemPickDate);
+        }
+        list.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                questions2.answerCount = list.itemCount();
-                questions2.notifyChange();
-            }
-
-            @Override
-            public void onItemRangeRemoved(int positionStart, int itemCount) {
-                super.onItemRangeRemoved(positionStart, itemCount);
-                questions2.answerCount = list.itemCount();
+            public void onPropertyChanged(Observable observable, int i) {
+                questions2.answerCount = list.itemSize();
                 questions2.notifyChange();
             }
         });
+
+        list.setPosition((i + 1) * PADDING - 1);
+        list.setItemId(questions2.baseQuestionId + QuestionType.reminder);
         items.add(list);
     }
 

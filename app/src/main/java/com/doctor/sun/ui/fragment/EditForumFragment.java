@@ -145,15 +145,15 @@ public class EditForumFragment extends RefreshListFragment {
                             try {
                                 if (answer.getAnswerType() != null && answer.getAnswerType() instanceof List) {
                                     type = Answer.handler.answerType(answer);
-                                    int lv1Id = 1;
-                                    int lv2Id = 1;
-                                    int lv3Id = 1;
+                                    int lv1Id = 0;
+                                    int lv2Id = 0;
+                                    int lv3Id = 0;
                                     if (type.size() >= 3) {
                                         lv1Id = Integer.parseInt(type.get(0));
                                         lv2Id = Integer.parseInt(type.get(1));
                                         lv3Id = Integer.parseInt(type.get(2));
                                     }
-                                    ItemPickHospital object = new ItemPickHospital("", lv1Id, lv2Id, lv3Id);
+                                    ItemPickHospital object = new ItemPickHospital(new String[3], "", lv1Id, lv2Id, lv3Id);
                                     allData.add(object);
                                 }
                             } catch (Exception e) {

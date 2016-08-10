@@ -24,7 +24,7 @@ public class AppointmentDetailActivity extends TabActivity {
 
     @Override
     protected HeaderViewModel createHeaderViewModel() {
-        return new HeaderViewModel(this);
+        return null;
     }
 
     @Override

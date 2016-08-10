@@ -542,15 +542,15 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             }
 
         } else {
-            switch (data.getDisplayStatus()) {
-                case Status.A_DOING:
-                case Status.A_WAITING: {
-                    return ConsultingDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_ANSWER);
-                }
-                default: {
-                    return HistoryDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_ANSWER);
-                }
-            }
+            return ConsultingDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_ANSWER);
+//            switch (data.getDisplayStatus()) {
+//                case Status.A_DOING:
+//                case Status.A_WAITING: {
+//                }
+//                default: {
+//                    return HistoryDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_ANSWER);
+//                }
+//            }
         }
         return null;
     }
@@ -571,15 +571,15 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 }
             }
         } else {
-            switch (data.getDisplayStatus()) {
-                case Status.A_DOING:
-                case Status.A_WAITING: {
-                    return ConsultingDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_SUGGESTION);
-                }
-                default: {
-                    return HistoryDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
-                }
-            }
+            return ConsultingDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_SUGGESTION);
+//            switch (data.getDisplayStatus()) {
+//                case Status.A_DOING:
+//                case Status.A_WAITING: {
+//                }
+//                default: {
+//                    return HistoryDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
+//                }
+//            }
         }
         return null;
     }

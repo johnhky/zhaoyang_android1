@@ -71,7 +71,7 @@ public class ViewForumFragment extends RefreshListFragment {
         adapter.mapLayout(R.layout.item_pick_date, R.layout.item_pick_question_date);
 //        adapter.mapLayout(R.layout.item_answer, R.layout.item_answer3);
         adapter.mapLayout(R.layout.item_doctor, R.layout.item_transfer_doctor);
-        adapter.mapLayout(R.layout.item_prescription, R.layout.item_prescription2);
+        adapter.mapLayout(R.layout.item_prescription, R.layout.item_r_prescription);
         return adapter;
     }
 

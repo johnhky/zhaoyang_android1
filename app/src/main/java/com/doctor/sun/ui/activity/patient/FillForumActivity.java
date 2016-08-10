@@ -64,8 +64,6 @@ public class FillForumActivity extends BaseFragmentActivity2 implements
     @Override
     public void onCategorySelect(QuestionCategory data) {
 //        binding.getHeader().setRightTitle("保存");
-        fragment.loadQuestions(data);
-        isFilling = true;
     }
 
 //    public void onMenuClicked() {
@@ -79,22 +77,7 @@ public class FillForumActivity extends BaseFragmentActivity2 implements
 //        binding.getHeader().setRightTitle(title);
 //    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (PickImageDialog.getRequestCode(requestCode)) {
-            case Constants.DOCTOR_REQUEST_CODE:
-            case Constants.PRESCRITION_REQUEST_CODE:
-                break;
-            case Constants.PATIENT_PRESCRITION_REQUEST_CODE:
-                ModifyForumFragment.getInstance(getData()).handleResult(requestCode, resultCode, data);
-                break;
-            case Constants.UPLOAD_REQUEST_CODE:
-            case Constants.UPLOAD_REQUEST_CODE / 2:
-//                ModifyForumFragment.getInstance(getData()).handleImageResult(requestCode, resultCode, data);
-                break;
-        }
-    }
+
 
     @Override
     public int getId() {

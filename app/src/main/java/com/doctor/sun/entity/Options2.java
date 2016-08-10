@@ -1,6 +1,7 @@
 package com.doctor.sun.entity;
 
 import android.content.Context;
+import android.text.InputType;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -58,7 +59,7 @@ public class Options2 extends BaseItem {
     @JsonProperty("option_input_hint")
     public String optionInputHint = "";
     @JsonProperty("option_input_type")
-    public int optionInputType = 1;
+    public int optionInputType = InputType.TYPE_CLASS_TEXT;
     @JsonProperty("option_input_length")
     public int optionInputLength = 0;
     @JsonProperty("content_tail")

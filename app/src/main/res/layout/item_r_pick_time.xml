@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vo.ItemPickTime" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_13"
+        android:layout_marginLeft="@dimen/dp_13"
+        android:layout_marginRight="@dimen/dp_13"
+        android:layout_marginStart="@dimen/dp_13"
+        android:background="@drawable/ripple_default">
+
+        <TextView
+            android:id="@+id/et_others"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_45"
+            android:background="@drawable/selector_grey_rect"
+            android:gravity="start|center_vertical"
+            android:paddingLeft="@dimen/dp_13"
+            android:paddingRight="@dimen/dp_13"
+            android:text="@{data.time}"
+            android:textColor="@color/color_tick"
+            android:textSize="@dimen/font_15" />
+    </LinearLayout>
+</layout>

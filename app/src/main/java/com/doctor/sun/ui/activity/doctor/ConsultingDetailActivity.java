@@ -33,9 +33,6 @@ public class ConsultingDetailActivity extends TabActivity
     public static final int POSITION_ANSWER = 0;
     public static final int POSITION_SUGGESTION = 1;
     public static final int POSITION_SUGGESTION_READONLY = 2;
-    private int position = 0;
-    private HeaderViewModel header0;
-    private HeaderViewModel header1;
     private boolean isReadOnly;
 
     public static Intent makeIntent(Context context, Appointment data, int position) {
@@ -62,7 +59,6 @@ public class ConsultingDetailActivity extends TabActivity
             isReadOnly = false;
         }
         super.onCreate(savedInstanceState);
-        initListener();
         switchTab(new SwitchTabEvent(getPosition()));
         showCase();
     }
@@ -88,94 +84,6 @@ public class ConsultingDetailActivity extends TabActivity
         return null;
     }
 
-//
-//    @Override
-//    protected HeaderViewModel createHeaderViewModel() {
-//        header0 = new HeaderViewModel(this);
-//        header1 = new HeaderViewModel(this);
-//
-//        if (isUserPatient()) {
-//            //病人端
-//            header0.setRightTitle("");
-//            header1.setLeftTitle(getData().getHandler().getTitle());
-//        } else {
-//            //医生端
-//            if (!isReadOnly) {
-//                header0.setRightTitle("补充问卷");
-//                header0.setRightFirstTitle("删除问题");
-//                header1.setRightTitle("保存");
-//            }
-//        }
-//
-//        if (getPosition() == 0) {
-//            position = 0;
-//            return header0;
-//        } else {
-//            position = 1;
-//            return header1;
-//        }
-//    }
-//
-//    @NonNull
-//    private HeaderViewModel.HeaderView getHeaderView1() {
-//        return new HeaderViewModel.HeaderView() {
-//            @Override
-//            public void onBackClicked() {
-//                ConsultingDetailActivity.this.onBackClicked();
-//            }
-//
-//            @Override
-//            public void onTitleClicked() {
-//
-//            }
-//
-//            @Override
-//            public void onMenuClicked() {
-//                DiagnosisFragment.getInstance(null).setDiagnosise();
-//            }
-//
-//            @Override
-//            public void onFirstMenuClicked() {
-//
-//            }
-//        };
-//    }
-//
-//    @NonNull
-//    private HeaderViewModel.HeaderView getHeaderView0() {
-//        return new HeaderViewModel.HeaderView() {
-//            @Override
-//            public void onBackClicked() {
-//                ConsultingDetailActivity.this.onBackClicked();
-//            }
-//
-//            @Override
-//            public void onTitleClicked() {
-//
-//            }
-//
-//            @Override
-//            public void onMenuClicked() {
-//                if (isUserPatient()) {
-//                    if (binding.getHeader().getRightTitle().equals("保存")) {
-//                        //保存
-////                        Log.d("ConsultingDetailActivit", ModifyForumFragment.getInstance(getData().getAppointmentId()).toString());
-//                        ModifyForumFragment.getInstance(getData().getAppointmentId()).save();
-//                    }
-//                } else {
-//                    Intent intent = AssignQuestionActivity.makeIntent(ConsultingDetailActivity.this, getData());
-//                    startActivity(intent);
-//                }
-//            }
-//
-//            @Override
-//            public void onFirstMenuClicked() {
-//                Answer.handler.toggleEditMode();
-//                FillForumFragment.getInstance(getData()).getAdapter().notifyDataSetChanged();
-//            }
-//        };
-//    }
-
 
     @Override
     protected void onDestroy() {
@@ -192,17 +100,6 @@ public class ConsultingDetailActivity extends TabActivity
         binding.vp.setCurrentItem(event.getPosition());
     }
 
-//    @Override
-//    public void onCategorySelect(QuestionCategory data) {
-//        if (isUserPatient()) {
-//            //病人端 具体问卷查看时 －－> 保存(有效)
-//            header0.setRightTitle("保存");
-//            ModifyForumFragment.getInstance(getData().getId()).loadQuestions(data);
-//        } else {
-//            FillForumFragment.getInstance(getData()).loadQuestions(data);
-//        }
-//    }
-
     @Override
     protected void onPostResume() {
         super.onPostResume();
@@ -214,31 +111,6 @@ public class ConsultingDetailActivity extends TabActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         getActiveFragment(binding.vp, binding.vp.getCurrentItem()).onActivityResult(requestCode, resultCode, data);
     }
-
-    private void initListener() {
-        getBinding().vp.addOnPageChangeListener(new OnPageChangeAdapter() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                ConsultingDetailActivity.this.position = position;
-                if (position == 0) {
-                    getBinding().setHeader(header0);
-                } else {
-                    getBinding().setHeader(header1);
-                }
-            }
-        });
-    }
-
-    /**
-     * 病人 - true, 医生 - false
-     *
-     * @return
-     */
-    private boolean isUserPatient() {
-        return Config.getInt(Constants.USER_TYPE, -1) == AuthModule.PATIENT_TYPE;
-    }
-
 
     @Override
     public int getId() {

@@ -359,6 +359,7 @@ public class Prescription extends BaseItem implements Parcelable {
     }
 
     @Override
+    @JsonIgnore
     public int getLayoutId() {
         return R.layout.item_prescription3;
     }
@@ -381,11 +382,6 @@ public class Prescription extends BaseItem implements Parcelable {
     public interface UrlToLoad {
         String url();
 
-    }
-
-    public void removeThis(SortedListAdapter adapter) {
-        notifyPropertyChanged(BR.removed);
-        adapter.remove(this);
     }
 
     public void fromHashMap(Map<String, String> map) {

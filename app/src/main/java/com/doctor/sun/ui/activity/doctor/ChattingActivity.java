@@ -264,14 +264,14 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_edit: {
+            case R.id.action_view: {
                 Intent i = handler.getFirstMenu(this);
                 if (i != null) {
                     startActivity(i);
                 }
                 return true;
             }
-            case R.id.action_view: {
+            case R.id.action_edit: {
                 Intent i = handler.getMenu(this);
                 if (i != null) {
                     startActivity(i);

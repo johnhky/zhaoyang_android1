@@ -33,7 +33,6 @@ public class ItemReminderList extends BaseItem {
         if (simpleAdapter == null) {
             simpleAdapter = new SimpleAdapter<>(context);
             simpleAdapter.setData(dates);
-            simpleAdapter.mapLayout(R.layout.item_pick_date, R.layout.item_reminder);
             simpleAdapter.onFinishLoadMore(true);
             if (observer != null) {
                 simpleAdapter.registerAdapterDataObserver(observer);
@@ -44,7 +43,7 @@ public class ItemReminderList extends BaseItem {
 
     public void addReminder() {
         if (dates != null) {
-            ItemPickDate object = new ItemPickDate(R.layout.item_pick_date, "", 0);
+            ItemPickDate object = new ItemPickDate(R.layout.item_reminder, "", 0);
             object.setPosition(dates.size() + 1);
             dates.add(object);
             if (simpleAdapter != null) {
@@ -58,7 +57,7 @@ public class ItemReminderList extends BaseItem {
             return;
         }
         if (dates != null) {
-            ItemPickDate object = new ItemPickDate(R.layout.item_pick_date, reminder.content, 0);
+            ItemPickDate object = new ItemPickDate(R.layout.item_reminder, reminder.content, 0);
             object.setPosition(dates.size() + 1);
             object.setDate(reminder.time);
             dates.add(object);
