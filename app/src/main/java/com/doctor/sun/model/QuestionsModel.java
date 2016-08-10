@@ -20,6 +20,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.Function0;
 import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.vo.BaseItem;
 import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemAddPrescription2;
 import com.doctor.sun.vo.ItemAddReminder;
@@ -95,6 +96,10 @@ public class QuestionsModel {
                     parseOptions(items, i, questions2);
                     break;
             }
+            BaseItem divider = new BaseItem(R.layout.divider_1px_margint_13dp);
+            divider.setItemId(UUID.randomUUID().toString());
+            divider.setPosition(getSlop(i, 1));
+            items.add(divider);
         }
         return items;
     }
@@ -171,14 +176,18 @@ public class QuestionsModel {
 
         }
         ItemPickHospital pickHospital = new ItemPickHospital(answerContent, questions2.getOptionContent(0), lv1Id, lv2Id, lv3Id);
-        pickHospital.setPosition((i + 1) * PADDING - 1);
+        pickHospital.setPosition(getSlop(i, 2));
         pickHospital.setItemId(questions2.baseQuestionId + QuestionType.asel);
         items.add(pickHospital);
     }
 
+    private int getSlop(int i, int reversePosition) {
+        return (i + 1) * PADDING - reversePosition;
+    }
+
     private void parsePickDate(List<SortedItem> items, int i, final Questions2 questions2) {
         ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_pick_date3, "");
-        itemPickDate.setPosition((i + 1) * PADDING - 1);
+        itemPickDate.setPosition(getSlop(i, 2));
         itemPickDate.setItemId(questions2.baseQuestionId + QuestionType.sDate);
         itemPickDate.setDate(questions2.fillContent);
         itemPickDate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
@@ -193,7 +202,7 @@ public class QuestionsModel {
 
     private void parsePickTime(List<SortedItem> items, int i, final Questions2 questions2) {
         ItemPickTime itemPickTime = new ItemPickTime(R.layout.item_pick_question_time, "");
-        itemPickTime.setPosition((i + 1) * PADDING - 1);
+        itemPickTime.setPosition(getSlop(i, 2));
         itemPickTime.setItemId(questions2.baseQuestionId + QuestionType.sTime);
         itemPickTime.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
@@ -216,14 +225,14 @@ public class QuestionsModel {
             }
         }
         ItemPickImage itemPickImage = new ItemPickImage(R.layout.item_pick_image, "");
-        itemPickImage.setPosition((i + 1) * PADDING - 1);
+        itemPickImage.setPosition(getSlop(i, 2));
         itemPickImage.setItemId(questions2.baseQuestionId + QuestionType.upImg);
         items.add(itemPickImage);
     }
 
     private void parseFill(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemTextInput textInput = new ItemTextInput(R.layout.item_text_input6, "");
-        textInput.setPosition((i + 1) * PADDING - 1);
+        textInput.setPosition(getSlop(i, 2));
         textInput.setItemId(questions2.baseQuestionId + QuestionType.fill);
         textInput.setInput(questions2.fillContent);
         questions2.answerCount = textInput.getInput().length();
@@ -257,7 +266,7 @@ public class QuestionsModel {
             }
         });
 
-        list.setPosition((i + 1) * PADDING - 1);
+        list.setPosition(getSlop(i, 2));
         list.setItemId(questions2.baseQuestionId + QuestionType.reminder);
         items.add(list);
     }
@@ -280,7 +289,7 @@ public class QuestionsModel {
                 questions2.notifyChange();
             }
         });
-        itemAddPrescription.setPosition((i + 1) * PADDING - 1);
+        itemAddPrescription.setPosition(getSlop(i, 2));
         itemAddPrescription.setItemId(questions2.baseQuestionId + QuestionType.drug);
         items.add(itemAddPrescription);
     }

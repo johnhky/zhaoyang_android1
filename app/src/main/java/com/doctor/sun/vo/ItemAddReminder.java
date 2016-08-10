@@ -53,11 +53,6 @@ public class ItemAddReminder extends BaseItem {
         int thisPosition = adapter.indexOf(this);
         return adapter.inBetweenItemCount(thisPosition, getKey().replace(QuestionType.reminder, ""));
     }
-
-    public boolean sizeLessThen(int i, SortedListAdapter adapter) {
-        return inBetweenItemCount(adapter) - 1 < i;
-    }
-
     @Override
     public int getLayoutId() {
         return R.layout.item_add_reminder;

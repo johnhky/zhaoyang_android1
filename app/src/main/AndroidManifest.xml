@@ -67,11 +67,11 @@
     <!-- 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。 -->
 
     <permission
-        android:name="com.doctor.sun.permission.JPUSH_MESSAGE"
+        android:name="${applicationId}.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
     <!-- Required  一些系统要求的权限，如访问网络等-->
-    <uses-permission android:name="com.doctor.sun.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="${applicationId}.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -87,13 +87,13 @@
         tools:replace="android:label">
 
         <activity
-            android:name=".ui.activity.doctor.MainActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".ui.activity.WelcomeActivity"
+            android:name="com.doctor.sun.ui.activity.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.WelcomeTheme">
             <intent-filter>
@@ -103,309 +103,309 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name="com.doctor.sun.ui.activity.LoginActivity" />
         <!--android:screenOrientation="portrait" />-->
 
         <activity
-            android:name=".ui.activity.patient.SelectAppointmentTypeActivity"
+            android:name="com.doctor.sun.ui.activity.patient.SelectAppointmentTypeActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.RegisterActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.patient.AppointmentDetailActivity"
+            android:name="com.doctor.sun.ui.activity.patient.AppointmentDetailActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.EditDoctorInfoActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.doctor.ReviewResultActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.ReviewResultActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.doctor.AppointmentListActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.AppointmentListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.patient.FinishedOrderActivity"
+            android:name="com.doctor.sun.ui.activity.patient.FinishedOrderActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.doctor.PatientDetailActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.PatientDetailActivity"
             android:screenOrientation="portrait" />
         <!--<activity-->
-            <!--android:name=".ui.activity.doctor.UrgentListActivity"-->
-            <!--android:launchMode="singleTask"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.doctor.UrgentListActivity"-->
+        <!--android:launchMode="singleTask"-->
+        <!--android:screenOrientation="portrait" />-->
         <!--<activity-->
-            <!--android:name=".ui.activity.doctor.ConsultationListActivity"-->
-            <!--android:launchMode="singleTask"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.doctor.ConsultationListActivity"-->
+        <!--android:launchMode="singleTask"-->
+        <!--android:screenOrientation="portrait" />-->
 
         <activity
-            android:name=".ui.activity.doctor.AfterServiceActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.AfterServiceActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.AfterServiceDoneActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.PAfterServiceActivity"
+            android:name="com.doctor.sun.ui.activity.patient.PAfterServiceActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.ApplyAfterServiceActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.ApplyAfterServiceActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.AllowAfterServiceActivity"
+            android:name="com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.AfterServiceDoingActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.AfterServiceHistoryActivity"
+            android:name="com.doctor.sun.ui.activity.AfterServiceHistoryActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.AssignQuestionActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.AssignQuestionActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.MeActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.MeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.ConsultingActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.ConsultingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.ConsultingDetailActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.ConsultingDetailActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.FeedbackActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.FeedbackActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.TimeActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.TimeActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.BreakTimeActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.BreakTimeActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.TemplateActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.TemplateActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.AddTimeActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.AddTimeActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.FeeActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.FeeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
-            android:name=".ui.activity.doctor.AddBreakTimeActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.AddBreakTimeActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.CancelAppointmentActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.CancelAppointmentActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.ChattingActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.ChattingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
-            android:name=".ui.activity.ChattingActivityNoMenu"
+            android:name="com.doctor.sun.ui.activity.ChattingActivityNoMenu"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
-            android:name=".ui.activity.doctor.AddTemplateActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.AddTemplateActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.SettingActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.SettingActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.PasswordActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.PasswordActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.ContactActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.ContactActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateUnchanged" />
         <activity
-            android:name=".ui.activity.AfterServiceContactActivity"
+            android:name="com.doctor.sun.ui.activity.AfterServiceContactActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateUnchanged" />
 
         <activity
-            android:name=".ui.activity.doctor.QuestionActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.QuestionActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.AddQuestionActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.AddQuestionActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.CustomDetailActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.CustomDetailActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.PatientInfoActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.PatientInfoActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.EditPrescriptionActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".ui.activity.ViewPrescriptionActivity"
+            android:name="com.doctor.sun.ui.activity.ViewPrescriptionActivity"
             android:screenOrientation="portrait" />
 
         <!-- patient -->
         <activity
-            android:name=".ui.activity.patient.DoctorDetailActivity"
+            android:name="com.doctor.sun.ui.activity.patient.DoctorDetailActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.PAppointmentListActivity"
+            android:name="com.doctor.sun.ui.activity.patient.PAppointmentListActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.PConsultingActivity"
+            android:name="com.doctor.sun.ui.activity.patient.PConsultingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.patient.PickTimeActivity"
+            android:name="com.doctor.sun.ui.activity.patient.PickTimeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.patient.EditRecordActivity"
+            android:name="com.doctor.sun.ui.activity.patient.EditRecordActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.PMainActivity"
+            android:name="com.doctor.sun.ui.activity.patient.PMainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.patient.PMainActivity2"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".ui.activity.patient.SearchDoctorActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".ui.activity.patient.PMeActivity"
+            android:name="com.doctor.sun.ui.activity.patient.PMainActivity2"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.DoctorInfoActivity"
+            android:name="com.doctor.sun.ui.activity.patient.SearchDoctorActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.EditPatientInfoActivity"
+            android:name="com.doctor.sun.ui.activity.patient.PMeActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.HistoryActivity"
+            android:name="com.doctor.sun.ui.activity.patient.DoctorInfoActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.RecordListActivity"
+            android:name="com.doctor.sun.ui.activity.patient.EditPatientInfoActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.PickDateActivity"
+            android:name="com.doctor.sun.ui.activity.patient.HistoryActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.FavDoctorActivity"
+            android:name="com.doctor.sun.ui.activity.patient.RecordListActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.RechargeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.patient.FeedbackActivity"
+            android:name="com.doctor.sun.ui.activity.patient.PickDateActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.ChattingRecordActivity"
+            android:name="com.doctor.sun.ui.activity.patient.FavDoctorActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.HistoryRecordActivity"
+            android:name="com.doctor.sun.ui.activity.patient.RechargeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.doctor.sun.ui.activity.patient.FeedbackActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.HistoryDetailActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.ChattingRecordActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.MedicalRecordDetailActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.HistoryRecordActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.AdviceActivity"
+            android:name="com.doctor.sun.ui.activity.patient.HistoryDetailActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.ModifyNicknameActivity"
+            android:name="com.doctor.sun.ui.activity.patient.MedicalRecordDetailActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.doctor.QuestionBankActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.AdviceActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.UrgentCallActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.ModifyNicknameActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.doctor.sun.ui.activity.doctor.QuestionBankActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.doctor.sun.ui.activity.patient.UrgentCallActivity"
             android:screenOrientation="portrait" />
 
         <!--<activity-->
-            <!--android:name=".ui.activity.patient.DrugActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.patient.DrugActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
         <activity
-            android:name=".ui.activity.patient.ApplyAppointmentActivity"
+            android:name="com.doctor.sun.ui.activity.patient.ApplyAppointmentActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.UrgentAddTimeActivity"
+            android:name="com.doctor.sun.ui.activity.patient.UrgentAddTimeActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.FillForumActivity"
+            android:name="com.doctor.sun.ui.activity.patient.FillForumActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.UrgentAddFeeActivity"
+            android:name="com.doctor.sun.ui.activity.patient.UrgentAddFeeActivity"
             android:screenOrientation="portrait" />
 
 
         <activity
-            android:name=".ui.activity.FileDetailActivity"
+            android:name="com.doctor.sun.ui.activity.FileDetailActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -413,54 +413,54 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.PayFailActivity"
+            android:name="com.doctor.sun.ui.activity.patient.PayFailActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.patient.PaySuccessActivity"
+            android:name="com.doctor.sun.ui.activity.patient.PaySuccessActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.HospitalDetailActivity"
+            android:name="com.doctor.sun.ui.activity.patient.HospitalDetailActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.SystemMsgListActivity"
+            android:name="com.doctor.sun.ui.activity.patient.SystemMsgListActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.VoIPCallActivity"
+            android:name="com.doctor.sun.ui.activity.VoIPCallActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.ImagePreviewActivity"
+            android:name="com.doctor.sun.ui.activity.ImagePreviewActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.HelpActivity"
+            android:name="com.doctor.sun.ui.activity.HelpActivity"
             android:screenOrientation="portrait" />
 
 
         <activity
-            android:name=".ui.activity.patient.MedicineStoreActivity"
+            android:name="com.doctor.sun.ui.activity.patient.MedicineStoreActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
-            android:name=".ui.activity.patient.CouponTabActivity"
+            android:name="com.doctor.sun.ui.activity.patient.CouponTabActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.patient.MyQrCodeActivity"
+            android:name="com.doctor.sun.ui.activity.patient.MyQrCodeActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.WebBrowserActivity"
+            android:name="com.doctor.sun.ui.activity.WebBrowserActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.HtmlBrowserActivity"
+            android:name="com.doctor.sun.ui.activity.HtmlBrowserActivity"
             android:screenOrientation="portrait" />
 
         <service
@@ -477,7 +477,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".ui.recevier.YuntxNotifyReceiver"
+            android:name="com.doctor.sun.ui.recevier.YuntxNotifyReceiver"
             android:exported="false">
             <intent-filter>
                 // 接收push消息
@@ -588,7 +588,7 @@
                 <action android:name="cn.jpush.android.ui.PushActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="com.doctor.sun" />
+                <category android:name="${applicationId}" />
             </intent-filter>
         </activity>
         <!-- Required  SDK核心功能-->
@@ -620,7 +620,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
-                <category android:name="com.doctor.sun" />
+                <category android:name="${applicationId}" />
             </intent-filter>
 
         </service>
@@ -632,7 +632,7 @@
             android:exported="false">
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />   <!--Required  显示通知栏 -->
-                <category android:name="com.doctor.sun" />
+                <category android:name="${applicationId}" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -655,7 +655,7 @@
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
-            android:name=".ui.recevier.JPushReceiver"
+            android:name="com.doctor.sun.ui.recevier.JPushReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -666,7 +666,7 @@
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
                 <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" /> <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
                 <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="com.doctor.sun" />
+                <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
 

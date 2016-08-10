@@ -192,6 +192,7 @@ public class TokenCallback {
         JPushInterface.setAlias(AppContext.me(), String.valueOf(userId), new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {
+                Log.d(TAG, "gotResult() called with: i = [" + i + "], s = [" + s + "], set = [" + set + "]");
             }
         });
         String key = "LAST_VISIT_TIME" + account;

@@ -64,6 +64,9 @@ public class ReadQuestionFragment extends AnswerQuestionFragment {
                     case R.layout.item_reminder2: {
                         return R.layout.item_r_reminder2;
                     }
+                    case R.layout.item_view_image: {
+                        return R.layout.item_r_view_image;
+                    }
                     case R.layout.item_add_reminder:
                     case R.layout.item_pick_image:
                     case R.layout.item_add_prescription3: {

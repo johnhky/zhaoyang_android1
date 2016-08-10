@@ -8,14 +8,12 @@ import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
-import com.doctor.sun.bean.Constants;
 import com.doctor.sun.bean.Province;
 import com.doctor.sun.im.AVChatHandler;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.observer.AttachmentProgressObserver;
 import com.doctor.sun.im.observer.MsgStatusObserver;
 import com.doctor.sun.im.observer.ReceiveMsgObserver;
-import com.doctor.sun.module.AuthModule;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
@@ -28,7 +26,6 @@ import java.io.InputStream;
 
 import cn.jpush.android.api.JPushInterface;
 import io.ganguo.library.BaseApp;
-import io.ganguo.library.Config;
 import io.ganguo.library.core.event.OnExitEvent;
 import io.ganguo.opensdk.OpenSDK;
 import io.realm.DynamicRealm;
