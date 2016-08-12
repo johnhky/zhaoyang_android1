@@ -79,6 +79,10 @@ public class MedicineStore extends BaseObservable implements LayoutId, SortedIte
     }
 
     @Override
+    public boolean isUserSelected() {
+        return false;
+    }
+    @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         return null;
     }

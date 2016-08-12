@@ -229,7 +229,6 @@ public class PickImageDialog extends BottomSheetDialog {
         if (quality < 10) {
             quality = 10;
         }
-        Log.d("image inbetweenItemCount", "compressImage: " + quality);
         Bitmap smallBitmap = Images.getSmallBitmap(file.getPath());
         try {
             Bitmap rotatedBmp = Images.getCorrectOrientationBitmap(file, smallBitmap);

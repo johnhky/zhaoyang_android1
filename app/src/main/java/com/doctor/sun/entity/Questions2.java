@@ -6,6 +6,7 @@ import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.BaseItem;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
@@ -29,6 +30,8 @@ public class Questions2 extends BaseItem {
      * refill : 0
      */
 
+    @JsonIgnore
+    public int answerCount = 0;
     @JsonProperty("base_question_id")
     public String baseQuestionId;
     @JsonProperty("base_question_type")
@@ -41,7 +44,8 @@ public class Questions2 extends BaseItem {
     public String oldQuestionId;
     @JsonProperty("refill")
     public int refill;
-    public int answerCount = 0;
+    @JsonProperty("extend_type")
+    public int extendType = 0;
 
     @JsonProperty("option")
     public List<Options2> option;
@@ -85,7 +89,7 @@ public class Questions2 extends BaseItem {
         return option.get(position).optionId;
     }
 
-    public boolean isSelected(SortedListAdapter adapter, BaseViewHolder vh) {
+    public boolean isAnswered(SortedListAdapter adapter, BaseViewHolder vh) {
         if (option != null) {
             for (Options2 options2 : option) {
                 if (options2.getSelected()) {

@@ -71,6 +71,7 @@ public class Constants {
     public static final String IS_SHOWCASE = "IS_SHOWCASE";
     public static final String SHOULD_SHOW_ADD_RECORD_DIALOG = "SHOULD_SHOW_ADD_RECORD_DIALOG";
     public static final String HEADER = "HEADER";
+    public static final String READ_ONLY = "READ_ONLY";
 
     static {
         refreshMsg.add(FINISH_MESSAGE);

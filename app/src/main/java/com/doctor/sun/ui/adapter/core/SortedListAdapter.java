@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -29,6 +30,7 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
     final LayoutInflater mInflater;
     final SortedList<SortedItem> mList;
     final Map<String, SortedItem> mUniqueMapping = new HashMap<>();
+    final SparseBooleanArray mConfig = new SparseBooleanArray();
     private LayoutIdInterceptor idInterceptor = new DefaultLayoutIdInterceptor();
 
     public SortedListAdapter(Context context, SortedList<SortedItem> mList) {
@@ -192,6 +194,20 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
         return adapterPosition - parentPosition;
     }
 
+    public int inBetweenItemCount(String keyOne, String keyTwo) {
+        SortedItem sortedItemOne = get(keyOne);
+        SortedItem sortedItemTwo = get(keyTwo);
+        if (sortedItemTwo == null) {
+            return 0;
+        }
+        if (sortedItemOne == null) {
+            return 0;
+        }
+        int positionOne = indexOf(sortedItemOne);
+        int positionTwo = indexOf(sortedItemTwo);
+        return Math.abs(positionOne - positionTwo);
+    }
+
 
     public void setLayoutIdInterceptor(@NonNull LayoutIdInterceptor idInterceptor) {
         this.idInterceptor = idInterceptor;
@@ -207,5 +223,13 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
         public int intercept(int origin) {
             return origin;
         }
+    }
+
+    public boolean getConfig(int key) {
+        return mConfig.get(key, false);
+    }
+
+    public void setConfig(int key, boolean value) {
+        mConfig.put(key, value);
     }
 }

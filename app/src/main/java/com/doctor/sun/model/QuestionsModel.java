@@ -214,20 +214,34 @@ public class QuestionsModel {
         items.add(itemPickTime);
     }
 
-    private void parseUpImg(List<SortedItem> items, int i, Questions2 questions2) {
+    private void parseUpImg(List<SortedItem> items, int i, final Questions2 questions2) {
+        final ItemPickImage pickerItem = new ItemPickImage(R.layout.item_pick_image, "");
         if (questions2.fillContent != null && !questions2.fillContent.equals("")) {
             String[] split = questions2.fillContent.split(",");
             for (int j = 0; j < split.length; j++) {
                 ItemPickImage item = new ItemPickImage(R.layout.item_view_image, split[j]);
                 item.setPosition(i * PADDING + j + 1);
                 item.setItemId(UUID.randomUUID().toString());
+                pickerItem.registerItemChangedListener(item);
                 items.add(item);
             }
+            pickerItem.setItemSize(split.length);
         }
-        ItemPickImage itemPickImage = new ItemPickImage(R.layout.item_pick_image, "");
-        itemPickImage.setPosition(getSlop(i, 2));
-        itemPickImage.setItemId(questions2.baseQuestionId + QuestionType.upImg);
-        items.add(itemPickImage);
+
+
+        pickerItem.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                questions2.answerCount = pickerItem.getItemSize();
+                questions2.notifyChange();
+            }
+        });
+        if (questions2.extendType > 0) {
+            pickerItem.setItemSizeConstrain(questions2.extendType);
+        }
+        pickerItem.setPosition(getSlop(i, 2));
+        pickerItem.setItemId(questions2.baseQuestionId + QuestionType.upImg);
+        items.add(pickerItem);
     }
 
     private void parseFill(List<SortedItem> items, int i, final Questions2 questions2) {

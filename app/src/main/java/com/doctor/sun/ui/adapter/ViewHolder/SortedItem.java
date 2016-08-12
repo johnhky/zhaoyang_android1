@@ -7,7 +7,7 @@ import java.util.HashMap;
 /**
  * Created by rick on 11/24/15.
  */
-public interface SortedItem  {
+public interface SortedItem {
     int getLayoutId();
 
     long getCreated();
@@ -15,6 +15,8 @@ public interface SortedItem  {
     String getKey();
 
     int getSpan();
+
+    boolean isUserSelected();
 
     HashMap<String, Object> toJson(SortedListAdapter adapter);
 }

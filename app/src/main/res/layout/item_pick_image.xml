@@ -18,6 +18,7 @@
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:visibility="@{data.span!=12}"
         android:layout_width="@dimen/dp_114"
         android:layout_height="@dimen/dp_114">
 

@@ -36,7 +36,7 @@
             android:minHeight="@dimen/dp_45"
             android:paddingLeft="@dimen/dp_13"
             android:paddingRight="@dimen/dp_13"
-            android:selected="@{true}"
+            android:selected="@{data.input!=null &amp;&amp; !data.input.equals(&quot;&quot;)}"
             android:text="@{data.input}"
             android:textColor="@color/color_tick"
             android:textSize="@dimen/font_15" />

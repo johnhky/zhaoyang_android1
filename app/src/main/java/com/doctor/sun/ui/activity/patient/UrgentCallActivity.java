@@ -66,12 +66,12 @@ public class UrgentCallActivity extends BaseFragmentActivity2 implements View.On
             }
         }
         /*for (int i = 1; i < binding.llyTitle1.getChildCount(); i++) {
-            if (binding.llyTitle1.getChildAt(i).isSelected()) {
+            if (binding.llyTitle1.getChildAt(i).isAnswered()) {
                 titles.add(String.valueOf(i));
             }
         }
         for (int i = 0; i < binding.llyTitle2.getChildCount(); i++) {
-            if (binding.llyTitle2.getChildAt(i).isSelected()) {
+            if (binding.llyTitle2.getChildAt(i).isAnswered()) {
                 titles.add(String.valueOf(i + 3));
             }
         }*/
@@ -84,16 +84,16 @@ public class UrgentCallActivity extends BaseFragmentActivity2 implements View.On
 
     public String getCity() {
         String city = "";
-//        if (binding.tvLocation1.isSelected())
+//        if (binding.tvLocation1.isAnswered())
 //            city = binding.tvLocation1.getText().toString();
 //
-//        if (binding.tvLocation2.isSelected())
+//        if (binding.tvLocation2.isAnswered())
 //            city = binding.tvLocation2.getText().toString();
 //
-//        if (binding.tvLocation1.isSelected() && binding.tvLocation2.isSelected())
+//        if (binding.tvLocation1.isAnswered() && binding.tvLocation2.isAnswered())
 //            city = binding.tvLocation2.getText().toString();
 //
-//        if (binding.tvSelect2.isSelected())
+//        if (binding.tvSelect2.isAnswered())
 //            city = "all";
         return city;
     }
@@ -106,7 +106,7 @@ public class UrgentCallActivity extends BaseFragmentActivity2 implements View.On
             gender = 2;
         if (binding.tvGender1.isSelected() && binding.tvGender2.isSelected())
             gender = 0;
-//        if (binding.tvSelect2.isSelected())
+//        if (binding.tvSelect2.isAnswered())
 //            gender = 0;
         return gender;
     }
@@ -185,7 +185,7 @@ public class UrgentCallActivity extends BaseFragmentActivity2 implements View.On
                 break;
 
 //            case R.id.tv_select2:
-//                if (!binding.tvSelect2.isSelected()) {
+//                if (!binding.tvSelect2.isAnswered()) {
 //                    binding.tvSelect2.setSelected(true);
 //                    binding.llyLocation.getChildAt(1).setSelected(false);
 //                    binding.llyLocation.getChildAt(2).setSelected(false);
@@ -230,12 +230,12 @@ public class UrgentCallActivity extends BaseFragmentActivity2 implements View.On
                 break;
 
 //            case R.id.tv_location1:
-//                binding.tvLocation1.setSelected(!binding.tvLocation1.isSelected());
+//                binding.tvLocation1.setSelected(!binding.tvLocation1.isAnswered());
 //                binding.tvSelect2.setSelected(false);
 //                break;
 //
 //            case R.id.tv_location2:
-//                binding.tvLocation2.setSelected(!binding.tvLocation2.isSelected());
+//                binding.tvLocation2.setSelected(!binding.tvLocation2.isAnswered());
 //                binding.tvSelect2.setSelected(false);
 //                break;
 

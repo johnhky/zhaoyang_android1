@@ -276,7 +276,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
             }
         } else {
 //            hashMap.put(SORT_BY, "inBetweenItemCount");
-//            if (binding.inBetweenItemCount.isSelected()) {
+//            if (binding.inBetweenItemCount.isAnswered()) {
 //                hashMap.put(SORT, ASC);
 //            } else {
 //                hashMap.put(SORT, DESC);

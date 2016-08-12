@@ -27,7 +27,6 @@
             android:id="@+id/et_others"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_45"
-            android:background="@drawable/selector_grey_rect"
             android:gravity="start|center_vertical"
             android:paddingLeft="@dimen/dp_13"
             android:paddingRight="@dimen/dp_13"

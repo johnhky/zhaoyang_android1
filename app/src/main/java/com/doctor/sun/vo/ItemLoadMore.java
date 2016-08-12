@@ -52,6 +52,11 @@ public class ItemLoadMore implements SortedItem, Event {
     }
 
     @Override
+    public boolean isUserSelected() {
+        return false;
+    }
+
+    @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         return null;
     }

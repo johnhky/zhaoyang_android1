@@ -478,7 +478,12 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     }
 
     @Override
-    public String getMidTitleString() {
+    public int getMidTitle() {
+        return R.string.title_medicine_store;
+    }
+
+    @Override
+    public String getSubTitle() {
         if (getAppointmentNumber() == -1) {
             String s = "就诊";
             return s;

@@ -232,6 +232,10 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
     }
 
     @Override
+    public boolean isUserSelected() {
+        return false;
+    }
+    @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         return null;
     }

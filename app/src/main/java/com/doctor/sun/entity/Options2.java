@@ -1,10 +1,14 @@
 package com.doctor.sun.entity;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.text.InputType;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -19,6 +23,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import io.ganguo.library.BaseApp;
+import io.ganguo.library.util.Systems;
 
 /**
  * Created by rick on 28/7/2016.
@@ -120,6 +127,12 @@ public class Options2 extends BaseItem {
 
     public void setSelected(Boolean selected) {
         this.selected = selected;
+    }
+
+    public boolean setSelectedWrap(Boolean selected) {
+        this.selected = selected;
+        notifyChange();
+        return true;
     }
 
     public String getOption(int index) {

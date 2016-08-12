@@ -38,7 +38,7 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
                 case 0: {
                     //填写问卷 编辑
                     if (AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus())) {
-                        return ReadQuestionFragment.getInstance(appointment.getId());
+                        return ReadQuestionFragment.getInstance(appointment.getId(), true);
                     } else {
                         return AnswerQuestionFragment.getInstance(appointment.getId());
                     }
@@ -52,7 +52,11 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
             switch (position) {
                 case 0: {
                     //填写问卷 只读
-                    return ReadQuestionFragment.getInstance(appointment.getId());
+                    if (AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus())) {
+                        return ReadQuestionFragment.getInstance(appointment.getId(), true);
+                    } else {
+                        return ReadQuestionFragment.getInstance(appointment.getId(), false);
+                    }
                 }
                 case 1: {
 //                appointment.setId(325);
@@ -78,10 +82,18 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (position == 0) {
-            return "我的问卷";
+        if (Settings.isDoctor()) {
+            if (position == 0) {
+                return "患者问卷";
+            } else {
+                return "病历记录";
+            }
         } else {
-            return "医生建议";
+            if (position == 0) {
+                return "我的问卷";
+            } else {
+                return "医生建议";
+            }
         }
     }
 }

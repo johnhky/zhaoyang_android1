@@ -19,7 +19,7 @@
     <color name="custom_background_today">#339DE1</color>
     <color name="custom_background_disabled">#FFFFFF</color>
     <color name="custom_text_selected">#FFFFFFFF</color>
-    <color name="custom_text_inactive">#cccccc</color>
+    <color name="custom_text_inactive">#ebebeb</color>
     <color name="custom_text_active">#363636</color>
     <color name="color_face_day">#f76d02</color>
     <color name="color_net_day">#88cb5a</color>

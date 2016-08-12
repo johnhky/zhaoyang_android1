@@ -26,7 +26,7 @@ import io.ganguo.library.Config;
 
 public class AnswerQuestionFragment extends SortedListFragment {
 
-    private int appointmentId;
+    protected int appointmentId;
     private QuestionsModel model;
 
     public static AnswerQuestionFragment getInstance(int appointmentId) {
@@ -45,6 +45,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
 //        appointmentId = getArguments().getInt(Constants.DATA);
         model = new QuestionsModel();
         setHasOptionsMenu(true);
+        loadMore();
     }
 
     @Override

@@ -74,6 +74,10 @@ public class ItemConsulting implements SortedItem {
     public int getSpan() {
         return 12;
     }
+    @Override
+    public boolean isUserSelected() {
+        return false;
+    }
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {

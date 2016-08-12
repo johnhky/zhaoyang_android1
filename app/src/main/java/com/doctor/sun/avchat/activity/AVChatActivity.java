@@ -74,7 +74,7 @@ public class AVChatActivity extends BaseFragmentActivity2 implements AVChatUI.AV
 
     // data
     private AVChatUI avChatUI; // 音视频总管理器
-    private AVChatData avChatData; // config for connect video server
+    private AVChatData avChatData; // setConfig for connect video server
     private int state; // calltype 音频或视频
     private String receiverId; // 对方的account
 

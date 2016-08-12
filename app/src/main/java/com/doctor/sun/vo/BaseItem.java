@@ -17,6 +17,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem {
 
     private String itemId;
 
+    private boolean userSelected = false;
     private boolean enabled = true;
     private int itemLayoutId;
     private int position;
@@ -88,6 +89,17 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem {
     @Override
     public int getSpan() {
         return span;
+    }
+
+    @Override
+    @Bindable
+    public boolean isUserSelected() {
+        return userSelected;
+    }
+
+    public void setUserSelected(boolean userSelected) {
+        this.userSelected = userSelected;
+        notifyPropertyChanged(BR.userSelected);
     }
 
     @Override

@@ -79,7 +79,6 @@
     <string name="title_consulting">就诊</string>
     <string name="default_title">昭阳医生</string>
     <string name="title_advice">建议反馈</string>
-    <string name="title_add_template"></string>
     <string name="title_follow_up">随访列表</string>
     <string name="title_profile_info">个人信息</string>
     <string name="title_edit_prescription">添加/编辑用药</string>
@@ -88,6 +87,7 @@
     <string name="title_my_qrcode">我的二维码</string>
     <string name="title_times">出诊时间</string>
     <string name="title_template">问诊模板</string>
+    <string name="title_add_template">添加模版</string>
     <string name="title_system_msg">系统消息</string>
     <string name="title_edit_password">修改密码</string>
     <string name="title_p_follow_up">随访请求列表</string>
@@ -122,4 +122,5 @@
     <string name="title_appoint_doctor">预约医生</string>
     <string name="title_extend_time">增加等候时间</string>
     <string name="title_add_prescription">用药详情</string>
+    <string name="title_medicine_store">寄药小助手</string>
 </resources>

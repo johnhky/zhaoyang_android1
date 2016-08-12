@@ -28,7 +28,6 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.AnswerAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.handler.QCategoryHandler;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.PermissionUtil;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.squareup.otto.Subscribe;
@@ -220,10 +219,10 @@ public class PatientDetailActivity extends BaseFragmentActivity2 implements QCat
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_delete_question: {
-                onFirstMenuClicked();
-                return true;
-            }
+//            case R.id.action_delete_question: {
+//                onFirstMenuClicked();
+//                return true;
+//            }
             case R.id.action_add_template: {
                 onMenuClicked();
                 return true;

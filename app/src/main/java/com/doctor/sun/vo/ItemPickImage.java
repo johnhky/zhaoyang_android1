@@ -2,8 +2,11 @@ package com.doctor.sun.vo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.Bindable;
+import android.databinding.Observable;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Photo;
@@ -33,12 +36,16 @@ import retrofit2.Call;
  */
 public class ItemPickImage extends BaseItem {
     public static final String TAG = ItemPickImage.class.getSimpleName();
+    public static final int DEFAULT_IMAGE_CONSTRAIN = 4;
     private String src = "";
     private String localPath = "";
+    private int itemSizeConstrain = DEFAULT_IMAGE_CONSTRAIN;
+    private int itemSize = 0;
 
     public ItemPickImage(int itemLayoutId, String path) {
         super(itemLayoutId);
         this.src = path;
+        setSpan(4);
     }
 
     public String getSrc() {
@@ -74,6 +81,7 @@ public class ItemPickImage extends BaseItem {
                 public void onApplyClick(MaterialDialog dialog) {
                     //删除对应图片
                     dialog.dismiss();
+                    notifyPropertyChanged(BR.removed);
                     adapter.remove(ItemPickImage.this);
                 }
 
@@ -96,19 +104,29 @@ public class ItemPickImage extends BaseItem {
     }
 
     public void pickImage(Context context, SortedListAdapter adapter, BaseViewHolder vh) {
-        int distance = adapter.inBetweenItemCount(vh.getAdapterPosition(), getKey().replace(QuestionType.upImg, ""));
-        int position = getPosition() - QuestionsModel.PADDING + 2 + distance;
-        PickImageDialog dialog = new PickImageDialog(context, position);
+        PickImageDialog dialog = new PickImageDialog(context, vh.getAdapterPosition());
         dialog.show();
+    }
+
+    public static int getPositionForNewImage(SortedListAdapter adapter, ItemPickImage item) {
+        int distance = adapter.inBetweenItemCount(item.getKey(), item.getKey().replace(QuestionType.upImg, ""));
+        item.setItemSize(distance);
+        return item.getPosition() - QuestionsModel.PADDING + 2 + distance;
     }
 
     public static void handleRequest(Context context, final SortedListAdapter adapter, Intent data, int requestCode) {
         File file = PickImageDialog.handleRequest(context, data, requestCode);
         String path = "file://" + file.getAbsolutePath();
+
+        int pickerPosition = PickImageDialog.getRequestCode(requestCode);
+        ItemPickImage pickerItem = (ItemPickImage) adapter.get(pickerPosition);
+
         final ItemPickImage item = new ItemPickImage(R.layout.item_pick_image, "");
         item.setLocalPath(path);
-        item.setPosition(PickImageDialog.getRequestCode(requestCode));
+        item.setPosition(getPositionForNewImage(adapter, pickerItem));
         item.setItemId(UUID.randomUUID().toString());
+
+        pickerItem.registerItemChangedListener(item);
         adapter.insert(item);
 
 
@@ -133,11 +151,6 @@ public class ItemPickImage extends BaseItem {
 
     }
 
-
-    @Override
-    public int getSpan() {
-        return 4;
-    }
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
@@ -170,5 +183,43 @@ public class ItemPickImage extends BaseItem {
             return result;
         }
         return null;
+    }
+
+    @Override
+    public int getLayoutId() {
+        if (itemSize > itemSizeConstrain) {
+            return R.layout.item_empty;
+        }
+        return super.getLayoutId();
+    }
+
+    public int getItemSizeConstrain() {
+        return itemSizeConstrain;
+    }
+
+    public void setItemSizeConstrain(int itemSizeConstrain) {
+        this.itemSizeConstrain = itemSizeConstrain;
+    }
+
+    public void registerItemChangedListener(BaseItem parcelable) {
+        parcelable.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                if (i == com.android.databinding.library.baseAdapters.BR.removed) {
+                    itemSize -= 1;
+                    notifyChange();
+                }
+            }
+        });
+    }
+
+    @Bindable
+    public int getItemSize() {
+        return itemSize;
+    }
+
+    public void setItemSize(int itemSize) {
+        this.itemSize = itemSize;
+        notifyPropertyChanged(BR.itemSize);
     }
 }
