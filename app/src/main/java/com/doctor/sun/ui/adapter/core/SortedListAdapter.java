@@ -26,11 +26,11 @@ import java.util.Set;
  * Created by rick on 22/6/2016.
  */
 public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> {
-    final Context mContext;
-    final LayoutInflater mInflater;
-    final SortedList<SortedItem> mList;
-    final Map<String, SortedItem> mUniqueMapping = new HashMap<>();
-    final SparseBooleanArray mConfig = new SparseBooleanArray();
+    private final Context mContext;
+    private final LayoutInflater mInflater;
+    private final SortedList<SortedItem> mList;
+    private final Map<String, SortedItem> mUniqueMapping = new HashMap<>();
+    private final SparseBooleanArray mConfig = new SparseBooleanArray();
     private LayoutIdInterceptor idInterceptor = new DefaultLayoutIdInterceptor();
 
     public SortedListAdapter(Context context, SortedList<SortedItem> mList) {

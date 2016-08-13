@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -102,14 +103,14 @@ public class ReadQuestionFragment extends AnswerQuestionFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         final boolean isReadOnly = getArguments().getBoolean(Constants.READ_ONLY, false);
         if (!isReadOnly) {
-            inflater.inflate(R.menu.menu_send, menu);
+            inflater.inflate(R.menu.menu_remind, menu);
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_send: {
+            case R.id.action_remind: {
                 QuestionModule api = Api.of(QuestionModule.class);
                 ArrayList<String> need_fill = new ArrayList<>();
                 for (int i = 0; i < getAdapter().size(); i++) {
@@ -117,6 +118,10 @@ public class ReadQuestionFragment extends AnswerQuestionFragment {
                     if (sortedItem.isUserSelected()) {
                         need_fill.add(sortedItem.getKey());
                     }
+                }
+                if (need_fill.isEmpty()) {
+                    Toast.makeText(getContext(), "请选择需要患者重填的问题", Toast.LENGTH_SHORT).show();
+                    return true;
                 }
                 api.refill(appointmentId + "",
                         need_fill).enqueue(new ApiCallback<List<Answer>>() {

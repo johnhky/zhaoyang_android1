@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import retrofit2.Response;
@@ -66,7 +67,7 @@ public class QuestionsModel {
             questions2.setPosition(i * PADDING);
             items.add(questions2);
 
-            switch (questions2.baseQuestionType) {
+            switch (questions2.questionType) {
                 case QuestionType.drug:
                     parseDrugs(items, i, questions2);
                     break;
@@ -97,8 +98,9 @@ public class QuestionsModel {
                     break;
             }
             BaseItem divider = new BaseItem(R.layout.divider_1px_margint_13dp);
-            divider.setItemId(UUID.randomUUID().toString());
-            divider.setPosition(getSlop(i, 1));
+            int slop = getSlop(i, 1);
+            divider.setItemId("DIVIDER" + slop);
+            divider.setPosition(slop);
             items.add(divider);
         }
         return items;
@@ -111,9 +113,9 @@ public class QuestionsModel {
         for (int j = 0; j < option.size(); j++) {
             Options2 options2 = option.get(j);
 
-            options2.questionId = questions2.baseQuestionId;
-            options2.questionType = questions2.baseQuestionType;
-            options2.questionContent = questions2.baseQuestionContent;
+            options2.questionId = questions2.questionId;
+            options2.questionType = questions2.questionType;
+            options2.questionContent = questions2.questionContent;
 
             options2.setPosition(i * PADDING + j + 1);
             items.add(options2);
@@ -124,8 +126,8 @@ public class QuestionsModel {
         FurtherConsultationVM vm = new FurtherConsultationVM();
         vm.questions2 = questions2;
         vm.setPosition(i * PADDING);
-        vm.setQuestionId(questions2.baseQuestionId);
-        vm.setQuestionContent(questions2.baseQuestionContent);
+        vm.setQuestionId(questions2.questionId);
+        vm.setQuestionContent(questions2.questionContent);
         if (questions2.option != null)
             for (Options2 options2 : questions2.option) {
                 if (options2.getSelected()) {
@@ -177,7 +179,7 @@ public class QuestionsModel {
         }
         ItemPickHospital pickHospital = new ItemPickHospital(answerContent, questions2.getOptionContent(0), lv1Id, lv2Id, lv3Id);
         pickHospital.setPosition(getSlop(i, 2));
-        pickHospital.setItemId(questions2.baseQuestionId + QuestionType.asel);
+        pickHospital.setItemId(questions2.questionId + QuestionType.asel);
         items.add(pickHospital);
     }
 
@@ -188,7 +190,7 @@ public class QuestionsModel {
     private void parsePickDate(List<SortedItem> items, int i, final Questions2 questions2) {
         ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_pick_date3, "");
         itemPickDate.setPosition(getSlop(i, 2));
-        itemPickDate.setItemId(questions2.baseQuestionId + QuestionType.sDate);
+        itemPickDate.setItemId(questions2.questionId + QuestionType.sDate);
         itemPickDate.setDate(questions2.fillContent);
         itemPickDate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
@@ -203,7 +205,7 @@ public class QuestionsModel {
     private void parsePickTime(List<SortedItem> items, int i, final Questions2 questions2) {
         ItemPickTime itemPickTime = new ItemPickTime(R.layout.item_pick_question_time, "");
         itemPickTime.setPosition(getSlop(i, 2));
-        itemPickTime.setItemId(questions2.baseQuestionId + QuestionType.sTime);
+        itemPickTime.setItemId(questions2.questionId + QuestionType.sTime);
         itemPickTime.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -240,14 +242,14 @@ public class QuestionsModel {
             pickerItem.setItemSizeConstrain(questions2.extendType);
         }
         pickerItem.setPosition(getSlop(i, 2));
-        pickerItem.setItemId(questions2.baseQuestionId + QuestionType.upImg);
+        pickerItem.setItemId(questions2.questionId + QuestionType.upImg);
         items.add(pickerItem);
     }
 
     private void parseFill(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemTextInput textInput = new ItemTextInput(R.layout.item_text_input6, "");
         textInput.setPosition(getSlop(i, 2));
-        textInput.setItemId(questions2.baseQuestionId + QuestionType.fill);
+        textInput.setItemId(questions2.questionId + QuestionType.fill);
         textInput.setInput(questions2.fillContent);
         questions2.answerCount = textInput.getInput().length();
         textInput.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
@@ -281,19 +283,23 @@ public class QuestionsModel {
         });
 
         list.setPosition(getSlop(i, 2));
-        list.setItemId(questions2.baseQuestionId + QuestionType.reminder);
+        list.setItemId(questions2.questionId + QuestionType.reminder);
         items.add(list);
     }
 
     private void parseDrugs(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemAddPrescription2 itemAddPrescription = new ItemAddPrescription2();
-        for (int j = 0; j < questions2.arrayContent.size(); j++) {
-            Prescription prescription = new Prescription();
-            prescription.position = i * PADDING + j + 1;
-            prescription.itemId = UUID.randomUUID().toString();
-            prescription.fromHashMap(questions2.arrayContent.get(j));
-            itemAddPrescription.registerItemChangedListener(prescription);
-            items.add(prescription);
+        List<Map<String, String>> arrayContent = questions2.arrayContent;
+
+        if (arrayContent != null) {
+            for (int j = 0; j < arrayContent.size(); j++) {
+                Prescription prescription = new Prescription();
+                prescription.position = i * PADDING + j + 1;
+                prescription.itemId = UUID.randomUUID().toString();
+                prescription.fromHashMap(arrayContent.get(j));
+                itemAddPrescription.registerItemChangedListener(prescription);
+                items.add(prescription);
+            }
         }
 
         itemAddPrescription.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
@@ -304,7 +310,7 @@ public class QuestionsModel {
             }
         });
         itemAddPrescription.setPosition(getSlop(i, 2));
-        itemAddPrescription.setItemId(questions2.baseQuestionId + QuestionType.drug);
+        itemAddPrescription.setItemId(questions2.questionId + QuestionType.drug);
         items.add(itemAddPrescription);
     }
 

@@ -20,6 +20,8 @@
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical"
         app:navigationIcon="@drawable/ic_back"
+        app:collapseIcon="@drawable/ic_back"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ToolbarTheme">
 
 

@@ -79,7 +79,17 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
                     }
                 }, 1000);
             }
+
+            @Override
+            public void onInitHeader() {
+                super.onInitHeader();
+                onPrepareHeader();
+            }
         };
+    }
+
+    protected void onPrepareHeader() {
+
     }
 
     @NonNull

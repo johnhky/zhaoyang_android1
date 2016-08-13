@@ -10,21 +10,15 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityFillForumBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Prescription;
-import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
-import com.doctor.sun.ui.fragment.FillForumFragment;
 import com.doctor.sun.ui.fragment.ModifyForumFragment;
-import com.doctor.sun.ui.handler.QCategoryHandler;
-import com.doctor.sun.ui.model.HeaderViewModel;
-import com.doctor.sun.ui.widget.PickImageDialog;
 
 /**
  * 填写问卷 只读 fragment
  * Created by rick on 25/1/2016.
  */
 public class FillForumActivity extends BaseFragmentActivity2 implements
-        QCategoryHandler.QCategoryCallback,
         Appointment.AppointmentId,
         Prescription.UrlToLoad {
 
@@ -59,25 +53,10 @@ public class FillForumActivity extends BaseFragmentActivity2 implements
                 .commit();
     }
 
-
-
     @Override
-    public void onCategorySelect(QuestionCategory data) {
-//        binding.getHeader().setRightTitle("保存");
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        fragment.onActivityResult(requestCode, resultCode, data);
     }
-
-//    public void onMenuClicked() {
-//        if (isFilling) {
-//            fragment.save();
-//        }
-//    }
-//
-//    @Override
-//    public void setHeaderRightTitle(String title) {
-//        binding.getHeader().setRightTitle(title);
-//    }
-
-
 
     @Override
     public int getId() {

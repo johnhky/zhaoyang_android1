@@ -118,6 +118,7 @@ public class DiagnosisFragment extends BaseFragment {
                 viewModel.getTime().setDate(viewModel.getDate().getDate());
             }
         });
+        setHasOptionsMenu(true);
         return binding.getRoot();
     }
 

@@ -1,19 +1,15 @@
 package com.doctor.sun.ui.activity.patient;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.City;
@@ -34,6 +30,7 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.CityPickerDialog;
+import com.doctor.sun.util.AnimationUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,6 +42,8 @@ import io.ganguo.library.util.Tasks;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 import retrofit2.Response;
+
+import static com.doctor.sun.util.AnimationUtils.hideView;
 
 /**
  * Created by rick on 20/1/2016.
@@ -337,7 +336,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
             }
             case R.id.filter: {
                 if (binding.svFilter.getVisibility() == View.GONE) {
-                    revealView(binding.svFilter);
+                    AnimationUtils.revealView(binding.svFilter);
                 } else {
                     hideView(binding.svFilter);
                 }
@@ -353,7 +352,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
             }
             case R.id.fl_search: {
                 if (binding.search.getVisibility() == View.GONE) {
-                    revealView(binding.search);
+                    AnimationUtils.revealView(binding.search);
                     binding.search.requestFocus();
                     Systems.showKeyboard(getWindow(), binding.search);
                 }
@@ -409,48 +408,6 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
         }
     }
 
-    private void revealView(View myView) {
-
-        int cx = (myView.getLeft() + myView.getRight()) / 2;
-        int cy = (myView.getTop() + myView.getBottom()) / 2;
-
-        int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Animator anim =
-                    ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
-
-            myView.setVisibility(View.VISIBLE);
-            anim.start();
-        } else {
-            myView.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void hideView(final View myView) {
-
-        int cx = (myView.getLeft() + myView.getRight()) / 2;
-        int cy = (myView.getTop() + myView.getBottom()) / 2;
-
-        int initialRadius = myView.getWidth();
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Animator anim =
-                    ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0);
-
-            anim.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    myView.setVisibility(View.GONE);
-                }
-            });
-
-            anim.start();
-        } else {
-            myView.setVisibility(View.GONE);
-        }
-    }
 
     private void createCityPicker() {
         RealmResults<Province> provinces = getRealm().where(Province.class).findAll();

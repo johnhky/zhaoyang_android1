@@ -1,5 +1,6 @@
 package com.doctor.sun.ui.activity;
 
+import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
 import com.doctor.sun.R;
@@ -75,7 +76,6 @@ public class ItemPickHospital extends BaseItem {
             lv1Position = position;
         } else if (lv2Id == value.id) {
             lv2Position = position;
-
         } else if (lv3Id == value.id) {
             lv3Position = position;
         }
@@ -208,16 +208,28 @@ public class ItemPickHospital extends BaseItem {
     }
 
 
+    @NonNull
+    public String getAreaName(int index) {
+        if (areaNames == null || areaNames.length < index) {
+            return "";
+        }
+        String areaName = areaNames[index];
+        if (areaName == null) {
+            return "";
+        }
+        return areaName;
+    }
+
     public String getLv1Content() {
-        return areaNames[0];
+        return getAreaName(0);
     }
 
     public String getLv2Content() {
-        return areaNames[1];
+        return getAreaName(1);
     }
 
     public String getLv3Content() {
-        return areaNames[2];
+        return getAreaName(2);
     }
 
 
@@ -239,7 +251,7 @@ public class ItemPickHospital extends BaseItem {
     }
 
     public String lastAnswerContent() {
-        return areaNames[0] + areaNames[1] + areaNames[2];
+        return getLv1Content() + getLv2Content() + getLv3Content();
     }
 
     @Override

@@ -29,6 +29,9 @@ public class ItemTextInput extends BaseItem {
     }
 
     public String getInput() {
+        if (input == null) {
+            return "";
+        }
         return input;
     }
 

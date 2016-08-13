@@ -60,7 +60,7 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
                 }
                 case 1: {
 //                appointment.setId(325);
-                    if (AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus())) {
+                    if (!AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus())) {
                         return DiagnosisFragment.newInstance(appointment);
                     } else {
                         return ReadDiagnosisFragment.newInstance(appointment.getId());

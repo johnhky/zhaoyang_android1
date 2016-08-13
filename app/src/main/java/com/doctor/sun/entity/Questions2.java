@@ -32,12 +32,12 @@ public class Questions2 extends BaseItem {
 
     @JsonIgnore
     public int answerCount = 0;
-    @JsonProperty("base_question_id")
-    public String baseQuestionId;
-    @JsonProperty("base_question_type")
-    public String baseQuestionType;
-    @JsonProperty("base_question_content")
-    public String baseQuestionContent;
+    @JsonProperty("question_id")
+    public String questionId;
+    @JsonProperty("question_type")
+    public String questionType;
+    @JsonProperty("question_content")
+    public String questionContent;
     @JsonProperty("fill_content")
     public String fillContent;
     @JsonProperty("old_question_id")
@@ -67,7 +67,7 @@ public class Questions2 extends BaseItem {
 
     @Override
     public String getKey() {
-        return baseQuestionId;
+        return questionId;
     }
 
     @Override
@@ -100,12 +100,12 @@ public class Questions2 extends BaseItem {
         if (answerCount > 0) {
             return true;
         }
-        int i = adapter.inBetweenItemCount(vh.getAdapterPosition(), baseQuestionId + baseQuestionType);
+        int i = adapter.inBetweenItemCount(vh.getAdapterPosition(), questionId + questionType);
         if (Math.abs(i) > 1) {
             return true;
         }
 
-        if (baseQuestionType.equals(QuestionType.asel)) {
+        if (questionType.equals(QuestionType.asel)) {
             return true;
         }
 

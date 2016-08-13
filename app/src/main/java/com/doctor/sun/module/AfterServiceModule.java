@@ -66,7 +66,7 @@ public interface AfterServiceModule {
      * @return 用户随访订单列表
      */
     @GET("follow-up/doctor-orders")
-    Call<ApiDTO<PageDTO<AfterService>>> doctorOrders(@AfterService.Status @Nullable @Query("followUpType") String type, @Query("page") String page);
+    Call<ApiDTO<PageDTO<AfterService>>> doctorOrders(@AfterService.Status @Nullable @Query("followUpType") String type, @Query("keyword") String keyword, @Query("page") String page);
 
     /**
      * @param id   病历id

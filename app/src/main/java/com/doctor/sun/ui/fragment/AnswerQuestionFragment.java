@@ -18,8 +18,6 @@ import com.doctor.sun.vo.ItemPickImage;
 
 import java.util.List;
 
-import io.ganguo.library.Config;
-
 /**
  * Created by rick on 28/7/2016.
  */
@@ -51,21 +49,13 @@ public class AnswerQuestionFragment extends SortedListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
-        final String string = Config.getString(Constants.TOKEN);
-        Config.putString(Constants.TOKEN, "5d8f8d7946a49e696f4b298666762723");
         model.questions(appointmentId, new Function0<List<? extends SortedItem>>() {
             @Override
             public void apply(List<? extends SortedItem> sortedItems) {
                 getAdapter().insertAll(sortedItems);
                 binding.swipeRefresh.setRefreshing(false);
-                Config.putString(Constants.TOKEN, string);
             }
         });
-//        JavaType type = TypeFactory.defaultInstance().constructCollectionType(List.class, Questions2.class);
-//        List<Questions2> questions = JacksonUtils.fromResource(getContext(), R.raw.json, type);
-//        List<SortedItem> sortedItems = model.parseQuestions(questions);
-//        getAdapter().insertAll(sortedItems);
-//        binding.swipeRefresh.setRefreshing(false);
     }
 
     public void save() {
@@ -93,6 +83,10 @@ public class AnswerQuestionFragment extends SortedListFragment {
         if (resultCode == Activity.RESULT_OK) {
             ItemPickImage.handleRequest(getActivity(), getAdapter(), data, requestCode);
         }
+    }
+    @Override
+    public void onRefresh() {
+        getBinding().swipeRefresh.setRefreshing(false);
     }
 
 }

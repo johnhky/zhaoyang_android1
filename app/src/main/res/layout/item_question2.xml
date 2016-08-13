@@ -56,8 +56,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/dp_6"
+            android:layout_marginStart="@dimen/dp_6"
             android:layout_weight="1"
-            android:text="@{data.baseQuestionContent}"
+            android:text="@{data.questionContent}"
             android:textColor="#363636"
             android:textSize="@dimen/font_15" />
 

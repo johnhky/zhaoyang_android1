@@ -1,14 +1,10 @@
 package com.doctor.sun.entity;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.text.InputType;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -24,9 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.ganguo.library.BaseApp;
-import io.ganguo.library.util.Systems;
-
 /**
  * Created by rick on 28/7/2016.
  */
@@ -35,9 +28,9 @@ public class Options2 extends BaseItem {
     public static final String TAG = Options2.class.getSimpleName();
 
     /**
-     * base_option_content : 保存密码
-     * base_option_id : 1468916105WaJyrupXco
-     * base_option_type : A
+     * option_content : 保存密码
+     * option_id : 1468916105WaJyrupXco
+     * option_type : A
      * clear_rule : 0
      * reply_content :
      * selected : 0
@@ -52,14 +45,14 @@ public class Options2 extends BaseItem {
     @JsonSerialize(using = NumericBooleanSerializer.class)
     @JsonDeserialize(using = NumericBooleanDeserializer.class)
     @JsonProperty("selected")
-    private Boolean selected;
+    private Boolean selected = Boolean.FALSE;
     @JsonProperty("clear_rule")
     public int clearRule;
-    @JsonProperty("base_option_id")
+    @JsonProperty("option_id")
     public String optionId;
-    @JsonProperty("base_option_type")
+    @JsonProperty("option_type")
     public String optionType;
-    @JsonProperty("base_option_content")
+    @JsonProperty("option_content")
     public String optionContent = "";
     @JsonProperty("content_head")
     public String contentHead = "";
@@ -71,7 +64,7 @@ public class Options2 extends BaseItem {
     public int optionInputLength = 0;
     @JsonProperty("content_tail")
     public String contentTail = "";
-    @JsonProperty("base_option_array")
+    @JsonProperty("option_array")
     public List<String> childOptions;
     @JsonProperty("reply_index")
     public int selectedIndex = -1;
@@ -189,6 +182,10 @@ public class Options2 extends BaseItem {
                 return 0;
             }
             int i = optionContent.length();
+            if (i < 6) {
+                i = i - 1;
+            }
+
             return Math.min(12, Math.max(2, i));
         }
         return super.getSpan();

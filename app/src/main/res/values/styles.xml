@@ -38,10 +38,15 @@
              overflow icon (three vertical dots) -->
         <item name="android:textColorSecondary">@color/white</item>
 
+        <item name="searchViewStyle">@style/SearchViewStyle</item>
+
         <!-- This would set the toolbar's background color,
               but setting this also changes the popup menu's background,
               even if we define popupTheme for our <Toolbar> -->
-        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="homeAsUpIndicator">@drawable/ic_back</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

@@ -64,7 +64,7 @@
             android:layout_marginStart="@dimen/dp_6"
             android:layout_marginTop="@dimen/dp_6"
             android:layout_weight="1"
-            android:text="@{data.baseQuestionContent}"
+            android:text="@{data.questionContent}"
             android:textColor="#363636"
             android:textSize="@dimen/font_15" />
 
