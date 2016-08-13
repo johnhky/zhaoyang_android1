@@ -32,7 +32,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem {
 
     public void removeThis(SortedListAdapter adapter) {
         notifyPropertyChanged(BR.removed);
-        adapter.remove(this);
+        adapter.removeItem(this);
     }
 
     @Override

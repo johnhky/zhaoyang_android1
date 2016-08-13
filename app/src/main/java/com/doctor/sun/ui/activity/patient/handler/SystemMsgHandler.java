@@ -25,6 +25,7 @@ public class SystemMsgHandler {
 
     public void systemMsgList(Context context, int count) {
         Intent intent = SystemMsgListActivity.makeIntent(context, count);
+        data.reset();
         context.startActivity(intent);
     }
 

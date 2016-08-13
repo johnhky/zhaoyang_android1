@@ -271,13 +271,14 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
         });
     }
 
-    public static void reset() {
+    public  void reset() {
         Realm.getDefaultInstance().executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 for (TextMsg msg : getAllMsg(realm).findAll()) {
                     msg.setHaveRead(true);
                 }
+                notifyChange();
             }
         });
     }

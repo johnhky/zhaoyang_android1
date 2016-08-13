@@ -183,12 +183,12 @@ public interface QuestionModule {
     Call<ApiDTO<List<QuestionCategory>>> scaleCategory(@Path("appointmentId") String appointmentId);
 
 
-        @GET("013/smartQuestionnaires/{appointmentId}")
+        @GET("smartQuestionnaires/{appointmentId}")
 //    @GET("http://10.0.0.62:8080/index.php/api/013/smartQuestionnaires/{appointmentId}")
     Call<ApiDTO<QuestionDTO>> questions2(@Path("appointmentId") int appointmentId);
 
     @FormUrlEncoded
-    @PUT("013/smartQuestionnaires/{appointmentId}")
+    @PUT("smartQuestionnaires/{appointmentId}")
 //    @PUT("http://10.0.0.62:8080/index.php/api/013/smartQuestionnaires/{appointmentId}")
     Call<ApiDTO<String>> saveQuestions2(@Path("appointmentId") int appointmentId, @Field("answer") String answer);
 }

@@ -217,7 +217,7 @@ public class ConsultingFragment2 extends SortedListFragment {
                 if (!finished) {
                     insertLoadMore();
                 } else {
-                    getAdapter().remove(new ItemLoadMore());
+                    getAdapter().removeItem(new ItemLoadMore());
                 }
                 isLoading = false;
                 showShowCase();

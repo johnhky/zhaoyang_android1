@@ -127,7 +127,7 @@ public class ViewForumFragment extends RefreshListFragment {
                                 List<String> answerContent = Answer.handler.answerContent(answer);
                                 if (answerContent != null && !answerContent.isEmpty()) {
                                     String input = answerContent.get(0) + answerContent.get(1) + answerContent.get(2);
-                                    if (input != null && !input.equals("")) {
+                                    if (!input.equals("")) {
                                         textInput.setInput(input);
                                         getAdapter().add(textInput);
                                     }

@@ -50,7 +50,8 @@ public interface ProfileModule {
      * @return
      */
     @FormUrlEncoded
-    @POST("profile/setSelfMedicalRecord")
+//    @POST("profile/setSelfMedicalRecord")
+    @POST("profile/self-medical-record")
     Call<ApiDTO<String>> setSelfMedicalRecord(@FieldMap Map<String, String> medicalRecord);
 
     /**
@@ -65,10 +66,11 @@ public interface ProfileModule {
      * @return
      */
     @FormUrlEncoded
-    @POST("profile/setOtherMedicalRecord")
+    @POST("profile/other-medical-record")
     Call<ApiDTO<String>> setRelativeMedicalRecord(@FieldMap Map<String, String> medicalRecord);
 
-    @GET("profile/medicalRecordList")
+    //    @GET("profile/medicalRecordList")
+    @GET("profile/medical-records")
     Call<ApiDTO<List<MedicalRecord>>> medicalRecordList();
 
     @FormUrlEncoded

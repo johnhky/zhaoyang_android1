@@ -177,7 +177,15 @@ public class QuestionsModel {
         } catch (NumberFormatException ignored) {
 
         }
-        ItemPickHospital pickHospital = new ItemPickHospital(answerContent, questions2.getOptionContent(0), lv1Id, lv2Id, lv3Id);
+        String url = "tool/endemicAreaTrees";
+        if (questions2.option != null) {
+            for (Options2 options2 : questions2.option) {
+                if (options2.optionType.equals("A")) {
+                    url = options2.optionContent;
+                }
+            }
+        }
+        ItemPickHospital pickHospital = new ItemPickHospital(answerContent, url, lv1Id, lv2Id, lv3Id);
         pickHospital.setPosition(getSlop(i, 2));
         pickHospital.setItemId(questions2.questionId + QuestionType.asel);
         items.add(pickHospital);

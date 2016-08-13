@@ -50,7 +50,6 @@ public class SystemMsgListActivity extends PageActivity2 {
         permissionsUtil = new PermissionsUtil(this);
 
         Config.putLong(visitTimeKey, System.currentTimeMillis());
-        SystemMsg.reset();
     }
 
 //    @Override

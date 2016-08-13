@@ -124,4 +124,49 @@ public abstract class ListAdapter<T, VH extends ViewDataBinding> extends LoadMor
         remove(position);
         notifyItemRemoved(position);
     }
+
+    @Override
+    public void insert(T item) {
+        add(item);
+//        notifyItemInserted(size());
+    }
+
+    @Override
+    public void update(T item) {
+        int location = indexOf(item);
+        remove(get(location));
+        add(location, item);
+        notifyItemChanged(location);
+    }
+
+    @Override
+    public void insertAll(List<T> items) {
+        addAll(items);
+    }
+
+    @Override
+    public void swapList(List<T> items) {
+        clear();
+        addAll(items);
+    }
+
+    @Override
+    public void removeItem(T item) {
+        remove(item);
+    }
+
+    @Override
+    public T get(String key) {
+        return null;
+    }
+
+    @Override
+    public int inBetweenItemCount(int adapterPosition, String itemId) {
+        return 0;
+    }
+
+    @Override
+    public int inBetweenItemCount(String keyOne, String keyTwo) {
+        return 0;
+    }
 }

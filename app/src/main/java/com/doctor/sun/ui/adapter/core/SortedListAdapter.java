@@ -1,18 +1,10 @@
 package com.doctor.sun.ui.adapter.core;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.support.annotation.NonNull;
 import android.support.v7.util.SortedList;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
-import android.util.SparseBooleanArray;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
-import com.doctor.sun.BR;
-import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 
 import java.util.HashMap;
@@ -25,23 +17,17 @@ import java.util.Set;
 /**
  * Created by rick on 22/6/2016.
  */
-public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> {
-    private final Context mContext;
-    private final LayoutInflater mInflater;
+public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapter<B>  {
     private final SortedList<SortedItem> mList;
     private final Map<String, SortedItem> mUniqueMapping = new HashMap<>();
-    private final SparseBooleanArray mConfig = new SparseBooleanArray();
-    private LayoutIdInterceptor idInterceptor = new DefaultLayoutIdInterceptor();
 
     public SortedListAdapter(Context context, SortedList<SortedItem> mList) {
-        this.mContext = context;
-        mInflater = LayoutInflater.from(context);
+        super(context);
         this.mList = mList;
     }
 
     public SortedListAdapter(Context context) {
-        mContext = context;
-        mInflater = LayoutInflater.from(context);
+        super(context);
         this.mList = new SortedList<>(SortedItem.class, new SortedListAdapterCallback<SortedItem>(this) {
             @Override
             public int compare(SortedItem o1, SortedItem o2) {
@@ -68,38 +54,12 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
         });
     }
 
-    protected LayoutInflater getInflater() {
-        return mInflater;
-    }
-
-    protected Context getContext() {
-        return mContext;
-    }
-
-    @Override
-    final public BaseViewHolder<B> onCreateViewHolder(ViewGroup parent, int viewType) {
-        B binding = DataBindingUtil.inflate(getInflater(), viewType, parent, false);
-        return new BaseViewHolder<>(binding);
-    }
-
-    @Override
-    final public void onBindViewHolder(BaseViewHolder<B> holder, int position) {
-        holder.getBinding().setVariable(BR.adapter, this);
-        holder.bindTo(mList.get(position));
-    }
-
-
-    @Override
-    public int getItemViewType(int position) {
-        int layoutId = mList.get(position).getLayoutId();
-        return idInterceptor.intercept(layoutId);
-    }
-
     @Override
     final public int getItemCount() {
         return mList.size();
     }
 
+    @Override
     public void insert(SortedItem item) {
         String key = item.getKey();
         SortedItem existing = mUniqueMapping.put(key, item);
@@ -112,6 +72,7 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
         }
     }
 
+    @Override
     public void update(SortedItem item) {
         String key = item.getKey();
         SortedItem existing = mUniqueMapping.get(key);
@@ -124,12 +85,14 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
             mList.updateItemAt(pos, item);
     }
 
+    @Override
     public void insertAll(List<SortedItem> items) {
         for (SortedItem item : items) {
             insert(item);
         }
     }
 
+    @Override
     public void swapList(List<SortedItem> items) {
         Set<String> newListKeys = new HashSet<>();
         for (SortedItem item : items) {
@@ -154,7 +117,8 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
         return mList.get(0).getCreated();
     }
 
-    public void remove(SortedItem item) {
+    @Override
+    public void removeItem(SortedItem item) {
         SortedItem model = mUniqueMapping.remove(item.getKey());
         if (model != null) {
             boolean remove = mList.remove(item);
@@ -164,27 +128,28 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
         }
     }
 
+    @Override
     public void clear() {
         mList.clear();
         mUniqueMapping.clear();
     }
 
+    @Override
     public int size() {
         return mList.size();
     }
 
+    @Override
     public int indexOf(SortedItem sortedItem) {
         return mList.indexOf(sortedItem);
     }
 
-    public SortedItem get(int position) {
-        return mList.get(position);
-    }
-
+    @Override
     public SortedItem get(String key) {
         return mUniqueMapping.get(key);
     }
 
+    @Override
     public int inBetweenItemCount(int adapterPosition, String itemId) {
         SortedItem sortedItem = get(itemId);
         if (sortedItem == null) {
@@ -194,6 +159,7 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
         return adapterPosition - parentPosition;
     }
 
+    @Override
     public int inBetweenItemCount(String keyOne, String keyTwo) {
         SortedItem sortedItemOne = get(keyOne);
         SortedItem sortedItemTwo = get(keyTwo);
@@ -208,28 +174,9 @@ public class SortedListAdapter<B extends ViewDataBinding> extends RecyclerView.A
         return Math.abs(positionOne - positionTwo);
     }
 
-
-    public void setLayoutIdInterceptor(@NonNull LayoutIdInterceptor idInterceptor) {
-        this.idInterceptor = idInterceptor;
-        notifyDataSetChanged();
+    @Override
+    public SortedItem get(int position) {
+        return mList.get(position);
     }
 
-    public interface LayoutIdInterceptor {
-        int intercept(int origin);
-    }
-
-    public class DefaultLayoutIdInterceptor implements LayoutIdInterceptor {
-        @Override
-        public int intercept(int origin) {
-            return origin;
-        }
-    }
-
-    public boolean getConfig(int key) {
-        return mConfig.get(key, false);
-    }
-
-    public void setConfig(int key, boolean value) {
-        mConfig.put(key, value);
-    }
 }

@@ -17,6 +17,7 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
+import com.doctor.sun.ui.adapter.core.AdapterOps;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class FurtherConsultationVM extends BaseItem {
         date = new ItemPickDate(0, "", 0);
     }
 
-    public void chooseDoctor(Context context, final SortedListAdapter adapter, final BaseViewHolder vh) {
+    public void chooseDoctor(Context context, final AdapterOps adapter, final BaseViewHolder vh) {
         Intent intent = ContactActivity.makeIntent(context, Constants.DOCTOR_REQUEST_CODE);
         intent.putExtra(Constants.HANDLER, new Messenger(new Handler(new Handler.Callback() {
             @Override

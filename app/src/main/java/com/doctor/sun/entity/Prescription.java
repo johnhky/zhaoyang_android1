@@ -393,7 +393,7 @@ public class Prescription extends BaseItem implements Parcelable {
 //        [{"早":"1"},{"午":"1"},{"晚":"1"},{"睡前":"1"}]
         numbers = new ArrayList<>();
         HashMap<String, String> morning = new HashMap<>();
-        morning.put("早", map.get("morning"));
+        morning.put("早",  map.get("morning"));
         numbers.add(morning);
         HashMap<String, String> afternoon = new HashMap<>();
         afternoon.put("午", map.get("noon"));

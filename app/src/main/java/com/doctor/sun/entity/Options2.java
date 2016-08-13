@@ -122,10 +122,11 @@ public class Options2 extends BaseItem {
         this.selected = selected;
     }
 
-    public boolean setSelectedWrap(Boolean selected) {
-        this.selected = selected;
-        notifyChange();
-        return true;
+    public void setSelectedWrap(Boolean selected) {
+        if (!selected.equals(this.selected)) {
+            this.selected = selected;
+            notifyChange();
+        }
     }
 
     public String getOption(int index) {

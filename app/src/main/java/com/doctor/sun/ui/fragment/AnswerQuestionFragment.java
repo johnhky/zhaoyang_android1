@@ -39,8 +39,8 @@ public class AnswerQuestionFragment extends SortedListFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        appointmentId = 138;
-//        appointmentId = getArguments().getInt(Constants.DATA);
+//        appointmentId = 138;
+        appointmentId = getArguments().getInt(Constants.DATA);
         model = new QuestionsModel();
         setHasOptionsMenu(true);
         loadMore();
@@ -84,6 +84,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
             ItemPickImage.handleRequest(getActivity(), getAdapter(), data, requestCode);
         }
     }
+
     @Override
     public void onRefresh() {
         getBinding().swipeRefresh.setRefreshing(false);

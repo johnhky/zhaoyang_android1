@@ -82,7 +82,7 @@ public class ItemPickImage extends BaseItem {
                     //删除对应图片
                     dialog.dismiss();
                     notifyPropertyChanged(BR.removed);
-                    adapter.remove(ItemPickImage.this);
+                    adapter.removeItem(ItemPickImage.this);
                 }
 
                 @Override

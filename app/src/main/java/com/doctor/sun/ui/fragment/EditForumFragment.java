@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,6 +20,7 @@ import com.doctor.sun.dto.AfterServiceDTO;
 import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.Reminder;
@@ -79,6 +83,7 @@ public class EditForumFragment extends RefreshListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         orderId = getData();
         forumType = getForumType();
     }
@@ -119,7 +124,7 @@ public class EditForumFragment extends RefreshListFragment {
                     switch (answer.getQuestion().getQuestionType()) {
                         case Question.TYPE_SEL:
                         case Question.TYPE_CHECKBOX:
-                        case Question.TYPE_RADIO:
+                        case Question.TYPE_RADIO: {
                             allData.add(answer);
                             List<com.doctor.sun.entity.Options> options = answer.getQuestion().getOptions();
                             for (com.doctor.sun.entity.Options option : options) {
@@ -127,6 +132,7 @@ public class EditForumFragment extends RefreshListFragment {
                             }
                             allData.addAll(options);
                             break;
+                        }
                         case Question.TYPE_TIME: {
                             allData.add(answer);
                             ItemPickDate object = new ItemPickDate(R.layout.item_pick_question_date, "", 0);
@@ -153,7 +159,18 @@ public class EditForumFragment extends RefreshListFragment {
                                         lv2Id = Integer.parseInt(type.get(1));
                                         lv3Id = Integer.parseInt(type.get(2));
                                     }
-                                    ItemPickHospital object = new ItemPickHospital(new String[3], "", lv1Id, lv2Id, lv3Id);
+                                    String optionContent = "";
+                                    try {
+                                        List<com.doctor.sun.entity.Options> options = answer.getQuestion().getOptions();
+                                        for (Options option : options) {
+                                            if (option.getOptionType().equals("A")) {
+                                                optionContent = option.getOptionContent();
+                                            }
+                                        }
+                                    } catch (Exception e) {
+                                        optionContent = "tool/endemicAreaTrees";
+                                    }
+                                    ItemPickHospital object = new ItemPickHospital(new String[3], optionContent, lv1Id, lv2Id, lv3Id);
                                     allData.add(object);
                                 }
                             } catch (Exception e) {
@@ -351,5 +368,20 @@ public class EditForumFragment extends RefreshListFragment {
     @Override
     public void onRefresh() {
         binding.swipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_save, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save: {
+                saveAnswer();
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

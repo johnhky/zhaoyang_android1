@@ -18,16 +18,21 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
+            android:id="@+id/tool_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_48"
+            android:layout_height="wrap_content"
             android:background="#339de1"
             android:gravity="center"
-            android:orientation="horizontal">
+            app:collapseIcon="@drawable/ic_back"
+            app:navigationIcon="@drawable/ic_back"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ToolbarTheme">
 
             <FrameLayout
                 android:id="@+id/fl_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_35"
                 android:layout_marginRight="@dimen/dp_35"
                 android:background="@drawable/bg_search_doctor"
                 android:focusable="true">
@@ -38,6 +43,7 @@
                     android:layout_gravity="center"
                     android:drawableLeft="@drawable/ic_search"
                     android:drawablePadding="@dimen/dp_10"
+                    android:drawableStart="@drawable/ic_search"
                     android:gravity="center"
                     android:hint="搜索"
                     android:textColor="#ffffffff"
@@ -53,8 +59,8 @@
                     android:drawablePadding="@dimen/dp_10"
                     android:gravity="center_vertical"
                     android:hint="搜索"
+                    android:maxLines="1"
                     android:padding="@dimen/dp_8"
-                    android:singleLine="true"
                     android:textColor="#363636"
                     android:textColorHint="@color/divider_color"
                     android:textSize="@dimen/font_14"
