@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityEditPrescriptionBinding;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.DrugAutoComplete;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.http.Api;
@@ -35,6 +36,7 @@ import java.util.List;
 
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
+import retrofit2.Call;
 
 /**
  * Created by rick on 29/12/2015.
@@ -129,18 +131,29 @@ public class EditPrescriptionActivity extends BaseFragmentActivity2 {
             @Override
             protected void handleResponse(List<DrugAutoComplete> response) {
                 ArrayAdapter<DrugAutoComplete> arrayAdapter = new ArrayAdapter<>(EditPrescriptionActivity.this, android.R.layout.simple_list_item_1, response);
-                final AutoCompleteTextView etInput = binding.medicineName.etInput;
-                etInput.setAdapter(arrayAdapter);
-                etInput.setThreshold(-1);
-                etInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        DrugAutoComplete item = (DrugAutoComplete) parent.getAdapter().getItem(position);
-                        etInput.setText(item.drugName);
-                        etInput.setSelection(item.drugName.length());
-                        binding.goodsName.etInput.setText(item.productName);
-                    }
-                });
+                EditPrescriptionActivity.this.initAutoComplete(arrayAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<ApiDTO<List<DrugAutoComplete>>> call, Throwable t) {
+                super.onFailure(call, t);
+                ArrayAdapter<DrugAutoComplete> arrayAdapter = new ArrayAdapter<>(EditPrescriptionActivity.this, android.R.layout.simple_list_item_1, new ArrayList<DrugAutoComplete>());
+                EditPrescriptionActivity.this.initAutoComplete(arrayAdapter);
+            }
+        });
+    }
+
+    private void initAutoComplete(ArrayAdapter<DrugAutoComplete> arrayAdapter) {
+        final AutoCompleteTextView etInput = binding.medicineName.etInput;
+        etInput.setAdapter(arrayAdapter);
+        etInput.setThreshold(-1);
+        etInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DrugAutoComplete item = (DrugAutoComplete) parent.getAdapter().getItem(position);
+                etInput.setText(item.drugName);
+                etInput.setSelection(item.drugName.length());
+                binding.goodsName.etInput.setText(item.productName);
             }
         });
     }

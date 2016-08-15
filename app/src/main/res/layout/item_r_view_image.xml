@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -18,8 +18,11 @@
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="@dimen/dp_114"
-        android:layout_height="@dimen/dp_114">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_13"
+        android:paddingStart="@dimen/dp_13"
+        tools:ignore="RtlSymmetry">
 
         <TextView
             android:layout_width="@dimen/dp_100"

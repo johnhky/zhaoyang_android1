@@ -187,6 +187,11 @@ public interface QuestionModule {
 //    @GET("http://10.0.0.62:8080/index.php/api/013/smartQuestionnaires/{appointmentId}")
     Call<ApiDTO<QuestionDTO>> questions2(@Path("appointmentId") int appointmentId);
 
+    @GET("smartScales/{scalesId}")
+//    @GET("http://10.0.0.62:8080/index.php/api/013/smartQuestionnaires/{appointmentId}")
+    Call<ApiDTO<QuestionDTO>> scales(@Path("scalesId") int scalesId);
+
+
     @FormUrlEncoded
     @PUT("smartQuestionnaires/{appointmentId}")
 //    @PUT("http://10.0.0.62:8080/index.php/api/013/smartQuestionnaires/{appointmentId}")

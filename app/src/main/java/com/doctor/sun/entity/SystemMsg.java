@@ -30,7 +30,6 @@ import java.util.HashMap;
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.Event;
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.annotations.Ignore;
@@ -235,6 +234,7 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
     public boolean isUserSelected() {
         return false;
     }
+
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         return null;
@@ -271,14 +271,13 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
         });
     }
 
-    public  void reset() {
+    public void reset() {
         Realm.getDefaultInstance().executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 for (TextMsg msg : getAllMsg(realm).findAll()) {
                     msg.setHaveRead(true);
                 }
-                notifyChange();
             }
         });
     }
@@ -290,11 +289,5 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
 
 
     public void registerMsgsChangedListener() {
-        getAllMsg(Realm.getDefaultInstance()).findAll().addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
-            @Override
-            public void onChange(RealmResults<TextMsg> element) {
-                notifyChange();
-            }
-        });
     }
 }

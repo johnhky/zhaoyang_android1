@@ -1,6 +1,7 @@
 package com.doctor.sun.dto;
 
 import com.doctor.sun.entity.Questions2;
+import com.doctor.sun.entity.Scales;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
@@ -14,5 +15,5 @@ public class QuestionDTO {
     @JsonProperty("questions")
     public List<Questions2> questions;
     @JsonProperty("scales")
-    public List<HashMap<String, String>> scales;
+    public List<Scales> scales;
 }

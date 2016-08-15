@@ -36,7 +36,7 @@ import retrofit2.Call;
  */
 public class ItemPickImage extends BaseItem {
     public static final String TAG = ItemPickImage.class.getSimpleName();
-    public static final int DEFAULT_IMAGE_CONSTRAIN = 4;
+    public static final int DEFAULT_IMAGE_CONSTRAIN = 5;
     private String src = "";
     private String localPath = "";
     private int itemSizeConstrain = DEFAULT_IMAGE_CONSTRAIN;

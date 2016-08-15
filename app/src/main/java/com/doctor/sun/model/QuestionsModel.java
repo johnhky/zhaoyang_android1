@@ -11,6 +11,7 @@ import com.doctor.sun.entity.Options2;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.Reminder;
+import com.doctor.sun.entity.Scales;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -52,12 +53,31 @@ public class QuestionsModel {
         api.questions2(appointmentId).enqueue(new SimpleCallback<QuestionDTO>() {
             @Override
             protected void handleResponse(QuestionDTO response) {
-                function0.apply(parseQuestions(response.questions));
+                List<SortedItem> r = parseQuestions(response.questions);
+                int questionSize = 0;
+                if (response.questions != null) {
+                    questionSize = response.questions.size();
+                }
+
+                parseScales(response, r, questionSize);
+                function0.apply(r);
             }
         });
     }
 
-    public List<SortedItem> parseQuestions(List<Questions2> response) {
+    private void parseScales(QuestionDTO response, List<SortedItem> r, int questionSize) {
+        if (response.scales != null && !response.scales.isEmpty()) {
+            for (int i = 0; i < response.scales.size(); i++) {
+                Scales scales = response.scales.get(i);
+
+                scales.setSpan(12);
+                scales.setPosition((questionSize + i) * PADDING);
+                r.add(scales);
+            }
+        }
+    }
+
+    private List<SortedItem> parseQuestions(List<Questions2> response) {
         List<SortedItem> items = new ArrayList<SortedItem>();
         if (response == null || response.isEmpty()) {
             return items;
@@ -191,8 +211,8 @@ public class QuestionsModel {
         items.add(pickHospital);
     }
 
-    private int getSlop(int i, int reversePosition) {
-        return (i + 1) * PADDING - reversePosition;
+    private int getSlop(int i, int gapBetweenNextItem) {
+        return (i + 1) * PADDING - gapBetweenNextItem;
     }
 
     private void parsePickDate(List<SortedItem> items, int i, final Questions2 questions2) {
@@ -321,6 +341,7 @@ public class QuestionsModel {
         itemAddPrescription.setItemId(questions2.questionId + QuestionType.drug);
         items.add(itemAddPrescription);
     }
+
 
     private String composeAnswer(SortedListAdapter adapter) {
         ArrayList<Object> result = new ArrayList<>();
