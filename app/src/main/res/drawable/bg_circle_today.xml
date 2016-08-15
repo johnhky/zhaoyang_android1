@@ -8,10 +8,10 @@
     </item>
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/custom_background_today" />
+            <solid android:color="@color/transparent" />
             <stroke
                 android:width="@dimen/dimen_margin_circle"
-                android:color="@color/transparent" />
+                android:color="@color/custom_background_today" />
         </shape>
     </item>
 </layer-list>

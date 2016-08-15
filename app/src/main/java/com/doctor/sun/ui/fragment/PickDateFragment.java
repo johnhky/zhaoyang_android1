@@ -20,7 +20,7 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.patient.ApplyAppointmentActivity;
-import com.doctor.sun.ui.activity.patient.PickTimeActivity;
+import com.doctor.sun.ui.widget.PickTimeBottomDialog;
 import com.squareup.timessquare.CalendarPickerView;
 
 import java.text.ParseException;
@@ -76,8 +76,8 @@ public class PickDateFragment extends BaseFragment {
         Time time = new Time();
         time.setDate(bookTime);
         builder.setTime(time);
-        Intent intent = PickTimeActivity.makeIntent(getContext(), builder);
-        startActivity(intent);
+        PickTimeBottomDialog dialog = new PickTimeBottomDialog(getContext(), builder);
+        dialog.show();
     }
 
     private void applyAppointment(String bookTime) {

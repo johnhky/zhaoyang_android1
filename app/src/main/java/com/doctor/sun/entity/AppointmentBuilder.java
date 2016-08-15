@@ -137,10 +137,14 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
                     return;
                 }
                 setTime(response);
-                Intent intent = ApplyAppointmentActivity.makeIntent(context, AppointmentBuilder.this);
-                context.startActivity(intent);
+                reviewAppointment(context);
             }
         });
+    }
+
+    public void reviewAppointment(Context context) {
+        Intent intent = ApplyAppointmentActivity.makeIntent(context, AppointmentBuilder.this);
+        context.startActivity(intent);
     }
 
     public int money() {
