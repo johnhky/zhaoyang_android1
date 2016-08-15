@@ -111,4 +111,16 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+    <style name="et_drug_numbers">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:drawableRight">@drawable/ic_pencil_grey_15dp</item>
+        <item name="android:drawableEnd">@drawable/ic_pencil_grey_15dp</item>
+        <item name="android:textColor">@color/color_tick</item>
+        <item name="android:textSize">@dimen/font_15</item>
+    </style>
+
 </resources>

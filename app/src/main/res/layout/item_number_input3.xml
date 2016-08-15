@@ -13,7 +13,7 @@
 
         <variable
             name="nextFocusId"
-            type="int"/>
+            type="int" />
     </data>
 
     <LinearLayout
@@ -33,15 +33,14 @@
 
         <EditText
             android:id="@+id/et_evening"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_transparent"
+            style="@style/et_drug_numbers"
             android:hint="@{hint}"
-            android:inputType="number"
             android:nextFocusDown="@+id/et_night"
+            android:paddingEnd="@dimen/dp_13"
             android:paddingLeft="@dimen/dp_13"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
             android:paddingRight="@dimen/dp_13"
-            android:textColor="@color/color_tick"
-            android:textSize="@dimen/font_15" />
+            android:paddingStart="@dimen/dp_13" />
     </LinearLayout>
 </layout>
