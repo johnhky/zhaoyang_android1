@@ -8,5 +8,5 @@ import android.support.annotation.IntDef;
 @IntDef({Gender.MALE, Gender.FEMALE})
 public @interface Gender {
     int MALE = 1;
-    int FEMALE = 0;
+    int FEMALE = 2;
 }

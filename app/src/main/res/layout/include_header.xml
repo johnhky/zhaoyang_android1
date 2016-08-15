@@ -19,8 +19,8 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical"
-        app:navigationIcon="@drawable/ic_back"
         app:collapseIcon="@drawable/ic_back"
+        app:navigationIcon="@drawable/ic_back"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ToolbarTheme">
 
@@ -30,9 +30,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:background="@color/transparent"
             android:gravity="center"
             android:textColor="@color/colorPrimary"
-            android:background="@color/transparent"
             android:textSize="17sp"
             android:textStyle="bold" />
 

@@ -41,6 +41,19 @@ public interface ProfileModule {
     @POST("profile/patient-base")
     Call<ApiDTO<String>> editPatientProfile(@FieldMap Map<String, String> patientInfo);
 
+    /**
+     * @param medicalRecord birthday	必填。出生年月。e.g.1991-01	string
+     *                      gender	必填。1男2女	string
+     *                      medicalRecordId	必填。病历id	string
+     *                      name	必填。病历名	string
+     *                      relation	必填。关系	string
+     *                      address	选填。用户地址	string
+     * @return
+     */
+    @FormUrlEncoded
+//    @POST("profile/setSelfMedicalRecord")
+    @POST("profile/medical-record")
+    Call<ApiDTO<MedicalRecord>> editMedicalRecord(@FieldMap Map<String, String> medicalRecord);
 
     /**
      * @param medicalRecord province	    string	是	省

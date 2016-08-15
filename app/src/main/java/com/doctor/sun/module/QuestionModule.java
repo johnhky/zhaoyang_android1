@@ -196,4 +196,9 @@ public interface QuestionModule {
     @PUT("smartQuestionnaires/{appointmentId}")
 //    @PUT("http://10.0.0.62:8080/index.php/api/013/smartQuestionnaires/{appointmentId}")
     Call<ApiDTO<String>> saveQuestions2(@Path("appointmentId") int appointmentId, @Field("answer") String answer);
+
+    @FormUrlEncoded
+    @PUT("smartQuestionnaires/{appointmentId}")
+    Call<ApiDTO<List<Answer>>> refill2(@Path("appointmentId") String appointmentId, @Field("refill_questions[]") ArrayList<String> need_refill);
+
 }

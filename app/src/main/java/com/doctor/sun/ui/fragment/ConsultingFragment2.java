@@ -56,15 +56,27 @@ public class ConsultingFragment2 extends SortedListFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (systemMsg != null) {
-            systemMsg.notifyChange();
-            systemMsg.registerMsgsChangedListener();
-        }
-        if (medicineStore != null) {
-            medicineStore.notifyChange();
-            medicineStore.registerRealmChanged();
-        }
+        getSystemMsg();
+        getMedicineStore();
         registerRecentContactObserver();
+    }
+
+    public MedicineStore getMedicineStore() {
+        if (medicineStore == null) {
+            medicineStore = new MedicineStore();
+        }
+        medicineStore.notifyChange();
+        medicineStore.registerRealmChanged();
+        return medicineStore;
+    }
+
+    public SystemMsg getSystemMsg() {
+        if (systemMsg == null) {
+            systemMsg = new SystemMsg();
+        }
+        systemMsg.notifyChange();
+        systemMsg.registerMsgsChangedListener();
+        return systemMsg;
     }
 
     private void registerRecentContactObserver() {
@@ -133,11 +145,9 @@ public class ConsultingFragment2 extends SortedListFragment {
     }
 
     public void insertHeader() {
-        systemMsg = new SystemMsg();
-        getAdapter().insert(systemMsg);
+        getAdapter().insert(getSystemMsg());
         if (!Settings.isDoctor()) {
-            medicineStore = new MedicineStore();
-            getAdapter().insert(medicineStore);
+            getAdapter().insert(getMedicineStore());
         }
     }
 

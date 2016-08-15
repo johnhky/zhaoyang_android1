@@ -123,7 +123,7 @@ public class ReadQuestionFragment extends AnswerQuestionFragment {
                     Toast.makeText(getContext(), "请选择需要患者重填的问题", Toast.LENGTH_SHORT).show();
                     return true;
                 }
-                api.refill(appointmentId + "",
+                api.refill2(appointmentId + "",
                         need_fill).enqueue(new ApiCallback<List<Answer>>() {
                     @Override
                     protected void handleResponse(List<Answer> response) {

@@ -55,7 +55,7 @@ public abstract class BaseFragmentActivity2 extends UMBaseFragmentActivity {
             setSupportActionBar(toolbar);
 
             toolbar.setTitle("");
-            toolbar.setSubtitle(getSubTitle());
+            toolbar.setSubtitle("");
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -10,6 +10,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -314,4 +315,13 @@ public class MedicalRecord implements Parcelable, LayoutId {
         }
     };
 
+    public HashMap<String, String> toHashMap() {
+        HashMap<String, String> result = new HashMap<String, String>();
+        result.put("medicalRecordId", String.valueOf(medicalRecordId));
+        result.put("name", name);
+        result.put("birthday", birthday);
+        result.put("gender", String.valueOf(gender));
+        result.put("relation", relation);
+        return result;
+    }
 }

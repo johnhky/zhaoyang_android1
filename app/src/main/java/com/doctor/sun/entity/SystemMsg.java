@@ -30,6 +30,7 @@ import java.util.HashMap;
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.Event;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.annotations.Ignore;
@@ -244,7 +245,7 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
         return "SYSTEM_MSG" + Config.getString(Constants.VOIP_ACCOUNT);
     }
 
-    public static long getUnreadMsgCount() {
+    public long getUnreadMsgCount() {
         return getAllMsg(Realm.getDefaultInstance()).equalTo("haveRead", false).count();
     }
 
@@ -278,6 +279,7 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
                 for (TextMsg msg : getAllMsg(realm).findAll()) {
                     msg.setHaveRead(true);
                 }
+                notifyChange();
             }
         });
     }
@@ -289,5 +291,13 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
 
 
     public void registerMsgsChangedListener() {
+        getAllMsg(Realm.getDefaultInstance()).findAll().addChangeListener(
+                new RealmChangeListener<RealmResults<TextMsg>>() {
+                    @Override
+                    public void onChange(RealmResults<TextMsg> element) {
+                        notifyChange();
+                    }
+                }
+        );
     }
 }
