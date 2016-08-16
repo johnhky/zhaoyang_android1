@@ -206,7 +206,18 @@ public class RegisterHandler extends BaseObservable {
         this.enable = enable;
         notifyPropertyChanged(BR.enable);
     }
-//
+
+    @Bindable
+    public int getRegisterType() {
+        return registerType;
+    }
+
+    public void setRegisterType(int registerType) {
+        this.registerType = registerType;
+        notifyPropertyChanged(BR.registerType);
+    }
+
+    //
 //    public interface RegisterInput {
 //        String getEmail();
 //

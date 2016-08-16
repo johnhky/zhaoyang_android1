@@ -72,7 +72,7 @@ public class ItemAddPrescription2 extends BaseItem {
     }
 
     public int inBetweenItemCount(SortedListAdapter adapter) {
-        int thisPosition = adapter.indexOf(this);
+        int thisPosition = adapter.indexOfImpl(this);
         return adapter.inBetweenItemCount(thisPosition, getKey().replace(QuestionType.drug, ""));
     }
 
@@ -88,7 +88,7 @@ public class ItemAddPrescription2 extends BaseItem {
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
 
-        int adapterPosition = adapter.indexOf(this);
+        int adapterPosition = adapter.indexOfImpl(this);
         String questionId = getKey().replace(QuestionType.drug, "");
         int distance = adapter.inBetweenItemCount(adapterPosition, questionId);
         if (distance <= 1) {

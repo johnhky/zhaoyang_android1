@@ -103,8 +103,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.doctor.sun.ui.activity.LoginActivity" />
-        <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name="com.doctor.sun.ui.activity.LoginActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.doctor.sun.ui.activity.patient.SelectAppointmentTypeActivity"

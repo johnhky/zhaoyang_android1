@@ -50,7 +50,7 @@ public class ItemAddReminder extends BaseItem {
     }
 
     public int inBetweenItemCount(SortedListAdapter adapter) {
-        int thisPosition = adapter.indexOf(this);
+        int thisPosition = adapter.indexOfImpl(this);
         return adapter.inBetweenItemCount(thisPosition, getKey().replace(QuestionType.reminder, ""));
     }
     @Override
@@ -61,7 +61,7 @@ public class ItemAddReminder extends BaseItem {
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
 
-        int adapterPosition = adapter.indexOf(this);
+        int adapterPosition = adapter.indexOfImpl(this);
         String questionId = getKey().replace(QuestionType.reminder, "");
         int distance = adapter.inBetweenItemCount(adapterPosition, questionId);
         if (distance <= 1) {

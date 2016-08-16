@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -144,13 +145,33 @@
                 android:textSize="@dimen/font_13"
                 app:layout_widthPercent="40%" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{@string/appointment_progress(data.progress)}"
-                android:textColor="#363636"
-                android:textSize="@dimen/font_13"
-                app:layout_widthPercent="60%" />
+                android:orientation="horizontal"
+                app:layout_widthPercent="60%">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="问卷完成度 : "
+                    android:textColor="@color/dark_36"
+                    android:textSize="@dimen/font_13" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_orange_rect"
+                    android:paddingEnd="@dimen/dp_6"
+                    android:paddingLeft="@dimen/dp_6"
+                    android:paddingRight="@dimen/dp_6"
+                    android:paddingStart="@dimen/dp_6"
+                    android:text="@{data.progress}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_13"
+                    tools:text="1/20" />
+
+            </LinearLayout>
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
@@ -192,7 +213,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text=" (已使用优惠券)"
-                    android:textColor="#f76d02"
+                    android:textColor="@color/orange"
                     android:textSize="@dimen/font_9" />
 
             </LinearLayout>
@@ -242,7 +263,7 @@
                     android:onClick="@{()->data.handler.pCancel(adapter,vh,data.id)}"
                     android:text="取消预约"
                     android:textColor="#339de1"
-                    android:textSize="@dimen/font_13"/>
+                    android:textSize="@dimen/font_13" />
             </FrameLayout>
 
             <FrameLayout
@@ -257,10 +278,10 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
+                    android:onClick="@{()->data.handler.showPayDialog(adapter)}"
                     android:text="立即支付"
                     android:textColor="#fff"
-                    android:textSize="@dimen/font_13"
-                    android:onClick="@{()->data.handler.showPayDialog(adapter)}" />
+                    android:textSize="@dimen/font_13" />
             </FrameLayout>
 
         </LinearLayout>
@@ -282,10 +303,10 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/ripple_default"
                 android:gravity="center"
+                android:onClick="@{()->data.handler.pComment(adapter,vh)}"
                 android:text='@{data.handler.hasDoctorComment()?"已评价":"评  价"}'
                 android:textColor="#fff"
-                android:textSize="@dimen/font_13"
-                android:onClick="@{()->data.handler.pComment(adapter,vh)}"/>
+                android:textSize="@dimen/font_13" />
 
         </FrameLayout>
 

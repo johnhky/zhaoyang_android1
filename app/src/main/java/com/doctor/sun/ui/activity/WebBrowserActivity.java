@@ -13,7 +13,6 @@ import android.webkit.WebViewClient;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityWebBrowserBinding;
-import com.doctor.sun.ui.model.HeaderViewModel;
 
 
 /**
@@ -27,6 +26,7 @@ public class WebBrowserActivity extends BaseFragmentActivity2 {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_web_browser);
         initWebView();
     }
 

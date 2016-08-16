@@ -169,4 +169,9 @@ public abstract class ListAdapter<T, VH extends ViewDataBinding> extends LoadMor
     public int inBetweenItemCount(String keyOne, String keyTwo) {
         return 0;
     }
+
+    @Override
+    public int indexOfImpl(T sortedItem) {
+        return indexOf(sortedItem);
+    }
 }

@@ -155,7 +155,7 @@ public class ItemPickImage extends BaseItem {
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         if (src == null || src.equals("")) {
-            int adapterPosition = adapter.indexOf(this);
+            int adapterPosition = adapter.indexOfImpl(this);
             int distance = adapter.inBetweenItemCount(adapterPosition, getKey().replace(QuestionType.upImg, ""));
             if (distance <= 1) {
                 return null;

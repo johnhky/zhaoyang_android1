@@ -25,7 +25,7 @@ public interface AuthModule {
                                  @Field("captcha") String captcha, @Field("password") String password);
 
     @FormUrlEncoded
-    @POST("auth/sendCaptcha")
+    @POST("auth/captcha")
     Call<ApiDTO<String>> sendCaptcha(@Field("phone") String phone);
 
 

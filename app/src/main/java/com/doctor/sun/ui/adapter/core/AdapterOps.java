@@ -20,7 +20,7 @@ public interface AdapterOps<T> {
 
     int size();
 
-    int indexOf(T sortedItem);
+    int indexOfImpl(T sortedItem);
 
     T get(String key);
 

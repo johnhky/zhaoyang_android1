@@ -140,7 +140,7 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
     }
 
     @Override
-    public int indexOf(SortedItem sortedItem) {
+    public int indexOfImpl(SortedItem sortedItem) {
         return mList.indexOf(sortedItem);
     }
 
@@ -155,7 +155,7 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
         if (sortedItem == null) {
             return 0;
         }
-        int parentPosition = indexOf(sortedItem);
+        int parentPosition = indexOfImpl(sortedItem);
         return adapterPosition - parentPosition;
     }
 
@@ -169,8 +169,8 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
         if (sortedItemOne == null) {
             return 0;
         }
-        int positionOne = indexOf(sortedItemOne);
-        int positionTwo = indexOf(sortedItemTwo);
+        int positionOne = indexOfImpl(sortedItemOne);
+        int positionTwo = indexOfImpl(sortedItemTwo);
         return Math.abs(positionOne - positionTwo);
     }
 

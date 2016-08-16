@@ -46,6 +46,7 @@ public class RegisterActivity extends BaseFragmentActivity2 {
         switch (type) {
             case AuthModule.FORGOT_PASSWORD: {
                 binding.llyPolicy.setVisibility(View.GONE);
+                binding.llyRegisterType.setVisibility(View.GONE);
                 handler.setEnable(true);
                 break;
             }
@@ -132,10 +133,10 @@ public class RegisterActivity extends BaseFragmentActivity2 {
     public String getMidTitleString() {
         switch (getData()) {
             case AuthModule.DOCTOR_TYPE: {
-                return "医生注册";
+                return "注册";
             }
             case AuthModule.PATIENT_TYPE: {
-                return "公众注册";
+                return "注册";
             }
             case AuthModule.FORGOT_PASSWORD: {
                 return "重置密码";
