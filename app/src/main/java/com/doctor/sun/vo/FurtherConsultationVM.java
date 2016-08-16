@@ -29,7 +29,7 @@ import java.util.HashMap;
 public class FurtherConsultationVM extends BaseItem {
     public static final String TAG = FurtherConsultationVM.class.getSimpleName();
 
-    private int position = 0;
+    private long position = 0;
     private boolean hasAnswer = false;
 
     public Questions2 questions2;
@@ -165,11 +165,11 @@ public class FurtherConsultationVM extends BaseItem {
     }
 
     @Bindable
-    public int getPosition() {
+    public long getPosition() {
         return position / QuestionsModel.PADDING + 1;
     }
 
-    public void setPosition(int position) {
+    public void setPosition(long position) {
         this.position = position;
         notifyPropertyChanged(BR.position);
     }

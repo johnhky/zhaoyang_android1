@@ -353,6 +353,10 @@ public class QuestionsModel {
             if (stringObjectHashMap != null) {
                 result.add(stringObjectHashMap);
             }
+            if (sortedItem instanceof Questions2) {
+                Questions2 questions2 = (Questions2) sortedItem;
+                questions2.refill = 0;
+            }
         }
         return JacksonUtils.toJson(result);
     }
@@ -373,7 +377,7 @@ public class QuestionsModel {
                 String string = composeAnswer(adapter);
                 Log.e(TAG, "run: " + string);
                 Response<ApiDTO<String>> apiDTOResponse = postAnswer(appointmentId, string);
-                if (apiDTOResponse!=null && apiDTOResponse.isSuccessful()) {
+                if (apiDTOResponse != null && apiDTOResponse.isSuccessful()) {
                     EventHub.post(new SaveAnswerSuccessEvent());
                 }
             }

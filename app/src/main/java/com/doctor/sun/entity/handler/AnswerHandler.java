@@ -210,7 +210,7 @@ public class AnswerHandler {
 
     public boolean loadDrugVisible(Answer answer) {
         if (Settings.isDoctor()) {
-            int position = answer.getPosition();
+            long position = answer.getPosition();
             if (position == 2) {
                 return false;
             } else {

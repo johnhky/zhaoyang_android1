@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_remind"
-        android:title="提醒重填"
+        android:id="@+id/action_send_remind"
+        android:title="发送重填"
         app:showAsAction="always" />
 
 </menu>

@@ -199,6 +199,6 @@ public interface QuestionModule {
 
     @FormUrlEncoded
     @PUT("smartQuestionnaires/{appointmentId}")
-    Call<ApiDTO<List<Answer>>> refill2(@Path("appointmentId") String appointmentId, @Field("refill_questions[]") ArrayList<String> need_refill);
+    Call<ApiDTO<String>> refill2(@Path("appointmentId") String appointmentId, @Field("refill_questions[]") ArrayList<String> need_refill);
 
 }

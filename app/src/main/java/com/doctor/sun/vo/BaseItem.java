@@ -20,7 +20,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem {
     private boolean userSelected = false;
     private boolean enabled = true;
     private int itemLayoutId;
-    private int position;
+    private long position;
     private int span = 12;
 
     public BaseItem() {
@@ -54,11 +54,11 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem {
     }
 
     @Bindable
-    public int getPosition() {
+    public long getPosition() {
         return position;
     }
 
-    public void setPosition(int position) {
+    public void setPosition(long position) {
         this.position = position;
         notifyPropertyChanged(BR.position);
     }

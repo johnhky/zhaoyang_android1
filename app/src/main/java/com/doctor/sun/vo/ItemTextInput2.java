@@ -5,13 +5,12 @@ import android.view.Gravity;
 import android.view.inputmethod.EditorInfo;
 
 import com.doctor.sun.R;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
 
 /**
  * Created by rick on 18/3/2016.
  */
-public class TextInputViewModel implements LayoutId {
+public class ItemTextInput2 extends BaseItem {
     private int itemLayoutId;
     private int inputType = InputType.TYPE_CLASS_TEXT;
     private int imeOptions = EditorInfo.IME_ACTION_NEXT;
@@ -23,7 +22,7 @@ public class TextInputViewModel implements LayoutId {
     private String result;
 
 
-    public TextInputViewModel(int itemLayoutId, String title, String hint) {
+    public ItemTextInput2(int itemLayoutId, String title, String hint) {
         this.itemLayoutId = itemLayoutId;
         this.title = title;
         this.hint = hint;
@@ -99,8 +98,8 @@ public class TextInputViewModel implements LayoutId {
         return itemLayoutId;
     }
 
-    public static TextInputViewModel phoneInput(String title, String hint) {
-        TextInputViewModel viewModel = new TextInputViewModel(R.layout.item_answer_input, title, hint);
+    public static ItemTextInput2 phoneInput(String title, String hint) {
+        ItemTextInput2 viewModel = new ItemTextInput2(R.layout.item_answer_input, title, hint);
         viewModel.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         viewModel.setMaxLength(11);
         viewModel.setInputType(InputType.TYPE_CLASS_PHONE);

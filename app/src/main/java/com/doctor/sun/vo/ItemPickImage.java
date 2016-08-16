@@ -108,7 +108,7 @@ public class ItemPickImage extends BaseItem {
         dialog.show();
     }
 
-    public static int getPositionForNewImage(SortedListAdapter adapter, ItemPickImage item) {
+    public static long getPositionForNewImage(SortedListAdapter adapter, ItemPickImage item) {
         int distance = adapter.inBetweenItemCount(item.getKey(), item.getKey().replace(QuestionType.upImg, ""));
         item.setItemSize(distance);
         return item.getPosition() - QuestionsModel.PADDING + 2 + distance;

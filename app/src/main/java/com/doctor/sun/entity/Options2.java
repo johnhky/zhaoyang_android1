@@ -7,6 +7,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
+import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.NumericBooleanDeserializer;
 import com.doctor.sun.util.NumericBooleanSerializer;
@@ -140,7 +141,9 @@ public class Options2 extends BaseItem {
     public void clear(SortedListAdapter adapter) {
         notifyChange();
         if (!selected) {
-            adapter.update(adapter.get(questionId));
+            Questions2 item = (Questions2) adapter.get(questionId);
+            item.refill = 0;
+            adapter.update(item);
             return;
         }
 
@@ -153,6 +156,7 @@ public class Options2 extends BaseItem {
                 }
             }
         }
+        sortedItem.refill = 0;
         adapter.insert(sortedItem);
     }
 

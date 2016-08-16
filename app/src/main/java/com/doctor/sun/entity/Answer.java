@@ -242,14 +242,6 @@ public class Answer extends BaseItem {
         return !getSelectedOptions().isEmpty();
     }
 
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
     @Override
     public int getItemLayoutId() {
         return R.layout.item_answer;

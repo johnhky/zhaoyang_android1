@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.TextInputViewModel" />
+            type="com.doctor.sun.vo.ItemTextInput2" />
 
         <variable
             name="vh"
