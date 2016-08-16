@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -25,16 +25,18 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_90"
+            android:layout_height="wrap_content"
             android:background="@drawable/ripple_default"
+            android:onClick="@{()->data.handler.updateRecord(context)}"
             android:paddingLeft="@dimen/dp_13"
-            android:onClick="@{()->data.handler.updateRecord(context)}">
+            android:paddingStart="@dimen/dp_13"
+            tools:ignore="RtlSymmetry">
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_9"
+                android:layout_marginTop="@dimen/dp_8"
                 android:text="@{data.name}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_16" />
@@ -44,8 +46,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
+                android:layout_marginStart="@dimen/dp_8"
                 android:layout_marginTop="@dimen/dp_11"
                 android:layout_toRightOf="@id/tv_name"
+                android:layout_toEndOf="@id/tv_name"
                 android:text="@{data.handler.getGenderResult}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_14" />
@@ -56,25 +60,28 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_name"
                 android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginBottom="@dimen/dp_8"
                 android:text="@{data.birthday}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_14" />
 
-            <TextView
-                android:id="@+id/tv_locate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_birthday"
-                android:layout_marginTop="@dimen/dp_4"
-                android:text="@{data.handler.getLocate}"
-                android:textColor="#363636"
-                android:textSize="@dimen/font_14" />
+            <!--<TextView-->
+            <!--android:id="@+id/tv_locate"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/tv_birthday"-->
+            <!--android:layout_marginTop="@dimen/dp_4"-->
+            <!--android:text="@{data.handler.getLocate}"-->
+            <!--android:textColor="#363636"-->
+            <!--android:textSize="@dimen/font_14" />-->
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:src="@drawable/ic_enter" />
 

@@ -13,7 +13,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.DialogRecordTypeBinding;
-import com.doctor.sun.ui.activity.patient.EditRecordActivity;
+import com.doctor.sun.ui.activity.patient.CreateRecordActivity;
 
 /**
  * Created by rick on 6/1/2016.
@@ -41,13 +41,13 @@ public class AddMedicalRecordDialog {
                         break;
                     }
                     case R.id.tv_self: {
-                        Intent intent = EditRecordActivity.makeIntent(context, EditRecordActivity.TYPE_SELF, isRegister);
+                        Intent intent = CreateRecordActivity.makeIntent(context, CreateRecordActivity.TYPE_SELF, isRegister);
                         intent.putExtra(Constants.HANDLER, getMessenger(dialog));
                         context.startActivity(intent);
                         break;
                     }
                     case R.id.tv_relative: {
-                        Intent intent = EditRecordActivity.makeIntent(context, EditRecordActivity.TYPE_OTHERS, isRegister);
+                        Intent intent = CreateRecordActivity.makeIntent(context, CreateRecordActivity.TYPE_OTHERS, isRegister);
                         intent.putExtra(Constants.HANDLER, getMessenger(dialog));
                         context.startActivity(intent);
                         break;

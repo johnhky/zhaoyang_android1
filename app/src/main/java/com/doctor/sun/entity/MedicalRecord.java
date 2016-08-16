@@ -1,12 +1,14 @@
 package com.doctor.sun.entity;
 
+import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.List;
 /**
  * Created by rick on 11/20/15.
  */
-public class MedicalRecord implements Parcelable, LayoutId {
+public class MedicalRecord extends BaseItem implements Parcelable {
     /**
      * can_follow_up : 1
      * 病历列表项数据
@@ -102,8 +104,14 @@ public class MedicalRecord implements Parcelable, LayoutId {
         this.relation = relation;
     }
 
+    @Bindable
+    public int getGender() {
+        return gender;
+    }
+
     public void setGender(int gender) {
         this.gender = gender;
+        notifyPropertyChanged(BR.gender);
     }
 
     public void setBirthday(String birthday) {
@@ -148,11 +156,6 @@ public class MedicalRecord implements Parcelable, LayoutId {
 
     public String getRelation() {
         return relation;
-    }
-
-    @Gender
-    public int getGender() {
-        return gender;
     }
 
     public String getBirthday() {

@@ -3,321 +3,94 @@ package com.doctor.sun.ui.activity.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.location.Location;
+import android.databinding.Observable;
 import android.os.Bundle;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
-import com.doctor.sun.bean.City;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.bean.Province;
-import com.doctor.sun.databinding.ActivityEditRecordBinding;
-import com.doctor.sun.ui.activity.GetLocationActivity;
-import com.doctor.sun.ui.activity.patient.handler.AddMedicalRecordHandler;
-import com.doctor.sun.ui.model.HeaderViewModel;
+import com.doctor.sun.databinding.PActivityEditRecordBinding;
+import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.vo.ItemPickDate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-
-import io.ganguo.library.common.ToastHelper;
-import io.ganguo.library.util.Strings;
-import io.realm.RealmList;
-
-
 /**
- * 建立病历
- * Created by rick on 10/23/15.
+ * Created by lucas on 1/12/16.
  */
-public class EditRecordActivity extends GetLocationActivity implements View.OnClickListener, AddMedicalRecordHandler.MedicalRecordInput {
-    public static final String RECORD_TYPE = "RECORD_TYPE";
-    public static final int TYPE_SELF = 0;
-    public static final int TYPE_OTHERS = 1;
-    public static final String SELF_NAME = "selfName";
-    public static final String EMAIL = "email";
-    public static final String RELATION = "relation";
-    public static final String NAME = "name";
-    public static final String PROVINCE = "province";
-    public static final String CITY = "city";
-    public static final String ADDRESS = "address";
-    public static final String IDENTITY_NUMBER = "identityNumber";
-    public static final String BIRTHDAY = "birthday";
-    public static final String GENDER = "gender";
-    public static final String FIRST_TIME = "FIRST_TIME";
+public class EditRecordActivity extends BaseFragmentActivity2 implements View.OnClickListener {
+    private ProfileModule api = Api.of(ProfileModule.class);
 
-    private ActivityEditRecordBinding binding;
-    private AddMedicalRecordHandler handler;
+    private PActivityEditRecordBinding binding;
+    private ItemPickDate time;
+    private MedicalRecord data;
 
-    public static Intent makeIntent(Context context, int type, boolean firstTime) {
+    public static Intent makeIntent(Context context, MedicalRecord data) {
         Intent i = new Intent(context, EditRecordActivity.class);
-        i.putExtra(RECORD_TYPE, type);
-        i.putExtra(FIRST_TIME, firstTime);
+        i.putExtra(Constants.DATA, data);
         return i;
     }
 
-    public boolean isFirstTime() {
-        return getIntent().getBooleanExtra(FIRST_TIME, false);
+    private MedicalRecord getData() {
+        return getIntent().getParcelableExtra(Constants.DATA);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_record);
-//        HeaderViewModel header = new HeaderViewModel(this);
-//        header.setMidTitle("新建病历")
-//                .setRightTitle("完成");
-//        binding.setHeader(header);
-        binding.setTime(new ItemPickDate(-1, ""));
-        switch (getRecordType()) {
-            case TYPE_OTHERS: {
-                binding.othersRecord.root.setVisibility(View.VISIBLE);
-                break;
-            }
-            case TYPE_SELF: {
-                binding.myRecord.root.setVisibility(View.VISIBLE);
-                break;
-            }
-        }
-//        binding.flLocation.setOnClickListener(this);
-//        binding.tvProvince.setOnClickListener(this);
-//        binding.tvCity.setOnClickListener(this);
-
-        handler = new AddMedicalRecordHandler(this, getRecordType());
+        initView();
+        initData();
     }
 
-    private int getRecordType() {
-        return getIntent().getIntExtra(RECORD_TYPE, -1);
+    private void initView() {
+        binding = DataBindingUtil.setContentView(this, R.layout.p_activity_edit_record);
+        binding.tvHistory.setOnClickListener(this);
     }
 
-    public void onMenuClicked() {
-        handler.done(null);
+    private void initData() {
+        data = getData();
+        data.setEnabled(false);
+        binding.setData(data);
+        time = new ItemPickDate(0, "");
+        time.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                data.setBirthday(time.getBirthMonth());
+            }
+        });
+        time.setDate(data.getBirthday());
+        binding.setTime(time);
     }
 
     @Override
-    public HashMap<String, String> getParam() {
-        HashMap<String, String> result = new HashMap<>();
-        switch (getRecordType()) {
-            case TYPE_SELF: {
-                result.put(SELF_NAME, binding.myRecord.etName.getText().toString());
-                result.put(EMAIL, binding.myRecord.etEmail.getText().toString());
-                break;
-            }
-            case TYPE_OTHERS: {
-                result.put(SELF_NAME, binding.othersRecord.etSelfName.getText().toString());
-                result.put(EMAIL, binding.othersRecord.etEmail.getText().toString());
-                result.put(RELATION, binding.othersRecord.etRelation.getText().toString());
-                result.put(NAME, binding.othersRecord.etRecordName.getText().toString());
-                break;
-            }
-        }
-
-//        result.put(PROVINCE, binding.tvProvince.getText().toString());
-//        result.put(CITY, binding.tvCity.getText().toString());
-//        result.put(ADDRESS, binding.etAddress.getText().toString());
-        result.put(IDENTITY_NUMBER, binding.etIdentityNumber.getText().toString());
-        result.put(BIRTHDAY, binding.etBirthday.getText().toString());
-        String gender;
-        if (binding.rbMale.isChecked()) {
-            gender = "1";
-        } else if (binding.rbFemale.isChecked()) {
-            gender = "2";
-        } else {
-            gender = "1";
-        }
-        // 性别:男:1,女:2
-        result.put(GENDER, gender);
-
-        Log.e(TAG, "getParam: " + result.toString());
-        if (isValidRecord(result)) {
-            return result;
-        } else {
-            return null;
-        }
-    }
-
-    public boolean isValidRecord(HashMap<String, String> map) {
-
-        if (isFirstTime()) {
-            if (map.get(SELF_NAME).equals("")) {
-                ToastHelper.showMessage(this, "请填写名字");
-                return false;
-            }
-
-            if (map.get(BIRTHDAY).equals("")) {
-                ToastHelper.showMessage(this, "请填写生日");
-                return false;
-            }
-
-            if (map.get(GENDER).equals("")) {
-                ToastHelper.showMessage(this, "请填写性别");
-                return false;
-            }
-        }
-
-//        if (map.get(PROVINCE).equals("")) {
-//            ToastHelper.showMessage(this, "请选择省份");
-//            return false;
-//        }
-//
-//        if (map.get(CITY).equals("")) {
-//            ToastHelper.showMessage(this, "请选择城市");
-//            return false;
-//        }
-        switch (getRecordType()) {
-            case TYPE_SELF: {
-                break;
-            }
-            case TYPE_OTHERS: {
-                if (map.get(RELATION).equals("")) {
-                    ToastHelper.showMessage(this, "请填写患者与您的关系");
-                    return false;
-                }
-                if (map.get(NAME).equals("")) {
-                    ToastHelper.showMessage(this, "请填写患者姓名");
-                    return false;
-                }
-                break;
-            }
-        }
-
-        String text = map.get(IDENTITY_NUMBER);
-        if (text != null && !text.equals("") && !Strings.isIDCard(text)) {
-            Toast.makeText(this, "身份证号码格式错误", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public void onSelfRecordAdded() {
-        ToastHelper.showMessage(this, "新建成功");
-        sendCallbackMsg();
-        finish();
-    }
-
-    private void sendCallbackMsg() {
-        Messenger messenger = getIntent().getParcelableExtra(Constants.HANDLER);
-        try {
-            messenger.send(Message.obtain());
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onRelativeRecordAdded() {
-        onSelfRecordAdded();
-    }
-
-    @Override
-    protected void updateLocation(final Location location) {
-        if (location == null) {
-            ToastHelper.showMessage(this, "获取地址失败");
-            return;
-        }
-        Province province = getRealm().where(Province.class).beginGroup().greaterThan("maxLon", location.getLongitude()).lessThan("minLon", location.getLongitude())
-                .greaterThan("maxLat", location.getLatitude()).lessThan("minLat", location.getLatitude()).endGroup().findFirst();
-        if (province != null) {
-            RealmList<City> cities = province.getCities();
-            if (!cities.isEmpty()) {
-                ArrayList<City> copy = new ArrayList<>(cities);
-                Collections.sort(copy, new Comparator<City>() {
-                    @Override
-                    public int compare(City lhs, City rhs) {
-                        double ld = Math.sqrt(Math.pow(lhs.getLon() - location.getLongitude(), 2f) + Math.pow(lhs.getLat() - location.getLatitude(), 2f));
-                        double rd = Math.sqrt(Math.pow(rhs.getLon() - location.getLongitude(), 2f) + Math.pow(rhs.getLat() - location.getLatitude(), 2f));
-                        if (ld == rd) {
-                            return 0;
-                        } else if (ld < rd) {
-                            return -1;
-                        } else {
-                            return 1;
-                        }
-                    }
-                });
-//                binding.tvCity.setText(copy.get(0).getCity());
-            }
-//            binding.tvProvince.setText(province.getState());
-        } else {
-            Log.e(TAG, "updateLocation: not found");
-        }
-        onLocationGot();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fl_location: {
-                getLocation();
-                break;
-            }
-            case R.id.tv_province: {
-                //点这个跟点下面的按钮事件是相同的.所以没有break;
-            }
-            case R.id.tv_city: {
-//                if (cityPickerDialog == null) {
-//                    createCityPicker();
-//                }
-//                cityPickerDialog.show();
-//                break;
-            }
-        }
-    }
-
-    private void createCityPicker() {
-//        RealmResults<Province> provinces = getRealm().where(Province.class).findAll();
-//        String state = binding.tvProvince.getText().toString();
-//        String city = binding.tvCity.getText().toString();
-//        int provinceId = 0;
-//        int cityId = 0;
-//        for (int i = 0; i < provinces.inbetweenItemCount(); i++) {
-//            if (provinces.get(i).getState().equals(state)) {
-//                provinceId = i;
-//            }
-//        }
-//        RealmList<City> cities = provinces.get(provinceId).getCities();
-//        for (int i = 0; i < cities.inbetweenItemCount(); i++) {
-//            if (cities.get(i).getCity().equals(city)) {
-//                cityId = i;
-//            }
-//        }
-//
-//        cityPickerDialog = new CityPickerDialog(this, provinces, new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                binding.tvCity.setText(cityPickerDialog.getCity());
-//                binding.tvProvince.setText(cityPickerDialog.getProvince());
-//                cityPickerDialog.dismiss();
-//            }
-//        });
-//
-//        cityPickerDialog.setProvinceId(provinceId);
-//        cityPickerDialog.setCityId(cityId);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_confirm, menu);
-        return true;
+    public int getMidTitle() {
+        return R.string.title_record_detail;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_confirm: {
-                onMenuClicked();
+            case R.id.action_save: {
+                api.editMedicalRecord(data.toHashMap()).enqueue(new SimpleCallback<MedicalRecord>() {
+                    @Override
+                    protected void handleResponse(MedicalRecord response) {
+                        if (response == null) {
+                            Toast.makeText(EditRecordActivity.this, "成功申请修改病历,请耐心等待审核", Toast.LENGTH_SHORT).show();
+                            data.setEnabled(false);
+                            invalidateOptionsMenu();
+                        }
+                    }
+                });
+                return true;
+            }
+            case R.id.action_edit: {
+                data.setEnabled(true);
+                invalidateOptionsMenu();
                 return true;
             }
         }
@@ -325,7 +98,22 @@ public class EditRecordActivity extends GetLocationActivity implements View.OnCl
     }
 
     @Override
-    public int getMidTitle() {
-        return R.string.title_edit_record;
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (!data.isEnabled()) {
+            getMenuInflater().inflate(R.menu.menu_edit, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_save, menu);
+        }
+        return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_history: {
+                Intent i = HistoryActivity.makeIntent(this);
+                startActivity(i);
+            }
+        }
     }
 }

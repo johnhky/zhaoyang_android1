@@ -11,7 +11,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.AfterServiceHistoryActivity;
-import com.doctor.sun.ui.activity.patient.MedicalRecordDetailActivity;
+import com.doctor.sun.ui.activity.patient.EditRecordActivity;
 import com.doctor.sun.ui.activity.patient.UrgentCallActivity;
 
 /**
@@ -25,7 +25,7 @@ public class MedicalRecordHandler {
     }
 
     public void updateRecord(Context context) {
-        Intent intent = MedicalRecordDetailActivity.makeIntent(context, data);
+        Intent intent = EditRecordActivity.makeIntent(context, data);
         context.startActivity(intent);
     }
 

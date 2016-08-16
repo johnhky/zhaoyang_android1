@@ -299,7 +299,7 @@
             android:name="com.doctor.sun.ui.activity.patient.PickTimeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.doctor.sun.ui.activity.patient.EditRecordActivity"
+            android:name="com.doctor.sun.ui.activity.patient.CreateRecordActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -364,7 +364,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.doctor.sun.ui.activity.patient.MedicalRecordDetailActivity"
+            android:name="com.doctor.sun.ui.activity.patient.EditRecordActivity"
             android:screenOrientation="portrait" />
 
         <activity
