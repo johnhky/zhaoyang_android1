@@ -13,6 +13,7 @@ import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.Scales;
 import com.doctor.sun.entity.constans.QuestionType;
+import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
@@ -37,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import io.ganguo.library.core.event.EventHub;
 import retrofit2.Response;
 
 /**
@@ -370,7 +372,10 @@ public class QuestionsModel {
             public void run() {
                 String string = composeAnswer(adapter);
                 Log.e(TAG, "run: " + string);
-                postAnswer(appointmentId, string);
+                Response<ApiDTO<String>> apiDTOResponse = postAnswer(appointmentId, string);
+                if (apiDTOResponse!=null && apiDTOResponse.isSuccessful()) {
+                    EventHub.post(new SaveAnswerSuccessEvent());
+                }
             }
         }).start();
 
