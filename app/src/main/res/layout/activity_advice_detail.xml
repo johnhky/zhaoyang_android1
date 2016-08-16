@@ -3,11 +3,14 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.doctor.sun.ui.activity.AdviceHistoryActivity"/>
 
         <variable
             name="header"
             type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Advice" />
 
     </data>
 
@@ -34,7 +37,7 @@
                 android:layout_marginRight="@dimen/dp_13"
                 android:layout_marginStart="@dimen/dp_13"
                 android:gravity="center_vertical"
-                android:text="问题和意见"
+                android:text="系统回复"
                 android:textColor="@color/grey_ab" />
 
             <View
@@ -42,21 +45,21 @@
                 android:layout_height="1px"
                 android:background="@color/divider_color" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_150"
                 android:background="@color/white"
                 android:gravity="top"
-                android:hint="请简要描述您的问题和建议"
                 android:inputType="textMultiLine"
                 android:maxLines="20"
-                android:paddingTop="@dimen/dp_6"
                 android:paddingBottom="@dimen/dp_6"
                 android:paddingEnd="@dimen/dp_13"
                 android:paddingLeft="@dimen/dp_13"
                 android:paddingRight="@dimen/dp_13"
                 android:paddingStart="@dimen/dp_13"
+                android:paddingTop="@dimen/dp_6"
+                android:text="@{data.reply}"
                 android:scrollHorizontally="false"
                 android:textColor="#363636"
                 android:textColorHint="@color/grey_c2"
@@ -67,22 +70,46 @@
                 android:layout_height="1px"
                 android:background="@color/divider_color" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_35"
+                android:layout_marginEnd="@dimen/dp_13"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginStart="@dimen/dp_13"
+                android:gravity="center_vertical"
+                android:text="我的反馈"
+                android:textColor="@color/grey_ab" />
+
             <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_color" />
 
             <TextView
-                android:id="@+id/tv_history"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/dp_13"
-                android:background="@drawable/ripple_default"
-                android:text="历史反馈"
-                android:textColor="@color/colorPrimaryDark"
-                android:onClick="@{()->AdviceHistoryActivity.startForm(context)}"
-                android:textSize="@dimen/font_17" />
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_150"
+                android:background="@color/white"
+                android:gravity="top"
+                android:text="@{data.feedback}"
+                android:inputType="textMultiLine"
+                android:maxLines="20"
+                android:paddingBottom="@dimen/dp_6"
+                android:paddingEnd="@dimen/dp_13"
+                android:paddingLeft="@dimen/dp_13"
+                android:paddingRight="@dimen/dp_13"
+                android:paddingStart="@dimen/dp_13"
+                android:paddingTop="@dimen/dp_6"
+                android:scrollHorizontally="false"
+                android:textColor="#363636"
+                android:textColorHint="@color/grey_c2"
+                android:textSize="@dimen/font_15" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_color" />
+
 
         </LinearLayout>
     </LinearLayout>

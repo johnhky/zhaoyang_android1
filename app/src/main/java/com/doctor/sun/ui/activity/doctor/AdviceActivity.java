@@ -8,16 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.doctor.sun.R;
-import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityAdviceBinding;
-import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.module.AuthModule;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
-import io.ganguo.library.Config;
 import io.ganguo.library.common.ToastHelper;
 
 /**
@@ -27,10 +23,6 @@ public class AdviceActivity extends BaseFragmentActivity2 {
     private ActivityAdviceBinding binding;
     private ProfileModule api = Api.of(ProfileModule.class);
 
-    public static Intent makeIntent(Context context) {
-        Intent i = new Intent(context, AdviceActivity.class);
-        return i;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,35 +57,18 @@ public class AdviceActivity extends BaseFragmentActivity2 {
     }
 
     public void onMenuClicked() {
-        switch (Config.getInt(Constants.USER_TYPE, -1)) {
-            case AuthModule.PATIENT_TYPE:
-                api.setPatientFeedback(binding.etFeedback.getText().toString()).enqueue(new ApiCallback<String>() {
-                    @Override
-                    protected void handleResponse(String response) {
+        api.sendAdvice(binding.etFeedback.getText().toString()).enqueue(new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                ToastHelper.showMessage(AdviceActivity.this, "系统已经收到您的反馈,感谢您!");
+//                finish();
+            }
+        });
+    }
 
-                    }
-
-                    @Override
-                    protected void handleApi(ApiDTO<String> body) {
-                        ToastHelper.showMessage(AdviceActivity.this, "发送成功");
-                        finish();
-                    }
-                });
-                break;
-            case AuthModule.DOCTOR_PASSED:
-                api.setDoctorFeedback(binding.etFeedback.getText().toString()).enqueue(new ApiCallback<String>() {
-                    @Override
-                    protected void handleResponse(String response) {
-
-                    }
-
-                    @Override
-                    protected void handleApi(ApiDTO<String> body) {
-                        ToastHelper.showMessage(AdviceActivity.this, "发送成功");
-                        finish();
-                    }
-                });
-        }
+    public static Intent makeIntent(Context context) {
+        Intent i = new Intent(context, AdviceActivity.class);
+        return i;
     }
 
 }

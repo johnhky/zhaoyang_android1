@@ -3,6 +3,7 @@ package com.doctor.sun.module;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.PatientDTO;
+import com.doctor.sun.entity.Advice;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Article;
 import com.doctor.sun.entity.Comment;
@@ -137,4 +138,10 @@ public interface ProfileModule {
 
     @GET("im/doctor-contact")
     Call<ApiDTO<Doctor>> doctorContact(@Query("doctorId") int doctorId);
+
+    @GET("profile/feedbacks")
+    Call<ApiDTO<PageDTO<Advice>>> advice();
+
+    @POST("profile/feedback")
+    Call<ApiDTO<String>> sendAdvice(@Query("feedback") String feedback);
 }

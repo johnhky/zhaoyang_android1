@@ -464,6 +464,14 @@
             android:name="com.doctor.sun.ui.activity.HtmlBrowserActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.activity.AdviceHistoryActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.AdviceDetailActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name="com.yuntongxun.ecsdk.ECClientService"
             android:enabled="true" />

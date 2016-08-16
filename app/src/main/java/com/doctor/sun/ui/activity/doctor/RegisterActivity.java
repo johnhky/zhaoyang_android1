@@ -111,11 +111,8 @@ public class RegisterActivity extends BaseFragmentActivity2 {
         menu.clear();
         if (handler.isEnable()) {
             switch (getData()) {
+                case AuthModule.PATIENT_TYPE:
                 case AuthModule.DOCTOR_TYPE: {
-                    getMenuInflater().inflate(R.menu.menu_next, menu);
-                    break;
-                }
-                case AuthModule.PATIENT_TYPE: {
                     getMenuInflater().inflate(R.menu.menu_next, menu);
                     break;
                 }
