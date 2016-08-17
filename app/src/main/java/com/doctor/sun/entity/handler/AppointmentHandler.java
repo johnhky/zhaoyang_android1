@@ -24,6 +24,7 @@ import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
+import com.doctor.sun.entity.constans.QTemplateType;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
 import com.doctor.sun.http.Api;
@@ -47,7 +48,7 @@ import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingDetailActivity;
 import com.doctor.sun.ui.activity.doctor.FeedbackActivity;
 import com.doctor.sun.ui.activity.doctor.PatientDetailActivity;
-import com.doctor.sun.ui.activity.patient.FillForumActivity;
+import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.activity.patient.FinishedOrderActivity;
 import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
 import com.doctor.sun.ui.activity.patient.PayFailActivity;
@@ -405,7 +406,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         HashMap<String, String> result = new HashMap<>();
         result.put("id", String.valueOf(data.getReturnListId()));
         result.put("recordId", String.valueOf(data.getRecordId()));
-        result.put("appointmentId", String.valueOf(data.getAppointmentId()));
+        result.put("id", String.valueOf(data.getAppointmentId()));
         result.put("money", String.valueOf(data.getMoney()));
         return result;
     }
@@ -548,7 +549,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 //                case Status.A_WAITING: {
 //                }
 //                default: {
-//                    return HistoryDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_ANSWER);
+//                    return HistoryDetailActivity.intentFor(context, getData(), ConsultingDetailActivity.POSITION_ANSWER);
 //                }
 //            }
         }
@@ -577,7 +578,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 //                case Status.A_WAITING: {
 //                }
 //                default: {
-//                    return HistoryDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
+//                    return HistoryDetailActivity.intentFor(context, getData(), ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
 //                }
 //            }
         }
@@ -667,7 +668,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             }
             case Status.A_PAID:
             case Status.A_PAID_LOCALE2: {
-                Intent intent = FillForumActivity.makeIntent(adapter.getContext(), data.getId());
+                Intent intent = EditQuestionActivity.intentFor(adapter.getContext(), data.getIdString(), QTemplateType.NORMAL);
                 adapter.getContext().startActivity(intent);
                 break;
             }
@@ -775,7 +776,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
 //    private void showNotAvailableDialog(final View view) {
 //        if (shouldAskServer()) {
-//            api.canUse(CommunicationType.PHONE_CALL, appointmentId()).enqueue(new SimpleCallback<String>() {
+//            api.canUse(CommunicationType.PHONE_CALL, id()).enqueue(new SimpleCallback<String>() {
 //                @Override
 //                protected void handleResponse(String response) {
 //                    if ("1".equals(response)) {
@@ -818,7 +819,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 //                    public void onGetUserState(ECError ecError, ECUserState ecUserState) {
 //                        if (ecUserState != null && ecUserState.isOnline()) {
 //                            IMManager.getInstance().makePhoneCall(sendTo);
-//                            Intent i = VoIPCallActivity.makeIntent(view.getContext(), VoIPCallActivity.CALLING, sendTo);
+//                            Intent i = VoIPCallActivity.intentFor(view.getContext(), VoIPCallActivity.CALLING, sendTo);
 //                            view.getContext().startActivity(i);
 //                        } else {
 //                            callTelephone(view.getContext());

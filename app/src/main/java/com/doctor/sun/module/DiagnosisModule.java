@@ -27,24 +27,24 @@ public interface DiagnosisModule {
 
 
     @GET("diagnosis/diagnosis-info")
-    Call<ApiDTO<DiagnosisInfo>> diagnosisInfo(@Query("appointmentId") int appointmentId);
+    Call<ApiDTO<DiagnosisInfo>> diagnosisInfo(@Query("id") int appointmentId);
 
     @GET("diagnosis/search-doctors")
     Call<ApiDTO<PageDTO<Doctor>>> searchDoctor(@Query("page") String page, @Query("search") String search);
 
     @GET("diagnosis/last-drug")
-    Call<ApiDTO<List<Prescription>>> lastDrug(@Query("appointmentId") int appointmentId);
+    Call<ApiDTO<List<Prescription>>> lastDrug(@Query("id") int appointmentId);
 
     @GET("diagnosis/patient-drug")
-    Call<ApiDTO<List<Prescription>>> patientDrug(@Query("appointmentId") int appointmentId);
+    Call<ApiDTO<List<Prescription>>> patientDrug(@Query("id") int appointmentId);
 
 
     /**
      * @param path path
      *
      *             drug/record-last?recordId=
-     *             diagnosis/patient-drug?appointmentId=
-     *             diagnosis/last-drug?appointmentId=
+     *             diagnosis/patient-drug?id=
+     *             diagnosis/last-drug?id=
      */
     @GET()
     Call<ApiDTO<List<Prescription>>> drugs(@Url() String path);

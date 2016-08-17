@@ -25,7 +25,7 @@ public class AppointmentListActivity extends PageActivity2 {
 
 //    @Override
 //    public void onMenuClicked() {
-//        Intent intent = UrgentListActivity.makeIntent(this);
+//        Intent intent = UrgentListActivity.intentFor(this);
 //        startActivity(intent);
 //    }
 

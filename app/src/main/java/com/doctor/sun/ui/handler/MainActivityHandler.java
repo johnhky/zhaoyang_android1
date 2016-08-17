@@ -32,7 +32,7 @@ public class MainActivityHandler extends BaseHandler {
      * @param view
      */
     public void emergencyCall(View view) {
-//        Intent intent = UrgentListActivity.makeIntent(getContext());
+//        Intent intent = UrgentListActivity.intentFor(getContext());
 //        getContext().startActivity(intent);
     }
 

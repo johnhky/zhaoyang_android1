@@ -40,6 +40,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="center_vertical"
                 android:drawableLeft="@drawable/ic_case"
+                android:drawableStart="@drawable/ic_case"
                 android:drawablePadding="@dimen/dp_10"
                 android:gravity="start"
                 android:maxLength="20"
@@ -95,10 +96,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_case"
-                android:drawablePadding="@dimen/dp_10"
-                android:drawableTint="@color/white"
-                android:singleLine="true"
+                android:paddingStart="@dimen/dp_20"
+                android:paddingLeft="@dimen/dp_20"
+                android:maxLines="1"
                 android:text="是否允许该医生进行定期随访"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_13" />

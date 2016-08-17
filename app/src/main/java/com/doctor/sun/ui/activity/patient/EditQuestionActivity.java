@@ -8,34 +8,33 @@ import android.os.Bundle;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityFillForumBinding;
-import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
-import com.doctor.sun.ui.fragment.ModifyForumFragment;
 
 /**
  * 填写问卷 只读 fragment
  * Created by rick on 25/1/2016.
  */
-public class FillForumActivity extends BaseFragmentActivity2 implements
-        Appointment.AppointmentId,
-        Prescription.UrlToLoad {
+public class EditQuestionActivity extends BaseFragmentActivity2 {
 
-    private boolean isFilling;
 
     private ActivityFillForumBinding binding;
     private AnswerQuestionFragment fragment;
 
-    public static Intent makeIntent(Context context, int appointmentId) {
-        Intent i = new Intent(context, FillForumActivity.class);
+    public static Intent intentFor(Context context, String appointmentId, String type) {
+        Intent i = new Intent(context, EditQuestionActivity.class);
+        i.putExtra(Constants.TYPE, type);
         i.putExtra(Constants.DATA, appointmentId);
         return i;
     }
 
 
-    private int getData() {
-        return getIntent().getIntExtra(Constants.DATA, -1);
+    private String getData() {
+        return getIntent().getStringExtra(Constants.DATA);
+    }
+
+    private String getType() {
+        return getIntent().getStringExtra(Constants.TYPE);
     }
 
     @Override
@@ -46,26 +45,16 @@ public class FillForumActivity extends BaseFragmentActivity2 implements
     }
 
     private void initFragment() {
-        fragment = ModifyForumFragment.getInstance(getData());
+        fragment = AnswerQuestionFragment.getInstance(String.valueOf(getData()), getType());
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.lly_content, fragment)
+                .replace(R.id.lly_content, fragment)
                 .commit();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         fragment.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public int getId() {
-        return getData();
-    }
-
-    @Override
-    public String url() {
-        return "diagnosis/last-drug?appointmentId=" + getId();
     }
 
     @Override

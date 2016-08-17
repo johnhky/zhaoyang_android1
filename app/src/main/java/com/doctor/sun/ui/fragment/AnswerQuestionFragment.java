@@ -18,6 +18,8 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.Function0;
 import com.doctor.sun.vo.ItemPickImage;
 import com.squareup.otto.Subscribe;
@@ -32,14 +34,16 @@ import io.ganguo.library.core.event.EventHub;
 
 public class AnswerQuestionFragment extends SortedListFragment {
 
-    protected int appointmentId;
+    protected String id;
     private QuestionsModel model;
+    private String type;
 
-    public static AnswerQuestionFragment getInstance(int appointmentId) {
+    public static AnswerQuestionFragment getInstance(String id, String type) {
         AnswerQuestionFragment fragment = new AnswerQuestionFragment();
         Bundle bundle = new Bundle();
 
-        bundle.putInt(Constants.DATA, appointmentId);
+        bundle.putString(Constants.DATA, id);
+        bundle.putString(Constants.TYPE, type);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -59,8 +63,9 @@ public class AnswerQuestionFragment extends SortedListFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        appointmentId = 138;
-        appointmentId = getArguments().getInt(Constants.DATA);
+//        id = 138;
+        id = getArguments().getString(Constants.DATA);
+        type = getArguments().getString(Constants.TYPE);
         model = new QuestionsModel();
         setHasOptionsMenu(true);
         loadMore();
@@ -69,7 +74,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
-        model.questions(appointmentId, new Function0<List<? extends SortedItem>>() {
+        model.questions(type, id, new Function0<List<? extends SortedItem>>() {
             @Override
             public void apply(List<? extends SortedItem> sortedItems) {
                 getAdapter().insertAll(sortedItems);
@@ -79,7 +84,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
     }
 
     public void save() {
-        model.saveAnswer(appointmentId, getAdapter());
+        model.saveAnswer(id, type, getAdapter());
     }
 
     @Override

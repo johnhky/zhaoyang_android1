@@ -11,6 +11,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityPaySuccessBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.UrgentCall;
+import com.doctor.sun.entity.constans.QTemplateType;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 import io.ganguo.library.AppManager;
@@ -104,7 +105,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                 int id = getId();
                 if (id != -1) {
                     finish();
-                    Intent intent = FillForumActivity.makeIntent(this, id);
+                    Intent intent = EditQuestionActivity.intentFor(this, String.valueOf(id), QTemplateType.NORMAL);
                     startActivity(intent);
                 }
                 break;

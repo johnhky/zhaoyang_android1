@@ -1,6 +1,14 @@
 package com.doctor.sun.entity;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.QTemplateType;
+import com.doctor.sun.ui.activity.ReadQuestionActivity;
+import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by rick on 15/8/2016.
  */
 
-public class Scales extends BaseItem{
+public class Scales extends BaseItem {
 
     /**
      * scale_id : 14689161052OQbeOFbJq
@@ -20,8 +28,22 @@ public class Scales extends BaseItem{
     @JsonProperty("scale_name")
     public String scaleName;
 
+
+    public void readScalesQuestion(SortedListAdapter adapter, String scalesId) {
+        Context context = adapter.getContext();
+        Intent i = ReadQuestionActivity.intentFor(context, scalesId, adapter.getConfig(AdapterConfigKey.IS_DONE));
+        context.startActivity(i);
+    }
+
+    public void editScalesQuestion(SortedListAdapter adapter, String scalesId) {
+        Context context = adapter.getContext();
+        Intent i = EditQuestionActivity.intentFor(context, scalesId, QTemplateType.SCALES);
+        context.startActivity(i);
+    }
+
+
     @Override
     public int getItemLayoutId() {
-        return R.layout.item_empty;
+        return R.layout.item_scales;
     }
 }

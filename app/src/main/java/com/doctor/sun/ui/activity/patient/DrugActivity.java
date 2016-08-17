@@ -15,7 +15,7 @@
 //public class DrugActivity extends PageActivity2 {
 //    private DrugModule api = Api.of(DrugModule.class);
 //
-//    public static Intent makeIntent(Context context) {
+//    public static Intent intentFor(Context context) {
 //        Intent i = new Intent(context, DrugActivity.class);
 //        return i;
 //    }

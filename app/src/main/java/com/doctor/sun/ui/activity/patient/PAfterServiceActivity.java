@@ -53,7 +53,7 @@ public class PAfterServiceActivity extends PageActivity2 {
 
     public void onMenuClicked() {
         Intent intent = AfterServiceContactActivity.intentFor(this, ContactActivity.PATIENTS_CONTACT);
-//        Intent intent = ContactActivity.makeIntent(this, ContactActivity.PATIENTS_CONTACT, R.layout.item_contact3);
+//        Intent intent = ContactActivity.intentFor(this, ContactActivity.PATIENTS_CONTACT, R.layout.item_contact3);
         startActivity(intent);
     }
 

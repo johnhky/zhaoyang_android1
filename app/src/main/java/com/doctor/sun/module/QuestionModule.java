@@ -7,7 +7,6 @@ import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.QTemplate;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.QuestionCategory;
-import com.doctor.sun.entity.Questions2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +34,8 @@ public interface QuestionModule {
      * @param appointmentId
      * @return
      */
-    @GET("question/library/{appointmentId}")
-    Call<ApiDTO<PageDTO<Question>>> library(@Path("appointmentId") String appointmentId);
+    @GET("question/library/{id}")
+    Call<ApiDTO<PageDTO<Question>>> library(@Path("id") String appointmentId);
 
     /**
      * 获取医生自编问题列表
@@ -44,8 +43,8 @@ public interface QuestionModule {
      * @param appointmentId
      * @return
      */
-    @GET("question/customs/{appointmentId}")
-    Call<ApiDTO<PageDTO<Question>>> customs(@Path("appointmentId") String appointmentId);
+    @GET("question/customs/{id}")
+    Call<ApiDTO<PageDTO<Question>>> customs(@Path("id") String appointmentId);
 
     /**
      * 添加医生自编题
@@ -135,8 +134,8 @@ public interface QuestionModule {
      * @return
      */
     @FormUrlEncoded
-    @POST("question/refill/{appointmentId}")
-    Call<ApiDTO<List<Answer>>> refill(@Path("appointmentId") String appointmentId, @Field("need_refill[]") ArrayList<String> need_refill);
+    @POST("question/refill/{id}")
+    Call<ApiDTO<List<Answer>>> refill(@Path("id") String appointmentId, @Field("need_refill[]") ArrayList<String> need_refill);
 
     /**
      * 追加模板问题到问卷
@@ -145,8 +144,8 @@ public interface QuestionModule {
      * @param template_id
      * @return
      */
-    @GET("question/append/{appointmentId}/template/{template_id}")
-    Call<ApiDTO<List<Answer>>> appendTemplate(@Path("appointmentId") String appointmentId, @Path("template_id") String template_id);
+    @GET("question/append/{id}/template/{template_id}")
+    Call<ApiDTO<List<Answer>>> appendTemplate(@Path("id") String appointmentId, @Path("template_id") String template_id);
 
     /**
      * 追加问题到问卷
@@ -155,8 +154,8 @@ public interface QuestionModule {
      * @param questionId
      * @return
      */
-    @GET("question/append/{appointmentId}/question/{questionId}")
-    Call<ApiDTO<List<Answer>>> appendQuestion(@Path("appointmentId") String appointmentId, @Path("questionId") String questionId);
+    @GET("question/append/{id}/question/{questionId}")
+    Call<ApiDTO<List<Answer>>> appendQuestion(@Path("id") String appointmentId, @Path("questionId") String questionId);
 
     /**
      * 追加量表到问卷
@@ -165,8 +164,8 @@ public interface QuestionModule {
      * @param questionId
      * @return
      */
-    @GET("question/append/{appointmentId}/scale/{questionId}")
-    Call<ApiDTO<List<Answer>>> appendScale(@Path("appointmentId") String appointmentId, @Path("questionId") String questionId);
+    @GET("question/append/{id}/scale/{questionId}")
+    Call<ApiDTO<List<Answer>>> appendScale(@Path("id") String appointmentId, @Path("questionId") String questionId);
 
 //    ### 删除问卷里单个问题
 //    ##### 接口地址:http://域名/question/append/{问卷ID}/delete/{问题ID}
@@ -175,30 +174,28 @@ public interface QuestionModule {
 //    http://zhaoyang.dev.ganguo.hk:8088/question/append/1/question/1
 //            ##### JSON返回示例:
 
-    @GET("question/append/{appointmentId}/delete/{questionId}")
-    Call<ApiDTO<List<Answer>>> deleteQuestion(@Path("appointmentId") int appointmentId, @Path("questionId") int questionId);
+    @GET("question/append/{id}/delete/{questionId}")
+    Call<ApiDTO<List<Answer>>> deleteQuestion(@Path("id") int appointmentId, @Path("questionId") int questionId);
 
 
-    @GET("question/scale/{appointmentId}")
-    Call<ApiDTO<List<QuestionCategory>>> scaleCategory(@Path("appointmentId") String appointmentId);
+    @GET("question/scale/{id}")
+    Call<ApiDTO<List<QuestionCategory>>> scaleCategory(@Path("id") String appointmentId);
 
 
-        @GET("smartQuestionnaires/{appointmentId}")
-//    @GET("http://10.0.0.62:8080/index.php/api/013/smartQuestionnaires/{appointmentId}")
-    Call<ApiDTO<QuestionDTO>> questions2(@Path("appointmentId") int appointmentId);
-
-    @GET("smartScales/{scalesId}")
-//    @GET("http://10.0.0.62:8080/index.php/api/013/smartQuestionnaires/{appointmentId}")
-    Call<ApiDTO<QuestionDTO>> scales(@Path("scalesId") int scalesId);
-
-
-    @FormUrlEncoded
-    @PUT("smartQuestionnaires/{appointmentId}")
-//    @PUT("http://10.0.0.62:8080/index.php/api/013/smartQuestionnaires/{appointmentId}")
-    Call<ApiDTO<String>> saveQuestions2(@Path("appointmentId") int appointmentId, @Field("answer") String answer);
+    /**
+     * @param type          one of smartQuestionnaires, smartScales
+     * @param appointmentId
+     * @return
+     */
+    @GET("{type}/{id}")
+    Call<ApiDTO<QuestionDTO>> questions2(@Path("type") String type, @Path("id") String appointmentId);
 
     @FormUrlEncoded
-    @PUT("smartQuestionnaires/{appointmentId}")
-    Call<ApiDTO<String>> refill2(@Path("appointmentId") String appointmentId, @Field("refill_questions[]") ArrayList<String> need_refill);
+    @PUT("{type}/{id}")
+    Call<ApiDTO<String>> saveQuestions2(@Path("type") String type, @Path("id") String appointmentId, @Field("answer") String answer);
+
+    @FormUrlEncoded
+    @PUT("{type}/{id}")
+    Call<ApiDTO<String>> refill2(@Path("type") String type, @Path("id") String appointmentId, @Field("refill_questions[]") ArrayList<String> need_refill);
 
 }

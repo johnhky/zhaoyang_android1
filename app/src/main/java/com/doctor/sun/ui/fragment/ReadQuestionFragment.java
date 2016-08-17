@@ -30,12 +30,13 @@ public class ReadQuestionFragment extends AnswerQuestionFragment {
 
     private boolean isEditMode = false;
 
-    public static ReadQuestionFragment getInstance(int appointmentId, boolean readOnly) {
+    public static ReadQuestionFragment getInstance(String id, String type, boolean readOnly) {
 
         ReadQuestionFragment fragment = new ReadQuestionFragment();
 
         Bundle args = new Bundle();
-        args.putInt(Constants.DATA, appointmentId);
+        args.putString(Constants.DATA, id);
+        args.putString(Constants.TYPE, type);
         args.putBoolean(Constants.READ_ONLY, readOnly);
 
         fragment.setArguments(args);
@@ -49,6 +50,7 @@ public class ReadQuestionFragment extends AnswerQuestionFragment {
         final boolean isReadOnly = getArguments().getBoolean(Constants.READ_ONLY, false);
         SortedListAdapter adapter = super.createAdapter();
         adapter.setConfig(AdapterConfigKey.IS_READ_ONLY, isReadOnly || !isEditMode);
+        adapter.setConfig(AdapterConfigKey.IS_DONE, isReadOnly);
         adapter.setLayoutIdInterceptor(new SortedListAdapter.LayoutIdInterceptor() {
             @Override
             public int intercept(int origin) {
@@ -88,6 +90,9 @@ public class ReadQuestionFragment extends AnswerQuestionFragment {
                     }
                     case R.layout.item_question2: {
                         return R.layout.item_r_question2;
+                    }
+                    case R.layout.item_scales: {
+                        return R.layout.item_r_scales;
                     }
                     case R.layout.item_add_reminder:
                     case R.layout.item_pick_image:
@@ -149,7 +154,7 @@ public class ReadQuestionFragment extends AnswerQuestionFragment {
             Toast.makeText(getContext(), "请选择需要患者重填的问题", Toast.LENGTH_SHORT).show();
             return true;
         }
-        api.refill2(appointmentId + "",
+        api.refill2(getType(), id,
                 need_fill).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
@@ -173,4 +178,7 @@ public class ReadQuestionFragment extends AnswerQuestionFragment {
         return false;
     }
 
+    public String getType() {
+        return getArguments().getString(Constants.TYPE);
+    }
 }

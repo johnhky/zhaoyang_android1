@@ -337,7 +337,7 @@ public class DiagnosisViewModel {
 
     public HashMap<String, String> toHashMap(Appointment appointmentId, FragmentDiagnosisBinding binding, String prescriptions) {
         HashMap<String, String> result = new HashMap<>();
-        result.put("appointmentId", String.valueOf(appointmentId.getId()));
+        result.put("id", String.valueOf(appointmentId.getId()));
         result.put("is_diagnosis", "1");
         result.put("perception", perception.toStates());
         result.put("thinking", thinking.toStates());

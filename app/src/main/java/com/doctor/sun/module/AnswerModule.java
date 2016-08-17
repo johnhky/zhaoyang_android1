@@ -21,13 +21,13 @@ import retrofit2.http.Path;
  */
 public interface AnswerModule {
 
-    @GET("question/questionnaires/{appointmentId}")
-    Call<ApiDTO<List<Answer>>> answers(@Path("appointmentId") int appointmentId);
+    @GET("question/questionnaires/{id}")
+    Call<ApiDTO<List<Answer>>> answers(@Path("id") int appointmentId);
 
     @FormUrlEncoded
-    @POST("question/questionnaires/{appointmentId}")
+    @POST("question/questionnaires/{id}")
     Call<ApiDTO<List<Answer>>> saveAnswers(
-            @Path("appointmentId") int appointmentId,
+            @Path("id") int appointmentId,
             @Field("answer") String answer);
 
 
@@ -35,11 +35,11 @@ public interface AnswerModule {
 //
 //    接口地址:http://域名/question/questionnaires/{预约单ID}
 
-    @GET("question/questionnaires-scale/{appointmentId}/")
-    Call<ApiDTO<List<QuestionCategory>>> category(@Path("appointmentId") int appointmentId);
+    @GET("question/questionnaires-scale/{id}/")
+    Call<ApiDTO<List<QuestionCategory>>> category(@Path("id") int appointmentId);
 
-    @GET("question/questionnaires-scale/{appointmentId}/{categoryId}/show")
+    @GET("question/questionnaires-scale/{id}/{categoryId}/show")
     Call<ApiDTO<List<Answer>>> categoryDetail(
-            @Path("appointmentId") int appointmentId
+            @Path("id") int appointmentId
             , @Path("categoryId") String categoryId);
 }

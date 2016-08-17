@@ -254,7 +254,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
                 ", age=" + age +
                 ", email='" + email + '\'' +
                 ", medicalRecordId=" + medicalRecordId +
-                ", appointmentId=" + appointmentId +
+                ", id=" + appointmentId +
                 '}';
     }
 

@@ -374,7 +374,7 @@ public class DiagnosisInfo {
         return "DiagnosisInfo{" +
                 "id=" + id +
                 ", doctorId=" + doctorId +
-                ", appointmentId=" + appointmentId +
+                ", id=" + appointmentId +
                 ", isDiagnosis=" + isDiagnosis +
                 ", perception=" + perception +
                 ", thinking=" + thinking +

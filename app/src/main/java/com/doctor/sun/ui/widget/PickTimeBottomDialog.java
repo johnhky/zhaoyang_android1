@@ -46,7 +46,7 @@ public class PickTimeBottomDialog extends BottomSheetDialog {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.bottom_dialog_pick_time, null, false);
-        binding.setData(builder.getTime().getDate());
+        binding.setData(getDateLabel());
 
         GridLayoutManager layout = new GridLayoutManager(getContext(), 3);
         binding.recyclerView.setLayoutManager(layout);
@@ -130,10 +130,16 @@ public class PickTimeBottomDialog extends BottomSheetDialog {
         return builder.getTime().getDate();
     }
 
+    public String getDateLabel() {
+        Date date = new Date(getDateTime());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA);
+        return simpleDateFormat.format(date);
+    }
+
     public long getDateTime() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss", Locale.CHINA);
         try {
-            Date parse = simpleDateFormat.parse(getDate());
+            Date parse = simpleDateFormat.parse(builder.getTime().getDate() + "-00:00:00");
             return parse.getTime();
         } catch (ParseException e) {
             e.printStackTrace();

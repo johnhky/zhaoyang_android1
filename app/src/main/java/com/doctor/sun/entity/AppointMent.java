@@ -547,7 +547,7 @@ public class Appointment implements LayoutId, Parcelable {
                 ", progress='" + progress + '\'' +
                 ", returnListId=" + returnListId +
                 ", returnListTime='" + returnListTime + '\'' +
-                ", appointmentId=" + appointmentId +
+                ", id=" + appointmentId +
                 ", name='" + name + '\'' +
                 ", relation='" + relation + '\'' +
                 ", gender=" + gender +
@@ -707,6 +707,10 @@ public class Appointment implements LayoutId, Parcelable {
 
     public int getAppointmentType() {
         return appointmentType;
+    }
+
+    public String getIdString() {
+        return String.valueOf(id);
     }
 
     public interface AppointmentId {

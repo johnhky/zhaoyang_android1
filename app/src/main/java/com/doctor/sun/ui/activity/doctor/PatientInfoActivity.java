@@ -166,7 +166,7 @@ public class PatientInfoActivity extends BaseFragmentActivity2 implements View.O
 
     private void bindAppointment() {
         Appointment appointment = new Appointment();
-        //appointmentId 至少有一个
+        //id 至少有一个
         appointment.setId(patient.getAppointmentId().get(patient.getAppointmentId().size() - 1));
         appointment.setVoipAccount(binding.getData().getVoipAccount());
         appointment.setPatientName(patient.getPatientName());

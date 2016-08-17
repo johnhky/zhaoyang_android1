@@ -49,10 +49,9 @@
 
         <EditText
             android:id="@+id/et_phone"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/dp_283"
             android:layout_height="@dimen/dp_45"
-            android:layout_marginLeft="@dimen/dp_28"
-            android:layout_marginRight="@dimen/dp_28"
+            android:layout_gravity="center_horizontal"
             android:background="#00000000"
             android:drawableLeft="@drawable/ic_phone"
             android:drawablePadding="@dimen/dp_11"
@@ -64,19 +63,17 @@
             android:textSize="@dimen/font_15" />
 
         <View
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/dp_283"
             android:layout_height="@dimen/dp_1"
-            android:layout_marginLeft="@dimen/dp_28"
-            android:layout_marginRight="@dimen/dp_28"
+            android:layout_gravity="center_horizontal"
             android:background="@color/gray_d9" />
 
 
         <EditText
             android:id="@+id/et_password"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/dp_283"
             android:layout_height="@dimen/dp_45"
-            android:layout_marginLeft="@dimen/dp_28"
-            android:layout_marginRight="@dimen/dp_28"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/dp_10"
             android:background="#00000000"
             android:drawableLeft="@drawable/ic_lock"
@@ -90,22 +87,23 @@
             android:textSize="@dimen/font_15" />
 
         <View
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/dp_283"
             android:layout_height="@dimen/dp_1"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="@dimen/dp_28"
             android:layout_marginRight="@dimen/dp_28"
             android:background="@color/gray_d9" />
 
         <TextView
             android:id="@+id/tv_forgot_password"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_283"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="@dimen/dp_28"
             android:layout_marginRight="@dimen/dp_28"
             android:layout_marginTop="@dimen/dp_10"
             android:drawablePadding="@dimen/dp_11"
-            android:gravity="center_vertical"
+            android:gravity="end"
             android:onClick="@{()->handler.resetPassword(context)}"
             android:text="忘记密码?"
             android:textColor="@color/colorPrimaryDark"

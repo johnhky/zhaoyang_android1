@@ -35,7 +35,7 @@ public interface DrugModule {
 
     @FormUrlEncoded
     @POST("drug/push-drug")
-    Call<ApiDTO<String>> pushDrug(@Field("appointmentId") String appointmentId);
+    Call<ApiDTO<String>> pushDrug(@Field("id") String appointmentId);
 
     @FormUrlEncoded
     @POST("drug/push-drug")
@@ -45,7 +45,7 @@ public interface DrugModule {
     Call<ApiDTO<ImAccount>> serverAccount();
 
     @GET("drug/need-send-drug")
-    Call<ApiDTO<NeedSendDrug>> needSendDrug(@Query("appointmentId") int appointmentId);
+    Call<ApiDTO<NeedSendDrug>> needSendDrug(@Query("id") int appointmentId);
 
 
     @GET("drug/record-last")

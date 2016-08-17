@@ -62,7 +62,7 @@ public class MainActivityHandler extends BaseHandler implements LayoutId {
     }
 
     public void drugList(View view) {
-//        Intent intent = DrugActivity.makeIntent(view.getContext());
+//        Intent intent = DrugActivity.intentFor(view.getContext());
 //        view.getContext().startActivity(intent);
     }
 

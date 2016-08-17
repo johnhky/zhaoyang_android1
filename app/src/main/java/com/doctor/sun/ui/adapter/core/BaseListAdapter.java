@@ -30,7 +30,7 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
         return mInflater;
     }
 
-    protected Context getContext() {
+    public Context getContext() {
         return mContext;
     }
 

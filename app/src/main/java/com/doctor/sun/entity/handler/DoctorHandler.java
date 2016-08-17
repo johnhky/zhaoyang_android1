@@ -133,7 +133,7 @@ public class DoctorHandler {
 //            @Override
 //            public void onSelectRecord(SelectRecordDialog dialog, MedicalRecord record) {
 //                data.setRecordId(String.valueOf(record.getMedicalRecordId()));
-//                Intent intent = PickDateActivity.makeIntent(context, data, type);
+//                Intent intent = PickDateActivity.intentFor(context, data, type);
 //                context.startActivity(intent);
 //                dialog.dismiss();
 //            }

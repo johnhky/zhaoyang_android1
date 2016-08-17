@@ -26,7 +26,7 @@ public class QuestionBankActivity extends BaseFragmentActivity2 implements Assig
     private SimpleAdapter mAdapter;
     private QuestionModule api = Api.of(QuestionModule.class);
 
-    /*public static Intent makeIntent(Context context) {
+    /*public static Intent intentFor(Context context) {
         Intent i = new Intent(context, QuestionBankActivity.class);
         return i;
     }*/

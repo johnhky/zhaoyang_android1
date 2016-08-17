@@ -11,8 +11,8 @@ import android.view.MenuItem;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPatientDetailBinding;
-import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.constans.QTemplateType;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.event.BidirectionalEvent;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
@@ -54,7 +54,7 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
 
         data.setHandler(new AppointmentHandler(data));
         binding.setData(data);
-        instance = ReadQuestionFragment.getInstance(data.getId(), false);
+        instance = ReadQuestionFragment.getInstance(data.getIdString(), QTemplateType.NORMAL, false);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fly_content, instance)
@@ -77,11 +77,6 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
         startActivity(intent);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Answer.handler.resetEditMode();
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

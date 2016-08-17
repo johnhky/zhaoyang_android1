@@ -119,6 +119,6 @@ public class ConsultingDetailActivity extends TabActivity
 
     @Override
     public String url() {
-        return "diagnosis/last-drug?appointmentId=" + getId();
+        return "diagnosis/last-drug?id=" + getId();
     }
 }

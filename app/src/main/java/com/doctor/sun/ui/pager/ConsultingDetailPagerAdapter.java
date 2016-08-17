@@ -7,10 +7,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.constans.QTemplateType;
 import com.doctor.sun.module.AuthModule;
+import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.fragment.FillForumFragment;
-import com.doctor.sun.ui.fragment.ModifyForumFragment;
 import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
 
 import io.ganguo.library.Config;
@@ -36,7 +37,7 @@ public class ConsultingDetailPagerAdapter extends FragmentPagerAdapter {
             switch (position) {
                 case 0: {
                     //填写问卷 编辑
-                    return ModifyForumFragment.getInstance(appointment.getId());
+                    return AnswerQuestionFragment.getInstance(appointment.getIdString(), QTemplateType.NORMAL);
                 }
                 case 1: {
 //                appointment.setId(325);

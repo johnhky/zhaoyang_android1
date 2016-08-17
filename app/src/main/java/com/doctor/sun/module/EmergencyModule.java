@@ -47,7 +47,7 @@ public interface EmergencyModule {
      */
     @FormUrlEncoded
     @POST("pay/info")
-    Call<ApiDTO<String>> buildOrder(@Field("appointmentId") int id,
+    Call<ApiDTO<String>> buildOrder(@Field("id") int id,
                                     @Field("type") String type);
 
     /**
@@ -56,6 +56,6 @@ public interface EmergencyModule {
      */
     @FormUrlEncoded
     @POST("pay/info")
-    Call<ApiDTO<WeChatPayDTO>> buildWeChatOrder(@Field("appointmentId") int id,
+    Call<ApiDTO<WeChatPayDTO>> buildWeChatOrder(@Field("id") int id,
                                                 @Field("type") String type);
 }

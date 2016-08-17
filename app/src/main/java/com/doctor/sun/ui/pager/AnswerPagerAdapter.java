@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.constans.QTemplateType;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
@@ -38,9 +39,9 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
                 case 0: {
                     //填写问卷 编辑
                     if (AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus())) {
-                        return ReadQuestionFragment.getInstance(appointment.getId(), true);
+                        return ReadQuestionFragment.getInstance(appointment.getIdString(), QTemplateType.NORMAL, true);
                     } else {
-                        return AnswerQuestionFragment.getInstance(appointment.getId());
+                        return AnswerQuestionFragment.getInstance(appointment.getIdString(), QTemplateType.NORMAL);
                     }
                 }
                 case 1: {
@@ -53,9 +54,9 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
                 case 0: {
                     //填写问卷 只读
                     if (AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus())) {
-                        return ReadQuestionFragment.getInstance(appointment.getId(), true);
+                        return ReadQuestionFragment.getInstance(appointment.getIdString(), QTemplateType.NORMAL, true);
                     } else {
-                        return ReadQuestionFragment.getInstance(appointment.getId(), false);
+                        return ReadQuestionFragment.getInstance(appointment.getIdString(), QTemplateType.NORMAL, false);
                     }
                 }
                 case 1: {

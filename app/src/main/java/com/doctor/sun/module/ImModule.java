@@ -91,7 +91,7 @@ public interface ImModule {
     Call<ApiDTO<Avatar>> avatar(@Query("voipAccount") String voipAccount, @Query("phone") String phone);
 
     @GET("im/finish-stat")
-    Call<ApiDTO<String>> finishStat(@Query("appointmentId") int appointmentId);
+    Call<ApiDTO<String>> finishStat(@Query("id") int appointmentId);
 
     @FormUrlEncoded
     @POST("im/call-back")

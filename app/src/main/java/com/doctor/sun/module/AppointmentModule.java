@@ -80,23 +80,23 @@ public interface AppointmentModule {
 
     @FormUrlEncoded
     @POST("appointment/patient-cancel")
-    Call<ApiDTO<String>> pCancel(@Field("appointmentId") int appointmentId);
+    Call<ApiDTO<String>> pCancel(@Field("id") int appointmentId);
 
     @GET("appointment/dAppointList")
     Call<ApiDTO<PageDTO<Appointment>>> dAppointments(@Query("page") String page, @Query("paid") String paid);
 
     @FormUrlEncoded
     @POST("appointment/doctor-cancel")
-    Call<ApiDTO<String>> dCancel(@Field("appointmentId") String appointmentId, @Field("reason") String reason);
+    Call<ApiDTO<String>> dCancel(@Field("id") String appointmentId, @Field("reason") String reason);
 
     @FormUrlEncoded
     @POST("appointment/remind-answer")
-    Call<ApiDTO<String>> remind(@Field("appointmentId") int appointmentId, @Field("patientId") int patientId);
+    Call<ApiDTO<String>> remind(@Field("id") int appointmentId, @Field("patientId") int patientId);
 
 
     @FormUrlEncoded
     @POST("appointment/doing")
-    Call<ApiDTO<String>> startConsulting(@Field("appointmentId") int appointmentId);
+    Call<ApiDTO<String>> startConsulting(@Field("id") int appointmentId);
 
 
     @GET("diagnosis/return-list")
@@ -129,7 +129,7 @@ public interface AppointmentModule {
     @FormUrlEncoded
     @POST("appointment/evaluate-patient")
     Call<ApiDTO<String>> evaluatePatient(@Field("point") String point,
-                                         @Field("appointmentId") String appointmentId,
+                                         @Field("id") String appointmentId,
                                          @Field("detail") String detail);
 
     @GET("urgent/doctor-list")
@@ -148,20 +148,20 @@ public interface AppointmentModule {
     @FormUrlEncoded
     @POST("appointment/evaluate-patient")
     Call<ApiDTO<String>> evaluatePatient(@Field("point") String point
-            , @Field("appointmentId") int appointmentId
+            , @Field("id") int appointmentId
             , @Field("detail") String detail
             , @Field("content") String content);
 
     @FormUrlEncoded
     @POST("appointment/evaluate-doctor")
     Call<ApiDTO<String>> evaluateDoctor(@Field("point") String point
-            , @Field("appointmentId") int appointmentId
+            , @Field("id") int appointmentId
             , @Field("detail") String detail
             , @Field("content") String content);
 
     @FormUrlEncoded
     @POST("appointment/pay")
-    Call<ApiDTO<String>> pay(@Field("appointmentId") String appointmentId);
+    Call<ApiDTO<String>> pay(@Field("id") String appointmentId);
 
 
     /**
@@ -170,7 +170,7 @@ public interface AppointmentModule {
      */
     @FormUrlEncoded
     @POST("pay/info")
-    Call<ApiDTO<String>> buildAliPayOrder(@Field("appointmentId") int id,
+    Call<ApiDTO<String>> buildAliPayOrder(@Field("id") int id,
                                           @Field("type") String type);
 
     /**
@@ -179,7 +179,7 @@ public interface AppointmentModule {
      */
     @FormUrlEncoded
     @POST("pay/info")
-    Call<ApiDTO<WeChatPayDTO>> buildWeChatOrder(@Field("appointmentId") int id,
+    Call<ApiDTO<WeChatPayDTO>> buildWeChatOrder(@Field("id") int id,
                                                 @Field("type") String type);
 
     /**
@@ -188,7 +188,7 @@ public interface AppointmentModule {
      */
     @FormUrlEncoded
     @POST("pay/info")
-    Call<ApiDTO<String>> buildAliPayOrder(@Field("appointmentId") int id,
+    Call<ApiDTO<String>> buildAliPayOrder(@Field("id") int id,
                                           @Field("type") String type, @Field("couponId") String couponId);
 
 
@@ -198,7 +198,7 @@ public interface AppointmentModule {
      */
     @FormUrlEncoded
     @POST("pay/info")
-    Call<ApiDTO<WeChatPayDTO>> buildWeChatOrder(@Field("appointmentId") int id,
+    Call<ApiDTO<WeChatPayDTO>> buildWeChatOrder(@Field("id") int id,
                                                 @Field("type") String type, @Field("couponId") String couponId);
 
 
@@ -238,7 +238,7 @@ public interface AppointmentModule {
      */
     @GET("appointment/communicate-avaliable")
     Call<ApiDTO<String>> canUse(@CommunicationType @Query("type") long type
-            , @Query("appointmentId") int appointmentId);
+            , @Query("id") int appointmentId);
 
     /**
      * @param appointmentId 预约单id
@@ -248,6 +248,6 @@ public interface AppointmentModule {
     @FormUrlEncoded
     @POST("appointment/communicate-unable")
     Call<ApiDTO<String>> rejectCommunication(@CommunicationType @Field("type") int type
-            , @Field("appointmentId") int appointmentId);
+            , @Field("id") int appointmentId);
 
 }

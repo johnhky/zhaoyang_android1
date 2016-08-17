@@ -36,7 +36,7 @@ public class AfterServiceActivity extends PageActivity2 {
 
     public void onMenuClicked() {
         Intent intent = AfterServiceContactActivity.intentFor(this, ContactActivity.DOCTORS_CONTACT);
-//        Intent intent = ContactActivity.makeIntent(this, ContactActivity.DOCTORS_CONTACT, R.layout.item_contact2);
+//        Intent intent = ContactActivity.intentFor(this, ContactActivity.DOCTORS_CONTACT, R.layout.item_contact2);
         startActivity(intent);
     }
 
