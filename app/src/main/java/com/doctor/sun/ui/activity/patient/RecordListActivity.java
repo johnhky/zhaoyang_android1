@@ -15,7 +15,6 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
 
 import java.util.List;
@@ -63,7 +62,7 @@ public class RecordListActivity extends BaseFragmentActivity2 {
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_record_list);
         mAdapter = new SimpleAdapter(this);
-        mAdapter.mapLayout(R.layout.item_text, R.layout.p_item_recordlist);
+        mAdapter.mapLayout(R.layout.item_r_medical_record, R.layout.p_item_recordlist);
         binding.rvList.setLayoutManager(new LinearLayoutManager(this));
         binding.rvList.setAdapter(mAdapter);
     }

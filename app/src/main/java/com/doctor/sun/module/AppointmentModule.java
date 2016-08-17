@@ -5,7 +5,6 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.WeChatPayDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.CommunicationType;
 
@@ -135,8 +134,8 @@ public interface AppointmentModule {
     @GET("urgent/doctor-list")
     Call<ApiDTO<PageDTO<Appointment>>> urgentCalls(@Query("page") String page);
 
-    @GET("urgent/patient-list")
-    Call<ApiDTO<PageDTO<UrgentCall>>> pUrgentCalls(@Query("page") String page);
+//    @GET("urgent/patient-list")
+//    Call<ApiDTO<PageDTO<UrgentCall>>> pUrgentCalls(@Query("page") String page);
 
     @FormUrlEncoded
     @POST("urgent/receive")

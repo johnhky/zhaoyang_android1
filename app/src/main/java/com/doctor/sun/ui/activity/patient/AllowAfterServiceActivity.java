@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityAllowAfterServiceBinding;
-import com.doctor.sun.entity.Contact;
 import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.Api;
@@ -17,7 +16,6 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.AllowAfterServiceAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
 
 /**
  * Created by rick on 1/6/2016.
@@ -64,7 +62,7 @@ public class AllowAfterServiceActivity extends BaseFragmentActivity2 {
     private void initRecyclerView() {
         adapter = new AllowAfterServiceAdapter(this, contact.getId());
         adapter.onFinishLoadMore(true);
-        adapter.mapLayout(R.layout.item_text, R.layout.item_select_record2);
+        adapter.mapLayout(R.layout.item_r_medical_record, R.layout.item_select_record2);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(adapter);
     }

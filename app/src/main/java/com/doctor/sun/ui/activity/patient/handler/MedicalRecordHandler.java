@@ -12,7 +12,6 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.AfterServiceHistoryActivity;
 import com.doctor.sun.ui.activity.patient.EditRecordActivity;
-import com.doctor.sun.ui.activity.patient.UrgentCallActivity;
 
 /**
  * Created by lucas on 1/7/16.
@@ -28,11 +27,11 @@ public class MedicalRecordHandler {
         Intent intent = EditRecordActivity.makeIntent(context, data);
         context.startActivity(intent);
     }
-
-    public void applyAppointment(View view) {
-        Intent intent = UrgentCallActivity.makeIntent(view.getContext(), data);
-        view.getContext().startActivity(intent);
-    }
+//
+//    public void applyAppointment(View view) {
+//        Intent intent = UrgentCallActivity.makeIntent(view.getContext(), data);
+//        view.getContext().startActivity(intent);
+//    }
 
     public void select(View view) {
         view.setSelected(!view.isSelected());

@@ -10,7 +10,6 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityPaySuccessBinding;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.entity.constans.QTemplateType;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
@@ -33,12 +32,12 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
         return i;
     }
 
-    public static Intent makeIntent(Context context, UrgentCall data) {
-        Intent i = new Intent(context, PaySuccessActivity.class);
-        i.putExtra(Constants.DATA, data);
-        i.putExtra(Constants.TYPE, URGENT_CALL);
-        return i;
-    }
+//    public static Intent makeIntent(Context context, UrgentCall data) {
+//        Intent i = new Intent(context, PaySuccessActivity.class);
+//        i.putExtra(Constants.DATA, data);
+//        i.putExtra(Constants.TYPE, URGENT_CALL);
+//        return i;
+//    }
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, PaySuccessActivity.class);
@@ -50,9 +49,9 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 
-    private UrgentCall getUrgentCall() {
-        return getIntent().getParcelableExtra(Constants.DATA);
-    }
+//    private UrgentCall getUrgentCall() {
+//        return getIntent().getParcelableExtra(Constants.DATA);
+//    }
 
     private int getType() {
         return getIntent().getIntExtra(Constants.TYPE, -1);
@@ -76,8 +75,8 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
     private void setBookTime() {
         switch (getType()) {
             case URGENT_CALL: {
-                String bookTime = getUrgentCall().getBookTime().substring(0, getUrgentCall().getBookTime().length() - 12);
-                binding.setData(bookTime);
+//                String bookTime = getUrgentCall().getBookTime().substring(0, getUrgentCall().getBookTime().length() - 12);
+//                binding.setData(bookTime);
                 break;
             }
             case APPOINTMENT: {
@@ -95,7 +94,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_main: {
-                Intent intent = PMainActivity.makeIntent(this);
+                Intent intent = PMainActivity2.intentFor(this);
                 startActivity(intent);
                 AppManager.finishAllActivity();
                 break;
@@ -117,7 +116,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
         int id = -1;
         switch (getType()) {
             case URGENT_CALL: {
-                id = getUrgentCall().getId();
+//                id = getUrgentCall().getId();
                 break;
             }
             case APPOINTMENT: {
@@ -135,7 +134,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
     public void onBackPressed() {
 
         super.onBackPressed();
-        Intent intent = PMainActivity.makeIntent(this);
+        Intent intent = PMainActivity2.intentFor(this);
         startActivity(intent);
         AppManager.finishAllActivity();
 

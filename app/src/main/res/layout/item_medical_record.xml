@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
+    <data class=".ItemRMedical">
 
         <variable
             name="data"
             type="com.doctor.sun.entity.MedicalRecord" />
 
-        <variable
-            name="handler"
-            type="com.doctor.sun.ui.activity.patient.handler.MainActivityHandler" />
 
         <variable
             name="vh"
@@ -26,8 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_59"
         android:background="@drawable/ripple_default"
-        android:orientation="vertical"
-        android:onClick="@{()->adapter.onRecordSelected(vh)}">
+        android:onClick="@{()->adapter.onRecordSelected(vh)}"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"

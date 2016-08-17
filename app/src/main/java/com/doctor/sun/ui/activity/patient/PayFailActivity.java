@@ -10,14 +10,12 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityPayFailBinding;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.handler.UrgentCallHandler;
 
 import java.util.HashMap;
 
@@ -42,13 +40,13 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
         return i;
     }
 
-    public static Intent makeIntent(Context context, UrgentCall data, boolean payWithWeChat) {
-        Intent i = new Intent(context, PayFailActivity.class);
-        i.putExtra(Constants.PAY_METHOD, payWithWeChat);
-        i.putExtra(Constants.DATA, data);
-        i.putExtra(Constants.TYPE, URGENT_CALL);
-        return i;
-    }
+//    public static Intent makeIntent(Context context, UrgentCall data, boolean payWithWeChat) {
+//        Intent i = new Intent(context, PayFailActivity.class);
+//        i.putExtra(Constants.PAY_METHOD, payWithWeChat);
+//        i.putExtra(Constants.DATA, data);
+//        i.putExtra(Constants.TYPE, URGENT_CALL);
+//        return i;
+//    }
 
     public static Intent makeIntent(Context context, String money, boolean payWithWeChat, HashMap<String, String> goods) {
         Intent i = new Intent(context, PayFailActivity.class);
@@ -58,10 +56,10 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
         i.putExtra(Constants.EXTRA_FIELD, goods);
         return i;
     }
-
-    private UrgentCall getUrgentCall() {
-        return getIntent().getParcelableExtra(Constants.DATA);
-    }
+//
+//    private UrgentCall getUrgentCall() {
+//        return getIntent().getParcelableExtra(Constants.DATA);
+//    }
 
     private Appointment getAppointment() {
         return getIntent().getParcelableExtra(Constants.DATA);
@@ -91,7 +89,7 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_main:
-                Intent intent = PMainActivity.makeIntent(PayFailActivity.this);
+                Intent intent = PMainActivity2.intentFor(PayFailActivity.this);
                 startActivity(intent);
                 AppManager.finishAllActivity();
                 break;
@@ -107,12 +105,12 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
                         break;
                     }
                     case URGENT_CALL: {
-                        UrgentCallHandler handler = new UrgentCallHandler(getUrgentCall());
-                        if (shouldPayWithWeChat()) {
-                            handler.payWithWeChat(this, "");
-                        } else {
-                            handler.payWithAlipay(this, "");
-                        }
+//                        UrgentCallHandler handler = new UrgentCallHandler(getUrgentCall());
+//                        if (shouldPayWithWeChat()) {
+//                            handler.payWithWeChat(this, "");
+//                        } else {
+//                            handler.payWithAlipay(this, "");
+//                        }
                         break;
                     }
                     case OTHERS: {

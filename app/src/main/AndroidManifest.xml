@@ -303,10 +303,10 @@
             android:name="com.doctor.sun.ui.activity.patient.CreateRecordActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.patient.PMainActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name="com.doctor.sun.ui.activity.patient.PMainActivity"-->
+            <!--android:launchMode="singleTop"-->
+            <!--android:screenOrientation="portrait" />-->
         <activity
             android:name="com.doctor.sun.ui.activity.patient.PMainActivity2"
             android:launchMode="singleTop"
@@ -380,9 +380,9 @@
             android:name="com.doctor.sun.ui.activity.doctor.QuestionBankActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.patient.UrgentCallActivity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name="com.doctor.sun.ui.activity.patient.UrgentCallActivity"-->
+            <!--android:screenOrientation="portrait" />-->
 
         <!--<activity-->
         <!--android:name="com.doctor.sun.ui.activity.patient.DrugActivity"-->
@@ -392,17 +392,17 @@
             android:name="com.doctor.sun.ui.activity.patient.ApplyAppointmentActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.patient.UrgentAddTimeActivity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name="com.doctor.sun.ui.activity.patient.UrgentAddTimeActivity"-->
+            <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.patient.EditQuestionActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.patient.UrgentAddFeeActivity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name="com.doctor.sun.ui.activity.patient.UrgentAddFeeActivity"-->
+            <!--android:screenOrientation="portrait" />-->
 
 
         <activity

@@ -6,7 +6,6 @@ import android.content.Intent;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.WeChatPayDTO;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.UrgentCall;
 import com.doctor.sun.ui.activity.patient.PayFailActivity;
 import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
 import com.doctor.sun.util.PayCallback;
@@ -45,24 +44,24 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
         WXPayEntryActivity.setCallback(mCallback);
     }
 
-    public WeChatPayCallback(final Activity activity, final UrgentCall data) {
-        this.activity = activity;
-        mCallback = new PayCallback() {
-
-            @Override
-            public void onPaySuccess() {
-                Intent intent = PaySuccessActivity.makeIntent(activity, data);
-                activity.startActivity(intent);
-            }
-
-            @Override
-            public void onPayFail() {
-                Intent intent = PayFailActivity.makeIntent(activity, data, true);
-                activity.startActivity(intent);
-            }
-        };
-        WXPayEntryActivity.setCallback(mCallback);
-    }
+//    public WeChatPayCallback(final Activity activity, final UrgentCall data) {
+//        this.activity = activity;
+//        mCallback = new PayCallback() {
+//
+//            @Override
+//            public void onPaySuccess() {
+//                Intent intent = PaySuccessActivity.makeIntent(activity, data);
+//                activity.startActivity(intent);
+//            }
+//
+//            @Override
+//            public void onPayFail() {
+//                Intent intent = PayFailActivity.makeIntent(activity, data, true);
+//                activity.startActivity(intent);
+//            }
+//        };
+//        WXPayEntryActivity.setCallback(mCallback);
+//    }
 
     public WeChatPayCallback(final Activity activity, final String money, final HashMap<String, String> extraField) {
         this.activity = activity;

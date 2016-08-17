@@ -23,7 +23,6 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.MultiSelectAdapter;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.JacksonUtils;
 
 import java.util.ArrayList;
@@ -124,7 +123,7 @@ public class ApplyAfterServiceActivity extends BaseFragmentActivity2 {
                 binding.setIsAllSelected(adapter.isAllSelected());
             }
         });
-        adapter.mapLayout(R.layout.item_text, R.layout.item_select_record);
+        adapter.mapLayout(R.layout.item_r_medical_record, R.layout.item_select_record);
         adapter.setLoadMoreListener(new LoadMoreListener() {
             @Override
             protected void onLoadMore() {

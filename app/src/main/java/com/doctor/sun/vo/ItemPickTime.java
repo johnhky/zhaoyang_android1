@@ -5,7 +5,6 @@ import android.content.Context;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.widget.PickTimeDialog;
@@ -47,12 +46,16 @@ public class ItemPickTime extends BaseItem {
             view.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), setEndTime, mEndHour, mEndMinute, true);
-                    timePickerDialog.show();
+                    pickEndTime(view.getContext());
                 }
             }, 1000);
         }
     };
+
+    public void pickEndTime(Context context) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(context, setEndTime, mEndHour, mEndMinute, true);
+        timePickerDialog.show();
+    }
 
     TimePickerDialog.OnTimeSetListener setEndTime = new TimePickerDialog.OnTimeSetListener() {
         @Override
@@ -76,6 +79,10 @@ public class ItemPickTime extends BaseItem {
 
     public String getTime() {
         return String.format(Locale.CHINA, "%02d:%02d-%02d:%02d", mBeginHour, mBeginMinute, mEndHour, mEndMinute);
+    }
+
+    public String getEndTime() {
+        return String.format(Locale.CHINA, "%02d:%02d", mEndHour, mEndMinute);
     }
 
 

@@ -2,75 +2,64 @@
     <string name="app_name">昭阳医生</string>
     <string name="app_name_dev">昭阳医生开发服</string>
     <string name="app_name_stage">昭阳医生测试服</string>
-    <string name="action_settings">Settings</string>
     <string name="get_captcha">重新获取(%02d)</string>
     <string name="welcome">%s，欢迎您登录昭阳医生</string>
     <string name="last_login_time">上次登录时间:%s</string>
     <string name="label_appointment"><![CDATA[有<font color=\'#339de1\'>%d</font>个预约病人]]></string>
-    <string name="label_emergency_call"><![CDATA[有<font color=\'#339de1\'>%d</font>个急诊病人]]></string>
-    <string name="label_consultation"><![CDATA[有<font color=\'#339de1\'>%d</font>个转诊病人]]></string>
     <string name="label_after_service"><![CDATA[有<font color=\'#339de1\'>%d</font>个待完成随访]]></string>
     <string name="appointment_time">预约时间:&#160;%s</string>
     <string name="appointment_type">预约类型:&#160;%s</string>
     <string name="appointment_progress">问卷完成度:&#160;%s</string>
     <string name="patient_info">%1$s&#160;&#160;&#160;&#160;&#160;%2$s</string>
-    <string name="orange_money"><![CDATA[<font color=\'#f76d02\'>￥%s</font>]]></string>
     <string name="money">诊金:&#160;<![CDATA[<font color="#f76d02">￥%s</font>]]></string>
     <string name="need_pay">实际付款金额:&#160;<![CDATA[<font color="#f76d02">￥%s</font>]]></string>
     <string name="extra_money">追加诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color=\'#f76d02\'>￥%d</font>]]></string>
-    <string name="current_money">当前诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color=\'#f76d02\'>￥%s</font>]]></string>
     <string name="should_pay">应支付诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color=\'#f76d02\'>￥%d</font>]]></string>
     <string name="total">合计:&#160;&#160;&#160;&#160;<![CDATA[<font color="#f76d02">￥%s</font>]]></string>
-    <string name="rest">￥<![CDATA[<font color=\'#f76d02\'>%d</font>]]></string>
     <string name="question_count">共%s题</string>
     <string name="string_of_two">%1$s / %2$s</string>
     <string name="string_of_three">%1$s / %2$s / %3$s</string>
     <string name="record">病历:%s</string>
     <string name="unread_message"><![CDATA[有<font color=\'#339de1\'>%d</font>条未查看消息]]></string>
     <string name="num">数量</string>
-    <string name="comment">留言</string>
     <string name="ps">备注消息</string>
-    <string name="custom_question_detail">"      "医生可根据个人诊疗习惯，编写需要患者回答的问题（自编题目），并添加进题库。自编题目会收录在您新建的模块里。需要的时候可添加到诊前问卷中让患者填写，或者加进您的默认问卷模板中。\n"
-      "自编题目可以按需要设置为2种，分别是“单项选择题”（可带备注）和“填空题”。目前暂不支持“多项/不定项选择题”，有不便之处请谅解。\n"
-      "符合需要的自编题目有可能经过修改、标准化后，收录到公共题库中供所有医生使用，若有版权异议请直接和客服联系。\n"
-      "如果以上信息还没解决到您的问题，可致电客服咨询，我们的工作时间是</string>
-    <string name="pay_success_tip">医生可能随时有消息反馈给你，为免遗漏，请允许本程序向你推送通知。（按手机设置，然后点击“通知”找到程序“昭阳医生”点击进去再打开“允许通知”按钮）</string>
-    <string name="is_diagnosised"> 请确认该患者首次诊疗已\n在医疗机构详细就诊进行</string>
+
     <string name="record_relation_name">(%1$s/%2$s)</string>
-    <string name="record_warning">*下列地址信息用于为您匹配推荐较近的专家及配送药品用, 身份证信息用于作为唯一标识匹配患者在医院的病历和检验 结果,内容已加密请放心填写</string>
+
     <string name="gender_birth">%1$s   %2$s</string>
     <string name="patient_name_relation">%1$s (%2$s/%3$s)</string>
     <string name="patient_address">%1$s%2$s</string>
-    <string name="date_suggestion">昭阳医生强烈建议您先网上咨询，然后在咨询结束时再听从医生 建议并安排简捷复诊，这能让医生更高效地处理您的需求</string>
-    <string name="fee_detail">系统会向您推送预约通知，为免遗漏，请允许程序向你推送通知。（按手机设置，然后点击“通知”找到程序“昭阳医生”点击进去再打开“允许通知”按钮）</string>
     <string name="order_create_time">下单时间: %s</string>
     <string name="logistic_detail">物流信息:%s</string>
     <string name="tip">*请于预约时间%s前完成问卷</string>
     <string name="hospitalDetail">    %s</string>
     <string name="format_tag"><![CDATA[<font color="#363636">%1$s</font> <font color="#898989">%2$s</font>]]></string>
     <string name="description_money"><![CDATA[<font color="#363636">%1$s</font> <font color="#f76d02">%2$s</font>]]></string>
-    <string name="patient_realtionship">%1$s(%2$s/%3$s)</string>
-    <string name="appointment_time_type">%1$s %2$s</string>
     <string name="diagnosis_money"><![CDATA[<font size="15"></font> <font color="#f76d02">%1$s</font>]]></string>
-    <string name="custom_comment">用户评价(%1$s)</string>
-    <string name="emergency_call_warn">如果您不确定需要找什么类型的医生，请先提供病历资料并预先支付诊金，订单发出后，医生会根据自己的专长抢单，若在您设定的时间内没有医生接受预约订单，系统会将预付诊金返还至原支付账户。</string>
     <string name="network_is_not_available">网络不可用</string>
-    <string name="day_title_today">今天</string>
-    <string name="day_title_yesterday">昨天</string>
-    <string name="day_title_tomorrow">明天</string>
+
+
+    <string name="add_detail_time_ps">* 预留填写病历或者休息的时间</string>
+    <string name="hours_until_midnight">今日剩余%s小时，可能期间医生无法及时回复，建议您提前预约；</string>
+    <string name="text_89_36"><![CDATA[<font color="#898989">%1$s:</font> <font color="#363636">%2$s</font>]]></string>
+    <string name="add_quick_time_ps">* 简捷复诊为非实时就诊方式，您可在预约当天自由安 排就诊时间，按次收费。</string>
+    <string name="premium_product_brief"><![CDATA[&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;医生预留专属时间为预约的客户进行详细咨询。建议<font color="#ff405a>第一次就诊</font>或者<font color="#ff405a>病情有变化、不稳定</font>的患者选择“专属咨询”服务，可与医生进行实时的互动交流，时间以15分钟为单位，可根据个人需要调节长短，推荐30~45分钟，以免时间不足影响咨询效果。]]></string>
+    <string name="normal_product_brief"><![CDATA[&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;建议<font color="#ff405a>病情稳定、需要定期复诊寄药</font>的患者选择“留言咨询”，费用较少，医生将用空闲时间回复您的留言，虽然并非即时通讯，但保证24小时内给出用药建议和48小时内寄出药物。（如果是第一次就诊或病情不稳定，推荐选择“专属咨询”，获取更完善的咨询服务。）]]></string>
+      <string name="custom_question_detail">"      "医生可根据个人诊疗习惯，编写需要患者回答的问题（自编题目），并添加进题库。自编题目会收录在您新建的模块里。需要的时候可添加到诊前问卷中让患者填写，或者加进您的默认问卷模板中。\n"
+      "自编题目可以按需要设置为2种，分别是“单项选择题”（可带备注）和“填空题”。目前暂不支持“多项/不定项选择题”，有不便之处请谅解。\n"
+      "符合需要的自编题目有可能经过修改、标准化后，收录到公共题库中供所有医生使用，若有版权异议请直接和客服联系。\n"
+      "如果以上信息还没解决到您的问题，可致电客服咨询，我们的工作时间是</string>
+    <string name="pay_success_tip">医生可能随时有消息反馈给你，为免遗漏，请允许本程序向你推送通知。（按手机设置，然后点击“通知”找到程序“昭阳医生”点击进去再打开“允许通知”按钮）</string>
+    <string name="record_warning">*下列地址信息用于为您匹配推荐较近的专家及配送药品用, 身份证信息用于作为唯一标识匹配患者在医院的病历和检验 结果,内容已加密请放心填写</string>
+    <string name="date_suggestion">昭阳医生强烈建议您先网上咨询，然后在咨询结束时再听从医生 建议并安排简捷复诊，这能让医生更高效地处理您的需求</string>
+    <string name="fee_detail">系统会向您推送预约通知，为免遗漏，请允许程序向你推送通知。（按手机设置，然后点击“通知”找到程序“昭阳医生”点击进去再打开“允许通知”按钮）</string>
 
     <string name="team_need_authentication">需要身份验证</string>
     <string name="team_allow_anyone_join">允许任何人加入</string>
     <string name="team_not_allow_anyone_join">不允许任何人申请加入</string>
 
-    <string name="text_89_36"><![CDATA[<font color="#898989">%1$s:</font> <font color="#363636">%2$s</font>]]></string>
-    <string name="add_quick_time_ps">* 简捷复诊为非实时就诊方式，您可在预约当天自由安 排就诊时间，按次收费。</string>
-    <string name="add_detail_time_ps">* 预留填写病历或者休息的时间</string>
-    <string name="hours_until_midnight">今日剩余%s小时，可能期间医生无法及时回复，建议您提前预约；</string>
     <string name="standard_product">留言咨询</string>
     <string name="premium_product">专属咨询</string>
-    <string name="premium_product_brief"><![CDATA[&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;医生预留专属时间为预约的客户进行详细咨询。建议<font color="#ff405a>第一次就诊</font>或者<font color="#ff405a>病情有变化、不稳定</font>的患者选择“专属咨询”服务，可与医生进行实时的互动交流，时间以15分钟为单位，可根据个人需要调节长短，推荐30~45分钟，以免时间不足影响咨询效果。]]></string>
-    <string name="normal_product_brief"><![CDATA[&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;建议<font color="#ff405a>病情稳定、需要定期复诊寄药</font>的患者选择“留言咨询”，费用较少，医生将用空闲时间回复您的留言，虽然并非即时通讯，但保证24小时内给出用药建议和48小时内寄出药物。（如果是第一次就诊或病情不稳定，推荐选择“专属咨询”，获取更完善的咨询服务。）]]></string>
 
 
     <string name="title" />
@@ -79,7 +68,6 @@
     <string name="title_consulting">就诊</string>
     <string name="default_title">昭阳医生</string>
     <string name="title_advice">建议反馈</string>
-    <string name="title_follow_up">随访列表</string>
     <string name="title_profile_info">个人信息</string>
     <string name="title_edit_prescription">添加/编辑用药</string>
     <string name="title_edit_record">新建病历</string>
@@ -87,7 +75,6 @@
     <string name="title_my_qrcode">我的二维码</string>
     <string name="title_times">出诊时间</string>
     <string name="title_template">问诊模板</string>
-    <string name="title_add_template">添加模版</string>
     <string name="title_system_msg">系统消息</string>
     <string name="title_edit_password">修改密码</string>
     <string name="title_p_follow_up">随访请求列表</string>
@@ -98,10 +85,7 @@
     <string name="title_appointment_list">已预约患者</string>
     <string name="title_add_question">补充问卷</string>
     <string name="title_answer_question">填写问卷</string>
-
-
     <string name="title_follow_up_history">历史随访</string>
-
     <string name="title_contact">通讯录</string>
     <string name="title_follow_up_contact">随访通讯录</string>
     <string name="title_history">历史记录</string>
@@ -112,15 +96,11 @@
     <string name="title_file_detail">文件</string>
     <string name="title_hospital_detail">医院详情</string>
     <string name="title_record_detail">病历详情</string>
-    <string name="title_add_fee">增加诊金</string>
     <string name="title_me">我</string>
-    <string name="title_main">昭阳医生</string>
-    <string name="title_image_preview" />
     <string name="title_pick_date">选择日期</string>
     <string name="title_pick_time">选择时间</string>
     <string name="title_manage_patient">患者管理</string>
     <string name="title_appoint_doctor">预约医生</string>
-    <string name="title_extend_time">增加等候时间</string>
     <string name="title_add_prescription">用药详情</string>
     <string name="title_medicine_store">寄药小助手</string>
     <string name="title_advice_history">历史反馈</string>

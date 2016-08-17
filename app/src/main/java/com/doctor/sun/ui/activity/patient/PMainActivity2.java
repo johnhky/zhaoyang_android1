@@ -1,5 +1,7 @@
 package com.doctor.sun.ui.activity.patient;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
@@ -163,5 +165,10 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
     @Override
     public int getMidTitle() {
         return R.string.default_title;
+    }
+
+    public static Intent intentFor(Context context) {
+        Intent intent = new Intent(context, PMainActivity2.class);
+        return intent;
     }
 }

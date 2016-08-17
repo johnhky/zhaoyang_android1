@@ -54,7 +54,7 @@
 
                 <include
                     android:id="@+id/goodsName"
-                    layout="@layout/item_text_input2" />
+                    layout="@layout/include_text_input" />
 
                 <View
                     android:layout_width="match_parent"

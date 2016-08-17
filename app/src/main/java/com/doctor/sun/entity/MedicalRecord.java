@@ -6,7 +6,6 @@ import android.os.Parcelable;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
-import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -235,7 +234,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
 
     @Override
     public int getItemLayoutId() {
-        return R.layout.item_text;
+        return R.layout.item_r_medical_record;
     }
 
     @Override

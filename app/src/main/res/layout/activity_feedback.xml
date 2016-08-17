@@ -86,7 +86,7 @@
 
         <include
             android:id="@+id/comment"
-            layout="@layout/item_text_input4"
+            layout="@layout/include_text_input2"
             bind:hint='@{"请输入您对病人的评价"}' />
 
 

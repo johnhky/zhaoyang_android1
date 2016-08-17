@@ -24,7 +24,7 @@ import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.activity.doctor.MeActivity;
 import com.doctor.sun.ui.activity.doctor.PasswordActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
-import com.doctor.sun.ui.activity.patient.PMainActivity;
+import com.doctor.sun.ui.activity.patient.PMainActivity2;
 import com.doctor.sun.ui.activity.patient.PMeActivity;
 import com.doctor.sun.ui.widget.ShareDialog;
 import com.doctor.sun.util.ShowCaseUtil;
@@ -83,7 +83,7 @@ public class SettingHandler extends BaseHandler {
             Intent consulting = PConsultingActivity.makeIntent(context);
             startShowCase(context, consulting);
 
-            Intent intent = PMainActivity.makeIntent(context);
+            Intent intent = PMainActivity2.intentFor(context);
             startShowCase(context, intent);
         }
     }

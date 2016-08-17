@@ -16,7 +16,7 @@
         android:layout_marginRight="@dimen/dp_13"
         android:layout_marginStart="@dimen/dp_13"
         android:background="@drawable/ripple_default"
-        android:onClick="@{()->data.pickTime(context)}">
+        android:onClick="@{()->data.pickEndTime(context)}">
 
         <TextView
             android:id="@+id/et_others"
@@ -27,7 +27,7 @@
             android:gravity="start|center_vertical"
             android:paddingLeft="@dimen/dp_13"
             android:paddingRight="@dimen/dp_13"
-            android:text="@{data.time}"
+            android:text="@{data.endTime}"
             android:textColor="@color/color_tick"
             android:textSize="@dimen/font_15" />
     </LinearLayout>

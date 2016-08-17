@@ -8,12 +8,9 @@
     <color name="button_press">#80CCCCCC</color>
     <color name="button_press_dark">#aaadb1</color>
 
-    <color name="gender_text">#ababab</color>
-
     <color name="divider_color">#c1cacf</color>
     <color name="white">#FFFFFF</color>
 
-    <color name="custom_header_text">#85B100</color>
     <color name="custom_selected">#339DE1</color>
     <color name="custom_background">#FFFFFF</color>
     <color name="custom_background_today">#339DE1</color>
@@ -21,8 +18,6 @@
     <color name="custom_text_selected">#FFFFFFFF</color>
     <color name="custom_text_inactive">#ebebeb</color>
     <color name="custom_text_active">#363636</color>
-    <color name="color_face_day">#f76d02</color>
-    <color name="color_net_day">#88cb5a</color>
 
     <color name="blue_grey">#81D4FA</color>
 
@@ -32,7 +27,6 @@
     <color name="grey_ab">#ababab</color>
     <color name="grey_c2">#c2c2c2</color>
     <color name="gray_d9">#d9d9d9</color>
-    <color name="gray_e2">#e2e2e2</color>
     <color name="gray_eb">#ebebeb</color>
     <color name="gray_f5">#f5f5f5</color>
     <color name="grey_89">#898989</color>
@@ -45,6 +39,5 @@
 
     <color name="orange">#FF8E43</color>
     <color name="green">#88CB5A</color>
-    <color name="extend_time">#FFff8e43</color>
     <color name="color_normal_selected">#65b5e8</color>
 </resources>

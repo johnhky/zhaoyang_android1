@@ -12,7 +12,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.databinding.PActivityInfoBinding;
+import com.doctor.sun.databinding.PActivityPatientInfoBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Patient;
@@ -45,7 +45,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
     private ProfileModule api = Api.of(ProfileModule.class);
     private ToolModule uploadUriApi = Api.of(ToolModule.class);
 
-    private PActivityInfoBinding binding;
+    private PActivityPatientInfoBinding binding;
     private String avatar = "";
 
 
@@ -85,7 +85,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
     }
 
     private void initView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.p_activity_info);
+        binding = DataBindingUtil.setContentView(this, R.layout.p_activity_patient_info);
         patient = getPatient();
         if (patient == null) {
             patient = new Patient();
@@ -171,7 +171,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
                 protected void handleResponse(Patient response) {
                     setIsEditMode(!isEditMode());
                     ToastHelper.showMessage(EditPatientInfoActivity.this, "保存成功,请耐心等待资料审核");
-                    Intent intent = PMainActivity.makeIntent(EditPatientInfoActivity.this);
+                    Intent intent = PMainActivity2.intentFor(EditPatientInfoActivity.this);
                     startActivity(intent);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         finishAffinity();

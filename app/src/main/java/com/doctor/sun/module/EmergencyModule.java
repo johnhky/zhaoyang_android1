@@ -2,7 +2,6 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.WeChatPayDTO;
-import com.doctor.sun.entity.UrgentCall;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,9 +15,9 @@ import retrofit2.http.POST;
  * Created by lucas on 1/20/16.
  */
 public interface EmergencyModule {
-    @FormUrlEncoded
-    @POST("urgent/publish")
-    Call<ApiDTO<UrgentCall>> publish(@Field("recordId") String recordId, @Field("title[]") ArrayList<String> title, @Field("city") String city, @Field("gender") int gender, @Field("money") int money, @Field("waitTime") String waitTime);
+//    @FormUrlEncoded
+//    @POST("urgent/publish")
+//    Call<ApiDTO<UrgentCall>> publish(@Field("recordId") String recordId, @Field("title[]") ArrayList<String> title, @Field("city") String city, @Field("gender") int gender, @Field("money") int money, @Field("waitTime") String waitTime);
 
     @FormUrlEncoded
     @POST("urgent/cancel")

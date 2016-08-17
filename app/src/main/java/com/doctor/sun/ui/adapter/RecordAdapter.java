@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.databinding.ItemTextBinding;
+import com.doctor.sun.databinding.ItemRMedicalRecordBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.event.CloseDialogEvent;
@@ -40,8 +40,8 @@ public class RecordAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
 
     @Override
     public void onBindViewBinding(BaseViewHolder<ViewDataBinding> vh, final int position) {
-        if (vh.getItemViewType() == R.layout.item_text) {
-            final ItemTextBinding binding = (ItemTextBinding) vh.getBinding();
+        if (vh.getItemViewType() == R.layout.item_r_medical_record) {
+            final ItemRMedicalRecordBinding binding = (ItemRMedicalRecordBinding) vh.getBinding();
             binding.llySelector.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
