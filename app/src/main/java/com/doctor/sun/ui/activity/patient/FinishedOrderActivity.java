@@ -13,7 +13,6 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingDetailActivity;
-import com.doctor.sun.ui.fragment.FillForumFragment;
 import com.doctor.sun.ui.handler.QCategoryHandler;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.pager.HistoryDetailAdapter;
@@ -77,7 +76,7 @@ public class FinishedOrderActivity extends TabActivity
 
     @Override
     public void onCategorySelect(QuestionCategory data) {
-        FillForumFragment.getInstance(getData()).loadQuestions(data);
+//        ReadQuestionFragment.getInstance(getData()).loadQuestions(data);
     }
 
 

@@ -1,9 +1,11 @@
 package com.doctor.sun.vo;
 
+import android.databinding.Bindable;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.inputmethod.EditorInfo;
 
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
 
 
@@ -11,7 +13,6 @@ import com.doctor.sun.R;
  * Created by rick on 18/3/2016.
  */
 public class ItemTextInput2 extends BaseItem {
-    private int itemLayoutId;
     private int inputType = InputType.TYPE_CLASS_TEXT;
     private int imeOptions = EditorInfo.IME_ACTION_NEXT;
     private int maxLength = 16;
@@ -23,79 +24,89 @@ public class ItemTextInput2 extends BaseItem {
 
 
     public ItemTextInput2(int itemLayoutId, String title, String hint) {
-        this.itemLayoutId = itemLayoutId;
+        super(itemLayoutId);
         this.title = title;
         this.hint = hint;
     }
 
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
-
-    public String getHint() {
-        return hint;
-    }
-
+    @Bindable
     public int getInputType() {
         return inputType;
     }
 
+    public void setInputType(int inputType) {
+        this.inputType = inputType;
+        notifyPropertyChanged(BR.inputType);
+    }
+
+    @Bindable
     public int getImeOptions() {
         return imeOptions;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setInputType(int inputType) {
-        this.inputType = inputType;
-    }
-
     public void setImeOptions(int imeOptions) {
         this.imeOptions = imeOptions;
+        notifyPropertyChanged(BR.imeOptions);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setHint(String hint) {
-        this.hint = hint;
-    }
-
+    @Bindable
     public int getMaxLength() {
         return maxLength;
     }
 
     public void setMaxLength(int maxLength) {
         this.maxLength = maxLength;
+        notifyPropertyChanged(BR.maxLength);
     }
 
-    public String getSubTitle() {
-        return subTitle;
-    }
-
-    public void setSubTitle(String subTitle) {
-        this.subTitle = subTitle;
-    }
-
+    @Bindable
     public int getTitleGravity() {
         return titleGravity;
     }
 
     public void setTitleGravity(int titleGravity) {
         this.titleGravity = titleGravity;
+        notifyPropertyChanged(BR.titleGravity);
     }
 
+    @Bindable
+    public String getTitle() {
+        return title;
+    }
 
-    @Override
-    public int getItemLayoutId() {
-        return itemLayoutId;
+    public void setTitle(String title) {
+        this.title = title;
+        notifyPropertyChanged(BR.title);
+    }
+
+    @Bindable
+    public String getSubTitle() {
+        return subTitle;
+    }
+
+    public void setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
+        notifyPropertyChanged(BR.subTitle);
+    }
+
+    @Bindable
+    public String getHint() {
+        return hint;
+    }
+
+    public void setHint(String hint) {
+        this.hint = hint;
+        notifyPropertyChanged(BR.hint);
+    }
+
+    @Bindable
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+        notifyPropertyChanged(BR.result);
     }
 
     public static ItemTextInput2 phoneInput(String title, String hint) {
@@ -105,5 +116,10 @@ public class ItemTextInput2 extends BaseItem {
         viewModel.setInputType(InputType.TYPE_CLASS_PHONE);
 
         return viewModel;
+    }
+
+    @Override
+    public String getValue() {
+        return result;
     }
 }

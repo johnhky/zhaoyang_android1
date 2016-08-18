@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="title_array">
+        <item>主任医师</item>
+        <item>副主任医师</item>
+        <item>主治医师</item>
+        <item>心理咨询师二级</item>
+        <item>心理咨询师三级</item>
+        <item>医师</item>
+        <item>心理治疗师</item>
+    </string-array>
+</resources>

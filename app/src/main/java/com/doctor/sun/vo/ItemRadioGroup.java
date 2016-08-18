@@ -52,4 +52,9 @@ public class ItemRadioGroup extends BaseItem implements LayoutId {
     public OnCheckedChangeListener getListener() {
         return listener;
     }
+
+    @Override
+    public String getValue() {
+        return String.valueOf(selectedItem);
+    }
 }

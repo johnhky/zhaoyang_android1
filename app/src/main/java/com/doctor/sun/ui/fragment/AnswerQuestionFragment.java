@@ -18,10 +18,8 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
-import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
-import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.Function0;
-import com.doctor.sun.vo.ItemPickImage;
+import com.doctor.sun.vo.ItemPickImages;
 import com.squareup.otto.Subscribe;
 
 import java.util.List;
@@ -106,7 +104,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            ItemPickImage.handleRequest(getActivity(), getAdapter(), data, requestCode);
+            ItemPickImages.handleRequest(getActivity(), getAdapter(), data, requestCode);
         }
     }
 

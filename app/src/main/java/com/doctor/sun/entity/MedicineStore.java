@@ -2,17 +2,12 @@ package com.doctor.sun.entity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.BaseObservable;
 import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
-import com.doctor.sun.ui.adapter.core.SortedListAdapter;
-
-import java.util.HashMap;
+import com.doctor.sun.vo.BaseItem;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -24,7 +19,7 @@ import io.realm.RealmResults;
  * 寄药小助手item,只是负责跳转页面,
  * TODO 写个跳转页面的item替换掉
  */
-public class MedicineStore extends BaseObservable implements LayoutId, SortedItem {
+public class MedicineStore extends BaseItem {
 
     @Override
     public int getItemLayoutId() {
@@ -49,18 +44,13 @@ public class MedicineStore extends BaseObservable implements LayoutId, SortedIte
     }
 
 
-    public void registerRealmChanged(){
+    public void registerRealmChanged() {
         getAllMsgs().findAll().addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
             @Override
             public void onChange(RealmResults<TextMsg> element) {
                 notifyChange();
             }
         });
-    }
-
-    @Override
-    public int getLayoutId() {
-        return getItemLayoutId();
     }
 
     @Override
@@ -71,19 +61,5 @@ public class MedicineStore extends BaseObservable implements LayoutId, SortedIte
     @Override
     public String getKey() {
         return "MEDICINE_STORE";
-    }
-
-    @Override
-    public int getSpan() {
-        return 12;
-    }
-
-    @Override
-    public boolean isUserSelected() {
-        return false;
-    }
-    @Override
-    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
-        return null;
     }
 }

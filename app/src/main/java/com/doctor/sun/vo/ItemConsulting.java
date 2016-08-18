@@ -71,6 +71,11 @@ public class ItemConsulting implements SortedItem {
     }
 
     @Override
+    public String getValue() {
+        return null;
+    }
+
+    @Override
     public int getSpan() {
         return 12;
     }

@@ -11,8 +11,8 @@ import com.doctor.sun.entity.constans.QTemplateType;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
-import com.doctor.sun.ui.fragment.FillForumFragment;
 import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
+import com.doctor.sun.ui.fragment.ReadQuestionFragment;
 
 import io.ganguo.library.Config;
 
@@ -48,7 +48,7 @@ public class ConsultingDetailPagerAdapter extends FragmentPagerAdapter {
             switch (position) {
                 case 0: {
                     //填写问卷 只读
-                    return FillForumFragment.getInstance(appointment);
+                    return ReadQuestionFragment.getInstance(appointment.getIdString(), QTemplateType.NORMAL,true);
                 }
                 case 1: {
 //                appointment.setId(325);

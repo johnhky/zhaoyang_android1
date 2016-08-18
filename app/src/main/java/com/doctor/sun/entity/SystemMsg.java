@@ -23,6 +23,7 @@ import com.doctor.sun.ui.activity.patient.handler.SystemMsgHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
@@ -39,7 +40,7 @@ import io.realm.annotations.Ignore;
  * Created by lucas on 1/29/16.
  * 系统信息
  */
-public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, Event {
+public class SystemMsg extends BaseItem {
 
 
     /**
@@ -68,17 +69,6 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
     @JsonProperty("patient_name")
     private Object patientName;
 
-    @Ignore
-    private int itemLayoutId = R.layout.p_item_system_msg;
-
-    @Override
-    public int getItemLayoutId() {
-        return itemLayoutId;
-    }
-
-    public void setItemLayoutId(int itemLayoutId) {
-        this.itemLayoutId = itemLayoutId;
-    }
     /*@Override
     public int getItemLayoutId() {
         return R.layout.p_item_system_tip;
@@ -212,11 +202,6 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
     }
 
     @Override
-    public int getLayoutId() {
-        return getItemLayoutId();
-    }
-
-    @Override
     public long getCreated() {
         return Long.MAX_VALUE;
     }
@@ -224,21 +209,6 @@ public class SystemMsg extends BaseObservable implements LayoutId, SortedItem, E
     @Override
     public String getKey() {
         return "SYSTEM_MSG";
-    }
-
-    @Override
-    public int getSpan() {
-        return 12;
-    }
-
-    @Override
-    public boolean isUserSelected() {
-        return false;
-    }
-
-    @Override
-    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
-        return null;
     }
 
     public static String getConfigKey() {

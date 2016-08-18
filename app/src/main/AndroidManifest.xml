@@ -476,6 +476,10 @@
             android:name=".ui.activity.ReadQuestionActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.activity.SingleFragmentActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name="com.yuntongxun.ecsdk.ECClientService"
             android:enabled="true" />

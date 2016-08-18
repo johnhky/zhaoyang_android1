@@ -145,10 +145,10 @@ public class ConsultingFragment2 extends SortedListFragment {
     }
 
     public void insertHeader() {
-        getAdapter().insert(getSystemMsg());
-        if (!Settings.isDoctor()) {
-            getAdapter().insert(getMedicineStore());
-        }
+//        getAdapter().insert(getSystemMsg());
+//        if (!Settings.isDoctor()) {
+//            getAdapter().insert(getMedicineStore());
+//        }
     }
 
     @SuppressWarnings("unchecked")

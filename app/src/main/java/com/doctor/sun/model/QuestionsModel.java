@@ -1,7 +1,6 @@
 package com.doctor.sun.model;
 
 import android.databinding.Observable;
-import android.util.Log;
 
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
@@ -27,7 +26,7 @@ import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemAddPrescription2;
 import com.doctor.sun.vo.ItemAddReminder;
 import com.doctor.sun.vo.ItemPickDate;
-import com.doctor.sun.vo.ItemPickImage;
+import com.doctor.sun.vo.ItemPickImages;
 import com.doctor.sun.vo.ItemPickTime;
 import com.doctor.sun.vo.ItemTextInput;
 
@@ -254,11 +253,11 @@ public class QuestionsModel {
     }
 
     private void parseUpImg(List<SortedItem> items, int i, final Questions2 questions2) {
-        final ItemPickImage pickerItem = new ItemPickImage(R.layout.item_pick_image, "");
+        final ItemPickImages pickerItem = new ItemPickImages(R.layout.item_pick_image, "");
         if (questions2.fillContent != null && !questions2.fillContent.equals("")) {
             String[] split = questions2.fillContent.split(",");
             for (int j = 0; j < split.length; j++) {
-                ItemPickImage item = new ItemPickImage(R.layout.item_view_image, split[j]);
+                ItemPickImages item = new ItemPickImages(R.layout.item_view_image, split[j]);
                 item.setPosition(i * PADDING + j + 1);
                 item.setItemId(UUID.randomUUID().toString());
                 pickerItem.registerItemChangedListener(item);

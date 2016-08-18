@@ -1,67 +1,54 @@
 package com.doctor.sun.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
-import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.event.SaveAnswerSuccessEvent;
-import com.doctor.sun.model.QuestionsModel;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.model.DoctorInfoModel;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
-import com.doctor.sun.util.Function0;
-import com.doctor.sun.vo.BaseItem;
 import com.doctor.sun.vo.ItemPickImage;
-import com.squareup.otto.Subscribe;
 
 import java.util.List;
-
-import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 28/7/2016.
  */
 
 public class EditDoctorInfoFragment extends SortedListFragment {
+    public static final String NAME = "EditDoctorInfoFragment";
 
-    private Doctor model;
+    private DoctorInfoModel model;
+    private Doctor data;
 
-    public static EditDoctorInfoFragment getInstance(Doctor doctor) {
-        EditDoctorInfoFragment fragment = new EditDoctorInfoFragment();
-        Bundle bundle = new Bundle();
-
-        bundle.putParcelable(Constants.DATA, doctor);
-        fragment.setArguments(bundle);
-        return fragment;
+    public static Intent intentFor(Context context, Doctor doctor) {
+        Intent i = new Intent(context, SingleFragmentActivity.class);
+        i.putExtra(Constants.FRAGMENT_NAME, NAME);
+        i.putExtra(Constants.DATA, doctor);
+        return i;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        EventHub.register(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        EventHub.unregister(this);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        model = new DoctorInfoModel();
+        data = getArguments().getParcelable(Constants.DATA);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        id = 138;
-
         setHasOptionsMenu(true);
         loadMore();
     }
@@ -69,11 +56,35 @@ public class EditDoctorInfoFragment extends SortedListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
-        getAdapter().insert(new BaseItem(R.layout.item_pick_avatar));
-
+        List<SortedItem> sortedItems = model.parseData(data);
+        getAdapter().insertAll(sortedItems);
     }
 
+//    public HashMap<String, String> toHashMap() {
+
+//        HashMap<String, String> result = new HashMap<String, String>();
+//        result.put("name", data.getName() == null ? "" : data.getName());
+//        result.put("email", data.getEmail() == null ? "" : data.getEmail());
+//        result.put("gender", String.valueOf(data.getGender()));
+//        result.put("avatar", data.getAvatar() == null ? "" : data.getAvatar());
+//        result.put("specialist", data.getSpecialist() == null ? "" : data.getSpecialist());
+//        result.put("title", data.getTitle() == null ? "" : data.getTitle());
+//        result.put("titleImg", data.getTitleImg() == null ? "" : data.getTitleImg());
+//        result.put("practitionerImg", data.getPractitionerImg() == null ? "" : data.getPractitionerImg());
+//        result.put("certifiedImg", data.getCertifiedImg() == null ? "" : data.getCertifiedImg());
+//        result.put("hospitalPhone", data.getHospitalPhone() == null ? "" : data.getHospitalPhone());
+//        result.put("detail", data.getDetail() == null ? "" : data.getDetail());
+//        result.put("hospital", data.getHospitalName() == null ? "" : data.getHospitalName());
+//        return result;
+//    }
+
     public void save() {
+        model.postResult(getAdapter(), new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                Log.e(TAG, "handleResponse: " + response);
+            }
+        });
     }
 
     @Override

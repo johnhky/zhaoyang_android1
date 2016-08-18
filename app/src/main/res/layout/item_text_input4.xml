@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vo.ItemTextInput2" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_180"
+        android:enabled="@{data.enabled}"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_13"
+            android:background="@drawable/ripple_default">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.title}"
+                android:textColor="#9bb6c5"
+                android:textSize="@dimen/font_13"
+                tools:text="手机号码" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:layout_marginRight="@dimen/dp_8"
+                android:layout_marginStart="@dimen/dp_8"
+                android:text="@{data.subTitle}"
+                android:textColor="#9bb6c5"
+                android:textSize="@dimen/font_12"
+                tools:text="(必填)" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6">
+
+            <EditText
+                android:id="@+id/et_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:background="@drawable/bg_transparent"
+                android:gravity="start"
+                android:hint="@{data.hint}"
+                android:imeOptions="@{data.imeOptions}"
+                android:inputType="@{data.inputType}"
+                android:maxLength="@{data.maxLength}"
+                android:text="@={data.result}"
+                android:textColor="@color/color_tick"
+                android:textSize="@dimen/font_13" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:text="@{data.result.length()+&quot;/&quot;+data.maxLength+ &quot;字&quot;}"
+                android:textColor="#9bb6c5"
+                android:textSize="@dimen/font_12"
+                tools:text="100/200字体" />
+
+        </FrameLayout>
+    </LinearLayout>
+</layout>

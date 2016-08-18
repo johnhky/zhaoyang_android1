@@ -6,8 +6,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.ui.fragment.FillForumFragment;
+import com.doctor.sun.entity.constans.QTemplateType;
 import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
+import com.doctor.sun.ui.fragment.ReadQuestionFragment;
 
 /**
  * Created by lucas on 1/8/16.
@@ -24,7 +25,7 @@ public class HistoryDetailAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return FillForumFragment.getInstance(appointment);
+                return ReadQuestionFragment.getInstance(appointment.getIdString(), QTemplateType.NORMAL, true);
             case 1:
                 return ReadDiagnosisFragment.newInstance(appointment.getId());
         }

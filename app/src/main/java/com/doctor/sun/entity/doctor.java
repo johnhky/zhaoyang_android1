@@ -132,6 +132,8 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
     @JsonProperty("is_ban")
     private String isBan;
 
+
+
     public int getDoctorId() {
         return doctorId;
     }
@@ -519,6 +521,7 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
                 ", birthday='" + birthday + '\'' +
                 ", isFav='" + isFav + '\'' +
                 ", id=" + id +
+                ", doctorId=" + doctorId +
                 ", avatar='" + avatar + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
@@ -541,8 +544,14 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
                 ", secondMoney=" + secondMoney +
                 ", needReview=" + needReview +
                 ", point=" + point +
+                ", followUpPermission=" + followUpPermission +
                 ", recordId='" + recordId + '\'' +
                 ", duration='" + duration + '\'' +
+                ", type=" + type +
+                ", yunxinAccid='" + yunxinAccid + '\'' +
+                ", tid='" + tid + '\'' +
+                ", isRecommend='" + isRecommend + '\'' +
+                ", isBan='" + isBan + '\'' +
                 '}';
     }
 

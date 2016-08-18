@@ -14,6 +14,8 @@ public interface SortedItem {
 
     String getKey();
 
+    String getValue();
+
     int getSpan();
 
     boolean isUserSelected();

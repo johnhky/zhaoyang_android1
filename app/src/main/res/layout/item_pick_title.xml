@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="com.doctor.sun.entity.constans.Gender" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vo.ItemRadioDialog" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_70"
+        android:layout_marginLeft="@dimen/dp_13"
+        android:layout_marginRight="@dimen/dp_13"
+        android:divider="@color/divider_color"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@{data.title}"
+            android:textColor="#9bb6c5"
+            android:textSize="@dimen/font_13" />
+
+        <Button
+            android:id="@+id/rb_male"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:background="@drawable/ripple_blue_rect"
+            android:clickable="@{data.enabled}"
+            android:gravity="center"
+            android:minWidth="@dimen/dp_65"
+            android:onClick="@{()->data.showOptions(context)}"
+            android:paddingEnd="@dimen/dp_6"
+            android:paddingLeft="@dimen/dp_6"
+            android:paddingRight="@dimen/dp_6"
+            android:paddingStart="@dimen/dp_6"
+            android:selected="@{true}"
+            android:text="@{data.selectedItemText}"
+            android:textColor="@color/text_color_blue"
+            android:textSize="@dimen/font_15" />
+
+
+    </LinearLayout>
+</layout>
