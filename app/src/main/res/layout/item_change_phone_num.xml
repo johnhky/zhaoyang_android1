@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemTextInput2" />
+            type="com.doctor.sun.vo.ClickMenu" />
 
     </data>
 
@@ -14,6 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70"
         android:focusable="true"
+        android:onClick="@{data.itemClick()}"
+        android:background="@drawable/ripple_default"
         android:orientation="vertical">
 
         <TextView
@@ -27,13 +29,12 @@
             android:drawableEnd="@drawable/ic_enter"
             android:drawablePadding="@dimen/dp_6"
             android:drawableRight="@drawable/ic_enter"
-            android:text="@{data.hint}"
+            android:text="@{data.subTitle}"
             android:textColor="@color/colorPrimaryDark" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:enabled="@{data.enabled}"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
@@ -65,11 +66,8 @@
                 android:layout_marginTop="@dimen/dp_6"
                 android:background="@drawable/bg_transparent"
                 android:gravity="start"
-                android:hint="@{data.hint}"
-                android:inputType="@{data.inputType}"
-                android:maxLength="@{data.maxLength}"
                 android:maxLines="1"
-                android:text="@={data.result}"
+                android:text="@{data.detail}"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_13" />
         </LinearLayout>

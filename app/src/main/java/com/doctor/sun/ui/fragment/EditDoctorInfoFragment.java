@@ -60,24 +60,6 @@ public class EditDoctorInfoFragment extends SortedListFragment {
         getAdapter().insertAll(sortedItems);
     }
 
-//    public HashMap<String, String> toHashMap() {
-
-//        HashMap<String, String> result = new HashMap<String, String>();
-//        result.put("name", data.getName() == null ? "" : data.getName());
-//        result.put("email", data.getEmail() == null ? "" : data.getEmail());
-//        result.put("gender", String.valueOf(data.getGender()));
-//        result.put("avatar", data.getAvatar() == null ? "" : data.getAvatar());
-//        result.put("specialist", data.getSpecialist() == null ? "" : data.getSpecialist());
-//        result.put("title", data.getTitle() == null ? "" : data.getTitle());
-//        result.put("titleImg", data.getTitleImg() == null ? "" : data.getTitleImg());
-//        result.put("practitionerImg", data.getPractitionerImg() == null ? "" : data.getPractitionerImg());
-//        result.put("certifiedImg", data.getCertifiedImg() == null ? "" : data.getCertifiedImg());
-//        result.put("hospitalPhone", data.getHospitalPhone() == null ? "" : data.getHospitalPhone());
-//        result.put("detail", data.getDetail() == null ? "" : data.getDetail());
-//        result.put("hospital", data.getHospitalName() == null ? "" : data.getHospitalName());
-//        return result;
-//    }
-
     public void save() {
         model.postResult(getAdapter(), new SimpleCallback<String>() {
             @Override

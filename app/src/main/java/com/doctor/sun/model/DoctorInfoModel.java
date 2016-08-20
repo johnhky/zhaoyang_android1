@@ -2,6 +2,7 @@ package com.doctor.sun.model;
 
 import android.text.InputType;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
 import com.doctor.sun.AppContext;
@@ -12,7 +13,9 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.ui.fragment.ChangeMyPhoneNumFragment;
 import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vo.ClickMenu;
 import com.doctor.sun.vo.ItemPickImage;
 import com.doctor.sun.vo.ItemRadioDialog;
 import com.doctor.sun.vo.ItemRadioGroup;
@@ -51,13 +54,26 @@ public class DoctorInfoModel {
 
         insertDivider(result);
 
-        ItemTextInput2 personalPhone = ItemTextInput2.phoneInput("手机号码", "");
-        personalPhone.setItemLayoutId(R.layout.item_change_phone_num);
-        personalPhone.setHint("更换手机号码");
-        personalPhone.setItemId("phone");
-        personalPhone.setPosition(result.size());
-        personalPhone.setResult(data.getPhone());
-        result.add(personalPhone);
+        if (data.getPhone() == null || data.getPhone().equals("")) {
+            ItemTextInput2 personalPhone = ItemTextInput2.phoneInput("手机号码", "");
+            personalPhone.setItemLayoutId(R.layout.item_text_input2);
+            personalPhone.setHint("更换手机号码");
+            personalPhone.setItemId("phone");
+            personalPhone.setPosition(result.size());
+            personalPhone.setResult(data.getPhone());
+            result.add(personalPhone);
+        } else {
+            ClickMenu changePersonalPhone = new ClickMenu(R.layout.item_change_phone_num, 0, "手机号码", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ChangeMyPhoneNumFragment.startFrom(view.getContext());
+                }
+            });
+            changePersonalPhone.setSubTitle("更换手机号码");
+            changePersonalPhone.setDetail(data.getPhone());
+            changePersonalPhone.setPosition(result.size());
+            result.add(changePersonalPhone);
+        }
 
         insertDivider(result);
 

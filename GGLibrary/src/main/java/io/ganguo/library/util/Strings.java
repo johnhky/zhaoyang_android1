@@ -13,31 +13,31 @@ public class Strings {
     /**
      * URL正则
      */
-    private final static Pattern URL_PATTERN = Pattern
+    public final static Pattern URL_PATTERN = Pattern
             .compile("[a-zA-z]+://[^\\s]*");
 
     /**
      * 邮政编码正则
      */
-    private final static Pattern ZIP_PATTERN = Pattern
+    public final static Pattern ZIP_PATTERN = Pattern
             .compile("[1-9]\\d{5}(?!\\d)");
 
     /**
      * 身份证正则
      */
-    private final static Pattern IDCARD_PATTERN = Pattern
+    public final static Pattern IDCARD_PATTERN = Pattern
             .compile("(^\\d{15}$)|(^\\d{17}([0-9]|X)$)");
 
     /**
      * 手机号码正则
      */
-    private final static Pattern MOBILE_PATTERN = Pattern
+    public final static Pattern MOBILE_PATTERN = Pattern
             .compile("^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$");
 
     /**
      * 邮箱正则
      */
-    private final static Pattern EMAIL_PATTERN = Pattern
+    public final static Pattern EMAIL_PATTERN = Pattern
             .compile("[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?");
 
     /**

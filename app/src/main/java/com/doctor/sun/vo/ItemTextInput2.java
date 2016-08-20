@@ -7,6 +7,13 @@ import android.view.inputmethod.EditorInfo;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.vo.validator.RegexValidator;
+import com.doctor.sun.vo.validator.Validator;
+
+import java.util.LinkedList;
+import java.util.regex.Pattern;
+
+import io.ganguo.library.util.Strings;
 
 
 /**
@@ -20,7 +27,10 @@ public class ItemTextInput2 extends BaseItem {
     private String title;
     private String subTitle;
     private String hint;
-    private String result;
+    private String result = "";
+    private String error;
+
+    private LinkedList<Validator> validators;
 
 
     public ItemTextInput2(int itemLayoutId, String title, String hint) {
@@ -100,6 +110,44 @@ public class ItemTextInput2 extends BaseItem {
     }
 
     @Bindable
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+        notifyPropertyChanged(BR.error);
+    }
+
+    public boolean isResultValid(String result) {
+        if (validators == null || validators.isEmpty()) {
+            return true;
+        }
+        if (result == null || result.equals("")) {
+            setError("");
+            return false;
+        }
+        for (Validator validator : validators) {
+            if (!validator.isValid(result)) {
+                setError(validator.errorMsg());
+                return false;
+            }
+        }
+        setError("");
+        return true;
+    }
+
+    public void add(Validator element) {
+        if (element == null) {
+            return;
+        }
+        if (validators == null) {
+            validators = new LinkedList<>();
+        }
+        validators.add(element);
+    }
+
+    @Bindable
     public String getResult() {
         return result;
     }
@@ -114,6 +162,8 @@ public class ItemTextInput2 extends BaseItem {
         viewModel.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         viewModel.setMaxLength(11);
         viewModel.setInputType(InputType.TYPE_CLASS_PHONE);
+        viewModel.add(new RegexValidator(Pattern.compile("^\\d{11}$"), "请输入11位手机号码"));
+        viewModel.add(new RegexValidator(Strings.MOBILE_PATTERN, "手机号码格式错误"));
 
         return viewModel;
     }

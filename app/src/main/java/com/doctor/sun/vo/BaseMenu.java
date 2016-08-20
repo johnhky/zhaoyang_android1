@@ -1,18 +1,16 @@
 package com.doctor.sun.vo;
 
-import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 
 import com.doctor.sun.BR;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
 /**
  * Created by rick on 7/4/2016.
  */
-public abstract class BaseMenu extends BaseObservable implements LayoutId {
+public abstract class BaseMenu extends BaseItem {
     protected int itemLayoutId;
     protected int icon;
     protected String title;

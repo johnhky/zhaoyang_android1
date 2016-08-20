@@ -123,4 +123,16 @@
         <item name="android:textSize">@dimen/font_15</item>
     </style>
 
+    <style name="AppTheme.TextFloatLabelAppearance" parent="TextAppearance.Design.Hint">
+        <!-- Floating label appearance here -->
+        <item name="android:textColor">#9bb6c5</item>
+        <item name="android:textSize">@dimen/font_13</item>
+    </style>
+
+    <style name="AppTheme.TextErrorAppearance" parent="TextAppearance.Design.Error">
+        <!-- Error message appearance here -->
+        <item name="android:textColor">@color/red_f0</item>
+        <item name="android:textSize">@dimen/font_8</item>
+    </style>
+
 </resources>
