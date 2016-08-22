@@ -15,9 +15,14 @@ public class ClickMenu extends BaseMenu {
         this.listener = listener;
     }
 
+    public void setListener(View.OnClickListener listener) {
+        this.listener = listener;
+    }
 
     @Override
     public View.OnClickListener itemClick() {
         return listener;
     }
+
+
 }

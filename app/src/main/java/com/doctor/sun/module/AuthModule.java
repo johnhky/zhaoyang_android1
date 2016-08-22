@@ -29,6 +29,20 @@ public interface AuthModule {
     Call<ApiDTO<String>> sendCaptcha(@Field("phone") String phone);
 
 
+    /**
+     * @param phone
+     * @param type change_phone or register
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("auth/captcha")
+    Call<ApiDTO<String>> sendCaptcha(@Field("phone") String phone, @Field("type") String type);
+
+
+    @FormUrlEncoded
+    @POST("profile/new-phone")
+    Call<ApiDTO<String>> changePhone(@Field("captcha") String captcha, @Field("phone") String phone);
+
     @FormUrlEncoded
     @POST("auth/login")
     Call<ApiDTO<Token>> login(@Field("phone") String phone, @Field("password") String password);

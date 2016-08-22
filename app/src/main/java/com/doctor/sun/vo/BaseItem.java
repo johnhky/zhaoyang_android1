@@ -7,13 +7,20 @@ import com.doctor.sun.BR;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.vo.validator.Validator;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * Created by rick on 24/12/2015.
  */
-public class BaseItem extends BaseObservable implements LayoutId, SortedItem {
+public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Validator {
+
+    private String title;
+    private boolean shouldNotBeEmpty = false;
+    private LinkedList<Validator> validators;
+    private String error;
 
     private String itemId;
 
@@ -86,9 +93,72 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem {
         return itemId;
     }
 
+    @Bindable
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+        notifyPropertyChanged(BR.title);
+    }
+
     @Override
     public String getValue() {
         return "";
+    }
+
+    public void setShouldNotBeEmpty(boolean shouldNotBeEmpty) {
+        this.shouldNotBeEmpty = shouldNotBeEmpty;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+        notifyPropertyChanged(BR.error);
+    }
+
+    public boolean isValid(String ignoredInput) {
+        String result = getValue();
+        if (validators == null || validators.isEmpty()) {
+            return true;
+        }
+        if (result == null || result.equals("")) {
+            if (shouldNotBeEmpty) {
+                setError("请填写" + getTitle());
+                return false;
+            } else {
+                setError("");
+                return true;
+            }
+        }
+        for (Validator validator : validators) {
+            if (!validator.isValid(result)) {
+                setError(validator.errorMsg());
+                return false;
+            }
+        }
+        setError("");
+        return true;
+    }
+
+    @Override
+    public String errorMsg() {
+        return error;
+    }
+
+    @Bindable
+    public String getError() {
+        return error;
+    }
+
+    public void add(Validator element) {
+        if (element == null) {
+            return;
+        }
+        if (validators == null) {
+            validators = new LinkedList<>();
+        }
+        validators.add(element);
     }
 
     @Override

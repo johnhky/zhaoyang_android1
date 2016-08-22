@@ -73,6 +73,7 @@ public class ConsultingFragment2 extends SortedListFragment {
     public SystemMsg getSystemMsg() {
         if (systemMsg == null) {
             systemMsg = new SystemMsg();
+            systemMsg.setItemLayoutId(R.layout.p_item_system_msg);
         }
         systemMsg.notifyChange();
         systemMsg.registerMsgsChangedListener();
@@ -145,10 +146,10 @@ public class ConsultingFragment2 extends SortedListFragment {
     }
 
     public void insertHeader() {
-//        getAdapter().insert(getSystemMsg());
-//        if (!Settings.isDoctor()) {
-//            getAdapter().insert(getMedicineStore());
-//        }
+        getAdapter().insert(getSystemMsg());
+        if (!Settings.isDoctor()) {
+            getAdapter().insert(getMedicineStore());
+        }
     }
 
     @SuppressWarnings("unchecked")

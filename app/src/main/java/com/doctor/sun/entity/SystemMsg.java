@@ -69,10 +69,10 @@ public class SystemMsg extends BaseItem {
     @JsonProperty("patient_name")
     private Object patientName;
 
-    /*@Override
+    @Override
     public int getItemLayoutId() {
-        return R.layout.p_item_system_tip;
-    }*/
+        return R.layout.p_item_system_msg;
+    }
 
     @Ignore
     private SystemMsgHandler handler = new SystemMsgHandler(this);

@@ -1,54 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
+
+        <import type="com.doctor.sun.util.CountDownUtil" />
+
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemTextInput2" />
+            type="com.doctor.sun.vo.ItemCaptchaInput" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70"
-        android:layout_marginEnd="@dimen/dp_13"
-        android:layout_marginLeft="@dimen/dp_13"
-        android:layout_marginRight="@dimen/dp_13"
-        android:layout_marginStart="@dimen/dp_13"
         android:divider="@color/divider_color"
         android:orientation="horizontal">
 
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_70"
+            android:layout_weight="1">
 
-            android:layout_weight="1"
-            android:gravity="center"
-            android:hint="@{data.title}"
-            android:paddingTop="@dimen/dp_13"
-            android:textColorHint="#9bb6c5"
-            app:errorEnabled="true"
-            app:errorTextAppearance="@style/AppTheme.TextErrorAppearance"
-            app:hintAnimationEnabled="true"
-            app:hintEnabled="true"
-            app:hintTextAppearance="@style/AppTheme.TextFloatLabelAppearance"
-            app:setError="@{data.error}">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/et_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@color/transparent"
-                android:gravity="center_vertical"
-                android:inputType="@{data.inputType}"
-                android:maxLength="@{data.maxLength}"
-                android:maxLines="1"
-                android:text="@={data.result}"
-                android:textColor="@{data.isResultValid(data.result)?@color/color_tick:@color/red_f0}"
-                android:textSize="@dimen/font_13" />
-        </android.support.design.widget.TextInputLayout>
+            <include
+                layout="@layout/item_text_input2"
+                bind:data="@{data}" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/rb_male"
@@ -57,14 +35,17 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
-            android:background="@drawable/ripple_blue_rect"
+            android:background="@drawable/selector_count_down_rect"
             android:gravity="center"
             android:minWidth="@dimen/dp_65"
+            android:onClick="@{data.listener}"
             android:paddingEnd="@dimen/dp_6"
             android:paddingLeft="@dimen/dp_6"
             android:paddingRight="@dimen/dp_6"
             android:paddingStart="@dimen/dp_6"
-            android:textColor="@color/text_color_blue"
+            android:selected="@{true}"
+            android:text="@{data.subTitle}"
+            android:textColor="@color/white"
             android:textSize="@dimen/font_15" />
 
 

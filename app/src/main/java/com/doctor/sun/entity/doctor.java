@@ -133,7 +133,6 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
     private String isBan;
 
 
-
     public int getDoctorId() {
         return doctorId;
     }

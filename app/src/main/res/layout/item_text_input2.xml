@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
+        <import type="android.view.View" />
 
         <variable
             name="data"
@@ -10,36 +11,46 @@
 
     </data>
 
-    <android.support.design.widget.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70"
         android:layout_marginEnd="@dimen/dp_13"
         android:layout_marginLeft="@dimen/dp_13"
         android:layout_marginRight="@dimen/dp_13"
         android:layout_marginStart="@dimen/dp_13"
-        android:gravity="center"
-        android:hint="@{data.title}"
-        android:paddingTop="@dimen/dp_13"
-        android:textColorHint="#9bb6c5"
-        app:errorEnabled="true"
-        app:errorTextAppearance="@style/AppTheme.TextErrorAppearance"
-        app:hintAnimationEnabled="true"
-        app:hintEnabled="true"
-        app:hintTextAppearance="@style/AppTheme.TextFloatLabelAppearance"
-        app:setError="@{data.error}">
+        android:animateLayoutChanges="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:textColorHint="#9bb6c5">
 
-        <android.support.design.widget.TextInputEditText
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_4"
+            android:text="@{data.title}"
+            android:textAppearance="@style/AppTheme.TextFloatLabelAppearance" />
+
+        <EditText
             android:id="@+id/et_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@color/transparent"
             android:gravity="center_vertical"
+            android:hint="@{data.hint}"
             android:inputType="@{data.inputType}"
             android:maxLength="@{data.maxLength}"
             android:maxLines="1"
             android:text="@={data.result}"
-            android:textColor="@{data.isResultValid(data.result)?@color/color_tick:@color/red_f0}"
+            android:textColor="@{data.isValid(data.result)?@color/color_tick:@color/red_f0}"
             android:textSize="@dimen/font_13" />
-    </android.support.design.widget.TextInputLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{data.error}"
+            android:textAppearance="@style/AppTheme.TextErrorAppearance"
+            android:visibility="@{data.error!=null &amp;&amp; !data.error.equals(&quot;&quot;)}" />
+    </LinearLayout>
 </layout>

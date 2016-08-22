@@ -13,14 +13,12 @@ import com.doctor.sun.BR;
 public abstract class BaseMenu extends BaseItem {
     protected int itemLayoutId;
     protected int icon;
-    protected String title;
     protected String subTitle;
     protected String detail;
-    protected boolean enable = true;
 
     public BaseMenu(@LayoutRes int itemLayoutId, @DrawableRes int icon, String title) {
         this.itemLayoutId = itemLayoutId;
-        this.title = title;
+        setTitle(title);
         this.icon = icon;
     }
 
@@ -33,16 +31,6 @@ public abstract class BaseMenu extends BaseItem {
     public void setIcon(int icon) {
         this.icon = icon;
         notifyPropertyChanged(BR.icon);
-    }
-
-    @Bindable
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-        notifyPropertyChanged(BR.title);
     }
 
     @Bindable
@@ -65,14 +53,9 @@ public abstract class BaseMenu extends BaseItem {
         notifyPropertyChanged(BR.detail);
     }
 
-    @Bindable
-    public boolean isEnable() {
-        return enable;
-    }
-
-    public void setEnable(boolean enable) {
-        this.enable = enable;
-        notifyPropertyChanged(BR.enable);
+    @Override
+    public String getValue() {
+        return "ignored";
     }
 
     public abstract View.OnClickListener itemClick();

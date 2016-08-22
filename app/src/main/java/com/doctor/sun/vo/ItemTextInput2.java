@@ -24,18 +24,14 @@ public class ItemTextInput2 extends BaseItem {
     private int imeOptions = EditorInfo.IME_ACTION_NEXT;
     private int maxLength = 16;
     private int titleGravity = Gravity.END;
-    private String title;
     private String subTitle;
     private String hint;
     private String result = "";
-    private String error;
-
-    private LinkedList<Validator> validators;
 
 
     public ItemTextInput2(int itemLayoutId, String title, String hint) {
         super(itemLayoutId);
-        this.title = title;
+        setTitle(title);
         this.hint = hint;
     }
 
@@ -80,16 +76,6 @@ public class ItemTextInput2 extends BaseItem {
     }
 
     @Bindable
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-        notifyPropertyChanged(BR.title);
-    }
-
-    @Bindable
     public String getSubTitle() {
         return subTitle;
     }
@@ -109,43 +95,6 @@ public class ItemTextInput2 extends BaseItem {
         notifyPropertyChanged(BR.hint);
     }
 
-    @Bindable
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-        notifyPropertyChanged(BR.error);
-    }
-
-    public boolean isResultValid(String result) {
-        if (validators == null || validators.isEmpty()) {
-            return true;
-        }
-        if (result == null || result.equals("")) {
-            setError("");
-            return false;
-        }
-        for (Validator validator : validators) {
-            if (!validator.isValid(result)) {
-                setError(validator.errorMsg());
-                return false;
-            }
-        }
-        setError("");
-        return true;
-    }
-
-    public void add(Validator element) {
-        if (element == null) {
-            return;
-        }
-        if (validators == null) {
-            validators = new LinkedList<>();
-        }
-        validators.add(element);
-    }
 
     @Bindable
     public String getResult() {
