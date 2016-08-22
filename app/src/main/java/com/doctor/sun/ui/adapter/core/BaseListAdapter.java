@@ -18,11 +18,11 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
  * Created by rick on 13/8/2016.
  */
 public abstract class BaseListAdapter<B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements AdapterOps<SortedItem>{
-    protected final Context mContext;
-    protected final LayoutInflater mInflater;
+    private final Context mContext;
+    private final LayoutInflater mInflater;
     private final SparseBooleanArray mConfig = new SparseBooleanArray();
-    protected LayoutIdInterceptor idInterceptor = new DefaultLayoutIdInterceptor();
-    public BaseListAdapter(Context context) {
+    private LayoutIdInterceptor idInterceptor = new DefaultLayoutIdInterceptor();
+    BaseListAdapter(Context context) {
         this.mContext = context;
         mInflater = LayoutInflater.from(context);
     }

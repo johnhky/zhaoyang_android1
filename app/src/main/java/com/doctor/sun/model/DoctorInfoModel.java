@@ -1,7 +1,6 @@
 package com.doctor.sun.model;
 
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
@@ -27,6 +26,7 @@ import java.util.List;
 import java.util.UUID;
 
 import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by rick on 18/8/2016.
@@ -37,7 +37,6 @@ public class DoctorInfoModel {
 
 
     public List<SortedItem> parseData(Doctor data) {
-        Log.d(TAG, "parseData() called with: data = [" + data + "]");
         List<SortedItem> result = new ArrayList<>();
 
         ItemPickImage avatar = new ItemPickImage(R.layout.item_pick_avatar, data.getAvatar());
@@ -47,6 +46,7 @@ public class DoctorInfoModel {
 
         ItemTextInput2 name = new ItemTextInput2(R.layout.item_text_input2, "姓名", "");
         name.setSubTitle("(必填)");
+        name.setShouldNotBeEmpty(true);
         name.setItemId("name");
         name.setPosition(result.size());
         name.setResult(data.getName());
@@ -55,9 +55,9 @@ public class DoctorInfoModel {
         insertDivider(result);
 
         if (data.getPhone() == null || data.getPhone().equals("")) {
-            ItemTextInput2 personalPhone = ItemTextInput2.phoneInput("手机号码", "");
+            final ItemTextInput2 personalPhone = ItemTextInput2.phoneInput("手机号码", "请输入11位手机号码");
+            personalPhone.setShouldNotBeEmpty(true);
             personalPhone.setItemLayoutId(R.layout.item_text_input2);
-            personalPhone.setHint("更换手机号码");
             personalPhone.setItemId("phone");
             personalPhone.setPosition(result.size());
             personalPhone.setResult(data.getPhone());
@@ -86,6 +86,7 @@ public class DoctorInfoModel {
         insertDivider(result);
 
         ItemTextInput2 hospital = new ItemTextInput2(R.layout.item_text_input2, "所属医院", "");
+        hospital.setShouldNotBeEmpty(true);
         hospital.setItemId("hospital");
         hospital.setPosition(result.size());
         hospital.setResult(data.getHospitalName());
@@ -101,7 +102,8 @@ public class DoctorInfoModel {
 
         insertDivider(result);
 
-        ItemTextInput2 hospitalPhone = ItemTextInput2.phoneInput("医院/科室电话", "");
+        ItemTextInput2 hospitalPhone = ItemTextInput2.phoneInput("医院/科室电话", "请输入11位手机号码");
+        hospitalPhone.setShouldNotBeEmpty(true);
         hospitalPhone.setItemLayoutId(R.layout.item_text_input2);
         hospitalPhone.setItemId("hospitalPhone");
         hospitalPhone.setPosition(result.size());
@@ -190,15 +192,29 @@ public class DoctorInfoModel {
     }
 
     public void postResult(SortedListAdapter adapter, Callback<ApiDTO<String>> callback) {
-        HashMap<String, String> result = toHashMap(adapter);
-        ProfileModule api = Api.of(ProfileModule.class);
-        api.editDoctorProfile(result).enqueue(callback);
+        HashMap<String, String> result = toHashMap(adapter, callback);
+        if (result != null) {
+            ProfileModule api = Api.of(ProfileModule.class);
+            api.editDoctorProfile(result).enqueue(callback);
+        }
     }
 
-    private HashMap<String, String> toHashMap(SortedListAdapter adapter) {
+    private HashMap<String, String> toHashMap(SortedListAdapter adapter, Callback<ApiDTO<String>> callback) {
         HashMap<String, String> result = new HashMap<>();
         for (int i = 0; i < adapter.size(); i++) {
-            SortedItem item = adapter.get(i);
+            BaseItem item = (BaseItem) adapter.get(i);
+
+            if (!item.isValid("")) {
+                if (item.isShouldNotBeEmpty()) {
+                    item.addNotNullOrEmptyValidator();
+                }
+                ApiDTO<String> body = new ApiDTO<>();
+                body.setStatus("500");
+                body.setMessage(item.errorMsg());
+                callback.onResponse(null, Response.success(body));
+                return null;
+            }
+
             String value = item.getValue();
             if (value != null && !value.equals("")) {
                 result.put(item.getKey(), value);

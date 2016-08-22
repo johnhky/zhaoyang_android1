@@ -8,6 +8,9 @@
         <variable
             name="data"
             type="com.doctor.sun.vo.ItemTextInput2" />
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter"/>
 
     </data>
 
@@ -43,14 +46,16 @@
             android:maxLines="1"
             android:text="@={data.result}"
             android:textColor="@{data.isValid(data.result)?@color/color_tick:@color/red_f0}"
+            android:textColorHint="@color/gray_d9"
             android:textSize="@dimen/font_13" />
 
 
         <TextView
+            android:id="@+id/tv_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{data.error}"
             android:textAppearance="@style/AppTheme.TextErrorAppearance"
-            android:visibility="@{data.error!=null &amp;&amp; !data.error.equals(&quot;&quot;)}" />
+            android:visibility="@{data.errorVisible(data.error)}" />
     </LinearLayout>
 </layout>

@@ -73,7 +73,7 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
 
         insertDivider(sortedItems);
 
-        final ItemCaptchaInput captcha = new ItemCaptchaInput(R.layout.item_input_captcha, "验证码", "");
+        final ItemCaptchaInput captcha = new ItemCaptchaInput(R.layout.item_input_captcha, "验证码", "请输入验证码");
         captcha.setShouldNotBeEmpty(true);
         captcha.setListener(new OnSingleClickListener() {
             @Override

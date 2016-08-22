@@ -7,7 +7,9 @@ import com.doctor.sun.BR;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.vo.validator.NotNullOrEmptyValidator;
 import com.doctor.sun.vo.validator.Validator;
+import com.google.common.base.Strings;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -108,8 +110,17 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         return "";
     }
 
+    public boolean isShouldNotBeEmpty() {
+        return shouldNotBeEmpty;
+    }
+
     public void setShouldNotBeEmpty(boolean shouldNotBeEmpty) {
         this.shouldNotBeEmpty = shouldNotBeEmpty;
+    }
+
+    public void addNotNullOrEmptyValidator() {
+        shouldNotBeEmpty = false;
+        add(new NotNullOrEmptyValidator("请填写" + getTitle()));
     }
 
     public void setError(String error) {
@@ -119,18 +130,18 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
 
     public boolean isValid(String ignoredInput) {
         String result = getValue();
-        if (validators == null || validators.isEmpty()) {
-            return true;
-        }
-        if (result == null || result.equals("")) {
+        boolean isResultEmpty = result == null || result.equals("");
+        if (isResultEmpty) {
             if (shouldNotBeEmpty) {
                 setError("请填写" + getTitle());
                 return false;
-            } else {
-                setError("");
-                return true;
             }
         }
+
+        if (validators == null || validators.isEmpty()) {
+            return true;
+        }
+
         for (Validator validator : validators) {
             if (!validator.isValid(result)) {
                 setError(validator.errorMsg());
@@ -159,6 +170,14 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
             validators = new LinkedList<>();
         }
         validators.add(element);
+    }
+
+    public boolean errorVisible(String regiteredField) {
+        if (shouldNotBeEmpty) {
+            return !Strings.isNullOrEmpty(getValue()) && !isValid("");
+        } else {
+            return !isValid("");
+        }
     }
 
     @Override
