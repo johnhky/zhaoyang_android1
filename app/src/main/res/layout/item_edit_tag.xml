@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vo.ItemTextInput2" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
+
+    </data>
+
+
+    <com.zhy.android.percent.support.PercentFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_8"
+        android:paddingEnd="@dimen/dp_40"
+        android:paddingLeft="@dimen/dp_40"
+        android:paddingRight="@dimen/dp_40"
+        android:paddingStart="@dimen/dp_40"
+        android:selected="@{true}">
+
+        <EditText
+            android:id="@+id/et_input"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_tag_rect"
+            android:enabled="@{data.enabled}"
+            android:gravity="center_vertical"
+            android:hint="@{data.hint}"
+            android:inputType="@{data.inputType}"
+            android:maxLength="@{data.maxLength}"
+            android:maxLines="1"
+            android:paddingEnd="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingStart="@dimen/dp_10"
+            android:text="@={data.result}"
+            android:textColor="@{data.isValid(data.result)?@color/color_tick:@color/red_f0}"
+            android:textColorHint="@color/gray_d9"
+            android:textSize="@dimen/font_13" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_40"
+            android:layout_gravity="end"
+            android:background="@drawable/bg_tag"
+            android:gravity="center"
+            android:maxLines="1"
+            android:onClick="@{()->data.toggleEditable()}"
+            android:selected="@{data.enabled}"
+            android:text="@{data.enabled?@string/save:@string/delete}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_15"
+            app:layout_widthPercent="20%"
+            tools:text="确定" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginBottom="@dimen/dp_2"
+            android:layout_marginTop="@dimen/dp_2"
+            android:background="@color/white"
+            app:layout_marginRightPercent="20%" />
+
+
+    </com.zhy.android.percent.support.PercentFrameLayout>
+</layout>

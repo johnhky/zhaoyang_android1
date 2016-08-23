@@ -62,6 +62,9 @@
     <string name="premium_product">专属咨询</string>
 
 
+    <string name="save">保存</string>
+    <string name="delete">删除</string>
+
     <string name="title" />
     <string name="title_favorite_doctor">我的收藏</string>
     <string name="title_add_break_time">添加免打扰时段</string>

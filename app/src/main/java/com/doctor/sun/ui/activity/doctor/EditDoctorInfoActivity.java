@@ -24,6 +24,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.binding.CustomBinding;
+import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.ui.handler.EditDoctorInfoHandler;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
@@ -60,8 +61,10 @@ public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements Edi
     private Doctor data;
 
     public static Intent makeIntent(Context context, Doctor data) {
-        Intent i = new Intent(context, EditDoctorInfoActivity.class);
-        i.putExtra(Constants.DATA, data);
+//        Intent i = new Intent(context, EditDoctorInfoActivity.class);
+//        i.putExtra(Constants.DATA, data);
+//        return i;
+        Intent i = EditDoctorInfoFragment.intentFor(context, data);
         return i;
     }
 

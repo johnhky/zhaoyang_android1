@@ -5,18 +5,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.model.DoctorInfoModel;
+import com.doctor.sun.http.callback.TokenCallback;
+import com.doctor.sun.model.EditDoctorInfoModel;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.vo.ItemPickImage;
 
@@ -27,14 +29,14 @@ import java.util.List;
  */
 
 public class EditDoctorInfoFragment extends SortedListFragment {
-    public static final String NAME = "EditDoctorInfoFragment";
+    public static final String TAG = EditDoctorInfoFragment.class.getSimpleName();
 
-    private DoctorInfoModel model;
+    private EditDoctorInfoModel model;
     private Doctor data;
 
     public static Intent intentFor(Context context, Doctor doctor) {
         Intent i = new Intent(context, SingleFragmentActivity.class);
-        i.putExtra(Constants.FRAGMENT_NAME, NAME);
+        i.putExtra(Constants.FRAGMENT_NAME, TAG);
         i.putExtra(Constants.DATA, doctor);
         return i;
     }
@@ -42,7 +44,7 @@ public class EditDoctorInfoFragment extends SortedListFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        model = new DoctorInfoModel();
+        model = new EditDoctorInfoModel();
         data = getArguments().getParcelable(Constants.DATA);
     }
 
@@ -57,6 +59,7 @@ public class EditDoctorInfoFragment extends SortedListFragment {
     protected void loadMore() {
         super.loadMore();
         List<SortedItem> sortedItems = model.parseData(data);
+        binding.swipeRefresh.setRefreshing(false);
         getAdapter().insertAll(sortedItems);
     }
 
@@ -64,7 +67,10 @@ public class EditDoctorInfoFragment extends SortedListFragment {
         model.postResult(getAdapter(), new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
-                Log.e(TAG, "handleResponse: " + response);
+                TokenCallback.checkToken(getActivity());
+                Toast.makeText(getContext(), "保存成功,请耐心等待资料审核", Toast.LENGTH_SHORT).show();
+                Intent intent = MainActivity.makeIntent(getContext());
+                getContext().startActivity(intent);
             }
         });
     }

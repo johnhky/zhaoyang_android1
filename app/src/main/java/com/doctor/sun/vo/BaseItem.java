@@ -19,8 +19,16 @@ import java.util.LinkedList;
  */
 public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Validator {
 
+    private static final boolean ALWAYS_VISIBLE = true;
+    private static final boolean WHEN_RESULT_IS_EMPTY = false;
+
+    public static final int NOT__EMPTY_OR_NULL = 0;
+    public static final int UNSPECIFIED = 1;
+    public static final int CAN__EMPTY_OR_NULL = 2;
+
     private String title;
-    private boolean shouldNotBeEmpty = false;
+    private boolean errorVisibleMode = WHEN_RESULT_IS_EMPTY;
+    private int resultVerifyMode = CAN__EMPTY_OR_NULL;
     private LinkedList<Validator> validators;
     private String error;
 
@@ -110,17 +118,30 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         return "";
     }
 
-    public boolean isShouldNotBeEmpty() {
-        return shouldNotBeEmpty;
+    private int getResultVerifyMode() {
+        return resultVerifyMode;
     }
 
-    public void setShouldNotBeEmpty(boolean shouldNotBeEmpty) {
-        this.shouldNotBeEmpty = shouldNotBeEmpty;
+    private void setResultVerifyMode(int resultVerifyMode) {
+        this.resultVerifyMode = resultVerifyMode;
+    }
+
+    public boolean resultCanEmpty() {
+        return getResultVerifyMode() != NOT__EMPTY_OR_NULL;
+    }
+
+    public void setResultNotEmpty() {
+        setResultVerifyMode(NOT__EMPTY_OR_NULL);
+    }
+
+    public void setCanResultEmpty() {
+        setResultVerifyMode(CAN__EMPTY_OR_NULL);
     }
 
     public void addNotNullOrEmptyValidator() {
-        shouldNotBeEmpty = false;
-        add(new NotNullOrEmptyValidator("请填写" + getTitle()));
+        resultVerifyMode = UNSPECIFIED;
+        errorVisibleMode = ALWAYS_VISIBLE;
+        add(new NotNullOrEmptyValidator("请填写必填项目" + getTitle()));
     }
 
     public void setError(String error) {
@@ -132,9 +153,12 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         String result = getValue();
         boolean isResultEmpty = result == null || result.equals("");
         if (isResultEmpty) {
-            if (shouldNotBeEmpty) {
-                setError("请填写" + getTitle());
+            if (resultVerifyMode == NOT__EMPTY_OR_NULL) {
+                setError("请填写必填项目" + getTitle());
                 return false;
+            } else if (resultVerifyMode == CAN__EMPTY_OR_NULL) {
+                setError("");
+                return true;
             }
         }
 
@@ -173,7 +197,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
     }
 
     public boolean errorVisible(String regiteredField) {
-        if (shouldNotBeEmpty) {
+        if (errorVisibleMode != ALWAYS_VISIBLE) {
             return !Strings.isNullOrEmpty(getValue()) && !isValid("");
         } else {
             return !isValid("");

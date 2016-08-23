@@ -426,7 +426,6 @@
                                 android:layout_height="match_parent"
                                 android:background="@drawable/ripple_default"
                                 android:gravity="center"
-
                                 android:text="上传\n注册证书"
                                 android:textColor="#898989"
                                 android:textSize="@dimen/font_13" />

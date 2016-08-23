@@ -8,9 +8,7 @@ import android.view.inputmethod.EditorInfo;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.vo.validator.RegexValidator;
-import com.doctor.sun.vo.validator.Validator;
 
-import java.util.LinkedList;
 import java.util.regex.Pattern;
 
 import io.ganguo.library.util.Strings;
@@ -106,6 +104,28 @@ public class ItemTextInput2 extends BaseItem {
         notifyPropertyChanged(BR.result);
     }
 
+    @Override
+    public String getValue() {
+        return result;
+    }
+
+    public void toggleEditable() {
+        if (isEnabled()) {
+            saveAnswer();
+        } else {
+            clearAnswer();
+        }
+    }
+
+    public void saveAnswer() {
+        setEnabled(false);
+    }
+
+    public void clearAnswer() {
+        setEnabled(true);
+        setResult("");
+    }
+
     public static ItemTextInput2 phoneInput(String title, String hint) {
         ItemTextInput2 viewModel = new ItemTextInput2(R.layout.item_answer_input, title, hint);
         viewModel.setImeOptions(EditorInfo.IME_ACTION_NEXT);
@@ -117,8 +137,15 @@ public class ItemTextInput2 extends BaseItem {
         return viewModel;
     }
 
-    @Override
-    public String getValue() {
-        return result;
+
+    public static ItemTextInput2 password(String title, String hint) {
+        ItemTextInput2 viewModel = new ItemTextInput2(R.layout.item_text_input2, title, hint);
+        viewModel.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        viewModel.setMaxLength(24);
+        viewModel.setInputType(InputType.TYPE_CLASS_TEXT |
+                InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        viewModel.add(new RegexValidator(Pattern.compile("^\\s*(?:\\S\\s*){6,}$"), "请输入6位字符串密码"));
+
+        return viewModel;
     }
 }

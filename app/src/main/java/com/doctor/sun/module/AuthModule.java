@@ -3,8 +3,11 @@ package com.doctor.sun.module;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Token;
 
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
@@ -24,6 +27,11 @@ public interface AuthModule {
     Call<ApiDTO<Token>> register(@Field("type") int type, @Field("phone") String phone,
                                  @Field("captcha") String captcha, @Field("password") String password);
 
+
+    @FormUrlEncoded
+    @POST("auth/register")
+    Call<ApiDTO<Token>> register(@FieldMap Map<String, String> fields);
+
     @FormUrlEncoded
     @POST("auth/captcha")
     Call<ApiDTO<String>> sendCaptcha(@Field("phone") String phone);
@@ -31,7 +39,7 @@ public interface AuthModule {
 
     /**
      * @param phone
-     * @param type change_phone or register
+     * @param type  change_phone or register
      * @return
      */
     @FormUrlEncoded

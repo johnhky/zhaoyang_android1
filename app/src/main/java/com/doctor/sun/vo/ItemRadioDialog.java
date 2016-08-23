@@ -16,24 +16,13 @@ import java.util.Collections;
  */
 public class ItemRadioDialog extends BaseItem implements LayoutId {
 
-    private int selectedItem = 0;
-    private String title = "";
+    private int selectedItem = -1;
     private ArrayList<String> options = new ArrayList<>();
 
     public ItemRadioDialog(int layoutId) {
         super(layoutId);
     }
 
-
-    @Bindable
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-        notifyPropertyChanged(BR.title);
-    }
 
     @Bindable
     public int getSelectedItem() {
@@ -46,13 +35,16 @@ public class ItemRadioDialog extends BaseItem implements LayoutId {
     }
 
     public String getSelectedItemText() {
+        if (selectedItem == -1) {
+            return getTitle();
+        }
         return options.get(selectedItem);
     }
 
     public void showOptions(Context context) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         builder.items(options)
-                .title(title)
+                .title(getTitle())
                 .itemsCallbackSingleChoice(selectedItem, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
@@ -74,6 +66,9 @@ public class ItemRadioDialog extends BaseItem implements LayoutId {
 
     @Override
     public String getValue() {
+        if (selectedItem == -1) {
+            return "";
+        }
         return String.valueOf(selectedItem + 1);
     }
 }

@@ -11,7 +11,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 public class ItemRadioGroup extends BaseItem implements LayoutId {
     private int layoutId;
 
-    private int selectedItem = 1;
+    private int selectedItem = 0;
     private OnCheckedChangeListener listener;
 
     public ItemRadioGroup(int layoutId) {
@@ -55,6 +55,9 @@ public class ItemRadioGroup extends BaseItem implements LayoutId {
 
     @Override
     public String getValue() {
+        if (selectedItem == -1) {
+            return "";
+        }
         return String.valueOf(selectedItem);
     }
 }

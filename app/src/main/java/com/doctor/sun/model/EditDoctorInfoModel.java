@@ -15,10 +15,12 @@ import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.fragment.ChangeMyPhoneNumFragment;
 import com.doctor.sun.vo.BaseItem;
 import com.doctor.sun.vo.ClickMenu;
+import com.doctor.sun.vo.ItemAddTag;
 import com.doctor.sun.vo.ItemPickImage;
 import com.doctor.sun.vo.ItemRadioDialog;
 import com.doctor.sun.vo.ItemRadioGroup;
 import com.doctor.sun.vo.ItemTextInput2;
+import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,8 +34,8 @@ import retrofit2.Response;
  * Created by rick on 18/8/2016.
  */
 
-public class DoctorInfoModel {
-    public static final String TAG = DoctorInfoModel.class.getSimpleName();
+public class EditDoctorInfoModel {
+    public static final String TAG = EditDoctorInfoModel.class.getSimpleName();
 
 
     public List<SortedItem> parseData(Doctor data) {
@@ -46,7 +48,7 @@ public class DoctorInfoModel {
 
         ItemTextInput2 name = new ItemTextInput2(R.layout.item_text_input2, "姓名", "");
         name.setSubTitle("(必填)");
-        name.setShouldNotBeEmpty(true);
+        name.setResultNotEmpty();
         name.setItemId("name");
         name.setPosition(result.size());
         name.setResult(data.getName());
@@ -56,7 +58,7 @@ public class DoctorInfoModel {
 
         if (data.getPhone() == null || data.getPhone().equals("")) {
             final ItemTextInput2 personalPhone = ItemTextInput2.phoneInput("手机号码", "请输入11位手机号码");
-            personalPhone.setShouldNotBeEmpty(true);
+            personalPhone.setResultNotEmpty();
             personalPhone.setItemLayoutId(R.layout.item_text_input2);
             personalPhone.setItemId("phone");
             personalPhone.setPosition(result.size());
@@ -78,6 +80,8 @@ public class DoctorInfoModel {
         insertDivider(result);
 
         ItemRadioGroup radioGroup = new ItemRadioGroup(R.layout.item_pick_gender);
+        radioGroup.setTitle("性别");
+        radioGroup.setResultNotEmpty();
         radioGroup.setItemId("gender");
         radioGroup.setPosition(result.size());
         radioGroup.setSelectedItem(data.getGender());
@@ -86,7 +90,7 @@ public class DoctorInfoModel {
         insertDivider(result);
 
         ItemTextInput2 hospital = new ItemTextInput2(R.layout.item_text_input2, "所属医院", "");
-        hospital.setShouldNotBeEmpty(true);
+        hospital.setResultNotEmpty();
         hospital.setItemId("hospital");
         hospital.setPosition(result.size());
         hospital.setResult(data.getHospitalName());
@@ -95,6 +99,7 @@ public class DoctorInfoModel {
         insertDivider(result);
 
         ItemTextInput2 specialist = new ItemTextInput2(R.layout.item_text_input2, "专科", "");
+        specialist.setResultNotEmpty();
         specialist.setItemId("specialist");
         specialist.setPosition(result.size());
         specialist.setResult(data.getSpecialist());
@@ -103,7 +108,7 @@ public class DoctorInfoModel {
         insertDivider(result);
 
         ItemTextInput2 hospitalPhone = ItemTextInput2.phoneInput("医院/科室电话", "请输入11位手机号码");
-        hospitalPhone.setShouldNotBeEmpty(true);
+        hospitalPhone.setCanResultEmpty();
         hospitalPhone.setItemLayoutId(R.layout.item_text_input2);
         hospitalPhone.setItemId("hospitalPhone");
         hospitalPhone.setPosition(result.size());
@@ -113,6 +118,7 @@ public class DoctorInfoModel {
         insertDivider(result);
 
         ItemRadioDialog title = new ItemRadioDialog(R.layout.item_pick_title);
+        title.setResultNotEmpty();
         title.setTitle("职称");
         title.setItemId("title");
         title.setPosition(result.size());
@@ -130,7 +136,28 @@ public class DoctorInfoModel {
 
         insertDivider(result);
 
-        ItemTextInput2 detail = new ItemTextInput2(R.layout.item_text_input4, "个人简介", "");
+        BaseItem tagHeader = new BaseItem(R.layout.item_tag_list);
+        tagHeader.setTitle("专长标签");
+        tagHeader.setItemId("TAGS_START");
+        tagHeader.setPosition(result.size());
+        result.add(tagHeader);
+
+        for (int i = 0; i < 5; i++) {
+            ItemTextInput2 tag = new ItemTextInput2(R.layout.item_edit_tag, "专长标签", "");
+            tag.setHint("点击编辑您的个人标签");
+            tag.resultCanEmpty();
+            tag.setItemId("tags[]" + i);
+            tag.setPosition(result.size());
+            result.add(tag);
+        }
+
+        ItemAddTag e = new ItemAddTag();
+        e.setItemId("TAGS_END");
+        result.add(e);
+
+        insertDivider(result);
+
+        ItemTextInput2 detail = new ItemTextInput2(R.layout.item_text_input4, "个人简介/医治专长", "");
         detail.setItemId("detail");
         detail.setImeOptions(EditorInfo.IME_ACTION_NONE);
         detail.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
@@ -143,25 +170,27 @@ public class DoctorInfoModel {
 
         insertSpace(result);
 
-        ItemPickImage titleImg = new ItemPickImage(R.layout.item_pick_certificate_img, data.getCertifiedImg());
-        titleImg.setItemId("certifiedImg");
+        ItemPickImage certifiedImg = new ItemPickImage(R.layout.item_pick_certificate_img, data.getCertifiedImg());
+        certifiedImg.setTitle("上传\n执业资格");
+        certifiedImg.setItemId("certifiedImg");
+        certifiedImg.setPosition(result.size());
+        certifiedImg.setSpan(4);
+        result.add(certifiedImg);
+
+        ItemPickImage practitionerImg = new ItemPickImage(R.layout.item_pick_certificate_img, data.getPractitionerImg());
+        practitionerImg.setTitle("上传\n注册证书");
+        practitionerImg.setItemId("practitionerImg");
+        practitionerImg.setPosition(result.size());
+        practitionerImg.setSpan(4);
+        result.add(practitionerImg);
+
+        ItemPickImage titleImg = new ItemPickImage(R.layout.item_pick_certificate_img, data.getTitleImg());
+        titleImg.setTitle("上传\n职称证书");
+        titleImg.setItemId("titleImg");
         titleImg.setPosition(result.size());
         titleImg.setSpan(4);
         result.add(titleImg);
 
-
-        ItemPickImage spImg = new ItemPickImage(R.layout.item_pick_certificate_img, data.getTitleImg());
-        spImg.setItemId("titleImg");
-        spImg.setPosition(result.size());
-        spImg.setSpan(4);
-        result.add(spImg);
-
-
-        ItemPickImage aImg = new ItemPickImage(R.layout.item_pick_certificate_img, data.getPractitionerImg());
-        aImg.setItemId("practitionerImg");
-        aImg.setPosition(result.size());
-        aImg.setSpan(4);
-        result.add(aImg);
 
         ItemTextInput2 imgPs = new ItemTextInput2(R.layout.item_r_text_input, "*上传的相关照片内容需清晰明确", "");
         imgPs.setItemId(UUID.randomUUID().toString());
@@ -205,7 +234,7 @@ public class DoctorInfoModel {
             BaseItem item = (BaseItem) adapter.get(i);
 
             if (!item.isValid("")) {
-                if (item.isShouldNotBeEmpty()) {
+                if (!item.resultCanEmpty()) {
                     item.addNotNullOrEmptyValidator();
                 }
                 ApiDTO<String> body = new ApiDTO<>();
@@ -216,8 +245,11 @@ public class DoctorInfoModel {
             }
 
             String value = item.getValue();
-            if (value != null && !value.equals("")) {
-                result.put(item.getKey(), value);
+            if (!Strings.isNullOrEmpty(value)) {
+                String key = item.getKey();
+                if (!Strings.isNullOrEmpty(key)) {
+                    result.put(key, value);
+                }
             }
         }
         return result;

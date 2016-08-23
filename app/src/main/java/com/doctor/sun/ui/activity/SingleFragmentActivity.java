@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -19,15 +18,6 @@ public class SingleFragmentActivity extends BaseFragmentActivity2 {
 
     private Fragment instance;
 
-    public static Intent intentFor(Context context, String scalesId, boolean isDone) {
-        Intent i = new Intent(context, SingleFragmentActivity.class);
-        i.putExtra(Constants.FRAGMENT_NAME, "EditDoctorInfoFragment");
-        i.putExtra(Constants.DATA, scalesId);
-        i.putExtra(Constants.READ_ONLY, isDone);
-        return i;
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,5 +35,10 @@ public class SingleFragmentActivity extends BaseFragmentActivity2 {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         instance.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public String getMidTitleString() {
+        return getStringExtra(Constants.FRAGMENT_TITLE);
     }
 }

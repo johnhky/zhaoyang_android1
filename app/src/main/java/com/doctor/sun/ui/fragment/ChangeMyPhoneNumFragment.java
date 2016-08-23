@@ -42,6 +42,7 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
     public static Intent intentFor(Context context) {
         Intent i = new Intent(context, SingleFragmentActivity.class);
         i.putExtra(Constants.FRAGMENT_NAME, TAG);
+        i.putExtra(Constants.FRAGMENT_TITLE, "更改手机号码");
         return i;
     }
 
@@ -58,7 +59,7 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
         super.loadMore();
         List<BaseItem> sortedItems = new ArrayList<>();
         final ItemTextInput2 oldPhoneNum = ItemTextInput2.phoneInput("旧的手机号码", "请输入11位手机号码");
-        oldPhoneNum.setShouldNotBeEmpty(true);
+        oldPhoneNum.setResultNotEmpty();
         oldPhoneNum.setItemLayoutId(R.layout.item_text_input2);
         oldPhoneNum.setItemId(UUID.randomUUID().toString());
         sortedItems.add(oldPhoneNum);
@@ -66,7 +67,7 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
         insertDivider(sortedItems);
 
         final ItemTextInput2 newPhoneNum = ItemTextInput2.phoneInput("新的手机号码", "请输入11位手机号码");
-        newPhoneNum.setShouldNotBeEmpty(true);
+        newPhoneNum.setResultNotEmpty();
         newPhoneNum.setItemLayoutId(R.layout.item_text_input2);
         newPhoneNum.setItemId(UUID.randomUUID().toString());
         sortedItems.add(newPhoneNum);
@@ -74,7 +75,7 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
         insertDivider(sortedItems);
 
         final ItemCaptchaInput captcha = new ItemCaptchaInput(R.layout.item_input_captcha, "验证码", "请输入验证码");
-        captcha.setShouldNotBeEmpty(true);
+        captcha.setResultNotEmpty();
         captcha.setListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(final View v) {
@@ -104,7 +105,7 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
         insertSpace(sortedItems);
 
         final ClickMenu clickMenu = new ClickMenu(R.layout.item_big_button2, -1, "完成", null);
-        clickMenu.setShouldNotBeEmpty(false);
+        clickMenu.setCanResultEmpty();
         clickMenu.setItemId(UUID.randomUUID().toString());
         clickMenu.add(oldPhoneNum);
         clickMenu.add(newPhoneNum);
@@ -136,6 +137,7 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
         }
 
         getAdapter().insertAll(sortedItems);
+        binding.swipeRefresh.setRefreshing(false);
     }
 
     private void insertDivider(List<BaseItem> list) {

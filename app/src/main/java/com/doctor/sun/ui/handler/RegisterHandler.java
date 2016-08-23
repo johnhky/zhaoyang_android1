@@ -17,6 +17,7 @@ import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.MobEventId;
+import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Token;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -24,8 +25,8 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.WebBrowserActivity;
-import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
 import com.doctor.sun.ui.activity.patient.PMainActivity2;
+import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.util.MD5;
 import com.umeng.analytics.MobclickAgent;
 
@@ -41,7 +42,7 @@ public class RegisterHandler extends BaseObservable {
     private Handler handler;
     private int remainTime;
 
-    private int registerType;
+    private int registerType = AuthModule.DOCTOR_TYPE;
     private boolean enable;
 
     public String phone = "";
@@ -81,8 +82,7 @@ public class RegisterHandler extends BaseObservable {
 
     public void register(final Context context) {
         if (Settings.isLogin()) {
-            Intent i = EditDoctorInfoActivity.makeIntent(context, null);
-            context.startActivity(i);
+            editDoctorInfo(context);
         }
         if (notValid(context)) return;
 
@@ -102,6 +102,8 @@ public class RegisterHandler extends BaseObservable {
         });
     }
 
+
+
     private void registerPatientSuccess(Context context, Token response) {
         if (response != null) {
             TokenCallback.handleToken(response);
@@ -113,15 +115,18 @@ public class RegisterHandler extends BaseObservable {
     private void registerDoctorSuccess(Context context, Token response) {
         if (response == null) {
             //TODO
-            Intent i = EditDoctorInfoActivity.makeIntent(context, null);
-            context.startActivity(i);
+            editDoctorInfo(context);
         } else {
             TokenCallback.handleToken(response);
-            Intent i = EditDoctorInfoActivity.makeIntent(context, null);
-            context.startActivity(i);
+            editDoctorInfo(context);
         }
     }
-
+    public void editDoctorInfo(Context context) {
+        Doctor data = new Doctor();
+        data.setPhone(phone);
+        Intent intent = EditDoctorInfoFragment.intentFor(context, data);
+        context.startActivity(intent);
+    }
 
     private void countDown(Context context, final ViewGroup view) {
         remainTime = 60;
@@ -216,20 +221,5 @@ public class RegisterHandler extends BaseObservable {
         this.registerType = registerType;
         notifyPropertyChanged(BR.registerType);
     }
-
-    //
-//    public interface RegisterInput {
-//        String getEmail();
-//
-//        String getPhone();
-//
-//        String getCaptcha();
-//
-//        String getPassword();
-//
-//        String getPassword2();
-//
-//        boolean isDoctor();
-//    }
 
 }

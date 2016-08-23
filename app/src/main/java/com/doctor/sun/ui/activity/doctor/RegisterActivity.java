@@ -15,6 +15,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityRegisterBinding;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.ui.fragment.RegisterFragment;
 import com.doctor.sun.ui.handler.RegisterHandler;
 
 
@@ -27,9 +28,10 @@ public class RegisterActivity extends BaseFragmentActivity2 {
     private RegisterHandler handler;
 
     public static Intent makeIntent(Context context, int data) {
-        Intent i = new Intent(context, RegisterActivity.class);
-        i.putExtra(Constants.DATA, data);
-        return i;
+//        Intent i = new Intent(context, RegisterActivity.class);
+//        i.putExtra(Constants.DATA, data);
+//        return i;
+        return RegisterFragment.intentFor(context);
     }
 
 

@@ -73,7 +73,7 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
     @JsonProperty("email")
     private String email;
     @JsonProperty("gender")
-    private int gender;
+    private int gender = -1;
     @JsonProperty("hospital_id")
     private int hospitalId;
     @JsonProperty("specialist")

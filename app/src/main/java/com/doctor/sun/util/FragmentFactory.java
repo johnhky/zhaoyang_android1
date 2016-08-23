@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.doctor.sun.ui.fragment.ChangeMyPhoneNumFragment;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
+import com.doctor.sun.ui.fragment.RegisterFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class FragmentFactory {
     }
 
     private void init() {
-        map.put("EditDoctorInfoFragment", new FactoryCommand() {
+        map.put(EditDoctorInfoFragment.TAG, new FactoryCommand() {
             @Override
             public Fragment execute() {
                 return new EditDoctorInfoFragment();
@@ -48,6 +49,12 @@ public class FragmentFactory {
             @Override
             public Fragment execute() {
                 return new ChangeMyPhoneNumFragment();
+            }
+        });
+        map.put(RegisterFragment.TAG, new FactoryCommand() {
+            @Override
+            public Fragment execute() {
+                return new RegisterFragment();
             }
         });
     }

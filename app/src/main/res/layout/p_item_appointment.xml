@@ -161,7 +161,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_orange_rect"
+                    android:background="@drawable/shape_orange_rect_r5"
                     android:paddingEnd="@dimen/dp_6"
                     android:paddingLeft="@dimen/dp_6"
                     android:paddingRight="@dimen/dp_6"
