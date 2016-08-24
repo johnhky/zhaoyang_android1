@@ -10,7 +10,7 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 
-import io.ganguo.library.util.Strings;
+import io.ganguo.library.util.StringsUtils;
 import io.ganguo.library.util.date.Date;
 
 /**
@@ -33,7 +33,7 @@ public class DateFormatter implements JsonDeserializer<Date>, JsonSerializer<Dat
             throws JsonParseException {
 
         String value = json.getAsString();
-        if (Strings.isEmpty(value) || value.length() == 1) {
+        if (StringsUtils.isEmpty(value) || value.length() == 1) {
             return null;
         }
 

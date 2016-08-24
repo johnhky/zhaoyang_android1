@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * <p/>
  * Created by Tony on 9/30/15.
  */
-public class Strings {
+public class StringsUtils {
 
     /**
      * URL正则
@@ -98,7 +98,7 @@ public class Strings {
 
     /**
      * 以一种简单的方式格式化字符串
-     * 例如 String s = Strings.format("{0} is {1}", "apple", "fruit");
+     * 例如 String s = StringsUtils.format("{0} is {1}", "apple", "fruit");
      * 输出 apple is fruit.
      *
      * @param pattern

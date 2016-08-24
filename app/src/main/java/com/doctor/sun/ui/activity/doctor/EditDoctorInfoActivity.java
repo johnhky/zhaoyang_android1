@@ -34,7 +34,7 @@ import java.io.File;
 
 import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.core.event.EventHub;
-import io.ganguo.library.util.Strings;
+import io.ganguo.library.util.StringsUtils;
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
 import okhttp3.MediaType;
@@ -97,17 +97,17 @@ public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements Edi
             practitionerImg = this.data.getPractitionerImg();
             certifiedImg = this.data.getCertifiedImg();
         }
-        if (!Strings.isEmpty(data.getAvatar()))
+        if (!StringsUtils.isEmpty(data.getAvatar()))
             binding.tvAvatar.setVisibility(View.GONE);
-        if (!Strings.isEmpty(data.getCertifiedImg())) {
+        if (!StringsUtils.isEmpty(data.getCertifiedImg())) {
             binding.certifiedImg.setVisibility(View.GONE);
             binding.tvCertified.setVisibility(View.GONE);
         }
-        if (!Strings.isEmpty(data.getTitleImg())) {
+        if (!StringsUtils.isEmpty(data.getTitleImg())) {
             binding.titleImg.setVisibility(View.GONE);
             binding.tvTitle.setVisibility(View.GONE);
         }
-        if (!Strings.isEmpty(data.getPractitionerImg())) {
+        if (!StringsUtils.isEmpty(data.getPractitionerImg())) {
             binding.tvPractitioner.setVisibility(View.GONE);
             binding.practitionerImg.setVisibility(View.GONE);
         }
@@ -196,27 +196,27 @@ public class EditDoctorInfoActivity extends BaseFragmentActivity2 implements Edi
     }
 
     private boolean isValid(Doctor doctor) {
-//        if (!Strings.isEmail(doctor.getEmail())) {
+//        if (!StringsUtils.isEmail(doctor.getEmail())) {
 //            Toast.makeText(EditDoctorInfoActivity.this, "邮箱地址格式错误", Toast.LENGTH_SHORT).show();
 //            return false;
 //        }
-//        if (Strings.isEmpty(doctor.getAvatar())) {
+//        if (StringsUtils.isEmpty(doctor.getAvatar())) {
 //            Toast.makeText(EditDoctorInfoActivity.this, "头像不能为空", Toast.LENGTH_SHORT).show();
 //            return false;
 //        }
-        if (Strings.isEmpty(doctor.getName())) {
+        if (StringsUtils.isEmpty(doctor.getName())) {
             Toast.makeText(EditDoctorInfoActivity.this, "姓名不能为空", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (Strings.isEmpty(doctor.getHospitalName())) {
+        if (StringsUtils.isEmpty(doctor.getHospitalName())) {
             Toast.makeText(EditDoctorInfoActivity.this, "所属医院不能为空", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (Strings.isEmpty(doctor.getSpecialist())) {
+        if (StringsUtils.isEmpty(doctor.getSpecialist())) {
             Toast.makeText(EditDoctorInfoActivity.this, "专科不能为空", Toast.LENGTH_SHORT).show();
             return false;
         }
-//        if (Strings.isEmpty(doctor.getHospitalPhone()) && Strings.isMobile(doctor.getHospitalPhone())) {
+//        if (StringsUtils.isEmpty(doctor.getHospitalPhone()) && StringsUtils.isMobile(doctor.getHospitalPhone())) {
 //            Toast.makeText(EditDoctorInfoActivity.this, "医院电话号码格式错误", Toast.LENGTH_SHORT).show();
 //            return false;
 //        }

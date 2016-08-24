@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.tencent.qzone.QZone;
-import io.ganguo.library.util.Strings;
+import io.ganguo.library.util.StringsUtils;
 
 /**
  * Step Builder
@@ -138,7 +138,7 @@ public final class ShareQQZoneStepBuilder extends BaseStepBuilder {
         public void share() {
             OnekeyShare oks = new OnekeyShare();
             // 分享标题
-            if (Strings.isNotEmpty(title)) {
+            if (StringsUtils.isNotEmpty(title)) {
                 if (title.length() > 30) {
                     oks.setTitle(title.substring(0, 25) + "…");
                 } else {
@@ -146,11 +146,11 @@ public final class ShareQQZoneStepBuilder extends BaseStepBuilder {
                 }
             }
             // 分享标题链接
-            if (Strings.isNotEmpty(titleUrl)) {
+            if (StringsUtils.isNotEmpty(titleUrl)) {
                 oks.setTitleUrl(titleUrl);
             }
             // 分享内容
-            if (Strings.isNotEmpty(content)) {
+            if (StringsUtils.isNotEmpty(content)) {
                 if (content.length() > 40) {
                     oks.setText(content.substring(0, 34) + "…");
                 } else {
@@ -158,19 +158,19 @@ public final class ShareQQZoneStepBuilder extends BaseStepBuilder {
                 }
             }
             // 网络图片地址
-            if (Strings.isNotEmpty(imageUrl)) {
+            if (StringsUtils.isNotEmpty(imageUrl)) {
                 oks.setImageUrl(imageUrl);
             }
             // 本地图片路径
-            if (Strings.isNotEmpty(imagePath)) {
+            if (StringsUtils.isNotEmpty(imagePath)) {
                 oks.setImagePath(imagePath);
             }
             // 网站名称
-            if (Strings.isNotEmpty(siteName)) {
+            if (StringsUtils.isNotEmpty(siteName)) {
                 oks.setSite(siteName);
             }
             // 网站地址
-            if (Strings.isNotEmpty(siteUrl)) {
+            if (StringsUtils.isNotEmpty(siteUrl)) {
                 oks.setSiteUrl(siteUrl);
             }
 

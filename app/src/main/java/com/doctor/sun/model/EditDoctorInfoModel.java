@@ -138,7 +138,7 @@ public class EditDoctorInfoModel {
 
         BaseItem tagHeader = new BaseItem(R.layout.item_tag_list);
         tagHeader.setTitle("专长标签");
-        tagHeader.setItemId("TAGS_START");
+        tagHeader.setItemId(ItemAddTag.TAGS_START);
         tagHeader.setPosition(result.size());
         result.add(tagHeader);
 
@@ -146,13 +146,23 @@ public class EditDoctorInfoModel {
             ItemTextInput2 tag = new ItemTextInput2(R.layout.item_edit_tag, "专长标签", "");
             tag.setHint("点击编辑您的个人标签");
             tag.resultCanEmpty();
-            tag.setItemId("tags[]" + i);
+            tag.setItemId(UUID.randomUUID().toString());
             tag.setPosition(result.size());
+
+            if (i < data.tags.size()) {
+                tag.setItemId(data.tags.get(i).tagId);
+                String tagName = data.tags.get(i).tagName;
+                tag.setResult(tagName);
+                if (!Strings.isNullOrEmpty(tagName)) {
+                    tag.lockResult();
+                }
+            }
             result.add(tag);
         }
 
         ItemAddTag e = new ItemAddTag();
-        e.setItemId("TAGS_END");
+        e.setPosition(result.size());
+        tagHeader.setItemId(ItemAddTag.TAGS_START);
         result.add(e);
 
         insertDivider(result);
@@ -220,7 +230,7 @@ public class EditDoctorInfoModel {
         list.add(item);
     }
 
-    public void postResult(SortedListAdapter adapter, Callback<ApiDTO<String>> callback) {
+    public void saveDoctorInfo(SortedListAdapter adapter, Callback<ApiDTO<String>> callback) {
         HashMap<String, String> result = toHashMap(adapter, callback);
         if (result != null) {
             ProfileModule api = Api.of(ProfileModule.class);

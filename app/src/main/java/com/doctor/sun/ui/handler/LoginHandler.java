@@ -15,7 +15,7 @@ import com.doctor.sun.util.MD5;
 import com.umeng.analytics.MobclickAgent;
 
 import io.ganguo.library.common.LoadingHelper;
-import io.ganguo.library.util.Strings;
+import io.ganguo.library.util.StringsUtils;
 import retrofit2.Call;
 
 /**
@@ -39,7 +39,7 @@ public class LoginHandler {
     }
 
     public void login(final Context context, String phone, String password) {
-        if (!Strings.isMobile(phone)) {
+        if (!StringsUtils.isMobile(phone)) {
             Toast.makeText(context, "手机号码格式错误", Toast.LENGTH_SHORT).show();
             return;
         }

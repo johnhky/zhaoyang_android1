@@ -8,10 +8,11 @@ import android.view.inputmethod.EditorInfo;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.vo.validator.RegexValidator;
+import com.google.common.base.Strings;
 
 import java.util.regex.Pattern;
 
-import io.ganguo.library.util.Strings;
+import io.ganguo.library.util.StringsUtils;
 
 
 /**
@@ -111,13 +112,15 @@ public class ItemTextInput2 extends BaseItem {
 
     public void toggleEditable() {
         if (isEnabled()) {
-            saveAnswer();
+            if (!Strings.isNullOrEmpty(getResult())) {
+                lockResult();
+            }
         } else {
             clearAnswer();
         }
     }
 
-    public void saveAnswer() {
+    public void lockResult() {
         setEnabled(false);
     }
 
@@ -132,7 +135,7 @@ public class ItemTextInput2 extends BaseItem {
         viewModel.setMaxLength(11);
         viewModel.setInputType(InputType.TYPE_CLASS_PHONE);
         viewModel.add(new RegexValidator(Pattern.compile("^\\d{11}$"), "请输入11位手机号码"));
-        viewModel.add(new RegexValidator(Strings.MOBILE_PATTERN, "手机号码格式错误"));
+        viewModel.add(new RegexValidator(StringsUtils.MOBILE_PATTERN, "手机号码格式错误"));
 
         return viewModel;
     }

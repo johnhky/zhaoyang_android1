@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.onekeyshare.OnekeyShare;
-import io.ganguo.library.util.Strings;
+import io.ganguo.library.util.StringsUtils;
 
 /**
  * Step Builder
@@ -107,15 +107,15 @@ public final class ShareSinaWeiboStep extends BaseStepBuilder {
         public void share() {
             OnekeyShare oks = new OnekeyShare();
             // 分享内容
-            if (Strings.isNotEmpty(content)) {
+            if (StringsUtils.isNotEmpty(content)) {
                 oks.setText(content);
             }
             // 网络图片地址
-            if (Strings.isNotEmpty(imageUrl)) {
+            if (StringsUtils.isNotEmpty(imageUrl)) {
                 oks.setImageUrl(imageUrl);
             }
             // 本地图片地址
-            if (Strings.isNotEmpty(imagePath)) {
+            if (StringsUtils.isNotEmpty(imagePath)) {
                 oks.setImagePath(imagePath);
             }
 

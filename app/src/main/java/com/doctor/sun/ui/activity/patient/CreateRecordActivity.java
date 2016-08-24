@@ -29,7 +29,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import io.ganguo.library.common.ToastHelper;
-import io.ganguo.library.util.Strings;
+import io.ganguo.library.util.StringsUtils;
 import io.realm.RealmList;
 
 
@@ -189,7 +189,7 @@ public class CreateRecordActivity extends GetLocationActivity implements View.On
         }
 
         String text = map.get(IDENTITY_NUMBER);
-        if (text != null && !text.equals("") && !Strings.isIDCard(text)) {
+        if (text != null && !text.equals("") && !StringsUtils.isIDCard(text)) {
             Toast.makeText(this, "身份证号码格式错误", Toast.LENGTH_SHORT).show();
             return false;
         }

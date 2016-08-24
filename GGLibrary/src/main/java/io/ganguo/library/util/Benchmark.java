@@ -22,7 +22,7 @@ public class Benchmark {
      * @param tag
      */
     public static void start(String tag) {
-        if (Strings.isEmpty(tag)) {
+        if (StringsUtils.isEmpty(tag)) {
             LOG.w("tag is null");
             return;
         }
@@ -39,7 +39,7 @@ public class Benchmark {
      * @param tag
      */
     public static void end(String tag) {
-        if (Strings.isEmpty(tag)) {
+        if (StringsUtils.isEmpty(tag)) {
             LOG.w("tag is null");
             return;
         }

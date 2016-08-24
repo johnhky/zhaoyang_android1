@@ -197,11 +197,11 @@ public class Systems {
     public static String getDeviceId(Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         String deviceId = telephonyManager.getDeviceId();
-        if (Strings.isEmpty(deviceId)) {
+        if (StringsUtils.isEmpty(deviceId)) {
             deviceId = Config.getString(Globals.KEY_DEVICE_ID);
         }
-        if (Strings.isEmpty(deviceId)) {
-            deviceId = Strings.randomUUID();
+        if (StringsUtils.isEmpty(deviceId)) {
+            deviceId = StringsUtils.randomUUID();
             Config.putString(Globals.KEY_DEVICE_ID, deviceId);
         }
         return deviceId;

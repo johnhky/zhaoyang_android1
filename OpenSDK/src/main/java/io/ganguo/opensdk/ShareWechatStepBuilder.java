@@ -8,7 +8,7 @@ import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
-import io.ganguo.library.util.Strings;
+import io.ganguo.library.util.StringsUtils;
 
 /**
  * Step Builder
@@ -146,31 +146,31 @@ public final class ShareWechatStepBuilder extends BaseStepBuilder {
         public void share() {
             OnekeyShare oks = new OnekeyShare();
             // 分享标题
-            if (Strings.isNotEmpty(title)) {
+            if (StringsUtils.isNotEmpty(title)) {
                 oks.setTitle(title);
             }
             // 分享内容
-            if (Strings.isNotEmpty(content)) {
+            if (StringsUtils.isNotEmpty(content)) {
                 oks.setText(content);
             }
             // 分享标题链接
-            if (Strings.isNotEmpty(titleUrl)) {
+            if (StringsUtils.isNotEmpty(titleUrl)) {
                 oks.setUrl(titleUrl);
             }
             // 网络图片地址
-            if (Strings.isNotEmpty(imageUrl)) {
+            if (StringsUtils.isNotEmpty(imageUrl)) {
                 oks.setImageUrl(imageUrl);
             }
             // 本地图片地址
-            if (Strings.isNotEmpty(imagePath)) {
+            if (StringsUtils.isNotEmpty(imagePath)) {
                 oks.setImagePath(imagePath);
             }
             // 分享文件地址
-            if (Strings.isNotEmpty(filePath)) {
+            if (StringsUtils.isNotEmpty(filePath)) {
                 oks.setFilePath(filePath);
             }
             // 分享音乐链接
-            if (Strings.isNotEmpty(musicUrl)) {
+            if (StringsUtils.isNotEmpty(musicUrl)) {
                 oks.setMusicUrl(musicUrl);
             }
 
@@ -193,31 +193,31 @@ public final class ShareWechatStepBuilder extends BaseStepBuilder {
         public void share() {
             OnekeyShare oks = new OnekeyShare();
             // 分享标题
-            if (Strings.isNotEmpty(title)) {
+            if (StringsUtils.isNotEmpty(title)) {
                 oks.setTitle(title);
             }
             // 分享内容
-            if (Strings.isNotEmpty(content)) {
+            if (StringsUtils.isNotEmpty(content)) {
                 oks.setText(content);
             }
             // 分享标题链接
-            if (Strings.isNotEmpty(titleUrl)) {
+            if (StringsUtils.isNotEmpty(titleUrl)) {
                 oks.setUrl(titleUrl);
             }
             // 网络图片地址
-            if (Strings.isNotEmpty(imageUrl)) {
+            if (StringsUtils.isNotEmpty(imageUrl)) {
                 oks.setImageUrl(imageUrl);
             }
             // 本地图片地址
-            if (Strings.isNotEmpty(imagePath)) {
+            if (StringsUtils.isNotEmpty(imagePath)) {
                 oks.setImagePath(imagePath);
             }
             // 分享文件地址
-            if (Strings.isNotEmpty(filePath)) {
+            if (StringsUtils.isNotEmpty(filePath)) {
                 oks.setFilePath(filePath);
             }
             // 分享音乐链接
-            if (Strings.isNotEmpty(musicUrl)) {
+            if (StringsUtils.isNotEmpty(musicUrl)) {
                 oks.setMusicUrl(musicUrl);
             }
 

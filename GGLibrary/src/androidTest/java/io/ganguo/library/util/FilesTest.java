@@ -70,7 +70,7 @@ public class FilesTest extends ApplicationTest {
         File file2 = new File(Config.getDataPath(), "test");
         Files.write(file2, "test content.");
 
-        assertFalse(Strings.isEquals(Files.getExtension(file2), "txt"));
+        assertFalse(StringsUtils.isEquals(Files.getExtension(file2), "txt"));
     }
 
 //    public void testDelete() {

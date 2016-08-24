@@ -144,4 +144,9 @@ public interface ProfileModule {
 
     @POST("profile/feedback")
     Call<ApiDTO<String>> sendAdvice(@Query("feedback") String feedback);
+
+    @FormUrlEncoded
+    @POST("profile/doctor-tags")
+    Call<ApiDTO<String>> tags(@Field("tags") String tags);
+
 }

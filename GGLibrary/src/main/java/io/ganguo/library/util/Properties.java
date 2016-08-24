@@ -60,10 +60,10 @@ public class Properties {
 
         Method result;
 
-        result = getMethod(clazz, GETTER_PREFIX + Strings.capitalize(property));
+        result = getMethod(clazz, GETTER_PREFIX + StringsUtils.capitalize(property));
         if (result == null) {
             //property:boolean ok;
-            result = getMethod(clazz, GETTER_BOOLEAN_PREFIX + Strings.capitalize(property));
+            result = getMethod(clazz, GETTER_BOOLEAN_PREFIX + StringsUtils.capitalize(property));
             result = result != null && (
                     boolean.class.isAssignableFrom(result.getReturnType())
                             || Boolean.class.isAssignableFrom(result.getReturnType()))
@@ -83,7 +83,7 @@ public class Properties {
         }
 
         if (result != null && type == SETTER) {
-            result = getMethod(clazz, SETTER_PREFIX + Strings.capitalize(property), result.getReturnType());
+            result = getMethod(clazz, SETTER_PREFIX + StringsUtils.capitalize(property), result.getReturnType());
 
         }
         return result;

@@ -2,6 +2,7 @@ package com.doctor.sun.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.bean.MobEventId;
@@ -22,11 +24,13 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.activity.WebBrowserActivity;
 import com.doctor.sun.ui.activity.patient.PMainActivity2;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.CountDownUtil;
 import com.doctor.sun.util.MD5;
 import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vo.ClickMenu;
 import com.doctor.sun.vo.ItemCaptchaInput;
 import com.doctor.sun.vo.ItemRadioGroup;
 import com.doctor.sun.vo.ItemTextInput2;
@@ -159,6 +163,23 @@ public class RegisterFragment extends SortedListFragment {
 
         insertDivider(sortedItems);
 
+        final ClickMenu registerPolicy = new ClickMenu(R.layout.item_register_policy, 0, "是否已知晓【注册须知】所述事项", null);
+        registerPolicy.setEnabled(false);
+        registerPolicy.setItemId(UUID.randomUUID().toString());
+        registerPolicy.setListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewRegistrationPolicy(view.getContext());
+            }
+        });
+        registerPolicy.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                setHasOptionsMenu(registerPolicy.isEnabled());
+            }
+        });
+        sortedItems.add(registerPolicy);
+
         for (int i = 0; i < sortedItems.size(); i++) {
             sortedItems.get(i).setPosition(i);
         }
@@ -182,13 +203,13 @@ public class RegisterFragment extends SortedListFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_save, menu);
+        inflater.inflate(R.menu.menu_next, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_save: {
+            case R.id.action_next: {
                 done();
             }
         }
@@ -200,16 +221,33 @@ public class RegisterFragment extends SortedListFragment {
         api.register(toHashMap(getAdapter())).enqueue(new SimpleCallback<Token>() {
             @Override
             protected void handleResponse(Token response) {
-                int type = Integer.parseInt(getAdapter().get("type").getValue());
-                if (type == AuthModule.DOCTOR_TYPE) {
+                if (isDoctor()) {
                     registerDoctorSuccess(getContext(), response);
                     MobclickAgent.onEvent(getContext(), MobEventId.DOCTOR_REGISTRATION);
-                } else if (type == AuthModule.PATIENT_TYPE) {
+                } else if (isPatient()) {
                     registerPatientSuccess(getContext(), response);
                     MobclickAgent.onEvent(getContext(), MobEventId.PATIENT_REGISTRATION);
                 }
             }
         });
+    }
+
+    private boolean isDoctor() {
+        String typeString = getAdapter().get("type").getValue();
+        if (Strings.isNullOrEmpty(typeString)) {
+            return true;
+        }
+        int type = Integer.parseInt(typeString);
+        return type == AuthModule.DOCTOR_TYPE;
+    }
+
+    private boolean isPatient() {
+        String typeString = getAdapter().get("type").getValue();
+        if (Strings.isNullOrEmpty(typeString)) {
+            return true;
+        }
+        int type = Integer.parseInt(typeString);
+        return type == AuthModule.PATIENT_TYPE;
     }
 
 
@@ -265,5 +303,14 @@ public class RegisterFragment extends SortedListFragment {
         data.setPhone(getAdapter().get("phone").getValue());
         Intent intent = EditDoctorInfoFragment.intentFor(context, data);
         context.startActivity(intent);
+    }
+
+    public void viewRegistrationPolicy(Context context) {
+        String url = BuildConfig.BASE_URL + "readme/registration-policy";
+        if (isDoctor()) {
+            url += "?client=doctor";
+        }
+        Intent i = WebBrowserActivity.intentFor(context, url, "注册须知");
+        context.startActivity(i);
     }
 }

@@ -7,7 +7,7 @@
 package com.doctor.sun.util;
 
 
-import io.ganguo.library.util.Strings;
+import io.ganguo.library.util.StringsUtils;
 
 /**
  * Java����ת��Ϊƴ��
@@ -147,7 +147,7 @@ public class CharacterParser {
      * ������� * * @param chs * @return
      */
     public String getSpellingWithFirstCap(String chs) {
-        if (Strings.isEmpty(chs)) return "";
+        if (StringsUtils.isEmpty(chs)) return "";
         if (chs.equals("全国")) return "Nationwide";
         if (chs.equals("澳门")) return "Macau";
         if (chs.equals("香港")) return "Hongkong";

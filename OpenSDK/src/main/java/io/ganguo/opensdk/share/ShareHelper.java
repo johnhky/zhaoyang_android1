@@ -10,7 +10,7 @@ import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.tencent.weibo.TencentWeibo;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
-import io.ganguo.library.util.Strings;
+import io.ganguo.library.util.StringsUtils;
 import io.ganguo.opensdk.bean.QQShare;
 import io.ganguo.opensdk.bean.QQWeiboShare;
 import io.ganguo.opensdk.bean.QQZoneShare;
@@ -34,7 +34,7 @@ public class ShareHelper {
         OnekeyShare oks = new OnekeyShare();
         // 分享标题
         String title = shareInfo.getTitle();
-        if (Strings.isNotEmpty(title)) {
+        if (StringsUtils.isNotEmpty(title)) {
             if (title.length() > 30) {
                 oks.setTitle(title.substring(0, 25) + "…");
             } else {
@@ -43,12 +43,12 @@ public class ShareHelper {
         }
         // 分享标题链接
         String titleUrl = shareInfo.getTitleUrl();
-        if (Strings.isNotEmpty(titleUrl)) {
+        if (StringsUtils.isNotEmpty(titleUrl)) {
             oks.setTitleUrl(titleUrl);
         }
         // 分享内容
         String content = shareInfo.getContent();
-        if (Strings.isNotEmpty(content)) {
+        if (StringsUtils.isNotEmpty(content)) {
             if (content.length() > 40) {
                 oks.setText(content.substring(0, 34) + "…");
             } else {
@@ -57,12 +57,12 @@ public class ShareHelper {
         }
         // 网络图片地址
         String imageUrl = shareInfo.getImageUrl();
-        if (Strings.isNotEmpty(imageUrl)) {
+        if (StringsUtils.isNotEmpty(imageUrl)) {
             oks.setImageUrl(imageUrl);
         }
         // 图片的本地路径
         String imagePath = shareInfo.getImagePath();
-        if (Strings.isNotEmpty(imagePath)) {
+        if (StringsUtils.isNotEmpty(imagePath)) {
             oks.setImagePath(imagePath);
         }
 
@@ -85,7 +85,7 @@ public class ShareHelper {
         OnekeyShare oks = new OnekeyShare();
         // 分享标题
         String title = shareInfo.getTitle();
-        if (Strings.isNotEmpty(title)) {
+        if (StringsUtils.isNotEmpty(title)) {
             if (title.length() > 30) {
                 oks.setTitle(title.substring(0, 25) + "…");
             } else {
@@ -94,12 +94,12 @@ public class ShareHelper {
         }
         // 分享标题链接
         String titleUrl = shareInfo.getTitleUrl();
-        if (Strings.isNotEmpty(titleUrl)) {
+        if (StringsUtils.isNotEmpty(titleUrl)) {
             oks.setTitleUrl(titleUrl);
         }
         // 分享内容
         String content = shareInfo.getContent();
-        if (Strings.isNotEmpty(content)) {
+        if (StringsUtils.isNotEmpty(content)) {
             if (content.length() > 40) {
                 oks.setText(content.substring(0, 34) + "…");
             } else {
@@ -108,22 +108,22 @@ public class ShareHelper {
         }
         // 网络图片地址
         String imageUrl = shareInfo.getImageUrl();
-        if (Strings.isNotEmpty(imageUrl)) {
+        if (StringsUtils.isNotEmpty(imageUrl)) {
             oks.setImageUrl(imageUrl);
         }
         // 本地图片路径
         String imagePath = shareInfo.getImagePath();
-        if (Strings.isNotEmpty(imagePath)) {
+        if (StringsUtils.isNotEmpty(imagePath)) {
             oks.setImagePath(imagePath);
         }
         // 网站名称
         String siteName = shareInfo.getSiteName();
-        if (Strings.isNotEmpty(siteName)) {
+        if (StringsUtils.isNotEmpty(siteName)) {
             oks.setSite(siteName);
         }
         // 网站地址
         String siteUrl = shareInfo.getSiteUrl();
-        if (Strings.isNotEmpty(siteUrl)) {
+        if (StringsUtils.isNotEmpty(siteUrl)) {
             oks.setSiteUrl(siteUrl);
         }
 
@@ -146,17 +146,17 @@ public class ShareHelper {
         OnekeyShare oks = new OnekeyShare();
         // 分享内容
         String content = shareInfo.getContent();
-        if (Strings.isNotEmpty(content)) {
+        if (StringsUtils.isNotEmpty(content)) {
             oks.setText(content);
         }
         // 网络图片地址
         String imageUrl = shareInfo.getImageUrl();
-        if (Strings.isNotEmpty(imageUrl)) {
+        if (StringsUtils.isNotEmpty(imageUrl)) {
             oks.setImageUrl(imageUrl);
         }
         // 本地图片地址
         String imagePath = shareInfo.getImagePath();
-        if (Strings.isNotEmpty(imagePath)) {
+        if (StringsUtils.isNotEmpty(imagePath)) {
             oks.setImagePath(imagePath);
         }
 
@@ -185,37 +185,37 @@ public class ShareHelper {
         OnekeyShare oks = new OnekeyShare();
         // 分享标题
         String title = shareInfo.getTitle();
-        if (Strings.isNotEmpty(title)) {
+        if (StringsUtils.isNotEmpty(title)) {
             oks.setTitle(title);
         }
         // 分享内容
         String content = shareInfo.getContent();
-        if (Strings.isNotEmpty(content)) {
+        if (StringsUtils.isNotEmpty(content)) {
             oks.setText(content);
         }
         // 分享标题链接
         String titleUrl = shareInfo.getTitleUrl();
-        if (Strings.isNotEmpty(titleUrl)) {
+        if (StringsUtils.isNotEmpty(titleUrl)) {
             oks.setUrl(titleUrl);
         }
         // 网络图片地址
         String imageUrl = shareInfo.getImageUrl();
-        if (Strings.isNotEmpty(imageUrl)) {
+        if (StringsUtils.isNotEmpty(imageUrl)) {
             oks.setImageUrl(imageUrl);
         }
         // 本地图片地址
         String imagePath = shareInfo.getImagePath();
-        if (Strings.isNotEmpty(imagePath)) {
+        if (StringsUtils.isNotEmpty(imagePath)) {
             oks.setImagePath(imagePath);
         }
         // 分享文件地址
         String filePath = shareInfo.getFilePath();
-        if (Strings.isNotEmpty(filePath)) {
+        if (StringsUtils.isNotEmpty(filePath)) {
             oks.setFilePath(filePath);
         }
         // 分享音乐链接
         String musicUrl = shareInfo.getMusicUrl();
-        if (Strings.isNotEmpty(musicUrl)) {
+        if (StringsUtils.isNotEmpty(musicUrl)) {
             oks.setMusicUrl(musicUrl);
         }
 
@@ -237,37 +237,37 @@ public class ShareHelper {
         OnekeyShare oks = new OnekeyShare();
         // 分享标题
         String title = shareInfo.getTitle();
-        if (Strings.isNotEmpty(title)) {
+        if (StringsUtils.isNotEmpty(title)) {
             oks.setTitle(title);
         }
         // 分享内容
         String content = shareInfo.getContent();
-        if (Strings.isNotEmpty(content)) {
+        if (StringsUtils.isNotEmpty(content)) {
             oks.setText(content);
         }
         // 分享标题链接
         String titleUrl = shareInfo.getTitleUrl();
-        if (Strings.isNotEmpty(titleUrl)) {
+        if (StringsUtils.isNotEmpty(titleUrl)) {
             oks.setUrl(titleUrl);
         }
         // 网络图片地址
         String imageUrl = shareInfo.getImageUrl();
-        if (Strings.isNotEmpty(imageUrl)) {
+        if (StringsUtils.isNotEmpty(imageUrl)) {
             oks.setImageUrl(imageUrl);
         }
         // 本地图片地址
         String imagePath = shareInfo.getImagePath();
-        if (Strings.isNotEmpty(imagePath)) {
+        if (StringsUtils.isNotEmpty(imagePath)) {
             oks.setImagePath(imagePath);
         }
         // 分享文件地址
         String filePath = shareInfo.getFilePath();
-        if (Strings.isNotEmpty(filePath)) {
+        if (StringsUtils.isNotEmpty(filePath)) {
             oks.setFilePath(filePath);
         }
         // 分享音乐链接
         String musicUrl = shareInfo.getMusicUrl();
-        if (Strings.isNotEmpty(musicUrl)) {
+        if (StringsUtils.isNotEmpty(musicUrl)) {
             oks.setMusicUrl(musicUrl);
         }
 
@@ -289,17 +289,17 @@ public class ShareHelper {
         OnekeyShare oks = new OnekeyShare();
         // 分享内容
         String content = shareInfo.getContent();
-        if (Strings.isNotEmpty(content)) {
+        if (StringsUtils.isNotEmpty(content)) {
             oks.setText(content);
         }
         // 网络图片地址
         String imageUrl = shareInfo.getImageUrl();
-        if (Strings.isNotEmpty(imageUrl)) {
+        if (StringsUtils.isNotEmpty(imageUrl)) {
             oks.setImageUrl(imageUrl);
         }
         // 本地图片地址
         String imagePath = shareInfo.getImagePath();
-        if (Strings.isNotEmpty(imagePath)) {
+        if (StringsUtils.isNotEmpty(imagePath)) {
             oks.setImagePath(imagePath);
         }
 

@@ -273,7 +273,7 @@ public class Files {
      * @return
      */
     public static boolean checkFileExists(String filePath) {
-        if (Strings.isEmpty(filePath)) {
+        if (StringsUtils.isEmpty(filePath)) {
             return false;
         }
         File file = new File(filePath);
@@ -287,7 +287,7 @@ public class Files {
      * @return
      */
     public static boolean checkFolderExists(String path) {
-        if (Strings.isEmpty(path)) {
+        if (StringsUtils.isEmpty(path)) {
             return false;
         }
         File file = new File(path);
@@ -403,7 +403,7 @@ public class Files {
      */
     public static boolean isSdCardMounted() {
         String status = Environment.getExternalStorageState();
-        return Strings.isEquals(status, Environment.MEDIA_MOUNTED);
+        return StringsUtils.isEquals(status, Environment.MEDIA_MOUNTED);
     }
 
     /**

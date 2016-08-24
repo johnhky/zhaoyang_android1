@@ -30,7 +30,7 @@ import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.util.MD5;
 import com.umeng.analytics.MobclickAgent;
 
-import io.ganguo.library.util.Strings;
+import io.ganguo.library.util.StringsUtils;
 
 /**
  * Created by rick on 11/17/15.
@@ -62,7 +62,7 @@ public class RegisterHandler extends BaseObservable {
     }
 
     public void sendCaptcha(final Context context, final ViewGroup viewGroup) {
-        if (!Strings.isMobile(phone)) {
+        if (!StringsUtils.isMobile(phone)) {
             Toast.makeText(context, "手机号码格式错误", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -170,7 +170,7 @@ public class RegisterHandler extends BaseObservable {
     }
 
     private boolean notValid(Context context) {
-        if (!Strings.isMobile(phone)) {
+        if (!StringsUtils.isMobile(phone)) {
             Toast.makeText(context, "手机号码格式错误", Toast.LENGTH_SHORT).show();
             return true;
         }
@@ -179,7 +179,7 @@ public class RegisterHandler extends BaseObservable {
             return true;
         }
 
-        if (!Strings.isEquals(password, password2)) {
+        if (!StringsUtils.isEquals(password, password2)) {
             Toast.makeText(context, "两次输入的密码不相同", Toast.LENGTH_SHORT).show();
             return true;
         }

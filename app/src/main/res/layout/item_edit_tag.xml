@@ -46,11 +46,11 @@
             android:paddingRight="@dimen/dp_10"
             android:paddingStart="@dimen/dp_10"
             android:text="@={data.result}"
-            android:textColor="@{data.isValid(data.result)?@color/color_tick:@color/red_f0}"
+            android:textColor="@color/color_white_black"
             android:textColorHint="@color/gray_d9"
             android:textSize="@dimen/font_13" />
 
-        <TextView
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_40"
             android:layout_gravity="end"
@@ -58,7 +58,8 @@
             android:gravity="center"
             android:maxLines="1"
             android:onClick="@{()->data.toggleEditable()}"
-            android:selected="@{data.enabled}"
+            android:button="@null"
+            android:checked="@{data.enabled}"
             android:text="@{data.enabled?@string/save:@string/delete}"
             android:textColor="@color/white"
             android:textSize="@dimen/font_15"

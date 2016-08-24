@@ -12,6 +12,8 @@ import com.doctor.sun.util.NameComparator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -114,6 +116,8 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
     private float point;
     @JsonProperty("follow_up_permission")
     private int followUpPermission;
+    @JsonProperty("tags")
+    public List<Tags> tags = new ArrayList<>();
 
     // 预约相关信息
     @JsonIgnore
@@ -464,6 +468,7 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
         dest.writeString(this.tid);
         dest.writeInt(this.followUpPermission);
         dest.writeInt(this.doctorId);
+        dest.writeList(this.tags);
     }
 
     protected Doctor(Parcel in) {
@@ -501,6 +506,8 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
         this.tid = in.readString();
         this.followUpPermission = in.readInt();
         this.doctorId = in.readInt();
+        this.tags = new ArrayList<Tags>();
+        in.readList(this.tags, Tags.class.getClassLoader());
     }
 
     public static final Creator<Doctor> CREATOR = new Creator<Doctor>() {
