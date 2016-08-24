@@ -14,6 +14,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.AfterServiceContactActivity;
 import com.doctor.sun.ui.activity.PageActivity2;
+import com.google.common.base.Strings;
 
 /**
  * Created by rick on 1/6/2016.
@@ -36,7 +37,6 @@ public class AfterServiceActivity extends PageActivity2 {
 
     public void onMenuClicked() {
         Intent intent = AfterServiceContactActivity.intentFor(this, ContactActivity.DOCTORS_CONTACT);
-//        Intent intent = ContactActivity.intentFor(this, ContactActivity.DOCTORS_CONTACT, R.layout.item_contact2);
         startActivity(intent);
     }
 
@@ -63,6 +63,11 @@ public class AfterServiceActivity extends PageActivity2 {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (Strings.isNullOrEmpty(newText)) {
+                    keyword = newText;
+                    getCallback().resetPage();
+                    loadMore();
+                }
                 return true;
             }
         });
@@ -80,8 +85,8 @@ public class AfterServiceActivity extends PageActivity2 {
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    public int getMidTitle() {
-//        return R.string.title_follow_up;
-//    }
+    @Override
+    public int getMidTitle() {
+        return R.string.title_follow_up;
+    }
 }

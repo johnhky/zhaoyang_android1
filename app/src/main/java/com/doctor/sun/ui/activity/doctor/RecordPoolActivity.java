@@ -10,26 +10,40 @@ import android.view.Menu;
 
 import com.doctor.sun.R;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.module.AppointmentModule;
+import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.PageActivity2;
-
+import com.doctor.sun.ui.adapter.SimpleAdapter;
 
 /**
- * Created by rick on 11/20/15.
+ * Created by rick on 1/6/2016.
  */
-public class AppointmentListActivity extends PageActivity2 {
-    private AppointmentModule api = Api.of(AppointmentModule.class);
-    private String keyword;
+public class RecordPoolActivity extends PageActivity2 {
+    private DiagnosisModule api = Api.of(DiagnosisModule.class);
+    private String keyword = "";
 
-    public static Intent makeIntent(Context context) {
-        Intent i = new Intent(context, AppointmentListActivity.class);
-        return i;
+    public static Intent intentFor(Context context) {
+        Intent intent = new Intent(context, RecordPoolActivity.class);
+        return intent;
+    }
+
+    @NonNull
+    @Override
+    public SimpleAdapter createAdapter() {
+        SimpleAdapter adapter = super.createAdapter();
+        adapter.mapLayout(R.layout.item_appointment, R.layout.item_record_pool);
+        return adapter;
     }
 
     @Override
     protected void loadMore() {
         super.loadMore();
-        api.searchAppointment(getCallback().getPage(), keyword, "").enqueue(getCallback());
+        api.recordPool(getCallback().getPage(), keyword).enqueue(getCallback());
+    }
+
+    @NonNull
+    @Override
+    public String getEmptyIndicatorText() {
+        return "没有任何记录";
     }
 
     @Override
@@ -54,16 +68,8 @@ public class AppointmentListActivity extends PageActivity2 {
         });
         return true;
     }
-
-    @NonNull
-    @Override
-    public String getEmptyIndicatorText() {
-        return "没有预约任何患者";
-    }
-
     @Override
     public int getMidTitle() {
-        return R.string.title_appointment_list;
+        return R.string.title_record_pool;
     }
-
 }

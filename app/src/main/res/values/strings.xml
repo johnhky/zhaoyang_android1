@@ -107,4 +107,6 @@
     <string name="title_add_prescription">用药详情</string>
     <string name="title_medicine_store">寄药小助手</string>
     <string name="title_advice_history">历史反馈</string>
+    <string name="title_record_pool">病历库</string>
+    <string name="title_follow_up">随访列表</string>
 </resources>

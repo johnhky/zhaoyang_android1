@@ -221,6 +221,11 @@ public interface AppointmentModule {
     Call<ApiDTO<PageDTO<Appointment>>> doctorAppointment(@Query("page") String page,
                                                          @Query("orderType") String orderType);
 
+    @GET("appointment/doctor-appoint-list")
+    Call<ApiDTO<PageDTO<Appointment>>> searchAppointment(@Query("page") String page,
+                                                         @Query("keyword") String keyword,
+                                                         @Query("displayStatus") String displayStatus);
+
     @GET("appointment/patient-appoint-list")
     Call<ApiDTO<PageDTO<Appointment>>> patientAppointment(@Query("page") String page);
 

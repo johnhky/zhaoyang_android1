@@ -1,12 +1,12 @@
 package com.doctor.sun.ui.handler;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.ui.activity.doctor.BreakTimeActivity;
-import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
 import com.doctor.sun.ui.activity.doctor.FeeActivity;
+import com.doctor.sun.ui.activity.doctor.RecordPoolActivity;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
 import com.doctor.sun.ui.activity.doctor.TemplateActivity;
 import com.doctor.sun.ui.activity.doctor.TimeActivity;
@@ -38,9 +38,9 @@ public class MeHandler {
         view.getContext().startActivity(intent);
     }
 
-    public void Disturb(View view) {
-        Intent intent = BreakTimeActivity.makeIntent(view.getContext());
-        view.getContext().startActivity(intent);
+    public void recordPool(Context context) {
+        Intent intent = RecordPoolActivity.intentFor(context);
+        context.startActivity(intent);
     }
 
     public void Template(View view) {
