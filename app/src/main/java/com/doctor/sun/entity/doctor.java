@@ -1,11 +1,12 @@
 package com.doctor.sun.entity;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
-import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.util.NameComparator;
@@ -28,6 +29,18 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
     public static final int MALE = 1;
     public static final int FEMALE = 2;
     public boolean isSelected = false;
+    /**
+     * attitude_point : 5.00
+     * professional_point : 5.00
+     * punctuality_point : 5.00
+     */
+
+    @JsonProperty("attitude_point")
+    private float attitudePoint;
+    @JsonProperty("professional_point")
+    private float professionalPoint;
+    @JsonProperty("punctuality_point")
+    private float punctualityPoint;
     /**
      */
 
@@ -404,6 +417,36 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
         this.isBan = isBan;
     }
 
+    @Bindable
+    public float getAttitudePoint() {
+        return attitudePoint;
+    }
+
+    public void setAttitudePoint(float attitudePoint) {
+        this.attitudePoint = attitudePoint;
+        notifyPropertyChanged(BR.attitudePoint);
+    }
+
+    @Bindable
+    public float getProfessionalPoint() {
+        return professionalPoint;
+    }
+
+    public void setProfessionalPoint(float professionalPoint) {
+        this.professionalPoint = professionalPoint;
+        notifyPropertyChanged(BR.professionalPoint);
+    }
+
+    @Bindable
+    public float getPunctualityPoint() {
+        return punctualityPoint;
+    }
+
+    public void setPunctualityPoint(float punctualityPoint) {
+        this.punctualityPoint = punctualityPoint;
+        notifyPropertyChanged(BR.punctualityPoint);
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -442,6 +485,9 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
         dest.writeInt(this.followUpPermission);
         dest.writeInt(this.doctorId);
         dest.writeList(this.tags);
+        dest.writeFloat(this.attitudePoint);
+        dest.writeFloat(this.punctualityPoint);
+        dest.writeFloat(this.professionalPoint);
     }
 
     protected Doctor(Parcel in) {
@@ -477,6 +523,9 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
         this.doctorId = in.readInt();
         this.tags = new ArrayList<Tags>();
         in.readList(this.tags, Tags.class.getClassLoader());
+        this.attitudePoint = in.readFloat();
+        this.punctualityPoint = in.readFloat();
+        this.professionalPoint = in.readFloat();
     }
 
     public static final Creator<Doctor> CREATOR = new Creator<Doctor>() {

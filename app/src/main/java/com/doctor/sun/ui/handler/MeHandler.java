@@ -10,6 +10,7 @@ import com.doctor.sun.ui.activity.doctor.RecordPoolActivity;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
 import com.doctor.sun.ui.activity.doctor.TemplateActivity;
 import com.doctor.sun.ui.activity.doctor.TimeActivity;
+import com.doctor.sun.ui.activity.doctor.ViewFeedbackActivity;
 import com.doctor.sun.ui.activity.patient.MyQrCodeActivity;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 
@@ -56,5 +57,10 @@ public class MeHandler {
     public void myQrCode(View view) {
         Intent intent = MyQrCodeActivity.intentFor(view.getContext(), data);
         view.getContext().startActivity(intent);
+    }
+
+    public void viewFeedback(Context context) {
+        Intent intent = ViewFeedbackActivity.intentFor(context, data);
+        context.startActivity(intent);
     }
 }

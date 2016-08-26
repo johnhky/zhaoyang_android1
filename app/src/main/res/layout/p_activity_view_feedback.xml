@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+
+        <variable
+            name="header"
+            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Doctor" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ripple_default"
+        android:orientation="vertical">
+
+
+        <include
+            layout="@layout/include_header"
+            bind:data="@{header}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_70"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:background="@drawable/shape_blue_rect"
+                android:gravity="center"
+                android:text="平均分"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_14" />
+
+            <RatingBar
+                android:id="@+id/rating_bar_mean"
+                style="@style/FeedbackRatingBar"
+                android:layout_gravity="center"
+                android:isIndicator="true"
+                android:rating="@{(data.professionalPoint + data.attitudePoint + data.punctualityPoint)/3}" />
+
+            <TextView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="center"
+                android:text="@{&quot;&quot;+((data.professionalPoint + data.attitudePoint + data.punctualityPoint)/3)}"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/font_14" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_13"
+            android:background="#c1cacf" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_35"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="守时"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_14" />
+
+            <RatingBar
+                android:id="@+id/rating_bar_0"
+                style="@style/FeedbackRatingBar"
+                android:rating="@={data.punctualityPoint}" />
+
+            <TextView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="center"
+                android:text="@{&quot;&quot;+data.punctualityPoint}"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/font_14" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_30"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="专业"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_14" />
+
+            <RatingBar
+                android:id="@+id/rating_bar_1"
+                style="@style/FeedbackRatingBar"
+                android:rating="@={data.professionalPoint}" />
+
+
+            <TextView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="center"
+                android:text="@{&quot;&quot;+data.professionalPoint}"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/font_14" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_30"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="态度"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_14" />
+
+            <RatingBar
+                android:id="@+id/rating_bar_2"
+                style="@style/FeedbackRatingBar"
+                android:rating="@={data.attitudePoint}" />
+
+            <TextView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="center"
+                android:text="@{&quot;&quot;+data.attitudePoint}"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/font_14" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

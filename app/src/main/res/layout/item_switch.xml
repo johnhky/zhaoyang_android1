@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemSwitch"/>
+            type="com.doctor.sun.vo.ItemSwitch" />
 
 
     </data>
@@ -13,6 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#e8f6ff"
         android:orientation="vertical">
 
         <View
@@ -29,8 +30,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_13"
                 android:layout_marginLeft="@dimen/dp_13"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:text="@{data.content}"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
@@ -44,10 +46,10 @@
                 android:id="@+id/switch_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="@={data.checked}"
-                android:setTintColor="@{@color/colorPrimaryDark}"
                 android:layout_marginEnd="@dimen/dp_13"
-                android:layout_marginRight="@dimen/dp_13" />
+                android:layout_marginRight="@dimen/dp_13"
+                android:checked="@={data.checked}"
+                android:setTintColor="@{@color/colorPrimaryDark}" />
 
         </LinearLayout>
 

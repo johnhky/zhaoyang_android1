@@ -39,6 +39,9 @@ public class EditDoctorInfoModel {
 
 
     public List<SortedItem> parseData(Doctor data) {
+        if (data == null) {
+            data = new Doctor();
+        }
         List<SortedItem> result = new ArrayList<>();
 
         ItemPickImage avatar = new ItemPickImage(R.layout.item_pick_avatar, data.getAvatar());

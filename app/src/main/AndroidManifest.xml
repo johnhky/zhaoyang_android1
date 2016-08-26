@@ -483,6 +483,9 @@
         <activity android:name=".ui.activity.doctor.RecordPoolActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".ui.activity.doctor.ViewFeedbackActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name="com.yuntongxun.ecsdk.ECClientService"
             android:enabled="true" />
