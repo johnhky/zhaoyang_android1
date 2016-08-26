@@ -20,6 +20,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by rick on 11/26/15.
@@ -188,11 +189,11 @@ public interface QuestionModule {
      * @return
      */
     @GET("{type}/{id}")
-    Call<ApiDTO<QuestionDTO>> questions2(@Path("type") String type, @Path("id") String appointmentId);
+    Call<ApiDTO<QuestionDTO>> questions2(@Path("type") String type, @Path("id") String appointmentId, @Query("questionnaires_type") String questionnaires_type);
 
     @FormUrlEncoded
     @PUT("{type}/{id}")
-    Call<ApiDTO<String>> saveQuestions2(@Path("type") String type, @Path("id") String appointmentId, @Field("answer") String answer);
+    Call<ApiDTO<String>> saveQuestions2(@Path("type") String type, @Path("id") String appointmentId, @Field("answer") String answer, @Query("questionnaires_type") String questionnaires_type);
 
     @FormUrlEncoded
     @PUT("{type}/{id}")

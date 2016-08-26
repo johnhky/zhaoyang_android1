@@ -48,7 +48,7 @@
             android:button="@drawable/ic_options"
             android:hint="@{data.optionInputHint}"
             android:imeOptions="actionDone"
-            android:inputType="@{data.optionInputType}"
+            android:inputType="@{data.inputType}"
             android:maxLength="@{data.optionInputLength}"
             android:minWidth="@dimen/dp_35"
             android:paddingBottom="@dimen/dp_4"

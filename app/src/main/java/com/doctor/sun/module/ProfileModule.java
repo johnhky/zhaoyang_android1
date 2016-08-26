@@ -149,4 +149,9 @@ public interface ProfileModule {
     @POST("profile/doctor-tags")
     Call<ApiDTO<String>> tags(@Field("tags") String tags);
 
+    @GET("profile/search-status")
+    Call<ApiDTO<String>> isAllowToSearch();
+
+    @GET("profile/update-search-status")
+    Call<ApiDTO<String>> toggleSearchable();
 }

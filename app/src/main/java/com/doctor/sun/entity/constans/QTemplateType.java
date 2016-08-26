@@ -11,4 +11,5 @@ import java.lang.annotation.RetentionPolicy;
 public @interface QTemplateType {
     String NORMAL = "smartQuestionnaires";
     String SCALES = "smartScales";
+    String FOLLOW_UP = "smartFollowUpQuestionnaires";
 }

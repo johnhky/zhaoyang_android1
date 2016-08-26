@@ -7,7 +7,6 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
-import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.NumericBooleanDeserializer;
 import com.doctor.sun.util.NumericBooleanSerializer;
@@ -16,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.base.Strings;
 
 import java.util.HashMap;
 import java.util.List;
@@ -80,6 +80,9 @@ public class Options2 extends BaseItem {
             case QuestionType.sel:
                 return R.layout.new_item_options_dialog;
             case QuestionType.rectangle:
+                if (!Strings.isNullOrEmpty(optionInputHint)) {
+                    return R.layout.new_item_options_rect_input;
+                }
                 return R.layout.new_item_options_rect;
             default:
                 return R.layout.new_item_options;
@@ -127,6 +130,13 @@ public class Options2 extends BaseItem {
         if (!selected.equals(this.selected)) {
             this.selected = selected;
             notifyChange();
+        }
+    }
+
+    public void setSelectedWrap(Boolean selected, SortedListAdapter adapter) {
+        if (!selected.equals(this.selected)) {
+            this.selected = selected;
+            clear(adapter);
         }
     }
 
@@ -183,7 +193,11 @@ public class Options2 extends BaseItem {
     @Override
     public int getSpan() {
         if (questionType.equals(QuestionType.rectangle)) {
-            if (optionContent == null) {
+            if (!Strings.isNullOrEmpty(optionInputHint)) {
+                return 12;
+            }
+
+            if (Strings.isNullOrEmpty(optionContent)) {
                 return 0;
             }
             int i = optionContent.length();
@@ -194,5 +208,19 @@ public class Options2 extends BaseItem {
             return Math.min(12, Math.max(2, i));
         }
         return super.getSpan();
+    }
+
+
+    public int inputType() {
+        switch (optionInputType) {
+            case 0:
+                return InputType.TYPE_CLASS_TEXT;
+            case 1:
+                return InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED;
+            case 2:
+                return InputType.TYPE_CLASS_NUMBER;
+            default:
+                return InputType.TYPE_CLASS_TEXT;
+        }
     }
 }

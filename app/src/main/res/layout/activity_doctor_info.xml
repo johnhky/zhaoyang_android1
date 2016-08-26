@@ -81,12 +81,12 @@
 
                 <include
                     android:id="@+id/black_list"
-                    layout="@layout/item_switch"
+                    layout="@layout/include_switch"
                     bind:isChecked="@{data.is_ban == 1 ? true : false}" />
 
                 <include
                     android:id="@+id/allow_call"
-                    layout="@layout/item_switch"
+                    layout="@layout/include_switch"
                     bind:isChecked="@{data.can_call == 1 ? true : false}" />
 
                 <TextView

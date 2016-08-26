@@ -30,13 +30,18 @@ public class ReadQuestionFragment extends AnswerQuestionFragment {
 
     private boolean isEditMode = false;
 
-    public static ReadQuestionFragment getInstance(String id, String type, boolean readOnly) {
+    public static ReadQuestionFragment getInstance(String id, String path, boolean readOnly) {
+        return getInstance(id, path, "", readOnly);
+    }
+
+    public static ReadQuestionFragment getInstance(String id, String path, String questionType, boolean readOnly) {
 
         ReadQuestionFragment fragment = new ReadQuestionFragment();
 
         Bundle args = new Bundle();
         args.putString(Constants.DATA, id);
-        args.putString(Constants.TYPE, type);
+        args.putString(Constants.PATH, path);
+        args.putString(Constants.QUESTION_TYPE, questionType);
         args.putBoolean(Constants.READ_ONLY, readOnly);
 
         fragment.setArguments(args);

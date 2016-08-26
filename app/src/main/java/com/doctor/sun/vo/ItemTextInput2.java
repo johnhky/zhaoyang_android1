@@ -114,6 +114,8 @@ public class ItemTextInput2 extends BaseItem {
         if (isEnabled()) {
             if (!Strings.isNullOrEmpty(getResult())) {
                 lockResult();
+            } else {
+                return;
             }
         } else {
             clearAnswer();

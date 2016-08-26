@@ -75,6 +75,8 @@ public class Constants {
 
     public static final String FRAGMENT_NAME = "FRAGMENT_NAME";
     public static final String FRAGMENT_TITLE = "FRAGMENT_TITLE";
+    public static final String QUESTION_TYPE = "QUESTION_TYPE";
+    public static final String PATH = "QUESTION_PATH";
 
 
     static {

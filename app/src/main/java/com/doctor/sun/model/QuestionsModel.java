@@ -51,8 +51,8 @@ public class QuestionsModel {
     private QuestionModule api = Api.of(QuestionModule.class);
 
 
-    public void questions(String type, String id, final Function0<List<? extends SortedItem>> function0) {
-        Call<ApiDTO<QuestionDTO>> apiDTOCall = api.questions2(type, id);
+    public void questions(String type, String id, String questionType, final Function0<List<? extends SortedItem>> function0) {
+        Call<ApiDTO<QuestionDTO>> apiDTOCall = api.questions2(type, id, questionType);
         handleQuestions(function0, apiDTOCall);
     }
 
@@ -367,21 +367,21 @@ public class QuestionsModel {
         return JacksonUtils.toJson(result);
     }
 
-    private Response<ApiDTO<String>> postAnswer(String appointmentId, String type, String string) {
+    private Response<ApiDTO<String>> postAnswer(String appointmentId, String type, String string, String qType) {
         try {
-            return api.saveQuestions2(type, appointmentId, string).execute();
+            return api.saveQuestions2(type, appointmentId, string,qType).execute();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public void saveAnswer(final String appointmentId, final String type, final SortedListAdapter adapter) {
+    public void saveAnswer(final String appointmentId, final String type, final String qType, final SortedListAdapter adapter) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 String string = composeAnswer(adapter);
-                Response<ApiDTO<String>> apiDTOResponse = postAnswer(appointmentId, type, string);
+                Response<ApiDTO<String>> apiDTOResponse = postAnswer(appointmentId, type, string, qType);
                 if (apiDTOResponse != null && apiDTOResponse.isSuccessful()) {
                     EventHub.post(new SaveAnswerSuccessEvent());
                 }

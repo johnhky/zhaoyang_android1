@@ -119,14 +119,6 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
     @JsonProperty("tags")
     public List<Tags> tags = new ArrayList<>();
 
-    // 预约相关信息
-    @JsonIgnore
-    private String recordId;
-    @JsonIgnore
-    private String duration = "";
-    @AppointmentType
-    @JsonIgnore
-    private int type = AppointmentType.PREMIUM;
     @JsonProperty("yunxin_accid")
     private String yunxinAccid;
     @JsonProperty("tid")
@@ -282,22 +274,6 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
 
     public String getStatus() {
         return status;
-    }
-
-    public String getRecordId() {
-        return recordId;
-    }
-
-    public void setRecordId(String recordId) {
-        this.recordId = recordId;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
 
@@ -461,9 +437,6 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
         dest.writeInt(this.secondMoney);
         dest.writeInt(this.needReview);
         dest.writeFloat(this.point);
-        dest.writeString(this.recordId);
-        dest.writeString(this.duration);
-        dest.writeInt(this.type);
         dest.writeString(this.yunxinAccid);
         dest.writeString(this.tid);
         dest.writeInt(this.followUpPermission);
@@ -498,10 +471,6 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
         this.secondMoney = in.readInt();
         this.needReview = in.readInt();
         this.point = in.readFloat();
-        this.recordId = in.readString();
-        this.duration = in.readString();
-        //noinspection WrongConstant
-        this.type = in.readInt();
         this.yunxinAccid = in.readString();
         this.tid = in.readString();
         this.followUpPermission = in.readInt();
@@ -551,9 +520,6 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
                 ", needReview=" + needReview +
                 ", point=" + point +
                 ", followUpPermission=" + followUpPermission +
-                ", recordId='" + recordId + '\'' +
-                ", duration='" + duration + '\'' +
-                ", type=" + type +
                 ", yunxinAccid='" + yunxinAccid + '\'' +
                 ", tid='" + tid + '\'' +
                 ", isRecommend='" + isRecommend + '\'' +
@@ -590,8 +556,6 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
         status = map.get("status");
         level = map.get("level");
         city = map.get("city");
-        recordId = map.get("record_id");
-        duration = map.get("duration");
         yunxinAccid = map.get("yunxin_accid");
         tid = map.get("tid");
     }

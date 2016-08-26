@@ -50,16 +50,16 @@
             android:textColorHint="@color/gray_d9"
             android:textSize="@dimen/font_13" />
 
-        <CheckBox
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_40"
             android:layout_gravity="end"
+            android:activated="@{data.enabled}"
             android:background="@drawable/bg_tag"
+            android:button="@null"
             android:gravity="center"
             android:maxLines="1"
             android:onClick="@{()->data.toggleEditable()}"
-            android:button="@null"
-            android:checked="@{data.enabled}"
             android:text="@{data.enabled?@string/save:@string/delete}"
             android:textColor="@color/white"
             android:textSize="@dimen/font_15"

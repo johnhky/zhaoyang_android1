@@ -3,7 +3,6 @@ package com.doctor.sun.ui.activity.doctor;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
@@ -53,22 +52,22 @@ public class AfterServiceDoingActivity extends TabActivity implements Prescripti
         return null;
     }
 
-    /**
-     * Dispatch incoming result to the correct fragment.
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (Settings.isDoctor()) {
-            doctorAfterServicePA.handleImageResult(requestCode, resultCode, data);
-        } else {
-            patientAfterServicePA.handleImageResult(requestCode, resultCode, data);
-        }
-    }
+//    /**
+//     * Dispatch incoming result to the correct fragment.
+//     *
+//     * @param requestCode
+//     * @param resultCode
+//     * @param data
+//     */
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (Settings.isDoctor()) {
+//            doctorAfterServicePA.handleImageResult(requestCode, resultCode, data);
+//        } else {
+//            patientAfterServicePA.handleImageResult(requestCode, resultCode, data);
+//        }
+//    }
 
     @Override
     public String url() {

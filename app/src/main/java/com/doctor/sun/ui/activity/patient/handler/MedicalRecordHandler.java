@@ -93,9 +93,11 @@ public class MedicalRecordHandler {
     public void allowToApply(int doctorId) {
         AfterServiceModule of = Api.of(AfterServiceModule.class);
         //注意canFollowUp 跟canApplyFollowUp别弄错了.
-        of.allow(doctorId, data.allowToApply.equals("1") ? 0 : 1, data.getMedicalRecordId()).enqueue(new SimpleCallback<Void>() {
+        final int target = data.allowToApply.equals("1") ? 0 : 1;
+        of.allow(doctorId, target, data.getMedicalRecordId()).enqueue(new SimpleCallback<Void>() {
             @Override
             protected void handleResponse(Void response) {
+                data.allowToApply = String.valueOf(target);
             }
         });
     }

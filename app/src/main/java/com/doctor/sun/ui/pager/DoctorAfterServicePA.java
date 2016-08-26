@@ -1,30 +1,21 @@
 package com.doctor.sun.ui.pager;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.AfterService;
-import com.doctor.sun.entity.Answer;
-import com.doctor.sun.entity.Prescription;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
+import com.doctor.sun.entity.constans.QTemplateType;
+import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.EditForumFragment;
-import com.doctor.sun.ui.fragment.ViewForumFragment;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.doctor.sun.ui.fragment.ReadQuestionFragment;
 
 /**
  * Created by rick on 6/6/2016.
  */
 public class DoctorAfterServicePA extends FragmentStatePagerAdapter {
     private String id;
-    private EditForumFragment afterServiceForumFragment;
-    private ViewForumFragment viewForumFragment;
 
     public DoctorAfterServicePA(FragmentManager fm, String id) {
         super(fm);
@@ -35,12 +26,10 @@ public class DoctorAfterServicePA extends FragmentStatePagerAdapter {
     public Fragment getItem(final int position) {
         switch (position) {
             case 0: {
-                viewForumFragment = ViewForumFragment.newInstance(id, AfterService.TYPE.PATIENT);
-                return viewForumFragment;
+                return ReadQuestionFragment.getInstance(id, QTemplateType.FOLLOW_UP, AfterService.TYPE.DOCTOR_R_PATIENT, true);
             }
             case 1: {
-                afterServiceForumFragment = EditForumFragment.newInstance(id, AfterService.TYPE.DOCTOR);
-                return afterServiceForumFragment;
+                return AnswerQuestionFragment.getInstance(id, QTemplateType.FOLLOW_UP, AfterService.TYPE.DOCTOR_R_DOCTOR);
             }
         }
         return null;
@@ -68,29 +57,4 @@ public class DoctorAfterServicePA extends FragmentStatePagerAdapter {
         }
     }
 
-    public void saveAnswer() {
-        if (afterServiceForumFragment != null) {
-            afterServiceForumFragment.saveAnswer();
-        }
-    }
-
-    public void handleImageResult(final int requestCode, int resultCode, Intent data) {
-        if (afterServiceForumFragment != null) {
-            afterServiceForumFragment.handleImageResult(requestCode, resultCode, data);
-        }
-    }
-
-    public List<Prescription> getPrescriptions() {
-        BaseAdapter adapter = viewForumFragment.getAdapter();
-        for (int i = 0; i < adapter.size(); i++) {
-            LayoutId layoutId = (LayoutId) adapter.get(i);
-            if (layoutId.getItemLayoutId() == R.layout.item_answer) {
-                Answer otherAnswer = (Answer) layoutId;
-                if (otherAnswer.isDrugInit) {
-                    return otherAnswer.getPrescriptions();
-                }
-            }
-        }
-        return new ArrayList<>();
-    }
 }

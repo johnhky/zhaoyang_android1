@@ -1,14 +1,13 @@
 package com.doctor.sun.ui.pager;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.AfterService;
-import com.doctor.sun.ui.fragment.EditForumFragment;
-import com.doctor.sun.ui.fragment.RefreshListFragment;
+import com.doctor.sun.entity.constans.QTemplateType;
+import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.WaitingSuggestionFragment;
 
 /**
@@ -16,7 +15,6 @@ import com.doctor.sun.ui.fragment.WaitingSuggestionFragment;
  */
 public class PatientAfterServicePA extends FragmentStatePagerAdapter {
     private String id;
-    private EditForumFragment afterServiceForumFragment;
 
     public PatientAfterServicePA(FragmentManager fm, String id) {
         super(fm);
@@ -25,18 +23,15 @@ public class PatientAfterServicePA extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(final int position) {
-        RefreshListFragment fragment = null;
         switch (position) {
             case 0: {
-                afterServiceForumFragment = EditForumFragment.newInstance(id, AfterService.TYPE.PATIENT);
-                fragment = afterServiceForumFragment;
-                break;
+                return AnswerQuestionFragment.getInstance(id, QTemplateType.FOLLOW_UP, AfterService.TYPE.PATIENT_R_PATIENT);
             }
             case 1: {
                 return WaitingSuggestionFragment.newInstance(id, AfterService.TYPE.PATIENT);
             }
         }
-        return fragment;
+        return null;
     }
 
     @Override
@@ -60,16 +55,7 @@ public class PatientAfterServicePA extends FragmentStatePagerAdapter {
             }
         }
     }
-
-    public void saveAnswer() {
-        if (afterServiceForumFragment != null) {
-            afterServiceForumFragment.saveAnswer();
-        }
-    }
-
-    public void handleImageResult(final int requestCode, int resultCode, Intent data) {
-        if (afterServiceForumFragment != null) {
-            afterServiceForumFragment.handleImageResult(requestCode, resultCode, data);
-        }
-    }
+//
+//        }
+//    }
 }

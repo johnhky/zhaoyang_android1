@@ -632,21 +632,21 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public boolean returnNotPaid() {
         return data.getReturnInfo() != null && data.getReturnInfo().getReturnPaid() != 1 && data.getReturnInfo().getNeedReturn() == 1;
     }
-
-    public void newOrPayAppointment(Context context) {
-        if (needReturn() && returnNotPaid()) {
-            new PayMethodDialog(context, AppointmentHandler.this).show();
-        } else {
-            //复诊支付
-            Doctor doctor = data.getDoctor();
-            doctor.setRecordId(String.valueOf(data.getRecordId()));
-            AppointmentBuilder appointmentBuilder = new AppointmentBuilder();
-            appointmentBuilder.setDoctor(doctor);
-            appointmentBuilder.setType(AppointmentType.STANDARD);
-            Intent intent = PickDateActivity.makeIntent(context, appointmentBuilder);
-            context.startActivity(intent);
-        }
-    }
+//
+//    public void newOrPayAppointment(Context context) {
+//        if (needReturn() && returnNotPaid()) {
+//            new PayMethodDialog(context, AppointmentHandler.this).show();
+//        } else {
+//            //复诊支付
+//            Doctor doctor = data.getDoctor();
+//            doctor.setRecordId(String.valueOf(data.getRecordId()));
+//            AppointmentBuilder appointmentBuilder = new AppointmentBuilder();
+//            appointmentBuilder.setDoctor(doctor);
+//            appointmentBuilder.setType(AppointmentType.STANDARD);
+//            Intent intent = PickDateActivity.makeIntent(context, appointmentBuilder);
+//            context.startActivity(intent);
+//        }
+//    }
 
     public void historyDetail(View view) {
         Intent intent = HistoryDetailActivity.makeIntent(view.getContext(), data);

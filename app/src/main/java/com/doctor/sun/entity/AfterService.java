@@ -281,6 +281,13 @@ public class AfterService implements LayoutId {
     public @interface TYPE {
         String PATIENT = "4";
         String DOCTOR = "3";
+
+
+        String PATIENT_R_PATIENT = "1";
+        String PATIENT_R_DOCTOR = "2";
+        String DOCTOR_R_PATIENT = "1";
+        String DOCTOR_R_DOCTOR = "2";
+
     }
 
 }

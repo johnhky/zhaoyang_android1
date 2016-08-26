@@ -5,8 +5,11 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemSwitch"/>
+            type="String"/>
 
+        <variable
+            name="isChecked"
+            type="java.lang.Boolean"/>
 
     </data>
 
@@ -31,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_13"
                 android:singleLine="true"
-                android:text="@{data.content}"
+                android:text="@{data}"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
 
@@ -44,7 +47,7 @@
                 android:id="@+id/switch_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="@={data.checked}"
+                android:checked="@{isChecked ?? false}"
                 android:setTintColor="@{@color/colorPrimaryDark}"
                 android:layout_marginEnd="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13" />

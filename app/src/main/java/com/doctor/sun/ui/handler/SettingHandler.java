@@ -26,6 +26,7 @@ import com.doctor.sun.ui.activity.doctor.PasswordActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.activity.patient.PMainActivity2;
 import com.doctor.sun.ui.activity.patient.PMeActivity;
+import com.doctor.sun.ui.fragment.AllowToSearchFragment;
 import com.doctor.sun.ui.widget.ShareDialog;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
@@ -55,6 +56,10 @@ public class SettingHandler extends BaseHandler {
         super(context);
     }
 
+
+    public void allowToSearch(Context context) {
+        AllowToSearchFragment.startFrom(context);
+    }
 
     public void changePassword(View view) {
         Intent intent = PasswordActivity.makeIntent(view.getContext());

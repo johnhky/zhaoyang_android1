@@ -34,14 +34,21 @@ public class AnswerQuestionFragment extends SortedListFragment {
 
     protected String id;
     private QuestionsModel model;
-    private String type;
+    private String path;
+    private String questionType;
 
     public static AnswerQuestionFragment getInstance(String id, String type) {
+
+        return getInstance(id, type, "");
+    }
+
+    public static AnswerQuestionFragment getInstance(String id, String path, String questionType) {
         AnswerQuestionFragment fragment = new AnswerQuestionFragment();
         Bundle bundle = new Bundle();
 
         bundle.putString(Constants.DATA, id);
-        bundle.putString(Constants.TYPE, type);
+        bundle.putString(Constants.PATH, path);
+        bundle.putString(Constants.QUESTION_TYPE, questionType);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -63,7 +70,9 @@ public class AnswerQuestionFragment extends SortedListFragment {
         super.onViewCreated(view, savedInstanceState);
 //        id = 138;
         id = getArguments().getString(Constants.DATA);
-        type = getArguments().getString(Constants.TYPE);
+        path = getArguments().getString(Constants.PATH);
+        questionType = getArguments().getString(Constants.QUESTION_TYPE);
+
         model = new QuestionsModel();
         setHasOptionsMenu(true);
         loadMore();
@@ -72,7 +81,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
-        model.questions(type, id, new Function0<List<? extends SortedItem>>() {
+        model.questions(path, id, questionType, new Function0<List<? extends SortedItem>>() {
             @Override
             public void apply(List<? extends SortedItem> sortedItems) {
                 getAdapter().insertAll(sortedItems);
@@ -82,7 +91,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
     }
 
     public void save() {
-        model.saveAnswer(id, type, getAdapter());
+        model.saveAnswer(id, path, questionType, getAdapter());
     }
 
     @Override
