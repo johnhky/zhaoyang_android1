@@ -1,34 +1,61 @@
 package com.doctor.sun.entity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.BR;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.constans.CouponType;
+import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.AppointmentModule;
+import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.TimeModule;
+import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.patient.ApplyAppointmentActivity;
 import com.doctor.sun.ui.activity.patient.PickDateActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by rick on 6/7/2016.
  */
 
 public class AppointmentBuilder extends BaseObservable implements Parcelable {
+    private static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm:ss";
+
+    private ProfileModule api = Api.of(ProfileModule.class);
+    private AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
+    private ToolModule toolModule = Api.of(ToolModule.class);
+
     private int type = AppointmentType.PREMIUM;
     private int duration = 15;
     private Time time;
     private boolean isToday;
+    private boolean useCoupon;
 
     private Doctor doctor;
     private MedicalRecord record;
+    private List<Coupon> coupons;
+    private Integer[] selectTags;
 
     public void setIsPremium(boolean isPremium) {
         if (isPremium) {
@@ -167,6 +194,206 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         isToday = today;
     }
 
+    @Bindable
+    public boolean isUseCoupon() {
+        return useCoupon;
+    }
+
+    public void setUseCoupon(boolean useCoupon) {
+        if (this.useCoupon == useCoupon) {
+            return;
+        }
+        if (coupons == null || coupons.isEmpty()) {
+            this.useCoupon = false;
+            notifyPropertyChanged(BR.useCoupon);
+        } else {
+            this.useCoupon = useCoupon;
+            notifyPropertyChanged(BR.useCoupon);
+        }
+    }
+
+    public void loadCoupons() {
+        api.coupons(CouponType.CAN_USE_NOW).enqueue(new SimpleCallback<List<Coupon>>() {
+            @Override
+            protected void handleResponse(List<Coupon> response) {
+                if (response != null && !response.isEmpty()) {
+                    coupons = response;
+                    useCoupon = false;
+                    notifyChange();
+                } else {
+                    coupons = null;
+                    useCoupon = false;
+                    notifyChange();
+                }
+            }
+        });
+    }
+
+    public void loadTags() {
+        toolModule.doctorInfo(doctor.getId()).enqueue(new SimpleCallback<Doctor>() {
+            @Override
+            protected void handleResponse(Doctor response) {
+                doctor = response;
+                notifyChange();
+            }
+        });
+    }
+
+
+    public String getCouponRemarks() {
+        if (coupons == null || coupons.isEmpty()) {
+            return "您暂时没有可用优惠券";
+        }
+        if (useCoupon) {
+            return "已经选择使用一张优惠券";
+        }
+        return String.format(Locale.CHINA, "您有%d张可用优惠券", coupons.size());
+    }
+
+    public void changeMedicalRecord(Context context) {
+        SelectRecordDialog.showRecordDialog(context, new SelectRecordDialog.SelectRecordListener() {
+            @Override
+            public void onSelectRecord(SelectRecordDialog dialog, MedicalRecord selected) {
+                setRecord(selected);
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public void showSelectTagsDialog(Context context) {
+        if (doctor.tags == null || doctor.tags.isEmpty()) {
+            Toast.makeText(context, "该医生没有任何标签可选", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        new MaterialDialog.Builder(context)
+                .title("选择标签(多选)")
+                .positiveText("确定")
+                .items(doctor.tags)
+                .itemsCallbackMultiChoice(selectTags, new MaterialDialog.ListCallbackMultiChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                        selectTags = which;
+                        return false;
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                        notifyChange();
+                    }
+                })
+                .build().show();
+    }
+
+    public String tagsRemarks() {
+        if (doctor.tags == null || doctor.tags.isEmpty()) {
+            return "该医生没有任何标签可选";
+        }
+        if (selectTags == null || selectTags.length == 0) {
+            return "您暂时没有选择任何标签";
+        }
+        return String.format(Locale.CHINA, "您已选择%d个咨询标签", selectTags.length);
+    }
+
+    public void applyAppointment(final Context context, final boolean isUseWechat) {
+        int doctorId = getDoctor().getId();
+        int type = getType();
+        String couponId = "";
+        if (isUseCoupon()) {
+            couponId = getCouponId();
+        }
+        final String finalCouponId = couponId;
+        HashMap<String, String> params = new HashMap<String, String>();
+        if (type == AppointmentType.PREMIUM) {
+            params.put("takeTime", String.valueOf(getDuration()));
+        }
+
+
+        final String medicalRecordId = String.valueOf(getRecord().getMedicalRecordId());
+        //noinspection WrongConstant
+        appointmentModule.orderAppointment(doctorId, getTimestamp(), type, medicalRecordId, couponId, getSelectedTagIds(), params).enqueue(new ApiCallback<Appointment>() {
+            @Override
+            protected void handleResponse(Appointment response) {
+                response.setRecordId(Integer.parseInt(medicalRecordId));
+                AppointmentHandler handler = new AppointmentHandler(response);
+
+                if (isUseWechat) {
+                    handler.payWithWeChat((Activity) context, finalCouponId);
+                } else {
+                    handler.payWithAlipay((Activity) context, finalCouponId);
+                }
+            }
+        });
+
+    }
+
+    public ArrayList<String> getSelectedTagIds() {
+        ArrayList<String> result = new ArrayList<>();
+        if (selectTags != null && selectTags.length > 0) {
+            for (Integer selectTag : selectTags) {
+                Tags tags = doctor.tags.get(selectTag);
+                result.add(tags.tagId);
+            }
+        }
+        return result;
+    }
+
+    public String getTimestamp() {
+        String dateFormat = YYYY_MM_DD_HH_MM;
+        if (getType() == AppointmentType.STANDARD) {
+            if (!isToday()) {
+                getTime().setFrom("00:00:00");
+            } else {
+                Date date = new Date(System.currentTimeMillis());
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
+                String hours = format.format(date);
+                getTime().setFrom(hours);
+            }
+        }
+        SimpleDateFormat format = new SimpleDateFormat(dateFormat, Locale.CHINA);
+        Date parse = null;
+        try {
+            parse = format.parse(time.getDate() + " " + time.getFrom());
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        final String timestamp;
+        if (parse != null) {
+            timestamp = String.valueOf(parse.getTime()).substring(0, 10);
+        } else {
+            timestamp = "";
+        }
+        return timestamp;
+    }
+
+    public String getTimeLabel() {
+        Time time = getTime();
+        StringBuilder builder = new StringBuilder();
+        builder.append(time.getDate());
+        if (getType() == AppointmentType.PREMIUM) {
+            builder.append(" ").append(time.getFrom()).append("-").append(time.getTo());
+        }
+        return String.format("预约时间:%s", builder);
+    }
+
+    public String getTypeLabel() {
+        String type = "";
+        switch (getType()) {
+            case AppointmentType.PREMIUM:
+                type = "专属咨询";
+                break;
+            case AppointmentType.STANDARD:
+                type = "留言咨询";
+                break;
+        }
+        return type;
+    }
+
+    public String formatTypeLabel() {
+        return String.format("预约类型:%s", getTypeLabel());
+    }
+
     public AppointmentBuilder() {
     }
 
@@ -205,4 +432,8 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
             return new AppointmentBuilder[size];
         }
     };
+
+    public String getCouponId() {
+        return coupons.get(0).getId();
+    }
 }

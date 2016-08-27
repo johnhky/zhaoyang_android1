@@ -13,13 +13,13 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.PageActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.google.common.base.Strings;
 
 /**
  * Created by rick on 1/6/2016.
  */
 public class RecordPoolActivity extends PageActivity2 {
     private DiagnosisModule api = Api.of(DiagnosisModule.class);
-    private String keyword = "";
 
     public static Intent intentFor(Context context) {
         Intent intent = new Intent(context, RecordPoolActivity.class);
@@ -49,25 +49,10 @@ public class RecordPoolActivity extends PageActivity2 {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
-        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                keyword = query;
-                getCallback().resetPage();
-                loadMore();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return true;
-            }
-        });
+        setupSearchView(menu);
         return true;
     }
+
     @Override
     public int getMidTitle() {
         return R.string.title_record_pool;

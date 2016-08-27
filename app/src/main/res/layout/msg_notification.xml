@@ -10,21 +10,21 @@
 
 
     <FrameLayout
-        android:paddingTop="@dimen/dp_13"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_13">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="7dip"
             android:layout_marginRight="7dip"
             android:background="@drawable/nim_bg_message_tip"
             android:gravity="center"
-            android:layout_gravity="center_horizontal"
-            android:paddingLeft="7dip"
-            android:paddingRight="7dip"
-            android:text="@{data.body}"
+            android:maxWidth="@dimen/dp_250"
+            android:padding="@dimen/dp_6"
+            android:text="@{data.attachmentData(&quot;data&quot;)}"
             android:textColor="#ffffff"
             android:textSize="@dimen/font_12" />
     </FrameLayout>

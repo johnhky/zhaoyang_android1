@@ -69,6 +69,7 @@ public interface AppointmentModule {
                                                @AppointmentType @Field("type") int type,
                                                @Field("recordId") String recordId,
                                                @Field("couponId") String couponId,
+                                               @Field("select_tags[]") ArrayList<String> tagsId,
                                                @FieldMap HashMap<String, String> otherParam);
 
     @GET("appointment/pAppointList")

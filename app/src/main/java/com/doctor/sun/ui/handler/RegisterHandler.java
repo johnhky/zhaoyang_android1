@@ -160,7 +160,6 @@ public class RegisterHandler extends BaseObservable {
                 Toast.makeText(context, "重置密码成功", Toast.LENGTH_SHORT).show();
                 Activity activity = (Activity) context;
                 activity.finish();
-                ;
             }
         });
     }

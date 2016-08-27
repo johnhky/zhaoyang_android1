@@ -367,21 +367,21 @@ public class QuestionsModel {
         return JacksonUtils.toJson(result);
     }
 
-    private Response<ApiDTO<String>> postAnswer(String appointmentId, String type, String string, String qType) {
+    private Response<ApiDTO<String>> postAnswer(String appointmentId, String type, String string, String qType, int i) {
         try {
-            return api.saveQuestions2(type, appointmentId, string,qType).execute();
+            return api.saveQuestions2(type, appointmentId, string,qType,i).execute();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public void saveAnswer(final String appointmentId, final String type, final String qType, final SortedListAdapter adapter) {
+    public void saveAnswer(final String appointmentId, final String type, final String qType, final int i, final SortedListAdapter adapter) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 String string = composeAnswer(adapter);
-                Response<ApiDTO<String>> apiDTOResponse = postAnswer(appointmentId, type, string, qType);
+                Response<ApiDTO<String>> apiDTOResponse = postAnswer(appointmentId, type, string, qType,i);
                 if (apiDTOResponse != null && apiDTOResponse.isSuccessful()) {
                     EventHub.post(new SaveAnswerSuccessEvent());
                 }

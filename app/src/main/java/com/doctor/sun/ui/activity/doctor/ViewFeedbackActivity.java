@@ -19,9 +19,7 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
  * Created by rick on 12/17/15.
  */
 public class ViewFeedbackActivity extends BaseFragmentActivity2 {
-    private AppointmentModule api = Api.of(AppointmentModule.class);
     private PActivityViewFeedbackBinding binding;
-    private Doctor doctor;
 
     public static Intent intentFor(Context context, Doctor doctor) {
         Intent intent = new Intent(context, ViewFeedbackActivity.class);
@@ -33,10 +31,6 @@ public class ViewFeedbackActivity extends BaseFragmentActivity2 {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
 
-    private Messenger getHandler() {
-        return getIntent().getParcelableExtra(Constants.HANDLER);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,39 +39,6 @@ public class ViewFeedbackActivity extends BaseFragmentActivity2 {
         binding.setData(getData());
 
 
-    }
-
-    private static class Eval {
-        private float punctuality;
-        private float professional;
-        private float sincerity;
-
-        public Eval(float punctuality, float professional, float sincerity) {
-            this.punctuality = punctuality;
-            this.professional = professional;
-            this.sincerity = sincerity;
-        }
-
-        public double mean() {
-            return (punctuality + professional + sincerity) / 3.0f;
-        }
-
-        public String getDetail() {
-            return "{" +
-                    "\"守时\":" + punctuality +
-                    ", \"专业\":" + professional +
-                    ", \"态度\":" + sincerity +
-                    '}';
-        }
-
-        @Override
-        public String toString() {
-            return "Eval{" +
-                    "punctuality=" + punctuality +
-                    ", professional=" + professional +
-                    ", sincerity=" + sincerity +
-                    '}';
-        }
     }
 
     @Override

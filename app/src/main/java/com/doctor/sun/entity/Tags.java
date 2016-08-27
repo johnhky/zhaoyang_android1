@@ -52,4 +52,9 @@ public class Tags implements Parcelable {
             return new Tags[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return tagName;
+    }
 }

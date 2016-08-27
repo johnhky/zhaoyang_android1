@@ -85,6 +85,7 @@
             <RatingBar
                 android:id="@+id/rating_bar_0"
                 style="@style/FeedbackRatingBar"
+                android:isIndicator="true"
                 android:rating="@={data.punctualityPoint}" />
 
             <TextView
@@ -116,6 +117,7 @@
             <RatingBar
                 android:id="@+id/rating_bar_1"
                 style="@style/FeedbackRatingBar"
+                android:isIndicator="true"
                 android:rating="@={data.professionalPoint}" />
 
 
@@ -148,6 +150,7 @@
             <RatingBar
                 android:id="@+id/rating_bar_2"
                 style="@style/FeedbackRatingBar"
+                android:isIndicator="true"
                 android:rating="@={data.attitudePoint}" />
 
             <TextView

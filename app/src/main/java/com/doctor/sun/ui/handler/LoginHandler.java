@@ -11,6 +11,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.doctor.RegisterActivity;
+import com.doctor.sun.ui.fragment.ResetPswFragment;
 import com.doctor.sun.util.MD5;
 import com.umeng.analytics.MobclickAgent;
 
@@ -72,7 +73,7 @@ public class LoginHandler {
     }
 
     public void resetPassword(Context context) {
-        Intent i = RegisterActivity.makeIntent(context, AuthModule.FORGOT_PASSWORD);
+        Intent i = ResetPswFragment.intentFor(context);
         context.startActivity(i);
     }
 

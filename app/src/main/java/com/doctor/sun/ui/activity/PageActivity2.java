@@ -1,11 +1,15 @@
 package com.doctor.sun.ui.activity;
 
+import android.app.SearchManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -13,6 +17,7 @@ import com.doctor.sun.databinding.ActivityListBinding;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
+import com.google.common.base.Strings;
 
 import io.ganguo.library.util.Tasks;
 
@@ -21,6 +26,7 @@ import io.ganguo.library.util.Tasks;
  */
 public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
+    protected String keyword = "";
     private ActivityListBinding binding;
     private SimpleAdapter adapter;
     private PageCallback<Object> callback;
@@ -150,5 +156,29 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
 
     }
 
+    public void setupSearchView(Menu menu) {
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                keyword = query;
+                getCallback().resetPage();
+                loadMore();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (Strings.isNullOrEmpty(newText)) {
+                    keyword = newText;
+                    getCallback().resetPage();
+                    loadMore();
+                }
+                return true;
+            }
+        });
+    }
 }
 

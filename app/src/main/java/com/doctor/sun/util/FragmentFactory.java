@@ -6,6 +6,7 @@ import com.doctor.sun.ui.fragment.AllowToSearchFragment;
 import com.doctor.sun.ui.fragment.ChangeMyPhoneNumFragment;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.ui.fragment.RegisterFragment;
+import com.doctor.sun.ui.fragment.ResetPswFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +63,12 @@ public class FragmentFactory {
             @Override
             public Fragment execute() {
                 return new AllowToSearchFragment();
+            }
+        });
+        map.put(ResetPswFragment.TAG, new FactoryCommand() {
+            @Override
+            public Fragment execute() {
+                return new ResetPswFragment();
             }
         });
     }

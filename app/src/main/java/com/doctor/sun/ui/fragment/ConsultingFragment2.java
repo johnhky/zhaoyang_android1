@@ -12,6 +12,7 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.MedicineStore;
 import com.doctor.sun.entity.SystemMsg;
+import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
@@ -99,8 +100,8 @@ public class ConsultingFragment2 extends SortedListFragment {
                             for (String s : tids.keySet()) {
                                 Appointment appointment = appointments.get(s);
                                 if (appointment != null) {
-                                    String body = appointment.getHandler().lastMsg().getBody();
-                                    if (Constants.refreshMsg.contains(body)) {
+                                    String type = appointment.getHandler().lastMsg().getType();
+                                    if (TextMsgFactory.isRefreshMsg(type)) {
                                         pullAppointment(s, tids.get(s));
                                     } else {
                                         ItemConsulting itemConsulting = new ItemConsulting(tids.get(s), appointment);

@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.doctor.sun.emoji.StickerManager;
 import com.doctor.sun.im.AttachmentPair;
-import com.doctor.sun.im.TeamNotificationHelper;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
 import com.netease.nimlib.sdk.msg.attachment.AudioAttachment;
@@ -17,6 +16,8 @@ import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import io.realm.RealmList;
 
@@ -40,6 +41,7 @@ public class TextMsgFactory {
     public static final String WIDTH = "width";
     public static final String HEIGHT = "height";
     public static final String ATTACHMENT_PATH = "path";
+    private static boolean refreshMsg;
 
 
     public static TextMsg fromYXMessage(IMMessage msg) {
@@ -71,10 +73,10 @@ public class TextMsgFactory {
             result.setType(attachment.get(0).getValue());
         }
 
-        if (msg.getMsgType().equals(MsgTypeEnum.notification)) {
-            String msgShowText = TeamNotificationHelper.getTeamNotificationText(msg, "");
-            result.setBody(msgShowText);
-        }
+//        if (msg.getMsgType().equals(MsgTypeEnum.notification)) {
+//            String msgShowText = TeamNotificationHelper.getTeamNotificationText(msg, "");
+//            result.setBody(msgShowText);
+//        }
         return result;
     }
 
@@ -131,10 +133,16 @@ public class TextMsgFactory {
                 return result;
             }
             case TextMsg.EXTEND_TIME: {
-//                ExtendTimeAttachment data = (ExtendTimeAttachment) attachment.getData();
-//                result.setBody(data.getContent());
-//                result.setType(TextMsg.EXTEND_TIME);
                 return null;
+            }
+            case TextMsg.REFRESH_APPOINTMENT: {
+                ArrayList<AttachmentPair> data = (ArrayList<AttachmentPair>) attachment.getData();
+                for (int i = 0; i < data.size(); i++) {
+                    AttachmentPair attachmentPair = data.get(i);
+                    attachmentPair.setKey(msg.getUuid() + attachmentPair.getKey());
+                }
+                result.addAll(data);
+                return result;
             }
         }
         return null;
@@ -192,5 +200,12 @@ public class TextMsgFactory {
         object.setKey(key);
         object.setValue(value);
         return object;
+    }
+
+    public static boolean isRefreshMsg(String type) {
+        return type.equals("follow_up_start")
+                || type.equals("follow_up_end")
+                || type.equals("appointment_start")
+                || type.equals("appointment_end");
     }
 }

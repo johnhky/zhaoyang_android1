@@ -1,5 +1,7 @@
 package com.doctor.sun.im;
 
+import com.doctor.sun.util.JacksonUtils;
+
 import io.realm.RealmObject;
 
 /**
@@ -8,6 +10,13 @@ import io.realm.RealmObject;
 
 public class AttachmentPair extends RealmObject {
 
+    public AttachmentPair() {
+    }
+
+    public AttachmentPair(String key, String value) {
+        this.key = key;
+        this.value = value;
+    }
 
     private String key;
     private String value;
@@ -33,4 +42,9 @@ public class AttachmentPair extends RealmObject {
     public String toString() {
         return value;
     }
+
+//    @Override
+//    public String toJson(boolean b) {
+//        return JacksonUtils.toJson(this);
+//    }
 }

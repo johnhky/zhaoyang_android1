@@ -1,5 +1,6 @@
 package com.doctor.sun.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.Observable;
@@ -52,8 +53,8 @@ import io.ganguo.library.core.event.extend.OnSingleClickListener;
  * Created by rick on 19/8/2016.
  */
 
-public class RegisterFragment extends SortedListFragment {
-    public static final String TAG = RegisterFragment.class.getSimpleName();
+public class ResetPswFragment extends SortedListFragment {
+    public static final String TAG = ResetPswFragment.class.getSimpleName();
 
     public static void startFrom(Context context) {
         context.startActivity(intentFor(context));
@@ -62,7 +63,7 @@ public class RegisterFragment extends SortedListFragment {
     public static Intent intentFor(Context context) {
         Intent i = new Intent(context, SingleFragmentActivity.class);
         i.putExtra(Constants.FRAGMENT_NAME, TAG);
-        i.putExtra(Constants.FRAGMENT_TITLE, "注册");
+        i.putExtra(Constants.FRAGMENT_TITLE, "忘记密码");
         return i;
     }
 
@@ -80,39 +81,6 @@ public class RegisterFragment extends SortedListFragment {
         super.loadMore();
         List<BaseItem> sortedItems = new ArrayList<>();
 
-        insertSpace(sortedItems);
-
-        final ItemRadioGroup registerType = new ItemRadioGroup(R.layout.item_pick_register_type);
-        registerType.setSelectedItem(AuthModule.DOCTOR_TYPE);
-        registerType.setResultNotEmpty();
-        registerType.setTitle("注册类型");
-        registerType.setResultNotEmpty();
-        registerType.setItemId("type");
-        registerType.setPosition(sortedItems.size());
-        sortedItems.add(registerType);
-
-        final String doctorRemarks = "*注册为医生";
-        final String patientRemarks = "*注册为患者";
-        final ItemTextInput2 imgPs = new ItemTextInput2(R.layout.item_r_text_input, doctorRemarks, "");
-        imgPs.setTitleGravity(Gravity.START);
-        imgPs.setItemId(UUID.randomUUID().toString());
-        imgPs.setPosition(sortedItems.size());
-        imgPs.setMaxLength(200);
-        registerType.setListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (registerType.getSelectedItem() == AuthModule.DOCTOR_TYPE) {
-                    imgPs.setTitle(doctorRemarks);
-                } else if (registerType.getSelectedItem() == AuthModule.PATIENT_TYPE) {
-                    imgPs.setTitle(patientRemarks);
-                }
-            }
-        });
-        sortedItems.add(imgPs);
-
-        BaseItem baseItem = new BaseItem();
-        baseItem.setItemLayoutId(R.layout.divider_gray_dp13);
-        sortedItems.add(baseItem);
 
         final ItemTextInput2 newPhoneNum = ItemTextInput2.phoneInput("手机号码", "请输入11位手机号码");
         newPhoneNum.setResultNotEmpty();
@@ -177,23 +145,6 @@ public class RegisterFragment extends SortedListFragment {
 
         insertDivider(sortedItems);
 
-        final ClickMenu registerPolicy = new ClickMenu(R.layout.item_register_policy, 0, "是否已知晓【注册须知】所述事项", null);
-        registerPolicy.setEnabled(false);
-        registerPolicy.setItemId(UUID.randomUUID().toString());
-        registerPolicy.setListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewRegistrationPolicy(view.getContext());
-            }
-        });
-        registerPolicy.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable observable, int i) {
-                setHasOptionsMenu(registerPolicy.isEnabled());
-            }
-        });
-        sortedItems.add(registerPolicy);
-
         for (int i = 0; i < sortedItems.size(); i++) {
             sortedItems.get(i).setPosition(i);
         }
@@ -207,14 +158,6 @@ public class RegisterFragment extends SortedListFragment {
         item.setItemId(UUID.randomUUID().toString());
         list.add(item);
     }
-
-    private void insertSpace(List<BaseItem> list) {
-        BaseItem item = new BaseItem(R.layout.space_30dp);
-        item.setItemId(UUID.randomUUID().toString());
-        list.add(item);
-    }
-
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_next, menu);
@@ -232,36 +175,13 @@ public class RegisterFragment extends SortedListFragment {
 
     private void done() {
         AuthModule api = Api.of(AuthModule.class);
-        api.register(toHashMap(getAdapter())).enqueue(new SimpleCallback<Token>() {
+        api.reset(toHashMap(getAdapter())).enqueue(new SimpleCallback<String>() {
             @Override
-            protected void handleResponse(Token response) {
-                if (isDoctor()) {
-                    registerDoctorSuccess(getContext(), response);
-                    MobclickAgent.onEvent(getContext(), MobEventId.DOCTOR_REGISTRATION);
-                } else if (isPatient()) {
-                    registerPatientSuccess(getContext(), response);
-                    MobclickAgent.onEvent(getContext(), MobEventId.PATIENT_REGISTRATION);
-                }
+            protected void handleResponse(String response) {
+                Toast.makeText(getContext(), "重置密码成功", Toast.LENGTH_SHORT).show();
+                getActivity().finish();
             }
         });
-    }
-
-    private boolean isDoctor() {
-        String typeString = getAdapter().get("type").getValue();
-        if (Strings.isNullOrEmpty(typeString)) {
-            return true;
-        }
-        int type = Integer.parseInt(typeString);
-        return type == AuthModule.DOCTOR_TYPE;
-    }
-
-    private boolean isPatient() {
-        String typeString = getAdapter().get("type").getValue();
-        if (Strings.isNullOrEmpty(typeString)) {
-            return true;
-        }
-        int type = Integer.parseInt(typeString);
-        return type == AuthModule.PATIENT_TYPE;
     }
 
 
@@ -293,38 +213,4 @@ public class RegisterFragment extends SortedListFragment {
         return result;
     }
 
-
-    private void registerPatientSuccess(Context context, Token response) {
-        if (response != null) {
-            TokenCallback.handleToken(response);
-            Intent i = PMainActivity2.intentFor(context);
-            context.startActivity(i);
-        }
-    }
-
-    private void registerDoctorSuccess(Context context, Token response) {
-        if (response == null) {
-            //TODO
-            editDoctorInfo(context);
-        } else {
-            TokenCallback.handleToken(response);
-            editDoctorInfo(context);
-        }
-    }
-
-    public void editDoctorInfo(Context context) {
-        Doctor data = new Doctor();
-        data.setPhone(getAdapter().get("phone").getValue());
-        Intent intent = EditDoctorInfoFragment.intentFor(context, data);
-        context.startActivity(intent);
-    }
-
-    public void viewRegistrationPolicy(Context context) {
-        String url = BuildConfig.BASE_URL + "readme/registration-policy";
-        if (isDoctor()) {
-            url += "?client=doctor";
-        }
-        Intent i = WebBrowserActivity.intentFor(context, url, "注册须知");
-        context.startActivity(i);
-    }
 }

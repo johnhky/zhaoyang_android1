@@ -193,7 +193,7 @@ public interface QuestionModule {
 
     @FormUrlEncoded
     @PUT("{type}/{id}")
-    Call<ApiDTO<String>> saveQuestions2(@Path("type") String type, @Path("id") String appointmentId, @Field("answer") String answer, @Query("questionnaires_type") String questionnaires_type);
+    Call<ApiDTO<String>> saveQuestions2(@Path("type") String type, @Path("id") String appointmentId, @Field("answer") String answer, @Field("questionnaires_type") String questionnaires_type, @Field("finished") int i);
 
     @FormUrlEncoded
     @PUT("{type}/{id}")

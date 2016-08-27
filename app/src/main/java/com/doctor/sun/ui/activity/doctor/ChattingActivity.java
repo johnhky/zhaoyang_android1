@@ -24,6 +24,7 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.event.BidirectionalEvent;
 import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.event.RejectInComingCallEvent;
@@ -130,8 +131,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
                     boolean shouldRefresh = false;
                     if (!empty) {
                         TextMsg first = element.first();
-                        String body = first.getBody();
-                        shouldRefresh = Constants.refreshMsg.contains(body);
+                        shouldRefresh = TextMsgFactory.isRefreshMsg(first.getType());
                     }
                     if (shouldRefresh) {
                         Api.of(AppointmentModule.class).appointmentInTid("[" + getTeamId() + "]", "1").enqueue(new RefreshAppointmentCallback());

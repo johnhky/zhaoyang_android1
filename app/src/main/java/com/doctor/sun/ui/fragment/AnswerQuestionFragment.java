@@ -18,6 +18,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.Function0;
 import com.doctor.sun.vo.ItemPickImages;
 import com.squareup.otto.Subscribe;
@@ -90,8 +91,8 @@ public class AnswerQuestionFragment extends SortedListFragment {
         });
     }
 
-    public void save() {
-        model.saveAnswer(id, path, questionType, getAdapter());
+    public void save(int i) {
+        model.saveAnswer(id, path, questionType,i, getAdapter());
     }
 
     @Override
@@ -103,7 +104,24 @@ public class AnswerQuestionFragment extends SortedListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save: {
-                save();
+                if (Settings.isDoctor()) {
+                    TwoChoiceDialog.show(getActivity(), "是否结束本次随访",
+                            "暂存", "保存并结束", new TwoChoiceDialog.Options() {
+                                @Override
+                                public void onApplyClick(final MaterialDialog dialog) {
+                                    save(1);
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onCancelClick(final MaterialDialog dialog) {
+                                    save(0);
+                                    dialog.dismiss();
+                                }
+                            });
+                } else {
+                    save(0);
+                }
             }
         }
         return super.onOptionsItemSelected(item);

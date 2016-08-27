@@ -1,7 +1,5 @@
 package com.doctor.sun.bean;
 
-import java.util.ArrayList;
-
 /**
  * 常量
  * <p>
@@ -36,7 +34,6 @@ public class Constants {
     public static final int PRESCRITION_REQUEST_CODE = 12;
     public static final int NICKNAME_REQUEST_CODE = 13;
     public static final int UPLOAD_REQUEST_CODE = 14;
-    public static final int PATIENT_PRESCRITION_REQUEST_CODE = 15;
 
     public static final String PARAM_PATIENT_ID = "patient_id";
     public static final String PARAM_RECORD_ID = "record_id";
@@ -47,27 +44,12 @@ public class Constants {
 
     public static final String PARAM_PATIENT = "patient_data";
 
-    public static final String DATE = "DATE";
-    public static final String CONSULT_TYPE = "CONSULT_TYPE";
-
-    public static final String DOCTOR = "DOCTOR";
-    public static final String BOOKTIME = "BOOKTIME";
     public static final String TYPE = "TYPE";
-    public static final String RECORDID = "RECORDID";
 
-    public static final String PASSTIME = "PASSTIME";
     public static final String PAY_METHOD = "PAY_METHOD";
 
-    public static final boolean STATUS_QUESTION_LIST = false;
-    public static final boolean STATUS_ANSWER_DETAIL = true;
-    public static final boolean STATUS_ANSWER_MODIFY = true;
     public static final String HANDLER = "HANDLER";
-    public static final String FINISH_MESSAGE = "温馨提醒：您的预约就诊时间已到，如有疑问，请再次预约！";
-    public static final String START_MESSAGE = "就诊开始";
-    public static final String START_MSG2 = "随访开始";
-    public static final String FINISH_MSG2 = "随访结束";
 
-    public static final ArrayList<String> refreshMsg = new ArrayList<String>();
     public static final String IS_SHOWCASE = "IS_SHOWCASE";
     public static final String SHOULD_SHOW_ADD_RECORD_DIALOG = "SHOULD_SHOW_ADD_RECORD_DIALOG";
     public static final String HEADER = "HEADER";
@@ -78,13 +60,6 @@ public class Constants {
     public static final String QUESTION_TYPE = "QUESTION_TYPE";
     public static final String PATH = "QUESTION_PATH";
 
-
-    static {
-        refreshMsg.add(FINISH_MESSAGE);
-        refreshMsg.add(START_MESSAGE);
-        refreshMsg.add(FINISH_MSG2);
-        refreshMsg.add(START_MSG2);
-    }
 
     public static final String IS_DONE = "IS_DONE";
 }

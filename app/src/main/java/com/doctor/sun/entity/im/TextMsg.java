@@ -28,6 +28,7 @@ public class TextMsg extends RealmObject implements LayoutId {
     public static final int SnapChat = 2;
     public static final int Sticker = 3;
     public static final int RTS = 4;
+    public static final int REFRESH_APPOINTMENT = 66;
     public static final int EXTEND_TIME = 98;
     public static final int Drug = 99;
 
@@ -253,6 +254,10 @@ public class TextMsg extends RealmObject implements LayoutId {
         if (getType().equals(String.valueOf(MsgTypeEnum.notification))) {
             return R.layout.msg_notification;
         }
+        if (TextMsgFactory.isRefreshMsg(getType())) {
+            return R.layout.msg_notification;
+        }
+
         if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
             if (getType().equals(String.valueOf(Sticker))) {
                 return R.layout.msg_sticker_send;
@@ -308,6 +313,8 @@ public class TextMsg extends RealmObject implements LayoutId {
 
         return itemLayoutId;
     }
+
+
 
     public SessionTypeEnum getSessionTypeEnum() {
         return SessionTypeEnum.valueOf(getSessionType());
