@@ -8,7 +8,6 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.constans.QTemplateType;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
-import com.doctor.sun.ui.fragment.EditForumFragment;
 import com.doctor.sun.ui.fragment.ReadQuestionFragment;
 
 /**

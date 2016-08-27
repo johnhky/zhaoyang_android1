@@ -6,7 +6,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.AfterService;
-import com.doctor.sun.ui.fragment.ViewForumFragment;
+import com.doctor.sun.entity.constans.QTemplateType;
+import com.doctor.sun.ui.fragment.ReadQuestionFragment;
 
 /**
  * Created by rick on 6/6/2016.
@@ -23,10 +24,10 @@ public class DoctorAfterServiceDonePA extends FragmentStatePagerAdapter {
     public Fragment getItem(final int position) {
         switch (position) {
             case 0: {
-                return ViewForumFragment.newInstance(id, AfterService.TYPE.PATIENT);
+                return ReadQuestionFragment.getInstance(id, QTemplateType.FOLLOW_UP, AfterService.TYPE.DOCTOR_R_PATIENT, true);
             }
             case 1: {
-                return ViewForumFragment.newInstance(id, AfterService.TYPE.DOCTOR);
+                return ReadQuestionFragment.getInstance(id, QTemplateType.FOLLOW_UP, AfterService.TYPE.DOCTOR_R_DOCTOR, true);
             }
         }
         return null;

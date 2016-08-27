@@ -1,11 +1,8 @@
 package com.doctor.sun.ui.activity.doctor;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
 
 import com.doctor.sun.R;
@@ -13,7 +10,6 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.PageActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.google.common.base.Strings;
 
 /**
  * Created by rick on 1/6/2016.

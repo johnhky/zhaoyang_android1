@@ -91,8 +91,8 @@ public class AnswerQuestionFragment extends SortedListFragment {
         });
     }
 
-    public void save(int i) {
-        model.saveAnswer(id, path, questionType,i, getAdapter());
+    public void save(int isFinished) {
+        model.saveAnswer(id, path, questionType, isFinished, getAdapter());
     }
 
     @Override
@@ -142,6 +142,10 @@ public class AnswerQuestionFragment extends SortedListFragment {
 
     @Subscribe
     public void onEventMainThread(SaveAnswerSuccessEvent event) {
+        /**
+         * 医生端保存问卷后不会弹窗提示要不要返回上一页,可以修改。
+         * TODO:需要弹窗吗?
+         */
         if (Settings.isDoctor()) {
             return;
         }
