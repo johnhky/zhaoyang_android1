@@ -262,7 +262,7 @@ public class AfterService implements LayoutId {
 
     @StringDef
     public @interface Status {
-        String ALL = "all";
+        String ALL = "disableIfOneSelected";
         String TODO = "todo";
         String DOING = "doing";
         String REJECTED = "rejected";

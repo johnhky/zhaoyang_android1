@@ -304,9 +304,9 @@
             android:screenOrientation="portrait" />
 
         <!--<activity-->
-            <!--android:name="com.doctor.sun.ui.activity.patient.PMainActivity"-->
-            <!--android:launchMode="singleTop"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.patient.PMainActivity"-->
+        <!--android:launchMode="singleTop"-->
+        <!--android:screenOrientation="portrait" />-->
         <activity
             android:name="com.doctor.sun.ui.activity.patient.PMainActivity2"
             android:launchMode="singleTop"
@@ -381,8 +381,8 @@
             android:screenOrientation="portrait" />
 
         <!--<activity-->
-            <!--android:name="com.doctor.sun.ui.activity.patient.UrgentCallActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.patient.UrgentCallActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
         <!--<activity-->
         <!--android:name="com.doctor.sun.ui.activity.patient.DrugActivity"-->
@@ -393,16 +393,16 @@
             android:screenOrientation="portrait" />
 
         <!--<activity-->
-            <!--android:name="com.doctor.sun.ui.activity.patient.UrgentAddTimeActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.patient.UrgentAddTimeActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.patient.EditQuestionActivity"
             android:screenOrientation="portrait" />
 
         <!--<activity-->
-            <!--android:name="com.doctor.sun.ui.activity.patient.UrgentAddFeeActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.patient.UrgentAddFeeActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
 
         <activity
@@ -480,10 +480,16 @@
             android:name=".ui.activity.SingleFragmentActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".ui.activity.doctor.RecordPoolActivity"
+        <activity
+            android:name=".ui.activity.doctor.RecordPoolActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".ui.activity.doctor.ViewFeedbackActivity"
+        <activity
+            android:name=".ui.activity.doctor.ViewFeedbackActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.patient.PAfterServiceContactActivity"
             android:screenOrientation="portrait" />
 
         <service

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Patient" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_default"
+        android:clickable="@{data.handler.isApplied(data.status)}"
+        android:onClick="@{data.handler.isApplied(data.status) ? data.handler.applyAfterService(adapter,vh):null}"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/divider_color"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_13">
+
+
+            <com.doctor.sun.ui.widget.BezelImageView
+                android:layout_width="@dimen/dp_55"
+                android:layout_height="@dimen/dp_55"
+                android:layout_gravity="center_vertical"
+                android:drawable="@{@drawable/ic_launcher}"
+                android:scaleType="centerCrop"
+                android:src="@{data.avatar}"
+                app:maskDrawable="@drawable/circle_mask" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_weight="1"
+                android:text="@{data.name}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_35"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/selector_blue_gray_rect"
+                android:enabled="@{data.handler.isUnApplied(data.status)}"
+                android:gravity="center"
+                android:onClick="@{()->data.handler.applyBuildRelation()}"
+                android:text="@{data.handler.isUnApplied(data.status)?&quot;点击申请&quot;:&quot;正在申请&quot;}"
+                android:textColor="@color/text_color_blue_white"
+                android:textSize="@dimen/font_15"
+                android:visibility="@{!data.handler.isApplied(data.status)}" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:background="@color/divider_color" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
+            android:text="@{data.handler.getRecordsLabel(data)}" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_13"
+            android:background="#ebf0f3" />
+    </LinearLayout>
+</layout>

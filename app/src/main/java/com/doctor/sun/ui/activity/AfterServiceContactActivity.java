@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Doctor;
@@ -14,8 +15,8 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
+import com.doctor.sun.ui.activity.patient.PAfterServiceContactActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.NameComparator;
 
 import java.util.Collections;
@@ -28,9 +29,15 @@ public class AfterServiceContactActivity extends ContactActivity {
     private AfterServiceModule api = Api.of(AfterServiceModule.class);
 
     public static Intent intentFor(Context context, int code) {
-        Intent i = new Intent(context, AfterServiceContactActivity.class);
-        i.putExtra(Constants.REQUEST_CODE, code);
-        return i;
+        if (Settings.isDoctor()) {
+            Intent i = new Intent(context, PAfterServiceContactActivity.class);
+            i.putExtra(Constants.REQUEST_CODE, code);
+            return i;
+        } else {
+            Intent i = new Intent(context, AfterServiceContactActivity.class);
+            i.putExtra(Constants.REQUEST_CODE, code);
+            return i;
+        }
     }
 
     @NonNull

@@ -9,11 +9,14 @@ import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.NameComparator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +24,7 @@ import java.util.Map;
 /**
  * Created by rick on 11/17/15.
  */
-public class Doctor extends BaseObservable implements LayoutId, Parcelable, NameComparator.Name {
+public class Doctor extends BaseObservable implements SortedItem,LayoutId, Parcelable, NameComparator.Name {
 
     public static final String STATUS_PENDING = "pending";
     public static final String STATUS_PASS = "pass";
@@ -607,5 +610,40 @@ public class Doctor extends BaseObservable implements LayoutId, Parcelable, Name
         city = map.get("city");
         yunxinAccid = map.get("yunxin_accid");
         tid = map.get("tid");
+    }
+
+    @Override
+    public int getLayoutId() {
+        return getItemLayoutId();
+    }
+
+    @Override
+    public long getCreated() {
+        return 0;
+    }
+
+    @Override
+    public String getKey() {
+        return String.valueOf(getId());
+    }
+
+    @Override
+    public String getValue() {
+        return null;
+    }
+
+    @Override
+    public int getSpan() {
+        return 12;
+    }
+
+    @Override
+    public boolean isUserSelected() {
+        return false;
+    }
+
+    @Override
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        return null;
     }
 }

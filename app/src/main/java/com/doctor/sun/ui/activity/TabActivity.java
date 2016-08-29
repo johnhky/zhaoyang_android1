@@ -72,6 +72,8 @@ public abstract class TabActivity extends BaseFragmentActivity2 {
 
     protected abstract PagerAdapter createPagerAdapter();
 
-    protected abstract HeaderViewModel createHeaderViewModel();
 
+    protected HeaderViewModel createHeaderViewModel() {
+        return null;
+    }
 }

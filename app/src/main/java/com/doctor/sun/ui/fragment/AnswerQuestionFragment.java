@@ -54,6 +54,19 @@ public class AnswerQuestionFragment extends SortedListFragment {
         return fragment;
     }
 
+    protected String getAppointmentId() {
+        return id;
+    }
+
+    protected String getPath() {
+        return path;
+    }
+
+    protected String getQuestionType() {
+        return questionType;
+    }
+
+
     @Override
     public void onResume() {
         super.onResume();

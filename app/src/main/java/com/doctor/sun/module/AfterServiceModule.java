@@ -101,9 +101,15 @@ public interface AfterServiceModule {
     @GET("follow-up/doctor-list")
     Call<ApiDTO<List<Doctor>>> doctorList();
 
+    @GET("follow-up/{path}")
+    Call<ApiDTO<List<Doctor>>> doctorListGeneric(@Path("path") String path);
+
     //TODO:
     @GET("follow-up/patient-list")
     Call<ApiDTO<PageDTO<Patient>>> patientList();
+
+    @GET("follow-up/new-patient-list")
+    Call<ApiDTO<PageDTO<Patient>>> newPatientList(@Query("search") String keyword, @Query("type") String type);
 
     @GET("im/doctor-contact-list")
     Call<ApiDTO<List<Patient>>> patientList2();
@@ -115,5 +121,8 @@ public interface AfterServiceModule {
     @POST("profile/updateMedicalRecord")
     Call<ApiDTO<String>> updateAddress(@Field("address") String address, @Field("medicalRecordId") int id);
 
+    @FormUrlEncoded
+    @POST("follow-up/apply-build-relation")
+    Call<ApiDTO<String>> applyBuildRelation(@Field("patientId") int patientId);
 
 }

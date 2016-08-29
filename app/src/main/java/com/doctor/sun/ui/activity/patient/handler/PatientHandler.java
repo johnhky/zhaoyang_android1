@@ -8,8 +8,11 @@ import android.widget.TextView;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Patient;
+import com.doctor.sun.entity.constans.RelationshipStatus;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.doctor.ApplyAfterServiceActivity;
-import com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
@@ -104,6 +107,33 @@ public class PatientHandler {
         return result;
     }
 
+    @JsonIgnore
+    public String getRecordsLabel(Patient patient) {
+        StringBuilder result = new StringBuilder();
+        result.append("病历:  ");
+        int lastIndex = patient.recordNames.size() - 1;
+        for (int i = 0; i < lastIndex; i++) {
+            result.append(patient.recordNames.get(i));
+            result.append("/");
+        }
+        result.append(patient.recordNames.get(lastIndex));
+        return result.toString();
+    }
+
+    public boolean isUnApplied(String status) {
+        if (status != null && status.equals(RelationshipStatus.UNAPPLY)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isApplied(String status) {
+        if (status != null && status.equals(RelationshipStatus.APPLIED)) {
+            return true;
+        }
+        return false;
+    }
+
 
     public View.OnClickListener applyAfterService(final BaseAdapter adapter, BaseViewHolder vh) {
         return new View.OnClickListener() {
@@ -113,6 +143,17 @@ public class PatientHandler {
                 adapter.getContext().startActivity(intent);
             }
         };
+    }
+
+    public void applyBuildRelation() {
+        AfterServiceModule module = Api.of(AfterServiceModule.class);
+        module.applyBuildRelation(data.getId()).enqueue(new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                data.status = "applying";
+                data.notifyChange();
+            }
+        });
     }
 
     public interface IEditPatient {

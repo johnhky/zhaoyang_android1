@@ -184,6 +184,6 @@ public class ReadQuestionFragment extends AnswerQuestionFragment {
     }
 
     public String getType() {
-        return getArguments().getString(Constants.TYPE);
+        return getArguments().getString(Constants.PATH);
     }
 }

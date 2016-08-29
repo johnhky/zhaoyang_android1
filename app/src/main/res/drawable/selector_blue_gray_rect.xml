@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/shape_grey_ab_rect" android:state_enabled="false" />
+    <item android:drawable="@drawable/ripple_blue_rect" android:state_selected="true" />
+    <item android:drawable="@drawable/ripple_white_rect" />
+</selector>

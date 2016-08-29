@@ -172,6 +172,9 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (Strings.isNullOrEmpty(newText)) {
+                    if (Strings.isNullOrEmpty(keyword)) {
+                        return true;
+                    }
                     keyword = newText;
                     getCallback().resetPage();
                     loadMore();

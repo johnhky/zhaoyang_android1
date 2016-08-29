@@ -17,8 +17,8 @@ import java.util.Set;
 /**
  * Created by rick on 22/6/2016.
  */
-public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapter<B>  {
-    private final SortedList<SortedItem> mList;
+public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapter<B> {
+    private SortedList<SortedItem> mList;
     private final Map<String, SortedItem> mUniqueMapping = new HashMap<>();
 
     public SortedListAdapter(Context context, SortedList<SortedItem> mList) {
@@ -179,4 +179,7 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
         return mList.get(position);
     }
 
+    public void setAdapterCallback(SortedListAdapterCallback<SortedItem> adapterCallback) {
+        mList = new SortedList<>(SortedItem.class, adapterCallback);
+    }
 }

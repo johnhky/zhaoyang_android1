@@ -1,5 +1,6 @@
 package com.doctor.sun.entity;
 
+import android.databinding.BaseObservable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,12 +11,15 @@ import com.doctor.sun.util.NameComparator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  * Created by lucas on 1/4/16.
  */
-public class Patient implements LayoutId, Parcelable, NameComparator.Name {
+public class Patient extends BaseObservable implements LayoutId, Parcelable, NameComparator.Name {
 
     /**
+     * status :
      * yunxin_accid : 57
      * id : 11
      * name : 大明
@@ -51,6 +55,11 @@ public class Patient implements LayoutId, Parcelable, NameComparator.Name {
     private String phone;
     @JsonProperty("yunxin_accid")
     public String yunxinAccid;
+    @JsonProperty("status")
+    public String status;
+
+    @JsonProperty("recordNames")
+    public List<String> recordNames;
     @JsonIgnore
     public PatientHandler handler = new PatientHandler(this);
 
