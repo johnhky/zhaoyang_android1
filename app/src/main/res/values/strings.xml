@@ -80,7 +80,7 @@
     <string name="title_template">问诊模板</string>
     <string name="title_system_msg">系统消息</string>
     <string name="title_edit_password">修改密码</string>
-    <string name="title_p_follow_up">随访请求列表</string>
+    <string name="title_p_follow_up">随访列表</string>
     <string name="title_doctor_detail">医生详情</string>
     <string name="title_patient_detail">患者信息</string>
     <string name="title_confirm_order">确认预约</string>

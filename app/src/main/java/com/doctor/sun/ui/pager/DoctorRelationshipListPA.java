@@ -10,9 +10,9 @@ import com.doctor.sun.ui.fragment.RefreshListFragment;
 /**
  * Created by rick on 1/3/2016.
  */
-public class PAfterServiceContractListPA extends FragmentStatePagerAdapter {
+public class DoctorRelationshipListPA extends FragmentStatePagerAdapter {
 
-    public PAfterServiceContractListPA(FragmentManager fm) {
+    public DoctorRelationshipListPA(FragmentManager fm) {
         super(fm);
     }
 

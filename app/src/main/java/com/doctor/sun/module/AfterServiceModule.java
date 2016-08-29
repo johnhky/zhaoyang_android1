@@ -101,6 +101,9 @@ public interface AfterServiceModule {
     @GET("follow-up/doctor-list")
     Call<ApiDTO<List<Doctor>>> doctorList();
 
+    @GET("follow-up/new-doctor-list")
+    Call<ApiDTO<PageDTO<Doctor>>> applyingDoctorList(@Query("search") String keyword, @Query("type") String type, @Query("page") String page);
+
     @GET("follow-up/{path}")
     Call<ApiDTO<List<Doctor>>> doctorListGeneric(@Path("path") String path);
 
