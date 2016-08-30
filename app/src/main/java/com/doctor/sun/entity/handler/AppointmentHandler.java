@@ -8,6 +8,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
@@ -52,12 +54,14 @@ import com.doctor.sun.ui.activity.patient.FinishedOrderActivity;
 import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
 import com.doctor.sun.ui.activity.patient.PayFailActivity;
 import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.handler.PayMethodInterface;
 import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PayCallback;
+import com.doctor.sun.vo.BaseItem;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
@@ -1080,6 +1084,62 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public String getStatusLabel() {
         return data.getDisplayStatus();
     }
+
+    public void showStatusTimeline(Context context) {
+        RecyclerView recyclerView = new RecyclerView(context);
+        SimpleAdapter adapter = new SimpleAdapter(context);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        String[] status = new String[]{"待付款", "填问卷", "进行中", "待建议", "已完成"};
+
+        int currentStatus = getCurrentStatus();
+        for (int i = 0; i < status.length; i++) {
+            BaseItem object = new BaseItem(R.layout.item_appointment_status);
+            boolean shouldHighLight = i == currentStatus;
+            boolean currentItem = i <= currentStatus;
+            object.setEnabled(currentItem);
+            object.setUserSelected(shouldHighLight);
+            object.setTitle(status[i]);
+            adapter.add(object);
+        }
+
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+        builder.title("订单状态");
+        builder.positiveText("确定");
+        builder.customView(recyclerView, true).show();
+    }
+
+    public int getCurrentStatus() {
+        switch (data.getDisplayStatus()) {
+            case Status.LOCKED:
+            case Status.REJECTED:
+            case Status.CLOSED:
+            case Status.A_CANCEL:
+            case Status.FINISHED:
+            case Status.A_FINISHED:
+                return 4;
+
+            case Status.A_UNPAID:
+            case Status.A_UNPAID_LOCALE2:
+                return 0;
+
+            case Status.TODO:
+            case Status.A_PAID:
+            case Status.A_PAID_LOCALE2:
+                return 1;
+
+            case Status.A_WAITING:
+                return 3;
+
+            case Status.A_DOING:
+            case Status.DOING:
+                return 2;
+
+            default:
+                return 5;
+        }
+    }
+
 
     @StringDef
     public @interface Status {

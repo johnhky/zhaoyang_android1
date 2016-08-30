@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/shape_orange_oval_dp17" android:state_selected="true" />
+    <item android:drawable="@drawable/shape_orange_oval_dp10" android:state_enabled="true" />
+    <item android:drawable="@drawable/shape_grey_oval_dp10" />
+</selector>

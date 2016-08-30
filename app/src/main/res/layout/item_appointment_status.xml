@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.doctor.sun.R" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vo.BaseItem" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.AdapterOps" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:orientation="horizontal">
+
+        <com.zhy.android.percent.support.PercentFrameLayout
+            android:id="@+id/time_marker"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_50"
+            android:minWidth="@dimen/dp_17"
+            android:orientation="vertical">
+
+
+            <View
+                android:layout_width="@dimen/dp_2"
+                android:layout_height="@dimen/dp_25"
+                android:layout_gravity="center_horizontal"
+                android:background="@{data.enabled ? R.color.orange_transparent:R.color.divider_color}"
+                android:selected="@{data.enabled}"
+                android:visibility="@{vh.adapterPosition != 0}"
+                app:layout_heightPercent="50%" />
+
+
+            <View
+                android:layout_width="@dimen/dp_2"
+                android:layout_height="@dimen/dp_25"
+                android:layout_gravity="center_horizontal|bottom"
+                android:background="@{data.enabled &amp;&amp; !data.userSelected ? R.color.orange_transparent:R.color.divider_color}"
+                android:visibility="@{vh.adapterPosition != (adapter.size()-1)}"
+                app:layout_heightPercent="50%" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/selector_appointment_status"
+                android:enabled="@{data.enabled}"
+                android:selected="@{data.userSelected}" />
+
+        </com.zhy.android.percent.support.PercentFrameLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_10"
+            android:background="@{data.userSelected ? R.drawable.shape_orange_rect_r5:R.color.white}"
+            android:enabled="@{data.enabled}"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_6"
+            android:selected="@{data.userSelected}"
+            android:text="@{data.title}"
+            android:textColor="@color/text_color_orange"
+            android:textSize="@dimen/font_15" />
+
+    </LinearLayout>
+</layout>

@@ -84,6 +84,7 @@
                 android:layout_gravity="end"
                 android:layout_marginRight="@dimen/dp_13"
                 android:gravity="center_vertical"
+                android:onClick="@{()->data.handler.showStatusTimeline(context)}"
                 android:textSize="@dimen/font_13"
                 app:html="@{data.handler.styledOrderStatus}" />
 
