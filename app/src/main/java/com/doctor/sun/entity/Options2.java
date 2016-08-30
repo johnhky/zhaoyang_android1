@@ -7,6 +7,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
+import com.doctor.sun.ui.adapter.core.AdapterOps;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.NumericBooleanDeserializer;
 import com.doctor.sun.util.NumericBooleanSerializer;
@@ -170,7 +171,7 @@ public class Options2 extends BaseItem {
         adapter.insert(sortedItem);
     }
 
-    public void showDialog(Context context) {
+    public void showDialog(Context context, final AdapterOps adapter) {
         if (childOptions == null || childOptions.isEmpty()) {
             return;
         }
@@ -182,6 +183,8 @@ public class Options2 extends BaseItem {
                     public boolean onSelection(MaterialDialog dialog, View item, int which, CharSequence text) {
                         selected = Boolean.TRUE;
                         selectedIndex = which;
+                        Questions2 sortedItem = (Questions2) adapter.get(questionId);
+                        sortedItem.notifyChange();
                         notifyChange();
                         return true;
                     }

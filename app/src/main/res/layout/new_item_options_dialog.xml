@@ -22,7 +22,8 @@
         android:layout_marginRight="@dimen/dp_13"
         android:layout_marginStart="@dimen/dp_13"
         android:background="@drawable/ripple_default"
-        android:onClick="@{()->data.showDialog(context)}">
+        android:clickable="@{data.isEnabled()}"
+        android:onClick="@{()->data.showDialog(context,adapter)}">
 
         <TextView
             android:id="@+id/et_others"
@@ -30,6 +31,7 @@
             android:layout_height="@dimen/dp_45"
             android:background="@drawable/selector_grey_rect"
             android:drawableRight="@drawable/ic_enter"
+            android:enabled="@{data.isEnabled()}"
             android:gravity="start|center_vertical"
             android:hint="其他"
             android:paddingLeft="@dimen/dp_13"

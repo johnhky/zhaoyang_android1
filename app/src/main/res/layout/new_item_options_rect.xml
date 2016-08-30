@@ -27,7 +27,7 @@
         android:background="@drawable/selector_grey_rect"
         android:button="@null"
         android:checked="@={data.selected}"
-        android:enabled="true"
+        android:enabled="@{data.isEnabled()}"
         android:gravity="center"
         android:minHeight="@dimen/dp_35"
         android:onClick="@{()->data.clear(adapter)}"

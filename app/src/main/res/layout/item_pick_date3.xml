@@ -18,35 +18,30 @@
         <import type="com.doctor.sun.util.OptionsUtil" />
     </data>
 
+
     <LinearLayout
-        android:id="@id/lly_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginEnd="@dimen/dp_13"
+        android:layout_marginLeft="@dimen/dp_13"
+        android:layout_marginRight="@dimen/dp_13"
+        android:layout_marginStart="@dimen/dp_13"
+        android:background="@drawable/ripple_default"
+        android:enabled="@{data.isEnabled()}"
+        android:onClick="@{()->data.pickTime(context)}">
 
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/et_others"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_13"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginStart="@dimen/dp_13"
-            android:background="@drawable/ripple_default"
-            android:onClick="@{()->data.pickTime(context)}">
-
-            <TextView
-                android:id="@+id/et_others"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_45"
-                android:background="@drawable/selector_grey_rect"
-                android:drawableRight="@drawable/ic_enter"
-                android:gravity="start|center_vertical"
-                android:paddingLeft="@dimen/dp_13"
-                android:paddingRight="@dimen/dp_13"
-                android:text="@{data.date}"
-                android:textColor="@color/color_tick"
-                android:textSize="@dimen/font_15" />
-        </LinearLayout>
+            android:layout_height="@dimen/dp_45"
+            android:background="@drawable/selector_grey_rect"
+            android:drawableRight="@drawable/ic_enter"
+            android:enabled="@{data.isEnabled()}"
+            android:gravity="start|center_vertical"
+            android:paddingLeft="@dimen/dp_13"
+            android:paddingRight="@dimen/dp_13"
+            android:text="@{data.date}"
+            android:textColor="@color/color_tick"
+            android:textSize="@dimen/font_15" />
     </LinearLayout>
 </layout>

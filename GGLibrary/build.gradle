@@ -24,7 +24,11 @@ dependencies {
     Map<String, String> dependency = rootProject.ext.dependencies;
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile dependency.v4
+//    compile dependency.v4
+    compile dependency.v4Compat
+    compile dependency.v4Ui
+    compile dependency.v4Fragment
+//    compile libs.v4Utils
     compile dependency.v7
     compile dependency.recyclerView
     compile dependency.annotations

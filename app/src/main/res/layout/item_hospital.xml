@@ -21,13 +21,15 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginStart="@dimen/dp_13"
-            android:background="@drawable/selector_grey_rect">
+            android:background="@drawable/selector_grey_rect"
+            android:enabled="@{data.isEnabled()}">
 
             <Spinner
                 android:id="@+id/lv1"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
                 android:background="@drawable/ripple_default"
+                android:enabled="@{data.isEnabled()}"
                 android:entries="@{data.lv1}"
                 android:gravity="start|center_vertical"
                 android:onItemSelected="@{(parent,view,position,id)->data.onLv1Selected(position)}"
@@ -43,6 +45,7 @@
                 android:background="@drawable/selector_grey_rect"
                 android:clickable="false"
                 android:drawableRight="@drawable/ic_enter"
+                android:enabled="@{data.isEnabled()}"
                 android:gravity="start|center_vertical"
                 android:paddingLeft="@dimen/dp_13"
                 android:paddingRight="@dimen/dp_13"
@@ -58,13 +61,15 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginStart="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_8"
-            android:background="@drawable/selector_grey_rect">
+            android:background="@drawable/selector_grey_rect"
+            android:enabled="@{data.isEnabled()}">
 
             <Spinner
                 android:id="@+id/lv2"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
                 android:background="@drawable/ripple_default"
+                android:enabled="@{data.isEnabled()}"
                 android:entries="@{data.lv2}"
                 android:gravity="start|center_vertical"
                 android:onItemSelected="@{(parent,view,position,id)->data.onLv2Selected(position)}"
@@ -79,6 +84,7 @@
                 android:layout_height="@dimen/dp_45"
                 android:background="@drawable/selector_grey_rect"
                 android:drawableRight="@drawable/ic_enter"
+                android:enabled="@{data.isEnabled()}"
                 android:gravity="start|center_vertical"
                 android:paddingLeft="@dimen/dp_13"
                 android:paddingRight="@dimen/dp_13"
@@ -94,13 +100,15 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginStart="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_8"
-            android:background="@drawable/selector_grey_rect">
+            android:background="@drawable/selector_grey_rect"
+            android:enabled="@{data.isEnabled()}">
 
             <Spinner
                 android:id="@+id/lv3"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
                 android:background="@drawable/ripple_default"
+                android:enabled="@{data.isEnabled()}"
                 android:entries="@{data.lv3}"
                 android:gravity="start|center_vertical"
                 android:onItemSelected="@{(parent,view,position,id)->data.onLv3Selected(position)}"
@@ -114,6 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
                 android:drawableRight="@drawable/ic_enter"
+                android:enabled="@{data.isEnabled()}"
                 android:gravity="start|center_vertical"
                 android:paddingLeft="@dimen/dp_13"
                 android:paddingRight="@dimen/dp_13"

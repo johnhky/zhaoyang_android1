@@ -17,6 +17,11 @@ ext {
     dependencies = [
             v4                      : "com.android.support:support-v4:$support_version",
             v7                      : "com.android.support:appcompat-v7:$support_version",
+            v4Fragment              : "com.android.support:support-fragment:$support_version",
+            v4Ui                    : "com.android.support:support-core-ui:$support_version",
+            v4Compat                : "com.android.support:support-compat:$support_version",
+            v4Utils                 : "com.android.support:support-core-utils:$support_version",
+
             recyclerView            : "com.android.support:recyclerview-v7:$support_version",
             cardView                : "com.android.support:cardview-v7:$support_version",
             annotations             : "com.android.support:support-annotations:$support_version",

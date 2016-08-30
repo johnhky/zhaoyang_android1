@@ -23,6 +23,7 @@
         android:paddingStart="@dimen/dp_13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:enabled="@{data.isEnabled()}"
         tools:ignore="RtlSymmetry">
 
         <TextView
@@ -47,6 +48,7 @@
             android:layout_gravity="end"
             android:background="@drawable/ripple_default"
             android:onClick="@{()->data.onClick(context,adapter,vh)}"
+            android:enabled="@{data.isEnabled()}"
             android:onLongClick="@{()->data.onLongClick(context,adapter)}" />
     </FrameLayout>
 </layout>

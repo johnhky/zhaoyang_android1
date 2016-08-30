@@ -30,12 +30,14 @@
             android:layout_marginBottom="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_8"
             android:background="@drawable/ripple_default"
+            android:enabled="@{data.isEnabled()}"
             android:onClick="@{()->data.addReminder(adapter)}">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:enabled="@{data.isEnabled()}"
                 android:background="@drawable/shape_blue_rect_stroke"
                 android:button="@null"
                 android:gravity="center"

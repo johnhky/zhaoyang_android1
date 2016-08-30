@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -30,6 +30,7 @@
             android:layout_marginEnd="@dimen/dp_55"
             android:layout_marginRight="@dimen/dp_55"
             android:background="@drawable/ripple_prescription"
+            android:enabled="@{data.isEnabled()}"
             android:onClick="@{()->data.addDrug(context,adapter)}"
             android:paddingBottom="@dimen/dp_8"
             android:paddingLeft="@dimen/dp_15"
@@ -38,7 +39,8 @@
             android:text="1. 点击填写历史服药情况"
             android:textColor="@color/grey_ab"
             android:textSize="@dimen/font_15"
-            android:visibility='@{data.sizeLessThen(1,adapter)}' />
+            android:visibility='@{data.sizeLessThen(1,adapter)}'
+            tools:ignore="RtlHardcoded" />
 
         <TextView
             android:layout_width="match_parent"
@@ -47,6 +49,7 @@
             android:layout_marginEnd="@dimen/dp_56"
             android:layout_marginRight="@dimen/dp_56"
             android:background="@drawable/ripple_prescription"
+            android:enabled="@{data.isEnabled()}"
             android:onClick="@{()->data.addDrug(context,adapter)}"
             android:paddingBottom="@dimen/dp_8"
             android:paddingLeft="@dimen/dp_15"
@@ -55,7 +58,8 @@
             android:text="2. 点击填写历史服药情况"
             android:textColor="@color/grey_ab"
             android:textSize="@dimen/font_15"
-            android:visibility='@{data.sizeLessThen(2,adapter)}' />
+            android:visibility='@{data.sizeLessThen(2,adapter)}'
+            tools:ignore="RtlHardcoded" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -65,11 +69,14 @@
             android:drawableLeft="@drawable/ic_add_more"
             android:drawablePadding="@dimen/dp_10"
             android:drawableStart="@drawable/ic_add_more"
+            android:enabled="@{data.isEnabled()}"
             android:onClick="@{()->data.addDrug(context,adapter)}"
             android:paddingLeft="@dimen/dp_10"
+            android:paddingStart="@dimen/dp_10"
             android:text="添加更多用药"
             android:textColor="@color/grey_ab"
-            android:textSize="@dimen/font_15" />
+            android:textSize="@dimen/font_15"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -79,11 +86,13 @@
             android:drawableLeft="@drawable/ic_load_prescription"
             android:drawablePadding="@dimen/dp_10"
             android:drawableStart="@drawable/ic_load_prescription"
+            android:enabled="@{data.isEnabled()}"
             android:paddingLeft="@dimen/dp_10"
             android:paddingStart="@dimen/dp_10"
             android:text="导入医生上次用药"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/font_15" />
+            android:textSize="@dimen/font_15"
+            tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
 </layout>

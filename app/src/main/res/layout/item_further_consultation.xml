@@ -28,6 +28,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/dp_5"
             android:layout_marginTop="@dimen/dp_13"
+            android:enabled="@{data.isEnabled()}"
             android:orientation="horizontal">
 
             <FrameLayout
@@ -72,6 +73,7 @@
                 android:layout_marginEnd="@dimen/dp_16"
                 android:layout_marginRight="@dimen/dp_13"
                 android:checked="@={data.hasAnswer}"
+                android:enabled="@{data.isEnabled()}"
                 android:setTintColor="@{@color/colorPrimaryDark}" />
 
         </LinearLayout>
@@ -93,6 +95,7 @@
                 android:background="@drawable/round_left_rect"
                 android:button="@null"
                 android:checked="@={data.btnOneChecked}"
+                android:enabled="@{data.isEnabled()}"
                 android:gravity="center"
                 android:text="专属咨询"
                 android:textColor="@color/color_return_type" />
@@ -110,6 +113,7 @@
                 android:background="@drawable/full_rect"
                 android:button="@null"
                 android:checked="@={data.btnTwoChecked}"
+                android:enabled="@{data.isEnabled()}"
                 android:gravity="center"
                 android:text="留言咨询"
                 android:textColor="@color/color_return_type" />
@@ -127,6 +131,7 @@
                 android:background="@drawable/round_right_rect"
                 android:button="@null"
                 android:checked="@={data.btnThreeChecked}"
+                android:enabled="@{data.isEnabled()}"
                 android:gravity="center"
                 android:text="转诊"
                 android:textColor="@color/color_return_type" />
@@ -143,6 +148,7 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginStart="@dimen/dp_13"
             android:background="@drawable/ripple_default"
+            android:enabled="@{data.isEnabled()}"
             android:onClick="@{()-> data.pickDateImpl(context)}"
             android:visibility="@{data.and(data.hasAnswer,btnOne.checked || btnTwo.checked)}">
 
@@ -152,6 +158,7 @@
                 android:layout_height="@dimen/dp_45"
                 android:background="@drawable/selector_grey_rect"
                 android:drawableRight="@drawable/ic_enter"
+                android:enabled="@{data.isEnabled()}"
                 android:gravity="start|center_vertical"
                 android:paddingLeft="@dimen/dp_13"
                 android:paddingRight="@dimen/dp_13"
@@ -190,6 +197,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/ripple_default"
+                        android:enabled="@{data.isEnabled()}"
                         android:gravity="center"
                         android:onClick="@{()->data.chooseDoctor(context,adapter,vh)}"
                         android:text="选择医生"
@@ -206,6 +214,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_60"
+                android:enabled="@{data.isEnabled()}"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:visibility="@{data.doctor != null}">
@@ -230,6 +239,7 @@
                     android:background="@drawable/ripple_default"
                     android:drawableLeft="@drawable/ic_pencil"
                     android:drawablePadding="@dimen/dp_4"
+                    android:enabled="@{data.isEnabled()}"
                     android:gravity="center"
                     android:onClick="@{()->data.chooseDoctor(context,adapter,vh)}"
                     android:paddingEnd="@dimen/dp_13"
