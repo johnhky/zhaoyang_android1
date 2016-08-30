@@ -20,11 +20,10 @@ import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
-import com.doctor.sun.entity.constans.QTemplateType;
+import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
 import com.doctor.sun.http.Api;
@@ -53,7 +52,6 @@ import com.doctor.sun.ui.activity.patient.FinishedOrderActivity;
 import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
 import com.doctor.sun.ui.activity.patient.PayFailActivity;
 import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
-import com.doctor.sun.ui.activity.patient.PickDateActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.handler.PayMethodInterface;
@@ -668,7 +666,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             }
             case Status.A_PAID:
             case Status.A_PAID_LOCALE2: {
-                Intent intent = EditQuestionActivity.intentFor(adapter.getContext(), data.getIdString(), QTemplateType.NORMAL);
+                Intent intent = EditQuestionActivity.intentFor(adapter.getContext(), data.getIdString(), QuestionsPath.NORMAL);
                 adapter.getContext().startActivity(intent);
                 break;
             }

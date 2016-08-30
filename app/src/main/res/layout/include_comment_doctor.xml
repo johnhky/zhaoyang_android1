@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_3"
                     android:singleLine="true"
-                    android:text="@{data.handler.getLocate}"
+                    android:text="@{data.handler.getCareerInfo}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13" />
 

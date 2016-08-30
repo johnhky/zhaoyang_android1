@@ -128,7 +128,7 @@ public class PatientHandler {
     }
 
     public boolean isApplied(String status) {
-        if (status != null && status.equals(RelationshipStatus.APPLIED)) {
+        if (status == null || status.equals(RelationshipStatus.APPLIED)) {
             return true;
         }
         return false;

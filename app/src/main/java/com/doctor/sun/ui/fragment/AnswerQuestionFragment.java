@@ -15,6 +15,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.constans.QuestionsPath;
+import com.doctor.sun.entity.constans.QuestionsType;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
@@ -43,7 +45,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
         return getInstance(id, type, "");
     }
 
-    public static AnswerQuestionFragment getInstance(String id, String path, String questionType) {
+    public static AnswerQuestionFragment getInstance(String id, @QuestionsPath String path, @QuestionsType @Nullable String questionType) {
         AnswerQuestionFragment fragment = new AnswerQuestionFragment();
         Bundle bundle = new Bundle();
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,12 +18,14 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
 import com.doctor.sun.ui.activity.patient.HospitalDetailActivity;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
+import com.doctor.sun.ui.adapter.core.AdapterOps;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -53,10 +56,8 @@ public class DoctorHandler {
     }
 
     @JsonIgnore
-    public String getLocate() {
-        String locate;
-        locate = data.getHospitalName() + "/" + data.getSpecialist() + "/" + data.getTitle();
-        return locate;
+    public String getCareerInfo() {
+        return data.getHospitalName() + "/" + data.getSpecialist() + "/" + data.getTitle();
     }
 
     @JsonIgnore
@@ -202,6 +203,17 @@ public class DoctorHandler {
     public void hospital(Context context, Doctor data) {
         Intent intent = HospitalDetailActivity.makeIntent(context, data);
         context.startActivity(intent);
+    }
+
+    public void acceptRelation(final AdapterOps ops, String id) {
+        AfterServiceModule api = Api.of(AfterServiceModule.class);
+        api.acceptBuildRelation(id).enqueue(new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                ops.removeItem(data);
+            }
+        });
+
     }
 
     public View.OnClickListener allowAfterService(final BaseAdapter adapter, BaseViewHolder vh) {

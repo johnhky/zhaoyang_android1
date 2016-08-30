@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Created by rick on 11/17/15.
  */
-public class Doctor extends BaseObservable implements SortedItem,LayoutId, Parcelable, NameComparator.Name {
+public class Doctor extends BaseObservable implements SortedItem, LayoutId, Parcelable, NameComparator.Name {
 
     public static final String STATUS_PENDING = "pending";
     public static final String STATUS_PASS = "pass";
@@ -132,6 +132,8 @@ public class Doctor extends BaseObservable implements SortedItem,LayoutId, Parce
     private float point;
     @JsonProperty("follow_up_permission")
     private int followUpPermission;
+    @JsonProperty("apply_id")
+    public String applyId;
     @JsonProperty("tags")
     public List<Tags> tags = new ArrayList<>();
 

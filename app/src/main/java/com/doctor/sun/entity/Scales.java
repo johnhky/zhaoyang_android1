@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.doctor.sun.R;
-import com.doctor.sun.entity.constans.QTemplateType;
-import com.doctor.sun.ui.activity.ReadQuestionActivity;
+import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.ui.fragment.ReadQuestionFragment;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -31,13 +31,13 @@ public class Scales extends BaseItem {
 
     public void readScalesQuestion(SortedListAdapter adapter, String scalesId) {
         Context context = adapter.getContext();
-        Intent i = ReadQuestionActivity.intentFor(context, scalesId, adapter.getConfig(AdapterConfigKey.IS_DONE));
+        Intent i = ReadQuestionFragment.intentFor(context, scalesId, QuestionsPath.SCALES, "", adapter.getConfig(AdapterConfigKey.IS_DONE));
         context.startActivity(i);
     }
 
     public void editScalesQuestion(SortedListAdapter adapter, String scalesId) {
         Context context = adapter.getContext();
-        Intent i = EditQuestionActivity.intentFor(context, scalesId, QTemplateType.SCALES);
+        Intent i = EditQuestionActivity.intentFor(context, scalesId, QuestionsPath.SCALES);
         context.startActivity(i);
     }
 

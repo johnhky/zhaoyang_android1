@@ -173,7 +173,7 @@
                             android:layout_marginTop="@dimen/dp_3"
                             android:minHeight="@dimen/dp_13"
                             android:singleLine="false"
-                            android:text="@{data.doctor.handler.getLocate}"
+                            android:text="@{data.doctor.handler.careerInfo}"
                             android:textColor="#363636"
                             android:textSize="@dimen/font_13" />
 

@@ -10,7 +10,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPatientDetailBinding;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.constans.QTemplateType;
+import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.event.BidirectionalEvent;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
@@ -52,7 +52,7 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
 
         data.setHandler(new AppointmentHandler(data));
         binding.setData(data);
-        instance = ReadQuestionFragment.getInstance(data.getIdString(), QTemplateType.NORMAL, false);
+        instance = ReadQuestionFragment.getInstance(data.getIdString(), QuestionsPath.NORMAL, false);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fly_content, instance)

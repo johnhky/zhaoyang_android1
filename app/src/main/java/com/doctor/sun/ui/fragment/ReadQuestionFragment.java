@@ -1,5 +1,7 @@
 package com.doctor.sun.ui.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Menu;
@@ -14,6 +16,7 @@ import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -46,6 +49,15 @@ public class ReadQuestionFragment extends AnswerQuestionFragment {
 
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static Intent intentFor(Context context, String id, String path, String questionType, boolean readOnly) {
+        Intent intent = new Intent(context, SingleFragmentActivity.class);
+        intent.putExtra(Constants.DATA, id);
+        intent.putExtra(Constants.PATH, path);
+        intent.putExtra(Constants.QUESTION_TYPE, questionType);
+        intent.putExtra(Constants.READ_ONLY, readOnly);
+        return intent;
     }
 
 

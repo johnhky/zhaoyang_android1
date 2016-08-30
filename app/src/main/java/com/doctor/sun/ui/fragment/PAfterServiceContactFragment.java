@@ -30,11 +30,6 @@ public class PAfterServiceContactFragment extends RefreshListFragment {
         return fragment;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        loadMore();
-    }
 
     @NonNull
     @Override

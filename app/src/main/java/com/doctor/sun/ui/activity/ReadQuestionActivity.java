@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.constans.QTemplateType;
+import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.ui.fragment.ReadQuestionFragment;
 
 
@@ -29,11 +29,11 @@ public class ReadQuestionActivity extends BaseFragmentActivity2 {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DataBindingUtil.setContentView(this, R.layout.activity_scales_detail);
+        DataBindingUtil.setContentView(this, R.layout.activity_fragment_wraper);
 
 
         String intExtra = getIntent().getStringExtra(Constants.DATA);
-        instance = ReadQuestionFragment.getInstance(intExtra, QTemplateType.SCALES, getBooleanExtra(Constants.READ_ONLY, true));
+        instance = ReadQuestionFragment.getInstance(intExtra, QuestionsPath.SCALES, getBooleanExtra(Constants.READ_ONLY, true));
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fly_content, instance)

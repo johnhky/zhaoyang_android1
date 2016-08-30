@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.doctor.sun.Settings;
-import com.doctor.sun.entity.AfterService;
-import com.doctor.sun.entity.constans.QTemplateType;
+import com.doctor.sun.entity.constans.QuestionsPath;
+import com.doctor.sun.entity.constans.QuestionsType;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.ReadQuestionFragment;
 
@@ -25,10 +25,10 @@ public class DoctorAfterServicePA extends FragmentStatePagerAdapter {
     public Fragment getItem(final int position) {
         switch (position) {
             case 0: {
-                return ReadQuestionFragment.getInstance(id, QTemplateType.FOLLOW_UP, AfterService.TYPE.DOCTOR_R_PATIENT, true);
+                return ReadQuestionFragment.getInstance(id, QuestionsPath.FOLLOW_UP, QuestionsType.DOCTOR_R_PATIENT_QUESTIONS, true);
             }
             case 1: {
-                return AnswerQuestionFragment.getInstance(id, QTemplateType.FOLLOW_UP, AfterService.TYPE.DOCTOR_R_DOCTOR);
+                return AnswerQuestionFragment.getInstance(id, QuestionsPath.FOLLOW_UP, QuestionsType.DOCTOR_W_DOCTOR_QUESTIONS);
             }
         }
         return null;

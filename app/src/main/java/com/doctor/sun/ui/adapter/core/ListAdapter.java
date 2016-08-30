@@ -153,6 +153,7 @@ public abstract class ListAdapter<T, VH extends ViewDataBinding> extends LoadMor
     @Override
     public void removeItem(T item) {
         remove(item);
+        notifyItemRemoved(indexOf(item));
     }
 
     @Override

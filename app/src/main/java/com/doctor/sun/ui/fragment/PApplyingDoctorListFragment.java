@@ -45,7 +45,7 @@ public class PApplyingDoctorListFragment extends RefreshListFragment {
     @Override
     public SimpleAdapter createAdapter() {
         SimpleAdapter adapter = super.createAdapter();
-//        adapter.mapLayout(R.layout.item_after_service, R.layout.p_item_after_service);
+        adapter.mapLayout(R.layout.item_doctor, R.layout.item_doctor_relations);
         return adapter;
     }
 
@@ -59,7 +59,7 @@ public class PApplyingDoctorListFragment extends RefreshListFragment {
     @NonNull
     @Override
     public String getEmptyIndicatorText() {
-        return "没有任何随访请求";
+        return "没有任何随访关系申请";
     }
 
     @Override

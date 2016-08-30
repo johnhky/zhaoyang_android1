@@ -21,7 +21,7 @@ public class SingleFragmentActivity extends BaseFragmentActivity2 {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DataBindingUtil.setContentView(this, R.layout.activity_scales_detail);
+        DataBindingUtil.setContentView(this, R.layout.activity_fragment_wraper);
 
 
         instance = FragmentFactory.getInstance().get(getIntent().getStringExtra(Constants.FRAGMENT_NAME)).execute();

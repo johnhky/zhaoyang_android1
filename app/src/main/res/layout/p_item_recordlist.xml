@@ -71,7 +71,7 @@
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_below="@id/tv_birthday"-->
             <!--android:layout_marginTop="@dimen/dp_4"-->
-            <!--android:text="@{data.handler.getLocate}"-->
+            <!--android:text="@{data.handler.getCareerInfo}"-->
             <!--android:textColor="#363636"-->
             <!--android:textSize="@dimen/font_14" />-->
 

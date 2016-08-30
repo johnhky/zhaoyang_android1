@@ -128,4 +128,8 @@ public interface AfterServiceModule {
     @POST("follow-up/apply-build-relation")
     Call<ApiDTO<String>> applyBuildRelation(@Field("patientId") int patientId);
 
+    @FormUrlEncoded
+    @POST("follow-up/agree-apply")
+    Call<ApiDTO<String>> acceptBuildRelation(@Field("applyId") String patientId);
+
 }
