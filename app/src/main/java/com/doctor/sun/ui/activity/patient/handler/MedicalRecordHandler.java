@@ -101,4 +101,19 @@ public class MedicalRecordHandler {
             }
         });
     }
+
+    public String applyingStatus() {
+
+        switch (data.canFollowUp) {
+            case "1": {
+                return "可以申请随访";
+            }
+            case "-1": {
+                return "没有建立随访关系";
+            }
+            default: {
+                return data.canFollowUp;
+            }
+        }
+    }
 }

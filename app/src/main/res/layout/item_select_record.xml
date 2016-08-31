@@ -120,7 +120,7 @@
                 android:maxLength="20"
                 android:maxLines="1"
                 android:paddingTop="@dimen/dp_2"
-                android:text='@{tvStatus.enabled?"可以申请随访": data.canFollowUp}'
+                android:text='@{data.handler.applyingStatus()}'
                 android:textColor='@{tvStatus.enabled?@color/dark_36:@color/orange}'
                 android:textSize="@dimen/font_15"
                 app:layout_widthPercent="40%" />
