@@ -895,7 +895,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         switch (data.getDisplayStatus()) {
             case Status.FINISHED:
             case Status.A_FINISHED:
-                return "#363636";
+                return "#339de1";
 
             case Status.A_UNPAID:
             case Status.A_UNPAID_LOCALE2:
@@ -1137,6 +1137,69 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
             default:
                 return 5;
+        }
+    }
+
+
+    public int getStatusBackground() {
+        switch (data.getDisplayStatus()) {
+            case Status.LOCKED:
+            case Status.REJECTED:
+            case Status.CLOSED:
+            case Status.A_CANCEL:
+            case Status.FINISHED:
+            case Status.A_FINISHED:
+                return R.drawable.shape_blue_rect_transparent;
+
+            case Status.A_UNPAID:
+            case Status.A_UNPAID_LOCALE2:
+                return R.drawable.shape_red_rect_transparent;
+
+            case Status.TODO:
+            case Status.A_PAID:
+            case Status.A_PAID_LOCALE2:
+                return R.drawable.shape_orange_rect_transparent;
+
+            case Status.A_WAITING:
+                return R.drawable.shape_red_rect_transparent;
+
+            case Status.A_DOING:
+            case Status.DOING:
+                return R.drawable.shape_green_rect_transparent;
+
+            default:
+                return R.drawable.shape_blue_rect_transparent;
+        }
+    }
+
+    public int getStatusArrow() {
+        switch (data.getDisplayStatus()) {
+            case Status.LOCKED:
+            case Status.REJECTED:
+            case Status.CLOSED:
+            case Status.A_CANCEL:
+            case Status.FINISHED:
+            case Status.A_FINISHED:
+                return R.drawable.ic_chevron_right_blue_24dp;
+
+            case Status.A_UNPAID:
+            case Status.A_UNPAID_LOCALE2:
+                return R.drawable.ic_chevron_right_red_24dp;
+
+            case Status.TODO:
+            case Status.A_PAID:
+            case Status.A_PAID_LOCALE2:
+                return R.drawable.ic_chevron_right_orange_24dp;
+
+            case Status.A_WAITING:
+                return R.drawable.ic_chevron_right_red_24dp;
+
+            case Status.A_DOING:
+            case Status.DOING:
+                return R.drawable.ic_chevron_right_green_24dp;
+
+            default:
+                return R.drawable.ic_chevron_right_green_24dp;
         }
     }
 
