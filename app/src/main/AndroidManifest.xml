@@ -492,6 +492,11 @@
             android:name=".ui.activity.patient.PAfterServiceContactActivity"
             android:screenOrientation="portrait" />
 
+
+        <activity
+            android:name=".ui.activity.patient.FollowUpDoctorListActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name="com.yuntongxun.ecsdk.ECClientService"
             android:enabled="true" />

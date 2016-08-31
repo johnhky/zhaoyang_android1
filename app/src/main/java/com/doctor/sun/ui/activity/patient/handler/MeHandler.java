@@ -1,14 +1,15 @@
 package com.doctor.sun.ui.activity.patient.handler;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
 import com.doctor.sun.ui.activity.patient.CouponTabActivity;
-import com.doctor.sun.ui.activity.patient.FavDoctorActivity;
 import com.doctor.sun.ui.activity.patient.EditPatientInfoActivity;
-import com.doctor.sun.ui.activity.patient.HistoryActivity;
+import com.doctor.sun.ui.activity.patient.FavDoctorActivity;
+import com.doctor.sun.ui.activity.patient.FollowUpDoctorListActivity;
 import com.doctor.sun.ui.activity.patient.RechargeActivity;
 import com.doctor.sun.ui.activity.patient.RecordListActivity;
 
@@ -28,7 +29,7 @@ public class MeHandler {
     }
 
     public void History(View view) {
-        Intent intent = HistoryActivity.makeIntent(view.getContext());
+        Intent intent = FollowUpDoctorListActivity.makeIntent(view.getContext());
         view.getContext().startActivity(intent);
     }
 
@@ -55,6 +56,11 @@ public class MeHandler {
     public void coupon(View view) {
         Intent intent = CouponTabActivity.intentFor(view.getContext());
         view.getContext().startActivity(intent);
+    }
+
+    public void followUpDoctorList(Context context) {
+        Intent intent = FollowUpDoctorListActivity.makeIntent(context);
+        context.startActivity(intent);
     }
 
     public void setData(Patient data) {

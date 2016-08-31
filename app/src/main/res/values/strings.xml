@@ -91,7 +91,7 @@
     <string name="title_follow_up_history">历史随访</string>
     <string name="title_contact">通讯录</string>
     <string name="title_follow_up_contact">随访通讯录</string>
-    <string name="title_history">历史记录</string>
+    <string name="title_history">随访医生</string>
     <string name="title_coupon">优惠券</string>
     <string name="title_question_description">自编题目服务说明</string>
     <string name="title_my_order">我的订单</string>
@@ -109,4 +109,5 @@
     <string name="title_advice_history">历史反馈</string>
     <string name="title_record_pool">病历库</string>
     <string name="title_follow_up">随访列表</string>
+    <string name="title_follow_up_doctor">随访医生</string>
 </resources>
