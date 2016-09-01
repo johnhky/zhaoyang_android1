@@ -9,12 +9,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.constans.QuestionsType;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
@@ -124,18 +126,18 @@ public class AnswerQuestionFragment extends SortedListFragment {
                             "暂存", "保存并结束", new TwoChoiceDialog.Options() {
                                 @Override
                                 public void onApplyClick(final MaterialDialog dialog) {
-                                    save(1);
+                                    save(IntBoolean.TRUE);
                                     dialog.dismiss();
                                 }
 
                                 @Override
                                 public void onCancelClick(final MaterialDialog dialog) {
-                                    save(0);
+                                    save(IntBoolean.FALSE);
                                     dialog.dismiss();
                                 }
                             });
                 } else {
-                    save(0);
+                    save(IntBoolean.FALSE);
                 }
             }
         }
@@ -162,6 +164,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
          * TODO:需要弹窗吗?
          */
         if (Settings.isDoctor()) {
+            Toast.makeText(getContext(), "保存问卷成功", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -170,7 +173,6 @@ public class AnswerQuestionFragment extends SortedListFragment {
         builder.content("问卷已保存成功，请留意信息提醒及保持电话通畅，医生可能会要求您补充、修改或进行提前就诊。")
                 .positiveText("留在本页")
                 .negativeText("返回上一页")
-
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

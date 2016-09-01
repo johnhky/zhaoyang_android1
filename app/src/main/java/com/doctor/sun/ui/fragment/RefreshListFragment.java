@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.FragmentRefreshListBinding;
-import com.doctor.sun.databinding.FragmentTextViewBinding;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;

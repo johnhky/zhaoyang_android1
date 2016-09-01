@@ -95,7 +95,7 @@
                 android:paddingStart="@dimen/dp_13"
                 android:textSize="@dimen/font_13"
                 app:drawableRightCompat="@{data.handler.getStatusArrow()}"
-                app:html="@{data.handler.styledOrderStatus}"
+                app:html="@{data.handler.styledOrderStatus2}"
                 tools:ignore="RtlSymmetry" />
 
         </com.zhy.android.percent.support.PercentFrameLayout>

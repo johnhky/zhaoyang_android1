@@ -895,7 +895,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         switch (data.getDisplayStatus()) {
             case Status.FINISHED:
             case Status.A_FINISHED:
-                return "#339de1";
+                return "#363636";
 
             case Status.A_UNPAID:
             case Status.A_UNPAID_LOCALE2:
@@ -1200,6 +1200,43 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
             default:
                 return R.drawable.ic_chevron_right_green_24dp;
+        }
+    }
+
+
+    public String styledOrderStatus2() {
+        return "<font color='" + getStatusColor2() + "'>" + getStatusLabel() + "</font>";
+    }
+
+    public String getStatusColor2() {
+        switch (data.getDisplayStatus()) {
+            case Status.FINISHED:
+            case Status.A_FINISHED:
+                return "#339de1";
+
+            case Status.A_UNPAID:
+            case Status.A_UNPAID_LOCALE2:
+                return "#ff1800";
+
+            case Status.TODO:
+            case Status.A_PAID:
+            case Status.A_PAID_LOCALE2:
+                return "#ff8e43";
+
+            case Status.A_WAITING:
+                return "#ff1800";
+
+            case Status.A_DOING:
+            case Status.DOING:
+                return "#88cb5a";
+
+            case Status.LOCKED:
+            case Status.REJECTED:
+            case Status.CLOSED:
+            case Status.A_CANCEL:
+                return "#898989";
+            default:
+                return "#acacac";
         }
     }
 

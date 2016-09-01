@@ -226,6 +226,11 @@ public class DoctorHandler {
         };
     }
 
+    public void allowAfterService(Context context,Doctor doctor) {
+        Intent intent = AllowAfterServiceActivity.intentFor(context, doctor);
+        context.startActivity(intent);
+    }
+
 
     public boolean canWritePrescription() {
         return "执业医师认证".equals(data.getLevel());
