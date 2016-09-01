@@ -30,6 +30,7 @@ import retrofit2.Call;
  * Created by rick on 9/8/2016.
  */
 public class ReadQuestionFragment extends AnswerQuestionFragment {
+    public static final String TAG = ReadQuestionFragment.class.getSimpleName();
 
     private boolean isEditMode = false;
 
@@ -51,8 +52,10 @@ public class ReadQuestionFragment extends AnswerQuestionFragment {
         return fragment;
     }
 
-    public static Intent intentFor(Context context, String id, String path, String questionType, boolean readOnly) {
+    public static Intent intentFor(Context context, String title, String id, String path, String questionType, boolean readOnly) {
         Intent intent = new Intent(context, SingleFragmentActivity.class);
+        intent.putExtra(Constants.FRAGMENT_NAME, TAG);
+        intent.putExtra(Constants.FRAGMENT_TITLE, title);
         intent.putExtra(Constants.DATA, id);
         intent.putExtra(Constants.PATH, path);
         intent.putExtra(Constants.QUESTION_TYPE, questionType);

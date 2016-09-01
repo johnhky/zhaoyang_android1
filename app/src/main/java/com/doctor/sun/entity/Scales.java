@@ -5,9 +5,9 @@ import android.content.Intent;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionsPath;
-import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.ReadQuestionFragment;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,14 +31,21 @@ public class Scales extends BaseItem {
 
     public void readScalesQuestion(SortedListAdapter adapter, String scalesId) {
         Context context = adapter.getContext();
-        Intent i = ReadQuestionFragment.intentFor(context, scalesId, QuestionsPath.SCALES, "", adapter.getConfig(AdapterConfigKey.IS_DONE));
+        boolean config = adapter.getConfig(AdapterConfigKey.IS_DONE);
+        Intent i = ReadQuestionFragment.intentFor(context, scaleName, scalesId, QuestionsPath.SCALES, "", config);
         context.startActivity(i);
     }
 
     public void editScalesQuestion(SortedListAdapter adapter, String scalesId) {
         Context context = adapter.getContext();
-        Intent i = EditQuestionActivity.intentFor(context, scalesId, QuestionsPath.SCALES);
-        context.startActivity(i);
+        boolean isDone = adapter.getConfig(AdapterConfigKey.IS_DONE);
+        if (!isDone) {
+            Intent i = AnswerQuestionFragment.intentFor(context, scaleName, scalesId, QuestionsPath.SCALES, "");
+            context.startActivity(i);
+        } else {
+            Intent i = ReadQuestionFragment.intentFor(context, scaleName, scalesId, QuestionsPath.SCALES, "", isDone);
+            context.startActivity(i);
+        }
     }
 
 

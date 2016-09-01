@@ -32,9 +32,9 @@ public class Questions2 extends BaseItem {
 
     @JsonIgnore
     public int answerCount = 0;
-    @JsonProperty("question_id")
+    @JsonProperty("question_answer_id")
     public String questionId;
-    @JsonProperty("rule_question_id")
+    @JsonProperty("question_rule_id")
     public String oldQuestionId;
     @JsonProperty("question_type")
     public String questionType;
@@ -53,6 +53,11 @@ public class Questions2 extends BaseItem {
     //不懂找颜升
     @JsonProperty("array_content")
     public List<Map<String, String>> arrayContent;
+
+    @JsonProperty("or_enable_rule")
+    public List<String> orEnableRule;
+    @JsonProperty("or_disable_rule")
+    public List<String> orDisableRule;
 
     public String positionString() {
         return String.valueOf(getPosition() / QuestionsModel.PADDING + 1);
@@ -100,7 +105,7 @@ public class Questions2 extends BaseItem {
         if (answerCount > 0) {
             return true;
         }
-        int i = adapter.inBetweenItemCount(vh.getAdapterPosition(), questionId + questionType);
+        int i = adapter.inBetweenItemCount(vh.getAdapterPosition(), oldQuestionId + questionType);
         if (Math.abs(i) > 1) {
             return true;
         }

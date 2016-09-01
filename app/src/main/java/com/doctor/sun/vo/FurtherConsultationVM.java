@@ -28,6 +28,8 @@ import java.util.HashMap;
  */
 public class FurtherConsultationVM extends BaseItem {
     public static final String TAG = FurtherConsultationVM.class.getSimpleName();
+    public static final String ANSWER_KEY = "option_id";
+    public static final String ANSWER_VALUE = "reply_content";
 
     private long position = 0;
     private boolean hasAnswer = false;
@@ -213,7 +215,7 @@ public class FurtherConsultationVM extends BaseItem {
 
     @Override
     public String getKey() {
-        return questionId;
+        return questions2.oldQuestionId;
     }
 
     @Override
@@ -226,29 +228,29 @@ public class FurtherConsultationVM extends BaseItem {
         HashMap<String, Object> result = new HashMap<>();
 
         String optionId = "";
-        String replayContent = "";
+        String replyContent = "";
         if (hasAnswer) {
             if (btnOneChecked) {
                 optionId = questions2.getOptionID(0);
-                replayContent = date.getDate();
-                result.put("option_id", optionId);
-                result.put("replay_content", replayContent);
+                replyContent = date.getDate();
+                result.put(ANSWER_KEY, optionId);
+                result.put(ANSWER_VALUE, replyContent);
                 return result;
             }
 
             if (btnTwoChecked) {
                 optionId = questions2.getOptionID(1);
-                replayContent = date.getDate();
-                result.put("option_id", optionId);
-                result.put("replay_content", replayContent);
+                replyContent = date.getDate();
+                result.put(ANSWER_KEY, optionId);
+                result.put(ANSWER_VALUE, replyContent);
                 return result;
             }
             if (btnThreeChecked) {
                 optionId = questions2.getOptionContent(2);
                 if (doctor != null) {
-                    replayContent = String.valueOf(doctor.getId());
-                    result.put("option_id", optionId);
-                    result.put("replay_content", replayContent);
+                    replyContent = String.valueOf(doctor.getId());
+                    result.put(ANSWER_KEY, optionId);
+                    result.put(ANSWER_VALUE, replyContent);
                     return result;
                 }
             }

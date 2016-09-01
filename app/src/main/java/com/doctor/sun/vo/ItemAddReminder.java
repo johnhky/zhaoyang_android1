@@ -1,6 +1,7 @@
 package com.doctor.sun.vo;
 
 import android.databinding.Observable;
+import android.support.annotation.NonNull;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.doctor.sun.R;
@@ -18,24 +19,26 @@ import java.util.UUID;
  */
 
 public class ItemAddReminder extends BaseItem {
-    private int opCount = -1;
-    private int itemSize = -1;
+    private int opCount = 1;
+    private int itemSize = 1;
 
     public void addReminder(final SortedListAdapter adapter) {
-        if (opCount == -1) {
-            opCount = inBetweenItemCount(adapter);
-            itemSize = opCount;
-        }
 
+        ItemPickDate parcelable = createReminder();
+        adapter.insert(parcelable);
+        notifyChange();
+    }
+
+    @NonNull
+    public ItemPickDate createReminder() {
         ItemPickDate parcelable = new ItemPickDate(R.layout.item_reminder2, "", 0);
         parcelable.setPosition(getPosition() - QuestionsModel.PADDING + 2 + opCount);
         parcelable.setSubPosition(itemSize());
         parcelable.setItemId(UUID.randomUUID().toString());
         registerItemChangedListener(parcelable);
-        adapter.insert(parcelable);
-        notifyChange();
         opCount += 1;
         itemSize += 1;
+        return parcelable;
     }
 
     public void registerItemChangedListener(ItemPickDate parcelable) {

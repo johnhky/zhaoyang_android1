@@ -1,6 +1,7 @@
 package com.doctor.sun.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.constans.QuestionsType;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.model.QuestionsModel;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.Function0;
@@ -36,6 +38,7 @@ import io.ganguo.library.core.event.EventHub;
  */
 
 public class AnswerQuestionFragment extends SortedListFragment {
+    public static final String TAG = AnswerQuestionFragment.class.getSimpleName();
 
     protected String id;
     private QuestionsModel model;
@@ -56,6 +59,16 @@ public class AnswerQuestionFragment extends SortedListFragment {
         bundle.putString(Constants.QUESTION_TYPE, questionType);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    public static Intent intentFor(Context context, String title, String id, String path, String questionType) {
+        Intent intent = new Intent(context, SingleFragmentActivity.class);
+        intent.putExtra(Constants.FRAGMENT_NAME, TAG);
+        intent.putExtra(Constants.FRAGMENT_TITLE, title);
+        intent.putExtra(Constants.DATA, id);
+        intent.putExtra(Constants.PATH, path);
+        intent.putExtra(Constants.QUESTION_TYPE, questionType);
+        return intent;
     }
 
     protected String getAppointmentId() {

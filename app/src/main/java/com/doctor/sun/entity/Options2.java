@@ -50,8 +50,10 @@ public class Options2 extends BaseItem {
     private Boolean selected = Boolean.FALSE;
     @JsonProperty("clear_rule")
     public int clearRule;
-    @JsonProperty("option_id")
+    @JsonProperty("option_answer_id")
     public String optionId;
+    @JsonProperty("option_rule_id")
+    public String optionRuleId;
     @JsonProperty("option_type")
     public String optionType;
     @JsonProperty("option_content")
@@ -74,6 +76,11 @@ public class Options2 extends BaseItem {
     public Map<String, String> selectedOption;
     @JsonProperty("reply_content")
     public String inputContent;
+
+    @JsonProperty("option_or_enable")
+    public List<String> optionOrEnable;
+    @JsonProperty("option_or_disable")
+    public List<String> optionOrDisable;
 
     @Override
     public int getLayoutId() {
@@ -124,7 +131,10 @@ public class Options2 extends BaseItem {
     }
 
     public void setSelected(Boolean selected) {
-        this.selected = selected;
+        if (!selected.equals(this.selected)) {
+            this.selected = selected;
+            notifyChange();
+        }
     }
 
     public void setSelectedWrap(Boolean selected) {
@@ -137,7 +147,23 @@ public class Options2 extends BaseItem {
     public void setSelectedWrap(Boolean selected, SortedListAdapter adapter) {
         if (!selected.equals(this.selected)) {
             this.selected = selected;
+            notifyEnableDisableChange(adapter);
             clear(adapter);
+        }
+    }
+
+    private void notifyEnableDisableChange(SortedListAdapter adapter) {
+        if (optionOrEnable != null) {
+            for (String s : optionOrEnable) {
+                BaseItem baseItem = (BaseItem) adapter.get(s);
+                baseItem.notifyChange();
+            }
+        }
+        if (optionOrDisable != null) {
+            for (String s : optionOrDisable) {
+                BaseItem baseItem = (BaseItem) adapter.get(s);
+                baseItem.notifyChange();
+            }
         }
     }
 
@@ -151,7 +177,7 @@ public class Options2 extends BaseItem {
 
     public void clear(SortedListAdapter adapter) {
         notifyChange();
-        if (!selected) {
+        if (!getSelected()) {
             Questions2 item = (Questions2) adapter.get(questionId);
             item.refill = 0;
             adapter.update(item);
@@ -159,11 +185,11 @@ public class Options2 extends BaseItem {
         }
 
         Questions2 sortedItem = (Questions2) adapter.get(questionId);
-        for (Options2 options2 : sortedItem.option) {
-            if (!options2.optionId.equals(this.optionId)) {
-                if (options2.clearRule != clearRule) {
-                    options2.selected = Boolean.FALSE;
-                    adapter.insert(options2);
+        for (Options2 otherOptions : sortedItem.option) {
+            if (!otherOptions.optionId.equals(this.optionId)) {
+                if (otherOptions.clearRule != clearRule) {
+                    otherOptions.setSelectedWrap(Boolean.FALSE, adapter);
+                    adapter.insert(otherOptions);
                 }
             }
         }
@@ -181,7 +207,7 @@ public class Options2 extends BaseItem {
                 .itemsCallbackSingleChoice(selectedIndex, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View item, int which, CharSequence text) {
-                        selected = Boolean.TRUE;
+                        setSelected(Boolean.TRUE);
                         selectedIndex = which;
                         Questions2 sortedItem = (Questions2) adapter.get(questionId);
                         sortedItem.notifyChange();

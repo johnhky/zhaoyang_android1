@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.widget.DatePicker;
 
+import com.doctor.sun.R;
 import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -219,6 +220,10 @@ public class ItemPickDate extends BaseItem {
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        if (getItemLayoutId() == R.layout.item_reminder2) {
+            return null;
+        }
+
         if (getDate() == null || getDate().equals("")) {
             return null;
         }

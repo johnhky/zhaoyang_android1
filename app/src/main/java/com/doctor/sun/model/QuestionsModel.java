@@ -235,6 +235,7 @@ public class QuestionsModel {
                 questions2.notifyChange();
             }
         });
+        questions2.answerCount = questions2.fillContent == null ? 0 : questions2.fillContent.length();
         items.add(itemPickDate);
     }
 
@@ -295,20 +296,25 @@ public class QuestionsModel {
                 questions2.notifyChange();
             }
         });
+        questions2.answerCount = questions2.fillContent == null ? 0 : questions2.fillContent.length();
         items.add(textInput);
     }
 
     private void parseReminder(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemAddReminder list = new ItemAddReminder();
-        for (int j = 0; j < questions2.arrayContent.size(); j++) {
-            Reminder reminder = Reminder.fromMap(questions2.arrayContent.get(j));
-            ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_reminder2, reminder.content);
-            itemPickDate.setItemId(UUID.randomUUID().toString());
-            itemPickDate.setPosition(i * PADDING + j + i);
-            itemPickDate.setSubPosition(j);
-            itemPickDate.setDate(reminder.time);
-            list.registerItemChangedListener(itemPickDate);
-            items.add(itemPickDate);
+        list.setPosition(getSlop(i, 2));
+        list.setItemId(questions2.oldQuestionId + QuestionType.reminder);
+        List<Map<String, String>> arrayContent = questions2.arrayContent;
+        if (arrayContent != null) {
+            for (int j = 0; j < arrayContent.size(); j++) {
+                Reminder reminder = Reminder.fromMap(arrayContent.get(j));
+                ItemPickDate itemPickDate = list.createReminder();
+                itemPickDate.setTitle(reminder.content);
+                itemPickDate.setDate(reminder.time);
+                list.registerItemChangedListener(itemPickDate);
+                items.add(itemPickDate);
+            }
+            questions2.answerCount = arrayContent.size();
         }
         list.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
@@ -318,8 +324,6 @@ public class QuestionsModel {
             }
         });
 
-        list.setPosition(getSlop(i, 2));
-        list.setItemId(questions2.oldQuestionId + QuestionType.reminder);
         items.add(list);
     }
 
@@ -336,6 +340,7 @@ public class QuestionsModel {
                 itemAddPrescription.registerItemChangedListener(prescription);
                 items.add(prescription);
             }
+            questions2.answerCount = arrayContent.size();
         }
 
         itemAddPrescription.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
