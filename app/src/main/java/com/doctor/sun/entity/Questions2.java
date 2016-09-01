@@ -34,14 +34,14 @@ public class Questions2 extends BaseItem {
     public int answerCount = 0;
     @JsonProperty("question_id")
     public String questionId;
+    @JsonProperty("rule_question_id")
+    public String oldQuestionId;
     @JsonProperty("question_type")
     public String questionType;
     @JsonProperty("question_content")
     public String questionContent;
     @JsonProperty("fill_content")
     public String fillContent;
-    @JsonProperty("old_question_id")
-    public String oldQuestionId;
     @JsonProperty("refill")
     public int refill;
     @JsonProperty("extend_type")
@@ -67,7 +67,7 @@ public class Questions2 extends BaseItem {
 
     @Override
     public String getKey() {
-        return questionId;
+        return oldQuestionId;
     }
 
     @Override

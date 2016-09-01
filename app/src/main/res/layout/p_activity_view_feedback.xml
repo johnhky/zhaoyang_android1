@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -24,7 +24,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:data="@{header}" />
+            app:data="@{header}" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,9 +55,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
                 android:gravity="center"
-                android:text="@{&quot;&quot;+((data.professionalPoint + data.attitudePoint + data.punctualityPoint)/3)}"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"
+                app:html="@{&quot;&lt;u>&quot;+((data.professionalPoint + data.attitudePoint + data.punctualityPoint)/3)+&quot;&lt;/u>&quot;}" />
 
 
         </LinearLayout>
@@ -93,9 +93,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
                 android:gravity="center"
-                android:text="@{&quot;&quot;+data.punctualityPoint}"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"
+                app:html="@{&quot;&lt;u>&quot;+data.punctualityPoint+&quot;&lt;/u>&quot;}" />
 
         </LinearLayout>
 
@@ -126,9 +126,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
                 android:gravity="center"
-                android:text="@{&quot;&quot;+data.professionalPoint}"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"
+                app:html="@{&quot;&lt;u>&quot;+ data.professionalPoint  +&quot;&lt;/u>&quot;}" />
 
         </LinearLayout>
 
@@ -158,9 +158,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
                 android:gravity="center"
-                android:text="@{&quot;&quot;+data.attitudePoint}"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"
+                app:html="@{&quot;&lt;u>&quot;+&quot;&quot;+data.attitudePoint+&quot;&lt;/u>&quot;}" />
 
         </LinearLayout>
 

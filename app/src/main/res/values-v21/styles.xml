@@ -10,4 +10,16 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
+    <style name="FeedbackRatingBar" parent="Theme.AppCompat">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:numStars">5</item>
+        <item name="android:rating">0</item>
+        <item name="android:stepSize">0.5</item>
+        <item name="android:layout_marginLeft">@dimen/dp_7</item>
+        <item name="colorControlNormal">@color/grey_ab</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+        <item name="android:progressTint">@color/colorPrimaryDark</item>
+    </style>
+
 </resources>

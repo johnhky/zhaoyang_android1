@@ -10,6 +10,7 @@ import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Photo;
+import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -156,7 +157,8 @@ public class ItemPickImages extends BaseItem {
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         if (src == null || src.equals("")) {
             int adapterPosition = adapter.indexOfImpl(this);
-            int distance = adapter.inBetweenItemCount(adapterPosition, getKey().replace(QuestionType.upImg, ""));
+            String key = getKey().replace(QuestionType.upImg, "");
+            int distance = adapter.inBetweenItemCount(adapterPosition, key);
             if (distance <= 1) {
                 return null;
             }
@@ -177,7 +179,8 @@ public class ItemPickImages extends BaseItem {
                 }
             }
             HashMap<String, Object> result = new HashMap<>();
-            result.put("question_id", getKey().replace(QuestionType.upImg, ""));
+            Questions2 questions2 = (Questions2) adapter.get(key);
+            result.put("question_id", questions2.questionId);
             String content = sb.toString();
             result.put("fill_content", content);
             return result;

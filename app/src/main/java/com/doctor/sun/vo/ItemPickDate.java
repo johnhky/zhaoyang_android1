@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.widget.DatePicker;
 
+import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.widget.PickDateDialog;
@@ -222,8 +223,13 @@ public class ItemPickDate extends BaseItem {
             return null;
         }
         HashMap<String, Object> result = new HashMap<>();
-        result.put("question_id", getKey().replace(QuestionType.sDate, ""));
+        String key = getKey().replace(QuestionType.sDate, "");
+        Questions2 item = (Questions2) adapter.get(key);
+        String questionId = item.questionId;
+
+        result.put("question_id", questionId);
         result.put("fill_content", getDate());
         return result;
     }
+
 }

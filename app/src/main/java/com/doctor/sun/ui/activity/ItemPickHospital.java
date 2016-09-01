@@ -6,6 +6,7 @@ import android.util.SparseArray;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Area;
 import com.doctor.sun.entity.OptionsPair;
+import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -257,7 +258,10 @@ public class ItemPickHospital extends BaseItem {
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("question_id", getKey().replace(QuestionType.asel, ""));
+        String key = getKey().replace(QuestionType.asel, "");
+        Questions2 item = (Questions2) adapter.get(key);
+
+        result.put("question_id", item.questionId);
         result.put("fill_content", toJsonAnswer2());
         return result;
     }

@@ -172,13 +172,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_orange_rect_r5"
                     android:paddingEnd="@dimen/dp_6"
                     android:paddingLeft="@dimen/dp_6"
                     android:paddingRight="@dimen/dp_6"
                     android:paddingStart="@dimen/dp_6"
                     android:text="@{data.progress}"
-                    android:textColor="@color/white"
+                    android:textColor="@color/dark_36"
                     android:textSize="@dimen/font_13"
                     tools:text="1/20" />
 

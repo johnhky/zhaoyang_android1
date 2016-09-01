@@ -1,5 +1,6 @@
 package com.doctor.sun.vo;
 
+import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
@@ -44,7 +45,9 @@ public class ItemTextInput extends BaseItem {
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         if (input != null && !"".equals(input)) {
             HashMap<String, Object> result = new HashMap<>();
-            result.put("question_id", getKey().replace(QuestionType.fill, ""));
+            String key = getKey().replace(QuestionType.fill, "");
+            Questions2 questions2 = (Questions2) adapter.get(key);
+            result.put("question_id", questions2.questionId);
             result.put("fill_content", input);
             return result;
         } else {

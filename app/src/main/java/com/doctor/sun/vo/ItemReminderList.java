@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
 import com.doctor.sun.R;
+import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -163,7 +164,9 @@ public class ItemReminderList extends BaseItem {
                 arrayList.add(object);
             }
             HashMap<String, Object> result = new HashMap<>();
-            result.put("question_id", getKey().replace(QuestionType.reminder, ""));
+            String key = getKey().replace(QuestionType.reminder, "");
+            Questions2 item = (Questions2) adapter.get(key);
+            result.put("question_id", item.questionId);
             result.put("fill_content", arrayList);
             return result;
         }

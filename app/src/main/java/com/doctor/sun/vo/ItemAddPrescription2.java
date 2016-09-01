@@ -11,6 +11,7 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
@@ -89,8 +90,9 @@ public class ItemAddPrescription2 extends BaseItem {
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
 
         int adapterPosition = adapter.indexOfImpl(this);
-        String questionId = getKey().replace(QuestionType.drug, "");
-        int distance = adapter.inBetweenItemCount(adapterPosition, questionId);
+        String key = getKey().replace(QuestionType.drug, "");
+        int distance = adapter.inBetweenItemCount(adapterPosition, key);
+        String questionId = getQuestionId(adapter, key);
         if (distance <= 1) {
             return null;
         }
@@ -109,6 +111,11 @@ public class ItemAddPrescription2 extends BaseItem {
         result.put("fill_content", hashMaps);
 
         return result;
+    }
+
+    public String getQuestionId(SortedListAdapter adapter, String key) {
+        Questions2 item = (Questions2) adapter.get(key);
+        return item.questionId;
     }
 
     public int itemSize() {

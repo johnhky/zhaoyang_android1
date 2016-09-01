@@ -141,7 +141,7 @@ public class QuestionsModel {
         for (int j = 0; j < option.size(); j++) {
             Options2 options2 = option.get(j);
 
-            options2.questionId = questions2.questionId;
+            options2.questionId = questions2.oldQuestionId;
             options2.questionType = questions2.questionType;
             options2.questionContent = questions2.questionContent;
 
@@ -215,7 +215,7 @@ public class QuestionsModel {
         }
         ItemPickHospital pickHospital = new ItemPickHospital(answerContent, url, lv1Id, lv2Id, lv3Id);
         pickHospital.setPosition(getSlop(i, 2));
-        pickHospital.setItemId(questions2.questionId + QuestionType.asel);
+        pickHospital.setItemId(questions2.oldQuestionId + QuestionType.asel);
         items.add(pickHospital);
     }
 
@@ -226,7 +226,7 @@ public class QuestionsModel {
     private void parsePickDate(List<SortedItem> items, int i, final Questions2 questions2) {
         ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_pick_date3, "");
         itemPickDate.setPosition(getSlop(i, 2));
-        itemPickDate.setItemId(questions2.questionId + QuestionType.sDate);
+        itemPickDate.setItemId(questions2.oldQuestionId + QuestionType.sDate);
         itemPickDate.setDate(questions2.fillContent);
         itemPickDate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
@@ -241,7 +241,7 @@ public class QuestionsModel {
     private void parsePickTime(List<SortedItem> items, int i, final Questions2 questions2) {
         ItemPickTime itemPickTime = new ItemPickTime(R.layout.item_pick_question_time, "");
         itemPickTime.setPosition(getSlop(i, 2));
-        itemPickTime.setItemId(questions2.questionId + QuestionType.sTime);
+        itemPickTime.setItemId(questions2.oldQuestionId + QuestionType.sTime);
         itemPickTime.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -278,14 +278,14 @@ public class QuestionsModel {
             pickerItem.setItemSizeConstrain(questions2.extendType);
         }
         pickerItem.setPosition(getSlop(i, 2));
-        pickerItem.setItemId(questions2.questionId + QuestionType.upImg);
+        pickerItem.setItemId(questions2.oldQuestionId + QuestionType.upImg);
         items.add(pickerItem);
     }
 
     private void parseFill(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemTextInput textInput = new ItemTextInput(R.layout.item_text_input6, "");
         textInput.setPosition(getSlop(i, 2));
-        textInput.setItemId(questions2.questionId + QuestionType.fill);
+        textInput.setItemId(questions2.oldQuestionId + QuestionType.fill);
         textInput.setInput(questions2.fillContent);
         questions2.answerCount = textInput.getInput().length();
         textInput.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
@@ -319,7 +319,7 @@ public class QuestionsModel {
         });
 
         list.setPosition(getSlop(i, 2));
-        list.setItemId(questions2.questionId + QuestionType.reminder);
+        list.setItemId(questions2.oldQuestionId + QuestionType.reminder);
         items.add(list);
     }
 
@@ -346,7 +346,7 @@ public class QuestionsModel {
             }
         });
         itemAddPrescription.setPosition(getSlop(i, 2));
-        itemAddPrescription.setItemId(questions2.questionId + QuestionType.drug);
+        itemAddPrescription.setItemId(questions2.oldQuestionId + QuestionType.drug);
         items.add(itemAddPrescription);
     }
 
@@ -369,7 +369,7 @@ public class QuestionsModel {
 
     private Response<ApiDTO<String>> postAnswer(String appointmentId, String type, String string, String qType, int i) {
         try {
-            return api.saveQuestions2(type, appointmentId, string,qType,i).execute();
+            return api.saveQuestions2(type, appointmentId, string, qType, i).execute();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -381,7 +381,7 @@ public class QuestionsModel {
             @Override
             public void run() {
                 String string = composeAnswer(adapter);
-                Response<ApiDTO<String>> apiDTOResponse = postAnswer(appointmentId, type, string, qType,i);
+                Response<ApiDTO<String>> apiDTOResponse = postAnswer(appointmentId, type, string, qType, i);
                 if (apiDTOResponse != null && apiDTOResponse.isSuccessful()) {
                     EventHub.post(new SaveAnswerSuccessEvent());
                 }

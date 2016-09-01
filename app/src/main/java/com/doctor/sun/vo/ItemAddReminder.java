@@ -4,6 +4,7 @@ import android.databinding.Observable;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -53,6 +54,7 @@ public class ItemAddReminder extends BaseItem {
         int thisPosition = adapter.indexOfImpl(this);
         return adapter.inBetweenItemCount(thisPosition, getKey().replace(QuestionType.reminder, ""));
     }
+
     @Override
     public int getLayoutId() {
         return R.layout.item_add_reminder;
@@ -62,8 +64,9 @@ public class ItemAddReminder extends BaseItem {
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
 
         int adapterPosition = adapter.indexOfImpl(this);
-        String questionId = getKey().replace(QuestionType.reminder, "");
-        int distance = adapter.inBetweenItemCount(adapterPosition, questionId);
+        String key = getKey().replace(QuestionType.reminder, "");
+        int distance = adapter.inBetweenItemCount(adapterPosition, key);
+        String questionId = getQuestionId(adapter, key);
         if (distance <= 1) {
             return null;
         }
@@ -87,6 +90,11 @@ public class ItemAddReminder extends BaseItem {
         result.put("fill_content", hashMaps);
 
         return result;
+    }
+
+    public String getQuestionId(SortedListAdapter adapter, String key) {
+        Questions2 item = (Questions2) adapter.get(key);
+        return item.questionId;
     }
 
     public int itemSize() {
