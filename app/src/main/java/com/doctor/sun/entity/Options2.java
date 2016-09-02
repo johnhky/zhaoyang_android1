@@ -99,7 +99,7 @@ public class Options2 extends BaseItem {
 
     @Override
     public String getKey() {
-        return optionId;
+        return optionRuleId;
     }
 
     @Override
@@ -155,16 +155,19 @@ public class Options2 extends BaseItem {
     private void notifyEnableDisableChange(SortedListAdapter adapter) {
         if (optionOrEnable != null) {
             for (String s : optionOrEnable) {
-                BaseItem baseItem = (BaseItem) adapter.get(s);
-                baseItem.notifyChange();
+                notifyItemWithKey(s, adapter);
             }
         }
         if (optionOrDisable != null) {
             for (String s : optionOrDisable) {
-                BaseItem baseItem = (BaseItem) adapter.get(s);
-                baseItem.notifyChange();
+                notifyItemWithKey(s, adapter);
             }
         }
+    }
+
+    private void notifyItemWithKey(String key, SortedListAdapter adapter) {
+        BaseItem baseItem = (BaseItem) adapter.get(key);
+        baseItem.notifyChange();
     }
 
     public String getOption(int index) {
@@ -187,7 +190,7 @@ public class Options2 extends BaseItem {
         Questions2 sortedItem = (Questions2) adapter.get(questionId);
         for (Options2 otherOptions : sortedItem.option) {
             if (!otherOptions.optionId.equals(this.optionId)) {
-                if (otherOptions.clearRule != clearRule) {
+                if (shouldClearThat(otherOptions)) {
                     otherOptions.setSelectedWrap(Boolean.FALSE, adapter);
                     adapter.insert(otherOptions);
                 }
@@ -195,6 +198,13 @@ public class Options2 extends BaseItem {
         }
         sortedItem.refill = 0;
         adapter.insert(sortedItem);
+    }
+
+    private boolean shouldClearThat(Options2 otherOptions) {
+        if (QuestionType.radio.equals(questionType)) {
+            return true;
+        }
+        return otherOptions.clearRule != clearRule;
     }
 
     public void showDialog(Context context, final AdapterOps adapter) {

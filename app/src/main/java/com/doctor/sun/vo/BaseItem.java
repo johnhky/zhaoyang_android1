@@ -35,7 +35,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
     private String itemId;
 
     private boolean userSelected = false;
-    private boolean enabled = true;
+    protected boolean enabled = true;
     private int itemLayoutId;
     private long position;
     private int span = 12;
@@ -68,6 +68,10 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
         notifyChange();
+    }
+
+    public void setEnabledDontNotify(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Bindable

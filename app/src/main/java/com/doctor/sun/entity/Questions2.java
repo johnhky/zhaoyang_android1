@@ -4,6 +4,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
+import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -115,5 +116,73 @@ public class Questions2 extends BaseItem {
         }
 
         return false;
+    }
+
+    public boolean isEnabled(SortedListAdapter adapter, boolean isEnabledLastTime) {
+
+        boolean result = isEnabledLastTime;
+        int selectedOptionsCount = 0;
+
+        if (orEnableRule != null && !orEnableRule.isEmpty()) {
+            for (String s : orEnableRule) {
+                boolean isSelected = isSelected(s, adapter);
+                if (isSelected) {
+                    result = true;
+                    selectedOptionsCount += 1;
+                    break;
+                }
+            }
+        }
+
+        if (orDisableRule != null && !orDisableRule.isEmpty()) {
+            for (String s : orDisableRule) {
+                boolean isSelected = isSelected(s, adapter);
+                if (isSelected) {
+                    result = false;
+                    selectedOptionsCount += 1;
+                    break;
+                }
+            }
+        }
+
+        // 有规则信息的时候,假如没有任何规则适用,那就默认disable
+        if (hasRulesInfo() && selectedOptionsCount == 0) {
+            result = false;
+        }
+
+        if (isEnabledLastTime != result) {
+            setEnabledDontNotify(result);
+            enableOrDisableChild(result);
+            enableOrDisableCustomChild(adapter, result);
+        }
+        return result;
+    }
+
+
+    public boolean isSelected(String key, SortedListAdapter adapter) {
+        Options2 options2 = (Options2) adapter.get(key);
+        return options2 != null && options2.getSelected();
+    }
+
+    private void enableOrDisableChild(boolean enabled) {
+        if (option != null) {
+            for (Options2 myOptions : option) {
+                if (myOptions != null) {
+                    myOptions.setEnabled(enabled);
+                }
+            }
+        }
+    }
+
+    private void enableOrDisableCustomChild(SortedListAdapter adapter, boolean result) {
+        SortedItem item = adapter.get(oldQuestionId + questionType);
+        if (item != null) {
+            BaseItem baseItem = (BaseItem) item;
+            baseItem.setEnabled(result);
+        }
+    }
+
+    public boolean hasRulesInfo() {
+        return orDisableRule != null || orEnableRule != null;
     }
 }
