@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -47,9 +46,9 @@ public class QCategoryHandler {
                 @Override
                 public void onApplyClick(final MaterialDialog dialog) {
                     QuestionModule api = Api.of(QuestionModule.class);
-                    api.appendScale(appointmentId, String.valueOf(data.getId())).enqueue(new ApiCallback<List<Answer>>() {
+                    api.appendScale(appointmentId, String.valueOf(data.getId())).enqueue(new ApiCallback<List<String>>() {
                         @Override
-                        protected void handleResponse(List<Answer> response) {
+                        protected void handleResponse(List<String> response) {
                             selector.setSelected(true);
                             dialog.dismiss();
                         }

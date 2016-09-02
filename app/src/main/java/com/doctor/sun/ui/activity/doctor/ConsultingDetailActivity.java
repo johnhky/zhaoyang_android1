@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.activity.doctor;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -8,11 +7,9 @@ import android.view.View;
 
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.event.SwitchTabEvent;
-import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.model.HeaderViewModel;
@@ -20,26 +17,15 @@ import com.doctor.sun.ui.pager.ConsultingDetailPagerAdapter;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.squareup.otto.Subscribe;
 
-import io.ganguo.library.Config;
-import io.ganguo.library.core.event.extend.OnPageChangeAdapter;
-
 
 /**
  * Created by rick on 12/16/15.
  */
+@Deprecated
 public class ConsultingDetailActivity extends TabActivity
         implements Appointment.AppointmentId,
         Prescription.UrlToLoad {
-    public static final int POSITION_ANSWER = 0;
-    public static final int POSITION_SUGGESTION = 1;
-    public static final int POSITION_SUGGESTION_READONLY = 2;
     private boolean isReadOnly;
-
-    public static Intent makeIntent(Context context, Appointment data, int position) {
-        Intent i = AppointmentDetailActivity.intentFor(context, data);
-        i.putExtra(Constants.POSITION, position);
-        return i;
-    }
 
 
     private Appointment getData() {
@@ -48,12 +34,12 @@ public class ConsultingDetailActivity extends TabActivity
 
     @Override
     public int getPosition() {
-        return getIntent().getIntExtra(Constants.POSITION, POSITION_ANSWER);
+        return getIntent().getIntExtra(Constants.POSITION, AppointmentDetailActivity.POSITION_ANSWER);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        if (getPosition() == POSITION_SUGGESTION_READONLY) {
+        if (getPosition() == AppointmentDetailActivity.POSITION_SUGGESTION_READONLY) {
             isReadOnly = true;
         } else {
             isReadOnly = false;
@@ -88,7 +74,6 @@ public class ConsultingDetailActivity extends TabActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Answer.handler.resetEditMode();
     }
 
 

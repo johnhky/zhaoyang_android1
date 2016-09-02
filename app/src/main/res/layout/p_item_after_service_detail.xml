@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.AfterService" />
+            type="com.doctor.sun.entity.FollowUpInfo" />
 
         <variable
             name="vh"

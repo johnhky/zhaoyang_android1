@@ -15,13 +15,11 @@ import com.doctor.sun.databinding.ActivityAddQuestionBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Question;
-import com.doctor.sun.entity.handler.QuestionHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.OptionAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.vo.ItemTextInput;
 import com.google.common.base.Predicate;
@@ -93,7 +91,6 @@ public class AddQuestionActivity extends BaseFragmentActivity2 {
         mAdapter = new OptionAdapter(this);
         binding.rvOptions.setLayoutManager(new LinearLayoutManager(this));
         binding.rvOptions.setAdapter(mAdapter);
-        binding.setHandler(new QuestionHandler());
         mAdapter.onFinishLoadMore(true);
     }
 

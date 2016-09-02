@@ -46,9 +46,9 @@ import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.CancelAppointmentActivity;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
-import com.doctor.sun.ui.activity.doctor.ConsultingDetailActivity;
 import com.doctor.sun.ui.activity.doctor.FeedbackActivity;
 import com.doctor.sun.ui.activity.doctor.PatientDetailActivity;
+import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.activity.patient.FinishedOrderActivity;
 import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
@@ -545,7 +545,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             }
 
         } else {
-            return ConsultingDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_ANSWER);
+            return AppointmentDetailActivity.makeIntent(context, getData(), AppointmentDetailActivity.POSITION_ANSWER);
 //            switch (data.getDisplayStatus()) {
 //                case Status.A_DOING:
 //                case Status.A_WAITING: {
@@ -574,7 +574,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 }
             }
         } else {
-            return ConsultingDetailActivity.makeIntent(context, getData(), ConsultingDetailActivity.POSITION_SUGGESTION);
+            return AppointmentDetailActivity.makeIntent(context, getData(), AppointmentDetailActivity.POSITION_SUGGESTION);
 //            switch (data.getDisplayStatus()) {
 //                case Status.A_DOING:
 //                case Status.A_WAITING: {
@@ -656,8 +656,8 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
     public void historyList(Context context, Appointment data) {
-        context.startActivity(ConsultingDetailActivity.makeIntent(context,
-                data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY));
+        context.startActivity(AppointmentDetailActivity.makeIntent(context,
+                data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY));
     }
 
 
@@ -675,7 +675,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 break;
             }
             case Status.A_FINISHED: {
-                Intent intent = FinishedOrderActivity.makeIntent(adapter.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
+                Intent intent = FinishedOrderActivity.makeIntent(adapter.getContext(), data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY);
                 adapter.getContext().startActivity(intent);
                 break;
             }
@@ -699,7 +699,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             }
             case Status.A_FINISHED: {
                 chat(adapter, vh);
-                Intent intent = HistoryDetailActivity.makeIntent(adapter.getContext(), data, ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
+                Intent intent = HistoryDetailActivity.makeIntent(adapter.getContext(), data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY);
                 adapter.getContext().startActivity(intent);
                 break;
             }

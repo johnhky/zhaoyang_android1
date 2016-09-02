@@ -4,9 +4,8 @@
 
     <data>
 
-        <variable
-            name="handler"
-            type="com.doctor.sun.entity.handler.QuestionHandler" />
+        <import type="com.doctor.sun.ui.activity.doctor.CustomDetailActivity" />
+
 
         <variable
             name="header"
@@ -118,7 +117,7 @@
             android:layout_height="@dimen/dp_30"
             android:background="#eff3f5"
             android:gravity="center"
-            android:onClick="@{handler.customQuestionDetail}"
+            android:onClick="@{()->CustomDetailActivity.startFrom(context)}"
             android:text="《自定义题目服务说明》"
             android:textColor="#339de1"
             android:textSize="@dimen/dp_13" />

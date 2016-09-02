@@ -40,7 +40,6 @@ import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.model.DiagnosisViewModel;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.ItemButton;
@@ -278,7 +277,7 @@ public class DiagnosisFragment extends BaseFragment {
                 super.handleApi(body);
                 if (body.getData() == null) {
                     if (canWritePrescription()) {
-                        loadPrescription(appointment.getId());
+//                        loadPrescription(appointment.getId());
                     }
                 }
             }
@@ -417,7 +416,8 @@ public class DiagnosisFragment extends BaseFragment {
             return "";
         }
     }
-//
+
+    //
 //    @Override
 //    public HeaderViewModel getHeader() {
 //        HeaderViewModel headerViewModel = new HeaderViewModel(null);

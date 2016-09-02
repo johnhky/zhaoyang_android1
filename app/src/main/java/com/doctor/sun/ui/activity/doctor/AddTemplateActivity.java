@@ -20,7 +20,6 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityAddTemplateBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.QTemplate;
-import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.handler.TemplateHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -42,6 +41,7 @@ import retrofit2.Response;
 /**
  * Created by lucas on 12/15/15.
  */
+@Deprecated
 public class AddTemplateActivity extends BaseFragmentActivity2 implements TemplateHandler.GetIsEditMode {
 
     private HeaderViewModel header = new HeaderViewModel(this);
@@ -320,10 +320,10 @@ public class AddTemplateActivity extends BaseFragmentActivity2 implements Templa
         ArrayList<String> questionId = new ArrayList<>();
         questionId.clear();
         for (Object object : mAdapter) {
-            Question question = (Question) object;
-            if (!question.getIsSelected()) {
-                questionId.add(String.valueOf(question.getId()));
-            }
+//            Question question = (Question) object;
+//            if (!question.getIsSelected()) {
+//                questionId.add(String.valueOf(question.getId()));
+//            }
         }
         if (questionId.isEmpty()) {
             questionId.add("");

@@ -3,11 +3,9 @@ package com.doctor.sun.module;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.doctor.sun.dto.AfterServiceDTO;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.AfterService;
-import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
@@ -88,13 +86,13 @@ public interface AfterServiceModule {
     @POST("follow-up/apply-auth")
     Call<ApiDTO<Void>> allow(@NonNull @Field("doctorId") int id, @Field("followUpAuth") int allow, @Field("recordId") int recordId);
 
-    @GET("follow-up/follow-up-question")
-    Call<ApiDTO<AfterServiceDTO>> questions(@NonNull @Query("follow_order_id") String id, @Query("user_type") String userType);
-
-    @FormUrlEncoded
-    @POST("follow-up/follow-up-question")
-    Call<ApiDTO<String>> saveAnswer(@NonNull @Field("follow_order_id") String id, @Field("answer") String answer, @Field("finished") int isFinished);
-
+//    @GET("follow-up/follow-up-question")
+//    Call<ApiDTO<AfterServiceDTO>> questions(@NonNull @Query("follow_order_id") String id, @Query("user_type") String userType);
+//
+//    @FormUrlEncoded
+//    @POST("follow-up/follow-up-question")
+//    Call<ApiDTO<String>> saveAnswer(@NonNull @Field("follow_order_id") String id, @Field("answer") String answer, @Field("finished") int isFinished);
+//
 
     //TODO:
 //    @GET("im/pContactList")
@@ -117,8 +115,8 @@ public interface AfterServiceModule {
     @GET("im/doctor-contact-list")
     Call<ApiDTO<List<Patient>>> patientList2();
 
-    @GET("follow-up/doctor-feedback")
-    Call<ApiDTO<List<Answer>>> feedback(@NonNull @Query("follow_order_id") String id);
+//    @GET("follow-up/doctor-feedback")
+//    Call<ApiDTO<List<Answer>>> feedback(@NonNull @Query("follow_order_id") String id);
 
     @FormUrlEncoded
     @POST("profile/updateMedicalRecord")

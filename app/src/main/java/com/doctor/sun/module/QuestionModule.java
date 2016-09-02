@@ -3,7 +3,6 @@ package com.doctor.sun.module;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.QuestionDTO;
-import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.QTemplate;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.QuestionCategory;
@@ -127,16 +126,16 @@ public interface QuestionModule {
     @GET("question/template/{template_id}")
     Call<ApiDTO<QTemplate>> getTemplate(@Path("template_id") String templateId);
 
-    /**
-     * 保存问卷需要重填的题目
-     *
-     * @param appointmentId
-     * @param need_refill
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("question/refill/{id}")
-    Call<ApiDTO<List<Answer>>> refill(@Path("id") String appointmentId, @Field("need_refill[]") ArrayList<String> need_refill);
+//    /**
+//     * 保存问卷需要重填的题目
+//     *
+//     * @param appointmentId
+//     * @param need_refill
+//     * @return
+//     */
+//    @FormUrlEncoded
+//    @POST("question/refill/{id}")
+//    Call<ApiDTO<List<>>> refill(@Path("id") String appointmentId, @Field("need_refill[]") ArrayList<String> need_refill);
 
     /**
      * 追加模板问题到问卷
@@ -146,18 +145,18 @@ public interface QuestionModule {
      * @return
      */
     @GET("question/append/{id}/template/{template_id}")
-    Call<ApiDTO<List<Answer>>> appendTemplate(@Path("id") String appointmentId, @Path("template_id") String template_id);
+    Call<ApiDTO<List<String>>> appendTemplate(@Path("id") String appointmentId, @Path("template_id") String template_id);
 
-    /**
-     * 追加问题到问卷
-     *
-     * @param appointmentId
-     * @param questionId
-     * @return
-     */
-    @GET("question/append/{id}/question/{questionId}")
-    Call<ApiDTO<List<Answer>>> appendQuestion(@Path("id") String appointmentId, @Path("questionId") String questionId);
-
+//    /**
+//     * 追加问题到问卷
+//     *
+//     * @param appointmentId
+//     * @param questionId
+//     * @return
+//     */
+//    @GET("question/append/{id}/question/{questionId}")
+//    Call<ApiDTO<List<Answer>>> appendQuestion(@Path("id") String appointmentId, @Path("questionId") String questionId);
+//
     /**
      * 追加量表到问卷
      *
@@ -166,7 +165,7 @@ public interface QuestionModule {
      * @return
      */
     @GET("question/append/{id}/scale/{questionId}")
-    Call<ApiDTO<List<Answer>>> appendScale(@Path("id") String appointmentId, @Path("questionId") String questionId);
+    Call<ApiDTO<List<String>>> appendScale(@Path("id") String appointmentId, @Path("questionId") String questionId);
 
 //    ### 删除问卷里单个问题
 //    ##### 接口地址:http://域名/question/append/{问卷ID}/delete/{问题ID}
@@ -175,9 +174,9 @@ public interface QuestionModule {
 //    http://zhaoyang.dev.ganguo.hk:8088/question/append/1/question/1
 //            ##### JSON返回示例:
 
-    @GET("question/append/{id}/delete/{questionId}")
-    Call<ApiDTO<List<Answer>>> deleteQuestion(@Path("id") int appointmentId, @Path("questionId") int questionId);
-
+//    @GET("question/append/{id}/delete/{questionId}")
+//    Call<ApiDTO<List<Answer>>> deleteQuestion(@Path("id") int appointmentId, @Path("questionId") int questionId);
+//
 
     @GET("question/scale/{id}")
     Call<ApiDTO<List<QuestionCategory>>> scaleCategory(@Path("id") String appointmentId);

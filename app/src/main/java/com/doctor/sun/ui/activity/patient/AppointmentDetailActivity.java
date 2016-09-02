@@ -16,6 +16,16 @@ import com.doctor.sun.ui.pager.AnswerPagerAdapter;
  */
 
 public class AppointmentDetailActivity extends TabActivity {
+    public static final int POSITION_ANSWER = 0;
+    public static final int POSITION_SUGGESTION = 1;
+    public static final int POSITION_SUGGESTION_READONLY = 2;
+
+    public static Intent makeIntent(Context context, Appointment data, int position) {
+        Intent i = intentFor(context, data);
+        i.putExtra(Constants.POSITION, position);
+        return i;
+    }
+
     @Override
     protected PagerAdapter createPagerAdapter() {
         Appointment parcelableExtra = getParcelableExtra(Constants.DATA);

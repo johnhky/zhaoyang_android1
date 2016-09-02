@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.doctor.sun.entity.Answer;
 import com.doctor.sun.entity.QTemplate;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -93,9 +92,9 @@ public class TemplateHandler {
                 public void onApplyClick(final MaterialDialog dialog) {
                     AssignQuestionAdapter.GetAppointmentId getAppointmentId = (AssignQuestionAdapter.GetAppointmentId) context;
                     String appointmentId = getAppointmentId.getAppointmentId();
-                    api.appendTemplate(appointmentId, String.valueOf(data.getId())).enqueue(new ApiCallback<List<Answer>>() {
+                    api.appendTemplate(appointmentId, String.valueOf(data.getId())).enqueue(new ApiCallback<List<String>>() {
                         @Override
-                        protected void handleResponse(List<Answer> response) {
+                        protected void handleResponse(List<String> response) {
                             selector.setSelected(true);
                             dialog.dismiss();
                         }

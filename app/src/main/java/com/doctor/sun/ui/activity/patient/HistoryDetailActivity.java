@@ -10,7 +10,6 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.ui.activity.TabActivity;
-import com.doctor.sun.ui.activity.doctor.ConsultingDetailActivity;
 import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.pager.HistoryDetailAdapter;
 import com.doctor.sun.util.ShowCaseUtil;
@@ -41,7 +40,7 @@ public class HistoryDetailActivity extends TabActivity {
 
     @Override
     public int getPosition() {
-        return getIntent().getIntExtra(Constants.POSITION, ConsultingDetailActivity.POSITION_ANSWER);
+        return getIntent().getIntExtra(Constants.POSITION, AppointmentDetailActivity.POSITION_ANSWER);
     }
 
 
@@ -58,7 +57,7 @@ public class HistoryDetailActivity extends TabActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getPosition() == ConsultingDetailActivity.POSITION_SUGGESTION_READONLY) {
+        if (getPosition() == AppointmentDetailActivity.POSITION_SUGGESTION_READONLY) {
             binding.vp.setCurrentItem(1);
         }
         showCase();

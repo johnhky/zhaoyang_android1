@@ -1,23 +1,14 @@
 package com.doctor.sun.ui.adapter;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.doctor.sun.BR;
-import com.doctor.sun.R;
-import com.doctor.sun.databinding.ItemOptions2Binding;
 import com.doctor.sun.databinding.ItemQuestionBinding;
-import com.doctor.sun.entity.Options;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.ui.activity.doctor.AddTemplateActivity;
-import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-
-import java.util.List;
 
 /**
  * Created by lucas on 12/16/15.
+ * TODO: 重新写补充问卷的逻辑
  */
+@Deprecated
 public class QuestionAdapter extends SimpleAdapter<Question, ItemQuestionBinding> {
     private boolean isEditMode;
 
@@ -33,29 +24,29 @@ public class QuestionAdapter extends SimpleAdapter<Question, ItemQuestionBinding
         super(addTemplateActivity);
     }
 
-    @Override
-    public void onBindViewBinding(BaseViewHolder vh, int position) {
-        vh.getBinding().setVariable(BR.position, String.valueOf(position + 1));
-        if (vh.getItemViewType() == R.layout.item_question) {
-            ItemQuestionBinding binding = (ItemQuestionBinding) vh.getBinding();
-            binding.llyOptions.removeAllViews();
-            Question question = (Question) get(vh.getAdapterPosition());
-            List<Options> optionsList = question.getOptions();
-            for (Options options : optionsList) {
-                ItemOptions2Binding optionsBinding = ItemOptions2Binding.inflate(LayoutInflater.from(getContext()), (ViewGroup) binding.getRoot(), false);
-                binding.llyOptions.addView(optionsBinding.getRoot());
-                if (!"{fill}".equals(options.getOptionContent())) {
-                    optionsBinding.tvOption.setText(options.getOptionType() + "." + options.getOptionContent());
-                } else {
-                    optionsBinding.tvOption.setText(options.getOptionType() + "." + "描述性回答");
-                }
-            }
-
-            if (isEditMode) {
-                binding.ivSelect.setVisibility(View.VISIBLE);
-            } else {
-                binding.ivSelect.setVisibility(View.GONE);
-            }
-        }
-    }
+//    @Override
+//    public void onBindViewBinding(BaseViewHolder vh, int position) {
+//        vh.getBinding().setVariable(BR.position, String.valueOf(position + 1));
+//        if (vh.getItemViewType() == R.layout.item_question) {
+//            ItemQuestionBinding binding = (ItemQuestionBinding) vh.getBinding();
+//            binding.llyOptions.removeAllViews();
+//            Question question = (Question) get(vh.getAdapterPosition());
+//            List<Options> optionsList = question.getOptions();
+//            for (Options options : optionsList) {
+//                ItemOptions2Binding optionsBinding = ItemOptions2Binding.inflate(LayoutInflater.from(getContext()), (ViewGroup) binding.getRoot(), false);
+//                binding.llyOptions.addView(optionsBinding.getRoot());
+//                if (!"{fill}".equals(options.getOptionContent())) {
+//                    optionsBinding.tvOption.setText(options.getOptionType() + "." + options.getOptionContent());
+//                } else {
+//                    optionsBinding.tvOption.setText(options.getOptionType() + "." + "描述性回答");
+//                }
+//            }
+//
+//            if (isEditMode) {
+//                binding.ivSelect.setVisibility(View.VISIBLE);
+//            } else {
+//                binding.ivSelect.setVisibility(View.GONE);
+//            }
+//        }
+//    }
 }

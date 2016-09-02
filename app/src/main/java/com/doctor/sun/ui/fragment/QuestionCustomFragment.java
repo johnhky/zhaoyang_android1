@@ -22,6 +22,7 @@ import java.util.HashSet;
 /**
  * Created by lucas on 12/24/15.
  */
+@Deprecated
 public class QuestionCustomFragment extends ApplyFragment {
     private static QuestionCustomFragment instance;
     private QuestionModule api = Api.of(QuestionModule.class);
@@ -47,10 +48,10 @@ public class QuestionCustomFragment extends ApplyFragment {
                 String templateName = oldData.getTemplateName();
                 customQuestionId.addAll(oldQuestionId);
                 for (Object object : getAdapter()) {
-                    Question question = (Question) object;
-                    if (question.getIsSelected()) {
-                        customQuestionId.add(String.valueOf(question.getId()));
-                    }
+//                    Question question = (Question) object;
+//                    if (question.getIsSelected()) {
+//                        customQuestionId.add(String.valueOf(question.getId()));
+//                    }
                 }
                 ArrayList<String> questionId = new ArrayList<String>(customQuestionId);
                 api.updateTemplate(String.valueOf(qTemplate.getId()), templateName, questionId).enqueue(new ApiCallback<QTemplate>() {

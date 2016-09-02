@@ -739,4 +739,5 @@ public class Appointment implements LayoutId, Parcelable {
         result = 31 * result + (yunxinAccid != null ? yunxinAccid.hashCode() : 0);
         return result;
     }
+
 }

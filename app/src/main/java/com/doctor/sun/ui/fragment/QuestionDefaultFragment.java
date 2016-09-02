@@ -65,10 +65,10 @@ public class QuestionDefaultFragment extends ApplyFragment {
                 String templateName = oldData.getTemplateName();
                 defaultQuestionId.addAll(oldQuestionId);
                 for (Object object : getAdapter()) {
-                    Question question = (Question) object;
-                    if (question.getIsSelected()) {
-                        defaultQuestionId.add(String.valueOf(question.getId()));
-                    }
+//                    Question question = (Question) object;
+//                    if (question.getIsSelected()) {
+//                        defaultQuestionId.add(String.valueOf(question.getId()));
+//                    }
                 }
                 ArrayList<String> questionId = new ArrayList<String>(defaultQuestionId);
                 api.updateTemplate(String.valueOf(qTemplate.getId()), templateName, questionId).enqueue(new ApiCallback<QTemplate>() {
