@@ -33,10 +33,6 @@ public class ConsultingActivity extends BaseFragmentActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_consultation);
-//        HeaderViewModel header = new HeaderViewModel(this);
-//        header.setMidTitle("就诊")
-//                .setRightTitle("通讯录");
-//        binding.setHeader(header);
         binding.setFooter(getFooter());
 
         initListener();

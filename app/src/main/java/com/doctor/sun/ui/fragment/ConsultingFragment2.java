@@ -7,11 +7,11 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
-import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.MedicineStore;
 import com.doctor.sun.entity.SystemMsg;
+import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -23,10 +23,8 @@ import com.doctor.sun.util.Try;
 import com.doctor.sun.vo.ItemConsulting;
 import com.doctor.sun.vo.ItemLoadMore;
 import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.msg.MsgService;
-import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
@@ -35,6 +33,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.ganguo.library.util.Tasks;
+import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by rick on 12/18/15.
@@ -42,13 +45,15 @@ import io.ganguo.library.util.Tasks;
 public class ConsultingFragment2 extends SortedListFragment {
     public static final String TAG = ConsultingFragment2.class.getSimpleName();
     private AppointmentModule api = Api.of(AppointmentModule.class);
-    private HashMap<String, Appointment> appointments = new HashMap<>();
-    private Observer<List<RecentContact>> observer;
     private ArrayList<String> keys = new ArrayList<>();
     private int page = 1;
     private HashMap<String, RecentContact> tids;
     private SystemMsg systemMsg;
     private MedicineStore medicineStore;
+
+    private String lastRefreshMsgId = "";
+    private RealmResults<TextMsg> unReadMsg;
+    private RealmChangeListener<RealmResults<TextMsg>> listener;
 
     public ConsultingFragment2() {
     }
@@ -59,7 +64,52 @@ public class ConsultingFragment2 extends SortedListFragment {
         super.onResume();
         getSystemMsg();
         getMedicineStore();
-        registerRecentContactObserver();
+        registerRealmChangeListener();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unRegisterRealChangedListener();
+    }
+
+    private void unRegisterRealChangedListener() {
+        if (unReadMsg != null) {
+            unReadMsg.removeChangeListeners();
+        }
+    }
+
+    private void registerRealmChangeListener() {
+        createRealmChangeListener();
+        if (unReadMsg != null) {
+            unReadMsg.addChangeListener(listener);
+        }
+    }
+
+    private void createRealmChangeListener() {
+        if (listener == null) {
+            listener = new RealmChangeListener<RealmResults<TextMsg>>() {
+                @Override
+                public void onChange(RealmResults<TextMsg> element) {
+                    boolean empty = element.isEmpty();
+                    boolean shouldRefresh = false;
+                    if (!empty) {
+                        TextMsg first = element.first();
+                        if (first.getMsgId().equals(lastRefreshMsgId)) return;
+
+                        shouldRefresh = TextMsgFactory.isRefreshMsg(first.getType());
+                        String s = first.getSessionId();
+                        ItemConsulting appointment = (ItemConsulting) getAdapter().get(s);
+                        lastRefreshMsgId = first.getMsgId();
+                        if (appointment != null && !shouldRefresh) {
+                            getAdapter().update(appointment);
+                        } else {
+                            pullAppointment(s,  tids.get(s));
+                        }
+                    }
+                }
+            };
+        }
     }
 
     public MedicineStore getMedicineStore() {
@@ -81,52 +131,12 @@ public class ConsultingFragment2 extends SortedListFragment {
         return systemMsg;
     }
 
-    private void registerRecentContactObserver() {
-        createRecentContactObserver();
-        NIMClient.getService(MsgServiceObserve.class).observeRecentContact(observer, true);
-    }
-
-    private Observer<List<RecentContact>> createRecentContactObserver() {
-        if (observer == null) {
-            observer = new Observer<List<RecentContact>>() {
-                @Override
-                public void onEvent(final List<RecentContact> recentContacts) {
-                    if (recentContacts == null) return;
-
-                    final HashMap<String, RecentContact> tids = getTids(recentContacts);
-                    Tasks.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            for (String s : tids.keySet()) {
-                                Appointment appointment = appointments.get(s);
-                                if (appointment != null) {
-                                    String type = appointment.getHandler().lastMsg().getType();
-                                    if (TextMsgFactory.isRefreshMsg(type)) {
-                                        pullAppointment(s, tids.get(s));
-                                    } else {
-                                        ItemConsulting itemConsulting = new ItemConsulting(tids.get(s), appointment);
-                                        getAdapter().update(itemConsulting);
-                                    }
-                                } else {
-                                    pullAppointment(s, tids.get(s));
-                                }
-                            }
-                        }
-                    }, 200);
-                }
-            };
-        }
-        return observer;
-    }
-
     public void pullAppointment(String s, final RecentContact recentContact) {
         api.appointmentInTid("[" + s + "]", "1").enqueue(new SimpleCallback<PageDTO<Appointment>>() {
             @Override
             protected void handleResponse(final PageDTO<Appointment> response) {
                 for (Appointment appointment : response.getData()) {
-                    String tid = String.valueOf(appointment.getTid());
                     ItemConsulting itemConsulting = new ItemConsulting(recentContact, appointment);
-                    appointments.put(tid, appointment);
                     getAdapter().insert(itemConsulting);
                 }
             }
@@ -138,12 +148,19 @@ public class ConsultingFragment2 extends SortedListFragment {
         super.onViewCreated(view, savedInstanceState);
 //        loadMore();
         insertHeader();
+        queryUnreadMsg();
         Tasks.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 onRefresh();
             }
         }, 100);
+    }
+
+    public void queryUnreadMsg() {
+        RealmQuery<TextMsg> query = Realm.getDefaultInstance().where(TextMsg.class)
+                .equalTo("haveRead", false);
+        unReadMsg = query.findAllSorted("time", Sort.DESCENDING);
     }
 
     public void insertHeader() {
@@ -218,7 +235,6 @@ public class ConsultingFragment2 extends SortedListFragment {
                 page += 1;
                 for (Appointment appointment : response.getData()) {
                     String tid = String.valueOf(appointment.getTid());
-                    appointments.put(tid, appointment);
                     ItemConsulting itemConsulting = new ItemConsulting(tids.get(tid), appointment);
                     getAdapter().insert(itemConsulting);
                 }
