@@ -1,4 +1,4 @@
-package com.doctor.sun.ui.activity;
+package com.doctor.sun.vo;
 
 import android.support.annotation.NonNull;
 import android.util.SparseArray;
@@ -12,7 +12,6 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
-import com.doctor.sun.vo.BaseItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;

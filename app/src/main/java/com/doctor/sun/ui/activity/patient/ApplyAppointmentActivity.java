@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityApplyAppointmentBinding;
 import com.doctor.sun.entity.AppointmentBuilder;
-import com.doctor.sun.entity.Time;
-import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 
@@ -38,6 +35,7 @@ public class ApplyAppointmentActivity extends BaseFragmentActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         data = getData();
+        data.init();
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_apply_appointment);
         binding.setData(data);
 

@@ -21,7 +21,7 @@
 //import com.doctor.sun.entity.Question;
 //import com.doctor.sun.entity.constans.AppointmentType;
 //import com.doctor.sun.ui.activity.ImagePreviewActivity;
-//import com.doctor.sun.ui.activity.ItemPickHospital;
+//import com.doctor.sun.vo.ItemPickHospital;
 //import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 //import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 //import com.doctor.sun.ui.widget.FlowLayout;

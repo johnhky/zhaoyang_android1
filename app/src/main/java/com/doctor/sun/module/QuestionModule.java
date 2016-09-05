@@ -9,6 +9,7 @@ import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.QuestionCategory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -203,5 +204,9 @@ public interface QuestionModule {
 
     @GET("smartTemplate")
     Call<ApiDTO<List<QTemplate2>>> templates2();
+
+    @GET("smartSupplement")
+    Call<ApiDTO<List<HashMap<String, String>>>> templateType();
+
 
 }

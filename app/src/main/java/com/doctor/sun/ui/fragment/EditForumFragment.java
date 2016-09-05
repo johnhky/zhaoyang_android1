@@ -30,7 +30,7 @@
 //import com.doctor.sun.http.callback.SimpleCallback;
 //import com.doctor.sun.module.AfterServiceModule;
 //import com.doctor.sun.module.ToolModule;
-//import com.doctor.sun.ui.activity.ItemPickHospital;
+//import com.doctor.sun.vo.ItemPickHospital;
 //import com.doctor.sun.ui.adapter.AnswerModifyAdapter;
 //import com.doctor.sun.ui.adapter.SimpleAdapter;
 //import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;

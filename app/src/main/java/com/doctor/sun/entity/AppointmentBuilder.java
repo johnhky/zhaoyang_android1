@@ -42,9 +42,9 @@ import java.util.Locale;
 public class AppointmentBuilder extends BaseObservable implements Parcelable {
     private static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm:ss";
 
-    private ProfileModule api = Api.of(ProfileModule.class);
-    private AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
-    private ToolModule toolModule = Api.of(ToolModule.class);
+    private ProfileModule api;
+    private AppointmentModule appointmentModule;
+    private ToolModule toolModule;
 
     private int type = AppointmentType.PREMIUM;
     private int duration = 15;
@@ -56,6 +56,22 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     private MedicalRecord record;
     private List<Coupon> coupons;
     private Integer[] selectTags;
+
+    public AppointmentBuilder() {
+        init();
+    }
+
+    public void init() {
+        api = Api.of(ProfileModule.class);
+        appointmentModule = Api.of(AppointmentModule.class);
+        toolModule = Api.of(ToolModule.class);
+    }
+
+    public AppointmentBuilder(ProfileModule api, AppointmentModule appointmentModule, ToolModule toolModule) {
+        this.api = api;
+        this.appointmentModule = appointmentModule;
+        this.toolModule = toolModule;
+    }
 
     public void setIsPremium(boolean isPremium) {
         if (isPremium) {
@@ -297,24 +313,12 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     }
 
     public void applyAppointment(final Context context, final boolean isUseWechat) {
-        int doctorId = getDoctor().getId();
-        int type = getType();
-        String couponId = "";
-        if (isUseCoupon()) {
-            couponId = getCouponId();
-        }
-        final String finalCouponId = couponId;
-        HashMap<String, String> params = new HashMap<String, String>();
-        if (type == AppointmentType.PREMIUM) {
-            params.put("takeTime", String.valueOf(getDuration()));
-        }
+        final String finalCouponId = getFinalCouponId();
 
-
-        final String medicalRecordId = String.valueOf(getRecord().getMedicalRecordId());
-        //noinspection WrongConstant
-        appointmentModule.orderAppointment(doctorId, getTimestamp(), type, medicalRecordId, couponId, getSelectedTagIds(), params).enqueue(new ApiCallback<Appointment>() {
+        ApiCallback<Appointment> callback = new ApiCallback<Appointment>() {
             @Override
             protected void handleResponse(Appointment response) {
+                final String medicalRecordId = String.valueOf(getRecord().getMedicalRecordId());
                 response.setRecordId(Integer.parseInt(medicalRecordId));
                 AppointmentHandler handler = new AppointmentHandler(response);
 
@@ -324,9 +328,36 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
                     handler.payWithAlipay((Activity) context, finalCouponId);
                 }
             }
-        });
+        };
+
+        applyAppointment(callback);
+    }
+
+    public String getFinalCouponId() {
+        String couponId = "";
+        if (isUseCoupon()) {
+            couponId = getCouponId();
+        }
+        return couponId;
+    }
+
+    public void applyAppointment(ApiCallback<Appointment> callback) {
+        int doctorId = getDoctor().getId();
+        int type = getType();
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        if (type == AppointmentType.PREMIUM) {
+            params.put("takeTime", String.valueOf(getDuration()));
+        }
+
+        final String medicalRecordId = String.valueOf(getRecord().getMedicalRecordId());
+
+        //noinspection WrongConstant
+
+        appointmentModule.orderAppointment(doctorId, getTimestamp(), type, medicalRecordId, getFinalCouponId(), getSelectedTagIds(), params).enqueue(callback);
 
     }
+
 
     public ArrayList<String> getSelectedTagIds() {
         ArrayList<String> result = new ArrayList<>();
@@ -394,8 +425,6 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         return String.format("预约类型:%s", getTypeLabel());
     }
 
-    public AppointmentBuilder() {
-    }
 
     @Override
     public int describeContents() {
