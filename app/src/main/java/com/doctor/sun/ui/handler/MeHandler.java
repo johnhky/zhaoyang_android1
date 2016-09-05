@@ -8,11 +8,11 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.ui.activity.doctor.FeeActivity;
 import com.doctor.sun.ui.activity.doctor.RecordPoolActivity;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
-import com.doctor.sun.ui.activity.doctor.TemplateActivity;
 import com.doctor.sun.ui.activity.doctor.TimeActivity;
 import com.doctor.sun.ui.activity.doctor.ViewFeedbackActivity;
 import com.doctor.sun.ui.activity.patient.MyQrCodeActivity;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
+import com.doctor.sun.ui.fragment.QTemplatesFragment;
 
 /**
  * Created by lucas on 12/4/15.
@@ -45,8 +45,9 @@ public class MeHandler {
     }
 
     public void Template(View view) {
-        Intent intent = TemplateActivity.makeIntent(view.getContext());
-        view.getContext().startActivity(intent);
+//        Intent intent = TemplateActivity.makeIntent(view.getContext());
+//        view.getContext().startActivity(intent);
+        QTemplatesFragment.startFrom(view.getContext());
     }
 
     public void Setting(View view) {

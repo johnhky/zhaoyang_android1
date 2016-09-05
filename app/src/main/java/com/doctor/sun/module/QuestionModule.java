@@ -4,6 +4,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.QuestionDTO;
 import com.doctor.sun.entity.QTemplate;
+import com.doctor.sun.entity.QTemplate2;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.QuestionCategory;
 
@@ -157,6 +158,7 @@ public interface QuestionModule {
 //    @GET("question/append/{id}/question/{questionId}")
 //    Call<ApiDTO<List<Answer>>> appendQuestion(@Path("id") String appointmentId, @Path("questionId") String questionId);
 //
+
     /**
      * 追加量表到问卷
      *
@@ -197,5 +199,9 @@ public interface QuestionModule {
     @FormUrlEncoded
     @PUT("{type}/{id}")
     Call<ApiDTO<String>> refill2(@Path("type") String type, @Path("id") String appointmentId, @Field("refill_questions[]") ArrayList<String> need_refill);
+
+
+    @GET("smartTemplate")
+    Call<ApiDTO<List<QTemplate2>>> templates2();
 
 }

@@ -75,7 +75,7 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
         return binding.getRoot();
     }
 
-    private void showEmptyIndicator() {
+    protected void showEmptyIndicator() {
         if (mAdapter != null && !mAdapter.isEmpty()) {
             binding.emptyIndicator.setText(getEmptyIndicatorText());
             binding.emptyIndicator.setVisibility(View.GONE);

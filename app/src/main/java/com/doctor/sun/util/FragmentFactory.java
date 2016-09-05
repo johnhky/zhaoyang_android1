@@ -6,6 +6,7 @@ import com.doctor.sun.ui.fragment.AllowToSearchFragment;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.ChangeMyPhoneNumFragment;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
+import com.doctor.sun.ui.fragment.QTemplatesFragment;
 import com.doctor.sun.ui.fragment.ReadQuestionFragment;
 import com.doctor.sun.ui.fragment.RegisterFragment;
 import com.doctor.sun.ui.fragment.ResetPswFragment;
@@ -84,6 +85,12 @@ public class FragmentFactory {
             @Override
             public Fragment execute() {
                 return new ReadQuestionFragment();
+            }
+        });
+        map.put(QTemplatesFragment.TAG, new FactoryCommand() {
+            @Override
+            public Fragment execute() {
+                return new QTemplatesFragment();
             }
         });
     }
