@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
@@ -210,7 +209,6 @@ public class DoctorHandler {
         api.acceptBuildRelation(id).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
-                ops.removeItem(data);
             }
         });
 
@@ -226,7 +224,7 @@ public class DoctorHandler {
         };
     }
 
-    public void allowAfterService(Context context,Doctor doctor) {
+    public void allowAfterService(Context context, Doctor doctor) {
         Intent intent = AllowAfterServiceActivity.intentFor(context, doctor);
         context.startActivity(intent);
     }

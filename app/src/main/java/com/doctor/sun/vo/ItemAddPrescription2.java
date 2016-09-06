@@ -36,7 +36,7 @@ public class ItemAddPrescription2 extends BaseItem {
             @Override
             public boolean handleMessage(Message msg) {
                 if (opCount == -1) {
-                    opCount = inBetweenItemCount(adapter);
+                    opCount = inBetweenItemCount(adapter) + 1;
                     itemSize = opCount;
                 }
                 switch (msg.what) {
@@ -44,13 +44,7 @@ public class ItemAddPrescription2 extends BaseItem {
                         Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
                         if (parcelable == null) return false;
 
-                        parcelable.position = getPosition() - QuestionsModel.PADDING + 2 + opCount;
-                        parcelable.itemId = UUID.randomUUID().toString();
-                        registerItemChangedListener(parcelable);
-                        adapter.insert(parcelable);
-                        notifyChange();
-                        opCount += 1;
-                        itemSize += 1;
+                        addPrescription(parcelable, adapter);
                     }
                 }
                 return false;
@@ -58,6 +52,21 @@ public class ItemAddPrescription2 extends BaseItem {
         }));
         intent.putExtra(Constants.HANDLER, messenger);
         context.startActivity(intent);
+    }
+
+    public void addPrescription(Prescription parcelable, SortedListAdapter adapter) {
+        if (opCount == -1) {
+            opCount = inBetweenItemCount(adapter) + 1;
+            itemSize = opCount;
+        }
+
+        parcelable.position = getPosition() - QuestionsModel.PADDING + 2 + opCount;
+        parcelable.itemId = UUID.randomUUID().toString();
+        registerItemChangedListener(parcelable);
+        adapter.insert(parcelable);
+        notifyChange();
+        opCount += 1;
+        itemSize += 1;
     }
 
     public void registerItemChangedListener(Prescription parcelable) {

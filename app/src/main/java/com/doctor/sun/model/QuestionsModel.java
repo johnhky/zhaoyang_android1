@@ -18,7 +18,6 @@ import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
-import com.doctor.sun.vo.ItemPickHospital;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.Function0;
@@ -28,6 +27,7 @@ import com.doctor.sun.vo.FurtherConsultationVM;
 import com.doctor.sun.vo.ItemAddPrescription2;
 import com.doctor.sun.vo.ItemAddReminder;
 import com.doctor.sun.vo.ItemPickDate;
+import com.doctor.sun.vo.ItemPickHospital;
 import com.doctor.sun.vo.ItemPickImages;
 import com.doctor.sun.vo.ItemPickTime;
 import com.doctor.sun.vo.ItemTextInput;
@@ -357,6 +357,22 @@ public class QuestionsModel {
             questions2.answerCount = arrayContent.size();
         }
 
+        int size = 0;
+        List<Options2> option = questions2.option;
+        if (option != null && !option.isEmpty()) {
+            size = option.size();
+            for (int j = 0; j < size; j++) {
+                Options2 options2 = option.get(j);
+
+                options2.questionId = questions2.oldQuestionId;
+                options2.questionType = questions2.questionType;
+                options2.questionContent = questions2.questionContent;
+
+                options2.setPosition(getSlop(i, size - j + 2));
+                items.add(options2);
+            }
+        }
+
         itemAddPrescription.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -364,7 +380,7 @@ public class QuestionsModel {
                 questions2.notifyChange();
             }
         });
-        itemAddPrescription.setPosition(getSlop(i, 2));
+        itemAddPrescription.setPosition(getSlop(i, size + 2));
         itemAddPrescription.setItemId(questions2.oldQuestionId + QuestionType.drug);
         items.add(itemAddPrescription);
     }

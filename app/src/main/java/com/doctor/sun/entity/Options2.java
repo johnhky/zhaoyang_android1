@@ -7,11 +7,15 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.adapter.core.AdapterOps;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.NumericBooleanDeserializer;
 import com.doctor.sun.util.NumericBooleanSerializer;
 import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vo.ItemAddPrescription2;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -85,6 +89,8 @@ public class Options2 extends BaseItem {
     @Override
     public int getLayoutId() {
         switch (questionType) {
+            case QuestionType.drug:
+                return R.layout.item_load_prescription;
             case QuestionType.sel:
                 return R.layout.new_item_options_dialog;
             case QuestionType.rectangle:
@@ -247,6 +253,22 @@ public class Options2 extends BaseItem {
             return Math.min(12, Math.max(2, i));
         }
         return super.getSpan();
+    }
+
+    public void loadPrescriptions(final SortedListAdapter adapter) {
+        ToolModule toolModule = Api.of(ToolModule.class);
+        toolModule.listOfItems(optionContent).enqueue(new SimpleCallback<List<HashMap<String, String>>>() {
+            @Override
+            protected void handleResponse(List<HashMap<String, String>> response) {
+                ItemAddPrescription2 item = (ItemAddPrescription2) adapter.get(questionId + QuestionType.drug);
+                for (HashMap<String, String> stringStringHashMap : response) {
+                    Prescription prescription = new Prescription();
+                    prescription.fromHashMap(stringStringHashMap);
+                    item.addPrescription(prescription, adapter);
+                }
+            }
+        });
+
     }
 
 

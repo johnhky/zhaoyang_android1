@@ -78,21 +78,5 @@
             android:textSize="@dimen/font_15"
             tools:ignore="RtlSymmetry" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_2"
-            android:background="@drawable/ripple_default"
-            android:drawableLeft="@drawable/ic_load_prescription"
-            android:drawablePadding="@dimen/dp_10"
-            android:drawableStart="@drawable/ic_load_prescription"
-            android:enabled="@{data.isEnabled()}"
-            android:paddingLeft="@dimen/dp_10"
-            android:paddingStart="@dimen/dp_10"
-            android:text="导入医生上次用药"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/font_15"
-            tools:ignore="RtlSymmetry" />
-
     </LinearLayout>
 </layout>

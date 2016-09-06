@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Options2" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
+
+    </data>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_2"
+        android:layout_marginEnd="@dimen/dp_13"
+        android:layout_marginLeft="@dimen/dp_13"
+        android:layout_marginRight="@dimen/dp_13"
+        android:layout_marginStart="@dimen/dp_13"
+        android:background="@drawable/ripple_default"
+        android:drawableLeft="@drawable/ic_load_prescription"
+        android:drawablePadding="@dimen/dp_10"
+        android:drawableStart="@drawable/ic_load_prescription"
+        android:enabled="@{data.isEnabled()}"
+        android:onClick="@{()->data.loadPrescriptions(adapter)}"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingStart="@dimen/dp_10"
+        android:text="@{data.optionType}"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/font_15"
+        tools:ignore="RtlSymmetry" />
+</layout>

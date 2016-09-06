@@ -2,7 +2,6 @@ package com.doctor.sun.entity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.BaseObservable;
 import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
@@ -20,16 +19,10 @@ import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.activity.patient.handler.SystemMsgHandler;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
-import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.HashMap;
-
 import io.ganguo.library.Config;
-import io.ganguo.library.core.event.Event;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
@@ -212,7 +205,8 @@ public class SystemMsg extends BaseItem {
     }
 
     public static String getConfigKey() {
-        return "SYSTEM_MSG" + Config.getString(Constants.VOIP_ACCOUNT);
+        String string = Config.getString(Constants.VOIP_ACCOUNT, "");
+        return "SYSTEM_MSG" + string;
     }
 
     public long getUnreadMsgCount() {
@@ -256,7 +250,7 @@ public class SystemMsg extends BaseItem {
 
     @NonNull
     public static RealmQuery<TextMsg> getAllMsg(Realm realm) {
-        return realm.where(TextMsg.class).equalTo("sessionId", getConfigKey());
+        return realm.where(TextMsg.class).equalTo("sessionId", getConfigKey()).or().equalTo("sessionId", "SYSTEM_MSG");
     }
 
 
