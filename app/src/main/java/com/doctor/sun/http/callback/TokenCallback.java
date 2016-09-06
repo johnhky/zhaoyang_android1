@@ -104,6 +104,8 @@ public class TokenCallback {
                     context.startActivity(i);
                     context.finish();
                 } else switch (data.getStatus()) {
+                    case Doctor.STATUS_REJECT:
+                    case Doctor.STATUS_PENDING:
                     case Doctor.STATUS_PASS: {
 //                        Log.e(TAG, "firstTime: " + Config.getInt(Constants.PASSFIRSTTIME, -1));
                         Config.putInt(Constants.USER_TYPE, AuthModule.DOCTOR_PASSED);
@@ -112,20 +114,23 @@ public class TokenCallback {
                         context.finish();
                         break;
                     }
-                    case Doctor.STATUS_PENDING: {
-                        Intent i = ReviewResultActivity.makeIntent(context, data);
-                        Config.putInt(Constants.PASSFIRSTTIME, ISFIRSTTIME);
-                        context.startActivity(i);
-                        context.finish();
-                        break;
-                    }
-                    case Doctor.STATUS_REJECT: {
-                        Intent i = ReviewResultActivity.makeIntent(context, data);
-                        Config.putInt(Constants.PASSFIRSTTIME, ISFIRSTTIME);
-                        context.startActivity(i);
-                        context.finish();
-                        break;
-                    }
+                    /*
+                     1.3版本修改设计,改成在医生主页弹窗提示修改资料的状态
+                     */
+//                    case Doctor.STATUS_PENDING: {
+//                        Intent i = ReviewResultActivity.makeIntent(context, data);
+//                        Config.putInt(Constants.PASSFIRSTTIME, IS_FIRST_TIME);
+//                        context.startActivity(i);
+//                        context.finish();
+//                        break;
+//                    }
+//                    case Doctor.STATUS_REJECT: {
+//                        Intent i = ReviewResultActivity.makeIntent(context, data);
+//                        Config.putInt(Constants.PASSFIRSTTIME, IS_FIRST_TIME);
+//                        context.startActivity(i);
+//                        context.finish();
+//                        break;
+//                    }
                     default: {
                         Intent me = MeActivity.makeIntent(context);
                         context.startActivity(me);

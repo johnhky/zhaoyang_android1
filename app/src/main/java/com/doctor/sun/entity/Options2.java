@@ -104,6 +104,26 @@ public class Options2 extends BaseItem {
     }
 
     @Override
+    public int getSpan() {
+        if (questionType.equals(QuestionType.rectangle)) {
+            if (!Strings.isNullOrEmpty(optionInputHint)) {
+                return 12;
+            }
+
+            if (Strings.isNullOrEmpty(optionContent)) {
+                return 0;
+            }
+            int i = optionContent.length();
+            if (i < 6) {
+                i = i - 1;
+            }
+
+            return Math.min(12, Math.max(2, i));
+        }
+        return super.getSpan();
+    }
+
+    @Override
     public String getKey() {
         return optionRuleId;
     }
@@ -184,6 +204,11 @@ public class Options2 extends BaseItem {
         }
     }
 
+    /**
+     * 根据 选择状态 和 refill 类型 清除其它选项
+     *
+     * @param adapter
+     */
     public void clear(SortedListAdapter adapter) {
         notifyChange();
         if (!getSelected()) {
@@ -213,6 +238,12 @@ public class Options2 extends BaseItem {
         return otherOptions.clearRule != clearRule;
     }
 
+    /**
+     * 单选题点击事件
+     *
+     * @param context
+     * @param adapter
+     */
     public void showDialog(Context context, final AdapterOps adapter) {
         if (childOptions == null || childOptions.isEmpty()) {
             return;
@@ -235,26 +266,12 @@ public class Options2 extends BaseItem {
                 .show();
     }
 
-    @Override
-    public int getSpan() {
-        if (questionType.equals(QuestionType.rectangle)) {
-            if (!Strings.isNullOrEmpty(optionInputHint)) {
-                return 12;
-            }
 
-            if (Strings.isNullOrEmpty(optionContent)) {
-                return 0;
-            }
-            int i = optionContent.length();
-            if (i < 6) {
-                i = i - 1;
-            }
-
-            return Math.min(12, Math.max(2, i));
-        }
-        return super.getSpan();
-    }
-
+    /**
+     * 加载用药(只有drug类型的问题,才回用到)
+     *
+     * @param adapter
+     */
     public void loadPrescriptions(final SortedListAdapter adapter) {
         ToolModule toolModule = Api.of(ToolModule.class);
         toolModule.listOfItems(optionContent).enqueue(new SimpleCallback<List<HashMap<String, String>>>() {
@@ -272,6 +289,11 @@ public class Options2 extends BaseItem {
     }
 
 
+    /**
+     * 输入框要输入的内容的类型
+     *
+     * @return
+     */
     public int inputType() {
         switch (optionInputType) {
             case 0:

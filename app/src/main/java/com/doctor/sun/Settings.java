@@ -126,4 +126,17 @@ public class Settings {
         }
         Config.putString(Constants.PATIENT_PROFILE, value);
     }
+
+
+    /**
+     * 医生信息审核状态弹窗 上一次显示弹窗时候的状态
+     */
+    public static String lastDoctorStatus() {
+        return Config.getString(Constants.LAST_DOCTOR_STATUS, Doctor.STATUS_PASS);
+    }
+
+    public static void setLastDoctorStatus(String status) {
+        Config.putString(Constants.LAST_DOCTOR_STATUS, status);
+    }
+
 }

@@ -3,26 +3,31 @@ package com.doctor.sun.ui.activity.doctor;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityMainBinding;
+import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.DoctorIndex;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.handler.MainActivityHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
-import com.doctor.sun.ui.widget.PassDialog;
+import com.doctor.sun.ui.widget.BindingDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
+import com.doctor.sun.vo.ClickMenu;
 import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.Config;
@@ -35,8 +40,8 @@ import io.realm.RealmResults;
  */
 public class MainActivity extends BaseDoctorActivity {
 
-    public static final int NOTFIRSTTIME = 2;
-    public static final int ISFIRSTTIME = 1;
+    public static final int IS_FIRST_TIME = 1;
+    public static final int NOT_FIRST_TIME = 2;
     public static final String DOCTOR_INDEX = "DOCTOR_INDEX";
     private ProfileModule api = Api.of(ProfileModule.class);
     private ActivityMainBinding binding;
@@ -54,10 +59,7 @@ public class MainActivity extends BaseDoctorActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setFooter(getFooter());
         binding.setHandler(new MainActivityHandler(this));
-        if (Config.getInt(Constants.USER_TYPE, -1) == AuthModule.DOCTOR_PASSED && Config.getInt(Constants.PASSFIRSTTIME, -1) == ISFIRSTTIME) {
-            new PassDialog(this).show();
-            Config.putInt(Constants.PASSFIRSTTIME, NOTFIRSTTIME);
-        }
+        showStatusDialog();
         String string = Config.getString(DOCTOR_INDEX);
         if (string != null && !string.equals("")) {
             setDoctorIndex(JacksonUtils.fromJson(string, DoctorIndex.class));
@@ -70,6 +72,55 @@ public class MainActivity extends BaseDoctorActivity {
             }
         });
         binding.setCount(unReadMsg.size());
+    }
+
+    /**
+     * 弹出医生修改资料审核状态的弹窗
+     */
+    public void showStatusDialog() {
+//        boolean isFirstTime = Config.getInt(Constants.PASSFIRSTTIME, -1) == IS_FIRST_TIME;
+//        if (isFirstTime) {
+        final Doctor doctorProfile = Settings.getDoctorProfile();
+        if (doctorProfile == null) {
+            return;
+        }
+        if (Settings.lastDoctorStatus().equals(doctorProfile.getStatus())) {
+            return;
+        }
+        switch (doctorProfile.getStatus()) {
+            case Doctor.STATUS_REJECT: {
+                ClickMenu menu = new ClickMenu(R.layout.dialog_pass, 0, "审核未能通过", null);
+                menu.setSubTitle("您可以修改信息并再次发起审核请求");
+                BindingDialog.newBuilder(this, menu)
+                        .negativeColor(Color.GRAY)
+                        .negativeText("暂时不用")
+                        .positiveText("马上修改")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                Intent i = EditDoctorInfoActivity.makeIntent(MainActivity.this, doctorProfile);
+                                startActivity(i);
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+                break;
+            }
+            case Doctor.STATUS_PENDING: {
+                ClickMenu menu = new ClickMenu(R.layout.dialog_pass, 0, "审核中", null);
+                menu.setSubTitle("您的信息正在审核中，请耐心等待...");
+                BindingDialog.newBuilder(this, menu)
+                        .show();
+                break;
+            }
+            case Doctor.STATUS_PASS: {
+                ClickMenu menu = new ClickMenu(R.layout.dialog_pass, 0, "审核通过", null);
+                menu.setSubTitle("欢迎加入昭阳医生");
+                BindingDialog.newBuilder(this, menu).show();
+                break;
+            }
+        }
+        Settings.setLastDoctorStatus(doctorProfile.getStatus());
     }
 
     private FooterViewModel getFooter() {
