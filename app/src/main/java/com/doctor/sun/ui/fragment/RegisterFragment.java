@@ -60,12 +60,14 @@ public class RegisterFragment extends SortedListFragment {
     }
 
     public static Intent intentFor(Context context) {
-        Intent i = new Intent(context, SingleFragmentActivity.class);
-        i.putExtra(Constants.FRAGMENT_NAME, TAG);
-        i.putExtra(Constants.FRAGMENT_TITLE, "注册");
-        return i;
+       return SingleFragmentActivity.intentFor(context,"注册",getArgs());
     }
 
+    public static Bundle getArgs() {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.FRAGMENT_NAME, TAG);
+        return bundle;
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -93,7 +95,7 @@ public class RegisterFragment extends SortedListFragment {
 
         final String doctorRemarks = "*注册为医生";
         final String patientRemarks = "*注册为患者";
-        final ItemTextInput2 imgPs = new ItemTextInput2(R.layout.item_r_text_input, doctorRemarks, "");
+        final ItemTextInput2 imgPs = new ItemTextInput2(R.layout.item_r_orange_text, doctorRemarks, "");
         imgPs.setTitleGravity(Gravity.START);
         imgPs.setItemId(UUID.randomUUID().toString());
         imgPs.setPosition(sortedItems.size());

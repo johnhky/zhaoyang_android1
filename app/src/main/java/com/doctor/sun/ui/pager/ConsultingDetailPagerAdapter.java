@@ -12,7 +12,7 @@ import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
-import com.doctor.sun.ui.fragment.ReadQuestionFragment;
+import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 
 import io.ganguo.library.Config;
 
@@ -48,7 +48,7 @@ public class ConsultingDetailPagerAdapter extends FragmentPagerAdapter {
             switch (position) {
                 case 0: {
                     //填写问卷 只读
-                    return ReadQuestionFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL,true);
+                    return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL,true);
                 }
                 case 1: {
 //                appointment.setId(325);

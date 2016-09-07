@@ -215,7 +215,7 @@ public class FurtherConsultationVM extends BaseItem {
 
     @Override
     public String getKey() {
-        return questions2.oldQuestionId;
+        return questions2.questionId;
     }
 
     @Override

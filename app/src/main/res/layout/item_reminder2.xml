@@ -36,6 +36,7 @@
                 android:layout_height="@dimen/dp_100"
                 android:layout_gravity="end"
                 android:background="@drawable/shape_top_right_triangle"
+                android:enabled="@{data.isEnabled()}"
                 android:onClick="@{()->data.removeThis(adapter)}" />
 
             <ImageView
@@ -52,8 +53,8 @@
                 android:layout_height="@dimen/dp_30"
                 android:layout_gravity="center"
                 android:background="@drawable/shape_blue_rect"
-                android:gravity="center"
                 android:enabled="@{data.isEnabled()}"
+                android:gravity="center"
                 android:text='@{"其它提醒 "+ (data.subPosition+1)}'
                 android:textColor="@color/white" />
 
@@ -95,10 +96,10 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_grey_rect"
                     android:drawableRight="@drawable/ic_enter"
+                    android:enabled="@{data.isEnabled()}"
                     android:gravity="start|center_vertical"
                     android:minHeight="@dimen/dp_45"
                     android:paddingLeft="@dimen/dp_13"
-                    android:enabled="@{data.isEnabled()}"
                     android:paddingRight="@dimen/dp_13"
                     android:text="@{data.date}"
                     android:textColor="@color/color_tick"
@@ -138,8 +139,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_grey_rect"
-                    android:gravity="start|center_vertical"
                     android:enabled="@{data.isEnabled()}"
+                    android:gravity="start|center_vertical"
                     android:imeOptions="actionDone"
                     android:minHeight="@dimen/dp_45"
                     android:paddingLeft="@dimen/dp_13"

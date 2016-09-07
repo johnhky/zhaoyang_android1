@@ -49,7 +49,7 @@ public class CreateRecordActivity extends GetLocationActivity implements View.On
     public static final String CITY = "city";
     public static final String ADDRESS = "address";
     public static final String IDENTITY_NUMBER = "identityNumber";
-    public static final String BIRTHDAY = "birthday";
+    public static final String BIRTHDAY = "age";
     public static final String GENDER = "gender";
     public static final String FIRST_TIME = "FIRST_TIME";
 

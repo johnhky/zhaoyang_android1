@@ -7,6 +7,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
  * Created by rick on 11/24/15.
  * 问题
  */
+@Deprecated
 public class Question implements LayoutId {
     @Override
     public int getItemLayoutId() {

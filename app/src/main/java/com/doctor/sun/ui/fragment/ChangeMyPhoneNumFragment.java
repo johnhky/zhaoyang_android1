@@ -41,9 +41,16 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
 
     public static Intent intentFor(Context context) {
         Intent i = new Intent(context, SingleFragmentActivity.class);
-        i.putExtra(Constants.FRAGMENT_NAME, TAG);
         i.putExtra(Constants.FRAGMENT_TITLE, "更改手机号码");
+        i.putExtra(Constants.FRAGMENT_CONTENT_BUNDLE, getArgs());
         return i;
+    }
+
+
+    public static Bundle getArgs() {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.FRAGMENT_NAME, TAG);
+        return bundle;
     }
 
 

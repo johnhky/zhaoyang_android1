@@ -55,7 +55,7 @@ public class Options2 extends BaseItem {
     @JsonProperty("clear_rule")
     public int clearRule;
     @JsonProperty("option_answer_id")
-    public String optionId;
+    public String optionAnswerId;
     @JsonProperty("option_rule_id")
     public String optionRuleId;
     @JsonProperty("option_type")
@@ -92,14 +92,14 @@ public class Options2 extends BaseItem {
             case QuestionType.drug:
                 return R.layout.item_load_prescription;
             case QuestionType.sel:
-                return R.layout.new_item_options_dialog;
+                return R.layout.item_options_dialog;
             case QuestionType.rectangle:
                 if (!Strings.isNullOrEmpty(optionInputHint)) {
-                    return R.layout.new_item_options_rect_input;
+                    return R.layout.item_options_rect_input;
                 }
-                return R.layout.new_item_options_rect;
+                return R.layout.item_options_rect;
             default:
-                return R.layout.new_item_options;
+                return R.layout.item_options;
         }
     }
 
@@ -125,16 +125,24 @@ public class Options2 extends BaseItem {
 
     @Override
     public String getKey() {
-        return optionRuleId;
+        if (Strings.isNullOrEmpty(optionRuleId)) {
+            if (Strings.isNullOrEmpty(optionAnswerId)) {
+                return String.valueOf(getPosition());
+            } else {
+                return optionAnswerId;
+            }
+        } else {
+            return optionRuleId;
+        }
     }
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         if (selected) {
-            if (getLayoutId() == R.layout.new_item_options_dialog) {
+            if (getLayoutId() == R.layout.item_options_dialog) {
                 if (selectedIndex > 0) {
                     HashMap<String, Object> result = new HashMap<>();
-                    result.put("option_id", optionId);
+                    result.put("option_id", optionAnswerId);
                     result.put("reply_content", selectedIndex);
                     return result;
                 } else {
@@ -142,7 +150,7 @@ public class Options2 extends BaseItem {
                 }
             } else {
                 HashMap<String, Object> result = new HashMap<>();
-                result.put("option_id", optionId);
+                result.put("option_id", optionAnswerId);
                 result.put("reply_content", inputContent);
                 return result;
             }
@@ -220,7 +228,7 @@ public class Options2 extends BaseItem {
 
         Questions2 sortedItem = (Questions2) adapter.get(questionId);
         for (Options2 otherOptions : sortedItem.option) {
-            if (!otherOptions.optionId.equals(this.optionId)) {
+            if (!otherOptions.getKey().equals(this.getKey())) {
                 if (shouldClearThat(otherOptions)) {
                     otherOptions.setSelectedWrap(Boolean.FALSE, adapter);
                     adapter.insert(otherOptions);

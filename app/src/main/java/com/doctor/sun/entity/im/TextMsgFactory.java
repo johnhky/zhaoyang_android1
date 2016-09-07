@@ -203,9 +203,9 @@ public class TextMsgFactory {
     }
 
     public static boolean isRefreshMsg(String type) {
-        return type.equals("follow_up_start")
-                || type.equals("follow_up_end")
-                || type.equals("appointment_start")
-                || type.equals("appointment_end");
+        return "follow_up_start".equals(type)
+                || "follow_up_end".equals(type)
+                || "appointment_start".equals(type)
+                || "appointment_end".equals(type);
     }
 }

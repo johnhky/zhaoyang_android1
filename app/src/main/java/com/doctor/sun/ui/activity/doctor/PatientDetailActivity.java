@@ -15,7 +15,7 @@ import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.event.BidirectionalEvent;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
-import com.doctor.sun.ui.fragment.ReadQuestionFragment;
+import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.vo.ItemPatientDetail;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
@@ -29,7 +29,7 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
 
     private ActivityPatientDetailBinding binding;
     private Appointment data;
-    private ReadQuestionFragment instance;
+    private ReadQuestionsFragment instance;
 
     public static Intent makeIntent(Context context, Appointment data, int layout) {
         Intent i = new Intent(context, PatientDetailActivity.class);
@@ -52,7 +52,7 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
 
         data.setHandler(new AppointmentHandler(data));
         binding.setData(data);
-        instance = ReadQuestionFragment.getInstance(data.getIdString(), QuestionsPath.NORMAL, false);
+        instance = ReadQuestionsFragment.getInstance(data.getIdString(), QuestionsPath.NORMAL, false);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fly_content, instance)

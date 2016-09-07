@@ -1,7 +1,5 @@
 package com.doctor.sun.ui.fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Menu;
@@ -13,10 +11,10 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Questions2;
+import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
-import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -29,40 +27,35 @@ import retrofit2.Call;
 /**
  * Created by rick on 9/8/2016.
  */
-public class ReadQuestionFragment extends AnswerQuestionFragment {
-    public static final String TAG = ReadQuestionFragment.class.getSimpleName();
+public class ReadQuestionsFragment extends AnswerQuestionFragment {
+    public static final String TAG = ReadQuestionsFragment.class.getSimpleName();
 
     private boolean isEditMode = false;
 
-    public static ReadQuestionFragment getInstance(String id, String path, boolean readOnly) {
+    public static ReadQuestionsFragment getInstance(String id, String path, boolean readOnly) {
         return getInstance(id, path, "", readOnly);
     }
 
-    public static ReadQuestionFragment getInstance(String id, String path, String questionType, boolean readOnly) {
+    public static ReadQuestionsFragment getInstance(String id, @QuestionsPath String path, String questionType, boolean readOnly) {
 
-        ReadQuestionFragment fragment = new ReadQuestionFragment();
+        ReadQuestionsFragment fragment = new ReadQuestionsFragment();
 
-        Bundle args = new Bundle();
-        args.putString(Constants.DATA, id);
-        args.putString(Constants.PATH, path);
-        args.putString(Constants.QUESTION_TYPE, questionType);
-        args.putBoolean(Constants.READ_ONLY, readOnly);
+        Bundle args = getArgs(id, path, questionType, readOnly);
 
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static Intent intentFor(Context context, String title, String id, String path, String questionType, boolean readOnly) {
-        Intent intent = new Intent(context, SingleFragmentActivity.class);
-        intent.putExtra(Constants.FRAGMENT_NAME, TAG);
-        intent.putExtra(Constants.FRAGMENT_TITLE, title);
-        intent.putExtra(Constants.DATA, id);
-        intent.putExtra(Constants.PATH, path);
-        intent.putExtra(Constants.QUESTION_TYPE, questionType);
-        intent.putExtra(Constants.READ_ONLY, readOnly);
-        return intent;
+    @NonNull
+    public static Bundle getArgs(String id, @QuestionsPath String path, String questionType, boolean readOnly) {
+        Bundle args = new Bundle();
+        args.putString(Constants.FRAGMENT_NAME, TAG);
+        args.putString(Constants.DATA, id);
+        args.putString(Constants.PATH, path);
+        args.putString(Constants.QUESTION_TYPE, questionType);
+        args.putBoolean(Constants.READ_ONLY, readOnly);
+        return args;
     }
-
 
     @NonNull
     @Override
@@ -75,13 +68,16 @@ public class ReadQuestionFragment extends AnswerQuestionFragment {
             @Override
             public int intercept(int origin) {
                 switch (origin) {
-                    case R.layout.new_item_options: {
-                        return R.layout.new_r_item_options;
+                    case R.layout.item_options: {
+                        return R.layout.item_r_options;
                     }
-                    case R.layout.new_item_options_dialog: {
+                    case R.layout.item_options_dialog: {
                         return R.layout.item_r_options_dialog;
                     }
-                    case R.layout.new_item_options_rect: {
+                    case R.layout.item_options_rect_input: {
+                        return R.layout.item_r_options_rect_input;
+                    }
+                    case R.layout.item_options_rect: {
                         return R.layout.item_r_options_rect;
                     }
                     case R.layout.item_further_consultation: {

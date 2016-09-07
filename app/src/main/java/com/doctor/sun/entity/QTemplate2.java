@@ -1,7 +1,16 @@
 package com.doctor.sun.entity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.QuestionsPath;
+import com.doctor.sun.entity.constans.QuestionsType;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.ui.fragment.ReadQTemplateFragment;
+import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -34,6 +43,14 @@ public class QTemplate2 implements LayoutId {
 
     public int getQuestionCount() {
         return customAmount + independentAmount;
+    }
+
+    public void readQuestions(Context context) {
+        Bundle bundle = ReadQTemplateFragment.getArgs(
+                templateId, QuestionsPath.TEMPLATE,
+                QuestionsType.DOCTOR_R_PATIENT_QUESTIONS, true);
+        Intent intent = SingleFragmentActivity.intentFor(context, templateName, bundle);
+        context.startActivity(intent);
     }
 
 

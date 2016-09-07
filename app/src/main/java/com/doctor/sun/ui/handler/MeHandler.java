@@ -2,9 +2,11 @@ package com.doctor.sun.ui.handler;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.FeeActivity;
 import com.doctor.sun.ui.activity.doctor.RecordPoolActivity;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
@@ -45,9 +47,9 @@ public class MeHandler {
     }
 
     public void Template(View view) {
-//        Intent intent = TemplateActivity.makeIntent(view.getContext());
-//        view.getContext().startActivity(intent);
-        QTemplatesFragment.startFrom(view.getContext());
+        Bundle args = QTemplatesFragment.getArgs();
+        Intent intent = SingleFragmentActivity.intentFor(view.getContext(), "问卷模版", args);
+        view.getContext().startActivity(intent);
     }
 
     public void Setting(View view) {

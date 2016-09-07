@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.constans.QuestionsType;
-import com.doctor.sun.ui.fragment.ReadQuestionFragment;
+import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 import com.doctor.sun.ui.fragment.RefreshListFragment;
 
 /**
@@ -26,13 +26,13 @@ public class PatientAfterServiceDonePA extends FragmentStatePagerAdapter {
         RefreshListFragment fragment = null;
         switch (position) {
             case 0: {
-                return ReadQuestionFragment.getInstance(id,
+                return ReadQuestionsFragment.getInstance(id,
                         QuestionsPath.FOLLOW_UP,
                         QuestionsType.PATIENT_W_PATIENT_QUESTIONS,
                         true);
             }
             case 1: {
-                return ReadQuestionFragment.getInstance(id,
+                return ReadQuestionsFragment.getInstance(id,
                         QuestionsPath.FOLLOW_UP,
                         QuestionsType.PATIENT_R_DOCTOR_QUESTIONS,
                         true);

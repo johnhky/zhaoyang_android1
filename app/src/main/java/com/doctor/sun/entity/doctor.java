@@ -49,7 +49,7 @@ public class Doctor extends BaseObservable implements SortedItem, LayoutId, Parc
 
 
     /**
-     * birthday :
+     * age :
      * is_fav : 1(0未收藏 1已收藏该医生)
      * id : 1
      * avatar : http://p.3761.com/pic/71271413852950.jpg
@@ -76,7 +76,7 @@ public class Doctor extends BaseObservable implements SortedItem, LayoutId, Parc
      * point : 4.1
      * yunxin_accid : 24
      */
-    @JsonProperty("birthday")
+    @JsonProperty("age")
     private String birthday;
     @JsonProperty("is_fav")
     private String isFav = "";
@@ -547,7 +547,7 @@ public class Doctor extends BaseObservable implements SortedItem, LayoutId, Parc
     public String toString() {
         return "Doctor{" +
                 "isSelected=" + isSelected +
-                ", birthday='" + birthday + '\'' +
+                ", age='" + birthday + '\'' +
                 ", isFav='" + isFav + '\'' +
                 ", id=" + id +
                 ", doctorId=" + doctorId +
@@ -582,7 +582,7 @@ public class Doctor extends BaseObservable implements SortedItem, LayoutId, Parc
     }
 
     public void fromHashMap(Map<String, String> map) {
-        birthday = map.get("birthday");
+        birthday = map.get("age");
         isFav = map.get("is_fav");
         id = Integer.parseInt(map.get("id"));
         avatar = map.get("avatar");

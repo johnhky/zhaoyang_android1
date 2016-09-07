@@ -25,7 +25,7 @@ public class Patient extends BaseObservable implements LayoutId, Parcelable, Nam
      * name : 大明
      * email : waymen@ganguo.hk
      * gender : 1
-     * birthday : 1991-01
+     * age : 1991-01
      * avatar : https://trello-avatars.s3.amazonaws.com/eb8345770e0fd6183d370fc3e2b1f1d3/30.png
      * point : 1
      * voipAccount : 88797700000050
@@ -43,7 +43,7 @@ public class Patient extends BaseObservable implements LayoutId, Parcelable, Nam
     private String email;
     @JsonProperty("gender")
     private int gender;
-    @JsonProperty("birthday")
+    @JsonProperty("age")
     private String birthday;
     @JsonProperty("avatar")
     private String avatar;
@@ -214,7 +214,7 @@ public class Patient extends BaseObservable implements LayoutId, Parcelable, Nam
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", gender=" + gender +
-                ", birthday='" + birthday + '\'' +
+                ", age='" + birthday + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", point=" + point +
                 ", voipAccount='" + voipAccount + '\'' +

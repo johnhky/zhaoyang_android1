@@ -98,7 +98,7 @@
                     android:paddingLeft="@dimen/dp_13"
                     android:paddingRight="@dimen/dp_13"
                     android:text="@{data.date}"
-                    android:textColor="@color/color_tick"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/font_15" />
             </LinearLayout>
         </LinearLayout>
@@ -141,7 +141,7 @@
                     android:paddingLeft="@dimen/dp_13"
                     android:paddingRight="@dimen/dp_13"
                     android:text="@={data.title}"
-                    android:textColor="@color/color_tick"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/font_15" />
             </LinearLayout>
         </LinearLayout>

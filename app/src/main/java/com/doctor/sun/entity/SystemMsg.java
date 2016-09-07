@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
-import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
@@ -22,7 +21,6 @@ import com.doctor.sun.ui.activity.patient.handler.SystemMsgHandler;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.ganguo.library.Config;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
@@ -205,8 +203,7 @@ public class SystemMsg extends BaseItem {
     }
 
     public static String getConfigKey() {
-        String string = Config.getString(Constants.VOIP_ACCOUNT, "");
-        return "SYSTEM_MSG" + string;
+        return "SYSTEM_MSG" + Settings.getToken();
     }
 
     public long getUnreadMsgCount() {
@@ -250,7 +247,7 @@ public class SystemMsg extends BaseItem {
 
     @NonNull
     public static RealmQuery<TextMsg> getAllMsg(Realm realm) {
-        return realm.where(TextMsg.class).equalTo("sessionId", getConfigKey()).or().equalTo("sessionId", "SYSTEM_MSG");
+        return realm.where(TextMsg.class).beginGroup().equalTo("sessionId", getConfigKey()).or().equalTo("sessionId", "SYSTEM_MSG").endGroup();
     }
 
 

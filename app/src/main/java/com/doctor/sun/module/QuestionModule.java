@@ -7,6 +7,7 @@ import com.doctor.sun.entity.QTemplate;
 import com.doctor.sun.entity.QTemplate2;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.QuestionCategory;
+import com.doctor.sun.entity.ScalesResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -207,6 +208,9 @@ public interface QuestionModule {
 
     @GET("smartSupplement")
     Call<ApiDTO<List<HashMap<String, String>>>> templateType();
+
+    @GET("{type}/{id}")
+    Call<ApiDTO<List<ScalesResult>>> questionResult(@Path("type") String type, @Path("id") String id);
 
 
 }

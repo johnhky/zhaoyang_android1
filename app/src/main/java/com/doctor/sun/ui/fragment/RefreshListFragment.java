@@ -64,7 +64,7 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
             protected void onFinishLoadMore() {
                 super.onFinishLoadMore();
                 isLoading = false;
-                showEmptyIndicator();
+                refreshEmptyIndicator();
             }
         });
         binding.recyclerView.setAdapter(mAdapter);
@@ -75,7 +75,7 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
         return binding.getRoot();
     }
 
-    protected void showEmptyIndicator() {
+    protected void refreshEmptyIndicator() {
         if (mAdapter != null && !mAdapter.isEmpty()) {
             binding.emptyIndicator.setText(getEmptyIndicatorText());
             binding.emptyIndicator.setVisibility(View.GONE);

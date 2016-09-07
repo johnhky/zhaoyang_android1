@@ -17,7 +17,7 @@ public class ContactDetail implements Parcelable {
      "id": 1,
      "name": "大明",
      "avatar": "https://trello-avatars.s3.amazonaws.com/eb8345770e0fd6183d370fc3e2b1f1d3/30.png",
-     "birthday": "2010-02",
+     "age": "2010-02",
      "gender": 1,
      "record_id": 1,
      "record_name": "大明",
@@ -38,7 +38,7 @@ public class ContactDetail implements Parcelable {
     private String name;
     @JsonProperty("avatar")
     private String avatar;
-    @JsonProperty("birthday")
+    @JsonProperty("age")
     private  String birthday;
     @JsonProperty("gender")
     private int gender;
@@ -241,7 +241,7 @@ public class ContactDetail implements Parcelable {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", avatar='" + avatar + '\'' +
-                ", birthday='" + birthday + '\'' +
+                ", age='" + birthday + '\'' +
                 ", gender=" + gender +
                 ", recordId=" + recordId +
                 ", recordName='" + recordName + '\'' +

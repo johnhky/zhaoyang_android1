@@ -41,10 +41,16 @@ public class EditDoctorInfoFragment extends SortedListFragment {
 
     public static Intent intentFor(Context context, Doctor doctor) {
         Intent i = new Intent(context, SingleFragmentActivity.class);
-        i.putExtra(Constants.FRAGMENT_NAME, TAG);
         i.putExtra(Constants.FRAGMENT_TITLE, "个人信息");
-        i.putExtra(Constants.DATA, doctor);
+        i.putExtra(Constants.FRAGMENT_CONTENT_BUNDLE, getArgs(doctor));
         return i;
+    }
+
+    public static Bundle getArgs(Doctor doctor) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.DATA, doctor);
+        bundle.putString(Constants.FRAGMENT_NAME, TAG);
+        return bundle;
     }
 
     @Override

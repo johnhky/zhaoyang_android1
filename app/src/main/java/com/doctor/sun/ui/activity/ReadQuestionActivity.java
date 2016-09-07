@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.constans.QuestionsPath;
-import com.doctor.sun.ui.fragment.ReadQuestionFragment;
+import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 
 
 /**
@@ -16,7 +16,7 @@ import com.doctor.sun.ui.fragment.ReadQuestionFragment;
  */
 public class ReadQuestionActivity extends BaseFragmentActivity2 {
 
-    private ReadQuestionFragment instance;
+    private ReadQuestionsFragment instance;
 
     public static Intent intentFor(Context context, String scalesId, boolean isDone) {
         Intent i = new Intent(context, ReadQuestionActivity.class);
@@ -33,7 +33,7 @@ public class ReadQuestionActivity extends BaseFragmentActivity2 {
 
 
         String intExtra = getIntent().getStringExtra(Constants.DATA);
-        instance = ReadQuestionFragment.getInstance(intExtra, QuestionsPath.SCALES, getBooleanExtra(Constants.READ_ONLY, true));
+        instance = ReadQuestionsFragment.getInstance(intExtra, QuestionsPath.SCALES, getBooleanExtra(Constants.READ_ONLY, true));
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fly_content, instance)

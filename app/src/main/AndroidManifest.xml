@@ -481,6 +481,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".ui.activity.LeftDrawerFragmentActivity"
+            android:screenOrientation="portrait" />
+
+
+        <activity
             android:name=".ui.activity.doctor.RecordPoolActivity"
             android:screenOrientation="portrait" />
 

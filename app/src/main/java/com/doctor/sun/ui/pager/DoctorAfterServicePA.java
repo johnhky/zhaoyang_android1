@@ -8,7 +8,7 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.constans.QuestionsType;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
-import com.doctor.sun.ui.fragment.ReadQuestionFragment;
+import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 
 /**
  * Created by rick on 6/6/2016.
@@ -25,7 +25,7 @@ public class DoctorAfterServicePA extends FragmentStatePagerAdapter {
     public Fragment getItem(final int position) {
         switch (position) {
             case 0: {
-                return ReadQuestionFragment.getInstance(id, QuestionsPath.FOLLOW_UP, QuestionsType.DOCTOR_R_PATIENT_QUESTIONS, true);
+                return ReadQuestionsFragment.getInstance(id, QuestionsPath.FOLLOW_UP, QuestionsType.DOCTOR_R_PATIENT_QUESTIONS, true);
             }
             case 1: {
                 return AnswerQuestionFragment.getInstance(id, QuestionsPath.FOLLOW_UP, QuestionsType.DOCTOR_W_DOCTOR_QUESTIONS);

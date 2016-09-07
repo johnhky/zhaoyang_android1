@@ -155,7 +155,7 @@ public class QuestionsModel {
         for (int j = 0; j < option.size(); j++) {
             Options2 options2 = option.get(j);
 
-            options2.questionId = questions2.oldQuestionId;
+            options2.questionId = questions2.getKey();
             options2.questionType = questions2.questionType;
             options2.questionContent = questions2.questionContent;
 
@@ -168,7 +168,7 @@ public class QuestionsModel {
         FurtherConsultationVM vm = new FurtherConsultationVM();
         vm.questions2 = questions2;
         vm.setPosition(i * PADDING);
-        vm.setQuestionId(questions2.questionId);
+        vm.setQuestionId(questions2.getKey());
         vm.setQuestionContent(questions2.questionContent);
         if (questions2.option != null)
             for (Options2 options2 : questions2.option) {
@@ -229,7 +229,7 @@ public class QuestionsModel {
         }
         ItemPickHospital pickHospital = new ItemPickHospital(answerContent, url, lv1Id, lv2Id, lv3Id);
         pickHospital.setPosition(getSlop(i, 2));
-        pickHospital.setItemId(questions2.oldQuestionId + QuestionType.asel);
+        pickHospital.setItemId(questions2.questionId + QuestionType.asel);
         items.add(pickHospital);
     }
 
@@ -240,7 +240,7 @@ public class QuestionsModel {
     private void parsePickDate(List<SortedItem> items, int i, final Questions2 questions2) {
         ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_pick_date3, "");
         itemPickDate.setPosition(getSlop(i, 2));
-        itemPickDate.setItemId(questions2.oldQuestionId + QuestionType.sDate);
+        itemPickDate.setItemId(questions2.questionId + QuestionType.sDate);
         itemPickDate.setDate(questions2.fillContent);
         itemPickDate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
@@ -256,7 +256,7 @@ public class QuestionsModel {
     private void parsePickTime(List<SortedItem> items, int i, final Questions2 questions2) {
         ItemPickTime itemPickTime = new ItemPickTime(R.layout.item_pick_question_time, "");
         itemPickTime.setPosition(getSlop(i, 2));
-        itemPickTime.setItemId(questions2.oldQuestionId + QuestionType.sTime);
+        itemPickTime.setItemId(questions2.questionId + QuestionType.sTime);
         itemPickTime.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -293,14 +293,14 @@ public class QuestionsModel {
             pickerItem.setItemSizeConstrain(questions2.extendType);
         }
         pickerItem.setPosition(getSlop(i, 2));
-        pickerItem.setItemId(questions2.oldQuestionId + QuestionType.upImg);
+        pickerItem.setItemId(questions2.questionId + QuestionType.upImg);
         items.add(pickerItem);
     }
 
     private void parseFill(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemTextInput textInput = new ItemTextInput(R.layout.item_text_input6, "");
         textInput.setPosition(getSlop(i, 2));
-        textInput.setItemId(questions2.oldQuestionId + QuestionType.fill);
+        textInput.setItemId(questions2.questionId + QuestionType.fill);
         textInput.setInput(questions2.fillContent);
         questions2.answerCount = textInput.getInput().length();
         textInput.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
@@ -317,7 +317,7 @@ public class QuestionsModel {
     private void parseReminder(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemAddReminder list = new ItemAddReminder();
         list.setPosition(getSlop(i, 2));
-        list.setItemId(questions2.oldQuestionId + QuestionType.reminder);
+        list.setItemId(questions2.questionId + QuestionType.reminder);
         List<Map<String, String>> arrayContent = questions2.arrayContent;
         if (arrayContent != null) {
             for (int j = 0; j < arrayContent.size(); j++) {
@@ -364,7 +364,7 @@ public class QuestionsModel {
             for (int j = 0; j < size; j++) {
                 Options2 options2 = option.get(j);
 
-                options2.questionId = questions2.oldQuestionId;
+                options2.questionId = questions2.getKey();
                 options2.questionType = questions2.questionType;
                 options2.questionContent = questions2.questionContent;
 
@@ -381,7 +381,7 @@ public class QuestionsModel {
             }
         });
         itemAddPrescription.setPosition(getSlop(i, size + 2));
-        itemAddPrescription.setItemId(questions2.oldQuestionId + QuestionType.drug);
+        itemAddPrescription.setItemId(questions2.questionId + QuestionType.drug);
         items.add(itemAddPrescription);
     }
 

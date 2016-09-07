@@ -205,7 +205,7 @@ public class EditDoctorInfoModel {
         result.add(titleImg);
 
 
-        ItemTextInput2 imgPs = new ItemTextInput2(R.layout.item_r_text_input, "*上传的相关照片内容需清晰明确", "");
+        ItemTextInput2 imgPs = new ItemTextInput2(R.layout.item_r_orange_text, "*上传的相关照片内容需清晰明确", "");
         imgPs.setItemId(UUID.randomUUID().toString());
         imgPs.setPosition(result.size());
         imgPs.setMaxLength(200);

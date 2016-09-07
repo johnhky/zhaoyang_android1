@@ -35,11 +35,15 @@ public class AllowToSearchFragment extends SortedListFragment {
     }
 
     public static Intent intentFor(Context context) {
-        Intent i = new Intent(context, SingleFragmentActivity.class);
-        i.putExtra(Constants.FRAGMENT_NAME, TAG);
-        i.putExtra(Constants.FRAGMENT_TITLE, "我");
-        return i;
+        return SingleFragmentActivity.intentFor(context,"我",getArgs());
     }
+
+    public static Bundle getArgs() {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.FRAGMENT_NAME, TAG);
+        return bundle;
+    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

@@ -26,7 +26,7 @@ public class FollowUpInfo extends BaseItem {
      * address :
      * record_name : 蜘蛛精
      * gender : 1
-     * birthday : 24
+     * age : 24
      * relation : 同事
      * patient_name : 二百
      */
@@ -45,8 +45,8 @@ public class FollowUpInfo extends BaseItem {
     public String recordName;
     @JsonProperty("gender")
     public int gender;
-    @JsonProperty("birthday")
-    public String birthday;
+    @JsonProperty("age")
+    public String age;
     @JsonProperty("relation")
     public String relation;
     @JsonProperty("patient_name")
@@ -59,7 +59,7 @@ public class FollowUpInfo extends BaseItem {
 
 
     public String physiologicalInfo() {
-        return birthday + "岁/" + (gender == Gender.MALE ? "男" : "女");
+        return age + "岁/" + (gender == Gender.MALE ? "男" : "女");
     }
 
 

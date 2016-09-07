@@ -1,5 +1,6 @@
 package com.doctor.sun.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -15,6 +16,13 @@ import com.doctor.sun.util.FragmentFactory;
 
 public class SingleFragmentActivity extends BaseFragmentActivity2 {
 
+    public static Intent intentFor(Context context, String title, Bundle bundle) {
+        Intent intent = new Intent(context, SingleFragmentActivity.class);
+        intent.putExtra(Constants.FRAGMENT_TITLE, title);
+        intent.putExtra(Constants.FRAGMENT_CONTENT_BUNDLE, bundle);
+        return intent;
+    }
+
 
     private Fragment instance;
 
@@ -24,8 +32,9 @@ public class SingleFragmentActivity extends BaseFragmentActivity2 {
         DataBindingUtil.setContentView(this, R.layout.activity_fragment_wraper);
 
 
-        instance = FragmentFactory.getInstance().get(getIntent().getStringExtra(Constants.FRAGMENT_NAME)).execute();
-        instance.setArguments(getIntent().getExtras());
+        Bundle bundleExtra = getIntent().getBundleExtra(Constants.FRAGMENT_CONTENT_BUNDLE);
+        instance = FragmentFactory.getInstance().get(bundleExtra.getString(Constants.FRAGMENT_NAME)).execute();
+        instance.setArguments(bundleExtra);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fly_content, instance)

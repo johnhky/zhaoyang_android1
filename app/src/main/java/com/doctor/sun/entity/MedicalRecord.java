@@ -26,7 +26,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
      * "email": "",
      * "relation": "本人",
      * "gender": 1,
-     * "birthday": "2010-02",
+     * "age": "2010-02",
      * "province": "广东",
      * "city": "广州",
      * "address": "天河",
@@ -63,7 +63,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
     private String name;
     @JsonProperty("relation")
     private String relation;
-    @JsonProperty("birthday")
+    @JsonProperty("age")
     private String birthday;
     @JsonProperty("city")
     private String city;
@@ -244,7 +244,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
                 ", name='" + name + '\'' +
                 ", relation='" + relation + '\'' +
                 ", gender=" + gender +
-                ", birthday='" + birthday + '\'' +
+                ", age='" + birthday + '\'' +
                 ", city='" + city + '\'' +
                 ", province='" + province + '\'' +
                 ", address='" + address + '\'' +
@@ -321,7 +321,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
         HashMap<String, String> result = new HashMap<String, String>();
         result.put("medicalRecordId", String.valueOf(medicalRecordId));
         result.put("name", name);
-        result.put("birthday", birthday);
+        result.put("age", birthday);
         result.put("gender", String.valueOf(gender));
         result.put("relation", relation);
         return result;

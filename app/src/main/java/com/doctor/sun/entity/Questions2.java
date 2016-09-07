@@ -9,6 +9,7 @@ import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Strings;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +35,9 @@ public class Questions2 extends BaseItem {
     @JsonIgnore
     public int answerCount = 0;
     @JsonProperty("question_answer_id")
-    public String questionId;
+    public String answerId;
     @JsonProperty("question_rule_id")
-    public String oldQuestionId;
+    public String questionId;
     @JsonProperty("question_type")
     public String questionType;
     @JsonProperty("question_content")
@@ -73,7 +74,14 @@ public class Questions2 extends BaseItem {
 
     @Override
     public String getKey() {
-        return oldQuestionId;
+        if (Strings.isNullOrEmpty(questionId)) {
+            if (Strings.isNullOrEmpty(answerId)) {
+                return String.valueOf(getPosition());
+            } else {
+                return answerId;
+            }
+        }
+        return questionId;
     }
 
     @Override
@@ -92,7 +100,7 @@ public class Questions2 extends BaseItem {
         if (option == null || option.size() < position) {
             return "";
         }
-        return option.get(position).optionId;
+        return option.get(position).optionAnswerId;
     }
 
     public boolean isAnswered(SortedListAdapter adapter, BaseViewHolder vh) {
@@ -106,7 +114,7 @@ public class Questions2 extends BaseItem {
         if (answerCount > 0) {
             return true;
         }
-        int i = adapter.inBetweenItemCount(vh.getAdapterPosition(), oldQuestionId + questionType);
+        int i = adapter.inBetweenItemCount(vh.getAdapterPosition(), questionId + questionType);
         if (Math.abs(i) > 1) {
             return true;
         }
@@ -150,6 +158,7 @@ public class Questions2 extends BaseItem {
             result = false;
         }
 
+        // enabled状态发生改变,通知子项目改变状态
         if (isEnabledLastTime != result) {
             setEnabledDontNotify(result);
             enableOrDisableChild(result);
@@ -175,7 +184,7 @@ public class Questions2 extends BaseItem {
     }
 
     private void enableOrDisableCustomChild(SortedListAdapter adapter, boolean result) {
-        SortedItem item = adapter.get(oldQuestionId + questionType);
+        SortedItem item = adapter.get(questionId + questionType);
         if (item != null) {
             BaseItem baseItem = (BaseItem) item;
             baseItem.setEnabled(result);

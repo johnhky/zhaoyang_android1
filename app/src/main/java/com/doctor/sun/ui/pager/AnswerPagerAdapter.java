@@ -11,7 +11,7 @@ import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
-import com.doctor.sun.ui.fragment.ReadQuestionFragment;
+import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 
 /**
  * Created by rick on 1/8/2016.
@@ -39,7 +39,7 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
                 case 0: {
                     //填写问卷 编辑
                     if (AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus())) {
-                        return ReadQuestionFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, true);
+                        return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, true);
                     } else {
                         return AnswerQuestionFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL);
                     }
@@ -54,9 +54,9 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
                 case 0: {
                     //填写问卷 只读
                     if (AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus())) {
-                        return ReadQuestionFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, true);
+                        return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, true);
                     } else {
-                        return ReadQuestionFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, false);
+                        return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, false);
                     }
                 }
                 case 1: {

@@ -1,7 +1,6 @@
 package com.doctor.sun.ui.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,7 +21,6 @@ import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.constans.QuestionsType;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.model.QuestionsModel;
-import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.Function0;
@@ -52,23 +50,19 @@ public class AnswerQuestionFragment extends SortedListFragment {
 
     public static AnswerQuestionFragment getInstance(String id, @QuestionsPath String path, @QuestionsType @Nullable String questionType) {
         AnswerQuestionFragment fragment = new AnswerQuestionFragment();
-        Bundle bundle = new Bundle();
 
-        bundle.putString(Constants.DATA, id);
-        bundle.putString(Constants.PATH, path);
-        bundle.putString(Constants.QUESTION_TYPE, questionType);
-        fragment.setArguments(bundle);
+        Bundle args = getArgs(id, path, questionType);
+        fragment.setArguments(args);
         return fragment;
     }
 
-    public static Intent intentFor(Context context, String title, String id, String path, String questionType) {
-        Intent intent = new Intent(context, SingleFragmentActivity.class);
-        intent.putExtra(Constants.FRAGMENT_NAME, TAG);
-        intent.putExtra(Constants.FRAGMENT_TITLE, title);
-        intent.putExtra(Constants.DATA, id);
-        intent.putExtra(Constants.PATH, path);
-        intent.putExtra(Constants.QUESTION_TYPE, questionType);
-        return intent;
+    public static Bundle getArgs(String id, @QuestionsPath String path, @QuestionsType @Nullable String questionType) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.FRAGMENT_NAME, TAG);
+        bundle.putString(Constants.DATA, id);
+        bundle.putString(Constants.PATH, path);
+        bundle.putString(Constants.QUESTION_TYPE, questionType);
+        return bundle;
     }
 
     protected String getAppointmentId() {
@@ -115,10 +109,15 @@ public class AnswerQuestionFragment extends SortedListFragment {
         model.questions(path, id, questionType, new Function0<List<? extends SortedItem>>() {
             @Override
             public void apply(List<? extends SortedItem> sortedItems) {
+                onFinishLoadMore(sortedItems);
                 getAdapter().insertAll(sortedItems);
                 binding.swipeRefresh.setRefreshing(false);
             }
         });
+    }
+
+    protected void onFinishLoadMore(List<? extends SortedItem> sortedItems) {
+
     }
 
     public void save(int isFinished) {

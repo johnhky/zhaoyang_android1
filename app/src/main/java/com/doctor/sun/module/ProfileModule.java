@@ -33,7 +33,7 @@ public interface ProfileModule {
 
     @FormUrlEncoded
     @POST("profile/patient-base")
-    Call<ApiDTO<Patient>> editPatientInfo(@Field("name") String name, @Field("email") String email, @Field("birthday") String birthday, @Field("gender") int gender, @Field("avatar") String avatar);
+    Call<ApiDTO<Patient>> editPatientInfo(@Field("name") String name, @Field("email") String email, @Field("age") String birthday, @Field("gender") int gender, @Field("avatar") String avatar);
 
     @GET("profile/patient-base")
     Call<ApiDTO<PatientDTO>> patientProfile();
@@ -43,7 +43,7 @@ public interface ProfileModule {
     Call<ApiDTO<String>> editPatientProfile(@FieldMap Map<String, String> patientInfo);
 
     /**
-     * @param medicalRecord birthday	必填。出生年月。e.g.1991-01	string
+     * @param medicalRecord age	必填。出生年月。e.g.1991-01	string
      *                      gender	必填。1男2女	string
      *                      medicalRecordId	必填。病历id	string
      *                      name	必填。病历名	string
@@ -71,7 +71,7 @@ public interface ProfileModule {
     /**
      * @param medicalRecord relation    	string	是	关系
      *                      name        	string	是	姓名
-     *                      birthday    	string	是	出生年月
+     *                      age    	string	是	出生年月
      *                      gender  	    int	    是	1男 2女
      *                      province	    string	是	省
      *                      city        	string	是	市

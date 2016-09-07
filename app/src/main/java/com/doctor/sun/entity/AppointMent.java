@@ -25,7 +25,7 @@ public class Appointment implements LayoutId, Parcelable {
      * status : 1
      * has_pay : 1
      * progress : 0/0
-     * medical_record : {"patient_id":11,"name":"大明","relation":"本人","gender":1,"birthday":"1991-01","city":"广州","province":"广东","address":"天河","identity_number":"111111111111111111","patient_name":"大明","age":24,"medicalRecordId":1}
+     * medical_record : {"patient_id":11,"name":"大明","relation":"本人","gender":1,"age":"1991-01","city":"广州","province":"广东","address":"天河","identity_number":"111111111111111111","patient_name":"大明","age":24,"medicalRecordId":1}
      * return_list_id : 1
      * patient_name : fim
      * return_list_time : 2015-09-28 12:46:15
@@ -34,7 +34,7 @@ public class Appointment implements LayoutId, Parcelable {
      * name : fim
      * relation : 本人
      * gender : 1
-     * birthday : 1990-07
+     * age : 1990-07
      * id : 38
      * record_id : 1
      * created_at : 2015-09-01 15:17:46
@@ -47,7 +47,7 @@ public class Appointment implements LayoutId, Parcelable {
      * real_add_money : 0
      * unpay_money : 500
      * progress : 0/0
-     * medicalRecord : {"patient_id":11,"name":"大明","relation":"本人","gender":1,"birthday":"1991-01","province":"广东","city":"广州","address":"天河","identity_number":"111111111111111111","patient_name":"大明","age":24,"medicalRecordId":1}
+     * medicalRecord : {"patient_id":11,"name":"大明","relation":"本人","gender":1,"age":"1991-01","province":"广东","city":"广州","address":"天河","identity_number":"111111111111111111","patient_name":"大明","age":24,"medicalRecordId":1}
      * yunxin_accid : 36
      * cancel_reason :
      * visit_time : 1458353747
@@ -111,7 +111,7 @@ public class Appointment implements LayoutId, Parcelable {
     private String recordName;
     @JsonProperty("yunxin_accid")
     private String yunxinAccid;
-    @JsonProperty("birthday")
+    @JsonProperty("age")
     private String birthday;
     @JsonProperty("patient_name")
     private String patientName;
@@ -551,7 +551,7 @@ public class Appointment implements LayoutId, Parcelable {
                 ", name='" + name + '\'' +
                 ", relation='" + relation + '\'' +
                 ", gender=" + gender +
-                ", birthday='" + birthday + '\'' +
+                ", age='" + birthday + '\'' +
                 ", patientName='" + patientName + '\'' +
                 ", displayType='" + displayType + '\'' +
                 ", bookTime='" + bookTime + '\'' +
