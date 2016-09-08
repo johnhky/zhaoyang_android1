@@ -204,7 +204,7 @@ public interface QuestionModule {
 
 
     @GET("smartTemplate")
-    Call<ApiDTO<List<QTemplate2>>> templates2();
+    Call<ApiDTO<PageDTO<QTemplate2>>> templates2(@Query("page") String page);
 
     @GET("smartSupplement")
     Call<ApiDTO<List<HashMap<String, String>>>> templateType();

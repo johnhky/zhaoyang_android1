@@ -53,8 +53,11 @@ public class ReadQTemplateFragment extends AnswerQuestionFragment {
         adapter.setLayoutIdInterceptor(new SortedListAdapter.LayoutIdInterceptor() {
             @Override
             public int intercept(int origin) {
-                if (origin ==R.layout.item_scales) {
+                if (origin == R.layout.item_scales) {
                     return R.layout.item_r_template_scales;
+                }
+                if (origin == R.layout.item_pick_image) {
+                    return R.layout.item_r_view_image;
                 }
                 return origin;
             }
@@ -65,6 +68,7 @@ public class ReadQTemplateFragment extends AnswerQuestionFragment {
 
     /**
      * 去掉保存问卷按钮
+     *
      * @param menu
      * @param inflater
      */

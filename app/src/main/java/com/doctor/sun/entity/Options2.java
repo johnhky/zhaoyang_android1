@@ -25,6 +25,7 @@ import com.google.common.base.Strings;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by rick on 28/7/2016.
@@ -127,7 +128,8 @@ public class Options2 extends BaseItem {
     public String getKey() {
         if (Strings.isNullOrEmpty(optionRuleId)) {
             if (Strings.isNullOrEmpty(optionAnswerId)) {
-                return String.valueOf(getPosition());
+                optionRuleId = UUID.randomUUID().toString();
+                return optionRuleId;
             } else {
                 return optionAnswerId;
             }

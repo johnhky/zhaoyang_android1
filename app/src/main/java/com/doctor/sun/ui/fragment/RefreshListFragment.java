@@ -94,8 +94,14 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
         if (pageCallback == null) {
             pageCallback = new PageCallback<T>(mAdapter) {
                 @Override
+                public void onInitHeader() {
+                    insertHeader();
+                }
+
+                @Override
                 public void onFinishRefresh() {
                     super.onFinishRefresh();
+                    insertFooter();
                     Tasks.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -109,6 +115,14 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
             pageCallback.setAdapter(getAdapter());
         }
         return pageCallback;
+    }
+
+    protected void insertHeader() {
+
+    }
+
+    protected void insertFooter() {
+
     }
 
     @NonNull

@@ -152,15 +152,16 @@ public class RegisterFragment extends SortedListFragment {
 
         insertDivider(sortedItems);
 
-        final ItemTextInput2 passwordOne = ItemTextInput2.password("设置密码", "请输入6位字符串密码");
+        final ItemTextInput2 passwordOne = ItemTextInput2.password("设置密码", "请输入6~8位数字和字母组合");
         passwordOne.setResultNotEmpty();
+        passwordOne.add(new RegexValidator(Pattern.compile("^\\s*(?:\\S\\s*){6,8}$"), "请输入6~8位数字和字母组合"));
         passwordOne.setItemLayoutId(R.layout.item_text_input2);
         passwordOne.setItemId("password");
         sortedItems.add(passwordOne);
 
         insertDivider(sortedItems);
 
-        ItemTextInput2 passwordTwo = ItemTextInput2.password("重输密码", "请输入6位字符串密码");
+        ItemTextInput2 passwordTwo = ItemTextInput2.password("重输密码", "请输入6~8位数字和字母组合");
         passwordTwo.setResultNotEmpty();
         passwordTwo.setItemLayoutId(R.layout.item_text_input2);
         passwordTwo.setItemId(UUID.randomUUID().toString());

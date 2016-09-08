@@ -14,6 +14,7 @@ import com.google.common.base.Strings;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by rick on 28/7/2016.
@@ -76,7 +77,8 @@ public class Questions2 extends BaseItem {
     public String getKey() {
         if (Strings.isNullOrEmpty(questionId)) {
             if (Strings.isNullOrEmpty(answerId)) {
-                return String.valueOf(getPosition());
+                questionId = UUID.randomUUID().toString();
+                return questionId;
             } else {
                 return answerId;
             }
