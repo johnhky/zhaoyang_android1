@@ -12,6 +12,7 @@ public class UMBaseFragmentActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart(getLocalClassName());
         MobclickAgent.onResume(this);
     }
 
@@ -19,6 +20,7 @@ public class UMBaseFragmentActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPageStart(getLocalClassName());
         MobclickAgent.onPause(this);
     }
 

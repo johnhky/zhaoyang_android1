@@ -98,6 +98,7 @@ public class AppContext extends BaseApp {
                         BuildConfig.FLAVOR, MobclickAgent.EScenarioType.E_UM_NORMAL, true);
         MobclickAgent.startWithConfigure(umConfig);
         MobclickAgent.setDebugMode(BuildConfig.DEV_MODE);
+        MobclickAgent.openActivityDurationTrack(false);
     }
 
     private void registerMsgObserver() {
