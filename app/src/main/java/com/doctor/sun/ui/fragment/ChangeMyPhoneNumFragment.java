@@ -65,7 +65,7 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
     protected void loadMore() {
         super.loadMore();
         List<BaseItem> sortedItems = new ArrayList<>();
-        final ItemTextInput2 oldPhoneNum = ItemTextInput2.phoneInput("旧的手机号码", "请输入11位手机号码");
+        final ItemTextInput2 oldPhoneNum = ItemTextInput2.mobilePhoneInput("旧的手机号码", "请输入11位手机号码");
         oldPhoneNum.setResultNotEmpty();
         oldPhoneNum.setItemLayoutId(R.layout.item_text_input2);
         oldPhoneNum.setItemId(UUID.randomUUID().toString());
@@ -73,7 +73,7 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
 
         insertDivider(sortedItems);
 
-        final ItemTextInput2 newPhoneNum = ItemTextInput2.phoneInput("新的手机号码", "请输入11位手机号码");
+        final ItemTextInput2 newPhoneNum = ItemTextInput2.mobilePhoneInput("新的手机号码", "请输入11位手机号码");
         newPhoneNum.setResultNotEmpty();
         newPhoneNum.setItemLayoutId(R.layout.item_text_input2);
         newPhoneNum.setItemId(UUID.randomUUID().toString());

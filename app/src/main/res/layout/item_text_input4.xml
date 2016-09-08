@@ -68,8 +68,6 @@
                 android:background="@drawable/bg_transparent"
                 android:gravity="start"
                 android:hint="@{data.hint}"
-                android:imeOptions="@{data.imeOptions}"
-                android:inputType="@{data.inputType}"
                 android:maxLength="@{data.maxLength}"
                 android:text="@={data.result}"
                 android:textColor="@color/color_tick"

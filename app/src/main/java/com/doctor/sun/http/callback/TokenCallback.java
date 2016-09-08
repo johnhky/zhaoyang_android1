@@ -17,12 +17,11 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
 import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.activity.doctor.MeActivity;
 import com.doctor.sun.ui.activity.doctor.RegisterActivity;
-import com.doctor.sun.ui.activity.doctor.ReviewResultActivity;
 import com.doctor.sun.ui.activity.patient.PMainActivity2;
+import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.util.JacksonUtils;
 
 import java.util.Set;
@@ -134,7 +133,7 @@ public class TokenCallback {
                     default: {
                         Intent me = MeActivity.makeIntent(context);
                         context.startActivity(me);
-                        Intent i = EditDoctorInfoActivity.makeIntent(context, data);
+                        Intent i = EditDoctorInfoFragment.intentFor(context, data);
                         context.startActivity(i);
                         context.finish();
                         break;
@@ -147,7 +146,7 @@ public class TokenCallback {
                 t.printStackTrace();
                 LoadingHelper.hideMaterLoading();
                 Toast.makeText(context, "医生未填写个人资料", Toast.LENGTH_SHORT).show();
-                Intent intent = EditDoctorInfoActivity.makeIntent(context, null);
+                Intent intent = EditDoctorInfoFragment.intentFor(context, Settings.getDoctorProfile());
                 context.startActivity(intent);
             }
         });

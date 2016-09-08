@@ -110,6 +110,7 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
                     case R.layout.item_scales: {
                         return R.layout.item_r_scales;
                     }
+                    case R.layout.item_load_prescription:
                     case R.layout.item_add_reminder:
                     case R.layout.item_pick_image:
                     case R.layout.item_add_prescription3: {

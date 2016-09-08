@@ -116,7 +116,7 @@ public class RegisterFragment extends SortedListFragment {
         baseItem.setItemLayoutId(R.layout.divider_gray_dp13);
         sortedItems.add(baseItem);
 
-        final ItemTextInput2 newPhoneNum = ItemTextInput2.phoneInput("手机号码", "请输入11位手机号码");
+        final ItemTextInput2 newPhoneNum = ItemTextInput2.mobilePhoneInput("手机号码", "请输入11位手机号码");
         newPhoneNum.setResultNotEmpty();
         newPhoneNum.setItemLayoutId(R.layout.item_text_input2);
         newPhoneNum.setItemId("phone");

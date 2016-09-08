@@ -1,45 +1,31 @@
 package com.doctor.sun.ui.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.bean.MobEventId;
-import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.Token;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
-import com.doctor.sun.ui.activity.WebBrowserActivity;
-import com.doctor.sun.ui.activity.patient.PMainActivity2;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.CountDownUtil;
 import com.doctor.sun.util.MD5;
 import com.doctor.sun.vo.BaseItem;
-import com.doctor.sun.vo.ClickMenu;
 import com.doctor.sun.vo.ItemCaptchaInput;
-import com.doctor.sun.vo.ItemRadioGroup;
 import com.doctor.sun.vo.ItemTextInput2;
 import com.doctor.sun.vo.validator.RegexValidator;
 import com.doctor.sun.vo.validator.Validator;
 import com.google.common.base.Strings;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,7 +68,7 @@ public class ResetPswFragment extends SortedListFragment {
         List<BaseItem> sortedItems = new ArrayList<>();
 
 
-        final ItemTextInput2 newPhoneNum = ItemTextInput2.phoneInput("手机号码", "请输入11位手机号码");
+        final ItemTextInput2 newPhoneNum = ItemTextInput2.mobilePhoneInput("手机号码", "请输入11位手机号码");
         newPhoneNum.setResultNotEmpty();
         newPhoneNum.setItemLayoutId(R.layout.item_text_input2);
         newPhoneNum.setItemId("phone");

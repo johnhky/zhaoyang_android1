@@ -11,6 +11,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityReviewResultBinding;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 
 
 /**
@@ -63,7 +64,7 @@ public class ReviewResultActivity extends BaseFragmentActivity2 implements View.
                 break;
             }
             case R.id.action_edit: {
-                Intent intent = EditDoctorInfoActivity.makeIntent(this, getData());
+                Intent intent = EditDoctorInfoFragment.intentFor(this, getData());
                 startActivity(intent);
                 break;
             }

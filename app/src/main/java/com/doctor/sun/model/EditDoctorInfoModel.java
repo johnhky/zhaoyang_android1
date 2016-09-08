@@ -1,8 +1,6 @@
 package com.doctor.sun.model;
 
-import android.text.InputType;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
@@ -60,7 +58,7 @@ public class EditDoctorInfoModel {
         insertDivider(result);
 
         if (data.getPhone() == null || data.getPhone().equals("")) {
-            final ItemTextInput2 personalPhone = ItemTextInput2.phoneInput("手机号码", "请输入11位手机号码");
+            final ItemTextInput2 personalPhone = ItemTextInput2.mobilePhoneInput("手机号码", "请输入11位手机号码");
             personalPhone.setResultNotEmpty();
             personalPhone.setItemLayoutId(R.layout.item_text_input2);
             personalPhone.setItemId("phone");
@@ -110,7 +108,7 @@ public class EditDoctorInfoModel {
 
         insertDivider(result);
 
-        ItemTextInput2 hospitalPhone = ItemTextInput2.phoneInput("医院/科室电话", "请输入11位手机号码");
+        ItemTextInput2 hospitalPhone = ItemTextInput2.phoneInput("医院/科室电话", "请输入电话号码");
         hospitalPhone.setCanResultEmpty();
         hospitalPhone.setItemLayoutId(R.layout.item_text_input2);
         hospitalPhone.setItemId("hospitalPhone");
@@ -172,8 +170,6 @@ public class EditDoctorInfoModel {
 
         ItemTextInput2 detail = new ItemTextInput2(R.layout.item_text_input4, "个人简介/医治专长", "");
         detail.setItemId("detail");
-        detail.setImeOptions(EditorInfo.IME_ACTION_NONE);
-        detail.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
         detail.setPosition(result.size());
         detail.setResult(data.getDetail());
         detail.setMaxLength(200);

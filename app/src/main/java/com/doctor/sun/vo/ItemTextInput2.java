@@ -131,7 +131,7 @@ public class ItemTextInput2 extends BaseItem {
         setResult("");
     }
 
-    public static ItemTextInput2 phoneInput(String title, String hint) {
+    public static ItemTextInput2 mobilePhoneInput(String title, String hint) {
         ItemTextInput2 viewModel = new ItemTextInput2(R.layout.item_answer_input, title, hint);
         viewModel.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         viewModel.setMaxLength(11);
@@ -142,6 +142,15 @@ public class ItemTextInput2 extends BaseItem {
         return viewModel;
     }
 
+    public static ItemTextInput2 phoneInput(String title, String hint) {
+        ItemTextInput2 viewModel = new ItemTextInput2(R.layout.item_answer_input, title, hint);
+        viewModel.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        viewModel.setMaxLength(11);
+        viewModel.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_PHONE);
+        viewModel.add(new RegexValidator(StringsUtils.MOBILE_OR_PHONE_PATTERN, "电话号码格式错误"));
+
+        return viewModel;
+    }
 
     public static ItemTextInput2 password(String title, String hint) {
         ItemTextInput2 viewModel = new ItemTextInput2(R.layout.item_text_input2, title, hint);
@@ -149,7 +158,7 @@ public class ItemTextInput2 extends BaseItem {
         viewModel.setMaxLength(24);
         viewModel.setInputType(InputType.TYPE_CLASS_TEXT |
                 InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        viewModel.add(new RegexValidator(Pattern.compile("^\\s*(?:\\S\\s*){6,}$"), "请输入6位字符串密码"));
+        viewModel.add(new RegexValidator(Pattern.compile("^\\s*(?:\\S\\s*){6,}$"), "密码强度太低"));
 
         return viewModel;
     }

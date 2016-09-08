@@ -20,6 +20,7 @@ import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.ui.handler.MainActivityHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.widget.BindingDialog;
@@ -98,7 +99,7 @@ public class MainActivity extends BaseDoctorActivity {
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                Intent i = EditDoctorInfoActivity.makeIntent(MainActivity.this, doctorProfile);
+                                Intent i = EditDoctorInfoFragment.intentFor(MainActivity.this, doctorProfile);
                                 startActivity(i);
                                 dialog.dismiss();
                             }

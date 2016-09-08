@@ -5,8 +5,10 @@ import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuInflater;
 
+import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.constans.QuestionsPath;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
 /**
  * Created by rick on 9/8/2016.
@@ -44,8 +46,28 @@ public class ReadQTemplateFragment extends AnswerQuestionFragment {
         return getArguments().getString(Constants.PATH);
     }
 
+    @NonNull
+    @Override
+    public SortedListAdapter createAdapter() {
+        SortedListAdapter adapter = super.createAdapter();
+        adapter.setLayoutIdInterceptor(new SortedListAdapter.LayoutIdInterceptor() {
+            @Override
+            public int intercept(int origin) {
+                if (origin ==R.layout.item_scales) {
+                    return R.layout.item_r_template_scales;
+                }
+                return origin;
+            }
+        });
+        return adapter;
+    }
 
 
+    /**
+     * 去掉保存问卷按钮
+     * @param menu
+     * @param inflater
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     }

@@ -11,13 +11,13 @@ import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
 import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
-import com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.activity.patient.handler.SystemMsgHandler;
+import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -161,7 +161,7 @@ public class SystemMsg extends BaseItem {
             }
             case 21: {
                 if (isDoctor) {
-                    i = EditDoctorInfoActivity.makeIntent(context, Settings.getDoctorProfile());
+                    i = EditDoctorInfoFragment.intentFor(context, Settings.getDoctorProfile());
                 }
                 break;
             }

@@ -35,6 +35,7 @@ public class SingleFragmentActivity extends BaseFragmentActivity2 {
         Bundle bundleExtra = getIntent().getBundleExtra(Constants.FRAGMENT_CONTENT_BUNDLE);
         instance = FragmentFactory.getInstance().get(bundleExtra.getString(Constants.FRAGMENT_NAME)).execute();
         instance.setArguments(bundleExtra);
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fly_content, instance)

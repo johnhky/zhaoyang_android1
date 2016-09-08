@@ -76,6 +76,11 @@ public class EditDoctorInfoFragment extends SortedListFragment {
     }
 
     public void save() {
+        saveDoctorInfo();
+        saveTags();
+    }
+
+    public void saveDoctorInfo() {
         model.saveDoctorInfo(getAdapter(), new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
@@ -85,6 +90,9 @@ public class EditDoctorInfoFragment extends SortedListFragment {
                 getContext().startActivity(intent);
             }
         });
+    }
+
+    public void saveTags() {
         ItemAddTag item = (ItemAddTag) getAdapter().get(ItemAddTag.TAGS_END);
         HashMap<String, Object> stringObjectHashMap = item.toJson(getAdapter());
         ProfileModule api = Api.of(ProfileModule.class);
@@ -95,7 +103,6 @@ public class EditDoctorInfoFragment extends SortedListFragment {
             }
         });
     }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_finish, menu);
