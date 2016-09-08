@@ -10,7 +10,6 @@ import com.doctor.sun.entity.constans.QuestionsType;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.fragment.ReadQTemplateFragment;
-import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -28,21 +27,21 @@ public class QTemplate2 implements LayoutId {
      * template_name : 东方美方面
      */
 
-    @JsonProperty("custom_amount")
-    public int customAmount;
     @JsonProperty("default_type")
     public String defaultType;
-    @JsonProperty("independent_amount")
-    public int independentAmount;
-    @JsonProperty("scale_amount")
-    public String scaleAmount;
     @JsonProperty("template_id")
     public String templateId;
     @JsonProperty("template_name")
     public String templateName;
+    @JsonProperty("amount")
+    private int questionsCount;
+
+    public void setQuestionsCount(int questionsCount) {
+        this.questionsCount = questionsCount;
+    }
 
     public int getQuestionCount() {
-        return customAmount + independentAmount;
+        return questionsCount;
     }
 
     public void readQuestions(Context context) {

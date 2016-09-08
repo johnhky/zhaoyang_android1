@@ -53,8 +53,8 @@ public class QuestionsModel {
     private QuestionModule api = Api.of(QuestionModule.class);
 
 
-    public void questions(String type, String id, String questionType, final Function0<List<? extends SortedItem>> function0) {
-        Call<ApiDTO<QuestionDTO>> apiDTOCall = api.questions2(type, id, questionType);
+    public void questions(String type, String id, String questionType, String templateType, final Function0<List<? extends SortedItem>> function0) {
+        Call<ApiDTO<QuestionDTO>> apiDTOCall = api.questions2(type, id, questionType, templateType);
         handleQuestions(questionType, function0, apiDTOCall);
     }
 
@@ -293,7 +293,7 @@ public class QuestionsModel {
             pickerItem.setItemSizeConstrain(questions2.extendType);
         }
         pickerItem.setPosition(positionIn(i, 2));
-        pickerItem.setItemId(questions2.questionId + QuestionType.upImg);
+        pickerItem.setItemId(questions2.getKey() + QuestionType.upImg);
         items.add(pickerItem);
     }
 

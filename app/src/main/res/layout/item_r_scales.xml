@@ -7,9 +7,10 @@
         <variable
             name="data"
             type="com.doctor.sun.entity.Scales" />
+
         <variable
             name="adapter"
-            type="com.doctor.sun.ui.adapter.core.SortedListAdapter"/>
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
 
     </data>
 
@@ -18,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_13"
         android:background="@drawable/ripple_default"
-        android:onClick="@{()->data.readScalesQuestion(adapter,data.scaleId)}">
+        android:onClick="@{()->data.readScalesQuestion(adapter,data.scaleId,false)}">
 
         <TextView
             android:layout_width="match_parent"

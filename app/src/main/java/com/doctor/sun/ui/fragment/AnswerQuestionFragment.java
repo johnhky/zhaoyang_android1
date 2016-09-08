@@ -42,6 +42,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
     private QuestionsModel model;
     private String path;
     private String questionType;
+    private String templateType;
 
     public static AnswerQuestionFragment getInstance(String id, String type) {
 
@@ -97,6 +98,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
         id = getArguments().getString(Constants.DATA);
         path = getArguments().getString(Constants.PATH);
         questionType = getArguments().getString(Constants.QUESTION_TYPE);
+        templateType = getArguments().getString(Constants.IS_TEMPLATE, "0");
 
         model = new QuestionsModel();
         setHasOptionsMenu(true);
@@ -106,7 +108,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
-        model.questions(path, id, questionType, new Function0<List<? extends SortedItem>>() {
+        model.questions(path, id, questionType, templateType, new Function0<List<? extends SortedItem>>() {
             @Override
             public void apply(List<? extends SortedItem> sortedItems) {
                 onFinishLoadMore(sortedItems);

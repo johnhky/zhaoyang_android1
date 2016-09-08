@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.constans.QuestionsPath;
-import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
 /**
@@ -50,18 +49,12 @@ public class ReadQTemplateFragment extends AnswerQuestionFragment {
     @NonNull
     @Override
     public SortedListAdapter createAdapter() {
-        final boolean isReadOnly = getArguments().getBoolean(Constants.READ_ONLY, false);
         SortedListAdapter adapter = super.createAdapter();
-        adapter.setConfig(AdapterConfigKey.IS_READ_ONLY, isReadOnly);
-        adapter.setConfig(AdapterConfigKey.IS_DONE, isReadOnly);
         adapter.setLayoutIdInterceptor(new SortedListAdapter.LayoutIdInterceptor() {
             @Override
             public int intercept(int origin) {
                 if (origin == R.layout.item_scales) {
                     return R.layout.item_r_template_scales;
-                }
-                if (origin == R.layout.item_pick_image) {
-                    return R.layout.item_r_view_image;
                 }
                 return origin;
             }
