@@ -7,7 +7,7 @@ import android.support.v4.view.PagerAdapter;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.ui.activity.TabActivity;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.pager.DoctorAfterServiceDonePA;
 import com.doctor.sun.ui.pager.PatientAfterServiceDonePA;
 
@@ -35,9 +35,5 @@ public class AfterServiceDoneActivity extends TabActivity {
         }
     }
 
-    @Override
-    protected HeaderViewModel createHeaderViewModel() {
-        return new HeaderViewModel(this);
-    }
 
 }

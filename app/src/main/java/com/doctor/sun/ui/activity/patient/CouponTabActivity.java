@@ -6,7 +6,7 @@ import android.support.v4.view.PagerAdapter;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.activity.TabActivity;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.pager.CouponPagerAdapter;
 
 /**
@@ -24,10 +24,7 @@ public class CouponTabActivity extends TabActivity {
         return new CouponPagerAdapter(getSupportFragmentManager());
     }
 
-    @Override
-    protected HeaderViewModel createHeaderViewModel() {
-        return null;
-    }
+
 
     @Override
     public int getMidTitle() {

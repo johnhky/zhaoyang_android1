@@ -3,9 +3,7 @@
 
     <data>
 
-        <variable
-            name="header"
-            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
 
         <variable
             name="handler"

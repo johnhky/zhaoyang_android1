@@ -19,7 +19,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityFileDetailBinding;
 import com.doctor.sun.event.ProgressEvent;
 import com.doctor.sun.im.custom.FileTypeMap;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.util.DownloadUtil;
 import com.doctor.sun.util.MD5;
 import com.doctor.sun.util.NotificationUtil;

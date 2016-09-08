@@ -4,9 +4,7 @@
 
     <data>
 
-        <variable
-            name="header"
-            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
     </data>
 
     <android.support.v7.widget.Toolbar

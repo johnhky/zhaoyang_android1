@@ -18,7 +18,7 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.MsgsAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.widget.DividerItemDecoration;
 
 import io.ganguo.library.common.ToastHelper;

@@ -26,7 +26,7 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.doctor.ChattingRecordActivity;
 import com.doctor.sun.ui.activity.doctor.HistoryRecordActivity;
 import com.doctor.sun.ui.activity.doctor.ModifyNicknameActivity;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.widget.CancelHistoryDialog;
 import com.doctor.sun.ui.widget.SelectDialog;
 import com.doctor.sun.ui.widget.SelectRecordDialog;

@@ -8,7 +8,7 @@ import android.support.v4.view.PagerAdapter;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.ui.activity.TabActivity;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.pager.AnswerPagerAdapter;
 
 /**
@@ -30,11 +30,6 @@ public class AppointmentDetailActivity extends TabActivity {
     protected PagerAdapter createPagerAdapter() {
         Appointment parcelableExtra = getParcelableExtra(Constants.DATA);
         return new AnswerPagerAdapter(getSupportFragmentManager(), parcelableExtra);
-    }
-
-    @Override
-    protected HeaderViewModel createHeaderViewModel() {
-        return null;
     }
 
     @Override

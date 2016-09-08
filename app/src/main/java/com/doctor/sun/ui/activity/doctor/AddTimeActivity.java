@@ -15,7 +15,7 @@ import com.doctor.sun.entity.Time;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 
 import io.ganguo.library.common.ToastHelper;
 

@@ -17,7 +17,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.handler.MeHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.util.JacksonUtils;
 import com.squareup.otto.Subscribe;
 

@@ -27,7 +27,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.QuestionAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.util.ArrayList;
@@ -44,7 +44,6 @@ import retrofit2.Response;
 @Deprecated
 public class AddTemplateActivity extends BaseFragmentActivity2 implements TemplateHandler.GetIsEditMode {
 
-    private HeaderViewModel header = new HeaderViewModel(this);
 
     private QuestionModule api = Api.of(QuestionModule.class);
     private ActivityAddTemplateBinding binding;
@@ -93,11 +92,10 @@ public class AddTemplateActivity extends BaseFragmentActivity2 implements Templa
         isEditing = getData() == null;
 
         if (getEditStatue()) {
-            editMode(header);
+            editMode();
         } else {
-            notEditMode(header);
+            notEditMode();
         }
-        binding.setHeader(header);
     }
 
     private void initListener() {
@@ -235,8 +233,7 @@ public class AddTemplateActivity extends BaseFragmentActivity2 implements Templa
     protected void onStart() {
         if (getData() == null) {
             mAdapter.setIsEditMode(true);
-            editMode(header);
-            binding.setHeader(header);
+            editMode();
             if (newData != null) {
                 loadData(String.valueOf(newData.getId()));
             }
@@ -272,7 +269,7 @@ public class AddTemplateActivity extends BaseFragmentActivity2 implements Templa
     public void onMenuClicked() {
 //        super.onMenuClicked();
         if (getData() == null && newData == null) {
-            editMode(header);
+            editMode();
             if (binding.etName.getText().toString().equals("")) {
                 ToastHelper.showMessage(AddTemplateActivity.this, "模板名称不能为空！");
             } else {
@@ -280,7 +277,7 @@ public class AddTemplateActivity extends BaseFragmentActivity2 implements Templa
                     @Override
                     protected void handleResponse(QTemplate response) {
                         ToastHelper.showMessage(AddTemplateActivity.this, "保存成功");
-                        notEditMode(header);
+                        notEditMode();
                         newData = response;
                     }
                 });
@@ -288,9 +285,9 @@ public class AddTemplateActivity extends BaseFragmentActivity2 implements Templa
         } else {
             mAdapter.setIsEditMode(!mAdapter.isEditMode());
             if (mAdapter.isEditMode()) {
-                editMode(header);
+                editMode();
             } else {
-                notEditMode(header);
+                notEditMode();
                 if (getData() == null) {
                     api.updateTemplate(String.valueOf(newData.getId()), binding.etName.getText().toString(), getQuestionId())
                             .enqueue(new ApiCallback<QTemplate>() {
@@ -311,7 +308,6 @@ public class AddTemplateActivity extends BaseFragmentActivity2 implements Templa
                 Systems.hideKeyboard(this);
             }
         }
-        binding.setHeader(header);
         mAdapter.notifyDataSetChanged();
     }
 
@@ -336,7 +332,7 @@ public class AddTemplateActivity extends BaseFragmentActivity2 implements Templa
         return mAdapter.isEditMode();
     }
 
-    private void notEditMode(HeaderViewModel header) {
+    private void notEditMode() {
         mAdapter.setIsEditMode(false);
         binding.etName.setFocusable(false);
 //        header.setRightTitle("编辑");
@@ -352,7 +348,7 @@ public class AddTemplateActivity extends BaseFragmentActivity2 implements Templa
         binding.tvDelete.setText("删除模板");
     }
 
-    private void editMode(HeaderViewModel header) {
+    private void editMode() {
 //        header.setRightTitle("保存");
         binding.etName.setFocusableInTouchMode(true);
         binding.llyEdit.setBackgroundResource(R.drawable.bg_template_edit);

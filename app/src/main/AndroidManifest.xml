@@ -191,10 +191,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.doctor.sun.ui.activity.doctor.ConsultingDetailActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name="com.doctor.sun.ui.activity.doctor.FeedbackActivity"
             android:screenOrientation="portrait" />
 

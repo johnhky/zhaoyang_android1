@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools">
 
     <data>
 
-        <variable
-            name="header"
-            type="com.doctor.sun.ui.model.HeaderViewModel" />
 
         <variable
             name="time"
@@ -22,9 +18,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/include_header"
-            bind:data="@{header}" />
+        <include layout="@layout/include_header" />
 
         <ScrollView
             android:layout_width="match_parent"

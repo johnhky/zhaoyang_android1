@@ -5,9 +5,7 @@
 
     <data>
 
-        <variable
-            name="header"
-            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
 
         <variable
             name="data"
@@ -36,8 +34,7 @@
         <include
             layout="@layout/include_header"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_48"
-            bind:data="@{header}" />
+            android:layout_height="@dimen/dp_48"/>
 
         <ScrollView
             android:layout_width="match_parent"

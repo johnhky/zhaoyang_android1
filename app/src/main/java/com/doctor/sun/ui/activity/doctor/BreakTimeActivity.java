@@ -16,7 +16,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.BreakTimeAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 
 import java.util.List;
 
@@ -32,7 +32,6 @@ public class BreakTimeActivity extends BaseFragmentActivity2 implements TimeHand
     private final static Logger LOG = LoggerFactory.getLogger(BreakTimeActivity.class);
     public static final int ADD_BREAK_TIME = 1;
 
-    private HeaderViewModel header = new HeaderViewModel(this);
 
     private BreakTimeAdapter mAdapter;
     private ActivityBreakTimeBinding binding;

@@ -10,7 +10,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 
 /**
  * Created by rick on 3/6/2016.
@@ -31,7 +31,6 @@ public class AfterServiceHistoryActivity extends PageActivity2 {
     @Override
     protected void initHeader() {
         super.initHeader();
-        getBinding().setHeader(getHeaderViewModel());
     }
 
 
@@ -42,10 +41,6 @@ public class AfterServiceHistoryActivity extends PageActivity2 {
     }
 
 
-    @NonNull
-    protected HeaderViewModel getHeaderViewModel() {
-        return null;
-    }
 
     @NonNull
     @Override

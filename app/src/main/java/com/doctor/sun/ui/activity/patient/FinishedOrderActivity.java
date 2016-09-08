@@ -13,7 +13,7 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.handler.QCategoryHandler;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.pager.HistoryDetailAdapter;
 
 /**
@@ -50,12 +50,6 @@ public class FinishedOrderActivity extends TabActivity
     protected PagerAdapter createPagerAdapter() {
         return new HistoryDetailAdapter(getSupportFragmentManager(), getData());
     }
-
-    @Override
-    protected HeaderViewModel createHeaderViewModel() {
-        return null;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -17,7 +17,7 @@ import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.widget.DividerItemDecoration;
 
 import retrofit2.Call;

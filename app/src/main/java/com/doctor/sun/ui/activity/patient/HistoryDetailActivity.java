@@ -10,7 +10,7 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.ui.activity.TabActivity;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.pager.HistoryDetailAdapter;
 import com.doctor.sun.util.ShowCaseUtil;
 
@@ -47,11 +47,6 @@ public class HistoryDetailActivity extends TabActivity {
     @Override
     protected PagerAdapter createPagerAdapter() {
         return new HistoryDetailAdapter(getSupportFragmentManager(), getData());
-    }
-
-    @Override
-    protected HeaderViewModel createHeaderViewModel() {
-        return new HeaderViewModel(this);
     }
 
     @Override

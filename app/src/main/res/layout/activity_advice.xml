@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <import type="com.doctor.sun.ui.activity.AdviceHistoryActivity"/>
 
-        <variable
-            name="header"
-            type="com.doctor.sun.ui.model.HeaderViewModel" />
+        <import type="com.doctor.sun.ui.activity.AdviceHistoryActivity" />
+
 
     </data>
 
@@ -16,9 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/include_header"
-            bind:data="@{header}" />
+        <include layout="@layout/include_header" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,12 +46,12 @@
                 android:hint="请简要描述您的问题和建议"
                 android:inputType="textMultiLine"
                 android:maxLines="20"
-                android:paddingTop="@dimen/dp_6"
                 android:paddingBottom="@dimen/dp_6"
                 android:paddingEnd="@dimen/dp_13"
                 android:paddingLeft="@dimen/dp_13"
                 android:paddingRight="@dimen/dp_13"
                 android:paddingStart="@dimen/dp_13"
+                android:paddingTop="@dimen/dp_6"
                 android:scrollHorizontally="false"
                 android:textColor="#363636"
                 android:textColorHint="@color/grey_c2"
@@ -79,9 +74,9 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/dp_13"
                 android:background="@drawable/ripple_default"
+                android:onClick="@{()->AdviceHistoryActivity.startForm(context)}"
                 android:text="历史反馈"
                 android:textColor="@color/colorPrimaryDark"
-                android:onClick="@{()->AdviceHistoryActivity.startForm(context)}"
                 android:textSize="@dimen/font_17" />
 
         </LinearLayout>

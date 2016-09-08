@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -12,9 +11,6 @@
             name="footer"
             type="com.doctor.sun.ui.model.FooterViewModel" />
 
-        <variable
-            name="header"
-            type="com.doctor.sun.ui.model.HeaderViewModel" />
 
         <variable
             name="qrcode"
@@ -28,9 +24,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/include_header"
-            bind:data="@{header}" />
+        <include layout="@layout/include_header" />
 
         <LinearLayout
             android:layout_width="match_parent"

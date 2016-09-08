@@ -16,7 +16,7 @@ import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.AssignQuestionAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 
 /**
  * Created by lucas on 1/19/16.
@@ -48,8 +48,6 @@ public class QuestionBankActivity extends BaseFragmentActivity2 implements Assig
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_question_bank);
         mAdapter = new SimpleAdapter(this);
-        HeaderViewModel header = new HeaderViewModel(this);
-        binding.setHeader(header);
         mAdapter.mapLayout(R.layout.item_question,R.layout.item_question_extend);
         binding.rvQuestionBank.setLayoutManager(new LinearLayoutManager(this));
         binding.rvQuestionBank.setAdapter(mAdapter);

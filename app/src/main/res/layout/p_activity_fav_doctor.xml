@@ -5,9 +5,7 @@
     <data>
         <import type="com.doctor.sun.R"/>
 
-        <variable
-            name="header"
-            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
 
     </data>
 

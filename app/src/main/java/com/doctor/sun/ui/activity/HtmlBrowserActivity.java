@@ -14,7 +14,7 @@ import android.webkit.WebViewClient;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityWebBrowserBinding;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 
 
 /**

@@ -123,14 +123,6 @@ public class TimeModuleWrapper {
         }
     }
 
-//    public Call<ApiDTO<List<Time>>> getDaySchedule(@Query("doctorId") int doctorId, @Query("date") String date, @Query("type") int type, @Query("takeTime") String takeTime) {
-//        if (type == AppointmentType.STANDARD) {
-//            return day.getDaySchedule(doctorId, date, type, takeTime);
-//        } else {
-//            return time.getDaySchedule(doctorId, date, type, takeTime);
-//        }
-//    }
-
     public Call<ApiDTO<List<ReserveDate>>> getDateSchedule(@Query("doctorId") int doctorId, @Query("takeTime") int takeTime, int type) {
         if (type == AppointmentType.STANDARD) {
             return day.getDateSchedule(doctorId);
@@ -138,12 +130,4 @@ public class TimeModuleWrapper {
             return time.getDateSchedule(doctorId, takeTime);
         }
     }
-//
-//    public Call<ApiDTO<List<ReserveDate>>> getResrveDate(@Field("doctorId") int doctorId, @Field("is_referral") String is_referral) {
-//        return day.getResrveDate(doctorId, is_referral);
-//    }
-//
-//    public Call<ApiDTO<List<Time>>> reserveTime(@Field("doctorId") int doctorId, @Field("data") String data) {
-//        return day.reserveTime(doctorId, data);
-//    }
 }

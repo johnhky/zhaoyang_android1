@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -12,9 +11,6 @@
             name="handler"
             type="com.doctor.sun.entity.handler.TemplateHandler" />
 
-        <variable
-            name="header"
-            type="com.doctor.sun.ui.model.HeaderViewModel" />
 
     </data>
 
@@ -28,9 +24,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include
-                layout="@layout/include_header"
-                bind:data="@{header}" />
+            <include layout="@layout/include_header" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_template"

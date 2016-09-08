@@ -21,7 +21,7 @@ import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.PickTimeAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,7 +58,6 @@ public class PickTimeActivity extends BaseFragmentActivity2 {
         data = getData();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_pick_time);
 
-        binding.setHeader(getHeaderViewModel());
 
         binding.setType(getTypeImpl());
         binding.setDate(getDateImpl() + " " + getWeek());
@@ -146,10 +145,6 @@ public class PickTimeActivity extends BaseFragmentActivity2 {
         startActivity(intent);
     }
 
-    @NonNull
-    protected HeaderViewModel getHeaderViewModel() {
-        return null;
-    }
 
 
     protected PickTimeAdapter getAdapter() {

@@ -10,7 +10,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.ui.activity.TabActivity;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.pager.MyOrderPagerAdapter;
 import com.doctor.sun.util.JacksonUtils;
 
@@ -45,10 +45,6 @@ public class PAppointmentListActivity extends TabActivity {
         return new MyOrderPagerAdapter(getSupportFragmentManager());
     }
 
-    @Override
-    protected HeaderViewModel createHeaderViewModel() {
-        return null;
-    }
 
     @Override
     public int getMidTitle() {

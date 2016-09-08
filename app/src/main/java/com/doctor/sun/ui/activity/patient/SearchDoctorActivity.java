@@ -28,7 +28,7 @@ import com.doctor.sun.ui.activity.GetLocationActivity;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.widget.CityPickerDialog;
 import com.doctor.sun.util.AnimationUtils;
 
@@ -105,7 +105,6 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     }
 
     private void initHeader() {
-        binding.setHeader(new HeaderViewModel(this));
         binding.filter.setOnClickListener(this);
         binding.points.setOnClickListener(this);
         binding.distance.setOnClickListener(this);

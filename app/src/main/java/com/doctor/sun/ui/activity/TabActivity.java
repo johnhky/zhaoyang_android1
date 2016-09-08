@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityTabTwoBinding;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 
 /**
  * Created by rick on 12/18/15.
@@ -73,7 +73,5 @@ public abstract class TabActivity extends BaseFragmentActivity2 {
     protected abstract PagerAdapter createPagerAdapter();
 
 
-    protected HeaderViewModel createHeaderViewModel() {
-        return null;
-    }
+
 }

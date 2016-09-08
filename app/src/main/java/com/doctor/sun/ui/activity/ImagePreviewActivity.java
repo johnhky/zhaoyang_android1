@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityImagePreviewBinding;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 
 
 /**

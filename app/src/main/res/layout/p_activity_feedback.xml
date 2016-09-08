@@ -8,9 +8,7 @@
             name="data"
             type="com.doctor.sun.entity.Appointment" />
 
-        <variable
-            name="header"
-            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
     </data>
 
     <LinearLayout
@@ -20,9 +18,7 @@
         android:orientation="vertical">
 
 
-        <include
-            layout="@layout/include_header"
-            bind:data="@{header}" />
+        <include layout="@layout/include_header" />
 
         <include
             layout="@layout/include_comment_doctor"

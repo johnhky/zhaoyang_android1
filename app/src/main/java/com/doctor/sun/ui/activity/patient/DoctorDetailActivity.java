@@ -16,7 +16,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.pager.DoctorDetailPagerAdapter;
 
 /**
@@ -28,7 +28,6 @@ public class DoctorDetailActivity extends BaseFragmentActivity2{
 
     private ToolModule api = Api.of(ToolModule.class);
     private ActivityDoctorDetailBinding binding;
-    private HeaderViewModel headerViewModel;
     private Doctor doctor;
     private AppointmentBuilder builder = new AppointmentBuilder();
 
@@ -66,9 +65,6 @@ public class DoctorDetailActivity extends BaseFragmentActivity2{
             binding.setTypeLabel("留言咨询");
         }
         binding.setData(getData());
-        headerViewModel = new HeaderViewModel(this);
-        HeaderViewModel header = headerViewModel;
-        binding.setHeader(header);
         initData();
         data = new AppointmentBuilder();
         data.setDoctor(doctor);
@@ -87,7 +83,6 @@ public class DoctorDetailActivity extends BaseFragmentActivity2{
             protected void handleResponse(Doctor response) {
                 doctor = response;
                 binding.setData(response);
-                binding.setHeader(headerViewModel);
                 initPagerAdapter();
                 initPagerTabs();
             }

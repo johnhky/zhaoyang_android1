@@ -8,9 +8,7 @@
             name="data"
             type="com.doctor.sun.entity.Time" />
 
-        <variable
-            name="header"
-            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
 
         <variable
             name="description"
@@ -25,7 +23,7 @@
 
         <include
             layout="@layout/include_header"
-            bind:data="@{header}" />
+           />
 
         <LinearLayout
             android:id="@+id/rl_type"

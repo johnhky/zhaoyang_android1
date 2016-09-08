@@ -11,7 +11,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPickDateBinding;
 import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.pager.PickDatePagerAdapter;
 
 /**
@@ -31,8 +31,6 @@ public class PickDateActivity extends BaseFragmentActivity2 {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_pick_date);
 
-        HeaderViewModel header = createHeaderViewModel();
-        binding.setHeader(header);
 
         pagerAdapter = createPagerAdapter();
         binding.vp.setAdapter(pagerAdapter);
@@ -50,9 +48,7 @@ public class PickDateActivity extends BaseFragmentActivity2 {
         return new PickDatePagerAdapter(getSupportFragmentManager(), data);
     }
 
-    protected HeaderViewModel createHeaderViewModel() {
-        return null;
-    }
+
 
     public static Intent makeIntent(Context context, AppointmentBuilder builder) {
         Intent i = new Intent(context, PickDateActivity.class);

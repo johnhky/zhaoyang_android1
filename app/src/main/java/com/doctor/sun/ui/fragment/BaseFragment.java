@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.doctor.sun.BuildConfig;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -27,7 +27,4 @@ public class BaseFragment extends Fragment {
         MobclickAgent.onPageEnd(TAG);
     }
 
-    public HeaderViewModel getHeader() {
-        return null;
-    }
 }

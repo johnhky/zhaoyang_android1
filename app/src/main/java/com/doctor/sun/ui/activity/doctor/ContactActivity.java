@@ -27,7 +27,6 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.LoadMoreAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.binding.CustomBinding;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.util.NameComparator;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -220,10 +219,6 @@ public class ContactActivity extends BaseFragmentActivity2 {
         return mAdapter;
     }
 
-    @NonNull
-    protected HeaderViewModel getHeaderViewModel() {
-        return null;
-    }
 
 
     @NonNull

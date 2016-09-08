@@ -13,7 +13,7 @@ import com.doctor.sun.entity.QTemplate;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.fragment.QuestionCustomFragment;
 import com.doctor.sun.ui.fragment.QuestionDefaultFragment;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.pager.QuestionBankPagerAdapter;
 
 import java.util.ArrayList;
@@ -47,12 +47,6 @@ public class QuestionActivity extends TabActivity implements QuestionCustomFragm
     protected PagerAdapter createPagerAdapter() {
         return new QuestionBankPagerAdapter(getSupportFragmentManager());
     }
-
-    @Override
-    protected HeaderViewModel createHeaderViewModel() {
-        return null;
-    }
-
     public void onMenuClicked() {
         Intent intent = AddQuestionActivity.makeIntent(this);
         startActivity(intent);

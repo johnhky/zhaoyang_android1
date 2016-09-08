@@ -4,15 +4,11 @@
 
     <data>
 
-        <import type="com.doctor.sun.R"/>
+        <import type="com.doctor.sun.R" />
 
         <variable
             name="handler"
             type="com.doctor.sun.entity.handler.TimeHandler" />
-
-        <variable
-            name="header"
-            type="com.doctor.sun.ui.model.HeaderViewModel" />
 
 
     </data>
@@ -26,9 +22,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include
-                layout="@layout/include_header"
-                bind:data="@{header}" />
+            <include layout="@layout/include_header" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_time"

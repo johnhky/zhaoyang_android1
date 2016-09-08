@@ -219,6 +219,7 @@ public class QuestionsModel {
         } catch (NumberFormatException ignored) {
 
         }
+        //默认给这个url
         String url = "tool/endemicAreaTrees";
         if (questions2.option != null) {
             for (Options2 options2 : questions2.option) {

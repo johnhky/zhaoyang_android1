@@ -5,9 +5,6 @@
 
     <data>
 
-        <variable
-            name="header"
-            type="com.doctor.sun.ui.model.HeaderViewModel" />
 
         <variable
             name="inputLayout"
@@ -31,9 +28,7 @@
         android:animateLayoutChanges="true"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/include_header"
-            bind:data="@{header}" />
+        <include layout="@layout/include_header" />
 
         <include
             android:id="@+id/appointment_status"

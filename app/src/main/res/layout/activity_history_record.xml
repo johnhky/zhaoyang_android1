@@ -4,9 +4,7 @@
 
     <data>
 
-        <variable
-            name="header"
-            type="com.doctor.sun.ui.model.HeaderViewModel" />
+
 
     </data>
 
@@ -16,8 +14,7 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/include_header"
-            app:data="@{header}" />
+            layout="@layout/include_header"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_record"

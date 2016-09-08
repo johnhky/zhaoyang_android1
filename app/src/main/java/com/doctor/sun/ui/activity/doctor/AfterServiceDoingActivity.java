@@ -8,7 +8,7 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.ui.activity.TabActivity;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 import com.doctor.sun.ui.pager.DoctorAfterServicePA;
 import com.doctor.sun.ui.pager.PatientAfterServicePA;
 
@@ -46,12 +46,6 @@ public class AfterServiceDoingActivity extends TabActivity implements Prescripti
             return patientAfterServicePA;
         }
     }
-
-    @Override
-    protected HeaderViewModel createHeaderViewModel() {
-        return null;
-    }
-
 //    /**
 //     * Dispatch incoming result to the correct fragment.
 //     *

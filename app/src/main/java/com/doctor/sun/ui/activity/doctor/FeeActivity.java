@@ -15,7 +15,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.DoNothingCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 
 import io.ganguo.library.common.ToastHelper;
 

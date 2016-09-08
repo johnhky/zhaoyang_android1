@@ -9,7 +9,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.PageActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 
 /**
  * 历史纪录列表

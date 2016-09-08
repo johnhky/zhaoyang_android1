@@ -20,7 +20,7 @@ import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.TemplateAdapter;
-import com.doctor.sun.ui.model.HeaderViewModel;
+
 
 /**
  * Created by lucas on 12/3/15.
