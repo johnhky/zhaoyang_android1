@@ -36,7 +36,6 @@ public class QTemplatesFragment extends RefreshListFragment {
 
     @Override
     protected void insertFooter() {
-        super.insertFooter();
         ItemTextInput2 ps = new ItemTextInput2(R.layout.item_r_red_text, "* 如需自定义模版和题目,请登录PC端账号。", "");
         ps.setTitleGravity(Gravity.START);
         getAdapter().add(ps);

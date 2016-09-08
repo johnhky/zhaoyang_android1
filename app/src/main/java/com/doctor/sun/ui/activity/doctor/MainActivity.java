@@ -59,7 +59,7 @@ public class MainActivity extends BaseDoctorActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setFooter(getFooter());
-        binding.setHandler(new MainActivityHandler(this));
+        binding.setHandler(new MainActivityHandler());
         showStatusDialog();
         String string = Config.getString(DOCTOR_INDEX);
         if (string != null && !string.equals("")) {

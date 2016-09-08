@@ -13,7 +13,6 @@ import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivitySettingBinding;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.handler.SettingHandler;
-import com.doctor.sun.ui.model.HeaderViewModel;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import io.ganguo.library.Config;
@@ -39,7 +38,7 @@ public class SettingActivity extends BaseFragmentActivity2 implements SettingHan
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_setting);
-        binding.setHandler(new SettingHandler(SettingActivity.this));
+        binding.setHandler(new SettingHandler());
     }
 
     private void initListener() {

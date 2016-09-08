@@ -1,6 +1,6 @@
 package com.doctor.sun.ui.handler;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
@@ -10,20 +10,15 @@ import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
 /**
  * Created by rick on 11/20/15.
  */
-public class MainActivityHandler extends BaseHandler {
-
-    public MainActivityHandler(Activity context) {
-        super(context);
-    }
-
+public class MainActivityHandler {
     /**
      * 已预约患者
      *
-     * @param view
+     * @param context
      */
-    public void appointment(View view) {
-        Intent intent = AppointmentListActivity.makeIntent(getContext());
-        getContext().startActivity(intent);
+    public void appointment(Context context) {
+        Intent intent = AppointmentListActivity.makeIntent(context);
+        context.startActivity(intent);
     }
 
     /**
@@ -39,10 +34,10 @@ public class MainActivityHandler extends BaseHandler {
     /**
      * 随访患者
      *
-     * @param view
+     * @param context
      */
-    public void consultation(View view) {
-        Intent intent = AfterServiceActivity.intentFor(getContext());
-        getContext().startActivity(intent);
+    public void consultation(Context context) {
+        Intent intent = AfterServiceActivity.intentFor(context);
+        context.startActivity(intent);
     }
 }

@@ -49,12 +49,9 @@ import io.realm.Realm;
 /**
  * Created by lucas on 12/22/15.
  */
-public class SettingHandler extends BaseHandler {
+public class SettingHandler {
     public static final String imagePath = Config.getImagePath() + "/ic_share.png";
 
-    public SettingHandler(Activity context) {
-        super(context);
-    }
 
 
     public void allowToSearch(Context context) {
@@ -133,7 +130,7 @@ public class SettingHandler extends BaseHandler {
                 WXMediaMessage mediaMessage = new WXMediaMessage(webpageObject);
                 mediaMessage.title = "【昭阳医生】一个专业的心理/精神科咨询平台";
                 mediaMessage.description = "这是一个能让咨询者与心理/精神科医生轻松交流的App。";
-                Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_launcher);
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 mediaMessage.thumbData = stream.toByteArray();
@@ -143,7 +140,7 @@ public class SettingHandler extends BaseHandler {
                 req.message = mediaMessage;
                 req.scene = SendMessageToWX.Req.WXSceneTimeline;
 
-                IWXAPI wxapi = WXAPIFactory.createWXAPI(getContext(), "wxe541efd34c189cf1");
+                IWXAPI wxapi = WXAPIFactory.createWXAPI(context, "wxe541efd34c189cf1");
                 wxapi.sendReq(req);
             }
 
@@ -154,7 +151,7 @@ public class SettingHandler extends BaseHandler {
                 WXMediaMessage mediaMessage = new WXMediaMessage(webpageObject);
                 mediaMessage.title = "【昭阳医生】一个专业的心理/精神科咨询平台";
                 mediaMessage.description = "这是一个能让咨询者与心理/精神科医生轻松交流的App。";
-                Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_launcher);
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 mediaMessage.thumbData = stream.toByteArray();
@@ -164,7 +161,7 @@ public class SettingHandler extends BaseHandler {
                 req.message = mediaMessage;
                 req.scene = SendMessageToWX.Req.WXSceneSession;
 
-                IWXAPI wxapi = WXAPIFactory.createWXAPI(getContext(), "wxe541efd34c189cf1");
+                IWXAPI wxapi = WXAPIFactory.createWXAPI(context, "wxe541efd34c189cf1");
                 wxapi.sendReq(req);
 
             }

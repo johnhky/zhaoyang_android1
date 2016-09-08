@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.dto.PageDTO;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.LoadMoreAdapter;
 
 import java.net.SocketTimeoutException;
@@ -40,10 +41,19 @@ public class PageCallback<T> extends ApiCallback<PageDTO<T>> {
         int to = response != null ? response.getTo() : 0;
         int total = response != null ? response.getTotal() : 0;
         int perPage = response != null ? response.getPerPage() : 0;
-        getAdapter().onFinishLoadMore(to >= total || (page - 1) * perPage >= total);
+        boolean isLastPage = to >= total || (page - 1) * perPage >= total;
+        getAdapter().onFinishLoadMore(isLastPage);
+        if (isLastPage) {
+            insertFooter();
+        }
         getAdapter().notifyDataSetChanged();
         onFinishRefresh();
     }
+
+    public void insertFooter() {
+
+    }
+
 
     public void onInitHeader() {
     }

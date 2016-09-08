@@ -140,7 +140,7 @@ public class QuestionsModel {
                     break;
             }
             BaseItem divider = new BaseItem(R.layout.divider_1px_margint_13dp);
-            int slop = getSlop(i, 1);
+            int slop = positionIn(i, 1);
             divider.setItemId("DIVIDER" + slop);
             divider.setPosition(slop);
             items.add(divider);
@@ -228,18 +228,18 @@ public class QuestionsModel {
             }
         }
         ItemPickHospital pickHospital = new ItemPickHospital(answerContent, url, lv1Id, lv2Id, lv3Id);
-        pickHospital.setPosition(getSlop(i, 2));
+        pickHospital.setPosition(positionIn(i, 2));
         pickHospital.setItemId(questions2.questionId + QuestionType.asel);
         items.add(pickHospital);
     }
 
-    private int getSlop(int i, int gapBetweenNextItem) {
-        return (i + 1) * PADDING - gapBetweenNextItem;
+    private int positionIn(int parentPosition, int beforeNextParent) {
+        return (parentPosition + 1) * PADDING - beforeNextParent;
     }
 
     private void parsePickDate(List<SortedItem> items, int i, final Questions2 questions2) {
         ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_pick_date3, "");
-        itemPickDate.setPosition(getSlop(i, 2));
+        itemPickDate.setPosition(positionIn(i, 2));
         itemPickDate.setItemId(questions2.questionId + QuestionType.sDate);
         itemPickDate.setDate(questions2.fillContent);
         itemPickDate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
@@ -255,7 +255,7 @@ public class QuestionsModel {
 
     private void parsePickTime(List<SortedItem> items, int i, final Questions2 questions2) {
         ItemPickTime itemPickTime = new ItemPickTime(R.layout.item_pick_question_time, "");
-        itemPickTime.setPosition(getSlop(i, 2));
+        itemPickTime.setPosition(positionIn(i, 2));
         itemPickTime.setItemId(questions2.questionId + QuestionType.sTime);
         itemPickTime.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
@@ -292,14 +292,14 @@ public class QuestionsModel {
         if (questions2.extendType > 0) {
             pickerItem.setItemSizeConstrain(questions2.extendType);
         }
-        pickerItem.setPosition(getSlop(i, 2));
+        pickerItem.setPosition(positionIn(i, 2));
         pickerItem.setItemId(questions2.questionId + QuestionType.upImg);
         items.add(pickerItem);
     }
 
     private void parseFill(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemTextInput textInput = new ItemTextInput(R.layout.item_text_input6, "");
-        textInput.setPosition(getSlop(i, 2));
+        textInput.setPosition(positionIn(i, 2));
         textInput.setItemId(questions2.questionId + QuestionType.fill);
         textInput.setInput(questions2.fillContent);
         questions2.answerCount = textInput.getInput().length();
@@ -316,7 +316,7 @@ public class QuestionsModel {
 
     private void parseReminder(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemAddReminder list = new ItemAddReminder();
-        list.setPosition(getSlop(i, 2));
+        list.setPosition(positionIn(i, 2));
         list.setItemId(questions2.questionId + QuestionType.reminder);
         List<Map<String, String>> arrayContent = questions2.arrayContent;
         if (arrayContent != null) {
@@ -368,7 +368,7 @@ public class QuestionsModel {
                 options2.questionType = questions2.questionType;
                 options2.questionContent = questions2.questionContent;
 
-                options2.setPosition(getSlop(i, size - j + 2));
+                options2.setPosition(positionIn(i, size - j + 2));
                 items.add(options2);
             }
         }
@@ -380,7 +380,7 @@ public class QuestionsModel {
                 questions2.notifyChange();
             }
         });
-        itemAddPrescription.setPosition(getSlop(i, size + 2));
+        itemAddPrescription.setPosition(positionIn(i, size + 2));
         itemAddPrescription.setItemId(questions2.questionId + QuestionType.drug);
         items.add(itemAddPrescription);
     }

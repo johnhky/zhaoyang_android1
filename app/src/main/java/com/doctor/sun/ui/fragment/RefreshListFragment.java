@@ -101,13 +101,18 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
                 @Override
                 public void onFinishRefresh() {
                     super.onFinishRefresh();
-                    insertFooter();
                     Tasks.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             binding.swipeRefresh.setRefreshing(false);
                         }
                     }, 1000);
+                }
+
+                @Override
+                public void insertFooter() {
+                    super.insertFooter();
+                    RefreshListFragment.this.insertFooter();
                 }
             };
         }
