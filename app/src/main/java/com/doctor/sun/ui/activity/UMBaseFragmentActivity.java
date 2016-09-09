@@ -20,7 +20,7 @@ public class UMBaseFragmentActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPageStart(getLocalClassName());
+        MobclickAgent.onPageEnd(getLocalClassName());
         MobclickAgent.onPause(this);
     }
 

@@ -30,7 +30,7 @@ public class QTemplatesFragment extends RefreshListFragment {
     protected void loadMore() {
         super.loadMore();
         refreshEmptyIndicator();
-        questionModule.templates2(getPageCallback().getPage()).enqueue(getPageCallback());
+        questionModule.myTemplates(getPageCallback().getPage()).enqueue(getPageCallback());
     }
 
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.entity.QTemplate;
@@ -11,8 +12,6 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
-import com.doctor.sun.ui.activity.doctor.AddTemplateActivity;
-import com.doctor.sun.ui.activity.doctor.TemplateActivity;
 import com.doctor.sun.ui.adapter.AssignQuestionAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
@@ -42,22 +41,14 @@ public class TemplateHandler {
     }
 
     public void addTemplate(Context context) {
-        Activity activity = (Activity) context;
-        Intent intent = AddTemplateActivity.makeIntent(context, null, false);
-        activity.startActivityForResult(intent, 1);
+//        Activity activity = (Activity) context;
+//        Intent intent = AddTemplateActivity.makeIntent(context, null, false);
+//        activity.startActivityForResult(intent, 1);
+        Toast.makeText(context, "addTemplate这个接口已经废弃", Toast.LENGTH_SHORT).show();
     }
 
     public void updateTemplate(Context context) {
-        isEditMode = (GetIsEditMode) context;
-        editStatus = isEditMode.getIsEditMode();
-        TemplateActivity activity = (TemplateActivity) context;
-        if (editStatus) {
-            Intent intent = AddTemplateActivity.makeIntent(activity, data, true);
-            activity.startActivityForResult(intent, 1);
-        } else {
-            Intent intent = AddTemplateActivity.makeIntent(activity, data, false);
-            activity.startActivityForResult(intent, 1);
-        }
+        Toast.makeText(context, "updateTemplate这个接口已经废弃", Toast.LENGTH_SHORT).show();
     }
 
 

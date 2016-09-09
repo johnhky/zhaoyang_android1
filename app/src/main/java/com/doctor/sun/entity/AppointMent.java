@@ -111,7 +111,7 @@ public class Appointment implements LayoutId, Parcelable {
     private String recordName;
     @JsonProperty("yunxin_accid")
     private String yunxinAccid;
-    @JsonProperty("age")
+    @JsonProperty("birthday")
     private String birthday;
     @JsonProperty("patient_name")
     private String patientName;

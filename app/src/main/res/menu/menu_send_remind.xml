@@ -7,4 +7,9 @@
         android:title="发送重填"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_add_question"
+        android:title="补充问卷"
+        app:showAsAction="always" />
+
 </menu>

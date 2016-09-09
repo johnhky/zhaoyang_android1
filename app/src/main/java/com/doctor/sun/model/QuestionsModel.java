@@ -1,6 +1,7 @@
 package com.doctor.sun.model;
 
 import android.databinding.Observable;
+import android.util.Log;
 
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
@@ -62,7 +63,7 @@ public class QuestionsModel {
         apiDTOCall.enqueue(new SimpleCallback<QuestionDTO>() {
             @Override
             protected void handleResponse(QuestionDTO response) {
-                List<SortedItem> r = parseQuestions(response.questions);
+                List<SortedItem> r = parseQuestions(response.questions, 0);
                 int questionSize = 0;
                 if (response.questions != null) {
                     questionSize = response.questions.size();
@@ -99,50 +100,53 @@ public class QuestionsModel {
         }
     }
 
-    private List<SortedItem> parseQuestions(List<Questions2> response) {
+    public List<SortedItem> parseQuestions(List<Questions2> response, int sizeAcc) {
         List<SortedItem> items = new ArrayList<SortedItem>();
+        Log.e(TAG, "parseQuestions: " + items);
         if (response == null || response.isEmpty()) {
             return items;
         }
         for (int i = 0; i < response.size(); i++) {
+            int position = i + sizeAcc;
             final Questions2 questions2 = response.get(i);
-            questions2.setPosition(i * PADDING);
+            Log.e(TAG, "parseQuestions: i=" + i + "  position=" + position);
+            questions2.setPosition(position * PADDING);
             items.add(questions2);
 
             switch (questions2.questionType) {
                 case QuestionType.drug:
-                    parseDrugs(items, i, questions2);
+                    parseDrugs(items, position, questions2);
                     break;
                 case QuestionType.reminder:
-                    parseReminder(items, i, questions2);
+                    parseReminder(items, position, questions2);
                     break;
                 case QuestionType.fill:
-                    parseFill(items, i, questions2);
+                    parseFill(items, position, questions2);
                     break;
                 case QuestionType.upImg:
-                    parseUpImg(items, i, questions2);
+                    parseUpImg(items, position, questions2);
                     break;
                 case QuestionType.sTime:
-                    parsePickTime(items, i, questions2);
+                    parsePickTime(items, position, questions2);
                     break;
                 case QuestionType.sDate:
-                    parsePickDate(items, i, questions2);
+                    parsePickDate(items, position, questions2);
                     break;
                 case QuestionType.asel:
-                    parsePickHospital(items, i, questions2);
+                    parsePickHospital(items, position, questions2);
                     break;
                 case QuestionType.keepon:
-                    parseFurtherConsultation(items, i, questions2);
+                    parseFurtherConsultation(items, position, questions2);
                     break;
                 case QuestionType.rectangle:
                 default:
-                    parseOptions(items, i, questions2);
+                    parseOptions(items, position, questions2);
                     break;
             }
             BaseItem divider = new BaseItem(R.layout.divider_1px_margint_13dp);
-            int slop = positionIn(i, 1);
-            divider.setItemId("DIVIDER" + slop);
-            divider.setPosition(slop);
+            int dividerPosition = positionIn(position, 1);
+            divider.setItemId("DIVIDER" + questions2.getKey());
+            divider.setPosition(dividerPosition);
             items.add(divider);
         }
         return items;
@@ -159,7 +163,8 @@ public class QuestionsModel {
             options2.questionType = questions2.questionType;
             options2.questionContent = questions2.questionContent;
 
-            options2.setPosition(i * PADDING + j + 1);
+            int position = i * PADDING + j + 1;
+            options2.setPosition(position);
             items.add(options2);
         }
     }
@@ -230,7 +235,7 @@ public class QuestionsModel {
         }
         ItemPickHospital pickHospital = new ItemPickHospital(answerContent, url, lv1Id, lv2Id, lv3Id);
         pickHospital.setPosition(positionIn(i, 2));
-        pickHospital.setItemId(questions2.questionId + QuestionType.asel);
+        pickHospital.setItemId(questions2.getKey() + QuestionType.asel);
         items.add(pickHospital);
     }
 
@@ -241,7 +246,7 @@ public class QuestionsModel {
     private void parsePickDate(List<SortedItem> items, int i, final Questions2 questions2) {
         ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_pick_date3, "");
         itemPickDate.setPosition(positionIn(i, 2));
-        itemPickDate.setItemId(questions2.questionId + QuestionType.sDate);
+        itemPickDate.setItemId(questions2.getKey() + QuestionType.sDate);
         itemPickDate.setDate(questions2.fillContent);
         itemPickDate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
@@ -257,7 +262,7 @@ public class QuestionsModel {
     private void parsePickTime(List<SortedItem> items, int i, final Questions2 questions2) {
         ItemPickTime itemPickTime = new ItemPickTime(R.layout.item_pick_question_time, "");
         itemPickTime.setPosition(positionIn(i, 2));
-        itemPickTime.setItemId(questions2.questionId + QuestionType.sTime);
+        itemPickTime.setItemId(questions2.getKey() + QuestionType.sTime);
         itemPickTime.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -301,7 +306,8 @@ public class QuestionsModel {
     private void parseFill(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemTextInput textInput = new ItemTextInput(R.layout.item_text_input6, "");
         textInput.setPosition(positionIn(i, 2));
-        textInput.setItemId(questions2.questionId + QuestionType.fill);
+        textInput.setItemId(questions2.getKey() + QuestionType.fill);
+        Log.e(TAG, "parseFill: " + textInput.getKey());
         textInput.setInput(questions2.fillContent);
         questions2.answerCount = textInput.getInput().length();
         textInput.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
@@ -318,7 +324,7 @@ public class QuestionsModel {
     private void parseReminder(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemAddReminder list = new ItemAddReminder();
         list.setPosition(positionIn(i, 2));
-        list.setItemId(questions2.questionId + QuestionType.reminder);
+        list.setItemId(questions2.getKey() + QuestionType.reminder);
         List<Map<String, String>> arrayContent = questions2.arrayContent;
         if (arrayContent != null) {
             for (int j = 0; j < arrayContent.size(); j++) {
@@ -382,7 +388,7 @@ public class QuestionsModel {
             }
         });
         itemAddPrescription.setPosition(positionIn(i, size + 2));
-        itemAddPrescription.setItemId(questions2.questionId + QuestionType.drug);
+        itemAddPrescription.setItemId(questions2.getKey() + QuestionType.drug);
         items.add(itemAddPrescription);
     }
 

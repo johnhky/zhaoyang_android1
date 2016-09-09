@@ -71,7 +71,8 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
     }
 
     public void onMenuClicked() {
-        Intent intent = AssignQuestionActivity.makeIntent(this, getData());
+        String appointmentId = String.valueOf(getData().getAppointmentId());
+        Intent intent = TemplatesInventoryActivity.intentFor(this, appointmentId);
         startActivity(intent);
     }
 
@@ -97,25 +98,4 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
             }
         }
     }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_patient_detail, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-////            case R.id.action_delete_question: {
-////                onFirstMenuClicked();
-////                return true;
-////            }
-//            case R.id.action_add_template: {
-//                onMenuClicked();
-//                return true;
-//            }
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 }

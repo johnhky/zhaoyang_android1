@@ -55,11 +55,6 @@ public class HtmlBrowserActivity extends BaseFragmentActivity2 {
         };
     }
 
-//    public void initHeader() {
-//        HeaderViewModel header = new HeaderViewModel(this);
-//        header.setMidTitle(getStringExtra(Constants.HEADER));
-//        binding.headerLayout.setData(header);
-//    }
 
     /**
      * 浏览url内容

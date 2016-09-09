@@ -7,10 +7,11 @@ import com.doctor.sun.entity.QTemplate;
 import com.doctor.sun.entity.QTemplate2;
 import com.doctor.sun.entity.Question;
 import com.doctor.sun.entity.QuestionCategory;
+import com.doctor.sun.entity.Questions2;
+import com.doctor.sun.entity.Scales;
 import com.doctor.sun.entity.ScalesResult;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -204,10 +205,20 @@ public interface QuestionModule {
 
 
     @GET("smartTemplate")
-    Call<ApiDTO<PageDTO<QTemplate2>>> templates2(@Query("page") String page);
+    Call<ApiDTO<PageDTO<QTemplate2>>> myTemplates(@Query("page") String page);
+
 
     @GET("smartSupplement")
-    Call<ApiDTO<List<HashMap<String, String>>>> templateType();
+    Call<ApiDTO<PageDTO<QTemplate2>>> scalesTemplates(@Query("appoint_id") String id, @Query("supplement_type") String type, @Query("page") String page);
+
+    @GET("smartSupplement")
+    Call<ApiDTO<PageDTO<Scales>>> scales(@Query("appoint_id") String id, @Query("supplement_type") String type, @Query("page") String page);
+
+    @GET("smartSupplement?supplement_type=3")
+    Call<ApiDTO<List<Questions2>>> customQuestions(@Query("appoint_id") String appointmentId);
+
+    @GET("smartSupplement?supplement_type=1")
+    Call<ApiDTO<PageDTO<Questions2>>> systemQuestions(@Query("appoint_id") String appointmentId, @Query("page") String page);
 
     @GET("{type}/{id}")
     Call<ApiDTO<List<ScalesResult>>> questionResult(@Path("type") String type, @Path("id") String id);

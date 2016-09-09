@@ -1,5 +1,6 @@
 package com.doctor.sun.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
+import com.doctor.sun.ui.activity.doctor.TemplatesInventoryActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -139,6 +141,11 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
             }
             case R.id.action_send_remind: {
                 if (sendRemind()) return true;
+            }
+            case R.id.action_add_question: {
+                Intent intent = TemplatesInventoryActivity.intentFor(getContext(),
+                        getArguments().getString(Constants.DATA));
+                startActivity(intent);
             }
         }
         return super.onOptionsItemSelected(item);

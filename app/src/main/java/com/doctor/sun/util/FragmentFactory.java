@@ -1,17 +1,22 @@
 package com.doctor.sun.util;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.ui.fragment.AllowToSearchFragment;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.ChangeMyPhoneNumFragment;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
+import com.doctor.sun.ui.fragment.MyScalesInventoryFragment;
 import com.doctor.sun.ui.fragment.QTemplatesFragment;
 import com.doctor.sun.ui.fragment.QuestionStatsFragment;
+import com.doctor.sun.ui.fragment.QuestionsInventoryFragment;
 import com.doctor.sun.ui.fragment.ReadQTemplateFragment;
 import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 import com.doctor.sun.ui.fragment.RegisterFragment;
 import com.doctor.sun.ui.fragment.ResetPswFragment;
+import com.doctor.sun.ui.fragment.ScalesInventoryFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +39,19 @@ public class FragmentFactory {
 
     public FactoryCommand get(String stringExtra) {
         return map.get(stringExtra);
+    }
+
+    public Fragment get(Bundle args) {
+        String name = args.getString(Constants.FRAGMENT_NAME);
+        FactoryCommand factoryCommand = FragmentFactory.getInstance().get(name);
+        if (factoryCommand != null) {
+            Fragment result = factoryCommand.execute();
+            result.setArguments(args);
+            return result;
+        } else {
+            throw new FragmentNotFoundException("Unable to find  fragment class {" + name + "}; have you register \n" +
+                    "this fragment in FragmentFactory?**");
+        }
     }
 
     public interface FactoryCommand {
@@ -107,5 +125,32 @@ public class FragmentFactory {
                 return new QuestionStatsFragment();
             }
         });
+        map.put(QuestionsInventoryFragment.TAG, new FactoryCommand() {
+            @Override
+            public Fragment execute() {
+                return new QuestionsInventoryFragment();
+            }
+        });
+        map.put(MyScalesInventoryFragment.TAG, new FactoryCommand() {
+            @Override
+            public Fragment execute() {
+                return new MyScalesInventoryFragment();
+            }
+        });
+        map.put(ScalesInventoryFragment.TAG, new FactoryCommand() {
+            @Override
+            public Fragment execute() {
+                return new ScalesInventoryFragment();
+            }
+        });
+    }
+
+    public class FragmentNotFoundException extends RuntimeException {
+        public FragmentNotFoundException() {
+        }
+
+        public FragmentNotFoundException(String name) {
+            super(name);
+        }
     }
 }

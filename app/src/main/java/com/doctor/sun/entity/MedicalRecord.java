@@ -63,7 +63,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
     private String name;
     @JsonProperty("relation")
     private String relation;
-    @JsonProperty("age")
+    @JsonProperty("birthday")
     private String birthday;
     @JsonProperty("city")
     private String city;

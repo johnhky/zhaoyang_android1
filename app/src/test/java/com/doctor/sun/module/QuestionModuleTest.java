@@ -106,14 +106,5 @@ public class QuestionModuleTest {
 
     }
 
-    @Test
-    public void templateType() throws Exception {
-        api.templateType().enqueue(new SimpleCallback<List<HashMap<String, String>>>() {
-            @Override
-            protected void handleResponse(List<HashMap<String, String>> response) {
-                assertNull(response);
-            }
-        });
-    }
 
 }

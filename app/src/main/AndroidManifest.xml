@@ -119,8 +119,8 @@
             android:screenOrientation="portrait" />
 
         <!--<activity-->
-            <!--android:name="com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.doctor.EditDoctorInfoActivity"-->
+        <!--android:screenOrientation="portrait" />-->
         <activity
             android:name="com.doctor.sun.ui.activity.doctor.ReviewResultActivity"
             android:screenOrientation="portrait" />
@@ -490,6 +490,9 @@
             android:name=".ui.activity.patient.PAfterServiceContactActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.activity.doctor.TemplatesInventoryActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.activity.patient.FollowUpDoctorListActivity"
