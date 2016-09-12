@@ -70,11 +70,11 @@ public class ItemCustomQuestionLoader extends BaseItem {
                 isInitialized = true;
                 List<Questions2> data = response.getData();
                 if (data != null && !data.isEmpty()) {
-                    List<SortedItem> items = questionsModel.parseQuestions(data, systemQuestionsCount - 5000, systemQuestionsCount);
+                    List<SortedItem> items = questionsModel.parseQuestions(data, 0, systemQuestionsCount);
 
                     cache.addAll(items);
                     adapter.insertAll(items);
-                    systemQuestionsCount += data.size();
+                    systemQuestionsCount += questionsModel.questionsSize(data, 0, 0);
                     systemQuestionsPage += 1;
                 }
                 int to = response.getTo();

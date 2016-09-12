@@ -13,10 +13,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by rick on 11/25/15.
  */
 public class Appointment implements LayoutId, Parcelable {
-    public static final int NOT_PAID = 0;
-    public static final int PAID = 1;
-
     /**
+     * auto_finish : 0
+     * patient_id : 287
+     * doctor_id : 293
      * id : 25
      * record_id : 1
      * patient_name : 大明
@@ -149,6 +149,13 @@ public class Appointment implements LayoutId, Parcelable {
     private int appointmentType = 0;
     @JsonProperty("display_status")
     private String displayStatus = "";
+
+    @JsonProperty("auto_finish")
+    public String autoFinish;
+    @JsonProperty("patient_id")
+    public String patientId;
+    @JsonProperty("doctor_id")
+    public String doctorId;
 
     private AppointmentHandler handler = new AppointmentHandler(this);
 
@@ -711,10 +718,6 @@ public class Appointment implements LayoutId, Parcelable {
 
     public String getIdString() {
         return String.valueOf(id);
-    }
-
-    public interface AppointmentId {
-        int getId();
     }
 
     @Override

@@ -42,7 +42,7 @@ public class Questions2 extends BaseItem {
     @JsonProperty("question_rule_id")
     public String questionId;
     @JsonProperty("question_type")
-    public String questionType;
+    public String questionType = "";
     @JsonProperty("question_content")
     public String questionContent;
     @JsonProperty("fill_content")

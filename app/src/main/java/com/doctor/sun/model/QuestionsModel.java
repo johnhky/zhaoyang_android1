@@ -103,15 +103,16 @@ public class QuestionsModel {
         }
     }
 
-    public List<SortedItem> parseQuestions(List<Questions2> response, int questionAcc, int positionAcc) {
+    public List<SortedItem> parseQuestions(List<Questions2> response, int indexAtQuestions, int indexToDisplay) {
         List<SortedItem> items = new ArrayList<SortedItem>();
-        if (response == null || response.isEmpty()) {
-            return items;
-        }
-        return parseQuestion(response, 0, 0, items);
+
+        return parseQuestion(response, indexAtQuestions, indexToDisplay, items);
     }
 
     private List<SortedItem> parseQuestion(List<Questions2> questions, int indexAtQuestions, int indexToDisplay, List<SortedItem> acc) {
+        if (questions == null || questions.isEmpty()) {
+            return acc;
+        }
         if (indexAtQuestions >= questions.size()) {
             return acc;
         } else {
@@ -173,7 +174,7 @@ public class QuestionsModel {
         }
     }
 
-    private int questionsSize(List<Questions2> questions, int i, int acc) {
+    public int questionsSize(List<Questions2> questions, int i, int acc) {
         if (questions == null) {
             return 0;
         }
