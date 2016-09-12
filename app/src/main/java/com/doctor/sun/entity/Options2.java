@@ -203,7 +203,9 @@ public class Options2 extends BaseItem {
 
     private void notifyItemWithKey(String key, SortedListAdapter adapter) {
         BaseItem baseItem = (BaseItem) adapter.get(key);
-        baseItem.notifyChange();
+        if (baseItem != null) {
+            baseItem.notifyChange();
+        }
     }
 
     public String getOption(int index) {

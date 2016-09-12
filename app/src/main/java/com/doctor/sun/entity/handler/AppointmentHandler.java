@@ -532,6 +532,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         if (isAfterService()) {
             String id = String.valueOf(data.getId());
             switch (data.getDisplayStatus()) {
+                case Status.A_WAITING:
                 case Status.A_DOING: {
                     String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
                     Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
@@ -546,14 +547,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
         } else {
             return AppointmentDetailActivity.makeIntent(context, getData(), AppointmentDetailActivity.POSITION_ANSWER);
-//            switch (data.getDisplayStatus()) {
-//                case Status.A_DOING:
-//                case Status.A_WAITING: {
-//                }
-//                default: {
-//                    return HistoryDetailActivity.intentFor(context, getData(), ConsultingDetailActivity.POSITION_ANSWER);
-//                }
-//            }
         }
         return null;
     }
@@ -562,6 +555,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         if (isAfterService()) {
             String id = String.valueOf(data.getId());
             switch (data.getDisplayStatus()) {
+                case Status.A_WAITING:
                 case Status.A_DOING: {
                     String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
                     Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, 1);
@@ -575,14 +569,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             }
         } else {
             return AppointmentDetailActivity.makeIntent(context, getData(), AppointmentDetailActivity.POSITION_SUGGESTION);
-//            switch (data.getDisplayStatus()) {
-//                case Status.A_DOING:
-//                case Status.A_WAITING: {
-//                }
-//                default: {
-//                    return HistoryDetailActivity.intentFor(context, getData(), ConsultingDetailActivity.POSITION_SUGGESTION_READONLY);
-//                }
-//            }
         }
         return null;
     }
