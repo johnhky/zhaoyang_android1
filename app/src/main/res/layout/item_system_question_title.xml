@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="data"
+            type="com.doctor.sun.vo.ItemSystemQuestionLoader" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
+    </data>
+
+    <com.zhy.android.percent.support.PercentFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_30"
+        android:background="@{data.background()}"
+        android:minHeight="@dimen/dp_30"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/dp_30"
+            android:paddingBottom="@dimen/dp_4"
+            android:paddingTop="@dimen/dp_4"
+            android:text="@{data.title}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_15"
+            app:layout_widthPercent="60%"
+            tools:text="系统题目" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:gravity="center"
+            android:maxLines="1"
+            android:onClick="@{()->data.onClick(adapter)}"
+            android:text="@{data.action}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_15"
+            app:layout_widthPercent="30%"
+            tools:text="收起" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginBottom="@dimen/dp_2"
+            android:layout_marginTop="@dimen/dp_2"
+            android:background="@color/white"
+            app:layout_marginRightPercent="35%" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="bottom"
+            android:background="@color/divider_color" />
+
+    </com.zhy.android.percent.support.PercentFrameLayout>
+</layout>

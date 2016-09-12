@@ -2,7 +2,6 @@ package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
-import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -35,6 +34,9 @@ public class Questions2 extends BaseItem {
 
     @JsonIgnore
     public int answerCount = 0;
+    @JsonIgnore
+    public int questionIndex;
+
     @JsonProperty("question_answer_id")
     public String answerId;
     @JsonProperty("question_rule_id")
@@ -62,8 +64,12 @@ public class Questions2 extends BaseItem {
     @JsonProperty("or_disable_rule")
     public List<String> orDisableRule;
 
+
+    @JsonProperty("expand_button")
+    public QuestionsButton questionsButton;
+
     public String positionString() {
-        return String.valueOf(getPosition() / QuestionsModel.PADDING + 1);
+        return String.valueOf(questionIndex + 1);
     }
 
 

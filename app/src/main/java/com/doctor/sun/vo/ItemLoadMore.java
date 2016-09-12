@@ -16,6 +16,7 @@ import io.ganguo.library.core.event.Event;
 public class ItemLoadMore implements SortedItem, Event {
 
     private Try aTry;
+    private String id = "ITEM_LOAD_MORE";
 
     public void setLoadMoreListener(Try aTry) {
         this.aTry = aTry;
@@ -28,6 +29,10 @@ public class ItemLoadMore implements SortedItem, Event {
             aTry.fail();
         }
         return R.color.white;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -43,7 +48,7 @@ public class ItemLoadMore implements SortedItem, Event {
 
     @Override
     public String getKey() {
-        return "ITEM_LOAD_MORE";
+        return id;
     }
 
     @Override

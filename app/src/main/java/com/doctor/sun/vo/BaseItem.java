@@ -4,6 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.doctor.sun.BR;
+import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -36,6 +37,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
 
     private boolean userSelected = false;
     protected boolean enabled = true;
+    private boolean visible = true;
     private int itemLayoutId;
     private long position;
     private int span = 12;
@@ -54,7 +56,11 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
 
     @Override
     public int getItemLayoutId() {
-        return itemLayoutId;
+        if (isVisible()) {
+            return itemLayoutId;
+        } else {
+            return R.layout.item_empty;
+        }
     }
 
     public void setItemLayoutId(int itemLayoutId) {
@@ -68,6 +74,16 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
         notifyChange();
+    }
+
+    @Bindable
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+        notifyPropertyChanged(BR.visible);
     }
 
     public void setEnabledDontNotify(boolean enabled) {

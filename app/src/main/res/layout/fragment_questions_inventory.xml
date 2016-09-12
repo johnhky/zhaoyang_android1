@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="customQuestions"
+            type="com.doctor.sun.vo.ItemCustomQuestionLoader" />
+
+        <variable
+            name="systemQuestions"
+            type="com.doctor.sun.vo.ItemSystemQuestionLoader" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <include
+                layout="@layout/item_system_question_title"
+                app:adapter="@{adapter}"
+                app:data="@{systemQuestions}" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:visibility="@{!customQuestions.expended}">
+
+            <include
+                layout="@layout/item_custom_question_title"
+                app:adapter="@{adapter}"
+                app:data="@{customQuestions}" />
+        </FrameLayout>
+    </FrameLayout>
+
+
+</layout>

@@ -1,7 +1,6 @@
 package com.doctor.sun.vo;
 
 import android.databinding.Bindable;
-import android.widget.CompoundButton;
 
 import com.doctor.sun.BR;
 
