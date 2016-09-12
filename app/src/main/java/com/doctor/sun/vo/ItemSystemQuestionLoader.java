@@ -45,19 +45,23 @@ public class ItemSystemQuestionLoader extends BaseItem {
     }
 
     public void expend(SortedListAdapter adapter) {
+
+        ItemCustomQuestionLoader item = (ItemCustomQuestionLoader) adapter.get(ItemCustomQuestionLoader.CUSTOM_QUESTION_LOADER);
+        if (item != null) {
+            item.fold(adapter);
+        }
         restoredItems(adapter);
         if (!isInitialized) {
             loadMore(adapter);
         } else {
             initLoadMoreItem(adapter);
         }
+
         notifyChange();
     }
 
     private void restoredItems(SortedListAdapter adapter) {
         adapter.insertAll(cache);
-        ItemCustomQuestionLoader item = (ItemCustomQuestionLoader) adapter.get(ItemCustomQuestionLoader.CUSTOM_QUESTION_LOADER);
-        item.setExpended(false);
 
         setExpended(true);
     }
@@ -67,17 +71,24 @@ public class ItemSystemQuestionLoader extends BaseItem {
     }
 
     public void setExpended(boolean expended) {
-        isExpended = expended;
-        notifyChange();
+        if (isExpended != expended) {
+            isExpended = expended;
+            notifyChange();
+        }
     }
 
     public void fold(SortedListAdapter adapter) {
+        if (!isExpended) {
+            return;
+        }
         setExpended(false);
         ItemCustomQuestionLoader item = (ItemCustomQuestionLoader) adapter.get(ItemCustomQuestionLoader.CUSTOM_QUESTION_LOADER);
         adapter.clear();
         adapter.insert(this);
-        adapter.insert(item);
-        item.expend(adapter);
+        if (item != null) {
+            adapter.insert(item);
+            item.expend(adapter);
+        }
     }
 
     public void loadMore(final SortedListAdapter adapter) {

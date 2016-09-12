@@ -23,20 +23,21 @@ import retrofit2.Call;
 
 public class ItemCustomQuestionLoader extends BaseItem {
     public static final String CUSTOM_QUESTION_LOADER = "CUSTOM_QUESTION_LOADER";
+    private final String id;
     private boolean isInitialized = false;
     private boolean isExpended;
 
     List<SortedItem> cache = new ArrayList<>();
     private QuestionModule questionModule = Api.of(QuestionModule.class);
-    private QuestionsModel questionsModel = new QuestionsModel();
+    private QuestionsModel questionsModel = new QuestionsModel(5000);
     private int systemQuestionsPage = 1;
-    private int systemQuestionsCount = 5000;
+    private int systemQuestionsCount = 0;
     private boolean finished;
     private Call<ApiDTO<PageDTO<Questions2>>> apiDTOCall;
 
     public ItemCustomQuestionLoader(int itemLayoutId, String id) {
         super(itemLayoutId);
-        apiDTOCall = questionModule.customQuestions(id, String.valueOf(systemQuestionsPage));
+        this.id = id;
     }
 
     public void onClick(SortedListAdapter adapter) {
@@ -53,17 +54,22 @@ public class ItemCustomQuestionLoader extends BaseItem {
         adapter.insertAll(cache);
     }
 
-    private void fold(SortedListAdapter adapter) {
+    public void fold(SortedListAdapter adapter) {
+        if (!isExpended) {
+            return;
+        }
+        setExpended(false);
         ItemSystemQuestionLoader item = (ItemSystemQuestionLoader) adapter.get(ItemSystemQuestionLoader.SYSTEM_QUESTION_LOADER);
         adapter.clear();
         adapter.insert(this);
         if (item != null) {
-            adapter.insert(item);
             item.expend(adapter);
+            adapter.insert(item);
         }
     }
 
     public void loadMore(final SortedListAdapter adapter) {
+        apiDTOCall = questionModule.customQuestions(id, String.valueOf(systemQuestionsPage));
         apiDTOCall.enqueue(new SimpleCallback<PageDTO<Questions2>>() {
             @Override
             protected void handleResponse(PageDTO<Questions2> response) {
@@ -123,8 +129,10 @@ public class ItemCustomQuestionLoader extends BaseItem {
     }
 
     public void setExpended(boolean expended) {
-        isExpended = expended;
-        notifyChange();
+        if (isExpended != expended) {
+            isExpended = expended;
+            notifyChange();
+        }
     }
 
     @Override
@@ -150,11 +158,16 @@ public class ItemCustomQuestionLoader extends BaseItem {
     }
 
     public void expend(SortedListAdapter adapter) {
+        setExpended(true);
         restoredItems(adapter);
         if (!isInitialized) {
             loadMore(adapter);
         } else {
             initLoadMoreItem(adapter);
+        }
+        ItemSystemQuestionLoader item = (ItemSystemQuestionLoader) adapter.get(ItemSystemQuestionLoader.SYSTEM_QUESTION_LOADER);
+        if (item != null) {
+            item.fold(adapter);
         }
         notifyChange();
     }

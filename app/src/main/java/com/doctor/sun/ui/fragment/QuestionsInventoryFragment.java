@@ -1,6 +1,7 @@
 package com.doctor.sun.ui.fragment;
 
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableInt;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -21,6 +22,8 @@ import com.doctor.sun.vo.ItemSystemQuestionLoader;
 public class QuestionsInventoryFragment extends SortedListFragment {
     public static final String TAG = QuestionsInventoryFragment.class.getSimpleName();
     private FragmentQuestionsInventoryBinding flBinding;
+
+    private ObservableInt currentSelectedTab = new ObservableInt();
 
     public static Bundle getArgs(String id) {
         Bundle bundle = new Bundle();

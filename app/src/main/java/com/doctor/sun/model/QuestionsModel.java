@@ -54,8 +54,17 @@ public class QuestionsModel {
     public static final int DIVIDER_POSITION = 2;
     public static final int BUTTON_POSITION = 1;
     public static final int RANGE_ITEM_POSITION = 3;
-    private QuestionModule api = Api.of(QuestionModule.class);
 
+    private QuestionModule api = Api.of(QuestionModule.class);
+    private int firstItemPadding = 0;
+
+    public QuestionsModel() {
+        firstItemPadding = 0;
+    }
+
+    public QuestionsModel(int firstItemPositionPadding) {
+        this.firstItemPadding = firstItemPositionPadding;
+    }
 
     public void questions(String type, String id, String questionType, String templateType, final Function0<List<? extends SortedItem>> function0) {
         Call<ApiDTO<QuestionDTO>> apiDTOCall = api.questions2(type, id, questionType, templateType);
@@ -118,42 +127,43 @@ public class QuestionsModel {
         } else {
             final Questions2 questions2 = questions.get(indexAtQuestions);
             questions2.questionIndex = indexToDisplay;
-            questions2.setPosition(indexToDisplay * PADDING);
+            int sortedVal = indexToDisplay + firstItemPadding;
+            questions2.setPosition(sortedVal * PADDING);
             acc.add(questions2);
 
             switch (questions2.questionType) {
                 case QuestionType.drug:
-                    parseDrugs(acc, indexToDisplay, questions2);
+                    parseDrugs(acc, sortedVal, questions2);
                     break;
                 case QuestionType.reminder:
-                    parseReminder(acc, indexToDisplay, questions2);
+                    parseReminder(acc, sortedVal, questions2);
                     break;
                 case QuestionType.fill:
-                    parseFill(acc, indexToDisplay, questions2);
+                    parseFill(acc, sortedVal, questions2);
                     break;
                 case QuestionType.upImg:
-                    parseUpImg(acc, indexToDisplay, questions2);
+                    parseUpImg(acc, sortedVal, questions2);
                     break;
                 case QuestionType.sTime:
-                    parsePickTime(acc, indexToDisplay, questions2);
+                    parsePickTime(acc, sortedVal, questions2);
                     break;
                 case QuestionType.sDate:
-                    parsePickDate(acc, indexToDisplay, questions2);
+                    parsePickDate(acc, sortedVal, questions2);
                     break;
                 case QuestionType.asel:
-                    parsePickHospital(acc, indexToDisplay, questions2);
+                    parsePickHospital(acc, sortedVal, questions2);
                     break;
                 case QuestionType.keepon:
-                    parseFurtherConsultation(acc, indexToDisplay, questions2);
+                    parseFurtherConsultation(acc, sortedVal, questions2);
                     break;
                 case QuestionType.rectangle:
                 default:
-                    parseOptions(acc, indexToDisplay, questions2);
+                    parseOptions(acc, sortedVal, questions2);
                     break;
             }
 
             BaseItem divider = new BaseItem(R.layout.divider_1px_margint_13dp);
-            int dividerPosition = positionIn(indexToDisplay, DIVIDER_POSITION);
+            int dividerPosition = positionIn(sortedVal, DIVIDER_POSITION);
             divider.setItemId("DIVIDER" + questions2.getKey());
             divider.setPosition(dividerPosition);
             acc.add(divider);
@@ -161,7 +171,7 @@ public class QuestionsModel {
             if (questions2.questionsButton != null) {
                 List<SortedItem> sortedItems = parseQuestion(questions2.questionsButton.questions, 0, indexToDisplay + 1, new ArrayList<SortedItem>());
                 questions2.questionsButton.setDatas(sortedItems);
-                questions2.questionsButton.setPosition(positionIn(indexToDisplay, BUTTON_POSITION));
+                questions2.questionsButton.setPosition(positionIn(sortedVal, BUTTON_POSITION));
                 questions2.questionsButton.setItemId(questions2.getKey() + "QUESTION_BUTTON");
 
 
