@@ -12,7 +12,6 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -96,5 +95,9 @@ public interface ImModule {
     @FormUrlEncoded
     @POST("im/call-back")
     Call<ApiDTO<String>> makePhoneCall(@Field("to") String phone);
+
+    @FormUrlEncoded
+    @POST("api/im/yunxin-call")
+    Call<ApiDTO<String>> makeYunXinPhoneCall(@Field("caller") String caller, @Field("callee") String callee);
 
 }

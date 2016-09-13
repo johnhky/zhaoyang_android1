@@ -23,6 +23,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.constans.QuestionsPath;
@@ -754,30 +755,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
-//    public void checkCallStatus(View view) {
-//        if (AppContext.isDoctor()) {
-//            makePhoneCall(view);
-//        } else {
-//            showNotAvailableDialog(view);
-//        }
-//    }
-
-//    private void showNotAvailableDialog(final View view) {
-//        if (shouldAskServer()) {
-//            api.canUse(CommunicationType.PHONE_CALL, id()).enqueue(new SimpleCallback<String>() {
-//                @Override
-//                protected void handleResponse(String response) {
-//                    if ("1".equals(response)) {
-//                        makePhoneCall(view);
-//                    } else {
-//                        showConfirmDialog(view, "医生因个人原因暂时停止该功能，请用文字、图片等继续与医生咨询");
-//                    }
-//                }
-//            });
-//        } else {
-//            showConfirmDialog(view, "该功能仅限于专属实时咨询的就诊时间内使用");
-//        }
-//    }
 
     private void showConfirmDialog(View view, String question) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(view.getContext())
@@ -792,43 +769,13 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         builder.show();
     }
 
-    //    public void makePhoneCall(final View view) {
-//        if (!IMManager.getInstance().isRIMLogin()) {
-//            IMManager.getInstance().login();
-//        }
-//
-//        String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.VIBRATE};
-//        boolean hasSelfPermission = PermissionUtil.hasSelfPermission((Activity) view.getContext(), permissions);
-//        if (hasSelfPermission) {
-//            final String sendTo = getVoipAccount();
-//            try {
-//                ECDevice.getUserState(sendTo, new ECDevice.OnGetUserStateListener() {
-//                    @Override
-//                    public void onGetUserState(ECError ecError, ECUserState ecUserState) {
-//                        if (ecUserState != null && ecUserState.isOnline()) {
-//                            IMManager.getInstance().makePhoneCall(sendTo);
-//                            Intent i = VoIPCallActivity.intentFor(view.getContext(), VoIPCallActivity.CALLING, sendTo);
-//                            view.getContext().startActivity(i);
-//                        } else {
-//                            callTelephone(view.getContext());
-//                        }
-//                    }
-//                });
-//            } catch (Exception e) {
-//                callTelephone(view.getContext());
-//            }
-//        } else {
-//            ActivityCompat.requestPermissions((Activity) view.getContext(), permissions, RECORD_AUDIO_PERMISSION);
-//            return;
-//        }
-//    }
     public void makePhoneCall(final Context context) {
         AVChatActivity.start(context, getP2PId(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
     }
 
     public void callTelephone(final Context context) {
         ImModule imModule = Api.of(ImModule.class);
-        imModule.makePhoneCall(getPhoneNO()).enqueue(new SimpleCallback<String>() {
+        imModule.makeYunXinPhoneCall(getMyPhoneNO(), getPhoneNO()).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
                 Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
@@ -847,6 +794,19 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 return doctor.getVoipAccount();
             } else {
                 return data.getVoipAccount();
+            }
+        }
+    }
+
+    public String getMyPhoneNO() {
+        if (Settings.isDoctor()) {
+            return Settings.getDoctorProfile().getPhone();
+        } else {
+            Patient patientProfile = Settings.getPatientProfile();
+            if (patientProfile != null) {
+                return patientProfile.getPhone();
+            } else {
+                return "";
             }
         }
     }
