@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.doctor.sun.bean.Province;
 import com.doctor.sun.im.AVChatHandler;
-import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.observer.AttachmentProgressObserver;
 import com.doctor.sun.im.observer.MsgStatusObserver;
 import com.doctor.sun.im.observer.ReceiveMsgObserver;
@@ -19,7 +18,6 @@ import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
-import com.yuntongxun.ecsdk.ECDevice;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,7 +51,6 @@ public class AppContext extends BaseApp {
         // init libs
         String processName = getProcessName(this);
 
-        initMessenger();
 
         //关闭自动下载attachment
         SDKOptions sdkOptions = new SDKOptions();
@@ -64,7 +61,6 @@ public class AppContext extends BaseApp {
             if (AppEnv.DEV_MODE) {
                 OpenSDK.initStage(this);
             } else {
-//                CrashHandler.getInstance().init(this);
                 OpenSDK.initProduct(this);
             }
 
@@ -72,7 +68,6 @@ public class AppContext extends BaseApp {
             AVChatHandler.getInstance().enableAVChat();
 
             JPushInterface.init(this);
-            IMManager.setUpRVoipCallback();
         }
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
@@ -113,31 +108,6 @@ public class AppContext extends BaseApp {
         service.observeAttachmentProgress(progressObserver, true);
     }
 
-    public static void initMessenger() {
-        if (!ECDevice.isInitialized()) {
-            ECDevice.initial(AppContext.me(), new ECDevice.InitListener() {
-                @Override
-                public void onInitialized() {
-                    // SDK已经初始化成功
-                    Log.e(TAG, "onInitialized: ");
-                    isInitialized = true;
-                }
-
-                @Override
-                public void onError(Exception exception) {
-                    Log.e(TAG, "onError: ");
-                    isInitialized = false;
-                    exception.printStackTrace();
-                    // SDK 初始化失败,可能有如下原因造成
-                    // 1、可能SDK已经处于初始化状态
-                    // 2、SDK所声明必要的权限未在清单文件（AndroidManifest.xml）里配置、
-                    //    或者未配置服务属性android:exported="false";
-                    // 3、当前手机设备系统版本低于ECSDK所支持的最低版本（当前ECSDK支持
-                    //    Android Build.VERSION.SDK_INT 以及以上版本）
-                }
-            });
-        }
-    }
 
     @Override
     protected void attachBaseContext(Context base) {

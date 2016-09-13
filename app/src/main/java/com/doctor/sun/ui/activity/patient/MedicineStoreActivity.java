@@ -33,7 +33,6 @@ import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.activity.VoIPCallActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.widget.ExtendedEditText;
@@ -234,11 +233,11 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     //    public void onMenuClicked() {
 //    }
 //
-    private void makePhoneCall() {
-        IMManager.getInstance().makePhoneCall(sendTo);
-        Intent i = VoIPCallActivity.makeIntent(MedicineStoreActivity.this, VoIPCallActivity.CALLING, sendTo);
-        startActivity(i);
-    }
+//    private void makePhoneCall() {
+//        IMManager.getInstance().makePhoneCall(sendTo);
+//        Intent i = VoIPCallActivity.makeIntent(MedicineStoreActivity.this, VoIPCallActivity.CALLING, sendTo);
+//        startActivity(i);
+//    }
 
     @Override
     protected void onStart() {
