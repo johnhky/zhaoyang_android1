@@ -3,6 +3,7 @@ package com.doctor.sun.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.QuestionModule;
@@ -30,6 +31,7 @@ public class MyScalesInventoryFragment extends RefreshListFragment {
     @Override
     public SimpleAdapter createAdapter() {
         SimpleAdapter adapter = super.createAdapter();
+        adapter.mapLayout(R.layout.item_template2,R.layout.item_invetory_template);
         adapter.putInt(AdapterConfigKey.ID, getAppointmentId());
         return adapter;
     }
