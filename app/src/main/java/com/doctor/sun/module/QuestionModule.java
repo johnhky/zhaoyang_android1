@@ -186,7 +186,6 @@ public interface QuestionModule {
     @GET("question/scale/{id}")
     Call<ApiDTO<List<QuestionCategory>>> scaleCategory(@Path("id") String appointmentId);
 
-
     /**
      * @param type          one of smartQuestionnaires, smartScales
      * @param appointmentId
@@ -224,4 +223,7 @@ public interface QuestionModule {
     Call<ApiDTO<List<ScalesResult>>> questionResult(@Path("type") String type, @Path("id") String id);
 
 
+    @FormUrlEncoded
+    @PUT("smartQuestionnaires/{id}")
+    Call<ApiDTO<String>> addQuestionToAppointment(@Path("id") int appointmentId, @FieldMap Map<String, String> fieldMap);
 }

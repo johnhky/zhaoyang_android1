@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_hide_options"
+        android:title="收起问题"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_show_options"
+        android:title="展开问题"
+        app:showAsAction="always" />
+</menu>

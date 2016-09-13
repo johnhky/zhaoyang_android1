@@ -76,14 +76,13 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         notifyChange();
     }
 
-    @Bindable
     public boolean isVisible() {
         return visible;
     }
 
     public void setVisible(boolean visible) {
         this.visible = visible;
-        notifyPropertyChanged(BR.visible);
+        notifyChange();
     }
 
     public void setEnabledDontNotify(boolean enabled) {

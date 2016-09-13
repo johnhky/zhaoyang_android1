@@ -1,10 +1,13 @@
 package com.doctor.sun.ui.fragment;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableInt;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,6 +15,10 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentQuestionsInventoryBinding;
 import com.doctor.sun.model.QuestionsModel;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.vo.BaseItem;
 import com.doctor.sun.vo.ItemCustomQuestionLoader;
 import com.doctor.sun.vo.ItemSystemQuestionLoader;
 
@@ -23,13 +30,18 @@ public class QuestionsInventoryFragment extends SortedListFragment {
     public static final String TAG = QuestionsInventoryFragment.class.getSimpleName();
     private FragmentQuestionsInventoryBinding flBinding;
 
-    private ObservableInt currentSelectedTab = new ObservableInt();
 
     public static Bundle getArgs(String id) {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FRAGMENT_NAME, TAG);
         bundle.putString(Constants.DATA, id);
         return bundle;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -44,6 +56,28 @@ public class QuestionsInventoryFragment extends SortedListFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loadMore();
+    }
+
+    @NonNull
+    @Override
+    public SortedListAdapter createAdapter() {
+        SortedListAdapter adapter = super.createAdapter();
+        adapter.putInt(AdapterConfigKey.ID, Integer.parseInt(getAppointmentId()));
+        adapter.setLayoutIdInterceptor(new BaseListAdapter.LayoutIdInterceptor() {
+            @Override
+            public int intercept(int origin) {
+                switch (origin) {
+                    case R.layout.item_question2: {
+                        return R.layout.item_inventory_question;
+                    }
+                    case R.layout.item_further_consultation: {
+                        return R.layout.item_empty;
+                    }
+                }
+                return origin;
+            }
+        });
+        return adapter;
     }
 
     @Override
@@ -65,11 +99,75 @@ public class QuestionsInventoryFragment extends SortedListFragment {
         flBinding.setAdapter(getAdapter());
         flBinding.setSystemQuestions(loader);
         flBinding.setCustomQuestions(loader2);
+        loader.expend(getAdapter());
         binding.swipeRefresh.setRefreshing(false);
     }
 
 
     private String getAppointmentId() {
         return getArguments().getString(Constants.DATA);
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_hide_options, menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_hide_options: {
+                hideOptions();
+                break;
+            }
+            case R.id.action_show_options: {
+                showOptions();
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void showOptions() {
+        for (int i = 0; i < getAdapter().size(); i++) {
+            BaseItem item = (BaseItem) getAdapter().get(i);
+            setVisible(item);
+        }
+        getAdapter().notifyDataSetChanged();
+    }
+
+
+
+    public void hideOptions() {
+        for (int i = 0; i < getAdapter().size(); i++) {
+            BaseItem item = (BaseItem) getAdapter().get(i);
+            setInVisible(item);
+        }
+
+        getAdapter().notifyDataSetChanged();
+    }
+
+    public void setInVisible(BaseItem item) {
+        if (item.getLayoutId() != R.layout.item_inventory_question) {
+            if (item.getLayoutId() != R.layout.divider_1px_margint_13dp) {
+                item.setVisible(false);
+            }
+        }
+    }
+
+    public void setVisible(BaseItem item) {
+        if (item.getLayoutId() != R.layout.item_inventory_question) {
+            if (item.getLayoutId() != R.layout.divider_1px_margint_13dp) {
+                item.setVisible(true);
+            }
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        binding.swipeRefresh.setRefreshing(false);
     }
 }

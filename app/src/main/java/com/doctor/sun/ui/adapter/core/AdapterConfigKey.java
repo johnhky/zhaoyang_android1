@@ -8,4 +8,5 @@ public interface AdapterConfigKey {
     int IS_READ_ONLY = 0;
     int IS_DONE = 1;
     int ERROR_ALWAYS_VISIBLE = 2;
+    int ID = 3;
 }

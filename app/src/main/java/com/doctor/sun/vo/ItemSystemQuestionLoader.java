@@ -26,6 +26,7 @@ public class ItemSystemQuestionLoader extends BaseItem {
     private boolean isExpended;
     private int systemQuestionsPage = 1;
     private int systemQuestionsCount = 0;
+    private boolean isChildVisible = true;
 
     List<SortedItem> cache = new ArrayList<>();
     private QuestionModule questionModule = Api.of(QuestionModule.class);
@@ -41,6 +42,35 @@ public class ItemSystemQuestionLoader extends BaseItem {
             fold(adapter);
         } else {
             expend(adapter);
+        }
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        isChildVisible = visible;
+        for (SortedItem item : cache) {
+            if (visible) {
+                setVisible((BaseItem) item);
+            } else {
+                setInVisible((BaseItem) item);
+            }
+
+        }
+    }
+
+    public void setInVisible(BaseItem item) {
+        if (item.getLayoutId() != R.layout.item_inventory_question) {
+            if (item.getLayoutId() != R.layout.divider_1px_margint_13dp) {
+                item.setVisible(false);
+            }
+        }
+    }
+
+    public void setVisible(BaseItem item) {
+        if (item.getLayoutId() != R.layout.item_inventory_question) {
+            if (item.getLayoutId() != R.layout.divider_1px_margint_13dp) {
+                item.setVisible(true);
+            }
         }
     }
 
@@ -99,6 +129,13 @@ public class ItemSystemQuestionLoader extends BaseItem {
                 List<Questions2> data = response.getData();
                 if (data != null && !data.isEmpty()) {
                     List<SortedItem> items = questionsModel.parseQuestions(data, 0, systemQuestionsCount);
+
+                    if (!isChildVisible) {
+                        for (SortedItem item : items) {
+                            BaseItem baseItem = (BaseItem) item;
+                            setInVisible(baseItem);
+                        }
+                    }
 
                     cache.addAll(items);
                     adapter.insertAll(items);

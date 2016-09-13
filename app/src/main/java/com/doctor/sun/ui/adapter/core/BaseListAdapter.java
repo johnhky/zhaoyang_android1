@@ -4,9 +4,10 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
-import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 import android.util.SparseBooleanArray;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -17,15 +18,20 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 /**
  * Created by rick on 13/8/2016.
  */
-public abstract class BaseListAdapter<B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements AdapterOps<SortedItem>{
+public abstract class BaseListAdapter<B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements AdapterOps<SortedItem> {
     private final Context mContext;
     private final LayoutInflater mInflater;
     private final SparseBooleanArray mConfig = new SparseBooleanArray();
+    private final SparseArray<String> mStringConfig = new SparseArray<>();
+    private final SparseIntArray mIntConfig = new SparseIntArray();
+
     private LayoutIdInterceptor idInterceptor = new DefaultLayoutIdInterceptor();
+
     BaseListAdapter(Context context) {
         this.mContext = context;
         mInflater = LayoutInflater.from(context);
     }
+
     protected LayoutInflater getInflater() {
         return mInflater;
     }
@@ -57,6 +63,22 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
 
     public void setConfig(int key, boolean value) {
         mConfig.put(key, value);
+    }
+
+    public String getString(int key) {
+        return mStringConfig.get(key, "");
+    }
+
+    public void putString(int key, String value) {
+        mStringConfig.put(key, value);
+    }
+
+    public void putInt(int key, int value) {
+        mIntConfig.put(key, value);
+    }
+
+    public int getInt(int key) {
+        return mIntConfig.get(key, 0);
     }
 
     @Override

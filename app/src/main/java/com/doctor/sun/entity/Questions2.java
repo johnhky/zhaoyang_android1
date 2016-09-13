@@ -1,11 +1,23 @@
 package com.doctor.sun.entity;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.model.QuestionsModel;
+import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vo.ItemCustomQuestionLoader;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Strings;
@@ -20,6 +32,7 @@ import java.util.UUID;
  */
 
 public class Questions2 extends BaseItem {
+    public static final String TAG = Questions2.class.getSimpleName();
 
 
     /**
@@ -201,5 +214,41 @@ public class Questions2 extends BaseItem {
 
     public boolean hasRulesInfo() {
         return orDisableRule != null || orEnableRule != null;
+    }
+
+    public void addQuestionToAppointment(int appointmentId) {
+        HashMap<String, String> fieldMap = new HashMap<>();
+        if (getPosition() > ItemCustomQuestionLoader.FIRST_ITEM_POSITION_PADDING * QuestionsModel.PADDING) {
+            fieldMap.put("add_template_question", getKey());
+            Log.e(TAG, "add_template_question: ");
+        } else {
+            fieldMap.put("add_base_question", getKey());
+            Log.e(TAG, "add_base_question: ");
+        }
+        QuestionModule api = Api.of(QuestionModule.class);
+        api.addQuestionToAppointment(appointmentId, fieldMap).enqueue(new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                setUserSelected(true);
+            }
+        });
+    }
+
+    public void showAddQuestionsDialog(Context context, final int appointmentId) {
+        if (isUserSelected()) {
+            Toast.makeText(context, "问题已经添加", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        new MaterialDialog.Builder(context)
+                .content("是否确认添加")
+                .positiveText("确认")
+                .negativeText("取消")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        addQuestionToAppointment(appointmentId);
+                    }
+                }).show();
     }
 }

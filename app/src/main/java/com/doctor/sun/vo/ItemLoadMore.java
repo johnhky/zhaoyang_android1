@@ -1,19 +1,16 @@
 package com.doctor.sun.vo;
 
 import com.doctor.sun.R;
-import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.Try;
 
 import java.util.HashMap;
 
-import io.ganguo.library.core.event.Event;
-
 /**
  * Created by rick on 7/7/2016.
  */
 
-public class ItemLoadMore implements SortedItem, Event {
+public class ItemLoadMore extends BaseItem {
 
     private Try aTry;
     private String id = "ITEM_LOAD_MORE";

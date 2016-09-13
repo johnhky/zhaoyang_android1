@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="com.doctor.sun.ui.adapter.core.AdapterConfigKey" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Questions2" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
+
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_13"
+        android:layout_marginLeft="@dimen/dp_13"
+        android:layout_marginRight="@dimen/dp_13"
+        android:layout_marginStart="@dimen/dp_13"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_5">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_6">
+
+            <ImageView
+                android:id="@+id/iv_position"
+                android:layout_width="@dimen/dp_23"
+                android:layout_height="@dimen/dp_23"
+                android:enabled="@{data.refill == 1}"
+                android:selected="@{true}"
+                android:src="@drawable/ic_position_selector" />
+
+
+            <TextView
+                android:id="@+id/iv_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_23"
+                android:gravity="center"
+                android:minWidth="@dimen/dp_23"
+                android:text='@{data.positionString()}'
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_14" />
+
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:layout_marginLeft="@dimen/dp_6"
+            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginTop="@dimen/dp_6"
+            android:layout_weight="1"
+            android:text="@{data.questionContent}"
+            android:textColor="#363636"
+            android:textSize="@dimen/font_15" />
+
+
+        <TextView
+            android:id="@+id/iv_select"
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
+            android:background="@drawable/ic_circle_tick"
+            android:onClick="@{()->data.showAddQuestionsDialog(context,adapter.getInt(AdapterConfigKey.ID))}"
+            android:selected="@{data.userSelected}" />
+
+    </LinearLayout>
+
+</layout>

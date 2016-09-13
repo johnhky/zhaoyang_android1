@@ -89,6 +89,9 @@ public class Options2 extends BaseItem {
 
     @Override
     public int getLayoutId() {
+        if (!isVisible()) {
+            return R.layout.item_empty;
+        }
         switch (questionType) {
             case QuestionType.drug:
                 return R.layout.item_load_prescription;
