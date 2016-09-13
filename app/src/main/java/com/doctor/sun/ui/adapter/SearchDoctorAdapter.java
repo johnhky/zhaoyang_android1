@@ -24,9 +24,9 @@ public class SearchDoctorAdapter extends SimpleAdapter {
 
     public String getTypeLabel() {
         if (type == AppointmentType.PREMIUM) {
-            return getString(R.string.premium_product);
+            return getStringRes(R.string.premium_product);
         } else {
-            return getString(R.string.standard_product);
+            return getStringRes(R.string.standard_product);
         }
     }
 

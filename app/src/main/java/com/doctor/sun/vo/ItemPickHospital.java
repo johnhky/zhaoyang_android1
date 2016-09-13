@@ -247,6 +247,9 @@ public class ItemPickHospital extends BaseItem {
 
     @Override
     public int getLayoutId() {
+        if (!isVisible()) {
+            return R.layout.item_empty;
+        }
         return R.layout.item_hospital;
     }
 

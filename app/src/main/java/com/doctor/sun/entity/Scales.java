@@ -3,10 +3,17 @@ package com.doctor.sun.entity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.constans.QuestionsPath;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.LeftDrawerFragmentActivity;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
@@ -17,6 +24,8 @@ import com.doctor.sun.ui.fragment.ReadQTemplateFragment;
 import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.HashMap;
 
 /**
  * Created by rick on 15/8/2016.
@@ -35,7 +44,6 @@ public class Scales extends BaseItem {
     public String scaleName;
     @JsonProperty("question_count")
     public String questionCount;
-
 
 
     public void readScalesQuestion(SortedListAdapter adapter, String scalesId, boolean isTemplates) {
@@ -81,6 +89,36 @@ public class Scales extends BaseItem {
             Intent intent = LeftDrawerFragmentActivity.intentFor(context, scaleName, args, drawerArgs);
             context.startActivity(intent);
         }
+    }
+
+    public void addScaleToAppointment(int appointmentId) {
+        HashMap<String, String> fieldMap = new HashMap<>();
+        fieldMap.put("add_scale", scaleId);
+        QuestionModule api = Api.of(QuestionModule.class);
+        api.addQuestionToAppointment(appointmentId, fieldMap).enqueue(new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                setUserSelected(true);
+            }
+        });
+    }
+
+    public void showAddScaleDialog(Context context, final int appointmentId) {
+        if (isUserSelected()) {
+            Toast.makeText(context, "量表已经添加", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        new MaterialDialog.Builder(context)
+                .content("是否确认添加")
+                .positiveText("确认")
+                .negativeText("取消")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        addScaleToAppointment(appointmentId);
+                    }
+                }).show();
     }
 
 

@@ -201,4 +201,8 @@ public class InputLayoutViewModel extends BaseObservable {
         this.msg = msg;
         notifyPropertyChanged(BR.msg);
     }
+
+    public boolean True() {
+        return true;
+    }
 }

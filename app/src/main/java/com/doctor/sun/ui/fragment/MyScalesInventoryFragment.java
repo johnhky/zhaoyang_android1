@@ -1,10 +1,13 @@
 package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.QuestionModule;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 
 /**
  * Created by rick on 9/9/2016.
@@ -16,10 +19,19 @@ public class MyScalesInventoryFragment extends RefreshListFragment {
     QuestionModule questionModule = Api.of(QuestionModule.class);
 
 
-    public static Bundle getArgs() {
+    public static Bundle getArgs(String id) {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FRAGMENT_NAME, TAG);
+        bundle.putString(Constants.DATA, id);
         return bundle;
+    }
+
+    @NonNull
+    @Override
+    public SimpleAdapter createAdapter() {
+        SimpleAdapter adapter = super.createAdapter();
+        adapter.putInt(AdapterConfigKey.ID, getAppointmentId());
+        return adapter;
     }
 
     @Override
@@ -29,4 +41,7 @@ public class MyScalesInventoryFragment extends RefreshListFragment {
         questionModule.myTemplates(getPageCallback().getPage()).enqueue(getPageCallback());
     }
 
+    public int getAppointmentId() {
+        return Integer.parseInt(getArguments().getString(Constants.DATA, ""));
+    }
 }

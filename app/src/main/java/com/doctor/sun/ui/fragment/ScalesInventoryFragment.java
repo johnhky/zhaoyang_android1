@@ -8,6 +8,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 
 /**
  * Created by rick on 9/9/2016.
@@ -30,7 +31,8 @@ public class ScalesInventoryFragment extends RefreshListFragment {
     @Override
     public SimpleAdapter createAdapter() {
         SimpleAdapter adapter = super.createAdapter();
-        adapter.mapLayout(R.layout.item_scales, R.layout.item_scales2);
+        adapter.putInt(AdapterConfigKey.ID, Integer.parseInt(getAppointmentId()));
+        adapter.mapLayout(R.layout.item_scales, R.layout.item_invetory_scales);
         return adapter;
     }
 

@@ -28,7 +28,7 @@ public class QTemplatesInventoryPagerAdapter extends FragmentStatePagerAdapter {
         Bundle args = null;
         switch (position) {
             case 0: {
-                args = MyScalesInventoryFragment.getArgs();
+                args = MyScalesInventoryFragment.getArgs(id);
                 break;
             }
             case 1: {

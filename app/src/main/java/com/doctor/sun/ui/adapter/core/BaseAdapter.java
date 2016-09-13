@@ -1,10 +1,12 @@
 package com.doctor.sun.ui.adapter.core;
 
 import android.content.Context;
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
+import android.util.SparseBooleanArray;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +19,14 @@ import java.util.List;
 /**
  * Created by rick on 10/20/15.
  */
-public abstract class BaseAdapter<T, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements List<T> ,AdapterOps<T>  {
+public abstract class BaseAdapter<T, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements List<T>, AdapterOps<T> {
 
     private Context mContext;
     private LayoutInflater mInflater;
+
+    private final SparseBooleanArray mConfig = new SparseBooleanArray();
+    private final SparseArray<String> mStringConfig = new SparseArray<>();
+    private final SparseIntArray mIntConfig = new SparseIntArray();
 
     public BaseAdapter(Context context) {
         mContext = context;
@@ -62,11 +68,11 @@ public abstract class BaseAdapter<T, B extends ViewDataBinding> extends Recycler
         return mInflater;
     }
 
-    public final String getString(int resId) {
+    public final String getStringRes(int resId) {
         return getContext().getResources().getString(resId);
     }
 
-    public final String getString(int resId, Object... formatArgs) {
+    public final String getStringRes(int resId, Object... formatArgs) {
         return getContext().getResources().getString(resId, formatArgs);
     }
 
@@ -89,6 +95,30 @@ public abstract class BaseAdapter<T, B extends ViewDataBinding> extends Recycler
 
     public boolean isSelected(BaseViewHolder vh) {
         return false;
+    }
+
+    public boolean getConfig(int key) {
+        return mConfig.get(key, false);
+    }
+
+    public void setConfig(int key, boolean value) {
+        mConfig.put(key, value);
+    }
+
+    public String getString(int key) {
+        return mStringConfig.get(key, "");
+    }
+
+    public void putString(int key, String value) {
+        mStringConfig.put(key, value);
+    }
+
+    public void putInt(int key, int value) {
+        mIntConfig.put(key, value);
+    }
+
+    public int getInt(int key) {
+        return mIntConfig.get(key, 0);
     }
 
 }

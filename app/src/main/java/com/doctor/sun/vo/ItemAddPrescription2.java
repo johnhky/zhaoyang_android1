@@ -92,6 +92,9 @@ public class ItemAddPrescription2 extends BaseItem {
 
     @Override
     public int getLayoutId() {
+        if (!isVisible()) {
+            return R.layout.item_empty;
+        }
         return R.layout.item_add_prescription3;
     }
 
