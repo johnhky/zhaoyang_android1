@@ -24,7 +24,7 @@ public class MeHandler {
     }
 
     public void info(View view) {
-        Intent intent = EditPatientInfoActivity.makeIntent(view.getContext(), data);
+        Intent intent = EditPatientInfoActivity.intentFor(view.getContext(), data);
         view.getContext().startActivity(intent);
     }
 

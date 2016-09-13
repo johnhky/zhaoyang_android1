@@ -1,8 +1,11 @@
 package com.doctor.sun.entity;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.Gender;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -377,4 +380,7 @@ public class ContactDetail implements Parcelable {
             return new ContactDetail[size];
         }
     };
+    public String getGenderAndBirthday(Context context) {
+        return context.getString(R.string.gender_birth, gender == Gender.MALE ? "Male" : "Female" , birthday);
+    }
 }

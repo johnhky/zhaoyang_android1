@@ -61,7 +61,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
         invalidateOptionsMenu();
     }
 
-    public static Intent makeIntent(Context context, Patient data) {
+    public static Intent intentFor(Context context, Patient data) {
         Intent i = new Intent(context, EditPatientInfoActivity.class);
         i.putExtra(Constants.DATA, data);
         return i;

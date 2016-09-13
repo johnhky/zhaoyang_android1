@@ -1,11 +1,13 @@
 package com.doctor.sun.entity;
 
+import android.content.Context;
 import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -325,5 +327,17 @@ public class MedicalRecord extends BaseItem implements Parcelable {
         result.put("gender", String.valueOf(gender));
         result.put("relation", relation);
         return result;
+    }
+
+    public String getPatientNameRelation(Context context) {
+        return context.getString(R.string.patient_name_relation, patientName, name, relation);
+    }
+
+    public String getGenderAndBirthday(Context context) {
+        return context.getString(R.string.gender_birth, gender == Gender.MALE ? "Male" : "Female", birthday);
+    }
+
+    public String getPatientAddress(Context context) {
+        return context.getString(R.string.patient_address, province, city);
     }
 }
