@@ -175,10 +175,10 @@
             android:name="com.doctor.sun.ui.activity.AfterServiceHistoryActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.doctor.AssignQuestionActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name="com.doctor.sun.ui.activity.doctor.AssignQuestionActivity"-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.doctor.MeActivity"
@@ -233,9 +233,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.doctor.AddTemplateActivity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name="com.doctor.sun.ui.activity.doctor.AddTemplateActivity"-->
+            <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.doctor.SettingActivity"
@@ -254,9 +254,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateUnchanged" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.doctor.QuestionActivity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name="com.doctor.sun.ui.activity.doctor.QuestionActivity"-->
+            <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.doctor.AddQuestionActivity"
@@ -426,9 +426,9 @@
             android:name="com.doctor.sun.ui.activity.patient.SystemMsgListActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.VoIPCallActivity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name="com.doctor.sun.ui.activity.VoIPCallActivity"-->
+            <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.ImagePreviewActivity"
@@ -498,32 +498,32 @@
             android:name=".ui.activity.patient.FollowUpDoctorListActivity"
             android:screenOrientation="portrait" />
 
-        <service
-            android:name="com.yuntongxun.ecsdk.ECClientService"
-            android:enabled="true" />
-        // 以下两项为SDK事件提醒广播(必选配置)
-        <receiver android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$AlarmReceiver" />
-        // v5.1.9r增加配置选项(必选配置)
-        <receiver android:name="com.yuntongxun.ecsdk.booter.Alarm" />
-        // SDK网络改变广播(必选配置)
-        <receiver android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$ConnectionReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="com.doctor.sun.ui.recevier.YuntxNotifyReceiver"
-            android:exported="false">
-            <intent-filter>
-                // 接收push消息
-                // action匹配规则{packageName + ".action" + "功能"}
-                <action android:name="com.doctor.sun.action.VOIP_CALL" />
-                <action android:name="com.doctor.sun.action.MESSAGE" />
-                <action android:name="com.doctor.sun.action.NOTIFICATION_CLICK" />
-                <action android:name="com.doctor.sun.action.PERSON_VERSION" />
+        <!--<service-->
+            <!--android:name="com.yuntongxun.ecsdk.ECClientService"-->
+            <!--android:enabled="true" />-->
+        <!--// 以下两项为SDK事件提醒广播(必选配置)-->
+        <!--<receiver android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$AlarmReceiver" />-->
+        <!--// v5.1.9r增加配置选项(必选配置)-->
+        <!--<receiver android:name="com.yuntongxun.ecsdk.booter.Alarm" />-->
+        <!--// SDK网络改变广播(必选配置)-->
+        <!--<receiver android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$ConnectionReceiver">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+        <!--<receiver-->
+            <!--android:name="com.doctor.sun.ui.recevier.YuntxNotifyReceiver"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+                <!--// 接收push消息-->
+                <!--// action匹配规则{packageName + ".action" + "功能"}-->
+                <!--<action android:name="com.doctor.sun.action.VOIP_CALL" />-->
+                <!--<action android:name="com.doctor.sun.action.MESSAGE" />-->
+                <!--<action android:name="com.doctor.sun.action.NOTIFICATION_CLICK" />-->
+                <!--<action android:name="com.doctor.sun.action.PERSON_VERSION" />-->
 
-            </intent-filter>
-        </receiver>
+            <!--</intent-filter>-->
+        <!--</receiver>-->
         <!-- alipay sdk begin -->
 
         <activity
