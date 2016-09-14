@@ -98,7 +98,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
         id = getArguments().getString(Constants.DATA);
         path = getArguments().getString(Constants.PATH);
         questionType = getArguments().getString(Constants.QUESTION_TYPE);
-        templateType = getArguments().getString(Constants.IS_TEMPLATE, "0");
+        templateType = getArguments().getString(Constants.IS_TEMPLATE, "");
 
         model = new QuestionsModel();
         setHasOptionsMenu(true);

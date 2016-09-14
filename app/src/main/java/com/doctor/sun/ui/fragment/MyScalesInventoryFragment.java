@@ -31,8 +31,8 @@ public class MyScalesInventoryFragment extends RefreshListFragment {
     @Override
     public SimpleAdapter createAdapter() {
         SimpleAdapter adapter = super.createAdapter();
-        adapter.mapLayout(R.layout.item_template2,R.layout.item_invetory_template);
-        adapter.putInt(AdapterConfigKey.ID, getAppointmentId());
+        adapter.mapLayout(R.layout.item_template2, R.layout.item_inventory_template);
+        adapter.putString(AdapterConfigKey.ID, getAppointmentId());
         return adapter;
     }
 
@@ -43,7 +43,7 @@ public class MyScalesInventoryFragment extends RefreshListFragment {
         questionModule.myTemplates(getPageCallback().getPage()).enqueue(getPageCallback());
     }
 
-    public int getAppointmentId() {
-        return Integer.parseInt(getArguments().getString(Constants.DATA, ""));
+    public String getAppointmentId() {
+        return getArguments().getString(Constants.DATA, "");
     }
 }

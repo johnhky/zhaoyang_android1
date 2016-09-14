@@ -91,7 +91,7 @@ public class Scales extends BaseItem {
         }
     }
 
-    public void addScaleToAppointment(int appointmentId) {
+    public void addScaleToAppointment(String appointmentId) {
         HashMap<String, String> fieldMap = new HashMap<>();
         fieldMap.put("add_scale", scaleId);
         QuestionModule api = Api.of(QuestionModule.class);
@@ -103,7 +103,7 @@ public class Scales extends BaseItem {
         });
     }
 
-    public void showAddScaleDialog(Context context, final int appointmentId) {
+    public void showAddScaleDialog(Context context, final String appointmentId) {
         if (isUserSelected()) {
             Toast.makeText(context, "量表已经添加", Toast.LENGTH_SHORT).show();
             return;
@@ -121,6 +121,11 @@ public class Scales extends BaseItem {
                 }).show();
     }
 
+
+    @Override
+    public String getKey() {
+        return scaleId;
+    }
 
     @Override
     public int getItemLayoutId() {

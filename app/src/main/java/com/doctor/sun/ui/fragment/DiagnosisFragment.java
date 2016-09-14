@@ -64,7 +64,6 @@ public class DiagnosisFragment extends BaseFragment {
     //专属咨询
     public static final int RETURN_TYPE_NET = 1;
     public static final int EDIT_PRESCRITPION = 1;
-    private static DiagnosisFragment instance;
 
     private DiagnosisModule api = Api.of(DiagnosisModule.class);
     private FragmentDiagnosisBinding binding;
@@ -78,22 +77,12 @@ public class DiagnosisFragment extends BaseFragment {
     private boolean shouldAsk = true;
     private ArrayList<Prescription> prescriptions;
 
-    public static DiagnosisFragment getInstance(Appointment id) {
-        if (instance == null) {
-            instance = new DiagnosisFragment();
-            Bundle args = new Bundle();
-            args.putParcelable(Constants.DATA, id);
-            instance.setArguments(args);
-        }
-        return instance;
-    }
 
     public static DiagnosisFragment newInstance(Appointment id) {
 
         Bundle args = new Bundle();
         args.putParcelable(Constants.DATA, id);
         DiagnosisFragment fragment = new DiagnosisFragment();
-        instance = fragment;
         fragment.setArguments(args);
         return fragment;
     }
@@ -132,7 +121,6 @@ public class DiagnosisFragment extends BaseFragment {
         super.onDestroyView();
         viewModel = null;
         shouldScrollDown = false;
-        instance = null;
     }
 
     private void initListener() {
@@ -314,6 +302,12 @@ public class DiagnosisFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        handlerResult(requestCode, resultCode, data);
+    }
+
     public void handlerResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.DOCTOR_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
@@ -371,7 +365,7 @@ public class DiagnosisFragment extends BaseFragment {
         llyRoot.addView(prescriptionBinding.getRoot(), llyRoot.getChildCount() - 1);
     }
 
-    public void setDiagnosise() {
+    public void save() {
         TwoChoiceDialog.show(getContext(), "是否结束本次就诊",
                 "暂存", "保存并结束", new TwoChoiceDialog.Options() {
                     @Override
@@ -417,13 +411,6 @@ public class DiagnosisFragment extends BaseFragment {
         }
     }
 
-    //
-//    @Override
-//    public HeaderViewModel getHeader() {
-//        HeaderViewModel headerViewModel = new HeaderViewModel(null);
-//        headerViewModel.setRightTitle("保存");
-//        return headerViewModel;
-//    }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_save, menu);
@@ -434,7 +421,7 @@ public class DiagnosisFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save: {
-                setDiagnosise();
+                save();
                 return true;
             }
         }

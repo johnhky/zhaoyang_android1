@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.avchat.activity.AVChatExitCode;
 import com.doctor.sun.avchat.constant.CallStateEnum;
-import com.doctor.sun.event.BidirectionalEvent;
+import com.doctor.sun.event.CallFailedShouldCallPhoneEvent;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.avchat.AVChatCallback;
 import com.netease.nimlib.sdk.avchat.AVChatManager;
@@ -228,7 +228,7 @@ public class AVChatUI implements AVChatUIListener {
                 } else {
                     Toast.makeText(context, R.string.avchat_call_failed, Toast.LENGTH_SHORT).show();
                 }
-                EventHub.post(new BidirectionalEvent(AVChatType.AUDIO));
+                EventHub.post(new CallFailedShouldCallPhoneEvent(AVChatType.AUDIO));
                 closeSessions(-1);
             }
 
@@ -288,6 +288,11 @@ public class AVChatUI implements AVChatUIListener {
     public void closeSessions(int exitCode) {
         //not  user  hang up active  and warning tone is playing,so wait its end
         SoundPlayer.instance(context).stop();
+        boolean isOutGoingAudioCall = getCallingState() == CallStateEnum.OUTGOING_AUDIO_CALLING;
+        boolean isOutGoingVideoCall = getCallingState() == CallStateEnum.OUTGOING_VIDEO_CALLING;
+        if (exitCode == AVChatExitCode.PEER_NO_RESPONSE && (isOutGoingAudioCall || isOutGoingVideoCall)) {
+            EventHub.post(new CallFailedShouldCallPhoneEvent(AVChatType.AUDIO));
+        }
         Log.i(TAG, "close session -> " + AVChatExitCode.getExitString(exitCode));
         if (avChatAudio != null)
             avChatAudio.closeSession(exitCode);
@@ -543,14 +548,12 @@ public class AVChatUI implements AVChatUIListener {
     }
 
     private void updateRecordTip() {
-
         if (CallStateEnum.isAudioMode(callingState)) {
             avChatAudio.showRecordView(AVChatManager.getInstance().isLocalRecording(), recordWarning);
         }
         if (CallStateEnum.isVideoMode(callingState)) {
             avChatVideo.showRecordView(AVChatManager.getInstance().isLocalRecording(), recordWarning);
         }
-
     }
 
     public void resetRecordTip() {

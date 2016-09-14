@@ -80,7 +80,7 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
             android:background="@drawable/ic_circle_tick"
-            android:onClick="@{()->data.showAddQuestionsDialog(context,adapter.getInt(AdapterConfigKey.ID))}"
+            android:onClick="@{()->data.showAddQuestionsDialog(context,adapter.getString(AdapterConfigKey.ID))}"
             android:selected="@{data.userSelected}" />
 
     </LinearLayout>

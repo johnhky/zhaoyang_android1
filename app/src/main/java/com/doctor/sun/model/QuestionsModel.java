@@ -32,6 +32,7 @@ import com.doctor.sun.vo.ItemPickHospital;
 import com.doctor.sun.vo.ItemPickImages;
 import com.doctor.sun.vo.ItemPickTime;
 import com.doctor.sun.vo.ItemTextInput;
+import com.google.common.base.Strings;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,7 +68,11 @@ public class QuestionsModel {
     }
 
     public void questions(String type, String id, String questionType, String templateType, final Function0<List<? extends SortedItem>> function0) {
-        Call<ApiDTO<QuestionDTO>> apiDTOCall = api.questions2(type, id, questionType, templateType);
+        HashMap<String, String> params = new HashMap<>();
+        if (!Strings.isNullOrEmpty(templateType)) {
+            params.put("template_type", templateType);
+        }
+        Call<ApiDTO<QuestionDTO>> apiDTOCall = api.questions2(type, id, questionType, params);
         handleQuestions(questionType, function0, apiDTOCall);
     }
 

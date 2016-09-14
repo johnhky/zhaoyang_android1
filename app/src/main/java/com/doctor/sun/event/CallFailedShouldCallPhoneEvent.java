@@ -7,11 +7,11 @@ import io.ganguo.library.core.event.Event;
 /**
  * Created by rick on 14/7/2016.
  */
-public class BidirectionalEvent implements Event {
+public class CallFailedShouldCallPhoneEvent implements Event {
 
     private final int chatType;
 
-    public BidirectionalEvent(AVChatType chatType) {
+    public CallFailedShouldCallPhoneEvent(AVChatType chatType) {
         this.chatType = chatType.getValue();
     }
 

@@ -108,7 +108,7 @@ public class EditDoctorInfoModel {
 
         insertDivider(result);
 
-        ItemTextInput2 hospitalPhone = ItemTextInput2.phoneInput("医院/科室电话", "请输入电话号码");
+        ItemTextInput2 hospitalPhone = ItemTextInput2.phoneInput("医院/科室电话", "请输入手机电话号码或者座机号码");
         hospitalPhone.setCanResultEmpty();
         hospitalPhone.setItemLayoutId(R.layout.item_text_input2);
         hospitalPhone.setItemId("hospitalPhone");

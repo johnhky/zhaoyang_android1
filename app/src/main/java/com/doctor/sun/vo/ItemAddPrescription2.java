@@ -60,7 +60,7 @@ public class ItemAddPrescription2 extends BaseItem {
             itemSize = opCount;
         }
 
-        parcelable.position = getPosition() - QuestionsModel.PADDING + 2 + opCount;
+        parcelable.position = getPosition() - QuestionsModel.PADDING + 3 + opCount;
         parcelable.itemId = UUID.randomUUID().toString();
         registerItemChangedListener(parcelable);
         adapter.insert(parcelable);
@@ -127,7 +127,7 @@ public class ItemAddPrescription2 extends BaseItem {
 
     public String getQuestionId(SortedListAdapter adapter, String key) {
         Questions2 item = (Questions2) adapter.get(key);
-        return item.questionId;
+        return item.answerId;
     }
 
     public int itemSize() {

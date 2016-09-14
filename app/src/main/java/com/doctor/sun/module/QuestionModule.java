@@ -12,6 +12,7 @@ import com.doctor.sun.entity.Scales;
 import com.doctor.sun.entity.ScalesResult;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by rick on 11/26/15.
@@ -192,7 +194,7 @@ public interface QuestionModule {
      * @return
      */
     @GET("{type}/{id}")
-    Call<ApiDTO<QuestionDTO>> questions2(@Path("type") String type, @Path("id") String appointmentId, @Query("questionnaires_type") String questionnaires_type, @Query("template_type") String template_type);
+    Call<ApiDTO<QuestionDTO>> questions2(@Path("type") String type, @Path("id") String appointmentId, @Query("questionnaires_type") String questionnaires_type, @QueryMap HashMap<String,String> params);
 
     @FormUrlEncoded
     @PUT("{type}/{id}")
@@ -225,5 +227,5 @@ public interface QuestionModule {
 
     @FormUrlEncoded
     @PUT("smartQuestionnaires/{id}")
-    Call<ApiDTO<String>> addQuestionToAppointment(@Path("id") int appointmentId, @FieldMap Map<String, String> fieldMap);
+    Call<ApiDTO<String>> addQuestionToAppointment(@Path("id") String appointmentId, @FieldMap Map<String, String> fieldMap);
 }

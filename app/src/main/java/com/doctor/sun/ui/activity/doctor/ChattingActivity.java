@@ -25,7 +25,7 @@ import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
-import com.doctor.sun.event.BidirectionalEvent;
+import com.doctor.sun.event.CallFailedShouldCallPhoneEvent;
 import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.event.RejectInComingCallEvent;
 import com.doctor.sun.event.SendMessageEvent;
@@ -569,7 +569,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
     @Subscribe
-    public void onRejectIncomingCallEvent(BidirectionalEvent e) {
+    public void onRejectIncomingCallEvent(CallFailedShouldCallPhoneEvent e) {
         if (handler != null) {
             if (AVChatType.AUDIO.getValue() == e.getChatType()) {
                 handler.callTelephone(this);

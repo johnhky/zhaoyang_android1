@@ -59,7 +59,7 @@ public class FragmentFactory {
     }
 
 
-    public FragmentFactory() {
+    private FragmentFactory() {
         init();
     }
 

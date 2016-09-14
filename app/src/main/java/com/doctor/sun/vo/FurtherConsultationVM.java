@@ -246,7 +246,7 @@ public class FurtherConsultationVM extends BaseItem {
                 return result;
             }
             if (btnThreeChecked) {
-                optionId = questions2.getOptionContent(2);
+                optionId = questions2.getOptionID(2);
                 if (doctor != null) {
                     replyContent = String.valueOf(doctor.getId());
                     result.put(ANSWER_KEY, optionId);

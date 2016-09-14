@@ -37,7 +37,11 @@ public class AlwaysFilterTextView extends AutoCompleteTextView {
                 }
             }, 100L);
         } else {
-            performFiltering(getText(), KeyEvent.KEYCODE_UNKNOWN);
+            try {
+                performFiltering(getText(), KeyEvent.KEYCODE_UNKNOWN);
+            }catch (NullPointerException ignored) {
+
+            }
         }
     }
 

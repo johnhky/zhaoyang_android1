@@ -112,7 +112,7 @@ public class ItemPickImages extends BaseItem {
     public static long getPositionForNewImage(SortedListAdapter adapter, ItemPickImages item) {
         int distance = adapter.inBetweenItemCount(item.getKey(), item.getKey().replace(QuestionType.upImg, ""));
         item.setItemSize(distance);
-        return Math.abs(item.getPosition()) - QuestionsModel.PADDING + 2 + distance;
+        return Math.abs(item.getPosition()) - QuestionsModel.PADDING + 3 + distance;
     }
 
     public static void handleRequest(Context context, final SortedListAdapter adapter, Intent data, int requestCode) {

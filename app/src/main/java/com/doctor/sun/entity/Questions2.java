@@ -216,7 +216,7 @@ public class Questions2 extends BaseItem {
         return orDisableRule != null || orEnableRule != null;
     }
 
-    public void addQuestionToAppointment(int appointmentId) {
+    public void addQuestionToAppointment(String appointmentId) {
         HashMap<String, String> fieldMap = new HashMap<>();
         if (getPosition() > ItemCustomQuestionLoader.FIRST_ITEM_POSITION_PADDING * QuestionsModel.PADDING) {
             fieldMap.put("add_template_question", getKey());
@@ -234,7 +234,7 @@ public class Questions2 extends BaseItem {
         });
     }
 
-    public void showAddQuestionsDialog(Context context, final int appointmentId) {
+    public void showAddQuestionsDialog(Context context, final String appointmentId) {
         if (isUserSelected()) {
             Toast.makeText(context, "问题已经添加", Toast.LENGTH_SHORT).show();
             return;

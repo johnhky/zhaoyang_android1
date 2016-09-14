@@ -252,11 +252,7 @@ public class AVChatActivity extends BaseFragmentActivity2 implements AVChatUI.AV
             if (ackInfo.getEvent() == AVChatEventType.CALLEE_ACK_BUSY) {
                 avChatUI.closeSessions(AVChatExitCode.PEER_BUSY);
             } else if (ackInfo.getEvent() == AVChatEventType.CALLEE_ACK_REJECT) {
-                if (state == AVChatType.VIDEO.getValue()) {
-                    EventHub.post(new RejectInComingCallEvent("", CommunicationType.VIDEO_CALL));
-                } else if (state == AVChatType.AUDIO.getValue()) {
-                    EventHub.post(new RejectInComingCallEvent("", CommunicationType.PHONE_CALL));
-                }
+                notifyRejectInComingCall();
                 avChatUI.closeSessions(AVChatExitCode.REJECT);
             } else if (ackInfo.getEvent() == AVChatEventType.CALLEE_ACK_AGREE) {
                 if (ackInfo.isDeviceReady()) {
@@ -271,6 +267,14 @@ public class AVChatActivity extends BaseFragmentActivity2 implements AVChatUI.AV
             }
         }
     };
+
+    public void notifyRejectInComingCall() {
+        if (state == AVChatType.VIDEO.getValue()) {
+            EventHub.post(new RejectInComingCallEvent("", CommunicationType.VIDEO_CALL));
+        } else if (state == AVChatType.AUDIO.getValue()) {
+            EventHub.post(new RejectInComingCallEvent("", CommunicationType.PHONE_CALL));
+        }
+    }
 
     Observer<AVChatTimeOutEvent> timeoutObserver = new Observer<AVChatTimeOutEvent>() {
         @Override

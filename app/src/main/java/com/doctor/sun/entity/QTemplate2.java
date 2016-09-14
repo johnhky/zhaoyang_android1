@@ -61,7 +61,7 @@ public class QTemplate2 extends BaseItem {
         context.startActivity(intent);
     }
 
-    public void addTemplateToAppointment(int appointmentId) {
+    public void addTemplateToAppointment(String appointmentId) {
         HashMap<String, String> fieldMap = new HashMap<>();
         fieldMap.put("add_template", templateId);
         QuestionModule api = Api.of(QuestionModule.class);
@@ -73,7 +73,7 @@ public class QTemplate2 extends BaseItem {
         });
     }
 
-    public void showAddTemplateDialog(Context context, final int appointmentId) {
+    public void showAddTemplateDialog(Context context, final String appointmentId) {
         if (isUserSelected()) {
             Toast.makeText(context, "量表已经添加", Toast.LENGTH_SHORT).show();
             return;

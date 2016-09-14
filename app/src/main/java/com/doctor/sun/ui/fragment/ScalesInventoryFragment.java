@@ -31,7 +31,7 @@ public class ScalesInventoryFragment extends RefreshListFragment {
     @Override
     public SimpleAdapter createAdapter() {
         SimpleAdapter adapter = super.createAdapter();
-        adapter.putInt(AdapterConfigKey.ID, Integer.parseInt(getAppointmentId()));
+        adapter.putString(AdapterConfigKey.ID, getAppointmentId());
         adapter.mapLayout(R.layout.item_scales, R.layout.item_invetory_scales);
         return adapter;
     }

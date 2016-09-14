@@ -775,12 +775,18 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public void callTelephone(final Context context) {
         ImModule imModule = Api.of(ImModule.class);
-        imModule.makeYunXinPhoneCall(getMyPhoneNO(), getPhoneNO()).enqueue(new SimpleCallback<String>() {
+        imModule.makePhoneCall(getPhoneNO()).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
                 Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
             }
         });
+//        imModule.makeYunXinPhoneCall(getMyPhoneNO(), getPhoneNO()).enqueue(new SimpleCallback<String>() {
+//            @Override
+//            protected void handleResponse(String response) {
+//                Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     public String getVoipAccount() {
