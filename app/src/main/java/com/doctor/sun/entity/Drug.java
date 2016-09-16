@@ -15,15 +15,16 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.DrugModule;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.fragment.DrugListFragment;
+import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
 import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.PayInterface;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 
 import io.ganguo.library.common.ToastHelper;
@@ -284,5 +285,9 @@ public class Drug extends BaseObservable implements LayoutId {
 
     public String styledStatus() {
         return "<font color='" + statusColor(status) + "'>" + getStatuses() + "</font>";
+    }
+
+    public void showDetail(Context context) {
+        context.startActivity(SingleFragmentActivity.intentFor(context, "PayPrescription", PayPrescriptionsFragment.getArgs()));
     }
 }

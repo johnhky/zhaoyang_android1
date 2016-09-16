@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vo.ClickMenu" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@drawable/ripple_default"
+        android:clickable="true"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:button="@null"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@{data.title}"
+            android:textColor="@color/grey_89"
+            android:textSize="@dimen/font_15"
+            tools:text="已使用优惠券" />
+
+        <TextView
+            android:layout_width="@dimen/dp_85"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:background="@drawable/selector_blue_rect"
+            android:gravity="center"
+            android:onClick="@{data.itemClick()}"
+            android:text="点击选择"
+            android:textColor="@color/text_color_blue" />
+    </FrameLayout>
+</layout>

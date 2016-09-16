@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -18,7 +17,7 @@
         android:paddingBottom="@dimen/dp_4"
         android:paddingLeft="@dimen/dp_13"
         android:paddingRight="@dimen/dp_13"
-        android:visibility="@{data.enabled}">
+        android:visibility="@{data.isVisible}">
 
         <TextView
             android:id="@+id/et_others"

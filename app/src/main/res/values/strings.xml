@@ -110,4 +110,7 @@
     <string name="title_record_pool">病历库</string>
     <string name="title_follow_up">随访列表</string>
     <string name="title_follow_up_doctor">随访医生</string>
+
+    <string name="medicine">药品品类：</string>
+    <string name="medicine_price">药品总价：</string>
 </resources>

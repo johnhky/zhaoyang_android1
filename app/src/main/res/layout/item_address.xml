@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Address" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_default"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_13">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.name}"
+            android:textColor="#363636"
+            android:textSize="@dimen/font_15"
+            tools:text="收件人：李小明" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.phone}"
+            android:textColor="#363636"
+            android:textSize="@dimen/font_15"
+            tools:text="手机号码：13612345678" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.address}"
+            android:textColor="#363636"
+            android:textSize="@dimen/font_15"
+            tools:text="收货地址：广东省广州市荔湾区信义路24号七喜创意园4栋336室" />
+    </LinearLayout>
+</layout>

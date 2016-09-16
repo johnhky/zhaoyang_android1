@@ -67,4 +67,8 @@ public class Constants {
     public static final String IS_DONE = "IS_DONE";
     public static final String LAST_DOCTOR_STATUS = "LAST_DOCTOR_STATUS";
     public static final String IS_TEMPLATE = "IS_TEMPLATE";
+
+    public static final String ADDRESS = "ADDRESS";
+    public static final String DOCTOR_INFO = "DOCTOR_INFO";
+    public static final String MEDICINE_INFO = "MEDICINE_INFO";
 }
