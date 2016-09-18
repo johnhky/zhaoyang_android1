@@ -52,7 +52,6 @@ public class PayPrescriptionsModel {
         couponDescription.setPosition(result.size());
         result.add(couponDescription);
 
-        //TODO ClickMenu
         ClickMenu selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "已使用优惠券", new View.OnClickListener() {
             @Override
             public void onClick(View v) {

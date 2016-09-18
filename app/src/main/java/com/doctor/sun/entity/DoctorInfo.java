@@ -15,7 +15,8 @@ import com.doctor.sun.vo.BaseItem;
 public class DoctorInfo extends BaseItem implements LayoutId, Parcelable {
 
     private String name;
-    private String title;
+    private String hospital;
+    private String level;
 
     public DoctorInfo() {
     }
@@ -28,14 +29,20 @@ public class DoctorInfo extends BaseItem implements LayoutId, Parcelable {
         this.name = name;
     }
 
-    @Override
-    public String getTitle() {
-        return title;
+    public String getHospital() {
+        return hospital;
     }
 
-    @Override
-    public void setTitle(String title) {
-        this.title = title;
+    public void setHospital(String hospital) {
+        this.hospital = hospital;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     @Override
@@ -45,7 +52,8 @@ public class DoctorInfo extends BaseItem implements LayoutId, Parcelable {
 
     protected DoctorInfo(Parcel in) {
         name = in.readString();
-        title = in.readString();
+        hospital = in.readString();
+        level = in.readString();
     }
 
     public static final Creator<DoctorInfo> CREATOR = new Creator<DoctorInfo>() {
@@ -68,6 +76,7 @@ public class DoctorInfo extends BaseItem implements LayoutId, Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
-        dest.writeString(title);
+        dest.writeString(hospital);
+        dest.writeString(level);
     }
 }

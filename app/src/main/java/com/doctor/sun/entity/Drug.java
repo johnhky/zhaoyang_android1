@@ -2,6 +2,7 @@ package com.doctor.sun.entity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
@@ -288,6 +289,7 @@ public class Drug extends BaseObservable implements LayoutId {
     }
 
     public void showDetail(Context context) {
-        context.startActivity(SingleFragmentActivity.intentFor(context, "PayPrescription", PayPrescriptionsFragment.getArgs()));
+        Intent payPrescriptionIntent = SingleFragmentActivity.intentFor(context, "寄药支付", PayPrescriptionsFragment.getArgs());
+        context.startActivity(payPrescriptionIntent);
     }
 }

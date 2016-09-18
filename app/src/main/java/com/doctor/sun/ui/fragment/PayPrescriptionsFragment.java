@@ -38,11 +38,12 @@ public class PayPrescriptionsFragment extends SortedListFragment {
 
         DoctorInfo doctorInfo = new DoctorInfo();
         doctorInfo.setName("张丽");
-        doctorInfo.setTitle("广州市第一人民医院/精神科/科室主任");
+        doctorInfo.setHospital("广州市第一人民医院/精神科/科室主任");
+        doctorInfo.setLevel("执业医师认证");
 
         MedicineInfo medicineInfo = new MedicineInfo();
         medicineInfo.setMedicine("奥氮平/100颗");
-        medicineInfo.setMedicinePrice("$420");
+        medicineInfo.setMedicinePrice("420");
 
         bundle.putParcelable(Constants.ADDRESS, address);
         bundle.putParcelable(Constants.DOCTOR_INFO, doctorInfo);

@@ -23,7 +23,7 @@ public class Address extends BaseItem implements LayoutId, Parcelable {
     }
 
     public String getName() {
-        return "收件人：" + name;
+        return name;
     }
 
     public void setName(String name) {
@@ -31,7 +31,7 @@ public class Address extends BaseItem implements LayoutId, Parcelable {
     }
 
     public String getPhone() {
-        return "手机号码：" + phone;
+        return phone;
     }
 
     public void setPhone(String phone) {
@@ -39,7 +39,7 @@ public class Address extends BaseItem implements LayoutId, Parcelable {
     }
 
     public String getAddress() {
-        return "收货地址：" + address;
+        return address;
     }
 
     public void setAddress(String address) {
