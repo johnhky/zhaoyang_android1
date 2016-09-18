@@ -1,33 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/avchat_call_bg" >
+    android:background="@drawable/avchat_call_bg">
 
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <RelativeLayout
-            android:clickable="true"
+            android:id="@+id/avchat_audio_switch_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="22dp"
             android:layout_marginTop="18dp"
-            android:id="@+id/avchat_audio_switch_video"
-            android:descendantFocusability="blocksDescendants"
             android:background="@drawable/video_audio_mode_switch_bg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:clickable="true"
+            android:descendantFocusability="blocksDescendants">
 
             <Button
-                android:clickable="false"
-                android:layout_centerInParent="true"
-                android:background="@color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:layout_gravity="center"
+                android:background="@color/transparent"
+                android:clickable="false"
                 android:drawableLeft="@drawable/avchat_switch_mode_video_icon"
                 android:drawablePadding="5dip"
                 android:shadowColor="#353738"
@@ -44,23 +43,22 @@
             android:id="@+id/avchat_audio_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60dp" />
 
         <TextView
-            android:layout_gravity="center_horizontal"
             android:id="@+id/avchat_audio_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="15dp"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:text=""
+            android:layout_marginTop="15dp"
+            android:ellipsize="end"
             android:gravity="center"
             android:singleLine="true"
-            android:ellipsize="end"
-            />
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
         <Chronometer
             android:id="@+id/avchat_audio_time"
@@ -68,62 +66,74 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="15dp"
+            android:gravity="center"
             android:shadowColor="#fbfbf9"
             android:shadowDy="1"
             android:shadowRadius="1"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:gravity="center"
             android:visibility="gone" />
 
         <TextView
-            android:layout_marginBottom="5dp"
-            android:layout_gravity="center_horizontal"
             android:id="@+id/avchat_audio_notify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:text="@string/avchat_video_call_request"
-            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
             android:ellipsize="end"
+            android:gravity="center"
             android:paddingLeft="35dp"
             android:paddingRight="35dp"
-            />
+            android:text="@string/avchat_video_call_request"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/avchat_audio_notify_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:text="@string/avchat_video_descriptions"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/avchat_audio_wifi_unavailable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_12"
-            android:textColor="@color/white"
-            android:text="@string/avchat_audio_call_wifi_unavailable_tip"
             android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:background="@drawable/avchat_audio_call_wifi_unavailable"
-            android:paddingTop="15dp"
-            android:paddingBottom="7dp"
-            android:includeFontPadding="false"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:visibility="gone"
-            />
+            android:background="@drawable/avchat_audio_call_wifi_unavailable"
+            android:gravity="center_horizontal"
+            android:includeFontPadding="false"
+            android:paddingBottom="7dp"
+            android:paddingTop="15dp"
+            android:text="@string/avchat_audio_call_wifi_unavailable_tip"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_12"
+            android:visibility="gone" />
 
         <TextView
-            android:layout_gravity="center_horizontal"
             android:id="@+id/avchat_audio_netunstable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:text="@string/avchat_network_grade_1"
-            android:gravity="center"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:visibility="invisible"
+            android:layout_gravity="center_horizontal"
             android:drawablePadding="1dp"
             android:drawableRight="@drawable/network_grade_1"
-            />
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/avchat_network_grade_1"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:visibility="invisible" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -151,11 +161,11 @@
             <include
                 android:id="@+id/avchat_record_layout"
                 layout="@layout/avchat_record_layout"
-                android:layout_above="@+id/avchat_audio_mute_speaker_huangup"
-                android:layout_marginBottom="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_above="@+id/avchat_audio_mute_speaker_huangup"
                 android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
                 android:visibility="invisible" />
 
         </RelativeLayout>

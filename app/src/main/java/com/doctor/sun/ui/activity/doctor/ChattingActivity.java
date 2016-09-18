@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
@@ -572,6 +573,8 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     public void onRejectIncomingCallEvent(CallFailedShouldCallPhoneEvent e) {
         if (handler != null) {
             if (AVChatType.AUDIO.getValue() == e.getChatType()) {
+                Toast toast = Toast.makeText(this, "网络电话未被接听,现在转为专线020-81212600回拨，请放心接听。", Toast.LENGTH_LONG);
+                toast.show();
                 handler.callTelephone(this);
             }
         }
