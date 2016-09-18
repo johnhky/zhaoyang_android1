@@ -43,16 +43,15 @@ public class ResetPswFragment extends SortedListFragment {
     public static final String TAG = ResetPswFragment.class.getSimpleName();
 
     public static void startFrom(Context context) {
-        context.startActivity(intentFor(context));
+        Intent intent = SingleFragmentActivity.intentFor(context, "忘记密码", getArgs());
+        context.startActivity(intent);
     }
 
-    public static Intent intentFor(Context context) {
-        Intent i = new Intent(context, SingleFragmentActivity.class);
-        i.putExtra(Constants.FRAGMENT_NAME, TAG);
-        i.putExtra(Constants.FRAGMENT_TITLE, "忘记密码");
-        return i;
+    public static Bundle getArgs() {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.FRAGMENT_NAME, TAG);
+        return bundle;
     }
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -144,6 +143,7 @@ public class ResetPswFragment extends SortedListFragment {
         item.setItemId(UUID.randomUUID().toString());
         list.add(item);
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_next, menu);

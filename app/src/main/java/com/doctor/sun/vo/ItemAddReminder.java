@@ -97,7 +97,7 @@ public class ItemAddReminder extends BaseItem {
 
     public String getQuestionId(SortedListAdapter adapter, String key) {
         Questions2 item = (Questions2) adapter.get(key);
-        return item.questionId;
+        return item.answerId;
     }
 
     public int itemSize() {

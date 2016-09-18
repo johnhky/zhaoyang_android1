@@ -263,7 +263,7 @@ public class ItemPickHospital extends BaseItem {
         String key = getKey().replace(QuestionType.asel, "");
         Questions2 item = (Questions2) adapter.get(key);
 
-        result.put("question_id", item.questionId);
+        result.put("question_id", item.answerId);
         result.put("fill_content", toJsonAnswer2());
         return result;
     }

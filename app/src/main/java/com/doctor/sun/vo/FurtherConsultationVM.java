@@ -123,38 +123,6 @@ public class FurtherConsultationVM extends BaseItem {
         }
     }
 
-    public HashMap<String, Object> toJsonAnswer() {
-        HashMap<String, Object> result = new HashMap<>();
-        ArrayList<String> type = new ArrayList<>();
-        ArrayList<String> content = new ArrayList<>();
-
-        if (hasAnswer) {
-            if (btnOneChecked) {
-                type.add("A");
-                content.add("" + date.getDate());
-            }
-
-            if (btnTwoChecked) {
-                type.add("B");
-                content.add("" + date.getDate());
-            }
-            if (btnThreeChecked) {
-                if (doctor != null) {
-                    type.add("C");
-                    content.add("" + doctor.getId());
-                }
-            }
-
-            result.put("type", type);
-            result.put("content", content);
-        }
-
-        result.put("type", type);
-        result.put("content", content);
-
-
-        return result;
-    }
 
     @Bindable
     public boolean isHasAnswer() {
@@ -215,7 +183,7 @@ public class FurtherConsultationVM extends BaseItem {
 
     @Override
     public String getKey() {
-        return questions2.questionId;
+        return questions2.getKey();
     }
 
     @Override

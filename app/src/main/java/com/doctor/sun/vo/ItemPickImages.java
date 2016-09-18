@@ -180,7 +180,7 @@ public class ItemPickImages extends BaseItem {
             }
             HashMap<String, Object> result = new HashMap<>();
             Questions2 questions2 = (Questions2) adapter.get(key);
-            result.put("question_id", questions2.questionId);
+            result.put("question_id", questions2.answerId);
             String content = sb.toString();
             result.put("fill_content", content);
             return result;

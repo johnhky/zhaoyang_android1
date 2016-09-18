@@ -166,7 +166,7 @@ public class ItemReminderList extends BaseItem {
             HashMap<String, Object> result = new HashMap<>();
             String key = getKey().replace(QuestionType.reminder, "");
             Questions2 item = (Questions2) adapter.get(key);
-            result.put("question_id", item.questionId);
+            result.put("question_id", item.answerId);
             result.put("fill_content", arrayList);
             return result;
         }

@@ -122,8 +122,8 @@ public class AnswerQuestionFragment extends SortedListFragment {
 
     }
 
-    public void save(int isFinished) {
-        model.saveAnswer(id, path, questionType, isFinished, getAdapter());
+    public void save(int endAppointment) {
+        model.saveAnswer(id, path, questionType, endAppointment, getAdapter());
     }
 
     @Override
@@ -136,26 +136,31 @@ public class AnswerQuestionFragment extends SortedListFragment {
         switch (item.getItemId()) {
             case R.id.action_save: {
                 if (Settings.isDoctor()) {
-                    TwoChoiceDialog.show(getActivity(), "是否结束本次随访",
-                            "暂存", "保存并结束", new TwoChoiceDialog.Options() {
-                                @Override
-                                public void onApplyClick(final MaterialDialog dialog) {
-                                    save(IntBoolean.TRUE);
-                                    dialog.dismiss();
-                                }
-
-                                @Override
-                                public void onCancelClick(final MaterialDialog dialog) {
-                                    save(IntBoolean.FALSE);
-                                    dialog.dismiss();
-                                }
-                            });
+                    showEndAppointmentDialog();
                 } else {
                     save(IntBoolean.FALSE);
                 }
+                break;
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showEndAppointmentDialog() {
+        TwoChoiceDialog.show(getActivity(), "是否结束本次随访",
+                "暂存", "保存并结束", new TwoChoiceDialog.Options() {
+                    @Override
+                    public void onApplyClick(final MaterialDialog dialog) {
+                        save(IntBoolean.TRUE);
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelClick(final MaterialDialog dialog) {
+                        save(IntBoolean.FALSE);
+                        dialog.dismiss();
+                    }
+                });
     }
 
     @Override

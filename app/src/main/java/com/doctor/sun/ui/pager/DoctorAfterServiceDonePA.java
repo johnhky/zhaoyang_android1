@@ -24,10 +24,14 @@ public class DoctorAfterServiceDonePA extends FragmentStatePagerAdapter {
     public Fragment getItem(final int position) {
         switch (position) {
             case 0: {
-                return ReadQuestionsFragment.getInstance(id, QuestionsPath.FOLLOW_UP, QuestionsType.DOCTOR_R_PATIENT_QUESTIONS, true);
+                return ReadQuestionsFragment.getInstance(id,
+                        QuestionsPath.FOLLOW_UP,
+                        QuestionsType.DOCTOR_R_PATIENT_QUESTIONS, true);
             }
             case 1: {
-                return ReadQuestionsFragment.getInstance(id, QuestionsPath.FOLLOW_UP, QuestionsType.DOCTOR_W_DOCTOR_QUESTIONS, true);
+                return ReadQuestionsFragment.getInstance(id,
+                        QuestionsPath.FOLLOW_UP,
+                        QuestionsType.DOCTOR_W_DOCTOR_QUESTIONS, true);
             }
         }
         return null;

@@ -230,7 +230,7 @@ public class ItemPickDate extends BaseItem {
         HashMap<String, Object> result = new HashMap<>();
         String key = getKey().replace(QuestionType.sDate, "");
         Questions2 item = (Questions2) adapter.get(key);
-        String questionId = item.questionId;
+        String questionId = item.answerId;
 
         result.put("question_id", questionId);
         result.put("fill_content", getDate());

@@ -58,12 +58,12 @@ public abstract class TabActivity extends BaseFragmentActivity2 {
     }
 
     protected Fragment getActiveFragment(ViewPager container, int position) {
-        String name = makeFragmentName(container.getId(), position);
+        String name = getFragmentTag(container.getId(), position);
         return getSupportFragmentManager().findFragmentByTag(name);
     }
 
-    private static String makeFragmentName(int viewId, int index) {
-        return "android:switcher:" + viewId + ":" + index;
+    private static String getFragmentTag(int containerId, int adapterPosition) {
+        return "android:switcher:" + containerId + ":" + adapterPosition;
     }
 
     protected ActivityTabTwoBinding getBinding() {
@@ -71,7 +71,6 @@ public abstract class TabActivity extends BaseFragmentActivity2 {
     }
 
     protected abstract PagerAdapter createPagerAdapter();
-
 
 
 }

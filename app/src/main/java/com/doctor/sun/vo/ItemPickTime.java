@@ -165,7 +165,7 @@ public class ItemPickTime extends BaseItem {
         HashMap<String, Object> result = new HashMap<>();
         String key = getKey().replace(QuestionType.sDate, "");
         Questions2 item = (Questions2) adapter.get(key);
-        result.put("question_id", item.questionId);
+        result.put("question_id", item.answerId);
         result.put("fill_content", getTime());
         return result;
     }

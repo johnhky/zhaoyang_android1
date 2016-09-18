@@ -205,7 +205,7 @@ public class Questions2 extends BaseItem {
     }
 
     private void enableOrDisableCustomChild(SortedListAdapter adapter, boolean result) {
-        SortedItem item = adapter.get(questionId + questionType);
+        SortedItem item = adapter.get(getKey()+ questionType);
         if (item != null) {
             BaseItem baseItem = (BaseItem) item;
             baseItem.setEnabled(result);

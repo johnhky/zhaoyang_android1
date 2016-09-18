@@ -140,12 +140,14 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
                 return true;
             }
             case R.id.action_send_remind: {
-                if (sendRemind()) return true;
+                sendRemind();
+                return true;
             }
             case R.id.action_add_question: {
                 Intent intent = TemplatesInventoryActivity.intentFor(getContext(),
                         getArguments().getString(Constants.DATA));
                 startActivity(intent);
+                return true;
             }
         }
         return super.onOptionsItemSelected(item);
@@ -159,9 +161,15 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
             return;
         }
         if (!isEditMode) {
-            getActivity().getMenuInflater().inflate(R.menu.menu_edit_remind, menu);
+            getActivity().getMenuInflater().inflate(R.menu.menu_remind_refill, menu);
+            if (!QuestionsPath.SCALES.equals(getQuestionsPath())) {
+                getActivity().getMenuInflater().inflate(R.menu.menu_asign_questions, menu);
+            }
         } else {
             getActivity().getMenuInflater().inflate(R.menu.menu_send_remind, menu);
+            if (!QuestionsPath.SCALES.equals(getQuestionsPath())) {
+                getActivity().getMenuInflater().inflate(R.menu.menu_asign_questions, menu);
+            }
         }
     }
 
@@ -178,7 +186,7 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
             Toast.makeText(getContext(), "请选择需要患者重填的问题", Toast.LENGTH_SHORT).show();
             return true;
         }
-        api.refill2(getType(), id,
+        api.refill2(getQuestionsPath(), id,
                 need_fill).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
@@ -202,7 +210,7 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
         return false;
     }
 
-    public String getType() {
+    public String getQuestionsPath() {
         return getArguments().getString(Constants.PATH);
     }
 }

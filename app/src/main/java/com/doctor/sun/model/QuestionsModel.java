@@ -286,7 +286,7 @@ public class QuestionsModel {
             }
         }
         ItemPickHospital pickHospital = new ItemPickHospital(answerContent, url, lv1Id, lv2Id, lv3Id);
-        pickHospital.setPosition(positionIn(i, 2));
+        pickHospital.setPosition(positionIn(i, RANGE_ITEM_POSITION));
         pickHospital.setItemId(questions2.getKey() + QuestionType.asel);
         items.add(pickHospital);
     }
@@ -469,12 +469,12 @@ public class QuestionsModel {
         }
     }
 
-    public void saveAnswer(final String appointmentId, final String type, final String qType, final int i, final SortedListAdapter adapter) {
+    public void saveAnswer(final String appointmentId, final String type, final String qType, final int endAppointment, final SortedListAdapter adapter) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 String string = composeAnswer(adapter);
-                Response<ApiDTO<String>> apiDTOResponse = postAnswer(appointmentId, type, string, qType, i);
+                Response<ApiDTO<String>> apiDTOResponse = postAnswer(appointmentId, type, string, qType, endAppointment);
                 if (apiDTOResponse != null && apiDTOResponse.isSuccessful()) {
                     EventHub.post(new SaveAnswerSuccessEvent());
                 }

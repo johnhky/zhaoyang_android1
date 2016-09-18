@@ -73,8 +73,7 @@ public class LoginHandler {
     }
 
     public void resetPassword(Context context) {
-        Intent i = ResetPswFragment.intentFor(context);
-        context.startActivity(i);
+        ResetPswFragment.startFrom(context);
     }
 
 }
