@@ -11,6 +11,10 @@ public class Coupon implements LayoutId {
 
 
     /**
+     * threshold : 1
+     * scope : all
+     * platform : all
+     * info : 测试
      * id : 7
      * coupon_money : 100
      * valid_begin_time : 2016-06-01
@@ -20,65 +24,26 @@ public class Coupon implements LayoutId {
      */
 
     @JsonProperty("id")
-    private String id;
+    public String id;
     @JsonProperty("coupon_money")
-    private String couponMoney;
+    public String couponMoney;
     @JsonProperty("valid_begin_time")
-    private String validBeginTime;
+    public String validBeginTime;
     @JsonProperty("valid_end_time")
-    private String validEndTime;
+    public String validEndTime;
     @JsonProperty("coupon_status")
-    private String couponStatus;
+    public String couponStatus;
     @JsonProperty("created_at")
-    private String createdAt;
+    public String createdAt;
+    @JsonProperty("threshold")
+    public String threshold;
+    @JsonProperty("scope")
+    public String scope;
+    @JsonProperty("platform")
+    public String platform;
+    @JsonProperty("info")
+    public String info;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getCouponMoney() {
-        return couponMoney;
-    }
-
-    public void setCouponMoney(String couponMoney) {
-        this.couponMoney = couponMoney;
-    }
-
-    public String getValidBeginTime() {
-        return validBeginTime;
-    }
-
-    public void setValidBeginTime(String validBeginTime) {
-        this.validBeginTime = validBeginTime;
-    }
-
-    public String getValidEndTime() {
-        return validEndTime;
-    }
-
-    public void setValidEndTime(String validEndTime) {
-        this.validEndTime = validEndTime;
-    }
-
-    public String getCouponStatus() {
-        return couponStatus;
-    }
-
-    public void setCouponStatus(String couponStatus) {
-        this.couponStatus = couponStatus;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
 
     // extra method
     public String getStatus() {
@@ -101,5 +66,33 @@ public class Coupon implements LayoutId {
     @Override
     public int getItemLayoutId() {
         return R.layout.item_coupon;
+    }
+
+    @Override
+    public String toString() {
+        return info + availability() + "\n" + validBeginTime + "至" + validEndTime;
+    }
+
+    public String availability() {
+        if (platform.equals(Scope.ALL)) {
+            return "(全部订单可用)";
+        }
+        if (platform.equals(Scope.DRUG_ORDER)) {
+            return "(寄药订单可用)";
+        }
+        if (platform.equals(Scope.STANDARD_APPOINTMENT)) {
+            return "(留言咨询订单可用)";
+        }
+        if (platform.equals(Scope.PREMIUM_APPOINTMENT)) {
+            return "(专属咨询订单可用)";
+        }
+        return "";
+    }
+
+    interface Scope {
+        String ALL = "all";
+        String DRUG_ORDER = "drug_order";
+        String STANDARD_APPOINTMENT = "simple_consult";
+        String PREMIUM_APPOINTMENT = "detail_consult";
     }
 }

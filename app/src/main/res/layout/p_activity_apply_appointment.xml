@@ -293,7 +293,7 @@
                         android:background="@drawable/ripple_default"
                         android:clickable="true"
                         android:gravity="center_vertical"
-                        android:onClick="@{()->data.setUseCoupon(!data.isUseCoupon())}">
+                        android:onClick="@{()->data.selectCoupon(context)}">
 
                         <TextView
                             android:id="@+id/cb_coupon_count"

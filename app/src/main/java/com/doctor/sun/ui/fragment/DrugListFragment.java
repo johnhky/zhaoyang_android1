@@ -15,10 +15,8 @@ import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.MultiSelectAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.google.common.collect.Collections2;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -103,7 +101,7 @@ public class DrugListFragment extends RefreshListFragment {
                 public void onClick(View view) {
                     useCoupon = true;
                     adapter.selectAll();
-                    drugExtraField.put(COUPON_ID, coupons.get(0).getId());
+                    drugExtraField.put(COUPON_ID, coupons.get(0).id);
                     getAdapter().notifyDataSetChanged();
                 }
             });

@@ -8,6 +8,7 @@ import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -54,6 +55,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
 
     private Doctor doctor;
     private MedicalRecord record;
+    private int selectedCoupon = -1;
     private List<Coupon> coupons;
     private Integer[] selectTags;
 
@@ -228,8 +230,27 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         }
     }
 
+    public void selectCoupon(Context context) {
+        if (coupons == null || coupons.isEmpty()) {
+            Toast.makeText(context, "暂时没有可以使用的优惠券", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        new MaterialDialog.Builder(context)
+                .title("选择优惠券(单选)")
+                .items(coupons)
+                .itemsCallbackSingleChoice(selectedCoupon, new MaterialDialog.ListCallbackSingleChoice() {
+
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                        selectedCoupon = which;
+                        return false;
+                    }
+                })
+                .build().show();
+    }
+
     public void loadCoupons() {
-        api.coupons(CouponType.CAN_USE_NOW).enqueue(new SimpleCallback<List<Coupon>>() {
+        api.coupons(CouponType.CAN_USE_NOW, scope(), money()).enqueue(new SimpleCallback<List<Coupon>>() {
             @Override
             protected void handleResponse(List<Coupon> response) {
                 if (response != null && !response.isEmpty()) {
@@ -243,6 +264,15 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
                 }
             }
         });
+    }
+
+    private String scope() {
+        if (getType() == AppointmentType.PREMIUM) {
+            return Coupon.Scope.PREMIUM_APPOINTMENT;
+        } else if (getType() == AppointmentType.STANDARD) {
+            return Coupon.Scope.STANDARD_APPOINTMENT;
+        }
+        return "";
     }
 
     public void loadTags() {
@@ -353,7 +383,6 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         final String medicalRecordId = String.valueOf(getRecord().getMedicalRecordId());
 
         //noinspection WrongConstant
-
         appointmentModule.orderAppointment(doctorId, getTimestamp(), type, medicalRecordId, getFinalCouponId(), getSelectedTagIds(), params).enqueue(callback);
 
     }
@@ -463,6 +492,6 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     };
 
     public String getCouponId() {
-        return coupons.get(0).getId();
+        return coupons.get(selectedCoupon).id;
     }
 }
