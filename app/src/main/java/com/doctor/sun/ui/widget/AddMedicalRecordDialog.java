@@ -13,7 +13,9 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.DialogRecordTypeBinding;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.patient.CreateRecordActivity;
+import com.doctor.sun.ui.fragment.NewMedicalRecordFragment;
 
 /**
  * Created by rick on 6/1/2016.
@@ -41,14 +43,18 @@ public class AddMedicalRecordDialog {
                         break;
                     }
                     case R.id.tv_self: {
-                        Intent intent = CreateRecordActivity.makeIntent(context, CreateRecordActivity.TYPE_SELF, isRegister);
-                        intent.putExtra(Constants.HANDLER, getMessenger(dialog));
+//                        Intent intent = CreateRecordActivity.makeIntent(context, CreateRecordActivity.TYPE_SELF, isRegister);
+//                        intent.putExtra(Constants.HANDLER, getMessenger(dialog));
+//                        context.startActivity(intent);
+                        Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", NewMedicalRecordFragment.getArgs(NewMedicalRecordFragment.TYPE_SELF));
                         context.startActivity(intent);
                         break;
                     }
                     case R.id.tv_relative: {
-                        Intent intent = CreateRecordActivity.makeIntent(context, CreateRecordActivity.TYPE_OTHERS, isRegister);
-                        intent.putExtra(Constants.HANDLER, getMessenger(dialog));
+//                        Intent intent = CreateRecordActivity.makeIntent(context, CreateRecordActivity.TYPE_OTHERS, isRegister);
+//                        intent.putExtra(Constants.HANDLER, getMessenger(dialog));
+//                        context.startActivity(intent);
+                        Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", NewMedicalRecordFragment.getArgs(NewMedicalRecordFragment.TYPE_OTHER));
                         context.startActivity(intent);
                         break;
                     }

@@ -91,6 +91,7 @@ public class SortedListFragment extends BaseFragment implements SwipeRefreshLayo
     }
 
     public void disableRefresh() {
+        binding.swipeRefresh.setEnabled(false);
         isLoading = true;
     }
 }

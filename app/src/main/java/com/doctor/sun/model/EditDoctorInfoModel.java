@@ -55,7 +55,7 @@ public class EditDoctorInfoModel {
         name.setResult(data.getName());
         result.add(name);
 
-        insertDivider(result);
+        ModelUtils.insertDivider(result);
 
         if (data.getPhone() == null || data.getPhone().equals("")) {
             final ItemTextInput2 personalPhone = ItemTextInput2.mobilePhoneInput("手机号码", "请输入11位手机号码");
@@ -78,7 +78,7 @@ public class EditDoctorInfoModel {
             result.add(changePersonalPhone);
         }
 
-        insertDivider(result);
+        ModelUtils.insertDivider(result);
 
         ItemRadioGroup radioGroup = new ItemRadioGroup(R.layout.item_pick_gender);
         radioGroup.setTitle("性别");
@@ -88,7 +88,7 @@ public class EditDoctorInfoModel {
         radioGroup.setSelectedItem(data.getGender());
         result.add(radioGroup);
 
-        insertDivider(result);
+        ModelUtils.insertDivider(result);
 
         ItemTextInput2 hospital = new ItemTextInput2(R.layout.item_text_input2, "所属医院", "");
         hospital.setResultNotEmpty();
@@ -97,7 +97,7 @@ public class EditDoctorInfoModel {
         hospital.setResult(data.getHospitalName());
         result.add(hospital);
 
-        insertDivider(result);
+        ModelUtils.insertDivider(result);
 
         ItemTextInput2 specialist = new ItemTextInput2(R.layout.item_text_input2, "专科", "");
         specialist.setResultNotEmpty();
@@ -106,7 +106,7 @@ public class EditDoctorInfoModel {
         specialist.setResult(data.getSpecialist());
         result.add(specialist);
 
-        insertDivider(result);
+        ModelUtils.insertDivider(result);
 
         ItemTextInput2 hospitalPhone = ItemTextInput2.phoneInput("医院/科室电话", "请输入手机电话号码或者座机号码");
         hospitalPhone.setCanResultEmpty();
@@ -116,7 +116,7 @@ public class EditDoctorInfoModel {
         hospitalPhone.setResult(data.getHospitalPhone());
         result.add(hospitalPhone);
 
-        insertDivider(result);
+        ModelUtils.insertDivider(result);
 
         ItemRadioDialog title = new ItemRadioDialog(R.layout.item_pick_title);
         title.setResultNotEmpty();
@@ -135,7 +135,7 @@ public class EditDoctorInfoModel {
         title.addOptions(stringArray);
         result.add(title);
 
-        insertDivider(result);
+        ModelUtils.insertDivider(result);
 
         BaseItem tagHeader = new BaseItem(R.layout.item_tag_list);
         tagHeader.setTitle("专长标签");
@@ -166,7 +166,7 @@ public class EditDoctorInfoModel {
         tagHeader.setItemId(ItemAddTag.TAGS_START);
         result.add(e);
 
-        insertDivider(result);
+        ModelUtils.insertDivider(result);
 
         ItemTextInput2 detail = new ItemTextInput2(R.layout.item_text_input4, "个人简介/医治专长", "");
         detail.setItemId("detail");
@@ -175,9 +175,9 @@ public class EditDoctorInfoModel {
         detail.setMaxLength(200);
         result.add(detail);
 
-        insertDivider(result);
+        ModelUtils.insertDivider(result);
 
-        insertSpace(result);
+        ModelUtils.insertSpace(result);
 
         ItemPickImage certifiedImg = new ItemPickImage(R.layout.item_pick_certificate_img, data.getCertifiedImg());
         certifiedImg.setTitle("上传\n执业资格");
@@ -207,60 +207,18 @@ public class EditDoctorInfoModel {
         imgPs.setMaxLength(200);
         result.add(imgPs);
 
-        insertDivider(result);
+        ModelUtils.insertDivider(result);
 
-        insertSpace(result);
+        ModelUtils.insertSpace(result);
 
         return result;
     }
 
-
-    private void insertDivider(List<SortedItem> list) {
-        BaseItem item = new BaseItem(R.layout.divider_1px_marginlr_13dp);
-        item.setItemId(UUID.randomUUID().toString());
-        item.setPosition(list.size());
-        list.add(item);
-    }
-
-    private void insertSpace(List<SortedItem> list) {
-        BaseItem item = new BaseItem(R.layout.space_30dp);
-        item.setItemId(UUID.randomUUID().toString());
-        item.setPosition(list.size());
-        list.add(item);
-    }
-
     public void saveDoctorInfo(SortedListAdapter adapter, Callback<ApiDTO<String>> callback) {
-        HashMap<String, String> result = toHashMap(adapter, callback);
+        HashMap<String, String> result = ModelUtils.toHashMap(adapter, callback);
         if (result != null) {
             ProfileModule api = Api.of(ProfileModule.class);
             api.editDoctorProfile(result).enqueue(callback);
         }
-    }
-
-    private HashMap<String, String> toHashMap(SortedListAdapter adapter, Callback<ApiDTO<String>> callback) {
-        HashMap<String, String> result = new HashMap<>();
-        for (int i = 0; i < adapter.size(); i++) {
-            BaseItem item = (BaseItem) adapter.get(i);
-
-            if (!item.isValid("")) {
-                if (!item.resultCanEmpty()) {
-                    item.addNotNullOrEmptyValidator();
-                }
-                ApiDTO<String> body = new ApiDTO<>();
-                body.setStatus("500");
-                body.setMessage(item.errorMsg());
-                callback.onResponse(null, Response.success(body));
-                return null;
-            }
-
-            String value = item.getValue();
-            if (!Strings.isNullOrEmpty(value)) {
-                String key = item.getKey();
-                if (!Strings.isNullOrEmpty(key)) {
-                    result.put(key, value);
-                }
-            }
-        }
-        return result;
     }
 }

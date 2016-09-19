@@ -30,8 +30,7 @@
             android:layout_marginTop="@dimen/dp_6"
             android:gravity="center"
             android:text="@{data.title}"
-            android:textColor="@color/color_tick"
-            android:textSize="@dimen/font_15" />
+            android:textAppearance="@style/AppTheme.TextFloatLabelAppearance" />
 
 
         <LinearLayout
@@ -42,7 +41,7 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginStart="@dimen/dp_13"
             android:background="@drawable/ripple_default"
-            android:onClick="@{()->data.pickTime2(context)}">
+            android:onClick="@{()->data.pickTime(context)}">
 
             <TextView
                 android:id="@+id/et_others"

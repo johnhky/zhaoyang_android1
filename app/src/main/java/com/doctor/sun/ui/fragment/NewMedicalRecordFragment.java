@@ -13,7 +13,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
-import com.doctor.sun.model.AddSelfMedicalRecordModel;
+import com.doctor.sun.model.NewMedicalRecordModel;
 import com.doctor.sun.ui.activity.patient.RecordListActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 
@@ -27,11 +27,15 @@ public class NewMedicalRecordFragment extends SortedListFragment{
 
     public static final String TAG = NewMedicalRecordFragment.class.getSimpleName();
 
-    private AddSelfMedicalRecordModel model;
+    public static final int TYPE_SELF = 0;
+    public static final int TYPE_OTHER = 1;
 
-    public static Bundle getArgs() {
+    private NewMedicalRecordModel model;
+
+    public static Bundle getArgs(int recordType) {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FRAGMENT_NAME, "NewMedicalRecordFragment");
+        bundle.putInt("recordType", recordType);
 
         return bundle;
     }
@@ -40,7 +44,7 @@ public class NewMedicalRecordFragment extends SortedListFragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        model = new AddSelfMedicalRecordModel(this.getContext());
+        model = new NewMedicalRecordModel(this.getContext());
     }
 
     @Override
@@ -49,7 +53,7 @@ public class NewMedicalRecordFragment extends SortedListFragment{
 
         disableRefresh();
         setHasOptionsMenu(true);
-        List<SortedItem> sortedItems = model.parseItem();
+        List<SortedItem> sortedItems = model.parseItem(getRecordType());
         getAdapter().insertAll(sortedItems);
     }
 
@@ -61,7 +65,7 @@ public class NewMedicalRecordFragment extends SortedListFragment{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_finish: {
+            case R.id.action_confirm: {
                 saveMedicalRecord();
             }
         }
@@ -69,8 +73,12 @@ public class NewMedicalRecordFragment extends SortedListFragment{
         return super.onOptionsItemSelected(item);
     }
 
+    private int getRecordType() {
+        return getArguments().getInt("recordType");
+    }
+
     private void saveMedicalRecord() {
-        model.saveMedicalRecord(getAdapter(), new SimpleCallback<String>() {
+        model.saveMedicalRecord(getAdapter(), getRecordType(), new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
                 TokenCallback.checkToken(getActivity());
@@ -80,4 +88,5 @@ public class NewMedicalRecordFragment extends SortedListFragment{
             }
         });
     }
+
 }

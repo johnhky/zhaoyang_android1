@@ -89,7 +89,7 @@ public class Coupon implements LayoutId {
         return "";
     }
 
-    interface Scope {
+    public interface Scope {
         String ALL = "all";
         String DRUG_ORDER = "drug_order";
         String STANDARD_APPOINTMENT = "simple_consult";

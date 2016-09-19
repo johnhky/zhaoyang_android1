@@ -237,4 +237,8 @@ public class ItemPickDate extends BaseItem {
         return result;
     }
 
+    @Override
+    public String getValue() {
+        return getDate();
+    }
 }
