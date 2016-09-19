@@ -253,7 +253,7 @@
                             android:gravity="center_vertical"
                             android:maxLines="1"
                             android:text="@{data.tagsRemarks}"
-                            android:textColor="@color/grey_89"
+                            android:textColor="@color/colorPrimaryDark"
                             android:textSize="@dimen/font_15" />
 
                         <TextView
@@ -267,7 +267,7 @@
                             android:background="@drawable/selector_blue_rect"
                             android:gravity="center"
                             android:text="点击选择"
-                            android:textColor="@color/text_color_white" />
+                            android:textColor="@color/colorPrimaryDark" />
                     </FrameLayout>
                 </LinearLayout>
 
@@ -320,8 +320,7 @@
                             android:layout_marginStart="@dimen/dp_13"
                             android:background="@drawable/selector_blue_rect"
                             android:gravity="center"
-                            android:selected="@{data.useCoupon}"
-                            android:text="@{data.useCoupon?&quot;已使用&quot;:&quot;可使用&quot;}"
+                            android:text="点击选择"
                             android:textColor="@color/text_color_white" />
                     </FrameLayout>
                 </LinearLayout>

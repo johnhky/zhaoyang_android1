@@ -51,7 +51,6 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     private int duration = 15;
     private Time time;
     private boolean isToday;
-    private boolean useCoupon;
 
     private Doctor doctor;
     private MedicalRecord record;
@@ -212,23 +211,6 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         isToday = today;
     }
 
-    @Bindable
-    public boolean isUseCoupon() {
-        return useCoupon;
-    }
-
-    public void setUseCoupon(boolean useCoupon) {
-        if (this.useCoupon == useCoupon) {
-            return;
-        }
-        if (coupons == null || coupons.isEmpty()) {
-            this.useCoupon = false;
-            notifyPropertyChanged(BR.useCoupon);
-        } else {
-            this.useCoupon = useCoupon;
-            notifyPropertyChanged(BR.useCoupon);
-        }
-    }
 
     public void selectCoupon(Context context) {
         if (coupons == null || coupons.isEmpty()) {
@@ -243,7 +225,8 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
                         selectedCoupon = which;
-                        return false;
+                        notifyChange();
+                        return true;
                     }
                 })
                 .build().show();
@@ -255,11 +238,9 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
             protected void handleResponse(List<Coupon> response) {
                 if (response != null && !response.isEmpty()) {
                     coupons = response;
-                    useCoupon = false;
                     notifyChange();
                 } else {
                     coupons = null;
-                    useCoupon = false;
                     notifyChange();
                 }
             }
@@ -290,10 +271,17 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         if (coupons == null || coupons.isEmpty()) {
             return "您暂时没有可用优惠券";
         }
-        if (useCoupon) {
-            return "已经选择使用一张优惠券";
+        if (isCouponSelected()) {
+            return "已使用" + coupons.get(selectedCoupon).info;
         }
         return String.format(Locale.CHINA, "您有%d张可用优惠券", coupons.size());
+    }
+
+    public boolean isCouponSelected() {
+        if (coupons == null || coupons.isEmpty()) {
+            return false;
+        }
+        return selectedCoupon >= 0 && selectedCoupon < coupons.size();
     }
 
     public void changeMedicalRecord(Context context) {
@@ -365,7 +353,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
 
     public String getFinalCouponId() {
         String couponId = "";
-        if (isUseCoupon()) {
+        if (isCouponSelected()) {
             couponId = getCouponId();
         }
         return couponId;
