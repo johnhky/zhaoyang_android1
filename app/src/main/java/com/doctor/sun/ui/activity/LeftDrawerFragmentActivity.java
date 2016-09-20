@@ -34,12 +34,10 @@ public class LeftDrawerFragmentActivity extends BaseFragmentActivity2 {
 
 
         Bundle contentArgs = getIntent().getBundleExtra(Constants.FRAGMENT_CONTENT_BUNDLE);
-        instance = FragmentFactory.getInstance().get(contentArgs.getString(Constants.FRAGMENT_NAME)).execute();
-        instance.setArguments(contentArgs);
+        instance = FragmentFactory.getInstance().get(contentArgs);
 
         Bundle leftDrawerArgs = getIntent().getBundleExtra(Constants.FRAGMENT_LEFT_DRAWER_BUNDLE);
-        leftDrawer = FragmentFactory.getInstance().get(leftDrawerArgs.getString(Constants.FRAGMENT_NAME)).execute();
-        leftDrawer.setArguments(leftDrawerArgs);
+        leftDrawer = FragmentFactory.getInstance().get(leftDrawerArgs);
 
         getSupportFragmentManager()
                 .beginTransaction()

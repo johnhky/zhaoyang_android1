@@ -3,6 +3,7 @@ package com.doctor.sun.entity.handler;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
@@ -42,6 +43,7 @@ import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.ChattingActivityNoMenu;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.CancelAppointmentActivity;
@@ -58,6 +60,7 @@ import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
+import com.doctor.sun.ui.fragment.PayAppointmentFragment;
 import com.doctor.sun.ui.handler.PayMethodInterface;
 import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.ItemHelper;
@@ -251,6 +254,12 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         new PayMethodDialog(component.getContext(), AppointmentHandler.this).show();
     }
 
+    public void startPayActivity(Context context, int id) {
+        Bundle args = PayAppointmentFragment.getArgs(String.valueOf(id));
+        Intent intent = SingleFragmentActivity.intentFor(context, "确认支付", args);
+        context.startActivity(intent);
+    }
+
     @Override
     public void payWithAlipay(final Activity activity, String couponId) {
         int id;
@@ -281,7 +290,10 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         } else {
             id = data.getId();
         }
-        AppointmentModule api = Api.of(AppointmentModule.class);
+        simulatedPayImpl(view, id);
+    }
+
+    public void simulatedPayImpl(final View view, int id) {
         final PayCallback mCallback = new PayCallback() {
             @Override
             public void onPaySuccess() {
@@ -295,6 +307,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 view.getContext().startActivity(intent);
             }
         };
+        AppointmentModule api = Api.of(AppointmentModule.class);
         api.pay(String.valueOf(id)).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
@@ -574,6 +587,16 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return null;
     }
 
+    public int getDiscountMoney() {
+        try {
+            int money = Integer.parseInt(data.getMoney());
+            int unpayMoney = Integer.parseInt(data.getNeedPay());
+            return money - unpayMoney;
+        } catch (ClassCastException e) {
+            return 0;
+        }
+    }
+
     private static class GotoConsultingCallback extends SimpleCallback<String> {
         private final View view;
 
@@ -652,7 +675,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         switch (data.getDisplayStatus()) {
             case Status.A_UNPAID:
             case Status.A_UNPAID_LOCALE2: {
-                showPayDialog(adapter);
+                startPayActivity(adapter.getContext(), data.getId());
                 break;
             }
             case Status.A_PAID:

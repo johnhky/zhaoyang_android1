@@ -215,6 +215,10 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         validators.add(element);
     }
 
+    /**
+     * @param regiteredField 在xml里面给一个Bindable的值来通知error改变状态
+     * @return
+     */
     public boolean errorVisible(String regiteredField) {
         if (errorVisibleMode != ALWAYS_VISIBLE) {
             return !Strings.isNullOrEmpty(getValue()) && !isValid("");

@@ -288,7 +288,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:onClick="@{()->data.handler.showPayDialog(adapter)}"
+                    android:onClick="@{()->data.handler.startPayActivity(context,data.id)}"
                     android:text="立即支付"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_13" />

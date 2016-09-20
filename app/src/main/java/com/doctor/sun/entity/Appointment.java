@@ -9,11 +9,17 @@ import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  * Created by rick on 11/25/15.
  */
 public class Appointment implements LayoutId, Parcelable {
     /**
+     * user_coupon_id : 223
+     * phone_allow : 1
+     * video_allow : 1
+     * select_tags : []
      * auto_finish : 0
      * patient_id : 287
      * doctor_id : 293
@@ -149,6 +155,8 @@ public class Appointment implements LayoutId, Parcelable {
     private int appointmentType = 0;
     @JsonProperty("display_status")
     private String displayStatus = "";
+    @JsonProperty("select_tags")
+    public List<Tags> selectTags;
 
     @JsonProperty("auto_finish")
     public String autoFinish;
@@ -156,6 +164,7 @@ public class Appointment implements LayoutId, Parcelable {
     public String patientId;
     @JsonProperty("doctor_id")
     public String doctorId;
+
 
     private AppointmentHandler handler = new AppointmentHandler(this);
 

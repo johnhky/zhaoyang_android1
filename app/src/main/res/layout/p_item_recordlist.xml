@@ -39,7 +39,8 @@
                 android:layout_marginTop="@dimen/dp_8"
                 android:text="@{data.name}"
                 android:textColor="#363636"
-                android:textSize="@dimen/font_16" />
+                android:textSize="@dimen/font_16"
+                tools:text="name" />
 
             <TextView
                 android:id="@+id/tv_gender"
@@ -48,20 +49,22 @@
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_marginStart="@dimen/dp_8"
                 android:layout_marginTop="@dimen/dp_11"
-                android:layout_toRightOf="@id/tv_name"
                 android:layout_toEndOf="@id/tv_name"
+                android:layout_toRightOf="@id/tv_name"
                 android:text="@{data.handler.getGenderResult}"
                 android:textColor="#363636"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"
+                tools:text="男" />
 
             <TextView
                 android:id="@+id/tv_birthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_name"
-                android:layout_marginTop="@dimen/dp_4"
                 android:layout_marginBottom="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_4"
                 android:text="@{data.birthday}"
+                tools:text="1992年13月32日"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_14" />
 

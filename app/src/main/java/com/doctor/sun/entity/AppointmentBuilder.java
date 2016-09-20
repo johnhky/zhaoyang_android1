@@ -14,8 +14,11 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.BR;
+import com.doctor.sun.BuildConfig;
+import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.CouponType;
+import com.doctor.sun.entity.constans.PayMethod;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -28,6 +31,11 @@ import com.doctor.sun.ui.activity.patient.ApplyAppointmentActivity;
 import com.doctor.sun.ui.activity.patient.PickDateActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
+import com.doctor.sun.vo.AppointmentWrapper;
+import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vo.ClickMenu;
+import com.doctor.sun.vo.ItemButton;
+import com.doctor.sun.vo.ItemRadioGroup;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -481,5 +489,61 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
 
     public String getCouponId() {
         return coupons.get(selectedCoupon).id;
+    }
+
+    public List<BaseItem> toSortedItems(final Appointment response) {
+        ArrayList<BaseItem> result = new ArrayList<>();
+
+        result.add(record);
+        result.add(new Description(R.layout.item_description, "预约详情"));
+        result.add(doctor);
+
+        result.add(new BaseItem(R.layout.divider_1px2));
+
+        result.add(new AppointmentWrapper(R.layout.item_appointment_detail, response));
+
+        result.add(new Description(R.layout.item_description, "优惠券"));
+
+        int discountMoney = response.getHandler().getDiscountMoney();
+        String status;
+        if (discountMoney > 0) {
+            status = "已使用优惠券优惠" + discountMoney;
+        } else {
+            status = "没有使用优惠券";
+        }
+        final ClickMenu selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, status, null);
+        selectCoupon.setEnabled(false);
+        result.add(selectCoupon);
+
+        result.add(new Description(R.layout.item_description, "支付方式"));
+        final ItemRadioGroup payMethod = new ItemRadioGroup(R.layout.item_pick_pay_method);
+        result.add(payMethod);
+
+        ItemButton confirmButton = new ItemButton(R.layout.item_big_button, "确定") {
+            @Override
+            public void onClick(View view) {
+                switch (payMethod.getSelectedItem()) {
+                    case PayMethod.ALIPAY:
+                        response.getHandler().payWithAlipay((Activity) view.getContext(), "");
+                        break;
+                    case PayMethod.SIMULATED:
+                        if (BuildConfig.DEBUG) {
+                            response.getHandler().simulatedPayImpl(view, response.getId());
+                        } else {
+                            Toast.makeText(view.getContext(), "搞事情?", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case PayMethod.WECHAT:
+                        response.getHandler().payWithWeChat((Activity) view.getContext(), "");
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+        };
+        result.add(confirmButton);
+
+        return result;
     }
 }

@@ -255,4 +255,8 @@ public interface AppointmentModule {
     Call<ApiDTO<String>> rejectCommunication(@CommunicationType @Field("type") int type
             , @Field("appointmentId") int appointmentId);
 
+
+    @GET("appointment/status?type=detail")
+    Call<ApiDTO<Appointment>> appointmentDetail(@Query("appointmentId") String appointmentId);
+
 }

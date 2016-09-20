@@ -25,14 +25,13 @@
             android:layout_width="@dimen/dp_283"
             android:layout_height="@dimen/dp_49"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/shape_blue_rect">
+            android:background="@drawable/ripple_blue_rect"
+            android:onClick="@{data.onClick}">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/ripple_default"
                 android:gravity="center"
-                android:onClick="@{data.onClick}"
                 android:text="@{data.content}"
                 android:textColor="#fff"
                 android:textSize="@dimen/font_17" />
