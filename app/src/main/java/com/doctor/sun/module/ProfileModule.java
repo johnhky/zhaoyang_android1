@@ -1,6 +1,7 @@
 package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.dto.IsChanged;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Advice;
@@ -116,7 +117,7 @@ public interface ProfileModule {
 
     @FormUrlEncoded
     @POST("profile/doctor-base")
-    Call<ApiDTO<String>> editDoctorProfile(@FieldMap Map<String, String> doctor);
+    Call<ApiDTO<IsChanged>> editDoctorProfile(@FieldMap Map<String, String> doctor);
 
 
     @FormUrlEncoded

@@ -34,7 +34,7 @@ final class ModelUtils {
         list.add(item);
     }
 
-    static HashMap<String, String> toHashMap(SortedListAdapter adapter, Callback<ApiDTO<String>> callback) {
+    static HashMap<String, String> toHashMap(SortedListAdapter adapter, Callback callback) {
         HashMap<String, String> result = new HashMap<>();
         for (int i = 0; i < adapter.size(); i++) {
             BaseItem item = (BaseItem) adapter.get(i);

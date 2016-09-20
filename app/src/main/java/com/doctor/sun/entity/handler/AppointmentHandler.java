@@ -217,6 +217,10 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
+    public boolean isCouponUsed() {
+        return getDiscountMoney() > 0;
+    }
+
     public String getConsultingTitle() {
         return "病历: " + getRecordName2();
     }

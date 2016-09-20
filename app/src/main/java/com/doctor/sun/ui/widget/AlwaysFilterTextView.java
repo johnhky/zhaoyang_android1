@@ -35,11 +35,11 @@ public class AlwaysFilterTextView extends AutoCompleteTextView {
                 public void run() {
                     performFiltering(getText(), KeyEvent.KEYCODE_UNKNOWN);
                 }
-            }, 100L);
+            }, 500L);
         } else {
             try {
                 performFiltering(getText(), KeyEvent.KEYCODE_UNKNOWN);
-            }catch (NullPointerException ignored) {
+            } catch (NullPointerException ignored) {
 
             }
         }

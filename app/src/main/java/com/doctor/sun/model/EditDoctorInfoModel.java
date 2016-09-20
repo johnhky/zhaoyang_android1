@@ -5,6 +5,7 @@ import android.view.View;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.dto.IsChanged;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ProfileModule;
@@ -26,7 +27,6 @@ import java.util.List;
 import java.util.UUID;
 
 import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by rick on 18/8/2016.
@@ -214,7 +214,7 @@ public class EditDoctorInfoModel {
         return result;
     }
 
-    public void saveDoctorInfo(SortedListAdapter adapter, Callback<ApiDTO<String>> callback) {
+    public void saveDoctorInfo(SortedListAdapter adapter, Callback<ApiDTO<IsChanged>> callback) {
         HashMap<String, String> result = ModelUtils.toHashMap(adapter, callback);
         if (result != null) {
             ProfileModule api = Api.of(ProfileModule.class);

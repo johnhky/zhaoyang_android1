@@ -62,7 +62,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="#c1cacf" />
+            android:background="#c1cacf"
+            android:visibility="@{BuildConfig.DEBUG}" />
 
         <RadioButton
             android:layout_width="match_parent"
@@ -70,9 +71,11 @@
             android:background="#00000000"
             android:button="@null"
             android:checked="@{data.selectedItem==PayMethod.SIMULATED}"
-            android:drawableLeft="@drawable/emoji_12"
+            android:drawableEnd="@drawable/ic_circle_tick"
+            android:drawableLeft="@drawable/emoji_03"
             android:drawablePadding="@dimen/dp_7"
             android:drawableRight="@drawable/ic_circle_tick"
+            android:drawableStart="@drawable/emoji_03"
             android:gravity="center_vertical"
             android:onClick="@{()->data.setSelectedItem(PayMethod.SIMULATED)}"
             android:paddingLeft="@dimen/dp_15"

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.IsChanged;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -81,11 +83,15 @@ public class EditDoctorInfoFragment extends SortedListFragment {
     }
 
     public void saveDoctorInfo() {
-        model.saveDoctorInfo(getAdapter(), new SimpleCallback<String>() {
+        model.saveDoctorInfo(getAdapter(), new SimpleCallback<IsChanged>() {
             @Override
-            protected void handleResponse(String response) {
-                TokenCallback.checkToken(getActivity());
-                Toast.makeText(getContext(), "保存成功,请耐心等待资料审核", Toast.LENGTH_SHORT).show();
+            protected void handleResponse(IsChanged response) {
+                if (response.isChanged) {
+                    TokenCallback.checkToken(getActivity());
+                    Toast.makeText(getContext(), "保存成功,请耐心等待资料审核", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "本次未修改资料", Toast.LENGTH_SHORT).show();
+                }
                 Intent intent = MainActivity.makeIntent(getContext());
                 getContext().startActivity(intent);
             }
@@ -103,6 +109,7 @@ public class EditDoctorInfoFragment extends SortedListFragment {
             }
         });
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_finish, menu);

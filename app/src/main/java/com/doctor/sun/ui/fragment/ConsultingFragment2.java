@@ -293,7 +293,7 @@ public class ConsultingFragment2 extends SortedListFragment {
             View medicineStore = binding.recyclerView.findViewById(R.id.medicine_store);
 
             ShowCaseUtil.showCase(systemMsg, "昭阳医生系统会向您推送所有的系统消息", TAG, 2, 0, true);
-            ShowCaseUtil.showCase(medicineStore, "昭阳医生系统会向您推送所有的系统消息", TAG, 2, 1, true);
+            ShowCaseUtil.showCase(medicineStore, "在这里联系小助手使用代寄药服务", TAG, 2, 1, true);
         }
     }
 

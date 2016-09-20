@@ -227,6 +227,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         }
         new MaterialDialog.Builder(context)
                 .title("选择优惠券(单选)")
+                .negativeText("不使用优惠券")
                 .items(coupons)
                 .itemsCallbackSingleChoice(selectedCoupon, new MaterialDialog.ListCallbackSingleChoice() {
 
@@ -235,6 +236,13 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
                         selectedCoupon = which;
                         notifyChange();
                         return true;
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        selectedCoupon = -1;
+                        notifyChange();
                     }
                 })
                 .build().show();
