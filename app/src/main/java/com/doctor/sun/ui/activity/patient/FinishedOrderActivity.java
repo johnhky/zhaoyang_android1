@@ -10,10 +10,7 @@ import android.view.MenuItem;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.QuestionCategory;
 import com.doctor.sun.ui.activity.TabActivity;
-import com.doctor.sun.ui.handler.QCategoryHandler;
-
 import com.doctor.sun.ui.pager.HistoryDetailAdapter;
 
 /**
@@ -21,8 +18,7 @@ import com.doctor.sun.ui.pager.HistoryDetailAdapter;
  * <p/>
  * Created by lucas on 1/8/16.
  */
-public class FinishedOrderActivity extends TabActivity
-        implements QCategoryHandler.QCategoryCallback {
+public class FinishedOrderActivity extends TabActivity {
 
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, FinishedOrderActivity.class);
@@ -67,10 +63,10 @@ public class FinishedOrderActivity extends TabActivity
         getData().getHandler().chatNoMenu(FinishedOrderActivity.this);
     }
 
-    @Override
-    public void onCategorySelect(QuestionCategory data) {
+//    @Override
+//    public void onCategorySelect(QuestionCategory data) {
 //        ReadQuestionsFragment.getInstance(getData()).loadQuestions(data);
-    }
+//    }
 
 
     @Override

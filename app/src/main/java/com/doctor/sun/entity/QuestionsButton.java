@@ -1,6 +1,5 @@
 package com.doctor.sun.entity;
 
-import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;

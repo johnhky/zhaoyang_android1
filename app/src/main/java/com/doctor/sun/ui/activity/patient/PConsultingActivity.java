@@ -17,7 +17,6 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.fragment.ConsultingFragment2;
 import com.doctor.sun.ui.model.FooterViewModel;
-
 import com.doctor.sun.ui.model.PatientFooterView;
 import com.doctor.sun.ui.pager.ConsultingPagerAdapter;
 import com.squareup.otto.Subscribe;
