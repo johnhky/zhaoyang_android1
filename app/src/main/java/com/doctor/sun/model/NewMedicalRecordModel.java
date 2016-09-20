@@ -62,11 +62,12 @@ public class NewMedicalRecordModel {
         ItemTextInput2 name;
         if (recordType == NewMedicalRecordFragment.TYPE_SELF) {
             name = new ItemTextInput2(R.layout.item_text_input2, "姓名", "必填");
+            name.setItemId("selfName");
         } else {
             name = new ItemTextInput2(R.layout.item_text_input2, "患者姓名", "必填");
+            name.setItemId("name");
         }
         name.setResultNotEmpty();
-        name.setItemId("selfName");
         name.setPosition(result.size());
         result.add(name);
 
