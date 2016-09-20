@@ -66,7 +66,7 @@ public class NewMedicalRecordModel {
             name = new ItemTextInput2(R.layout.item_text_input2, "患者姓名", "必填");
         }
         name.setResultNotEmpty();
-        name.setItemId("name");
+        name.setItemId("selfName");
         name.setPosition(result.size());
         result.add(name);
 
@@ -80,7 +80,7 @@ public class NewMedicalRecordModel {
         ModelUtils.insertDivider(result);
 
         ItemPickDate date = new ItemPickDate(R.layout.item_pick_date2, "出生年月");
-        date.setItemId("date");
+        date.setItemId("birthday");
         date.setPosition(result.size());
         result.add(date);
 
@@ -96,7 +96,7 @@ public class NewMedicalRecordModel {
         ModelUtils.insertDivider(result);
 
         ItemTextInput2 idNumber = new ItemTextInput2(R.layout.item_text_input2, "身份证号码", "选填");
-        idNumber.setItemId("idNumber");
+        idNumber.setItemId("identityNumber");
         idNumber.setPosition(result.size());
         result.add(idNumber);
 

@@ -23,11 +23,11 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_35"
-            android:layout_marginBottom="@dimen/dp_6"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:layout_marginBottom="@dimen/dp_4"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
             android:gravity="center"
             android:text="@{data.title}"
             android:textAppearance="@style/AppTheme.TextFloatLabelAppearance" />
@@ -40,21 +40,18 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginStart="@dimen/dp_13"
+            android:layout_marginBottom="@dimen/dp_4"
             android:background="@drawable/ripple_default"
             android:onClick="@{()->data.pickTime(context)}">
 
             <TextView
                 android:id="@+id/et_others"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_45"
-                android:background="@drawable/selector_grey_rect"
-                android:drawableRight="@drawable/ic_enter"
+                android:layout_height="@dimen/dp_22"
                 android:gravity="start|center_vertical"
-                android:paddingLeft="@dimen/dp_13"
-                android:paddingRight="@dimen/dp_13"
                 android:text="@{data.date}"
                 android:textColor="@color/color_tick"
-                android:textSize="@dimen/font_15" />
+                android:textSize="@dimen/font_13" />
         </LinearLayout>
     </LinearLayout>
 </layout>
