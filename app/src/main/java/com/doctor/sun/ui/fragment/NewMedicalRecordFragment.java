@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
@@ -14,7 +13,6 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.model.NewMedicalRecordModel;
-import com.doctor.sun.ui.activity.patient.RecordListActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 
 import java.util.List;
@@ -83,10 +81,12 @@ public class NewMedicalRecordFragment extends SortedListFragment{
             protected void handleResponse(String response) {
                 TokenCallback.checkToken(getActivity());
                 Toast.makeText(getContext(), "病历创建成功", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getContext(), RecordListActivity.class);
-                getContext().startActivity(intent);
+//                Intent intent = new Intent(getContext(), RecordListActivity.class);
+//                getContext().startActivity(intent);
             }
         });
+
+        getActivity().finish();
     }
 
 }

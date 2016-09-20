@@ -14,6 +14,7 @@ import com.doctor.sun.vo.BaseItem;
 public class MedicineInfo extends BaseItem implements LayoutId, Parcelable {
 
     private String medicine;
+    private String medicineOrderId;
     private String medicinePrice;
 
     public MedicineInfo() {
@@ -35,6 +36,14 @@ public class MedicineInfo extends BaseItem implements LayoutId, Parcelable {
         this.medicinePrice = medicinePrice;
     }
 
+    public String getMedicineOrderId() {
+        return medicineOrderId;
+    }
+
+    public void setMedicineOrderId(String medicineOrderId) {
+        this.medicineOrderId = medicineOrderId;
+    }
+
     @Override
     public int getItemLayoutId() {
         return R.layout.item_medicine_info;
@@ -42,6 +51,7 @@ public class MedicineInfo extends BaseItem implements LayoutId, Parcelable {
 
     protected MedicineInfo(Parcel in) {
         medicine = in.readString();
+        medicineOrderId = in.readString();
         medicinePrice = in.readString();
     }
 
@@ -65,6 +75,7 @@ public class MedicineInfo extends BaseItem implements LayoutId, Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(medicine);
+        dest.writeString(medicineOrderId);
         dest.writeString(medicinePrice);
     }
 }
