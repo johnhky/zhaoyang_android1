@@ -239,6 +239,6 @@ public class ItemPickDate extends BaseItem {
 
     @Override
     public String getValue() {
-        return getDate();
+        return getBirthMonth();
     }
 }

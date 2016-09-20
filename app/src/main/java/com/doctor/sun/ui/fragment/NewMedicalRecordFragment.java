@@ -21,7 +21,7 @@ import java.util.List;
  * Created by kb on 16-9-18.
  */
 
-public class NewMedicalRecordFragment extends SortedListFragment{
+public class NewMedicalRecordFragment extends SortedListFragment {
 
     public static final String TAG = NewMedicalRecordFragment.class.getSimpleName();
 
@@ -81,12 +81,10 @@ public class NewMedicalRecordFragment extends SortedListFragment{
             protected void handleResponse(String response) {
                 TokenCallback.checkToken(getActivity());
                 Toast.makeText(getContext(), "病历创建成功", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(getContext(), RecordListActivity.class);
-//                getContext().startActivity(intent);
+
+                getActivity().finish();
             }
         });
-
-        getActivity().finish();
     }
 
 }
