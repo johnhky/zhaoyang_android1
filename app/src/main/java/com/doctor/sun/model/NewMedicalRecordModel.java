@@ -10,6 +10,7 @@ import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.fragment.NewMedicalRecordFragment;
+import com.doctor.sun.vo.BaseItem;
 import com.doctor.sun.vo.ItemPickDate;
 import com.doctor.sun.vo.ItemRadioGroup;
 import com.doctor.sun.vo.ItemTextInput2;
@@ -35,10 +36,18 @@ public class NewMedicalRecordModel {
     public List<SortedItem> parseItem(int recordType) {
         List<SortedItem> result = new ArrayList<>();
 
-        Description warningDescription = new Description(R.layout.item_description_record_warning, context.getResources().getString(R.string.record_warning));
+        Description warningDescription =
+                new Description(R.layout.item_description_record_warning,
+                        context.getResources().getString(R.string.record_warning));
+
         warningDescription.setItemId("warningDescription");
         warningDescription.setPosition(result.size());
         result.add(warningDescription);
+
+        BaseItem divider = new BaseItem();
+        divider.setItemLayoutId(R.layout.divider_gray_dp13);
+        divider.setPosition(result.size());
+        result.add(divider);
 
         if (recordType == NewMedicalRecordFragment.TYPE_OTHER) {
 

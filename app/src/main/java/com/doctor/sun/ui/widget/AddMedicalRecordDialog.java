@@ -3,6 +3,7 @@ package com.doctor.sun.ui.widget;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
@@ -28,7 +29,7 @@ public class AddMedicalRecordDialog {
     }
 
     public void show() {
-        DialogRecordTypeBinding binding = DialogRecordTypeBinding.inflate(LayoutInflater.from(context));
+        DialogRecordTypeBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_record_type, null, false);
         final Dialog dialog = new Dialog(context, R.style.customDialog);
         dialog.setContentView(binding.getRoot());
         dialog.setCanceledOnTouchOutside(false);
