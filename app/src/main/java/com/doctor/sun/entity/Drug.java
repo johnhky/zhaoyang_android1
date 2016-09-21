@@ -66,6 +66,8 @@ public class Drug extends BaseObservable implements LayoutId {
 
     @JsonProperty("appointment_id")
     private int appointmentId;
+    @JsonProperty("doctor")
+    private Doctor doctor;
 
     public void setId(int id) {
         this.id = id;
@@ -156,6 +158,14 @@ public class Drug extends BaseObservable implements LayoutId {
 
     public void setNeedPay(double needPay) {
         this.needPay = needPay;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
     @Override

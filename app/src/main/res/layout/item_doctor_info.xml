@@ -43,14 +43,35 @@
                 tools:text="执业医师认证"/>
         </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:text="@{data.hospital}"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_15"
-            tools:text="广州市第一人民医院/精神科/科室主任" />
+            android:layout_marginTop="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.hospital}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15"
+                tools:text="广州市第一人民医院" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.specialist}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15"
+                tools:text="/精神病科"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.title}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_15"
+                tools:text="/科室主任"/>
+        </LinearLayout>
     </LinearLayout>
 
 </layout>

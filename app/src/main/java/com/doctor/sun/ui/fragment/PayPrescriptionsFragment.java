@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Address;
+import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.DoctorInfo;
 import com.doctor.sun.entity.Drug;
 import com.doctor.sun.entity.MedicineInfo;
@@ -33,18 +34,32 @@ public class PayPrescriptionsFragment extends SortedListFragment {
 
         // 测试用例，实际上应该从网络获取数据
         Address address = new Address();
-        address.setName("王小明");
-        address.setPhone("13612345678");
-        address.setAddress("广东省广州市荔湾区信义路24号七喜创意园4栋336室");
+        address.setName(drug.getTo());
+        address.setPhone(drug.getPhone());
+        address.setAddress(drug.getAddress());
 
+        Doctor doctor = drug.getDoctor();
         DoctorInfo doctorInfo = new DoctorInfo();
-        doctorInfo.setName("张丽");
-        doctorInfo.setHospital("广州市第一人民医院/精神科/科室主任");
-        doctorInfo.setLevel("执业医师认证");
+        doctorInfo.setName(doctor.getName());
+        doctorInfo.setHospital(doctor.getHospitalName());
+        doctorInfo.setLevel(doctor.getLevel());
+        doctorInfo.setSpecialist(doctor.getSpecialist());
+        doctorInfo.setTitle(doctor.getTitle());
 
         MedicineInfo medicineInfo = new MedicineInfo();
         medicineInfo.setOrderId(String.valueOf(drug.getId()));
-        medicineInfo.setMedicine("奥氮平/100颗");
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("药");
+        stringBuffer.append("\n");
+        for (String medicine : drug.getDrug()) {
+            stringBuffer.append(medicine);
+            stringBuffer.append("\n");
+        }
+        // 删掉最后一个换行符
+        if (stringBuffer.length() > 0) {
+            stringBuffer.setLength(stringBuffer.length() - 1);
+        }
+        medicineInfo.setMedicine(stringBuffer.toString());
         medicineInfo.setMedicinePrice(drug.getMoney());
 
         bundle.putParcelable(Constants.ADDRESS, address);

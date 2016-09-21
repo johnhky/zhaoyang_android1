@@ -106,30 +106,7 @@ public class PayPrescriptionsModel {
             @Override
             public void onClick(View view) {
 
-                if (payMethod.getSelectedItem() == -1) {
-                    Toast.makeText(view.getContext(), "请选择支付方式", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                HashMap<String, String> extraField = DrugListFragment.getDrugExtraField();
-                extraField.put(Constants.DRUG_ORDER_ID, medicineInfo.getOrderId());
-
-                if (!getCouponId().equals("-1")) {
-                    extraField.put("couponId", getCouponId());
-                }
-
-                switch (payMethod.getSelectedItem()) {
-                    case PayMethod.ALIPAY:
-                        payApi.buildAlipayGoodsOrder(medicineInfo.getMedicinePrice(), "alipay", extraField)
-                                .enqueue(new AlipayCallback((Activity) view.getContext(), medicineInfo.getMedicinePrice(), extraField));
-                        break;
-                    case PayMethod.WECHAT:
-                        payApi.buildWeChatGoodsOrder(medicineInfo.getMedicinePrice(), "wechat", extraField)
-                                .enqueue(new WeChatPayCallback((Activity) view.getContext(), medicineInfo.getMedicinePrice(), extraField));
-                        break;
-                    case PayMethod.SIMULATED:
-                        Toast.makeText(view.getContext(), "模拟支付", Toast.LENGTH_SHORT).show();
-                }
+                confirmPay(view.getContext(), medicineInfo.getOrderId(), medicineInfo.getMedicinePrice());
             }
         };
         confirmButton.setItemId("confirmButton");
@@ -185,5 +162,32 @@ public class PayPrescriptionsModel {
             return String.valueOf(-1);
         }
         return coupons.get(selectedCoupon).id;
+    }
+
+    private void confirmPay(Context context, String orderId, String totalFee) {
+        if (payMethod.getSelectedItem() == -1) {
+            Toast.makeText(context, "请选择支付方式", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        HashMap<String, String> extraField = DrugListFragment.getDrugExtraField();
+        extraField.put(Constants.DRUG_ORDER_ID, orderId);
+
+        if (!getCouponId().equals("-1")) {
+            extraField.put("couponId", getCouponId());
+        }
+
+        switch (payMethod.getSelectedItem()) {
+            case PayMethod.ALIPAY:
+                payApi.buildAlipayGoodsOrder(totalFee, "alipay", extraField)
+                        .enqueue(new AlipayCallback((Activity) context, totalFee, extraField));
+                break;
+            case PayMethod.WECHAT:
+                payApi.buildWeChatGoodsOrder(totalFee, "wechat", extraField)
+                        .enqueue(new WeChatPayCallback((Activity) context, totalFee, extraField));
+                break;
+            case PayMethod.SIMULATED:
+                Toast.makeText(context, "模拟支付", Toast.LENGTH_SHORT).show();
+        }
     }
 }

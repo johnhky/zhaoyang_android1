@@ -17,6 +17,8 @@ public class DoctorInfo extends BaseItem implements LayoutId, Parcelable {
     private String name;
     private String hospital;
     private String level;
+    private String specialist;
+    private String title;
 
     public DoctorInfo() {
     }
@@ -45,6 +47,24 @@ public class DoctorInfo extends BaseItem implements LayoutId, Parcelable {
         this.level = level;
     }
 
+    public String getSpecialist() {
+        return specialist;
+    }
+
+    public void setSpecialist(String specialist) {
+        this.specialist = specialist;
+    }
+
+    @Override
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     @Override
     public int getItemLayoutId() {
         return R.layout.item_doctor_info;
@@ -54,6 +74,8 @@ public class DoctorInfo extends BaseItem implements LayoutId, Parcelable {
         name = in.readString();
         hospital = in.readString();
         level = in.readString();
+        specialist = in.readString();
+        title = in.readString();
     }
 
     public static final Creator<DoctorInfo> CREATOR = new Creator<DoctorInfo>() {
@@ -78,5 +100,7 @@ public class DoctorInfo extends BaseItem implements LayoutId, Parcelable {
         dest.writeString(name);
         dest.writeString(hospital);
         dest.writeString(level);
+        dest.writeString(specialist);
+        dest.writeString(title);
     }
 }
