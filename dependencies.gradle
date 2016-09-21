@@ -3,10 +3,11 @@
 ext {
     compile_sdk_version = 24
     build_tools_version = '24'
-    min_sdk_version = 14
+    //TODO 打包前改这个为14
+    min_sdk_version = 18
     target_sdk_version = 23
 
-    support_version = '24.2.0'
+    support_version = '24.2.1'
     retrofit_version = '2.0.2'
     okhttp_version = '3.2.0'
 
