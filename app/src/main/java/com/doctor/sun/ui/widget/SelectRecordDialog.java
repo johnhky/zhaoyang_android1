@@ -1,6 +1,7 @@
 package com.doctor.sun.ui.widget;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 
@@ -44,7 +45,7 @@ public class SelectRecordDialog extends BaseDialog {
 
     @Override
     public void beforeInitView() {
-        binding = DialogSelectRecordBinding.inflate(LayoutInflater.from(context));
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_select_record, null, false);
         binding.rvRecord.setLayoutManager(new LinearLayoutManager(context));
         mAdapter = new SelectRecordAdapter(context, this);
         mAdapter.mapLayout(R.layout.item_r_medical_record, R.layout.item_medical_record);
@@ -75,8 +76,8 @@ public class SelectRecordDialog extends BaseDialog {
             protected void handleResponse(List<MedicalRecord> response) {
                 mAdapter.addAll(response);
                 mAdapter.onFinishLoadMore(true);
-                mAdapter.add(new NewRecordHandler(getOwnerActivity(), SelectRecordDialog.this));
-                mAdapter.add(new CancelHandler(getOwnerActivity(), SelectRecordDialog.this));
+                mAdapter.add(new NewRecordHandler(SelectRecordDialog.this));
+                mAdapter.add(new CancelHandler(SelectRecordDialog.this));
                 mAdapter.notifyDataSetChanged();
             }
         });

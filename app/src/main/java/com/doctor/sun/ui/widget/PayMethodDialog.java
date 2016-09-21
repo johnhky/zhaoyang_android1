@@ -83,7 +83,7 @@ public class PayMethodDialog extends ListDialog {
             });
         }
 
-        getAdapter().add(new CancelHandler(getOwnerActivity(), this));
+        getAdapter().add(new CancelHandler(this));
         getAdapter().notifyDataSetChanged();
     }
 

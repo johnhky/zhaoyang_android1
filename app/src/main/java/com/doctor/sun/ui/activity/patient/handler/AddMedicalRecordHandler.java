@@ -8,14 +8,13 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.patient.CreateRecordActivity;
-import com.doctor.sun.ui.handler.BaseHandler;
 
 import java.util.HashMap;
 
 /**
  * Created by rick on 4/1/2016.
  */
-public class AddMedicalRecordHandler extends BaseHandler {
+public class AddMedicalRecordHandler {
     private ProfileModule api = Api.of(ProfileModule.class);
 
     private int type;
@@ -23,7 +22,6 @@ public class AddMedicalRecordHandler extends BaseHandler {
 
 
     public AddMedicalRecordHandler(Activity context, int type) {
-        super(context);
         this.type = type;
         try {
             mInput = (MedicalRecordInput) context;

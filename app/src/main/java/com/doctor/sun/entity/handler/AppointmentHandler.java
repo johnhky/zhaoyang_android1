@@ -598,6 +598,14 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             return money - unpayMoney;
         } catch (ClassCastException e) {
             return 0;
+        } catch (NumberFormatException intCast) {
+            try {
+                double money = Double.parseDouble(data.getMoney());
+                double unpayMoney = Double.parseDouble(data.getNeedPay());
+                return (int) (money - unpayMoney);
+            } catch (NumberFormatException doubleCast) {
+               return 0;
+            }
         }
     }
 
