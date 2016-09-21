@@ -7,6 +7,7 @@ import android.view.View;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Address;
 import com.doctor.sun.entity.DoctorInfo;
+import com.doctor.sun.entity.Drug;
 import com.doctor.sun.entity.MedicineInfo;
 import com.doctor.sun.model.PayPrescriptionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
@@ -26,7 +27,7 @@ public class PayPrescriptionsFragment extends SortedListFragment {
     private DoctorInfo doctorInfo;
     private MedicineInfo medicineInfo;
 
-    public static Bundle getArgs() {
+    public static Bundle getArgs(Drug drug) {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FRAGMENT_NAME, TAG);
 
@@ -42,8 +43,9 @@ public class PayPrescriptionsFragment extends SortedListFragment {
         doctorInfo.setLevel("执业医师认证");
 
         MedicineInfo medicineInfo = new MedicineInfo();
+        medicineInfo.setOrderId(String.valueOf(drug.getId()));
         medicineInfo.setMedicine("奥氮平/100颗");
-        medicineInfo.setMedicinePrice("420");
+        medicineInfo.setMedicinePrice(drug.getMoney());
 
         bundle.putParcelable(Constants.ADDRESS, address);
         bundle.putParcelable(Constants.DOCTOR_INFO, doctorInfo);

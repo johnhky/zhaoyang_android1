@@ -2,14 +2,12 @@ package com.doctor.sun.model;
 
 import android.app.Activity;
 import android.content.Context;
-import android.databinding.BaseObservable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
-import com.doctor.sun.bean.MobEventId;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Address;
 import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Description;
@@ -39,7 +37,7 @@ import java.util.UUID;
  * Created by kb on 16-9-15.
  */
 
-public class PayPrescriptionsModel extends BaseObservable{
+public class PayPrescriptionsModel {
     public static final String TAG = PayPrescriptionsModel.class.getSimpleName();
 
     private ProfileModule api;
@@ -47,6 +45,9 @@ public class PayPrescriptionsModel extends BaseObservable{
 
     private List<Coupon> coupons;
     private int selectedCoupon = -1;
+
+    private ClickMenu selectCoupon;
+    private ItemRadioGroup payMethod;
 
     public PayPrescriptionsModel() {
         api = Api.of(ProfileModule.class);
@@ -80,7 +81,7 @@ public class PayPrescriptionsModel extends BaseObservable{
         couponDescription.setPosition(result.size());
         result.add(couponDescription);
 
-        ClickMenu selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "未使用优惠券", new View.OnClickListener() {
+        selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "未使用优惠券", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectCoupon(v.getContext());
@@ -96,7 +97,7 @@ public class PayPrescriptionsModel extends BaseObservable{
         payDescription.setPosition(result.size());
         result.add(payDescription);
 
-        final ItemRadioGroup payMethod = new ItemRadioGroup(R.layout.item_pick_pay_method);
+        payMethod = new ItemRadioGroup(R.layout.item_pick_pay_method);
         payMethod.setItemId("payMethod");
         payMethod.setPosition(result.size());
         result.add(payMethod);
@@ -105,8 +106,17 @@ public class PayPrescriptionsModel extends BaseObservable{
             @Override
             public void onClick(View view) {
 
+                if (payMethod.getSelectedItem() == -1) {
+                    Toast.makeText(view.getContext(), "请选择支付方式", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 HashMap<String, String> extraField = DrugListFragment.getDrugExtraField();
-                extraField.put("medicineOrderId", medicineInfo.getMedicineOrderId());
+                extraField.put(Constants.DRUG_ORDER_ID, medicineInfo.getOrderId());
+
+                if (!getCouponId().equals("-1")) {
+                    extraField.put("couponId", getCouponId());
+                }
 
                 switch (payMethod.getSelectedItem()) {
                     case PayMethod.ALIPAY:
@@ -150,7 +160,7 @@ public class PayPrescriptionsModel extends BaseObservable{
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
                         selectedCoupon = which;
-                        notifyChange();
+                        selectCoupon.setTitle("已优惠" + coupons.get(selectedCoupon).couponMoney + "元");
                         return true;
                     }
                 })
@@ -166,12 +176,14 @@ public class PayPrescriptionsModel extends BaseObservable{
                 } else {
                     coupons = null;
                 }
-                notifyChange();
             }
         });
     }
 
     private String getCouponId() {
+        if (selectedCoupon == -1) {
+            return String.valueOf(-1);
+        }
         return coupons.get(selectedCoupon).id;
     }
 }
