@@ -15,7 +15,6 @@ import com.doctor.sun.R;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
-import com.doctor.sun.ui.activity.doctor.AddBreakTimeActivity;
 import com.doctor.sun.ui.activity.doctor.AddTimeActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -76,10 +75,6 @@ public class TimeHandler {
         view.getContext().startActivity(intent);
     }
 
-    public void addDisturb(View view) {
-        Intent intent = AddBreakTimeActivity.makeIntent(view.getContext());
-        view.getContext().startActivity(intent);
-    }
 
     public void upDateTime(View view) {
         Intent intent = AddTimeActivity.makeIntent(view.getContext(), data);
