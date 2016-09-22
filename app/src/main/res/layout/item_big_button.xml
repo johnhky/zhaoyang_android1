@@ -34,7 +34,8 @@
                 android:gravity="center"
                 android:text="@{data.content}"
                 android:textColor="#fff"
-                android:textSize="@dimen/font_17" />
+                android:textSize="@dimen/font_17"
+                android:id="@+id/tv_confirm"/>
         </FrameLayout>
 
         <View

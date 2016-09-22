@@ -39,8 +39,8 @@ public class TestFragmentActivity extends BaseFragmentActivity2 {
         DataBindingUtil.setContentView(this, R.layout.activity_fragment_wraper);
 
 
-//        Bundle bundleExtra = getIntent().getBundleExtra(Constants.FRAGMENT_CONTENT_BUNDLE);
-        instance = FragmentFactory.getInstance().get(NewMedicalRecordFragment.getArgs(1));
+        Bundle bundleExtra = getIntent().getBundleExtra(Constants.FRAGMENT_CONTENT_BUNDLE);
+        instance = FragmentFactory.getInstance().get(bundleExtra);
 
         getSupportFragmentManager()
                 .beginTransaction()
