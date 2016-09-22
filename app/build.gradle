@@ -55,9 +55,9 @@ dependencies {
     androidTestCompile 'com.android.support:support-annotations:24.2.1'
     androidTestCompile 'org.mockito:mockito-core:2.0.2-beta'
     androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.1') {
-        exclude module: 'support-annotations'
-        exclude module: 'support-v4'
-        exclude module: 'support-v13'
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'support-annotations'
         exclude module: 'recyclerview-v7'
     };
 }

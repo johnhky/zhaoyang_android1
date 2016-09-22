@@ -29,7 +29,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/rb_male"
+            android:id="@+id/btn_captcha"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_30"
             android:layout_gravity="center_vertical"
