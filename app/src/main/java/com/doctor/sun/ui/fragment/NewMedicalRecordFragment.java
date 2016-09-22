@@ -2,7 +2,6 @@ package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -80,8 +79,6 @@ public class NewMedicalRecordFragment extends SortedListFragment {
         model.saveMedicalRecord(getAdapter(), getRecordType(), new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
-
-                Log.e("SaveRecord", "handleResponse");
 
                 TokenCallback.checkToken(getActivity());
                 Toast.makeText(getContext(), "病历创建成功", Toast.LENGTH_SHORT).show();

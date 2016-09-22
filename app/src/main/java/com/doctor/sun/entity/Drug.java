@@ -293,9 +293,9 @@ public class Drug extends BaseObservable implements LayoutId {
     }
 
     public void showDetail(Context context, Drug drug) {
-        if (getStatuses().equals("已支付") || getStatuses().equals("已关闭")) {
-            return;
-        }
+//        if (getStatuses().equals("已支付") || getStatuses().equals("已关闭")) {
+//            return;
+//        }
         Intent payPrescriptionIntent = SingleFragmentActivity.intentFor(context, "寄药支付", PayPrescriptionsFragment.getArgs(drug));
         context.startActivity(payPrescriptionIntent);
     }

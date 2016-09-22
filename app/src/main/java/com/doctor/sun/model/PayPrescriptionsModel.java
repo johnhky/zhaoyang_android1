@@ -2,6 +2,7 @@ package com.doctor.sun.model;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import com.doctor.sun.entity.Address;
 import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DoctorInfo;
+import com.doctor.sun.entity.Drug;
 import com.doctor.sun.entity.MedicineInfo;
 import com.doctor.sun.entity.constans.CouponType;
 import com.doctor.sun.entity.constans.PayMethod;
@@ -49,13 +51,17 @@ public class PayPrescriptionsModel {
     private ClickMenu selectCoupon;
     private ItemRadioGroup payMethod;
 
+    private HashMap<String, String> extraField;
+
     public PayPrescriptionsModel() {
         api = Api.of(ProfileModule.class);
         payApi = Api.of(AppointmentModule.class);
     }
 
-    public List<SortedItem> parseData(Address address, DoctorInfo doctorInfo, final MedicineInfo medicineInfo) {
+    public List<SortedItem> parseData(Address address, DoctorInfo doctorInfo, final MedicineInfo medicineInfo, boolean hasPay) {
         List<SortedItem> result = new ArrayList<>();
+
+        extraField = DrugListFragment.getDrugExtraField();
 
         address.setItemId("address");
         address.setPosition(result.size());
@@ -76,44 +82,61 @@ public class PayPrescriptionsModel {
         medicineInfo.setPosition(result.size());
         result.add(medicineInfo);
 
-        Description couponDescription = new Description(R.layout.item_description, "优惠券");
-        couponDescription.setItemId("couponDescription");
-        couponDescription.setPosition(result.size());
-        result.add(couponDescription);
+        if (!hasPay) {
+            Description couponDescription = new Description(R.layout.item_description, "优惠券");
+            couponDescription.setItemId("couponDescription");
+            couponDescription.setPosition(result.size());
+            result.add(couponDescription);
 
-        selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "未使用优惠券", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectCoupon(v.getContext());
-            }
-        });
-        selectCoupon.setSubTitle("点击选择");
-        selectCoupon.setItemId("selectCoupon");
-        selectCoupon.setPosition(result.size());
-        result.add(selectCoupon);
+            extraField = DrugListFragment.getDrugExtraField();
+            Log.d("PayPrescription", "" + extraField.get(DrugListFragment.COUPON_ID));
 
-        Description payDescription = new Description(R.layout.item_description, "支付方式");
-        payDescription.setItemId("payDescription");
-        payDescription.setPosition(result.size());
-        result.add(payDescription);
+            selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "未使用优惠券", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectCoupon(v.getContext());
+                }
+            });
+            selectCoupon.setSubTitle("点击选择");
+            selectCoupon.setItemId("selectCoupon");
+            selectCoupon.setPosition(result.size());
+            result.add(selectCoupon);
 
-        payMethod = new ItemRadioGroup(R.layout.item_pick_pay_method);
-        payMethod.setItemId("payMethod");
-        payMethod.setPosition(result.size());
-        result.add(payMethod);
+            Description payDescription = new Description(R.layout.item_description, "支付方式");
+            payDescription.setItemId("payDescription");
+            payDescription.setPosition(result.size());
+            result.add(payDescription);
 
-        ItemButton confirmButton = new ItemButton(R.layout.item_big_button, "确定") {
-            @Override
-            public void onClick(View view) {
+            payMethod = new ItemRadioGroup(R.layout.item_pick_pay_method);
+            payMethod.setItemId("payMethod");
+            payMethod.setPosition(result.size());
+            result.add(payMethod);
 
-                confirmPay(view.getContext(), medicineInfo.getOrderId(), medicineInfo.getMedicinePrice());
-            }
-        };
-        confirmButton.setItemId("confirmButton");
-        confirmButton.setPosition(result.size());
-        result.add(confirmButton);
+            ItemButton confirmButton = new ItemButton(R.layout.item_big_button, "确定") {
+                @Override
+                public void onClick(View view) {
 
-        loadCoupons();
+                    confirmPay(view.getContext(), medicineInfo.getOrderId(), medicineInfo.getMedicinePrice());
+                }
+            };
+            confirmButton.setItemId("confirmButton");
+            confirmButton.setPosition(result.size());
+            result.add(confirmButton);
+
+            loadCoupons();
+        } else {
+
+            insertDivider(result);
+
+            ItemButton button = new ItemButton(R.layout.item_grey_button, "已支付") {
+                @Override
+                public void onClick(View view) {
+
+                }
+            };
+            button.setPosition(result.size());
+            result.add(button);
+        }
 
         return result;
     }
@@ -170,7 +193,7 @@ public class PayPrescriptionsModel {
             return;
         }
 
-        HashMap<String, String> extraField = DrugListFragment.getDrugExtraField();
+
         extraField.put(Constants.DRUG_ORDER_ID, orderId);
 
         if (!getCouponId().equals("-1")) {

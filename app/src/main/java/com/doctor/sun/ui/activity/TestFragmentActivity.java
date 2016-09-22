@@ -13,6 +13,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.constans.QuestionsType;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
+import com.doctor.sun.ui.fragment.NewMedicalRecordFragment;
 import com.doctor.sun.util.FragmentFactory;
 
 /**
@@ -38,8 +39,8 @@ public class TestFragmentActivity extends BaseFragmentActivity2 {
         DataBindingUtil.setContentView(this, R.layout.activity_fragment_wraper);
 
 
-        Bundle bundleExtra = getIntent().getBundleExtra(Constants.FRAGMENT_CONTENT_BUNDLE);
-        instance = FragmentFactory.getInstance().get(bundleExtra);
+//        Bundle bundleExtra = getIntent().getBundleExtra(Constants.FRAGMENT_CONTENT_BUNDLE);
+        instance = FragmentFactory.getInstance().get(NewMedicalRecordFragment.getArgs(1));
 
         getSupportFragmentManager()
                 .beginTransaction()

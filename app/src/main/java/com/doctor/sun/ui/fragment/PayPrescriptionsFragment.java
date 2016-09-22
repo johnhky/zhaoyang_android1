@@ -2,6 +2,7 @@ package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.bean.Constants;
@@ -13,6 +14,7 @@ import com.doctor.sun.entity.MedicineInfo;
 import com.doctor.sun.model.PayPrescriptionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -27,12 +29,12 @@ public class PayPrescriptionsFragment extends SortedListFragment {
     private Address address;
     private DoctorInfo doctorInfo;
     private MedicineInfo medicineInfo;
+    private boolean hasPay;
 
     public static Bundle getArgs(Drug drug) {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FRAGMENT_NAME, TAG);
 
-        // 测试用例，实际上应该从网络获取数据
         Address address = new Address();
         address.setName(drug.getTo());
         address.setPhone(drug.getPhone());
@@ -49,8 +51,6 @@ public class PayPrescriptionsFragment extends SortedListFragment {
         MedicineInfo medicineInfo = new MedicineInfo();
         medicineInfo.setOrderId(String.valueOf(drug.getId()));
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("药");
-        stringBuffer.append("\n");
         for (String medicine : drug.getDrug()) {
             stringBuffer.append(medicine);
             stringBuffer.append("\n");
@@ -65,6 +65,7 @@ public class PayPrescriptionsFragment extends SortedListFragment {
         bundle.putParcelable(Constants.ADDRESS, address);
         bundle.putParcelable(Constants.DOCTOR_INFO, doctorInfo);
         bundle.putParcelable(Constants.MEDICINE_INFO, medicineInfo);
+        bundle.putBoolean(Constants.HAS_PAY, drug.getHasPay() != 0);
 
         return bundle;
     }
@@ -77,6 +78,8 @@ public class PayPrescriptionsFragment extends SortedListFragment {
         address = getArguments().getParcelable(Constants.ADDRESS);
         doctorInfo = getArguments().getParcelable(Constants.DOCTOR_INFO);
         medicineInfo = getArguments().getParcelable(Constants.MEDICINE_INFO);
+        hasPay = getArguments().getBoolean(Constants.HAS_PAY);
+
     }
 
     @Override
@@ -88,7 +91,11 @@ public class PayPrescriptionsFragment extends SortedListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
-        List<SortedItem> sortedItems = model.parseData(address, doctorInfo, medicineInfo);
+
+        HashMap<String, String> extraField = DrugListFragment.getDrugExtraField();
+        Log.e("extraField", "" + extraField.get(DrugListFragment.COUPON_ID));
+
+        List<SortedItem> sortedItems = model.parseData(address, doctorInfo, medicineInfo, hasPay);
         binding.swipeRefresh.setRefreshing(false);
         getAdapter().insertAll(sortedItems);
     }

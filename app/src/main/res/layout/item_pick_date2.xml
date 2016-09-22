@@ -42,6 +42,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_4"
+            android:clickable="true"
+            android:background="@drawable/ripple_default"
             android:onClick="@{()->data.pickTime(context)}">
 
             <TextView
