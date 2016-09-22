@@ -5,15 +5,9 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.constans.QuestionsPath;
-import com.doctor.sun.entity.constans.QuestionsType;
-import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
-import com.doctor.sun.ui.fragment.NewMedicalRecordFragment;
 import com.doctor.sun.util.FragmentFactory;
 
 /**

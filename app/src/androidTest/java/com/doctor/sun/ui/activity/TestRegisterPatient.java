@@ -9,6 +9,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.doctor.sun.R;
+import com.doctor.sun.TestConfig;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.ui.activity.action.CustomViewAction;
 import com.doctor.sun.ui.fragment.RegisterFragment;
@@ -28,40 +29,63 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TestRegisterFragment {
+public class TestRegisterPatient {
 
     @Rule
     public ActivityTestRule<TestFragmentActivity> mActivityTestRule = new ActivityTestRule<>(TestFragmentActivity.class, false, false);
 
-    @Test
-    public void testRegisterFragment() {
 
+    private void launchActivity() {
         Intent i = new Intent();
         i.putExtra(Constants.FRAGMENT_CONTENT_BUNDLE, RegisterFragment.getArgs());
         mActivityTestRule.launchActivity(i);
+    }
 
+    @Test
+    public void testRegisterPatient() {
+        launchActivity();
+        int REGISTER_TYPE = R.id.rb_patient;
+        selectRegisterType(REGISTER_TYPE);
+
+        typePhoneNum(TestConfig.PATIENT_PHONE_NUM);
+
+        fillRegisterInfo();
+
+        clickNext();
+    }
+
+    private void typePhoneNum(String doctorPhoneNum) {
+        onView(withId(R.id.recycler_view))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(4, typeText(doctorPhoneNum)));
+    }
+
+    private void selectRegisterType(int id) {
         onView(withId(R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1,
-                        CustomViewAction.clickChildViewWithId(R.id.rb_patient)));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(4, typeText("13922308139")));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(6, typeText("123456")));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(6,
-                        CustomViewAction.clickChildViewWithId(R.id.btn_captcha)));
+                        CustomViewAction.clickChildViewWithId(id)));
 
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(8, typeText("a123456")));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(10, typeText("a123456")));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(12,
-                        CustomViewAction.clickChildViewWithId(R.id.cb_confirm)));
+    }
 
+    private void clickNext() {
         ViewInteraction actionMenuItemView = onView(
                 AllOf.allOf(withId(R.id.action_next), withText("下一步"), withContentDescription("下一步"), isDisplayed()));
         actionMenuItemView.perform(click());
     }
 
+    private void fillRegisterInfo() {
+
+        onView(withId(R.id.recycler_view))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(6, typeText(TestConfig.CAPTCHA)));
+        onView(withId(R.id.recycler_view))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(6,
+                        CustomViewAction.clickChildViewWithId(R.id.btn_captcha)));
+
+        onView(withId(R.id.recycler_view))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(8, typeText(TestConfig.PSW)));
+        onView(withId(R.id.recycler_view))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(10, typeText(TestConfig.PSW)));
+        onView(withId(R.id.recycler_view))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(12,
+                        CustomViewAction.clickChildViewWithId(R.id.cb_confirm)));
+    }
 }

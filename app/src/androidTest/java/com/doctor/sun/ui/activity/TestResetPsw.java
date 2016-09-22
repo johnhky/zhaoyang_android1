@@ -9,6 +9,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.doctor.sun.R;
+import com.doctor.sun.TestConfig;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.ui.fragment.ResetPswFragment;
 
@@ -28,8 +29,7 @@ import static org.hamcrest.core.AllOf.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ResetPswFragmentTest {
-
+public class TestResetPsw {
     @Rule
     public ActivityTestRule<TestFragmentActivity> mActivityTestRule = new ActivityTestRule<>(TestFragmentActivity.class, false, false);
 
@@ -46,13 +46,13 @@ public class ResetPswFragmentTest {
 
 
         onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, typeText("13922304745")));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, typeText(TestConfig.PHONE_NUM_TO_CHANGE_PSW)));
         onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, typeText("123456")));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, typeText(TestConfig.CAPTCHA)));
         onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(4, typeText("a123456")));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(4, typeText(TestConfig.CHANGED_PSW)));
         onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(6, typeText("a123456")));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(6, typeText(TestConfig.CHANGED_PSW)));
 
         ViewInteraction actionMenuItemView = onView(
                 allOf(withId(R.id.action_next), withText("下一步"), withContentDescription("下一步"), isDisplayed()));

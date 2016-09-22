@@ -105,7 +105,12 @@
 
         <activity
             android:name="com.doctor.sun.ui.activity.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.doctor.sun.ui.activity.patient.SelectAppointmentTypeActivity"
@@ -199,12 +204,12 @@
             android:screenOrientation="portrait" />
 
         <!--<activity-->
-            <!--android:name="com.doctor.sun.ui.activity.doctor.BreakTimeActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.doctor.BreakTimeActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
         <!--<activity-->
-            <!--android:name="com.doctor.sun.ui.activity.doctor.TemplateActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.doctor.TemplateActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.doctor.AddTimeActivity"
@@ -216,8 +221,8 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <!--<activity-->
-            <!--android:name="com.doctor.sun.ui.activity.doctor.AddBreakTimeActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.doctor.AddBreakTimeActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.doctor.CancelAppointmentActivity"
@@ -259,8 +264,8 @@
         <!--android:screenOrientation="portrait" />-->
 
         <!--<activity-->
-            <!--android:name="com.doctor.sun.ui.activity.doctor.AddQuestionActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.doctor.AddQuestionActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.doctor.CustomDetailActivity"
@@ -373,8 +378,8 @@
             android:screenOrientation="portrait" />
 
         <!--<activity-->
-            <!--android:name="com.doctor.sun.ui.activity.doctor.QuestionBankActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.doctor.QuestionBankActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
         <!--<activity-->
         <!--android:name="com.doctor.sun.ui.activity.patient.UrgentCallActivity"-->

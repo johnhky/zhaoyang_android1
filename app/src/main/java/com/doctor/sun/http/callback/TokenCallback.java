@@ -19,9 +19,9 @@ import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.activity.doctor.MeActivity;
-import com.doctor.sun.ui.activity.doctor.RegisterActivity;
 import com.doctor.sun.ui.activity.patient.PMainActivity2;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
+import com.doctor.sun.ui.fragment.RegisterFragment;
 import com.doctor.sun.util.JacksonUtils;
 
 import java.util.Set;
@@ -99,7 +99,7 @@ public class TokenCallback {
                 Log.e(TAG, "handleResponse: " + data);
                 Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(data));
                 if (data == null) {
-                    Intent i = RegisterActivity.makeIntent(context, AuthModule.DOCTOR_TYPE);
+                    Intent i = RegisterFragment.intentFor(context);
                     context.startActivity(i);
                     context.finish();
                 } else switch (data.getStatus()) {
@@ -161,7 +161,7 @@ public class TokenCallback {
                 LoadingHelper.hideMaterLoading();
                 Settings.setPatientProfile(response);
                 if (response == null) {
-                    Intent i = RegisterActivity.makeIntent(context, AuthModule.PATIENT_TYPE);
+                    Intent i = RegisterFragment.intentFor(context);
                     context.startActivity(i);
                     context.finish();
                 } else {
