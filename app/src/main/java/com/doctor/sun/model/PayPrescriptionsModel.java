@@ -2,7 +2,6 @@ package com.doctor.sun.model;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,7 +12,6 @@ import com.doctor.sun.entity.Address;
 import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DoctorInfo;
-import com.doctor.sun.entity.Drug;
 import com.doctor.sun.entity.MedicineInfo;
 import com.doctor.sun.entity.constans.CouponType;
 import com.doctor.sun.entity.constans.PayMethod;
@@ -76,7 +74,7 @@ public class PayPrescriptionsModel {
         doctorInfo.setPosition(result.size());
         result.add(doctorInfo);
 
-        insertDivider(result);
+        ModelUtils.insertDividerNoMargin(result);
 
         medicineInfo.setItemId("medicineInfo");
         medicineInfo.setPosition(result.size());
@@ -89,7 +87,6 @@ public class PayPrescriptionsModel {
             result.add(couponDescription);
 
             extraField = DrugListFragment.getDrugExtraField();
-            Log.d("PayPrescription", "" + extraField.get(DrugListFragment.COUPON_ID));
 
             selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "未使用优惠券", new View.OnClickListener() {
                 @Override
@@ -126,7 +123,7 @@ public class PayPrescriptionsModel {
             loadCoupons();
         } else {
 
-            insertDivider(result);
+            ModelUtils.insertDividerNoMargin(result);
 
             ItemButton button = new ItemButton(R.layout.item_grey_button, "已支付") {
                 @Override
@@ -139,13 +136,6 @@ public class PayPrescriptionsModel {
         }
 
         return result;
-    }
-
-    private void insertDivider(List<SortedItem> list) {
-        BaseItem item = new BaseItem(R.layout.divider_1px2);
-        item.setItemId(UUID.randomUUID().toString());
-        item.setPosition(list.size());
-        list.add(item);
     }
 
     private void selectCoupon(Context context) {
@@ -192,7 +182,6 @@ public class PayPrescriptionsModel {
             Toast.makeText(context, "请选择支付方式", Toast.LENGTH_SHORT).show();
             return;
         }
-
 
         extraField.put(Constants.DRUG_ORDER_ID, orderId);
 

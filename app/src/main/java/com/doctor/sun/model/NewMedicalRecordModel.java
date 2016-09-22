@@ -57,7 +57,7 @@ public class NewMedicalRecordModel {
             relation.setPosition(result.size());
             result.add(relation);
 
-            ModelUtils.insertDivider(result);
+            ModelUtils.insertDividerMarginLR(result);
 
             ItemTextInput2 selfName = new ItemTextInput2(R.layout.item_text_input2, "您的姓名", "必填");
             selfName.setResultNotEmpty();
@@ -65,7 +65,7 @@ public class NewMedicalRecordModel {
             selfName.setPosition(result.size());
             result.add(selfName);
 
-            ModelUtils.insertDivider(result);
+            ModelUtils.insertDividerMarginLR(result);
         }
 
         ItemTextInput2 name;
@@ -80,21 +80,21 @@ public class NewMedicalRecordModel {
         name.setPosition(result.size());
         result.add(name);
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         ItemTextInput2 email = new ItemTextInput2(R.layout.item_text_input2, "邮箱", "选填");
         email.setItemId("email");
         email.setPosition(result.size());
         result.add(email);
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         ItemPickDate date = new ItemPickDate(R.layout.item_pick_date2, "出生年月");
         date.setItemId("birthday");
         date.setPosition(result.size());
         result.add(date);
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         ItemRadioGroup genderGroup = new ItemRadioGroup(R.layout.item_pick_gender);
         genderGroup.setTitle("性别");
@@ -103,14 +103,14 @@ public class NewMedicalRecordModel {
         genderGroup.setPosition(result.size());
         result.add(genderGroup);
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         ItemTextInput2 idNumber = new ItemTextInput2(R.layout.item_text_input2, "身份证号码", "选填");
         idNumber.setItemId("identityNumber");
         idNumber.setPosition(result.size());
         result.add(idNumber);
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         return result;
     }

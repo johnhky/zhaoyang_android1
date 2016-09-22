@@ -2,7 +2,6 @@ package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.bean.Constants;
@@ -14,7 +13,6 @@ import com.doctor.sun.entity.MedicineInfo;
 import com.doctor.sun.model.PayPrescriptionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -50,6 +48,7 @@ public class PayPrescriptionsFragment extends SortedListFragment {
 
         MedicineInfo medicineInfo = new MedicineInfo();
         medicineInfo.setOrderId(String.valueOf(drug.getId()));
+        // 药品信息分行显示
         StringBuffer stringBuffer = new StringBuffer();
         for (String medicine : drug.getDrug()) {
             stringBuffer.append(medicine);
@@ -79,7 +78,6 @@ public class PayPrescriptionsFragment extends SortedListFragment {
         doctorInfo = getArguments().getParcelable(Constants.DOCTOR_INFO);
         medicineInfo = getArguments().getParcelable(Constants.MEDICINE_INFO);
         hasPay = getArguments().getBoolean(Constants.HAS_PAY);
-
     }
 
     @Override
@@ -91,9 +89,6 @@ public class PayPrescriptionsFragment extends SortedListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
-
-        HashMap<String, String> extraField = DrugListFragment.getDrugExtraField();
-        Log.e("extraField", "" + extraField.get(DrugListFragment.COUPON_ID));
 
         List<SortedItem> sortedItems = model.parseData(address, doctorInfo, medicineInfo, hasPay);
         binding.swipeRefresh.setRefreshing(false);

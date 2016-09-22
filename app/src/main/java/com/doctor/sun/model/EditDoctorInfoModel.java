@@ -55,7 +55,7 @@ public class EditDoctorInfoModel {
         name.setResult(data.getName());
         result.add(name);
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         if (data.getPhone() == null || data.getPhone().equals("")) {
             final ItemTextInput2 personalPhone = ItemTextInput2.mobilePhoneInput("手机号码", "请输入11位手机号码");
@@ -78,7 +78,7 @@ public class EditDoctorInfoModel {
             result.add(changePersonalPhone);
         }
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         ItemRadioGroup radioGroup = new ItemRadioGroup(R.layout.item_pick_gender);
         radioGroup.setTitle("性别");
@@ -88,7 +88,7 @@ public class EditDoctorInfoModel {
         radioGroup.setSelectedItem(data.getGender());
         result.add(radioGroup);
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         ItemTextInput2 hospital = new ItemTextInput2(R.layout.item_text_input2, "所属医院", "");
         hospital.setResultNotEmpty();
@@ -97,7 +97,7 @@ public class EditDoctorInfoModel {
         hospital.setResult(data.getHospitalName());
         result.add(hospital);
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         ItemTextInput2 specialist = new ItemTextInput2(R.layout.item_text_input2, "专科", "");
         specialist.setResultNotEmpty();
@@ -106,7 +106,7 @@ public class EditDoctorInfoModel {
         specialist.setResult(data.getSpecialist());
         result.add(specialist);
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         ItemTextInput2 hospitalPhone = ItemTextInput2.phoneInput("医院/科室电话", "请输入手机电话号码或者座机号码");
         hospitalPhone.setCanResultEmpty();
@@ -116,7 +116,7 @@ public class EditDoctorInfoModel {
         hospitalPhone.setResult(data.getHospitalPhone());
         result.add(hospitalPhone);
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         ItemRadioDialog title = new ItemRadioDialog(R.layout.item_pick_title);
         title.setResultNotEmpty();
@@ -135,7 +135,7 @@ public class EditDoctorInfoModel {
         title.addOptions(stringArray);
         result.add(title);
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         BaseItem tagHeader = new BaseItem(R.layout.item_tag_list);
         tagHeader.setTitle("专长标签");
@@ -166,7 +166,7 @@ public class EditDoctorInfoModel {
         tagHeader.setItemId(ItemAddTag.TAGS_START);
         result.add(e);
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         ItemTextInput2 detail = new ItemTextInput2(R.layout.item_text_input4, "个人简介/医治专长", "");
         detail.setItemId("detail");
@@ -175,7 +175,7 @@ public class EditDoctorInfoModel {
         detail.setMaxLength(200);
         result.add(detail);
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         ModelUtils.insertSpace(result);
 
@@ -207,7 +207,7 @@ public class EditDoctorInfoModel {
         imgPs.setMaxLength(200);
         result.add(imgPs);
 
-        ModelUtils.insertDivider(result);
+        ModelUtils.insertDividerMarginLR(result);
 
         ModelUtils.insertSpace(result);
 

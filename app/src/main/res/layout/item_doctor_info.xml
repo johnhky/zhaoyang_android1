@@ -59,7 +59,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.specialist}"
+                android:text="@{'/' + data.specialist}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15"
                 tools:text="/精神病科"/>
@@ -67,7 +67,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.title}"
+                android:text="@{'/' + data.title}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15"
                 tools:text="/科室主任"/>
