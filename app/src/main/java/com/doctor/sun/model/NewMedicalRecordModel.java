@@ -5,6 +5,7 @@ import android.content.Context;
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Description;
+import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
@@ -115,7 +116,7 @@ public class NewMedicalRecordModel {
         return result;
     }
 
-    public void saveMedicalRecord(SortedListAdapter adapter, int recordType, Callback<ApiDTO<String>> callback) {
+    public void saveMedicalRecord(SortedListAdapter adapter, int recordType, Callback<ApiDTO<MedicalRecord>> callback) {
         HashMap<String, String> medicalRecord = ModelUtils.toHashMap(adapter, callback);
         if (medicalRecord != null) {
             ProfileModule api = Api.of(ProfileModule.class);

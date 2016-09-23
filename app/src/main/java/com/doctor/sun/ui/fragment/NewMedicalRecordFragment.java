@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.model.NewMedicalRecordModel;
@@ -76,9 +77,9 @@ public class NewMedicalRecordFragment extends SortedListFragment {
     }
 
     private void saveMedicalRecord() {
-        model.saveMedicalRecord(getAdapter(), getRecordType(), new SimpleCallback<String>() {
+        model.saveMedicalRecord(getAdapter(), getRecordType(), new SimpleCallback<MedicalRecord>() {
             @Override
-            protected void handleResponse(String response) {
+            protected void handleResponse(MedicalRecord response) {
 
                 TokenCallback.checkToken(getActivity());
                 Toast.makeText(getContext(), "病历创建成功", Toast.LENGTH_SHORT).show();

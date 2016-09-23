@@ -67,7 +67,7 @@ public interface ProfileModule {
     @FormUrlEncoded
 //    @POST("profile/setSelfMedicalRecord")
     @POST("profile/self-medical-record")
-    Call<ApiDTO<String>> setSelfMedicalRecord(@FieldMap Map<String, String> medicalRecord);
+    Call<ApiDTO<MedicalRecord>> setSelfMedicalRecord(@FieldMap Map<String, String> medicalRecord);
 
     /**
      * @param medicalRecord relation    	string	是	关系
@@ -82,7 +82,7 @@ public interface ProfileModule {
      */
     @FormUrlEncoded
     @POST("profile/other-medical-record")
-    Call<ApiDTO<String>> setRelativeMedicalRecord(@FieldMap Map<String, String> medicalRecord);
+    Call<ApiDTO<MedicalRecord>> setRelativeMedicalRecord(@FieldMap Map<String, String> medicalRecord);
 
     //    @GET("profile/medicalRecordList")
     @GET("profile/medical-records")
