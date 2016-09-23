@@ -1,4 +1,4 @@
-package com.doctor.sun.ui.activity.patient;
+package com.doctor.sun.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,10 +11,8 @@ import android.view.MenuItem;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.PushModule;
-import com.doctor.sun.ui.activity.PageActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.SystemMsgAdapter;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
@@ -39,9 +37,6 @@ public class SystemMsgListActivity extends PageActivity2 {
         return i;
     }
 
-    private int getAppointmentNumber() {
-        return getIntent().getIntExtra(Constants.NUMBER, -1);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,31 +47,12 @@ public class SystemMsgListActivity extends PageActivity2 {
         Config.putLong(visitTimeKey, System.currentTimeMillis());
     }
 
-//    @Override
-//    protected void initHeader() {
-//        super.initHeader();
-//        getBinding().setHeader(getHeaderViewModel());
-//    }
 
     @Override
     protected void loadMore() {
         super.loadMore();
         api.systemMsg(getCallback().getPage()).enqueue(getCallback());
     }
-//
-//    @NonNull
-//    protected HeaderViewModel getHeaderViewModel() {
-//        int appointmentNumber = 0;
-//        HeaderViewModel header = new HeaderViewModel(this);
-//        header.setRightTitle("联系客服");
-//        if (Config.getInt(Constants.USER_TYPE, -1) == AuthModule.PATIENT_TYPE) {
-//            appointmentNumber = getAppointmentNumber();
-//        } else {
-//            appointmentNumber = getAppointmentNumber() + 1;
-//        }
-//        header.setLeftTitle("就诊(" + appointmentNumber + ")");
-//        return header;
-//    }
 
     public void onMenuClicked() {
         TwoChoiceDialog.show(this, "020-4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {

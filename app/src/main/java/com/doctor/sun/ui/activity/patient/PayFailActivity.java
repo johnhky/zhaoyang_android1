@@ -25,7 +25,6 @@ import io.ganguo.library.AppManager;
  * Created by lucas on 1/23/16.
  */
 public class PayFailActivity extends BaseFragmentActivity2 implements View.OnClickListener {
-    public static final int URGENT_CALL = 1;
     public static final int APPOINTMENT = 2;
     public static final int OTHERS = 3;
     private AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
@@ -40,13 +39,6 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
         return i;
     }
 
-//    public static Intent makeIntent(Context context, UrgentCall data, boolean payWithWeChat) {
-//        Intent i = new Intent(context, PayFailActivity.class);
-//        i.putExtra(Constants.PAY_METHOD, payWithWeChat);
-//        i.putExtra(Constants.DATA, data);
-//        i.putExtra(Constants.TYPE, URGENT_CALL);
-//        return i;
-//    }
 
     public static Intent makeIntent(Context context, String money, boolean payWithWeChat, HashMap<String, String> goods) {
         Intent i = new Intent(context, PayFailActivity.class);
@@ -57,10 +49,6 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
         return i;
     }
 //
-//    private UrgentCall getUrgentCall() {
-//        return getIntent().getParcelableExtra(Constants.DATA);
-//    }
-
     private Appointment getAppointment() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
@@ -102,15 +90,6 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
                         } else {
                             handler.payWithAlipay(this, "");
                         }
-                        break;
-                    }
-                    case URGENT_CALL: {
-//                        UrgentCallHandler handler = new UrgentCallHandler(getUrgentCall());
-//                        if (shouldPayWithWeChat()) {
-//                            handler.payWithWeChat(this, "");
-//                        } else {
-//                            handler.payWithAlipay(this, "");
-//                        }
                         break;
                     }
                     case OTHERS: {

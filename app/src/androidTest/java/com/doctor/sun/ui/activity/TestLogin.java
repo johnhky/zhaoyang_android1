@@ -14,8 +14,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -31,19 +31,34 @@ public class TestLogin {
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
     @Test
-    public void testLogin() {
+    public void test20loginDoctor() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.et_phone), isDisplayed()));
-        appCompatEditText.perform(replaceText(LOGIN_PHONE_NUM), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText(TestConfig.DOCTOR_PHONE_NUM), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.et_password), isDisplayed()));
         appCompatEditText2.perform(replaceText(TestConfig.PSW), closeSoftKeyboard());
 
-        ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.et_password), withText(TestConfig.PSW), isDisplayed()));
-        appCompatEditText3.perform(pressImeActionButton());
+        ViewInteraction appCompatTextView = onView(
+                allOf(withText("登    录"), isDisplayed()));
+        appCompatTextView.perform(click());
 
     }
 
+    @Test
+    public void test40loginPatient() {
+        ViewInteraction appCompatEditText = onView(
+                allOf(withId(R.id.et_phone), isDisplayed()));
+        appCompatEditText.perform(replaceText(TestConfig.PATIENT_PHONE_NUM), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.et_password), isDisplayed()));
+        appCompatEditText2.perform(replaceText(TestConfig.PSW), closeSoftKeyboard());
+
+        ViewInteraction appCompatTextView = onView(
+                allOf(withText("登    录"), isDisplayed()));
+        appCompatTextView.perform(click());
+
+    }
 }

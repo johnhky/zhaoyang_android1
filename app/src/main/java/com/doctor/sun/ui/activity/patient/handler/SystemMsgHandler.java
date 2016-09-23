@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.doctor.sun.entity.SystemMsg;
-import com.doctor.sun.ui.activity.patient.SystemMsgListActivity;
+import com.doctor.sun.ui.activity.SystemMsgListActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

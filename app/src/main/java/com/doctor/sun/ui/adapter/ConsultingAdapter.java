@@ -12,7 +12,7 @@ import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.PushModule;
-import com.doctor.sun.ui.activity.patient.SystemMsgListActivity;
+import com.doctor.sun.ui.activity.SystemMsgListActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
