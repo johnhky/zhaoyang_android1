@@ -49,7 +49,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
     private String avatar = "";
 
 
-    private boolean isEditMode = true;
+    private boolean isEditMode = false;
     private Patient patient;
 
     public boolean isEditMode() {
@@ -143,7 +143,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
     }
 
     public void onMenuClicked() {
-        if (isEditMode()) {
+        if (!isEditMode()) {
             TwoChoiceDialog.show(this, " 您好，昭阳医生不可以随便更改用户资料，所有用户资料的申请需要经过后台审核", "取消", "确定", new TwoChoiceDialog.Options() {
                 @Override
                 public void onApplyClick(MaterialDialog dialog) {
@@ -231,7 +231,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.clear();
-        if (!isEditMode()) {
+        if (isEditMode()) {
             getMenuInflater().inflate(R.menu.menu_save, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_edit, menu);
