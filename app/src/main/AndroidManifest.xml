@@ -117,9 +117,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.doctor.sun.ui.activity.doctor.RegisterActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.doctor.sun.ui.activity.patient.AppointmentDetailActivity"
             android:screenOrientation="portrait" />
 
@@ -247,7 +244,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.doctor.sun.ui.activity.doctor.PasswordActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.ChangePswActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -304,10 +301,6 @@
             android:name="com.doctor.sun.ui.activity.patient.CreateRecordActivity"
             android:screenOrientation="portrait" />
 
-        <!--<activity-->
-        <!--android:name="com.doctor.sun.ui.activity.patient.PMainActivity"-->
-        <!--android:launchMode="singleTop"-->
-        <!--android:screenOrientation="portrait" />-->
         <activity
             android:name="com.doctor.sun.ui.activity.patient.PMainActivity2"
             android:launchMode="singleTop"
@@ -369,9 +362,6 @@
             android:name="com.doctor.sun.ui.activity.patient.EditRecordActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.doctor.AdviceActivity"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.doctor.sun.ui.activity.doctor.ModifyNicknameActivity"
@@ -428,7 +418,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.doctor.sun.ui.activity.patient.SystemMsgListActivity"
+            android:name="com.doctor.sun.ui.activity.SystemMsgListActivity"
             android:screenOrientation="portrait" />
 
         <!--<activity-->
@@ -513,29 +503,6 @@
             android:name=".ui.activity.patient.FollowUpDoctorListActivity"
             android:screenOrientation="portrait" />
 
-        <!--<service-->
-        <!--android:name="com.yuntongxun.ecsdk.ECClientService"-->
-        <!--android:enabled="true" />-->
-        <!--// 以下两项为SDK事件提醒广播(必选配置)-->
-        <!--<receiver android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$AlarmReceiver" />-->
-        <!--// v5.1.9r增加配置选项(必选配置)-->
-        <!--<receiver android:name="com.yuntongxun.ecsdk.booter.Alarm" />-->
-        <!--// SDK网络改变广播(必选配置)-->
-        <!--<receiver android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$ConnectionReceiver">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-        <!--</intent-filter>-->
-        <!--</receiver>-->
-        <!--<receiver-->
-        <!--android:name="com.doctor.sun.ui.recevier.YuntxNotifyReceiver"-->
-        <!--android:exported="false">-->
-        <!--<intent-filter>-->
-        <!--// 接收push消息-->
-        <!--// action匹配规则{packageName + ".action" + "功能"}-->
-        <!--<action android:name="com.doctor.sun.action.VOIP_CALL" />-->
-        <!--<action android:name="com.doctor.sun.action.MESSAGE" />-->
-        <!--<action android:name="com.doctor.sun.action.NOTIFICATION_CLICK" />-->
-        <!--<action android:name="com.doctor.sun.action.PERSON_VERSION" />-->
 
         <!--</intent-filter>-->
         <!--</receiver>-->

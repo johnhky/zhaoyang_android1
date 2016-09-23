@@ -22,12 +22,12 @@ import retrofit2.Call;
 /**
  * Created by lucas on 12/22/15.
  */
-public class PasswordActivity extends BaseFragmentActivity2 {
+public class ChangePswActivity extends BaseFragmentActivity2 {
     private ActivityPasswordBinding binding;
     private ProfileModule api = Api.of(ProfileModule.class);
 
     public static Intent makeIntent(Context context) {
-        Intent i = new Intent(context, PasswordActivity.class);
+        Intent i = new Intent(context, ChangePswActivity.class);
         return i;
     }
 
@@ -51,7 +51,7 @@ public class PasswordActivity extends BaseFragmentActivity2 {
 
             @Override
             protected void handleApi(ApiDTO<String> body) {
-                ToastHelper.showMessage(PasswordActivity.this, "修改密码成功");
+                ToastHelper.showMessage(ChangePswActivity.this, "修改密码成功");
                 finish();
             }
 

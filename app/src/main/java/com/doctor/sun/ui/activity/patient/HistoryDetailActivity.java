@@ -68,14 +68,4 @@ public class HistoryDetailActivity extends TabActivity {
             }
         }
     }
-
-//    @Override
-//    public void setHeaderRightTitle(String title) {
-////        binding.getHeader().setRightTitle(title);
-//    }
-
-//    @Override
-//    public void onCategorySelect(QuestionCategory data) {
-//        FillForumFragment.getInstance(getData()).loadQuestions(data);
-//    }
 }

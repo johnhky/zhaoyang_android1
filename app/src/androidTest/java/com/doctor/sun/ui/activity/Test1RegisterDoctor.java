@@ -29,7 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TestRegisterPatient {
+public class Test1RegisterDoctor {
 
     @Rule
     public ActivityTestRule<TestFragmentActivity> mActivityTestRule = new ActivityTestRule<>(TestFragmentActivity.class, false, false);
@@ -42,17 +42,18 @@ public class TestRegisterPatient {
     }
 
     @Test
-    public void testRegisterPatient() {
+    public void test1RegisterDoctor() {
         launchActivity();
-        int REGISTER_TYPE = R.id.rb_patient;
+        int REGISTER_TYPE = R.id.rb_doctor;
         selectRegisterType(REGISTER_TYPE);
 
-        typePhoneNum(TestConfig.PATIENT_PHONE_NUM);
+        typePhoneNum(TestConfig.DOCTOR_PHONE_NUM);
 
         fillRegisterInfo();
 
         clickNext();
     }
+
 
     private void typePhoneNum(String doctorPhoneNum) {
         onView(withId(R.id.recycler_view))
@@ -88,4 +89,5 @@ public class TestRegisterPatient {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(12,
                         CustomViewAction.clickChildViewWithId(R.id.cb_confirm)));
     }
+
 }

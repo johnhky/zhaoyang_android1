@@ -126,9 +126,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public String getBookTime() {
         if (null != data.getBookTime()) {
-//            if (isQuick()) {
-//                return splitBookTime();
-//            }
             return data.getBookTime();
         } else if (null != data.getCreatedAt()) {
             return data.getCreatedAt();
@@ -604,7 +601,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 double unpayMoney = Double.parseDouble(data.getNeedPay());
                 return (int) (money - unpayMoney);
             } catch (NumberFormatException doubleCast) {
-               return 0;
+                return 0;
             }
         }
     }

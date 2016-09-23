@@ -22,14 +22,13 @@ import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.AllOf;
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -40,7 +39,7 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TestEditDoctorInfo {
+public class Test2EditDoctorInfo {
 
     @Rule
     public ActivityTestRule<TestFragmentActivity> mActivityTestRule = new ActivityTestRule<>(TestFragmentActivity.class, false, false);
@@ -55,7 +54,7 @@ public class TestEditDoctorInfo {
     }
 
     @Test
-    public void testEditDoctorInfo() {
+    public void test2EditDoctorInfo() {
         launchActivity();
 
         fillDoctorInfo();
@@ -90,6 +89,11 @@ public class TestEditDoctorInfo {
                         0),
                         isDisplayed()));
         linearLayout.perform(click());
+    }
+
+    @After
+    public void cleanUp() {
+        mActivityTestRule.getActivity().finishAffinity();
     }
 
     private void perform(ViewAction viewAction) {
