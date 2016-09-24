@@ -4,4 +4,6 @@
         android:width="2px"
         android:color="@color/orange" />
 
+    <solid android:color="@color/white" />
+
 </shape>

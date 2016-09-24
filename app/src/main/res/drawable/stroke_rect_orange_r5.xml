@@ -4,5 +4,7 @@
         android:width="2px"
         android:color="@color/orange" />
 
+    <solid android:color="@color/white" />
+
     <corners android:radius="@dimen/dp_5" />
 </shape>
