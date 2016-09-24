@@ -148,6 +148,7 @@ public class EditDoctorInfoModel {
             tag.setMaxLength(10);
             tag.setHint("点击编辑您的个人标签");
             tag.resultCanEmpty();
+            tag.setMaxLength(10);
             tag.setItemId(UUID.randomUUID().toString());
             tag.setPosition(result.size());
 

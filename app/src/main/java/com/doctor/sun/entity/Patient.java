@@ -43,7 +43,7 @@ public class Patient extends BaseObservable implements LayoutId, Parcelable, Nam
     private String email;
     @JsonProperty("gender")
     private int gender;
-    @JsonProperty("age")
+    @JsonProperty("birthday")
     private String birthday;
     @JsonProperty("avatar")
     private String avatar;

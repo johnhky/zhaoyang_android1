@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
@@ -155,8 +157,16 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
                     binding.tvGender.setVisibility(View.GONE);
                     binding.rbMale.setVisibility(View.VISIBLE);
                     binding.rbFemale.setVisibility(View.VISIBLE);
+                    if (patient.getGender() == 1) {
+                        binding.rbMale.setChecked(true);
+                    } else {
+                        binding.rbFemale.setChecked(true);
+                    }
+
                     CustomBinding.drawableRight(binding.tvBirthday, R.drawable.ic_enter);
                     setIsEditMode(!isEditMode());
+
+                    ToastHelper.showMessage(EditPatientInfoActivity.this, "编辑完成后请点击右上角保存");
                 }
 
                 @Override
@@ -237,5 +247,24 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
             getMenuInflater().inflate(R.menu.menu_edit, menu);
         }
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isEditMode()) {
+            TwoChoiceDialog.show(this, "修改将不会被保存，确定退出编辑吗？", "取消", "确定", new TwoChoiceDialog.Options() {
+                @Override
+                public void onApplyClick(MaterialDialog dialog) {
+                    EditPatientInfoActivity.super.onBackPressed();
+                }
+
+                @Override
+                public void onCancelClick(MaterialDialog dialog) {
+                    dialog.dismiss();
+                }
+            });
+        } else {
+            super.onBackPressed();
+        }
     }
 }
