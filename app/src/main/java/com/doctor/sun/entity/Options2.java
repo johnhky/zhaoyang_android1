@@ -1,6 +1,7 @@
 package com.doctor.sun.entity;
 
 import android.content.Context;
+import android.text.Editable;
 import android.text.InputType;
 import android.view.View;
 
@@ -163,6 +164,15 @@ public class Options2 extends BaseItem {
         } else {
             return null;
         }
+    }
+
+    public void afterInputChanged(Editable newInputEditable) {
+        String newInput = newInputEditable.toString();
+        if (optionContent.equals(newInput)) {
+            return;
+        }
+        boolean selected = !newInput.equals("");
+        setSelectedWrap(selected);
     }
 
     public Boolean getSelected() {

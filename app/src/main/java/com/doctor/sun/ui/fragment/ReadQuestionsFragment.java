@@ -176,10 +176,15 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
     public boolean sendRemind() {
         QuestionModule api = Api.of(QuestionModule.class);
         final ArrayList<String> need_fill = new ArrayList<>();
+        final ArrayList<String> need_fill_key = new ArrayList<>();
         for (int i = 0; i < getAdapter().size(); i++) {
-            SortedItem sortedItem = getAdapter().get(i);
-            if (sortedItem.isUserSelected()) {
-                need_fill.add(sortedItem.getKey());
+            SortedItem item = getAdapter().get(i);
+            if (item instanceof Questions2) {
+                Questions2 questions = (Questions2) item;
+                if (questions.isUserSelected()) {
+                    need_fill.add(questions.answerId);
+                    need_fill_key.add(questions.getKey());
+                }
             }
         }
         if (need_fill.isEmpty()) {
@@ -192,9 +197,11 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
             protected void handleResponse(String response) {
                 ToastHelper.showMessage(getContext(), "保存重填数据成功");
                 isEditMode = false;
-                for (String s : need_fill) {
+                for (String s : need_fill_key) {
                     Questions2 question = (Questions2) getAdapter().get(s);
-                    question.refill = 1;
+                    if (question != null) {
+                        question.refill = 1;
+                    }
                 }
                 getAdapter().setConfig(AdapterConfigKey.IS_READ_ONLY, true);
                 getAdapter().notifyDataSetChanged();

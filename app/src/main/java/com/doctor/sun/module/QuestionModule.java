@@ -29,41 +29,6 @@ import retrofit2.http.QueryMap;
  * https://gitlab.cngump.com/ganguo_web/zhaoyangyisheng_server/wikis/question#%E5%8C%BB%E7%94%9F%E9%97%AE%E9%A2%98%E6%A8%A1%E5%9D%97api
  */
 public interface QuestionModule {
-
-
-    /**
-     * 删除医生模板
-     *
-     * @param templateId
-     * @return
-     */
-    @GET("question/template/{template_id}/delete")
-    Call<ApiDTO<String>> deleteTemplate(@Path("template_id") String templateId);
-
-    /**
-     * 追加模板问题到问卷
-     *
-     * @param appointmentId
-     * @param template_id
-     * @return
-     */
-    @GET("question/append/{id}/template/{template_id}")
-    Call<ApiDTO<List<String>>> appendTemplate(@Path("id") String appointmentId, @Path("template_id") String template_id);
-
-    /**
-     * 追加量表到问卷
-     *
-     * @param appointmentId
-     * @param questionId
-     * @return
-     */
-    @GET("question/append/{id}/scale/{questionId}")
-    Call<ApiDTO<List<String>>> appendScale(@Path("id") String appointmentId, @Path("questionId") String questionId);
-
-
-//    @GET("question/scale/{id}")
-//    Call<ApiDTO<List<QuestionCategory>>> scaleCategory(@Path("id") String appointmentId);
-
     /**
      * @param type          one of smartQuestionnaires, smartScales
      * @param appointmentId
