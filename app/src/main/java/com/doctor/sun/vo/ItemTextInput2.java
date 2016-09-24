@@ -158,7 +158,6 @@ public class ItemTextInput2 extends BaseItem {
         viewModel.setMaxLength(24);
         viewModel.setInputType(InputType.TYPE_CLASS_TEXT |
                 InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        viewModel.add(new RegexValidator(Pattern.compile("^\\s*(?:\\S\\s*){6,}$"), "密码强度太低"));
 
         return viewModel;
     }
