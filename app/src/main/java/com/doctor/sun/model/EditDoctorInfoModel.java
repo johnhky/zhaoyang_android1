@@ -145,6 +145,7 @@ public class EditDoctorInfoModel {
 
         for (int i = 0; i < 5; i++) {
             ItemTextInput2 tag = new ItemTextInput2(R.layout.item_edit_tag, "专长标签", "");
+            tag.setMaxLength(10);
             tag.setHint("点击编辑您的个人标签");
             tag.resultCanEmpty();
             tag.setItemId(UUID.randomUUID().toString());
