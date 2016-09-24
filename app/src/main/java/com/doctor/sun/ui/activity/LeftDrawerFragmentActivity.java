@@ -24,7 +24,7 @@ public class LeftDrawerFragmentActivity extends BaseFragmentActivity2 {
         return intent;
     }
 
-    private Fragment instance;
+    private Fragment mainContent;
     private Fragment leftDrawer;
 
     @Override
@@ -34,21 +34,21 @@ public class LeftDrawerFragmentActivity extends BaseFragmentActivity2 {
 
 
         Bundle contentArgs = getIntent().getBundleExtra(Constants.FRAGMENT_CONTENT_BUNDLE);
-        instance = FragmentFactory.getInstance().get(contentArgs);
+        mainContent = FragmentFactory.getInstance().get(contentArgs);
 
         Bundle leftDrawerArgs = getIntent().getBundleExtra(Constants.FRAGMENT_LEFT_DRAWER_BUNDLE);
         leftDrawer = FragmentFactory.getInstance().get(leftDrawerArgs);
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fly_content, instance)
+                .replace(R.id.fly_content, mainContent)
                 .replace(R.id.fly_left_drawer, leftDrawer)
                 .commit();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        instance.onActivityResult(requestCode, resultCode, data);
+        mainContent.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
