@@ -10,7 +10,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
 
-import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.ui.activity.ViewPrescriptionActivity;
@@ -202,8 +201,15 @@ public class Prescription extends BaseItem implements Parcelable {
         for (int i = 0; i < numbers.size(); i++) {
             String amount = numbers.get(i).get(keys.get(i));
             if (null != amount && !amount.equals("")) {
-                builder.append(keys.get(i)).append(amount).append(unit);
-                builder.append(",");
+                try {
+                    double amountDouble = Double.parseDouble(amount);
+                    if (amountDouble > 0) {
+                        builder.append(keys.get(i)).append(amount).append(unit);
+                        builder.append(",");
+                    }
+                } catch (Exception e) {
+
+                }
             }
         }
 
@@ -393,7 +399,7 @@ public class Prescription extends BaseItem implements Parcelable {
 //        [{"早":"1"},{"午":"1"},{"晚":"1"},{"睡前":"1"}]
         numbers = new ArrayList<>();
         HashMap<String, String> morning = new HashMap<>();
-        morning.put("早",  map.get("morning"));
+        morning.put("早", map.get("morning"));
         numbers.add(morning);
         HashMap<String, String> afternoon = new HashMap<>();
         afternoon.put("午", map.get("noon"));
