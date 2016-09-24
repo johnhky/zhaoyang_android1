@@ -66,6 +66,7 @@ public class EditDoctorInfoFragment extends SortedListFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
+        disableRefresh();
         loadMore();
     }
 
@@ -132,10 +133,10 @@ public class EditDoctorInfoFragment extends SortedListFragment {
             ItemPickImage.handleRequest(getActivity(), getAdapter(), data, requestCode);
         }
     }
-
-    @Override
-    public void onRefresh() {
-        getBinding().swipeRefresh.setRefreshing(false);
-    }
-
+//
+//    @Override
+//    public void onRefresh() {
+//        getBinding().swipeRefresh.setRefreshing(false);
+//    }
+//
 }

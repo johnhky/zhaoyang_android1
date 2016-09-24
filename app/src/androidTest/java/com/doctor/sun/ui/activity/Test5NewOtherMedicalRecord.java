@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.activity;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.test.espresso.ViewInteraction;
@@ -31,14 +30,14 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class Test4NewMedicalRecord {
+public class Test5NewOtherMedicalRecord {
     String chars = "abcdefghijklmnopqrstuvwxyz";
 
     @Rule
     public ActivityTestRule<TestFragmentActivity> mActivityTestRule = new ActivityTestRule<>(TestFragmentActivity.class, false, false);
 
     @Test
-    public void test4NewMedicalRecord() {
+    public void test5NewMedicalRecord() {
 
         Bundle args = NewMedicalRecordFragment.getArgs(1);
         Intent intent = new Intent();
@@ -46,26 +45,18 @@ public class Test4NewMedicalRecord {
         mActivityTestRule.launchActivity(intent);
 
         onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2,
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0,
                         typeText("relation" + getTag())));
         onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(4,
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2,
                         typeText("selfName" + getTag())));
         onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(6,
+                .perform(RecyclerViewActions.actionOnItemAtPosition(4,
                         typeText("patientName" + getTag())));
         onView(withId(R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(8,
-                        typeText("abc@qq.com")));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(10,
-                        CustomViewAction.clickChildViewWithId(R.id.et_others)));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(12,
                         CustomViewAction.clickChildViewWithId(R.id.rb_male)));
-//        onView(withId(R.id.recycler_view))
-//                .perform(RecyclerViewActions.actionOnItemAtPosition(14,
-//                        typeText("330726196507040016")));
+
         clickNext();
     }
 

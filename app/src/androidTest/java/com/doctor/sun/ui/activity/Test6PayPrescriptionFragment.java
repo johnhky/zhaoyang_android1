@@ -28,13 +28,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class Test5PayPrescriptionFragment {
+public class Test6PayPrescriptionFragment {
 
     @Rule
     public ActivityTestRule<TestFragmentActivity> mActivityTestRule = new ActivityTestRule<>(TestFragmentActivity.class, false, false);
 
     @Test
-    public void test5PayPrescriptionFragment() {
+    public void test6PayPrescriptionFragment() {
 
         Drug drug = new Drug();
         drug.setTo("小明");
@@ -58,10 +58,9 @@ public class Test5PayPrescriptionFragment {
         intent.putExtra(Constants.FRAGMENT_CONTENT_BUNDLE, PayPrescriptionsFragment.getArgs(drug));
         mActivityTestRule.launchActivity(intent);
 
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(6,
-                        CustomViewAction.clickChildViewWithId(R.id.et_select)));
-
+//        onView(withId(R.id.recycler_view))
+//                .perform(RecyclerViewActions.actionOnItemAtPosition(6,
+//                        CustomViewAction.clickChildViewWithId(R.id.et_select)));
 
         onView(withId(R.id.recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(8,
