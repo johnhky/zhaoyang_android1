@@ -45,22 +45,12 @@ public interface AppointmentModule {
                                              @Query("title[]") ArrayList<Integer> titleParam);
 
     @FormUrlEncoded
-    @POST("appointment/collect")
-    Call<ApiDTO<String>> likeDoctor(@Field("doctorId") String doctorId);
-
-    @FormUrlEncoded
     @POST("appointment/un-collect")
     Call<ApiDTO<String>> unlikeDoctor(@Field("doctorId") String doctorId);
 
     @GET("appointment/collectionList")
     Call<ApiDTO<PageDTO<Doctor>>> favoriteDoctors();
 
-    @FormUrlEncoded
-    @POST("appointment/appointment")
-    Call<ApiDTO<Appointment>> orderAppointment(@Field("doctorId") String doctorId,
-                                               @Field("bookTime") String bookTime,
-                                               @AppointmentType @Field("type") int type,
-                                               @Field("recordId") String recordId);
 
     @FormUrlEncoded
     @POST("appointment/appointment")
@@ -72,18 +62,10 @@ public interface AppointmentModule {
                                                @Field("select_tags[]") ArrayList<String> tagsId,
                                                @FieldMap HashMap<String, String> otherParam);
 
-    @GET("appointment/pAppointList")
-    Call<ApiDTO<PageDTO<Appointment>>> pAppointments(@Query("page") String page);
-
-    @GET("appointment/pAppointList")
-    Call<ApiDTO<PageDTO<Appointment>>> pAppointments(@Query("page") String page, @Query("type") int type);
-
     @FormUrlEncoded
     @POST("appointment/patient-cancel")
     Call<ApiDTO<String>> pCancel(@Field("appointmentId") int appointmentId);
 
-    @GET("appointment/dAppointList")
-    Call<ApiDTO<PageDTO<Appointment>>> dAppointments(@Query("page") String page, @Query("paid") String paid);
 
     @FormUrlEncoded
     @POST("appointment/doctor-cancel")
@@ -99,9 +81,6 @@ public interface AppointmentModule {
     Call<ApiDTO<String>> startConsulting(@Field("appointmentId") int appointmentId);
 
 
-    @GET("diagnosis/return-list")
-    Call<ApiDTO<PageDTO<Appointment>>> consultations(@Query("page") String page);
-
     @FormUrlEncoded
     @POST("diagnosis/accept-return")
     Call<ApiDTO<String>> acceptConsultation(@FieldMap Map<String, String> consultation);
@@ -114,29 +93,6 @@ public interface AppointmentModule {
     @POST("diagnosis/refuse-return")
     Call<ApiDTO<String>> refuseConsultation(@Field("id") String id);
 
-    @GET("appointment/dDoingList")
-    Call<ApiDTO<PageDTO<Appointment>>> dDoingList(@Query("page") String page);
-
-    @GET("appointment/dFinishList")
-    Call<ApiDTO<PageDTO<Appointment>>> dFinishList(@Query("page") String page);
-
-    @GET("appointment/pDoingList")
-    Call<ApiDTO<PageDTO<Appointment>>> pDoingList(@Query("page") String page);
-
-    @GET("appointment/pFinishList")
-    Call<ApiDTO<PageDTO<Appointment>>> pFinishList(@Query("page") String page);
-
-    @FormUrlEncoded
-    @POST("appointment/evaluate-patient")
-    Call<ApiDTO<String>> evaluatePatient(@Field("point") String point,
-                                         @Field("appointmentId") String appointmentId,
-                                         @Field("detail") String detail);
-
-    @GET("urgent/doctor-list")
-    Call<ApiDTO<PageDTO<Appointment>>> urgentCalls(@Query("page") String page);
-//
-//    @GET("urgent/patient-list")
-//    Call<ApiDTO<PageDTO<UrgentCall>>> pUrgentCalls(@Query("page") String page);
 
     @FormUrlEncoded
     @POST("urgent/receive")
@@ -163,24 +119,6 @@ public interface AppointmentModule {
     @POST("appointment/pay")
     Call<ApiDTO<String>> pay(@Field("appointmentId") String appointmentId);
 
-
-    /**
-     * @param type 'alipay'或'wechat'(微信app支付)或'wechat_js'(微信公众号支付)。不传默认值为'alipay'
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("pay/info")
-    Call<ApiDTO<String>> buildAliPayOrder(@Field("appointmentId") int id,
-                                          @Field("type") String type);
-
-    /**
-     * @param type 'alipay'或'wechat'(微信app支付)或'wechat_js'(微信公众号支付)。不传默认值为'alipay'
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("pay/info")
-    Call<ApiDTO<WeChatPayDTO>> buildWeChatOrder(@Field("appointmentId") int id,
-                                                @Field("type") String type);
 
     /**
      * @param type 'alipay'或'wechat'(微信app支付)或'wechat_js'(微信公众号支付)。不传默认值为'alipay'
@@ -218,9 +156,6 @@ public interface AppointmentModule {
                                                      @Field("type") String type,
                                                      @FieldMap HashMap<String, String> extraField);
 
-    @GET("appointment/doctor-appoint-list")
-    Call<ApiDTO<PageDTO<Appointment>>> doctorAppointment(@Query("page") String page,
-                                                         @Query("orderType") String orderType);
 
     @GET("appointment/doctor-appoint-list")
     Call<ApiDTO<PageDTO<Appointment>>> searchAppointment(@Query("page") String page,
