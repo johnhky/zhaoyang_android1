@@ -35,9 +35,9 @@ public interface AppointmentModule {
      * @return
      */
     @GET("appointment/allDoctor/")
-    Call<ApiDTO<PageDTO<Doctor>>> doctors(@Query("page") String page,
-                                          @QueryMap HashMap<String, String> query,
-                                          @Query("title[]") ArrayList<Integer> titleParam);
+    Call<ApiDTO<PageDTO<Doctor>>> allDoctors(@Query("page") String page,
+                                             @QueryMap HashMap<String, String> query,
+                                             @Query("title[]") ArrayList<Integer> titleParam);
 
     @GET("appointment/recent-doctors")
     Call<ApiDTO<List<Doctor>>> recentDoctors(@Query("page") String page,

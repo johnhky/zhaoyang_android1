@@ -28,7 +28,6 @@ import com.doctor.sun.ui.activity.GetLocationActivity;
 import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
-
 import com.doctor.sun.ui.widget.CityPickerDialog;
 import com.doctor.sun.util.AnimationUtils;
 
@@ -128,7 +127,11 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
                 if (now - lastSearchTime > INTERVAL) {
                     refreshData(sortByPoint);
                     lastSearchTime = now;
+                    boolean lastStatus = isSearching;
                     isSearching = !s.toString().isEmpty();
+                    if (lastStatus != isSearching) {
+                        callback.resetPage();
+                    }
                 }
             }
         });
@@ -195,17 +198,10 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     }
 
     private void loadMore() {
-        if (isSearching) {
-            api.doctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);
-            return;
-        }
-        if (getType() == AppointmentType.STANDARD) {
-            loadKnowDoctor();
-        } else {
-            api.doctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);
-        }
+            api.allDoctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);
     }
 
+    @Deprecated
     private void loadKnowDoctor() {
         new Thread(new Runnable() {
             @Override

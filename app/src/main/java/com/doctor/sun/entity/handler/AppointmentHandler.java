@@ -134,15 +134,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
-    private String splitBookTime() {
-        String bookTime = data.getBookTime();
-        try {
-            String[] split = bookTime.split(" ");
-            return split[0];
-        } catch (Exception e) {
-            return bookTime;
-        }
-    }
+
 
     public String getRelation() {
         String relation = data.getRelation();
@@ -157,18 +149,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
-    public String getRelation2() {
-        String relation = data.getRelation();
-        if (null != relation && !relation.equals("")) {
-            return relation;
-        } else if (null != data.getMedicalRecord()) {
-            return data.getMedicalRecord().getRelation() + data.getMedicalRecord().getName();
-        } else if (null != data.getUrgentRecord()) {
-            return data.getUrgentRecord().getRelation() + data.getUrgentRecord().getName();
-        } else {
-            return "";
-        }
-    }
 
     public String getRelation3() {
         String relation = data.getRelation();
@@ -519,29 +499,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public boolean shouldAskServer() {
         return data.getAppointmentType() == AppointmentType.PREMIUM && Status.A_DOING.equals(data.getOrderStatus());
     }
-//
-//    public CustomActionViewModel.AudioChatCallback getAudioChatCallback() {
-//        return new CustomActionViewModel.AudioChatCallback() {
-//            @Override
-//            public void startAudioChat(View v) {
-//                checkCallStatus(v);
-//            }
-//        };
-//    }
-
-    public String getRightFirstTitle() {
-        if (Settings.isDoctor()) {
-            return "患者问卷";
-        }
-        return "我的问卷";
-    }
-
-    public String getRightTitle() {
-        if (Settings.isDoctor()) {
-            return "病历记录";
-        }
-        return "医生建议";
-    }
 
     public Intent getFirstMenu(Context context) {
         if (isAfterService()) {
@@ -646,28 +603,10 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
 
-    public boolean needReturn() {
-        return data.getReturnInfo() != null && data.getReturnInfo().getNeedReturn() == 1;
-    }
 
     public boolean returnNotPaid() {
         return data.getReturnInfo() != null && data.getReturnInfo().getReturnPaid() != 1 && data.getReturnInfo().getNeedReturn() == 1;
     }
-//
-//    public void newOrPayAppointment(Context context) {
-//        if (needReturn() && returnNotPaid()) {
-//            new PayMethodDialog(context, AppointmentHandler.this).show();
-//        } else {
-//            //复诊支付
-//            Doctor doctor = data.getDoctor();
-//            doctor.setRecordId(String.valueOf(data.getRecordId()));
-//            AppointmentBuilder appointmentBuilder = new AppointmentBuilder();
-//            appointmentBuilder.setDoctor(doctor);
-//            appointmentBuilder.setType(AppointmentType.STANDARD);
-//            Intent intent = PickDateActivity.makeIntent(context, appointmentBuilder);
-//            context.startActivity(intent);
-//        }
-//    }
 
     public void historyDetail(View view) {
         Intent intent = HistoryDetailActivity.makeIntent(view.getContext(), data);
@@ -788,18 +727,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
 
-    private void showConfirmDialog(View view, String question) {
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(view.getContext())
-                .content(question)
-                .positiveText("确认")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                });
-        builder.show();
-    }
 
     public void makePhoneCall(final Context context) {
         AVChatActivity.start(context, getP2PId(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
@@ -807,18 +734,12 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public void callTelephone(final Context context) {
         ImModule imModule = Api.of(ImModule.class);
-        imModule.makePhoneCall(getPhoneNO()).enqueue(new SimpleCallback<String>() {
+        imModule.makeYunXinPhoneCall(getMyPhoneNO(), getPhoneNO()).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
                 Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
             }
         });
-//        imModule.makeYunXinPhoneCall(getMyPhoneNO(), getPhoneNO()).enqueue(new SimpleCallback<String>() {
-//            @Override
-//            protected void handleResponse(String response) {
-//                Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     public String getVoipAccount() {
@@ -860,10 +781,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 return data.getPhone();
             }
         }
-    }
-
-    public String getOrderStatus() {
-        return "(" + getStatusLabel() + ")";
     }
 
     public String styledOrderStatus() {
@@ -972,23 +889,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return parse.getTime();
     }
 
-    public int getDefaultAvatar() {
-        int result;
-        if (Settings.isDoctor()) {
-            if (data.getGender() == Gender.FEMALE) {
-                result = R.drawable.female_patient_avatar;
-            } else {
-                result = R.drawable.male_patient_avatar;
-            }
-        } else {
-            if (data.getGender() == Gender.MALE) {
-                result = R.drawable.female_doctor_avatar;
-            } else {
-                result = R.drawable.male_doctor_avatar;
-            }
-        }
-        return result;
-    }
 
     public String chatStatus() {
         switch (data.getAppointmentType()) {
