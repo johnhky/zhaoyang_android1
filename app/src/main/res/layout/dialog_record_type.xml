@@ -53,7 +53,7 @@
             android:layout_gravity="bottom|center_horizontal"
             android:background="@drawable/ripple_default"
             android:gravity="center"
-            android:text="暂不填写,先逛逛"
+            android:text="取消"
             android:textColor="#349de1"
             android:textSize="@dimen/font_15" />
     </LinearLayout>

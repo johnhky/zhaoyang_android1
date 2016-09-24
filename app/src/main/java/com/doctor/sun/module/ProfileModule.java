@@ -34,7 +34,7 @@ public interface ProfileModule {
 
     @FormUrlEncoded
     @POST("profile/patient-base")
-    Call<ApiDTO<Patient>> editPatientInfo(@Field("name") String name, @Field("email") String email, @Field("age") String birthday, @Field("gender") int gender, @Field("avatar") String avatar);
+    Call<ApiDTO<Patient>> editPatientInfo(@Field("name") String name, @Field("email") String email, @Field("birthday") String birthday, @Field("gender") int gender, @Field("avatar") String avatar);
 
     @GET("profile/patient-base")
     Call<ApiDTO<PatientDTO>> patientProfile();
@@ -107,7 +107,7 @@ public interface ProfileModule {
 
     @FormUrlEncoded
     @POST("profile/money")
-    Call<ApiDTO<String>> setFee(@Field("money") String money, @Field("secondMoney") String secondMoney, @Field("commission") String commission);
+    Call<ApiDTO<String>> setFee(@Field("money") String money, @Field("secondMoney") String secondMoney);
 
     @GET("profile/doctor-base")
     Call<ApiDTO<Doctor>> doctorProfile();

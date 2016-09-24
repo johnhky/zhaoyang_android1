@@ -51,7 +51,7 @@ public class FeeActivity extends BaseFragmentActivity2 {
             protected void handleResponse(Fee response) {
                 binding.etFirst.setText(String.valueOf(response.getMoney()));
                 binding.etSecond.setText(String.valueOf(response.getSecond_money()));
-                binding.etElse.setText(String.valueOf(response.getCommission()));
+//                binding.etElse.setText(String.valueOf(response.getCommission()));
             }
         });
     }
@@ -60,12 +60,13 @@ public class FeeActivity extends BaseFragmentActivity2 {
         binding.btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.etFirst.getText().toString().isEmpty() || binding.etSecond.getText().toString().isEmpty() ||
-                        binding.etElse.getText().toString().isEmpty()) {
+                if (binding.etFirst.getText().toString().isEmpty() || binding.etSecond.getText().toString().isEmpty()
+//                        binding.etElse.getText().toString().isEmpty()
+                        ) {
                     ToastHelper.showMessage(v.getContext(), "有必填的输入项为空");
                 } else {
-                    api.setFee(binding.etFirst.getText().toString(), binding.etSecond.getText().toString(),
-                            binding.etElse.getText().toString()).enqueue(new ApiCallback<String>() {
+                    api.setFee(binding.etFirst.getText().toString(), binding.etSecond.getText().toString()
+                            ).enqueue(new ApiCallback<String>() {
                         @Override
                         protected void handleResponse(String response) {
                         }
