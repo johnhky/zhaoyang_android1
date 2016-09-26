@@ -99,54 +99,54 @@
             android:layout_marginTop="@dimen/dp_6"
             android:background="@color/divider_color" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_7"
-            android:layout_marginTop="@dimen/dp_7">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="@dimen/dp_7"-->
+            <!--android:layout_marginTop="@dimen/dp_7">-->
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+            <!--<View-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1" />-->
 
-            <FrameLayout
-                android:id="@+id/fl_remind"
-                android:layout_width="@dimen/dp_90"
-                android:layout_height="@dimen/dp_35"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/dp_13"
-                android:layout_marginRight="@dimen/dp_13"
-                android:background="@drawable/btn_comment"
-                bind:selected="@{data.handler.hasPatientComment}">
+            <!--<FrameLayout-->
+                <!--android:id="@+id/fl_remind"-->
+                <!--android:layout_width="@dimen/dp_90"-->
+                <!--android:layout_height="@dimen/dp_35"-->
+                <!--android:layout_gravity="end"-->
+                <!--android:layout_marginEnd="@dimen/dp_13"-->
+                <!--android:layout_marginRight="@dimen/dp_13"-->
+                <!--android:background="@drawable/btn_comment"-->
+                <!--bind:selected="@{data.handler.hasPatientComment}">-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_default"
-                    android:gravity="center"
-                    android:text='@{data.handler.hasPatientComment?"已评价":"评  价"}'
-                    android:textColor="#fff"
-                    android:textSize="@dimen/font_13"
-                    android:onClick="@{()->data.handler.comment(adapter,vh)}"/>
-            </FrameLayout>
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="@drawable/ripple_default"-->
+                    <!--android:gravity="center"-->
+                    <!--android:text='@{data.handler.hasPatientComment?"已评价":"评  价"}'-->
+                    <!--android:textColor="#fff"-->
+                    <!--android:textSize="@dimen/font_13"-->
+                    <!--android:onClick="@{()->data.handler.comment(adapter,vh)}"/>-->
+            <!--</FrameLayout>-->
 
-            <TextView
-                android:id="@+id/tv_message_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="@dimen/dp_13"
-                android:background="@drawable/shape_red_oval_dp17"
-                android:gravity="center"
-                android:textColor="#FFFFFF"
-                android:textSize="@dimen/font_12" />
-        </LinearLayout>
+            <!--<TextView-->
+                <!--android:id="@+id/tv_message_count"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_marginRight="@dimen/dp_13"-->
+                <!--android:background="@drawable/shape_red_oval_dp17"-->
+                <!--android:gravity="center"-->
+                <!--android:textColor="#FFFFFF"-->
+                <!--android:textSize="@dimen/font_12" />-->
+        <!--</LinearLayout>-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:background="#ebf0f3" />
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="16dp"-->
+            <!--android:background="#ebf0f3" />-->
 
     </LinearLayout>
 

@@ -359,24 +359,24 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         context.startActivity(i);
     }
 
-    public void comment(final BaseAdapter adapter, final BaseViewHolder vh) {
-        if (!hasPatientComment()) {
-            Context context = adapter.getContext();
-            Intent i = FeedbackActivity.makeIntent(context, data);
-            Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    data.setPatientPoint((Double) msg.obj);
-                    adapter.notifyItemChanged(vh.getAdapterPosition());
-                    return false;
-                }
-            }));
-            i.putExtra(Constants.HANDLER, messenger);
-            context.startActivity(i);
-        } else {
-            ToastHelper.showMessage(adapter.getContext(), "已经评价过此预约");
-        }
-    }
+//    public void comment(final BaseAdapter adapter, final BaseViewHolder vh) {
+//        if (!hasPatientComment()) {
+//            Context context = adapter.getContext();
+//            Intent i = FeedbackActivity.makeIntent(context, data);
+//            Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
+//                @Override
+//                public boolean handleMessage(Message msg) {
+//                    data.setPatientPoint((Double) msg.obj);
+//                    adapter.notifyItemChanged(vh.getAdapterPosition());
+//                    return false;
+//                }
+//            }));
+//            i.putExtra(Constants.HANDLER, messenger);
+//            context.startActivity(i);
+//        } else {
+//            ToastHelper.showMessage(adapter.getContext(), "已经评价过此预约");
+//        }
+//    }
 
     public void pComment(final BaseAdapter adapter, final BaseViewHolder vh) {
         if (!hasDoctorComment()) {
