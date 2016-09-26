@@ -27,7 +27,9 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AutoComplete;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
+import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
 import com.doctor.sun.ui.widget.SingleChoiceDialog;
 
 import java.util.ArrayList;
@@ -53,6 +55,7 @@ public class EditPrescriptionActivity extends BaseFragmentActivity2 {
     private ArrayList<String> intervals;
 
     public static Intent makeIntent(Context context, Prescription data) {
+//        return SingleFragmentActivity.intentFor(context, "添加/编辑用药", EditPrescriptionsFragment.getArgs(data));
         Intent i = new Intent(context, EditPrescriptionActivity.class);
         i.putExtra(Constants.DATA, data);
         return i;
