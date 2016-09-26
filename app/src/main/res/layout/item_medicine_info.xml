@@ -13,10 +13,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_16"
         android:layout_marginLeft="@dimen/dp_13"
         android:layout_marginRight="@dimen/dp_13"
         android:layout_marginTop="@dimen/dp_16"
-        android:layout_marginBottom="@dimen/dp_16"
         android:orientation="vertical">
 
         <TextView
@@ -50,10 +50,26 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='@{"￥" + data.medicinePrice + " （服务费：￥0）"}'
+                android:text='@{"￥" + data.medicinePrice + " （服务费：￥0 "}'
                 android:textColor="#f65600"
                 android:textSize="@dimen/font_15"
-                tools:text="￥420" />
+                tools:text="￥420 (服务费：￥0" />
+
+            <TextView
+                android:id="@+id/tv_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@{data.setStrikeThru(tvDiscount)}"
+                android:text="￥100"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/font_12" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=")"
+                android:textColor="#f65600"
+                android:textSize="@dimen/font_15" />
         </LinearLayout>
     </LinearLayout>
 </layout>

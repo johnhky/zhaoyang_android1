@@ -1,7 +1,9 @@
 package com.doctor.sun.entity;
 
+import android.graphics.Paint;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.TextView;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -77,5 +79,11 @@ public class MedicineInfo extends BaseItem implements LayoutId, Parcelable {
         dest.writeString(medicine);
         dest.writeString(orderId);
         dest.writeString(medicinePrice);
+    }
+
+    public int setStrikeThru(TextView textView) {
+        textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        return R.drawable.bg_transparent;
     }
 }
