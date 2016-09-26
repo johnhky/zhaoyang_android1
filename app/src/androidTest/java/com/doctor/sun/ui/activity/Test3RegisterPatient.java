@@ -74,18 +74,13 @@ public class Test3RegisterPatient {
 
     private void fillRegisterInfo() {
 
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(6, typeText(TestConfig.CAPTCHA)));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(6,
-                        CustomViewAction.clickChildViewWithId(R.id.btn_captcha)));
+        CustomViewAction.performActionAt(6, typeText(TestConfig.CAPTCHA));
+        CustomViewAction.performActionAt(6,
+                CustomViewAction.clickChildViewWithId(R.id.btn_captcha));
 
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(8, typeText(TestConfig.PSW)));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(10, typeText(TestConfig.PSW)));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(12,
-                        CustomViewAction.clickChildViewWithId(R.id.cb_confirm)));
+        CustomViewAction.performActionAt(8, typeText(TestConfig.PSW));
+        CustomViewAction.performActionAt(10, typeText(TestConfig.PSW));
+        CustomViewAction.performActionAt(12,
+                CustomViewAction.clickChildViewWithId(R.id.cb_confirm));
     }
 }

@@ -18,6 +18,11 @@ public class CustomViewAction {
                 .perform(viewAction);
     }
 
+    public static void performActionAt(final int position,
+                                       final ViewAction viewAction) {
+        perform(RecyclerViewActions.actionOnItemAtPosition(position, viewAction));
+    }
+
     public static ViewAction clickChildViewWithId(final int id) {
         return new ViewAction() {
             @Override

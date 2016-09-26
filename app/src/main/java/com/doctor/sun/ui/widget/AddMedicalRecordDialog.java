@@ -4,10 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Messenger;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -57,18 +53,10 @@ public class AddMedicalRecordDialog {
         binding.tvCancel.setOnClickListener(listener);
         binding.tvSelf.setOnClickListener(listener);
         binding.tvRelative.setOnClickListener(listener);
+        if (isRegister) {
+            binding.tvRelative.setText("暂不填写,先逛逛");
+        }
         dialog.setCancelable(false);
         dialog.show();
-    }
-
-    @NonNull
-    private Messenger getMessenger(final Dialog dialog) {
-        return new Messenger(new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                dialog.dismiss();
-                return false;
-            }
-        }));
     }
 }
