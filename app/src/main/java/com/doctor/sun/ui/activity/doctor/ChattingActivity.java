@@ -503,11 +503,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     @Override
     public void onKeyboardClosed() {
-//        InputLayoutViewModel inputLayout = binding.getInputLayout();
-//        if (inputLayout.getKeyboardType() != 0) {
-//            inputLayout.setKeyboardType(0);
-//            Systems.hideKeyboard(this);
-//        }
     }
 
     @Override
@@ -554,10 +549,16 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
     @Subscribe
-    public void onRejectIncomingCallEvent(CallFailedShouldCallPhoneEvent e) {
+    public void onCallFailed(CallFailedShouldCallPhoneEvent e) {
         if (handler != null) {
             if (AVChatType.AUDIO.getValue() == e.getChatType()) {
-                Toast toast = Toast.makeText(this, "网络电话未被接听,现在转为专线020-81212600回拨，请放心接听。", Toast.LENGTH_LONG);
+                String text;
+                if (Settings.isDoctor()) {
+                    text = "网络电话未被接听,现在转为专线020-81212600回拨,请放心接听。";
+                } else {
+                    text = "网络电话未被接听,现在转为专线020-81212600回拨,接通后限时%ld分钟,请放心接听。";
+                }
+                Toast toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
                 toast.show();
                 handler.callTelephone(this);
             }

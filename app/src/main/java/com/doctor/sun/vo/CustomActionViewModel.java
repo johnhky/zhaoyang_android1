@@ -18,7 +18,7 @@ import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.avchat.activity.AVChatActivity;
-import com.doctor.sun.entity.constans.CommunicationType;
+import com.doctor.sun.entity.constans.StringBoolean;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -108,43 +108,10 @@ public class CustomActionViewModel {
         });
     }
 
-    @NonNull
-    private ClickMenu videoChatMenu() {
-        return new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector2, "视频聊天", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Settings.isDoctor()) {
-                    NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
-                    AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL);
-                } else {
-                    alertNotAvailable(v, AVChatType.VIDEO.getValue());
-                }
-            }
-        });
-    }
 
-    private void alertNotAvailable(final View view, final int callType) {
-        NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
-        if (nimTeamId.shouldAskServer()) {
-            AppointmentModule api = Api.of(AppointmentModule.class);
-            api.canUse(callType, nimTeamId.appointmentId()).enqueue(new SimpleCallback<String>() {
-                @Override
-                protected void handleResponse(String response) {
-                    if ("1".equals(response)) {
-                        NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
-                        AVChatActivity.start(mActivity, nimTeamId.getP2PId(), callType, AVChatActivity.FROM_INTERNAL);
-                    } else {
-                        showConfirmDialog(view, "医生因个人原因暂时停止该功能，请用文字、图片等继续与医生咨询");
-                    }
-                }
-            });
-        } else {
-            showConfirmDialog(view, "该功能仅限于专属实时咨询的就诊时间内使用");
-        }
-    }
 
-    private void showConfirmDialog(View view, String question) {
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(view.getContext())
+    private void askConfirmation(Context context, String question) {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
                 .content(question)
                 .positiveText("确认")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -238,14 +205,44 @@ public class CustomActionViewModel {
                     NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
                     AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
                 } else {
-                    alertNotAvailable(v, AVChatType.AUDIO.getValue());
+                    tryStartChatting(v, AVChatType.AUDIO.getValue());
                 }
             }
         });
     }
 
-    public interface AudioChatCallback {
-        void startAudioChat(View v);
+    @NonNull
+    private ClickMenu videoChatMenu() {
+        return new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector2, "视频聊天", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Settings.isDoctor()) {
+                    NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
+                    AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL);
+                } else {
+                    tryStartChatting(v, AVChatType.VIDEO.getValue());
+                }
+            }
+        });
     }
 
+    private void tryStartChatting(final View view, final int AVChatType) {
+        NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
+        if (nimTeamId.shouldAskServer()) {
+            AppointmentModule api = Api.of(AppointmentModule.class);
+            api.canUse(AVChatType, nimTeamId.appointmentId()).enqueue(new SimpleCallback<String>() {
+                @Override
+                protected void handleResponse(String response) {
+                    if (StringBoolean.TRUE.equals(response)) {
+                        NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
+                        AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType, AVChatActivity.FROM_INTERNAL);
+                    } else {
+                        askConfirmation(view.getContext(), "医生因个人原因暂时停止该功能，请用文字、图片等继续与医生咨询");
+                    }
+                }
+            });
+        } else {
+            askConfirmation(view.getContext(), "该功能仅限于专属实时咨询的就诊时间内使用");
+        }
+    }
 }
