@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.avchat.constant.CallStateEnum;
 import com.doctor.sun.avchat.widgets.ToggleListener;
 import com.doctor.sun.avchat.widgets.ToggleState;
@@ -14,6 +15,7 @@ import com.doctor.sun.avchat.widgets.ToggleView;
 import com.doctor.sun.ui.widget.BezelImageView;
 
 import io.ganguo.library.util.Networks;
+import io.ganguo.library.util.Tasks;
 
 
 /**
@@ -24,6 +26,8 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
     // constant
     private static final int[] NETWORK_GRADE_DRAWABLE = new int[]{R.drawable.network_grade_0, R.drawable.network_grade_1, R.drawable.network_grade_2, R.drawable.network_grade_3};
     private static final int[] NETWORK_GRADE_LABEL = new int[]{R.string.avchat_network_grade_0, R.string.avchat_network_grade_1, R.string.avchat_network_grade_2, R.string.avchat_network_grade_3};
+    public static final boolean OUTGOING_CALL = true;
+    public static final boolean INCOMING_CALL = false;
 
     // view
     private View rootView;
@@ -53,16 +57,19 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
     // data
     private AVChatUI manager;
     private AVChatUIListener listener;
+    private final int duration;
+    private boolean callDirection = INCOMING_CALL;
 
     // state
     private boolean init = false;
     private TextView notifyTV2;
 
 
-    public AVChatAudio(View root, AVChatUIListener listener, AVChatUI manager) {
+    public AVChatAudio(View root, AVChatUIListener listener, AVChatUI manager, int duration) {
         this.rootView = root;
         this.listener = listener;
         this.manager = manager;
+        this.duration = duration;
     }
 
     /**
@@ -75,18 +82,29 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
             findViews();
         switch (state) {
             case OUTGOING_AUDIO_CALLING: //拨打出的免费通话
+                callDirection = OUTGOING_CALL;
                 setSwitchVideo(false);
                 showProfile();//对方的详细信息
                 showNotify(R.string.avchat_wait_recieve);
-                showDescription();
+                if (Settings.isDoctor()) {
+                    hideSubNotify();
+                } else {
+                    showSubNotify("您本次通话最长" + duration + "分钟，自对方接通后算起，计时结束系统将自动挂断");
+                }
                 setWifiUnavailableNotifyTV(true);
                 setMuteSpeakerHangupControl(true);
                 setRefuseReceive(false);
                 break;
             case INCOMING_AUDIO_CALLING://免费通话请求
+                callDirection = INCOMING_CALL;
                 setSwitchVideo(false);
                 showProfile();//对方的详细信息
                 showNotify(R.string.avchat_audio_call_request);
+                if (Settings.isDoctor()) {
+                    showSubNotify("本次患者发起通话时长有限，自双方接通后算起，计时结束系统将自动挂断");
+                } else {
+                    hideSubNotify();
+                }
                 setMuteSpeakerHangupControl(false);
                 setRefuseReceive(true);
                 receiveTV.setText(R.string.avchat_pickup);
@@ -98,12 +116,19 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
                 setSwitchVideo(true);
                 setTime(true);
                 hideNotify();
+                hideSubNotify();
+                if (callDirection == OUTGOING_CALL) {
+                    if (!Settings.isDoctor()) {
+                        hangupIn(duration);
+                    }
+                }
                 setMuteSpeakerHangupControl(true);
                 setRefuseReceive(false);
                 enableToggle();
                 break;
             case AUDIO_CONNECTING:
                 showNotify(R.string.avchat_connecting);
+                hideSubNotify();
                 break;
             case INCOMING_AUDIO_TO_VIDEO:
                 showNotify(R.string.avchat_audio_to_video_invitation);
@@ -117,9 +142,6 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
         setRoot(CallStateEnum.isAudioMode(state));
     }
 
-    private void showDescription() {
-        notifyTV2.setVisibility(View.VISIBLE);
-    }
 
     private boolean isEnabled = false;
 
@@ -181,7 +203,7 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
      * 个人信息设置
      */
     private void showProfile() {
-        String account = manager.getAccount();
+//        String account = manager.getAccount();
 //        headImg.loadBuddyAvatar(account);
 //        nickNameTV.setText(NimUserInfoCache.getInstance().getUserDisplayName(account));
     }
@@ -201,6 +223,20 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
      */
     private void hideNotify() {
         notifyTV.setVisibility(View.GONE);
+    }
+
+    private void showSubNotify(String string) {
+        notifyTV2.setText(string);
+        notifyTV2.setVisibility(View.VISIBLE);
+    }
+
+    private void showSubNotify(int resId) {
+        notifyTV2.setText(resId);
+        notifyTV2.setVisibility(View.VISIBLE);
+    }
+
+    private void hideSubNotify() {
+        notifyTV2.setVisibility(View.GONE);
     }
 
     public void showRecordView(boolean show, boolean warning) {
@@ -341,7 +377,7 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
         }
     }
 
-    public void closeSession(int exitCode) {
+    void closeSession(int exitCode) {
         if (init) {
             time.stop();
             muteToggle.disable(false);
@@ -351,6 +387,19 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
             receiveTV.setEnabled(false);
             hangup.setEnabled(false);
         }
+    }
+
+
+    private void hangupIn(int durationMinutes) {
+        if (durationMinutes <= 0) {
+            return;
+        }
+        Tasks.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                listener.onHangUp();
+            }
+        }, durationMinutes * 60000);
     }
 
     /*******************************

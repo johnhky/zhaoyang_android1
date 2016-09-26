@@ -98,7 +98,6 @@
             android:gravity="center"
             android:paddingLeft="35dp"
             android:paddingRight="35dp"
-            android:text="@string/avchat_video_descriptions"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:visibility="gone" />

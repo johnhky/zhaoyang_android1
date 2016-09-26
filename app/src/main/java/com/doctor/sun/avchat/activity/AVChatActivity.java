@@ -50,6 +50,7 @@ public class AVChatActivity extends BaseFragmentActivity2 implements AVChatUI.AV
     private static final String KEY_IN_CALLING = "KEY_IN_CALLING";
     private static final String KEY_ACCOUNT = "KEY_ACCOUNT";
     private static final String KEY_CALL_TYPE = "KEY_CALL_TYPE";
+    private static final String KEY_DURATION = "KEY_DURATION";
     private static final String KEY_SOURCE = "source";
     private static final String KEY_CALL_CONFIG = "KEY_CALL_CONFIG";
     public static final String INTENT_ACTION_AVCHAT = "INTENT_ACTION_AVCHAT";
@@ -88,7 +89,7 @@ public class AVChatActivity extends BaseFragmentActivity2 implements AVChatUI.AV
     // notification
     private AVChatNotification notifier;
 
-    public static void start(Context context, String account, int callType, int source) {
+    public static void start(Context context, String account, int callType, int source, int duration) {
         needFinish = false;
         Intent intent = new Intent();
         intent.setClass(context, AVChatActivity.class);
@@ -96,7 +97,12 @@ public class AVChatActivity extends BaseFragmentActivity2 implements AVChatUI.AV
         intent.putExtra(KEY_IN_CALLING, false);
         intent.putExtra(KEY_CALL_TYPE, callType);
         intent.putExtra(KEY_SOURCE, source);
+        intent.putExtra(KEY_DURATION, duration);
         context.startActivity(intent);
+    }
+
+    public static void start(Context context, String account, int callType, int source) {
+        start(context, account, callType, source, 0);
     }
 
     /**
@@ -126,7 +132,8 @@ public class AVChatActivity extends BaseFragmentActivity2 implements AVChatUI.AV
         setContentView(root);
         checkPermission();
         mIsInComingCall = getIntent().getBooleanExtra(KEY_IN_CALLING, false);
-        avChatUI = new AVChatUI(this, root, this);
+        int duration = getIntent().getIntExtra(KEY_DURATION, 0);
+        avChatUI = new AVChatUI(this, root, this, duration);
         if (!avChatUI.initiation()) {
             this.finish();
             return;

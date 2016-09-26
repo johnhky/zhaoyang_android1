@@ -45,6 +45,7 @@ public class AVChatUI implements AVChatUIListener {
     private AVChatData avChatData;
     private final AVChatListener aVChatListener;
     private String receiverId;
+    private final int duration;
     private AVChatAudio avChatAudio;
     private AVChatVideo avChatVideo;
     private AVChatSurface avChatSurface;
@@ -100,11 +101,12 @@ public class AVChatUI implements AVChatUIListener {
         void uiExit();
     }
 
-    public AVChatUI(Context context, View root, AVChatListener listener) {
+    public AVChatUI(Context context, View root, AVChatListener listener, int duration) {
         this.context = context;
         this.root = root;
         this.aVChatListener = listener;
         this.avChatOptionalParam = new AVChatOptionalParam();
+        this.duration = duration;
     }
 
     /**
@@ -118,7 +120,7 @@ public class AVChatUI implements AVChatUIListener {
      */
     public boolean initiation() {
         AVChatProfile.getInstance().setAVChatting(true);
-        avChatAudio = new AVChatAudio(root.findViewById(R.id.avchat_audio_layout), this, this);
+        avChatAudio = new AVChatAudio(root.findViewById(R.id.avchat_audio_layout), this, this,duration);
         avChatVideo = new AVChatVideo(context, root.findViewById(R.id.avchat_video_layout), this, this);
         avChatSurface = new AVChatSurface(context, this, root.findViewById(R.id.avchat_surface_layout));
 

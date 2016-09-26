@@ -345,6 +345,11 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
     @Override
+    public int getDuration() {
+        return handler.getDuration();
+    }
+
+    @Override
     public SessionTypeEnum getType() {
         return SessionTypeEnum.Team;
     }

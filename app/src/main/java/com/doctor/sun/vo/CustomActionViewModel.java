@@ -203,9 +203,9 @@ public class CustomActionViewModel {
             public void onClick(View v) {
                 if (Settings.isDoctor()) {
                     NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
-                    AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+                    startAVChat(nimTeamId, AVChatType.AUDIO.getValue(), nimTeamId.getDuration());
                 } else {
-                    tryStartChatting(v, AVChatType.AUDIO.getValue());
+                    tryStartAVChat(v, AVChatType.AUDIO.getValue());
                 }
             }
         });
@@ -218,15 +218,15 @@ public class CustomActionViewModel {
             public void onClick(View v) {
                 if (Settings.isDoctor()) {
                     NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
-                    AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL);
+                    startAVChat(nimTeamId, AVChatType.VIDEO.getValue(), nimTeamId.getDuration());
                 } else {
-                    tryStartChatting(v, AVChatType.VIDEO.getValue());
+                    tryStartAVChat(v, AVChatType.VIDEO.getValue());
                 }
             }
         });
     }
 
-    private void tryStartChatting(final View view, final int AVChatType) {
+    private void tryStartAVChat(final View view, final int AVChatType) {
         NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
         if (nimTeamId.shouldAskServer()) {
             AppointmentModule api = Api.of(AppointmentModule.class);
@@ -235,7 +235,7 @@ public class CustomActionViewModel {
                 protected void handleResponse(String response) {
                     if (StringBoolean.TRUE.equals(response)) {
                         NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
-                        AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType, AVChatActivity.FROM_INTERNAL);
+                        startAVChat(nimTeamId, AVChatType, nimTeamId.getDuration());
                     } else {
                         askConfirmation(view.getContext(), "医生因个人原因暂时停止该功能，请用文字、图片等继续与医生咨询");
                     }
@@ -244,5 +244,9 @@ public class CustomActionViewModel {
         } else {
             askConfirmation(view.getContext(), "该功能仅限于专属实时咨询的就诊时间内使用");
         }
+    }
+
+    private void startAVChat(NimMsgInfo nimTeamId, int AVChatType, int duration) {
+        AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType, AVChatActivity.FROM_INTERNAL,duration);
     }
 }

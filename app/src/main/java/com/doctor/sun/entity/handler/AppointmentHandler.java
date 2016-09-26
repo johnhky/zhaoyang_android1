@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -26,7 +27,6 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.constans.AppointmentType;
-import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
@@ -62,7 +62,6 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.fragment.PayAppointmentFragment;
 import com.doctor.sun.ui.handler.PayMethodInterface;
-import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.vo.BaseItem;
@@ -133,7 +132,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             return "";
         }
     }
-
 
 
     public String getRelation() {
@@ -498,6 +496,15 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return data.getAppointmentType() == AppointmentType.PREMIUM && Status.A_DOING.equals(data.getOrderStatus());
     }
 
+    @Override
+    public int getDuration() {
+        try {
+            return Integer.parseInt(data.getTakeTime());
+        }catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
     public Intent getFirstMenu(Context context) {
         if (isAfterService()) {
             String id = String.valueOf(data.getId());
@@ -599,7 +606,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public boolean hasPatientComment() {
         return data.getPatientPoint() > 0;
     }
-
 
 
     public boolean returnNotPaid() {
@@ -724,7 +730,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             }
         }
     }
-
 
 
     public void makePhoneCall(final Context context) {

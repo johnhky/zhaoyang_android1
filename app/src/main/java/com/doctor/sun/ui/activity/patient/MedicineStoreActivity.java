@@ -491,4 +491,9 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
             return s;
         }
     }
+
+    @Override
+    public int getDuration(){
+       return 0;
+    }
 }
