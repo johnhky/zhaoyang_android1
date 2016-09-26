@@ -3,7 +3,6 @@ package com.doctor.sun.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -44,18 +43,14 @@ public class Test5NewOtherMedicalRecord {
         intent.putExtra(Constants.FRAGMENT_CONTENT_BUNDLE, args);
         mActivityTestRule.launchActivity(intent);
 
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0,
-                        typeText("relation" + getTag())));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2,
-                        typeText("selfName" + getTag())));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(4,
-                        typeText("patientName" + getTag())));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(8,
-                        CustomViewAction.clickChildViewWithId(R.id.rb_male)));
+        CustomViewAction.performActionAt(0,
+                typeText("relation" + getTag()));
+        CustomViewAction.performActionAt(2,
+                typeText("selfName" + getTag()));
+        CustomViewAction.performActionAt(4,
+                typeText("patientName" + getTag()));
+        CustomViewAction.performActionAt(8,
+                CustomViewAction.clickChildViewWithId(R.id.rb_male));
 
         clickNext();
     }

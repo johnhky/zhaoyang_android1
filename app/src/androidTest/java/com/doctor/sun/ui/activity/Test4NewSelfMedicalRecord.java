@@ -44,15 +44,12 @@ public class Test4NewSelfMedicalRecord {
         intent.putExtra(Constants.FRAGMENT_CONTENT_BUNDLE, args);
         mActivityTestRule.launchActivity(intent);
 
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2,
-                        typeText("name" + getTag())));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(4,
-                        typeText("email" + getTag() + "@qq.com")));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(8,
-                        CustomViewAction.clickChildViewWithId(R.id.rb_male)));
+         CustomViewAction.performActionAt(2,
+                        typeText("name" + getTag()));
+         CustomViewAction.performActionAt(4,
+                        typeText("email" + getTag() + "@qq.com"));
+         CustomViewAction.performActionAt(8,
+                        CustomViewAction.clickChildViewWithId(R.id.rb_male));
 
         clickNext();
     }

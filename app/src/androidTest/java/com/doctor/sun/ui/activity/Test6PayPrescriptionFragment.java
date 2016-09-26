@@ -62,13 +62,11 @@ public class Test6PayPrescriptionFragment {
 //                .perform(RecyclerViewActions.actionOnItemAtPosition(6,
 //                        CustomViewAction.clickChildViewWithId(R.id.et_select)));
 
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(8,
-                        CustomViewAction.clickChildViewWithId(R.id.rb_alipay)));
+         CustomViewAction.performActionAt(8,
+                        CustomViewAction.clickChildViewWithId(R.id.rb_alipay));
 
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(9,
-                        CustomViewAction.clickChildViewWithId(R.id.tv_confirm)));
+         CustomViewAction.performActionAt(9,
+                        CustomViewAction.clickChildViewWithId(R.id.tv_confirm));
 
     }
 }

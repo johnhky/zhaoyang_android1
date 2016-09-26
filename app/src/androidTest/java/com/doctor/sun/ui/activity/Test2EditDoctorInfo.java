@@ -2,9 +2,7 @@ package com.doctor.sun.ui.activity;
 
 
 import android.content.Intent;
-import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -71,16 +69,16 @@ public class Test2EditDoctorInfo {
 
     private void fillDoctorInfo() {
 
-        perform(RecyclerViewActions.actionOnItemAtPosition(1, typeText("doctor")));
-        perform(RecyclerViewActions.actionOnItemAtPosition(5,
-                CustomViewAction.clickChildViewWithId(R.id.rb_male)));
+        CustomViewAction.performActionAt(1, typeText("doctor"));
+        CustomViewAction.performActionAt(5,
+                CustomViewAction.clickChildViewWithId(R.id.rb_male));
 
-        perform(RecyclerViewActions.actionOnItemAtPosition(7, typeText("hospital" + TestConfig.DOCTOR_PHONE_NUM)));
-        perform(RecyclerViewActions.actionOnItemAtPosition(9, typeText("specialist" + TestConfig.DOCTOR_PHONE_NUM)));
+        CustomViewAction.performActionAt(7, typeText("hospital" + TestConfig.DOCTOR_PHONE_NUM));
+        CustomViewAction.performActionAt(9, typeText("specialist" + TestConfig.DOCTOR_PHONE_NUM));
 
-        perform(RecyclerViewActions.actionOnItemAtPosition(11, typeText(TestConfig.DOCTOR_PHONE_NUM)));
+        CustomViewAction.performActionAt(11, typeText(TestConfig.DOCTOR_PHONE_NUM));
 
-        perform(RecyclerViewActions.actionOnItemAtPosition(13, CustomViewAction.clickChildViewWithId(R.id.btn_title)));
+        CustomViewAction.performActionAt(13, CustomViewAction.clickChildViewWithId(R.id.btn_title));
 
         ViewInteraction linearLayout = onView(
                 allOf(childAtPosition(
@@ -96,10 +94,6 @@ public class Test2EditDoctorInfo {
         mActivityTestRule.getActivity().finishAffinity();
     }
 
-    private void perform(ViewAction viewAction) {
-        onView(withId(R.id.recycler_view))
-                .perform(viewAction);
-    }
 
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {

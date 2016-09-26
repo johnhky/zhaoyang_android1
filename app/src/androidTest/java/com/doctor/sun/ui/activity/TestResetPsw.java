@@ -11,6 +11,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 import com.doctor.sun.R;
 import com.doctor.sun.TestConfig;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.ui.activity.action.CustomViewAction;
 import com.doctor.sun.ui.fragment.ResetPswFragment;
 
 import org.junit.Before;
@@ -45,14 +46,10 @@ public class TestResetPsw {
     public void resetPswActivityTest() {
 
 
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, typeText(TestConfig.PHONE_NUM_TO_CHANGE_PSW)));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, typeText(TestConfig.CAPTCHA)));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(4, typeText(TestConfig.CHANGED_PSW)));
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(6, typeText(TestConfig.CHANGED_PSW)));
+         CustomViewAction.performActionAt(0, typeText(TestConfig.PHONE_NUM_TO_CHANGE_PSW));
+         CustomViewAction.performActionAt(2, typeText(TestConfig.CAPTCHA));
+         CustomViewAction.performActionAt(4, typeText(TestConfig.CHANGED_PSW));
+         CustomViewAction.performActionAt(6, typeText(TestConfig.CHANGED_PSW));
 
         ViewInteraction actionMenuItemView = onView(
                 allOf(withId(R.id.action_next), withText("下一步"), withContentDescription("下一步"), isDisplayed()));
