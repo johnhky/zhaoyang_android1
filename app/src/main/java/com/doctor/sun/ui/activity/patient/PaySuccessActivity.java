@@ -65,6 +65,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
         binding.tvQuestion.setOnClickListener(this);
         if (getType() == VOIP_PAY) {
             binding.tvSystemTip.setVisibility(View.GONE);
+            binding.layoutQuestion.setVisibility(View.GONE);
             binding.tvQuestion.setVisibility(View.GONE);
             binding.tvTip.setVisibility(View.GONE);
         } else {
