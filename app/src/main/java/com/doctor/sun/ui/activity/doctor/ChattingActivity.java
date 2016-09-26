@@ -211,7 +211,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         data.setHandler(handler);
         binding.setData(data);
 
-        initActionbar();
 
         sendTo = handler.getTeamId();
 
@@ -235,21 +234,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         initInputLayout();
     }
 
-    private void initActionbar() {
-//        binding.setHeader(getHeaderViewModel());
-//        inflateMenu();
-    }
-
-
-//    private HeaderViewModel getHeaderViewModel() {
-//        return new HeaderViewModel(this);
-//    }
-
-    protected void inflateMenu() {
-//        binding.getHeader().setLeftTitle(handler.getTitle())
-//                .setRightFirstTitle(handler.getRightFirstTitle())
-//                .setRightTitle(handler.getRightTitle());
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

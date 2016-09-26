@@ -265,7 +265,7 @@ public class DiagnosisFragment extends BaseFragment {
                 super.handleApi(body);
                 if (body.getData() == null) {
                     if (canWritePrescription()) {
-//                        loadPrescription(appointment.getId());
+                        loadPrescription(appointment.getId());
                     }
                 }
             }

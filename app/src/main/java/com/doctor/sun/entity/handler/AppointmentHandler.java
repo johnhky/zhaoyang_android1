@@ -231,10 +231,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         api.pCancel(id).enqueue(new CancelCallback(vh, component));
     }
 
-    public void showPayDialog(BaseAdapter component) {
-        new PayMethodDialog(component.getContext(), AppointmentHandler.this).show();
-    }
-
     public void startPayActivity(Context context, int id) {
         Bundle args = PayAppointmentFragment.getArgs(String.valueOf(id));
         Intent intent = SingleFragmentActivity.intentFor(context, "确认支付", args);
@@ -321,10 +317,12 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 });
     }
 
+    @Deprecated
     public void refuse(View view) {
         api.refuseConsultation(String.valueOf(data.getReturnListId())).enqueue(new DoNothingCallback());
     }
 
+    @Deprecated
     public void accept(final View view) {
         new MaterialDialog.Builder(view.getContext()).content("若需要提前进行就诊，请先与患者确认。（点击下方通话键可联系患者）是否确认提前就诊？")
                 .positiveText("确认")
@@ -608,6 +606,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return data.getReturnInfo() != null && data.getReturnInfo().getReturnPaid() != 1 && data.getReturnInfo().getNeedReturn() == 1;
     }
 
+    @Deprecated
     public void historyDetail(View view) {
         Intent intent = HistoryDetailActivity.makeIntent(view.getContext(), data);
         view.getContext().startActivity(intent);

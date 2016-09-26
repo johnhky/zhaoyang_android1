@@ -8,6 +8,7 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.constans.QuestionsType;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
+import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 import com.doctor.sun.ui.fragment.WaitingSuggestionFragment;
 
 /**
@@ -28,7 +29,10 @@ public class PatientAfterServicePA extends FragmentStatePagerAdapter {
                 return AnswerQuestionFragment.getInstance(id, QuestionsPath.FOLLOW_UP, QuestionsType.PATIENT_W_PATIENT_QUESTIONS);
             }
             case 1: {
-                return WaitingSuggestionFragment.newInstance(id, QuestionsType.PATIENT);
+                return ReadQuestionsFragment.getInstance(id,
+                        QuestionsPath.FOLLOW_UP,
+                        QuestionsType.PATIENT_R_DOCTOR_QUESTIONS,
+                        true);
             }
         }
         return null;

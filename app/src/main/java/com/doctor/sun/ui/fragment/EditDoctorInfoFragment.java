@@ -101,9 +101,9 @@ public class EditDoctorInfoFragment extends SortedListFragment {
 
     public void saveTags() {
         ItemAddTag item = (ItemAddTag) getAdapter().get(ItemAddTag.TAGS_END);
-        HashMap<String, Object> stringObjectHashMap = item.toJson(getAdapter());
+        HashMap<String, Object> tagsContainer = item.toJson(getAdapter());
         ProfileModule api = Api.of(ProfileModule.class);
-        api.tags(JacksonUtils.toJson(stringObjectHashMap.get("tags"))).enqueue(new SimpleCallback<String>() {
+        api.tags(JacksonUtils.toJson(tagsContainer.get("tags"))).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
 

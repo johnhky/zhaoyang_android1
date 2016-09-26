@@ -78,6 +78,6 @@ public interface ToolModule {
     @GET("tool/activity-detail")
     Call<ApiDTO<BannerDetail>> bannerDetail(@Query("activityId") String activityId);
 
-    @GET("{path}")
-    Call<ApiDTO<List<HashMap<String, String>>>> listOfItems(@Path("path") String path);
+    @GET()
+    Call<ApiDTO<List<HashMap<String, String>>>> listOfItems(@Url String path);
 }
