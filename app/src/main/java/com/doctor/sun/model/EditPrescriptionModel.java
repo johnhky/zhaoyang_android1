@@ -1,14 +1,19 @@
 package com.doctor.sun.model;
 
+import android.view.inputmethod.EditorInfo;
+
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.ItemRadioDialog;
 import com.doctor.sun.vo.ItemTextInput2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,7 +33,7 @@ public class EditPrescriptionModel {
         name.setSubTitle("(必填)");
         name.setResultNotEmpty();
         name.setItemId("drug_name");
-        name.setResult(data.getName());
+        name.setResult(data.getDrugName());
         result.add(name);
 
         ModelUtils.insertDividerMarginLR(result);
@@ -36,7 +41,7 @@ public class EditPrescriptionModel {
         ItemTextInput2 productName = new ItemTextInput2(R.layout.item_text_input2, "商品名", "");
         productName.setSubTitle("(选填)");
         productName.setItemId("scientific_name");
-        productName.setResult(data.getDrugName());
+        productName.setResult(data.getScientificName());
         result.add(productName);
 
         ModelUtils.insertDividerMarginLR(result);
@@ -48,6 +53,11 @@ public class EditPrescriptionModel {
         unit.setPosition(result.size());
         String[] units = AppContext.me().getResources().getStringArray(R.array.unit_array);
         unit.addOptions(units);
+        for (int i = 0; i < units.length; i++) {
+            if (units[i].equals(data.getUnit())) {
+                unit.setSelectedItem(i);
+            }
+        }
         result.add(unit);
 
         ModelUtils.insertDividerMarginLR(result);
@@ -59,19 +69,26 @@ public class EditPrescriptionModel {
         interval.setPosition(result.size());
         String[] intervals = AppContext.me().getResources().getStringArray(R.array.interval_array);
         interval.addOptions(intervals);
+        for (int i = 0; i < intervals.length; i++) {
+            if (intervals[i].equals(data.getUnit())) {
+                interval.setSelectedItem(i);
+            }
+        }
         result.add(interval);
 
 
         result.add(new Description(R.layout.item_description, "数量"));
 
         ItemTextInput2 morning = new ItemTextInput2(R.layout.item_text_input2, "早", "");
+        morning.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         morning.setSpan(6);
         morning.setSubTitle("(选填)");
         morning.setItemId("morning");
-        morning.setResult(data.getDrugName());
+        morning.setResult(data.intervalAt(0));
         result.add(morning);
 
         ItemTextInput2 afternoon = new ItemTextInput2(R.layout.item_text_input2, "午", "");
+        afternoon.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         afternoon.setSubTitle("(选填)");
         afternoon.setSpan(6);
         afternoon.setItemId("noon");
@@ -81,17 +98,19 @@ public class EditPrescriptionModel {
         ModelUtils.insertDividerMarginLR(result);
 
         ItemTextInput2 night = new ItemTextInput2(R.layout.item_text_input2, "晚", "");
+        night.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         night.setSubTitle("(选填)");
         night.setSpan(6);
         night.setItemId("night");
-        night.setResult(data.getDrugName());
+        night.setResult(data.intervalAt(1));
         result.add(night);
 
         ItemTextInput2 evening = new ItemTextInput2(R.layout.item_text_input2, "睡前", "");
+        evening.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         evening.setSubTitle("(选填)");
         evening.setSpan(6);
         evening.setItemId("before_sleep");
-        evening.setResult(data.getDrugName());
+        evening.setResult(data.intervalAt(2));
         result.add(evening);
 
         ModelUtils.insertDividerMarginLR(result);
@@ -99,8 +118,20 @@ public class EditPrescriptionModel {
         ItemTextInput2 remark = new ItemTextInput2(R.layout.item_text_input2, "备注消息", "");
         remark.setSubTitle("备注消息");
         remark.setItemId("remark");
-        remark.setResult(data.getDrugName());
+        remark.setResult(data.intervalAt(3));
         result.add(remark);
         return result;
+    }
+
+    public Prescription save(SortedListAdapter adapter) {
+        HashMap<String, String> result = ModelUtils.toHashMap(adapter, new SimpleCallback() {
+            @Override
+            protected void handleResponse(Object response) {
+
+            }
+        });
+        Prescription data = new Prescription();
+        data.fromHashMap(result);
+        return data;
     }
 }

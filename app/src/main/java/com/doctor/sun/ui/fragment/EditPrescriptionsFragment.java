@@ -1,14 +1,17 @@
 package com.doctor.sun.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -72,7 +75,29 @@ public class EditPrescriptionsFragment extends SortedListFragment {
     }
 
     public void save() {
-        Toast.makeText(getContext(), "save answer", Toast.LENGTH_SHORT).show();
+        Prescription save = model.save(getAdapter());
+        if (save == null) {
+
+        }else {
+
+            Messenger messenger = getActivity().getIntent().getParcelableExtra(Constants.HANDLER);
+            if (messenger != null) {
+                try {
+                    Message message = new Message();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(Constants.DATA, save);
+                    message.setData(bundle);
+                    message.what = DiagnosisFragment.EDIT_PRESCRITPION;
+                    messenger.send(message);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+            Intent intent = getActivity().getIntent();
+            intent.putExtra(Constants.DATA, save);
+            getActivity().setResult(Activity.RESULT_OK, intent);
+            getActivity().finish();
+        }
     }
 
 

@@ -64,7 +64,7 @@ public class Prescription extends BaseItem implements Parcelable {
     @JsonProperty("productName")
     private String scientificName;
     @JsonProperty("interval")
-    private String interval;
+    private String interval = "";
     @JsonProperty("numbers")
     private List<HashMap<String, String>> numbers;
     @JsonProperty("unit")
@@ -185,6 +185,17 @@ public class Prescription extends BaseItem implements Parcelable {
         this.numbers = numbers;
     }
 
+    public String intervalAt(int position) {
+        if (getNumbers() == null || getNumbers().isEmpty() || getNumbers().size() < position) {
+            return "";
+        }
+        HashMap<String, String> stringStringHashMap = getNumbers().get(position);
+        if (stringStringHashMap == null) {
+            return "";
+        }
+        return stringStringHashMap.get(keys.get(position));
+    }
+
     @JsonIgnore
     public String getLabel() {
         StringBuilder builder = new StringBuilder();
@@ -194,21 +205,22 @@ public class Prescription extends BaseItem implements Parcelable {
         } else {
             builder.append(",");
         }
-        if (!interval.equals("每天")) {
+        if (!"每天".equals(interval)) {
             builder.append(interval).append(":");
         }
 
-        for (int i = 0; i < numbers.size(); i++) {
-            String amount = numbers.get(i).get(keys.get(i));
-            if (null != amount && !amount.equals("")) {
-                try {
-                    double amountDouble = Double.parseDouble(amount);
-                    if (amountDouble > 0) {
-                        builder.append(keys.get(i)).append(amount).append(unit);
-                        builder.append(",");
+        if (numbers != null) {
+            for (int i = 0; i < numbers.size(); i++) {
+                String amount = numbers.get(i).get(keys.get(i));
+                if (null != amount && !amount.equals("")) {
+                    try {
+                        double amountDouble = Double.parseDouble(amount);
+                        if (amountDouble > 0) {
+                            builder.append(keys.get(i)).append(amount).append(unit);
+                            builder.append(",");
+                        }
+                    } catch (Exception e) {
                     }
-                } catch (Exception e) {
-
                 }
             }
         }
@@ -391,6 +403,9 @@ public class Prescription extends BaseItem implements Parcelable {
     }
 
     public void fromHashMap(Map<String, String> map) {
+        if (map == null) {
+            return;
+        }
         drugName = map.get("drug_name");
         scientificName = map.get("scientific_name");
         interval = map.get("frequency");
