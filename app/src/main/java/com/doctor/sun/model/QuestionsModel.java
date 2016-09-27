@@ -300,6 +300,7 @@ public class QuestionsModel {
         itemPickDate.setPosition(positionIn(i, RANGE_ITEM_POSITION));
         itemPickDate.setItemId(questions2.getKey() + QuestionType.sDate);
         itemPickDate.setDate(questions2.fillContent);
+        itemPickDate.setEnabled(true);
         itemPickDate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
