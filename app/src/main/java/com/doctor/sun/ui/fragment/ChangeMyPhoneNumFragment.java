@@ -131,6 +131,8 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
                 profileModule.changePhone(captcha.getValue(), newPhoneNum.getResult()).enqueue(new SimpleCallback<String>() {
                     @Override
                     protected void handleResponse(String response) {
+                        Toast.makeText(getContext(), "成功更换手机号码", Toast.LENGTH_SHORT).show();
+                        getActivity().finish();
                     }
                 });
             }
