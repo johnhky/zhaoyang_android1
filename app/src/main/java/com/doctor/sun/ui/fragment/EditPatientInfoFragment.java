@@ -1,5 +1,7 @@
 package com.doctor.sun.ui.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
@@ -17,6 +19,7 @@ import com.doctor.sun.model.EditPatientInfoModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vo.ItemPickImage;
 
 import java.util.List;
 
@@ -28,7 +31,7 @@ public class EditPatientInfoFragment extends SortedListFragment {
     public static final String TAG = EditPatientInfoFragment.class.getSimpleName();
 
     private EditPatientInfoModel model;
-    private Patient data;
+    private Patient patient;
     private boolean isEditMode = false;
 
     public static Bundle getArgs(Patient data) {
@@ -44,7 +47,7 @@ public class EditPatientInfoFragment extends SortedListFragment {
         super.onCreate(savedInstanceState);
 
         model = new EditPatientInfoModel();
-        data = getArguments().getParcelable(Constants.DATA);
+        patient = getArguments().getParcelable(Constants.DATA);
     }
 
     @Override
@@ -60,7 +63,7 @@ public class EditPatientInfoFragment extends SortedListFragment {
     protected void loadMore() {
         super.loadMore();
 
-        List<SortedItem> items = model.parseData(data);
+        List<SortedItem> items = model.parseData(patient);
         binding.swipeRefresh.setRefreshing(false);
         getAdapter().insertAll(items);
     }
@@ -102,6 +105,14 @@ public class EditPatientInfoFragment extends SortedListFragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            ItemPickImage.handleRequest(getContext(), getAdapter(), data, requestCode);
+        }
     }
 
     private void save() {
