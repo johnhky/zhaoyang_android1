@@ -11,6 +11,7 @@ import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ToolModule;
+import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.AdapterOps;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.NumericBooleanDeserializer;
@@ -23,6 +24,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Strings;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -196,11 +198,32 @@ public class Options2 extends BaseItem {
     public void setSelectedWrap(Boolean selected, SortedListAdapter adapter) {
         if (!selected.equals(this.selected)) {
             this.selected = selected;
-            notifyEnableDisableChange(adapter);
-            clear(adapter);
+            clear(adapter, getChangedItem(adapter));
         }
     }
 
+    private ArrayList<SortedItem> getChangedItem(SortedListAdapter adapter) {
+        ArrayList<SortedItem> result = new ArrayList<>();
+        if (optionOrEnable != null) {
+            for (String s : optionOrEnable) {
+                SortedItem e = adapter.get(s);
+                if (e != null) {
+                    result.add(e);
+                }
+            }
+        }
+        if (optionOrDisable != null) {
+            for (String s : optionOrDisable) {
+                SortedItem e = adapter.get(s);
+                if (e != null) {
+                    result.add(e);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Deprecated
     private void notifyEnableDisableChange(SortedListAdapter adapter) {
         if (optionOrEnable != null) {
             for (String s : optionOrEnable) {
@@ -229,17 +252,25 @@ public class Options2 extends BaseItem {
         }
     }
 
+    public void clear(SortedListAdapter adapter) {
+        clear(adapter, null);
+    }
+
     /**
      * 根据 选择状态 和 refill 类型 清除其它选项
      *
      * @param adapter
      */
-    public void clear(SortedListAdapter adapter) {
-        notifyChange();
+    public void clear(SortedListAdapter adapter, ArrayList<SortedItem> changedItem) {
+        if (changedItem == null) {
+            changedItem = new ArrayList<>();
+        }
+        changedItem.add(this);
         if (!getSelected()) {
             Questions2 item = (Questions2) adapter.get(questionId);
             item.refill = 0;
-            adapter.update(item);
+            changedItem.add(item);
+            adapter.insertAll(changedItem);
             return;
         }
 
@@ -248,12 +279,13 @@ public class Options2 extends BaseItem {
             if (!otherOptions.getKey().equals(this.getKey())) {
                 if (shouldClearThat(otherOptions)) {
                     otherOptions.setSelectedWrap(Boolean.FALSE, adapter);
-                    adapter.insert(otherOptions);
+                    changedItem.add(otherOptions);
                 }
             }
         }
         sortedItem.refill = 0;
-        adapter.insert(sortedItem);
+        changedItem.add(sortedItem);
+        adapter.insertAll(changedItem);
     }
 
     private boolean shouldClearThat(Options2 otherOptions) {
