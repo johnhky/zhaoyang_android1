@@ -31,14 +31,12 @@ public class Api {
 
     @NonNull
     private static OkHttpClient getOkHttpClient() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
 //        if (BuildConfig.DEV_MODE) {
 //            interceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
 //        } else {
 //            interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
 //        }
         return new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
                 .addInterceptor(new TokenInterceptor()).build();
     }
 
