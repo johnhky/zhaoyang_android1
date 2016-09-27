@@ -8,6 +8,8 @@ import com.doctor.sun.ui.fragment.AllowToSearchFragment;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.ChangeMyPhoneNumFragment;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
+import com.doctor.sun.ui.fragment.EditPatientInfoFragment;
+import com.doctor.sun.ui.fragment.EditRecordFragment;
 import com.doctor.sun.ui.fragment.MyScalesInventoryFragment;
 import com.doctor.sun.ui.fragment.NewMedicalRecordFragment;
 import com.doctor.sun.ui.fragment.PayAppointmentFragment;
@@ -162,6 +164,18 @@ public class FragmentFactory {
             @Override
             public Fragment execute() {
                 return new PayAppointmentFragment();
+            }
+        });
+        map.put(EditPatientInfoFragment.TAG, new FactoryCommand() {
+            @Override
+            public Fragment execute() {
+                return new EditPatientInfoFragment();
+            }
+        });
+        map.put(EditRecordFragment.TAG, new FactoryCommand() {
+            @Override
+            public Fragment execute() {
+                return new EditRecordFragment();
             }
         });
     }

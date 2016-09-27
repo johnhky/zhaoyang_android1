@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -12,6 +14,7 @@ import com.doctor.sun.databinding.PActivityPaySuccessBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 
 import io.ganguo.library.AppManager;
 
@@ -65,8 +68,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
         binding.tvQuestion.setOnClickListener(this);
         if (getType() == VOIP_PAY) {
             binding.tvSystemTip.setVisibility(View.GONE);
-            binding.layoutQuestion.setVisibility(View.GONE);
-            binding.tvQuestion.setVisibility(View.GONE);
+            binding.tvQuestion.setText("返回订单列表");
             binding.tvTip.setVisibility(View.GONE);
         } else {
             setBookTime();
@@ -105,7 +107,15 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                 int id = getId();
                 if (id != -1) {
                     finish();
-                    Intent intent = EditQuestionActivity.intentFor(this, String.valueOf(id), QuestionsPath.NORMAL);
+                    if (getType() == APPOINTMENT) {
+                        Intent intent = EditQuestionActivity.intentFor(this, String.valueOf(id), QuestionsPath.NORMAL);
+                        startActivity(intent);
+                    }
+                }
+
+                if (getType() == VOIP_PAY) {
+                    finish();
+                    Intent intent = PAppointmentListActivity.makeIntent(this);
                     startActivity(intent);
                 }
                 break;

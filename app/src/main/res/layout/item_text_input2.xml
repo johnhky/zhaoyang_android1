@@ -42,6 +42,8 @@
             android:layout_gravity="center_vertical"
             android:background="@color/transparent"
             android:gravity="center_vertical"
+            android:enabled="@{data.enabled}"
+            android:focusableInTouchMode="@{data.enabled}"
             android:hint="@{data.hint}"
             android:inputType="@{data.inputType}"
             android:maxLength="@{data.maxLength}"

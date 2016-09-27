@@ -11,7 +11,9 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.AfterServiceHistoryActivity;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.patient.EditRecordActivity;
+import com.doctor.sun.ui.fragment.EditRecordFragment;
 
 /**
  * Created by lucas on 1/7/16.
@@ -24,7 +26,10 @@ public class MedicalRecordHandler {
     }
 
     public void updateRecord(Context context) {
-        Intent intent = EditRecordActivity.makeIntent(context, data);
+//        Intent intent = EditRecordActivity.makeIntent(context, data);
+//        context.startActivity(intent);
+
+        Intent intent = SingleFragmentActivity.intentFor(context, "病历详情", EditRecordFragment.getArgs(data));
         context.startActivity(intent);
     }
 //

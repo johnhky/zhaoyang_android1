@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_100"
         android:background="@drawable/ripple_default"
+        android:clickable="@{data.enabled}"
         android:onClick="@{()->data.pickImage(context,vh)}"
         android:orientation="horizontal">
 
