@@ -34,9 +34,9 @@ dependencies {
     compile libs.cardView
     compile libs.design
     compile libs.annotations
-    compile libs.gson
+//    compile libs.gson
     compile libs.otto
-    compile libs.yearclass
+//    compile libs.yearclass
     compile libs.retrofit
     compile libs.retrofitConverterJackson
 //    compile libs.okhttpLogging
