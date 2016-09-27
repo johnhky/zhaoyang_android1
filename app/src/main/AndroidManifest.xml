@@ -463,6 +463,9 @@
             android:name=".ui.activity.AdviceDetailActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.activity.doctor.AdviceActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.activity.SingleFragmentActivity"
