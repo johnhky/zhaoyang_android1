@@ -16,11 +16,13 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.EditPrescriptionModel;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.vo.BaseItem;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -75,17 +77,23 @@ public class EditPrescriptionsFragment extends SortedListFragment {
     }
 
     public void save() {
-        Prescription save = model.save(getAdapter());
-        if (save == null) {
+        HashMap<String, String> save = model.save(getAdapter(), new SimpleCallback() {
+            @Override
+            protected void handleResponse(Object response) {
 
-        }else {
+            }
+        });
 
+
+        if (save != null) {
+            Prescription data = new Prescription();
+            data.fromHashMap(save);
             Messenger messenger = getActivity().getIntent().getParcelableExtra(Constants.HANDLER);
             if (messenger != null) {
                 try {
                     Message message = new Message();
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable(Constants.DATA, save);
+                    bundle.putParcelable(Constants.DATA, data);
                     message.setData(bundle);
                     message.what = DiagnosisFragment.EDIT_PRESCRITPION;
                     messenger.send(message);
@@ -94,7 +102,7 @@ public class EditPrescriptionsFragment extends SortedListFragment {
                 }
             }
             Intent intent = getActivity().getIntent();
-            intent.putExtra(Constants.DATA, save);
+            intent.putExtra(Constants.DATA, data);
             getActivity().setResult(Activity.RESULT_OK, intent);
             getActivity().finish();
         }

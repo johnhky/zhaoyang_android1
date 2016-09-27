@@ -1,5 +1,7 @@
 package com.doctor.sun.model;
 
+import android.databinding.Observable;
+import android.util.SparseBooleanArray;
 import android.view.inputmethod.EditorInfo;
 
 import com.doctor.sun.AppContext;
@@ -11,6 +13,8 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.ItemRadioDialog;
 import com.doctor.sun.vo.ItemTextInput2;
+import com.doctor.sun.vo.validator.Validator;
+import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,6 +51,7 @@ public class EditPrescriptionModel {
         ModelUtils.insertDividerMarginLR(result);
 
         ItemRadioDialog unit = new ItemRadioDialog(R.layout.item_pick_title);
+        unit.setSelectedItem(0);
         unit.setResultNotEmpty();
         unit.setTitle("单位");
         unit.setItemId("drug_unit");
@@ -63,6 +68,7 @@ public class EditPrescriptionModel {
         ModelUtils.insertDividerMarginLR(result);
 
         ItemRadioDialog interval = new ItemRadioDialog(R.layout.item_pick_title);
+        interval.setSelectedItem(0);
         interval.setResultNotEmpty();
         interval.setTitle("间隔");
         interval.setItemId("frequency");
@@ -79,59 +85,107 @@ public class EditPrescriptionModel {
 
         result.add(new Description(R.layout.item_description, "数量"));
 
-        ItemTextInput2 morning = new ItemTextInput2(R.layout.item_text_input2, "早", "");
+        final NumberValidator validator = new NumberValidator();
+        final ItemTextInput2 morning = new ItemTextInput2(R.layout.item_text_input2, "早", "");
         morning.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         morning.setSpan(6);
-        morning.setSubTitle("(选填)");
         morning.setItemId("morning");
         morning.setResult(data.intervalAt(0));
+        morning.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                validator.put(0, isValidNumber(morning.getValue()));
+            }
+        });
         result.add(morning);
 
-        ItemTextInput2 afternoon = new ItemTextInput2(R.layout.item_text_input2, "午", "");
+        final ItemTextInput2 afternoon = new ItemTextInput2(R.layout.item_text_input2, "午", "");
         afternoon.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
-        afternoon.setSubTitle("(选填)");
         afternoon.setSpan(6);
         afternoon.setItemId("noon");
-        afternoon.setResult(data.getDrugName());
+        afternoon.setResult(data.intervalAt(1));
+        afternoon.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                validator.put(1, isValidNumber(afternoon.getValue()));
+            }
+        });
         result.add(afternoon);
 
         ModelUtils.insertDividerMarginLR(result);
 
-        ItemTextInput2 night = new ItemTextInput2(R.layout.item_text_input2, "晚", "");
+        final ItemTextInput2 evening = new ItemTextInput2(R.layout.item_text_input2, "晚", "");
+        evening.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
+        evening.setSpan(6);
+        evening.setItemId("night");
+        evening.setResult(data.intervalAt(2));
+        evening.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                validator.put(2, isValidNumber(evening.getValue()));
+            }
+        });
+        result.add(evening);
+
+        final ItemTextInput2 night = new ItemTextInput2(R.layout.item_text_input2, "睡前", "");
         night.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
-        night.setSubTitle("(选填)");
         night.setSpan(6);
-        night.setItemId("night");
-        night.setResult(data.intervalAt(1));
+        night.setItemId("before_sleep");
+        night.setResult(data.intervalAt(3));
+        night.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                validator.put(3, isValidNumber(night.getValue()));
+            }
+        });
         result.add(night);
 
-        ItemTextInput2 evening = new ItemTextInput2(R.layout.item_text_input2, "睡前", "");
-        evening.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
-        evening.setSubTitle("(选填)");
-        evening.setSpan(6);
-        evening.setItemId("before_sleep");
-        evening.setResult(data.intervalAt(2));
-        result.add(evening);
+        morning.add(validator);
+        afternoon.add(validator);
+        evening.add(validator);
+        night.add(validator);
 
         ModelUtils.insertDividerMarginLR(result);
 
         ItemTextInput2 remark = new ItemTextInput2(R.layout.item_text_input2, "备注消息", "");
         remark.setSubTitle("备注消息");
         remark.setItemId("remark");
-        remark.setResult(data.intervalAt(3));
+        remark.setResult(data.getRemark());
         result.add(remark);
         return result;
     }
 
-    public Prescription save(SortedListAdapter adapter) {
-        HashMap<String, String> result = ModelUtils.toHashMap(adapter, new SimpleCallback() {
-            @Override
-            protected void handleResponse(Object response) {
+    public HashMap<String, String> save(SortedListAdapter adapter, SimpleCallback callback) {
+        return ModelUtils.toHashMap(adapter, callback);
+    }
 
-            }
-        });
-        Prescription data = new Prescription();
-        data.fromHashMap(result);
-        return data;
+    private static class NumberValidator implements Validator {
+        SparseBooleanArray states = new SparseBooleanArray(4);
+
+        public NumberValidator() {
+        }
+
+
+        public void put(int key, boolean value) {
+            states.put(key, value);
+        }
+
+        @Override
+        public boolean isValid(String input) {
+            return states.get(0, false)
+                    || states.get(1, false)
+                    || states.get(2, false)
+                    || states.get(3, false);
+        }
+
+
+        @Override
+        public String errorMsg() {
+            return "请填写药物服用份量";
+        }
+    }
+
+    public boolean isValidNumber(String input) {
+        return !Strings.isNullOrEmpty(input) && !input.equals(".");
     }
 }

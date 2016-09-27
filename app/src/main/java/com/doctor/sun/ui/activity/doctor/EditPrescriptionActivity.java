@@ -55,10 +55,10 @@ public class EditPrescriptionActivity extends BaseFragmentActivity2 {
     private ArrayList<String> intervals;
 
     public static Intent makeIntent(Context context, Prescription data) {
-//        return SingleFragmentActivity.intentFor(context, "添加/编辑用药", EditPrescriptionsFragment.getArgs(data));
-        Intent i = new Intent(context, EditPrescriptionActivity.class);
-        i.putExtra(Constants.DATA, data);
-        return i;
+        return SingleFragmentActivity.intentFor(context, "添加/编辑用药", EditPrescriptionsFragment.getArgs(data));
+//        Intent i = new Intent(context, EditPrescriptionActivity.class);
+//        i.putExtra(Constants.DATA, data);
+//        return i;
     }
 
     private Prescription getData() {
