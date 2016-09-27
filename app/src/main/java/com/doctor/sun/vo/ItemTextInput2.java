@@ -145,9 +145,9 @@ public class ItemTextInput2 extends BaseItem {
     public static ItemTextInput2 phoneInput(String title, String hint) {
         ItemTextInput2 viewModel = new ItemTextInput2(R.layout.item_answer_input, title, hint);
         viewModel.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-        viewModel.setMaxLength(11);
+        viewModel.setMaxLength(14);
         viewModel.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_PHONE);
-        viewModel.add(new RegexValidator(StringsUtils.MOBILE_OR_PHONE_PATTERN, "电话号码格式错误"));
+//        viewModel.add(new RegexValidator(StringsUtils.MOBILE_OR_PHONE_PATTERN, "电话号码格式错误"));
 
         return viewModel;
     }
