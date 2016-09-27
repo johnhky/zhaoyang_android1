@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+
+    </data>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_63"
+        android:layout_gravity="bottom"
+        android:background="@color/gray_eb"
+        android:gravity="center">
+
+        <FrameLayout
+            android:layout_width="@dimen/dp_283"
+            android:layout_height="@dimen/dp_49"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_blue_rect"
+            android:clickable="true">
+
+            <TextView
+                android:id="@+id/tv_history"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:text="病历记录"
+                android:textColor="#fff"
+                android:textSize="@dimen/font_17" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>
