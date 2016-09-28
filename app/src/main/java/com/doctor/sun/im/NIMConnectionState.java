@@ -28,8 +28,6 @@ public class NIMConnectionState implements RequestCallback {
     @Override
     public void onSuccess(Object o) {
         NIMClient.getService(AuthServiceObserver.class).observeLoginSyncDataStatus(new LoginSyncStatusObserver(), true);
-        CustomAttachParser msgAttachmentParser = new CustomAttachParser();
-        NIMClient.getService(MsgService.class).registerCustomAttachmentParser(msgAttachmentParser);
         if (callback != null) {
             callback.onSuccess(o);
             callback = null;

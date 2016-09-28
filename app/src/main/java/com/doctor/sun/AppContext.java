@@ -4,17 +4,18 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.doctor.sun.bean.Province;
 import com.doctor.sun.im.AVChatHandler;
+import com.doctor.sun.im.CustomAttachParser;
 import com.doctor.sun.im.observer.AttachmentProgressObserver;
 import com.doctor.sun.im.observer.MsgStatusObserver;
 import com.doctor.sun.im.observer.ReceiveMsgObserver;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
@@ -97,6 +98,9 @@ public class AppContext extends BaseApp {
     }
 
     private void registerMsgObserver() {
+        CustomAttachParser msgAttachmentParser = new CustomAttachParser();
+        NIMClient.getService(MsgService.class).registerCustomAttachmentParser(msgAttachmentParser);
+
         MsgStatusObserver msgStatusObserver = new MsgStatusObserver();
         ReceiveMsgObserver receiveMsgObserver = new ReceiveMsgObserver();
         AttachmentProgressObserver progressObserver = new AttachmentProgressObserver();
