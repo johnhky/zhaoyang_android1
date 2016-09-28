@@ -92,7 +92,7 @@ public class ConsultingFragment2 extends SortedListFragment {
                 @Override
                 public void onChange(RealmResults<TextMsg> element) {
                     boolean empty = element.isEmpty();
-                    boolean shouldRefresh = false;
+                    boolean shouldRefresh;
                     if (!empty) {
                         TextMsg first = element.first();
                         if (first.getMsgId().equals(lastRefreshMsgId)) return;
@@ -102,9 +102,10 @@ public class ConsultingFragment2 extends SortedListFragment {
                         ItemConsulting appointment = (ItemConsulting) getAdapter().get(s);
                         lastRefreshMsgId = first.getMsgId();
                         if (appointment != null && !shouldRefresh) {
+                            appointment.setTime(System.currentTimeMillis());
                             getAdapter().update(appointment);
                         } else {
-                            pullAppointment(s,  tids.get(s));
+                            pullAppointment(s, tids.get(s));
                         }
                     }
                 }
@@ -136,7 +137,7 @@ public class ConsultingFragment2 extends SortedListFragment {
             @Override
             protected void handleResponse(final PageDTO<Appointment> response) {
                 for (Appointment appointment : response.getData()) {
-                    ItemConsulting itemConsulting = new ItemConsulting(recentContact, appointment);
+                    ItemConsulting itemConsulting = new ItemConsulting(recentContact.getTime(), appointment);
                     getAdapter().insert(itemConsulting);
                 }
             }
@@ -235,7 +236,7 @@ public class ConsultingFragment2 extends SortedListFragment {
                 page += 1;
                 for (Appointment appointment : response.getData()) {
                     String tid = String.valueOf(appointment.getTid());
-                    ItemConsulting itemConsulting = new ItemConsulting(tids.get(tid), appointment);
+                    ItemConsulting itemConsulting = new ItemConsulting(tids.get(tid).getTime(), appointment);
                     getAdapter().insert(itemConsulting);
                 }
                 int to = response.getTo();

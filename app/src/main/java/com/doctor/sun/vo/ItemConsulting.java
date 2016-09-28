@@ -18,7 +18,6 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.ItemHelper;
-import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.HashMap;
 
@@ -28,11 +27,11 @@ import java.util.HashMap;
 
 public class ItemConsulting implements SortedItem {
     private Appointment data;
-    private RecentContact tid;
+    private long time;
 
-    public ItemConsulting(RecentContact tid, Appointment data) {
-        this.tid = tid;
+    public ItemConsulting(long time, Appointment data) {
         this.data = data;
+        this.time = time;
     }
 
     public Appointment getData() {
@@ -43,13 +42,6 @@ public class ItemConsulting implements SortedItem {
         this.data = data;
     }
 
-    public RecentContact getTid() {
-        return tid;
-    }
-
-    public void setTid(RecentContact tid) {
-        this.tid = tid;
-    }
 
     @Override
     public int getLayoutId() {
@@ -62,7 +54,7 @@ public class ItemConsulting implements SortedItem {
 
     @Override
     public long getCreated() {
-        return tid.getTime();
+        return time;
     }
 
     @Override
@@ -79,6 +71,7 @@ public class ItemConsulting implements SortedItem {
     public int getSpan() {
         return 12;
     }
+
     @Override
     public boolean isUserSelected() {
         return false;
@@ -121,9 +114,13 @@ public class ItemConsulting implements SortedItem {
         return new Messenger(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
-                mAdapter.insert(new ItemConsulting(tid, (Appointment) msg.obj));
+                mAdapter.insert(new ItemConsulting(System.currentTimeMillis(), (Appointment) msg.obj));
                 return false;
             }
         }));
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 }
