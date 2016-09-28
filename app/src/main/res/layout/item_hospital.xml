@@ -42,14 +42,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
-                android:background="@drawable/selector_grey_rect"
                 android:clickable="false"
                 android:drawableRight="@drawable/ic_enter"
                 android:enabled="@{data.isEnabled()}"
                 android:gravity="start|center_vertical"
                 android:paddingLeft="@dimen/dp_13"
                 android:paddingRight="@dimen/dp_13"
-                android:text="@{data.getLv1Content()}"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
         </FrameLayout>
@@ -83,13 +81,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
-                android:background="@drawable/selector_grey_rect"
                 android:drawableRight="@drawable/ic_enter"
                 android:enabled="@{data.isEnabled()}"
                 android:gravity="start|center_vertical"
                 android:paddingLeft="@dimen/dp_13"
                 android:paddingRight="@dimen/dp_13"
-                android:text="@{data.getLv2Content()}"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
         </FrameLayout>
