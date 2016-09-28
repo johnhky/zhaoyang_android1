@@ -2,6 +2,7 @@ package com.doctor.sun.entity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.BaseObservable;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.StringDef;
@@ -12,6 +13,8 @@ import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
+import com.doctor.sun.event.ModifyStatusEvent;
+import com.doctor.sun.event.EditEndEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
@@ -21,11 +24,14 @@ import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.squareup.otto.Subscribe;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 2/6/2016.
  */
-public class AfterService implements LayoutId {
+public class AfterService extends BaseObservable implements LayoutId {
 
     /**
      * id : 1
@@ -194,6 +200,7 @@ public class AfterService implements LayoutId {
         switch (status) {
             case Status.DOING: {
                 Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, position);
+                EventHub.register(this);
                 context.startActivity(intent);
                 break;
             }
@@ -275,6 +282,22 @@ public class AfterService implements LayoutId {
     public @interface Actions {
         String ACCEPT = "accept";
         String REJECT = "reject";
+    }
+
+    @Subscribe
+    public void onFinishedEvent(ModifyStatusEvent event) {
+        if (event.id.equals(id)) {
+            status = event.status;
+            notifyChange();
+            EventHub.unregister(this);
+        }
+    }
+
+    @Subscribe
+    public void onFinishedEvent(EditEndEvent event) {
+        if (event.id.equals(id)) {
+            EventHub.unregister(this);
+        }
     }
 
 }

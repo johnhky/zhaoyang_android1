@@ -16,7 +16,6 @@ import com.doctor.sun.ui.activity.PageActivity2;
  */
 public class AppointmentListActivity extends PageActivity2 {
     private AppointmentModule api = Api.of(AppointmentModule.class);
-    private String keyword;
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, AppointmentListActivity.class);
