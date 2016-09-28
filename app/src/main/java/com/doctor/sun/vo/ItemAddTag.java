@@ -6,6 +6,7 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,8 +78,11 @@ public class ItemAddTag extends BaseItem {
         for (int i = distance; i > 1; i--) {
             int index = adapterPosition - i + 1;
             try {
-                SortedItem itemPickDate = adapter.get(index);
-                arrayList.add(itemPickDate.getValue());
+                SortedItem item = adapter.get(index);
+                String value = item.getValue();
+                if (!Strings.isNullOrEmpty(value)) {
+                    arrayList.add(value);
+                }
             } catch (ClassCastException ignored) {
                 ignored.printStackTrace();
             }
@@ -88,7 +92,4 @@ public class ItemAddTag extends BaseItem {
         return result;
     }
 
-    public int itemSize() {
-        return itemSize - 1;
-    }
 }
