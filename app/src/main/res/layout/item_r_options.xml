@@ -43,7 +43,6 @@
             android:layout_marginBottom="@dimen/dp_6"
             android:layout_marginTop="@dimen/dp_6"
             android:background="@drawable/bg_options"
-            android:button="@drawable/ic_options"
             android:enabled="false"
             android:hint="@{data.optionInputHint}"
             android:inputType="@{data.optionInputType}"
@@ -60,7 +59,7 @@
             android:textColor="@color/primary_color_selector"
             android:textColorHint="@color/primary_color_selector"
             android:textSize="@dimen/font_15"
-            android:visibility="@{!data.contentTail.equals(&quot;&quot;)}" />
+            android:visibility="@{!data.optionInputHint.equals(&quot;&quot;)}" />
 
         <TextView
             android:id="@+id/remaining"
