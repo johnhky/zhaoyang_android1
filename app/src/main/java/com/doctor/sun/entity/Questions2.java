@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.http.Api;

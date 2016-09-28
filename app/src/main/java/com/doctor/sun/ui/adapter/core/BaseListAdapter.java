@@ -5,13 +5,16 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.doctor.sun.BR;
+import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 
@@ -19,6 +22,8 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
  * Created by rick on 13/8/2016.
  */
 public abstract class BaseListAdapter<B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements AdapterOps<SortedItem> {
+    public static final String TAG = BaseListAdapter.class.getSimpleName();
+
     private final Context mContext;
     private final LayoutInflater mInflater;
     private final SparseBooleanArray mConfig = new SparseBooleanArray();
@@ -44,6 +49,14 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
     final public BaseViewHolder<B> onCreateViewHolder(ViewGroup parent, int viewType) {
         B binding = DataBindingUtil.inflate(getInflater(), viewType, parent, false);
         return new BaseViewHolder<>(binding);
+//        try {
+//            B binding = DataBindingUtil.inflate(getInflater(), viewType, parent, false);
+//            return new BaseViewHolder<>(binding);
+//        } catch (InflateException e) {
+//            Log.e(TAG, "viewType" + viewType);
+//            B inflate = DataBindingUtil.inflate(getInflater(), R.layout.item_empty, parent, false);
+//            return new BaseViewHolder<>(inflate);
+//        }
     }
 
     @Override

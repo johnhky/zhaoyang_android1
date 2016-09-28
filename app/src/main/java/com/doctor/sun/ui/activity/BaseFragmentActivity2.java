@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
@@ -22,6 +23,10 @@ import io.realm.Realm;
  */
 public abstract class BaseFragmentActivity2 extends UMBaseFragmentActivity {
     protected String TAG = getClass().getSimpleName();
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     private Realm realm;
     private OnTokenExpireEvent tokenExpire;

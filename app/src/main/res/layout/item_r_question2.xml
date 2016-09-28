@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="com.doctor.sun.R" />
 
         <import type="com.doctor.sun.ui.adapter.core.AdapterConfigKey" />
 
@@ -37,7 +40,7 @@
                 android:layout_height="@dimen/dp_50"
                 android:enabled="@{data.refill == 1}"
                 android:selected="@{data.isAnswered(adapter,vh)}"
-                android:src="@drawable/ic_position_selector2" />
+                app:srcCompat="@drawable/ic_position_selector2" />
 
 
             <TextView
