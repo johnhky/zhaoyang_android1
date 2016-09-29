@@ -19,8 +19,7 @@
         android:allowBackup="true"
         android:supportsRtl="true">
 
-        <activity android:name="io.ganguo.opensdk.share.ShareDemoActivity" />
-        <activity android:name="io.ganguo.opensdk.login.LoginDemoActivity" />
+
 
         <activity
             android:name="com.mob.tools.MobUIShell"

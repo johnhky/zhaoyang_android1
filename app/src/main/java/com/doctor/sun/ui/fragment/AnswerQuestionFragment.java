@@ -27,7 +27,6 @@ import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.Function0;
-import com.doctor.sun.util.IHandleActivityResult;
 import com.doctor.sun.vo.ItemPickImages;
 import com.squareup.otto.Subscribe;
 
@@ -39,11 +38,12 @@ import io.ganguo.library.core.event.EventHub;
  * Created by rick on 28/7/2016.
  */
 
-public class AnswerQuestionFragment extends SortedListFragment implements IHandleActivityResult {
+public class AnswerQuestionFragment extends SortedListFragment {
     public static final String TAG = AnswerQuestionFragment.class.getSimpleName();
 
-    protected String id;
     private QuestionsModel model;
+
+    protected String id;
     private String path;
     private String questionType;
     private String templateType;
