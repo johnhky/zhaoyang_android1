@@ -40,7 +40,7 @@
                 android:layout_height="@dimen/dp_50"
                 android:enabled="@{data.refill == 1}"
                 android:selected="@{data.isAnswered(adapter,vh)}"
-                app:srcCompat="@drawable/ic_position_selector2" />
+                app:srcCompat="@drawable/semi_oval_selector" />
 
 
             <TextView
@@ -58,18 +58,36 @@
 
         </FrameLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_marginBottom="@dimen/dp_6"
-            android:layout_marginLeft="@dimen/dp_6"
-            android:layout_marginStart="@dimen/dp_6"
-            android:layout_marginTop="@dimen/dp_6"
             android:layout_weight="1"
-            android:text="@{data.questionContent}"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_15" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginBottom="@dimen/dp_6"
+                android:layout_marginLeft="@dimen/dp_6"
+                android:layout_marginStart="@dimen/dp_6"
+                android:layout_marginTop="@dimen/dp_6"
+                android:text="@{data.questionContent}"
+                android:textColor="@color/dark_36"
+                android:textSize="@dimen/font_15"
+                tools:text="@string/premium_product_brief" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="@{ivPosition.enabled}"
+                android:selected="@{ivPosition.selected}"
+                android:text="@{ivPosition.enabled?&quot;重填未填写&quot;:&quot;未填写&quot;}"
+                android:textColor="@color/question_index_color"
+                android:textSize="@dimen/font_12"
+                android:visibility="@{!ivPosition.selected || ivPosition.enabled}"
+                tools:text="重填未填写" />
+        </LinearLayout>
 
         <CheckBox
             android:id="@+id/iv_select"
