@@ -13,7 +13,7 @@
 
     </data>
 
-    <LinearLayout
+    <org.apmem.tools.layouts.FlowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -45,7 +45,6 @@
             android:background="@drawable/bg_options"
             android:enabled="false"
             android:hint="@{data.optionInputHint}"
-            android:inputType="@{data.optionInputType}"
             android:maxLength="@{data.optionInputLength}"
             android:minWidth="@dimen/dp_35"
             android:paddingBottom="@dimen/dp_4"
@@ -73,5 +72,5 @@
             android:text='@{data.contentTail}'
             android:textColor="@color/primary_color_selector"
             android:textSize="@dimen/font_15" />
-    </LinearLayout>
+    </org.apmem.tools.layouts.FlowLayout>
 </layout>

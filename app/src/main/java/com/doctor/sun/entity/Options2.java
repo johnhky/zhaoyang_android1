@@ -71,7 +71,7 @@ public class Options2 extends BaseItem {
     @JsonProperty("option_input_hint")
     public String optionInputHint = "";
     @JsonProperty("option_input_type")
-    public int optionInputType = InputType.TYPE_CLASS_TEXT;
+    public int optionInputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
     @JsonProperty("option_input_length")
     public int optionInputLength = 0;
     @JsonProperty("content_tail")
@@ -354,13 +354,13 @@ public class Options2 extends BaseItem {
     public int inputType() {
         switch (optionInputType) {
             case 0:
-                return InputType.TYPE_CLASS_TEXT;
+                return InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
             case 1:
                 return InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED;
             case 2:
                 return InputType.TYPE_CLASS_NUMBER;
             default:
-                return InputType.TYPE_CLASS_TEXT;
+                return InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
         }
     }
 }
