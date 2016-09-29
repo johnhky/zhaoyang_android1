@@ -2,6 +2,7 @@ package com.doctor.sun.ui.pager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.doctor.sun.Settings;
@@ -14,7 +15,7 @@ import com.doctor.sun.ui.fragment.WaitingSuggestionFragment;
 /**
  * Created by rick on 6/6/2016.
  */
-public class PatientAfterServicePA extends FragmentStatePagerAdapter {
+public class PatientAfterServicePA extends FragmentPagerAdapter {
     private String id;
 
     public PatientAfterServicePA(FragmentManager fm, String id) {

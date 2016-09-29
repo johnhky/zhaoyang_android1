@@ -27,6 +27,7 @@ import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.Function0;
+import com.doctor.sun.util.IHandleActivityResult;
 import com.doctor.sun.vo.ItemPickImages;
 import com.squareup.otto.Subscribe;
 
@@ -38,7 +39,7 @@ import io.ganguo.library.core.event.EventHub;
  * Created by rick on 28/7/2016.
  */
 
-public class AnswerQuestionFragment extends SortedListFragment {
+public class AnswerQuestionFragment extends SortedListFragment implements IHandleActivityResult {
     public static final String TAG = AnswerQuestionFragment.class.getSimpleName();
 
     protected String id;
@@ -172,7 +173,9 @@ public class AnswerQuestionFragment extends SortedListFragment {
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            ItemPickImages.handleRequest(getActivity(), getAdapter(), data, requestCode);
+            if (isVisible()) {
+                ItemPickImages.handleRequest(getActivity(), getAdapter(), data, requestCode);
+            }
         }
     }
 
@@ -218,4 +221,5 @@ public class AnswerQuestionFragment extends SortedListFragment {
         super.onDestroy();
         EventHub.post(new EditEndEvent(getAppointmentId()));
     }
+
 }
