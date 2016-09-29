@@ -34,7 +34,7 @@ public class NewMedicalRecordFragment extends SortedListFragment {
     public static Bundle getArgs(int recordType) {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FRAGMENT_NAME, TAG);
-        bundle.putInt("recordType", recordType);
+        bundle.putInt(Constants.RECORD_TYPE, recordType);
 
         return bundle;
     }
@@ -73,7 +73,7 @@ public class NewMedicalRecordFragment extends SortedListFragment {
     }
 
     private int getRecordType() {
-        return getArguments().getInt("recordType");
+        return getArguments().getInt(Constants.RECORD_TYPE);
     }
 
     private void saveMedicalRecord() {
