@@ -267,10 +267,13 @@ public class Options2 extends BaseItem {
         }
         changedItem.add(this);
         if (!getSelected()) {
-            Questions2 item = (Questions2) adapter.get(questionId);
-            item.refill = 0;
-            changedItem.add(item);
-            adapter.insertAll(changedItem);
+            Questions2 questions = (Questions2) adapter.get(questionId);
+            questions.refill = 0;
+            changedItem.add(questions);
+            for (SortedItem item : changedItem) {
+                BaseItem temp = (BaseItem) item;
+                temp.notifyChange();
+            }
             return;
         }
 
@@ -285,7 +288,10 @@ public class Options2 extends BaseItem {
         }
         sortedItem.refill = 0;
         changedItem.add(sortedItem);
-        adapter.insertAll(changedItem);
+        for (SortedItem item : changedItem) {
+            BaseItem temp = (BaseItem) item;
+            temp.notifyChange();
+        }
     }
 
     private boolean shouldClearThat(Options2 otherOptions) {
