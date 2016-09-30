@@ -20,8 +20,10 @@ import com.doctor.sun.databinding.ActivityChattingBinding;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.emoji.KeyboardWatcher;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.entity.im.TextMsg;
@@ -37,6 +39,7 @@ import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
+import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
@@ -248,23 +251,41 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        viewDetail(item.getItemId());
+       return true;
+    }
+
+    public void viewDetail(final int menuId) {
+        DiagnosisModule api = Api.of(DiagnosisModule.class);
+        api.diagnosisInfo(handler.appointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
+            @Override
+            protected void handleResponse(DiagnosisInfo response) {
+                int canEdit = IntBoolean.FALSE;
+                if (response != null) {
+                    canEdit = response.canEdit;
+                }else {
+                    canEdit = IntBoolean.TRUE;
+                }
+                handleMenu(menuId, canEdit);
+            }});
+    }
+
+    private void handleMenu(int menuId, int canEdit) {
+        switch (menuId) {
             case R.id.action_view: {
-                Intent i = handler.getFirstMenu(this);
+                Intent i = handler.getFirstMenu(ChattingActivity.this,canEdit);
                 if (i != null) {
                     startActivity(i);
                 }
-                return true;
             }
             case R.id.action_edit: {
-                Intent i = handler.getMenu(this);
+                Intent i = handler.getMenu(ChattingActivity.this,canEdit);
                 if (i != null) {
                     startActivity(i);
                 }
-                return true;
             }
-            default:
-                return super.onOptionsItemSelected(item);
+            default: {
+            }
         }
     }
 

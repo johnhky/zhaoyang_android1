@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
@@ -61,7 +62,7 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
                 }
                 case 1: {
 //                appointment.setId(325);
-                    if (!isAppointmentFinished()) {
+                    if (appointment.canEdit == IntBoolean.TRUE) {
                         return DiagnosisFragment.newInstance(appointment);
                     } else {
                         return ReadDiagnosisFragment.newInstance(appointment.getId());

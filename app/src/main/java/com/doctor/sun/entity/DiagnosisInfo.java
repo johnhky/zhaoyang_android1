@@ -1,5 +1,8 @@
 package com.doctor.sun.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -9,7 +12,7 @@ import java.util.List;
 /**
  * Created by rick on 12/23/15.
  */
-public class DiagnosisInfo {
+public class DiagnosisInfo implements Parcelable {
 
     /**
      * id : 108
@@ -112,6 +115,8 @@ public class DiagnosisInfo {
     private Doctor doctorInfo;
     @JsonProperty("reminder")
     public List<Reminder> reminderList;
+    @JsonProperty("can_edit")
+    public int canEdit = 0;
 
     public int getId() {
         return id;
@@ -406,4 +411,100 @@ public class DiagnosisInfo {
                 ", doctorInfo=" + doctorInfo +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.doctorId);
+        dest.writeInt(this.appointmentId);
+        dest.writeInt(this.isDiagnosis);
+        dest.writeSerializable(this.perception);
+        dest.writeSerializable(this.thinking);
+        dest.writeSerializable(this.pipedream);
+        dest.writeSerializable(this.emotion);
+        dest.writeSerializable(this.memory);
+        dest.writeSerializable(this.insight);
+        dest.writeString(this.description);
+        dest.writeString(this.diagnosisRecord);
+        dest.writeInt(this.currentStatus);
+        dest.writeInt(this.recovered);
+        dest.writeInt(this.treatment);
+        dest.writeInt(this.effect);
+        dest.writeTypedList(this.prescription);
+        dest.writeString(this.doctorAdvince);
+        dest.writeInt(this.returnX);
+        dest.writeInt(this.returnType);
+        dest.writeInt(this.returnPaid);
+        dest.writeInt(this.isAccept);
+        dest.writeInt(this.returnTime);
+        dest.writeInt(this.money);
+        dest.writeInt(this.returnAppointmentId);
+        dest.writeInt(this.doctorRequire);
+        dest.writeString(this.comment);
+        dest.writeInt(this.status);
+        dest.writeInt(this.hasPay);
+        dest.writeString(this.date);
+        dest.writeString(this.time);
+        dest.writeParcelable(this.doctorInfo, flags);
+        dest.writeList(this.reminderList);
+        dest.writeInt(this.canEdit);
+    }
+
+    public DiagnosisInfo() {
+    }
+
+    protected DiagnosisInfo(Parcel in) {
+        this.id = in.readInt();
+        this.doctorId = in.readInt();
+        this.appointmentId = in.readInt();
+        this.isDiagnosis = in.readInt();
+        this.perception = (HashMap<String, String>) in.readSerializable();
+        this.thinking = (HashMap<String, String>) in.readSerializable();
+        this.pipedream = (HashMap<String, String>) in.readSerializable();
+        this.emotion = (HashMap<String, String>) in.readSerializable();
+        this.memory = (HashMap<String, String>) in.readSerializable();
+        this.insight = (HashMap<String, String>) in.readSerializable();
+        this.description = in.readString();
+        this.diagnosisRecord = in.readString();
+        this.currentStatus = in.readInt();
+        this.recovered = in.readInt();
+        this.treatment = in.readInt();
+        this.effect = in.readInt();
+        this.prescription = in.createTypedArrayList(Prescription.CREATOR);
+        this.doctorAdvince = in.readString();
+        this.returnX = in.readInt();
+        this.returnType = in.readInt();
+        this.returnPaid = in.readInt();
+        this.isAccept = in.readInt();
+        this.returnTime = in.readInt();
+        this.money = in.readInt();
+        this.returnAppointmentId = in.readInt();
+        this.doctorRequire = in.readInt();
+        this.comment = in.readString();
+        this.status = in.readInt();
+        this.hasPay = in.readInt();
+        this.date = in.readString();
+        this.time = in.readString();
+        this.doctorInfo = in.readParcelable(Doctor.class.getClassLoader());
+        this.reminderList = new ArrayList<Reminder>();
+        in.readList(this.reminderList, Reminder.class.getClassLoader());
+        this.canEdit = in.readInt();
+    }
+
+    public static final Parcelable.Creator<DiagnosisInfo> CREATOR = new Parcelable.Creator<DiagnosisInfo>() {
+        @Override
+        public DiagnosisInfo createFromParcel(Parcel source) {
+            return new DiagnosisInfo(source);
+        }
+
+        @Override
+        public DiagnosisInfo[] newArray(int size) {
+            return new DiagnosisInfo[size];
+        }
+    };
 }

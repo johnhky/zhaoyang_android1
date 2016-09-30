@@ -5,8 +5,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -158,8 +160,8 @@ public class Appointment implements LayoutId, Parcelable {
     @JsonProperty("select_tags")
     public List<Tags> selectTags;
 
-    @JsonProperty("can_edit")
-    public int casEdit;
+    @JsonIgnore
+    public int canEdit = IntBoolean.FALSE;
 
     @JsonProperty("auto_finish")
     public String autoFinish;
@@ -656,6 +658,7 @@ public class Appointment implements LayoutId, Parcelable {
         dest.writeString(this.needPay);
         dest.writeInt(this.appointmentType);
         dest.writeString(this.displayStatus);
+        dest.writeInt(this.canEdit);
     }
 
     protected Appointment(Parcel in) {
@@ -706,6 +709,7 @@ public class Appointment implements LayoutId, Parcelable {
         this.needPay = in.readString();
         this.appointmentType = in.readInt();
         this.displayStatus = in.readString();
+        this.canEdit = in.readInt();
     }
 
     public static final Creator<Appointment> CREATOR = new Creator<Appointment>() {

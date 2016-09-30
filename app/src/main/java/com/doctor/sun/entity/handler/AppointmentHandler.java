@@ -503,7 +503,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
-    public Intent getFirstMenu(Context context) {
+    public Intent getFirstMenu(Context context, int canEdit) {
         if (isAfterService()) {
             String id = String.valueOf(data.getId());
             switch (data.getDisplayStatus()) {
@@ -521,12 +521,14 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             }
 
         } else {
-            return AppointmentDetailActivity.makeIntent(context, getData(), AppointmentDetailActivity.POSITION_ANSWER);
+            Appointment data = getData();
+            data.canEdit = canEdit;
+            return AppointmentDetailActivity.makeIntent(context, data, AppointmentDetailActivity.POSITION_ANSWER);
         }
         return null;
     }
 
-    public Intent getMenu(Context context) {
+    public Intent getMenu(Context context, int canEdit) {
         if (isAfterService()) {
             String id = String.valueOf(data.getId());
             switch (data.getDisplayStatus()) {
@@ -543,7 +545,9 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 }
             }
         } else {
-            return AppointmentDetailActivity.makeIntent(context, getData(), AppointmentDetailActivity.POSITION_SUGGESTION);
+            Appointment data = getData();
+            data.canEdit = canEdit;
+            return AppointmentDetailActivity.makeIntent(context, data, AppointmentDetailActivity.POSITION_SUGGESTION);
         }
         return null;
     }

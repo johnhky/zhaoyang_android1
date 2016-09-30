@@ -45,7 +45,7 @@ public abstract class TabActivity extends BaseFragmentActivity2 {
     }
 
 
-    private void initPagerAdapter() {
+    protected void initPagerAdapter() {
         pagerAdapter = createPagerAdapter();
         binding.vp.setAdapter(pagerAdapter);
     }
