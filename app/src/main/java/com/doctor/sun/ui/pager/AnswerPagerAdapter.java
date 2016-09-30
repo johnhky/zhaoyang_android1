@@ -38,7 +38,7 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
             switch (position) {
                 case 0: {
                     //填写问卷 编辑
-                    if (AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus())) {
+                    if (isAppointmentFinished()) {
                         return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, true);
                     } else {
                         return AnswerQuestionFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL);
@@ -53,7 +53,7 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
             switch (position) {
                 case 0: {
                     //填写问卷 只读
-                    if (AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus())) {
+                    if (isAppointmentFinished()) {
                         return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, true);
                     } else {
                         return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, false);
@@ -61,7 +61,7 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
                 }
                 case 1: {
 //                appointment.setId(325);
-                    if (!AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus())) {
+                    if (!isAppointmentFinished()) {
                         return DiagnosisFragment.newInstance(appointment);
                     } else {
                         return ReadDiagnosisFragment.newInstance(appointment.getId());
@@ -70,6 +70,10 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
             }
         }
         return null;
+    }
+
+    public boolean isAppointmentFinished() {
+        return AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus());
     }
 
     /**

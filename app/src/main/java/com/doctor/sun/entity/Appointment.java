@@ -158,6 +158,9 @@ public class Appointment implements LayoutId, Parcelable {
     @JsonProperty("select_tags")
     public List<Tags> selectTags;
 
+    @JsonProperty("can_edit")
+    public int casEdit;
+
     @JsonProperty("auto_finish")
     public String autoFinish;
     @JsonProperty("patient_id")

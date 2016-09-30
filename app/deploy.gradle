@@ -11,7 +11,17 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
-            res.srcDirs += 'src/main/res/layout/questions'
+            res.srcDirs += [
+                    'src/main/res/layouts/activity',
+                    'src/main/res/layouts/appointment',
+                    'src/main/res/layouts/doctor',
+                    'src/main/res/layouts/medicalRecord',
+                    'src/main/res/layouts/message',
+                    'src/main/res/layouts/options',
+                    'src/main/res/layouts/patient',
+                    'src/main/res/layouts/prescription',
+                    'src/main/res/layouts/questions',
+                    'src/main/res/layouts/textInput']
         }
     }
 
