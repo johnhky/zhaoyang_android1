@@ -112,8 +112,6 @@ public class DoctorHandler {
     }
 
     public void viewDetail(BaseAdapter temp) {
-//        SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
-//        viewDetail(adapter.getContext(), adapter.getType());
         SimpleAdapter adapter = (SimpleAdapter) temp;
         viewDetail(adapter.getContext(), adapter.getInt(AdapterConfigKey.APPOINTMENT_TYPE));
     }
@@ -144,8 +142,7 @@ public class DoctorHandler {
 //    }
 
     public int getType(SimpleAdapter adapter) {
-//        SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
-//        return adapter.getType();
+//        n adapter.getType();
         return adapter.getInt(AdapterConfigKey.APPOINTMENT_TYPE);
     }
 

@@ -15,6 +15,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.City;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.bean.Province;
+import com.doctor.sun.databinding.ActivitySearchDoctorBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Description;
@@ -62,7 +63,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
 
     private AppointmentModule api = Api.of(AppointmentModule.class);
 
-    private com.doctor.sun.databinding.ActivitySearchDoctorBinding binding;
+    private ActivitySearchDoctorBinding binding;
     private SimpleAdapter adapter;
     private PageCallback<Doctor> callback;
 

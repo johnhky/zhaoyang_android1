@@ -10,4 +10,5 @@ public interface AdapterConfigKey {
     int ERROR_ALWAYS_VISIBLE = 2;
     int ID = 3;
     int APPOINTMENT_TYPE = 4;
+    int DOCTOR_ID = 5;
 }

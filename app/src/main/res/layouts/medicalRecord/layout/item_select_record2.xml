@@ -14,7 +14,7 @@
 
         <variable
             name="adapter"
-            type="com.doctor.sun.ui.adapter.AllowAfterServiceAdapter" />
+            type="com.doctor.sun.ui.adapter.SimpleAdapter" />
     </data>
 
     <LinearLayout
@@ -115,7 +115,7 @@
                 android:layout_marginEnd="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:checked='@{data.allowToApply.equals("1")}'
-                android:onClick="@{()->data.handler.allowToApply(adapter.doctorId)}"
+                android:onClick="@{()->data.handler.allowToApply(data.handler.getDoctorId(adapter))}"
                 android:setTintColor="@{@color/colorPrimaryDark}" />
 
         </LinearLayout>

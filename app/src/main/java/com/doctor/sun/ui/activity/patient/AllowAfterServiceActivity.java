@@ -15,7 +15,8 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.adapter.AllowAfterServiceAdapter;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 
 /**
  * Created by rick on 1/6/2016.
@@ -25,7 +26,7 @@ public class AllowAfterServiceActivity extends BaseFragmentActivity2 {
 
     private Doctor contact;
     private ActivityAllowAfterServiceBinding binding;
-    private AllowAfterServiceAdapter adapter;
+    private SimpleAdapter adapter;
 
     public static Intent intentFor(Context context, Doctor contact) {
         Intent intent = new Intent(context, AllowAfterServiceActivity.class);
@@ -60,7 +61,8 @@ public class AllowAfterServiceActivity extends BaseFragmentActivity2 {
 //
 
     private void initRecyclerView() {
-        adapter = new AllowAfterServiceAdapter(this, contact.getId());
+        adapter = new SimpleAdapter(this);
+        adapter.putInt(AdapterConfigKey.DOCTOR_ID, contact.getId());
         adapter.onFinishLoadMore(true);
         adapter.mapLayout(R.layout.item_r_medical_record, R.layout.item_select_record2);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
