@@ -154,7 +154,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
             pullHistory();
         }
         mChatAdapter.onFinishLoadMore(true);
-        mChatAdapter.add(new Description(R.layout.divider_dp13));
+        mChatAdapter.add(new Description(R.layout.divider_13dp));
         mChatAdapter.addAll(results);
         binding.refreshLayout.setOnRefreshListener(this);
         binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
@@ -248,7 +248,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
                 public void onChange(RealmResults<TextMsg> element) {
                     if (mChatAdapter != null) {
                         mChatAdapter.clear();
-                        mChatAdapter.add(new Description(R.layout.divider_dp13));
+                        mChatAdapter.add(new Description(R.layout.divider_13dp));
                         mChatAdapter.addAll(element);
                         mChatAdapter.notifyDataSetChanged();
                         binding.rvChat.scrollToPosition(0);

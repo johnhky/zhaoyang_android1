@@ -10,6 +10,7 @@ import com.doctor.sun.BR;
  * Created by rick on 10/20/15.
  */
 public class BaseViewHolder<T extends ViewDataBinding> extends RecyclerView.ViewHolder {
+    private boolean isBinding = true;
     private T mBinding;
 
     public BaseViewHolder(T binding) {
@@ -22,9 +23,14 @@ public class BaseViewHolder<T extends ViewDataBinding> extends RecyclerView.View
     }
 
     public void bindTo(Object obj) {
+        isBinding = true;
         mBinding.setVariable(BR.data, obj);
         mBinding.setVariable(BR.vh, this);
         mBinding.executePendingBindings();
+        isBinding = false;
     }
 
+    public boolean isBinding() {
+        return isBinding;
+    }
 }

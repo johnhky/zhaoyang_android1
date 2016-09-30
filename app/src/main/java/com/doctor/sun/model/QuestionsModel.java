@@ -10,7 +10,7 @@ import com.doctor.sun.entity.FollowUpInfo;
 import com.doctor.sun.entity.Options2;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Questions2;
-import com.doctor.sun.entity.QuestionsButton;
+import com.doctor.sun.entity.QuVisibilityManager;
 import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.Scales;
 import com.doctor.sun.entity.constans.QuestionType;
@@ -167,7 +167,7 @@ public class QuestionsModel {
                     break;
             }
 
-            BaseItem divider = new BaseItem(R.layout.divider_1px_margint_13dp);
+            BaseItem divider = new BaseItem(R.layout.divider_1px_top13);
             int dividerPosition = positionIn(sortedVal, DIVIDER_POSITION);
             divider.setItemId("DIVIDER" + questions2.getKey());
             divider.setPosition(dividerPosition);
@@ -196,7 +196,7 @@ public class QuestionsModel {
         if (i >= questions.size()) {
             return acc;
         }
-        QuestionsButton questionsButton = questions.get(i).questionsButton;
+        QuVisibilityManager questionsButton = questions.get(i).questionsButton;
         if (questionsButton != null) {
             int subQuestionsSize = questionsSize(questionsButton.questions, 0, 0);
             return questionsSize(questions, i + 1, acc + 1 + subQuestionsSize);

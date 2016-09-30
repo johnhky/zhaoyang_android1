@@ -154,7 +154,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
     public void addExtraItems() {
-        mAdapter.add(new BaseItem(R.layout.divider_dp13));
+        mAdapter.add(new BaseItem(R.layout.divider_13dp));
     }
 
     private void needSendDrug() {

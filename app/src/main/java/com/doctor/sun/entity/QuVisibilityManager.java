@@ -12,7 +12,7 @@ import java.util.List;
  * Created by rick on 10/9/2016.
  */
 
-public class QuestionsButton extends BaseItem {
+public class QuVisibilityManager extends BaseItem {
 
 
     private boolean checked = false;
@@ -35,7 +35,7 @@ public class QuestionsButton extends BaseItem {
 
     @Override
     public int getLayoutId() {
-        return R.layout.item_question_toggle;
+        return R.layout.item_question_hider;
     }
 
     public boolean isChecked() {

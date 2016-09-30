@@ -150,13 +150,13 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
     }
 
     private void insertDivider(List<BaseItem> list) {
-        BaseItem item = new BaseItem(R.layout.divider_1px_marginlr_13dp);
+        BaseItem item = new BaseItem(R.layout.divider_1px_start13_end13);
         item.setItemId(UUID.randomUUID().toString());
         list.add(item);
     }
 
     private void insertSpace(List<BaseItem> list) {
-        BaseItem item = new BaseItem(R.layout.space_30dp);
+        BaseItem item = new BaseItem(R.layout.divider_30dp);
         item.setItemId(UUID.randomUUID().toString());
         list.add(item);
     }

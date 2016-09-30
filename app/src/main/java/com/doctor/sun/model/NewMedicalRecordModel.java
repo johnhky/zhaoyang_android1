@@ -47,7 +47,7 @@ public class NewMedicalRecordModel {
             result.add(warningDescription);
 
             BaseItem divider = new BaseItem();
-            divider.setItemLayoutId(R.layout.divider_gray_dp13);
+            divider.setItemLayoutId(R.layout.divider_13dp_gray);
             divider.setPosition(result.size());
             result.add(divider);
         }

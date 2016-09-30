@@ -67,7 +67,7 @@ public class QuestionsInventoryFragment extends SortedListFragment {
             @Override
             public int intercept(int origin) {
                 switch (origin) {
-                    case R.layout.item_question2: {
+                    case R.layout.item_question: {
                         return R.layout.item_inventory_question;
                     }
                     case R.layout.item_further_consultation: {
@@ -152,7 +152,7 @@ public class QuestionsInventoryFragment extends SortedListFragment {
 
     public void setInVisible(BaseItem item) {
         if (item.getLayoutId() != R.layout.item_inventory_question) {
-            if (item.getLayoutId() != R.layout.divider_1px_margint_13dp) {
+            if (item.getLayoutId() != R.layout.divider_1px_top13) {
                 item.setVisible(false);
             }
         }
@@ -160,7 +160,7 @@ public class QuestionsInventoryFragment extends SortedListFragment {
 
     public void setVisible(BaseItem item) {
         if (item.getLayoutId() != R.layout.item_inventory_question) {
-            if (item.getLayoutId() != R.layout.divider_1px_margint_13dp) {
+            if (item.getLayoutId() != R.layout.divider_1px_top13) {
                 item.setVisible(true);
             }
         }

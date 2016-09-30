@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.http.Api;
@@ -79,7 +78,7 @@ public class Questions2 extends BaseItem {
 
 
     @JsonProperty("expand_button")
-    public QuestionsButton questionsButton;
+    public QuVisibilityManager questionsButton;
 
     public String positionString() {
         return String.valueOf(questionIndex + 1);
@@ -88,7 +87,7 @@ public class Questions2 extends BaseItem {
 
     @Override
     public int getLayoutId() {
-        return R.layout.item_question2;
+        return R.layout.item_question;
     }
 
 

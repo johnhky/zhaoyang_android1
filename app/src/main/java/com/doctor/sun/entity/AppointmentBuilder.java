@@ -506,7 +506,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         result.add(new Description(R.layout.item_description, "预约详情"));
         result.add(doctor);
 
-        result.add(new BaseItem(R.layout.divider_1px2));
+        result.add(new BaseItem(R.layout.divider_1px));
 
         result.add(new AppointmentWrapper(R.layout.item_appointment_detail, response));
 

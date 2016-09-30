@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.util.SortedListAdapterCallback;
+import android.util.Log;
 
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 
@@ -18,6 +19,8 @@ import java.util.Set;
  * Created by rick on 22/6/2016.
  */
 public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapter<B> {
+    public static final String TAG = SortedListAdapter.class.getSimpleName();
+
     private SortedList<SortedItem> mList;
     private final Map<String, SortedItem> mUniqueMapping = new HashMap<>();
 
@@ -65,10 +68,13 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
         SortedItem existing = mUniqueMapping.put(key, item);
         if (existing == null) {
             mList.add(item);
+            Log.e(TAG, "insert: newItem" + item);
         } else {
             int pos = mList.indexOf(existing);
-            if (pos >= 0)
+            if (pos >= 0) {
+                Log.e(TAG, "insert: existingItem" + item);
                 mList.updateItemAt(pos, item);
+            }
         }
     }
 
@@ -77,16 +83,20 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
         String key = item.getKey();
         SortedItem existing = mUniqueMapping.get(key);
         if (existing == null) {
+            Log.e(TAG, "update: notFound" + item);
             return;
         }
         int pos = mList.indexOf(existing);
         mUniqueMapping.put(key, item);
-        if (pos >= 0)
+        if (pos >= 0) {
+            Log.e(TAG, "update: existingItem" + item);
             mList.updateItemAt(pos, item);
+        }
     }
 
     @Override
     public void insertAll(List<SortedItem> items) {
+        Log.d(TAG, "insertAll() called with: items = [" + items + "]");
         for (SortedItem item : items) {
             insert(item);
         }
@@ -119,6 +129,7 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
 
     @Override
     public void removeItem(SortedItem item) {
+        Log.d(TAG, "removeItem() called with: item = [" + item + "]");
         SortedItem model = mUniqueMapping.remove(item.getKey());
         if (model != null) {
             boolean remove = mList.remove(item);

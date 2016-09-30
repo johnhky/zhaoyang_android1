@@ -14,7 +14,9 @@ android {
             res.srcDirs += [
                     'src/main/res/layouts/activity',
                     'src/main/res/layouts/appointment',
+                    'src/main/res/layouts/divider',
                     'src/main/res/layouts/doctor',
+                    'src/main/res/layouts/followup',
                     'src/main/res/layouts/medicalRecord',
                     'src/main/res/layouts/message',
                     'src/main/res/layouts/options',

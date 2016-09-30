@@ -139,7 +139,7 @@ public class ResetPswFragment extends SortedListFragment {
     }
 
     private void insertDivider(List<BaseItem> list) {
-        BaseItem item = new BaseItem(R.layout.divider_1px_marginlr_13dp);
+        BaseItem item = new BaseItem(R.layout.divider_1px_start13_end13);
         item.setItemId(UUID.randomUUID().toString());
         list.add(item);
     }

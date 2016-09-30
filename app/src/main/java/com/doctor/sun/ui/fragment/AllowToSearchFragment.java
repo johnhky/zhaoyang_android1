@@ -82,7 +82,7 @@ public class AllowToSearchFragment extends SortedListFragment {
                 });
                 items.add(itemSwitch);
 
-                BaseItem baseItem = new BaseItem(R.layout.space_30dp);
+                BaseItem baseItem = new BaseItem(R.layout.divider_30dp);
                 baseItem.setItemId(UUID.randomUUID().toString());
 
                 items.add(baseItem);

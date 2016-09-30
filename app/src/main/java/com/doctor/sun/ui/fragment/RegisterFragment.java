@@ -113,7 +113,7 @@ public class RegisterFragment extends SortedListFragment {
         sortedItems.add(imgPs);
 
         BaseItem baseItem = new BaseItem();
-        baseItem.setItemLayoutId(R.layout.divider_gray_dp13);
+        baseItem.setItemLayoutId(R.layout.divider_13dp_gray);
         sortedItems.add(baseItem);
 
         final ItemTextInput2 newPhoneNum = ItemTextInput2.mobilePhoneInput("手机号码", "请输入11位手机号码");
@@ -208,13 +208,13 @@ public class RegisterFragment extends SortedListFragment {
     }
 
     private void insertDivider(List<BaseItem> list) {
-        BaseItem item = new BaseItem(R.layout.divider_1px_marginlr_13dp);
+        BaseItem item = new BaseItem(R.layout.divider_1px_start13_end13);
         item.setItemId(UUID.randomUUID().toString());
         list.add(item);
     }
 
     private void insertSpace(List<BaseItem> list) {
-        BaseItem item = new BaseItem(R.layout.space_30dp);
+        BaseItem item = new BaseItem(R.layout.divider_30dp);
         item.setItemId(UUID.randomUUID().toString());
         list.add(item);
     }

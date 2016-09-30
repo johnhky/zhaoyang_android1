@@ -21,21 +21,21 @@ import retrofit2.Response;
 final class ModelUtils {
 
     static void insertDividerMarginLR(List<SortedItem> list) {
-        BaseItem item = new BaseItem(R.layout.divider_1px_marginlr_13dp);
+        BaseItem item = new BaseItem(R.layout.divider_1px_start13_end13);
         item.setItemId(UUID.randomUUID().toString());
         item.setPosition(list.size());
         list.add(item);
     }
 
     static void insertDividerNoMargin(List<SortedItem> list) {
-        BaseItem item = new BaseItem(R.layout.divider_1px2);
+        BaseItem item = new BaseItem(R.layout.divider_1px);
         item.setItemId(UUID.randomUUID().toString());
         item.setPosition(list.size());
         list.add(item);
     }
 
     static void insertSpace(List<SortedItem> list) {
-        BaseItem item = new BaseItem(R.layout.space_30dp);
+        BaseItem item = new BaseItem(R.layout.divider_30dp);
         item.setItemId(UUID.randomUUID().toString());
         item.setPosition(list.size());
         list.add(item);

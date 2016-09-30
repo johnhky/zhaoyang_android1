@@ -106,8 +106,8 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
                     case R.layout.item_view_image: {
                         return R.layout.item_r_view_image;
                     }
-                    case R.layout.item_question2: {
-                        return R.layout.item_r_question2;
+                    case R.layout.item_question: {
+                        return R.layout.item_r_question;
                     }
                     case R.layout.item_scales: {
                         return R.layout.item_r_scales;
