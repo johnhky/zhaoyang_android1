@@ -22,8 +22,9 @@ import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
 import com.doctor.sun.ui.activity.patient.HospitalDetailActivity;
-import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.AdapterOps;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -111,8 +112,10 @@ public class DoctorHandler {
     }
 
     public void viewDetail(BaseAdapter temp) {
-        SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
-        viewDetail(adapter.getContext(), adapter.getType());
+//        SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
+//        viewDetail(adapter.getContext(), adapter.getType());
+        SimpleAdapter adapter = (SimpleAdapter) temp;
+        viewDetail(adapter.getContext(), adapter.getInt(AdapterConfigKey.APPOINTMENT_TYPE));
     }
 
     public void viewDetail(Context context, int type) {
@@ -140,9 +143,18 @@ public class DoctorHandler {
 //        });
 //    }
 
-    private int getType(BaseAdapter temp) {
-        SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
-        return adapter.getType();
+    public int getType(SimpleAdapter adapter) {
+//        SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
+//        return adapter.getType();
+        return adapter.getInt(AdapterConfigKey.APPOINTMENT_TYPE);
+    }
+
+    public String getTypeLabel(SimpleAdapter adapter) {
+        if (getType(adapter) == AppointmentType.PREMIUM) {
+            return "专属咨询";
+        } else {
+            return "留言咨询";
+        }
     }
 
 

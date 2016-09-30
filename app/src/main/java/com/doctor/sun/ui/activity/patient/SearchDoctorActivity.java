@@ -15,7 +15,6 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.City;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.bean.Province;
-import com.doctor.sun.databinding.ActivitySearchDoctorBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Description;
@@ -25,8 +24,8 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.GetLocationActivity;
-import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.widget.CityPickerDialog;
 import com.doctor.sun.util.AnimationUtils;
@@ -63,7 +62,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
 
     private AppointmentModule api = Api.of(AppointmentModule.class);
 
-    private ActivitySearchDoctorBinding binding;
+    private com.doctor.sun.databinding.ActivitySearchDoctorBinding binding;
     private SimpleAdapter adapter;
     private PageCallback<Doctor> callback;
 
@@ -166,7 +165,8 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     }
 
     private void initAdapter() {
-        adapter = new SearchDoctorAdapter(this, getType());
+        adapter = new SimpleAdapter(this);
+        adapter.putInt(AdapterConfigKey.APPOINTMENT_TYPE, getType());
         callback = new PageCallback<Doctor>(adapter) {
 
             @Override
@@ -198,7 +198,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     }
 
     private void loadMore() {
-            api.allDoctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);
+        api.allDoctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);
     }
 
     @Deprecated

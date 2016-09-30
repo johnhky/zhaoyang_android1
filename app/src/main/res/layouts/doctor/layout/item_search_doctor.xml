@@ -15,7 +15,7 @@
 
         <variable
             name="adapter"
-            type="com.doctor.sun.ui.adapter.SearchDoctorAdapter" />
+            type="com.doctor.sun.ui.adapter.SimpleAdapter" />
     </data>
 
     <LinearLayout
@@ -122,7 +122,7 @@
                     android:gravity="center_vertical"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13"
-                    app:html="@{@string/diagnosis_money(adapter.typeLabel + data.handler.getFee(adapter.type))}"
+                    app:html="@{data.handler.getTypeLabel(adapter) + data.handler.getFee(data.handler.getType(adapter))}"
                     tools:text="诊金" />
 
                 <TextView
