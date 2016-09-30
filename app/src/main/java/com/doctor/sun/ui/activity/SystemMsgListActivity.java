@@ -14,7 +14,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.PushModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.adapter.SystemMsgAdapter;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.PermissionsUtil;
 
@@ -93,7 +93,10 @@ public class SystemMsgListActivity extends PageActivity2 {
     @NonNull
     @Override
     public SimpleAdapter createAdapter() {
-        return new SystemMsgAdapter(this, Config.getLong(visitTimeKey, -1));
+        SimpleAdapter adapter = new SimpleAdapter(this);
+        adapter.putLong(AdapterConfigKey.LAST_VISIT_TIME, Config.getLong(visitTimeKey, -1));
+
+        return adapter;
     }
 
 

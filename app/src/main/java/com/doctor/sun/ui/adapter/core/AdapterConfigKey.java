@@ -12,4 +12,5 @@ public interface AdapterConfigKey {
     int APPOINTMENT_TYPE = 4;
     int DOCTOR_ID = 5;
     int IS_EDIT_MODE = 6;
+    int LAST_VISIT_TIME = 7;
 }

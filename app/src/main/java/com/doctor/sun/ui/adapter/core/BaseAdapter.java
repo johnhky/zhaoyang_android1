@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
+import android.util.SparseLongArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public abstract class BaseAdapter<T, B extends ViewDataBinding> extends Recycler
     private final SparseBooleanArray mConfig = new SparseBooleanArray();
     private final SparseArray<String> mStringConfig = new SparseArray<>();
     private final SparseIntArray mIntConfig = new SparseIntArray();
+    private final SparseArray<Long> mLongConfig = new SparseArray<>();
 
     public BaseAdapter(Context context) {
         mContext = context;
@@ -119,6 +121,14 @@ public abstract class BaseAdapter<T, B extends ViewDataBinding> extends Recycler
 
     public int getInt(int key) {
         return mIntConfig.get(key, 0);
+    }
+
+    public void putLong(int key, long value) {
+        mLongConfig.put(key, value);
+    }
+
+    public long getLong(int key) {
+        return mLongConfig.get(key);
     }
 
 }
