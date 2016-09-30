@@ -127,7 +127,7 @@ public class EditDoctorInfoModel {
         if (data.getTitle() != null) {
             for (int i = 0; i < stringArray.length; i++) {
                 if (data.getTitle().equals(stringArray[i])) {
-                    title.setSelectedItem(i + 1);
+                    title.setSelectedItem(i);
                     break;
                 }
             }
