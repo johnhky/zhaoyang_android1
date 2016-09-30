@@ -11,4 +11,5 @@ public interface AdapterConfigKey {
     int ID = 3;
     int APPOINTMENT_TYPE = 4;
     int DOCTOR_ID = 5;
+    int IS_EDIT_MODE = 6;
 }

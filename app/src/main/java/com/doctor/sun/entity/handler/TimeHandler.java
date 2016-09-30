@@ -16,8 +16,10 @@ import com.doctor.sun.entity.Time;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.doctor.AddTimeActivity;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
@@ -212,6 +214,14 @@ public class TimeHandler {
                 Toast.makeText(context, "时间间隔必须介于0-60之间", Toast.LENGTH_SHORT).show();
                 lastChangeTime = System.currentTimeMillis();
             }
+        }
+    }
+
+    public int isEditMode(SimpleAdapter adapter) {
+        if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE)) {
+            return View.VISIBLE;
+        } else {
+            return View.INVISIBLE;
         }
     }
 }

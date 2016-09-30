@@ -8,10 +8,9 @@
             type="com.doctor.sun.entity.Time" />
 
 
-
         <variable
             name="adapter"
-            type="com.doctor.sun.ui.adapter.TimeAdapter" />
+            type="com.doctor.sun.ui.adapter.SimpleAdapter" />
 
         <variable
             name="vh"
@@ -42,10 +41,10 @@
                 android:paddingTop="@dimen/dp_4">
 
                 <View
+                    android:id="@+id/view"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:id="@+id/view" />
+                    android:layout_weight="2" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -84,7 +83,7 @@
                 android:background="@drawable/ripple_default"
                 android:gravity="center"
                 android:onClick="@{()->data.handler.showDeleteDialog(adapter,vh)}"
-                android:visibility="invisible">
+                android:visibility="@{data.handler.isEditMode(adapter)}">
 
                 <ImageView
                     android:layout_width="wrap_content"

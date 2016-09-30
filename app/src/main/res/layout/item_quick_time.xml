@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -9,10 +8,9 @@
             type="com.doctor.sun.entity.Time" />
 
 
-
         <variable
             name="adapter"
-            type="com.doctor.sun.ui.adapter.TimeAdapter" />
+            type="com.doctor.sun.ui.adapter.SimpleAdapter" />
 
         <variable
             name="vh"
@@ -83,8 +81,8 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/ripple_default"
                 android:gravity="center"
-                android:visibility="invisible"
-                android:onClick="@{()->data.handler.showDeleteDialog(adapter,vh)}">
+                android:onClick="@{()->data.handler.showDeleteDialog(adapter,vh)}"
+                android:visibility="@{data.handler.isEditMode(adapter)}">
 
                 <ImageView
                     android:layout_width="wrap_content"

@@ -15,8 +15,9 @@ import com.doctor.sun.databinding.ActivityTimeBinding;
 import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.adapter.TimeAdapter;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.util.Function0;
 
 import java.util.List;
@@ -30,8 +31,7 @@ import io.ganguo.library.common.ToastHelper;
  */
 public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.GetIsEditMode {
 
-
-    private TimeAdapter mAdapter;
+    private SimpleAdapter adapter;
     private ActivityTimeBinding binding;
     private TimeModuleWrapper api = TimeModuleWrapper.getInstance();
 
@@ -55,26 +55,27 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_time);
-        mAdapter = new TimeAdapter(this);
+        adapter = new SimpleAdapter(this);
+        adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, false);
         binding.rvTime.setLayoutManager(new LinearLayoutManager(this));
-        binding.rvTime.setAdapter(mAdapter);
+        binding.rvTime.setAdapter(adapter);
         binding.setHandler(new TimeHandler());
     }
 
     private void initData() {
-        mAdapter.onFinishLoadMore(true);
+        adapter.onFinishLoadMore(true);
         api.getAllTimeAsync(new Function0<List<LayoutId>>() {
             @Override
             public void apply(List<LayoutId> r) {
-                mAdapter.clear();
-                mAdapter.addAll(r);
-                mAdapter.notifyDataSetChanged();
-                mAdapter.onFinishLoadMore(true);
-                if (mAdapter.isEmpty()) {
+                adapter.clear();
+                adapter.addAll(r);
+                adapter.notifyDataSetChanged();
+                adapter.onFinishLoadMore(true);
+                if (adapter.isEmpty()) {
                     binding.emptyIndicator.setText("您还没有设置任何出诊时间");
                     binding.emptyIndicator.setVisibility(View.VISIBLE);
                 } else {
-                    binding.emptyIndicator.setVisibility(View.GONE);
+                    binding.emptyIndicator.setVisibility(View.INVISIBLE);
                 }
                 invalidateOptionsMenu();
             }
@@ -83,33 +84,34 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
 
     @Override
     public void onBackPressed() {
-        if (mAdapter.isEditMode()) {
-            mAdapter.setIsEditMode(!mAdapter.isEditMode());
+        boolean isEditMode = adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE);
+        if (isEditMode) {
+            adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, false);
             binding.llAdd.setVisibility(View.VISIBLE);
-            mAdapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         } else {
             super.onBackPressed();
         }
     }
 
     public void onMenuClicked() {
-        if (mAdapter.getItemCount() == 0) {
+        if (adapter.getItemCount() == 0) {
             ToastHelper.showMessage(this, "目前没有出诊时间安排");
             binding.llAdd.setVisibility(View.VISIBLE);
         } else {
-//            mAdapter.setIsEditMode(!mAdapter.isEditMode());
-            if (mAdapter.isEditMode()) {
+            adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, !adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE));
+            if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE)) {
                 binding.llAdd.setVisibility(View.GONE);
             } else {
                 binding.llAdd.setVisibility(View.VISIBLE);
             }
         }
-        mAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public boolean getIsEditMode() {
-        return mAdapter.isEditMode();
+        return adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE);
     }
 
 
@@ -121,7 +123,7 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        mAdapter.setIsEditMode(!mAdapter.isEditMode());
+        adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE));
         switch (item.getItemId()) {
             case R.id.action_edit: {
                 onMenuClicked();
@@ -141,11 +143,11 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.clear();
-        if (mAdapter.getItemCount() == 0) {
+        if (adapter.getItemCount() == 0) {
             return false;
         }
         MenuInflater menuInflater = getMenuInflater();
-        if (mAdapter.isEditMode()) {
+        if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE)) {
             menuInflater.inflate(R.menu.menu_save, menu);
         } else {
             menuInflater.inflate(R.menu.menu_edit, menu);
