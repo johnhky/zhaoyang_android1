@@ -38,7 +38,7 @@
             android:gravity="start|center_vertical"
             android:paddingLeft="@dimen/dp_13"
             android:paddingRight="@dimen/dp_13"
-            android:text="@{data.date}"
+            android:text="@{data.getToday()}"
             android:textColor="@color/color_tick"
             android:textSize="@dimen/font_15" />
     </LinearLayout>

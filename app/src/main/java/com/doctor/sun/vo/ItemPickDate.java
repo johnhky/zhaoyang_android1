@@ -100,6 +100,10 @@ public class ItemPickDate extends BaseItem {
         return String.format(Locale.CHINA, "%04d-%02d", year, monthOfYear + 1);
     }
 
+    public String getToday() {
+        return String.format(Locale.CHINA, "%04d-%02d-%02d", year + 18, monthOfYear + 1, dayOfMonth);
+    }
+
     public String getBirthday() {
         return getDate();
     }
