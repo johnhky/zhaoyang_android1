@@ -99,13 +99,17 @@ public class ConsultingFragment2 extends SortedListFragment {
 
                         shouldRefresh = TextMsgFactory.isRefreshMsg(first.getType());
                         String s = first.getSessionId();
-                        ItemConsulting appointment = (ItemConsulting) getAdapter().get(s);
-                        lastRefreshMsgId = first.getMsgId();
-                        if (appointment != null && !shouldRefresh) {
-                            appointment.setTime(System.currentTimeMillis());
-                            getAdapter().update(appointment);
+                        if (s.startsWith("SYSTEM_MSG")) {
+                            getAdapter().notifyItemChanged(0);
                         } else {
-                            pullAppointment(s, tids.get(s));
+                            ItemConsulting appointment = (ItemConsulting) getAdapter().get(s);
+                            lastRefreshMsgId = first.getMsgId();
+                            if (appointment != null && !shouldRefresh) {
+                                appointment.setTime(System.currentTimeMillis());
+                                getAdapter().update(appointment);
+                            } else {
+                                pullAppointment(s, tids.get(s));
+                            }
                         }
                     }
                 }
