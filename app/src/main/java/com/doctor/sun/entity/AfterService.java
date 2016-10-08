@@ -13,8 +13,8 @@ import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
-import com.doctor.sun.event.ModifyStatusEvent;
 import com.doctor.sun.event.EditEndEvent;
+import com.doctor.sun.event.ModifyStatusEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
@@ -195,6 +195,9 @@ public class AfterService extends BaseObservable implements LayoutId {
     public void fillForum(Context context, String id) {
         int position = 0;
         if (Settings.isDoctor()) {
+            position = 1;
+        }
+        if (isFinished(status)) {
             position = 1;
         }
         switch (status) {

@@ -200,11 +200,13 @@
             <!--</FrameLayout>-->
 
             <FrameLayout
-                android:layout_width="@dimen/dp_90"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_35"
                 android:layout_gravity="end"
                 android:background="@drawable/shape_blue_rect"
                 android:onClick="@{()->data.fillForum(context,data.id)}"
+                android:paddingLeft="@dimen/dp_13"
+                android:paddingRight="@dimen/dp_13"
                 android:visibility="@{data.doingBtnVisible}">
 
                 <TextView
@@ -212,7 +214,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:text='@{data.isFinished(data.status) ?"查看问卷":"填写问卷"}'
+                    android:text='@{data.isFinished(data.status) ?"查看医生建议":"填写问卷"}'
                     android:textColor="#fff"
                     android:textSize="@dimen/font_13" />
             </FrameLayout>
