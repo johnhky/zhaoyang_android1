@@ -60,6 +60,7 @@ public class EditPatientInfoModel {
             phone.setItemId("phone");
             phone.setPosition(result.size());
             phone.setResult(data.getPhone());
+            phone.setEnabled(false);
             result.add(phone);
         } else {
             ClickMenu changePhone = new ClickMenu(R.layout.item_change_phone_num, 0, "手机号码", new View.OnClickListener() {
@@ -71,6 +72,7 @@ public class EditPatientInfoModel {
             changePhone.setSubTitle("更换手机号码");
             changePhone.setDetail(data.getPhone());
             changePhone.setPosition(result.size());
+            changePhone.setEnabled(false);
             result.add(changePhone);
         }
 

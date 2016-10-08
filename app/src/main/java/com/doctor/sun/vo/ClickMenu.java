@@ -4,6 +4,8 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 
+import com.doctor.sun.R;
+
 /**
  * Created by rick on 7/4/2016.
  */
@@ -24,5 +26,20 @@ public class ClickMenu extends BaseMenu {
         return listener;
     }
 
+    public int showDrawable() {
+        if (isEnabled()) {
+            return R.drawable.ic_enter;
+        } else {
+            return R.drawable.bg_transparent;
+        }
+    }
+
+    public String showHint() {
+        if (isEnabled()) {
+            return "更换手机号码";
+        } else {
+            return "";
+        }
+    }
 
 }

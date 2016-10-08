@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70"
         android:focusable="true"
+        android:clickable="@{data.enabled}"
         android:onClick="@{data.itemClick()}"
         android:background="@drawable/ripple_default"
         android:orientation="vertical">
@@ -26,10 +27,10 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginStart="@dimen/dp_13"
-            android:drawableEnd="@drawable/ic_enter"
+            android:drawableEnd="@{data.showDrawable()}"
             android:drawablePadding="@dimen/dp_6"
-            android:drawableRight="@drawable/ic_enter"
-            android:text="@{data.subTitle}"
+            android:drawableRight="@{data.showDrawable()}"
+            android:text="@{data.showHint()}"
             android:textColor="@color/colorPrimaryDark" />
 
         <LinearLayout
