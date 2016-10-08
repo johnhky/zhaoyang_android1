@@ -316,7 +316,32 @@
                 android:onClick="@{()->data.handler.pComment(adapter,vh)}"
                 android:text='@{data.handler.hasDoctorComment()?"已评价":"评  价"}'
                 android:textColor="#fff"
-                android:textSize="@dimen/font_13" />
+                android:textSize="@dimen/font_13"
+                tools:text="评  价" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="@dimen/dp_35"
+            android:layout_gravity="end"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_7"
+            android:background="@drawable/btn_comment"
+            android:visibility="@{data.handler.showAnswerQuestionBtn}">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:onClick="@{()->data.handler.viewDetail(context,0)}"
+                android:text="填写问卷"
+                android:textColor="#fff"
+                android:textSize="@dimen/font_13"
+                tools:text="填写问卷" />
 
         </FrameLayout>
 

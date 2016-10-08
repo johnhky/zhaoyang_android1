@@ -251,44 +251,22 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        viewDetail(item.getItemId());
-       return true;
-    }
-
-    public void viewDetail(final int menuId) {
-        DiagnosisModule api = Api.of(DiagnosisModule.class);
-        api.diagnosisInfo(handler.appointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
-            @Override
-            protected void handleResponse(DiagnosisInfo response) {
-                int canEdit;
-                if (response != null) {
-                    canEdit = response.canEdit;
-                }else {
-                    canEdit = IntBoolean.TRUE;
-                }
-                handleMenu(menuId, canEdit);
-            }});
-    }
-
-    private void handleMenu(int menuId, int canEdit) {
-        switch (menuId) {
+        int tab = 0;
+        switch (item.getItemId()) {
             case R.id.action_view: {
-                Intent i = handler.getFirstMenu(ChattingActivity.this,canEdit);
-                if (i != null) {
-                    startActivity(i);
-                }
+                tab = 0;
                 break;
             }
             case R.id.action_edit: {
-                Intent i = handler.getMenu(ChattingActivity.this,canEdit);
-                if (i != null) {
-                    startActivity(i);
-                }
+                tab = 1;
                 break;
             }
             default: {
             }
         }
+
+        handler.viewDetail(this, tab);
+        return true;
     }
 
     private void setHaveRead(RealmResults<TextMsg> results) {

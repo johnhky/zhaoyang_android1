@@ -23,9 +23,11 @@ import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
@@ -39,6 +41,7 @@ import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
+import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.ChattingActivityNoMenu;
@@ -966,6 +969,41 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public boolean showCommentBtn() {
         return data.getOrderStatus().equals(Status.A_FINISHED);
     }
+
+    public boolean showAnswerQuestionBtn() {
+        return getCurrentStatus() == 1;
+    }
+
+    public void viewDetail(final Context context, final int tab) {
+        DiagnosisModule api = Api.of(DiagnosisModule.class);
+        api.diagnosisInfo(appointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
+            @Override
+            protected void handleResponse(DiagnosisInfo response) {
+                int canEdit;
+                if (response != null) {
+                    canEdit = response.canEdit;
+                } else {
+                    canEdit = IntBoolean.TRUE;
+                }
+                answerQuestion(context, tab, canEdit);
+            }
+        });
+    }
+
+    public void answerQuestion(Context context, int tab, int canEdit) {
+        if (tab == 0) {
+            Intent i = getFirstMenu(context, canEdit);
+            if (i != null) {
+                context.startActivity(i);
+            }
+        } else {
+            Intent i = getMenu(context, canEdit);
+            if (i != null) {
+                context.startActivity(i);
+            }
+        }
+    }
+
 
     public Appointment getData() {
         return data;
