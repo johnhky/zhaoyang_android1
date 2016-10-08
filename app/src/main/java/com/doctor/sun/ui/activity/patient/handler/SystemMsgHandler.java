@@ -44,7 +44,7 @@ public class SystemMsgHandler {
         return parse.getTime() < time;
     }
 
-    public int read(SimpleAdapter adapter) {
+    public int isViewVisible(SimpleAdapter adapter) {
         long lastVisitTime = adapter.getLong(AdapterConfigKey.LAST_VISIT_TIME);
 
         if (haveRead(lastVisitTime)) {

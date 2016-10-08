@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/dp_4"
                     android:src="@drawable/shape_red_oval_dp17"
-                    android:visibility="@{data.handler.read(adapter)}"/>
+                    android:visibility="@{data.handler.isViewVisible(adapter)}" />
 
                 <TextView
                     android:layout_width="wrap_content"

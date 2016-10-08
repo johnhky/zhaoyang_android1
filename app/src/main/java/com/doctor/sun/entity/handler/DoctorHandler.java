@@ -46,8 +46,11 @@ public class DoctorHandler {
         isSelected = selected;
     }
 
-    private boolean isSelected() {
-        return isSelected;
+    public boolean isSelected(SimpleAdapter adapter, BaseViewHolder vh) {
+        Doctor doctor = (Doctor) adapter.get(vh.getAdapterPosition());
+        return doctor.isUserSelected();
+
+//        return isSelected;
     }
 
     public void detail(View view) {
@@ -258,5 +261,20 @@ public class DoctorHandler {
         result.put("detail", data.getDetail() == null ? "" : data.getDetail());
         result.put("hospital", data.getHospitalName() == null ? "" : data.getHospitalName());
         return result;
+    }
+
+    public int isVisible(SimpleAdapter adapter) {
+        if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE)) {
+            return View.VISIBLE;
+        } else {
+            return View.GONE;
+        }
+    }
+
+    public void select(SimpleAdapter adapter, BaseViewHolder vh) {
+        int position = vh.getAdapterPosition();
+        Doctor doctor = (Doctor) adapter.get(position);
+        ((Doctor) adapter.get(position)).setUserSelected(!doctor.isUserSelected());
+        adapter.notifyDataSetChanged();
     }
 }
