@@ -24,6 +24,7 @@ import com.doctor.sun.event.EditEndEvent;
 import com.doctor.sun.event.ModifyStatusEvent;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.model.QuestionsModel;
+import com.doctor.sun.ui.activity.patient.PMainActivity2;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.Function0;
@@ -32,6 +33,7 @@ import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
+import io.ganguo.library.AppManager;
 import io.ganguo.library.core.event.EventHub;
 
 /**
@@ -210,8 +212,16 @@ public class AnswerQuestionFragment extends SortedListFragment {
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        getActivity().finish();
-                        dialog.dismiss();
+
+                        if (questionType.equals("")) {
+                            Intent intent = PMainActivity2.intentFor(getContext());
+                            startActivity(intent);
+                            AppManager.finishAllActivity();
+                        } else {
+                            getActivity().finish();
+                            dialog.dismiss();
+                        }
+
                     }
                 }).show();
     }

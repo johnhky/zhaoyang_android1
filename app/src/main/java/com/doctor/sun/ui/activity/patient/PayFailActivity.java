@@ -77,9 +77,6 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_main:
-//                Intent intent = PMainActivity2.intentFor(PayFailActivity.this);
-//                startActivity(intent);
-//                AppManager.finishAllActivity();
                 Intent intent = PAppointmentListActivity.makeIntent(PayFailActivity.this);
                 startActivity(intent);
                 finish();
