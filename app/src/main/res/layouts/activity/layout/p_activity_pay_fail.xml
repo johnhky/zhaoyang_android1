@@ -65,7 +65,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/ripple_default"
                 android:gravity="center"
-                android:text="返回首页"
+                android:text="返回订单列表"
                 android:textColor="#339de1"
                 android:textSize="@dimen/font_17" />
 

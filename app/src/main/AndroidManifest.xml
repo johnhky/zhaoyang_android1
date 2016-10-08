@@ -288,6 +288,7 @@
 
         <activity
             android:name="com.doctor.sun.ui.activity.patient.PAppointmentListActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity
