@@ -146,7 +146,7 @@ public class Options2 extends BaseItem {
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
-        if (selected) {
+        if (selected && isEnabled()) {
             if (getLayoutId() == R.layout.item_options_dialog) {
                 if (selectedIndex > 0) {
                     HashMap<String, Object> result = new HashMap<>();
@@ -221,27 +221,6 @@ public class Options2 extends BaseItem {
             }
         }
         return result;
-    }
-
-    @Deprecated
-    private void notifyEnableDisableChange(SortedListAdapter adapter) {
-        if (optionOrEnable != null) {
-            for (String s : optionOrEnable) {
-                notifyItemWithKey(s, adapter);
-            }
-        }
-        if (optionOrDisable != null) {
-            for (String s : optionOrDisable) {
-                notifyItemWithKey(s, adapter);
-            }
-        }
-    }
-
-    private void notifyItemWithKey(String key, SortedListAdapter adapter) {
-        BaseItem baseItem = (BaseItem) adapter.get(key);
-        if (baseItem != null) {
-            baseItem.notifyChange();
-        }
     }
 
     public String getOption(int index) {
