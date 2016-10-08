@@ -155,8 +155,8 @@ public class RegisterFragment extends SortedListFragment {
         final ItemTextInput2 passwordOne = ItemTextInput2.password("设置密码", "请输入6~10位数字和字母组合");
         passwordOne.setResultNotEmpty();
         passwordOne.add(new RegexValidator(Pattern.compile("(?=\\S+$).{6,10}$"), "请输入6~10位数字和字母组合"));
-        passwordOne.add(new RegexValidator(Pattern.compile("(.)*(\\d)(.)*"), "密码里面最少包含一个数字"));
-        passwordOne.add(new RegexValidator(Pattern.compile("(.)*[a-zA-Z](.)*"), "密码里面最少包含一个字母"));
+        passwordOne.add(new RegexValidator(Pattern.compile("(.)*(\\d)(.)*"), "密码里面应该最少包含一个数字"));
+        passwordOne.add(new RegexValidator(Pattern.compile("(.)*[a-zA-Z](.)*"), "密码里面应该最少包含一个字母"));
         passwordOne.setItemLayoutId(R.layout.item_text_input2);
         passwordOne.setItemId("password");
         sortedItems.add(passwordOne);

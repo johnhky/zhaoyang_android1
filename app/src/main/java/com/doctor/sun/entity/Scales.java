@@ -42,8 +42,11 @@ public class Scales extends BaseItem {
     public String scaleId;
     @JsonProperty("scale_name")
     public String scaleName;
+    @Deprecated
     @JsonProperty("question_count")
     public String questionCount;
+    @JsonProperty("refill_count")
+    public int refillCount;
 
 
     public void readScalesQuestion(SortedListAdapter adapter, String scalesId, boolean isTemplates) {
