@@ -68,11 +68,11 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
         SortedItem existing = mUniqueMapping.put(key, item);
         if (existing == null) {
             mList.add(item);
-            Log.e(TAG, "insert: newItem" + item);
+            //Log.e(TAG, "insert: newItem" + item);
         } else {
             int pos = mList.indexOf(existing);
             if (pos >= 0) {
-                Log.e(TAG, "insert: existingItem" + item);
+                //Log.e(TAG, "insert: existingItem" + item);
                 mList.updateItemAt(pos, item);
             }
         }
@@ -83,20 +83,20 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
         String key = item.getKey();
         SortedItem existing = mUniqueMapping.get(key);
         if (existing == null) {
-            Log.e(TAG, "update: notFound" + item);
+            //Log.e(TAG, "update: notFound" + item);
             return;
         }
         int pos = mList.indexOf(existing);
         mUniqueMapping.put(key, item);
         if (pos >= 0) {
-            Log.e(TAG, "update: existingItem" + item);
+            //Log.e(TAG, "update: existingItem" + item);
             mList.updateItemAt(pos, item);
         }
     }
 
     @Override
     public void insertAll(List<SortedItem> items) {
-        Log.d(TAG, "insertAll() called with: items = [" + items + "]");
+//        Log.d(TAG, "insertAll() called with: items = [" + items + "]");
         for (SortedItem item : items) {
             insert(item);
         }
@@ -129,7 +129,7 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
 
     @Override
     public void removeItem(SortedItem item) {
-        Log.d(TAG, "removeItem() called with: item = [" + item + "]");
+//        Log.d(TAG, "removeItem() called with: item = [" + item + "]");
         SortedItem model = mUniqueMapping.remove(item.getKey());
         if (model != null) {
             boolean remove = mList.remove(item);

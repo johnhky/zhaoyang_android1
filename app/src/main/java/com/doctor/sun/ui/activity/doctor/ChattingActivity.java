@@ -260,7 +260,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         api.diagnosisInfo(handler.appointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
             @Override
             protected void handleResponse(DiagnosisInfo response) {
-                int canEdit = IntBoolean.FALSE;
+                int canEdit;
                 if (response != null) {
                     canEdit = response.canEdit;
                 }else {
@@ -277,12 +277,14 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
                 if (i != null) {
                     startActivity(i);
                 }
+                break;
             }
             case R.id.action_edit: {
                 Intent i = handler.getMenu(ChattingActivity.this,canEdit);
                 if (i != null) {
                     startActivity(i);
                 }
+                break;
             }
             default: {
             }
