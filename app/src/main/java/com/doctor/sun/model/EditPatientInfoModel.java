@@ -1,5 +1,7 @@
 package com.doctor.sun.model;
 
+import android.view.View;
+
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Patient;
@@ -7,9 +9,12 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.ui.fragment.ChangeMyPhoneNumFragment;
+import com.doctor.sun.vo.ClickMenu;
 import com.doctor.sun.vo.ItemPickDate;
 import com.doctor.sun.vo.ItemPickImage;
 import com.doctor.sun.vo.ItemRadioGroup;
+import com.doctor.sun.vo.ItemTextInput;
 import com.doctor.sun.vo.ItemTextInput2;
 
 import java.util.ArrayList;
@@ -45,6 +50,29 @@ public class EditPatientInfoModel {
         name.setPosition(result.size());
         name.setEnabled(false);
         result.add(name);
+
+        ModelUtils.insertDividerMarginLR(result);
+
+        if (data.getPhone() == null || data.getPhone().equals("")) {
+            ItemTextInput2 phone = ItemTextInput2.mobilePhoneInput("手机号码", "请输入11位手机号码");
+            phone.setResultNotEmpty();
+            phone.setItemLayoutId(R.layout.item_text_input2);
+            phone.setItemId("phone");
+            phone.setPosition(result.size());
+            phone.setResult(data.getPhone());
+            result.add(phone);
+        } else {
+            ClickMenu changePhone = new ClickMenu(R.layout.item_change_phone_num, 0, "手机号码", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ChangeMyPhoneNumFragment.startFrom(v.getContext());
+                }
+            });
+            changePhone.setSubTitle("更换手机号码");
+            changePhone.setDetail(data.getPhone());
+            changePhone.setPosition(result.size());
+            result.add(changePhone);
+        }
 
         ModelUtils.insertDividerMarginLR(result);
 
