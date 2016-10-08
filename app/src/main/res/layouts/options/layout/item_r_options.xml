@@ -26,14 +26,14 @@
             android:layout_marginLeft="@dimen/dp_17"
             android:layout_marginStart="@dimen/dp_17"
             android:layout_marginTop="@dimen/dp_6"
-            android:button="@drawable/ic_tick_selected"
+            android:button="@drawable/ic_tick_read_only"
             android:checked="@{data.selected}"
             android:enabled="false"
             android:maxLines="1"
             android:paddingLeft="@dimen/dp_14"
             android:paddingStart="@dimen/dp_14"
             android:text="@{data.optionType+&quot;.&quot; +data.optionContent+data.contentHead}"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/primary_color_selector_read_only"
             android:textSize="@dimen/font_15" />
 
         <TextView
@@ -53,7 +53,7 @@
             android:paddingRight="@dimen/dp_8"
             android:paddingStart="@dimen/dp_8"
             android:paddingTop="@dimen/dp_4"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/primary_color_selector_read_only"
             android:selected="@{data.selected}"
             android:text="@={data.inputContent}"
             android:textColorHint="@color/primary_color_selector"
@@ -70,7 +70,7 @@
             android:enabled="false"
             android:selected="@{data.selected}"
             android:text='@{data.contentTail}'
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/primary_color_selector_read_only"
             android:textSize="@dimen/font_15" />
     </org.apmem.tools.layouts.FlowLayout>
 </layout>
