@@ -11,10 +11,12 @@ import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
 import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
+import com.doctor.sun.ui.activity.doctor.MeActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
+import com.doctor.sun.ui.activity.patient.PMeActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.activity.patient.handler.SystemMsgHandler;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
@@ -138,6 +140,14 @@ public class SystemMsg extends BaseItem {
                 }
                 break;
             }
+            case 9: {
+                if (isDoctor) {
+                    i = MeActivity.makeIntent(context);
+                } else {
+                    i = PMeActivity.makeIntent(context);
+                }
+                break;
+            }
             case 6:
             case 8:
             case 13:
@@ -176,6 +186,12 @@ public class SystemMsg extends BaseItem {
                     i = AfterServiceActivity.intentFor(context);
                 } else {
                     i = PAfterServiceActivity.intentFor(context);
+                }
+                break;
+            }
+            case 27: {
+                if (!isDoctor) {
+                    i = PAfterServiceActivity.intentFor(context, 1);
                 }
                 break;
             }

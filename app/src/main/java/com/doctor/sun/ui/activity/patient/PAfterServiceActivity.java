@@ -3,10 +3,9 @@ package com.doctor.sun.ui.activity.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.ui.activity.AfterServiceContactActivity;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
@@ -19,6 +18,13 @@ public class PAfterServiceActivity extends TabActivity {
 
     public static Intent intentFor(Context context) {
         Intent intent = new Intent(context, PAfterServiceActivity.class);
+        return intent;
+    }
+
+    public static Intent intentFor(Context context, int position) {
+        Intent intent = new Intent(context, PAfterServiceActivity.class);
+        intent.putExtra(Constants.POSITION, position);
+
         return intent;
     }
 
