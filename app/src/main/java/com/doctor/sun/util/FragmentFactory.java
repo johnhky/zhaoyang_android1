@@ -17,6 +17,7 @@ import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
 import com.doctor.sun.ui.fragment.QTemplatesFragment;
 import com.doctor.sun.ui.fragment.QuestionStatsFragment;
 import com.doctor.sun.ui.fragment.QuestionsInventoryFragment;
+import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
 import com.doctor.sun.ui.fragment.ReadQTemplateFragment;
 import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 import com.doctor.sun.ui.fragment.RegisterFragment;
@@ -176,6 +177,12 @@ public class FragmentFactory {
             @Override
             public Fragment execute() {
                 return new EditRecordFragment();
+            }
+        });
+        map.put(ReadDiagnosisFragment.TAG, new FactoryCommand() {
+            @Override
+            public Fragment execute() {
+                return new ReadDiagnosisFragment();
             }
         });
     }
