@@ -62,7 +62,7 @@ public class QuestionsInventoryFragment extends SortedListFragment {
     @Override
     public SortedListAdapter createAdapter() {
         SortedListAdapter adapter = super.createAdapter();
-        adapter.putInt(AdapterConfigKey.ID, Integer.parseInt(getAppointmentId()));
+        adapter.putString(AdapterConfigKey.ID, getAppointmentId());
         adapter.setLayoutIdInterceptor(new BaseListAdapter.LayoutIdInterceptor() {
             @Override
             public int intercept(int origin) {
@@ -138,7 +138,6 @@ public class QuestionsInventoryFragment extends SortedListFragment {
         }
         getAdapter().notifyDataSetChanged();
     }
-
 
 
     public void hideOptions() {
