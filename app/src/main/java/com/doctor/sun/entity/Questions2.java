@@ -211,11 +211,11 @@ public class Questions2 extends BaseItem {
         }
     }
 
-    public boolean hasRulesInfo() {
+    private boolean hasRulesInfo() {
         return orDisableRule != null || orEnableRule != null;
     }
 
-    public void addQuestionToAppointment(String appointmentId) {
+    private void addQuestionToAppointment(String appointmentId) {
         HashMap<String, String> fieldMap = new HashMap<>();
         if (getPosition() > ItemCustomQuestionLoader.FIRST_ITEM_POSITION_PADDING * QuestionsModel.PADDING) {
             fieldMap.put("add_template_question", getKey());

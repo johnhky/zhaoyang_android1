@@ -23,7 +23,7 @@ import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.DiagnosisInfo;
+import com.doctor.sun.entity.AppointmentStatus;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.constans.AppointmentType;
@@ -976,9 +976,9 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public void viewDetail(final Context context, final int tab) {
         DiagnosisModule api = Api.of(DiagnosisModule.class);
-        api.diagnosisInfo(appointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
+        api.appointmentStatus(appointmentId()).enqueue(new SimpleCallback<AppointmentStatus>() {
             @Override
-            protected void handleResponse(DiagnosisInfo response) {
+            protected void handleResponse(AppointmentStatus response) {
                 int canEdit;
                 if (response != null) {
                     canEdit = response.canEdit;

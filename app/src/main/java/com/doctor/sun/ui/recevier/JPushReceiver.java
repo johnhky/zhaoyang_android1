@@ -57,7 +57,10 @@ public class JPushReceiver extends BroadcastReceiver {
             onConnectionChanged(intent);
         } else if (ACTION_APPOINTMENT_DETAIL.equals(intent.getAction())) {
             viewAppointmentDetail(context, intent);
-            cancelNotification(context, intent);
+        } else if (ACTION_FOLLOW_UP_DETAIL.equals(intent.getAction())) {
+            viewAppointmentDetail(context, intent);
+        } else if (ACTION_ACCEPT_RELATION.equals(intent.getAction())) {
+
         }
     }
 
