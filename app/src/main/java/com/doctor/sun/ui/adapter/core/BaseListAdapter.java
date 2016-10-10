@@ -5,9 +5,11 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -44,16 +46,14 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
 
     @Override
     final public BaseViewHolder<B> onCreateViewHolder(ViewGroup parent, int viewType) {
-        B binding = DataBindingUtil.inflate(getInflater(), viewType, parent, false);
-        return new BaseViewHolder<>(binding);
-//        try {
-//            B binding = DataBindingUtil.inflate(getInflater(), viewType, parent, false);
-//            return new BaseViewHolder<>(binding);
-//        } catch (InflateException e) {
-//            Log.e(TAG, "viewType" + viewType);
-//            B inflate = DataBindingUtil.inflate(getInflater(), R.layout.item_empty, parent, false);
-//            return new BaseViewHolder<>(inflate);
-//        }
+          try {
+            B binding = DataBindingUtil.inflate(getInflater(), viewType, parent, false);
+            return new BaseViewHolder<>(binding);
+        } catch (InflateException e) {
+            Log.e(TAG, "onCreateViewHolder: " + viewType);
+            B inflate = DataBindingUtil.inflate(getInflater(), com.doctor.sun.R.layout.item_error, parent, false);
+            return new BaseViewHolder<>(inflate);
+        }
     }
 
     @Override

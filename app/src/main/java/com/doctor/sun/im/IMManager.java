@@ -55,11 +55,6 @@ public class IMManager {
     }
 
     public void login(final ImAccount account) {
-//        try {
-//            loginRIM(account);
-//        } catch (Exception e) {
-//            logoutRIM();
-//        }
         try {
             loginNIM(account);
         } catch (Exception e) {
@@ -80,89 +75,12 @@ public class IMManager {
                 .setCallback(instance);
     }
 
-//    //登录容联im
-//    private void loginRIM(ImAccount account) {
-//        if (isRIMLogin()) {
-//            return;
-//        }
-//
-//
-//        this.account = account;
-//        if (params == null) {
-//            params = ECInitParams.createParams();
-//        }
-//
-//        params.reset();
-//        //voip账号+voip密码方式:
-//        params.setAppKey(BuildConfig.IM_KEY);
-//        params.setToken(BuildConfig.IM_TOKEN);
-//        params.setUserid(account.getVoipAccount());
-//        // 设置登陆验证模式（是否验证密码）PASSWORD_AUTH-密码登录方式
-//        // 1代表用户名+密码登陆（可以强制上线，踢掉已经在线的设备）
-//        // 2代表自动重连注册（如果账号已经在其他设备登录则会提示异地登陆）
-//        // 3 LoginMode（强制上线:FORCE_LOGIN  默认登录:AUTO）
-//        if (!account.getVoipPwd().equals("")) {
-//            params.setPwd(account.getVoipPwd());
-//        }
-//        params.setMode(ECInitParams.LoginMode.AUTO);
-//        ECInitParams.LoginAuthType authType = ConnectionState.getInstance().getAuthType();
-//        if (authType == ECInitParams.LoginAuthType.NORMAL_AUTH) {
-//            params.setPwd("");
-//        } else {
-//            params.setMode(ECInitParams.LoginMode.FORCE_LOGIN);
-//        }
-//        params.setAuthType(authType);
-//
-//        ECVoIPCallManager callInterface = ECDevice.getECVoIPCallManager();
-//
-//        if (callInterface != null) {
-//            callInterface.setOnVoIPCallListener(new VoIPCallback());
-//        }
-//
-//
-////        第三步:验证参数是否正确，注册SDK
-//        if (params.validate()) {
-//            // 判断注册参数是否正确
-//            if (!isRIMLogin()) {
-//                ECDevice.login(params);
-//            }
-//        }
-//    }
-//
-//    public static void setUpRVoipCallback() {
-//        Intent intent = new Intent(AppContext.me(), VoIPCallActivity.class);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(AppContext.me(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        ECDevice.setPendingIntent(pendingIntent);
-//
-//        ECDevice.setOnDeviceConnectListener(ConnectionState.getInstance());
-//        ECDevice.setOnChatReceiveListener(OnMessageReceiveListener.getInstance());
-//        ECVoIPSetupManager setupManager = ECDevice.getECVoIPSetupManager();
-//        if (setupManager != null) {
-//            // 目前支持下面三种路径查找方式
-//            // 1、如果是assets目录则设置为前缀[assets://]
-//            setupManager.setInComingRingUrl(true, "assets://phonering.mp3");
-//            setupManager.setOutGoingRingUrl(true, "assets://phonering.mp3");
-//            setupManager.setBusyRingTone(true, "assets://played.mp3");
-//            // 2、如果是raw目录则设置为前缀[raw://]
-//            // 3、如果是SDCard目录则设置为前缀[file://]
-//        }
-//    }
 
     public void logout() {
 //        logoutRIM();
         logoutNIM();
     }
 
-//    private void logoutRIM() {
-//        if (isRIMLogin()) {
-//            ECDevice.logout(new ECDevice.OnLogoutListener() {
-//                @Override
-//                public void onLogout() {
-//                    ConnectionState.getInstance().setState(ECDevice.ECConnectState.CONNECT_FAILED);
-//                }
-//            });
-//        }
-//    }
 
     public void logoutNIM() {
         if (isNIMLogin()) {
@@ -266,32 +184,6 @@ public class IMManager {
         });
         return voidInvocationFuture;
     }
-//
-//    public boolean isRIMLogin() {
-//        return ConnectionState.getInstance().getState() == ECDevice.ECConnectState.CONNECT_SUCCESS;
-//    }
-//
-//    public boolean makePhoneCall(String to) {
-//        ECVoIPCallManager ecVoIPCallManager = ECDevice.getECVoIPCallManager();
-//        try {
-//            if (ecVoIPCallManager != null) {
-//                String mCurrentCallId = ecVoIPCallManager.makeCall(
-//                        ECVoIPCallManager.CallType.VOICE, to);
-//
-//                if (null == mCurrentCallId) {
-//                    return false;
-//                } else {
-//                    return true;
-//                }
-//            } else {
-//                return false;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            Log.e(TAG, "makePhoneCall: " + to);
-//            return false;
-//        }
-//    }
 
     public boolean isNIMLogin() {
         return NIMConnectionState.getInstance().isLogin();

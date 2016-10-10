@@ -4,15 +4,17 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
-import android.util.SparseLongArray;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.doctor.sun.BR;
+import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
  * Created by rick on 10/20/15.
  */
 public abstract class BaseAdapter<T, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements List<T>, AdapterOps<T> {
+    public static final String TAG = BaseAdapter.class.getSimpleName();
 
     private Context mContext;
     private LayoutInflater mInflater;
@@ -37,9 +40,15 @@ public abstract class BaseAdapter<T, B extends ViewDataBinding> extends Recycler
 
     @Override
     public BaseViewHolder<B> onCreateViewHolder(ViewGroup parent, int viewType) {
-        B binding = DataBindingUtil.inflate(getInflater(), viewType, parent, false);
-        BaseViewHolder<B> vh = new BaseViewHolder<>(binding);
-        return vh;
+        try {
+            B binding = DataBindingUtil.inflate(getInflater(), viewType, parent, false);
+            return new BaseViewHolder<>(binding);
+        } catch (InflateException e) {
+            Log.e(TAG, "onCreateViewHolder: " + Integer.toHexString(viewType));
+            e.printStackTrace();
+            B inflate = DataBindingUtil.inflate(getInflater(), R.layout.item_error, parent, false);
+            return new BaseViewHolder<>(inflate);
+        }
     }
 
     public abstract void onBindViewBinding(BaseViewHolder<B> vh, int position);

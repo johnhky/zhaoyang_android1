@@ -68,7 +68,7 @@ public class SystemMsg extends BaseItem {
     @JsonProperty("patient_name")
     private Object patientName;
     @JsonProperty("extras")
-    private Extras extras;
+    private JPushExtra extras;
 
     @Override
     public int getItemLayoutId() {
@@ -136,11 +136,11 @@ public class SystemMsg extends BaseItem {
         return patientName;
     }
 
-    public Extras getExtras() {
+    public JPushExtra getExtras() {
         return extras;
     }
 
-    public void setExtras(Extras extras) {
+    public void setExtras(JPushExtra extras) {
         this.extras = extras;
     }
 
@@ -179,7 +179,7 @@ public class SystemMsg extends BaseItem {
             }
             case 10: {
                 if (!isDoctor) {
-                    i = SingleFragmentActivity.intentFor(context, "", ReadDiagnosisFragment.getArgs(Integer.parseInt(getExtras().getAppointmentId())));
+                    i = SingleFragmentActivity.intentFor(context, "", ReadDiagnosisFragment.getArgs(Integer.parseInt(getExtras().appointmentId)));
                 }
                 break;
             }
@@ -232,7 +232,7 @@ public class SystemMsg extends BaseItem {
             }
             case 28: {
                 if (!isDoctor) {
-                    i = AfterServiceDoneActivity.intentFor(context, getExtras().getAppointmentId(), 1);
+                    i = AfterServiceDoneActivity.intentFor(context, getExtras().appointmentId, 1);
                 }
                 break;
             }

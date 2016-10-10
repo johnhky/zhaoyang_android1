@@ -141,7 +141,13 @@ public class ConsultingFragment2 extends SortedListFragment {
             @Override
             protected void handleResponse(final PageDTO<Appointment> response) {
                 for (Appointment appointment : response.getData()) {
-                    ItemConsulting itemConsulting = new ItemConsulting(recentContact.getTime(), appointment);
+                    long time;
+                    if (recentContact == null) {
+                        time = System.currentTimeMillis();
+                    } else {
+                        time = recentContact.getTime();
+                    }
+                    ItemConsulting itemConsulting = new ItemConsulting(time, appointment);
                     getAdapter().insert(itemConsulting);
                 }
             }
