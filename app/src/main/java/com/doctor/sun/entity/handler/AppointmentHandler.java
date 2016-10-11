@@ -513,13 +513,10 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 case Status.A_WAITING:
                 case Status.A_DOING: {
                     String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
-                    Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
-                    context.startActivity(intent);
-                    break;
+                    return AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
                 }
                 default: {
-                    Intent intent = AfterServiceDoneActivity.intentFor(context, id, 0);
-                    context.startActivity(intent);
+                    return AfterServiceDoneActivity.intentFor(context, id, 0);
                 }
             }
 
@@ -528,7 +525,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             data.canEdit = canEdit;
             return AppointmentDetailActivity.makeIntent(context, data, AppointmentDetailActivity.POSITION_ANSWER);
         }
-        return null;
     }
 
     public Intent getMenu(Context context, int canEdit) {
@@ -538,13 +534,10 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 case Status.A_WAITING:
                 case Status.A_DOING: {
                     String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
-                    Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, 1);
-                    context.startActivity(intent);
-                    break;
+                    return AfterServiceDoingActivity.intentFor(context, id, recordId, 1);
                 }
                 default: {
-                    Intent intent = AfterServiceDoneActivity.intentFor(context, id, 1);
-                    context.startActivity(intent);
+                    return AfterServiceDoneActivity.intentFor(context, id, 1);
                 }
             }
         } else {
@@ -552,7 +545,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             data.canEdit = canEdit;
             return AppointmentDetailActivity.makeIntent(context, data, AppointmentDetailActivity.POSITION_SUGGESTION);
         }
-        return null;
     }
 
     public int getDiscountMoney() {
@@ -983,7 +975,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 if (response != null) {
                     canEdit = response.canEdit;
                 } else {
-                    canEdit = IntBoolean.TRUE;
+                    canEdit = IntBoolean.NOT_GIVEN;
                 }
                 answerQuestion(context, tab, canEdit);
             }

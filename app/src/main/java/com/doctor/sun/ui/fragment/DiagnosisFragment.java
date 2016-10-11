@@ -33,6 +33,7 @@ import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -366,8 +367,8 @@ public class DiagnosisFragment extends BaseFragment {
     }
 
     public void save() {
-        TwoChoiceDialog.show(getContext(), "是否结束本次就诊",
-                "暂存", "保存并结束", new TwoChoiceDialog.Options() {
+        TwoChoiceDialog.show(getContext(), "请慎重填写用药处方，避免患者用药有误。保存后本次就诊结束，当天内可修改病历记录，超时将永久保存。",
+                "存为草稿", "保存并结束", new TwoChoiceDialog.Options() {
                     @Override
                     public void onApplyClick(final MaterialDialog dialog) {
                         final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
@@ -413,8 +414,13 @@ public class DiagnosisFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_save, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+        if (appointment.canEdit == IntBoolean.NOT_GIVEN) {
+            inflater.inflate(R.menu.menu_save, menu);
+            super.onCreateOptionsMenu(menu, inflater);
+        } else {
+            inflater.inflate(R.menu.menu_modify, menu);
+            super.onCreateOptionsMenu(menu, inflater);
+        }
     }
 
     @Override

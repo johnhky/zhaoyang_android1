@@ -35,6 +35,7 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
+        //患者端
         if (!Settings.isDoctor()) {
             switch (position) {
                 case 0: {
@@ -62,7 +63,7 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
                 }
                 case 1: {
 //                appointment.setId(325);
-                    if (appointment.canEdit == IntBoolean.TRUE) {
+                    if (appointment.canEdit != IntBoolean.FALSE) {
                         return DiagnosisFragment.newInstance(appointment);
                     } else {
                         return ReadDiagnosisFragment.newInstance(appointment.getId());

@@ -85,9 +85,9 @@ public class MainActivity extends BaseDoctorActivity {
         if (doctor == null) {
             return;
         }
-        boolean notReject = !Doctor.STATUS_REJECT.equals(doctor.getStatus());
+        boolean rejected = Doctor.STATUS_REJECT.equals(doctor.getStatus());
         boolean notChanged = Settings.lastDoctorStatus().equals(doctor.getStatus());
-        if (notChanged && notReject) {
+        if (notChanged && !rejected) {
             return;
         }
         switch (doctor.getStatus()) {
