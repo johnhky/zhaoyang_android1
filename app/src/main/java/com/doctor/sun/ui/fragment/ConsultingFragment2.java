@@ -47,7 +47,7 @@ public class ConsultingFragment2 extends SortedListFragment {
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private ArrayList<String> keys = new ArrayList<>();
     private int page = 1;
-    private HashMap<String, RecentContact> tids;
+    private HashMap<String, RecentContact> tids = new HashMap<>();
     private SystemMsg systemMsg;
     private MedicineStore medicineStore;
 

@@ -318,7 +318,7 @@ public class SystemMsg extends BaseItem {
 
     @NonNull
     public static RealmQuery<TextMsg> getAllMsg(Realm realm) {
-        return realm.where(TextMsg.class).beginGroup().equalTo("sessionId", getConfigKey()).or().equalTo("sessionId", "SYSTEM_MSG").endGroup();
+        return realm.where(TextMsg.class).beginGroup().equalTo("sessionId", getConfigKey()).or().beginsWith("sessionId", "SYSTEM_MSG").endGroup();
     }
 
 

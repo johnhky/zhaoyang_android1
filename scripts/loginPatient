@@ -1,0 +1,3 @@
+#!/bin/bash
+
+adb -s $1 shell am instrument -w -r   -e debug false -e class com.doctor.sun.ui.activity.TestLogin#test40loginPatient com.doctor.sun.dev.test/android.support.test.runner.AndroidJUnitRunner
