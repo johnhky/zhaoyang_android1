@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +16,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.IsChanged;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.model.EditDoctorInfoModel;
@@ -30,6 +30,8 @@ import com.doctor.sun.vo.ItemPickImage;
 
 import java.util.HashMap;
 import java.util.List;
+
+import io.ganguo.library.Config;
 
 /**
  * Created by rick on 28/7/2016.
@@ -90,11 +92,22 @@ public class EditDoctorInfoFragment extends SortedListFragment {
                 if (response.isChanged) {
                     TokenCallback.checkToken(getActivity());
                     Toast.makeText(getContext(), "保存成功,请耐心等待资料审核", Toast.LENGTH_SHORT).show();
+
+                    ProfileModule api = Api.of(ProfileModule.class);
+                    api.doctorProfile().enqueue(new ApiCallback<Doctor>() {
+                        @Override
+                        protected void handleResponse(Doctor response) {
+                            Doctor data = response;
+                            Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(data));
+                            Intent intent = MainActivity.makeIntent(getContext());
+                            getContext().startActivity(intent);
+                        }
+                    });
                 } else {
                     Toast.makeText(getContext(), "本次未修改资料", Toast.LENGTH_SHORT).show();
+                    Intent intent = MainActivity.makeIntent(getContext());
+                    getContext().startActivity(intent);
                 }
-                Intent intent = MainActivity.makeIntent(getContext());
-                getContext().startActivity(intent);
             }
         });
     }

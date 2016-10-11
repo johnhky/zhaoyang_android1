@@ -36,7 +36,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.patientName}"
+                android:text="@{data.patientName,default = 患者名}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
@@ -46,7 +46,7 @@
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_marginStart="@dimen/dp_8"
                 android:layout_weight="1"
-                android:text="@{data.relation}"
+                android:text="@{data.relation, default = 关系}"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13" />
 
@@ -67,7 +67,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_time(data.handler.bookTime)}"
+            android:text="@{@string/appointment_time(data.handler.bookTime),default = 预约时间}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 
@@ -77,7 +77,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_type(data.displayType)}"
+            android:text="@{@string/appointment_type(data.displayType),default = 专属咨询}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 
@@ -87,7 +87,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_progress(data.progress)}"
+            android:text="@{@string/appointment_progress(data.progress),default = 问卷完成度 }"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 
@@ -192,26 +192,26 @@
         </LinearLayout>
 
         <!--<FrameLayout-->
-            <!--android:layout_width="@dimen/dp_90"-->
-            <!--android:layout_height="@dimen/dp_35"-->
-            <!--android:layout_gravity="end"-->
-            <!--android:layout_marginBottom="@dimen/dp_8"-->
-            <!--android:layout_marginEnd="@dimen/dp_13"-->
-            <!--android:layout_marginRight="@dimen/dp_13"-->
-            <!--android:layout_marginTop="@dimen/dp_7"-->
-            <!--android:background="@drawable/btn_comment"-->
-            <!--android:visibility="@{data.handler.showCommentBtn}"-->
-            <!--app:selected="@{data.handler.hasPatientComment}">-->
+        <!--android:layout_width="@dimen/dp_90"-->
+        <!--android:layout_height="@dimen/dp_35"-->
+        <!--android:layout_gravity="end"-->
+        <!--android:layout_marginBottom="@dimen/dp_8"-->
+        <!--android:layout_marginEnd="@dimen/dp_13"-->
+        <!--android:layout_marginRight="@dimen/dp_13"-->
+        <!--android:layout_marginTop="@dimen/dp_7"-->
+        <!--android:background="@drawable/btn_comment"-->
+        <!--android:visibility="@{data.handler.showCommentBtn}"-->
+        <!--app:selected="@{data.handler.hasPatientComment}">-->
 
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:background="@drawable/ripple_default"-->
-                <!--android:gravity="center"-->
-                <!--android:onClick="@{()->data.handler.comment(adapter,vh)}"-->
-                <!--android:text='@{data.handler.hasPatientComment?"已评价":"评  价"}'-->
-                <!--android:textColor="#fff"-->
-                <!--android:textSize="@dimen/font_13" />-->
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@drawable/ripple_default"-->
+        <!--android:gravity="center"-->
+        <!--android:onClick="@{()->data.handler.comment(adapter,vh)}"-->
+        <!--android:text='@{data.handler.hasPatientComment?"已评价":"评  价"}'-->
+        <!--android:textColor="#fff"-->
+        <!--android:textSize="@dimen/font_13" />-->
 
         <!--</FrameLayout>-->
 
