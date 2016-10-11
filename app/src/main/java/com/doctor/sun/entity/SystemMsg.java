@@ -11,12 +11,14 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
+import com.doctor.sun.ui.activity.doctor.PatientDetailActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
@@ -147,7 +149,8 @@ public class SystemMsg extends BaseItem {
     public void itemClick(final Context context) {
         Intent i = null;
         boolean isDoctor = Settings.isDoctor();
-        ProfileModule api = Api.of(ProfileModule.class);
+        ProfileModule apiProfile = Api.of(ProfileModule.class);
+        AppointmentModule apiAppointment = Api.of(AppointmentModule.class);
         switch (type) {
             case 1: {
                 if (isDoctor) {
@@ -159,7 +162,7 @@ public class SystemMsg extends BaseItem {
             }
             case 9: {
                 if (isDoctor) {
-                    api.doctorProfile().enqueue(new SimpleCallback<Doctor>() {
+                    apiProfile.doctorProfile().enqueue(new SimpleCallback<Doctor>() {
                         @Override
                         protected void handleResponse(Doctor response) {
                             Intent intent = SingleFragmentActivity.intentFor(context, "我", EditDoctorInfoFragment.getArgs(response));
@@ -167,7 +170,7 @@ public class SystemMsg extends BaseItem {
                         }
                     });
                 } else {
-                    api.patientProfile().enqueue(new SimpleCallback<PatientDTO>() {
+                    apiProfile.patientProfile().enqueue(new SimpleCallback<PatientDTO>() {
                         @Override
                         protected void handleResponse(PatientDTO response) {
                             Intent intent = SingleFragmentActivity.intentFor(context, "我", EditPatientInfoFragment.getArgs(response.getInfo()));
@@ -191,7 +194,6 @@ public class SystemMsg extends BaseItem {
             case 16:
             case 17:
             case 19:
-            case 23:
             case 20: {
                 if (isDoctor) {
                     i = AppointmentListActivity.makeIntent(context);
@@ -213,6 +215,18 @@ public class SystemMsg extends BaseItem {
             case 22: {
                 if (!isDoctor) {
                     i = SearchDoctorActivity.makeIntent(context, AppointmentType.PREMIUM);
+                }
+                break;
+            }
+            case 23: {
+                if (isDoctor) {
+                    apiAppointment.appointmentDetail(getExtras().appointmentId).enqueue(new SimpleCallback<Appointment>() {
+                        @Override
+                        protected void handleResponse(Appointment response) {
+                            Intent intent = PatientDetailActivity.makeIntent(context, response, 0);
+                            context.startActivity(intent);
+                        }
+                    });
                 }
                 break;
             }
