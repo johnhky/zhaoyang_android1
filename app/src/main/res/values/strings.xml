@@ -112,4 +112,5 @@
 
     <string name="medicine">药品品类：</string>
     <string name="medicine_price">药品总价：</string>
+    <string name="save_answer_dialog">请慎重填写用药处方，避免患者用药有误。保存后本次就诊结束，当天内可修改病历记录，超时将永久保存。</string>
 </resources>

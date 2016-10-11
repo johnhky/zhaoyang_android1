@@ -151,8 +151,8 @@ public class AnswerQuestionFragment extends SortedListFragment {
     }
 
     public void showEndAppointmentDialog() {
-        TwoChoiceDialog.show(getActivity(), "是否结束本次随访",
-                "暂存", "保存并结束", new TwoChoiceDialog.Options() {
+        TwoChoiceDialog.show(getActivity(), getString(R.string.save_answer_dialog),
+                "存为草稿", "保存并结束", new TwoChoiceDialog.Options() {
                     @Override
                     public void onApplyClick(final MaterialDialog dialog) {
                         save(IntBoolean.TRUE);

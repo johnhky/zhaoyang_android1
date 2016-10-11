@@ -367,7 +367,7 @@ public class DiagnosisFragment extends BaseFragment {
     }
 
     public void save() {
-        TwoChoiceDialog.show(getContext(), "请慎重填写用药处方，避免患者用药有误。保存后本次就诊结束，当天内可修改病历记录，超时将永久保存。",
+        TwoChoiceDialog.show(getContext(), getString(R.string.save_answer_dialog),
                 "存为草稿", "保存并结束", new TwoChoiceDialog.Options() {
                     @Override
                     public void onApplyClick(final MaterialDialog dialog) {
