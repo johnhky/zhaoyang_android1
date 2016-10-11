@@ -81,14 +81,16 @@ public class MainActivity extends BaseDoctorActivity {
     public void showStatusDialog() {
 //        boolean isFirstTime = Config.getInt(Constants.PASSFIRSTTIME, -1) == IS_FIRST_TIME;
 //        if (isFirstTime) {
-        final Doctor doctorProfile = Settings.getDoctorProfile();
-        if (doctorProfile == null) {
+        final Doctor doctor = Settings.getDoctorProfile();
+        if (doctor == null) {
             return;
         }
-        if (Settings.lastDoctorStatus().equals(doctorProfile.getStatus())) {
+        boolean notReject = !Doctor.STATUS_REJECT.equals(doctor.getStatus());
+        boolean notChanged = Settings.lastDoctorStatus().equals(doctor.getStatus());
+        if (notChanged && notReject) {
             return;
         }
-        switch (doctorProfile.getStatus()) {
+        switch (doctor.getStatus()) {
             case Doctor.STATUS_REJECT: {
                 ClickMenu menu = new ClickMenu(R.layout.dialog_pass, 0, "审核未能通过", null);
                 menu.setSubTitle("您可以修改信息并再次发起审核请求");
@@ -99,7 +101,7 @@ public class MainActivity extends BaseDoctorActivity {
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                Intent i = EditDoctorInfoFragment.intentFor(MainActivity.this, doctorProfile);
+                                Intent i = EditDoctorInfoFragment.intentFor(MainActivity.this, doctor);
                                 startActivity(i);
                                 dialog.dismiss();
                             }
@@ -121,7 +123,7 @@ public class MainActivity extends BaseDoctorActivity {
                 break;
             }
         }
-        Settings.setLastDoctorStatus(doctorProfile.getStatus());
+        Settings.setLastDoctorStatus(doctor.getStatus());
     }
 
     private FooterViewModel getFooter() {
