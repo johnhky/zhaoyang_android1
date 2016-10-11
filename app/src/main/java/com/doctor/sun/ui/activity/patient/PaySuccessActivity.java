@@ -3,10 +3,9 @@ package com.doctor.sun.ui.activity.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -14,7 +13,6 @@ import com.doctor.sun.databinding.PActivityPaySuccessBinding;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.activity.SingleFragmentActivity;
 
 import io.ganguo.library.AppManager;
 
@@ -106,10 +104,14 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                 //TODO
                 int id = getId();
                 if (id != -1) {
-                    finish();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        finishAffinity();
+                    }
                     if (getType() == APPOINTMENT) {
-                        Intent intent = EditQuestionActivity.intentFor(this, String.valueOf(id), QuestionsPath.NORMAL);
-                        startActivity(intent);
+                        Intent intent1 = PMainActivity2.intentFor(this);
+                        startActivity(intent1);
+                        Intent intent2 = EditQuestionActivity.intentFor(this, String.valueOf(id), QuestionsPath.NORMAL);
+                        startActivity(intent2);
                     }
                 }
 
