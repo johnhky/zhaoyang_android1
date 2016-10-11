@@ -15,15 +15,16 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.activity.BaseFragmentActivity2;;
-
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.pager.DoctorDetailPagerAdapter;
+
+;
 
 /**
  * 医生详情
  * Created by rick on 20/1/2016.
  */
-public class DoctorDetailActivity extends BaseFragmentActivity2{
+public class DoctorDetailActivity extends BaseFragmentActivity2 {
     public static final String TAG = DoctorDetailActivity.class.getSimpleName();
 
     private ToolModule api = Api.of(ToolModule.class);

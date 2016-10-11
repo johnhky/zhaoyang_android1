@@ -3,7 +3,6 @@ package com.doctor.sun.ui.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;

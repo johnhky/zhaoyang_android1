@@ -12,11 +12,9 @@ import android.support.v4.app.NotificationManagerCompat;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
-import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
-import com.doctor.sun.ui.recevier.JPushReceiver;
 
 import java.io.File;
 

@@ -9,7 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -18,10 +18,8 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.MsgsAdapter;
-
 import com.doctor.sun.ui.widget.DividerItemDecoration;
 
-import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
 import io.realm.Realm;
@@ -86,7 +84,7 @@ public class ChattingRecordActivity extends BaseFragmentActivity2 {
                         mAdapter.addAll(results);
                         mAdapter.notifyDataSetChanged();
                     } else {
-                        ToastHelper.showMessage(ChattingRecordActivity.this, "没有找到信息");
+                        Toast.makeText(ChattingRecordActivity.this, "没有找到信息", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     (binding.getRoot().findViewById(R.id.iv_clear)).setVisibility(View.GONE);

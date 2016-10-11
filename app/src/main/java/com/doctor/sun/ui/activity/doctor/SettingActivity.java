@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
@@ -15,8 +16,7 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.handler.SettingHandler;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
-import io.ganguo.library.Config;
-import io.ganguo.library.common.ToastHelper;
+import static io.ganguo.library.Config.clearData;
 
 /**
  * Created by lucas on 12/21/15.
@@ -48,8 +48,8 @@ public class SettingActivity extends BaseFragmentActivity2 implements SettingHan
                 TwoChoiceDialog.show(SettingActivity.this, "清理缓存", "取消", "清除", new TwoChoiceDialog.Options() {
                     @Override
                     public void onApplyClick(MaterialDialog dialog) {
-                        Config.clearData();
-                        ToastHelper.showMessage(SettingActivity.this, "清理成功");
+                        clearData();
+                        Toast.makeText(SettingActivity.this, "清理成功", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     }
 

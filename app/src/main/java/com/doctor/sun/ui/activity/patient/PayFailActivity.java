@@ -19,8 +19,6 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 import java.util.HashMap;
 
-import io.ganguo.library.AppManager;
-
 /**
  * Created by lucas on 1/23/16.
  */
@@ -48,7 +46,8 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
         i.putExtra(Constants.EXTRA_FIELD, goods);
         return i;
     }
-//
+
+    //
     private Appointment getAppointment() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }

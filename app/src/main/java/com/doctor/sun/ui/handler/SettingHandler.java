@@ -20,9 +20,9 @@ import com.doctor.sun.im.IMManager;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.LoginActivity;
 import com.doctor.sun.ui.activity.doctor.AdviceActivity;
+import com.doctor.sun.ui.activity.doctor.ChangePswActivity;
 import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.activity.doctor.MeActivity;
-import com.doctor.sun.ui.activity.doctor.ChangePswActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.activity.patient.PMainActivity2;
 import com.doctor.sun.ui.activity.patient.PMeActivity;
@@ -51,7 +51,6 @@ import io.realm.Realm;
  */
 public class SettingHandler {
     public static final String imagePath = Config.getImagePath() + "/ic_share.png";
-
 
 
     public void allowToSearch(Context context) {

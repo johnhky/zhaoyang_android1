@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityTimeBinding;
@@ -22,7 +23,7 @@ import com.doctor.sun.util.Function0;
 
 import java.util.List;
 
-import io.ganguo.library.common.ToastHelper;
+import static android.view.View.VISIBLE;
 
 /**
  * 出诊时间
@@ -96,8 +97,8 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
 
     public void onMenuClicked() {
         if (adapter.getItemCount() == 0) {
-            ToastHelper.showMessage(this, "目前没有出诊时间安排");
-            binding.llAdd.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "目前没有出诊时间安排", Toast.LENGTH_SHORT).show();
+            binding.llAdd.setVisibility(VISIBLE);
         } else {
             adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, !adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE));
             if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE)) {

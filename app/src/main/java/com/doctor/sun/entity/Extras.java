@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by kb on 16-10-9.
  */
 
-public class Extras extends BaseItem{
+public class Extras extends BaseItem {
 
     @JsonProperty("appointment_id")
     private String appointmentId;

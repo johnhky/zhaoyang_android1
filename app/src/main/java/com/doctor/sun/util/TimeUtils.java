@@ -1,7 +1,5 @@
 package com.doctor.sun.util;
 
-import android.content.Context;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -16,7 +14,7 @@ public class TimeUtils {
         String result = "";
         long minute = timeMillis / 60000 % 60;
         long hour = timeMillis / 3600000;
-        if (hour> 1) {
+        if (hour > 1) {
             result += hour + "小时";
         }
         result += minute + "分钟";

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.util.SortedListAdapterCallback;
-import android.util.Log;
 
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 

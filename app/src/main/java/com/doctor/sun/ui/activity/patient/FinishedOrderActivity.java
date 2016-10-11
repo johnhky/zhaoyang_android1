@@ -46,6 +46,7 @@ public class FinishedOrderActivity extends TabActivity {
     protected PagerAdapter createPagerAdapter() {
         return new HistoryDetailAdapter(getSupportFragmentManager(), getData());
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

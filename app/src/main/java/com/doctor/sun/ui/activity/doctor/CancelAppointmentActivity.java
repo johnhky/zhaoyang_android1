@@ -10,6 +10,7 @@ import android.os.RemoteException;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -19,12 +20,9 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-
 import com.doctor.sun.ui.widget.SingleChoiceDialog;
 
 import java.util.ArrayList;
-
-import io.ganguo.library.common.ToastHelper;
 
 
 /**
@@ -72,13 +70,13 @@ public class CancelAppointmentActivity extends BaseFragmentActivity2 {
         });
     }
 
-//    @Override
+    //    @Override
     public void onMenuClicked() {
 //        super.onMenuClicked();
         api.dCancel(String.valueOf(data.getId()), binding.reason.etInput.getText().toString()).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
-                ToastHelper.showMessage(CancelAppointmentActivity.this, "成功取消预约");
+                Toast.makeText(CancelAppointmentActivity.this, "成功取消预约", Toast.LENGTH_SHORT).show();
                 finish();
                 try {
                     getHandler().send(new Message());

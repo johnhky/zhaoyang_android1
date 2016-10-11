@@ -20,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
@@ -49,7 +50,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.Tasks;
 import retrofit2.Call;
 
@@ -388,7 +388,7 @@ public class DiagnosisFragment extends BaseFragment {
         api.setDiagnosis(query).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
-                ToastHelper.showMessage(getActivity(), "保存成功");
+                Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 getActivity().finish();
             }

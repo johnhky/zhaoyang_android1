@@ -16,7 +16,6 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityWebBrowserBinding;
 
 
-
 /**
  * 浏览器
  * <p>

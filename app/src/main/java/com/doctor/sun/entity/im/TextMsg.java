@@ -315,7 +315,6 @@ public class TextMsg extends RealmObject implements LayoutId {
     }
 
 
-
     public SessionTypeEnum getSessionTypeEnum() {
         return SessionTypeEnum.valueOf(getSessionType());
     }

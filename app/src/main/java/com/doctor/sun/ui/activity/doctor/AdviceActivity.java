@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityAdviceBinding;
@@ -13,8 +14,6 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-
-import io.ganguo.library.common.ToastHelper;
 
 /**
  * Created by lucas on 1/15/16.
@@ -60,7 +59,7 @@ public class AdviceActivity extends BaseFragmentActivity2 {
         api.sendAdvice(binding.etFeedback.getText().toString()).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
-                ToastHelper.showMessage(AdviceActivity.this, "系统已经收到您的反馈,感谢您!");
+                Toast.makeText(AdviceActivity.this, "系统已经收到您的反馈,感谢您!", Toast.LENGTH_SHORT).show();
 //                finish();
             }
         });

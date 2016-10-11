@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityFeeBinding;
@@ -12,12 +13,8 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Fee;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.http.callback.DoNothingCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-
-
-import io.ganguo.library.common.ToastHelper;
 
 /**
  * Created by lucas on 12/8/15.
@@ -63,17 +60,17 @@ public class FeeActivity extends BaseFragmentActivity2 {
                 if (binding.etFirst.getText().toString().isEmpty() || binding.etSecond.getText().toString().isEmpty()
 //                        binding.etElse.getText().toString().isEmpty()
                         ) {
-                    ToastHelper.showMessage(v.getContext(), "有必填的输入项为空");
+                    Toast.makeText(v.getContext(), "有必填的输入项为空", Toast.LENGTH_SHORT).show();
                 } else {
                     api.setFee(binding.etFirst.getText().toString(), binding.etSecond.getText().toString()
-                            ).enqueue(new ApiCallback<String>() {
+                    ).enqueue(new ApiCallback<String>() {
                         @Override
                         protected void handleResponse(String response) {
                         }
 
                         @Override
                         protected void handleApi(ApiDTO<String> body) {
-                            ToastHelper.showMessage(FeeActivity.this, "诊金设置完成");
+                            Toast.makeText(FeeActivity.this, "诊金设置完成", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     });

@@ -3,11 +3,8 @@ package com.doctor.sun.ui.activity.patient.handler;
 import android.app.Activity;
 import android.view.View;
 
-import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.ui.activity.patient.CreateRecordActivity;
 
 import java.util.HashMap;
 

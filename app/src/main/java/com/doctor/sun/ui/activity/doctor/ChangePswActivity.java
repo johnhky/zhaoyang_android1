@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityPasswordBinding;
@@ -16,7 +17,6 @@ import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.util.MD5;
 
-import io.ganguo.library.common.ToastHelper;
 import retrofit2.Call;
 
 /**
@@ -51,7 +51,7 @@ public class ChangePswActivity extends BaseFragmentActivity2 {
 
             @Override
             protected void handleApi(ApiDTO<String> body) {
-                ToastHelper.showMessage(ChangePswActivity.this, "修改密码成功");
+                Toast.makeText(ChangePswActivity.this, "修改密码成功", Toast.LENGTH_SHORT).show();
                 finish();
             }
 

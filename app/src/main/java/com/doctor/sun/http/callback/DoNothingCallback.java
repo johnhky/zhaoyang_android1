@@ -7,6 +7,7 @@ import android.util.Log;
  */
 public class DoNothingCallback extends ApiCallback<String> {
     public static final String TAG = DoNothingCallback.class.getSimpleName();
+
     @Override
     protected void handleResponse(String s) {
         Log.d(TAG, "handleResponse() called with: " + "s = [" + s + "]");

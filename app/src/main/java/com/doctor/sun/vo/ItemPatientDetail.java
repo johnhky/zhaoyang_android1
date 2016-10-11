@@ -27,6 +27,6 @@ public class ItemPatientDetail extends BaseItem {
 
     @Override
     public long getCreated() {
-        return Long.MAX_VALUE-1;
+        return Long.MAX_VALUE - 1;
     }
 }

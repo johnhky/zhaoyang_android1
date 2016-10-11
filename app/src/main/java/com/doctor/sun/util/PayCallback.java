@@ -5,5 +5,6 @@ package com.doctor.sun.util;
  */
 public interface PayCallback {
     void onPaySuccess();
+
     void onPayFail();
 }

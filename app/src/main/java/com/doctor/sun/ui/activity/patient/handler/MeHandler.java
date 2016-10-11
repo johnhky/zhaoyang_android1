@@ -8,13 +8,11 @@ import com.doctor.sun.entity.Patient;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
 import com.doctor.sun.ui.activity.patient.CouponTabActivity;
-import com.doctor.sun.ui.activity.patient.EditPatientInfoActivity;
 import com.doctor.sun.ui.activity.patient.FavDoctorActivity;
 import com.doctor.sun.ui.activity.patient.FollowUpDoctorListActivity;
 import com.doctor.sun.ui.activity.patient.RechargeActivity;
 import com.doctor.sun.ui.activity.patient.RecordListActivity;
 import com.doctor.sun.ui.fragment.EditPatientInfoFragment;
-import com.doctor.sun.util.FragmentFactory;
 
 /**
  * Created by lucas on 1/4/16.

@@ -11,7 +11,6 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPickDateBinding;
 import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-
 import com.doctor.sun.ui.pager.PickDatePagerAdapter;
 
 /**
@@ -47,7 +46,6 @@ public class PickDateActivity extends BaseFragmentActivity2 {
         AppointmentBuilder data = getData();
         return new PickDatePagerAdapter(getSupportFragmentManager(), data);
     }
-
 
 
     public static Intent makeIntent(Context context, AppointmentBuilder builder) {

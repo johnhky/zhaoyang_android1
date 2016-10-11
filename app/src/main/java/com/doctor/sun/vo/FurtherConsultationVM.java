@@ -20,7 +20,6 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.AdapterOps;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**

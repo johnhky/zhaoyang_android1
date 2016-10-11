@@ -46,7 +46,7 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
 
     @Override
     final public BaseViewHolder<B> onCreateViewHolder(ViewGroup parent, int viewType) {
-          try {
+        try {
             B binding = DataBindingUtil.inflate(getInflater(), viewType, parent, false);
             return new BaseViewHolder<>(binding);
         } catch (InflateException e) {

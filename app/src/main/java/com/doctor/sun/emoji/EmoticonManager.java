@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 /**
  * 给textview 添加 emoticon ->
- *
+ * <p>
  * 在xml上面 将
  * android:text
  * 替换为
@@ -53,7 +53,7 @@ public class EmoticonManager {
 
 
     public static SpannableStringBuilder mapToEmoticon(Context context, String text, int emoticonSize, int textSize) {
-        if (text == null)  {
+        if (text == null) {
             text = "";
         }
         SpannableStringBuilder builder = new SpannableStringBuilder(text);

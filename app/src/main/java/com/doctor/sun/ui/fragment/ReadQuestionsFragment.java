@@ -23,8 +23,11 @@ import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
 import java.util.ArrayList;
 
-import io.ganguo.library.common.ToastHelper;
 import retrofit2.Call;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
+import static com.doctor.sun.ui.adapter.core.AdapterConfigKey.IS_READ_ONLY;
 
 /**
  * Created by rick on 9/8/2016.
@@ -195,7 +198,7 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
                 need_fill).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
-                ToastHelper.showMessage(getContext(), "保存重填数据成功");
+                makeText(getContext(), "保存重填数据成功", LENGTH_SHORT).show();
                 isEditMode = false;
                 for (String s : need_fill_key) {
                     Questions2 question = (Questions2) getAdapter().get(s);
@@ -203,14 +206,14 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
                         question.refill = 1;
                     }
                 }
-                getAdapter().setConfig(AdapterConfigKey.IS_READ_ONLY, true);
+                getAdapter().setConfig(IS_READ_ONLY, true);
                 getAdapter().notifyDataSetChanged();
                 getActivity().invalidateOptionsMenu();
             }
 
             @Override
             public void onFailure(Call<ApiDTO<String>> call, Throwable t) {
-                ToastHelper.showMessage(getContext(), "保存重填数据失败, 请检查网络设置");
+                makeText(getContext(), "保存重填数据失败, 请检查网络设置", LENGTH_SHORT).show();
                 super.onFailure(call, t);
             }
         });

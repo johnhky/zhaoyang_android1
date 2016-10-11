@@ -110,16 +110,6 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         keyboardWatcher.setListener(this);
     }
 
-//    @Override
-//    public void onFirstMenuClicked() {
-//        super.onFirstMenuClicked();
-//        getRealm().executeTransaction(new Realm.Transaction() {
-//            @Override
-//            public void execute(Realm realm) {
-//                results.deleteAllFromRealm();
-//            }
-//        });
-//    }
 
     @Override
     protected void onDestroy() {
@@ -129,6 +119,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         if (results != null) {
             results.removeChangeListeners();
         }
+        InputLayoutViewModel.release();
         super.onDestroy();
     }
 
@@ -493,7 +484,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     }
 
     @Override
-    public int getDuration(){
-       return 0;
+    public int getDuration() {
+        return 0;
     }
 }

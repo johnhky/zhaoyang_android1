@@ -26,7 +26,7 @@ public class WelcomeActivity extends BaseFragmentActivity2 {
                 overridePendingTransition(0, 0);
                 if (Settings.isLogin()) {
                     TokenCallback.checkToken(WelcomeActivity.this);
-                }else {
+                } else {
                     Intent intent = LoginActivity.makeIntent(WelcomeActivity.this);
                     startActivity(intent);
                     finish();

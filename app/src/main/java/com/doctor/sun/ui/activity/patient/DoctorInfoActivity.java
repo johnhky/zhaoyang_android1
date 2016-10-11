@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -26,7 +26,6 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.doctor.ChattingRecordActivity;
 import com.doctor.sun.ui.activity.doctor.HistoryRecordActivity;
 import com.doctor.sun.ui.activity.doctor.ModifyNicknameActivity;
-
 import com.doctor.sun.ui.widget.CancelHistoryDialog;
 import com.doctor.sun.ui.widget.SelectDialog;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
@@ -35,10 +34,11 @@ import com.kyleduo.switchbutton.SwitchButton;
 import java.util.HashMap;
 import java.util.List;
 
-import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.log.Logger;
 import io.ganguo.library.util.log.LoggerFactory;
 import retrofit2.Call;
+
+import static com.doctor.sun.bean.Constants.PARAM_NICKNAME;
 
 /**
  * 个人信息
@@ -116,8 +116,8 @@ public class DoctorInfoActivity extends BaseFragmentActivity2 implements View.On
         if (requestCode == Constants.NICKNAME_REQUEST_CODE) {
             switch (resultCode) {
                 case RESULT_OK:
-                    binding.tvModify.setText(data.getStringExtra(Constants.PARAM_NICKNAME));
-                    ToastHelper.showMessageMiddle(this, "修改成功");
+                    binding.tvModify.setText(data.getStringExtra(PARAM_NICKNAME));
+                    Toast.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
                     break;
             }
         }

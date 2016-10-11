@@ -10,7 +10,6 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityImagePreviewBinding;
 
 
-
 /**
  * 图片预览
  * <p/>

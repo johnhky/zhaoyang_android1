@@ -35,7 +35,7 @@ public interface QuestionModule {
      * @return
      */
     @GET("{type}/{id}")
-    Call<ApiDTO<QuestionDTO>> questions2(@Path("type") String type, @Path("id") String appointmentId, @Query("questionnaires_type") String questionnaires_type, @QueryMap HashMap<String,String> params);
+    Call<ApiDTO<QuestionDTO>> questions2(@Path("type") String type, @Path("id") String appointmentId, @Query("questionnaires_type") String questionnaires_type, @QueryMap HashMap<String, String> params);
 
     @FormUrlEncoded
     @PUT("{type}/{id}")

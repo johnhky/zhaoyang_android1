@@ -9,7 +9,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 /**
  * Created by lucas on 1/20/16.
  */
-public class CancelHandler  implements LayoutId {
+public class CancelHandler implements LayoutId {
     private Dialog dialog;
 
     public CancelHandler(Dialog dialog) {

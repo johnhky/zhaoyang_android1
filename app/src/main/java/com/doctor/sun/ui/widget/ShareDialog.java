@@ -13,7 +13,7 @@ import io.ganguo.library.ui.dialog.BaseDialog;
 /**
  * Created by lucas on 12/22/15.
  */
-public class ShareDialog extends BaseDialog{
+public class ShareDialog extends BaseDialog {
 
     public ShareDialog(Context context) {
         super(context);
@@ -41,8 +41,11 @@ public class ShareDialog extends BaseDialog{
 
     public interface GetActionButton {
         void onClickMicroblogButton();
+
         void onClickFriendButton();
+
         void onClickWeChatButton();
+
         void onClickQqButton();
     }
 

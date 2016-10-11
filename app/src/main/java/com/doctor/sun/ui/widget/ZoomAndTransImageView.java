@@ -8,9 +8,9 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -101,7 +101,6 @@ public class ZoomAndTransImageView extends ImageView implements OnScaleGestureLi
 
     /**
      * 自动缩放的任务
-     *
      */
     private class AutoScaleRunnable implements Runnable {
         static final float BIGGER = 1.07f;

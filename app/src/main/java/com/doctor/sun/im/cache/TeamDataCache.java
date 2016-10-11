@@ -168,7 +168,6 @@ public class TeamDataCache {
     }
 
 
-
     /**
      * 同步从本地获取Team（先从缓存中查询，如果不存在再从SDK DB中查询）
      */
@@ -250,7 +249,6 @@ public class TeamDataCache {
     public void clearTeamMemberCache() {
         teamMemberCache.clear();
     }
-
 
 
     /**

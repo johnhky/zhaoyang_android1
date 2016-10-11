@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.doctor.sun.R;
@@ -23,15 +23,15 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-
 import com.doctor.sun.ui.widget.CancelHistoryDialog;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import java.util.HashMap;
 
-import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.core.image.GGlide;
 import retrofit2.Call;
+
+import static com.doctor.sun.bean.Constants.PARAM_NICKNAME;
 
 /**
  * 个人信息
@@ -80,8 +80,8 @@ public class PatientInfoActivity extends BaseFragmentActivity2 implements View.O
         if (requestCode == Constants.NICKNAME_REQUEST_CODE) {
             switch (resultCode) {
                 case RESULT_OK:
-                    binding.tvModify.setText(data.getStringExtra(Constants.PARAM_NICKNAME));
-                    ToastHelper.showMessageMiddle(this, "修改成功");
+                    binding.tvModify.setText(data.getStringExtra(PARAM_NICKNAME));
+                    Toast.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
@@ -180,6 +180,6 @@ public class PatientInfoActivity extends BaseFragmentActivity2 implements View.O
 
     @Override
     public int getMidTitle() {
-        return  R.string.title_profile_info;
+        return R.string.title_profile_info;
     }
 }

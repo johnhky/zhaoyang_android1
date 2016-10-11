@@ -22,7 +22,6 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.PickTimeAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -144,7 +143,6 @@ public class PickTimeActivity extends BaseFragmentActivity2 {
         Intent intent = ApplyAppointmentActivity.makeIntent(this, data);
         startActivity(intent);
     }
-
 
 
     protected PickTimeAdapter getAdapter() {

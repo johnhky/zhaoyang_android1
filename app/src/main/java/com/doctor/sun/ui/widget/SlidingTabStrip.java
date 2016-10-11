@@ -105,7 +105,7 @@ class SlidingTabStrip extends LinearLayout {
             case 2:
                 mSelectedIndicatorPadding = (int) (38 * density);
                 break;
-            default :
+            default:
                 mSelectedIndicatorPadding = (int) (13 * density);
                 break;
 

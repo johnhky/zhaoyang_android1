@@ -11,7 +11,6 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityViewPrescriptionBinding;
 import com.doctor.sun.entity.Prescription;
 
-
 import java.util.ArrayList;
 
 /**

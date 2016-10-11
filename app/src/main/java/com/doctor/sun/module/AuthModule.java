@@ -59,6 +59,7 @@ public interface AuthModule {
     @POST("auth/reset")
     Call<ApiDTO<String>> reset(@Field("phone") String phone,
                                @Field("password") String password, @Field("captcha") String captcha);
+
     @FormUrlEncoded
     @POST("auth/reset")
     Call<ApiDTO<String>> reset(@FieldMap Map<String, String> fields);

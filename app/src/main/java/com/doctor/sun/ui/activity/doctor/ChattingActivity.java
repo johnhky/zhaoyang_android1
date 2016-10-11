@@ -20,10 +20,8 @@ import com.doctor.sun.databinding.ActivityChattingBinding;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.emoji.KeyboardWatcher;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.entity.constans.AppointmentType;
-import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.entity.im.TextMsg;
@@ -39,7 +37,6 @@ import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
-import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
@@ -204,6 +201,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         if (!getRealm().isClosed()) {
             results.removeChangeListeners();
         }
+        InputLayoutViewModel.release();
         super.onDestroy();
     }
 

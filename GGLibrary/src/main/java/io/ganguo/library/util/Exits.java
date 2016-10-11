@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -11,7 +12,6 @@ import java.util.TimerTask;
 import io.ganguo.library.AppManager;
 import io.ganguo.library.BaseApp;
 import io.ganguo.library.R;
-import io.ganguo.library.common.ToastHelper;
 
 /**
  * 退出快捷工具
@@ -45,7 +45,7 @@ public class Exits {
     public static void exitByDoublePressed(BaseApp context) {
         if (isExit == false) {
             isExit = true; // 准备退出
-            ToastHelper.showMessage(context, R.string.exit_press_message);
+            Toast.makeText(context, R.string.exit_press_message, Toast.LENGTH_SHORT).show();
             Timer tExit = new Timer();
             tExit.schedule(new TimerTask() {
                 @Override

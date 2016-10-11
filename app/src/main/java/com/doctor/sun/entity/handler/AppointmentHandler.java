@@ -78,7 +78,6 @@ import java.util.Locale;
 import io.ganguo.library.AppManager;
 import io.ganguo.library.Config;
 import io.ganguo.library.common.LoadingHelper;
-import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Tasks;
 import io.realm.Realm;
@@ -392,7 +391,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             i.putExtra(Constants.HANDLER, messenger);
             context.startActivity(i);
         } else {
-            ToastHelper.showMessage(adapter.getContext(), "已经评价过此预约");
+            Toast.makeText(adapter.getContext(), "已经评价过此预约", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -37,7 +37,7 @@ public class AVChatSurface {
 
     // view
     private LinearLayout largeSizePreviewLayout;
-    public SurfaceView mCapturePreview ;
+    public SurfaceView mCapturePreview;
     private SurfaceView smallSizeSurfaceView;// always added into small inbetweenItemCount layout
     private FrameLayout smallSizePreviewFrameLayout;
     private LinearLayout smallSizePreviewLayout;
@@ -45,7 +45,7 @@ public class AVChatSurface {
     private View largeSizePreviewCoverLayout;//stands for peer or local close camera
 
     // state
-    private boolean init =false;
+    private boolean init = false;
     private boolean localPreviewInSmallSize = true;
     private boolean isPeerVideoOff = false;
     private boolean isLocalVideoOff = false;
@@ -67,9 +67,9 @@ public class AVChatSurface {
     }
 
     private void findViews() {
-        if(init)
+        if (init)
             return;
-        if(surfaceRoot != null){
+        if (surfaceRoot != null) {
             mCapturePreview = (SurfaceView) surfaceRoot.findViewById(R.id.capture_preview);
             mCapturePreview.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
@@ -103,26 +103,26 @@ public class AVChatSurface {
                     break;
                 case MotionEvent.ACTION_MOVE:
                     final int diff = Math.max(Math.abs(lastX - x), Math.abs(lastY - y));
-                    if(diff < TOUCH_SLOP)
+                    if (diff < TOUCH_SLOP)
                         break;
 
-                    if(paddingRect == null) {
+                    if (paddingRect == null) {
                         paddingRect = new Rect(ScreenUtil.dip2px(10), ScreenUtil.dip2px(20), ScreenUtil.dip2px(10),
                                 ScreenUtil.dip2px(70));
                     }
 
                     int destX, destY;
-                    if(x - inX <= paddingRect.left) {
+                    if (x - inX <= paddingRect.left) {
                         destX = paddingRect.left;
-                    } else if(x - inX + v.getWidth() >= ScreenUtil.screenWidth - paddingRect.right) {
+                    } else if (x - inX + v.getWidth() >= ScreenUtil.screenWidth - paddingRect.right) {
                         destX = ScreenUtil.screenWidth - v.getWidth() - paddingRect.right;
                     } else {
                         destX = x - inX;
                     }
 
-                    if(y - inY <= paddingRect.top) {
+                    if (y - inY <= paddingRect.top) {
                         destY = paddingRect.top;
-                    } else if(y - inY + v.getHeight() >= ScreenUtil.screenHeight - paddingRect.bottom){
+                    } else if (y - inY + v.getHeight() >= ScreenUtil.screenHeight - paddingRect.bottom) {
                         destY = ScreenUtil.screenHeight - v.getHeight() - paddingRect.bottom;
                     } else {
                         destY = y - inY;
@@ -136,7 +136,7 @@ public class AVChatSurface {
 
                     break;
                 case MotionEvent.ACTION_UP:
-                    if(Math.max(Math.abs(lastX - x), Math.abs(lastY - y)) <= 5){
+                    if (Math.max(Math.abs(lastX - x), Math.abs(lastY - y)) <= 5) {
                         if (largeAccount == null || smallAccount == null) {
                             return true;
                         }
@@ -158,9 +158,9 @@ public class AVChatSurface {
     };
 
     public void onCallStateChange(CallStateEnum state) {
-        if(CallStateEnum.isVideoMode(state))
+        if (CallStateEnum.isVideoMode(state))
             findViews();
-        switch (state){
+        switch (state) {
             case VIDEO:
                 largeSizePreviewCoverLayout.setVisibility(View.GONE);
                 break;
@@ -177,9 +177,10 @@ public class AVChatSurface {
 
     /**
      * 大图像surfaceview 初始化
+     *
      * @param account 显示视频的用户id
      */
-    public void initLargeSurfaceView(String account){
+    public void initLargeSurfaceView(String account) {
         largeAccount = account;
         findViews();
         /**
@@ -194,10 +195,11 @@ public class AVChatSurface {
 
     /**
      * 小图像surfaceview 初始化
+     *
      * @param account
      * @return
      */
-    public void initSmallSurfaceView(String account){
+    public void initSmallSurfaceView(String account) {
         smallAccount = account;
         findViews();
         /**
@@ -212,17 +214,17 @@ public class AVChatSurface {
     }
 
 
-
     /**
      * 添加surfaceview到largeSizePreviewLayout
+     *
      * @param surfaceView
      */
     private void addIntoLargeSizePreviewLayout(SurfaceView surfaceView) {
         if (surfaceView.getParent() != null)
-            ((ViewGroup)surfaceView.getParent()).removeView(surfaceView);
+            ((ViewGroup) surfaceView.getParent()).removeView(surfaceView);
         largeSizePreviewLayout.addView(surfaceView);
         surfaceView.setZOrderMediaOverlay(false);
-        if(manager.getCallingState() == CallStateEnum.VIDEO)
+        if (manager.getCallingState() == CallStateEnum.VIDEO)
             largeSizePreviewCoverLayout.setVisibility(View.GONE);
     }
 
@@ -232,7 +234,7 @@ public class AVChatSurface {
     private void addIntoSmallSizePreviewLayout() {
         smallSizePreviewCoverImg.setVisibility(View.GONE);
         if (smallSizeSurfaceView.getParent() != null) {
-            ((ViewGroup)smallSizeSurfaceView.getParent()).removeView(smallSizeSurfaceView);
+            ((ViewGroup) smallSizeSurfaceView.getParent()).removeView(smallSizeSurfaceView);
         }
         smallSizePreviewLayout.addView(smallSizeSurfaceView);
         smallSizeSurfaceView.setZOrderMediaOverlay(true);
@@ -261,11 +263,11 @@ public class AVChatSurface {
     /**
      * 对方关闭了摄像头
      */
-    public void peerVideoOff(){
+    public void peerVideoOff() {
         isPeerVideoOff = true;
-        if(localPreviewInSmallSize){ //local preview in small inbetweenItemCount layout, then peer preview should in large inbetweenItemCount layout
+        if (localPreviewInSmallSize) { //local preview in small inbetweenItemCount layout, then peer preview should in large inbetweenItemCount layout
             showNotificationLayout(PEER_CLOSE_CAMERA);
-        }else{  // peer preview in small inbetweenItemCount layout
+        } else {  // peer preview in small inbetweenItemCount layout
             closeSmallSizePreview();
         }
     }
@@ -285,9 +287,9 @@ public class AVChatSurface {
     /**
      * 本地关闭了摄像头
      */
-    public void localVideoOff(){
+    public void localVideoOff() {
         isLocalVideoOff = true;
-        if(localPreviewInSmallSize)
+        if (localPreviewInSmallSize)
             closeSmallSizePreview();
         else
             showNotificationLayout(LOCAL_CLOSE_CAMERA);
@@ -300,21 +302,22 @@ public class AVChatSurface {
         localPreviewInSmallSize = !localPreviewInSmallSize;
         largeSizePreviewCoverLayout.setVisibility(View.GONE);
         smallSizePreviewCoverImg.setVisibility(View.GONE);
-        if(isPeerVideoOff) {
+        if (isPeerVideoOff) {
             peerVideoOff();
         }
-        if(isLocalVideoOff) {
+        if (isLocalVideoOff) {
             localVideoOff();
         }
     }
 
     /**
      * 界面提示
+     *
      * @param closeType
      */
-    private void showNotificationLayout(int closeType){
+    private void showNotificationLayout(int closeType) {
         TextView textView = (TextView) largeSizePreviewCoverLayout;
-        switch (closeType){
+        switch (closeType) {
             case PEER_CLOSE_CAMERA:
                 textView.setText(R.string.avchat_peer_close_camera);
                 break;
@@ -332,23 +335,26 @@ public class AVChatSurface {
 
     /**
      * 布局是否可见
+     *
      * @param visible
      */
     private void setSurfaceRoot(boolean visible) {
-        surfaceRoot.setVisibility(visible ? View.VISIBLE: View.GONE);
+        surfaceRoot.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     /**
      * 大小图像显示切换
+     *
      * @param user1 用户1的account
      * @param user2 用户2的account
      */
-    private void switchRender(String user1, String user2){
+    private void switchRender(String user1, String user2) {
         AVChatManager.getInstance().switchRender(user1, user2);
     }
 
     /**
      * 是否本地预览图像在小图像（UI上层）
+     *
      * @return
      */
     public boolean isLocalPreviewInSmallSize() {

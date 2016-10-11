@@ -3,22 +3,14 @@ package com.doctor.sun.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
-import com.doctor.sun.entity.Coupon;
-import com.doctor.sun.entity.constans.CouponType;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.DrugModule;
-import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.MultiSelectAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by rick on 1/3/2016.

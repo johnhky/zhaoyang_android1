@@ -49,7 +49,6 @@ public class InputLayoutViewModel extends BaseObservable {
     private IncludeInputLayoutBinding binding;
     private boolean recordMode = false;
     private int keyboardType = 0;
-    private int keyboardHeight = 0;
 
     private String msg = "";
 
@@ -158,11 +157,10 @@ public class InputLayoutViewModel extends BaseObservable {
         }, DELAY_MILLIS);
     }
 
-    public interface SendMessageCallback {
-        void sendMessage(EditText editText);
-
-        TextView.OnEditorActionListener sendMessageAction();
+    public static void release() {
+        inputTextView = null;
     }
+
 
     public int getKeyboardType() {
         return keyboardType;
@@ -174,22 +172,10 @@ public class InputLayoutViewModel extends BaseObservable {
         notifyChange();
     }
 
-    public void onShowSoftInput() {
-        this.keyboardType = TYPE_EMPTY;
-        notifyChange();
-    }
 
     public void onHideSoftInput() {
         this.keyboardType = 0;
         notifyChange();
-    }
-
-    public void setKeyboardHeight(int keyboardHeight) {
-        this.keyboardHeight = keyboardHeight;
-    }
-
-    public int getKeyboardHeight() {
-        return keyboardHeight;
     }
 
     @Bindable

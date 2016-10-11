@@ -1,13 +1,11 @@
 package com.doctor.sun.entity;
 
 import android.content.Context;
-import android.content.Intent;
 
 import com.doctor.sun.R;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.activity.WebBrowserActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

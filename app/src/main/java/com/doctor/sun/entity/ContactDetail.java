@@ -17,23 +17,23 @@ public class ContactDetail implements Parcelable {
 
     /**
      * 病历详情
-     "id": 1,
-     "name": "大明",
-     "avatar": "https://trello-avatars.s3.amazonaws.com/eb8345770e0fd6183d370fc3e2b1f1d3/30.png",
-     "age": "2010-02",
-     "gender": 1,
-     "record_id": 1,
-     "record_name": "大明",
-     "record_birthday": "2010-02",
-     "relation": "本人",
-     "record_gender": 1,
-     "province": "广东",
-     "city": "广州",
-     "voipAccount": "8002293600000003",
-     "phone": "15918748285",
-     "nickname": "但还是会",
-     "is_ban": 0,
-     "can_call": 1
+     * "id": 1,
+     * "name": "大明",
+     * "avatar": "https://trello-avatars.s3.amazonaws.com/eb8345770e0fd6183d370fc3e2b1f1d3/30.png",
+     * "age": "2010-02",
+     * "gender": 1,
+     * "record_id": 1,
+     * "record_name": "大明",
+     * "record_birthday": "2010-02",
+     * "relation": "本人",
+     * "record_gender": 1,
+     * "province": "广东",
+     * "city": "广州",
+     * "voipAccount": "8002293600000003",
+     * "phone": "15918748285",
+     * "nickname": "但还是会",
+     * "is_ban": 0,
+     * "can_call": 1
      */
     @JsonProperty("id")
     private String id;
@@ -42,7 +42,7 @@ public class ContactDetail implements Parcelable {
     @JsonProperty("avatar")
     private String avatar;
     @JsonProperty("age")
-    private  String birthday;
+    private String birthday;
     @JsonProperty("gender")
     private int gender;
     @JsonProperty("record_id")
@@ -380,7 +380,8 @@ public class ContactDetail implements Parcelable {
             return new ContactDetail[size];
         }
     };
+
     public String getGenderAndBirthday(Context context) {
-        return context.getString(R.string.gender_birth, gender == Gender.MALE ? "Male" : "Female" , birthday);
+        return context.getString(R.string.gender_birth, gender == Gender.MALE ? "Male" : "Female", birthday);
     }
 }

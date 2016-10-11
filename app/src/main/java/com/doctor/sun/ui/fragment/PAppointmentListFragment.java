@@ -2,7 +2,6 @@ package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;

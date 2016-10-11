@@ -18,12 +18,8 @@ import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.handler.MeHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
-
 import com.doctor.sun.ui.model.PatientFooterView;
-import com.doctor.sun.util.JacksonUtils;
 import com.squareup.otto.Subscribe;
-
-import io.ganguo.library.Config;
 
 /**
  * Created by lucas on 1/4/16.

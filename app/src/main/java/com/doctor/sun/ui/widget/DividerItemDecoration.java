@@ -2,13 +2,13 @@ package com.doctor.sun.ui.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.util.AttributeSet;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.graphics.Canvas;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
+import android.view.View;
 
 /**
  * 可以传入自定义的drawable的ItemDecoration

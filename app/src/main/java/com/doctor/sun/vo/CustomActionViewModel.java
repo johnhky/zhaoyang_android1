@@ -109,7 +109,6 @@ public class CustomActionViewModel {
     }
 
 
-
     private void askConfirmation(Context context, String question) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
                 .content(question)
@@ -247,6 +246,6 @@ public class CustomActionViewModel {
     }
 
     private void startAVChat(NimMsgInfo nimTeamId, int AVChatType, int duration) {
-        AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType, AVChatActivity.FROM_INTERNAL,duration);
+        AVChatActivity.start(mActivity, nimTeamId.getP2PId(), AVChatType, AVChatActivity.FROM_INTERNAL, duration);
     }
 }

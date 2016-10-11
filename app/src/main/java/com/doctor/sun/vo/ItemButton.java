@@ -10,6 +10,7 @@ public abstract class ItemButton extends BaseItem {
         super(layoutId);
         this.content = content;
     }
+
     private String content;
 
 

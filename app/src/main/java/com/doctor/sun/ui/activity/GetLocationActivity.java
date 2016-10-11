@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.databinding.tool.util.L;
 import android.location.Criteria;
 import android.location.GpsSatellite;
 import android.location.GpsStatus;
@@ -22,7 +21,8 @@ import com.doctor.sun.util.PermissionsUtil;
 
 import java.util.Iterator;
 
-import io.ganguo.library.common.ToastHelper;
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
 
 /**
  * 获取定位
@@ -49,7 +49,7 @@ public abstract class GetLocationActivity extends BaseFragmentActivity2 {
                     getLocation();
                 } else {
                     //失败
-                    ToastHelper.showMessage(this, "授权失败, 请手动选择地址");
+                    makeText(this, "授权失败, 请手动选择地址", LENGTH_SHORT).show();
                 }
                 break;
             case PRE_LOCATION_REQUEST_CODE:
@@ -59,7 +59,7 @@ public abstract class GetLocationActivity extends BaseFragmentActivity2 {
 
                 } else {
                     //失败
-                    ToastHelper.showMessage(this, "授权失败");
+                    makeText(this, "授权失败", LENGTH_SHORT).show();
                 }
                 break;
         }

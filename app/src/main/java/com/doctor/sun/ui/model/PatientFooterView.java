@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 
-import com.doctor.sun.ui.activity.patient.PMainActivity2;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
+import com.doctor.sun.ui.activity.patient.PMainActivity2;
 import com.doctor.sun.ui.activity.patient.PMeActivity;
 
 /**
@@ -19,12 +19,13 @@ public class PatientFooterView implements FooterViewModel.FooterView {
     public static PatientFooterView getInstance(Activity activity) {
         if (instance == null) {
             instance = new PatientFooterView(activity);
-        }else {
+        } else {
             instance.activity = null;
             instance.activity = activity;
         }
         return instance;
     }
+
     public PatientFooterView(Activity activity) {
         this.activity = activity;
     }

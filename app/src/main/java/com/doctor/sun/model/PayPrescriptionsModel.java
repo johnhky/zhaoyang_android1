@@ -23,7 +23,6 @@ import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.fragment.DrugListFragment;
-import com.doctor.sun.vo.BaseItem;
 import com.doctor.sun.vo.ClickMenu;
 import com.doctor.sun.vo.ItemButton;
 import com.doctor.sun.vo.ItemRadioGroup;
@@ -31,7 +30,6 @@ import com.doctor.sun.vo.ItemRadioGroup;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by kb on 16-9-15.

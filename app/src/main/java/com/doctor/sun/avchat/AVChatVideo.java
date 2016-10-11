@@ -14,7 +14,6 @@ import com.doctor.sun.avchat.widgets.ToggleListener;
 import com.doctor.sun.avchat.widgets.ToggleState;
 import com.doctor.sun.avchat.widgets.ToggleView;
 import com.doctor.sun.ui.widget.BezelImageView;
-import com.netease.nimlib.sdk.avchat.AVChatManager;
 
 /**
  * 视频管理器， 视频界面初始化和相关管理
@@ -70,7 +69,7 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
     }
 
     private void findViews() {
-        if(init || root == null )
+        if (init || root == null)
             return;
         topRoot = root.findViewById(R.id.avchat_video_top_control);
         switchAudio = topRoot.findViewById(R.id.avchat_video_switch_audio);
@@ -105,12 +104,13 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
 
     /**
      * 音视频状态变化及界面刷新
+     *
      * @param state
      */
     public void onCallStateChange(CallStateEnum state) {
-        if(CallStateEnum.isVideoMode(state))
+        if (CallStateEnum.isVideoMode(state))
             findViews();
-        switch (state){
+        switch (state) {
             case OUTGOING_VIDEO_CALLING:
                 showProfile();//对方的详细信息
                 showNotify(R.string.avchat_wait_recieve);
@@ -159,7 +159,7 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
     /**
      * 显示个人信息
      */
-    private void showProfile(){
+    private void showProfile() {
         String account = manager.getAccount();
 //        headImg.loadBuddyAvatar(account);
 //        nickNameTV.setText(NimUserInfoCache.getInstance().getUserDisplayName(account));
@@ -167,46 +167,49 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
 
     /**
      * 显示通知
+     *
      * @param resId
      */
-    private void showNotify(int resId){
+    private void showNotify(int resId) {
         notifyTV.setText(resId);
         notifyTV.setVisibility(View.VISIBLE);
     }
 
-    /************************ 布局显隐设置 ****************************/
+    /************************
+     * 布局显隐设置
+     ****************************/
 
     private void setRoot(boolean visible) {
         root.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
-    private void setRefuseReceive(boolean visible){
+    private void setRefuseReceive(boolean visible) {
         refuse_receive.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
-    private void setTopRoot(boolean visible){
+    private void setTopRoot(boolean visible) {
         topRoot.setVisibility(visible ? View.VISIBLE : View.GONE);
-        if(topRootHeight == 0){
+        if (topRootHeight == 0) {
             Rect rect = new Rect();
             topRoot.getGlobalVisibleRect(rect);
             topRootHeight = rect.bottom;
         }
     }
 
-    private void setMiddleRoot(boolean visible){
+    private void setMiddleRoot(boolean visible) {
         middleRoot.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
-    private void setBottomRoot(boolean visible){
+    private void setBottomRoot(boolean visible) {
         bottomRoot.setVisibility(visible ? View.VISIBLE : View.GONE);
-        if(bottomRootHeight == 0){
+        if (bottomRootHeight == 0) {
             bottomRootHeight = bottomRoot.getHeight();
         }
     }
 
-    private void setTime(boolean visible){
+    private void setTime(boolean visible) {
         time.setVisibility(visible ? View.VISIBLE : View.GONE);
-        if(visible){
+        if (visible) {
             time.setBase(manager.getTimeBase());
             time.start();
         }
@@ -242,7 +245,7 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
                 listener.toggleMute();
                 break;
             case R.id.avchat_video_switch_audio:
-                if(isInSwitch) {
+                if (isInSwitch) {
                     Toast.makeText(context, R.string.avchat_in_switch, Toast.LENGTH_SHORT).show();
                 } else {
                     listener.videoSwitchAudio();
@@ -264,10 +267,10 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
     }
 
     public void showRecordView(boolean show, boolean warning) {
-        if(show) {
+        if (show) {
             recordView.setVisibility(View.VISIBLE);
             recordTip.setVisibility(View.VISIBLE);
-            if(warning) {
+            if (warning) {
                 recordWarning.setVisibility(View.VISIBLE);
             } else {
                 recordWarning.setVisibility(View.GONE);
@@ -281,12 +284,13 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
 
     /**
      * 音频切换为视频, 界面控件是否开启显示
+     *
      * @param muteOn
      */
-    public void onAudioToVideo(boolean muteOn, boolean recordOn, boolean recordWarning){
+    public void onAudioToVideo(boolean muteOn, boolean recordOn, boolean recordWarning) {
         muteToggle.toggle(muteOn ? ToggleState.ON : ToggleState.OFF);
         closeCameraToggle.toggle(ToggleState.OFF);
-        if(manager.canSwitchCamera()){
+        if (manager.canSwitchCamera()) {
             switchCameraToggle.off(false);
         }
         recordToggle.toggle(recordOn ? ToggleState.ON : ToggleState.OFF);
@@ -295,7 +299,9 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
 
     }
 
-    /******************************* toggle listener *************************/
+    /*******************************
+     * toggle listener
+     *************************/
     @Override
     public void toggleOn(View v) {
         onClick(v);
@@ -311,8 +317,8 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
 
     }
 
-    public void closeSession(int exitCode){
-        if(init){
+    public void closeSession(int exitCode) {
+        if (init) {
             time.stop();
             switchCameraToggle.disable(false);
             muteToggle.disable(false);

@@ -12,12 +12,12 @@ public class AssignQuestionAdapter extends SimpleAdapter {
         return appointmentId;
     }
 
-    public AssignQuestionAdapter(Context context,String appointmentId) {
+    public AssignQuestionAdapter(Context context, String appointmentId) {
         super(context);
         this.appointmentId = appointmentId;
     }
 
-    public interface GetAppointmentId{
+    public interface GetAppointmentId {
         String getAppointmentId();
     }
 }

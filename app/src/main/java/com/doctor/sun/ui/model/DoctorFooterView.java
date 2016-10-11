@@ -19,7 +19,7 @@ public class DoctorFooterView implements FooterViewModel.FooterView {
     public static DoctorFooterView getInstance(Activity activity) {
         if (instance == null) {
             instance = new DoctorFooterView(activity);
-        }else {
+        } else {
             instance.activity = null;
             instance.activity = activity;
         }
