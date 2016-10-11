@@ -21,6 +21,9 @@ import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
+import com.doctor.sun.ui.activity.doctor.MainActivity;
+import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
+import com.doctor.sun.ui.activity.patient.PMainActivity2;
 import com.doctor.sun.util.JacksonUtils;
 import com.google.common.base.Strings;
 
@@ -60,7 +63,7 @@ public class JPushReceiver extends BroadcastReceiver {
         } else if (ACTION_FOLLOW_UP_DETAIL.equals(intent.getAction())) {
             viewAppointmentDetail(context, intent);
         } else if (ACTION_ACCEPT_RELATION.equals(intent.getAction())) {
-
+            viewRelationRequest(context, intent);
         }
     }
 
@@ -69,15 +72,39 @@ public class JPushReceiver extends BroadcastReceiver {
         manager.cancel(intent.getIntExtra(Constants.NOTIFICATION_ID, 0));
     }
 
-    public void viewAppointmentDetail(final Context context, Intent intent) {
+    public void viewAppointmentDetail(final Context context, final Intent intent) {
+
+        startMainActivity(context);
+
         String id = intent.getStringExtra(Constants.DATA);
         AppointmentModule api = Api.of(AppointmentModule.class);
         api.appointmentDetail(id).enqueue(new SimpleCallback<Appointment>() {
             @Override
             protected void handleResponse(Appointment response) {
                 response.getHandler().viewDetail(context, 0);
+                cancelNotification(context, intent);
             }
         });
+    }
+
+    public void viewRelationRequest(Context context, Intent intent) {
+
+        startMainActivity(context);
+
+        Intent intent2 = PAfterServiceActivity.intentFor(context, 1);
+        context.startActivity(intent2);
+        cancelNotification(context, intent);
+    }
+
+    private void startMainActivity(Context context) {
+        Intent intent;
+        if (Settings.isDoctor()) {
+            intent = MainActivity.makeIntent(context);
+        } else {
+            intent = PMainActivity2.intentFor(context);
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     public void onConnectionChanged(Intent intent) {
@@ -113,6 +140,16 @@ public class JPushReceiver extends BroadcastReceiver {
         builder.setContentTitle("昭阳医生");
         builder.setSmallIcon(R.drawable.ic_notification);
 
+        Intent intent;
+        if (Settings.isDoctor()) {
+            intent = MainActivity.makeIntent(AppContext.me());
+        } else {
+            intent = PMainActivity2.intentFor(AppContext.me());
+        }
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pi = PendingIntent.getActivity(AppContext.me(), getNotificationId(data), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pi);
 
         NotificationCompat.Action action = buildAction(data);
         if (action != null) {
