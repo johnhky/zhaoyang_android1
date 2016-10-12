@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_13"
-        android:onClick="@{()->data.editScalesQuestionWithResult(adapter,data.scaleId)}"
+        android:onClick="@{()->data.editScalesQuestionWithResult(adapter,context,data.scaleId)}"
         android:orientation="horizontal">
 
         <TextView

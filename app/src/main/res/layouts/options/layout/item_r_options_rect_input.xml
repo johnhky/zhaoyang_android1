@@ -38,7 +38,7 @@
             android:maxLines="1"
             android:selected="@{data.selected}"
             android:text="@{data.optionContent+data.contentHead}"
-            android:textColor="@color/primary_color_selector"
+            android:textColor="@color/primary_color_selector_read_only"
             android:textSize="@dimen/font_15"
             tools:text="其他" />
 
@@ -79,7 +79,7 @@
                 android:paddingTop="@dimen/dp_4"
                 android:selected="@{data.selected}"
                 android:text="@={data.inputContent}"
-                android:textColor="@color/primary_color_selector"
+                android:textColor="@color/primary_color_selector_read_only"
                 android:textSize="@dimen/font_15"
                 tools:text="请填写" />
 
@@ -95,7 +95,7 @@
             android:enabled="@{false}"
             android:selected="@{data.selected}"
             android:text='@{data.contentTail}'
-            android:textColor="@color/primary_color_selector"
+            android:textColor="@color/primary_color_selector_read_only"
             android:textSize="@dimen/font_15" />
 
     </org.apmem.tools.layouts.FlowLayout>

@@ -49,8 +49,7 @@ public class Scales extends BaseItem {
     public int refillCount;
 
 
-    public void readScalesQuestion(SortedListAdapter adapter, String scalesId, boolean isTemplates) {
-        Context context = adapter.getContext();
+    public void readScalesQuestion(SortedListAdapter adapter, Context context, String scalesId, boolean isTemplates) {
         boolean isDone = adapter.getConfig(AdapterConfigKey.IS_DONE);
         Bundle args;
         if (isTemplates) {
@@ -63,8 +62,7 @@ public class Scales extends BaseItem {
         context.startActivity(intent);
     }
 
-    public void editScalesQuestion(SortedListAdapter adapter, String scalesId) {
-        Context context = adapter.getContext();
+    public void editScalesQuestion(SortedListAdapter adapter, Context context, String scalesId) {
         boolean isDone = adapter.getConfig(AdapterConfigKey.IS_DONE);
         if (!isDone) {
             Bundle args = AnswerQuestionFragment.getArgs(scalesId, QuestionsPath.SCALES, "");
@@ -78,8 +76,7 @@ public class Scales extends BaseItem {
     }
 
 
-    public void editScalesQuestionWithResult(SortedListAdapter adapter, String scalesId) {
-        Context context = adapter.getContext();
+    public void editScalesQuestionWithResult(SortedListAdapter adapter, Context context, String scalesId) {
         boolean isDone = adapter.getConfig(AdapterConfigKey.IS_DONE);
         if (!isDone) {
             Bundle args = AnswerQuestionFragment.getArgs(scalesId, QuestionsPath.SCALES, "");

@@ -23,8 +23,6 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 public abstract class BaseListAdapter<B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements AdapterOps<SortedItem> {
     public static final String TAG = BaseListAdapter.class.getSimpleName();
 
-    private final Context mContext;
-    private final LayoutInflater mInflater;
     private final SparseBooleanArray mConfig = new SparseBooleanArray();
     private final SparseArray<String> mStringConfig = new SparseArray<>();
     private final SparseIntArray mIntConfig = new SparseIntArray();
@@ -32,26 +30,21 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
     private LayoutIdInterceptor idInterceptor = new DefaultLayoutIdInterceptor();
 
     BaseListAdapter(Context context) {
-        this.mContext = context;
-        mInflater = LayoutInflater.from(context);
     }
 
-    protected LayoutInflater getInflater() {
-        return mInflater;
+    private LayoutInflater getInflater(Context context) {
+        return LayoutInflater.from(context);
     }
 
-    public Context getContext() {
-        return mContext;
-    }
 
     @Override
     final public BaseViewHolder<B> onCreateViewHolder(ViewGroup parent, int viewType) {
         try {
-            B binding = DataBindingUtil.inflate(getInflater(), viewType, parent, false);
+            B binding = DataBindingUtil.inflate(getInflater(parent.getContext()), viewType, parent, false);
             return new BaseViewHolder<>(binding);
         } catch (InflateException e) {
-            Log.e(TAG, "onCreateViewHolder: " + viewType);
-            B inflate = DataBindingUtil.inflate(getInflater(), com.doctor.sun.R.layout.item_error, parent, false);
+            Log.e(TAG, "onCreateViewHolder: R.layout: " + Integer.toHexString(viewType));
+            B inflate = DataBindingUtil.inflate(getInflater(parent.getContext()), com.doctor.sun.R.layout.item_error, parent, false);
             return new BaseViewHolder<>(inflate);
         }
     }
@@ -103,7 +96,7 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
         int intercept(int origin);
     }
 
-    public class DefaultLayoutIdInterceptor implements LayoutIdInterceptor {
+    private class DefaultLayoutIdInterceptor implements LayoutIdInterceptor {
         @Override
         public int intercept(int origin) {
             return origin;

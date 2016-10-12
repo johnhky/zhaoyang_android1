@@ -37,6 +37,6 @@
         android:paddingStart="@dimen/dp_6"
         android:paddingTop="@dimen/dp_6"
         android:text="@{data.optionContent}"
-        android:textColor="@color/primary_color_selector"
+        android:textColor="@color/primary_color_selector_read_only"
         android:textSize="@dimen/font_15" />
 </layout>

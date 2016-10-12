@@ -160,6 +160,13 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
     protected void onPause() {
         super.onPause();
         UpdateUtil.onPause();
+        binding.vpBanner.stopAutoScroll();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        binding.vpBanner.startAutoScroll();
     }
 
     @Override
