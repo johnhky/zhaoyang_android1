@@ -36,11 +36,6 @@ public class PConsultingActivity extends BaseFragmentActivity2 {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_consultation);
         binding.setFooter(getFooter());
         binding.vp.setAdapter(new ConsultingPagerAdapter(getSupportFragmentManager()));
-//
-//        binding.pagerTabs.setCustomTabView(R.layout.tab_custom, android.R.id.text1);
-//        binding.pagerTabs.setDistributeEvenly(true);
-//        binding.pagerTabs.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimaryDark));
-//        binding.pagerTabs.setViewPager(binding.vp);
     }
 
 
@@ -65,28 +60,6 @@ public class PConsultingActivity extends BaseFragmentActivity2 {
         }
     }
 
-
-    //    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_consulting, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_contact: {
-//                onMenuClicked();
-//                return true;
-//            }
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-//    public void onMenuClicked() {
-//        Intent intent = ContactActivity.makeIntent(this, ContactActivity.PATIENTS_CONTACT);
-//        startActivity(intent);
-//    }
 
     @Override
     public int getMidTitle() {

@@ -343,6 +343,11 @@ public class DiagnosisFragment extends BaseFragment {
         prescriptionBinding.etOthers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!canWritePrescription()) {
+                    Toast.makeText(getContext(), "咨询／治疗师认证无处方权", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Intent intent = EditPrescriptionActivity.makeIntent(getContext(), prescription);
                 Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
                     @Override
