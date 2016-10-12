@@ -13,11 +13,14 @@ import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
+import com.doctor.sun.entity.constans.IntBoolean;
+import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.event.EditEndEvent;
 import com.doctor.sun.event.ModifyStatusEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
+import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
@@ -192,26 +195,67 @@ public class AfterService extends BaseObservable implements LayoutId {
         performAction(Actions.ACCEPT, new ItemChangedCallback(adapter, vh, Status.DOING));
     }
 
-    public void fillForum(Context context, String id) {
-        int position = 0;
-        if (Settings.isDoctor()) {
-            position = 1;
-        }
-        if (isFinished(status)) {
-            position = 1;
-        }
-        switch (status) {
-            case Status.DOING: {
-                Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, position);
-                EventHub.register(this);
-                context.startActivity(intent);
-                break;
+    public void fillForum(final Context context, final String id) {
+        DiagnosisModule api = Api.of(DiagnosisModule.class);
+        String type = "followUp";
+        api.appointmentStatus(Integer.valueOf(id), type).enqueue(new SimpleCallback<AppointmentStatus>() {
+            @Override
+            protected void handleResponse(AppointmentStatus response) {
+                int position = 0;
+                if (Settings.isDoctor()) {
+                    position = 1;
+                }
+                if (isFinished(status)) {
+                    position = 1;
+                }
+                int canEdit;
+                if (response != null) {
+                    canEdit = response.canEdit;
+                    String orderStatus = response.displayStatus;
+
+                    boolean isCanEditStatus = !orderStatus.equals(AppointmentHandler.Status.FINISHED)
+                            && !orderStatus.equals(AppointmentHandler.Status.A_FINISHED)
+                            && !orderStatus.equals(AppointmentHandler.Status.REJECTED)
+                            && !orderStatus.equals(AppointmentHandler.Status.LOCKED)
+                            && !orderStatus.equals(AppointmentHandler.Status.A_UNPAID)
+                            && !orderStatus.equals(AppointmentHandler.Status.CLOSED)
+                            && !orderStatus.equals(AppointmentHandler.Status.A_CANCEL);
+
+                    if (isCanEditStatus) {
+                        canEdit = IntBoolean.TRUE;
+                    }
+                } else {
+                    canEdit = IntBoolean.NOT_GIVEN;
+                }
+                switch (canEdit) {
+                    case IntBoolean.FALSE: {
+                        Intent intent = AfterServiceDoneActivity.intentFor(context, id, position);
+                        context.startActivity(intent);
+                        break;
+                    }
+                    case IntBoolean.NOT_GIVEN: {
+                        Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, position);
+                        context.startActivity(intent);
+                        break;
+                    }
+                    case IntBoolean.TRUE: {
+                        if (Settings.isDoctor()) {
+                            Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, position);
+                            context.startActivity(intent);
+                        } else {
+                            Intent intent = AfterServiceDoneActivity.intentFor(context, id, position);
+                            context.startActivity(intent);
+                        }
+                        break;
+                    }
+                    default: {
+                        Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, position);
+                        context.startActivity(intent);
+                        break;
+                    }
+                }
             }
-            default: {
-                Intent intent = AfterServiceDoneActivity.intentFor(context, id, position);
-                context.startActivity(intent);
-            }
-        }
+        });
     }
 
     public void chatting(Context context) {

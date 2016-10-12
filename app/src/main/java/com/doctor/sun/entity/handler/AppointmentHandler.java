@@ -525,7 +525,8 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                     }
                 }
                 default: {
-                    return AfterServiceDoneActivity.intentFor(context, id, 0);
+                    String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
+                    return AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
                 }
             }
         } else {
@@ -555,7 +556,8 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                     }
                 }
                 default: {
-                    return AfterServiceDoneActivity.intentFor(context, id, 0);
+                    String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
+                    return AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
                 }
             }
         } else {
@@ -986,12 +988,27 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public void viewDetail(final Context context, final int tab) {
         DiagnosisModule api = Api.of(DiagnosisModule.class);
-        api.appointmentStatus(appointmentId()).enqueue(new SimpleCallback<AppointmentStatus>() {
+        String type = "appointment";
+        if (isAfterService()) {
+            type = "followUp";
+        }
+        api.appointmentStatus(appointmentId(), type).enqueue(new SimpleCallback<AppointmentStatus>() {
             @Override
             protected void handleResponse(AppointmentStatus response) {
                 int canEdit;
                 if (response != null) {
                     canEdit = response.canEdit;
+                    String orderStatus = response.displayStatus;
+                    boolean isCanEditStatus = !orderStatus.equals(Status.FINISHED)
+                            && !orderStatus.equals(Status.A_FINISHED)
+                            && !orderStatus.equals(Status.REJECTED)
+                            && !orderStatus.equals(Status.LOCKED)
+                            && !orderStatus.equals(Status.A_UNPAID)
+                            && !orderStatus.equals(Status.CLOSED)
+                            && !orderStatus.equals(Status.A_CANCEL);
+                    if (isCanEditStatus) {
+                        canEdit = IntBoolean.TRUE;
+                    }
                 } else {
                     canEdit = IntBoolean.NOT_GIVEN;
                 }
