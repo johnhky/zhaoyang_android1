@@ -3,26 +3,32 @@ package com.doctor.sun.ui.activity.doctor;
 import android.content.Intent;
 import android.os.Build;
 
+import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.model.FooterViewModel;
+import com.squareup.otto.Subscribe;
 
 /**
  * Created by rick on 11/30/15.
  */
-public class BaseDoctorActivity extends BaseFragmentActivity2 implements FooterViewModel.FooterView {
-    @Override
-    public void gotoTabOne() {
-        startActivity(MainActivity.class);
-    }
+public class BaseDoctorActivity extends BaseFragmentActivity2  {
 
-    @Override
-    public void gotoTabTwo() {
-        startActivity(ConsultingActivity.class);
-    }
-
-    @Override
-    public void gotoTabThree() {
-        startActivity(MeActivity.class);
+    @Subscribe
+    public void onMainTabChangedEvent(MainTabChangedEvent e) {
+        switch (e.getPosition()) {
+            case 0: {
+                startActivity(MainActivity.class);
+                break;
+            }
+            case 1: {
+                startActivity(ConsultingActivity.class);
+                break;
+            }
+            case 2: {
+                startActivity(MeActivity.class);
+                break;
+            }
+        }
     }
 
     public void startActivity(Class<?> cls) {

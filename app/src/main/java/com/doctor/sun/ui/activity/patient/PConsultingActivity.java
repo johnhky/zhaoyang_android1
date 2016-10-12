@@ -10,11 +10,11 @@ import android.support.annotation.NonNull;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityConsultationBinding;
+import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.fragment.ConsultingFragment2;
 import com.doctor.sun.ui.model.FooterViewModel;
-import com.doctor.sun.ui.model.PatientFooterView;
 import com.doctor.sun.ui.pager.ConsultingPagerAdapter;
 import com.squareup.otto.Subscribe;
 
@@ -41,9 +41,26 @@ public class PConsultingActivity extends BaseFragmentActivity2 {
 
     @NonNull
     private FooterViewModel getFooter() {
-        return FooterViewModel.getInstance(new PatientFooterView(this), R.id.tab_two);
+        return FooterViewModel.getInstance(R.id.tab_two);
     }
 
+    @Subscribe
+    public void onMainTabChangedEvent(MainTabChangedEvent e) {
+        switch (e.getPosition()) {
+            case 0: {
+                startActivity(PMainActivity2.class);
+                break;
+            }
+            case 1: {
+                startActivity(PConsultingActivity.class);
+                break;
+            }
+            case 2: {
+                startActivity(PMeActivity.class);
+                break;
+            }
+        }
+    }
 
     @Override
     public void onResume() {

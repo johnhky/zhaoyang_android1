@@ -11,6 +11,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMeBinding;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Patient;
+import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -18,7 +19,6 @@ import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.handler.MeHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
-import com.doctor.sun.ui.model.PatientFooterView;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -57,9 +57,25 @@ public class PMeActivity extends BaseFragmentActivity2 {
     }
 
     private FooterViewModel getFooter() {
-        PatientFooterView mView = new PatientFooterView(this);
+        return FooterViewModel.getInstance(R.id.tab_three);
+    }
 
-        return FooterViewModel.getInstance(mView, R.id.tab_three);
+    @Subscribe
+    public void onMainTabChangedEvent(MainTabChangedEvent e) {
+        switch (e.getPosition()) {
+            case 0: {
+                startActivity(PMainActivity2.class);
+                break;
+            }
+            case 1: {
+                startActivity(PConsultingActivity.class);
+                break;
+            }
+            case 2: {
+                startActivity(PMeActivity.class);
+                break;
+            }
+        }
     }
 
     public Patient getData() {

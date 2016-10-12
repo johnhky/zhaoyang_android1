@@ -6,10 +6,10 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
-import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.im.TextMsg;
-import com.doctor.sun.im.IMManager;
+import com.doctor.sun.event.MainTabChangedEvent;
 
+import io.ganguo.library.core.event.EventHub;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 
@@ -19,28 +19,22 @@ import io.realm.RealmChangeListener;
  */
 public class FooterViewModel extends BaseObservable implements RealmChangeListener<Realm> {
     public static final String TAG = FooterViewModel.class.getSimpleName();
-    private FooterView mView;
 
     public int id;
 
     private static FooterViewModel instance;
 
-    public static FooterViewModel getInstance(FooterView mView, int position) {
+    public static FooterViewModel getInstance(int position) {
         if (instance == null) {
-            instance = new FooterViewModel(mView, position);
+            instance = new FooterViewModel(position);
         } else {
-            instance.mView = null;
-            instance.mView = mView;
             instance.id = position;
         }
         return instance;
     }
 
-    public FooterViewModel(FooterView mView, int position) {
-        this.mView = mView;
+    public FooterViewModel(int position) {
         this.id = position;
-        final ImAccount accountDTO = IMManager.getVoipAccount();
-        if (accountDTO == null) return;
     }
 
     @NonNull
@@ -67,19 +61,19 @@ public class FooterViewModel extends BaseObservable implements RealmChangeListen
                 }
                 switch (i) {
                     case R.id.tab_one: {
-                        mView.gotoTabOne();
+                        EventHub.post(new MainTabChangedEvent(0));
                         break;
                     }
                     case R.id.tab_two: {
-                        mView.gotoTabTwo();
+                        EventHub.post(new MainTabChangedEvent(1));
                         break;
                     }
                     case R.id.lly_message: {
-                        mView.gotoTabTwo();
+                        EventHub.post(new MainTabChangedEvent(1));
                         break;
                     }
                     case R.id.tab_three: {
-                        mView.gotoTabThree();
+                        EventHub.post(new MainTabChangedEvent(2));
                         break;
                     }
                 }
@@ -92,46 +86,4 @@ public class FooterViewModel extends BaseObservable implements RealmChangeListen
         notifyChange();
     }
 
-
-    public interface FooterView {
-
-        void gotoTabOne();
-
-        void gotoTabTwo();
-
-        void gotoTabThree();
-
-    }
-
-    public String getShowCaseContent() {
-        if (Settings.isDoctor()) {
-            return "您可以在这里与患者通过文字信息或者电话进行沟通";
-        } else {
-            return "您可以在这里与医生通过文字信息或者电话进行沟通";
-        }
-    }
-
-    public String getShowCaseId() {
-        if (Settings.isDoctor()) {
-            return "doctorMain";
-        } else {
-            return "main";
-        }
-    }
-
-    public int getShowPosition() {
-        if (Settings.isDoctor()) {
-            return 1;
-        } else {
-            return 4;
-        }
-    }
-
-    public int getShowCaseSize() {
-        if (Settings.isDoctor()) {
-            return 2;
-        } else {
-            return 5;
-        }
-    }
 }

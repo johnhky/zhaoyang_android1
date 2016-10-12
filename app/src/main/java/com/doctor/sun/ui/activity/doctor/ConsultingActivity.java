@@ -9,10 +9,11 @@ import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityConsultationBinding;
+import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.model.DoctorFooterView;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.pager.ConsultingPagerAdapter;
+import com.squareup.otto.Subscribe;
 
 /**
  * Created by rick on 11/30/15.
@@ -40,7 +41,24 @@ public class ConsultingActivity extends BaseFragmentActivity2 {
 
     @NonNull
     private FooterViewModel getFooter() {
-        return FooterViewModel.getInstance(new DoctorFooterView(this), R.id.tab_two);
+        return FooterViewModel.getInstance(R.id.tab_two);
+    }
+    @Subscribe
+    public void onMainTabChangedEvent(MainTabChangedEvent e) {
+        switch (e.getPosition()) {
+            case 0: {
+                startActivity(MainActivity.class);
+                break;
+            }
+            case 1: {
+                startActivity(ConsultingActivity.class);
+                break;
+            }
+            case 2: {
+                startActivity(MeActivity.class);
+                break;
+            }
+        }
     }
 
 //    通讯录入口 1.3版本移除

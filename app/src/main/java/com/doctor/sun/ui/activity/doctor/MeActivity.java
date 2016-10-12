@@ -11,6 +11,7 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityMeBinding;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -68,7 +69,25 @@ public class MeActivity extends BaseDoctorActivity {
     }
 
     private FooterViewModel getFooter() {
-        return FooterViewModel.getInstance(this, R.id.tab_three);
+        return FooterViewModel.getInstance(R.id.tab_three);
+    }
+
+    @Subscribe
+    public void onMainTabChangedEvent(MainTabChangedEvent e) {
+        switch (e.getPosition()) {
+            case 0: {
+                startActivity(MainActivity.class);
+                break;
+            }
+            case 1: {
+                startActivity(ConsultingActivity.class);
+                break;
+            }
+            case 2: {
+                startActivity(MeActivity.class);
+                break;
+            }
+        }
     }
 
 

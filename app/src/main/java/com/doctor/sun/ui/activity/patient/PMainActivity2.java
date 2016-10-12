@@ -13,6 +13,7 @@ import com.doctor.sun.databinding.PActivityMain2Binding;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Banner;
 import com.doctor.sun.entity.Patient;
+import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -22,7 +23,6 @@ import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.handler.patient.PMainActivityHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
-import com.doctor.sun.ui.model.PatientFooterView;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.ShowCaseUtil;
@@ -124,10 +124,26 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
     }
 
     private FooterViewModel getFooter() {
-        PatientFooterView mView = new PatientFooterView(this);
-        return FooterViewModel.getInstance(mView, R.id.tab_one);
+        return FooterViewModel.getInstance(R.id.tab_one);
     }
 
+    @Subscribe
+    public void onMainTabChangedEvent(MainTabChangedEvent e) {
+        switch (e.getPosition()) {
+            case 0: {
+                startActivity(PMainActivity2.class);
+                break;
+            }
+            case 1: {
+                startActivity(PConsultingActivity.class);
+                break;
+            }
+            case 2: {
+                startActivity(PMeActivity.class);
+                break;
+            }
+        }
+    }
 
     @Subscribe
     public void onShowCaseFinished(ShowCaseFinishedEvent e) {
