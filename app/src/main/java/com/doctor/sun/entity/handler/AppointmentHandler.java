@@ -508,17 +508,26 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public Intent getFirstMenu(Context context, int canEdit) {
         if (isAfterService()) {
             String id = String.valueOf(data.getId());
-            switch (data.getDisplayStatus()) {
-                case Status.A_WAITING:
-                case Status.A_DOING: {
+            switch (canEdit) {
+                case IntBoolean.FALSE: {
+                    return AfterServiceDoneActivity.intentFor(context, id, 0);
+                }
+                case IntBoolean.NOT_GIVEN: {
                     String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
                     return AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
+                }
+                case IntBoolean.TRUE: {
+                    if (Settings.isDoctor()) {
+                        String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
+                        return AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
+                    } else {
+                        return AfterServiceDoneActivity.intentFor(context, id, 0);
+                    }
                 }
                 default: {
                     return AfterServiceDoneActivity.intentFor(context, id, 0);
                 }
             }
-
         } else {
             Appointment data = getData();
             data.canEdit = canEdit;
@@ -529,14 +538,24 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public Intent getMenu(Context context, int canEdit) {
         if (isAfterService()) {
             String id = String.valueOf(data.getId());
-            switch (data.getDisplayStatus()) {
-                case Status.A_WAITING:
-                case Status.A_DOING: {
+            switch (canEdit) {
+                case IntBoolean.FALSE: {
+                    return AfterServiceDoneActivity.intentFor(context, id, 1);
+                }
+                case IntBoolean.NOT_GIVEN: {
                     String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
                     return AfterServiceDoingActivity.intentFor(context, id, recordId, 1);
                 }
+                case IntBoolean.TRUE: {
+                    if (Settings.isDoctor()) {
+                        String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
+                        return AfterServiceDoingActivity.intentFor(context, id, recordId, 1);
+                    } else {
+                        return AfterServiceDoneActivity.intentFor(context, id, 1);
+                    }
+                }
                 default: {
-                    return AfterServiceDoneActivity.intentFor(context, id, 1);
+                    return AfterServiceDoneActivity.intentFor(context, id, 0);
                 }
             }
         } else {
