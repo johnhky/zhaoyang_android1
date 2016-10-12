@@ -985,6 +985,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         if (tab == 0) {
             Intent i = getFirstMenu(context, canEdit);
             if (i != null) {
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(i);
             }
         } else {

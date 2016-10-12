@@ -28,6 +28,7 @@ import com.doctor.sun.util.JacksonUtils;
 import com.google.common.base.Strings;
 
 import cn.jpush.android.api.JPushInterface;
+import io.ganguo.library.AppManager;
 
 /**
  * 自定义接收器
@@ -74,6 +75,7 @@ public class JPushReceiver extends BroadcastReceiver {
 
     public void viewAppointmentDetail(final Context context, final Intent intent) {
 
+        AppManager.finishAllActivity();
         startMainActivity(context);
 
         String id = intent.getStringExtra(Constants.DATA);
@@ -89,9 +91,11 @@ public class JPushReceiver extends BroadcastReceiver {
 
     public void viewRelationRequest(Context context, Intent intent) {
 
+        AppManager.finishAllActivity();
         startMainActivity(context);
 
         Intent intent2 = PAfterServiceActivity.intentFor(context, 1);
+        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent2);
         cancelNotification(context, intent);
     }
