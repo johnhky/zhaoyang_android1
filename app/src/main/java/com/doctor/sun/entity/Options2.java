@@ -37,6 +37,9 @@ import java.util.UUID;
 public class Options2 extends BaseItem {
     public static final String TAG = Options2.class.getSimpleName();
 
+    private static final int FORM_API = 0;
+    private static final int FORM_USER_INPUT = 1;
+
     /**
      * option_content : 保存密码
      * option_id : 1468916105WaJyrupXco
@@ -51,6 +54,7 @@ public class Options2 extends BaseItem {
     public String questionType;
     @JsonIgnore
     public String questionContent;
+
 
     @JsonSerialize(using = NumericBooleanSerializer.class)
     @JsonDeserialize(using = NumericBooleanDeserializer.class)
@@ -80,6 +84,10 @@ public class Options2 extends BaseItem {
     public List<String> childOptions;
     @JsonProperty("reply_index")
     public int selectedIndex = -1;
+
+    @JsonProperty("resourse_type")
+    public int resourseType;
+
     @JsonProperty("reply_object")
     public Map<String, String> selectedOption;
     @JsonProperty("reply_content")
@@ -315,19 +323,39 @@ public class Options2 extends BaseItem {
      * @param adapter
      */
     public void loadPrescriptions(final SortedListAdapter adapter) {
-        ToolModule toolModule = Api.of(ToolModule.class);
-        toolModule.listOfItems(optionContent).enqueue(new SimpleCallback<List<HashMap<String, String>>>() {
-            @Override
-            protected void handleResponse(List<HashMap<String, String>> response) {
-                ItemAddPrescription2 item = (ItemAddPrescription2) adapter.get(questionId + QuestionType.drug);
-                for (HashMap<String, String> stringStringHashMap : response) {
-                    Prescription prescription = new Prescription();
-                    prescription.fromHashMap(stringStringHashMap);
-                    item.addPrescription(prescription, adapter);
+        if (resourseType == FORM_USER_INPUT) {
+            ItemAddPrescription2 fromItem = (ItemAddPrescription2) adapter.get(optionContent + QuestionType.drug);
+            ItemAddPrescription2 toItem = (ItemAddPrescription2) adapter.get(questionId + QuestionType.drug);
+            if (fromItem != null && toItem != null) {
+                int adapterPosition = adapter.indexOfImpl(fromItem);
+                int distance = adapter.inBetweenItemCount(adapterPosition, optionContent);
+                if (distance > 0) {
+                    for (int i = distance; i > 1; i--) {
+                        int index = adapterPosition - i + 1;
+                        try {
+                            Prescription sortedItem = (Prescription) adapter.get(index);
+                            toItem.addPrescription(sortedItem.copy(), adapter);
+                        } catch (ClassCastException ignored) {
+                            ignored.printStackTrace();
+                        }
+                    }
                 }
-            }
-        });
 
+            }
+        } else {
+            ToolModule toolModule = Api.of(ToolModule.class);
+            toolModule.listOfItems(optionContent).enqueue(new SimpleCallback<List<HashMap<String, String>>>() {
+                @Override
+                protected void handleResponse(List<HashMap<String, String>> response) {
+                    ItemAddPrescription2 item = (ItemAddPrescription2) adapter.get(questionId + QuestionType.drug);
+                    for (HashMap<String, String> stringStringHashMap : response) {
+                        Prescription prescription = new Prescription();
+                        prescription.fromHashMap(stringStringHashMap);
+                        item.addPrescription(prescription, adapter);
+                    }
+                }
+            });
+        }
     }
 
 
