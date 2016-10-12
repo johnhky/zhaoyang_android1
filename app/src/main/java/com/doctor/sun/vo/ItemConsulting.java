@@ -111,16 +111,28 @@ public class ItemConsulting implements SortedItem {
     }
 
     public Messenger messenger(final SortedListAdapter mAdapter, final BaseViewHolder vh) {
-        return new Messenger(new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                mAdapter.insert(new ItemConsulting(System.currentTimeMillis(), (Appointment) msg.obj));
-                return false;
-            }
-        }));
+        return new Messenger(new Handler(new Callback(mAdapter)));
     }
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    private static class Callback implements Handler.Callback {
+
+        private SortedListAdapter mAdapter;
+
+        public Callback(SortedListAdapter mAdapter) {
+            this.mAdapter = mAdapter;
+        }
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (mAdapter != null) {
+                mAdapter.insert(new ItemConsulting(System.currentTimeMillis(), (Appointment) msg.obj));
+                mAdapter = null;
+            }
+            return false;
+        }
     }
 }
