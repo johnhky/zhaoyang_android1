@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,6 +23,7 @@ import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.model.EditDoctorInfoModel;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
 import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.util.JacksonUtils;
@@ -90,7 +92,6 @@ public class EditDoctorInfoFragment extends SortedListFragment {
             @Override
             protected void handleResponse(IsChanged response) {
                 if (response.isChanged) {
-                    TokenCallback.checkToken(getActivity());
                     Toast.makeText(getContext(), "保存成功,请耐心等待资料审核", Toast.LENGTH_SHORT).show();
 
                     ProfileModule api = Api.of(ProfileModule.class);
@@ -99,14 +100,14 @@ public class EditDoctorInfoFragment extends SortedListFragment {
                         protected void handleResponse(Doctor response) {
                             Doctor data = response;
                             Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(data));
-                            Intent intent = MainActivity.makeIntent(getContext());
-                            getContext().startActivity(intent);
+
+                            TokenCallback.checkToken(getActivity());
                         }
                     });
                 } else {
                     Toast.makeText(getContext(), "本次未修改资料", Toast.LENGTH_SHORT).show();
-                    Intent intent = MainActivity.makeIntent(getContext());
-                    getContext().startActivity(intent);
+
+                    TokenCallback.checkToken(getActivity());
                 }
             }
         });
