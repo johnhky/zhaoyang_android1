@@ -15,6 +15,7 @@ import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
+import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
@@ -247,7 +248,7 @@ public class SystemMsg extends BaseItem {
                 if (isDoctor) {
                     i = AfterServiceActivity.intentFor(context);
                 } else {
-                    i = PAfterServiceActivity.intentFor(context);
+                    i = AfterServiceDoingActivity.intentFor(context, getExtras().followUpId, "", 0);
                 }
                 break;
             }
