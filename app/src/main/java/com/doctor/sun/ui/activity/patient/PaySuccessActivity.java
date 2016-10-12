@@ -27,6 +27,9 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
     private PActivityPaySuccessBinding binding;
 
     public static Intent makeIntent(Context context, Appointment data) {
+        if (data == null) {
+            return makeIntent(context);
+        }
         Intent i = new Intent(context, PaySuccessActivity.class);
         i.putExtra(Constants.DATA, data);
         i.putExtra(Constants.TYPE, APPOINTMENT);
@@ -40,7 +43,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
 //        return i;
 //    }
 
-    public static Intent makeIntent(Context context) {
+    private static Intent makeIntent(Context context) {
         Intent i = new Intent(context, PaySuccessActivity.class);
         i.putExtra(Constants.TYPE, VOIP_PAY);
         return i;

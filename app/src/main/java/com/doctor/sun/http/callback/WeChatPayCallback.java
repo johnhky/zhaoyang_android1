@@ -1,13 +1,12 @@
 package com.doctor.sun.http.callback;
 
 import android.app.Activity;
-import android.content.Intent;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.WeChatPayDTO;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.ui.activity.patient.PayFailActivity;
-import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
+import com.doctor.sun.event.PayFailEvent;
+import com.doctor.sun.event.PaySuccessEvent;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.wxapi.WXPayEntryActivity;
 import com.tencent.mm.sdk.modelpay.PayReq;
@@ -16,6 +15,7 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import java.util.HashMap;
 
+import io.ganguo.library.core.event.EventHub;
 import retrofit2.Call;
 
 /**
@@ -31,14 +31,12 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
 
             @Override
             public void onPaySuccess() {
-                Intent intent = PaySuccessActivity.makeIntent(activity, data);
-                activity.startActivity(intent);
+                EventHub.post(new PaySuccessEvent(data));
             }
 
             @Override
             public void onPayFail() {
-                Intent intent = PayFailActivity.makeIntent(activity, data, true);
-                activity.startActivity(intent);
+                EventHub.post(new PayFailEvent(data, false));
             }
         };
         WXPayEntryActivity.setCallback(mCallback);
@@ -68,14 +66,12 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
         mCallback = new PayCallback() {
             @Override
             public void onPaySuccess() {
-                Intent intent = PaySuccessActivity.makeIntent(activity);
-                activity.startActivity(intent);
+                EventHub.post(new PaySuccessEvent());
             }
 
             @Override
             public void onPayFail() {
-                Intent intent = PayFailActivity.makeIntent(activity, money, true, extraField);
-                activity.startActivity(intent);
+                EventHub.post(new PayFailEvent(money, false, extraField));
             }
         };
         WXPayEntryActivity.setCallback(mCallback);

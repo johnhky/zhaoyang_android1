@@ -14,6 +14,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.util.PayEventHandler;
 import com.doctor.sun.vo.BaseItem;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class PayAppointmentFragment extends SortedListFragment {
 
     private final AppointmentModule api = Api.of(AppointmentModule.class);
     public AppointmentBuilder builder;
+    private PayEventHandler payEventHandler;
 
     public static Bundle getArgs(String id) {
         Bundle bundle = new Bundle();
@@ -40,6 +42,7 @@ public class PayAppointmentFragment extends SortedListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         builder = new AppointmentBuilder();
+        payEventHandler = PayEventHandler.register();
     }
 
     @Override
@@ -85,4 +88,10 @@ public class PayAppointmentFragment extends SortedListFragment {
         return getArguments().getString(Constants.DATA);
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PayEventHandler.unregister(payEventHandler);
+    }
 }

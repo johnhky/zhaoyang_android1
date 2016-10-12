@@ -10,6 +10,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityApplyAppointmentBinding;
 import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.util.PayEventHandler;
 
 
 /**
@@ -20,6 +21,7 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 public class ApplyAppointmentActivity extends BaseFragmentActivity2 {
     private PActivityApplyAppointmentBinding binding;
     private AppointmentBuilder data;
+    private PayEventHandler payEventHandler;
 
     public static Intent makeIntent(Context context, AppointmentBuilder builder) {
         Intent i = new Intent(context, ApplyAppointmentActivity.class);
@@ -42,11 +44,18 @@ public class ApplyAppointmentActivity extends BaseFragmentActivity2 {
         binding.rbAlipay.setChecked(true);
         data.loadCoupons();
         data.loadTags();
+        payEventHandler = PayEventHandler.register();
     }
 
 
     @Override
     public int getMidTitle() {
         return R.string.title_confirm_order;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PayEventHandler.unregister(payEventHandler);
     }
 }

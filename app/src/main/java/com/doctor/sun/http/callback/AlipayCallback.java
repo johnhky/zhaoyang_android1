@@ -1,18 +1,19 @@
 package com.doctor.sun.http.callback;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
 import com.alipay.sdk.app.PayTask;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.ui.activity.patient.PayFailActivity;
-import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
+import com.doctor.sun.event.PayFailEvent;
+import com.doctor.sun.event.PaySuccessEvent;
 import com.doctor.sun.util.PayCallback;
 
 import java.util.HashMap;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 23/1/2016.
@@ -22,7 +23,7 @@ public class AlipayCallback extends SimpleCallback<String> {
     public static final int PAY_FLAG = 1;
 
 
-    private final Activity activity;
+    private Activity activity;
     private static PayCallback mCallback;
     private static PayStatusHandler payStatusHandler = new PayStatusHandler();
 
@@ -33,14 +34,16 @@ public class AlipayCallback extends SimpleCallback<String> {
 
             @Override
             public void onPaySuccess() {
-                Intent intent = PaySuccessActivity.makeIntent(activity, data);
-                activity.startActivity(intent);
+                EventHub.post(new PaySuccessEvent(data));
+//                Intent intent = PaySuccessActivity.makeIntent(activity, data);
+//                activity.startActivity(intent);
             }
 
             @Override
             public void onPayFail() {
-                Intent intent = PayFailActivity.makeIntent(activity, data, false);
-                activity.startActivity(intent);
+                EventHub.post(new PayFailEvent(data, false));
+//                Intent intent = PayFailActivity.makeIntent(activity, data, false);
+//                activity.startActivity(intent);
             }
         };
     }
@@ -51,14 +54,14 @@ public class AlipayCallback extends SimpleCallback<String> {
         mCallback = new PayCallback() {
             @Override
             public void onPaySuccess() {
-                Intent intent = PaySuccessActivity.makeIntent(activity);
-                activity.startActivity(intent);
+                EventHub.post(new PaySuccessEvent());
             }
 
             @Override
             public void onPayFail() {
-                Intent intent = PayFailActivity.makeIntent(activity, money, false, extraField);
-                activity.startActivity(intent);
+                EventHub.post(new PayFailEvent(money, false, extraField));
+//                Intent intent = PayFailActivity.makeIntent(activity, money, false, extraField);
+//                activity.startActivity(intent);
             }
         };
     }

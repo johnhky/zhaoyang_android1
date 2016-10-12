@@ -31,6 +31,8 @@ import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
+import com.doctor.sun.event.PayFailEvent;
+import com.doctor.sun.event.PaySuccessEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -56,8 +58,6 @@ import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.activity.patient.FinishedOrderActivity;
 import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
-import com.doctor.sun.ui.activity.patient.PayFailActivity;
-import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
@@ -89,7 +89,7 @@ import retrofit2.Call;
  * Created by rick on 11/20/15.
  * 所有关于预约的逻辑都在这里, 跳转界面,是否过期等,剩下的进行中时间
  */
-public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.util.PayInterface, NimMsgInfo {
+public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     public static final int RECORD_AUDIO_PERMISSION = 40;
     private static AppointmentModule api = Api.of(AppointmentModule.class);
     protected Appointment data;
@@ -235,7 +235,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         context.startActivity(intent);
     }
 
-    @Override
     public void payWithAlipay(final Activity activity, String couponId) {
         int id;
         if (returnNotPaid()) {
@@ -246,7 +245,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         api.buildAliPayOrder(id, "alipay", couponId).enqueue(new AlipayCallback(activity, data));
     }
 
-    @Override
     public void payWithWeChat(final Activity activity, String couponId) {
         int id;
         if (returnNotPaid()) {
@@ -257,7 +255,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         api.buildWeChatOrder(id, "wechat", couponId).enqueue(new WeChatPayCallback(activity, data));
     }
 
-    @Override
     public void simulatedPay(final BaseAdapter component, final View view, final BaseViewHolder vh) {
         int id;
         if (returnNotPaid()) {
@@ -272,14 +269,12 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         final PayCallback mCallback = new PayCallback() {
             @Override
             public void onPaySuccess() {
-                Intent intent = PaySuccessActivity.makeIntent(view.getContext(), data);
-                view.getContext().startActivity(intent);
+                EventHub.post(new PaySuccessEvent(data));
             }
 
             @Override
             public void onPayFail() {
-                Intent intent = PayFailActivity.makeIntent(view.getContext(), data, true);
-                view.getContext().startActivity(intent);
+                EventHub.post(new PayFailEvent(data, false));
             }
         };
         AppointmentModule api = Api.of(AppointmentModule.class);

@@ -12,6 +12,7 @@ import com.doctor.sun.entity.Drug;
 import com.doctor.sun.entity.MedicineInfo;
 import com.doctor.sun.model.PayPrescriptionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.util.PayEventHandler;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class PayPrescriptionsFragment extends SortedListFragment {
     private DoctorInfo doctorInfo;
     private MedicineInfo medicineInfo;
     private boolean hasPay;
+    private PayEventHandler payEventHandler;
 
     public static Bundle getArgs(Drug drug) {
         Bundle bundle = new Bundle();
@@ -49,16 +51,16 @@ public class PayPrescriptionsFragment extends SortedListFragment {
         MedicineInfo medicineInfo = new MedicineInfo();
         medicineInfo.setOrderId(String.valueOf(drug.getId()));
         // 药品信息分行显示
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (String medicine : drug.getDrug()) {
-            stringBuffer.append(medicine);
-            stringBuffer.append("\n");
+            sb.append(medicine);
+            sb.append("\n");
         }
         // 删掉最后一个换行符
-        if (stringBuffer.length() > 0) {
-            stringBuffer.setLength(stringBuffer.length() - 1);
+        if (sb.length() > 0) {
+            sb.setLength(sb.length() - 1);
         }
-        medicineInfo.setMedicine(stringBuffer.toString());
+        medicineInfo.setMedicine(sb.toString());
         medicineInfo.setMedicinePrice(drug.getMoney());
 
         bundle.putParcelable(Constants.ADDRESS, address);
@@ -78,6 +80,7 @@ public class PayPrescriptionsFragment extends SortedListFragment {
         doctorInfo = getArguments().getParcelable(Constants.DOCTOR_INFO);
         medicineInfo = getArguments().getParcelable(Constants.MEDICINE_INFO);
         hasPay = getArguments().getBoolean(Constants.HAS_PAY);
+        payEventHandler = PayEventHandler.register();
     }
 
     @Override
@@ -93,5 +96,11 @@ public class PayPrescriptionsFragment extends SortedListFragment {
         List<SortedItem> sortedItems = model.parseData(address, doctorInfo, medicineInfo, hasPay);
         binding.swipeRefresh.setRefreshing(false);
         getAdapter().insertAll(sortedItems);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PayEventHandler.unregister(payEventHandler);
     }
 }
