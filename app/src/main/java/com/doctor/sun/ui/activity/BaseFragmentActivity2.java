@@ -41,7 +41,7 @@ public abstract class BaseFragmentActivity2 extends UMBaseFragmentActivity {
         // register
         AppManager.addActivity(this);
         EventHub.register(this);
-        tokenExpire = new OnTokenExpireEvent(this);
+        tokenExpire = new OnTokenExpireEvent();
         EventHub.register(tokenExpire);
         realm = getRealm();
     }

@@ -33,6 +33,7 @@ import com.squareup.otto.Subscribe;
 import java.util.List;
 
 import io.ganguo.library.Config;
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 14/7/2016.
@@ -176,13 +177,13 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
     protected void onPause() {
         super.onPause();
         UpdateUtil.onPause();
-        binding.vpBanner.stopAutoScroll();
+        EventHub.unregister(binding.vpBanner);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        binding.vpBanner.startAutoScroll();
+        EventHub.register(binding.vpBanner);
     }
 
     @Override
@@ -191,7 +192,6 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
     }
 
     public static Intent intentFor(Context context) {
-        Intent intent = new Intent(context, PMainActivity2.class);
-        return intent;
+        return new Intent(context, PMainActivity2.class);
     }
 }
