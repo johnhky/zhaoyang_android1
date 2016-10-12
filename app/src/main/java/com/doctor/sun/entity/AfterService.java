@@ -216,7 +216,6 @@ public class AfterService extends BaseObservable implements LayoutId {
                     boolean isCanEditStatus = !orderStatus.equals(AppointmentHandler.Status.FINISHED)
                             && !orderStatus.equals(AppointmentHandler.Status.A_FINISHED)
                             && !orderStatus.equals(AppointmentHandler.Status.REJECTED)
-                            && !orderStatus.equals(AppointmentHandler.Status.LOCKED)
                             && !orderStatus.equals(AppointmentHandler.Status.A_UNPAID)
                             && !orderStatus.equals(AppointmentHandler.Status.CLOSED)
                             && !orderStatus.equals(AppointmentHandler.Status.A_CANCEL);

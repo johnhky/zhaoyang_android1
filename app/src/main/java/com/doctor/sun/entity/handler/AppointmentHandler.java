@@ -997,7 +997,6 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
                     boolean isCanEditStatus = !orderStatus.equals(Status.FINISHED)
                             && !orderStatus.equals(Status.A_FINISHED)
                             && !orderStatus.equals(Status.REJECTED)
-                            && !orderStatus.equals(Status.LOCKED)
                             && !orderStatus.equals(Status.A_UNPAID)
                             && !orderStatus.equals(Status.CLOSED)
                             && !orderStatus.equals(Status.A_CANCEL);
