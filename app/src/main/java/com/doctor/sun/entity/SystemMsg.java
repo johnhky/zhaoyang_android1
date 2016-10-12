@@ -19,6 +19,7 @@ import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
 import com.doctor.sun.ui.activity.doctor.PatientDetailActivity;
+import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
@@ -157,6 +158,18 @@ public class SystemMsg extends BaseItem {
                     i = ConsultingActivity.makeIntent(context);
                 } else {
                     i = PConsultingActivity.makeIntent(context);
+                }
+                break;
+            }
+            case 5: {
+                if (!isDoctor) {
+                    apiAppointment.appointmentDetail(getExtras().appointmentId).enqueue(new SimpleCallback<Appointment>() {
+                        @Override
+                        protected void handleResponse(Appointment response) {
+                            Intent intent = AppointmentDetailActivity.makeIntent(context, response, 0);
+                            context.startActivity(intent);
+                        }
+                    });
                 }
                 break;
             }
