@@ -2,6 +2,7 @@ package com.doctor.sun.ui.activity.patient.handler;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.BaseObservable;
 import android.view.View;
 
 import com.doctor.sun.entity.Patient;
@@ -17,7 +18,7 @@ import com.doctor.sun.ui.fragment.EditPatientInfoFragment;
 /**
  * Created by lucas on 1/4/16.
  */
-public class MeHandler {
+public class MeHandler extends BaseObservable {
     private Patient data;
 
     public MeHandler(Patient patient) {
@@ -68,5 +69,10 @@ public class MeHandler {
 
     public void setData(Patient data) {
         this.data = data;
+        notifyChange();
+    }
+
+    public Patient getData() {
+        return data;
     }
 }

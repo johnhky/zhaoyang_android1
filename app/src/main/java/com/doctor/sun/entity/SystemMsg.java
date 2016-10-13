@@ -332,7 +332,7 @@ public class SystemMsg extends BaseItem {
 
     @NonNull
     public static RealmQuery<TextMsg> getAllMsg(Realm realm) {
-        return realm.where(TextMsg.class).beginsWith("sessionId", "SYSTEM_MSG");
+        return realm.where(TextMsg.class).beginsWith("sessionId", "SYSTEM_MSG").equalTo("haveRead", false);
     }
 
     @NonNull

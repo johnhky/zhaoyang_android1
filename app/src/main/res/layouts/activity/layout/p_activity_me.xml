@@ -4,10 +4,6 @@
 
     <data>
 
-        <variable
-            name="data"
-            type="com.doctor.sun.entity.Patient" />
-
 
 
         <variable
@@ -47,7 +43,7 @@
                 android:showcaseId='@{"patientMe"}'
                 android:showcasePosition='@{0}'
                 android:showcaseSize='@{3}'
-                android:src="@{data.avatar}"
+                android:src="@{handler.data.avatar}"
                 bind:maskDrawable="@drawable/circle_mask" />
 
             <TextView
@@ -55,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_11"
                 android:singleLine="true"
-                android:text="@{data.name}"
+                android:text="@{handler.data.name}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
@@ -64,7 +60,7 @@
                 android:layout_marginTop="@dimen/dp_8"
                 android:isIndicator="true"
                 android:numStars="5"
-                android:rating="@{data.point}" />
+                android:rating="@{handler.data.point}" />
 
         </LinearLayout>
 

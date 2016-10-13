@@ -41,19 +41,10 @@ public class PMeActivity extends BaseFragmentActivity2 {
         FooterViewModel footer = getFooter();
         binding.setFooter(footer);
         Patient patient = getData();
-        binding.setData(patient);
         handler = new MeHandler(patient);
         binding.setHandler(handler);
 
-        api.patientProfile().enqueue(new ApiCallback<PatientDTO>() {
-            @Override
-            protected void handleResponse(PatientDTO response) {
-                Patient data = response.getInfo();
-                Settings.setPatientProfile(response);
-                handler.setData(data);
-                binding.setData(data);
-            }
-        });
+        api.patientProfile().enqueue(new PatientDTOApiCallback(handler));
     }
 
     private FooterViewModel getFooter() {
@@ -107,5 +98,21 @@ public class PMeActivity extends BaseFragmentActivity2 {
     @Override
     public int getMidTitle() {
         return R.string.title_me;
+    }
+
+    private static class PatientDTOApiCallback extends ApiCallback<PatientDTO> {
+
+        private MeHandler handler;
+
+        PatientDTOApiCallback(MeHandler handler) {
+            this.handler = handler;
+        }
+
+        @Override
+        protected void handleResponse(PatientDTO response) {
+            Patient data = response.getInfo();
+            Settings.setPatientProfile(response);
+            handler.setData(data);
+        }
     }
 }
