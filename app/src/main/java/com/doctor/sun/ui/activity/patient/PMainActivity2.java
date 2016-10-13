@@ -15,6 +15,7 @@ import com.doctor.sun.entity.Banner;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
+import com.doctor.sun.event.UpdateEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -193,5 +194,10 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
 
     public static Intent intentFor(Context context) {
         return new Intent(context, PMainActivity2.class);
+    }
+
+    @Subscribe
+    public void onUpdateEvent(UpdateEvent e) {
+        UpdateUtil.handleNewVersion(this, e.getData(), e.getVersionName());
     }
 }
