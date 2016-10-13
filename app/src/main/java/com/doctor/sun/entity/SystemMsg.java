@@ -296,7 +296,7 @@ public class SystemMsg extends BaseItem {
     }
 
     public static String getLastMsg() {
-        RealmResults<TextMsg> all = getAllMsg(Realm.getDefaultInstance()).findAll();
+        RealmResults<TextMsg> all = getMyMsg(Realm.getDefaultInstance()).findAll();
         if (all.isEmpty()) {
             return "";
         }
@@ -332,7 +332,12 @@ public class SystemMsg extends BaseItem {
 
     @NonNull
     public static RealmQuery<TextMsg> getAllMsg(Realm realm) {
-        return realm.where(TextMsg.class).beginGroup().equalTo("sessionId", getConfigKey()).or().beginsWith("sessionId", "SYSTEM_MSG").endGroup();
+        return realm.where(TextMsg.class).beginsWith("sessionId", "SYSTEM_MSG");
+    }
+
+    @NonNull
+    public static RealmQuery<TextMsg> getMyMsg(Realm realm) {
+        return realm.where(TextMsg.class).equalTo("sessionId", getConfigKey());
     }
 
 
