@@ -3,23 +3,18 @@ package com.doctor.sun.ui.activity;
 
 import android.content.Intent;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.LargeTest;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 
 import com.doctor.sun.R;
+import com.doctor.sun.RandomUtil;
 import com.doctor.sun.TestConfig;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.ui.activity.action.CustomViewAction;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
@@ -70,7 +65,7 @@ public class Test2EditDoctorInfo {
 
     private void fillDoctorInfo() {
 
-        CustomViewAction.performActionAt(1, typeText("doctor"));
+        CustomViewAction.performActionAt(1, typeText("doctor_" + RandomUtil.generateString(4)));
         CustomViewAction.performActionAt(5,
                 CustomViewAction.clickChildViewWithId(R.id.rb_male));
 

@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.LargeTest;
+import android.support.test.filters.LargeTest;
 
 import com.doctor.sun.R;
+import com.doctor.sun.RandomUtil;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.ui.activity.action.CustomViewAction;
 import com.doctor.sun.ui.fragment.NewMedicalRecordFragment;
@@ -16,8 +17,6 @@ import org.hamcrest.core.AllOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.Random;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -30,7 +29,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class Test5NewOtherMedicalRecord {
-    String chars = "abcdefghijklmnopqrstuvwxyz";
 
     @Rule
     public ActivityTestRule<TestFragmentActivity> mActivityTestRule = new ActivityTestRule<>(TestFragmentActivity.class, false, false);
@@ -56,7 +54,7 @@ public class Test5NewOtherMedicalRecord {
     }
 
     public String getTag() {
-        return generateString(chars, 6);
+        return RandomUtil.generateString(6);
     }
 
     private void clickNext() {
@@ -65,12 +63,4 @@ public class Test5NewOtherMedicalRecord {
         actionMenuItemView.perform(click());
     }
 
-    private String generateString(String characters, int length) {
-        Random rng = new Random();
-        char[] text = new char[length];
-        for (int i = 0; i < length; i++) {
-            text[i] = characters.charAt(rng.nextInt(characters.length()));
-        }
-        return new String(text);
-    }
 }
