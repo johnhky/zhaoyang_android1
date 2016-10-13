@@ -9,15 +9,18 @@ import android.support.annotation.NonNull;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityMainBinding;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.DoctorIndex;
+import com.doctor.sun.entity.Version;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
+import com.doctor.sun.event.UpdateEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
@@ -28,6 +31,7 @@ import com.doctor.sun.ui.widget.BindingDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.ShowCaseUtil;
+import com.doctor.sun.util.UpdateEventHandler;
 import com.doctor.sun.util.UpdateUtil;
 import com.doctor.sun.vo.ClickMenu;
 import com.squareup.otto.Subscribe;
@@ -49,6 +53,7 @@ public class MainActivity extends BaseDoctorActivity {
     private ActivityMainBinding binding;
     private RealmResults<TextMsg> unReadMsg;
     private boolean isShowing = false;
+    private UpdateEventHandler updateEventHandler;
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, MainActivity.class);
@@ -61,6 +66,7 @@ public class MainActivity extends BaseDoctorActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setFooter(getFooter());
         binding.setHandler(new MainActivityHandler());
+
         showStatusDialog();
         String string = Config.getString(DOCTOR_INDEX);
         if (string != null && !string.equals("")) {
@@ -169,6 +175,9 @@ public class MainActivity extends BaseDoctorActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        updateEventHandler = UpdateEventHandler.register();
+
         getRealm().addChangeListener(getFooter());
         api.doctorIndex().enqueue(new ApiCallback<DoctorIndex>() {
             @Override
@@ -185,6 +194,7 @@ public class MainActivity extends BaseDoctorActivity {
         if (unReadMsg != null) {
             unReadMsg.removeChangeListeners();
         }
+        UpdateEventHandler.unregister(updateEventHandler);
     }
 
     @Override
@@ -228,5 +238,41 @@ public class MainActivity extends BaseDoctorActivity {
     protected void onPause() {
         super.onPause();
         UpdateUtil.onPause();
+    }
+
+    @Subscribe
+    public void onUpdateEvent(UpdateEvent e) {
+        Version data = e.getData();
+        String versionName = e.getVersionName();
+
+        boolean forceUpdate;
+        double newVersion;
+        if (data == null) {
+            forceUpdate = false;
+            newVersion = 0;
+        } else {
+            forceUpdate = data.getForceUpdate();
+            newVersion = data.getNowVersion();
+        }
+
+        UpdateUtil.DownloadNewVersionCallback callback = new UpdateUtil.DownloadNewVersionCallback(data);
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(this);
+        builder.canceledOnTouchOutside(false);
+        builder.cancelable(false);
+        builder.onPositive(callback);
+        builder.positiveText("马上更新");
+        if (forceUpdate) {
+            builder.content("昭阳医生已经发布了最新版本，更新后才可以使用哦！").show();
+        } else if (newVersion > Double.valueOf(versionName)) {
+            builder.negativeText("稍后提醒我");
+            builder.content("昭阳医生已经发布了最新版本，更新后会有更好的体验哦！").show();
+        } else {
+            if (UpdateUtil.noNewVersion != null) {
+                UpdateUtil.noNewVersion.onNoNewVersion();
+                UpdateUtil.noNewVersion = null;
+            }
+        }
+
+        UpdateUtil.lastCheckTime = System.currentTimeMillis();
     }
 }

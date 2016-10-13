@@ -16,8 +16,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.entity.Version;
 import com.doctor.sun.event.ProgressEvent;
+import com.doctor.sun.event.UpdateEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ToolModule;
 import com.squareup.otto.Subscribe;
@@ -41,10 +43,10 @@ public class UpdateUtil {
     public static final long INTERVAL = 7200000;
     public static final String APK_PATH = "newVersion.apk";
     public static final String NEW_VERSION = "NEW_VERSION" + BuildConfig.VERSION_CODE;
-    private static long lastCheckTime = 0;
+    public static long lastCheckTime = 0;
     private static boolean isHostActivityPaused = false;
 
-    private static onNoNewVersion noNewVersion;
+    public static onNoNewVersion noNewVersion;
 
 
     public static void checkUpdate(final Activity context) {
@@ -52,37 +54,43 @@ public class UpdateUtil {
 
         final ToolModule api = Api.of(ToolModule.class);
         final String myVersion = String.valueOf(BuildConfig.VERSION_CODE);
-        if (lastCheckTime + INTERVAL > System.currentTimeMillis()) {
+        if (lastCheckTime + INTERVAL < System.currentTimeMillis()) {
             Log.e(TAG, "checkUpdate: " + lastCheckTime);
+            Log.e(TAG, "currentTime: " + System.currentTimeMillis());
             String json = Config.getString(NEW_VERSION);
             if (json != null) {
                 Version serverVersion = JacksonUtils.fromJson(json, Version.class);
-                handleNewVersion(context, serverVersion, myVersion);
+//                handleNewVersion(context, serverVersion, myVersion);
+                EventHub.post(new UpdateEvent(serverVersion, myVersion));
                 return;
             }
         } else {
             Log.e(TAG, "checkUpdate: " + lastCheckTime);
         }
 
-        Call<ApiDTO<Version>> getVersionCall = api.getAppVersion("android", myVersion);
-        getVersionCall.enqueue(new Callback<ApiDTO<Version>>() {
-            @Override
-            public void onResponse(Call<ApiDTO<Version>> call, Response<ApiDTO<Version>> response) {
-                if (response.isSuccessful()) {
-                    final Version data = response.body().getData();
-                    Config.putString(NEW_VERSION, JacksonUtils.toJson(data));
-                    handleNewVersion(context, data, myVersion);
-                } else {
-                    Log.e(TAG, "onResponse: ");
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Log.e(TAG, "onFailure: ");
-
-            }
-        });
+//        Call<ApiDTO<Version>> getVersionCall = api.getAppVersion("android", myVersion);
+//        getVersionCall.enqueue(new Callback<ApiDTO<Version>>() {
+//            @Override
+//            public void onResponse(Call<ApiDTO<Version>> call, Response<ApiDTO<Version>> response) {
+//                if (response.isSuccessful()) {
+//                    final Version data = response.body().getData();
+//                    Config.putString(NEW_VERSION, JacksonUtils.toJson(data));
+////                    handleNewVersion(context, data, myVersion);
+//
+//                    Log.e(TAG, "Update");
+//
+//                    EventHub.post(new UpdateEvent(data, myVersion));
+//                } else {
+//                    Log.e(TAG, "onResponse: ");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call call, Throwable t) {
+//                Log.e(TAG, "onFailure: ");
+//
+//            }
+//        });
 
     }
 
@@ -99,38 +107,38 @@ public class UpdateUtil {
         return false;
     }
 
-    private static void handleNewVersion(Activity context, Version data, String versionName) {
-        boolean forceUpdate;
-        double newVersion;
-        if (data == null) {
-            forceUpdate = false;
-            newVersion = 0;
-        } else {
-            forceUpdate = data.getForceUpdate();
-            newVersion = data.getNowVersion();
-        }
-
-        if (context.getWindow().isActive() && !isHostActivityPaused) {
-            final DownloadNewVersionCallback callback = new DownloadNewVersionCallback(data);
-            MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
-            builder.canceledOnTouchOutside(false);
-            builder.cancelable(false);
-            builder.onPositive(callback);
-            builder.positiveText("马上更新");
-            if (forceUpdate) {
-                builder.content("昭阳医生已经发布了最新版本，更新后才可以使用哦！").show();
-            } else if (newVersion > Double.valueOf(versionName)) {
-                builder.negativeText("稍后提醒我");
-                builder.content("昭阳医生已经发布了最新版本，更新后会有更好的体验哦！").show();
-            } else {
-                if (noNewVersion != null) {
-                    noNewVersion.onNoNewVersion();
-                    noNewVersion = null;
-                }
-            }
-        }
-        lastCheckTime = System.currentTimeMillis();
-    }
+//    private static void handleNewVersion(Activity context, Version data, String versionName) {
+//        boolean forceUpdate;
+//        double newVersion;
+//        if (data == null) {
+//            forceUpdate = false;
+//            newVersion = 0;
+//        } else {
+//            forceUpdate = data.getForceUpdate();
+//            newVersion = data.getNowVersion();
+//        }
+//
+//        if (context.getWindow().isActive() && !isHostActivityPaused) {
+//            final DownloadNewVersionCallback callback = new DownloadNewVersionCallback(data);
+//            MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+//            builder.canceledOnTouchOutside(false);
+//            builder.cancelable(false);
+//            builder.onPositive(callback);
+//            builder.positiveText("马上更新");
+//            if (forceUpdate) {
+//                builder.content("昭阳医生已经发布了最新版本，更新后才可以使用哦！").show();
+//            } else if (newVersion > Double.valueOf(versionName)) {
+//                builder.negativeText("稍后提醒我");
+//                builder.content("昭阳医生已经发布了最新版本，更新后会有更好的体验哦！").show();
+//            } else {
+//                if (noNewVersion != null) {
+//                    noNewVersion.onNoNewVersion();
+//                    noNewVersion = null;
+//                }
+//            }
+//        }
+//        lastCheckTime = System.currentTimeMillis();
+//    }
 
     public static void reset() {
         lastCheckTime = 0;
@@ -183,7 +191,7 @@ public class UpdateUtil {
         }
     }
 
-    private static class DownloadNewVersionCallback implements MaterialDialog.SingleButtonCallback {
+    public static class DownloadNewVersionCallback implements MaterialDialog.SingleButtonCallback {
         private final Version data;
 
         public DownloadNewVersionCallback(Version data) {
