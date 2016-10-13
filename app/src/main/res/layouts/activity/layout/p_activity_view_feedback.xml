@@ -51,7 +51,7 @@
                 android:gravity="center"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/font_14"
-                app:html="@{&quot;&lt;u>&quot;+((data.professionalPoint + data.attitudePoint + data.punctualityPoint)/3)+&quot;&lt;/u>&quot;}" />
+                app:html="@{&quot;&lt;u>&quot;+data.getAveragePoint()+&quot;&lt;/u>&quot;}" />
 
 
         </LinearLayout>
