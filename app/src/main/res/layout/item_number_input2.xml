@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.doctor.sun.R"/>
 
         <variable
             name="hint"
@@ -41,6 +43,7 @@
             android:paddingEnd="@dimen/dp_13"
             android:paddingLeft="@dimen/dp_13"
             android:paddingRight="@dimen/dp_13"
-            android:paddingStart="@dimen/dp_13" />
+            android:paddingStart="@dimen/dp_13"
+            app:drawableRightCompat="@{R.drawable.ic_pencil_grey_15dp}" />
     </LinearLayout>
 </layout>
