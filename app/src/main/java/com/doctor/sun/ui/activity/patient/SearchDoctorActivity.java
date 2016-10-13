@@ -24,7 +24,7 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AppointmentModule;
-import com.doctor.sun.ui.activity.GetLocationActivity;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
@@ -47,7 +47,7 @@ import static com.doctor.sun.util.AnimationUtils.hideView;
 /**
  * Created by rick on 20/1/2016.
  */
-public class SearchDoctorActivity extends GetLocationActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class SearchDoctorActivity extends BaseFragmentActivity2 implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     public static final int INTERVAL = 1000;
 
@@ -84,7 +84,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
 
     @AppointmentType
     public int getType() {
-        return getIntent().getIntExtra(Constants.DATA, -1);
+        return getIntent().getIntExtra(Constants.DATA, AppointmentType.PREMIUM);
     }
 
     @Override
@@ -437,7 +437,6 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
         cityPickerDialog.setCityId(cityId);
     }
 
-    @Override
     protected void updateLocation(Location location) {
         this.location = location;
     }

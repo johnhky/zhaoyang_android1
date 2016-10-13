@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
+import com.doctor.sun.bean.Province;
 import com.doctor.sun.im.AVChatHandler;
 import com.doctor.sun.im.CustomAttachParser;
 import com.doctor.sun.im.observer.AttachmentProgressObserver;
@@ -19,6 +20,9 @@ import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import cn.jpush.android.api.JPushInterface;
 import io.ganguo.library.BaseApp;
@@ -77,17 +81,17 @@ public class AppContext extends BaseApp {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
                 .schemaVersion(NEW_VERSION)
                 .migration(new DoctorSunMigration())
-//                .initialData(new Realm.Transaction() {
-//                    @Override
-//                    public void execute(Realm realm) {
-//                        InputStream is = getResources().openRawResource(R.raw.provinces_cities);
-//                        try {
-//                            realm.createOrUpdateAllFromJson(Province.class, is);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                })
+                .initialData(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        InputStream is = getResources().openRawResource(R.raw.provinces_cities);
+                        try {
+                            realm.createOrUpdateAllFromJson(Province.class, is);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                })
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
 

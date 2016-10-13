@@ -27,7 +27,8 @@
             android:drawable="@{@drawable/default_avatar}"
             android:scaleType="centerCrop"
             android:src="@{data.avatar}"
-            app:maskDrawable="@drawable/circle_mask" />
+            app:maskDrawable="@drawable/circle_mask"
+            tools:src="@drawable/female_doctor_avatar" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,7 +91,8 @@
                 android:layout_marginTop="@dimen/dp_8"
                 android:text="@{data.handler.careerInfo}"
                 android:textColor="#363636"
-                android:textSize="@dimen/font_13" />
+                android:textSize="@dimen/font_13"
+                tools:text="脑科医院／精神科／主任医师" />
 
         </LinearLayout>
 
