@@ -22,6 +22,8 @@ import com.doctor.sun.util.JacksonUtils;
 import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.Config;
+import io.ganguo.library.core.event.Event;
+import io.ganguo.library.core.event.EventHub;
 
 
 /**
@@ -58,14 +60,7 @@ public class MeActivity extends BaseDoctorActivity {
             binding.tvTest.setVisibility(View.GONE);
         }
 
-        api.doctorProfile().enqueue(new ApiCallback<Doctor>() {
-            @Override
-            protected void handleResponse(Doctor response) {
-                Doctor data = response;
-                Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(data));
-                binding.setData(data);
-            }
-        });
+        api.doctorProfile().enqueue(new DoctorApiCallback());
     }
 
     private FooterViewModel getFooter() {
@@ -109,5 +104,31 @@ public class MeActivity extends BaseDoctorActivity {
     @Override
     public int getMidTitle() {
         return R.string.title_me;
+    }
+
+    private class DoctorApiCallback extends ApiCallback<Doctor> {
+        @Override
+        protected void handleResponse(Doctor response) {
+            Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(response));
+            EventHub.post(new DoctorChangedEvent(response));
+        }
+    }
+
+    @Subscribe
+    public void onDoctorChangedEvent(DoctorChangedEvent e) {
+        binding.setData(e.getData());
+    }
+
+    private static class DoctorChangedEvent implements Event {
+
+        private final Doctor data;
+
+        DoctorChangedEvent(Doctor data) {
+            this.data = data;
+        }
+
+        public Doctor getData() {
+            return data;
+        }
     }
 }
