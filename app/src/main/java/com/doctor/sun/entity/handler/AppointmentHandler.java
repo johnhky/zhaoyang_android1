@@ -500,67 +500,22 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
         }
     }
 
-    public Intent getFirstMenu(Context context, int canEdit) {
+    public Intent getFirstMenu(Context context, int canEdit, int tab) {
         if (isAfterService()) {
             String id = String.valueOf(data.getId());
-            switch (canEdit) {
-                case IntBoolean.FALSE: {
-                    return AfterServiceDoneActivity.intentFor(context, id, 0);
-                }
-                case IntBoolean.NOT_GIVEN: {
-                    String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
-                    return AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
-                }
-                case IntBoolean.TRUE: {
-                    if (Settings.isDoctor()) {
-                        String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
-                        return AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
-                    } else {
-                        return AfterServiceDoneActivity.intentFor(context, id, 0);
-                    }
-                }
-                default: {
-                    String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
-                    return AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
-                }
+            if (canEdit == IntBoolean.FALSE) {
+                return AfterServiceDoneActivity.intentFor(context, id, tab);
+            } else {
+                String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
+                return AfterServiceDoingActivity.intentFor(context, id, recordId, tab);
             }
         } else {
             Appointment data = getData();
             data.canEdit = canEdit;
-            return AppointmentDetailActivity.makeIntent(context, data, AppointmentDetailActivity.POSITION_ANSWER);
+            return AppointmentDetailActivity.makeIntent(context, data, tab);
         }
     }
 
-    public Intent getMenu(Context context, int canEdit) {
-        if (isAfterService()) {
-            String id = String.valueOf(data.getId());
-            switch (canEdit) {
-                case IntBoolean.FALSE: {
-                    return AfterServiceDoneActivity.intentFor(context, id, 1);
-                }
-                case IntBoolean.NOT_GIVEN: {
-                    String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
-                    return AfterServiceDoingActivity.intentFor(context, id, recordId, 1);
-                }
-                case IntBoolean.TRUE: {
-                    if (Settings.isDoctor()) {
-                        String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
-                        return AfterServiceDoingActivity.intentFor(context, id, recordId, 1);
-                    } else {
-                        return AfterServiceDoneActivity.intentFor(context, id, 1);
-                    }
-                }
-                default: {
-                    String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
-                    return AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
-                }
-            }
-        } else {
-            Appointment data = getData();
-            data.canEdit = canEdit;
-            return AppointmentDetailActivity.makeIntent(context, data, AppointmentDetailActivity.POSITION_SUGGESTION);
-        }
-    }
 
     public int getDiscountMoney() {
         try {
@@ -1012,17 +967,10 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
     public void answerQuestion(Context context, int tab, int canEdit) {
-        if (tab == 0) {
-            Intent i = getFirstMenu(context, canEdit);
-            if (i != null) {
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(i);
-            }
-        } else {
-            Intent i = getMenu(context, canEdit);
-            if (i != null) {
-                context.startActivity(i);
-            }
+        Intent i = getFirstMenu(context, canEdit, tab);
+        if (i != null) {
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
         }
     }
 

@@ -216,6 +216,7 @@ public class AfterService extends BaseObservable implements LayoutId {
                     boolean isCanEditStatus = !orderStatus.equals(AppointmentHandler.Status.FINISHED)
                             && !orderStatus.equals(AppointmentHandler.Status.A_FINISHED)
                             && !orderStatus.equals(AppointmentHandler.Status.REJECTED)
+                            && !orderStatus.equals(AppointmentHandler.Status.REJECTED)
                             && !orderStatus.equals(AppointmentHandler.Status.A_UNPAID)
                             && !orderStatus.equals(AppointmentHandler.Status.CLOSED)
                             && !orderStatus.equals(AppointmentHandler.Status.A_CANCEL);
@@ -226,32 +227,12 @@ public class AfterService extends BaseObservable implements LayoutId {
                 } else {
                     canEdit = IntBoolean.NOT_GIVEN;
                 }
-                switch (canEdit) {
-                    case IntBoolean.FALSE: {
-                        Intent intent = AfterServiceDoneActivity.intentFor(context, id, position);
-                        context.startActivity(intent);
-                        break;
-                    }
-                    case IntBoolean.NOT_GIVEN: {
-                        Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, position);
-                        context.startActivity(intent);
-                        break;
-                    }
-                    case IntBoolean.TRUE: {
-                        if (Settings.isDoctor()) {
-                            Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, position);
-                            context.startActivity(intent);
-                        } else {
-                            Intent intent = AfterServiceDoneActivity.intentFor(context, id, position);
-                            context.startActivity(intent);
-                        }
-                        break;
-                    }
-                    default: {
-                        Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, position);
-                        context.startActivity(intent);
-                        break;
-                    }
+                if (canEdit == IntBoolean.FALSE) {
+                    Intent intent = AfterServiceDoneActivity.intentFor(context, id, position);
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, position);
+                    context.startActivity(intent);
                 }
             }
         });
