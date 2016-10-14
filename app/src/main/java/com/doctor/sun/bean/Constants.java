@@ -76,4 +76,6 @@ public class Constants {
     public static final String RECORD_TYPE = "RECORD_TYPE";
     public static final String J_PUSH_MSG = "J_PUSH_MSG";
     public static final String NOTIFICATION_ID = "NOTIFICATION_ID";
+
+    public static final String ORDER_STATUS = "ORDER_STATUS";
 }

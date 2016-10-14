@@ -34,7 +34,6 @@ import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.constans.AppointmentType;
-import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -372,20 +371,37 @@ public class DiagnosisFragment extends BaseFragment {
     }
 
     public void save() {
-        TwoChoiceDialog.show(getContext(), getString(R.string.save_answer_dialog),
-                "存为草稿", "保存并结束", new TwoChoiceDialog.Options() {
-                    @Override
-                    public void onApplyClick(final MaterialDialog dialog) {
-                        final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
-                        saveDiagnosis(dialog, query);
-                    }
+//        TwoChoiceDialog.show(getContext(), getString(R.string.save_answer_dialog),
+//                "存为草稿", "保存并结束", new TwoChoiceDialog.Options() {
+//                    @Override
+//                    public void onApplyClick(final MaterialDialog dialog) {
+//                        final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
+//                        saveDiagnosis(dialog, query);
+//                    }
+//
+//                    @Override
+//                    public void onCancelClick(final MaterialDialog dialog) {
+//                        final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
+//                        query.put("hold", "1");
+//                        saveDiagnosis(dialog, query);
+//                    }
+//                });
 
-                    @Override
-                    public void onCancelClick(final MaterialDialog dialog) {
-                        final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
-                        query.put("hold", "1");
-                        saveDiagnosis(dialog, query);
-                    }
+        TwoChoiceDialog.show(getContext(), getString(R.string.save_record_dialog),
+            "返回修改", "保存并结束", new TwoChoiceDialog.Options() {
+                @Override
+                public void onApplyClick(final MaterialDialog dialog) {
+                    final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
+                    saveDiagnosis(dialog, query);
+                }
+
+                @Override
+                public void onCancelClick(final MaterialDialog dialog) {
+//                    final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
+//                    query.put("hold", "1");
+//                    saveDiagnosis(dialog, query);
+                    dialog.dismiss();
+                }
                 });
     }
 
@@ -419,13 +435,13 @@ public class DiagnosisFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (appointment.canEdit == IntBoolean.NOT_GIVEN) {
+//        if (appointment.canEdit == IntBoolean.NOT_GIVEN) {
             inflater.inflate(R.menu.menu_save, menu);
             super.onCreateOptionsMenu(menu, inflater);
-        } else {
-            inflater.inflate(R.menu.menu_modify, menu);
-            super.onCreateOptionsMenu(menu, inflater);
-        }
+//        } else {
+//            inflater.inflate(R.menu.menu_modify, menu);
+//            super.onCreateOptionsMenu(menu, inflater);
+//        }
     }
 
     @Override
