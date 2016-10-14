@@ -1,6 +1,7 @@
 package com.doctor.sun.model;
 
 import android.databinding.Observable;
+import android.util.Log;
 
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
