@@ -14,6 +14,7 @@
         <include layout="@layout/include_header" />
 
         <FrameLayout
+            android:id="@+id/pager_tabs_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

@@ -256,16 +256,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateUnchanged" />
 
-        <!--<activity-->
-        <!--android:name="com.doctor.sun.ui.activity.doctor.QuestionActivity"-->
-        <!--android:screenOrientation="portrait" />-->
-
-        <!--<activity-->
-        <!--android:name="com.doctor.sun.ui.activity.doctor.AddQuestionActivity"-->
-        <!--android:screenOrientation="portrait" />-->
-
         <activity
-            android:name="com.doctor.sun.ui.activity.doctor.CustomDetailActivity"
+            android:name=".ui.fragment.ImageListFragment"
             android:screenOrientation="portrait" />
 
         <activity
@@ -368,34 +360,15 @@
             android:name="com.doctor.sun.ui.activity.doctor.ModifyNicknameActivity"
             android:screenOrientation="portrait" />
 
-        <!--<activity-->
-        <!--android:name="com.doctor.sun.ui.activity.doctor.QuestionBankActivity"-->
-        <!--android:screenOrientation="portrait" />-->
-
-        <!--<activity-->
-        <!--android:name="com.doctor.sun.ui.activity.patient.UrgentCallActivity"-->
-        <!--android:screenOrientation="portrait" />-->
-
-        <!--<activity-->
-        <!--android:name="com.doctor.sun.ui.activity.patient.DrugActivity"-->
-        <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.patient.ApplyAppointmentActivity"
             android:screenOrientation="portrait" />
 
-        <!--<activity-->
-        <!--android:name="com.doctor.sun.ui.activity.patient.UrgentAddTimeActivity"-->
-        <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.patient.EditQuestionActivity"
             android:screenOrientation="portrait" />
-
-        <!--<activity-->
-        <!--android:name="com.doctor.sun.ui.activity.patient.UrgentAddFeeActivity"-->
-        <!--android:screenOrientation="portrait" />-->
-
 
         <activity
             android:name="com.doctor.sun.ui.activity.FileDetailActivity"

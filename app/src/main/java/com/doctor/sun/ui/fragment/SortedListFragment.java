@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,20 +46,29 @@ public class SortedListFragment extends BaseFragment implements SwipeRefreshLayo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentRefreshListBinding.inflate(inflater, container, false);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 12);
-        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return getAdapter().get(position).getSpan();
-            }
-        });
-        binding.recyclerView.setLayoutManager(gridLayoutManager);
+        binding.recyclerView.setLayoutManager(createLayoutManager());
         mAdapter = createAdapter();
         binding.recyclerView.setAdapter(mAdapter);
         binding.swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
         binding.swipeRefresh.setOnRefreshListener(this);
 
         return binding.getRoot();
+    }
+
+    @NonNull
+    public GridLayoutManager createLayoutManager() {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 12, getOrientation(), false);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return getAdapter().get(position).getSpan();
+            }
+        });
+        return gridLayoutManager;
+    }
+
+    public int getOrientation() {
+        return LinearLayoutManager.VERTICAL;
     }
 
     @NonNull

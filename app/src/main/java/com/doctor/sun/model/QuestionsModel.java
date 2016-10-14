@@ -334,6 +334,7 @@ public class QuestionsModel {
                 ItemPickImages item = new ItemPickImages(R.layout.item_view_image, split[j]);
                 item.setPosition(i * PADDING + j + 1);
                 item.setItemId(UUID.randomUUID().toString());
+                item.setParentId(questions2.getKey());
                 pickerItem.registerItemChangedListener(item);
                 items.add(item);
             }
@@ -352,6 +353,7 @@ public class QuestionsModel {
             pickerItem.setItemSizeConstrain(questions2.extendType);
         }
         pickerItem.setPosition(positionIn(i, RANGE_ITEM_POSITION));
+        pickerItem.setParentId(questions2.getKey());
         pickerItem.setItemId(questions2.getKey() + QuestionType.upImg);
         items.add(pickerItem);
     }
