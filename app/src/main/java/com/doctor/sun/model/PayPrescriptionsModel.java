@@ -11,7 +11,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Address;
 import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Description;
-import com.doctor.sun.entity.DoctorInfo;
+import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicineInfo;
 import com.doctor.sun.entity.constans.CouponType;
 import com.doctor.sun.entity.constans.PayMethod;
@@ -54,7 +54,7 @@ public class PayPrescriptionsModel {
         payApi = Api.of(AppointmentModule.class);
     }
 
-    public List<SortedItem> parseData(Address address, DoctorInfo doctorInfo, final MedicineInfo medicineInfo, boolean hasPay) {
+    public List<SortedItem> parseData(Address address, Doctor doctor, final MedicineInfo medicineInfo, boolean hasPay) {
         List<SortedItem> result = new ArrayList<>();
 
         extraField = DrugListFragment.getDrugExtraField();
@@ -68,9 +68,10 @@ public class PayPrescriptionsModel {
         detailDescription.setPosition(result.size());
         result.add(detailDescription);
 
-        doctorInfo.setItemId("doctorInfo");
-        doctorInfo.setPosition(result.size());
-        result.add(doctorInfo);
+        doctor.setItemLayoutId(R.layout.item_base_doctor_info);
+        doctor.setItemId("doctor");
+        doctor.setPosition(result.size());
+        result.add(doctor);
 
         ModelUtils.insertDividerNoMargin(result);
 

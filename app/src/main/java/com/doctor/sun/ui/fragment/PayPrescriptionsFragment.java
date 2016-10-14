@@ -7,7 +7,6 @@ import android.view.View;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Address;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.DoctorInfo;
 import com.doctor.sun.entity.Drug;
 import com.doctor.sun.entity.MedicineInfo;
 import com.doctor.sun.model.PayPrescriptionsModel;
@@ -26,7 +25,7 @@ public class PayPrescriptionsFragment extends SortedListFragment {
 
     private PayPrescriptionsModel model;
     private Address address;
-    private DoctorInfo doctorInfo;
+    private Doctor doctor;
     private MedicineInfo medicineInfo;
     private boolean hasPay;
     private PayEventHandler payEventHandler;
@@ -41,12 +40,6 @@ public class PayPrescriptionsFragment extends SortedListFragment {
         address.setAddress(drug.getAddress());
 
         Doctor doctor = drug.getDoctor();
-        DoctorInfo doctorInfo = new DoctorInfo();
-        doctorInfo.setName(doctor.getName());
-        doctorInfo.setHospital(doctor.getHospitalName());
-        doctorInfo.setLevel(doctor.getLevel());
-        doctorInfo.setSpecialist(doctor.getSpecialist());
-        doctorInfo.setTitle(doctor.getTitle());
 
         MedicineInfo medicineInfo = new MedicineInfo();
         medicineInfo.setOrderId(String.valueOf(drug.getId()));
@@ -64,7 +57,7 @@ public class PayPrescriptionsFragment extends SortedListFragment {
         medicineInfo.setMedicinePrice(drug.getMoney());
 
         bundle.putParcelable(Constants.ADDRESS, address);
-        bundle.putParcelable(Constants.DOCTOR_INFO, doctorInfo);
+        bundle.putParcelable(Constants.DOCTOR_INFO, doctor);
         bundle.putParcelable(Constants.MEDICINE_INFO, medicineInfo);
         bundle.putBoolean(Constants.HAS_PAY, drug.getHasPay() != 0);
 
@@ -77,7 +70,7 @@ public class PayPrescriptionsFragment extends SortedListFragment {
 
         model = new PayPrescriptionsModel();
         address = getArguments().getParcelable(Constants.ADDRESS);
-        doctorInfo = getArguments().getParcelable(Constants.DOCTOR_INFO);
+        doctor = getArguments().getParcelable(Constants.DOCTOR_INFO);
         medicineInfo = getArguments().getParcelable(Constants.MEDICINE_INFO);
         hasPay = getArguments().getBoolean(Constants.HAS_PAY);
         payEventHandler = PayEventHandler.register();
@@ -93,7 +86,7 @@ public class PayPrescriptionsFragment extends SortedListFragment {
     protected void loadMore() {
         super.loadMore();
 
-        List<SortedItem> sortedItems = model.parseData(address, doctorInfo, medicineInfo, hasPay);
+        List<SortedItem> sortedItems = model.parseData(address, doctor, medicineInfo, hasPay);
         binding.swipeRefresh.setRefreshing(false);
         getAdapter().insertAll(sortedItems);
     }

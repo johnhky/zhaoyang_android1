@@ -38,7 +38,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
     private boolean userSelected = false;
     protected boolean enabled = true;
     private boolean visible = true;
-    private int itemLayoutId;
+    private int itemLayoutId = -1;
     private long position;
     private int span = 12;
 
