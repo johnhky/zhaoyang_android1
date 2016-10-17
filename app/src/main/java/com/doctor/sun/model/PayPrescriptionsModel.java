@@ -2,9 +2,11 @@ package com.doctor.sun.model;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -46,6 +48,7 @@ public class PayPrescriptionsModel {
 
     private ClickMenu selectCoupon;
     private ItemRadioGroup payMethod;
+    private int money;
 
     private HashMap<String, String> extraField;
 
@@ -75,6 +78,7 @@ public class PayPrescriptionsModel {
 
         ModelUtils.insertDividerNoMargin(result);
 
+        money = Integer.parseInt(medicineInfo.getMedicinePrice());
         medicineInfo.setItemId("medicineInfo");
         medicineInfo.setPosition(result.size());
         result.add(medicineInfo);
@@ -144,6 +148,7 @@ public class PayPrescriptionsModel {
         }
         new MaterialDialog.Builder(context)
                 .title("选择优惠券(单选)")
+                .negativeText("不使用优惠券")
                 .items(coupons)
                 .itemsCallbackSingleChoice(selectedCoupon, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
@@ -153,11 +158,18 @@ public class PayPrescriptionsModel {
                         return true;
                     }
                 })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        selectedCoupon = -1;
+                        selectCoupon.setTitle("未使用优惠券");
+                    }
+                })
                 .build().show();
     }
 
     private void loadCoupons() {
-        api.coupons(CouponType.CAN_USE_NOW, Coupon.Scope.DRUG_ORDER, 200).enqueue(new SimpleCallback<List<Coupon>>() {
+        api.coupons(CouponType.CAN_USE_NOW, Coupon.Scope.DRUG_ORDER, money).enqueue(new SimpleCallback<List<Coupon>>() {
             @Override
             protected void handleResponse(List<Coupon> response) {
                 if (response != null && !response.isEmpty()) {
