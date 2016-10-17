@@ -38,25 +38,7 @@ public interface DayModule {
     @POST("day/del-time")
     Call<ApiDTO<String>> deleteTime(@Field("id") int id);
 
-    @GET("day/query-time")
-    Call<ApiDTO<List<Time>>> getDaySchedule(@Query("doctorId") int doctorId, @Query("date") String date, @Query("type") String type, @Query("takeTime") String takeTime);
-
     @GET("day/month-schedule")
     Call<ApiDTO<List<ReserveDate>>> getDateSchedule(@Query("doctorId") int doctorId);
-
-
-//    @FormUrlEncoded
-//    @POST("day/getdatalist")
-//    Call<> getDate(@Field("doctorId")int doctorId,@Field("data")String data);
-//
-
-    @FormUrlEncoded
-    @POST("day/getresrvedate")
-    Call<ApiDTO<List<ReserveDate>>> getResrveDate(@Field("doctorId") int doctorId, @Field("is_referral") String is_referral);
-
-
-    @FormUrlEncoded
-    @POST("day/getdatalist")
-    Call<ApiDTO<List<Time>>> reserveTime(@Field("doctorId") int doctorId, @Field("data") String data);
 
 }

@@ -11,7 +11,6 @@ import com.doctor.sun.entity.Comment;
 import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.DoctorIndex;
-import com.doctor.sun.entity.Fee;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.Patient;
 
@@ -102,7 +101,9 @@ public interface ProfileModule {
 
     @FormUrlEncoded
     @POST("profile/new-password")
-    Call<ApiDTO<String>> resetPassword(@Field("password") String password, @Field("newPassword") String newPassword, @Field("confirmPassword") String confirmPassword);
+    Call<ApiDTO<String>> resetPassword(@Field("password") String password,
+                                       @Field("newPassword") String newPassword,
+                                       @Field("confirmPassword") String confirmPassword);
 
 
     @GET("profile/comments")

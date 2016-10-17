@@ -65,7 +65,7 @@ public class Test2EditDoctorInfo {
 
     private void fillDoctorInfo() {
 
-        CustomViewAction.performActionAt(1, typeText("doctor_" + RandomUtil.generateString(4)));
+        CustomViewAction.performActionAt(1, typeText("doctor" + RandomUtil.generateString(4)));
         CustomViewAction.performActionAt(5,
                 CustomViewAction.clickChildViewWithId(R.id.rb_male));
 
