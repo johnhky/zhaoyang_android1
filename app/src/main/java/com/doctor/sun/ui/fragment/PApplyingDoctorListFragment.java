@@ -90,8 +90,8 @@ public class PApplyingDoctorListFragment extends RefreshListFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
         EventHub.unregister(this);
     }
 

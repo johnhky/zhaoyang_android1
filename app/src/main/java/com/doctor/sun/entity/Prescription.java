@@ -245,7 +245,7 @@ public class Prescription extends BaseItem implements Parcelable {
         builder.append("<font color='#898989'>数量:   </font>");
         for (int i = 0; i < numbers.size(); i++) {
             String amount = numbers.get(i).get(keys.get(i));
-            if (null != amount && !amount.equals("")) {
+            if (null != amount && !amount.equals("") && !amount.equals("0")) {
                 builder.append(keys.get(i)).append(amount).append(unit).append(",");
             }
         }

@@ -165,22 +165,6 @@ public class AnswerQuestionFragment extends SortedListFragment {
     }
 
     public void showEndAppointmentDialog() {
-//        TwoChoiceDialog.show(getActivity(), getString(R.string.save_answer_dialog),
-//                "存为草稿", "保存并结束", new TwoChoiceDialog.Options() {
-//                    @Override
-//                    public void onApplyClick(final MaterialDialog dialog) {
-//                        save(IntBoolean.TRUE);
-//                        EventHub.post(new ModifyStatusEvent(getAppointmentId(), AfterService.Status.FINISHED));
-//                        dialog.dismiss();
-//                        getActivity().finish();
-//                    }
-//
-//                    @Override
-//                    public void onCancelClick(final MaterialDialog dialog) {
-//                        save(IntBoolean.FALSE);
-//                        dialog.dismiss();
-//                    }
-//                });
 
         TwoChoiceDialog.show(getActivity(), getString(R.string.save_record_dialog),
                 "存为草稿", "保存并结束", new TwoChoiceDialog.Options() {
