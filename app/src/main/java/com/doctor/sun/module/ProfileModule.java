@@ -39,10 +39,6 @@ public interface ProfileModule {
     @GET("profile/patient-base")
     Call<ApiDTO<PatientDTO>> patientProfile();
 
-    @FormUrlEncoded
-    @POST("profile/patient-base")
-    Call<ApiDTO<String>> editPatientProfile(@FieldMap Map<String, String> patientInfo);
-
     /**
      * @param medicalRecord age	必填。出生年月。e.g.1991-01	string
      *                      gender	必填。1男2女	string
@@ -53,7 +49,6 @@ public interface ProfileModule {
      * @return
      */
     @FormUrlEncoded
-//    @POST("profile/setSelfMedicalRecord")
     @POST("profile/medical-record")
     Call<ApiDTO<MedicalRecord>> editMedicalRecord(@FieldMap Map<String, String> medicalRecord);
 
@@ -84,26 +79,11 @@ public interface ProfileModule {
     @POST("profile/other-medical-record")
     Call<ApiDTO<MedicalRecord>> setRelativeMedicalRecord(@FieldMap Map<String, String> medicalRecord);
 
-    //    @GET("profile/medicalRecordList")
     @GET("profile/medical-records")
     Call<ApiDTO<List<MedicalRecord>>> medicalRecordList();
 
-    @FormUrlEncoded
-    @POST("profile/setPatientFeedback")
-    Call<ApiDTO<String>> setPatientFeedback(@Field("feedback") String feedback);
-
     @GET("profile/histories")
     Call<ApiDTO<PageDTO<Appointment>>> histories(@Query("page") int page);
-
-    @GET("profile/record-detail")
-    Call<ApiDTO<MedicalRecord>> recordDetail(@Query("recordId") String recordId);
-
-    @FormUrlEncoded
-    @POST("profile/setDoctorFeedback")
-    Call<ApiDTO<String>> setDoctorFeedback(@Field("feedback") String feedback);
-
-    @GET("profile/money")
-    Call<ApiDTO<Fee>> fee();
 
     @FormUrlEncoded
     @POST("profile/money")
@@ -137,13 +117,11 @@ public interface ProfileModule {
     @GET("profile/coupons")
     Call<ApiDTO<List<Coupon>>> coupons(@Query("type") String type,
                                        @Query("Scope") String Scope,
-                                       @Query("originalMoney") int originalMoney);
+                                       @Query("originalMoney") double originalMoney);
 
     @GET("profile/qrcode")
     Call<ApiDTO<String>> barcode();
 
-    @GET("im/doctor-contact")
-    Call<ApiDTO<Doctor>> doctorContact(@Query("doctorId") int doctorId);
 
     @GET("profile/feedbacks")
     Call<ApiDTO<PageDTO<Advice>>> advice();

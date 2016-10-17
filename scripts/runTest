@@ -1,0 +1,3 @@
+#!/bin/bash
+
+adb -s $2 shell am instrument -w -r   -e debug false -e class $1 com.doctor.sun.dev.test/android.support.test.runner.AndroidJUnitRunner

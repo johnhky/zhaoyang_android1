@@ -199,7 +199,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         context.startActivity(intent);
     }
 
-    public int money() {
+    public double money() {
         switch (getType()) {
             case AppointmentType.STANDARD:
                 return doctor.getSecondMoney();
