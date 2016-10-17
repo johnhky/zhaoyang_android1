@@ -24,7 +24,9 @@ import com.doctor.sun.event.EditEndEvent;
 import com.doctor.sun.event.ModifyStatusEvent;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.model.QuestionsModel;
+import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.Function0;
 import com.doctor.sun.vo.ItemPickImages;
@@ -124,6 +126,18 @@ public class AnswerQuestionFragment extends SortedListFragment {
 
     protected void onFinishLoadMore(List<? extends SortedItem> sortedItems) {
 
+    }
+
+    @NonNull
+    @Override
+    public SortedListAdapter createAdapter() {
+        SortedListAdapter adapter = super.createAdapter();
+        if (!Settings.isDoctor()) {
+            MapLayoutIdInterceptor idInterceptor = new MapLayoutIdInterceptor();
+            idInterceptor.put(R.layout.item_scales, R.layout.item_r_scales);
+            adapter.setLayoutIdInterceptor(idInterceptor);
+        }
+        return adapter;
     }
 
     public void save(int endAppointment) {

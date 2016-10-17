@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Questions2;
@@ -113,6 +114,9 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
                         return R.layout.item_r_question;
                     }
                     case R.layout.item_scales: {
+                        if (Settings.isDoctor() && !isReadOnly) {
+                            return origin;
+                        }
                         return R.layout.item_r_scales;
                     }
                     case R.layout.item_load_prescription:
