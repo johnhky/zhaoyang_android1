@@ -80,6 +80,8 @@ public class AfterService extends BaseObservable implements LayoutId {
     @JsonProperty("record")
     public MedicalRecord record;
 
+    @JsonProperty("total")
+    public int total;
 
     @Override
     public int getItemLayoutId() {

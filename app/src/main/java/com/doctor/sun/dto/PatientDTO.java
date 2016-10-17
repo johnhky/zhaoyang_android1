@@ -25,6 +25,8 @@ public class PatientDTO {
     public int appointmentNum = 0;
     @JsonProperty("drug_order_num")
     public int drugOrderNum = 0;
+    @JsonProperty("applying_num")
+    public int applyingNum = 0;
 
     public void setRecent_appointment(RecentAppointment recent_appointment) {
         this.recent_appointment = recent_appointment;
@@ -46,5 +48,9 @@ public class PatientDTO {
 
     public int totalOrderNum() {
         return appointmentNum + drugOrderNum;
+    }
+
+    public int totalFollowUpNum() {
+        return followUpDoingNum + applyingNum;
     }
 }

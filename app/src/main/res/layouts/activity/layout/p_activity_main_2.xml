@@ -182,10 +182,10 @@
                     android:layout_marginStart="@dimen/dp_22"
                     android:background="@drawable/shape_green_circle"
                     android:gravity="center"
-                    android:text="@{&quot;&quot;+data.followUpDoingNum}"
+                    android:text="@{&quot;&quot;+data.totalFollowUpNum()}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_15"
-                    android:visibility="@{data.followUpDoingNum>0}" />
+                    android:visibility="@{data.totalFollowUpNum()>0}" />
             </FrameLayout>
 
             <View

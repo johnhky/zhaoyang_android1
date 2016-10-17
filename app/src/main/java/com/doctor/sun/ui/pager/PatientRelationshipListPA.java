@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.doctor.sun.Settings;
+import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.ui.fragment.PAfterServiceFragment;
 import com.doctor.sun.ui.fragment.PApplyingDoctorListFragment;
 import com.doctor.sun.ui.fragment.RefreshListFragment;
@@ -13,8 +15,11 @@ import com.doctor.sun.ui.fragment.RefreshListFragment;
  */
 public class PatientRelationshipListPA extends FragmentStatePagerAdapter {
 
+    private PatientDTO patientDTO;
+
     public PatientRelationshipListPA(FragmentManager fm) {
         super(fm);
+        patientDTO = Settings.getPatientDTO();
     }
 
     @Override
@@ -42,10 +47,10 @@ public class PatientRelationshipListPA extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0: {
-                return "随访订单";
+                return "随访订单," + patientDTO.followUpDoingNum;
             }
             case 1: {
-                return "关系申请";
+                return "关系申请," + patientDTO.applyingNum;
             }
         }
         return "";

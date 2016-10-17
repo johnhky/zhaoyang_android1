@@ -28,6 +28,13 @@ public class PAfterServiceActivity extends TabActivity {
         return intent;
     }
 
+    @Override
+    protected void initPagerTabs() {
+        binding.pagerTabs.setCustomTabView(R.layout.tab_with_unread_count, android.R.id.text1);
+        binding.pagerTabs.setDistributeEvenly(true);
+        binding.pagerTabs.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimaryDark));
+        binding.pagerTabs.setViewPager(binding.vp);
+    }
 
     public void onMenuClicked() {
         Intent intent = AfterServiceContactActivity.intentFor(this, ContactActivity.PATIENTS_CONTACT);
