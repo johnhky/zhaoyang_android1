@@ -69,7 +69,7 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
                 case 1: {
 //                appointment.setId(325);
                     if (appointment.canEdit != IntBoolean.FALSE) {
-                        return DiagnosisFragment.newInstance(appointment);
+                        return DiagnosisFragment.newInstance(appointment.getId(), appointment.getRecordId());
                     } else {
                         return ReadDiagnosisFragment.newInstance(appointment.getId());
                     }

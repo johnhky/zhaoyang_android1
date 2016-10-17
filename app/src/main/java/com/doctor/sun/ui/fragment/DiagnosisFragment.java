@@ -29,7 +29,6 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentDiagnosisBinding;
 import com.doctor.sun.databinding.ItemPrescriptionBinding;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Prescription;
@@ -73,15 +72,15 @@ public class DiagnosisFragment extends BaseFragment {
     private Doctor doctor;
     private int returnType = 1;
     private boolean shouldScrollDown = false;
-    private Appointment appointment;
-    private boolean shouldAsk = true;
     private ArrayList<Prescription> prescriptions;
 
 
-    public static DiagnosisFragment newInstance(Appointment id) {
+    public static DiagnosisFragment newInstance(int appointmentId, int recordId) {
 
         Bundle args = new Bundle();
-        args.putParcelable(Constants.DATA, id);
+        args.putInt(Constants.PARAM_APPOINTMENT, appointmentId);
+        args.putInt(Constants.PARAM_RECORD_ID, recordId);
+
         DiagnosisFragment fragment = new DiagnosisFragment();
         fragment.setArguments(args);
         return fragment;
@@ -224,17 +223,9 @@ public class DiagnosisFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appointment = getArguments().getParcelable(Constants.DATA);
-        if (appointment != null) {
-            shouldAsk = 1 != appointment.getIsFinish();
-        } else {
-            shouldAsk = false;
-        }
         shouldScrollDown = false;
-        if (appointment == null) {
-            return;
-        }
-        api.diagnosisInfo(appointment.getId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
+
+        api.diagnosisInfo(getAppointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
             @Override
             protected void handleResponse(DiagnosisInfo response) {
                 if (response == null) {
@@ -265,7 +256,7 @@ public class DiagnosisFragment extends BaseFragment {
                 super.handleApi(body);
                 if (body.getData() == null) {
                     if (canWritePrescription()) {
-                        loadPrescription(appointment.getId());
+                        loadPrescription(getAppointmentId());
                     }
                 }
             }
@@ -375,13 +366,13 @@ public class DiagnosisFragment extends BaseFragment {
                 "存为草稿", "保存并结束", new TwoChoiceDialog.Options() {
                     @Override
                     public void onApplyClick(final MaterialDialog dialog) {
-                        final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
+                        final HashMap<String, String> query = viewModel.toHashMap(getAppointmentId(), getRecordId(), binding, getPrescriptions());
                         saveDiagnosis(dialog, query);
                     }
 
                     @Override
                     public void onCancelClick(final MaterialDialog dialog) {
-                        final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
+                        final HashMap<String, String> query = viewModel.toHashMap(getAppointmentId(), getRecordId(), binding, getPrescriptions());
                         query.put("hold", "1");
                         saveDiagnosis(dialog, query);
                     }
@@ -420,8 +411,8 @@ public class DiagnosisFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 //        if (appointment.canEdit == IntBoolean.NOT_GIVEN) {
-            inflater.inflate(R.menu.menu_save, menu);
-            super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_save, menu);
+        super.onCreateOptionsMenu(menu, inflater);
 //        } else {
 //            inflater.inflate(R.menu.menu_modify, menu);
 //            super.onCreateOptionsMenu(menu, inflater);
@@ -437,5 +428,13 @@ public class DiagnosisFragment extends BaseFragment {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public int getAppointmentId() {
+        return getArguments().getInt(Constants.PARAM_APPOINTMENT);
+    }
+
+    public int getRecordId() {
+        return getArguments().getInt(Constants.PARAM_RECORD_ID);
     }
 }

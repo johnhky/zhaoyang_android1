@@ -163,7 +163,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
             return;
         }
 
-        if (Config.getInt(Constants.USER_TYPE, -1) == AuthModule.PATIENT_TYPE)
+        if (Settings.isDoctor())
             drugModule.needSendDrug(getData().getId()).enqueue(new ApiCallback<NeedSendDrug>() {
                 @Override
                 protected void handleResponse(NeedSendDrug response) {
