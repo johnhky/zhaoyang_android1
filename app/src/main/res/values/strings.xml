@@ -14,7 +14,7 @@
     <string name="money">诊金:&#160;<![CDATA[<font color="#f76d02">￥%s</font>]]></string>
     <string name="need_pay">实际付款金额:&#160;<![CDATA[<font color="#f76d02">￥%s</font>]]></string>
     <string name="extra_money">追加诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color=\'#f76d02\'>￥%d</font>]]></string>
-    <string name="should_pay">应支付诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color=\'#f76d02\'>￥%d</font>]]></string>
+    <string name="should_pay">应支付诊金:&#160;&#160;&#160;&#160;<![CDATA[<font color=\'#f76d02\'>￥%.1f</font>]]></string>
     <string name="total">合计:&#160;&#160;&#160;&#160;<![CDATA[<font color="#f76d02">￥%s</font>]]></string>
     <string name="question_count">共%s题</string>
     <string name="string_of_two">%1$s / %2$s</string>
