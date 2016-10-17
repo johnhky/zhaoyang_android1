@@ -9,11 +9,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.doctor.sun.R;
+import com.doctor.sun.event.RefreshEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.AfterServiceContactActivity;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.squareup.otto.Subscribe;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 1/6/2016.
@@ -77,5 +81,22 @@ public class PApplyingDoctorListFragment extends RefreshListFragment {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventHub.register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventHub.unregister(this);
+    }
+
+    @Subscribe
+    public void onRefreshEvent(RefreshEvent event) {
+        onRefresh();
     }
 }

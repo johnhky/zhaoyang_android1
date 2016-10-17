@@ -15,6 +15,7 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.event.RefreshEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
@@ -25,11 +26,12 @@ import com.doctor.sun.ui.activity.patient.HospitalDetailActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
-import com.doctor.sun.ui.adapter.core.AdapterOps;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashMap;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by lucas on 1/8/16.
@@ -216,14 +218,15 @@ public class DoctorHandler {
         context.startActivity(intent);
     }
 
-    public void acceptRelation(final AdapterOps ops, String id) {
+    public void acceptRelation(final SimpleAdapter adapter, String id) {
         AfterServiceModule api = Api.of(AfterServiceModule.class);
         api.acceptBuildRelation(id).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
+                Toast.makeText(adapter.getContext(), "成功建立随访关系", Toast.LENGTH_SHORT).show();
             }
         });
-
+        EventHub.post(new RefreshEvent());
     }
 
     public View.OnClickListener allowAfterService(final BaseAdapter adapter, BaseViewHolder vh) {

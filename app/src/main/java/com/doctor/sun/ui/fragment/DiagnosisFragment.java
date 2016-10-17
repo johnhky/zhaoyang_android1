@@ -371,38 +371,22 @@ public class DiagnosisFragment extends BaseFragment {
     }
 
     public void save() {
-//        TwoChoiceDialog.show(getContext(), getString(R.string.save_answer_dialog),
-//                "存为草稿", "保存并结束", new TwoChoiceDialog.Options() {
-//                    @Override
-//                    public void onApplyClick(final MaterialDialog dialog) {
-//                        final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
-//                        saveDiagnosis(dialog, query);
-//                    }
-//
-//                    @Override
-//                    public void onCancelClick(final MaterialDialog dialog) {
-//                        final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
-//                        query.put("hold", "1");
-//                        saveDiagnosis(dialog, query);
-//                    }
-//                });
-
         TwoChoiceDialog.show(getContext(), getString(R.string.save_record_dialog),
-            "返回修改", "保存并结束", new TwoChoiceDialog.Options() {
-                @Override
-                public void onApplyClick(final MaterialDialog dialog) {
-                    final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
-                    saveDiagnosis(dialog, query);
-                }
+                "存为草稿", "保存并结束", new TwoChoiceDialog.Options() {
+                    @Override
+                    public void onApplyClick(final MaterialDialog dialog) {
+                        final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
+                        saveDiagnosis(dialog, query);
+                    }
 
-                @Override
-                public void onCancelClick(final MaterialDialog dialog) {
-//                    final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
-//                    query.put("hold", "1");
-//                    saveDiagnosis(dialog, query);
-                    dialog.dismiss();
-                }
+                    @Override
+                    public void onCancelClick(final MaterialDialog dialog) {
+                        final HashMap<String, String> query = viewModel.toHashMap(appointment, binding, getPrescriptions());
+                        query.put("hold", "1");
+                        saveDiagnosis(dialog, query);
+                    }
                 });
+
     }
 
     private void saveDiagnosis(final MaterialDialog dialog, HashMap<String, String> query) {
