@@ -16,14 +16,10 @@ import io.ganguo.library.util.Tasks;
 public class WaitingSuggestionFragment extends RefreshListFragment {
     private SimpleAdapter adapter;
 
-    public static WaitingSuggestionFragment newInstance(String id, String forumType) {
-
-        Bundle args = new Bundle();
-        args.putString(Constants.TYPE, forumType);
-        args.putString(Constants.DATA, id);
+    public static WaitingSuggestionFragment newInstance() {
 
         WaitingSuggestionFragment fragment = new WaitingSuggestionFragment();
-        fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -63,8 +59,4 @@ public class WaitingSuggestionFragment extends RefreshListFragment {
         }, 1000);
     }
 
-
-    public String getForumType() {
-        return getArguments().getString(Constants.TYPE);
-    }
 }

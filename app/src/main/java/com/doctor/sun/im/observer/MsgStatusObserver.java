@@ -2,6 +2,7 @@ package com.doctor.sun.im.observer;
 
 import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.im.NIMConnectionState;
+import com.doctor.sun.util.JacksonUtils;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;

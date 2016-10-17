@@ -13,6 +13,7 @@ import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
 import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
+import com.doctor.sun.ui.fragment.WaitingSuggestionFragment;
 
 /**
  * Created by rick on 1/8/2016.
@@ -48,7 +49,11 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
                 }
                 case 1: {
 //                appointment.setId(325);
-                    return ReadDiagnosisFragment.newInstance(appointment.getId());
+                    if (appointment.canEdit != IntBoolean.FALSE) {
+                        return ReadDiagnosisFragment.newInstance(appointment.getId());
+                    } else {
+                        return WaitingSuggestionFragment.newInstance();
+                    }
                 }
             }
         } else {
