@@ -40,12 +40,23 @@ public class AppointmentDetailActivity extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        addHistoryButton();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        eventHandler = HistoryEventHandler.register();
+    }
+
+    private void addHistoryButton() {
         if (Settings.isDoctor()) {
             View historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.flContainer, false);
             historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EventHub.post(new AppointmentHistoryEvent());
+                    Appointment appointment = getParcelableExtra(Constants.DATA);
+                    EventHub.post(new AppointmentHistoryEvent(appointment, getSupportFragmentManager()));
                 }
             });
             binding.flContainer.addView(historyButton);
@@ -55,10 +66,10 @@ public class AppointmentDetailActivity extends TabActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
 
-        HistoryEventHandler.ungister(eventHandler);
+        HistoryEventHandler.unregister(eventHandler);
     }
 
     @Override

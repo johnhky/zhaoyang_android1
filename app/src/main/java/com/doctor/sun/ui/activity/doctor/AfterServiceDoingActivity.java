@@ -11,8 +11,12 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.event.AppointmentHistoryEvent;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.pager.DoctorAfterServicePA;
 import com.doctor.sun.ui.pager.PatientAfterServicePA;
@@ -47,24 +51,40 @@ public class AfterServiceDoingActivity extends TabActivity implements Prescripti
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        addHistoryButton();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        eventHandler = HistoryEventHandler.register();
+    }
+
+    private void addHistoryButton() {
         if (Settings.isDoctor()) {
             View historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.flContainer, false);
             historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EventHub.post(new AppointmentHistoryEvent());
+                    String id = getStringExtra(Constants.DATA);
+                    AppointmentModule api = Api.of(AppointmentModule.class);
+                    api.appointmentDetail(id).enqueue(new SimpleCallback<Appointment>() {
+                        @Override
+                        protected void handleResponse(Appointment response) {
+                            EventHub.post(new AppointmentHistoryEvent(response, getSupportFragmentManager()));
+                        }
+                    });
                 }
             });
             binding.flContainer.addView(historyButton);
         }
-
-        eventHandler = HistoryEventHandler.register();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        HistoryEventHandler.ungister(eventHandler);
+    protected void onPause() {
+        super.onPause();
+
+        HistoryEventHandler.unregister(eventHandler);
     }
 
     @Override

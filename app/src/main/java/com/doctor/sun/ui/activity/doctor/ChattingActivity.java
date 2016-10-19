@@ -28,6 +28,7 @@ import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
+import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.CallFailedShouldCallPhoneEvent;
 import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.event.AppointmentHistoryEvent;
@@ -121,18 +122,22 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         initData();
         registerRealmChangeListener();
 
+        if (!getData().getDisplayType().equals("诊后随访")) {
+            addHistoryButton();
+        }
+    }
+
+    private void addHistoryButton() {
         if (Settings.isDoctor()) {
-            View historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.root, false);
+            View historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.flContainer, false);
             historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EventHub.post(new AppointmentHistoryEvent());
+                    EventHub.post(new AppointmentHistoryEvent(getData(), getSupportFragmentManager()));
                 }
             });
             binding.flContainer.addView(historyButton);
         }
-
-        eventHandler = HistoryEventHandler.register();
     }
 
     private void registerRealmChangeListener() {
@@ -215,6 +220,18 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        eventHandler = HistoryEventHandler.register();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        HistoryEventHandler.unregister(eventHandler);
+    }
+
+    @Override
     protected void onDestroy() {
         keyboardWatcher.destroy();
         if (!getRealm().isClosed()) {
@@ -222,8 +239,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         }
         InputLayoutViewModel.release();
         super.onDestroy();
-
-        HistoryEventHandler.ungister(eventHandler);
     }
 
 

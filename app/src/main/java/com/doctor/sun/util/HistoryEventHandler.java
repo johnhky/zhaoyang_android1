@@ -1,9 +1,10 @@
 package com.doctor.sun.util;
 
-import android.widget.Toast;
+import android.support.v4.app.FragmentManager;
 
-import com.doctor.sun.AppContext;
+import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.event.AppointmentHistoryEvent;
+import com.doctor.sun.ui.widget.AppointmentHistoryDialog;
 import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.core.event.EventHub;
@@ -20,13 +21,14 @@ public class HistoryEventHandler {
         return historyEventHandler;
     }
 
-    public static void ungister(HistoryEventHandler handler) {
+    public static void unregister(HistoryEventHandler handler) {
         EventHub.unregister(handler);
     }
 
     @Subscribe
     public void onHistoryEvent(AppointmentHistoryEvent event) {
-        // TODO: 替换为历史记录入口
-        Toast.makeText(AppContext.me(), "历史记录", Toast.LENGTH_SHORT).show();
+        Appointment data = event.getData();
+        FragmentManager fragmentManager = event.getFragmentManager();
+        AppointmentHistoryDialog.newInstance(data).show(fragmentManager, "AppointmentHistory");
     }
 }
