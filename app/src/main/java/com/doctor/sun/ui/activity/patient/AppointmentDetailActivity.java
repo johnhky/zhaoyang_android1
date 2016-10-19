@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.ui.activity.TabActivity;
@@ -36,15 +37,17 @@ public class AppointmentDetailActivity extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.flContainer, false);
-        historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: 替换为历史记录入口
-                Toast.makeText(AppointmentDetailActivity.this, "Test", Toast.LENGTH_SHORT).show();
-            }
-        });
-        binding.flContainer.addView(historyButton);
+        if (Settings.isDoctor()) {
+            View historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.flContainer, false);
+            historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO: 替换为历史记录入口
+                    Toast.makeText(AppointmentDetailActivity.this, "Test", Toast.LENGTH_SHORT).show();
+                }
+            });
+            binding.flContainer.addView(historyButton);
+        }
     }
 
     @Override

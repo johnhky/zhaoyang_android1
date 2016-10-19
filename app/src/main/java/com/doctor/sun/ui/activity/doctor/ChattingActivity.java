@@ -117,15 +117,17 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         initData();
         registerRealmChangeListener();
 
-        View historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.root, false);
-        historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: 替换为历史记录入口
-                Toast.makeText(ChattingActivity.this, "Test", Toast.LENGTH_SHORT).show();
-            }
-        });
-        binding.flContainer.addView(historyButton);
+        if (Settings.isDoctor()) {
+            View historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.root, false);
+            historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO: 替换为历史记录入口
+                    Toast.makeText(ChattingActivity.this, "Test", Toast.LENGTH_SHORT).show();
+                }
+            });
+            binding.flContainer.addView(historyButton);
+        }
     }
 
     private void registerRealmChangeListener() {
