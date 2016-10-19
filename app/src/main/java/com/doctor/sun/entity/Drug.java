@@ -257,6 +257,24 @@ public class Drug extends BaseObservable implements LayoutId {
 //            }
 //        }).show();
 
+//        final AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
+//        new PayMethodDialog(context, new PayInterface() {
+//            @Override
+//            public void payWithAlipay(Activity activity, String couponId) {
+//                appointmentModule.buildAlipayGoodsOrder(totalFee, "alipay", extraField).enqueue(new AlipayCallback(activity, totalFee, extraField));
+//            }
+//
+//            @Override
+//            public void payWithWeChat(Activity activity, String couponId) {
+//                appointmentModule.buildWeChatGoodsOrder(totalFee, "wechat", extraField).enqueue(new WeChatPayCallback(activity, totalFee, extraField));
+//            }
+//
+//            @Override
+//            public void simulatedPay(BaseAdapter component, View view, BaseViewHolder vh) {
+//                ToastHelper.showMessage(view.getContext(), "模拟支付暂时未开放");
+//            }
+//        }).show();
+
     }
 
     public void cancelOrder(Context context, int id) {

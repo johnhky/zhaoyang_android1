@@ -85,13 +85,14 @@ public class NewMedicalRecordFragment extends SortedListFragment {
 
                 TokenCallback.checkToken(getActivity());
                 Toast.makeText(getContext(), "病历创建成功", Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(getContext(), RecordListActivity.class);
                 getContext().startActivity(intent);
 
                 getActivity().finish();
             }
         });
+
+        getActivity().finish();
     }
 
 }

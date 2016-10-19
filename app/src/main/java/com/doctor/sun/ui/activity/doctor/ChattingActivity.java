@@ -8,8 +8,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -28,6 +30,7 @@ import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.event.CallFailedShouldCallPhoneEvent;
 import com.doctor.sun.event.HideInputEvent;
+import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.RejectInComingCallEvent;
 import com.doctor.sun.event.SendMessageEvent;
 import com.doctor.sun.http.Api;
@@ -46,6 +49,7 @@ import com.doctor.sun.ui.widget.ExtendedEditText;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.FileChooser;
+import com.doctor.sun.util.HistoryEventHandler;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.vo.BaseItem;
@@ -66,6 +70,7 @@ import com.squareup.otto.Subscribe;
 import java.io.File;
 import java.util.List;
 
+import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Systems;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
@@ -96,6 +101,8 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     private CustomActionViewModel customActionViewModel;
     private boolean isLoadMore = false;
 
+    private HistoryEventHandler eventHandler;
+
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, ChattingActivity.class);
         i.putExtra(Constants.DATA, appointment);
@@ -113,6 +120,19 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         initView();
         initData();
         registerRealmChangeListener();
+
+        if (Settings.isDoctor()) {
+            View historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.root, false);
+            historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventHub.post(new AppointmentHistoryEvent());
+                }
+            });
+            binding.flContainer.addView(historyButton);
+        }
+
+        eventHandler = HistoryEventHandler.register();
     }
 
     private void registerRealmChangeListener() {
@@ -202,6 +222,8 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         }
         InputLayoutViewModel.release();
         super.onDestroy();
+
+        HistoryEventHandler.ungister(eventHandler);
     }
 
 

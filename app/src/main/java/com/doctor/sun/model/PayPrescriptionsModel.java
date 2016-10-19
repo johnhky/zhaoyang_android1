@@ -89,6 +89,7 @@ public class PayPrescriptionsModel {
             couponDescription.setPosition(result.size());
             result.add(couponDescription);
 
+
             extraField = DrugListFragment.getDrugExtraField();
 
             selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "未使用优惠券", new View.OnClickListener() {
