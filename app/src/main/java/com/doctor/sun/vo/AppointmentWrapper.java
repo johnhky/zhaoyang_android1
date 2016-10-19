@@ -20,7 +20,7 @@ public class AppointmentWrapper extends BaseItem {
         this.appointment = appointment;
     }
 
-    public int getNeedPay(Context context) {
+    public double getNeedPay(Context context) {
         return Integer.parseInt(appointment.getNeedPay());
     }
 

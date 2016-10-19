@@ -8,13 +8,17 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.doctor.sun.util.FragmentFactory;
 
 
 /**
@@ -251,6 +255,11 @@ public class CustomBinding {
             animation.stop();
             animation.selectDrawable(position);
         }
+    }
+
+
+    @BindingAdapter("android:fragment")
+    public static void fragment(FrameLayout layout, FragmentFactory.FactoryCommand command) {
     }
 
 }
