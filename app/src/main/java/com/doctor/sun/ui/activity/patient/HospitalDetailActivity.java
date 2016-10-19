@@ -55,8 +55,8 @@ public class HospitalDetailActivity extends BaseFragmentActivity2 implements Vie
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_locate:
-                Uri mUri = Uri.parse("geo:"+data.getLatitude()+","+data.getLongitude());
-                Intent intent = new Intent(Intent.ACTION_VIEW,mUri);
+                Uri mUri = Uri.parse("geo:" + data.getLatitude() + "," + data.getLongitude());
+                Intent intent = new Intent(Intent.ACTION_VIEW, mUri);
                 startActivity(intent);
                 break;
         }

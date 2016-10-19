@@ -6,19 +6,15 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityConsultationBinding;
+import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.fragment.ConsultingFragment2;
 import com.doctor.sun.ui.model.FooterViewModel;
-
-import com.doctor.sun.ui.model.PatientFooterView;
 import com.doctor.sun.ui.pager.ConsultingPagerAdapter;
 import com.squareup.otto.Subscribe;
 
@@ -40,22 +36,30 @@ public class PConsultingActivity extends BaseFragmentActivity2 {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_consultation);
         binding.setFooter(getFooter());
         binding.vp.setAdapter(new ConsultingPagerAdapter(getSupportFragmentManager()));
-//
-//        binding.pagerTabs.setCustomTabView(R.layout.tab_custom, android.R.id.text1);
-//        binding.pagerTabs.setDistributeEvenly(true);
-//        binding.pagerTabs.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimaryDark));
-//        binding.pagerTabs.setViewPager(binding.vp);
     }
 
 
     @NonNull
     private FooterViewModel getFooter() {
-        return FooterViewModel.getInstance(new PatientFooterView(this), R.id.tab_two);
+        return FooterViewModel.getInstance(R.id.tab_two);
     }
 
-    public void onMenuClicked() {
-        Intent intent = ContactActivity.makeIntent(this, ContactActivity.PATIENTS_CONTACT);
-        startActivity(intent);
+    @Subscribe
+    public void onMainTabChangedEvent(MainTabChangedEvent e) {
+        switch (e.getPosition()) {
+            case 0: {
+                startActivity(PMainActivity2.class);
+                break;
+            }
+            case 1: {
+                startActivity(PConsultingActivity.class);
+                break;
+            }
+            case 2: {
+                startActivity(PMeActivity.class);
+                break;
+            }
+        }
     }
 
     @Override
@@ -73,24 +77,6 @@ public class PConsultingActivity extends BaseFragmentActivity2 {
         }
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_consulting, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_contact: {
-                onMenuClicked();
-                return true;
-            }
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     @Override
     public int getMidTitle() {

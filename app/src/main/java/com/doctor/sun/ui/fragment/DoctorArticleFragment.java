@@ -3,19 +3,16 @@ package com.doctor.sun.ui.fragment;
 import android.os.Bundle;
 
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Article;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.ui.pager.DoctorDetailPagerAdapter;
 
 /**
  * Created by rick on 1/4/2016.
  */
 public class DoctorArticleFragment extends ListFragment {
     private ProfileModule api = Api.of(ProfileModule.class);
-
 
 
     public static DoctorArticleFragment getInstance(int doctorId) {

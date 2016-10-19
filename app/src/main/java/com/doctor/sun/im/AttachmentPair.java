@@ -1,7 +1,5 @@
 package com.doctor.sun.im;
 
-import com.doctor.sun.util.JacksonUtils;
-
 import io.realm.RealmObject;
 
 /**

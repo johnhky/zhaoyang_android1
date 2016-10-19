@@ -35,7 +35,7 @@ public class AllowToSearchFragment extends SortedListFragment {
     }
 
     public static Intent intentFor(Context context) {
-        return SingleFragmentActivity.intentFor(context,"我",getArgs());
+        return SingleFragmentActivity.intentFor(context, "我", getArgs());
     }
 
     public static Bundle getArgs() {
@@ -82,7 +82,7 @@ public class AllowToSearchFragment extends SortedListFragment {
                 });
                 items.add(itemSwitch);
 
-                BaseItem baseItem = new BaseItem(R.layout.space_30dp);
+                BaseItem baseItem = new BaseItem(R.layout.divider_30dp);
                 baseItem.setItemId(UUID.randomUUID().toString());
 
                 items.add(baseItem);

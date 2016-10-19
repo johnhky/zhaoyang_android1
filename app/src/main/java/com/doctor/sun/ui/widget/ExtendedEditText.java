@@ -41,11 +41,17 @@ public class ExtendedEditText extends EditText {
     }
 
     @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        listener = null;
+    }
+
+    @Override
     public boolean onKeyPreIme(int keyCode, KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
             dispatchKeyEvent(event);
-            if (listener  != null) {
-               listener.onKeyboardDismiss();
+            if (listener != null) {
+                listener.onKeyboardDismiss();
             }
             return false;
         }

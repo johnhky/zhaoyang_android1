@@ -3,6 +3,7 @@ package com.doctor.sun.module;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointmentStatus;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Prescription;
@@ -28,16 +29,16 @@ public interface DiagnosisModule {
 
 
     @GET("diagnosis/diagnosis-info")
-    Call<ApiDTO<DiagnosisInfo>> diagnosisInfo(@Query("id") int appointmentId);
+    Call<ApiDTO<DiagnosisInfo>> diagnosisInfo(@Query("appointmentId") int appointmentId);
 
     @GET("diagnosis/search-doctors")
     Call<ApiDTO<PageDTO<Doctor>>> searchDoctor(@Query("page") String page, @Query("search") String search);
 
     @GET("diagnosis/last-drug")
-    Call<ApiDTO<List<Prescription>>> lastDrug(@Query("id") int appointmentId);
+    Call<ApiDTO<List<Prescription>>> lastDrug(@Query("appointmentId") int appointmentId);
 
     @GET("diagnosis/patient-drug")
-    Call<ApiDTO<List<Prescription>>> patientDrug(@Query("id") int appointmentId);
+    Call<ApiDTO<List<Prescription>>> patientDrug(@Query("appointmentId") int appointmentId);
 
 
     /**
@@ -52,10 +53,14 @@ public interface DiagnosisModule {
 
     /**
      * 病历库
+     *
      * @param page
      * @param searchWord
      * @return
      */
     @GET("diagnosis/doctor-orders")
     Call<ApiDTO<PageDTO<Appointment>>> recordPool(@Query("page") String page, @Query("searchWord") String searchWord);
+
+    @GET("diagnosis/edit-status")
+    Call<ApiDTO<AppointmentStatus>> appointmentStatus(@Query("orderId") int appointmentId, @Query("type") String type);
 }

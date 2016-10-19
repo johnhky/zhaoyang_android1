@@ -6,12 +6,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
 import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
+import com.doctor.sun.ui.fragment.WaitingSuggestionFragment;
 
 /**
  * Created by rick on 1/8/2016.
@@ -34,11 +36,12 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
+        //患者端
         if (!Settings.isDoctor()) {
             switch (position) {
                 case 0: {
                     //填写问卷 编辑
-                    if (AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus())) {
+                    if (isAppointmentFinished()) {
                         return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, true);
                     } else {
                         return AnswerQuestionFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL);
@@ -46,14 +49,18 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
                 }
                 case 1: {
 //                appointment.setId(325);
-                    return ReadDiagnosisFragment.newInstance(appointment.getId());
+                    if (appointment.canEdit != IntBoolean.FALSE) {
+                        return ReadDiagnosisFragment.newInstance(appointment.getId());
+                    } else {
+                        return WaitingSuggestionFragment.newInstance();
+                    }
                 }
             }
         } else {
             switch (position) {
                 case 0: {
                     //填写问卷 只读
-                    if (AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus())) {
+                    if (isAppointmentFinished()) {
                         return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, true);
                     } else {
                         return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, false);
@@ -61,8 +68,8 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
                 }
                 case 1: {
 //                appointment.setId(325);
-                    if (!AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus())) {
-                        return DiagnosisFragment.newInstance(appointment);
+                    if (appointment.canEdit != IntBoolean.FALSE) {
+                        return DiagnosisFragment.newInstance(appointment.getId(), appointment.getRecordId());
                     } else {
                         return ReadDiagnosisFragment.newInstance(appointment.getId());
                     }
@@ -70,6 +77,10 @@ public class AnswerPagerAdapter extends FragmentPagerAdapter {
             }
         }
         return null;
+    }
+
+    public boolean isAppointmentFinished() {
+        return AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus());
     }
 
     /**

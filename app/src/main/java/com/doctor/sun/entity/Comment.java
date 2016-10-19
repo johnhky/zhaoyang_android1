@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by Lynn on 2/15/16.
  */
-public class Comment implements  LayoutId {
+public class Comment implements LayoutId {
     /**
      * "comment": "cdfef",
      * "patient_name": "Albee",

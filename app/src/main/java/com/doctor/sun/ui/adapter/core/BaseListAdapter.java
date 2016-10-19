@@ -5,9 +5,11 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -19,8 +21,8 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
  * Created by rick on 13/8/2016.
  */
 public abstract class BaseListAdapter<B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements AdapterOps<SortedItem> {
-    private final Context mContext;
-    private final LayoutInflater mInflater;
+    public static final String TAG = BaseListAdapter.class.getSimpleName();
+
     private final SparseBooleanArray mConfig = new SparseBooleanArray();
     private final SparseArray<String> mStringConfig = new SparseArray<>();
     private final SparseIntArray mIntConfig = new SparseIntArray();
@@ -28,22 +30,23 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
     private LayoutIdInterceptor idInterceptor = new DefaultLayoutIdInterceptor();
 
     BaseListAdapter(Context context) {
-        this.mContext = context;
-        mInflater = LayoutInflater.from(context);
     }
 
-    protected LayoutInflater getInflater() {
-        return mInflater;
+    private LayoutInflater getInflater(Context context) {
+        return LayoutInflater.from(context);
     }
 
-    public Context getContext() {
-        return mContext;
-    }
 
     @Override
     final public BaseViewHolder<B> onCreateViewHolder(ViewGroup parent, int viewType) {
-        B binding = DataBindingUtil.inflate(getInflater(), viewType, parent, false);
-        return new BaseViewHolder<>(binding);
+        try {
+            B binding = DataBindingUtil.inflate(getInflater(parent.getContext()), viewType, parent, false);
+            return new BaseViewHolder<>(binding);
+        } catch (InflateException e) {
+            Log.e(TAG, "onCreateViewHolder: R.layout: " + Integer.toHexString(viewType));
+            B inflate = DataBindingUtil.inflate(getInflater(parent.getContext()), com.doctor.sun.R.layout.item_error, parent, false);
+            return new BaseViewHolder<>(inflate);
+        }
     }
 
     @Override
@@ -93,7 +96,7 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
         int intercept(int origin);
     }
 
-    public class DefaultLayoutIdInterceptor implements LayoutIdInterceptor {
+    private class DefaultLayoutIdInterceptor implements LayoutIdInterceptor {
         @Override
         public int intercept(int origin) {
             return origin;

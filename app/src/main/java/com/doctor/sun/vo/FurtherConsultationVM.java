@@ -1,6 +1,5 @@
 package com.doctor.sun.vo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
@@ -16,15 +15,13 @@ import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
-import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.core.AdapterOps;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Created by rick on 7/6/2016.
+ * TODO: handler leak
  */
 public class FurtherConsultationVM extends BaseItem {
     public static final String TAG = FurtherConsultationVM.class.getSimpleName();
@@ -49,26 +46,22 @@ public class FurtherConsultationVM extends BaseItem {
         date = new ItemPickDate(0, "", 0);
     }
 
-    public void chooseDoctor(Context context, final AdapterOps adapter, final BaseViewHolder vh) {
+    public void chooseDoctor(Context context) {
         Intent intent = ContactActivity.makeIntent(context, Constants.DOCTOR_REQUEST_CODE);
         intent.putExtra(Constants.HANDLER, new Messenger(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 switch (msg.what) {
                     case Constants.DOCTOR_REQUEST_CODE: {
-                        int adapterPosition = vh.getAdapterPosition();
-                        FurtherConsultationVM o = (FurtherConsultationVM) adapter.get(adapterPosition);
                         Doctor data = msg.getData().getParcelable(Constants.DATA);
-                        o.setDoctor(data);
-                        adapter.update(o);
+                        setDoctor(data);
                         break;
                     }
                 }
                 return false;
             }
         })));
-        Activity activity = (Activity) context;
-        activity.startActivity(intent);
+        context.startActivity(intent);
     }
 
     @Bindable

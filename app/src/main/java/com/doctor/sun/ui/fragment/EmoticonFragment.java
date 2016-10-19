@@ -10,8 +10,8 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.emoji.EmoticonManager;
 import com.doctor.sun.emoji.Emoticon;
+import com.doctor.sun.emoji.EmoticonManager;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 
 /**

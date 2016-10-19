@@ -32,24 +32,7 @@ public class ItemAddPrescription2 extends BaseItem {
 
     public void addDrug(Context context, final SortedListAdapter adapter) {
         Intent intent = EditPrescriptionActivity.makeIntent(context, null);
-        Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                if (opCount == -1) {
-                    opCount = inBetweenItemCount(adapter) + 1;
-                    itemSize = opCount;
-                }
-                switch (msg.what) {
-                    case DiagnosisFragment.EDIT_PRESCRITPION: {
-                        Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
-                        if (parcelable == null) return false;
-
-                        addPrescription(parcelable, adapter);
-                    }
-                }
-                return false;
-            }
-        }));
+        Messenger messenger = new Messenger(new Handler(new Callback(this, adapter)));
         intent.putExtra(Constants.HANDLER, messenger);
         context.startActivity(intent);
     }
@@ -132,5 +115,35 @@ public class ItemAddPrescription2 extends BaseItem {
 
     public int itemSize() {
         return itemSize - 1;
+    }
+
+    private static class Callback implements Handler.Callback {
+
+        private ItemAddPrescription2 item;
+        private SortedListAdapter adapter;
+
+        public Callback(ItemAddPrescription2 item, SortedListAdapter adapter) {
+            this.item = item;
+            this.adapter = adapter;
+        }
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (item.opCount == -1) {
+                item.opCount = item.inBetweenItemCount(adapter) + 1;
+                item.itemSize = item.opCount;
+            }
+            switch (msg.what) {
+                case DiagnosisFragment.EDIT_PRESCRITPION: {
+                    Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
+                    if (parcelable == null) return false;
+
+                    item.addPrescription(parcelable, adapter);
+                }
+            }
+            item = null;
+            adapter = null;
+            return false;
+        }
     }
 }

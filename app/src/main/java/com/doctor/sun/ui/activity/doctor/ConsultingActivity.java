@@ -6,15 +6,14 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.ActivityConsultationBinding;
+import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.model.DoctorFooterView;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.pager.ConsultingPagerAdapter;
+import com.squareup.otto.Subscribe;
 
 /**
  * Created by rick on 11/30/15.
@@ -35,7 +34,6 @@ public class ConsultingActivity extends BaseFragmentActivity2 {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_consultation);
         binding.setFooter(getFooter());
 
-        initListener();
 
         binding.vp.setAdapter(new ConsultingPagerAdapter(getSupportFragmentManager()));
     }
@@ -43,31 +41,47 @@ public class ConsultingActivity extends BaseFragmentActivity2 {
 
     @NonNull
     private FooterViewModel getFooter() {
-        return FooterViewModel.getInstance(new DoctorFooterView(this), R.id.tab_two);
+        return FooterViewModel.getInstance(R.id.tab_two);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_consulting, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_contact: {
-                Intent intent = ContactActivity.makeIntent(ConsultingActivity.this, ContactActivity.DOCTORS_CONTACT);
-                startActivity(intent);
-                return true;
+    @Subscribe
+    public void onMainTabChangedEvent(MainTabChangedEvent e) {
+        switch (e.getPosition()) {
+            case 0: {
+                startActivity(MainActivity.class);
+                break;
             }
-            default:
-                return super.onOptionsItemSelected(item);
+            case 1: {
+                startActivity(ConsultingActivity.class);
+                break;
+            }
+            case 2: {
+                startActivity(MeActivity.class);
+                break;
+            }
         }
     }
 
-
-    private void initListener() {
-    }
+//    通讯录入口 1.3版本移除
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_consulting, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_contact: {
+//                Intent intent = ContactActivity.makeIntent(ConsultingActivity.this, ContactActivity.DOCTORS_CONTACT);
+//                startActivity(intent);
+//                return true;
+//            }
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
+//
+//
 
     @Override
     public void onResume() {

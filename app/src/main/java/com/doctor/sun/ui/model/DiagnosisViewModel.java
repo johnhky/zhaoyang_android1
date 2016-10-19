@@ -8,7 +8,6 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentDiagnosisBinding;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
@@ -335,9 +334,9 @@ public class DiagnosisViewModel {
     }
 
 
-    public HashMap<String, String> toHashMap(Appointment appointmentId, FragmentDiagnosisBinding binding, String prescriptions) {
+    public HashMap<String, String> toHashMap(int appointmentId, int recordId, FragmentDiagnosisBinding binding, String prescriptions) {
         HashMap<String, String> result = new HashMap<>();
-        result.put("appointmentId", String.valueOf(appointmentId.getId()));
+        result.put("appointmentId", String.valueOf(appointmentId));
         result.put("is_diagnosis", "1");
         result.put("perception", perception.toStates());
         result.put("thinking", thinking.toStates());
@@ -365,7 +364,7 @@ public class DiagnosisViewModel {
             int returnType = selectedItem;
 
             result.put("returnType", String.valueOf(returnType));
-            result.put("recordId", String.valueOf(appointmentId.getRecordId()));
+            result.put("recordId", String.valueOf(recordId));
 
             GregorianCalendar gregorianCalendar = new GregorianCalendar(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), time.getmBeginHour(), time.getmBeginMinute());
             String s = String.valueOf(gregorianCalendar.getTimeInMillis());

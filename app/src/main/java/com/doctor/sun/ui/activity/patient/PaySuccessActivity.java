@@ -3,6 +3,7 @@ package com.doctor.sun.ui.activity.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -26,6 +27,9 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
     private PActivityPaySuccessBinding binding;
 
     public static Intent makeIntent(Context context, Appointment data) {
+        if (data == null) {
+            return makeIntent(context);
+        }
         Intent i = new Intent(context, PaySuccessActivity.class);
         i.putExtra(Constants.DATA, data);
         i.putExtra(Constants.TYPE, APPOINTMENT);
@@ -39,7 +43,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
 //        return i;
 //    }
 
-    public static Intent makeIntent(Context context) {
+    private static Intent makeIntent(Context context) {
         Intent i = new Intent(context, PaySuccessActivity.class);
         i.putExtra(Constants.TYPE, VOIP_PAY);
         return i;
@@ -65,7 +69,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
         binding.tvQuestion.setOnClickListener(this);
         if (getType() == VOIP_PAY) {
             binding.tvSystemTip.setVisibility(View.GONE);
-            binding.tvQuestion.setVisibility(View.GONE);
+            binding.tvQuestion.setText("返回订单列表");
             binding.tvTip.setVisibility(View.GONE);
         } else {
             setBookTime();
@@ -103,8 +107,20 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                 //TODO
                 int id = getId();
                 if (id != -1) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        finishAffinity();
+                    }
+                    if (getType() == APPOINTMENT) {
+                        Intent intent1 = PMainActivity2.intentFor(this);
+                        startActivity(intent1);
+                        Intent intent2 = EditQuestionActivity.intentFor(this, String.valueOf(id), QuestionsPath.NORMAL);
+                        startActivity(intent2);
+                    }
+                }
+
+                if (getType() == VOIP_PAY) {
                     finish();
-                    Intent intent = EditQuestionActivity.intentFor(this, String.valueOf(id), QuestionsPath.NORMAL);
+                    Intent intent = PAppointmentListActivity.makeIntent(this);
                     startActivity(intent);
                 }
                 break;

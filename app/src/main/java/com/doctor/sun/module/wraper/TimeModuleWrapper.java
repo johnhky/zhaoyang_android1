@@ -111,7 +111,7 @@ public class TimeModuleWrapper {
         if (type == AppointmentType.STANDARD) {
             return day.updateTime(id, week);
         } else {
-            return time.updateTime(id, week, type, from, to,interval);
+            return time.updateTime(id, week, type, from, to, interval);
         }
     }
 

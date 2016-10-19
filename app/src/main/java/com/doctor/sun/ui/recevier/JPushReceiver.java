@@ -1,16 +1,34 @@
 package com.doctor.sun.ui.recevier;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
+import com.doctor.sun.AppContext;
+import com.doctor.sun.R;
 import com.doctor.sun.Settings;
+import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.JPushExtra;
 import com.doctor.sun.entity.SystemMsg;
-import com.doctor.sun.ui.activity.patient.PConsultingActivity;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.AppointmentModule;
+import com.doctor.sun.ui.activity.doctor.MainActivity;
+import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
+import com.doctor.sun.ui.activity.patient.PMainActivity2;
+import com.doctor.sun.util.JacksonUtils;
+import com.google.common.base.Strings;
 
 import cn.jpush.android.api.JPushInterface;
+import io.ganguo.library.AppManager;
 
 /**
  * 自定义接收器
@@ -20,116 +38,188 @@ import cn.jpush.android.api.JPushInterface;
  * 2) 接收不到自定义消息
  */
 public class JPushReceiver extends BroadcastReceiver {
-    private static final String TAG = "JPush";
+    public static final String TAG = JPushReceiver.class.getSimpleName();
+
+    public static final String ACTION_ACCEPT_RELATION = "ACCEPT_RELATION";
+    public static final String ACTION_FOLLOW_UP_DETAIL = "ACTION_FOLLOW_UP_DETAIL";
+    public static final String ACTION_APPOINTMENT_DETAIL = "ACTION_APPOINTMENT_DETAIL";
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-        Log.d(TAG, "[JPushReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
-
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
-            String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
-            Log.d(TAG, "[JPushReceiver] 接收Registration Id : " + regId);
-            //send the Registration Id to your server...
-
+            onRegisterEvent(bundle);
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-            Log.d(TAG, "[JPushReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
-            processCustomMessage(context, bundle);
-
+            onCustomMessageReceived(context, bundle);
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
-            Log.d(TAG, "[JPushReceiver] 接收到推送下来的通知");
-            int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-            Log.d(TAG, "[JPushReceiver] 接收到推送下来的通知的ID: " + notifactionId);
-            processNotificationMessage(context, bundle);
+            onNotificationReceived(bundle);
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            Log.d(TAG, "[JPushReceiver] 用户点击打开了通知");
-
-            //打开自定义的Activity
-            Class cls;
-            if (Settings.isDoctor()) {
-                cls = com.doctor.sun.ui.activity.doctor.ConsultingActivity.class;
-            } else {
-                cls = PConsultingActivity.class;
-            }
-            Intent i = new Intent(context, cls);
-            i.putExtras(bundle);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivity(i);
-
+            onNotificationOpened(context, bundle);
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
-            Log.d(TAG, "[JPushReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
-            //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..
-
+            onRichPushReceived(bundle);
         } else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
-            boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
-            Log.w(TAG, "[JPushReceiver]" + intent.getAction() + " connected state change to " + connected);
-        } else {
-            Log.d(TAG, "[JPushReceiver] Unhandled intent - " + intent.getAction());
+            onConnectionChanged(intent);
+        } else if (ACTION_APPOINTMENT_DETAIL.equals(intent.getAction())) {
+            viewAppointmentDetail(context, intent);
+        } else if (ACTION_FOLLOW_UP_DETAIL.equals(intent.getAction())) {
+            viewAppointmentDetail(context, intent);
+        } else if (ACTION_ACCEPT_RELATION.equals(intent.getAction())) {
+            viewRelationRequest(context, intent);
         }
     }
 
-    // 打印所有的 intent extra 数据
-    private static String printBundle(Bundle bundle) {
-//        StringBuilder sb = new StringBuilder();
-//        for (String key : bundle.keySet()) {
-//            if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
-//                sb.append("\nkey:" + key + ", value:" + bundle.getInt(key));
-//            } else if (key.equals(JPushInterface.EXTRA_CONNECTION_CHANGE)) {
-//                sb.append("\nkey:" + key + ", value:" + bundle.getBoolean(key));
-//            } else if (key.equals(JPushInterface.EXTRA_EXTRA)) {
-//                if (bundle.getString(JPushInterface.EXTRA_EXTRA).isEmpty()) {
-//                    Log.i(TAG, "This message has no Extra data");
-//                    continue;
-//                }
-//
-//                try {
-//                    JSONObject json = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
-//                    Iterator<String> it = json.keys();
-//
-//                    while (it.hasNext()) {
-//                        String myKey = it.next().toString();
-//                        sb.append("\nkey:" + key + ", value: [" +
-//                                myKey + " - " + json.optString(myKey) + "]");
-//                    }
-//                } catch (JSONException e) {
-//                    Log.e(TAG, "Get message extra JSON error!");
-//                }
-//
-//            } else {
-//                sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
-//            }
-//        }
-//        return sb.toString();
-        return "";
+    public void cancelNotification(Context context, Intent intent) {
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.cancel(intent.getIntExtra(Constants.NOTIFICATION_ID, 0));
     }
 
-    //send msg to PMainActivity
-    private void processCustomMessage(Context context, Bundle bundle) {
-//		if (PMainActivity.isForeground) {
-//			String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-//			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-//			Intent msgIntent = new Intent(PMainActivity.MESSAGE_RECEIVED_ACTION);
-//			msgIntent.putExtra(PMainActivity.KEY_MESSAGE, message);
-//			if (!ExampleUtil.isEmpty(extras)) {
-//				try {
-//					JSONObject extraJson = new JSONObject(extras);
-//					if (null != extraJson && extraJson.length() > 0) {
-//						msgIntent.putExtra(PMainActivity.KEY_EXTRAS, extras);
-//					}
-//				} catch (JSONException e) {
-//
-//				}
-//
-//			}
-//			context.sendBroadcast(msgIntent);
-//		}
+    public void viewAppointmentDetail(final Context context, final Intent intent) {
+
+        AppManager.finishAllActivity();
+        startMainActivity(context);
+
+        String id = intent.getStringExtra(Constants.DATA);
+        AppointmentModule api = Api.of(AppointmentModule.class);
+        api.appointmentDetail(id).enqueue(new SimpleCallback<Appointment>() {
+            @Override
+            protected void handleResponse(Appointment response) {
+                response.getHandler().viewDetail(context, 0);
+                cancelNotification(context, intent);
+            }
+        });
     }
 
-    //send msg to PMainActivity
-    private void processNotificationMessage(Context context, Bundle bundle) {
-        int notificationId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-        String extras = bundle.getString("cn.jpush.android.ALERT");
-        SystemMsg.setLastMsg(extras, notificationId);
+    public void viewRelationRequest(Context context, Intent intent) {
+
+        AppManager.finishAllActivity();
+        startMainActivity(context);
+
+        Intent intent2 = PAfterServiceActivity.intentFor(context, 1);
+        intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent2);
+        cancelNotification(context, intent);
+    }
+
+    private void startMainActivity(Context context) {
+        Intent intent;
+        if (Settings.isDoctor()) {
+            intent = MainActivity.makeIntent(context);
+        } else {
+            intent = PMainActivity2.intentFor(context);
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    public void onConnectionChanged(Intent intent) {
+    }
+
+    public void onRichPushReceived(Bundle bundle) {
+    }
+
+    @Deprecated
+    public void onNotificationOpened(Context context, Bundle bundle) {
+    }
+
+    public void onNotificationReceived(Bundle bundle) {
+        Log.d(TAG, "onNotificationReceived() called");
+        int notificationId = getNotificationId(bundle);
+        String msg = getAlertMsg(bundle);
+        SystemMsg.setLastMsg(msg, notificationId);
+
+        buildNotification(bundle);
+    }
+
+    public void onCustomMessageReceived(Context context, Bundle bundle) {
+        Log.d(TAG, "onCustomMessageReceived() called");
+    }
+
+    public void onRegisterEvent(Bundle bundle) {
+    }
+
+
+    public static void buildNotification(Bundle data) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
+        builder.setContentText(getAlertMsg(data));
+        builder.setContentTitle("昭阳医生");
+        builder.setSmallIcon(R.drawable.ic_notification);
+
+        Intent intent;
+        if (Settings.isDoctor()) {
+            intent = MainActivity.makeIntent(AppContext.me());
+        } else {
+            intent = PMainActivity2.intentFor(AppContext.me());
+        }
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pi = PendingIntent.getActivity(AppContext.me(), getNotificationId(data), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pi);
+
+        NotificationCompat.Action action = buildAction(data);
+        if (action != null) {
+            builder.addAction(action);
+        }
+
+        builder.setGroup(Constants.J_PUSH_MSG);
+        builder.setAutoCancel(true);
+        Notification notification = builder.build();
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(AppContext.me());
+        managerCompat.notify(getNotificationId(data), notification);
+    }
+
+    public static NotificationCompat.Action buildAction(Bundle data) {
+        String actionName = "";
+        JPushExtra extra = getExtra(data);
+        Intent intent = new Intent();
+        int notificationId = getNotificationId(data);
+        if (!Strings.isNullOrEmpty(extra.applyId)) {
+            intent.setAction(ACTION_ACCEPT_RELATION);
+            intent.putExtra(Constants.NOTIFICATION_ID, notificationId);
+            intent.putExtra(Constants.DATA, extra.applyId);
+            actionName = "建立随访关系";
+        }
+
+        if (!Strings.isNullOrEmpty(extra.followUpId)) {
+            intent.setAction(ACTION_FOLLOW_UP_DETAIL);
+            intent.putExtra(Constants.NOTIFICATION_ID, notificationId);
+            intent.putExtra(Constants.DATA, extra.followUpId);
+            if (Settings.isDoctor()) {
+                actionName = "查看问卷";
+            } else {
+                actionName = "填写问卷";
+            }
+        }
+
+        if (!Strings.isNullOrEmpty(extra.appointmentId)) {
+            intent.setAction(ACTION_APPOINTMENT_DETAIL);
+            intent.putExtra(Constants.NOTIFICATION_ID, notificationId);
+            intent.putExtra(Constants.DATA, extra.appointmentId);
+            if (Settings.isDoctor()) {
+                actionName = "查看问卷";
+            } else {
+                actionName = "填写问卷";
+            }
+        }
+
+        if (!Strings.isNullOrEmpty(intent.getAction())) {
+            PendingIntent i = PendingIntent.getBroadcast(AppContext.me(), notificationId, intent, 0);
+            return new NotificationCompat.Action(0, actionName, i);
+        } else {
+            return null;
+        }
+    }
+
+
+    public static String getAlertMsg(Bundle bundle) {
+        return bundle.getString(JPushInterface.EXTRA_ALERT);
+    }
+
+    public static int getNotificationId(Bundle bundle) {
+        return bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
+    }
+
+    private static JPushExtra getExtra(Bundle bundle) {
+        String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
+        return JacksonUtils.fromJson(extra, JPushExtra.class);
     }
 }

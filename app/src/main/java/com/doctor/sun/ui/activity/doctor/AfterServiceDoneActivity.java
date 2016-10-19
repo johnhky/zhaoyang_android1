@@ -7,7 +7,6 @@ import android.support.v4.view.PagerAdapter;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.ui.activity.TabActivity;
-
 import com.doctor.sun.ui.pager.DoctorAfterServiceDonePA;
 import com.doctor.sun.ui.pager.PatientAfterServiceDonePA;
 

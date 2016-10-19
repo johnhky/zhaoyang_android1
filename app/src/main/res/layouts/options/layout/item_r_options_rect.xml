@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Options2" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
+
+    </data>
+
+
+    <CheckBox
+        android:id="@+id/tv_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_6"
+        android:layout_marginEnd="@dimen/dp_6"
+        android:layout_marginLeft="@dimen/dp_6"
+        android:layout_marginRight="@dimen/dp_6"
+        android:layout_marginStart="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_6"
+        android:gravity="center"
+        android:background="@drawable/selector_grey_rect"
+        android:button="@null"
+        android:checked="@={data.selected}"
+        android:enabled="false"
+        android:minHeight="@dimen/dp_35"
+        android:paddingBottom="@dimen/dp_6"
+        android:paddingEnd="@dimen/dp_6"
+        android:paddingLeft="@dimen/dp_6"
+        android:paddingRight="@dimen/dp_6"
+        android:paddingStart="@dimen/dp_6"
+        android:paddingTop="@dimen/dp_6"
+        android:text="@{data.optionContent}"
+        android:textColor="@color/primary_color_selector_read_only"
+        android:textSize="@dimen/font_15" />
+</layout>

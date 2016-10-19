@@ -47,7 +47,7 @@ public class ItemTextInput extends BaseItem {
             HashMap<String, Object> result = new HashMap<>();
             String key = getKey().replace(QuestionType.fill, "");
             Questions2 questions2 = (Questions2) adapter.get(key);
-            result.put("question_id", questions2.questionId);
+            result.put("question_id", questions2.answerId);
             result.put("fill_content", input);
             return result;
         } else {

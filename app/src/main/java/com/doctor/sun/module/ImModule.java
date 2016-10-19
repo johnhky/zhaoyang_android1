@@ -90,14 +90,14 @@ public interface ImModule {
     Call<ApiDTO<Avatar>> avatar(@Query("voipAccount") String voipAccount, @Query("phone") String phone);
 
     @GET("im/finish-stat")
-    Call<ApiDTO<String>> finishStat(@Query("id") int appointmentId);
+    Call<ApiDTO<String>> finishStat(@Query("appointmentId") int appointmentId);
 
     @FormUrlEncoded
     @POST("im/call-back")
     Call<ApiDTO<String>> makePhoneCall(@Field("to") String phone);
 
     @FormUrlEncoded
-    @POST("api/im/yunxin-call")
+    @POST("im/yunxin-call")
     Call<ApiDTO<String>> makeYunXinPhoneCall(@Field("caller") String caller, @Field("callee") String callee);
 
 }

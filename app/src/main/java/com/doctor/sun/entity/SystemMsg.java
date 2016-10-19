@@ -6,11 +6,21 @@ import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
+import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.AppointmentModule;
+import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
+import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
+import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
+import com.doctor.sun.ui.activity.doctor.PatientDetailActivity;
+import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
@@ -18,6 +28,8 @@ import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.activity.patient.handler.SystemMsgHandler;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
+import com.doctor.sun.ui.fragment.EditPatientInfoFragment;
+import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -59,6 +71,8 @@ public class SystemMsg extends BaseItem {
     private String createdAt;
     @JsonProperty("patient_name")
     private Object patientName;
+    @JsonProperty("extras")
+    private JPushExtra extras;
 
     @Override
     public int getItemLayoutId() {
@@ -126,15 +140,63 @@ public class SystemMsg extends BaseItem {
         return patientName;
     }
 
-    public void itemClick(Context context) {
+    public JPushExtra getExtras() {
+        return extras;
+    }
+
+    public void setExtras(JPushExtra extras) {
+        this.extras = extras;
+    }
+
+    public void itemClick(final Context context) {
         Intent i = null;
         boolean isDoctor = Settings.isDoctor();
+        ProfileModule apiProfile = Api.of(ProfileModule.class);
+        AppointmentModule apiAppointment = Api.of(AppointmentModule.class);
         switch (type) {
             case 1: {
                 if (isDoctor) {
                     i = ConsultingActivity.makeIntent(context);
                 } else {
                     i = PConsultingActivity.makeIntent(context);
+                }
+                break;
+            }
+            case 5: {
+                if (!isDoctor) {
+                    apiAppointment.appointmentDetail(getExtras().appointmentId).enqueue(new SimpleCallback<Appointment>() {
+                        @Override
+                        protected void handleResponse(Appointment response) {
+                            Intent intent = AppointmentDetailActivity.makeIntent(context, response, 0);
+                            context.startActivity(intent);
+                        }
+                    });
+                }
+                break;
+            }
+            case 9: {
+                if (isDoctor) {
+                    apiProfile.doctorProfile().enqueue(new SimpleCallback<Doctor>() {
+                        @Override
+                        protected void handleResponse(Doctor response) {
+                            Intent intent = SingleFragmentActivity.intentFor(context, "我", EditDoctorInfoFragment.getArgs(response));
+                            context.startActivity(intent);
+                        }
+                    });
+                } else {
+                    apiProfile.patientProfile().enqueue(new SimpleCallback<PatientDTO>() {
+                        @Override
+                        protected void handleResponse(PatientDTO response) {
+                            Intent intent = SingleFragmentActivity.intentFor(context, "我", EditPatientInfoFragment.getArgs(response.getInfo()));
+                            context.startActivity(intent);
+                        }
+                    });
+                }
+                break;
+            }
+            case 10: {
+                if (!isDoctor) {
+                    i = SingleFragmentActivity.intentFor(context, "", ReadDiagnosisFragment.getArgs(Integer.parseInt(getExtras().appointmentId)));
                 }
                 break;
             }
@@ -146,7 +208,6 @@ public class SystemMsg extends BaseItem {
             case 16:
             case 17:
             case 19:
-            case 23:
             case 20: {
                 if (isDoctor) {
                     i = AppointmentListActivity.makeIntent(context);
@@ -171,11 +232,35 @@ public class SystemMsg extends BaseItem {
                 }
                 break;
             }
+            case 23: {
+                if (isDoctor) {
+                    apiAppointment.appointmentDetail(getExtras().appointmentId).enqueue(new SimpleCallback<Appointment>() {
+                        @Override
+                        protected void handleResponse(Appointment response) {
+                            Intent intent = PatientDetailActivity.makeIntent(context, response, 0);
+                            context.startActivity(intent);
+                        }
+                    });
+                }
+                break;
+            }
             case 24: {
                 if (isDoctor) {
                     i = AfterServiceActivity.intentFor(context);
                 } else {
-                    i = PAfterServiceActivity.intentFor(context);
+                    i = AfterServiceDoingActivity.intentFor(context, getExtras().followUpId, "", 0);
+                }
+                break;
+            }
+            case 27: {
+                if (!isDoctor) {
+                    i = PAfterServiceActivity.intentFor(context, 1);
+                }
+                break;
+            }
+            case 28: {
+                if (!isDoctor) {
+                    i = AfterServiceDoneActivity.intentFor(context, getExtras().appointmentId, 1);
                 }
                 break;
             }
@@ -211,7 +296,7 @@ public class SystemMsg extends BaseItem {
     }
 
     public static String getLastMsg() {
-        RealmResults<TextMsg> all = getAllMsg(Realm.getDefaultInstance()).findAll();
+        RealmResults<TextMsg> all = getMyMsg(Realm.getDefaultInstance()).findAll();
         if (all.isEmpty()) {
             return "";
         }
@@ -247,7 +332,12 @@ public class SystemMsg extends BaseItem {
 
     @NonNull
     public static RealmQuery<TextMsg> getAllMsg(Realm realm) {
-        return realm.where(TextMsg.class).beginGroup().equalTo("sessionId", getConfigKey()).or().equalTo("sessionId", "SYSTEM_MSG").endGroup();
+        return realm.where(TextMsg.class).beginsWith("sessionId", "SYSTEM_MSG").equalTo("haveRead", false);
+    }
+
+    @NonNull
+    public static RealmQuery<TextMsg> getMyMsg(Realm realm) {
+        return realm.where(TextMsg.class).equalTo("sessionId", getConfigKey());
     }
 
 

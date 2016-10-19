@@ -85,7 +85,6 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
     }
 
 
-
     public void cloneFromDiagnosisInfo(DiagnosisInfo response) {
         if (!isPatient()) {
             perception.setStates(response.getPerception());
@@ -115,6 +114,9 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         furtherConsultation.content = getReturnTypeAndInterval(response);
         if (response.getReturnX() == 1) {
             furtherConsultation.time = response.getDate();
+        }
+        if (response.getReturnType() == 3) {
+            furtherConsultation.time = "";
         }
     }
 

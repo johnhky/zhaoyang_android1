@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.PActivityRechargeBinding;
@@ -18,8 +19,6 @@ import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 import java.util.HashMap;
-
-import io.ganguo.library.common.ToastHelper;
 
 /**
  * Created by lucas on 1/6/16.
@@ -66,7 +65,7 @@ public class RechargeActivity extends BaseFragmentActivity2 {
                 extraField.put("body", "im recharge");
                 String money = binding.etMoney.getText().toString();
                 if (money.equals("")) {
-                    ToastHelper.showMessage(RechargeActivity.this, "请输入充值金额");
+                    Toast.makeText(RechargeActivity.this, "请输入充值金额", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String totalFee = money + "00";

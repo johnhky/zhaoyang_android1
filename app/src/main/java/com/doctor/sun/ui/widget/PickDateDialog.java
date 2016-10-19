@@ -2,6 +2,7 @@ package com.doctor.sun.ui.widget;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.databinding.FragmentPickDateBinding;
 import com.doctor.sun.dto.ApiDTO;
@@ -52,7 +54,7 @@ public class PickDateDialog extends Dialog {
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-        binding = FragmentPickDateBinding.inflate(inflater, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pick_date, container, false);
         final Calendar now = Calendar.getInstance();
         final Calendar nextMonth = Calendar.getInstance();
         nextMonth.add(Calendar.MONTH, 5);

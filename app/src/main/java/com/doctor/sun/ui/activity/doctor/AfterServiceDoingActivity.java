@@ -3,6 +3,7 @@ package com.doctor.sun.ui.activity.doctor;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,5 +67,13 @@ public class AfterServiceDoingActivity extends TabActivity implements Prescripti
     @Override
     public String url() {
         return "drug/record-last?recordId=" + getRecordId();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Fragment fragment = getActiveFragment(binding.vp, binding.vp.getCurrentItem());
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

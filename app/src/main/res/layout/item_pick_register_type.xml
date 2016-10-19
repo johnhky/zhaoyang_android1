@@ -30,7 +30,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/rb_male"
+                android:id="@+id/rb_patient"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_30"
                 android:background="@drawable/selector_auth_type"
@@ -43,7 +43,7 @@
                 app:layout_widthPercent="50%" />
 
             <Button
-                android:id="@+id/rb_female"
+                android:id="@+id/rb_doctor"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_30"
                 android:background="@drawable/selector_auth_type"

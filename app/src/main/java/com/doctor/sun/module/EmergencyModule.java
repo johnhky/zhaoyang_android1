@@ -3,7 +3,6 @@ package com.doctor.sun.module;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.WeChatPayDTO;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import retrofit2.Call;

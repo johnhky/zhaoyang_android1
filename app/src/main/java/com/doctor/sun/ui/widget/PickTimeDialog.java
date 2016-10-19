@@ -96,7 +96,7 @@ public class PickTimeDialog extends Dialog {
 
     @NonNull
     protected PickTimeAdapter createAdapter() {
-        PickTimeAdapter simpleAdapter = new PickTimeAdapter(getContext(), type,getDateTime());
+        PickTimeAdapter simpleAdapter = new PickTimeAdapter(getContext(), type, getDateTime());
         simpleAdapter.mapLayout(R.layout.item_time, R.layout.reserve_time);
         return simpleAdapter;
     }
@@ -115,6 +115,7 @@ public class PickTimeDialog extends Dialog {
     public String getDate() {
         return date;
     }
+
     public long getDateTime() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         try {

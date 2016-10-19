@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -9,25 +8,20 @@
             type="com.doctor.sun.entity.Description" />
     </data>
 
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ebf0f3"
-        android:gravity="center_vertical"
-        tools:showIn="@layout/activity_time">
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="@dimen/dp_13"
+        android:layout_marginEnd="@dimen/dp_13"
+        android:layout_marginLeft="@dimen/dp_13"
+        android:layout_marginRight="@dimen/dp_13"
+        android:layout_marginStart="@dimen/dp_13"
+        android:layout_marginTop="@dimen/dp_13"
+        android:background="@drawable/bg_transparent"
+        android:text="@{data.content ?? String.valueOf(' ')}"
+        android:textColor="@color/orange"
+        android:textSize="@dimen/font_12" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_4"
-            android:layout_marginBottom="@dimen/dp_4"
-            android:layout_marginLeft="@dimen/dp_12"
-            android:layout_marginRight="@dimen/dp_12"
-            android:gravity="center_vertical"
-            android:text="@{data.content ?? String.valueOf(' ')}"
-            android:textColor="#a2aaae"
-            android:textSize="@dimen/font_15"
-            app:visible="@{data.enabled}" />
-
-    </LinearLayout>
 </layout>

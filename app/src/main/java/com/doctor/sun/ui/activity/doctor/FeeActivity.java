@@ -5,19 +5,19 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.databinding.ActivityFeeBinding;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.Fee;
+import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
-import com.doctor.sun.http.callback.DoNothingCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
-
-import io.ganguo.library.common.ToastHelper;
+import java.util.Locale;
 
 /**
  * Created by lucas on 12/8/15.
@@ -46,36 +46,32 @@ public class FeeActivity extends BaseFragmentActivity2 {
     }
 
     private void initData() {
-        api.fee().enqueue(new ApiCallback<Fee>() {
-            @Override
-            protected void handleResponse(Fee response) {
-                binding.etFirst.setText(String.valueOf(response.getMoney()));
-                binding.etSecond.setText(String.valueOf(response.getSecond_money()));
-                binding.etElse.setText(String.valueOf(response.getCommission()));
-            }
-        });
+        Doctor doctor = Settings.getDoctorProfile();
+        binding.etFirst.setText(String.format(Locale.CHINA, "%.0f", doctor.getMoney()));
+        binding.etSecond.setText(String.format(Locale.CHINA, "%.0f", doctor.getSecondMoney()));
     }
 
     private void initListener() {
         binding.btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.etFirst.getText().toString().isEmpty() || binding.etSecond.getText().toString().isEmpty() ||
-                        binding.etElse.getText().toString().isEmpty()) {
-                    ToastHelper.showMessage(v.getContext(), "有必填的输入项为空");
+                String money = binding.etFirst.getText().toString();
+                String secondMoney = binding.etSecond.getText().toString();
+                if (money.isEmpty() || secondMoney.isEmpty()) {
+                    Toast.makeText(v.getContext(), "有必填的输入项为空", Toast.LENGTH_SHORT).show();
                 } else {
-                    api.setFee(binding.etFirst.getText().toString(), binding.etSecond.getText().toString(),
-                            binding.etElse.getText().toString()).enqueue(new ApiCallback<String>() {
-                        @Override
-                        protected void handleResponse(String response) {
-                        }
+                    api.setFee(money, secondMoney)
+                            .enqueue(new ApiCallback<String>() {
+                                @Override
+                                protected void handleResponse(String response) {
+                                }
 
-                        @Override
-                        protected void handleApi(ApiDTO<String> body) {
-                            ToastHelper.showMessage(FeeActivity.this, "诊金设置完成");
-                            finish();
-                        }
-                    });
+                                @Override
+                                protected void handleApi(ApiDTO<String> body) {
+                                    Toast.makeText(FeeActivity.this, "诊金设置完成", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            });
                 }
             }
         });

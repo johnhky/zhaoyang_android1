@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.Observable;
+import android.support.annotation.Nullable;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.BR;
@@ -16,13 +17,15 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.activity.ImagePreviewActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.ui.fragment.ImageListFragment;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -42,6 +45,7 @@ public class ItemPickImages extends BaseItem {
     private String localPath = "";
     private int itemSizeConstrain = DEFAULT_IMAGE_CONSTRAIN;
     private int itemSize = 0;
+    private String parentId;
 
     public ItemPickImages(int itemLayoutId, String path) {
         super(itemLayoutId);
@@ -99,8 +103,13 @@ public class ItemPickImages extends BaseItem {
         if (src == null || src.equals("")) {
             pickImage(context, adapter, vh);
         } else {
-            context.startActivity(
-                    ImagePreviewActivity.makeIntent(context, src));
+            ItemPickImages sortedItem = (ItemPickImages) adapter.get(getParentId() + QuestionType.upImg);
+            StringBuilder sb = getImagesCSV(adapter, sortedItem);
+            String imagesCSV = sb != null ? sb.toString() : "";
+            String[] split = imagesCSV.split(",");
+            ArrayList<String> strings = new ArrayList<>(Arrays.asList(split));
+            Intent intent = ImageListFragment.intentFor(context, strings);
+            context.startActivity(intent);
         }
     }
 
@@ -125,6 +134,7 @@ public class ItemPickImages extends BaseItem {
         final ItemPickImages item = new ItemPickImages(R.layout.item_pick_image, "");
         item.setLocalPath(path);
         item.setPosition(getPositionForNewImage(adapter, pickerItem));
+        item.setParentId(pickerItem.getParentId());
         item.setItemId(UUID.randomUUID().toString());
 
         pickerItem.registerItemChangedListener(item);
@@ -156,36 +166,42 @@ public class ItemPickImages extends BaseItem {
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         if (src == null || src.equals("")) {
-            int adapterPosition = adapter.indexOfImpl(this);
-            String key = getKey().replace(QuestionType.upImg, "");
-            int distance = adapter.inBetweenItemCount(adapterPosition, key);
-            if (distance <= 1) {
-                return null;
-            }
-            StringBuilder sb = new StringBuilder();
-            for (int i = distance; i > 1; i--) {
-                int index = adapterPosition - i + 1;
-                try {
-                    ItemPickImages sortedItem = (ItemPickImages) adapter.get(index);
-                    String src = sortedItem.getSrc();
-                    if (src != null && !src.equals("")) {
-                        sb.append(src);
-                        if (i != 2) {
-                            sb.append(",");
-                        }
-                    }
-                } catch (ClassCastException ignored) {
-                    ignored.printStackTrace();
-                }
-            }
+            StringBuilder sb = getImagesCSV(adapter, this);
+            if (sb == null) return null;
             HashMap<String, Object> result = new HashMap<>();
-            Questions2 questions2 = (Questions2) adapter.get(key);
+            Questions2 questions2 = (Questions2) adapter.get(getParentId());
             result.put("question_id", questions2.answerId);
             String content = sb.toString();
             result.put("fill_content", content);
             return result;
         }
         return null;
+    }
+
+    @Nullable
+    public StringBuilder getImagesCSV(SortedListAdapter adapter, ItemPickImages pickImages) {
+        int adapterPosition = adapter.indexOfImpl(pickImages);
+        int distance = adapter.inBetweenItemCount(adapterPosition, getParentId());
+        if (distance <= 1) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = distance; i > 1; i--) {
+            int index = adapterPosition - i + 1;
+            try {
+                ItemPickImages sortedItem = (ItemPickImages) adapter.get(index);
+                String src = sortedItem.getSrc();
+                if (src != null && !src.equals("")) {
+                    sb.append(src);
+                    if (i != 2) {
+                        sb.append(",");
+                    }
+                }
+            } catch (ClassCastException ignored) {
+                ignored.printStackTrace();
+            }
+        }
+        return sb;
     }
 
     @Override
@@ -224,5 +240,13 @@ public class ItemPickImages extends BaseItem {
     public void setItemSize(int itemSize) {
         this.itemSize = itemSize;
         notifyPropertyChanged(BR.itemSize);
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getParentId() {
+        return parentId;
     }
 }

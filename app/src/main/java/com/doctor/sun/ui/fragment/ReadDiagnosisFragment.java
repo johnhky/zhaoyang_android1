@@ -23,6 +23,7 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
     private DiagnosisModule api = Api.of(DiagnosisModule.class);
     private DiagnosisReadOnlyViewModel viewModel;
 
+    public static final String TAG = ReadDiagnosisFragment.class.getSimpleName();
 
     public static ReadDiagnosisFragment newInstance(int appointmentId) {
 
@@ -32,6 +33,14 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
         ReadDiagnosisFragment fragment = new ReadDiagnosisFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static Bundle getArgs(int appointmentId) {
+        Bundle args = new Bundle();
+        args.putString(Constants.FRAGMENT_NAME, TAG);
+        args.putInt(Constants.DATA, appointmentId);
+
+        return args;
     }
 
     public int getAppointmentId() {
@@ -47,7 +56,7 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
                 if (response == null) {
                     Description divider = new Description(R.layout.item_description, "医嘱");
                     ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
-                    textInput.setInput("坚持用药，定期复诊");
+                    textInput.setInput("待医生诊断");
                     getAdapter().add(divider);
                     getAdapter().add(textInput);
                     getAdapter().notifyDataSetChanged();

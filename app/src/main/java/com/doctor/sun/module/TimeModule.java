@@ -23,9 +23,6 @@ public interface TimeModule {
     @POST("time/gettime")
     Call<ApiDTO<List<Time>>> getTime(@Field("type") int type);
 
-    @POST("time/gettime")
-    Call<ApiDTO<List<Time>>> getAllTime();
-
     @FormUrlEncoded
     @POST("time/settime")
     Call<ApiDTO<Time>> setTime(@Field("week") int week, @Field("type") int type, @Field("from") String from, @Field("to") String to, @Field("interval") int interval);
@@ -43,22 +40,6 @@ public interface TimeModule {
 
     @GET("time/date-schedule")
     Call<ApiDTO<List<ReserveDate>>> getDateSchedule(@Query("doctorId") int doctorId, @Query("takeTime") int takeTime);
-
-
-//    @FormUrlEncoded
-//    @POST("time/getdatalist")
-//    Call<> getDate(@Field("doctorId")int doctorId,@Field("data")String data);
-//
-
-    @FormUrlEncoded
-    @POST("time/getresrvedate")
-    Call<ApiDTO<List<ReserveDate>>> getResrveDate(@Field("doctorId") int doctorId, @Field("is_referral") String is_referral);
-
-
-    @FormUrlEncoded
-    @POST("time/getdatalist")
-    Call<ApiDTO<List<Time>>> reserveTime(@Field("doctorId") int doctorId, @Field("data") String data);
-
 
     @GET("013/time/latest-avaliable-time")
     Call<ApiDTO<Time>> latestAvailableTime(@Query("doctorId") int doctorId, @Query("takeTime") int data, @Query("date") String date);

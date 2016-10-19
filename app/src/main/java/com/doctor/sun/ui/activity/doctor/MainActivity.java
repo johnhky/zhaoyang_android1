@@ -16,7 +16,9 @@ import com.doctor.sun.databinding.ActivityMainBinding;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.DoctorIndex;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
+import com.doctor.sun.event.UpdateEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
@@ -60,6 +62,7 @@ public class MainActivity extends BaseDoctorActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setFooter(getFooter());
         binding.setHandler(new MainActivityHandler());
+
         showStatusDialog();
         String string = Config.getString(DOCTOR_INDEX);
         if (string != null && !string.equals("")) {
@@ -81,14 +84,16 @@ public class MainActivity extends BaseDoctorActivity {
     public void showStatusDialog() {
 //        boolean isFirstTime = Config.getInt(Constants.PASSFIRSTTIME, -1) == IS_FIRST_TIME;
 //        if (isFirstTime) {
-        final Doctor doctorProfile = Settings.getDoctorProfile();
-        if (doctorProfile == null) {
+        final Doctor doctor = Settings.getDoctorProfile();
+        if (doctor == null) {
             return;
         }
-        if (Settings.lastDoctorStatus().equals(doctorProfile.getStatus())) {
+        boolean rejected = Doctor.STATUS_REJECT.equals(doctor.getStatus());
+        boolean notChanged = Settings.lastDoctorStatus().equals(doctor.getStatus());
+        if (notChanged && !rejected) {
             return;
         }
-        switch (doctorProfile.getStatus()) {
+        switch (doctor.getStatus()) {
             case Doctor.STATUS_REJECT: {
                 ClickMenu menu = new ClickMenu(R.layout.dialog_pass, 0, "审核未能通过", null);
                 menu.setSubTitle("您可以修改信息并再次发起审核请求");
@@ -99,7 +104,7 @@ public class MainActivity extends BaseDoctorActivity {
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                Intent i = EditDoctorInfoFragment.intentFor(MainActivity.this, doctorProfile);
+                                Intent i = EditDoctorInfoFragment.intentFor(MainActivity.this, doctor);
                                 startActivity(i);
                                 dialog.dismiss();
                             }
@@ -121,12 +126,31 @@ public class MainActivity extends BaseDoctorActivity {
                 break;
             }
         }
-        Settings.setLastDoctorStatus(doctorProfile.getStatus());
+        Settings.setLastDoctorStatus(doctor.getStatus());
     }
 
     private FooterViewModel getFooter() {
-        return FooterViewModel.getInstance(this, R.id.tab_one);
+        return FooterViewModel.getInstance(R.id.tab_one);
     }
+
+    @Subscribe
+    public void onMainTabChangedEvent(MainTabChangedEvent e) {
+        switch (e.getPosition()) {
+            case 0: {
+                startActivity(MainActivity.class);
+                break;
+            }
+            case 1: {
+                startActivity(ConsultingActivity.class);
+                break;
+            }
+            case 2: {
+                startActivity(MeActivity.class);
+                break;
+            }
+        }
+    }
+
 
     private void setDoctorIndex(DoctorIndex doctorIndex) {
         if (doctorIndex != null) {
@@ -147,6 +171,7 @@ public class MainActivity extends BaseDoctorActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         getRealm().addChangeListener(getFooter());
         api.doctorIndex().enqueue(new ApiCallback<DoctorIndex>() {
             @Override
@@ -206,5 +231,10 @@ public class MainActivity extends BaseDoctorActivity {
     protected void onPause() {
         super.onPause();
         UpdateUtil.onPause();
+    }
+
+    @Subscribe
+    public void onUpdateEvent(UpdateEvent e) {
+        UpdateUtil.handleNewVersion(this, e.getData(), e.getVersionName());
     }
 }

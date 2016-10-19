@@ -5,7 +5,13 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
 import java.util.Locale;
+
+import io.ganguo.library.core.event.Event;
+import io.ganguo.library.core.event.EventHub;
+import io.ganguo.library.util.Tasks;
 
 /**
  * Created by rick on 26/4/2016.
@@ -15,9 +21,8 @@ public class CountDownTextView extends TextView {
     public static final int ONE_SECOND = 1000;
 
 
-    private String stringToFormat = "";
-    private long remainTime;
     private boolean isRunning = false;
+    private long remainTime;
 
     public CountDownTextView(Context context) {
         super(context);
@@ -49,22 +54,7 @@ public class CountDownTextView extends TextView {
             return;
         }
         isRunning = true;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                if (stringToFormat.equals("")) {
-                    stringToFormat = getText().toString();
-                }
-                setText(String.format(Locale.CHINA, stringToFormat, getReadableTime(remainTime)));
-                remainTime -= ONE_SECOND;
-                if (remainTime > 0) {
-                    postDelayed(this, ONE_SECOND);
-                } else {
-                    removeCallbacks(this);
-                    setVisibility(GONE);
-                }
-            }
-        });
+        post(new MyRunnable(getText().toString(), remainTime));
     }
 
     public static String getReadableTime(long timeMillis) {
@@ -79,4 +69,70 @@ public class CountDownTextView extends TextView {
         result += String.format(Locale.CHINA, "%02d秒", second);
         return result;
     }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        EventHub.register(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        EventHub.unregister(this);
+    }
+
+    @Subscribe
+    public void onTimeoutEvent(CountDownTimeoutEvent e) {
+        setVisibility(GONE);
+    }
+
+    @Subscribe
+    public void onTextChangedEvent(TextChangedEvent e) {
+        setText(e.getText());
+    }
+
+
+    private static class MyRunnable implements Runnable {
+
+        private long remainTime;
+        private String stringToFormat;
+
+        MyRunnable(String stringToFormat, long remainTime) {
+            this.remainTime = remainTime;
+            this.stringToFormat = stringToFormat;
+        }
+
+        @Override
+        public void run() {
+            String text = String.format(Locale.CHINA, stringToFormat, getReadableTime(remainTime));
+            EventHub.post(new TextChangedEvent(text));
+            remainTime -= ONE_SECOND;
+            if (remainTime > 0) {
+                Tasks.runOnUiThread(this, ONE_SECOND);
+            } else {
+                EventHub.post(new CountDownTimeoutEvent());
+            }
+        }
+
+    }
+
+    private static class CountDownTimeoutEvent implements Event {
+
+    }
+
+    private static class TextChangedEvent implements Event {
+
+        private final String text;
+
+
+        private TextChangedEvent(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return text;
+        }
+    }
+
 }

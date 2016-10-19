@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.google.common.base.Strings" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Options2" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
+
+    </data>
+
+    <org.apmem.tools.layouts.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_6"
+        android:layout_marginEnd="@dimen/dp_6"
+        android:layout_marginLeft="@dimen/dp_6"
+        android:layout_marginRight="@dimen/dp_6"
+        android:layout_marginStart="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_6"
+        android:orientation="horizontal"
+        android:selected="@{data.selected}">
+
+        <TextView
+            android:id="@+id/tv_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_16"
+            android:enabled="@{false}"
+            android:maxLines="1"
+            android:selected="@{data.selected}"
+            android:text="@{data.optionContent+data.contentHead}"
+            android:textColor="@color/primary_color_selector_read_only"
+            android:textSize="@dimen/font_15"
+            tools:text="其他" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:layout_marginEnd="@dimen/dp_6"
+            android:layout_marginLeft="@dimen/dp_6"
+            android:layout_marginRight="@dimen/dp_6"
+            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginTop="@dimen/dp_6"
+            android:background="@drawable/selector_grey_rect"
+            android:minWidth="@dimen/dp_150"
+            android:orientation="horizontal"
+            android:selected="@{data.selected}">
+
+            <EditText
+                android:id="@+id/input_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_6"
+                android:layout_marginTop="@dimen/dp_6"
+                android:afterTextChanged="@{()->data.setSelectedWrap(!Strings.isNullOrEmpty(data.inputContent),adapter)}"
+                android:background="@color/transparent"
+                android:button="@drawable/ic_options"
+                android:enabled="@{false}"
+                android:hint="@{data.optionInputHint}"
+                android:imeOptions="actionDone"
+                android:inputType="@{data.inputType()}"
+                android:maxLength="@{data.optionInputLength}"
+                android:minWidth="@dimen/dp_35"
+                android:paddingBottom="@dimen/dp_4"
+                android:paddingEnd="@dimen/dp_8"
+                android:paddingLeft="@dimen/dp_8"
+                android:paddingRight="@dimen/dp_8"
+                android:paddingStart="@dimen/dp_8"
+                android:paddingTop="@dimen/dp_4"
+                android:selected="@{data.selected}"
+                android:text="@={data.inputContent}"
+                android:textColor="@color/primary_color_selector_read_only"
+                android:textSize="@dimen/font_15"
+                tools:text="请填写" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_16"
+            android:button="@drawable/ic_options"
+            android:enabled="@{false}"
+            android:selected="@{data.selected}"
+            android:text='@{data.contentTail}'
+            android:textColor="@color/primary_color_selector_read_only"
+            android:textSize="@dimen/font_15" />
+
+    </org.apmem.tools.layouts.FlowLayout>
+</layout>

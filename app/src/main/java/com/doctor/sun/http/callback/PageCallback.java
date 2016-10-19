@@ -4,7 +4,6 @@ import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.LoadMoreAdapter;
 
 import java.net.SocketTimeoutException;

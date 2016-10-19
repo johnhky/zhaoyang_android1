@@ -23,6 +23,9 @@ public class LoadingHelper {
      * show loading
      */
     public static MaterialDialog showMaterLoading(final Context context, final String message, final DialogInterface.OnCancelListener listener) {
+        if (context == null) {
+            return null;
+        }
         if (mMaterialDialog != null) {
             hideMaterLoading();
         }

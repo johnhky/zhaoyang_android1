@@ -15,6 +15,7 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.event.RefreshEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
@@ -22,13 +23,15 @@ import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
 import com.doctor.sun.ui.activity.patient.HospitalDetailActivity;
-import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.core.AdapterOps;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashMap;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by lucas on 1/8/16.
@@ -45,8 +48,11 @@ public class DoctorHandler {
         isSelected = selected;
     }
 
-    private boolean isSelected() {
-        return isSelected;
+    public boolean isSelected(SimpleAdapter adapter, BaseViewHolder vh) {
+        Doctor doctor = (Doctor) adapter.get(vh.getAdapterPosition());
+        return doctor.isUserSelected();
+
+//        return isSelected;
     }
 
     public void detail(View view) {
@@ -111,8 +117,8 @@ public class DoctorHandler {
     }
 
     public void viewDetail(BaseAdapter temp) {
-        SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
-        viewDetail(adapter.getContext(), adapter.getType());
+        SimpleAdapter adapter = (SimpleAdapter) temp;
+        viewDetail(adapter.getContext(), adapter.getInt(AdapterConfigKey.APPOINTMENT_TYPE));
     }
 
     public void viewDetail(Context context, int type) {
@@ -140,9 +146,17 @@ public class DoctorHandler {
 //        });
 //    }
 
-    private int getType(BaseAdapter temp) {
-        SearchDoctorAdapter adapter = (SearchDoctorAdapter) temp;
-        return adapter.getType();
+    public int getType(SimpleAdapter adapter) {
+//        n adapter.getType();
+        return adapter.getInt(AdapterConfigKey.APPOINTMENT_TYPE);
+    }
+
+    public String getTypeLabel(SimpleAdapter adapter) {
+        if (getType(adapter) == AppointmentType.PREMIUM) {
+            return "专属咨询";
+        } else {
+            return "留言咨询";
+        }
     }
 
 
@@ -204,14 +218,15 @@ public class DoctorHandler {
         context.startActivity(intent);
     }
 
-    public void acceptRelation(final AdapterOps ops, String id) {
+    public void acceptRelation(final SimpleAdapter adapter, String id) {
         AfterServiceModule api = Api.of(AfterServiceModule.class);
         api.acceptBuildRelation(id).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
+                Toast.makeText(adapter.getContext(), "成功建立随访关系", Toast.LENGTH_SHORT).show();
             }
         });
-
+        EventHub.post(new RefreshEvent());
     }
 
     public View.OnClickListener allowAfterService(final BaseAdapter adapter, BaseViewHolder vh) {
@@ -249,5 +264,20 @@ public class DoctorHandler {
         result.put("detail", data.getDetail() == null ? "" : data.getDetail());
         result.put("hospital", data.getHospitalName() == null ? "" : data.getHospitalName());
         return result;
+    }
+
+    public int isVisible(SimpleAdapter adapter) {
+        if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE)) {
+            return View.VISIBLE;
+        } else {
+            return View.GONE;
+        }
+    }
+
+    public void select(SimpleAdapter adapter, BaseViewHolder vh) {
+        int position = vh.getAdapterPosition();
+        Doctor doctor = (Doctor) adapter.get(position);
+        ((Doctor) adapter.get(position)).setUserSelected(!doctor.isUserSelected());
+        adapter.notifyDataSetChanged();
     }
 }

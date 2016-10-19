@@ -7,4 +7,5 @@ package com.doctor.sun.entity.constans;
 public @interface IntBoolean {
     int TRUE = 1;
     int FALSE = 0;
+    int NOT_GIVEN = -1;
 }

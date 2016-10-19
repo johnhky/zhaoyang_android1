@@ -2,18 +2,18 @@ package com.doctor.sun.ui.pager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.constans.QuestionsType;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
-import com.doctor.sun.ui.fragment.WaitingSuggestionFragment;
+import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 
 /**
  * Created by rick on 6/6/2016.
  */
-public class PatientAfterServicePA extends FragmentStatePagerAdapter {
+public class PatientAfterServicePA extends FragmentPagerAdapter {
     private String id;
 
     public PatientAfterServicePA(FragmentManager fm, String id) {
@@ -28,7 +28,10 @@ public class PatientAfterServicePA extends FragmentStatePagerAdapter {
                 return AnswerQuestionFragment.getInstance(id, QuestionsPath.FOLLOW_UP, QuestionsType.PATIENT_W_PATIENT_QUESTIONS);
             }
             case 1: {
-                return WaitingSuggestionFragment.newInstance(id, QuestionsType.PATIENT);
+                return ReadQuestionsFragment.getInstance(id,
+                        QuestionsPath.FOLLOW_UP,
+                        QuestionsType.PATIENT_R_DOCTOR_QUESTIONS,
+                        true);
             }
         }
         return null;

@@ -4,17 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
-import android.widget.LinearLayout;
 
 import com.doctor.sun.R;
-import com.doctor.sun.bean.Constants;
-import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.ui.activity.TabActivity;
-
 import com.doctor.sun.ui.pager.MyOrderPagerAdapter;
-import com.doctor.sun.util.JacksonUtils;
-
-import io.ganguo.library.Config;
 
 /**
  * Created by rick on 11/1/2016.

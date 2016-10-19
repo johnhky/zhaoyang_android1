@@ -14,12 +14,12 @@
 
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_13"
-        android:background="@drawable/ripple_default"
-        android:onClick="@{()->data.editScalesQuestionWithResult(adapter,data.scaleId)}">
+        android:onClick="@{()->data.editScalesQuestionWithResult(adapter,context,data.scaleId)}"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="match_parent"
@@ -31,9 +31,42 @@
             android:minHeight="@dimen/dp_45"
             android:paddingLeft="@dimen/dp_13"
             android:paddingRight="@dimen/dp_13"
-            android:text="@{data.scaleName}"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/font_15"
-            tools:text="抑郁症模块" />
-    </LinearLayout>
+            android:textSize="@dimen/font_15" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_default"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minHeight="@dimen/dp_45"
+                android:paddingLeft="@dimen/dp_8"
+                android:paddingRight="@dimen/dp_8"
+                android:text="@{data.scaleName}"
+                android:textColor="@color/colorPrimaryDark"
+                tools:text="抑郁症模块" />
+
+            <TextView
+                android:id="@+id/iv_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_23"
+                android:background="@drawable/shape_red_oval_dp17"
+                android:gravity="center"
+                android:minWidth="@dimen/dp_23"
+                android:text='@{&quot;&quot;+data.refillCount}'
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_14"
+                android:visibility="@{data.refillCount>0}"
+                tools:text="1" />
+        </LinearLayout>
+
+
+    </FrameLayout>
 </layout>

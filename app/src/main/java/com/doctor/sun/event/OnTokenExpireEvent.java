@@ -1,6 +1,6 @@
 package com.doctor.sun.event;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.widget.Toast;
 
@@ -24,14 +24,10 @@ import io.ganguo.library.core.event.Event;
 public class OnTokenExpireEvent implements Event {
     public static final int ONE_MINUTES = 60000;
     private static long lastEventTime = 0;
-    private Context context;
 
     public OnTokenExpireEvent() {
     }
 
-    public OnTokenExpireEvent(Context context) {
-        this.context = context;
-    }
 
     /**
      * Token 过期
@@ -42,12 +38,14 @@ public class OnTokenExpireEvent implements Event {
     public void onAuthEvent(OnTokenExpireEvent event) {
         if (System.currentTimeMillis() - lastEventTime > ONE_MINUTES) {
             MobclickAgent.onProfileSignOff();
-            Toast.makeText(context, "帐号登录过期,请重新登录", Toast.LENGTH_LONG).show();
+            Toast.makeText(AppContext.me(), "帐号登录过期,请重新登录", Toast.LENGTH_LONG).show();
             IMManager.getInstance().logout();
 
             SettingHandler.clearUserData();
-            Intent intent = LoginActivity.makeIntent(context);
-            context.startActivity(intent);
+            Intent intent = LoginActivity.makeIntent(AppContext.me());
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            AppContext.me().startActivity(intent);
             AppManager.finishAllActivity();
             lastEventTime = System.currentTimeMillis();
             JPushInterface.setAlias(AppContext.me(), "", new TagAliasCallback() {

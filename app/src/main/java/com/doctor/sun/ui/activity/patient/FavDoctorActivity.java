@@ -19,8 +19,8 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.adapter.DocumentAdapter;
-
+import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.util.ArrayList;
@@ -29,24 +29,10 @@ import java.util.ArrayList;
  * Created by lucas on 1/4/16.
  * 我收藏的医生
  */
-public class FavDoctorActivity extends BaseFragmentActivity2 implements DocumentAdapter.GetEditMode {
-    private boolean isEditMode;
-    private DocumentAdapter mAdapter;
+public class FavDoctorActivity extends BaseFragmentActivity2 {
+    private SimpleAdapter adapter;
     private PActivityFavDoctorBinding binding;
     private AppointmentModule api = Api.of(AppointmentModule.class);
-
-    public boolean isEditMode() {
-        return isEditMode;
-    }
-
-    public void setIsEditMode(boolean isEditMode) {
-        this.isEditMode = isEditMode;
-    }
-
-    @Override
-    public boolean getEditMode() {
-        return isEditMode();
-    }
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, FavDoctorActivity.class);
@@ -63,9 +49,11 @@ public class FavDoctorActivity extends BaseFragmentActivity2 implements Document
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_fav_doctor);
 //        binding.setHeader(header);
-        mAdapter = new DocumentAdapter(this);
+        adapter = new SimpleAdapter(this);
+        adapter.mapLayout(R.layout.item_doctor, R.layout.p_item_document);
+        adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, false);
         binding.rvDocument.setLayoutManager(new LinearLayoutManager(this));
-        binding.rvDocument.setAdapter(mAdapter);
+        binding.rvDocument.setAdapter(adapter);
     }
 
     private void initListener() {
@@ -105,12 +93,16 @@ public class FavDoctorActivity extends BaseFragmentActivity2 implements Document
         api.favoriteDoctors().enqueue(new ApiCallback<PageDTO<Doctor>>() {
             @Override
             protected void handleResponse(PageDTO<Doctor> response) {
-                mAdapter.unSelectAll();
-                mAdapter.clear();
-                mAdapter.addAll(response.getData());
-                mAdapter.notifyDataSetChanged();
-                mAdapter.onFinishLoadMore(true);
-                if (mAdapter.getItemCount() == 0) {
+
+                for (int i = 0; i < adapter.size(); i++) {
+                    ((Doctor) adapter.get(i)).setUserSelected(false);
+                }
+
+                adapter.clear();
+                adapter.addAll(response.getData());
+                adapter.notifyDataSetChanged();
+                adapter.onFinishLoadMore(true);
+                if (adapter.getItemCount() == 0) {
                     binding.flDelete.setVisibility(View.GONE);
                     binding.emptyIndicator.setText("当前我的收藏为空");
                     binding.emptyIndicator.setVisibility(View.VISIBLE);
@@ -123,31 +115,33 @@ public class FavDoctorActivity extends BaseFragmentActivity2 implements Document
 
     @Override
     public void onBackPressed() {
-        if (isEditMode() && mAdapter.getItemCount() != 0) {
-            setIsEditMode(!isEditMode());
+        if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE) && adapter.getItemCount() != 0) {
+            adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, !adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE));
             binding.flDelete.setVisibility(View.GONE);
-            mAdapter.notifyDataSetChanged();
-        }else {
+            adapter.notifyDataSetChanged();
+            invalidateOptionsMenu();
+        } else {
             super.onBackPressed();
         }
     }
 
     public void onMenuClicked() {
-        setIsEditMode(!isEditMode());
-        if (isEditMode()) {
+        adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, !adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE));
+        if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE)) {
             binding.flDelete.setVisibility(View.VISIBLE);
         } else {
             binding.flDelete.setVisibility(View.GONE);
         }
-        mAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
+        invalidateOptionsMenu();
     }
 
     public ArrayList<String> getDoctorId() {
         ArrayList<String> doctorId = new ArrayList<String>();
         doctorId.clear();
-        for (int i = 0; i < mAdapter.size(); i++) {
-            if (mAdapter.isSelected(i)) {
-                Doctor doctor = (Doctor) mAdapter.get(i);
+        for (int i = 0; i < adapter.size(); i++) {
+            Doctor doctor = (Doctor) adapter.get(i);
+            if (doctor.isUserSelected()) {
                 doctorId.add(String.valueOf(doctor.getId()));
             }
         }
@@ -179,7 +173,7 @@ public class FavDoctorActivity extends BaseFragmentActivity2 implements Document
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.clear();
-        if (isEditMode()) {
+        if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE)) {
             getMenuInflater().inflate(R.menu.menu_confirm, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_edit, menu);

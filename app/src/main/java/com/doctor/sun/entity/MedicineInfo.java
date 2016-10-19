@@ -1,7 +1,9 @@
 package com.doctor.sun.entity;
 
+import android.graphics.Paint;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.TextView;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
@@ -14,7 +16,7 @@ import com.doctor.sun.vo.BaseItem;
 public class MedicineInfo extends BaseItem implements LayoutId, Parcelable {
 
     private String medicine;
-    private String medicineOrderId;
+    private String orderId;
     private String medicinePrice;
 
     public MedicineInfo() {
@@ -36,12 +38,12 @@ public class MedicineInfo extends BaseItem implements LayoutId, Parcelable {
         this.medicinePrice = medicinePrice;
     }
 
-    public String getMedicineOrderId() {
-        return medicineOrderId;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setMedicineOrderId(String medicineOrderId) {
-        this.medicineOrderId = medicineOrderId;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     @Override
@@ -51,7 +53,7 @@ public class MedicineInfo extends BaseItem implements LayoutId, Parcelable {
 
     protected MedicineInfo(Parcel in) {
         medicine = in.readString();
-        medicineOrderId = in.readString();
+        orderId = in.readString();
         medicinePrice = in.readString();
     }
 
@@ -75,7 +77,13 @@ public class MedicineInfo extends BaseItem implements LayoutId, Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(medicine);
-        dest.writeString(medicineOrderId);
+        dest.writeString(orderId);
         dest.writeString(medicinePrice);
+    }
+
+    public int setStrikeThru(TextView textView) {
+        textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        return R.drawable.bg_transparent;
     }
 }

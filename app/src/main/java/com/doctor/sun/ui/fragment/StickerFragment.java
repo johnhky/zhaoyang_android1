@@ -51,7 +51,7 @@ public class StickerFragment extends ListFragment {
     public SimpleAdapter createAdapter() {
         SimpleAdapter adapter = super.createAdapter();
         adapter.onFinishLoadMore(true);
-        adapter.mapLayout(R.layout.item_emoji,R.layout.item_sticker);
+        adapter.mapLayout(R.layout.item_emoji, R.layout.item_sticker);
         return adapter;
     }
 

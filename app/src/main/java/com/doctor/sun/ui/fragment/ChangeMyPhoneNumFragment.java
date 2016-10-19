@@ -131,6 +131,8 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
                 profileModule.changePhone(captcha.getValue(), newPhoneNum.getResult()).enqueue(new SimpleCallback<String>() {
                     @Override
                     protected void handleResponse(String response) {
+                        Toast.makeText(getContext(), "成功更换手机号码", Toast.LENGTH_SHORT).show();
+                        getActivity().finish();
                     }
                 });
             }
@@ -148,13 +150,13 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
     }
 
     private void insertDivider(List<BaseItem> list) {
-        BaseItem item = new BaseItem(R.layout.divider_1px_marginlr_13dp);
+        BaseItem item = new BaseItem(R.layout.divider_1px_start13_end13);
         item.setItemId(UUID.randomUUID().toString());
         list.add(item);
     }
 
     private void insertSpace(List<BaseItem> list) {
-        BaseItem item = new BaseItem(R.layout.space_30dp);
+        BaseItem item = new BaseItem(R.layout.divider_30dp);
         item.setItemId(UUID.randomUUID().toString());
         list.add(item);
     }

@@ -168,7 +168,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
     public void addExtraItems() {
-        mAdapter.add(new BaseItem(R.layout.divider_dp13));
+        mAdapter.add(new BaseItem(R.layout.divider_13dp));
     }
 
     private void needSendDrug() {
@@ -177,7 +177,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
             return;
         }
 
-        if (Config.getInt(Constants.USER_TYPE, -1) == AuthModule.PATIENT_TYPE)
+        if (Settings.isDoctor())
             drugModule.needSendDrug(getData().getId()).enqueue(new ApiCallback<NeedSendDrug>() {
                 @Override
                 protected void handleResponse(NeedSendDrug response) {
@@ -215,6 +215,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         if (!getRealm().isClosed()) {
             results.removeChangeListeners();
         }
+        InputLayoutViewModel.release();
         super.onDestroy();
     }
 
@@ -225,7 +226,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         data.setHandler(handler);
         binding.setData(data);
 
-        initActionbar();
 
         sendTo = handler.getTeamId();
 
@@ -249,21 +249,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         initInputLayout();
     }
 
-    private void initActionbar() {
-//        binding.setHeader(getHeaderViewModel());
-//        inflateMenu();
-    }
-
-
-//    private HeaderViewModel getHeaderViewModel() {
-//        return new HeaderViewModel(this);
-//    }
-
-    protected void inflateMenu() {
-//        binding.getHeader().setLeftTitle(handler.getTitle())
-//                .setRightFirstTitle(handler.getRightFirstTitle())
-//                .setRightTitle(handler.getRightTitle());
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -278,24 +263,22 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int tab = 0;
         switch (item.getItemId()) {
             case R.id.action_view: {
-                Intent i = handler.getFirstMenu(this);
-                if (i != null) {
-                    startActivity(i);
-                }
-                return true;
+                tab = 0;
+                break;
             }
             case R.id.action_edit: {
-                Intent i = handler.getMenu(this);
-                if (i != null) {
-                    startActivity(i);
-                }
-                return true;
+                tab = 1;
+                break;
             }
-            default:
-                return super.onOptionsItemSelected(item);
+            default: {
+            }
         }
+
+        handler.viewDetail(this, tab);
+        return true;
     }
 
     private void setHaveRead(RealmResults<TextMsg> results) {
@@ -372,6 +355,11 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     @Override
     public boolean shouldAskServer() {
         return handler.shouldAskServer();
+    }
+
+    @Override
+    public int getDuration() {
+        return handler.getDuration();
     }
 
     @Override
@@ -533,11 +521,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     @Override
     public void onKeyboardClosed() {
-//        InputLayoutViewModel inputLayout = binding.getInputLayout();
-//        if (inputLayout.getKeyboardType() != 0) {
-//            inputLayout.setKeyboardType(0);
-//            Systems.hideKeyboard(this);
-//        }
     }
 
     @Override
@@ -584,10 +567,16 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
     @Subscribe
-    public void onRejectIncomingCallEvent(CallFailedShouldCallPhoneEvent e) {
+    public void onCallFailed(CallFailedShouldCallPhoneEvent e) {
         if (handler != null) {
             if (AVChatType.AUDIO.getValue() == e.getChatType()) {
-                Toast toast = Toast.makeText(this, "网络电话未被接听,现在转为专线020-81212600回拨，请放心接听。", Toast.LENGTH_LONG);
+                String text;
+                if (Settings.isDoctor()) {
+                    text = "网络电话未被接听,现在转为专线020-81212600回拨,请放心接听。";
+                } else {
+                    text = "网络电话未被接听,现在转为专线020-81212600回拨,接通后限时%ld分钟,请放心接听。";
+                }
+                Toast toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
                 toast.show();
                 handler.callTelephone(this);
             }

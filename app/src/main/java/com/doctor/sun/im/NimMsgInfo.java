@@ -17,4 +17,6 @@ public interface NimMsgInfo {
     int appointmentId();
 
     boolean shouldAskServer();
+
+    int getDuration();
 }

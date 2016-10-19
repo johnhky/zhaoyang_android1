@@ -199,7 +199,7 @@
                         android:background="@drawable/ripple_default"
                         android:enabled="@{data.isEnabled()}"
                         android:gravity="center"
-                        android:onClick="@{()->data.chooseDoctor(context,adapter,vh)}"
+                        android:onClick="@{()->data.chooseDoctor(context)}"
                         android:text="选择医生"
                         android:textColor="#fff"
                         android:textSize="@dimen/font_17" />
@@ -241,7 +241,7 @@
                     android:drawablePadding="@dimen/dp_4"
                     android:enabled="@{data.isEnabled()}"
                     android:gravity="center"
-                    android:onClick="@{()->data.chooseDoctor(context,adapter,vh)}"
+                    android:onClick="@{()->data.chooseDoctor(context)}"
                     android:paddingEnd="@dimen/dp_13"
                     android:paddingLeft="@dimen/dp_13"
                     android:paddingRight="@dimen/dp_13"

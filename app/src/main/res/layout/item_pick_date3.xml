@@ -26,7 +26,7 @@
         android:layout_marginRight="@dimen/dp_13"
         android:layout_marginStart="@dimen/dp_13"
         android:background="@drawable/ripple_default"
-        android:enabled="@{data.isEnabled()}"
+        android:clickable="true"
         android:onClick="@{()->data.pickTime(context)}">
 
         <TextView
@@ -35,7 +35,6 @@
             android:layout_height="@dimen/dp_45"
             android:background="@drawable/selector_grey_rect"
             android:drawableRight="@drawable/ic_enter"
-            android:enabled="@{data.isEnabled()}"
             android:gravity="start|center_vertical"
             android:paddingLeft="@dimen/dp_13"
             android:paddingRight="@dimen/dp_13"

@@ -23,13 +23,16 @@ import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.AppointmentStatus;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.constans.AppointmentType;
-import com.doctor.sun.entity.constans.Gender;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CloseDrawerEvent;
+import com.doctor.sun.event.PayFailEvent;
+import com.doctor.sun.event.PaySuccessEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -40,6 +43,7 @@ import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
+import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.ChattingActivityNoMenu;
@@ -49,20 +53,16 @@ import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.CancelAppointmentActivity;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
-import com.doctor.sun.ui.activity.doctor.FeedbackActivity;
 import com.doctor.sun.ui.activity.doctor.PatientDetailActivity;
 import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.activity.patient.FinishedOrderActivity;
 import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
-import com.doctor.sun.ui.activity.patient.PayFailActivity;
-import com.doctor.sun.ui.activity.patient.PaySuccessActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.fragment.PayAppointmentFragment;
 import com.doctor.sun.ui.handler.PayMethodInterface;
-import com.doctor.sun.ui.widget.PayMethodDialog;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.vo.BaseItem;
@@ -78,7 +78,6 @@ import java.util.Locale;
 import io.ganguo.library.AppManager;
 import io.ganguo.library.Config;
 import io.ganguo.library.common.LoadingHelper;
-import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Tasks;
 import io.realm.Realm;
@@ -90,7 +89,7 @@ import retrofit2.Call;
  * Created by rick on 11/20/15.
  * 所有关于预约的逻辑都在这里, 跳转界面,是否过期等,剩下的进行中时间
  */
-public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.util.PayInterface, NimMsgInfo {
+public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     public static final int RECORD_AUDIO_PERMISSION = 40;
     private static AppointmentModule api = Api.of(AppointmentModule.class);
     protected Appointment data;
@@ -126,9 +125,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
 
     public String getBookTime() {
         if (null != data.getBookTime()) {
-//            if (isQuick()) {
-//                return splitBookTime();
-//            }
             return data.getBookTime();
         } else if (null != data.getCreatedAt()) {
             return data.getCreatedAt();
@@ -137,15 +133,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
-    private String splitBookTime() {
-        String bookTime = data.getBookTime();
-        try {
-            String[] split = bookTime.split(" ");
-            return split[0];
-        } catch (Exception e) {
-            return bookTime;
-        }
-    }
 
     public String getRelation() {
         String relation = data.getRelation();
@@ -160,18 +147,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
-    public String getRelation2() {
-        String relation = data.getRelation();
-        if (null != relation && !relation.equals("")) {
-            return relation;
-        } else if (null != data.getMedicalRecord()) {
-            return data.getMedicalRecord().getRelation() + data.getMedicalRecord().getName();
-        } else if (null != data.getUrgentRecord()) {
-            return data.getUrgentRecord().getRelation() + data.getUrgentRecord().getName();
-        } else {
-            return "";
-        }
-    }
 
     public String getRelation3() {
         String relation = data.getRelation();
@@ -217,6 +192,10 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         }
     }
 
+    public boolean isCouponUsed() {
+        return getDiscountMoney() > 0;
+    }
+
     public String getConsultingTitle() {
         return "病历: " + getRecordName2();
     }
@@ -250,17 +229,12 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         api.pCancel(id).enqueue(new CancelCallback(vh, component));
     }
 
-    public void showPayDialog(BaseAdapter component) {
-        new PayMethodDialog(component.getContext(), AppointmentHandler.this).show();
-    }
-
     public void startPayActivity(Context context, int id) {
         Bundle args = PayAppointmentFragment.getArgs(String.valueOf(id));
         Intent intent = SingleFragmentActivity.intentFor(context, "确认支付", args);
         context.startActivity(intent);
     }
 
-    @Override
     public void payWithAlipay(final Activity activity, String couponId) {
         int id;
         if (returnNotPaid()) {
@@ -271,7 +245,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         api.buildAliPayOrder(id, "alipay", couponId).enqueue(new AlipayCallback(activity, data));
     }
 
-    @Override
     public void payWithWeChat(final Activity activity, String couponId) {
         int id;
         if (returnNotPaid()) {
@@ -282,7 +255,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         api.buildWeChatOrder(id, "wechat", couponId).enqueue(new WeChatPayCallback(activity, data));
     }
 
-    @Override
     public void simulatedPay(final BaseAdapter component, final View view, final BaseViewHolder vh) {
         int id;
         if (returnNotPaid()) {
@@ -297,14 +269,12 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         final PayCallback mCallback = new PayCallback() {
             @Override
             public void onPaySuccess() {
-                Intent intent = PaySuccessActivity.makeIntent(view.getContext(), data);
-                view.getContext().startActivity(intent);
+                EventHub.post(new PaySuccessEvent(data));
             }
 
             @Override
             public void onPayFail() {
-                Intent intent = PayFailActivity.makeIntent(view.getContext(), data, true);
-                view.getContext().startActivity(intent);
+                EventHub.post(new PayFailEvent(data, false));
             }
         };
         AppointmentModule api = Api.of(AppointmentModule.class);
@@ -340,10 +310,12 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 });
     }
 
+    @Deprecated
     public void refuse(View view) {
         api.refuseConsultation(String.valueOf(data.getReturnListId())).enqueue(new DoNothingCallback());
     }
 
+    @Deprecated
     public void accept(final View view) {
         new MaterialDialog.Builder(view.getContext()).content("若需要提前进行就诊，请先与患者确认。（点击下方通话键可联系患者）是否确认提前就诊？")
                 .positiveText("确认")
@@ -380,24 +352,24 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         context.startActivity(i);
     }
 
-    public void comment(final BaseAdapter adapter, final BaseViewHolder vh) {
-        if (!hasPatientComment()) {
-            Context context = adapter.getContext();
-            Intent i = FeedbackActivity.makeIntent(context, data);
-            Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    data.setPatientPoint((Double) msg.obj);
-                    adapter.notifyItemChanged(vh.getAdapterPosition());
-                    return false;
-                }
-            }));
-            i.putExtra(Constants.HANDLER, messenger);
-            context.startActivity(i);
-        } else {
-            ToastHelper.showMessage(adapter.getContext(), "已经评价过此预约");
-        }
-    }
+//    public void comment(final BaseAdapter adapter, final BaseViewHolder vh) {
+//        if (!hasPatientComment()) {
+//            Context context = adapter.getContext();
+//            Intent i = FeedbackActivity.makeIntent(context, data);
+//            Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
+//                @Override
+//                public boolean handleMessage(Message msg) {
+//                    data.setPatientPoint((Double) msg.obj);
+//                    adapter.notifyItemChanged(vh.getAdapterPosition());
+//                    return false;
+//                }
+//            }));
+//            i.putExtra(Constants.HANDLER, messenger);
+//            context.startActivity(i);
+//        } else {
+//            ToastHelper.showMessage(adapter.getContext(), "已经评价过此预约");
+//        }
+//    }
 
     public void pComment(final BaseAdapter adapter, final BaseViewHolder vh) {
         if (!hasDoctorComment()) {
@@ -414,7 +386,7 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             i.putExtra(Constants.HANDLER, messenger);
             context.startActivity(i);
         } else {
-            ToastHelper.showMessage(adapter.getContext(), "已经评价过此预约");
+            Toast.makeText(adapter.getContext(), "已经评价过此预约", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -518,74 +490,32 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public boolean shouldAskServer() {
         return data.getAppointmentType() == AppointmentType.PREMIUM && Status.A_DOING.equals(data.getOrderStatus());
     }
-//
-//    public CustomActionViewModel.AudioChatCallback getAudioChatCallback() {
-//        return new CustomActionViewModel.AudioChatCallback() {
-//            @Override
-//            public void startAudioChat(View v) {
-//                checkCallStatus(v);
-//            }
-//        };
-//    }
 
-    public String getRightFirstTitle() {
-        if (Settings.isDoctor()) {
-            return "患者问卷";
+    @Override
+    public int getDuration() {
+        try {
+            return Integer.parseInt(data.getTakeTime());
+        } catch (NumberFormatException e) {
+            return 0;
         }
-        return "我的问卷";
     }
 
-    public String getRightTitle() {
-        if (Settings.isDoctor()) {
-            return "病历记录";
-        }
-        return "医生建议";
-    }
-
-    public Intent getFirstMenu(Context context) {
+    public Intent getFirstMenu(Context context, int canEdit, int tab) {
         if (isAfterService()) {
             String id = String.valueOf(data.getId());
-            switch (data.getDisplayStatus()) {
-                case Status.A_WAITING:
-                case Status.A_DOING: {
-                    String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
-                    Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, 0);
-                    context.startActivity(intent);
-                    break;
-                }
-                default: {
-                    Intent intent = AfterServiceDoneActivity.intentFor(context, id, 0);
-                    context.startActivity(intent);
-                }
-            }
-
-        } else {
-            return AppointmentDetailActivity.makeIntent(context, getData(), AppointmentDetailActivity.POSITION_ANSWER);
-        }
-        return null;
-    }
-
-    public Intent getMenu(Context context) {
-        if (isAfterService()) {
-            String id = String.valueOf(data.getId());
-            switch (data.getDisplayStatus()) {
-                case Status.A_WAITING:
-                case Status.A_DOING: {
-                    String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
-                    Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, 1);
-                    context.startActivity(intent);
-                    break;
-                }
-                default: {
-                    Intent intent = AfterServiceDoneActivity.intentFor(context, id, 1);
-                    context.startActivity(intent);
-                }
+            if (canEdit == IntBoolean.FALSE) {
+                return AfterServiceDoneActivity.intentFor(context, id, tab);
+            } else {
+                String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
+                return AfterServiceDoingActivity.intentFor(context, id, recordId, tab);
             }
         } else {
-            return AppointmentDetailActivity.makeIntent(context, getData(), AppointmentDetailActivity.POSITION_SUGGESTION);
+            Appointment data = getData();
+            data.canEdit = canEdit;
+            return AppointmentDetailActivity.makeIntent(context, data, tab);
         }
-        return null;
     }
+
 
     public int getDiscountMoney() {
         try {
@@ -594,6 +524,14 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
             return money - unpayMoney;
         } catch (ClassCastException e) {
             return 0;
+        } catch (NumberFormatException intCast) {
+            try {
+                double money = Double.parseDouble(data.getMoney());
+                double unpayMoney = Double.parseDouble(data.getNeedPay());
+                return (int) (money - unpayMoney);
+            } catch (NumberFormatException doubleCast) {
+                return 0;
+            }
         }
     }
 
@@ -637,29 +575,11 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
 
-    public boolean needReturn() {
-        return data.getReturnInfo() != null && data.getReturnInfo().getNeedReturn() == 1;
-    }
-
     public boolean returnNotPaid() {
         return data.getReturnInfo() != null && data.getReturnInfo().getReturnPaid() != 1 && data.getReturnInfo().getNeedReturn() == 1;
     }
-//
-//    public void newOrPayAppointment(Context context) {
-//        if (needReturn() && returnNotPaid()) {
-//            new PayMethodDialog(context, AppointmentHandler.this).show();
-//        } else {
-//            //复诊支付
-//            Doctor doctor = data.getDoctor();
-//            doctor.setRecordId(String.valueOf(data.getRecordId()));
-//            AppointmentBuilder appointmentBuilder = new AppointmentBuilder();
-//            appointmentBuilder.setDoctor(doctor);
-//            appointmentBuilder.setType(AppointmentType.STANDARD);
-//            Intent intent = PickDateActivity.makeIntent(context, appointmentBuilder);
-//            context.startActivity(intent);
-//        }
-//    }
 
+    @Deprecated
     public void historyDetail(View view) {
         Intent intent = HistoryDetailActivity.makeIntent(view.getContext(), data);
         view.getContext().startActivity(intent);
@@ -779,37 +699,18 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     }
 
 
-    private void showConfirmDialog(View view, String question) {
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(view.getContext())
-                .content(question)
-                .positiveText("确认")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                });
-        builder.show();
-    }
-
     public void makePhoneCall(final Context context) {
         AVChatActivity.start(context, getP2PId(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
     }
 
     public void callTelephone(final Context context) {
         ImModule imModule = Api.of(ImModule.class);
-        imModule.makePhoneCall(getPhoneNO()).enqueue(new SimpleCallback<String>() {
+        imModule.makeYunXinPhoneCall(getMyPhoneNO(), getPhoneNO()).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
                 Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
             }
         });
-//        imModule.makeYunXinPhoneCall(getMyPhoneNO(), getPhoneNO()).enqueue(new SimpleCallback<String>() {
-//            @Override
-//            protected void handleResponse(String response) {
-//                Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     public String getVoipAccount() {
@@ -851,10 +752,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
                 return data.getPhone();
             }
         }
-    }
-
-    public String getOrderStatus() {
-        return "(" + getStatusLabel() + ")";
     }
 
     public String styledOrderStatus() {
@@ -963,23 +860,6 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
         return parse.getTime();
     }
 
-    public int getDefaultAvatar() {
-        int result;
-        if (Settings.isDoctor()) {
-            if (data.getGender() == Gender.FEMALE) {
-                result = R.drawable.female_patient_avatar;
-            } else {
-                result = R.drawable.male_patient_avatar;
-            }
-        } else {
-            if (data.getGender() == Gender.MALE) {
-                result = R.drawable.female_doctor_avatar;
-            } else {
-                result = R.drawable.male_doctor_avatar;
-            }
-        }
-        return result;
-    }
 
     public String chatStatus() {
         switch (data.getAppointmentType()) {
@@ -1051,6 +931,49 @@ public class AppointmentHandler implements PayMethodInterface, com.doctor.sun.ut
     public boolean showCommentBtn() {
         return data.getOrderStatus().equals(Status.A_FINISHED);
     }
+
+    public boolean showAnswerQuestionBtn() {
+        return getCurrentStatus() == 1;
+    }
+
+    public void viewDetail(final Context context, final int tab) {
+        DiagnosisModule api = Api.of(DiagnosisModule.class);
+        String type = "appointment";
+        if (isAfterService()) {
+            type = "followUp";
+        }
+        api.appointmentStatus(appointmentId(), type).enqueue(new SimpleCallback<AppointmentStatus>() {
+            @Override
+            protected void handleResponse(AppointmentStatus response) {
+                int canEdit;
+                if (response != null) {
+                    canEdit = response.canEdit;
+                    String orderStatus = response.displayStatus;
+                    boolean isCanEditStatus = !orderStatus.equals(Status.FINISHED)
+                            && !orderStatus.equals(Status.A_FINISHED)
+                            && !orderStatus.equals(Status.REJECTED)
+                            && !orderStatus.equals(Status.A_UNPAID)
+                            && !orderStatus.equals(Status.CLOSED)
+                            && !orderStatus.equals(Status.A_CANCEL);
+                    if (isCanEditStatus) {
+                        canEdit = IntBoolean.TRUE;
+                    }
+                } else {
+                    canEdit = IntBoolean.NOT_GIVEN;
+                }
+                answerQuestion(context, tab, canEdit);
+            }
+        });
+    }
+
+    public void answerQuestion(Context context, int tab, int canEdit) {
+        Intent i = getFirstMenu(context, canEdit, tab);
+        if (i != null) {
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
+        }
+    }
+
 
     public Appointment getData() {
         return data;

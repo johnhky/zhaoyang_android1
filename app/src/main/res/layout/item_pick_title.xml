@@ -34,7 +34,7 @@
                 android:text="@{data.title}"
                 android:textColor="#9bb6c5"
                 android:textSize="@dimen/font_13"
-                tools:text="必填" />
+                tools:text="名字" />
 
             <TextView
                 android:id="@+id/tv_error"
@@ -48,12 +48,11 @@
 
 
         <Button
-            android:id="@+id/rb_male"
+            android:id="@+id/btn_title"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_30"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
             android:background="@drawable/ripple_blue_rect"
             android:clickable="@{data.enabled}"
             android:gravity="center"

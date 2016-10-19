@@ -86,7 +86,7 @@ public class ItemHelper extends Handler {
     }
 
     private static Message createRemoveMessage() {
-        Message message =  Message.obtain();
+        Message message = Message.obtain();
         message.what = ITEM_REMOVE;
         return message;
     }

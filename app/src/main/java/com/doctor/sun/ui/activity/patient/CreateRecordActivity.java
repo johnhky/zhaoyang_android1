@@ -28,9 +28,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
-import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.util.StringsUtils;
 import io.realm.RealmList;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
 
 
 /**
@@ -147,17 +149,17 @@ public class CreateRecordActivity extends GetLocationActivity implements View.On
 
         if (isFirstTime()) {
             if (map.get(SELF_NAME).equals("")) {
-                ToastHelper.showMessage(this, "请填写名字");
+                makeText(this, "请填写名字", LENGTH_SHORT).show();
                 return false;
             }
 
             if (map.get(BIRTHDAY).equals("")) {
-                ToastHelper.showMessage(this, "请填写生日");
+                makeText(this, "请填写生日", LENGTH_SHORT).show();
                 return false;
             }
 
             if (map.get(GENDER).equals("")) {
-                ToastHelper.showMessage(this, "请填写性别");
+                makeText(this, "请填写性别", LENGTH_SHORT).show();
                 return false;
             }
         }
@@ -177,11 +179,11 @@ public class CreateRecordActivity extends GetLocationActivity implements View.On
             }
             case TYPE_OTHERS: {
                 if (map.get(RELATION).equals("")) {
-                    ToastHelper.showMessage(this, "请填写患者与您的关系");
+                    makeText(this, "请填写患者与您的关系", LENGTH_SHORT).show();
                     return false;
                 }
                 if (map.get(NAME).equals("")) {
-                    ToastHelper.showMessage(this, "请填写患者姓名");
+                    makeText(this, "请填写患者姓名", LENGTH_SHORT).show();
                     return false;
                 }
                 break;
@@ -199,7 +201,7 @@ public class CreateRecordActivity extends GetLocationActivity implements View.On
 
     @Override
     public void onSelfRecordAdded() {
-        ToastHelper.showMessage(this, "新建成功");
+        makeText(this, "新建成功", LENGTH_SHORT).show();
         sendCallbackMsg();
         finish();
     }
@@ -221,7 +223,7 @@ public class CreateRecordActivity extends GetLocationActivity implements View.On
     @Override
     protected void updateLocation(final Location location) {
         if (location == null) {
-            ToastHelper.showMessage(this, "获取地址失败");
+            makeText(this, "获取地址失败", LENGTH_SHORT).show();
             return;
         }
         Province province = getRealm().where(Province.class).beginGroup().greaterThan("maxLon", location.getLongitude()).lessThan("minLon", location.getLongitude())

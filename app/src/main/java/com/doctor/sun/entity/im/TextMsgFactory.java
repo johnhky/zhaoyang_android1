@@ -137,6 +137,7 @@ public class TextMsgFactory {
             }
             case TextMsg.REFRESH_APPOINTMENT: {
                 ArrayList<AttachmentPair> data = (ArrayList<AttachmentPair>) attachment.getData();
+                result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.REFRESH_APPOINTMENT)));
                 for (int i = 0; i < data.size(); i++) {
                     AttachmentPair attachmentPair = data.get(i);
                     attachmentPair.setKey(msg.getUuid() + attachmentPair.getKey());
@@ -203,7 +204,8 @@ public class TextMsgFactory {
     }
 
     public static boolean isRefreshMsg(String type) {
-        return "follow_up_start".equals(type)
+        return String.valueOf(TextMsg.REFRESH_APPOINTMENT).equals(type)
+                || "follow_up_start".equals(type)
                 || "follow_up_end".equals(type)
                 || "appointment_start".equals(type)
                 || "appointment_end".equals(type);

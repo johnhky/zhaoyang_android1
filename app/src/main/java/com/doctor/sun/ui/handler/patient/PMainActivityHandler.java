@@ -3,9 +3,9 @@ package com.doctor.sun.ui.handler.patient;
 import android.content.Context;
 import android.content.Intent;
 
-import com.doctor.sun.ui.activity.patient.SelectAppointmentTypeActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
+import com.doctor.sun.ui.activity.patient.SelectAppointmentTypeActivity;
 
 /**
  * Created by rick on 14/7/2016.

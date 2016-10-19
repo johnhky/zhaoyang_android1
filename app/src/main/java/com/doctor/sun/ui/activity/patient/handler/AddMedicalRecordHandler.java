@@ -3,19 +3,15 @@ package com.doctor.sun.ui.activity.patient.handler;
 import android.app.Activity;
 import android.view.View;
 
-import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.ui.activity.patient.CreateRecordActivity;
-import com.doctor.sun.ui.handler.BaseHandler;
 
 import java.util.HashMap;
 
 /**
  * Created by rick on 4/1/2016.
  */
-public class AddMedicalRecordHandler extends BaseHandler {
+public class AddMedicalRecordHandler {
     private ProfileModule api = Api.of(ProfileModule.class);
 
     private int type;
@@ -23,7 +19,6 @@ public class AddMedicalRecordHandler extends BaseHandler {
 
 
     public AddMedicalRecordHandler(Activity context, int type) {
-        super(context);
         this.type = type;
         try {
             mInput = (MedicalRecordInput) context;
@@ -35,40 +30,40 @@ public class AddMedicalRecordHandler extends BaseHandler {
 
     public void done(View view) {
         HashMap<String, String> param = mInput.getParam();
-        if (param != null) {
-            switch (type) {
-                case CreateRecordActivity.TYPE_OTHERS: {
-                    api.setRelativeMedicalRecord(param).enqueue(new ApiCallback<String>() {
-                        @Override
-                        protected void handleResponse(String response) {
-                        }
-
-                        @Override
-                        protected void handleApi(ApiDTO<String> body) {
-                            if (body.getStatus().equals("200")) {
-                                mInput.onRelativeRecordAdded();
-                            }
-                            super.handleApi(body);
-                        }
-                    });
-                    break;
-                }
-                case CreateRecordActivity.TYPE_SELF: {
-                    api.setSelfMedicalRecord(param).enqueue(new ApiCallback<String>() {
-                        @Override
-                        protected void handleResponse(String response) {
-                        }
-
-                        @Override
-                        protected void handleApi(ApiDTO<String> body) {
-                            if(body.getStatus().equals("200")) {
-                                mInput.onSelfRecordAdded();
-                            }
-                        }
-                    });
-                }
-            }
-        }
+//        if (param != null) {
+//            switch (type) {
+//                case CreateRecordActivity.TYPE_OTHERS: {
+//                    api.setRelativeMedicalRecord(param).enqueue(new ApiCallback<String>() {
+//                        @Override
+//                        protected void handleResponse(String response) {
+//                        }
+//
+//                        @Override
+//                        protected void handleApi(ApiDTO<String> body) {
+//                            if (body.getStatus().equals("200")) {
+//                                mInput.onRelativeRecordAdded();
+//                            }
+//                            super.handleApi(body);
+//                        }
+//                    });
+//                    break;
+//                }
+//                case CreateRecordActivity.TYPE_SELF: {
+//                    api.setSelfMedicalRecord(param).enqueue(new ApiCallback<String>() {
+//                        @Override
+//                        protected void handleResponse(String response) {
+//                        }
+//
+//                        @Override
+//                        protected void handleApi(ApiDTO<String> body) {
+//                            if(body.getStatus().equals("200")) {
+//                                mInput.onSelfRecordAdded();
+//                            }
+//                        }
+//                    });
+//                }
+//            }
+//        }
     }
 
 

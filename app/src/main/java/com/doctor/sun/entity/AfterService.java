@@ -2,6 +2,7 @@ package com.doctor.sun.entity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.BaseObservable;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.StringDef;
@@ -12,20 +13,28 @@ import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
+import com.doctor.sun.entity.constans.IntBoolean;
+import com.doctor.sun.entity.handler.AppointmentHandler;
+import com.doctor.sun.event.EditEndEvent;
+import com.doctor.sun.event.ModifyStatusEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
+import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.squareup.otto.Subscribe;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 2/6/2016.
  */
-public class AfterService implements LayoutId {
+public class AfterService extends BaseObservable implements LayoutId {
 
     /**
      * id : 1
@@ -71,6 +80,8 @@ public class AfterService implements LayoutId {
     @JsonProperty("record")
     public MedicalRecord record;
 
+    @JsonProperty("total")
+    public int total;
 
     @Override
     public int getItemLayoutId() {
@@ -186,22 +197,47 @@ public class AfterService implements LayoutId {
         performAction(Actions.ACCEPT, new ItemChangedCallback(adapter, vh, Status.DOING));
     }
 
-    public void fillForum(Context context, String id) {
-        int position = 0;
-        if (Settings.isDoctor()) {
-            position = 1;
-        }
-        switch (status) {
-            case Status.DOING: {
-                Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, position);
-                context.startActivity(intent);
-                break;
+    public void fillForum(final Context context, final String id) {
+        DiagnosisModule api = Api.of(DiagnosisModule.class);
+        String type = "followUp";
+        api.appointmentStatus(Integer.valueOf(id), type).enqueue(new SimpleCallback<AppointmentStatus>() {
+            @Override
+            protected void handleResponse(AppointmentStatus response) {
+                int position = 0;
+                if (Settings.isDoctor()) {
+                    position = 1;
+                }
+                if (isFinished(status)) {
+                    position = 1;
+                }
+                int canEdit;
+                if (response != null) {
+                    canEdit = response.canEdit;
+                    String orderStatus = response.displayStatus;
+
+                    boolean isCanEditStatus = !orderStatus.equals(AppointmentHandler.Status.FINISHED)
+                            && !orderStatus.equals(AppointmentHandler.Status.A_FINISHED)
+                            && !orderStatus.equals(AppointmentHandler.Status.REJECTED)
+                            && !orderStatus.equals(AppointmentHandler.Status.REJECTED)
+                            && !orderStatus.equals(AppointmentHandler.Status.A_UNPAID)
+                            && !orderStatus.equals(AppointmentHandler.Status.CLOSED)
+                            && !orderStatus.equals(AppointmentHandler.Status.A_CANCEL);
+
+                    if (isCanEditStatus) {
+                        canEdit = IntBoolean.TRUE;
+                    }
+                } else {
+                    canEdit = IntBoolean.NOT_GIVEN;
+                }
+                if (canEdit == IntBoolean.FALSE) {
+                    Intent intent = AfterServiceDoneActivity.intentFor(context, id, position);
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, position);
+                    context.startActivity(intent);
+                }
             }
-            default: {
-                Intent intent = AfterServiceDoneActivity.intentFor(context, id, position);
-                context.startActivity(intent);
-            }
-        }
+        });
     }
 
     public void chatting(Context context) {
@@ -275,6 +311,22 @@ public class AfterService implements LayoutId {
     public @interface Actions {
         String ACCEPT = "accept";
         String REJECT = "reject";
+    }
+
+    @Subscribe
+    public void onFinishedEvent(ModifyStatusEvent event) {
+        if (event.id.equals(id)) {
+            status = event.status;
+            notifyChange();
+            EventHub.unregister(this);
+        }
+    }
+
+    @Subscribe
+    public void onFinishedEvent(EditEndEvent event) {
+        if (event.id.equals(id)) {
+            EventHub.unregister(this);
+        }
     }
 
 }

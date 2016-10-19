@@ -1,6 +1,7 @@
 package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.dto.IsChanged;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Advice;
@@ -10,7 +11,6 @@ import com.doctor.sun.entity.Comment;
 import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.DoctorIndex;
-import com.doctor.sun.entity.Fee;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.Patient;
 
@@ -33,14 +33,10 @@ public interface ProfileModule {
 
     @FormUrlEncoded
     @POST("profile/patient-base")
-    Call<ApiDTO<Patient>> editPatientInfo(@Field("name") String name, @Field("email") String email, @Field("age") String birthday, @Field("gender") int gender, @Field("avatar") String avatar);
+    Call<ApiDTO<Patient>> editPatientInfo(@Field("name") String name, @Field("email") String email, @Field("birthday") String birthday, @Field("gender") int gender, @Field("avatar") String avatar);
 
     @GET("profile/patient-base")
     Call<ApiDTO<PatientDTO>> patientProfile();
-
-    @FormUrlEncoded
-    @POST("profile/patient-base")
-    Call<ApiDTO<String>> editPatientProfile(@FieldMap Map<String, String> patientInfo);
 
     /**
      * @param medicalRecord age	必填。出生年月。e.g.1991-01	string
@@ -52,7 +48,6 @@ public interface ProfileModule {
      * @return
      */
     @FormUrlEncoded
-//    @POST("profile/setSelfMedicalRecord")
     @POST("profile/medical-record")
     Call<ApiDTO<MedicalRecord>> editMedicalRecord(@FieldMap Map<String, String> medicalRecord);
 
@@ -66,7 +61,7 @@ public interface ProfileModule {
     @FormUrlEncoded
 //    @POST("profile/setSelfMedicalRecord")
     @POST("profile/self-medical-record")
-    Call<ApiDTO<String>> setSelfMedicalRecord(@FieldMap Map<String, String> medicalRecord);
+    Call<ApiDTO<MedicalRecord>> setSelfMedicalRecord(@FieldMap Map<String, String> medicalRecord);
 
     /**
      * @param medicalRecord relation    	string	是	关系
@@ -81,32 +76,17 @@ public interface ProfileModule {
      */
     @FormUrlEncoded
     @POST("profile/other-medical-record")
-    Call<ApiDTO<String>> setRelativeMedicalRecord(@FieldMap Map<String, String> medicalRecord);
+    Call<ApiDTO<MedicalRecord>> setRelativeMedicalRecord(@FieldMap Map<String, String> medicalRecord);
 
-    //    @GET("profile/medicalRecordList")
     @GET("profile/medical-records")
     Call<ApiDTO<List<MedicalRecord>>> medicalRecordList();
-
-    @FormUrlEncoded
-    @POST("profile/setPatientFeedback")
-    Call<ApiDTO<String>> setPatientFeedback(@Field("feedback") String feedback);
 
     @GET("profile/histories")
     Call<ApiDTO<PageDTO<Appointment>>> histories(@Query("page") int page);
 
-    @GET("profile/record-detail")
-    Call<ApiDTO<MedicalRecord>> recordDetail(@Query("recordId") String recordId);
-
-    @FormUrlEncoded
-    @POST("profile/setDoctorFeedback")
-    Call<ApiDTO<String>> setDoctorFeedback(@Field("feedback") String feedback);
-
-    @GET("profile/money")
-    Call<ApiDTO<Fee>> fee();
-
     @FormUrlEncoded
     @POST("profile/money")
-    Call<ApiDTO<String>> setFee(@Field("money") String money, @Field("secondMoney") String secondMoney, @Field("commission") String commission);
+    Call<ApiDTO<String>> setFee(@Field("money") String money, @Field("secondMoney") String secondMoney);
 
     @GET("profile/doctor-base")
     Call<ApiDTO<Doctor>> doctorProfile();
@@ -116,12 +96,14 @@ public interface ProfileModule {
 
     @FormUrlEncoded
     @POST("profile/doctor-base")
-    Call<ApiDTO<String>> editDoctorProfile(@FieldMap Map<String, String> doctor);
+    Call<ApiDTO<IsChanged>> editDoctorProfile(@FieldMap Map<String, String> doctor);
 
 
     @FormUrlEncoded
     @POST("profile/new-password")
-    Call<ApiDTO<String>> resetPassword(@Field("password") String password, @Field("newPassword") String newPassword, @Field("confirmPassword") String confirmPassword);
+    Call<ApiDTO<String>> resetPassword(@Field("password") String password,
+                                       @Field("newPassword") String newPassword,
+                                       @Field("confirmPassword") String confirmPassword);
 
 
     @GET("profile/comments")
@@ -136,13 +118,11 @@ public interface ProfileModule {
     @GET("profile/coupons")
     Call<ApiDTO<List<Coupon>>> coupons(@Query("type") String type,
                                        @Query("Scope") String Scope,
-                                       @Query("originalMoney") int originalMoney);
+                                       @Query("originalMoney") double originalMoney);
 
     @GET("profile/qrcode")
     Call<ApiDTO<String>> barcode();
 
-    @GET("im/doctor-contact")
-    Call<ApiDTO<Doctor>> doctorContact(@Query("doctorId") int doctorId);
 
     @GET("profile/feedbacks")
     Call<ApiDTO<PageDTO<Advice>>> advice();

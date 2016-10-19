@@ -6,16 +6,18 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.DialogCancelHistoryBinding;
 import com.doctor.sun.entity.im.TextMsg;
 
-import io.ganguo.library.common.ToastHelper;
 import io.ganguo.library.core.drawable.MaterialProgressDrawable;
 import io.ganguo.library.ui.dialog.BaseDialog;
 import io.realm.Realm;
 import io.realm.RealmResults;
+
+import static android.view.View.GONE;
 
 /**
  * 删除聊天记录
@@ -80,8 +82,8 @@ public class CancelHistoryDialog extends BaseDialog {
                     binding.ivLoading.setImageDrawable(null);
                 }
 
-                binding.ivLoading.setVisibility(View.GONE);
-                ToastHelper.showMessageMiddle(context, "删除成功!");
+                binding.ivLoading.setVisibility(GONE);
+                Toast.makeText(context, "删除成功!", Toast.LENGTH_SHORT).show();
                 dismiss();
             }
         });

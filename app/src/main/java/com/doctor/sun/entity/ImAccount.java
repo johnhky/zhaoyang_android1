@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 
-import io.realm.annotations.Ignore;
-
 /**
  * Created by rick on 11/18/15.
  */

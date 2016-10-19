@@ -13,7 +13,9 @@ import com.doctor.sun.databinding.PActivityMain2Binding;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Banner;
 import com.doctor.sun.entity.Patient;
+import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
+import com.doctor.sun.event.UpdateEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -22,7 +24,6 @@ import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.handler.patient.PMainActivityHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
-import com.doctor.sun.ui.model.PatientFooterView;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.ShowCaseUtil;
@@ -33,6 +34,7 @@ import com.squareup.otto.Subscribe;
 import java.util.List;
 
 import io.ganguo.library.Config;
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 14/7/2016.
@@ -124,10 +126,26 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
     }
 
     private FooterViewModel getFooter() {
-        PatientFooterView mView = new PatientFooterView(this);
-        return FooterViewModel.getInstance(mView, R.id.tab_one);
+        return FooterViewModel.getInstance(R.id.tab_one);
     }
 
+    @Subscribe
+    public void onMainTabChangedEvent(MainTabChangedEvent e) {
+        switch (e.getPosition()) {
+            case 0: {
+                startActivity(PMainActivity2.class);
+                break;
+            }
+            case 1: {
+                startActivity(PConsultingActivity.class);
+                break;
+            }
+            case 2: {
+                startActivity(PMeActivity.class);
+                break;
+            }
+        }
+    }
 
     @Subscribe
     public void onShowCaseFinished(ShowCaseFinishedEvent e) {
@@ -160,6 +178,13 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
     protected void onPause() {
         super.onPause();
         UpdateUtil.onPause();
+        EventHub.unregister(binding.vpBanner);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventHub.register(binding.vpBanner);
     }
 
     @Override
@@ -168,7 +193,11 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
     }
 
     public static Intent intentFor(Context context) {
-        Intent intent = new Intent(context, PMainActivity2.class);
-        return intent;
+        return new Intent(context, PMainActivity2.class);
+    }
+
+    @Subscribe
+    public void onUpdateEvent(UpdateEvent e) {
+        UpdateUtil.handleNewVersion(this, e.getData(), e.getVersionName());
     }
 }

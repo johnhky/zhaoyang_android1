@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.doctor.sun.R" />
+
+        <import type="com.doctor.sun.ui.adapter.core.AdapterConfigKey" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Questions2" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
+
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_5">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_position"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="@dimen/dp_50"
+                android:enabled="@{data.refill == 1}"
+                android:selected="@{data.isAnswered(adapter,vh)}"
+                app:srcCompat="@drawable/semi_oval_selector" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_5"
+                android:gravity="top"
+                android:text='@{data.positionString()}'
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_35"
+                tools:text="1" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:layout_marginLeft="@dimen/dp_6"
+            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginTop="@dimen/dp_6"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:text="@{data.questionContent}"
+                android:textColor="@color/dark_36"
+                android:textSize="@dimen/font_15"
+                tools:text="@string/premium_product_brief" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_2"
+                android:enabled="@{ivPosition.enabled}"
+                android:selected="@{ivPosition.selected}"
+                android:text="@{ivPosition.enabled?&quot;重填未填写&quot;:&quot;未填写&quot;}"
+                android:textColor="@color/question_index_color"
+                android:textSize="@dimen/font_10"
+                android:visibility="@{!ivPosition.selected || ivPosition.enabled}"
+                tools:text="重填未填写" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/iv_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:button="@drawable/ic_circle_tick"
+            android:checked="@={data.userSelected}"
+            android:visibility="@{!adapter.getConfig(AdapterConfigKey.IS_READ_ONLY)}" />
+
+    </LinearLayout>
+
+</layout>

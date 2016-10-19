@@ -1,5 +1,7 @@
 package io.ganguo.library.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.UUID;
 import java.util.regex.Pattern;
 

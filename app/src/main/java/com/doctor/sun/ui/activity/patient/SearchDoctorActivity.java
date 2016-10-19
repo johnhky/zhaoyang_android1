@@ -24,11 +24,10 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AppointmentModule;
-import com.doctor.sun.ui.activity.GetLocationActivity;
-import com.doctor.sun.ui.adapter.SearchDoctorAdapter;
+import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
-
 import com.doctor.sun.ui.widget.CityPickerDialog;
 import com.doctor.sun.util.AnimationUtils;
 
@@ -48,7 +47,7 @@ import static com.doctor.sun.util.AnimationUtils.hideView;
 /**
  * Created by rick on 20/1/2016.
  */
-public class SearchDoctorActivity extends GetLocationActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class SearchDoctorActivity extends BaseFragmentActivity2 implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     public static final int INTERVAL = 1000;
 
@@ -85,7 +84,7 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
 
     @AppointmentType
     public int getType() {
-        return getIntent().getIntExtra(Constants.DATA, -1);
+        return getIntent().getIntExtra(Constants.DATA, AppointmentType.PREMIUM);
     }
 
     @Override
@@ -128,7 +127,11 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
                 if (now - lastSearchTime > INTERVAL) {
                     refreshData(sortByPoint);
                     lastSearchTime = now;
+                    boolean lastStatus = isSearching;
                     isSearching = !s.toString().isEmpty();
+                    if (lastStatus != isSearching) {
+                        callback.resetPage();
+                    }
                 }
             }
         });
@@ -163,7 +166,8 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     }
 
     private void initAdapter() {
-        adapter = new SearchDoctorAdapter(this, getType());
+        adapter = new SimpleAdapter(this);
+        adapter.putInt(AdapterConfigKey.APPOINTMENT_TYPE, getType());
         callback = new PageCallback<Doctor>(adapter) {
 
             @Override
@@ -195,17 +199,10 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
     }
 
     private void loadMore() {
-        if (isSearching) {
-            api.doctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);
-            return;
-        }
-        if (getType() == AppointmentType.STANDARD) {
-            loadKnowDoctor();
-        } else {
-            api.doctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);
-        }
+        api.allDoctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);
     }
 
+    @Deprecated
     private void loadKnowDoctor() {
         new Thread(new Runnable() {
             @Override
@@ -440,7 +437,6 @@ public class SearchDoctorActivity extends GetLocationActivity implements View.On
         cityPickerDialog.setCityId(cityId);
     }
 
-    @Override
     protected void updateLocation(Location location) {
         this.location = location;
     }

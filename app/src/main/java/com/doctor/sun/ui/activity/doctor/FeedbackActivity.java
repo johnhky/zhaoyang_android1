@@ -20,7 +20,6 @@ import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 
-
 /**
  * Created by rick on 12/17/15.
  */

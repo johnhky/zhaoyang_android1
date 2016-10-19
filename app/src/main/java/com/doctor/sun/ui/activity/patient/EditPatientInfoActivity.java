@@ -3,11 +3,11 @@ package com.doctor.sun.ui.activity.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
@@ -24,18 +24,26 @@ import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.handler.PatientHandler;
-import com.doctor.sun.ui.binding.CustomBinding;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.io.File;
 
-import io.ganguo.library.common.ToastHelper;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
+import static com.doctor.sun.R.drawable.ic_enter;
+import static com.doctor.sun.R.drawable.ripple_default;
+import static com.doctor.sun.ui.binding.CustomBinding.drawableRight;
 
 /**
  * Created by lucas on 1/4/16.
@@ -49,7 +57,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
     private String avatar = "";
 
 
-    private boolean isEditMode = true;
+    private boolean isEditMode = false;
     private Patient patient;
 
     public boolean isEditMode() {
@@ -143,20 +151,28 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
     }
 
     public void onMenuClicked() {
-        if (isEditMode()) {
+        if (!isEditMode()) {
             TwoChoiceDialog.show(this, " 您好，昭阳医生不可以随便更改用户资料，所有用户资料的申请需要经过后台审核", "取消", "确定", new TwoChoiceDialog.Options() {
                 @Override
                 public void onApplyClick(MaterialDialog dialog) {
                     dialog.dismiss();
-                    binding.bivAvatar.setBackgroundResource(R.drawable.ripple_default);
+                    binding.bivAvatar.setBackgroundResource(ripple_default);
                     binding.etName.setFocusableInTouchMode(true);
                     binding.etEmail.setFocusableInTouchMode(true);
-                    binding.tvBirthday.setBackgroundResource(R.drawable.ripple_default);
-                    binding.tvGender.setVisibility(View.GONE);
-                    binding.rbMale.setVisibility(View.VISIBLE);
-                    binding.rbFemale.setVisibility(View.VISIBLE);
-                    CustomBinding.drawableRight(binding.tvBirthday, R.drawable.ic_enter);
+                    binding.tvBirthday.setBackgroundResource(ripple_default);
+                    binding.tvGender.setVisibility(GONE);
+                    binding.rbMale.setVisibility(VISIBLE);
+                    binding.rbFemale.setVisibility(VISIBLE);
+                    if (patient.getGender() == 1) {
+                        binding.rbMale.setChecked(true);
+                    } else {
+                        binding.rbFemale.setChecked(true);
+                    }
+
+                    drawableRight(binding.tvBirthday, ic_enter);
                     setIsEditMode(!isEditMode());
+
+                    makeText(EditPatientInfoActivity.this, "编辑完成后请点击右上角保存", LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -170,10 +186,10 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
                 @Override
                 protected void handleResponse(Patient response) {
                     setIsEditMode(!isEditMode());
-                    ToastHelper.showMessage(EditPatientInfoActivity.this, "保存成功,请耐心等待资料审核");
+                    Toast.makeText(EditPatientInfoActivity.this, "保存成功,请耐心等待资料审核", LENGTH_SHORT).show();
                     Intent intent = PMainActivity2.intentFor(EditPatientInfoActivity.this);
                     startActivity(intent);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    if (SDK_INT >= JELLY_BEAN) {
                         finishAffinity();
                     } else {
                         finish();
@@ -231,11 +247,30 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.clear();
-        if (!isEditMode()) {
+        if (isEditMode()) {
             getMenuInflater().inflate(R.menu.menu_save, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_edit, menu);
         }
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isEditMode()) {
+            TwoChoiceDialog.show(this, "修改将不会被保存，确定退出编辑吗？", "取消", "确定", new TwoChoiceDialog.Options() {
+                @Override
+                public void onApplyClick(MaterialDialog dialog) {
+                    EditPatientInfoActivity.super.onBackPressed();
+                }
+
+                @Override
+                public void onCancelClick(MaterialDialog dialog) {
+                    dialog.dismiss();
+                }
+            });
+        } else {
+            super.onBackPressed();
+        }
     }
 }

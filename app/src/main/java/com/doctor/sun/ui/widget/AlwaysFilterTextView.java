@@ -33,15 +33,19 @@ public class AlwaysFilterTextView extends AutoCompleteTextView {
             postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    performFiltering(getText(), KeyEvent.KEYCODE_UNKNOWN);
+                    tryPerformFiltering();
                 }
-            }, 100L);
+            }, 500L);
         } else {
-            try {
-                performFiltering(getText(), KeyEvent.KEYCODE_UNKNOWN);
-            }catch (NullPointerException ignored) {
+            tryPerformFiltering();
+        }
+    }
 
-            }
+    public void tryPerformFiltering() {
+        try {
+            performFiltering(getText(), KeyEvent.KEYCODE_UNKNOWN);
+        } catch (NullPointerException ignored) {
+
         }
     }
 

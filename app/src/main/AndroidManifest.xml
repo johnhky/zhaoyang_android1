@@ -105,15 +105,17 @@
 
         <activity
             android:name="com.doctor.sun.ui.activity.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.doctor.sun.ui.activity.patient.SelectAppointmentTypeActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.doctor.RegisterActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name="com.doctor.sun.ui.activity.patient.AppointmentDetailActivity"
             android:screenOrientation="portrait" />
@@ -176,9 +178,9 @@
             android:screenOrientation="portrait" />
 
         <!--<activity-->
-            <!--android:name="com.doctor.sun.ui.activity.doctor.AssignQuestionActivity"-->
-            <!--android:launchMode="singleTask"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.doctor.AssignQuestionActivity"-->
+        <!--android:launchMode="singleTask"-->
+        <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.doctor.MeActivity"
@@ -198,13 +200,13 @@
             android:name="com.doctor.sun.ui.activity.doctor.TimeActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.doctor.BreakTimeActivity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+        <!--android:name="com.doctor.sun.ui.activity.doctor.BreakTimeActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.doctor.TemplateActivity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+        <!--android:name="com.doctor.sun.ui.activity.doctor.TemplateActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.doctor.AddTimeActivity"
@@ -215,9 +217,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.doctor.AddBreakTimeActivity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+        <!--android:name="com.doctor.sun.ui.activity.doctor.AddBreakTimeActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.doctor.CancelAppointmentActivity"
@@ -234,15 +236,15 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <!--<activity-->
-            <!--android:name="com.doctor.sun.ui.activity.doctor.AddTemplateActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.doctor.AddTemplateActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.doctor.SettingActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.doctor.sun.ui.activity.doctor.PasswordActivity"
+            android:name="com.doctor.sun.ui.activity.doctor.ChangePswActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -254,16 +256,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateUnchanged" />
 
-        <!--<activity-->
-            <!--android:name="com.doctor.sun.ui.activity.doctor.QuestionActivity"-->
-            <!--android:screenOrientation="portrait" />-->
-
         <activity
-            android:name="com.doctor.sun.ui.activity.doctor.AddQuestionActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name="com.doctor.sun.ui.activity.doctor.CustomDetailActivity"
+            android:name=".ui.fragment.ImageListFragment"
             android:screenOrientation="portrait" />
 
         <activity
@@ -286,6 +280,7 @@
 
         <activity
             android:name="com.doctor.sun.ui.activity.patient.PAppointmentListActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity
@@ -299,10 +294,6 @@
             android:name="com.doctor.sun.ui.activity.patient.CreateRecordActivity"
             android:screenOrientation="portrait" />
 
-        <!--<activity-->
-        <!--android:name="com.doctor.sun.ui.activity.patient.PMainActivity"-->
-        <!--android:launchMode="singleTop"-->
-        <!--android:screenOrientation="portrait" />-->
         <activity
             android:name="com.doctor.sun.ui.activity.patient.PMainActivity2"
             android:launchMode="singleTop"
@@ -364,42 +355,20 @@
             android:name="com.doctor.sun.ui.activity.patient.EditRecordActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.doctor.AdviceActivity"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.doctor.sun.ui.activity.doctor.ModifyNicknameActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.doctor.QuestionBankActivity"
-            android:screenOrientation="portrait" />
-
-        <!--<activity-->
-        <!--android:name="com.doctor.sun.ui.activity.patient.UrgentCallActivity"-->
-        <!--android:screenOrientation="portrait" />-->
-
-        <!--<activity-->
-        <!--android:name="com.doctor.sun.ui.activity.patient.DrugActivity"-->
-        <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.patient.ApplyAppointmentActivity"
             android:screenOrientation="portrait" />
 
-        <!--<activity-->
-        <!--android:name="com.doctor.sun.ui.activity.patient.UrgentAddTimeActivity"-->
-        <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.patient.EditQuestionActivity"
             android:screenOrientation="portrait" />
-
-        <!--<activity-->
-        <!--android:name="com.doctor.sun.ui.activity.patient.UrgentAddFeeActivity"-->
-        <!--android:screenOrientation="portrait" />-->
-
 
         <activity
             android:name="com.doctor.sun.ui.activity.FileDetailActivity"
@@ -423,20 +392,20 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.doctor.sun.ui.activity.patient.SystemMsgListActivity"
+            android:name="com.doctor.sun.ui.activity.SystemMsgListActivity"
             android:screenOrientation="portrait" />
 
         <!--<activity-->
-            <!--android:name="com.doctor.sun.ui.activity.VoIPCallActivity"-->
-            <!--android:screenOrientation="portrait" />-->
+        <!--android:name="com.doctor.sun.ui.activity.VoIPCallActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
         <activity
             android:name="com.doctor.sun.ui.activity.ImagePreviewActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.HelpActivity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+        <!--android:name="com.doctor.sun.ui.activity.HelpActivity"-->
+        <!--android:screenOrientation="portrait" />-->
 
 
         <activity
@@ -468,10 +437,23 @@
             android:name=".ui.activity.AdviceDetailActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.activity.doctor.AdviceActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.activity.SingleFragmentActivity"
             android:screenOrientation="portrait" />
+
+        //TODO 打包的时候注释掉
+        <activity
+            android:name=".ui.activity.TestFragmentActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ui.activity.LeftDrawerFragmentActivity"
@@ -498,31 +480,8 @@
             android:name=".ui.activity.patient.FollowUpDoctorListActivity"
             android:screenOrientation="portrait" />
 
-        <!--<service-->
-            <!--android:name="com.yuntongxun.ecsdk.ECClientService"-->
-            <!--android:enabled="true" />-->
-        <!--// 以下两项为SDK事件提醒广播(必选配置)-->
-        <!--<receiver android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$AlarmReceiver" />-->
-        <!--// v5.1.9r增加配置选项(必选配置)-->
-        <!--<receiver android:name="com.yuntongxun.ecsdk.booter.Alarm" />-->
-        <!--// SDK网络改变广播(必选配置)-->
-        <!--<receiver android:name="com.yuntongxun.ecsdk.booter.CCPReceivers$ConnectionReceiver">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
-        <!--<receiver-->
-            <!--android:name="com.doctor.sun.ui.recevier.YuntxNotifyReceiver"-->
-            <!--android:exported="false">-->
-            <!--<intent-filter>-->
-                <!--// 接收push消息-->
-                <!--// action匹配规则{packageName + ".action" + "功能"}-->
-                <!--<action android:name="com.doctor.sun.action.VOIP_CALL" />-->
-                <!--<action android:name="com.doctor.sun.action.MESSAGE" />-->
-                <!--<action android:name="com.doctor.sun.action.NOTIFICATION_CLICK" />-->
-                <!--<action android:name="com.doctor.sun.action.PERSON_VERSION" />-->
 
-            <!--</intent-filter>-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
         <!-- alipay sdk begin -->
 
@@ -701,6 +660,11 @@
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
                 <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" /> <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
                 <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
+
+                <action android:name="ACCEPT_RELATION" />
+                <action android:name="ACTION_FOLLOW_UP_DETAIL" />
+                <action android:name="ACTION_APPOINTMENT_DETAIL" />
+
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>

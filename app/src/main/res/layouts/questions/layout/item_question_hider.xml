@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.QuVisibilityManager" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.SortedListAdapter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <FrameLayout
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@drawable/ripple_default">
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_blue_rect_stroke"
+                android:button="@null"
+                android:checked="@{data.checked}"
+                android:gravity="center"
+                android:onClick="@{()->data.toggleChecked(adapter)}"
+                android:text='@{data.checked? data.openTitle : data.closeTitle}'
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/font_12" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>

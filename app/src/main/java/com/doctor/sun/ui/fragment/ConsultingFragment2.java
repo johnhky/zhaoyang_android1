@@ -47,7 +47,7 @@ public class ConsultingFragment2 extends SortedListFragment {
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private ArrayList<String> keys = new ArrayList<>();
     private int page = 1;
-    private HashMap<String, RecentContact> tids;
+    private HashMap<String, RecentContact> tids = new HashMap<>();
     private SystemMsg systemMsg;
     private MedicineStore medicineStore;
 
@@ -92,19 +92,24 @@ public class ConsultingFragment2 extends SortedListFragment {
                 @Override
                 public void onChange(RealmResults<TextMsg> element) {
                     boolean empty = element.isEmpty();
-                    boolean shouldRefresh = false;
+                    boolean shouldRefresh;
                     if (!empty) {
                         TextMsg first = element.first();
                         if (first.getMsgId().equals(lastRefreshMsgId)) return;
 
                         shouldRefresh = TextMsgFactory.isRefreshMsg(first.getType());
                         String s = first.getSessionId();
-                        ItemConsulting appointment = (ItemConsulting) getAdapter().get(s);
-                        lastRefreshMsgId = first.getMsgId();
-                        if (appointment != null && !shouldRefresh) {
-                            getAdapter().update(appointment);
+                        if (s.startsWith("SYSTEM_MSG")) {
+                            getAdapter().notifyItemChanged(0);
                         } else {
-                            pullAppointment(s,  tids.get(s));
+                            ItemConsulting appointment = (ItemConsulting) getAdapter().get(s);
+                            lastRefreshMsgId = first.getMsgId();
+                            if (appointment != null && !shouldRefresh) {
+                                appointment.setTime(System.currentTimeMillis());
+                                getAdapter().update(appointment);
+                            } else {
+                                pullAppointment(s, tids.get(s));
+                            }
                         }
                     }
                 }
@@ -136,7 +141,13 @@ public class ConsultingFragment2 extends SortedListFragment {
             @Override
             protected void handleResponse(final PageDTO<Appointment> response) {
                 for (Appointment appointment : response.getData()) {
-                    ItemConsulting itemConsulting = new ItemConsulting(recentContact, appointment);
+                    long time;
+                    if (recentContact == null) {
+                        time = System.currentTimeMillis();
+                    } else {
+                        time = recentContact.getTime();
+                    }
+                    ItemConsulting itemConsulting = new ItemConsulting(time, appointment);
                     getAdapter().insert(itemConsulting);
                 }
             }
@@ -235,7 +246,7 @@ public class ConsultingFragment2 extends SortedListFragment {
                 page += 1;
                 for (Appointment appointment : response.getData()) {
                     String tid = String.valueOf(appointment.getTid());
-                    ItemConsulting itemConsulting = new ItemConsulting(tids.get(tid), appointment);
+                    ItemConsulting itemConsulting = new ItemConsulting(tids.get(tid).getTime(), appointment);
                     getAdapter().insert(itemConsulting);
                 }
                 int to = response.getTo();
@@ -293,7 +304,7 @@ public class ConsultingFragment2 extends SortedListFragment {
             View medicineStore = binding.recyclerView.findViewById(R.id.medicine_store);
 
             ShowCaseUtil.showCase(systemMsg, "昭阳医生系统会向您推送所有的系统消息", TAG, 2, 0, true);
-            ShowCaseUtil.showCase(medicineStore, "昭阳医生系统会向您推送所有的系统消息", TAG, 2, 1, true);
+            ShowCaseUtil.showCase(medicineStore, "在这里联系小助手使用代寄药服务", TAG, 2, 1, true);
         }
     }
 

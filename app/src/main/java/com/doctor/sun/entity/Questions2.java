@@ -2,7 +2,6 @@ package com.doctor.sun.entity;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -79,7 +78,7 @@ public class Questions2 extends BaseItem {
 
 
     @JsonProperty("expand_button")
-    public QuestionsButton questionsButton;
+    public QuVisibilityManager questionsButton;
 
     public String positionString() {
         return String.valueOf(questionIndex + 1);
@@ -88,7 +87,7 @@ public class Questions2 extends BaseItem {
 
     @Override
     public int getLayoutId() {
-        return R.layout.item_question2;
+        return R.layout.item_question;
     }
 
 
@@ -205,25 +204,23 @@ public class Questions2 extends BaseItem {
     }
 
     private void enableOrDisableCustomChild(SortedListAdapter adapter, boolean result) {
-        SortedItem item = adapter.get(getKey()+ questionType);
+        SortedItem item = adapter.get(getKey() + questionType);
         if (item != null) {
             BaseItem baseItem = (BaseItem) item;
             baseItem.setEnabled(result);
         }
     }
 
-    public boolean hasRulesInfo() {
+    private boolean hasRulesInfo() {
         return orDisableRule != null || orEnableRule != null;
     }
 
-    public void addQuestionToAppointment(String appointmentId) {
+    private void addQuestionToAppointment(String appointmentId) {
         HashMap<String, String> fieldMap = new HashMap<>();
         if (getPosition() > ItemCustomQuestionLoader.FIRST_ITEM_POSITION_PADDING * QuestionsModel.PADDING) {
             fieldMap.put("add_template_question", getKey());
-            Log.e(TAG, "add_template_question: ");
         } else {
             fieldMap.put("add_base_question", getKey());
-            Log.e(TAG, "add_base_question: ");
         }
         QuestionModule api = Api.of(QuestionModule.class);
         api.addQuestionToAppointment(appointmentId, fieldMap).enqueue(new SimpleCallback<String>() {

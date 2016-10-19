@@ -16,12 +16,17 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.constans.QuestionsType;
+import com.doctor.sun.event.EditEndEvent;
+import com.doctor.sun.event.ModifyStatusEvent;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.model.QuestionsModel;
+import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.Function0;
 import com.doctor.sun.vo.ItemPickImages;
@@ -38,8 +43,9 @@ import io.ganguo.library.core.event.EventHub;
 public class AnswerQuestionFragment extends SortedListFragment {
     public static final String TAG = AnswerQuestionFragment.class.getSimpleName();
 
-    protected String id;
     private QuestionsModel model;
+
+    protected String id;
     private String path;
     private String questionType;
     private String templateType;
@@ -122,6 +128,18 @@ public class AnswerQuestionFragment extends SortedListFragment {
 
     }
 
+    @NonNull
+    @Override
+    public SortedListAdapter createAdapter() {
+        SortedListAdapter adapter = super.createAdapter();
+        if (!Settings.isDoctor()) {
+            MapLayoutIdInterceptor idInterceptor = new MapLayoutIdInterceptor();
+            idInterceptor.put(R.layout.item_scales, R.layout.item_r_scales);
+            adapter.setLayoutIdInterceptor(idInterceptor);
+        }
+        return adapter;
+    }
+
     public void save(int endAppointment) {
         model.saveAnswer(id, path, questionType, endAppointment, getAdapter());
     }
@@ -147,12 +165,15 @@ public class AnswerQuestionFragment extends SortedListFragment {
     }
 
     public void showEndAppointmentDialog() {
-        TwoChoiceDialog.show(getActivity(), "是否结束本次随访",
-                "暂存", "保存并结束", new TwoChoiceDialog.Options() {
+
+        TwoChoiceDialog.show(getActivity(), getString(R.string.save_record_dialog),
+                "存为草稿", "保存并结束", new TwoChoiceDialog.Options() {
                     @Override
                     public void onApplyClick(final MaterialDialog dialog) {
                         save(IntBoolean.TRUE);
+                        EventHub.post(new ModifyStatusEvent(getAppointmentId(), AfterService.Status.FINISHED));
                         dialog.dismiss();
+                        getActivity().finish();
                     }
 
                     @Override
@@ -167,7 +188,9 @@ public class AnswerQuestionFragment extends SortedListFragment {
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            ItemPickImages.handleRequest(getActivity(), getAdapter(), data, requestCode);
+            if (isVisible()) {
+                ItemPickImages.handleRequest(getActivity(), getAdapter(), data, requestCode);
+            }
         }
     }
 
@@ -206,6 +229,12 @@ public class AnswerQuestionFragment extends SortedListFragment {
                         dialog.dismiss();
                     }
                 }).show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventHub.post(new EditEndEvent(getAppointmentId()));
     }
 
 }

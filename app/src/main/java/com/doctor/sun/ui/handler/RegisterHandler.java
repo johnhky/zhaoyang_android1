@@ -103,7 +103,6 @@ public class RegisterHandler extends BaseObservable {
     }
 
 
-
     private void registerPatientSuccess(Context context, Token response) {
         if (response != null) {
             TokenCallback.handleToken(response);
@@ -121,6 +120,7 @@ public class RegisterHandler extends BaseObservable {
             editDoctorInfo(context);
         }
     }
+
     public void editDoctorInfo(Context context) {
         Doctor data = new Doctor();
         data.setPhone(phone);

@@ -20,21 +20,28 @@ import retrofit2.Response;
 
 final class ModelUtils {
 
-    static void insertDivider(List<SortedItem> list) {
-        BaseItem item = new BaseItem(R.layout.divider_1px_marginlr_13dp);
+    static void insertDividerMarginLR(List<SortedItem> list) {
+        BaseItem item = new BaseItem(R.layout.divider_1px_start13_end13);
+        item.setItemId(UUID.randomUUID().toString());
+        item.setPosition(list.size());
+        list.add(item);
+    }
+
+    static void insertDividerNoMargin(List<SortedItem> list) {
+        BaseItem item = new BaseItem(R.layout.divider_1px);
         item.setItemId(UUID.randomUUID().toString());
         item.setPosition(list.size());
         list.add(item);
     }
 
     static void insertSpace(List<SortedItem> list) {
-        BaseItem item = new BaseItem(R.layout.space_30dp);
+        BaseItem item = new BaseItem(R.layout.divider_30dp);
         item.setItemId(UUID.randomUUID().toString());
         item.setPosition(list.size());
         list.add(item);
     }
 
-    static HashMap<String, String> toHashMap(SortedListAdapter adapter, Callback<ApiDTO<String>> callback) {
+    static HashMap<String, String> toHashMap(SortedListAdapter adapter, Callback callback) {
         HashMap<String, String> result = new HashMap<>();
         for (int i = 0; i < adapter.size(); i++) {
             BaseItem item = (BaseItem) adapter.get(i);

@@ -67,7 +67,7 @@ public class QuestionStats implements LayoutId {
     }
 
     public String getDescription() {
-       return name+"得分:" + getResultMark() + "/"+ getMarkStatus();
+        return name + "得分:" + getResultMark() + "/" + getMarkStatus();
     }
 
     @Override

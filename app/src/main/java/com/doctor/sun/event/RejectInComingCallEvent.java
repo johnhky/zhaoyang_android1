@@ -11,7 +11,7 @@ public class RejectInComingCallEvent implements Event {
     private int type;
     private final String account;
 
-    public RejectInComingCallEvent(String account,int type) {
+    public RejectInComingCallEvent(String account, int type) {
         this.account = account;
         this.type = type;
     }

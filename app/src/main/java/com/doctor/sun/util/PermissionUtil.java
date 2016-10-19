@@ -22,7 +22,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 
 /**
- * Utility class that wraps access to the runtime permissions API in M and provides basic helper
+ * Utility class that wraps access to the runtime permissions API in M and provides setCustomStyle helper
  * methods.
  */
 public abstract class PermissionUtil {

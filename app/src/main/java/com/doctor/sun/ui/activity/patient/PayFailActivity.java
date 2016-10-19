@@ -19,13 +19,10 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 import java.util.HashMap;
 
-import io.ganguo.library.AppManager;
-
 /**
  * Created by lucas on 1/23/16.
  */
 public class PayFailActivity extends BaseFragmentActivity2 implements View.OnClickListener {
-    public static final int URGENT_CALL = 1;
     public static final int APPOINTMENT = 2;
     public static final int OTHERS = 3;
     private AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
@@ -40,13 +37,6 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
         return i;
     }
 
-//    public static Intent makeIntent(Context context, UrgentCall data, boolean payWithWeChat) {
-//        Intent i = new Intent(context, PayFailActivity.class);
-//        i.putExtra(Constants.PAY_METHOD, payWithWeChat);
-//        i.putExtra(Constants.DATA, data);
-//        i.putExtra(Constants.TYPE, URGENT_CALL);
-//        return i;
-//    }
 
     public static Intent makeIntent(Context context, String money, boolean payWithWeChat, HashMap<String, String> goods) {
         Intent i = new Intent(context, PayFailActivity.class);
@@ -56,11 +46,8 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
         i.putExtra(Constants.EXTRA_FIELD, goods);
         return i;
     }
-//
-//    private UrgentCall getUrgentCall() {
-//        return getIntent().getParcelableExtra(Constants.DATA);
-//    }
 
+    //
     private Appointment getAppointment() {
         return getIntent().getParcelableExtra(Constants.DATA);
     }
@@ -89,9 +76,9 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_main:
-                Intent intent = PMainActivity2.intentFor(PayFailActivity.this);
+                Intent intent = PAppointmentListActivity.makeIntent(PayFailActivity.this);
                 startActivity(intent);
-                AppManager.finishAllActivity();
+                finish();
                 break;
             case R.id.tv_retry:
                 switch (getIntent().getIntExtra(Constants.TYPE, -1)) {
@@ -102,15 +89,6 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
                         } else {
                             handler.payWithAlipay(this, "");
                         }
-                        break;
-                    }
-                    case URGENT_CALL: {
-//                        UrgentCallHandler handler = new UrgentCallHandler(getUrgentCall());
-//                        if (shouldPayWithWeChat()) {
-//                            handler.payWithWeChat(this, "");
-//                        } else {
-//                            handler.payWithAlipay(this, "");
-//                        }
                         break;
                     }
                     case OTHERS: {

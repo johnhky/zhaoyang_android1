@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Questions2;
@@ -23,8 +24,11 @@ import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
 import java.util.ArrayList;
 
-import io.ganguo.library.common.ToastHelper;
 import retrofit2.Call;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
+import static com.doctor.sun.ui.adapter.core.AdapterConfigKey.IS_READ_ONLY;
 
 /**
  * Created by rick on 9/8/2016.
@@ -106,10 +110,13 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
                     case R.layout.item_view_image: {
                         return R.layout.item_r_view_image;
                     }
-                    case R.layout.item_question2: {
-                        return R.layout.item_r_question2;
+                    case R.layout.item_question: {
+                        return R.layout.item_r_question;
                     }
                     case R.layout.item_scales: {
+                        if (Settings.isDoctor() && !isReadOnly) {
+                            return origin;
+                        }
                         return R.layout.item_r_scales;
                     }
                     case R.layout.item_load_prescription:
@@ -176,10 +183,15 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
     public boolean sendRemind() {
         QuestionModule api = Api.of(QuestionModule.class);
         final ArrayList<String> need_fill = new ArrayList<>();
+        final ArrayList<String> need_fill_key = new ArrayList<>();
         for (int i = 0; i < getAdapter().size(); i++) {
-            SortedItem sortedItem = getAdapter().get(i);
-            if (sortedItem.isUserSelected()) {
-                need_fill.add(sortedItem.getKey());
+            SortedItem item = getAdapter().get(i);
+            if (item instanceof Questions2) {
+                Questions2 questions = (Questions2) item;
+                if (questions.isUserSelected()) {
+                    need_fill.add(questions.answerId);
+                    need_fill_key.add(questions.getKey());
+                }
             }
         }
         if (need_fill.isEmpty()) {
@@ -190,20 +202,22 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
                 need_fill).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
-                ToastHelper.showMessage(getContext(), "保存重填数据成功");
+                makeText(getContext(), "保存重填数据成功", LENGTH_SHORT).show();
                 isEditMode = false;
-                for (String s : need_fill) {
+                for (String s : need_fill_key) {
                     Questions2 question = (Questions2) getAdapter().get(s);
-                    question.refill = 1;
+                    if (question != null) {
+                        question.refill = 1;
+                    }
                 }
-                getAdapter().setConfig(AdapterConfigKey.IS_READ_ONLY, true);
+                getAdapter().setConfig(IS_READ_ONLY, true);
                 getAdapter().notifyDataSetChanged();
                 getActivity().invalidateOptionsMenu();
             }
 
             @Override
             public void onFailure(Call<ApiDTO<String>> call, Throwable t) {
-                ToastHelper.showMessage(getContext(), "保存重填数据失败, 请检查网络设置");
+                makeText(getContext(), "保存重填数据失败, 请检查网络设置", LENGTH_SHORT).show();
                 super.onFailure(call, t);
             }
         });

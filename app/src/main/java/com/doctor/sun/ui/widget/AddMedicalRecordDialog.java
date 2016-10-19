@@ -3,18 +3,13 @@ package com.doctor.sun.ui.widget;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Messenger;
-import android.support.annotation.NonNull;
+import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.doctor.sun.R;
-import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.DialogRecordTypeBinding;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
-import com.doctor.sun.ui.activity.patient.CreateRecordActivity;
 import com.doctor.sun.ui.fragment.NewMedicalRecordFragment;
 
 /**
@@ -30,7 +25,7 @@ public class AddMedicalRecordDialog {
     }
 
     public void show() {
-        DialogRecordTypeBinding binding = DialogRecordTypeBinding.inflate(LayoutInflater.from(context));
+        DialogRecordTypeBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_record_type, null, false);
         final Dialog dialog = new Dialog(context, R.style.customDialog);
         dialog.setContentView(binding.getRoot());
         dialog.setCanceledOnTouchOutside(false);
@@ -43,17 +38,11 @@ public class AddMedicalRecordDialog {
                         break;
                     }
                     case R.id.tv_self: {
-//                        Intent intent = CreateRecordActivity.makeIntent(context, CreateRecordActivity.TYPE_SELF, isRegister);
-//                        intent.putExtra(Constants.HANDLER, getMessenger(dialog));
-//                        context.startActivity(intent);
                         Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", NewMedicalRecordFragment.getArgs(NewMedicalRecordFragment.TYPE_SELF));
                         context.startActivity(intent);
                         break;
                     }
                     case R.id.tv_relative: {
-//                        Intent intent = CreateRecordActivity.makeIntent(context, CreateRecordActivity.TYPE_OTHERS, isRegister);
-//                        intent.putExtra(Constants.HANDLER, getMessenger(dialog));
-//                        context.startActivity(intent);
                         Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", NewMedicalRecordFragment.getArgs(NewMedicalRecordFragment.TYPE_OTHER));
                         context.startActivity(intent);
                         break;
@@ -64,18 +53,10 @@ public class AddMedicalRecordDialog {
         binding.tvCancel.setOnClickListener(listener);
         binding.tvSelf.setOnClickListener(listener);
         binding.tvRelative.setOnClickListener(listener);
+        if (isRegister) {
+            binding.tvRelative.setText("暂不填写,先逛逛");
+        }
         dialog.setCancelable(false);
         dialog.show();
-    }
-
-    @NonNull
-    private Messenger getMessenger(final Dialog dialog) {
-        return new Messenger(new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                dialog.dismiss();
-                return false;
-            }
-        }));
     }
 }

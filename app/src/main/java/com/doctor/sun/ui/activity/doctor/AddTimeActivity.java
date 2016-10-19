@@ -16,8 +16,8 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
-
-import io.ganguo.library.common.ToastHelper;
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
 
 
 /**
@@ -90,10 +90,10 @@ public class AddTimeActivity extends BaseFragmentActivity2 {
                     });
                 }
             } else {
-                ToastHelper.showMessage(AddTimeActivity.this, "就诊周期不能为空");
+                makeText(this, "就诊周期不能为空", LENGTH_SHORT).show();
             }
         } else {
-            ToastHelper.showMessage(AddTimeActivity.this, "问诊类型错误");
+            makeText(AddTimeActivity.this, "问诊类型错误", LENGTH_SHORT).show();
         }
     }
 

@@ -18,8 +18,7 @@ public class SoundPlayer {
         NO_RESPONSE,
         PEER_BUSY,
         PEER_REJECT,
-        RING,
-        ;
+        RING,;
     }
 
     private Context context;
@@ -34,16 +33,15 @@ public class SoundPlayer {
     private static SoundPlayer instance = null;
 
     public static SoundPlayer instance(Context context) {
-        if(instance == null) {
+        if (instance == null) {
             synchronized (SoundPlayer.class) {
-                if(instance == null) {
+                if (instance == null) {
                     instance = new SoundPlayer(context);
                 }
             }
         }
         return instance;
     }
-
 
 
     private SoundPlayer(Context context) {
@@ -55,29 +53,29 @@ public class SoundPlayer {
 
         int ringId = 0;
         switch (type) {
-        case NO_RESPONSE:
-            ringId = R.raw.avchat_no_response;
-            loop = false;
-            break;
-        case PEER_BUSY:
-            ringId = R.raw.avchat_peer_busy;
-            loop = false;
-            break;
-        case PEER_REJECT:
-            ringId = R.raw.avchat_peer_reject;
-            loop = false;
-            break;
-        case CONNECTING:
-            ringId = R.raw.avchat_connecting;
-            loop = true;
-            break;
-        case RING:
-            ringId = R.raw.avchat_ring;
-            loop = true;
-            break;
+            case NO_RESPONSE:
+                ringId = R.raw.avchat_no_response;
+                loop = false;
+                break;
+            case PEER_BUSY:
+                ringId = R.raw.avchat_peer_busy;
+                loop = false;
+                break;
+            case PEER_REJECT:
+                ringId = R.raw.avchat_peer_reject;
+                loop = false;
+                break;
+            case CONNECTING:
+                ringId = R.raw.avchat_connecting;
+                loop = true;
+                break;
+            case RING:
+                ringId = R.raw.avchat_ring;
+                loop = true;
+                break;
         }
 
-        if(ringId != 0) {
+        if (ringId != 0) {
             play(ringId);
         }
 

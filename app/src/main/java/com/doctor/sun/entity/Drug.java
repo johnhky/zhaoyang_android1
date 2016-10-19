@@ -18,6 +18,7 @@ import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by lucas on 1/22/16.
@@ -40,7 +41,7 @@ public class Drug extends BaseObservable implements LayoutId {
     @JsonProperty("id")
     private int id;
     @JsonProperty("drug")
-    private String drug;
+    private List<String> drug;
     @JsonProperty("to")
     private String to;
     @JsonProperty("phone")
@@ -65,12 +66,14 @@ public class Drug extends BaseObservable implements LayoutId {
 
     @JsonProperty("appointment_id")
     private int appointmentId;
+    @JsonProperty("doctor")
+    private Doctor doctor;
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setDrug(String drug) {
+    public void setDrug(List<String> drug) {
         this.drug = drug;
     }
 
@@ -107,7 +110,7 @@ public class Drug extends BaseObservable implements LayoutId {
         return id;
     }
 
-    public String getDrug() {
+    public List<String> getDrug() {
         return drug;
     }
 
@@ -155,6 +158,14 @@ public class Drug extends BaseObservable implements LayoutId {
 
     public void setNeedPay(double needPay) {
         this.needPay = needPay;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
     @Override
@@ -214,9 +225,9 @@ public class Drug extends BaseObservable implements LayoutId {
 
     }
 
-    public void showPayMethod(Context context, String money, int id) {
+    public void showPayMethod(Context context, String money, Drug drug) {
         final HashMap<String, String> extraField = DrugListFragment.getDrugExtraField();
-        extraField.put("drugOrderId", String.valueOf(id));
+        extraField.put("drugOrderId", String.valueOf(drug.id));
 
         final String totalFee;
         if (needPay > 0) {
@@ -226,7 +237,25 @@ public class Drug extends BaseObservable implements LayoutId {
             totalFee = money;
         }
 
-        showDetail(context);
+        showDetail(context, drug);
+
+//        final AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
+//        new PayMethodDialog(context, new PayInterface() {
+//            @Override
+//            public void payWithAlipay(Activity activity, String couponId) {
+//                appointmentModule.buildAlipayGoodsOrder(totalFee, "alipay", extraField).enqueue(new AlipayCallback(activity, totalFee, extraField));
+//            }
+//
+//            @Override
+//            public void payWithWeChat(Activity activity, String couponId) {
+//                appointmentModule.buildWeChatGoodsOrder(totalFee, "wechat", extraField).enqueue(new WeChatPayCallback(activity, totalFee, extraField));
+//            }
+//
+//            @Override
+//            public void simulatedPay(BaseAdapter component, View view, BaseViewHolder vh) {
+//                ToastHelper.showMessage(view.getContext(), "模拟支付暂时未开放");
+//            }
+//        }).show();
 
 //        final AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
 //        new PayMethodDialog(context, new PayInterface() {
@@ -281,11 +310,11 @@ public class Drug extends BaseObservable implements LayoutId {
         return "<font color='" + statusColor(status) + "'>" + getStatuses() + "</font>";
     }
 
-    public void showDetail(Context context) {
-        if (getStatuses().equals("已支付") || getStatuses().equals("已关闭")) {
-            return;
-        }
-        Intent payPrescriptionIntent = SingleFragmentActivity.intentFor(context, "寄药支付", PayPrescriptionsFragment.getArgs());
+    public void showDetail(Context context, Drug drug) {
+//        if (getStatuses().equals("已支付") || getStatuses().equals("已关闭")) {
+//            return;
+//        }
+        Intent payPrescriptionIntent = SingleFragmentActivity.intentFor(context, "寄药支付", PayPrescriptionsFragment.getArgs(drug));
         context.startActivity(payPrescriptionIntent);
     }
 }

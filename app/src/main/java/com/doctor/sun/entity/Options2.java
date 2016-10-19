@@ -1,6 +1,7 @@
 package com.doctor.sun.entity;
 
 import android.content.Context;
+import android.text.Editable;
 import android.text.InputType;
 import android.view.View;
 
@@ -10,6 +11,7 @@ import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ToolModule;
+import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.AdapterOps;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.NumericBooleanDeserializer;
@@ -22,6 +24,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Strings;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +36,9 @@ import java.util.UUID;
 
 public class Options2 extends BaseItem {
     public static final String TAG = Options2.class.getSimpleName();
+
+    private static final int FORM_API = 0;
+    private static final int FORM_USER_INPUT = 1;
 
     /**
      * option_content : 保存密码
@@ -48,6 +54,7 @@ public class Options2 extends BaseItem {
     public String questionType;
     @JsonIgnore
     public String questionContent;
+
 
     @JsonSerialize(using = NumericBooleanSerializer.class)
     @JsonDeserialize(using = NumericBooleanDeserializer.class)
@@ -68,7 +75,7 @@ public class Options2 extends BaseItem {
     @JsonProperty("option_input_hint")
     public String optionInputHint = "";
     @JsonProperty("option_input_type")
-    public int optionInputType = InputType.TYPE_CLASS_TEXT;
+    public int optionInputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
     @JsonProperty("option_input_length")
     public int optionInputLength = 0;
     @JsonProperty("content_tail")
@@ -77,6 +84,10 @@ public class Options2 extends BaseItem {
     public List<String> childOptions;
     @JsonProperty("reply_index")
     public int selectedIndex = -1;
+
+    @JsonProperty("resourse_type")
+    public int resourseType;
+
     @JsonProperty("reply_object")
     public Map<String, String> selectedOption;
     @JsonProperty("reply_content")
@@ -143,7 +154,7 @@ public class Options2 extends BaseItem {
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
-        if (selected) {
+        if (selected && isEnabled()) {
             if (getLayoutId() == R.layout.item_options_dialog) {
                 if (selectedIndex > 0) {
                     HashMap<String, Object> result = new HashMap<>();
@@ -163,6 +174,15 @@ public class Options2 extends BaseItem {
         } else {
             return null;
         }
+    }
+
+    public void afterInputChanged(Editable newInputEditable) {
+        String newInput = newInputEditable.toString();
+        if (optionContent.equals(newInput)) {
+            return;
+        }
+        boolean selected = !newInput.equals("");
+        setSelectedWrap(selected);
     }
 
     public Boolean getSelected() {
@@ -186,29 +206,29 @@ public class Options2 extends BaseItem {
     public void setSelectedWrap(Boolean selected, SortedListAdapter adapter) {
         if (!selected.equals(this.selected)) {
             this.selected = selected;
-            notifyEnableDisableChange(adapter);
-            clear(adapter);
+            clear(adapter, getChangedItem(adapter));
         }
     }
 
-    private void notifyEnableDisableChange(SortedListAdapter adapter) {
+    private ArrayList<SortedItem> getChangedItem(SortedListAdapter adapter) {
+        ArrayList<SortedItem> result = new ArrayList<>();
         if (optionOrEnable != null) {
             for (String s : optionOrEnable) {
-                notifyItemWithKey(s, adapter);
+                SortedItem e = adapter.get(s);
+                if (e != null) {
+                    result.add(e);
+                }
             }
         }
         if (optionOrDisable != null) {
             for (String s : optionOrDisable) {
-                notifyItemWithKey(s, adapter);
+                SortedItem e = adapter.get(s);
+                if (e != null) {
+                    result.add(e);
+                }
             }
         }
-    }
-
-    private void notifyItemWithKey(String key, SortedListAdapter adapter) {
-        BaseItem baseItem = (BaseItem) adapter.get(key);
-        if (baseItem != null) {
-            baseItem.notifyChange();
-        }
+        return result;
     }
 
     public String getOption(int index) {
@@ -219,17 +239,28 @@ public class Options2 extends BaseItem {
         }
     }
 
+    public void clear(SortedListAdapter adapter) {
+        clear(adapter, null);
+    }
+
     /**
      * 根据 选择状态 和 refill 类型 清除其它选项
      *
      * @param adapter
      */
-    public void clear(SortedListAdapter adapter) {
-        notifyChange();
+    public void clear(SortedListAdapter adapter, ArrayList<SortedItem> changedItem) {
+        if (changedItem == null) {
+            changedItem = new ArrayList<>();
+        }
+        changedItem.add(this);
         if (!getSelected()) {
-            Questions2 item = (Questions2) adapter.get(questionId);
-            item.refill = 0;
-            adapter.update(item);
+            Questions2 questions = (Questions2) adapter.get(questionId);
+            questions.refill = 0;
+            changedItem.add(questions);
+            for (SortedItem item : changedItem) {
+                BaseItem temp = (BaseItem) item;
+                temp.notifyChange();
+            }
             return;
         }
 
@@ -238,12 +269,16 @@ public class Options2 extends BaseItem {
             if (!otherOptions.getKey().equals(this.getKey())) {
                 if (shouldClearThat(otherOptions)) {
                     otherOptions.setSelectedWrap(Boolean.FALSE, adapter);
-                    adapter.insert(otherOptions);
+                    changedItem.add(otherOptions);
                 }
             }
         }
         sortedItem.refill = 0;
-        adapter.insert(sortedItem);
+        changedItem.add(sortedItem);
+        for (SortedItem item : changedItem) {
+            BaseItem temp = (BaseItem) item;
+            temp.notifyChange();
+        }
     }
 
     private boolean shouldClearThat(Options2 otherOptions) {
@@ -288,19 +323,39 @@ public class Options2 extends BaseItem {
      * @param adapter
      */
     public void loadPrescriptions(final SortedListAdapter adapter) {
-        ToolModule toolModule = Api.of(ToolModule.class);
-        toolModule.listOfItems(optionContent).enqueue(new SimpleCallback<List<HashMap<String, String>>>() {
-            @Override
-            protected void handleResponse(List<HashMap<String, String>> response) {
-                ItemAddPrescription2 item = (ItemAddPrescription2) adapter.get(questionId + QuestionType.drug);
-                for (HashMap<String, String> stringStringHashMap : response) {
-                    Prescription prescription = new Prescription();
-                    prescription.fromHashMap(stringStringHashMap);
-                    item.addPrescription(prescription, adapter);
+        if (resourseType == FORM_USER_INPUT) {
+            ItemAddPrescription2 fromItem = (ItemAddPrescription2) adapter.get(optionContent + QuestionType.drug);
+            ItemAddPrescription2 toItem = (ItemAddPrescription2) adapter.get(questionId + QuestionType.drug);
+            if (fromItem != null && toItem != null) {
+                int adapterPosition = adapter.indexOfImpl(fromItem);
+                int distance = adapter.inBetweenItemCount(adapterPosition, optionContent);
+                if (distance > 0) {
+                    for (int i = distance; i > 1; i--) {
+                        int index = adapterPosition - i + 1;
+                        try {
+                            Prescription sortedItem = (Prescription) adapter.get(index);
+                            toItem.addPrescription(sortedItem.copy(), adapter);
+                        } catch (ClassCastException ignored) {
+                            ignored.printStackTrace();
+                        }
+                    }
                 }
-            }
-        });
 
+            }
+        } else {
+            ToolModule toolModule = Api.of(ToolModule.class);
+            toolModule.listOfItems(optionContent).enqueue(new SimpleCallback<List<HashMap<String, String>>>() {
+                @Override
+                protected void handleResponse(List<HashMap<String, String>> response) {
+                    ItemAddPrescription2 item = (ItemAddPrescription2) adapter.get(questionId + QuestionType.drug);
+                    for (HashMap<String, String> stringStringHashMap : response) {
+                        Prescription prescription = new Prescription();
+                        prescription.fromHashMap(stringStringHashMap);
+                        item.addPrescription(prescription, adapter);
+                    }
+                }
+            });
+        }
     }
 
 
@@ -312,13 +367,13 @@ public class Options2 extends BaseItem {
     public int inputType() {
         switch (optionInputType) {
             case 0:
-                return InputType.TYPE_CLASS_TEXT;
+                return InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
             case 1:
                 return InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED;
             case 2:
                 return InputType.TYPE_CLASS_NUMBER;
             default:
-                return InputType.TYPE_CLASS_TEXT;
+                return InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
         }
     }
 }

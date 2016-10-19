@@ -3,10 +3,9 @@ package com.doctor.sun.ui.activity.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.ui.activity.AfterServiceContactActivity;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
@@ -22,6 +21,20 @@ public class PAfterServiceActivity extends TabActivity {
         return intent;
     }
 
+    public static Intent intentFor(Context context, int position) {
+        Intent intent = new Intent(context, PAfterServiceActivity.class);
+        intent.putExtra(Constants.POSITION, position);
+
+        return intent;
+    }
+
+    @Override
+    protected void initPagerTabs() {
+        binding.pagerTabs.setCustomTabView(R.layout.tab_with_unread_count, android.R.id.text1);
+        binding.pagerTabs.setDistributeEvenly(true);
+        binding.pagerTabs.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimaryDark));
+        binding.pagerTabs.setViewPager(binding.vp);
+    }
 
     public void onMenuClicked() {
         Intent intent = AfterServiceContactActivity.intentFor(this, ContactActivity.PATIENTS_CONTACT);

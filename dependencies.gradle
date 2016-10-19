@@ -3,12 +3,13 @@
 ext {
     compile_sdk_version = 24
     build_tools_version = '24'
+    //TODO 打包前改这个为14
     min_sdk_version = 14
     target_sdk_version = 23
 
-    support_version = '24.2.0'
-    retrofit_version = '2.0.2'
-    okhttp_version = '3.2.0'
+    support_version = '24.2.1'
+    retrofit_version = '2.1.0'
+    okhttp_version = '3.4.1'
 
     junitVersion = '4.12'
     mockitoVersion = '1.10.19'
@@ -33,9 +34,7 @@ ext {
             okhttp                  : "com.squareup.okhttp3:okhttp:$okhttp_version",
             okhttpLogging           : "com.squareup.okhttp3:logging-interceptor:$okhttp_version",
 
-            universalImageLoader    : 'com.nostra13.universalimageloader:universal-image-loader:1.9.4',
-            dataBindingCompiler     : 'com.android.databinding:compiler:1.0-rc3',
-            materialDialogs         : 'com.github.afollestad.material-dialogs:core:0.8.5.8@aar',
+            materialDialogs         : 'com.afollestad.material-dialogs:core:0.9.0.2',
             yearclass               : 'com.facebook.device.yearclass:yearclass:1.0.1',
             picasso                 : 'com.squareup.picasso:picasso:2.5.2',
             glide                   : 'com.github.bumptech.glide:glide:3.7.0',

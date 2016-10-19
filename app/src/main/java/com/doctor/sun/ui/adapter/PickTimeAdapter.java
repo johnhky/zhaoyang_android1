@@ -41,8 +41,9 @@ public class PickTimeAdapter extends SimpleAdapter<Time, ReserveTimeBinding> {
             boolean isSelected = (selectedItem == adapterPosition);
             vh.getBinding().tvTime.setSelected(isSelected);
             boolean reserva = time.getReserva() == 1;
+            boolean optional = time.getOptional() == 0;
             boolean past = time.getHandler().isPast(dateTime);
-            vh.getBinding().tvTime.setActivated(past || reserva);
+            vh.getBinding().tvTime.setActivated(past || reserva || optional);
         }
     }
 

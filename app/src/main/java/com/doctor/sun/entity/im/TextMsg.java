@@ -272,7 +272,7 @@ public class TextMsg extends RealmObject implements LayoutId {
                 return R.layout.msg_audio_send;
             }
             if (getType().equals(String.valueOf(VIDEO))) {
-                return R.layout.msg_file_receive;
+                return R.layout.msg_file_send;
             }
             if (getType().equals(String.valueOf(FILE))) {
                 return R.layout.msg_file_send;
@@ -313,7 +313,6 @@ public class TextMsg extends RealmObject implements LayoutId {
 
         return itemLayoutId;
     }
-
 
 
     public SessionTypeEnum getSessionTypeEnum() {

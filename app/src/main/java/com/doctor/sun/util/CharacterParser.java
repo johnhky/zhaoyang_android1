@@ -169,10 +169,10 @@ public class CharacterParser {
         String str = buffer.toString();
         String[] strs = str.split(" ");
         int length = strs.length;
-        String result="";
+        String result = "";
         for (int i = 0; i < length; i++) {
             String first = strs[i].substring(0, 1).toUpperCase();
-            result += first + strs[i].substring(1)+" ";
+            result += first + strs[i].substring(1) + " ";
         }
         return result;
     }

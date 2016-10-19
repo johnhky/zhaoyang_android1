@@ -16,7 +16,6 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
-
 import java.util.HashMap;
 
 import retrofit2.Call;

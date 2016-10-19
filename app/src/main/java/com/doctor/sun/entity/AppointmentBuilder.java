@@ -199,7 +199,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         context.startActivity(intent);
     }
 
-    public int money() {
+    public double money() {
         switch (getType()) {
             case AppointmentType.STANDARD:
                 return doctor.getSecondMoney();
@@ -227,6 +227,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         }
         new MaterialDialog.Builder(context)
                 .title("选择优惠券(单选)")
+                .negativeText("不使用优惠券")
                 .items(coupons)
                 .itemsCallbackSingleChoice(selectedCoupon, new MaterialDialog.ListCallbackSingleChoice() {
 
@@ -235,6 +236,13 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
                         selectedCoupon = which;
                         notifyChange();
                         return true;
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        selectedCoupon = -1;
+                        notifyChange();
                     }
                 })
                 .build().show();
@@ -498,7 +506,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         result.add(new Description(R.layout.item_description, "预约详情"));
         result.add(doctor);
 
-        result.add(new BaseItem(R.layout.divider_1px2));
+        result.add(new BaseItem(R.layout.divider_1px));
 
         result.add(new AppointmentWrapper(R.layout.item_appointment_detail, response));
 

@@ -8,8 +8,6 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.vo.EmptyLayoutId;
 
-import java.util.List;
-
 /**
  * Created by rick on 8/4/2016.
  */
@@ -31,8 +29,8 @@ public class VpIndicatorAdapter extends SimpleAdapter<LayoutId, ViewDataBinding>
         return selectedPosition == vh.getAdapterPosition();
     }
 
-    public void setSelectedPosition(int position){
-       selectedPosition = position;
+    public void setSelectedPosition(int position) {
+        selectedPosition = position;
     }
 
     public void setItemCount(int itemCount) {

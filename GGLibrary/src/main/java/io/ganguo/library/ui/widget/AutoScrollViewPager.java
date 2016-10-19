@@ -10,7 +10,12 @@ import android.view.MotionEvent;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
+import com.squareup.otto.Subscribe;
+
 import java.lang.reflect.Field;
+
+import io.ganguo.library.core.event.Event;
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by Tony on 10/24/14.
@@ -213,7 +218,13 @@ public class AutoScrollViewPager extends ViewPager {
         return super.onTouchEvent(ev);
     }
 
-    private class MyHandler extends Handler {
+    @Subscribe
+    public void onScrollEvent(ScrollEvent e) {
+        scrollOnce();
+        sendScrollMessage(interval);
+    }
+
+    private static class MyHandler extends Handler {
 
         @Override
         public void handleMessage(Message msg) {
@@ -221,8 +232,7 @@ public class AutoScrollViewPager extends ViewPager {
 
             switch (msg.what) {
                 case SCROLL_WHAT:
-                    scrollOnce();
-                    sendScrollMessage(interval);
+                    EventHub.post(new ScrollEvent());
                 default:
                     break;
             }
@@ -377,5 +387,8 @@ public class AutoScrollViewPager extends ViewPager {
         public void startScroll(int startX, int startY, int dx, int dy, int duration) {
             super.startScroll(startX, startY, dx, dy, (int) (duration * scrollFactor));
         }
+    }
+
+    private static class ScrollEvent implements Event {
     }
 }

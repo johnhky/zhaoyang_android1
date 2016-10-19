@@ -5,7 +5,6 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
-import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 /**
@@ -28,8 +27,6 @@ public class NIMConnectionState implements RequestCallback {
     @Override
     public void onSuccess(Object o) {
         NIMClient.getService(AuthServiceObserver.class).observeLoginSyncDataStatus(new LoginSyncStatusObserver(), true);
-        CustomAttachParser msgAttachmentParser = new CustomAttachParser();
-        NIMClient.getService(MsgService.class).registerCustomAttachmentParser(msgAttachmentParser);
         if (callback != null) {
             callback.onSuccess(o);
             callback = null;

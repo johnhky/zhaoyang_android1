@@ -6,7 +6,6 @@ import android.support.v4.view.PagerAdapter;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.activity.TabActivity;
-
 import com.doctor.sun.ui.pager.CouponPagerAdapter;
 
 /**
@@ -23,7 +22,6 @@ public class CouponTabActivity extends TabActivity {
     protected PagerAdapter createPagerAdapter() {
         return new CouponPagerAdapter(getSupportFragmentManager());
     }
-
 
 
     @Override

@@ -6,10 +6,12 @@ import android.view.View;
 
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Address;
-import com.doctor.sun.entity.DoctorInfo;
+import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.Drug;
 import com.doctor.sun.entity.MedicineInfo;
 import com.doctor.sun.model.PayPrescriptionsModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.util.PayEventHandler;
 
 import java.util.List;
 
@@ -23,31 +25,41 @@ public class PayPrescriptionsFragment extends SortedListFragment {
 
     private PayPrescriptionsModel model;
     private Address address;
-    private DoctorInfo doctorInfo;
+    private Doctor doctor;
     private MedicineInfo medicineInfo;
+    private boolean hasPay;
+    private PayEventHandler payEventHandler;
 
-    public static Bundle getArgs() {
+    public static Bundle getArgs(Drug drug) {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FRAGMENT_NAME, TAG);
 
-        // 测试用例，实际上应该从网络获取数据
         Address address = new Address();
-        address.setName("王小明");
-        address.setPhone("13612345678");
-        address.setAddress("广东省广州市荔湾区信义路24号七喜创意园4栋336室");
+        address.setName(drug.getTo());
+        address.setPhone(drug.getPhone());
+        address.setAddress(drug.getAddress());
 
-        DoctorInfo doctorInfo = new DoctorInfo();
-        doctorInfo.setName("张丽");
-        doctorInfo.setHospital("广州市第一人民医院/精神科/科室主任");
-        doctorInfo.setLevel("执业医师认证");
+        Doctor doctor = drug.getDoctor();
 
         MedicineInfo medicineInfo = new MedicineInfo();
-        medicineInfo.setMedicine("奥氮平/100颗");
-        medicineInfo.setMedicinePrice("420");
+        medicineInfo.setOrderId(String.valueOf(drug.getId()));
+        // 药品信息分行显示
+        StringBuilder sb = new StringBuilder();
+        for (String medicine : drug.getDrug()) {
+            sb.append(medicine);
+            sb.append("\n");
+        }
+        // 删掉最后一个换行符
+        if (sb.length() > 0) {
+            sb.setLength(sb.length() - 1);
+        }
+        medicineInfo.setMedicine(sb.toString());
+        medicineInfo.setMedicinePrice(drug.getMoney());
 
         bundle.putParcelable(Constants.ADDRESS, address);
-        bundle.putParcelable(Constants.DOCTOR_INFO, doctorInfo);
+        bundle.putParcelable(Constants.DOCTOR_INFO, doctor);
         bundle.putParcelable(Constants.MEDICINE_INFO, medicineInfo);
+        bundle.putBoolean(Constants.HAS_PAY, drug.getHasPay() != 0);
 
         return bundle;
     }
@@ -58,8 +70,10 @@ public class PayPrescriptionsFragment extends SortedListFragment {
 
         model = new PayPrescriptionsModel();
         address = getArguments().getParcelable(Constants.ADDRESS);
-        doctorInfo = getArguments().getParcelable(Constants.DOCTOR_INFO);
+        doctor = getArguments().getParcelable(Constants.DOCTOR_INFO);
         medicineInfo = getArguments().getParcelable(Constants.MEDICINE_INFO);
+        hasPay = getArguments().getBoolean(Constants.HAS_PAY);
+        payEventHandler = PayEventHandler.register();
     }
 
     @Override
@@ -71,8 +85,15 @@ public class PayPrescriptionsFragment extends SortedListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
-        List<SortedItem> sortedItems = model.parseData(address, doctorInfo, medicineInfo);
+
+        List<SortedItem> sortedItems = model.parseData(address, doctor, medicineInfo, hasPay);
         binding.swipeRefresh.setRefreshing(false);
         getAdapter().insertAll(sortedItems);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PayEventHandler.unregister(payEventHandler);
     }
 }

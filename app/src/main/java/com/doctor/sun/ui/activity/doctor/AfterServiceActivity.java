@@ -17,7 +17,6 @@ import com.doctor.sun.ui.activity.PageActivity2;
  */
 public class AfterServiceActivity extends PageActivity2 {
     private AfterServiceModule api = Api.of(AfterServiceModule.class);
-    private String keyword = "";
 
     public static Intent intentFor(Context context) {
         Intent intent = new Intent(context, AfterServiceActivity.class);

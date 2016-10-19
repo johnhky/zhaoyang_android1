@@ -10,7 +10,6 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.ui.activity.TabActivity;
-
 import com.doctor.sun.ui.pager.HistoryDetailAdapter;
 import com.doctor.sun.util.ShowCaseUtil;
 
@@ -68,14 +67,4 @@ public class HistoryDetailActivity extends TabActivity {
             }
         }
     }
-
-//    @Override
-//    public void setHeaderRightTitle(String title) {
-////        binding.getHeader().setRightTitle(title);
-//    }
-
-//    @Override
-//    public void onCategorySelect(QuestionCategory data) {
-//        FillForumFragment.getInstance(getData()).loadQuestions(data);
-//    }
 }

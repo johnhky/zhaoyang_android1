@@ -2,9 +2,12 @@ package com.doctor.sun.ui.activity.patient.handler;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 
 import com.doctor.sun.entity.SystemMsg;
-import com.doctor.sun.ui.activity.patient.SystemMsgListActivity;
+import com.doctor.sun.ui.activity.SystemMsgListActivity;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,5 +42,15 @@ public class SystemMsgHandler {
             return true;
         }
         return parse.getTime() < time;
+    }
+
+    public int isViewVisible(SimpleAdapter adapter) {
+        long lastVisitTime = adapter.getLong(AdapterConfigKey.LAST_VISIT_TIME);
+
+        if (haveRead(lastVisitTime)) {
+            return View.GONE;
+        } else {
+            return View.VISIBLE;
+        }
     }
 }

@@ -71,4 +71,11 @@ public class Constants {
     public static final String ADDRESS = "ADDRESS";
     public static final String DOCTOR_INFO = "DOCTOR_INFO";
     public static final String MEDICINE_INFO = "MEDICINE_INFO";
+    public static final String DRUG_ORDER_ID = "DRUG_ORDER_ID";
+    public static final String HAS_PAY = "HAS_PAY";
+    public static final String RECORD_TYPE = "RECORD_TYPE";
+    public static final String J_PUSH_MSG = "J_PUSH_MSG";
+    public static final String NOTIFICATION_ID = "NOTIFICATION_ID";
+
+    public static final String ORDER_STATUS = "ORDER_STATUS";
 }

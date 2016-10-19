@@ -1,6 +1,7 @@
 package com.doctor.sun.model;
 
 import android.databinding.Observable;
+import android.util.Log;
 
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
@@ -9,8 +10,8 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.FollowUpInfo;
 import com.doctor.sun.entity.Options2;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.entity.QuVisibilityManager;
 import com.doctor.sun.entity.Questions2;
-import com.doctor.sun.entity.QuestionsButton;
 import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.Scales;
 import com.doctor.sun.entity.constans.QuestionType;
@@ -167,7 +168,7 @@ public class QuestionsModel {
                     break;
             }
 
-            BaseItem divider = new BaseItem(R.layout.divider_1px_margint_13dp);
+            BaseItem divider = new BaseItem(R.layout.divider_1px_top13);
             int dividerPosition = positionIn(sortedVal, DIVIDER_POSITION);
             divider.setItemId("DIVIDER" + questions2.getKey());
             divider.setPosition(dividerPosition);
@@ -196,7 +197,7 @@ public class QuestionsModel {
         if (i >= questions.size()) {
             return acc;
         }
-        QuestionsButton questionsButton = questions.get(i).questionsButton;
+        QuVisibilityManager questionsButton = questions.get(i).questionsButton;
         if (questionsButton != null) {
             int subQuestionsSize = questionsSize(questionsButton.questions, 0, 0);
             return questionsSize(questions, i + 1, acc + 1 + subQuestionsSize);
@@ -300,6 +301,7 @@ public class QuestionsModel {
         itemPickDate.setPosition(positionIn(i, RANGE_ITEM_POSITION));
         itemPickDate.setItemId(questions2.getKey() + QuestionType.sDate);
         itemPickDate.setDate(questions2.fillContent);
+        itemPickDate.setEnabled(true);
         itemPickDate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -333,6 +335,7 @@ public class QuestionsModel {
                 ItemPickImages item = new ItemPickImages(R.layout.item_view_image, split[j]);
                 item.setPosition(i * PADDING + j + 1);
                 item.setItemId(UUID.randomUUID().toString());
+                item.setParentId(questions2.getKey());
                 pickerItem.registerItemChangedListener(item);
                 items.add(item);
             }
@@ -351,6 +354,7 @@ public class QuestionsModel {
             pickerItem.setItemSizeConstrain(questions2.extendType);
         }
         pickerItem.setPosition(positionIn(i, RANGE_ITEM_POSITION));
+        pickerItem.setParentId(questions2.getKey());
         pickerItem.setItemId(questions2.getKey() + QuestionType.upImg);
         items.add(pickerItem);
     }
