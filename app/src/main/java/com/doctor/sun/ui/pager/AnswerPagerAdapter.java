@@ -2,7 +2,7 @@ package com.doctor.sun.ui.pager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.Appointment;
@@ -19,10 +19,11 @@ import com.doctor.sun.ui.fragment.WaitingSuggestionFragment;
  * Created by rick on 1/8/2016.
  */
 
-public class AnswerPagerAdapter extends FragmentPagerAdapter {
+public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
 
 
-    private final Appointment appointment;
+    private Appointment appointment;
+    private boolean isChanged = false;
 
     public AnswerPagerAdapter(FragmentManager fm, Appointment appointmentId) {
         super(fm);

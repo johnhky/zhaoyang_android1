@@ -162,7 +162,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
             return;
         }
 
-        if (Settings.isDoctor())
+        if (!Settings.isDoctor())
             drugModule.needSendDrug(getData().getId()).enqueue(new ApiCallback<NeedSendDrug>() {
                 @Override
                 protected void handleResponse(NeedSendDrug response) {

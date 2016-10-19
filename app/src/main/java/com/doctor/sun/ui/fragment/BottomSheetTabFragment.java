@@ -19,7 +19,7 @@ import com.doctor.sun.databinding.FragmentTabBinding;
  */
 public abstract class BottomSheetTabFragment extends BottomSheetDialogFragment {
 
-    protected FragmentTabBinding binding;
+    private FragmentTabBinding binding;
     private PagerAdapter pagerAdapter;
 
     public int getPosition() {
@@ -32,16 +32,10 @@ public abstract class BottomSheetTabFragment extends BottomSheetDialogFragment {
 
         binding = DataBindingUtil.inflate(getLayoutInflater(savedInstanceState), R.layout.fragment_tab, container, true);
 
-        initPagerAdapter();
-
-        initPagerTabs();
-
-        setCurrentItem();
-
         return binding.getRoot();
     }
 
-    private void setCurrentItem() {
+    protected void setCurrentItem() {
         int position = getPosition();
         if (position <= pagerAdapter.getCount()) {
             binding.vp.setCurrentItem(position);
@@ -52,6 +46,10 @@ public abstract class BottomSheetTabFragment extends BottomSheetDialogFragment {
     protected void initPagerAdapter() {
         pagerAdapter = createPagerAdapter();
         binding.vp.setAdapter(pagerAdapter);
+    }
+
+    protected void setPagerAdapter(PagerAdapter adapter) {
+        binding.vp.setAdapter(adapter);
     }
 
     protected void initPagerTabs() {

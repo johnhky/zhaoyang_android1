@@ -63,4 +63,12 @@ public interface DiagnosisModule {
 
     @GET("diagnosis/edit-status")
     Call<ApiDTO<AppointmentStatus>> appointmentStatus(@Query("orderId") int appointmentId, @Query("type") String type);
+
+    @GET("diagnosis/doctor-orders")
+    Call<ApiDTO<PageDTO<Appointment>>> appointmentHistory(@Query("page") int page,
+                                                          @Query("recordId") int recordId,
+                                                          @Query("searchWord") String searchWord);
+    @GET("diagnosis/record-histories")
+    Call<ApiDTO<List<Appointment>>> recordHistory(@Query("recordId") int recordId,
+                                                          @Query("type") String type);
 }
