@@ -47,6 +47,14 @@
                 android:background="@color/gray_eb" />
         </android.support.v4.widget.SwipeRefreshLayout>
 
+        <LinearLayout
+            android:id="@+id/fl_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right"
+            android:background="@color/gray_eb" />
+
         <include
             android:id="@+id/input"
             layout="@layout/include_input_layout"

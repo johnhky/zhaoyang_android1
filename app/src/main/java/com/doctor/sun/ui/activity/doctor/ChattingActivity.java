@@ -8,8 +8,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -114,6 +116,16 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         initView();
         initData();
         registerRealmChangeListener();
+
+        View historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.root, false);
+        historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 替换为历史记录入口
+                Toast.makeText(ChattingActivity.this, "Test", Toast.LENGTH_SHORT).show();
+            }
+        });
+        binding.flContainer.addView(historyButton);
     }
 
     private void registerRealmChangeListener() {
