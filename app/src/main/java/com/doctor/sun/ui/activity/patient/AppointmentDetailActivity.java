@@ -61,8 +61,6 @@ public class AppointmentDetailActivity extends TabActivity {
             });
             binding.flContainer.addView(historyButton);
         }
-
-        eventHandler = HistoryEventHandler.register();
     }
 
     @Override
