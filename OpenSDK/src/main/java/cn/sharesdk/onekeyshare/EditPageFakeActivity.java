@@ -42,7 +42,7 @@ public class EditPageFakeActivity extends FakeActivity {
 		public Bitmap bitmap;
 	}
 
-	protected static interface ImageListResultsCallback {
+	protected interface ImageListResultsCallback {
 		void onFinish(ArrayList<ImageInfo> results);
 	}
 

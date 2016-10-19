@@ -213,7 +213,6 @@ public abstract class GetLocationActivity extends BaseFragmentActivity2 {
             }
         }
 
-        ;
     };
 
     /**

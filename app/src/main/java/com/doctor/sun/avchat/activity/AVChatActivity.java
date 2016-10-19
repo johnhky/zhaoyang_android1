@@ -210,10 +210,7 @@ public class AVChatActivity extends BaseFragmentActivity2 implements AVChatUI.AV
                 return true;
             case FROM_INTERNAL: // outgoing call
                 parseOutgoingIntent();
-                if (state == AVChatType.VIDEO.getValue() || state == AVChatType.AUDIO.getValue()) {
-                    return true;
-                }
-                return false;
+                return state == AVChatType.VIDEO.getValue() || state == AVChatType.AUDIO.getValue();
             default:
                 return false;
         }

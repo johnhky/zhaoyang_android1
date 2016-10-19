@@ -244,9 +244,9 @@ public class PlatformGridView extends LinearLayout implements
 		}
 		try {
 			Method m = View.class.getMethod("setOverScrollMode",
-					new Class[] { Integer.TYPE });
+					Integer.TYPE);
 			m.setAccessible(true);
-			m.invoke(view, new Object[] { Integer.valueOf(2) });
+			m.invoke(view, Integer.valueOf(2));
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}

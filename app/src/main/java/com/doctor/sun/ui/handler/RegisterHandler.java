@@ -130,21 +130,20 @@ public class RegisterHandler extends BaseObservable {
 
     private void countDown(Context context, final ViewGroup view) {
         remainTime = 60;
-        final ViewGroup parent = (ViewGroup) view;
-        final TextView textView = (TextView) parent.getChildAt(0);
+        final TextView textView = (TextView) view.getChildAt(0);
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 remainTime -= 1;
                 if (remainTime < 0) {
                     textView.setEnabled(true);
-                    parent.setEnabled(true);
+                    view.setEnabled(true);
                     textView.setText("重新获取");
                     handler.removeCallbacks(this);
                 } else {
                     textView.setText(view.getResources().getString(R.string.get_captcha, remainTime));
                     textView.setEnabled(false);
-                    parent.setEnabled(false);
+                    view.setEnabled(false);
                     handler.postDelayed(this, ONE_SECOND);
                 }
             }

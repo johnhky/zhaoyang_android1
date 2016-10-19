@@ -82,7 +82,7 @@ public class PlatformGridViewAdapter extends BaseAdapter implements View.OnClick
 		String label;
 		Object item = getItem(position);
 		boolean disabled;
-		boolean isDirectShare = item instanceof Platform ? ShareCore.isDirectShare((Platform) item) : true;
+		boolean isDirectShare = !(item instanceof Platform) || ShareCore.isDirectShare((Platform) item);
 		if(directOnlyPosition == -1) {
 			disabled = !checkedPositionList.isEmpty() && isDirectShare;
 		} else {

@@ -53,7 +53,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 
 	private void initView() {
 		if(!dialogMode) {
-			RelativeLayout mainRelLayout = (RelativeLayout)findViewByResName("mainRelLayout");
+			RelativeLayout mainRelLayout = findViewByResName("mainRelLayout");
 			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mainRelLayout.getLayoutParams();
 			lp.setMargins(0,0,0,0);
 			lp.height = RelativeLayout.LayoutParams.MATCH_PARENT;
@@ -80,14 +80,14 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		closeImageView.setOnClickListener(this);
 
 		if(shareParamMap.containsKey("title")) {
-			titleEditText = (EditText) findViewByResName("titleEditText");
+			titleEditText = findViewByResName("titleEditText");
 			titleEditText.setText(String.valueOf(shareParamMap.get("title")));
 		}
 
-		textCounterTextView = (TextView) findViewByResName("textCounterTextView");
+		textCounterTextView = findViewByResName("textCounterTextView");
 		textCounterTextView.setText(String.valueOf(MAX_TEXT_COUNT));
 
-		textEditText = (EditText) findViewByResName("textEditText");
+		textEditText = findViewByResName("textEditText");
 		textEditText.addTextChangedListener(this);
 		textEditText.setText(String.valueOf(shareParamMap.get("text")));
 
@@ -95,7 +95,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 	}
 
 	private void initAtUserView() {
-		LinearLayout atLayout = (LinearLayout) findViewByResName("atLayout");
+		LinearLayout atLayout = findViewByResName("atLayout");
 		for(Platform platform : platforms) {
 			String platformName = platform.getName();
 			if (isShowAtUserLayout(platformName)) {
@@ -125,14 +125,14 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 	}
 
 	private void initImageListView() {
-		final HorizontalScrollView hScrollView = (HorizontalScrollView) findViewByResName("hScrollView");
+		final HorizontalScrollView hScrollView = findViewByResName("hScrollView");
 		ImageListResultsCallback callback = new ImageListResultsCallback() {
 
 			@Override
 			public void onFinish(ArrayList<ImageInfo> results) {
 				if(results == null)
 					return;
-				LinearLayout layout = (LinearLayout) findViewByResName("imagesLinearLayout");
+				LinearLayout layout = findViewByResName("imagesLinearLayout");
 				for(ImageInfo imageInfo : results) {
 					if(imageInfo.bitmap == null)
 						continue;

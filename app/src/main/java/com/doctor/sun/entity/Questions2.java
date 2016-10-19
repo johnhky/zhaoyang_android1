@@ -139,11 +139,8 @@ public class Questions2 extends BaseItem {
             return true;
         }
 
-        if (questionType.equals(QuestionType.asel)) {
-            return true;
-        }
+        return questionType.equals(QuestionType.asel);
 
-        return false;
     }
 
     public boolean isEnabled(SortedListAdapter adapter, boolean isEnabledLastTime) {

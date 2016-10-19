@@ -10,7 +10,7 @@ import java.io.IOException;
 public class NumericBooleanDeserializer extends JsonDeserializer<Boolean> {
 
     @Override
-    public Boolean deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
+    public Boolean deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         return !"0".equals(parser.getText());
     }
 }

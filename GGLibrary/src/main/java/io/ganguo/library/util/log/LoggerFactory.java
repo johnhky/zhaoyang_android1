@@ -14,7 +14,7 @@ public class LoggerFactory {
     public static Logger getLogger(String tag) {
         try {
             Constructor<? extends Logger> constructor
-                    = LogConfig.LOGGER_CLASS.getDeclaredConstructor(new Class[]{String.class});
+                    = LogConfig.LOGGER_CLASS.getDeclaredConstructor(String.class);
             return constructor.newInstance(tag);
         } catch (Exception e) {
             e.printStackTrace();

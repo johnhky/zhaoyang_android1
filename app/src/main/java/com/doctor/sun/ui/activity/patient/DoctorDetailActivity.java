@@ -18,8 +18,6 @@ import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.pager.DoctorDetailPagerAdapter;
 
-;
-
 /**
  * 医生详情
  * Created by rick on 20/1/2016.

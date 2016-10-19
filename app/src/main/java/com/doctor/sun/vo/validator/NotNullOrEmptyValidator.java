@@ -14,10 +14,7 @@ public class NotNullOrEmptyValidator implements Validator {
 
     @Override
     public boolean isValid(String input) {
-        if (input == null || input.equals("")) {
-            return false;
-        }
-        return true;
+        return !(input == null || input.equals(""));
     }
 
     @Override

@@ -743,11 +743,7 @@ public class Appointment implements LayoutId, Parcelable {
 
         Appointment that = (Appointment) o;
 
-        if (tid != that.tid) {
-            return false;
-        } else {
-            return true;
-        }
+        return tid == that.tid;
 
     }
 

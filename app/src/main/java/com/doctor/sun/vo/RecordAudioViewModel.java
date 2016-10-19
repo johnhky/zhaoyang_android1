@@ -75,12 +75,9 @@ public class RecordAudioViewModel extends BaseObservable implements IAudioRecord
         int[] location = new int[2];
         view.getLocationOnScreen(location);
 
-        if (event.getRawX() < location[0] || event.getRawX() > location[0] + view.getWidth()
-                || event.getRawY() < location[1] - DIALOG_HEIGHT) {
-            return true;
-        }
+        return event.getRawX() < location[0] || event.getRawX() > location[0] + view.getWidth()
+                || event.getRawY() < location[1] - DIALOG_HEIGHT;
 
-        return false;
     }
 
 

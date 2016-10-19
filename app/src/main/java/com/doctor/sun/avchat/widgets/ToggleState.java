@@ -6,5 +6,5 @@ package com.doctor.sun.avchat.widgets;
 public enum ToggleState {
     DISABLE, //禁用
     OFF, // normal
-    ON;  //selected
+    ON  //selected
 }

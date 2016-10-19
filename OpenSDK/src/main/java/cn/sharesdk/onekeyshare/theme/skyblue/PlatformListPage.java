@@ -44,7 +44,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 		gridViewAdapter = new PlatformGridViewAdapter(activity);
 		gridViewAdapter.setCustomerLogos(customerLogos);
 
-		GridView gridView = (GridView) findViewByResName("gridView");
+		GridView gridView = findViewByResName("gridView");
 		gridView.setAdapter(gridViewAdapter);
 
 		new AsyncTask<Void, Void, Platform[]>() {

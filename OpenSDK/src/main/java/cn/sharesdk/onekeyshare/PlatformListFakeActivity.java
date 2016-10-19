@@ -25,7 +25,7 @@ public class PlatformListFakeActivity extends FakeActivity {
 	protected boolean dialogMode = false;
 	protected ThemeShareCallback themeShareCallback;
 
-	public static interface OnShareButtonClickListener {
+	public interface OnShareButtonClickListener {
 		void onClick(View v, List<Object> checkPlatforms);
 	}
 

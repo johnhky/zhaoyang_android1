@@ -10,7 +10,7 @@ import java.io.IOException;
 public class NumericBooleanSerializer extends JsonSerializer<Boolean> {
 
     @Override
-    public void serialize(Boolean bool, JsonGenerator generator, SerializerProvider provider) throws IOException, JsonProcessingException {
+    public void serialize(Boolean bool, JsonGenerator generator, SerializerProvider provider) throws IOException {
         generator.writeString(bool ? "1" : "0");
     }
 }

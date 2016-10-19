@@ -131,8 +131,8 @@ public class Shake2Share extends FakeActivity implements SensorEventListener {
 
 	}
 
-	public static interface OnShakeListener {
-		public void onShake();
+	public interface OnShakeListener {
+		void onShake();
 	}
 
 }

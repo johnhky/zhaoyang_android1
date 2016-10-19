@@ -121,17 +121,11 @@ public class PatientHandler {
     }
 
     public boolean isUnApplied(String status) {
-        if (status != null && status.equals(RelationshipStatus.UNAPPLY)) {
-            return true;
-        }
-        return false;
+        return status != null && status.equals(RelationshipStatus.UNAPPLY);
     }
 
     public boolean isApplied(String status) {
-        if (status == null || status.equals(RelationshipStatus.APPLIED)) {
-            return true;
-        }
-        return false;
+        return status == null || status.equals(RelationshipStatus.APPLIED);
     }
 
 

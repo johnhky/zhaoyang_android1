@@ -39,11 +39,7 @@ public class DateUtils {
         dateCal.setTime(date);
 
         // 1.比较当前日期在年份中的周数是否相同
-        if (todayCal.get(Calendar.WEEK_OF_YEAR) == dateCal.get(Calendar.WEEK_OF_YEAR)) {
-            return true;
-        } else {
-            return false;
-        }
+        return todayCal.get(Calendar.WEEK_OF_YEAR) == dateCal.get(Calendar.WEEK_OF_YEAR);
     }
 
     /**
