@@ -7,14 +7,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.pager.AnswerPagerAdapter;
+import com.doctor.sun.util.HistoryEventHandler;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 1/8/2016.
@@ -24,6 +27,8 @@ public class AppointmentDetailActivity extends TabActivity {
     public static final int POSITION_ANSWER = 0;
     public static final int POSITION_SUGGESTION = 1;
     public static final int POSITION_SUGGESTION_READONLY = 2;
+
+    private HistoryEventHandler eventHandler;
 
     public static Intent makeIntent(Context context, Appointment data, int position) {
         Intent i = intentFor(context, data);
@@ -40,12 +45,20 @@ public class AppointmentDetailActivity extends TabActivity {
             historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 替换为历史记录入口
-                    Toast.makeText(AppointmentDetailActivity.this, "Test", Toast.LENGTH_SHORT).show();
+                    EventHub.post(new AppointmentHistoryEvent());
                 }
             });
             binding.flContainer.addView(historyButton);
         }
+
+        eventHandler = HistoryEventHandler.register();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        HistoryEventHandler.ungister(eventHandler);
     }
 
     @Override
