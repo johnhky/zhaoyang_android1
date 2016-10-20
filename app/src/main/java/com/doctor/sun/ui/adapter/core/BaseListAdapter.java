@@ -15,12 +15,11 @@ import android.view.ViewGroup;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 
 /**
  * Created by rick on 13/8/2016.
  */
-public abstract class BaseListAdapter<B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements AdapterOps<SortedItem> {
+public abstract class BaseListAdapter<T, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements AdapterOps<T> {
     public static final String TAG = BaseListAdapter.class.getSimpleName();
 
     private final SparseBooleanArray mConfig = new SparseBooleanArray();
@@ -60,6 +59,10 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
         notifyDataSetChanged();
     }
 
+    LayoutIdInterceptor getIdInterceptor() {
+        return idInterceptor;
+    }
+
     public boolean getConfig(int key) {
         return mConfig.get(key, false);
     }
@@ -84,13 +87,8 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
         return mIntConfig.get(key, 0);
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        int layoutId = get(position).getLayoutId();
-        return idInterceptor.intercept(layoutId);
-    }
 
-    public abstract SortedItem get(int position);
+    public abstract T get(int position);
 
     public interface LayoutIdInterceptor {
         int intercept(int origin);

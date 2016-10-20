@@ -17,7 +17,7 @@ import java.util.Set;
 /**
  * Created by rick on 22/6/2016.
  */
-public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapter<B> {
+public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapter<SortedItem, B> {
     public static final String TAG = SortedListAdapter.class.getSimpleName();
 
     private SortedList<SortedItem> mList;
@@ -191,5 +191,11 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
 
     public void setAdapterCallback(SortedListAdapterCallback<SortedItem> adapterCallback) {
         mList = new SortedList<>(SortedItem.class, adapterCallback);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        int layoutId = get(position).getLayoutId();
+        return getIdInterceptor().intercept(layoutId);
     }
 }
