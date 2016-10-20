@@ -46,9 +46,9 @@ public class ItemConsulting implements SortedItem {
     @Override
     public int getLayoutId() {
         if (Settings.isDoctor()) {
-            return R.layout.item_consulting2;
+            return R.layout.item_consulting;
         } else {
-            return R.layout.p_item_consulting2;
+            return R.layout.p_item_consulting;
         }
     }
 
