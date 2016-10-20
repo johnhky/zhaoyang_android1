@@ -3,7 +3,6 @@ package com.doctor.sun.ui.activity.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.pager.AnswerPagerAdapter;
@@ -78,8 +78,7 @@ public class AppointmentDetailActivity extends TabActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Fragment activeFragment = getActiveFragment(binding.vp, binding.vp.getCurrentItem());
-        activeFragment.onActivityResult(requestCode, resultCode, data);
+        EventHub.post(new ActivityResultEvent(requestCode, resultCode, data));
     }
 
     public static Intent intentFor(Context context, Appointment data) {

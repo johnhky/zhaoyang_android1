@@ -14,12 +14,14 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Patient;
+import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.EditPatientInfoModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.vo.BaseItem;
 import com.doctor.sun.vo.ItemPickImage;
+import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
@@ -113,6 +115,11 @@ public class EditPatientInfoFragment extends SortedListFragment {
         if (resultCode == Activity.RESULT_OK) {
             ItemPickImage.handleRequest(getContext(), getAdapter(), data, requestCode);
         }
+    }
+
+    @Subscribe
+    public void onActivityResultEvent(ActivityResultEvent event) {
+        onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
     }
 
     private void save() {

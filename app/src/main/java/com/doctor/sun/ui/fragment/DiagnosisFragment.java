@@ -34,6 +34,7 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.DoctorHandler;
+import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.DiagnosisModule;
@@ -43,11 +44,13 @@ import com.doctor.sun.ui.model.DiagnosisViewModel;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.ItemButton;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Tasks;
 import retrofit2.Call;
 
@@ -108,6 +111,13 @@ public class DiagnosisFragment extends BaseFragment {
         setHasOptionsMenu(true);
         return binding.getRoot();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventHub.unregister(this);
+    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -223,6 +233,7 @@ public class DiagnosisFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventHub.register(this);
         shouldScrollDown = false;
 
         api.diagnosisInfo(getAppointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
@@ -292,6 +303,10 @@ public class DiagnosisFragment extends BaseFragment {
         });
     }
 
+    @Subscribe
+    public void onActivityResultEvent(ActivityResultEvent event) {
+        onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -16,6 +16,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.IsChanged;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -29,6 +30,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.ItemAddTag;
 import com.doctor.sun.vo.ItemPickImage;
+import com.squareup.otto.Subscribe;
 
 import java.util.HashMap;
 import java.util.List;
@@ -146,6 +148,10 @@ public class EditDoctorInfoFragment extends SortedListFragment {
         if (resultCode == Activity.RESULT_OK) {
             ItemPickImage.handleRequest(getActivity(), getAdapter(), data, requestCode);
         }
+    }
+    @Subscribe
+    public void onActivityResultEvent(ActivityResultEvent event) {
+        onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
     }
 //
 //    @Override

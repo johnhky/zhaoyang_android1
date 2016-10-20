@@ -8,7 +8,10 @@ import android.support.v4.app.Fragment;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.util.FragmentFactory;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 17/8/2016.
@@ -43,7 +46,7 @@ public class SingleFragmentActivity extends BaseFragmentActivity2 {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        instance.onActivityResult(requestCode, resultCode, data);
+        EventHub.post(new ActivityResultEvent(requestCode, resultCode, data));
     }
 
     @Override

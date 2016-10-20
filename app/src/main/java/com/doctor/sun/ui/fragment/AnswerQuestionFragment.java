@@ -20,6 +20,7 @@ import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.constans.QuestionsType;
+import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.EditEndEvent;
 import com.doctor.sun.event.ModifyStatusEvent;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
@@ -192,6 +193,12 @@ public class AnswerQuestionFragment extends SortedListFragment {
                 ItemPickImages.handleRequest(getActivity(), getAdapter(), data, requestCode);
             }
         }
+    }
+
+
+    @Subscribe
+    public void onActivityResultEvent(ActivityResultEvent event) {
+        onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
     }
 
     @Override
