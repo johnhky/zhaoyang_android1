@@ -102,7 +102,7 @@ public class TokenCallback {
                     Intent i = RegisterFragment.intentFor(context);
                     context.startActivity(i);
                     context.finish();
-                } else switch (data.getStatus()) {
+                } else switch (data.getReviewStatus()) {
                     case Doctor.STATUS_REJECT:
                     case Doctor.STATUS_PENDING:
                     case Doctor.STATUS_PASS: {

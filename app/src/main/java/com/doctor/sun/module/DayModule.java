@@ -23,7 +23,7 @@ public interface DayModule {
     @POST("day/gettime")
     Call<ApiDTO<List<Time>>> getTime(@Field("type") int type);
 
-    @POST("day/query-time")
+    @GET("day/query-time")
     Call<ApiDTO<List<Time>>> getAllTime();
 
     @FormUrlEncoded

@@ -63,7 +63,6 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.fragment.PayAppointmentFragment;
 import com.doctor.sun.ui.handler.PayMethodInterface;
-import com.doctor.sun.ui.widget.AppointmentHistoryDialog;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.vo.BaseItem;
@@ -116,9 +115,9 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
         if (null != data.getPatientName()) {
             return data.getRecordName();
         } else if (null != data.getMedicalRecord()) {
-            return data.getMedicalRecord().getName();
+            return data.getMedicalRecord().getRecordName();
         } else if (null != data.getUrgentRecord()) {
-            return data.getUrgentRecord().getName();
+            return data.getUrgentRecord().getRecordName();
         } else {
             return "";
         }
@@ -140,9 +139,9 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
         if (null != relation && !relation.equals("")) {
             return relation;
         } else if (null != data.getMedicalRecord()) {
-            return "(" + data.getMedicalRecord().getRelation() + "/" + data.getMedicalRecord().getName() + ")";
+            return "(" + data.getMedicalRecord().getRelation() + "/" + data.getMedicalRecord().getRecordName() + ")";
         } else if (null != data.getUrgentRecord()) {
-            return "(" + data.getUrgentRecord().getRelation() + "/" + data.getUrgentRecord().getName() + ")";
+            return "(" + data.getUrgentRecord().getRelation() + "/" + data.getUrgentRecord().getRecordName() + ")";
         } else {
             return "";
         }
@@ -164,9 +163,9 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
     public String getRecordName2() {
         if (null != data.getMedicalRecord()) {
-            return data.getMedicalRecord().getName();
+            return data.getMedicalRecord().getRecordName();
         } else if (null != data.getUrgentRecord()) {
-            return data.getUrgentRecord().getName();
+            return data.getUrgentRecord().getRecordName();
         } else {
             return "";
         }
@@ -479,7 +478,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
             return true;
         }
         boolean isDetailAppointment = isDetail();
-        return isDetailAppointment && data.getOrderStatus().equals(Status.A_DOING);
+        return isDetailAppointment && data.getStatuses().equals(Status.A_DOING);
     }
 
     @Override
@@ -489,7 +488,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
     @Override
     public boolean shouldAskServer() {
-        return data.getAppointmentType() == AppointmentType.PREMIUM && Status.A_DOING.equals(data.getOrderStatus());
+        return data.getAppointmentType() == AppointmentType.PREMIUM && Status.A_DOING.equals(data.getStatuses());
     }
 
     @Override
@@ -560,11 +559,11 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
 
     public boolean payVisible() {
-        return data.getOrderStatus().equals(Status.A_UNPAID_LOCALE2) || data.getOrderStatus().equals(Status.A_UNPAID);
+        return data.getStatuses().equals(Status.A_UNPAID_LOCALE2) || data.getStatuses().equals(Status.A_UNPAID);
     }
 
     public boolean isPayed() {
-        return data.getOrderStatus().equals(Status.A_PAID_LOCALE2) || data.getOrderStatus().equals(Status.A_PAID);
+        return data.getStatuses().equals(Status.A_PAID_LOCALE2) || data.getStatuses().equals(Status.A_PAID);
     }
 
     public boolean hasDoctorComment() {
@@ -806,7 +805,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
      * @return
      */
     public long getFinishedTime() {
-        String orderStatus = data.getOrderStatus();
+        String orderStatus = data.getStatuses();
         if (orderStatus == null) {
             orderStatus = "";
         }
@@ -930,7 +929,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
 
     public boolean showCommentBtn() {
-        return data.getOrderStatus().equals(Status.A_FINISHED);
+        return data.getStatuses().equals(Status.A_FINISHED);
     }
 
     public boolean showAnswerQuestionBtn() {

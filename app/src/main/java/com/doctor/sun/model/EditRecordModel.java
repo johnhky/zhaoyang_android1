@@ -40,7 +40,7 @@ public class EditRecordModel {
 
         ItemTextInput2 name = new ItemTextInput2(R.layout.item_text_input2, "患者姓名", "必填");
         name.setEnabled(false);
-        name.setResult(data.getName());
+        name.setResult(data.getRecordName());
         name.setResultNotEmpty();
         name.setItemId("name");
         name.setPosition(result.size());

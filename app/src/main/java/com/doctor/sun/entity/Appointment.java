@@ -76,7 +76,7 @@ public class Appointment implements LayoutId, Parcelable {
     @JsonProperty("gender")
     private int gender;
     @JsonProperty("status")
-    private String status;
+    private int status;
     @JsonProperty("has_pay")
     private int hasPay;
     @JsonProperty("pay_time")
@@ -141,8 +141,6 @@ public class Appointment implements LayoutId, Parcelable {
     private String takeTime;
     @JsonProperty("end_time")
     private String endTime;
-    @JsonProperty("order_status")
-    private String orderStatus;
     @JsonProperty("need_pay")
     private String needPay;
     @JsonProperty("medical_record")
@@ -162,6 +160,8 @@ public class Appointment implements LayoutId, Parcelable {
 
     @JsonIgnore
     public int canEdit = IntBoolean.FALSE;
+    @JsonIgnore
+    private String statuses = "";
 
     @JsonProperty("auto_finish")
     public String autoFinish;
@@ -293,11 +293,11 @@ public class Appointment implements LayoutId, Parcelable {
         this.bookTime = bookTime;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -528,14 +528,6 @@ public class Appointment implements LayoutId, Parcelable {
         this.endTime = endTime;
     }
 
-    public String getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
     public String getPatientAvatar() {
         return patientAvatar;
     }
@@ -617,7 +609,7 @@ public class Appointment implements LayoutId, Parcelable {
         dest.writeInt(this.returnListId);
         dest.writeInt(this.appointmentId);
         dest.writeInt(this.gender);
-        dest.writeString(this.status);
+        dest.writeInt(this.status);
         dest.writeInt(this.hasPay);
         dest.writeInt(this.payTime);
         dest.writeInt(this.isPay);
@@ -649,7 +641,6 @@ public class Appointment implements LayoutId, Parcelable {
         dest.writeString(this.visitTime);
         dest.writeString(this.takeTime);
         dest.writeString(this.endTime);
-        dest.writeString(this.orderStatus);
         dest.writeParcelable(this.medicalRecord, flags);
         dest.writeParcelable(this.doctor, flags);
         dest.writeParcelable(this.returnInfo, flags);
@@ -668,7 +659,7 @@ public class Appointment implements LayoutId, Parcelable {
         this.returnListId = in.readInt();
         this.appointmentId = in.readInt();
         this.gender = in.readInt();
-        this.status = in.readString();
+        this.status = in.readInt();
         this.hasPay = in.readInt();
         this.payTime = in.readInt();
         this.isPay = in.readInt();
@@ -700,7 +691,6 @@ public class Appointment implements LayoutId, Parcelable {
         this.visitTime = in.readString();
         this.takeTime = in.readString();
         this.endTime = in.readString();
-        this.orderStatus = in.readString();
         this.medicalRecord = in.readParcelable(MedicalRecord.class.getClassLoader());
         this.doctor = in.readParcelable(Doctor.class.getClassLoader());
         this.returnInfo = in.readParcelable(ReturnInfo.class.getClassLoader());
@@ -734,6 +724,45 @@ public class Appointment implements LayoutId, Parcelable {
 
     public String getIdString() {
         return String.valueOf(id);
+    }
+
+    public void setStatuses(String statuses) {
+        this.statuses = statuses;
+    }
+
+    public String getStatuses() {
+
+        if (!statuses.equals("")) {
+            return statuses;
+        }
+
+        switch (getStatus()) {
+            case 0:
+                statuses = "未支付";
+                break;
+            case 1:
+                statuses = "已支付";
+                break;
+            case 2:
+                statuses = "进行中";
+                break;
+            case 3:
+                statuses = "待建议";
+                break;
+            case 4:
+                statuses = "已完成";
+                break;
+            case 5:
+                statuses = "已关闭";
+                break;
+            case 6:
+                statuses = "医生取消";
+                break;
+            case 7:
+                statuses = "问卷已锁定";
+                break;
+        }
+        return statuses;
     }
 
     @Override

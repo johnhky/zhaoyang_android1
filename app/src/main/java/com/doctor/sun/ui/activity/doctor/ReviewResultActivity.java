@@ -37,7 +37,7 @@ public class ReviewResultActivity extends BaseFragmentActivity2 implements View.
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_review_result);
         Doctor data = getData();
-        switch (data.getStatus()) {
+        switch (data.getReviewStatus()) {
             case Doctor.STATUS_PENDING: {
                 binding.tvStatus.setText("审核中");
                 binding.tvInstruction.setText("您的信息正在审核中，请耐心等待...");

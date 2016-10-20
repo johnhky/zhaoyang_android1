@@ -92,7 +92,6 @@ public class NewMedicalRecordFragment extends SortedListFragment {
             }
         });
 
-        getActivity().finish();
     }
 
 }

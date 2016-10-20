@@ -58,7 +58,7 @@ public class Patient extends BaseObservable implements LayoutId, Parcelable, Nam
     @JsonProperty("status")
     public String status;
 
-    @JsonProperty("recordNames")
+    @JsonProperty("record_names")
     public List<String> recordNames;
     @JsonIgnore
     public PatientHandler handler = new PatientHandler(this);

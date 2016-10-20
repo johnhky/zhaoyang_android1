@@ -109,7 +109,7 @@
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:layout_marginTop="@dimen/dp_6"
-                android:text='@{"病历:" + data.record.name}'
+                android:text='@{"病历:" + data.record.recordName}'
                 android:textColor="#363636"
                 android:textSize="@dimen/font_13" />
 

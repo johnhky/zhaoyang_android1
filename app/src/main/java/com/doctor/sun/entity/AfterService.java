@@ -156,7 +156,7 @@ public class AfterService extends BaseObservable implements LayoutId {
     }
 
     public String relation() {
-        return record.getName() + "(" + record.getPatientName() + "的" + record.getRelation() + ")";
+        return record.getRecordName() + "(" + record.getPatientName() + "的" + record.getRelation() + ")";
     }
 
     public boolean isTodoBtnVisible() {
@@ -244,8 +244,7 @@ public class AfterService extends BaseObservable implements LayoutId {
         Appointment appointment = new Appointment();
         appointment.setId(Integer.parseInt(id));
         String statusLabel = getStatusLabel();
-        appointment.setStatus(statusLabel);
-        appointment.setOrderStatus(statusLabel);
+        appointment.setStatuses(statusLabel);
         appointment.setTid(tid);
         if (Settings.isDoctor()) {
             appointment.setUrgentRecord(record);
@@ -257,7 +256,6 @@ public class AfterService extends BaseObservable implements LayoutId {
             appointment.setDoctor(doctor);
         }
         appointment.setDisplayStatus(statusLabel);
-        appointment.setOrderStatus(statusLabel);
         appointment.setDisplayType("诊后随访");
         appointment.setAppointmentType(AppointmentType.AFTER_SERVICE);
         Intent intent = ChattingActivity.makeIntent(context, appointment);
