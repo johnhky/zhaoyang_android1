@@ -26,7 +26,7 @@ import com.doctor.sun.ui.activity.patient.HospitalDetailActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashMap;
@@ -116,9 +116,9 @@ public class DoctorHandler {
         activity.finish();
     }
 
-    public void viewDetail(BaseAdapter temp) {
+    public void viewDetail(BaseListAdapter temp, Context context) {
         SimpleAdapter adapter = (SimpleAdapter) temp;
-        viewDetail(adapter.getContext(), adapter.getInt(AdapterConfigKey.APPOINTMENT_TYPE));
+        viewDetail(context, adapter.getInt(AdapterConfigKey.APPOINTMENT_TYPE));
     }
 
     public void viewDetail(Context context, int type) {
@@ -218,23 +218,23 @@ public class DoctorHandler {
         context.startActivity(intent);
     }
 
-    public void acceptRelation(final SimpleAdapter adapter, String id) {
+    public void acceptRelation(final SimpleAdapter adapter, String id, final Context context) {
         AfterServiceModule api = Api.of(AfterServiceModule.class);
         api.acceptBuildRelation(id).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
-                Toast.makeText(adapter.getContext(), "成功建立随访关系", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "成功建立随访关系", Toast.LENGTH_SHORT).show();
             }
         });
         EventHub.post(new RefreshEvent());
     }
 
-    public View.OnClickListener allowAfterService(final BaseAdapter adapter, BaseViewHolder vh) {
+    public View.OnClickListener allowAfterService(final BaseListAdapter adapter, final BaseViewHolder vh) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = AllowAfterServiceActivity.intentFor(adapter.getContext(), data);
-                adapter.getContext().startActivity(intent);
+                Intent intent = AllowAfterServiceActivity.intentFor(v.getContext(), data);
+                v.getContext().startActivity(intent);
             }
         };
     }

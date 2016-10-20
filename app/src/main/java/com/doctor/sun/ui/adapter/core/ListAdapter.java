@@ -3,6 +3,8 @@ package com.doctor.sun.ui.adapter.core;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -12,7 +14,7 @@ import java.util.ListIterator;
 /**
  * Created by rick on 10/20/15.
  */
-public abstract class ListAdapter<T, VH extends ViewDataBinding> extends LoadMoreAdapter<T, VH> {
+public abstract class ListAdapter<T extends LayoutId, VH extends ViewDataBinding> extends LoadMoreAdapter<T, VH> {
     private List<T> data = new ArrayList<>();
 
     public ListAdapter(Context context) {
@@ -174,5 +176,15 @@ public abstract class ListAdapter<T, VH extends ViewDataBinding> extends LoadMor
     @Override
     public int indexOfImpl(T sortedItem) {
         return indexOf(sortedItem);
+    }
+
+    @Override
+    public void insert(int position, T item) {
+        add(position, item);
+    }
+
+    @Override
+    public void removeItemAt(int adapterPosition) {
+        remove(adapterPosition);
     }
 }

@@ -39,9 +39,9 @@ public class RecordAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     }
 
     @Override
-    public void onBindViewBinding(BaseViewHolder<ViewDataBinding> vh, final int position) {
-        if (vh.getItemViewType() == R.layout.item_r_medical_record) {
-            final ItemRMedicalRecordBinding binding = (ItemRMedicalRecordBinding) vh.getBinding();
+    public void onBindViewHolder(BaseViewHolder holder, final int position) {
+        if (holder.getItemViewType() == R.layout.item_r_medical_record) {
+            final ItemRMedicalRecordBinding binding = (ItemRMedicalRecordBinding) holder.getBinding();
             binding.llySelector.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -56,23 +56,20 @@ public class RecordAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
                             v.getContext().startActivity(ChattingActivity.makeIntent(v.getContext(), appointment));
                         }
                     } else {
-                        v.getContext().startActivity(new Intent(getContext(), PatientInfoActivity.class)
+                        v.getContext().startActivity(new Intent(v.getContext(), PatientInfoActivity.class)
                                 .putExtra(Constants.PARAM_PATIENT, medicalRecord));
                     }
                     EventHub.post(new CloseDialogEvent(true));
                 }
             });
         }
-        super.onBindViewBinding(vh, position);
+        super.onBindViewHolder(holder, position);
     }
+
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return super.onCreateViewHolder(parent, viewType);
     }
 
-    @Override
-    protected int getItemLayoutId(int position) {
-        return super.getItemLayoutId(position);
-    }
 }

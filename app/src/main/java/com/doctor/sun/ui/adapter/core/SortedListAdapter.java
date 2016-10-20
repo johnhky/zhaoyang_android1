@@ -62,6 +62,22 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
     }
 
     @Override
+    public void insert(int position, SortedItem item) {
+        String key = item.getKey();
+        SortedItem existing = mUniqueMapping.put(key, item);
+        if (existing == null) {
+            mList.add(item);
+            //Log.e(TAG, "insert: newItem" + item);
+        } else {
+            int pos = mList.indexOf(existing);
+            if (pos >= 0) {
+                //Log.e(TAG, "insert: existingItem" + item);
+                mList.updateItemAt(pos, item);
+            }
+        }
+    }
+
+    @Override
     public void insert(SortedItem item) {
         String key = item.getKey();
         SortedItem existing = mUniqueMapping.put(key, item);
@@ -136,6 +152,11 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
                 mUniqueMapping.put(item.getKey(), item);
             }
         }
+    }
+
+    @Override
+    public void removeItemAt(int adapterPosition) {
+
     }
 
     @Override

@@ -1,21 +1,18 @@
 package com.doctor.sun.ui.adapter.core;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.databinding.ViewDataBinding;
-import android.graphics.Color;
 import android.view.ViewGroup;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.IncludeLoadingBinding;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-
-import io.ganguo.library.core.drawable.MaterialProgressDrawable;
+import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
 /**
  * Created by rick on 10/23/15.
  */
-public abstract class LoadMoreAdapter<T, VH extends ViewDataBinding> extends BaseAdapter<T, VH> {
+public abstract class LoadMoreAdapter<T extends LayoutId, VH extends ViewDataBinding> extends BaseListAdapter<T, VH> {
 //    private LoadingView loadingView;
 
     private boolean isLoading = false;
@@ -34,7 +31,7 @@ public abstract class LoadMoreAdapter<T, VH extends ViewDataBinding> extends Bas
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == R.layout.include_loading) {
-            IncludeLoadingBinding binding = IncludeLoadingBinding.inflate(getInflater(), parent, false);
+            IncludeLoadingBinding binding = IncludeLoadingBinding.inflate(getInflater(parent.getContext()), parent, false);
             return new BaseViewHolder<>(binding);
         } else {
             return super.onCreateViewHolder(parent, viewType);
@@ -42,7 +39,7 @@ public abstract class LoadMoreAdapter<T, VH extends ViewDataBinding> extends Bas
     }
 
     @Override
-    public final void onBindViewHolder(BaseViewHolder holder, int position) {
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
         if (holder.getItemViewType() == R.layout.include_loading) {
             if (!isLastPage) {
                 loadMore();
@@ -67,7 +64,8 @@ public abstract class LoadMoreAdapter<T, VH extends ViewDataBinding> extends Bas
                 return R.layout.include_loading;
             }
         }
-        return super.getItemViewType(position);
+        int layoutId = get(position).getItemLayoutId();
+        return getIdInterceptor().intercept(layoutId);
     }
 
     public void onFinishLoadMore(boolean lastPage) {

@@ -56,8 +56,8 @@ public class AfterServiceContactActivity extends ContactActivity {
             @Override
             protected void handleResponse(List<Doctor> response) {
                 getAdapter().clear();
-                getAdapter().addAll(response);
-                Collections.sort(getAdapter(), new NameComparator());
+                getAdapter().insertAll(response);
+//                Collections.sort(getAdapter(), new NameComparator());
                 getContactAdapter().updatePosition();
                 getAdapter().onFinishLoadMore(true);
                 getAdapter().notifyDataSetChanged();
@@ -71,7 +71,7 @@ public class AfterServiceContactActivity extends ContactActivity {
             @Override
             protected void handleResponse(PageDTO response) {
                 super.handleResponse(response);
-                Collections.sort(getAdapter(), new NameComparator());
+//                Collections.sort(getAdapter(), new NameComparator());
                 getContactAdapter().updatePosition();
             }
         });

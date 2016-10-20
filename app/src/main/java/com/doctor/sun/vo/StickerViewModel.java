@@ -12,7 +12,7 @@ import com.doctor.sun.emoji.StickerManager;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.SingleSelectAdapter;
 import com.doctor.sun.ui.adapter.VpIndicatorAdapter;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.pager.StickerPagerAdapter;
 
 import java.lang.ref.WeakReference;
@@ -66,7 +66,7 @@ public class StickerViewModel {
     private SingleSelectAdapter.OnSelectionChange onTabSelectedListener() {
         return new SingleSelectAdapter.OnSelectionChange() {
             @Override
-            public void onSelectionChange(BaseAdapter adapter, int newSelectItem) {
+            public void onSelectionChange(BaseListAdapter adapter, int newSelectItem) {
                 if (newSelectItem == 0) {
                     binding.scrPlugin.setCurrentItem(0);
                     return;

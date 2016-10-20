@@ -5,9 +5,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.support.v7.widget.RecyclerView;
 
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
+
+import static android.os.Message.obtain;
+import static android.support.v7.widget.RecyclerView.ViewHolder;
 
 /**
  * Created by rick on 29/2/2016.
@@ -31,10 +33,10 @@ public class ItemHelper extends Handler {
 
     public static final String HANDLER = "HANDLER";
 
-    private BaseAdapter mAdapter;
-    private RecyclerView.ViewHolder vh;
+    private BaseListAdapter mAdapter;
+    private ViewHolder vh;
 
-    public ItemHelper(BaseAdapter mAdapter, RecyclerView.ViewHolder viewHolder) {
+    public ItemHelper(BaseListAdapter mAdapter, ViewHolder viewHolder) {
         this.mAdapter = mAdapter;
         this.vh = viewHolder;
     }
@@ -46,7 +48,7 @@ public class ItemHelper extends Handler {
         }
         switch (msg.what) {
             case ITEM_CHANGE: {
-                mAdapter.set(vh.getAdapterPosition(), msg.obj);
+                mAdapter.insert(vh.getAdapterPosition(), msg.obj);
                 mAdapter.notifyItemChanged(vh.getAdapterPosition());
                 unbindIntent();
                 break;
@@ -55,7 +57,7 @@ public class ItemHelper extends Handler {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter.remove(vh.getAdapterPosition());
+                        mAdapter.removeItemAt(vh.getAdapterPosition());
                         mAdapter.notifyItemRemoved(vh.getAdapterPosition());
                         unbindIntent();
                     }
@@ -64,7 +66,7 @@ public class ItemHelper extends Handler {
             }
             case ITEM_INSERT: {
 
-                mAdapter.add(msg.arg1, msg.obj);
+                mAdapter.insert(msg.arg1, msg.obj);
                 mAdapter.notifyItemInserted(msg.arg1);
                 unbindIntent();
                 break;
@@ -79,20 +81,20 @@ public class ItemHelper extends Handler {
     }
 
     private static Message createChangeMessage(Object object) {
-        Message message = Message.obtain();
+        Message message = obtain();
         message.what = ITEM_CHANGE;
         message.obj = object;
         return message;
     }
 
     private static Message createRemoveMessage() {
-        Message message = Message.obtain();
+        Message message = obtain();
         message.what = ITEM_REMOVE;
         return message;
     }
 
     private static Message createInsertMessage(int position, Object object) {
-        Message message = Message.obtain();
+        Message message = obtain();
         message.what = ITEM_INSERT;
         message.arg1 = position;
         message.obj = object;
@@ -100,7 +102,7 @@ public class ItemHelper extends Handler {
     }
 
 
-    public static Intent initCallback(Intent intent, BaseAdapter mAdapter, RecyclerView.ViewHolder viewHolder) {
+    public static Intent initCallback(Intent intent, BaseListAdapter mAdapter, ViewHolder viewHolder) {
         intent.putExtra(HANDLER, new Messenger(new ItemHelper(mAdapter, viewHolder)));
         return intent;
     }

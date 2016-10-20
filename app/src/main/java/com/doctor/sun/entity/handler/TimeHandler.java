@@ -20,7 +20,7 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.text.ParseException;
@@ -84,30 +84,30 @@ public class TimeHandler {
     }
 
 
-    public void showDeleteDialog(final BaseAdapter adapter, final BaseViewHolder vh) {
+    public void showDeleteDialog(final BaseListAdapter adapter, final BaseViewHolder vh) {
         final TimeModuleWrapper api = TimeModuleWrapper.getInstance();
         String questiion = "确定删除该出诊时间？";
         String cancel = "取消";
         String delete = "删除";
-        TwoChoiceDialog.show(adapter.getContext(), questiion, cancel, delete, new TwoChoiceDialog.Options() {
+        TwoChoiceDialog.show(vh.itemView.getContext(), questiion, cancel, delete, new TwoChoiceDialog.Options() {
             @Override
             public void onApplyClick(final MaterialDialog deleteDialog) {
                 api.deleteTime(data.getId(), data.getType()).enqueue(new SimpleCallback<String>() {
                     @Override
                     protected void handleResponse(String response) {
                         deleteDialog.dismiss();
-                        adapter.remove(data);
+                        adapter.removeItem(data);
                         adapter.notifyItemRemoved(vh.getAdapterPosition());
 
                         LayoutId objectFace = (LayoutId) adapter.get(adapter.size() - 1);
                         if (objectFace.getItemLayoutId() == R.layout.item_description) {
-                            adapter.remove(adapter.size() - 1);
+                            adapter.removeItem(adapter.get(adapter.size() - 1));
                             adapter.notifyItemRemoved(adapter.size() - 1);
                         }
                         if (adapter.size() > 2) {
                             LayoutId objectNetwork = (LayoutId) adapter.get(1);
                             if (objectNetwork.getItemLayoutId() == R.layout.item_description) {
-                                adapter.remove(0);
+                                adapter.removeItem(adapter.get(0));
                                 adapter.notifyItemRemoved(0);
                             }
                         }
@@ -122,16 +122,16 @@ public class TimeHandler {
         });
     }
 
-    public void showDeleteDisturb(final BaseAdapter adapter, final BaseViewHolder vh) {
+    public void showDeleteDisturb(final BaseListAdapter adapter, final BaseViewHolder vh) {
         final TimeModuleWrapper api = TimeModuleWrapper.getInstance();
-        TwoChoiceDialog.show(adapter.getContext(), "确定删除该免打扰时间？", "取消", "删除", new TwoChoiceDialog.Options() {
+        TwoChoiceDialog.show(vh.itemView.getContext(), "确定删除该免打扰时间？", "取消", "删除", new TwoChoiceDialog.Options() {
             @Override
             public void onApplyClick(final MaterialDialog dialog) {
                 api.deleteTime(data.getId(), data.getType()).enqueue(new SimpleCallback<String>() {
                     @Override
                     protected void handleResponse(String response) {
                         dialog.dismiss();
-                        adapter.remove(data);
+                        adapter.removeItem(data);
                         adapter.notifyItemRemoved(vh.getAdapterPosition());
                     }
                 });

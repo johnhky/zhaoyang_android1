@@ -14,7 +14,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.doctor.ApplyAfterServiceActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.vo.ItemPickTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -129,12 +129,12 @@ public class PatientHandler {
     }
 
 
-    public View.OnClickListener applyAfterService(final BaseAdapter adapter, BaseViewHolder vh) {
+    public View.OnClickListener applyAfterService(final BaseListAdapter adapter, BaseViewHolder vh) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ApplyAfterServiceActivity.intentFor(adapter.getContext(), data);
-                adapter.getContext().startActivity(intent);
+                Intent intent = ApplyAfterServiceActivity.intentFor(v.getContext(), data);
+                v.getContext().startActivity(intent);
             }
         };
     }

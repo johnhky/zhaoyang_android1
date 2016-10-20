@@ -6,6 +6,8 @@ import java.util.List;
  * Created by rick on 13/8/2016.
  */
 public interface AdapterOps<T> {
+    void insert(int position, T item);
+
     void insert(T item);
 
     void update(T item);
@@ -15,6 +17,8 @@ public interface AdapterOps<T> {
     void swapList(List<T> items);
 
     void removeItem(T item);
+
+    void removeItemAt(int adapterPosition);
 
     void clear();
 

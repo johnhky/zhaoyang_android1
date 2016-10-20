@@ -76,7 +76,7 @@
                 android:layout_height="@dimen/dp_35"
                 android:layout_gravity="end"
                 android:background="@drawable/shape_blue_rect"
-                android:onClick="@{()->data.handler.acceptRelation(adapter,data.applyId)}">
+                android:onClick="@{()->data.handler.acceptRelation(adapter,data.applyId,context)}">
 
                 <TextView
                     android:layout_width="match_parent"

@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 
 /**
  * Created by rick on 16/3/2016.
@@ -32,8 +32,7 @@ public class MultiSelectAdapter extends SimpleAdapter<LayoutId, ViewDataBinding>
         selectedState = initState;
     }
 
-    @Override
-    public View.OnClickListener onItemClick(final BaseAdapter adapter, final BaseViewHolder vh) {
+    public View.OnClickListener onItemClick(final BaseListAdapter adapter, final BaseViewHolder vh) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +42,7 @@ public class MultiSelectAdapter extends SimpleAdapter<LayoutId, ViewDataBinding>
         };
     }
 
-    public void select(BaseViewHolder vh, BaseAdapter adapter) {
+    public void select(BaseViewHolder vh, BaseListAdapter adapter) {
         int position = vh.getAdapterPosition();
         boolean isSelected = selectedState.get(position);
         selectedState.put(position, !isSelected);
@@ -52,7 +51,7 @@ public class MultiSelectAdapter extends SimpleAdapter<LayoutId, ViewDataBinding>
         }
     }
 
-    public void select(BaseViewHolder vh, BaseAdapter adapter, boolean shouldSelect) {
+    public void select(BaseViewHolder vh, BaseListAdapter adapter, boolean shouldSelect) {
         int position = vh.getAdapterPosition();
         selectedState.put(position, shouldSelect);
         if (listener != null) {
@@ -94,6 +93,6 @@ public class MultiSelectAdapter extends SimpleAdapter<LayoutId, ViewDataBinding>
     }
 
     public interface OnSelectionChange {
-        void onSelectionChange(BaseAdapter adapter, SparseBooleanArray selectedItems);
+        void onSelectionChange(BaseListAdapter adapter, SparseBooleanArray selectedItems);
     }
 }

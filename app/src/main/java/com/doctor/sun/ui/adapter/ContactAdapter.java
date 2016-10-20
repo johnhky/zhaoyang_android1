@@ -26,10 +26,6 @@ public class ContactAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> imp
         super(context);
     }
 
-    @Override
-    public void onBindViewBinding(final BaseViewHolder<ViewDataBinding> vh, int position) {
-        super.onBindViewBinding(vh, position);
-    }
 
     public void addIndex() {
         String[] clone = SideSelector.ALPHABET.clone();
