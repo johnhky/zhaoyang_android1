@@ -11,7 +11,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.fragment.BottomSheetTabFragment;
-import com.doctor.sun.ui.pager.AnswerPagerAdapter;
+import com.doctor.sun.ui.pager.DoctorAppointmentDonePA;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 public class AppointmentHistoryDialog extends BottomSheetTabFragment {
-    private AnswerPagerAdapter answerPagerAdapter;
+    private DoctorAppointmentDonePA answerPagerAdapter;
 
     DiagnosisModule api = Api.of(DiagnosisModule.class);
 
@@ -84,7 +84,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
 
     @Override
     protected PagerAdapter createPagerAdapter() {
-        answerPagerAdapter = new AnswerPagerAdapter(getChildFragmentManager(), data.get(currentIndex));
+        answerPagerAdapter = new DoctorAppointmentDonePA(getChildFragmentManager(), data.get(currentIndex));
         return answerPagerAdapter;
     }
 
