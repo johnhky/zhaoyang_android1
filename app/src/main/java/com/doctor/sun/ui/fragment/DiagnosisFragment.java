@@ -75,11 +75,11 @@ public class DiagnosisFragment extends BaseFragment {
     private ArrayList<Prescription> prescriptions;
 
 
-    public static DiagnosisFragment newInstance(int appointmentId, int recordId) {
+    public static DiagnosisFragment newInstance(String appointmentId, String recordId) {
 
         Bundle args = new Bundle();
-        args.putInt(Constants.PARAM_APPOINTMENT, appointmentId);
-        args.putInt(Constants.PARAM_RECORD_ID, recordId);
+        args.putString(Constants.PARAM_APPOINTMENT, appointmentId);
+        args.putString(Constants.PARAM_RECORD_ID, recordId);
 
         DiagnosisFragment fragment = new DiagnosisFragment();
         fragment.setArguments(args);
@@ -278,7 +278,7 @@ public class DiagnosisFragment extends BaseFragment {
         return handler.canWritePrescription();
     }
 
-    private void loadPrescription(int id) {
+    private void loadPrescription(String id) {
         Api.of(DiagnosisModule.class).patientDrug(id).enqueue(new SimpleCallback<List<Prescription>>() {
             @Override
             protected void handleResponse(List<Prescription> response) {
@@ -430,11 +430,11 @@ public class DiagnosisFragment extends BaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public int getAppointmentId() {
-        return getArguments().getInt(Constants.PARAM_APPOINTMENT);
+    public String getAppointmentId() {
+        return getArguments().getString(Constants.PARAM_APPOINTMENT);
     }
 
-    public int getRecordId() {
-        return getArguments().getInt(Constants.PARAM_RECORD_ID);
+    public String getRecordId() {
+        return getArguments().getString(Constants.PARAM_RECORD_ID);
     }
 }

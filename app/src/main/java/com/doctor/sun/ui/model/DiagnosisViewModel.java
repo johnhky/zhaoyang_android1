@@ -334,9 +334,9 @@ public class DiagnosisViewModel {
     }
 
 
-    public HashMap<String, String> toHashMap(int appointmentId, int recordId, FragmentDiagnosisBinding binding, String prescriptions) {
+    public HashMap<String, String> toHashMap(String appointmentId, String recordId, FragmentDiagnosisBinding binding, String prescriptions) {
         HashMap<String, String> result = new HashMap<>();
-        result.put("appointmentId", String.valueOf(appointmentId));
+        result.put("appointmentId", appointmentId);
         result.put("is_diagnosis", "1");
         result.put("perception", perception.toStates());
         result.put("thinking", thinking.toStates());
@@ -364,7 +364,7 @@ public class DiagnosisViewModel {
             int returnType = selectedItem;
 
             result.put("returnType", String.valueOf(returnType));
-            result.put("recordId", String.valueOf(recordId));
+            result.put("recordId", recordId);
 
             GregorianCalendar gregorianCalendar = new GregorianCalendar(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), time.getmBeginHour(), time.getmBeginMinute());
             String s = String.valueOf(gregorianCalendar.getTimeInMillis());

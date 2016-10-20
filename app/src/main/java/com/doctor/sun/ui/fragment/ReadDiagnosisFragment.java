@@ -25,10 +25,10 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
 
     public static final String TAG = ReadDiagnosisFragment.class.getSimpleName();
 
-    public static ReadDiagnosisFragment newInstance(int appointmentId) {
+    public static ReadDiagnosisFragment newInstance(String appointmentId) {
 
         Bundle args = new Bundle();
-        args.putInt(Constants.DATA, appointmentId);
+        args.putString(Constants.DATA, appointmentId);
 
         ReadDiagnosisFragment fragment = new ReadDiagnosisFragment();
         fragment.setArguments(args);
@@ -43,8 +43,8 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
         return args;
     }
 
-    public int getAppointmentId() {
-        return getArguments().getInt(Constants.DATA, 0);
+    public String getAppointmentId() {
+        return getArguments().getString(Constants.DATA);
     }
 
     @Override

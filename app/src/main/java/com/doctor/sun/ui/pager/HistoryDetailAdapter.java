@@ -27,7 +27,7 @@ public class HistoryDetailAdapter extends FragmentPagerAdapter {
             case 0:
                 return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, true);
             case 1:
-                return ReadDiagnosisFragment.newInstance(appointment.getId());
+                return ReadDiagnosisFragment.newInstance(appointment.getIdString());
         }
         return null;
     }

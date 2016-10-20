@@ -21,13 +21,18 @@ import com.doctor.sun.ui.fragment.WaitingSuggestionFragment;
 
 public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
 
+    String recordId;
+    String appointmentId;
+    String displayStatus;
+    int canEdit;
 
-    private Appointment appointment;
-    private boolean isChanged = false;
 
-    public AnswerPagerAdapter(FragmentManager fm, Appointment appointmentId) {
+    public AnswerPagerAdapter(FragmentManager fm, Appointment appointment) {
         super(fm);
-        this.appointment = appointmentId;
+        recordId = String.valueOf(appointment.getRecordId());
+        appointmentId = String.valueOf(appointment.getId());
+        displayStatus = appointment.getDisplayStatus();
+        canEdit = appointment.canEdit;
     }
 
     /**
@@ -43,15 +48,15 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
                 case 0: {
                     //填写问卷 编辑
                     if (isAppointmentFinished()) {
-                        return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, true);
+                        return ReadQuestionsFragment.getInstance(appointmentId, QuestionsPath.NORMAL, true);
                     } else {
-                        return AnswerQuestionFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL);
+                        return AnswerQuestionFragment.getInstance(appointmentId, QuestionsPath.NORMAL);
                     }
                 }
                 case 1: {
 //                appointment.setId(325);
-                    if (appointment.canEdit != IntBoolean.FALSE) {
-                        return ReadDiagnosisFragment.newInstance(appointment.getId());
+                    if (canEdit != IntBoolean.FALSE) {
+                        return ReadDiagnosisFragment.newInstance(appointmentId);
                     } else {
                         return WaitingSuggestionFragment.newInstance();
                     }
@@ -62,17 +67,17 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
                 case 0: {
                     //填写问卷 只读
                     if (isAppointmentFinished()) {
-                        return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, true);
+                        return ReadQuestionsFragment.getInstance(appointmentId, QuestionsPath.NORMAL, true);
                     } else {
-                        return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, false);
+                        return ReadQuestionsFragment.getInstance(appointmentId, QuestionsPath.NORMAL, false);
                     }
                 }
                 case 1: {
 //                appointment.setId(325);
-                    if (appointment.canEdit != IntBoolean.FALSE) {
-                        return DiagnosisFragment.newInstance(appointment.getId(), appointment.getRecordId());
+                    if (canEdit != IntBoolean.FALSE) {
+                        return DiagnosisFragment.newInstance(appointmentId, recordId);
                     } else {
-                        return ReadDiagnosisFragment.newInstance(appointment.getId());
+                        return ReadDiagnosisFragment.newInstance(appointmentId);
                     }
                 }
             }
@@ -81,7 +86,7 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public boolean isAppointmentFinished() {
-        return AppointmentHandler.Status.A_FINISHED.equals(appointment.getDisplayStatus());
+        return AppointmentHandler.Status.A_FINISHED.equals(displayStatus);
     }
 
     /**

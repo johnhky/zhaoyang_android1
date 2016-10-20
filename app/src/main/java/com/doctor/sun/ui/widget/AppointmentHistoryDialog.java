@@ -66,7 +66,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
             }
         });
 
-        api.recordHistory(appointment.getRecordId(), "").enqueue(new SimpleCallback<List<Appointment>>() {
+        api.recordHistory(appointment.getRecordId(), "simple").enqueue(new SimpleCallback<List<Appointment>>() {
             @Override
             protected void handleResponse(List<Appointment> response) {
                 data.addAll(response);
