@@ -148,17 +148,6 @@ public class Questions2 extends BaseItem {
         boolean result = isEnabledLastTime;
         int selectedOptionsCount = 0;
 
-        if (orEnableRule != null && !orEnableRule.isEmpty()) {
-            for (String s : orEnableRule) {
-                boolean isSelected = isSelected(s, adapter);
-                if (isSelected) {
-                    result = true;
-                    selectedOptionsCount += 1;
-                    break;
-                }
-            }
-        }
-
         if (orDisableRule != null && !orDisableRule.isEmpty()) {
             for (String s : orDisableRule) {
                 boolean isSelected = isSelected(s, adapter);
@@ -170,9 +159,20 @@ public class Questions2 extends BaseItem {
             }
         }
 
+        if (orEnableRule != null && !orEnableRule.isEmpty()) {
+            for (String s : orEnableRule) {
+                boolean isSelected = isSelected(s, adapter);
+                if (isSelected) {
+                    result = true;
+                    selectedOptionsCount += 1;
+                    break;
+                }
+            }
+        }
+
         // 有规则信息的时候,假如没有任何规则适用,那就默认disable
         if (hasRulesInfo() && selectedOptionsCount == 0) {
-            result = false;
+            result = true;
         }
 
         // enabled状态发生改变,通知子项目改变状态
@@ -190,6 +190,7 @@ public class Questions2 extends BaseItem {
         return options2 != null && options2.getSelected();
     }
 
+    //TODO:
     private void enableOrDisableChild(boolean enabled) {
         if (option != null) {
             for (Options2 myOptions : option) {
