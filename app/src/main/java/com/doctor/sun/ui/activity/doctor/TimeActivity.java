@@ -57,7 +57,7 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_time);
         adapter = new SimpleAdapter(this);
-        adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, false);
+        adapter.putBoolean(AdapterConfigKey.IS_EDIT_MODE, false);
         binding.rvTime.setLayoutManager(new LinearLayoutManager(this));
         binding.rvTime.setAdapter(adapter);
         binding.setHandler(new TimeHandler());
@@ -85,9 +85,9 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
 
     @Override
     public void onBackPressed() {
-        boolean isEditMode = adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE);
+        boolean isEditMode = adapter.getBoolean(AdapterConfigKey.IS_EDIT_MODE);
         if (isEditMode) {
-            adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, false);
+            adapter.putBoolean(AdapterConfigKey.IS_EDIT_MODE, false);
             binding.llAdd.setVisibility(View.VISIBLE);
             adapter.notifyDataSetChanged();
         } else {
@@ -100,8 +100,8 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
             Toast.makeText(this, "目前没有出诊时间安排", Toast.LENGTH_SHORT).show();
             binding.llAdd.setVisibility(VISIBLE);
         } else {
-            adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, !adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE));
-            if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE)) {
+            adapter.putBoolean(AdapterConfigKey.IS_EDIT_MODE, !adapter.getBoolean(AdapterConfigKey.IS_EDIT_MODE));
+            if (adapter.getBoolean(AdapterConfigKey.IS_EDIT_MODE)) {
                 binding.llAdd.setVisibility(View.GONE);
             } else {
                 binding.llAdd.setVisibility(View.VISIBLE);
@@ -112,7 +112,7 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
 
     @Override
     public boolean getIsEditMode() {
-        return adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE);
+        return adapter.getBoolean(AdapterConfigKey.IS_EDIT_MODE);
     }
 
 
@@ -124,7 +124,7 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE));
+        adapter.putBoolean(AdapterConfigKey.IS_EDIT_MODE, adapter.getBoolean(AdapterConfigKey.IS_EDIT_MODE));
         switch (item.getItemId()) {
             case R.id.action_edit: {
                 onMenuClicked();
@@ -148,7 +148,7 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
             return false;
         }
         MenuInflater menuInflater = getMenuInflater();
-        if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE)) {
+        if (adapter.getBoolean(AdapterConfigKey.IS_EDIT_MODE)) {
             menuInflater.inflate(R.menu.menu_save, menu);
         } else {
             menuInflater.inflate(R.menu.menu_edit, menu);

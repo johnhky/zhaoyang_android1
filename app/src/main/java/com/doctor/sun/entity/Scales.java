@@ -50,7 +50,7 @@ public class Scales extends BaseItem {
 
 
     public void readScalesQuestion(SortedListAdapter adapter, Context context, String scalesId, boolean isTemplates) {
-        boolean isDone = adapter.getConfig(AdapterConfigKey.IS_DONE);
+        boolean isDone = adapter.getBoolean(AdapterConfigKey.IS_DONE);
         Bundle args;
         if (isTemplates) {
             args = ReadQTemplateFragment.getArgs(scalesId, QuestionsPath.SCALES, "", isDone);
@@ -63,7 +63,7 @@ public class Scales extends BaseItem {
     }
 
     public void editScalesQuestion(SortedListAdapter adapter, Context context, String scalesId) {
-        boolean isDone = adapter.getConfig(AdapterConfigKey.IS_DONE);
+        boolean isDone = adapter.getBoolean(AdapterConfigKey.IS_DONE);
         if (!isDone) {
             Bundle args = AnswerQuestionFragment.getArgs(scalesId, QuestionsPath.SCALES, "");
             Intent intent = SingleFragmentActivity.intentFor(context, scaleName, args);
@@ -77,7 +77,7 @@ public class Scales extends BaseItem {
 
 
     public void editScalesQuestionWithResult(SortedListAdapter adapter, Context context, String scalesId) {
-        boolean isDone = adapter.getConfig(AdapterConfigKey.IS_DONE);
+        boolean isDone = adapter.getBoolean(AdapterConfigKey.IS_DONE);
         if (!isDone) {
             Bundle args = AnswerQuestionFragment.getArgs(scalesId, QuestionsPath.SCALES, "");
             Bundle drawerArgs = QuestionStatsFragment.getArgs(scalesId, "smartScaleResult");

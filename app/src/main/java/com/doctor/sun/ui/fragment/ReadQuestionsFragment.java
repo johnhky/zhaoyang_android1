@@ -68,8 +68,8 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
     public SortedListAdapter createAdapter() {
         final boolean isReadOnly = getArguments().getBoolean(Constants.READ_ONLY, false);
         SortedListAdapter adapter = super.createAdapter();
-        adapter.setConfig(AdapterConfigKey.IS_READ_ONLY, isReadOnly || !isEditMode);
-        adapter.setConfig(AdapterConfigKey.IS_DONE, isReadOnly);
+        adapter.putBoolean(AdapterConfigKey.IS_READ_ONLY, isReadOnly || !isEditMode);
+        adapter.putBoolean(AdapterConfigKey.IS_DONE, isReadOnly);
         adapter.setLayoutIdInterceptor(new SortedListAdapter.LayoutIdInterceptor() {
             @Override
             public int intercept(int origin) {
@@ -141,7 +141,7 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
         switch (item.getItemId()) {
             case R.id.action_edit_mode: {
                 isEditMode = true;
-                getAdapter().setConfig(AdapterConfigKey.IS_READ_ONLY, false);
+                getAdapter().putBoolean(AdapterConfigKey.IS_READ_ONLY, false);
                 getAdapter().notifyDataSetChanged();
                 getActivity().invalidateOptionsMenu();
                 return true;
@@ -210,7 +210,7 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
                         question.refill = 1;
                     }
                 }
-                getAdapter().setConfig(IS_READ_ONLY, true);
+                getAdapter().putBoolean(IS_READ_ONLY, true);
                 getAdapter().notifyDataSetChanged();
                 getActivity().invalidateOptionsMenu();
             }

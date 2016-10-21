@@ -22,7 +22,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 public abstract class BaseListAdapter<T, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements AdapterOps<T> {
     public static final String TAG = BaseListAdapter.class.getSimpleName();
 
-    private final SparseBooleanArray mConfig = new SparseBooleanArray();
+    private final SparseBooleanArray mBooleanConfig = new SparseBooleanArray();
     private final SparseArray<String> mStringConfig = new SparseArray<>();
     private final SparseIntArray mIntConfig = new SparseIntArray();
     private final SparseArray<Long> mLongConfig = new SparseArray<>();
@@ -64,12 +64,12 @@ public abstract class BaseListAdapter<T, B extends ViewDataBinding> extends Recy
     }
 
 
-    public boolean getConfig(int key) {
-        return mConfig.get(key, false);
+    public boolean getBoolean(int key) {
+        return mBooleanConfig.get(key, false);
     }
 
-    public void setConfig(int key, boolean value) {
-        mConfig.put(key, value);
+    public void putBoolean(int key, boolean value) {
+        mBooleanConfig.put(key, value);
     }
 
     public String getString(int key) {

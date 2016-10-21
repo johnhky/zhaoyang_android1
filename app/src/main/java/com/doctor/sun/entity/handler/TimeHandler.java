@@ -218,7 +218,7 @@ public class TimeHandler {
     }
 
     public int isEditMode(SimpleAdapter adapter) {
-        if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE)) {
+        if (adapter.getBoolean(AdapterConfigKey.IS_EDIT_MODE)) {
             return View.VISIBLE;
         } else {
             return View.INVISIBLE;
