@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 import android.support.v7.widget.LinearLayoutManager;
@@ -486,7 +487,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
     @Override
     public boolean shouldAskServer() {
-        return data.getAppointmentType() == AppointmentType.PREMIUM && Status.DOING.equals(data.getStatuses());
+        return data.getAppointmentType() == AppointmentType.PREMIUM && data.getStatus() == Status.DOING;
     }
 
     @Override
@@ -590,7 +591,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
 
     public void onPatientClickOrder(BaseAdapter adapter) {
-        switch (data.getDisplayStatus()) {
+        switch (data.getStatus()) {
             case Status.UNPAID: {
                 startPayActivity(adapter.getContext(), data.getId());
                 break;
@@ -617,7 +618,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
     public void onDoctorClickOrder(final BaseViewHolder vh, final BaseAdapter adapter) {
-        switch (data.getDisplayStatus()) {
+        switch (data.getStatus()) {
             case Status.PAID: {
                 detail(adapter.getContext(), vh.getItemViewType());
                 break;
@@ -670,7 +671,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
     public void alertAppointmentFinished(Context context) {
         if (!Settings.isDoctor()) {
-            switch (data.getDisplayStatus()) {
+            switch (data.getStatus()) {
                 case Status.LOCKED:
                 case Status.FINISHED:
                 case Status.UNPAID:
@@ -755,7 +756,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
 
     public String getStatusColor() {
-        switch (data.getDisplayStatus()) {
+        switch (data.getStatus()) {
             case Status.FINISHED:
                 return "#363636";
 
@@ -1000,7 +1001,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
     public int getCurrentStatus() {
-        switch (data.getDisplayStatus()) {
+        switch (data.getStatus()) {
             case Status.LOCKED:
             case Status.CANCEL:
             case Status.FINISHED:
@@ -1025,7 +1026,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
 
     public int getStatusBackground() {
-        switch (data.getDisplayStatus()) {
+        switch (data.getStatus()) {
             case Status.LOCKED:
             case Status.CANCEL:
             case Status.FINISHED:
@@ -1049,7 +1050,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
     public int getStatusArrow() {
-        switch (data.getDisplayStatus()) {
+        switch (data.getStatus()) {
             case Status.LOCKED:
             case Status.CANCEL:
             case Status.FINISHED:
@@ -1078,7 +1079,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
     public String getStatusColor2() {
-        switch (data.getDisplayStatus()) {
+        switch (data.getStatus()) {
             case Status.FINISHED:
                 return "#339de1";
 
@@ -1103,14 +1104,14 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
 
-    @StringDef
+    @IntDef
     public @interface Status {
-        String LOCKED = "问卷已锁定";
-        String DOING = "进行中";
-        String FINISHED = "已完成";
-        String UNPAID = "未付款";
-        String PAID = "已付款";
-        String WAITING = "待建议";
-        String CANCEL = "医生取消";
+        int UNPAID = 0;
+        int PAID = 1;
+        int DOING = 2;
+        int WAITING = 3;
+        int FINISHED = 4;
+        int CANCEL = 6;
+        int LOCKED = 7;
     }
 }
