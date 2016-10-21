@@ -86,7 +86,7 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public boolean isAppointmentFinished() {
-        return AppointmentHandler.Status.A_FINISHED.equals(displayStatus);
+        return AppointmentHandler.Status.FINISHED.equals(displayStatus);
     }
 
     /**

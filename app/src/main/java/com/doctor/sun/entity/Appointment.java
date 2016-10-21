@@ -5,7 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.doctor.sun.R;
-import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -157,9 +156,9 @@ public class Appointment implements LayoutId, Parcelable {
     private String displayStatus = "";
     @JsonProperty("select_tags")
     public List<Tags> selectTags;
+    @JsonProperty("can_edit")
+    public int canEdit;
 
-    @JsonIgnore
-    public int canEdit = IntBoolean.FALSE;
     @JsonIgnore
     private String statuses = "";
 

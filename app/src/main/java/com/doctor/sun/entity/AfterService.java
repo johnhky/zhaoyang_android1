@@ -14,13 +14,12 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.constans.IntBoolean;
-import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.event.EditEndEvent;
 import com.doctor.sun.event.ModifyStatusEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
-import com.doctor.sun.module.DiagnosisModule;
+import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
@@ -58,18 +57,12 @@ public class AfterService extends BaseObservable implements LayoutId {
     public String recordId;
     @JsonProperty("patient_id")
     public String patientId;
-    @JsonProperty("deadline_time")
-    public String deadlineTime;
     @JsonProperty("status")
     public String status;
-    @JsonProperty("questionnaire_name")
-    public String questionnaireName;
-    @JsonProperty("questionnaire_progress")
-    public String questionnaireProgress;
-    @JsonProperty("load_patient")
-    public int loadPatient;
-    @JsonProperty("created_at")
-    public String createdAt;
+    @JsonProperty("progress")
+    public String progress;
+    @JsonProperty("book_time")
+    public String bookTime;
 
     @JsonProperty("tid")
     public int tid;
@@ -83,39 +76,18 @@ public class AfterService extends BaseObservable implements LayoutId {
     @JsonProperty("total")
     public int total;
 
+    @JsonProperty("display_status")
+    public String displayStatus;
+
     @Override
     public int getItemLayoutId() {
         return R.layout.item_after_service;
     }
 
-    public String getStatusLabel() {
-        switch (status) {
-            case Status.TODO: {
-                return "申请中";
-            }
-            case Status.DOING: {
-                return "进行中";
-            }
-            case Status.REJECTED: {
-                return "已拒绝";
-            }
-            case Status.CLOSED: {
-                return "已关闭";
-            }
-            case Status.FINISHED: {
-                return "已完成";
-            }
-            case Status.LOCKED: {
-                return "问卷已锁定";
-            }
-        }
-        return status;
-    }
-
 
     @ColorInt
     public int getStatusTextColor() {
-        switch (status) {
+        switch (displayStatus) {
             case Status.TODO: {
                 return Color.parseColor("#ff8e43");
             }
@@ -140,7 +112,7 @@ public class AfterService extends BaseObservable implements LayoutId {
 
 
     public int getBackgroundColor() {
-        switch (status) {
+        switch (displayStatus) {
 
             case Status.LOCKED: {
                 return R.drawable.shape_status;
@@ -198,11 +170,51 @@ public class AfterService extends BaseObservable implements LayoutId {
     }
 
     public void fillForum(final Context context, final String id) {
-        DiagnosisModule api = Api.of(DiagnosisModule.class);
-        String type = "followUp";
-        api.appointmentStatus(Integer.valueOf(id), type).enqueue(new SimpleCallback<AppointmentStatus>() {
+//        DiagnosisModule api = Api.of(DiagnosisModule.class);
+//        String type = "followUp";
+//        api.appointmentStatus(Integer.valueOf(id), type).enqueue(new SimpleCallback<AppointmentStatus>() {
+//            @Override
+//            protected void handleResponse(AppointmentStatus response) {
+//                int position = 0;
+//                if (Settings.isDoctor()) {
+//                    position = 1;
+//                }
+//                if (isFinished(status)) {
+//                    position = 1;
+//                }
+//                int canEdit;
+//                if (response != null) {
+//                    canEdit = response.canEdit;
+//                    String orderStatus = response.displayStatus;
+//
+//                    boolean isCanEditStatus = !orderStatus.equals(AppointmentHandler.Status.FINISHED)
+//                            && !orderStatus.equals(AppointmentHandler.Status.A_FINISHED)
+//                            && !orderStatus.equals(AppointmentHandler.Status.REJECTED)
+//                            && !orderStatus.equals(AppointmentHandler.Status.REJECTED)
+//                            && !orderStatus.equals(AppointmentHandler.Status.A_UNPAID)
+//                            && !orderStatus.equals(AppointmentHandler.Status.CLOSED)
+//                            && !orderStatus.equals(AppointmentHandler.Status.A_CANCEL);
+//
+//                    if (isCanEditStatus) {
+//                        canEdit = IntBoolean.TRUE;
+//                    }
+//                } else {
+//                    canEdit = IntBoolean.NOT_GIVEN;
+//                }
+//                if (canEdit == IntBoolean.FALSE) {
+//                    Intent intent = AfterServiceDoneActivity.intentFor(context, id, position);
+//                    context.startActivity(intent);
+//                } else {
+//                    Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, position);
+//                    context.startActivity(intent);
+//                }
+//            }
+//        });
+
+        AppointmentModule api = Api.of(AppointmentModule.class);
+        api.appointmentDetail(id).enqueue(new SimpleCallback<Appointment>() {
             @Override
-            protected void handleResponse(AppointmentStatus response) {
+            protected void handleResponse(Appointment response) {
                 int position = 0;
                 if (Settings.isDoctor()) {
                     position = 1;
@@ -210,26 +222,8 @@ public class AfterService extends BaseObservable implements LayoutId {
                 if (isFinished(status)) {
                     position = 1;
                 }
-                int canEdit;
-                if (response != null) {
-                    canEdit = response.canEdit;
-                    String orderStatus = response.displayStatus;
 
-                    boolean isCanEditStatus = !orderStatus.equals(AppointmentHandler.Status.FINISHED)
-                            && !orderStatus.equals(AppointmentHandler.Status.A_FINISHED)
-                            && !orderStatus.equals(AppointmentHandler.Status.REJECTED)
-                            && !orderStatus.equals(AppointmentHandler.Status.REJECTED)
-                            && !orderStatus.equals(AppointmentHandler.Status.A_UNPAID)
-                            && !orderStatus.equals(AppointmentHandler.Status.CLOSED)
-                            && !orderStatus.equals(AppointmentHandler.Status.A_CANCEL);
-
-                    if (isCanEditStatus) {
-                        canEdit = IntBoolean.TRUE;
-                    }
-                } else {
-                    canEdit = IntBoolean.NOT_GIVEN;
-                }
-                if (canEdit == IntBoolean.FALSE) {
+                if (response.canEdit == IntBoolean.FALSE) {
                     Intent intent = AfterServiceDoneActivity.intentFor(context, id, position);
                     context.startActivity(intent);
                 } else {
@@ -243,8 +237,7 @@ public class AfterService extends BaseObservable implements LayoutId {
     public void chatting(Context context) {
         Appointment appointment = new Appointment();
         appointment.setId(Integer.parseInt(id));
-        String statusLabel = getStatusLabel();
-        appointment.setStatuses(statusLabel);
+        appointment.setStatuses(displayStatus);
         appointment.setTid(tid);
         if (Settings.isDoctor()) {
             appointment.setUrgentRecord(record);
@@ -255,7 +248,7 @@ public class AfterService extends BaseObservable implements LayoutId {
             appointment.setRecordId(record.getMedicalRecordId());
             appointment.setDoctor(doctor);
         }
-        appointment.setDisplayStatus(statusLabel);
+        appointment.setDisplayStatus(displayStatus);
         appointment.setDisplayType("诊后随访");
         appointment.setAppointmentType(AppointmentType.AFTER_SERVICE);
         Intent intent = ChattingActivity.makeIntent(context, appointment);
@@ -296,13 +289,12 @@ public class AfterService extends BaseObservable implements LayoutId {
 
     @StringDef
     public @interface Status {
-        String ALL = "disableIfOneSelected";
-        String TODO = "todo";
-        String DOING = "doing";
-        String REJECTED = "rejected";
-        String CLOSED = "closed";
-        String FINISHED = "finished";
-        String LOCKED = "locked";
+        String TODO = "申请中";
+        String DOING = "进行中";
+        String REJECTED = "已拒绝";
+        String CLOSED = "已关闭";
+        String FINISHED = "已完成";
+        String LOCKED = "问卷已锁定";
     }
 
     @StringDef
