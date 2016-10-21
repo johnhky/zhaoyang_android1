@@ -3,7 +3,6 @@ package com.doctor.sun.ui.fragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +11,13 @@ import android.view.ViewGroup;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentTabBinding;
+import com.doctor.sun.ui.widget.vpbs.ViewPagerBottomSheetDialogFragment;
 
 
 /**
  * Created by rick on 12/18/15.
  */
-public abstract class BottomSheetTabFragment extends BottomSheetDialogFragment {
+public abstract class BottomSheetTabFragment extends ViewPagerBottomSheetDialogFragment {
 
     private FragmentTabBinding binding;
     private PagerAdapter pagerAdapter;
@@ -38,25 +38,25 @@ public abstract class BottomSheetTabFragment extends BottomSheetDialogFragment {
     protected void setCurrentItem() {
         int position = getPosition();
         if (position <= pagerAdapter.getCount()) {
-            binding.vp.setCurrentItem(position);
+            binding.bottomSheetViewpager.setCurrentItem(position);
         }
     }
 
 
     protected void initPagerAdapter() {
         pagerAdapter = createPagerAdapter();
-        binding.vp.setAdapter(pagerAdapter);
+        binding.bottomSheetViewpager.setAdapter(pagerAdapter);
     }
 
     protected void setPagerAdapter(PagerAdapter adapter) {
-        binding.vp.setAdapter(adapter);
+        binding.bottomSheetViewpager.setAdapter(adapter);
     }
 
     protected void initPagerTabs() {
         binding.pagerTabs.setCustomTabView(R.layout.tab_custom, android.R.id.text1);
         binding.pagerTabs.setDistributeEvenly(true);
         binding.pagerTabs.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimaryDark));
-        binding.pagerTabs.setViewPager(binding.vp);
+        binding.pagerTabs.setViewPager(binding.bottomSheetViewpager);
     }
 
     protected FragmentTabBinding getBinding() {

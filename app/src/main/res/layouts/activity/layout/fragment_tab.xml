@@ -8,74 +8,82 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/lly_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/tool_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/grey_42"
-            android:orientation="vertical"
-            app:collapseIcon="@drawable/ic_back"
-            app:navigationIcon="@drawable/ic_back"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ToolbarTheme">
-
-
-            <TextView
-                android:id="@+id/tb_title"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@color/transparent"
-                android:gravity="center"
-                android:textColor="@color/colorPrimary"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-        </android.support.v7.widget.Toolbar>
-
-        <FrameLayout
-            android:id="@+id/pager_tabs_container"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/bottom_sheet_appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
-            <com.doctor.sun.ui.widget.SlidingTabLayout
-                android:id="@+id/pager_tabs"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dp_70"
-                android:paddingRight="@dimen/dp_70" />
+                android:background="@color/grey_42"
+                android:orientation="vertical"
+                app:collapseIcon="@drawable/ic_back"
+                app:navigationIcon="@drawable/ic_back"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ToolbarTheme">
 
-            <TextView
-                android:id="@+id/tv_previous"
-                android:layout_width="@dimen/dp_70"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:background="@color/gray_f5"
-                android:gravity="center"
-                android:text="上一个"
-                android:textColor="@color/colorPrimaryDark" />
 
-            <TextView
-                android:id="@+id/tv_next"
-                android:layout_width="@dimen/dp_70"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:background="@color/gray_f5"
-                android:gravity="center"
-                android:text="下一个"
-                android:textColor="@color/colorPrimaryDark" />
+                <TextView
+                    android:id="@+id/tb_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
 
-            <View
-                android:id="@+id/showcase"
-                android:layout_width="@dimen/dp_190"
-                android:layout_height="@dimen/dp_40"
-                android:layout_gravity="end" />
-        </FrameLayout>
+            </android.support.v7.widget.Toolbar>
+
+            <FrameLayout
+                android:id="@+id/pager_tabs_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <com.doctor.sun.ui.widget.SlidingTabLayout
+                    android:id="@+id/pager_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/dp_70"
+                    android:paddingRight="@dimen/dp_70" />
+
+                <TextView
+                    android:id="@+id/tv_previous"
+                    android:layout_width="@dimen/dp_70"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:background="@color/gray_f5"
+                    android:gravity="center"
+                    android:text="上一个"
+                    android:textColor="@color/colorPrimaryDark" />
+
+                <TextView
+                    android:id="@+id/tv_next"
+                    android:layout_width="@dimen/dp_70"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:background="@color/gray_f5"
+                    android:gravity="center"
+                    android:text="下一个"
+                    android:textColor="@color/colorPrimaryDark" />
+
+                <View
+                    android:id="@+id/showcase"
+                    android:layout_width="@dimen/dp_190"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_gravity="end" />
+            </FrameLayout>
+
+        </android.support.design.widget.AppBarLayout>
 
         <View
             android:layout_width="match_parent"
@@ -83,7 +91,7 @@
             android:background="#c1cacf" />
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/vp"
+            android:id="@+id/bottom_sheet_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
