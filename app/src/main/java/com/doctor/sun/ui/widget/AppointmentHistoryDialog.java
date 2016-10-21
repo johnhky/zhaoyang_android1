@@ -16,11 +16,14 @@ import com.doctor.sun.ui.pager.DoctorAppointmentDonePA;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.ganguo.library.Config;
+
 /**
  * Created by rick on 18/10/2016.
  */
 
 public class AppointmentHistoryDialog extends BottomSheetTabFragment {
+    public static final String HISTORY_INDEX = "HISTORY_INDEX";
     private DoctorAppointmentDonePA answerPagerAdapter;
 
     DiagnosisModule api = Api.of(DiagnosisModule.class);
@@ -43,6 +46,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appointment = getArguments().getParcelable(Constants.DATA);
+        currentIndex = Config.getInt(HISTORY_INDEX + appointment.getId(), 0);
     }
 
     @Override
@@ -99,5 +103,11 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
         if (currentIndex == 0) {
             getBinding().tvPrevious.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Config.putInt(HISTORY_INDEX + appointment.getId(), currentIndex);
     }
 }
