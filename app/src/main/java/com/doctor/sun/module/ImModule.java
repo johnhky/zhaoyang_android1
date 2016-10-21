@@ -98,6 +98,5 @@ public interface ImModule {
 
     @FormUrlEncoded
     @POST("im/yunxin-call")
-    Call<ApiDTO<String>> makeYunXinPhoneCall(@Field("caller") String caller, @Field("callee") String callee);
-
+    Call<ApiDTO<String>> makeYunXinPhoneCall(@Field("appointmentId") int appointmentId);
 }

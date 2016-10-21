@@ -237,7 +237,7 @@ public class AfterService extends BaseObservable implements LayoutId {
     public void chatting(Context context) {
         Appointment appointment = new Appointment();
         appointment.setId(Integer.parseInt(id));
-        appointment.setStatuses(displayStatus);
+        appointment.setDisplayStatus(displayStatus);
         appointment.setTid(tid);
         if (Settings.isDoctor()) {
             appointment.setUrgentRecord(record);

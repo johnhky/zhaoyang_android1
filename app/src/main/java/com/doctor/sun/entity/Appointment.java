@@ -7,7 +7,6 @@ import android.os.Parcelable;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -158,10 +157,6 @@ public class Appointment implements LayoutId, Parcelable {
     public List<Tags> selectTags;
     @JsonProperty("can_edit")
     public int canEdit;
-
-    @JsonIgnore
-    private String statuses = "";
-
     @JsonProperty("auto_finish")
     public String autoFinish;
     @JsonProperty("patient_id")
@@ -723,45 +718,6 @@ public class Appointment implements LayoutId, Parcelable {
 
     public String getIdString() {
         return String.valueOf(id);
-    }
-
-    public void setStatuses(String statuses) {
-        this.statuses = statuses;
-    }
-
-    public String getStatuses() {
-
-        if (!statuses.equals("")) {
-            return statuses;
-        }
-
-        switch (getStatus()) {
-            case 0:
-                statuses = "未支付";
-                break;
-            case 1:
-                statuses = "已支付";
-                break;
-            case 2:
-                statuses = "进行中";
-                break;
-            case 3:
-                statuses = "待建议";
-                break;
-            case 4:
-                statuses = "已完成";
-                break;
-            case 5:
-                statuses = "已关闭";
-                break;
-            case 6:
-                statuses = "医生取消";
-                break;
-            case 7:
-                statuses = "问卷已锁定";
-                break;
-        }
-        return statuses;
     }
 
     @Override

@@ -9,7 +9,6 @@ import android.os.Message;
 import android.os.Messenger;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringDef;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -477,7 +476,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
             return true;
         }
         boolean isDetailAppointment = isDetail();
-        return isDetailAppointment && data.getStatuses().equals(Status.DOING);
+        return isDetailAppointment && data.getStatus() == Status.DOING;
     }
 
     @Override
@@ -558,11 +557,11 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
 
     public boolean payVisible() {
-        return data.getStatuses().equals(Status.UNPAID);
+        return data.getStatus() == Status.UNPAID;
     }
 
     public boolean isPayed() {
-        return data.getStatuses().equals(Status.PAID);
+        return data.getStatus() == Status.PAID;
     }
 
     public boolean hasDoctorComment() {
@@ -696,8 +695,15 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
     public void callTelephone(final Context context) {
+//        ImModule imModule = Api.of(ImModule.class);
+//        imModule.makeYunXinPhoneCall(getMyPhoneNO(), getPhoneNO()).enqueue(new SimpleCallback<String>() {
+//            @Override
+//            protected void handleResponse(String response) {
+//                Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
+//            }
+//        });
         ImModule imModule = Api.of(ImModule.class);
-        imModule.makeYunXinPhoneCall(getMyPhoneNO(), getPhoneNO()).enqueue(new SimpleCallback<String>() {
+        imModule.makeYunXinPhoneCall(data.getId()).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
                 Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
@@ -790,11 +796,11 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
      * @return
      */
     public long getFinishedTime() {
-        String orderStatus = data.getStatuses();
-        if (orderStatus == null) {
-            orderStatus = "";
-        }
-        if (orderStatus.equals(Status.FINISHED)) {
+        int orderStatus = data.getStatus();
+//        if (orderStatus == null) {
+//            orderStatus = "";
+//        }
+        if (orderStatus == Status.FINISHED) {
             return 0;
         }
 
@@ -914,7 +920,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
 
     public boolean showCommentBtn() {
-        return data.getStatuses().equals(Status.FINISHED);
+        return data.getStatus() == Status.FINISHED;
     }
 
     public boolean showAnswerQuestionBtn() {

@@ -3,11 +3,16 @@ package com.doctor.sun.ui.handler;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
+import com.doctor.sun.BuildConfig;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Token;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.fragment.RegisterFragment;
@@ -17,6 +22,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import io.ganguo.library.common.LoadingHelper;
 import io.ganguo.library.util.StringsUtils;
+import io.ganguo.library.util.Systems;
 import retrofit2.Call;
 
 /**
@@ -45,7 +51,9 @@ public class LoginHandler {
             return;
         }
         LoadingHelper.showMaterLoading(context, "正在登录");
-        api.login(phone, MD5.getMessageDigest(password.getBytes())).enqueue(new ApiCallback<Token>() {
+
+        api.login(phone, MD5.getMessageDigest(password.getBytes()),
+                getClientModel(), getClientVersion(), getInstallVersion()).enqueue(new SimpleCallback<Token>() {
             @Override
             protected void handleResponse(Token response) {
                 LoadingHelper.hideMaterLoading();
@@ -55,11 +63,17 @@ public class LoginHandler {
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(Call<ApiDTO<Token>> call, Throwable t) {
                 LoadingHelper.hideMaterLoading();
                 super.onFailure(call, t);
             }
         });
+
+        if (BuildConfig.DEV_MODE) {
+            Log.e(TAG, "clientVersion:" + getClientVersion());
+            Log.e(TAG, "clientModel:" + getClientModel());
+            Log.e(TAG, "installVersion:" + getInstallVersion());
+        }
     }
 
     public void registerDoctor(Context context) {
@@ -71,4 +85,15 @@ public class LoginHandler {
         ResetPswFragment.startFrom(context);
     }
 
+    private String getClientVersion() {
+        return "android:" + Build.VERSION.RELEASE + " sdk:" + Build.VERSION.SDK_INT;
+    }
+
+    private String getClientModel() {
+        return Build.MANUFACTURER + Build.MODEL;
+    }
+
+    private String getInstallVersion() {
+        return Systems.getVersionName(AppContext.me()) + "";
+    }
 }
