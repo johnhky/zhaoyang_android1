@@ -116,14 +116,14 @@ public class ContactActivity extends BaseFragmentActivity2 {
                         if (allData != null) {
                             mAdapter.clear();
                             mAdapter.addAll(allData);
-//                            Collections.sort(getAdapter(), new NameComparator());
+                            Collections.sort(getAdapter(), new NameComparator());
                             mAdapter.notifyDataSetChanged();
                         }
                     } else {
                         if (allData == null) {
                             allData = new HashSet<>();
                         }
-//                        allData.addAll(mAdapter);
+                        allData.addAll(mAdapter);
                         Collection<LayoutId> filter = Collections2.filter(allData, new Predicate<LayoutId>() {
                             @Override
                             public boolean apply(LayoutId input) {
@@ -154,7 +154,7 @@ public class ContactActivity extends BaseFragmentActivity2 {
             @Override
             protected void handleResponse(PageDTO response) {
                 super.handleResponse(response);
-//                Collections.sort(getAdapter(), new NameComparator());
+                Collections.sort(getAdapter(), new NameComparator());
                 mAdapter.updatePosition();
                 mAdapter.onFinishLoadMore(true);
             }
@@ -166,11 +166,11 @@ public class ContactActivity extends BaseFragmentActivity2 {
             @Override
             protected void handleResponse(List<Contact> response) {
                 getAdapter().clear();
-//                getAdapter().addAll(response);
-//                Collections.sort(getAdapter(), new NameComparator());
+                getAdapter().addAll(response);
+                Collections.sort(getAdapter(), new NameComparator());
                 mAdapter.updatePosition();
                 getAdapter().onFinishLoadMore(true);
-                getAdapter().notifyDataSetChanged();
+//                getAdapter().notifyDataSetChanged();
             }
         });
     }
@@ -180,11 +180,11 @@ public class ContactActivity extends BaseFragmentActivity2 {
             @Override
             protected void handleResponse(List<Contact> response) {
                 getAdapter().clear();
-//                getAdapter().addAll(response);
-//                Collections.sort(getAdapter(), new NameComparator());
+                getAdapter().addAll(response);
+                Collections.sort(getAdapter(), new NameComparator());
                 mAdapter.updatePosition();
                 getAdapter().onFinishLoadMore(true);
-                getAdapter().notifyDataSetChanged();
+//                getAdapter().notifyDataSetChanged();
             }
         });
     }

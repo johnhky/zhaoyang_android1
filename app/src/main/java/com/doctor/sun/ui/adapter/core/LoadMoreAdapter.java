@@ -9,10 +9,12 @@ import com.doctor.sun.databinding.IncludeLoadingBinding;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
+import java.util.List;
+
 /**
  * Created by rick on 10/23/15.
  */
-public abstract class LoadMoreAdapter<T extends LayoutId, VH extends ViewDataBinding> extends BaseListAdapter<T, VH> {
+public abstract class LoadMoreAdapter<T extends LayoutId, VH extends ViewDataBinding> extends BaseListAdapter<T, VH> implements List<T> {
 //    private LoadingView loadingView;
 
     private boolean isLoading = false;
