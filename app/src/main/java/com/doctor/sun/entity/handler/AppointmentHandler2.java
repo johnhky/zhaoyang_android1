@@ -513,6 +513,17 @@ public class AppointmentHandler2 {
         });
     }
 
+    public static String getP2PId(Appointment data) {
+        if (Settings.isDoctor()) {
+            return data.getYunxin_accid();
+        } else {
+            if (data.getDoctor() != null) {
+                return data.getDoctor().getYunxinAccid();
+            } else {
+                return data.getYunxin_accid();
+            }
+        }
+    }
 
     public static String styledOrderStatus(Appointment data) {
         return "<font color='" + getStatusColor(data) + "'>" + getStatusLabel(data) + "</font>";

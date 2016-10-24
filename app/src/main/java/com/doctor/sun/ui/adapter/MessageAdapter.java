@@ -139,7 +139,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
                 if (prescriptionDTO == null) return;
                 Appointment appointment = prescriptionDTO.getAppointmentInfo();
                 if (appointment != null) {
-                    binding.name.setText(String.format("%s  %s", appointment.getRecord().getRecordName(), AppointmentHandler2.getRelation(appointment)));
+                    binding.name.setText(String.format("%s  %s", appointment.getRecord_name(), appointment.getRelation()));
                     binding.time.setText(String.format("%s  %s", appointment.getBook_time(), appointment.getDisplay_type()));
                 }
 
