@@ -1,10 +1,9 @@
 package com.doctor.sun.immutables;
 
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.Patient;
+import com.doctor.sun.entity.MedicalRecord;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.google.common.base.CaseFormat;
 
 import org.immutables.value.Value;
 
@@ -16,40 +15,29 @@ import org.immutables.value.Value;
 @JsonDeserialize(as = ImmutableAppointment.class)
 public abstract class Appointment {
 
+    public abstract int getId();
     public abstract String getTid();
 
-    public abstract String getId();
+    public abstract int getStatus();
+    public abstract int getHas_pay();
+    public abstract double getMoney();
+    public abstract double getNeed_pay();
 
-    public abstract String getDoctor_id();
-
-    public abstract String getRecord_id();
-
-    public abstract String getMoney();
-
-    public abstract String getType();
-
-    public abstract String getNeed_pay();
-
+    public abstract int getType();
     public abstract String getDisplay_type();
-
     public abstract String getDisplay_status();
-
-    public abstract String getStatus();
 
     public abstract String getCancel_reason();
 
-    public abstract String getHas_pay();
-
+    public abstract String getProgress();
+    public abstract double getTake_time();
     public abstract String getVisit_time();
-
-    public abstract String getTake_time();
-
     public abstract String getEnd_time();
-
     public abstract String getBook_time();
 
-    public abstract String getProgress();
 
+    public abstract String getDoctor_id();
+    public abstract String getRecord_id();
     public abstract Doctor getDoctor();
-
+    public abstract MedicalRecord getRecord();
 }

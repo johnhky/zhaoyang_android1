@@ -4,9 +4,11 @@
 
     <data>
 
+        <import type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
         <variable
             name="data"
-            type="com.doctor.sun.entity.Appointment" />
+            type="com.doctor.sun.immutables.Appointment" />
 
         <variable
             name="vh"
@@ -22,7 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{()->data.handler.onDoctorClickOrder(vh,adapter)}"
         android:orientation="vertical">
 
         <LinearLayout
@@ -36,7 +37,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.patientName,default = 患者名}"
+                android:text="@{data.medical_record.patientName,default = 患者名}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
@@ -46,7 +47,7 @@
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_marginStart="@dimen/dp_8"
                 android:layout_weight="1"
-                android:text="@{data.relation, default = 关系}"
+                android:text="@{data.medical_record.relation, default = 关系}"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13" />
 
@@ -57,7 +58,7 @@
                 android:layout_marginStart="@dimen/dp_8"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13"
-                app:html="@{data.handler.styledOrderStatus()}" />
+                app:html="@{AppointmentHandler2.styledOrderStatus(data)}" />
 
         </LinearLayout>
 
@@ -67,7 +68,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_time(data.handler.bookTime),default = 预约时间}"
+            android:text="@{@string/appointment_time(data.book_time),default = 预约时间}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 
@@ -77,7 +78,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_type(data.displayType),default = 专属咨询}"
+            android:text="@{@string/appointment_type(data.display_type),default = 专属咨询}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 
@@ -110,7 +111,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.handler.patientName}"
+                android:text="@{data.medical_record.patientName}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_12" />
 
@@ -118,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
-                android:text="@{data.handler.relation}"
+                android:text="@{data.medical_record.relation}"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_12" />
 
@@ -144,8 +145,8 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_7"
-            android:orientation="horizontal"
-            android:visibility="@{data.handler.isPayed()}">
+            android:orientation="horizontal">
+            <!--android:visibility="@{data.handler.isPayed()}">-->
 
             <View
                 android:layout_width="0dp"
@@ -165,10 +166,10 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:onClick="@{()->data.handler.cancel2(adapter,vh,data)}"
                     android:text="取消预约"
                     android:textColor="#339de1"
                     android:textSize="@dimen/font_13" />
+                <!--android:onClick="@{()->data.handler.cancel2(adapter,vh,data)}"-->
             </FrameLayout>
 
             <FrameLayout
@@ -183,10 +184,10 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:onClick="@{()->data.handler.remind(context,data.id,data.medicalRecord.patientId)}"
                     android:text="提  醒"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_13" />
+                <!--android:onClick="@{()->data.handler.remind(context,data.id,data.medicalRecord.patientId)}"-->
             </FrameLayout>
 
         </LinearLayout>
@@ -220,6 +221,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_16"
             android:background="#ebf0f3"
-            app:visible="@{data.hasPay==1}" />
+            app:visible="@{data.has_pay==1}" />
     </LinearLayout>
 </layout>
