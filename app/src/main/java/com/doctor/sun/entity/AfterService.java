@@ -6,7 +6,6 @@ import android.databinding.BaseObservable;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.StringDef;
-import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
@@ -20,6 +19,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.module.AppointmentModule;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
@@ -225,7 +225,7 @@ public class AfterService extends BaseObservable implements LayoutId {
                     position = 1;
                 }
 
-                if (response.canEdit == IntBoolean.FALSE) {
+                if (response.getCan_edit() == IntBoolean.FALSE) {
                     Intent intent = AfterServiceDoneActivity.intentFor(context, id, position);
                     context.startActivity(intent);
                 } else {
@@ -236,26 +236,26 @@ public class AfterService extends BaseObservable implements LayoutId {
         });
     }
 
-    public void chatting(Context context) {
-        Appointment appointment = new Appointment();
-        appointment.setId(Integer.parseInt(id));
-        appointment.setDisplayStatus(displayStatus);
-        appointment.setTid(tid);
-        if (Settings.isDoctor()) {
-            appointment.setUrgentRecord(record);
-            appointment.setRecordId(record.getMedicalRecordId());
-            appointment.setDoctor(doctor);
-        } else {
-            appointment.setUrgentRecord(record);
-            appointment.setRecordId(record.getMedicalRecordId());
-            appointment.setDoctor(doctor);
-        }
-        appointment.setDisplayStatus(displayStatus);
-        appointment.setDisplayType("诊后随访");
-        appointment.setAppointmentType(AppointmentType.AFTER_SERVICE);
-        Intent intent = ChattingActivity.makeIntent(context, appointment);
-        context.startActivity(intent);
-    }
+//    public void chatting(Context context) {
+//        Appointment appointment = new Appointment();
+//        appointment.setId(Integer.parseInt(id));
+//        appointment.setDisplayStatus(displayStatus);
+//        appointment.setTid(tid);
+//        if (Settings.isDoctor()) {
+//            appointment.setUrgentRecord(record);
+//            appointment.setRecordId(record.getMedicalRecordId());
+//            appointment.setDoctor(doctor);
+//        } else {
+//            appointment.setUrgentRecord(record);
+//            appointment.setRecordId(record.getMedicalRecordId());
+//            appointment.setDoctor(doctor);
+//        }
+//        appointment.setDisplayStatus(displayStatus);
+//        appointment.setDisplayType("诊后随访");
+//        appointment.setAppointmentType(AppointmentType.AFTER_SERVICE);
+//        Intent intent = ChattingActivity.makeIntent(context, appointment);
+//        context.startActivity(intent);
+//    }
 
     public void viewDetail(Context context, String id) {
         Intent intent = AfterServiceDoneActivity.intentFor(context, id, 0);

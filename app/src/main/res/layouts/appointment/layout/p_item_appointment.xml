@@ -5,8 +5,11 @@
 
     <data>
 
-        <import type="com.doctor.sun.entity.handler.AppointmentHandler2"
-            alias="handler"/>
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
+        <import type="java.lang.Integer" />
 
         <variable
             name="data"
@@ -273,7 +276,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:onClick="@{()->handler.pCancel(adapter, vh, data.id)}"
+                    android:onClick="@{()->handler.pCancel(adapter, vh, Integer.parseInt(data.id))}"
                     android:text="取消预约"
                     android:textColor="#339de1"
                     android:textSize="@dimen/font_13" />

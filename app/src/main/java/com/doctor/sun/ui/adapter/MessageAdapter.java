@@ -11,14 +11,15 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ItemRPrescriptionBinding;
 import com.doctor.sun.databinding.MsgPrescriptionListBinding;
 import com.doctor.sun.dto.PrescriptionDTO;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Avatar;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.ImagePreviewActivity;
@@ -59,7 +60,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
      * @param data
      */
     private void initData(Appointment data) {
-        this.finishedTime = data.getHandler().getFinishedTime();
+        this.finishedTime = AppointmentHandler2.getFinishedTime(data);
         switch (Config.getInt(Constants.USER_TYPE, -1)) {
             case AuthModule.PATIENT_TYPE: {
                 Doctor doctor = data.getDoctor();
@@ -74,7 +75,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
             }
             default: {
                 Doctor doctor = Settings.getDoctorProfile();
-                yourAvatar = data.getAvatar();
+                yourAvatar = data.getRecord().getPatientAvatar();
                 if (doctor != null) {
                     myAvatar = doctor.getAvatar();
                 } else {
@@ -138,8 +139,8 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
                 if (prescriptionDTO == null) return;
                 Appointment appointment = prescriptionDTO.getAppointmentInfo();
                 if (appointment != null) {
-                    binding.name.setText(String.format("%s  %s", appointment.getRecordName(), appointment.getRelation()));
-                    binding.time.setText(String.format("%s  %s", appointment.getBookTime(), appointment.getDisplayType()));
+                    binding.name.setText(String.format("%s  %s", appointment.getRecord_name(), appointment.getRelation()));
+                    binding.time.setText(String.format("%s  %s", appointment.getBook_time(), appointment.getDisplay_type()));
                 }
 
                 if (prescriptionDTO.getDrug() == null) return;
