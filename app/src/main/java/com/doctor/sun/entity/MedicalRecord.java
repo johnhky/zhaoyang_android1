@@ -55,14 +55,14 @@ public class MedicalRecord extends BaseItem implements Parcelable {
      */
     @JsonProperty("patient_id")
     private int patientId;
-    @JsonProperty("medicalRecordId")
+    @JsonProperty("id")
     private int medicalRecordId;
     @JsonProperty("age")
     private int age;
     @JsonProperty("gender")
     private int gender;
-    @JsonProperty("name")
-    private String name;
+    @JsonProperty("record_name")
+    private String recordName;
     @JsonProperty("relation")
     private String relation;
     @JsonProperty("birthday")
@@ -97,8 +97,8 @@ public class MedicalRecord extends BaseItem implements Parcelable {
         this.patientId = patientId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRecordName(String recordName) {
+        this.recordName = recordName;
     }
 
     public void setRelation(String relation) {
@@ -151,8 +151,8 @@ public class MedicalRecord extends BaseItem implements Parcelable {
         return patientId;
     }
 
-    public String getName() {
-        return name;
+    public String getRecordName() {
+        return recordName;
     }
 
     public String getRelation() {
@@ -243,7 +243,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
     public String toString() {
         return "MedicalRecord{" +
                 "patientId=" + patientId +
-                ", name='" + name + '\'' +
+                ", name='" + recordName + '\'' +
                 ", relation='" + relation + '\'' +
                 ", gender=" + gender +
                 ", age='" + birthday + '\'' +
@@ -268,7 +268,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.patientId);
-        dest.writeString(this.name);
+        dest.writeString(this.recordName);
         dest.writeString(this.relation);
         dest.writeInt(this.gender);
         dest.writeString(this.birthday);
@@ -290,7 +290,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
 
     protected MedicalRecord(Parcel in) {
         this.patientId = in.readInt();
-        this.name = in.readString();
+        this.recordName = in.readString();
         this.relation = in.readString();
         this.gender = in.readInt();
         this.birthday = in.readString();
@@ -322,15 +322,15 @@ public class MedicalRecord extends BaseItem implements Parcelable {
     public HashMap<String, String> toHashMap() {
         HashMap<String, String> result = new HashMap<String, String>();
         result.put("medicalRecordId", String.valueOf(medicalRecordId));
-        result.put("name", name);
-        result.put("age", birthday);
+        result.put("name", getRecordName());
+        result.put("birthday", birthday);
         result.put("gender", String.valueOf(gender));
         result.put("relation", relation);
         return result;
     }
 
     public String getPatientNameRelation(Context context) {
-        return context.getString(R.string.patient_name_relation, patientName, name, relation);
+        return context.getString(R.string.patient_name_relation, patientName, recordName, relation);
     }
 
     public String getGenderAndBirthday(Context context) {

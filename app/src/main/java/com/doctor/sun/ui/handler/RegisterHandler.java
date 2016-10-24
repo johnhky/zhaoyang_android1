@@ -25,7 +25,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.WebBrowserActivity;
-import com.doctor.sun.ui.activity.patient.PMainActivity2;
+import com.doctor.sun.ui.activity.patient.PMainActivity;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.util.MD5;
 import com.umeng.analytics.MobclickAgent;
@@ -106,7 +106,7 @@ public class RegisterHandler extends BaseObservable {
     private void registerPatientSuccess(Context context, Token response) {
         if (response != null) {
             TokenCallback.handleToken(response);
-            Intent i = PMainActivity2.intentFor(context);
+            Intent i = PMainActivity.intentFor(context);
             context.startActivity(i);
         }
     }

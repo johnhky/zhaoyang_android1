@@ -80,7 +80,7 @@ public class MedicalRecordHandler {
     }
 
     public String getRecordDetail() {
-        return data.getName() + "（" + getGenderRecord() + "/" + data.getAge() + "岁）";
+        return data.getRecordName() + "（" + getGenderRecord() + "/" + data.getAge() + "岁）";
     }
 
     public int getDefaultAvatar() {

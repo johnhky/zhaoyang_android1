@@ -295,7 +295,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.doctor.sun.ui.activity.patient.PMainActivity2"
+            android:name="com.doctor.sun.ui.activity.patient.PMainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 

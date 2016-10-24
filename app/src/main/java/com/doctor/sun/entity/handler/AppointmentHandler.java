@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringDef;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -23,7 +23,6 @@ import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.AppointmentStatus;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.constans.AppointmentType;
@@ -43,7 +42,6 @@ import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.AuthModule;
-import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.ChattingActivityNoMenu;
@@ -63,7 +61,6 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseAdapter;
 import com.doctor.sun.ui.fragment.PayAppointmentFragment;
 import com.doctor.sun.ui.handler.PayMethodInterface;
-import com.doctor.sun.ui.widget.AppointmentHistoryDialog;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.vo.BaseItem;
@@ -116,9 +113,9 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
         if (null != data.getPatientName()) {
             return data.getRecordName();
         } else if (null != data.getMedicalRecord()) {
-            return data.getMedicalRecord().getName();
+            return data.getMedicalRecord().getRecordName();
         } else if (null != data.getUrgentRecord()) {
-            return data.getUrgentRecord().getName();
+            return data.getUrgentRecord().getRecordName();
         } else {
             return "";
         }
@@ -140,9 +137,9 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
         if (null != relation && !relation.equals("")) {
             return relation;
         } else if (null != data.getMedicalRecord()) {
-            return "(" + data.getMedicalRecord().getRelation() + "/" + data.getMedicalRecord().getName() + ")";
+            return "(" + data.getMedicalRecord().getRelation() + "/" + data.getMedicalRecord().getRecordName() + ")";
         } else if (null != data.getUrgentRecord()) {
-            return "(" + data.getUrgentRecord().getRelation() + "/" + data.getUrgentRecord().getName() + ")";
+            return "(" + data.getUrgentRecord().getRelation() + "/" + data.getUrgentRecord().getRecordName() + ")";
         } else {
             return "";
         }
@@ -164,9 +161,9 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
     public String getRecordName2() {
         if (null != data.getMedicalRecord()) {
-            return data.getMedicalRecord().getName();
+            return data.getMedicalRecord().getRecordName();
         } else if (null != data.getUrgentRecord()) {
-            return data.getUrgentRecord().getName();
+            return data.getUrgentRecord().getRecordName();
         } else {
             return "";
         }
@@ -479,7 +476,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
             return true;
         }
         boolean isDetailAppointment = isDetail();
-        return isDetailAppointment && data.getOrderStatus().equals(Status.A_DOING);
+        return isDetailAppointment && data.getStatus() == Status.DOING;
     }
 
     @Override
@@ -489,7 +486,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
     @Override
     public boolean shouldAskServer() {
-        return data.getAppointmentType() == AppointmentType.PREMIUM && Status.A_DOING.equals(data.getOrderStatus());
+        return data.getAppointmentType() == AppointmentType.PREMIUM && data.getStatus() == Status.DOING;
     }
 
     @Override
@@ -560,11 +557,11 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
 
     public boolean payVisible() {
-        return data.getOrderStatus().equals(Status.A_UNPAID_LOCALE2) || data.getOrderStatus().equals(Status.A_UNPAID);
+        return data.getStatus() == Status.UNPAID;
     }
 
     public boolean isPayed() {
-        return data.getOrderStatus().equals(Status.A_PAID_LOCALE2) || data.getOrderStatus().equals(Status.A_PAID);
+        return data.getStatus() == Status.PAID;
     }
 
     public boolean hasDoctorComment() {
@@ -593,25 +590,23 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
 
     public void onPatientClickOrder(BaseAdapter adapter) {
-        switch (data.getDisplayStatus()) {
-            case Status.A_UNPAID:
-            case Status.A_UNPAID_LOCALE2: {
+        switch (data.getStatus()) {
+            case Status.UNPAID: {
                 startPayActivity(adapter.getContext(), data.getId());
                 break;
             }
-            case Status.A_PAID:
-            case Status.A_PAID_LOCALE2: {
+            case Status.PAID: {
                 Intent intent = EditQuestionActivity.intentFor(adapter.getContext(), data.getIdString(), QuestionsPath.NORMAL);
                 adapter.getContext().startActivity(intent);
                 break;
             }
-            case Status.A_FINISHED: {
+            case Status.FINISHED: {
                 Intent intent = FinishedOrderActivity.makeIntent(adapter.getContext(), data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY);
                 adapter.getContext().startActivity(intent);
                 break;
             }
-            case Status.A_DOING:
-            case Status.A_WAITING: {
+            case Status.DOING:
+            case Status.WAITING: {
                 chat(adapter.getContext(), data);
                 break;
             }
@@ -622,20 +617,19 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
     public void onDoctorClickOrder(final BaseViewHolder vh, final BaseAdapter adapter) {
-        switch (data.getDisplayStatus()) {
-            case Status.A_PAID:
-            case Status.A_PAID_LOCALE2: {
+        switch (data.getStatus()) {
+            case Status.PAID: {
                 detail(adapter.getContext(), vh.getItemViewType());
                 break;
             }
-            case Status.A_FINISHED: {
+            case Status.FINISHED: {
                 chat(adapter, vh);
                 Intent intent = HistoryDetailActivity.makeIntent(adapter.getContext(), data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY);
                 adapter.getContext().startActivity(intent);
                 break;
             }
-            case Status.A_DOING:
-            case Status.A_WAITING: {
+            case Status.DOING:
+            case Status.WAITING: {
                 chat(adapter, vh);
                 break;
             }
@@ -676,14 +670,10 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
     public void alertAppointmentFinished(Context context) {
         if (!Settings.isDoctor()) {
-            switch (data.getDisplayStatus()) {
-                case Status.REJECTED:
-                case Status.CLOSED:
-                case Status.FINISHED:
+            switch (data.getStatus()) {
                 case Status.LOCKED:
-                case Status.A_FINISHED:
-                case Status.A_UNPAID:
-                case Status.A_UNPAID_LOCALE2:
+                case Status.FINISHED:
+                case Status.UNPAID:
                     switch (data.getAppointmentType()) {
                         case AppointmentType.AFTER_SERVICE:
                             Toast.makeText(context, "随访已经结束,请耐心等待下次随访", Toast.LENGTH_SHORT).show();
@@ -705,8 +695,15 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
     public void callTelephone(final Context context) {
+//        ImModule imModule = Api.of(ImModule.class);
+//        imModule.makeYunXinPhoneCall(getMyPhoneNO(), getPhoneNO()).enqueue(new SimpleCallback<String>() {
+//            @Override
+//            protected void handleResponse(String response) {
+//                Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
+//            }
+//        });
         ImModule imModule = Api.of(ImModule.class);
-        imModule.makeYunXinPhoneCall(getMyPhoneNO(), getPhoneNO()).enqueue(new SimpleCallback<String>() {
+        imModule.makeYunXinPhoneCall(data.getId()).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
                 Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
@@ -765,31 +762,24 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
 
     public String getStatusColor() {
-        switch (data.getDisplayStatus()) {
+        switch (data.getStatus()) {
             case Status.FINISHED:
-            case Status.A_FINISHED:
                 return "#363636";
 
-            case Status.A_UNPAID:
-            case Status.A_UNPAID_LOCALE2:
+            case Status.UNPAID:
                 return "#ff1800";
 
-            case Status.TODO:
-            case Status.A_PAID:
-            case Status.A_PAID_LOCALE2:
+            case Status.PAID:
                 return "#ff8e43";
 
-            case Status.A_WAITING:
+            case Status.WAITING:
                 return "#ff1800";
 
-            case Status.A_DOING:
             case Status.DOING:
                 return "#88cb5a";
 
             case Status.LOCKED:
-            case Status.REJECTED:
-            case Status.CLOSED:
-            case Status.A_CANCEL:
+            case Status.CANCEL:
                 return "#898989";
             default:
                 return "#acacac";
@@ -806,11 +796,11 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
      * @return
      */
     public long getFinishedTime() {
-        String orderStatus = data.getOrderStatus();
-        if (orderStatus == null) {
-            orderStatus = "";
-        }
-        if (orderStatus.equals(Status.FINISHED) || orderStatus.equals(Status.A_FINISHED)) {
+        int orderStatus = data.getStatus();
+//        if (orderStatus == null) {
+//            orderStatus = "";
+//        }
+        if (orderStatus == Status.FINISHED) {
             return 0;
         }
 
@@ -930,7 +920,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
 
     public boolean showCommentBtn() {
-        return data.getOrderStatus().equals(Status.A_FINISHED);
+        return data.getStatus() == Status.FINISHED;
     }
 
     public boolean showAnswerQuestionBtn() {
@@ -938,31 +928,39 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
     public void viewDetail(final Context context, final int tab) {
-        DiagnosisModule api = Api.of(DiagnosisModule.class);
-        String type = "appointment";
-        if (isAfterService()) {
-            type = "followUp";
-        }
-        api.appointmentStatus(appointmentId(), type).enqueue(new SimpleCallback<AppointmentStatus>() {
+//        DiagnosisModule api = Api.of(DiagnosisModule.class);
+//        String type = "appointment";
+//        if (isAfterService()) {
+//            type = "followUp";
+//        }
+//        api.appointmentStatus(appointmentId(), type).enqueue(new SimpleCallback<AppointmentStatus>() {
+//            @Override
+//            protected void handleResponse(AppointmentStatus response) {
+//                int canEdit;
+//                if (response != null) {
+//                    canEdit = response.canEdit;
+//                    String orderStatus = response.displayStatus;
+//                    boolean isCanEditStatus = !orderStatus.equals(Status.FINISHED)
+//                            && !orderStatus.equals(Status.A_FINISHED)
+//                            && !orderStatus.equals(Status.REJECTED)
+//                            && !orderStatus.equals(Status.A_UNPAID)
+//                            && !orderStatus.equals(Status.CLOSED)
+//                            && !orderStatus.equals(Status.A_CANCEL);
+//                    if (isCanEditStatus) {
+//                        canEdit = IntBoolean.TRUE;
+//                    }
+//                } else {
+//                    canEdit = IntBoolean.NOT_GIVEN;
+//                }
+//                answerQuestion(context, tab, canEdit);
+//            }
+//        });
+
+        AppointmentModule api = Api.of(AppointmentModule.class);
+        api.appointmentDetail(String.valueOf(appointmentId())).enqueue(new SimpleCallback<Appointment>() {
             @Override
-            protected void handleResponse(AppointmentStatus response) {
-                int canEdit;
-                if (response != null) {
-                    canEdit = response.canEdit;
-                    String orderStatus = response.displayStatus;
-                    boolean isCanEditStatus = !orderStatus.equals(Status.FINISHED)
-                            && !orderStatus.equals(Status.A_FINISHED)
-                            && !orderStatus.equals(Status.REJECTED)
-                            && !orderStatus.equals(Status.A_UNPAID)
-                            && !orderStatus.equals(Status.CLOSED)
-                            && !orderStatus.equals(Status.A_CANCEL);
-                    if (isCanEditStatus) {
-                        canEdit = IntBoolean.TRUE;
-                    }
-                } else {
-                    canEdit = IntBoolean.NOT_GIVEN;
-                }
-                answerQuestion(context, tab, canEdit);
+            protected void handleResponse(Appointment response) {
+                answerQuestion(context, tab, response.canEdit);
             }
         });
     }
@@ -1009,28 +1007,21 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
     public int getCurrentStatus() {
-        switch (data.getDisplayStatus()) {
+        switch (data.getStatus()) {
             case Status.LOCKED:
-            case Status.REJECTED:
-            case Status.CLOSED:
-            case Status.A_CANCEL:
+            case Status.CANCEL:
             case Status.FINISHED:
-            case Status.A_FINISHED:
                 return 4;
 
-            case Status.A_UNPAID:
-            case Status.A_UNPAID_LOCALE2:
+            case Status.UNPAID:
                 return 0;
 
-            case Status.TODO:
-            case Status.A_PAID:
-            case Status.A_PAID_LOCALE2:
+            case Status.PAID:
                 return 1;
 
-            case Status.A_WAITING:
+            case Status.WAITING:
                 return 3;
 
-            case Status.A_DOING:
             case Status.DOING:
                 return 2;
 
@@ -1041,28 +1032,21 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
 
     public int getStatusBackground() {
-        switch (data.getDisplayStatus()) {
+        switch (data.getStatus()) {
             case Status.LOCKED:
-            case Status.REJECTED:
-            case Status.CLOSED:
-            case Status.A_CANCEL:
+            case Status.CANCEL:
             case Status.FINISHED:
-            case Status.A_FINISHED:
                 return R.drawable.shape_blue_rect_transparent;
 
-            case Status.A_UNPAID:
-            case Status.A_UNPAID_LOCALE2:
+            case Status.UNPAID:
                 return R.drawable.shape_red_rect_transparent;
 
-            case Status.TODO:
-            case Status.A_PAID:
-            case Status.A_PAID_LOCALE2:
+            case Status.PAID:
                 return R.drawable.shape_orange_rect_transparent;
 
-            case Status.A_WAITING:
+            case Status.WAITING:
                 return R.drawable.shape_red_rect_transparent;
 
-            case Status.A_DOING:
             case Status.DOING:
                 return R.drawable.shape_green_rect_transparent;
 
@@ -1072,28 +1056,21 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
     public int getStatusArrow() {
-        switch (data.getDisplayStatus()) {
+        switch (data.getStatus()) {
             case Status.LOCKED:
-            case Status.REJECTED:
-            case Status.CLOSED:
-            case Status.A_CANCEL:
+            case Status.CANCEL:
             case Status.FINISHED:
-            case Status.A_FINISHED:
                 return R.drawable.ic_chevron_right_blue_24dp;
 
-            case Status.A_UNPAID:
-            case Status.A_UNPAID_LOCALE2:
+            case Status.UNPAID:
                 return R.drawable.ic_chevron_right_red_24dp;
 
-            case Status.TODO:
-            case Status.A_PAID:
-            case Status.A_PAID_LOCALE2:
+            case Status.PAID:
                 return R.drawable.ic_chevron_right_orange_24dp;
 
-            case Status.A_WAITING:
+            case Status.WAITING:
                 return R.drawable.ic_chevron_right_red_24dp;
 
-            case Status.A_DOING:
             case Status.DOING:
                 return R.drawable.ic_chevron_right_green_24dp;
 
@@ -1108,31 +1085,24 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
     public String getStatusColor2() {
-        switch (data.getDisplayStatus()) {
+        switch (data.getStatus()) {
             case Status.FINISHED:
-            case Status.A_FINISHED:
                 return "#339de1";
 
-            case Status.A_UNPAID:
-            case Status.A_UNPAID_LOCALE2:
+            case Status.UNPAID:
                 return "#ff1800";
 
-            case Status.TODO:
-            case Status.A_PAID:
-            case Status.A_PAID_LOCALE2:
+            case Status.PAID:
                 return "#ff8e43";
 
-            case Status.A_WAITING:
+            case Status.WAITING:
                 return "#ff1800";
 
-            case Status.A_DOING:
             case Status.DOING:
                 return "#88cb5a";
 
             case Status.LOCKED:
-            case Status.REJECTED:
-            case Status.CLOSED:
-            case Status.A_CANCEL:
+            case Status.CANCEL:
                 return "#898989";
             default:
                 return "#acacac";
@@ -1140,22 +1110,14 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
 
-    @StringDef
+    @IntDef
     public @interface Status {
-        String ALL = "all";
-        String TODO = "todo";
-        String DOING = "doing";
-        String REJECTED = "rejected";
-        String CLOSED = "closed";
-        String FINISHED = "finished";
-        String LOCKED = "问卷已锁定";
-        String A_DOING = "进行中";
-        String A_FINISHED = "已完成";
-        String A_UNPAID = "未支付";
-        String A_UNPAID_LOCALE2 = "未付款";
-        String A_PAID = "已支付";
-        String A_PAID_LOCALE2 = "已付款";
-        String A_WAITING = "待建议";
-        String A_CANCEL = "医生取消";
+        int UNPAID = 0;
+        int PAID = 1;
+        int DOING = 2;
+        int WAITING = 3;
+        int FINISHED = 4;
+        int CANCEL = 6;
+        int LOCKED = 7;
     }
 }

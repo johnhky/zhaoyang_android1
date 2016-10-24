@@ -88,12 +88,12 @@ public class MainActivity extends BaseDoctorActivity {
         if (doctor == null) {
             return;
         }
-        boolean rejected = Doctor.STATUS_REJECT.equals(doctor.getStatus());
-        boolean notChanged = Settings.lastDoctorStatus().equals(doctor.getStatus());
+        boolean rejected = Doctor.STATUS_REJECT.equals(doctor.getReviewStatus());
+        boolean notChanged = Settings.lastDoctorStatus().equals(doctor.getReviewStatus());
         if (notChanged && !rejected) {
             return;
         }
-        switch (doctor.getStatus()) {
+        switch (doctor.getReviewStatus()) {
             case Doctor.STATUS_REJECT: {
                 ClickMenu menu = new ClickMenu(R.layout.dialog_pass, 0, "审核未能通过", null);
                 menu.setSubTitle("您可以修改信息并再次发起审核请求");
@@ -126,7 +126,7 @@ public class MainActivity extends BaseDoctorActivity {
                 break;
             }
         }
-        Settings.setLastDoctorStatus(doctor.getStatus());
+        Settings.setLastDoctorStatus(doctor.getReviewStatus());
     }
 
     private FooterViewModel getFooter() {

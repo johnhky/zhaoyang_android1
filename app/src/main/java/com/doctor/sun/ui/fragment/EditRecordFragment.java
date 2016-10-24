@@ -107,8 +107,7 @@ public class EditRecordFragment extends SortedListFragment {
 
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setMedicalRecordId(data.getMedicalRecordId());
-        medicalRecord.setName(data.getName());
-        medicalRecord.setPatientName(getAdapter().get("name").getValue());
+        medicalRecord.setRecordName(getAdapter().get("name").getValue());
         medicalRecord.setRelation(getAdapter().get("relation").getValue());
         medicalRecord.setBirthday(getAdapter().get("birthday").getValue());
         medicalRecord.setGender(Integer.parseInt(getAdapter().get("gender").getValue()));

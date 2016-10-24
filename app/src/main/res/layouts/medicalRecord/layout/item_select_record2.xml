@@ -45,7 +45,7 @@
                 android:gravity="start"
                 android:maxLength="20"
                 android:singleLine="true"
-                android:text='@{data.name}'
+                android:text='@{data.recordName}'
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_13"
                 app:layout_widthPercent="40%" />

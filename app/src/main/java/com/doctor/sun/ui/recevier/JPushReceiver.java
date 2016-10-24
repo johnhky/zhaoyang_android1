@@ -23,7 +23,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
-import com.doctor.sun.ui.activity.patient.PMainActivity2;
+import com.doctor.sun.ui.activity.patient.PMainActivity;
 import com.doctor.sun.util.JacksonUtils;
 import com.google.common.base.Strings;
 
@@ -105,7 +105,7 @@ public class JPushReceiver extends BroadcastReceiver {
         if (Settings.isDoctor()) {
             intent = MainActivity.makeIntent(context);
         } else {
-            intent = PMainActivity2.intentFor(context);
+            intent = PMainActivity.intentFor(context);
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
@@ -148,7 +148,7 @@ public class JPushReceiver extends BroadcastReceiver {
         if (Settings.isDoctor()) {
             intent = MainActivity.makeIntent(AppContext.me());
         } else {
-            intent = PMainActivity2.intentFor(AppContext.me());
+            intent = PMainActivity.intentFor(AppContext.me());
         }
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

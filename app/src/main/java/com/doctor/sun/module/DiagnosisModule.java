@@ -3,7 +3,6 @@ package com.doctor.sun.module;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.AppointmentStatus;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Prescription;
@@ -61,14 +60,12 @@ public interface DiagnosisModule {
     @GET("diagnosis/doctor-orders")
     Call<ApiDTO<PageDTO<Appointment>>> recordPool(@Query("page") String page, @Query("searchWord") String searchWord);
 
-    @GET("diagnosis/edit-status")
-    Call<ApiDTO<AppointmentStatus>> appointmentStatus(@Query("orderId") int appointmentId, @Query("type") String type);
-
     @GET("diagnosis/doctor-orders")
     Call<ApiDTO<PageDTO<Appointment>>> appointmentHistory(@Query("page") int page,
                                                           @Query("recordId") int recordId,
                                                           @Query("searchWord") String searchWord);
+
     @GET("diagnosis/record-histories")
     Call<ApiDTO<List<Appointment>>> recordHistory(@Query("recordId") int recordId,
-                                                          @Query("type") String type);
+                                                  @Query("type") String type);
 }

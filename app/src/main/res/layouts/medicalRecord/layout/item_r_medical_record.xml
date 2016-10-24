@@ -38,7 +38,7 @@
                 android:layout_height="@dimen/dp_56"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:gravity="center_vertical"
-                android:text="@{@string/record_relation_name(data.relation, data.name)}"
+                android:text="@{@string/record_relation_name(data.relation, data.recordName)}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_13" />
 

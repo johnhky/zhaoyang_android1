@@ -14,7 +14,7 @@ public class ImAccount {
     private String subAccountSid;
     @JsonProperty("subToken")
     private String subToken;
-    @JsonProperty("voipAccount")
+    @JsonProperty("voip_account")
     private String voipAccount;
     @JsonProperty("voipPwd")
     private String voipPwd;

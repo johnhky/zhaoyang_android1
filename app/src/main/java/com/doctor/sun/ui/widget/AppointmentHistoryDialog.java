@@ -52,6 +52,12 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getBinding().toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         getBinding().tvPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

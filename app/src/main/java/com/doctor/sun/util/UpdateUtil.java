@@ -16,7 +16,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.entity.Version;
 import com.doctor.sun.event.ProgressEvent;
 import com.doctor.sun.event.UpdateEvent;
@@ -60,7 +59,6 @@ public class UpdateUtil {
             String json = Config.getString(NEW_VERSION);
             if (json != null) {
                 Version serverVersion = JacksonUtils.fromJson(json, Version.class);
-//                handleNewVersion(context, serverVersion, myVersion);
                 EventHub.post(new UpdateEvent(serverVersion, myVersion));
                 return;
             }
@@ -75,8 +73,6 @@ public class UpdateUtil {
                 if (response.isSuccessful()) {
                     final Version data = response.body().getData();
                     Config.putString(NEW_VERSION, JacksonUtils.toJson(data));
-//                    handleNewVersion(context, data, myVersion);
-
                     EventHub.post(new UpdateEvent(data, myVersion));
                 } else {
                     Log.e(TAG, "onResponse: ");

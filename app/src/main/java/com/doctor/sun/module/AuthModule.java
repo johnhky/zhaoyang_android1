@@ -56,6 +56,14 @@ public interface AuthModule {
     Call<ApiDTO<Token>> login(@Field("phone") String phone, @Field("password") String password);
 
     @FormUrlEncoded
+    @POST("auth/login")
+    Call<ApiDTO<Token>> login(@Field("phone") String phone,
+                              @Field("password") String password,
+                              @Field("clientModel") String clientModel,
+                              @Field("clientVersion") String clientVersion,
+                              @Field("installVersion") String installVersion);
+
+    @FormUrlEncoded
     @POST("auth/reset")
     Call<ApiDTO<String>> reset(@Field("phone") String phone,
                                @Field("password") String password, @Field("captcha") String captcha);

@@ -15,6 +15,7 @@ import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
@@ -38,6 +39,19 @@ public class Drug extends BaseObservable implements LayoutId {
      * created_at : 2015-12-07 14:20:35
      */
 
+
+    /**
+     * status
+     * 0=>'未付款'
+     * 1=>'已付款'
+     * 2=>'进行中'
+     * 3=>'待建议'
+     * 4=>'已完成'
+     * 5=>'已关闭'
+     * 6=>'医生取消'
+     * 7=>'问卷已锁定'
+     */
+
     @JsonProperty("id")
     private int id;
     @JsonProperty("drug")
@@ -56,8 +70,6 @@ public class Drug extends BaseObservable implements LayoutId {
     private double needPay = -1;
     @JsonProperty("has_pay")
     private int hasPay;
-    @JsonProperty("status")
-    private String status;
     @JsonProperty("created_at")
     private String createdAt;
     /**
@@ -68,6 +80,9 @@ public class Drug extends BaseObservable implements LayoutId {
     private int appointmentId;
     @JsonProperty("doctor")
     private Doctor doctor;
+
+    @JsonIgnore
+    private String status = "";
 
     public void setId(int id) {
         this.id = id;
@@ -144,7 +159,15 @@ public class Drug extends BaseObservable implements LayoutId {
 
     @Bindable
     public String getStatus() {
-        return status;
+        if (status.equals("")) {
+            if (hasPay == 1) {
+                return "已支付";
+            } else {
+                return "未支付";
+            }
+        } else {
+            return status;
+        }
     }
 
     public void setStatus(String status) {
@@ -189,25 +212,25 @@ public class Drug extends BaseObservable implements LayoutId {
         return R.layout.p_item_drug;
     }
 
-    public String getStatuses() {
-        String statuses = "";
-        switch (getStatus()) {
-            case "normal":
-                switch (getHasPay()) {
-                    case 0:
-                        statuses = "未支付";
-                        break;
-                    case 1:
-                        statuses = "已支付";
-                        break;
-                }
-                break;
-            case "cancel":
-                statuses = "已关闭";
-                break;
-        }
-        return statuses;
-    }
+//    public String getStatuses() {
+//        String statuses = "";
+//        switch (getStatus()) {
+//            case "normal":
+//                switch (getHasPay()) {
+//                    case 0:
+//                        statuses = "未支付";
+//                        break;
+//                    case 1:
+//                        statuses = "已支付";
+//                        break;
+//                }
+//                break;
+//            case "cancel":
+//                statuses = "已关闭";
+//                break;
+//        }
+//        return statuses;
+//    }
 
     public void setAppointmentId(int appointmentId) {
         this.appointmentId = appointmentId;
@@ -238,43 +261,6 @@ public class Drug extends BaseObservable implements LayoutId {
         }
 
         showDetail(context, drug);
-
-//        final AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
-//        new PayMethodDialog(context, new PayInterface() {
-//            @Override
-//            public void payWithAlipay(Activity activity, String couponId) {
-//                appointmentModule.buildAlipayGoodsOrder(totalFee, "alipay", extraField).enqueue(new AlipayCallback(activity, totalFee, extraField));
-//            }
-//
-//            @Override
-//            public void payWithWeChat(Activity activity, String couponId) {
-//                appointmentModule.buildWeChatGoodsOrder(totalFee, "wechat", extraField).enqueue(new WeChatPayCallback(activity, totalFee, extraField));
-//            }
-//
-//            @Override
-//            public void simulatedPay(BaseAdapter component, View view, BaseViewHolder vh) {
-//                ToastHelper.showMessage(view.getContext(), "模拟支付暂时未开放");
-//            }
-//        }).show();
-
-//        final AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
-//        new PayMethodDialog(context, new PayInterface() {
-//            @Override
-//            public void payWithAlipay(Activity activity, String couponId) {
-//                appointmentModule.buildAlipayGoodsOrder(totalFee, "alipay", extraField).enqueue(new AlipayCallback(activity, totalFee, extraField));
-//            }
-//
-//            @Override
-//            public void payWithWeChat(Activity activity, String couponId) {
-//                appointmentModule.buildWeChatGoodsOrder(totalFee, "wechat", extraField).enqueue(new WeChatPayCallback(activity, totalFee, extraField));
-//            }
-//
-//            @Override
-//            public void simulatedPay(BaseAdapter component, View view, BaseViewHolder vh) {
-//                ToastHelper.showMessage(view.getContext(), "模拟支付暂时未开放");
-//            }
-//        }).show();
-
     }
 
     public void cancelOrder(Context context, int id) {
@@ -307,7 +293,7 @@ public class Drug extends BaseObservable implements LayoutId {
 
 
     public String styledStatus() {
-        return "<font color='" + statusColor(status) + "'>" + getStatuses() + "</font>";
+        return "<font color='" + statusColor(getStatus()) + "'>" + getStatus() + "</font>";
     }
 
     public void showDetail(Context context, Drug drug) {

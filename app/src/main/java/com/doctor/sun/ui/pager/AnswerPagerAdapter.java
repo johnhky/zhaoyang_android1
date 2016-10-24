@@ -23,7 +23,7 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
 
     String recordId;
     String appointmentId;
-    String displayStatus;
+    int status;
     int canEdit;
 
 
@@ -31,7 +31,7 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
         recordId = String.valueOf(appointment.getRecordId());
         appointmentId = String.valueOf(appointment.getId());
-        displayStatus = appointment.getDisplayStatus();
+        status = appointment.getStatus();
         canEdit = appointment.canEdit;
     }
 
@@ -86,7 +86,7 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public boolean isAppointmentFinished() {
-        return AppointmentHandler.Status.A_FINISHED.equals(displayStatus);
+        return AppointmentHandler.Status.FINISHED == status;
     }
 
     /**

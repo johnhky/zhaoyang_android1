@@ -31,7 +31,6 @@ import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.CallFailedShouldCallPhoneEvent;
 import com.doctor.sun.event.HideInputEvent;
-import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.RejectInComingCallEvent;
 import com.doctor.sun.event.SendMessageEvent;
 import com.doctor.sun.http.Api;
@@ -45,7 +44,6 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.widget.AppointmentHistoryDialog;
 import com.doctor.sun.ui.widget.ExtendedEditText;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
@@ -122,6 +120,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         initData();
         registerRealmChangeListener();
 
+        // 随访聊天界面不显示历史记录按钮
         if (!getData().getDisplayType().equals("诊后随访")) {
             addHistoryButton();
         }

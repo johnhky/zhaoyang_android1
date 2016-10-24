@@ -19,9 +19,8 @@ import retrofit2.http.Query;
 public interface TimeModule {
 
 
-    @FormUrlEncoded
-    @POST("time/gettime")
-    Call<ApiDTO<List<Time>>> getTime(@Field("type") int type);
+    @GET("time/time")
+    Call<ApiDTO<List<Time>>> getTime(@Query("type") int type);
 
     @FormUrlEncoded
     @POST("time/settime")
@@ -41,6 +40,7 @@ public interface TimeModule {
     @GET("time/date-schedule")
     Call<ApiDTO<List<ReserveDate>>> getDateSchedule(@Query("doctorId") int doctorId, @Query("takeTime") int takeTime);
 
+    @Deprecated
     @GET("013/time/latest-avaliable-time")
     Call<ApiDTO<Time>> latestAvailableTime(@Query("doctorId") int doctorId, @Query("takeTime") int data, @Query("date") String date);
 

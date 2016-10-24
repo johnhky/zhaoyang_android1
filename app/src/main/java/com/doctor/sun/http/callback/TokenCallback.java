@@ -19,7 +19,7 @@ import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.activity.doctor.MeActivity;
-import com.doctor.sun.ui.activity.patient.PMainActivity2;
+import com.doctor.sun.ui.activity.patient.PMainActivity;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.ui.fragment.RegisterFragment;
 import com.doctor.sun.util.JacksonUtils;
@@ -51,7 +51,7 @@ public class TokenCallback {
                 }
                 case AuthModule.DOCTOR_PASSED: {
 
-                    Intent i = com.doctor.sun.ui.activity.doctor.MainActivity.makeIntent(context);
+                    Intent i = MainActivity.makeIntent(context);
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         context.finishAffinity();
@@ -68,7 +68,7 @@ public class TokenCallback {
                     if (patientProfile == null) {
                         loadPatientProfile(context);
                     } else {
-                        Intent i = PMainActivity2.intentFor(context);
+                        Intent i = PMainActivity.intentFor(context);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                             context.finishAffinity();
                         } else {
@@ -102,7 +102,7 @@ public class TokenCallback {
                     Intent i = RegisterFragment.intentFor(context);
                     context.startActivity(i);
                     context.finish();
-                } else switch (data.getStatus()) {
+                } else switch (data.getReviewStatus()) {
                     case Doctor.STATUS_REJECT:
                     case Doctor.STATUS_PENDING:
                     case Doctor.STATUS_PASS: {
@@ -113,23 +113,6 @@ public class TokenCallback {
                         context.finish();
                         break;
                     }
-                    /*
-                     1.3版本修改设计,改成在医生主页弹窗提示修改资料的状态
-                     */
-//                    case Doctor.STATUS_PENDING: {
-//                        Intent i = ReviewResultActivity.makeIntent(context, data);
-//                        Config.putInt(Constants.PASSFIRSTTIME, IS_FIRST_TIME);
-//                        context.startActivity(i);
-//                        context.finish();
-//                        break;
-//                    }
-//                    case Doctor.STATUS_REJECT: {
-//                        Intent i = ReviewResultActivity.makeIntent(context, data);
-//                        Config.putInt(Constants.PASSFIRSTTIME, IS_FIRST_TIME);
-//                        context.startActivity(i);
-//                        context.finish();
-//                        break;
-//                    }
                     default: {
                         Intent me = MeActivity.makeIntent(context);
                         context.startActivity(me);
@@ -165,7 +148,7 @@ public class TokenCallback {
                     context.startActivity(i);
                     context.finish();
                 } else {
-                    Intent i = PMainActivity2.intentFor(context);
+                    Intent i = PMainActivity.intentFor(context);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         context.finishAffinity();
                     } else {
