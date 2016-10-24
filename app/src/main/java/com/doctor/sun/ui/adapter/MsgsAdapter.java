@@ -16,6 +16,8 @@ import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
+import java.util.List;
+
 import io.ganguo.library.core.image.GGlide;
 import io.ganguo.library.util.date.Date;
 
@@ -32,9 +34,7 @@ public class MsgsAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
         this.appointment = appointment;
     }
 
-    @Override
     public void onBindViewBinding(BaseViewHolder<ViewDataBinding> vh, int position) {
-        super.onBindViewBinding(vh, position);
         if (vh.getItemViewType() == R.layout.item_msgs) {
             final ItemMsgsBinding binding = (ItemMsgsBinding) vh.getBinding();
             binding.setData((TextMsg) get(position));
@@ -75,7 +75,7 @@ public class MsgsAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     }
 
     @Override
-    protected int getItemLayoutId(int position) {
+    public int getItemViewType(int position) {
         return R.layout.item_msgs;
     }
 }

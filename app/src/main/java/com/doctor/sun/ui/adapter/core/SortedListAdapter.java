@@ -17,7 +17,7 @@ import java.util.Set;
 /**
  * Created by rick on 22/6/2016.
  */
-public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapter<B> {
+public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapter<SortedItem, B> {
     public static final String TAG = SortedListAdapter.class.getSimpleName();
 
     private SortedList<SortedItem> mList;
@@ -59,6 +59,22 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
     @Override
     final public int getItemCount() {
         return mList.size();
+    }
+
+    @Override
+    public void insert(int position, SortedItem item) {
+        String key = item.getKey();
+        SortedItem existing = mUniqueMapping.put(key, item);
+        if (existing == null) {
+            mList.add(item);
+            //Log.e(TAG, "insert: newItem" + item);
+        } else {
+            int pos = mList.indexOf(existing);
+            if (pos >= 0) {
+                //Log.e(TAG, "insert: existingItem" + item);
+                mList.updateItemAt(pos, item);
+            }
+        }
     }
 
     @Override
@@ -139,6 +155,11 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
     }
 
     @Override
+    public void removeItemAt(int adapterPosition) {
+
+    }
+
+    @Override
     public void clear() {
         mList.clear();
         mUniqueMapping.clear();
@@ -191,5 +212,11 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
 
     public void setAdapterCallback(SortedListAdapterCallback<SortedItem> adapterCallback) {
         mList = new SortedList<>(SortedItem.class, adapterCallback);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        int layoutId = get(position).getLayoutId();
+        return getIdInterceptor().intercept(layoutId);
     }
 }

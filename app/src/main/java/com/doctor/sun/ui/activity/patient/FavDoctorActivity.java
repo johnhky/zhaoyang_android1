@@ -51,7 +51,7 @@ public class FavDoctorActivity extends BaseFragmentActivity2 {
 //        binding.setHeader(header);
         adapter = new SimpleAdapter(this);
         adapter.mapLayout(R.layout.item_doctor, R.layout.p_item_document);
-        adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, false);
+        adapter.putBoolean(AdapterConfigKey.IS_EDIT_MODE, false);
         binding.rvDocument.setLayoutManager(new LinearLayoutManager(this));
         binding.rvDocument.setAdapter(adapter);
     }
@@ -115,8 +115,8 @@ public class FavDoctorActivity extends BaseFragmentActivity2 {
 
     @Override
     public void onBackPressed() {
-        if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE) && adapter.getItemCount() != 0) {
-            adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, !adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE));
+        if (adapter.getBoolean(AdapterConfigKey.IS_EDIT_MODE) && adapter.getItemCount() != 0) {
+            adapter.putBoolean(AdapterConfigKey.IS_EDIT_MODE, !adapter.getBoolean(AdapterConfigKey.IS_EDIT_MODE));
             binding.flDelete.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
             invalidateOptionsMenu();
@@ -126,8 +126,8 @@ public class FavDoctorActivity extends BaseFragmentActivity2 {
     }
 
     public void onMenuClicked() {
-        adapter.setConfig(AdapterConfigKey.IS_EDIT_MODE, !adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE));
-        if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE)) {
+        adapter.putBoolean(AdapterConfigKey.IS_EDIT_MODE, !adapter.getBoolean(AdapterConfigKey.IS_EDIT_MODE));
+        if (adapter.getBoolean(AdapterConfigKey.IS_EDIT_MODE)) {
             binding.flDelete.setVisibility(View.VISIBLE);
         } else {
             binding.flDelete.setVisibility(View.GONE);
@@ -173,7 +173,7 @@ public class FavDoctorActivity extends BaseFragmentActivity2 {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.clear();
-        if (adapter.getConfig(AdapterConfigKey.IS_EDIT_MODE)) {
+        if (adapter.getBoolean(AdapterConfigKey.IS_EDIT_MODE)) {
             getMenuInflater().inflate(R.menu.menu_confirm, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_edit, menu);

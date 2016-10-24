@@ -21,7 +21,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.MultiSelectAdapter;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.util.JacksonUtils;
 
@@ -119,7 +119,7 @@ public class ApplyAfterServiceActivity extends BaseFragmentActivity2 {
     private void initRecyclerView() {
         adapter = new MultiSelectAdapter(this, new MultiSelectAdapter.OnSelectionChange() {
             @Override
-            public void onSelectionChange(BaseAdapter a, SparseBooleanArray selectedItems) {
+            public void onSelectionChange(BaseListAdapter a, SparseBooleanArray selectedItems) {
                 binding.setIsAllSelected(adapter.isAllSelected());
             }
         });

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 
 
 /**
@@ -20,8 +20,7 @@ public class SingleSelectAdapter extends SimpleAdapter {
         this.selectedPosition = selectedPosition;
     }
 
-    @Override
-    public View.OnClickListener onItemClick(final BaseAdapter adapter, final BaseViewHolder vh) {
+    public View.OnClickListener onItemClick(final BaseListAdapter adapter, final BaseViewHolder vh) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,21 +30,21 @@ public class SingleSelectAdapter extends SimpleAdapter {
         };
     }
 
-    public void select(BaseViewHolder vh, BaseAdapter adapter) {
+    public void select(BaseViewHolder vh, BaseListAdapter adapter) {
         selectedPosition = vh.getAdapterPosition();
         if (listener != null) {
             listener.onSelectionChange(adapter, selectedPosition);
         }
     }
 
-    public void select(BaseViewHolder vh, BaseAdapter adapter, boolean shouldSelect) {
+    public void select(BaseViewHolder vh, BaseListAdapter adapter, boolean shouldSelect) {
         selectedPosition = vh.getAdapterPosition();
         if (listener != null) {
             listener.onSelectionChange(adapter, selectedPosition);
         }
     }
 
-    public void select(int position, BaseAdapter adapter) {
+    public void select(int position, BaseListAdapter adapter) {
         selectedPosition = position;
         if (listener != null) {
             listener.onSelectionChange(adapter, selectedPosition);
@@ -62,6 +61,6 @@ public class SingleSelectAdapter extends SimpleAdapter {
     }
 
     public interface OnSelectionChange {
-        void onSelectionChange(BaseAdapter adapter, int newSelectItem);
+        void onSelectionChange(BaseListAdapter adapter, int newSelectItem);
     }
 }

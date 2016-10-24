@@ -58,7 +58,7 @@ import com.doctor.sun.ui.activity.patient.FinishedOrderActivity;
 import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.fragment.PayAppointmentFragment;
 import com.doctor.sun.ui.handler.PayMethodInterface;
 import com.doctor.sun.util.ItemHelper;
@@ -203,16 +203,15 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
 
-    public void cancel2(final BaseAdapter adapter, final BaseViewHolder vh, Appointment data) {
-        Intent intent = CancelAppointmentActivity.makeIntent(adapter.getContext(), data);
+    public void cancel2(final BaseListAdapter adapter, final BaseViewHolder vh, final Appointment data) {
+        Intent intent = CancelAppointmentActivity.makeIntent(vh.itemView.getContext(), data);
         final Handler target = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 Tasks.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.remove(vh.getAdapterPosition());
-                        adapter.notifyItemRemoved(vh.getAdapterPosition());
+                        adapter.removeItem(data);
                     }
                 }, 1000);
                 return false;
@@ -220,10 +219,10 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
         });
         Messenger msg = new Messenger(target);
         intent.putExtra(Constants.HANDLER, msg);
-        adapter.getContext().startActivity(intent);
+        vh.itemView.getContext().startActivity(intent);
     }
 
-    public void pCancel(BaseAdapter component, BaseViewHolder vh, int id) {
+    public void pCancel(BaseListAdapter component, BaseViewHolder vh, int id) {
         api.pCancel(id).enqueue(new CancelCallback(vh, component));
     }
 
@@ -253,7 +252,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
         api.buildWeChatOrder(id, "wechat", couponId).enqueue(new WeChatPayCallback(activity, data));
     }
 
-    public void simulatedPay(final BaseAdapter component, final View view, final BaseViewHolder vh) {
+    public void simulatedPay(final BaseListAdapter component, final View view, final BaseViewHolder vh) {
         int id;
         if (returnNotPaid()) {
             id = data.getReturnInfo().getReturnAppointmentId();
@@ -352,7 +351,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 
 //    public void comment(final BaseAdapter adapter, final BaseViewHolder vh) {
 //        if (!hasPatientComment()) {
-//            Context context = adapter.getContext();
+//            Context context = vh.itemView.getContext();
 //            Intent i = FeedbackActivity.makeIntent(context, data);
 //            Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
 //                @Override
@@ -365,13 +364,13 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 //            i.putExtra(Constants.HANDLER, messenger);
 //            context.startActivity(i);
 //        } else {
-//            ToastHelper.showMessage(adapter.getContext(), "已经评价过此预约");
+//            ToastHelper.showMessage(vh.itemView.getContext(), "已经评价过此预约");
 //        }
 //    }
 
-    public void pComment(final BaseAdapter adapter, final BaseViewHolder vh) {
+    public void pComment(final BaseListAdapter adapter, final BaseViewHolder vh) {
         if (!hasDoctorComment()) {
-            Context context = adapter.getContext();
+            Context context = vh.itemView.getContext();
             Intent i = com.doctor.sun.ui.activity.patient.FeedbackActivity.makeIntent(context, data);
             Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
                 @Override
@@ -384,7 +383,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
             i.putExtra(Constants.HANDLER, messenger);
             context.startActivity(i);
         } else {
-            Toast.makeText(adapter.getContext(), "已经评价过此预约", Toast.LENGTH_SHORT).show();
+            Toast.makeText(vh.itemView.getContext(), "已经评价过此预约", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -421,16 +420,16 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
         }
     }
 
-    public void chat(BaseAdapter adapter, BaseViewHolder vh) {
+    public void chat(BaseListAdapter adapter, BaseViewHolder vh) {
         if (data.getTid() != 0) {
-            Intent intent = ChattingActivity.makeIntent(adapter.getContext(), data);
+            Intent intent = ChattingActivity.makeIntent(vh.itemView.getContext(), data);
             if (adapter != null && vh != null) {
                 ItemHelper.initCallback(intent, adapter, vh);
             }
-            adapter.getContext().startActivity(intent);
+            vh.itemView.getContext().startActivity(intent);
         } else {
             if (BuildConfig.DEV_MODE) {
-                Toast.makeText(adapter.getContext(), "云信群id为0", Toast.LENGTH_SHORT).show();
+                Toast.makeText(vh.itemView.getContext(), "云信群id为0", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -589,25 +588,25 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
     }
 
 
-    public void onPatientClickOrder(BaseAdapter adapter) {
+    public void onPatientClickOrder(BaseListAdapter adapter, BaseViewHolder vh) {
         switch (data.getStatus()) {
             case Status.UNPAID: {
-                startPayActivity(adapter.getContext(), data.getId());
+                startPayActivity(vh.itemView.getContext(), data.getId());
                 break;
             }
             case Status.PAID: {
-                Intent intent = EditQuestionActivity.intentFor(adapter.getContext(), data.getIdString(), QuestionsPath.NORMAL);
-                adapter.getContext().startActivity(intent);
+                Intent intent = EditQuestionActivity.intentFor(vh.itemView.getContext(), data.getIdString(), QuestionsPath.NORMAL);
+                vh.itemView.getContext().startActivity(intent);
                 break;
             }
             case Status.FINISHED: {
-                Intent intent = FinishedOrderActivity.makeIntent(adapter.getContext(), data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY);
-                adapter.getContext().startActivity(intent);
+                Intent intent = FinishedOrderActivity.makeIntent(vh.itemView.getContext(), data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY);
+                vh.itemView.getContext().startActivity(intent);
                 break;
             }
             case Status.DOING:
             case Status.WAITING: {
-                chat(adapter.getContext(), data);
+                chat(vh.itemView.getContext(), data);
                 break;
             }
             default: {
@@ -616,16 +615,16 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
         }
     }
 
-    public void onDoctorClickOrder(final BaseViewHolder vh, final BaseAdapter adapter) {
+    public void onDoctorClickOrder(final BaseViewHolder vh, final BaseListAdapter adapter) {
         switch (data.getStatus()) {
             case Status.PAID: {
-                detail(adapter.getContext(), vh.getItemViewType());
+                detail(vh.itemView.getContext(), vh.getItemViewType());
                 break;
             }
             case Status.FINISHED: {
                 chat(adapter, vh);
-                Intent intent = HistoryDetailActivity.makeIntent(adapter.getContext(), data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY);
-                adapter.getContext().startActivity(intent);
+                Intent intent = HistoryDetailActivity.makeIntent(vh.itemView.getContext(), data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY);
+                vh.itemView.getContext().startActivity(intent);
                 break;
             }
             case Status.DOING:

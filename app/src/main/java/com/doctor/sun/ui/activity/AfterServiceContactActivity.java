@@ -56,7 +56,7 @@ public class AfterServiceContactActivity extends ContactActivity {
             @Override
             protected void handleResponse(List<Doctor> response) {
                 getAdapter().clear();
-                getAdapter().addAll(response);
+                getAdapter().insertAll(response);
                 Collections.sort(getAdapter(), new NameComparator());
                 getContactAdapter().updatePosition();
                 getAdapter().onFinishLoadMore(true);

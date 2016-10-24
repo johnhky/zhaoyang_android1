@@ -24,11 +24,13 @@ import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-import com.doctor.sun.ui.adapter.core.BaseAdapter;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.core.event.EventHub;
+
+import static android.support.v7.widget.RecyclerView.ViewHolder;
 
 /**
  * Created by rick on 2/6/2016.
@@ -161,11 +163,11 @@ public class AfterService extends BaseObservable implements LayoutId {
         });
     }
 
-    public void reject(final BaseAdapter adapter, final RecyclerView.ViewHolder vh) {
+    public void reject(final BaseListAdapter adapter, final ViewHolder vh) {
         performAction(Actions.REJECT, new ItemChangedCallback(adapter, vh, Status.REJECTED));
     }
 
-    public void accept(final BaseAdapter adapter, final RecyclerView.ViewHolder vh) {
+    public void accept(final BaseListAdapter adapter, final ViewHolder vh) {
         performAction(Actions.ACCEPT, new ItemChangedCallback(adapter, vh, Status.DOING));
     }
 
@@ -262,11 +264,11 @@ public class AfterService extends BaseObservable implements LayoutId {
 
     private class ItemChangedCallback extends SimpleCallback<Void> {
 
-        private final BaseAdapter adapter;
-        private final RecyclerView.ViewHolder vh;
+        private final BaseListAdapter adapter;
+        private final ViewHolder vh;
         private String targetStatus;
 
-        public ItemChangedCallback(BaseAdapter adapter, RecyclerView.ViewHolder vh, String target) {
+        public ItemChangedCallback(BaseListAdapter adapter, ViewHolder vh, String target) {
             this.vh = vh;
             this.adapter = adapter;
             this.targetStatus = target;

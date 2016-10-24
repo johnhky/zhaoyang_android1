@@ -35,7 +35,7 @@ public class PageCallback<T> extends ApiCallback<PageDTO<T>> {
         }
         page += 1;
         if (response != null) {
-            getAdapter().addAll(response.getData());
+            getAdapter().insertAll(response.getData());
         }
         int to = response != null ? response.getTo() : 0;
         int total = response != null ? response.getTotal() : 0;

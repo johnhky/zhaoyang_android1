@@ -15,7 +15,7 @@
 
         <variable
             name="adapter"
-            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
+            type="com.doctor.sun.ui.adapter.core.BaseListAdapter" />
 
     </data>
 
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{()->data.handler.onPatientClickOrder(adapter)}"
+        android:onClick="@{()->data.handler.onPatientClickOrder(adapter,vh)}"
         android:orientation="vertical">
 
         <com.zhy.android.percent.support.PercentFrameLayout
@@ -337,7 +337,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/ripple_default"
                 android:gravity="center"
-                android:onClick="@{()->data.handler.onPatientClickOrder(adapter)}"
+                android:onClick="@{()->data.handler.onPatientClickOrder(adapter,vh)}"
                 android:text="填写问卷"
                 android:textColor="#fff"
                 android:textSize="@dimen/font_13"

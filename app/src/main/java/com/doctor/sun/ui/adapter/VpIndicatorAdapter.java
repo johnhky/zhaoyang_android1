@@ -20,8 +20,9 @@ public class VpIndicatorAdapter extends SimpleAdapter<LayoutId, ViewDataBinding>
         onFinishLoadMore(true);
     }
 
+
     @Override
-    protected int getItemLayoutId(int position) {
+    public int getItemViewType(int position) {
         return R.layout.item_vp_indicator;
     }
 

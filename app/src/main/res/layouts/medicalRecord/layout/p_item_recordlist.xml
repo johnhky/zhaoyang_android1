@@ -10,7 +10,7 @@
 
         <variable
             name="adapter"
-            type="com.doctor.sun.ui.adapter.core.BaseAdapter" />
+            type="com.doctor.sun.ui.adapter.core.BaseListAdapter" />
 
         <variable
             name="vh"

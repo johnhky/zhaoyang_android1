@@ -33,17 +33,18 @@ public class PickTimeAdapter extends SimpleAdapter<Time, ReserveTimeBinding> {
     }
 
     @Override
-    public void onBindViewBinding(BaseViewHolder<ReserveTimeBinding> vh, int position) {
-        super.onBindViewBinding(vh, position);
+    public void onBindViewHolder(BaseViewHolder vh, int position) {
+        super.onBindViewHolder(vh, position);
         if (vh.getItemViewType() == R.layout.reserve_time) {
             int adapterPosition = vh.getAdapterPosition();
             Time time = get(adapterPosition);
             boolean isSelected = (selectedItem == adapterPosition);
-            vh.getBinding().tvTime.setSelected(isSelected);
+            ReserveTimeBinding binding = (ReserveTimeBinding) vh.getBinding();
+            binding.tvTime.setSelected(isSelected);
             boolean reserva = time.getReserva() == 1;
             boolean optional = time.getOptional() == 0;
             boolean past = time.getHandler().isPast(dateTime);
-            vh.getBinding().tvTime.setActivated(past || reserva || optional);
+            binding.tvTime.setActivated(past || reserva || optional);
         }
     }
 

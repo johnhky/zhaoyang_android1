@@ -170,7 +170,7 @@ public class ContactActivity extends BaseFragmentActivity2 {
                 Collections.sort(getAdapter(), new NameComparator());
                 mAdapter.updatePosition();
                 getAdapter().onFinishLoadMore(true);
-                getAdapter().notifyDataSetChanged();
+//                getAdapter().notifyDataSetChanged();
             }
         });
     }
@@ -184,7 +184,7 @@ public class ContactActivity extends BaseFragmentActivity2 {
                 Collections.sort(getAdapter(), new NameComparator());
                 mAdapter.updatePosition();
                 getAdapter().onFinishLoadMore(true);
-                getAdapter().notifyDataSetChanged();
+//                getAdapter().notifyDataSetChanged();
             }
         });
     }

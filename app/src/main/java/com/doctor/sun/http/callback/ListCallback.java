@@ -34,7 +34,7 @@ public class ListCallback<T> extends ApiCallback<List<T>> {
             return;
         }
         onInitHeader();
-        getAdapter().addAll(response);
+        getAdapter().insertAll(response);
         getAdapter().onFinishLoadMore(true);
         getAdapter().notifyDataSetChanged();
         onFinishRefresh();

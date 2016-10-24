@@ -123,8 +123,8 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     }
 
     @Override
-    public void onBindViewBinding(BaseViewHolder<ViewDataBinding> vh, int position) {
-        super.onBindViewBinding(vh, position);
+    public void onBindViewHolder(BaseViewHolder vh, int position) {
+        super.onBindViewHolder(vh, position);
         switch (vh.getItemViewType()) {
             case R.layout.msg_prescription_list: {
                 MsgPrescriptionListBinding binding = (MsgPrescriptionListBinding) vh.getBinding();
@@ -144,7 +144,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
 
                 if (prescriptionDTO.getDrug() == null) return;
                 for (Prescription prescription : prescriptionDTO.getDrug()) {
-                    ItemRPrescriptionBinding item = ItemRPrescriptionBinding.inflate(getInflater(), binding.prescription, true);
+                    ItemRPrescriptionBinding item = ItemRPrescriptionBinding.inflate(getInflater(vh.itemView.getContext()), binding.prescription, true);
                     item.setData(prescription);
                 }
             }
@@ -157,11 +157,6 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
         calendar.setTimeInMillis(time);
         String format = simpleDateFormat.format(calendar.getTime());
         return "用户于" + format + "选择用药";
-    }
-
-    @Override
-    protected int getItemLayoutId(int position) {
-        return super.getItemLayoutId(position);
     }
 
     public View.OnClickListener previewImage(final String url) {

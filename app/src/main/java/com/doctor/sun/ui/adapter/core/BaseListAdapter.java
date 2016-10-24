@@ -15,30 +15,33 @@ import android.view.ViewGroup;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 
 /**
  * Created by rick on 13/8/2016.
  */
-public abstract class BaseListAdapter<B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements AdapterOps<SortedItem> {
+public abstract class BaseListAdapter<T, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements AdapterOps<T> {
     public static final String TAG = BaseListAdapter.class.getSimpleName();
 
-    private final SparseBooleanArray mConfig = new SparseBooleanArray();
+    private final SparseBooleanArray mBooleanConfig = new SparseBooleanArray();
     private final SparseArray<String> mStringConfig = new SparseArray<>();
     private final SparseIntArray mIntConfig = new SparseIntArray();
+    private final SparseArray<Long> mLongConfig = new SparseArray<>();
 
     private LayoutIdInterceptor idInterceptor = new DefaultLayoutIdInterceptor();
 
     BaseListAdapter(Context context) {
     }
 
-    private LayoutInflater getInflater(Context context) {
+    protected LayoutInflater getInflater(Context context) {
         return LayoutInflater.from(context);
     }
 
+    LayoutIdInterceptor getIdInterceptor() {
+        return idInterceptor;
+    }
 
     @Override
-    final public BaseViewHolder<B> onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder<B> onCreateViewHolder(ViewGroup parent, int viewType) {
         try {
             B binding = DataBindingUtil.inflate(getInflater(parent.getContext()), viewType, parent, false);
             return new BaseViewHolder<>(binding);
@@ -50,7 +53,7 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
     }
 
     @Override
-    final public void onBindViewHolder(BaseViewHolder<B> holder, int position) {
+    public void onBindViewHolder(BaseViewHolder<B> holder, int position) {
         holder.getBinding().setVariable(BR.adapter, this);
         holder.bindTo(get(position));
     }
@@ -60,12 +63,13 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
         notifyDataSetChanged();
     }
 
-    public boolean getConfig(int key) {
-        return mConfig.get(key, false);
+
+    public boolean getBoolean(int key) {
+        return mBooleanConfig.get(key, false);
     }
 
-    public void setConfig(int key, boolean value) {
-        mConfig.put(key, value);
+    public void putBoolean(int key, boolean value) {
+        mBooleanConfig.put(key, value);
     }
 
     public String getString(int key) {
@@ -84,13 +88,17 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
         return mIntConfig.get(key, 0);
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        int layoutId = get(position).getLayoutId();
-        return idInterceptor.intercept(layoutId);
+    public void putLong(int key, long value) {
+        mLongConfig.put(key, value);
     }
 
-    public abstract SortedItem get(int position);
+    public long getLong(int key) {
+        return mLongConfig.get(key, 0L);
+    }
+
+
+    public abstract T get(int position);
+
 
     public interface LayoutIdInterceptor {
         int intercept(int origin);
@@ -101,5 +109,10 @@ public abstract class BaseListAdapter<B extends ViewDataBinding> extends Recycle
         public int intercept(int origin) {
             return origin;
         }
+    }
+
+    @Deprecated
+    public boolean isSelected(BaseViewHolder vh) {
+        return false;
     }
 }

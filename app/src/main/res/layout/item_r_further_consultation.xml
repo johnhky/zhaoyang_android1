@@ -103,7 +103,7 @@
                 android:layout_marginRight="@dimen/dp_13"
                 android:button="@drawable/ic_circle_tick"
                 android:checked="@={data.userSelected}"
-                android:visibility="@{!adapter.getConfig(AdapterConfigKey.IS_READ_ONLY)}" />
+                android:visibility="@{!adapter.getBoolean(AdapterConfigKey.IS_READ_ONLY)}" />
 
         </LinearLayout>
 
