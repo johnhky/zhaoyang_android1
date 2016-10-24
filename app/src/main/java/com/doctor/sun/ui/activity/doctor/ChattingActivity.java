@@ -21,10 +21,10 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingBinding;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.emoji.KeyboardWatcher;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.AppointmentHandler;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
@@ -38,6 +38,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimMsgInfo;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
@@ -50,6 +51,7 @@ import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.FileChooser;
 import com.doctor.sun.util.HistoryEventHandler;
 import com.doctor.sun.util.ItemHelper;
+import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.vo.BaseItem;
 import com.doctor.sun.vo.CustomActionViewModel;
@@ -91,7 +93,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     private ActivityChattingBinding binding;
     private MessageAdapter mAdapter;
     private RealmQuery<TextMsg> query;
-    private AppointmentHandler handler;
     private String sendTo;
     private DrugModule drugModule = Api.of(DrugModule.class);
     private RealmResults<TextMsg> results;
@@ -104,12 +105,13 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, ChattingActivity.class);
-        i.putExtra(Constants.DATA, appointment);
+        i.putExtra(Constants.DATA, JacksonUtils.toJson(appointment));
         return i;
     }
 
     private Appointment getData() {
-        return getIntent().getParcelableExtra(Constants.DATA);
+        String json = getIntent().getStringExtra(Constants.DATA);
+        return JacksonUtils.fromJson(json, Appointment.class);
     }
 
     @Override
@@ -121,7 +123,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         registerRealmChangeListener();
 
         // 随访聊天界面不显示历史记录按钮
-        if (!getData().getDisplayType().equals("诊后随访")) {
+        if (!getData().getDisplay_type().equals("诊后随访")) {
             addHistoryButton();
         }
     }
@@ -182,12 +184,12 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     private void needSendDrug() {
         //TODO:
-        if (getData().getAppointmentType() == AppointmentType.AFTER_SERVICE) {
+        if (getData().getType() == AppointmentType.AFTER_SERVICE) {
             return;
         }
 
         if (!Settings.isDoctor())
-            drugModule.needSendDrug(getData().getId()).enqueue(new ApiCallback<NeedSendDrug>() {
+            drugModule.needSendDrug(Integer.parseInt(getData().getId())).enqueue(new ApiCallback<NeedSendDrug>() {
                 @Override
                 protected void handleResponse(NeedSendDrug response) {
                     if (Integer.parseInt(response.getNeed()) == 1) {
@@ -243,12 +245,10 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     private void initData() {
         Appointment data = getData();
-        handler = new AppointmentHandler(data);
-        data.setHandler(handler);
         binding.setData(data);
 
 
-        sendTo = handler.getTeamId();
+        sendTo = data.getTid();
 
         mAdapter = new MessageAdapter(this, data);
         binding.recyclerView.setAdapter(mAdapter);
@@ -298,7 +298,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
             }
         }
 
-        handler.viewDetail(this, tab);
+        AppointmentHandler2.viewDetail(this, tab, getData());
         return true;
     }
 
@@ -340,7 +340,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
     private void makePhoneCall() {
-        handler.makePhoneCall(this);
+        AppointmentHandler2.makePhoneCall(this);
     }
 
     @Override
@@ -356,31 +356,31 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     @Override
     public String getTeamId() {
-        return handler.getTeamId();
+        return getData().getTid();
     }
 
     public String getP2PId() {
-        return handler.getP2PId();
+        return AppointmentHandler2.getP2PId(getData());
     }
 
     @Override
     public boolean enablePush() {
-        return handler.enablePush();
+        return AppointmentHandler2.enablePush(getData());
     }
 
     @Override
     public int appointmentId() {
-        return handler.appointmentId();
+        return Integer.parseInt(getData().getId());
     }
 
     @Override
     public boolean shouldAskServer() {
-        return handler.shouldAskServer();
+        return AppointmentHandler2.shouldAskServer(getData());
     }
 
     @Override
     public int getDuration() {
-        return handler.getDuration();
+        return AppointmentHandler2.getDuration(getData());
     }
 
     @Override
@@ -525,9 +525,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     @Subscribe
     public void onSendMessageEvent(SendMessageEvent e) {
-        if (handler != null) {
-            handler.alertAppointmentFinished(this);
-        }
+        AppointmentHandler2.alertAppointmentFinished(this, getData());
     }
 
     @Override
@@ -563,12 +561,11 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
             if (data != null && !data.isEmpty()) {
                 Appointment appointment = data.get(0);
                 Intent intent = getIntent();
-                intent.putExtra(Constants.DATA, appointment);
+                intent.putExtra(Constants.DATA, JacksonUtils.toJson(appointment));
                 setIntent(intent);
-                handler = appointment.getHandler();
                 binding.setData(appointment);
                 binding.appointmentStatus.setData(appointment);
-                mAdapter.setFinishedTime(handler.getFinishedTime());
+                mAdapter.setFinishedTime(AppointmentHandler2.getFinishedTime(getData()));
             }
         }
     }
@@ -578,7 +575,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     public void onRejectIncomingCallEvent(RejectInComingCallEvent e) {
         if (!Settings.isDoctor()) {
             AppointmentModule appointmentModule = Api.of(AppointmentModule.class);
-            appointmentModule.rejectCommunication(e.getType(), handler.appointmentId()).enqueue(new SimpleCallback<String>() {
+            appointmentModule.rejectCommunication(e.getType(), Integer.parseInt(getData().getId())).enqueue(new SimpleCallback<String>() {
                 @Override
                 protected void handleResponse(String response) {
                     Log.d(TAG, "handleResponse() called with: response = [" + response + "]");
@@ -589,7 +586,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     @Subscribe
     public void onCallFailed(CallFailedShouldCallPhoneEvent e) {
-        if (handler != null) {
+        if (getData() != null) {
             if (AVChatType.AUDIO.getValue() == e.getChatType()) {
                 String text;
                 if (Settings.isDoctor()) {
@@ -599,7 +596,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
                 }
                 Toast toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
                 toast.show();
-                handler.callTelephone(this);
+                AppointmentHandler2.callTelephone(this, getData());
             }
         }
     }

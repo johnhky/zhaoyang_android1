@@ -40,4 +40,9 @@ public abstract class Appointment {
     public abstract String getRecord_id();
     public abstract Doctor getDoctor();
     public abstract MedicalRecord getRecord();
+
+    public abstract int getCan_edit();
+    public abstract String getYunxin_accid();
+    public abstract String getRecord_name();
+    public abstract String getRelation();
 }
