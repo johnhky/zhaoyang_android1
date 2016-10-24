@@ -1,5 +1,7 @@
 package com.doctor.sun.immutables;
 
+import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.Patient;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.CaseFormat;
@@ -48,5 +50,6 @@ public abstract class Appointment {
 
     public abstract String getProgress();
 
+    public abstract Doctor getDoctor();
 
 }
