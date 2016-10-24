@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.databinding.library.baseAdapters.BR;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.LayoutId;
 
 /**
  * Created by lucas on 2/19/16.

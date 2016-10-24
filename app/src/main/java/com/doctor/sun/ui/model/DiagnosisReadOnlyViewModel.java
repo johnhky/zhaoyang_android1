@@ -12,7 +12,7 @@ import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.Symptom;
 import com.doctor.sun.entity.SymptomFactory;
 import com.doctor.sun.module.AuthModule;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.LayoutId;
 import com.doctor.sun.vo.ItemTextInput;
 
 import java.util.ArrayList;

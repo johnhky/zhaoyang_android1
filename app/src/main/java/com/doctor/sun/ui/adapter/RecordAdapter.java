@@ -17,7 +17,7 @@ import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.activity.doctor.PatientInfoActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.LayoutId;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;

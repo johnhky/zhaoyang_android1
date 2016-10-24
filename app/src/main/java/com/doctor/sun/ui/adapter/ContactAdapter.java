@@ -7,9 +7,8 @@ import android.widget.SectionIndexer;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Description;
-import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 import com.doctor.sun.ui.widget.SideSelector;
+import com.doctor.sun.vo.LayoutId;
 
 import java.util.List;
 

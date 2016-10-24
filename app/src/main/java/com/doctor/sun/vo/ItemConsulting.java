@@ -10,9 +10,8 @@ import android.widget.Toast;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.handler.AppointmentHandler;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
@@ -91,15 +90,13 @@ public class ItemConsulting implements SortedItem {
     }
 
     public String getAvatar() {
-        return data.getAvatar();
+        return "";
+//        return data.getAvatar();
     }
 
-    public AppointmentHandler getHandler() {
-        return data.getHandler();
-    }
 
     public void chat(Context context, SortedListAdapter adapter, BaseViewHolder vh) {
-        if (data.getTid() != 0) {
+        if (!"0".equals(data.getTid())) {
             Intent intent = ChattingActivity.makeIntent(context, data);
             intent.putExtra(ItemHelper.HANDLER, messenger(adapter, vh));
             context.startActivity(intent);

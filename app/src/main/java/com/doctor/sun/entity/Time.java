@@ -9,7 +9,7 @@ import android.support.annotation.IntDef;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.handler.TimeHandler;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.lang.annotation.Retention;

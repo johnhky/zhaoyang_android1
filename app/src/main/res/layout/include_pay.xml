@@ -5,7 +5,7 @@
 
         <variable
             name="handler"
-            type="com.doctor.sun.entity.handler.AppointmentHandler" />
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
     </data>
 
     <LinearLayout
@@ -73,8 +73,8 @@
             android:layout_marginBottom="@dimen/dp_17"
             android:layout_marginTop="@dimen/dp_17"
             android:background="@drawable/shape_button"
-            android:clickable="true"
-            android:onClick="handler.pay">
+            android:clickable="true">
+            <!--android:onClick="handler.pay()">-->
 
             <TextView
                 android:id="@+id/tv_apply"

@@ -46,7 +46,6 @@ import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.CancelAppointmentActivity;
-import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
 import com.doctor.sun.ui.activity.doctor.PatientDetailActivity;
 import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
@@ -57,7 +56,6 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.fragment.PayAppointmentFragment;
-import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.vo.BaseItem;
 
@@ -98,6 +96,14 @@ public class AppointmentHandler2 {
         return data.getBook_time();
     }
 
+
+    public static String getRelationAndName(Appointment data) {
+        return "(" + data.getRecord().getRelation() + "/" + data.getRecord().getRecordName() + ")";
+    }
+
+    public static String getRelationWithPatient(Appointment data) {
+        return getPatientName(data) + "(患者的" + data.getRecord().getRelation() + ")";
+    }
 
     public static String getRelation(Appointment data) {
         return data.getRecord().getRelation();
@@ -143,7 +149,7 @@ public class AppointmentHandler2 {
         vh.itemView.getContext().startActivity(intent);
     }
 
-    public static void pCancel(BaseListAdapter component, BaseViewHolder vh, int id) {
+    public static void pCancel(BaseListAdapter component, BaseViewHolder vh, String id) {
         api.pCancel(id).enqueue(new CancelCallback(vh, component));
     }
 
@@ -168,7 +174,7 @@ public class AppointmentHandler2 {
         simulatedPayImpl(view, id, data);
     }
 
-    public static void simulatedPayImpl(final View view, String id, final Appointment data) {
+    public static void simulatedPayImpl(String id, final Appointment data) {
         final PayCallback mCallback = new PayCallback() {
             @Override
             public void onPaySuccess() {
@@ -203,7 +209,7 @@ public class AppointmentHandler2 {
      * @param appointmentId
      * @param patientId
      */
-    public static void remind(final Context context, int appointmentId, int patientId) {
+    public static void remind(final Context context, String appointmentId, int patientId) {
         api.remind(appointmentId, patientId)
                 .enqueue(new SimpleCallback<String>() {
                     @Override
@@ -215,14 +221,14 @@ public class AppointmentHandler2 {
 
 
     @Deprecated
-    public static void accept(final View view, final Appointment data) {
-        new MaterialDialog.Builder(view.getContext()).content("若需要提前进行就诊，请先与患者确认。（点击下方通话键可联系患者）是否确认提前就诊？")
+    public static void accept(final Context context, final Appointment data) {
+        new MaterialDialog.Builder(context).content("若需要提前进行就诊，请先与患者确认。（点击下方通话键可联系患者）是否确认提前就诊？")
                 .positiveText("确认")
                 .negativeText("取消")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        ApiCallback<String> callback = new GotoConsultingCallback(view);
+                        ApiCallback<String> callback = new GotoConsultingCallback(context);
                         api.startConsulting(data.getId())
                                 .enqueue(callback);
                     }
@@ -273,28 +279,28 @@ public class AppointmentHandler2 {
     }
 
     public static void chat(Context context, Appointment data) {
-        if ("0".equals(data.getTid())) {
-            Intent intent = ChattingActivity.makeIntent(context, data);
-            context.startActivity(intent);
-        } else {
-            if (BuildConfig.DEV_MODE) {
-                Toast.makeText(context, "云信群id为0", Toast.LENGTH_SHORT).show();
-            }
-        }
+//        if ("0".equals(data.getTid())) {
+//            Intent intent = ChattingActivity.makeIntent(context, data);
+//            context.startActivity(intent);
+//        } else {
+//            if (BuildConfig.DEV_MODE) {
+//                Toast.makeText(context, "云信群id为0", Toast.LENGTH_SHORT).show();
+//            }
+//        }
     }
 
     public static void chat(BaseListAdapter adapter, BaseViewHolder vh, Appointment data) {
-        if ("0".equals(data.getTid())) {
-            Intent intent = ChattingActivity.makeIntent(vh.itemView.getContext(), data);
-            if (adapter != null && vh != null) {
-                ItemHelper.initCallback(intent, adapter, vh);
-            }
-            vh.itemView.getContext().startActivity(intent);
-        } else {
-            if (BuildConfig.DEV_MODE) {
-                Toast.makeText(vh.itemView.getContext(), "云信群id为0", Toast.LENGTH_SHORT).show();
-            }
-        }
+//        if ("0".equals(data.getTid())) {
+//            Intent intent = ChattingActivity.makeIntent(vh.itemView.getContext(), data);
+//            if (adapter != null && vh != null) {
+//                ItemHelper.initCallback(intent, adapter, vh);
+//            }
+//            vh.itemView.getContext().startActivity(intent);
+//        } else {
+//            if (BuildConfig.DEV_MODE) {
+//                Toast.makeText(vh.itemView.getContext(), "云信群id为0", Toast.LENGTH_SHORT).show();
+//            }
+//        }
     }
 
     public static void chatNoMenu(Context context, Appointment data) {
@@ -353,21 +359,21 @@ public class AppointmentHandler2 {
     }
 
     private static class GotoConsultingCallback extends SimpleCallback<String> {
-        private final View view;
+        private final Context context;
 
-        public GotoConsultingCallback(View view) {
-            this.view = view;
+        public GotoConsultingCallback(Context context) {
+            this.context = context;
         }
 
         @Override
         protected void handleResponse(String response) {
-            LoadingHelper.showMaterLoading(view.getContext(), "正在提示患者开始就诊");
+            LoadingHelper.showMaterLoading(context, "正在提示患者开始就诊");
             Tasks.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     LoadingHelper.hideMaterLoading();
-                    Intent i = ConsultingActivity.makeIntent(view.getContext());
-                    view.getContext().startActivity(i);
+                    Intent i = ConsultingActivity.makeIntent(context);
+                    context.startActivity(i);
                     AppManager.finishAllActivity();
                 }
             }, 350);

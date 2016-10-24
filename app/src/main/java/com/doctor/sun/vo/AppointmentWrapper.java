@@ -2,8 +2,8 @@ package com.doctor.sun.vo;
 
 import android.content.Context;
 
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Tags;
+import com.doctor.sun.immutables.Appointment;
 
 import java.util.List;
 
@@ -21,35 +21,37 @@ public class AppointmentWrapper extends BaseItem {
     }
 
     public double getNeedPay(Context context) {
-        return Integer.parseInt(appointment.getNeedPay());
+        return appointment.getNeed_pay();
     }
 
     public String getBookTime() {
-        return appointment.getBookTime();
+        return appointment.getBook_time();
     }
 
     public String getDisplayType() {
-        return appointment.getDisplayType();
+        return appointment.getDisplay_type();
     }
 
     public String tagsSelectedStatus() {
-        List<Tags> selectTags = appointment.selectTags;
-        if (selectTags == null || selectTags.isEmpty()) {
-            return "没有选择任何咨询标签";
-        }
+//        List<Tags> selectTags = appointment.selectTags;
+//        if (selectTags == null || selectTags.isEmpty()) {
+//            return "没有选择任何咨询标签";
+//        }
 
-        return "已选择" + selectTags.size() + "个咨询标签：";
+//        return "已选择" + selectTags.size() + "个咨询标签：";
+        return "";
     }
 
     public String tagsLabel() {
-        List<Tags> selectTags = appointment.selectTags;
-        if (selectTags == null || selectTags.isEmpty()) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        for (Tags selectTag : selectTags) {
-            sb.append(selectTag.tagName).append(" ");
-        }
-        return sb.toString();
+//        List<Tags> selectTags = appointment.selectTags;
+//        if (selectTags == null || selectTags.isEmpty()) {
+//            return "";
+//        }
+//        StringBuilder sb = new StringBuilder();
+//        for (Tags selectTag : selectTags) {
+//            sb.append(selectTag.tagName).append(" ");
+//        }
+//        return sb.toString();
+        return "";
     }
 }

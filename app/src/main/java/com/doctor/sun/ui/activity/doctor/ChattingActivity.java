@@ -23,7 +23,6 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.emoji.KeyboardWatcher;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.entity.constans.AppointmentType;
-import com.doctor.sun.entity.handler.AppointmentHandler;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.entity.im.TextMsg;
@@ -345,7 +344,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == AppointmentHandler.RECORD_AUDIO_PERMISSION) {
+        if (requestCode == AppointmentHandler2.RECORD_AUDIO_PERMISSION) {
             if (PermissionUtil.verifyPermissions(grantResults)) {
                 makePhoneCall();
             }
@@ -360,7 +359,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
     public String getP2PId() {
-        return AppointmentHandler2.getP2PId(getData());
+        return "";
     }
 
     @Override

@@ -4,9 +4,13 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
         <variable
             name="data"
-            type="com.doctor.sun.entity.Appointment" />
+            type="com.doctor.sun.immutables.Appointment" />
 
     </data>
 
@@ -14,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{data.handler.historyDetail}"
         android:orientation="vertical">
+        <!--android:onClick="@{handler.historyDetail(data)}"-->
 
 
         <LinearLayout
@@ -110,7 +114,7 @@
             android:layout_marginTop="@dimen/dp_6"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="@{@string/appointment_time(data.handler.bookTime)}"
+            android:text="@{@string/appointment_time(data.book_time)}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 

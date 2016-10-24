@@ -6,7 +6,6 @@ import android.databinding.BaseObservable;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.StringDef;
-import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
@@ -23,7 +22,7 @@ import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.LayoutId;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.squareup.otto.Subscribe;

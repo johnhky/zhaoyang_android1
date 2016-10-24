@@ -8,7 +8,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.ui.activity.TabActivity;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.LayoutId;
 import com.doctor.sun.ui.pager.BindingPagerAdapter;
 import com.doctor.sun.vo.ItemPickImage;
 import com.google.common.base.Function;

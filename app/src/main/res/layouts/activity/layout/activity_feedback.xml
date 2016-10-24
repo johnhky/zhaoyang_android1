@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.Appointment" />
+            type="com.doctor.sun.immutables.Appointment" />
 
 
     </data>
@@ -33,7 +33,7 @@
                 android:layout_marginLeft="@dimen/dp_13"
                 android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
-                android:src="@{data.patientAvatar}"
+                android:src="@{data.record.patientAvatar}"
                 app:maskDrawable="@drawable/circle_mask" />
 
 
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_13"
                     android:layout_marginRight="@dimen/dp_13"
-                    android:text="@{data.patientName}"
+                    android:text="@{data.record.patientName}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_15" />
 
@@ -57,7 +57,7 @@
                     android:layout_marginLeft="@dimen/dp_13"
                     android:layout_marginRight="@dimen/dp_13"
                     android:layout_marginTop="@dimen/dp_6"
-                    android:text="@{@string/appointment_time(data.handler.bookTime)}"
+                    android:text="@{@string/appointment_time(data.book_time)}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13" />
 
@@ -68,7 +68,7 @@
                     android:layout_marginLeft="@dimen/dp_13"
                     android:layout_marginRight="@dimen/dp_13"
                     android:layout_marginTop="@dimen/dp_6"
-                    android:text="@{@string/appointment_type(data.displayType)}"
+                    android:text="@{@string/appointment_type(data.display_type)}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13" />
 

@@ -4,7 +4,9 @@
 
     <data>
 
-        <import type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
 
         <variable
             name="data"
@@ -24,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
+        android:onClick="@{()->handler.onDoctorClickOrder(vh,adapter,data)}"
         android:orientation="vertical">
 
         <LinearLayout
@@ -37,7 +40,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.medical_record.patientName,default = 患者名}"
+                android:text="@{data.record.patientName,default = 患者名}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
@@ -47,7 +50,7 @@
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_marginStart="@dimen/dp_8"
                 android:layout_weight="1"
-                android:text="@{data.medical_record.relation, default = 关系}"
+                android:text="@{data.record.relation, default = 关系}"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13" />
 
@@ -58,7 +61,7 @@
                 android:layout_marginStart="@dimen/dp_8"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13"
-                app:html="@{AppointmentHandler2.styledOrderStatus(data)}" />
+                app:html="@{handler.styledOrderStatus(data)}" />
 
         </LinearLayout>
 
@@ -111,7 +114,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.medical_record.patientName}"
+                android:text="@{data.record.patientName}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_12" />
 
@@ -119,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
-                android:text="@{data.medical_record.relation}"
+                android:text="@{data.record.relation}"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_12" />
 
@@ -145,8 +148,8 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_7"
-            android:orientation="horizontal">
-            <!--android:visibility="@{data.handler.isPayed()}">-->
+            android:orientation="horizontal"
+            android:visibility="@{handler.payVisible(data)}">
 
             <View
                 android:layout_width="0dp"
@@ -166,10 +169,10 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
+                    android:onClick="@{()->handler.cancel2(adapter,vh,data)}"
                     android:text="取消预约"
                     android:textColor="#339de1"
                     android:textSize="@dimen/font_13" />
-                <!--android:onClick="@{()->data.handler.cancel2(adapter,vh,data)}"-->
             </FrameLayout>
 
             <FrameLayout
@@ -184,43 +187,19 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
+                    android:onClick="@{()->handler.remind(context,data.id,data.record.patientId)}"
                     android:text="提  醒"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_13" />
-                <!--android:onClick="@{()->data.handler.remind(context,data.id,data.medicalRecord.patientId)}"-->
             </FrameLayout>
 
         </LinearLayout>
-
-        <!--<FrameLayout-->
-        <!--android:layout_width="@dimen/dp_90"-->
-        <!--android:layout_height="@dimen/dp_35"-->
-        <!--android:layout_gravity="end"-->
-        <!--android:layout_marginBottom="@dimen/dp_8"-->
-        <!--android:layout_marginEnd="@dimen/dp_13"-->
-        <!--android:layout_marginRight="@dimen/dp_13"-->
-        <!--android:layout_marginTop="@dimen/dp_7"-->
-        <!--android:background="@drawable/btn_comment"-->
-        <!--android:visibility="@{data.handler.showCommentBtn}"-->
-        <!--app:selected="@{data.handler.hasPatientComment}">-->
-
-        <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@drawable/ripple_default"-->
-        <!--android:gravity="center"-->
-        <!--android:onClick="@{()->data.handler.comment(adapter,vh)}"-->
-        <!--android:text='@{data.handler.hasPatientComment?"已评价":"评  价"}'-->
-        <!--android:textColor="#fff"-->
-        <!--android:textSize="@dimen/font_13" />-->
-
-        <!--</FrameLayout>-->
 
         <View
             android:id="@+id/bottom"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_16"
             android:background="#ebf0f3"
-            app:visible="@{data.has_pay==1}" />
+            android:visibility="@{handler.payVisible(data)}" />
     </LinearLayout>
 </layout>

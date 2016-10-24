@@ -4,6 +4,10 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
         <variable
             name="data"
             type="com.doctor.sun.vo.ItemConsulting" />
@@ -111,7 +115,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@{data.handler.recordName2}"
+                    android:text="@{data.data.record.recordName}"
                     android:textColor="#717171"
                     android:textSize="@dimen/font_12" />
 
@@ -140,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_12"
-                    app:html="@{data.handler.styledOrderTypeAndStatus}" />
+                    app:html="@{handler.styledOrderTypeAndStatus(data.data)}" />
 
             </LinearLayout>
 
@@ -157,7 +161,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text='@{"预约时间: "+data.handler.bookTime}'
+                    android:text='@{"预约时间: "+data.data.book_time}'
                     android:textColor="@color/grey_ab"
                     android:textSize="@dimen/font_12" />
 
@@ -166,7 +170,7 @@
                 <!--android:layout_height="wrap_content"-->
                 <!--android:layout_marginLeft="@dimen/dp_8"-->
                 <!--android:layout_weight="1"-->
-                <!--android:text="@{data.handler.relation}"-->
+                <!--android:text="@{handler.relation}"-->
                 <!--android:textColor="#898989"-->
                 <!--android:textSize="@dimen/font_12" />-->
 
@@ -177,10 +181,10 @@
                     android:layout_marginLeft="@dimen/dp_8"
                     android:background="@drawable/shape_red_oval_dp17"
                     android:gravity="center"
-                    android:text='@{"" + data.handler.unreadMsgCount()}'
+                    android:text='@{"" + handler.unreadMsgCount(data.data)}'
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/font_12"
-                    android:visibility="@{data.handler.unreadMsgCount()>0}" />
+                    android:visibility="@{handler.unreadMsgCount(data.data)>0}" />
 
             </LinearLayout>
 

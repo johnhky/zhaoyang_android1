@@ -3,7 +3,7 @@ package com.doctor.sun.ui.adapter.core;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.LayoutId;
 
 import java.util.ArrayList;
 import java.util.Collection;

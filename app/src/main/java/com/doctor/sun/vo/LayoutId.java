@@ -1,4 +1,4 @@
-package com.doctor.sun.ui.adapter.ViewHolder;
+package com.doctor.sun.vo;
 
 /**
  * Created by rick on 11/24/15.

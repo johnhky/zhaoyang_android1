@@ -70,7 +70,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:onClick="@{()->handler.remind(context, Integer.parseInt(data.getId()), Integer.parseInt(data.getRecord().getPatientId()))}"
+                    android:onClick="@{()->handler.remind(context, data.getId(), data.getRecord().getPatientId())}"
                     android:text="提  醒"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_17" />
@@ -109,7 +109,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:onClick="@{handler.accept(data)}"
+                    android:onClick="@{()->handler.accept(context,data)}"
                     android:text="就  诊"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_17" />

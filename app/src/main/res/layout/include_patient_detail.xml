@@ -3,9 +3,14 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
         <variable
             name="data"
             type="com.doctor.sun.vo.ItemPatientDetail" />
+
         <variable
             name="position"
             type="java.lang.String" />
@@ -28,7 +33,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.handler.patientName}"
+                android:text="@{handler.getPatientName(data.getData())}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
@@ -36,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
-                android:text="@{data.handler.relation}"
+                android:text="@{handler.getRelationAndName(data.getData())}"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13" />
 
@@ -48,7 +53,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_7"
-            android:text="@{@string/patient_info(data.handler.gender,data.handler.birthday)}"
+            android:text="@{data.getPatientInfo(context)}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 
@@ -58,7 +63,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_4"
-            android:text="@{@string/appointment_time(data.handler.bookTime)}"
+            android:text="@{@string/appointment_time(data.data.getBook_time())}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 
@@ -69,7 +74,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_4"
-            android:text="@{@string/appointment_progress(data.progress)}"
+            android:text="@{@string/appointment_progress(data.data.progress)}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
     </LinearLayout>

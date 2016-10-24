@@ -14,9 +14,7 @@ import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-
-import java.util.List;
+import com.doctor.sun.vo.LayoutId;
 
 import io.ganguo.library.core.image.GGlide;
 import io.ganguo.library.util.date.Date;

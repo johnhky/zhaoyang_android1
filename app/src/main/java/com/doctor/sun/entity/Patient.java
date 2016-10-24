@@ -6,7 +6,7 @@ import android.os.Parcelable;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.activity.patient.handler.PatientHandler;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.LayoutId;
 import com.doctor.sun.util.NameComparator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

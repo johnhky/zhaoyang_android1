@@ -20,9 +20,12 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.CouponType;
 import com.doctor.sun.entity.constans.PayMethod;
 import com.doctor.sun.entity.handler.AppointmentHandler;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.immutables.ImmutableAppointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.TimeModule;
@@ -353,13 +356,11 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
             @Override
             protected void handleResponse(Appointment response) {
                 final String medicalRecordId = String.valueOf(getRecord().getMedicalRecordId());
-                response.setRecordId(Integer.parseInt(medicalRecordId));
-                AppointmentHandler handler = new AppointmentHandler(response);
 
                 if (isUseWechat) {
-                    handler.payWithWeChat((Activity) context, finalCouponId);
+                    AppointmentHandler2.payWithWeChat((Activity) context, finalCouponId,response);
                 } else {
-                    handler.payWithAlipay((Activity) context, finalCouponId);
+                    AppointmentHandler2.payWithAlipay((Activity) context, finalCouponId,response);
                 }
             }
         };
@@ -512,7 +513,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
 
         result.add(new Description(R.layout.item_description, "优惠券"));
 
-        int discountMoney = response.getHandler().getDiscountMoney();
+        int discountMoney = AppointmentHandler2.getDiscountMoney(response);
         String status;
         if (discountMoney > 0) {
             status = "已使用优惠券优惠" + discountMoney;
@@ -532,17 +533,17 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
             public void onClick(View view) {
                 switch (payMethod.getSelectedItem()) {
                     case PayMethod.ALIPAY:
-                        response.getHandler().payWithAlipay((Activity) view.getContext(), "");
+                        AppointmentHandler2.payWithAlipay((Activity) view.getContext(), "", response);
                         break;
                     case PayMethod.SIMULATED:
                         if (BuildConfig.DEBUG) {
-                            response.getHandler().simulatedPayImpl(view, response.getId());
+                            AppointmentHandler2.simulatedPayImpl("", response);
                         } else {
                             Toast.makeText(view.getContext(), "搞事情?", Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case PayMethod.WECHAT:
-                        response.getHandler().payWithWeChat((Activity) view.getContext(), "");
+                        AppointmentHandler2.payWithWeChat((Activity) view.getContext(), "", response);
                         break;
                     default:
 
