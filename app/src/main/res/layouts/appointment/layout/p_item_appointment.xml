@@ -5,9 +5,12 @@
 
     <data>
 
+        <import type="com.doctor.sun.entity.handler.AppointmentHandler2"
+            alias="handler"/>
+
         <variable
             name="data"
-            type="com.doctor.sun.entity.Appointment" />
+            type="com.doctor.sun.immutables.Appointment" />
 
         <variable
             name="vh"
@@ -23,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{()->data.handler.onPatientClickOrder(adapter,vh)}"
+        android:onClick="@{()->handler.onPatientClickOrder(adapter, vh, data)}"
         android:orientation="vertical">
 
         <com.zhy.android.percent.support.PercentFrameLayout
@@ -88,14 +91,14 @@
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:layout_marginStart="@dimen/dp_13"
-                android:background="@{data.handler.getStatusBackground()}"
+                android:background="@{handler.getStatusBackground(data)}"
                 android:gravity="center_vertical"
-                android:onClick="@{()->data.handler.showStatusTimeline(context)}"
+                android:onClick="@{()->handler.showStatusTimeline(context, data)}"
                 android:paddingLeft="@dimen/dp_13"
                 android:paddingStart="@dimen/dp_13"
                 android:textSize="@dimen/font_13"
-                app:drawableRightCompat="@{data.handler.getStatusArrow()}"
-                app:html="@{data.handler.styledOrderStatus2}"
+                app:drawableRightCompat="@{handler.getStatusArrow(data)}"
+                app:html="@{handler.styledOrderStatus2(data)}"
                 tools:ignore="RtlSymmetry" />
 
         </com.zhy.android.percent.support.PercentFrameLayout>
@@ -124,7 +127,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.handler.recordName}"
+                android:text="@{handler.getRecordName(data)}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_13" />
 
@@ -136,7 +139,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_time(data.handler.bookTime)}"
+            android:text="@{@string/appointment_time(handler.getBookTime(data))}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 
@@ -151,7 +154,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{@string/appointment_type(data.displayType)}"
+                android:text="@{@string/appointment_type(data.display_type)}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_13"
                 app:layout_widthPercent="40%" />
@@ -207,7 +210,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility='@{data.handler.isCouponUsed()}'
+                android:visibility='@{handler.isCouponUsed(data)}'
                 app:layout_widthPercent="60%">
 
                 <TextView
@@ -216,7 +219,7 @@
                     android:gravity="center"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13"
-                    app:html="@{@string/need_pay(data.needPay)}" />
+                    app:html="@{@string/need_pay(data.need_pay)}" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -250,7 +253,7 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_7"
             android:orientation="horizontal"
-            app:visible="@{data.handler.payVisible}">
+            app:visible="@{handler.payVisible(data)}">
 
             <View
                 android:layout_width="0dp"
@@ -270,7 +273,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:onClick="@{()->data.handler.pCancel(adapter,vh,data.id)}"
+                    android:onClick="@{()->handler.pCancel(adapter, vh, data.id)}"
                     android:text="取消预约"
                     android:textColor="#339de1"
                     android:textSize="@dimen/font_13" />
@@ -288,7 +291,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:onClick="@{()->data.handler.startPayActivity(context,data.id)}"
+                    android:onClick="@{()->handler.startPayActivity(context, data.id)}"
                     android:text="立即支付"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_13" />
@@ -305,16 +308,16 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_7"
             android:background="@drawable/btn_comment"
-            android:visibility="@{data.handler.showCommentBtn()}"
-            app:selected="@{data.handler.hasDoctorComment}">
+            android:visibility="@{handler.showCommentBtn(data)}"
+            app:selected="@{handler.hasDoctorComment(data)}">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/ripple_default"
                 android:gravity="center"
-                android:onClick="@{()->data.handler.pComment(adapter,vh)}"
-                android:text='@{data.handler.hasDoctorComment()?"已评价":"评  价"}'
+                android:onClick="@{()->handler.pComment(adapter, vh, data)}"
+                android:text='@{handler.hasDoctorComment(data)?"已评价":"评  价"}'
                 android:textColor="#fff"
                 android:textSize="@dimen/font_13"
                 tools:text="评  价" />
@@ -330,14 +333,14 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_7"
             android:background="@drawable/btn_comment"
-            android:visibility="@{data.handler.showAnswerQuestionBtn}">
+            android:visibility="@{handler.showAnswerQuestionBtn(data)}">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/ripple_default"
                 android:gravity="center"
-                android:onClick="@{()->data.handler.onPatientClickOrder(adapter,vh)}"
+                android:onClick="@{()->handler.onPatientClickOrder(adapter, vh, data)}"
                 android:text="填写问卷"
                 android:textColor="#fff"
                 android:textSize="@dimen/font_13"

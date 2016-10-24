@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.doctor.sun.Settings;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.constans.QuestionsPath;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
 import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 
@@ -25,9 +25,9 @@ public class HistoryDetailAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return ReadQuestionsFragment.getInstance(appointment.getIdString(), QuestionsPath.NORMAL, true);
+                return ReadQuestionsFragment.getInstance(appointment.getId(), QuestionsPath.NORMAL, true);
             case 1:
-                return ReadDiagnosisFragment.newInstance(appointment.getIdString());
+                return ReadDiagnosisFragment.newInstance(appointment.getId());
         }
         return null;
     }

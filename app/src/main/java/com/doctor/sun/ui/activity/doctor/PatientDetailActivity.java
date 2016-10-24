@@ -9,13 +9,15 @@ import android.support.annotation.Nullable;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPatientDetailBinding;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.handler.AppointmentHandler;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.event.CallFailedShouldCallPhoneEvent;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
+import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.vo.ItemPatientDetail;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
@@ -33,13 +35,14 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
 
     public static Intent makeIntent(Context context, Appointment data, int layout) {
         Intent i = new Intent(context, PatientDetailActivity.class);
-        i.putExtra(Constants.DATA, data);
+        i.putExtra(Constants.DATA, JacksonUtils.toJson(data));
         i.putExtra(Constants.LAYOUT_ID, layout);
         return i;
     }
 
     private Appointment getData() {
-        return getIntent().getParcelableExtra(Constants.DATA);
+        String json = getIntent().getStringExtra(Constants.DATA);
+        return JacksonUtils.fromJson(json, Appointment.class);
     }
 
 
@@ -50,9 +53,8 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
 
         data = getData();
 
-        data.setHandler(new AppointmentHandler(data));
         binding.setData(data);
-        instance = ReadQuestionsFragment.getInstance(data.getIdString(), QuestionsPath.NORMAL, false);
+        instance = ReadQuestionsFragment.getInstance(data.getId(), QuestionsPath.NORMAL, false);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fly_content, instance)
@@ -71,7 +73,7 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
     }
 
     public void onMenuClicked() {
-        String appointmentId = String.valueOf(getData().getAppointmentId());
+        String appointmentId = getData().getId();
         Intent intent = TemplatesInventoryActivity.intentFor(this, appointmentId);
         startActivity(intent);
     }
@@ -81,9 +83,7 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == AppointmentHandler.RECORD_AUDIO_PERMISSION) {
             if (PermissionUtil.verifyPermissions(grantResults)) {
-                if (data != null) {
-                    data.getHandler().makePhoneCall(this);
-                }
+                AppointmentHandler2.makePhoneCall(this);
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -94,7 +94,7 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
     public void onRejectIncomingCallEvent(CallFailedShouldCallPhoneEvent e) {
         if (data != null) {
             if (AVChatType.AUDIO.getValue() == e.getChatType()) {
-                data.getHandler().callTelephone(this);
+                AppointmentHandler2.callTelephone(this, getData());
             }
         }
     }

@@ -2,7 +2,7 @@ package com.doctor.sun.event;
 
 import android.support.v4.app.FragmentManager;
 
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.immutables.Appointment;
 
 import io.ganguo.library.core.event.Event;
 

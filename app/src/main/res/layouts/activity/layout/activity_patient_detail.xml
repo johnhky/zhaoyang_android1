@@ -3,10 +3,15 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
+        <import type="java.lang.Integer" />
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.Appointment" />
+            type="com.doctor.sun.immutables.Appointment" />
 
     </data>
 
@@ -65,7 +70,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:onClick="@{()->data.handler.remind(context,data.id,data.medicalRecord.patientId)}"
+                    android:onClick="@{()->handler.remind(context, Integer.parseInt(data.getId()), Integer.parseInt(data.getRecord().getPatientId()))}"
                     android:text="提  醒"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_17" />
@@ -78,7 +83,7 @@
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_marginRight="@dimen/dp_8"
                 android:background="@drawable/ripple_default"
-                android:onClick="@{()->data.handler.makePhoneCall(context)}"
+                android:onClick="@{()->handler.makePhoneCall(context)}"
                 android:showcase='@{"就诊前也可以联系患者"}'
                 android:showcaseId='@{"patientDetail"}'
                 android:showcasePosition='@{2}'
@@ -104,7 +109,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:onClick="@{data.handler.accept}"
+                    android:onClick="@{handler.accept(data)}"
                     android:text="就  诊"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_17" />

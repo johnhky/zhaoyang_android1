@@ -1,7 +1,6 @@
 package com.doctor.sun.vo;
 
-import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.handler.AppointmentHandler;
+import com.doctor.sun.immutables.Appointment;
 
 /**
  * Created by rick on 16/8/2016.
@@ -15,10 +14,6 @@ public class ItemPatientDetail extends BaseItem {
         super(itemLayoutId);
         setItemId("INCLUDE_PATIENT_DETAIL");
         this.data = data;
-    }
-
-    public AppointmentHandler getHandler() {
-        return data.getHandler();
     }
 
     public String getProgress() {

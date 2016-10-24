@@ -1,6 +1,6 @@
 package com.doctor.sun.event;
 
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.immutables.Appointment;
 
 import io.ganguo.library.core.event.Event;
 

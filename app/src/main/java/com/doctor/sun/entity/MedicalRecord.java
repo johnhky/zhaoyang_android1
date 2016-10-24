@@ -89,6 +89,8 @@ public class MedicalRecord extends BaseItem implements Parcelable {
     public String canFollowUp;
     @JsonProperty("can_apply_follow_up")
     public String allowToApply;
+    @JsonProperty("patient_avatar")
+    public String patientAvatar;
 
     MedicalRecordHandler handler = new MedicalRecordHandler(this);
 
@@ -221,6 +223,14 @@ public class MedicalRecord extends BaseItem implements Parcelable {
 
     public void setAppointmentId(List<Integer> appointmentId) {
         this.appointmentId = appointmentId;
+    }
+
+    public String getPatientAvatar() {
+        return patientAvatar;
+    }
+
+    public void setPatientAvatar(String patientAvatar) {
+        this.patientAvatar = patientAvatar;
     }
 
     public MedicalRecordHandler getHandler() {
