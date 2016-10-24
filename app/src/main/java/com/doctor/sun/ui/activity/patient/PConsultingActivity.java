@@ -48,7 +48,7 @@ public class PConsultingActivity extends BaseFragmentActivity2 {
     public void onMainTabChangedEvent(MainTabChangedEvent e) {
         switch (e.getPosition()) {
             case 0: {
-                startActivity(PMainActivity2.class);
+                startActivity(PMainActivity.class);
                 break;
             }
             case 1: {

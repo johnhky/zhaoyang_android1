@@ -40,7 +40,7 @@ import io.ganguo.library.core.event.EventHub;
  * Created by rick on 14/7/2016.
  */
 
-public class PMainActivity2 extends BaseFragmentActivity2 {
+public class PMainActivity extends BaseFragmentActivity2 {
 
 
     private PActivityMain2Binding binding;
@@ -133,7 +133,7 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
     public void onMainTabChangedEvent(MainTabChangedEvent e) {
         switch (e.getPosition()) {
             case 0: {
-                startActivity(PMainActivity2.class);
+                startActivity(PMainActivity.class);
                 break;
             }
             case 1: {
@@ -193,7 +193,7 @@ public class PMainActivity2 extends BaseFragmentActivity2 {
     }
 
     public static Intent intentFor(Context context) {
-        return new Intent(context, PMainActivity2.class);
+        return new Intent(context, PMainActivity.class);
     }
 
     @Subscribe

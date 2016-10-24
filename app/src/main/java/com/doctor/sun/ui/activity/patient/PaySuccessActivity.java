@@ -98,7 +98,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_main: {
-                Intent intent = PMainActivity2.intentFor(this);
+                Intent intent = PMainActivity.intentFor(this);
                 startActivity(intent);
                 AppManager.finishAllActivity();
                 break;
@@ -111,7 +111,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                         finishAffinity();
                     }
                     if (getType() == APPOINTMENT) {
-                        Intent intent1 = PMainActivity2.intentFor(this);
+                        Intent intent1 = PMainActivity.intentFor(this);
                         startActivity(intent1);
                         Intent intent2 = EditQuestionActivity.intentFor(this, String.valueOf(id), QuestionsPath.NORMAL);
                         startActivity(intent2);
@@ -150,7 +150,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
     public void onBackPressed() {
 
         super.onBackPressed();
-        Intent intent = PMainActivity2.intentFor(this);
+        Intent intent = PMainActivity.intentFor(this);
         startActivity(intent);
         AppManager.finishAllActivity();
 

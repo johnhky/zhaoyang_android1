@@ -187,7 +187,7 @@ public class EditPatientInfoActivity extends BaseFragmentActivity2 implements Pa
                 protected void handleResponse(Patient response) {
                     setIsEditMode(!isEditMode());
                     Toast.makeText(EditPatientInfoActivity.this, "保存成功,请耐心等待资料审核", LENGTH_SHORT).show();
-                    Intent intent = PMainActivity2.intentFor(EditPatientInfoActivity.this);
+                    Intent intent = PMainActivity.intentFor(EditPatientInfoActivity.this);
                     startActivity(intent);
                     if (SDK_INT >= JELLY_BEAN) {
                         finishAffinity();

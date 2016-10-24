@@ -24,7 +24,7 @@ import com.doctor.sun.ui.activity.doctor.ChangePswActivity;
 import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.activity.doctor.MeActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
-import com.doctor.sun.ui.activity.patient.PMainActivity2;
+import com.doctor.sun.ui.activity.patient.PMainActivity;
 import com.doctor.sun.ui.activity.patient.PMeActivity;
 import com.doctor.sun.ui.fragment.AllowToSearchFragment;
 import com.doctor.sun.ui.widget.ShareDialog;
@@ -84,7 +84,7 @@ public class SettingHandler {
             Intent consulting = PConsultingActivity.makeIntent(context);
             startShowCase(context, consulting);
 
-            Intent intent = PMainActivity2.intentFor(context);
+            Intent intent = PMainActivity.intentFor(context);
             startShowCase(context, intent);
         }
     }
