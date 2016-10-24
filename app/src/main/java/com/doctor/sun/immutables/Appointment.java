@@ -15,7 +15,7 @@ import org.immutables.value.Value;
 @JsonDeserialize(as = ImmutableAppointment.class)
 public abstract class Appointment {
 
-    public abstract int getId();
+    public abstract String getId();
     public abstract String getTid();
 
     public abstract int getStatus();

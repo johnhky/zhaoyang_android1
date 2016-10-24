@@ -78,7 +78,7 @@ public interface AppointmentModule {
 
     @FormUrlEncoded
     @POST("appointment/doing")
-    Call<ApiDTO<String>> startConsulting(@Field("appointmentId") int appointmentId);
+    Call<ApiDTO<String>> startConsulting(@Field("appointmentId") String appointmentId);
 
 
     @FormUrlEncoded
@@ -126,7 +126,7 @@ public interface AppointmentModule {
      */
     @FormUrlEncoded
     @POST("pay/info")
-    Call<ApiDTO<String>> buildAliPayOrder(@Field("appointmentId") int id,
+    Call<ApiDTO<String>> buildAliPayOrder(@Field("appointmentId") String id,
                                           @Field("type") String type, @Field("couponId") String couponId);
 
 
@@ -136,7 +136,7 @@ public interface AppointmentModule {
      */
     @FormUrlEncoded
     @POST("pay/info")
-    Call<ApiDTO<WeChatPayDTO>> buildWeChatOrder(@Field("appointmentId") int id,
+    Call<ApiDTO<WeChatPayDTO>> buildWeChatOrder(@Field("appointmentId") String id,
                                                 @Field("type") String type, @Field("couponId") String couponId);
 
 

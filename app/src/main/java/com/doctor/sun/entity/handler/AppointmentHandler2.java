@@ -147,28 +147,28 @@ public class AppointmentHandler2 {
         api.pCancel(id).enqueue(new CancelCallback(vh, component));
     }
 
-    public static void startPayActivity(Context context, int id) {
+    public static void startPayActivity(Context context, String id) {
         Bundle args = PayAppointmentFragment.getArgs(String.valueOf(id));
         Intent intent = SingleFragmentActivity.intentFor(context, "确认支付", args);
         context.startActivity(intent);
     }
 
     public static void payWithAlipay(final Activity activity, String couponId, Appointment data) {
-        int id = data.getId();
+        String id = data.getId();
         api.buildAliPayOrder(id, "alipay", couponId).enqueue(new AlipayCallback(activity, data));
     }
 
     public static void payWithWeChat(final Activity activity, String couponId, Appointment data) {
-        int id = data.getId();
+        String id = data.getId();
         api.buildWeChatOrder(id, "wechat", couponId).enqueue(new WeChatPayCallback(activity, data));
     }
 
     public static void simulatedPay(final BaseListAdapter component, final View view, final BaseViewHolder vh, Appointment data) {
-        int id = data.getId();
+        String id = data.getId();
         simulatedPayImpl(view, id, data);
     }
 
-    public static void simulatedPayImpl(final View view, int id, final Appointment data) {
+    public static void simulatedPayImpl(final View view, String id, final Appointment data) {
         final PayCallback mCallback = new PayCallback() {
             @Override
             public void onPaySuccess() {
@@ -181,7 +181,7 @@ public class AppointmentHandler2 {
             }
         };
         AppointmentModule api = Api.of(AppointmentModule.class);
-        api.pay(String.valueOf(id)).enqueue(new SimpleCallback<String>() {
+        api.pay(id).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
                 mCallback.onPaySuccess();
@@ -246,7 +246,7 @@ public class AppointmentHandler2 {
             Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
                 @Override
                 public boolean handleMessage(Message msg) {
-                    data.setDoctorPoint((Double) msg.obj);
+                    data.getDoctor().setPoint((Float) msg.obj);
                     adapter.notifyItemChanged(vh.getAdapterPosition());
                     return false;
                 }
@@ -273,7 +273,7 @@ public class AppointmentHandler2 {
     }
 
     public static void chat(Context context, Appointment data) {
-        if (data.getTid() != 0) {
+        if ("0".equals(data.getTid())) {
             Intent intent = ChattingActivity.makeIntent(context, data);
             context.startActivity(intent);
         } else {
@@ -284,7 +284,7 @@ public class AppointmentHandler2 {
     }
 
     public static void chat(BaseListAdapter adapter, BaseViewHolder vh, Appointment data) {
-        if (data.getTid() != 0) {
+        if ("0".equals(data.getTid())) {
             Intent intent = ChattingActivity.makeIntent(vh.itemView.getContext(), data);
             if (adapter != null && vh != null) {
                 ItemHelper.initCallback(intent, adapter, vh);
@@ -298,7 +298,7 @@ public class AppointmentHandler2 {
     }
 
     public static void chatNoMenu(Context context, Appointment data) {
-        if (data.getTid() != 0) {
+        if ("0".equals(data.getTid())) {
             Intent intent = ChattingActivityNoMenu.makeIntent(context, data);
             context.startActivity(intent);
         } else {
@@ -317,20 +317,13 @@ public class AppointmentHandler2 {
         return isDetailAppointment && data.getStatus() == Status.DOING;
     }
 
-    public static int appointmentId(Appointment data) {
-        return data.getId();
-    }
 
     public static boolean shouldAskServer(Appointment data) {
-        return data.getAppointmentType() == AppointmentType.PREMIUM && data.getStatus() == Status.DOING;
+        return data.getType() == AppointmentType.PREMIUM && data.getStatus() == Status.DOING;
     }
 
     public static int getDuration(Appointment data) {
-        try {
-            return Integer.parseInt(data.getTakeTime());
-        } catch (NumberFormatException e) {
-            return 0;
-        }
+        return (int) data.getTake_time();
     }
 
     public static Intent getFirstMenu(Context context, int canEdit, int tab, Appointment data) {
@@ -339,11 +332,11 @@ public class AppointmentHandler2 {
             if (canEdit == IntBoolean.FALSE) {
                 return AfterServiceDoneActivity.intentFor(context, id, tab);
             } else {
-                String recordId = String.valueOf(data.getUrgentRecord().getMedicalRecordId());
+                String recordId = String.valueOf(data.getRecord_id());
                 return AfterServiceDoingActivity.intentFor(context, id, recordId, tab);
             }
         } else {
-            data.canEdit = canEdit;
+//            data.canEdit = canEdit;
             return AppointmentDetailActivity.makeIntent(context, data, tab);
         }
     }
@@ -351,19 +344,11 @@ public class AppointmentHandler2 {
 
     public static int getDiscountMoney(Appointment data) {
         try {
-            int money = Integer.parseInt(data.getMoney());
-            int unpayMoney = Integer.parseInt(data.getNeedPay());
-            return money - unpayMoney;
+            double money = data.getMoney();
+            double unpayMoney = data.getNeed_pay();
+            return (int) (money - unpayMoney);
         } catch (ClassCastException e) {
             return 0;
-        } catch (NumberFormatException intCast) {
-            try {
-                double money = Double.parseDouble(data.getMoney());
-                double unpayMoney = Double.parseDouble(data.getNeedPay());
-                return (int) (money - unpayMoney);
-            } catch (NumberFormatException doubleCast) {
-                return 0;
-            }
         }
     }
 
@@ -399,23 +384,7 @@ public class AppointmentHandler2 {
     }
 
     public static boolean hasDoctorComment(Appointment data) {
-        return data.getDoctorPoint() > 0;
-    }
-
-
-    public static boolean returnNotPaid(Appointment data) {
-        return data.getReturnInfo() != null && data.getReturnInfo().getReturnPaid() != 1 && data.getReturnInfo().getNeedReturn() == 1;
-    }
-
-    @Deprecated
-    public static void historyDetail(View view, Appointment data) {
-        Intent intent = HistoryDetailActivity.makeIntent(view.getContext(), data);
-        view.getContext().startActivity(intent);
-    }
-
-    public static void historyList(Context context, Appointment data) {
-        context.startActivity(AppointmentDetailActivity.makeIntent(context,
-                data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY));
+        return data.getDoctor().getPoint() > 0;
     }
 
 
@@ -426,7 +395,7 @@ public class AppointmentHandler2 {
                 break;
             }
             case Status.PAID: {
-                Intent intent = EditQuestionActivity.intentFor(vh.itemView.getContext(), data.getIdString(), QuestionsPath.NORMAL);
+                Intent intent = EditQuestionActivity.intentFor(vh.itemView.getContext(), data.getId(), QuestionsPath.NORMAL);
                 vh.itemView.getContext().startActivity(intent);
                 break;
             }
@@ -472,9 +441,9 @@ public class AppointmentHandler2 {
     public static void drugPush(Appointment data) {
         Call<ApiDTO<String>> apiDTOCall;
         if (isAfterService(data)) {
-            apiDTOCall = drugModule.pushFollowUpDrug(data.getIdString());
+            apiDTOCall = drugModule.pushFollowUpDrug(data.getId());
         } else {
-            apiDTOCall = drugModule.pushDrug(data.getIdString());
+            apiDTOCall = drugModule.pushDrug(data.getId());
         }
 
         apiDTOCall.enqueue(new SimpleCallback<String>() {
@@ -486,12 +455,12 @@ public class AppointmentHandler2 {
     }
 
     private static boolean isAfterService(Appointment data) {
-        return data.getAppointmentType() == AppointmentType.AFTER_SERVICE;
+        return data.getType() == AppointmentType.AFTER_SERVICE;
     }
 
 
     private static boolean isDetail(Appointment data) {
-        return data.getAppointmentType() == AppointmentType.PREMIUM;
+        return data.getType() == AppointmentType.PREMIUM;
     }
 
 
@@ -501,7 +470,7 @@ public class AppointmentHandler2 {
                 case Status.LOCKED:
                 case Status.FINISHED:
                 case Status.UNPAID:
-                    switch (data.getAppointmentType()) {
+                    switch (data.getType()) {
                         case AppointmentType.AFTER_SERVICE:
                             Toast.makeText(context, "随访已经结束,请耐心等待下次随访", Toast.LENGTH_SHORT).show();
                             break;
@@ -538,27 +507,13 @@ public class AppointmentHandler2 {
         });
     }
 
-    public static String getVoipAccount(Appointment data) {
-        //假如是医生的话,就发消息给病人
-        if (Settings.isDoctor()) {
-            return data.getVoipAccount();
-        } else {
-            //假如不是医生的话,就发消息给医生
-            Doctor doctor = data.getDoctor();
-            if (doctor != null) {
-                return doctor.getVoipAccount();
-            } else {
-                return data.getVoipAccount();
-            }
-        }
-    }
 
     public static String styledOrderStatus(Appointment data) {
         return "<font color='" + getStatusColor(data) + "'>" + getStatusLabel(data) + "</font>";
     }
 
     public static String styledOrderTypeAndStatus(Appointment data) {
-        return "<font color='" + getStatusColor(data) + "'>" + data.getDisplayType() + "-" + getStatusLabel(data) + "</font>";
+        return "<font color='" + getStatusColor(data) + "'>" + data.getDisplay_type() + "-" + getStatusLabel(data) + "</font>";
     }
 
 
@@ -605,7 +560,7 @@ public class AppointmentHandler2 {
             return 0;
         }
 
-        String bookTime = data.getBookTime();
+        String bookTime = data.getBook_time();
         try {
             String substring;
             if (bookTime != null) {
@@ -627,7 +582,7 @@ public class AppointmentHandler2 {
 
 
     public static String chatStatus(Appointment data) {
-        switch (data.getAppointmentType()) {
+        switch (data.getType()) {
             case AppointmentType.AFTER_SERVICE:
                 return "随访" + getStatusLabel(data);
         }
@@ -639,7 +594,7 @@ public class AppointmentHandler2 {
     }
 
     public static String bookTimeStatus(Appointment data) {
-        switch (data.getAppointmentType()) {
+        switch (data.getType()) {
             case AppointmentType.AFTER_SERVICE:
                 return "发起时间:" + getBookTime(data);
             default:
@@ -718,12 +673,12 @@ public class AppointmentHandler2 {
 //        });
 
         AppointmentModule api = Api.of(AppointmentModule.class);
-        api.appointmentDetail(data.getIdString()).enqueue(new SimpleCallback<Appointment>() {
-            @Override
-            protected void handleResponse(Appointment response) {
-                answerQuestion(context, tab, response.canEdit, response);
-            }
-        });
+//        api.appointmentDetail(data.getId()).enqueue(new SimpleCallback<Appointment>() {
+//            @Override
+//            protected void handleResponse(Appointment response) {
+//                answerQuestion(context, tab, response.canEdit, response);
+//            }
+//        });
     }
 
     public static void answerQuestion(Context context, int tab, int canEdit, Appointment data) {
@@ -736,7 +691,7 @@ public class AppointmentHandler2 {
 
 
     public static String getStatusLabel(Appointment data) {
-        return data.getDisplayStatus();
+        return data.getDisplay_status();
     }
 
     public static void showStatusTimeline(Context context, Appointment data) {

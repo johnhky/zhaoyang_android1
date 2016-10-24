@@ -239,7 +239,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
         } else {
             id = data.getId();
         }
-        api.buildAliPayOrder(id, "alipay", couponId).enqueue(new AlipayCallback(activity, data));
+        api.buildAliPayOrder(String.valueOf(id), "alipay", couponId).enqueue(new AlipayCallback(activity, data));
     }
 
     public void payWithWeChat(final Activity activity, String couponId) {
@@ -249,7 +249,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
         } else {
             id = data.getId();
         }
-        api.buildWeChatOrder(id, "wechat", couponId).enqueue(new WeChatPayCallback(activity, data));
+        api.buildWeChatOrder(String.valueOf(id), "wechat", couponId).enqueue(new WeChatPayCallback(activity, data));
     }
 
     public void simulatedPay(final BaseListAdapter component, final View view, final BaseViewHolder vh) {
@@ -702,7 +702,7 @@ public class AppointmentHandler implements PayMethodInterface, NimMsgInfo {
 //            }
 //        });
         ImModule imModule = Api.of(ImModule.class);
-        imModule.makeYunXinPhoneCall(data.getId()).enqueue(new SimpleCallback<String>() {
+        imModule.makeYunXinPhoneCall(String.valueOf(data.getId())).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
                 Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
