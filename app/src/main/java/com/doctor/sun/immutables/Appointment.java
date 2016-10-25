@@ -69,7 +69,7 @@ public abstract class Appointment implements LayoutId {
 
     @Value.Default
     public int getCan_edit() {
-        return IntBoolean.TRUE;
+        return IntBoolean.NOT_GIVEN;
     }
 
     @Value.Default

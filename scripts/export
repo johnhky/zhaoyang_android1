@@ -1,0 +1,10 @@
+export registerDoctor=com.doctor.sun.ui.activity.Test1RegisterDoctor#test1RegisterDoctor
+export editDoctorInfo=com.doctor.sun.ui.activity.Test2EditDoctorInfo#test2EditDoctorInfo
+export registerPatient=com.doctor.sun.ui.activity.Test3RegisterPatient#test3RegisterPatient
+export newSelfRecord=com.doctor.sun.ui.activity.Test4NewSelfMedicalRecord#test4NewSelfMedicalRecord
+export newRecord=com.doctor.sun.ui.activity.Test5NewOtherMedicalRecord#test5NewMedicalRecord
+export payPrescription=com.doctor.sun.ui.activity.Test6PayPrescriptionFragment#test6PayPrescriptionFragment
+export editRecord=com.doctor.sun.ui.activity.Test7EditRecord#test7EditRecord
+export editPatientInfo=com.doctor.sun.ui.activity.Test8EditPatientInfo#test8EditPatientInfo
+export loginDoctor=com.doctor.sun.ui.activity.TestLogin#test20loginDoctor
+export loginPatient=com.doctor.sun.ui.activity.TestLogin#test40loginPatient

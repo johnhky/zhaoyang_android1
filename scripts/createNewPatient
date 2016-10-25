@@ -1,0 +1,6 @@
+#!/bin/bash
+
+runTest $registerPatient $EM_NEXUS5_API13 
+runTest $loginPatient $EM_NEXUS5_API13 
+runTest $newSelfRecord $EM_NEXUS5_API13 
+runTest $newRecord $EM_NEXUS5_API13 

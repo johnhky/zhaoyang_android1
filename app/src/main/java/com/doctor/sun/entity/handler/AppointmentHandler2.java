@@ -19,6 +19,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
+import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Doctor;
@@ -58,6 +59,7 @@ import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.fragment.PayAppointmentFragment;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.vo.BaseItem;
+import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -170,11 +172,10 @@ public class AppointmentHandler2 {
     }
 
     public static void simulatedPay(final BaseListAdapter component, final View view, final BaseViewHolder vh, Appointment data) {
-        String id = data.getId();
-        simulatedPayImpl(id, data);
+        simulatedPayImpl(data);
     }
 
-    public static void simulatedPayImpl(String id, final Appointment data) {
+    public static void simulatedPayImpl(final Appointment data) {
         final PayCallback mCallback = new PayCallback() {
             @Override
             public void onPaySuccess() {
@@ -187,7 +188,7 @@ public class AppointmentHandler2 {
             }
         };
         AppointmentModule api = Api.of(AppointmentModule.class);
-        api.pay(id).enqueue(new SimpleCallback<String>() {
+        api.pay(data.getId()).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
                 mCallback.onPaySuccess();
@@ -492,8 +493,8 @@ public class AppointmentHandler2 {
     }
 
 
-    public static void makePhoneCall(final Context context) {
-//        AVChatActivity.start(context, getP2PId(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+    public static void makePhoneCall(final Context context,Appointment data) {
+        AVChatActivity.start(context, getP2PId(data), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
     }
 
     public static void callTelephone(final Context context, Appointment data) {

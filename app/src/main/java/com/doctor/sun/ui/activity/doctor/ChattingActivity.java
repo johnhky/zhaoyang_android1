@@ -341,7 +341,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
     private void makePhoneCall() {
-        AppointmentHandler2.makePhoneCall(this);
+        AppointmentHandler2.makePhoneCall(this,getData());
     }
 
     @Override
