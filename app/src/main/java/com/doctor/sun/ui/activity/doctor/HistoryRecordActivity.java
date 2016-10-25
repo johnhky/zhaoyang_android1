@@ -11,7 +11,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityHistoryRecordBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.module.AppointmentModule;

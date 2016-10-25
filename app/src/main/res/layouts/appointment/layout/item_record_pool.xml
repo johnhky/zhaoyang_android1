@@ -4,9 +4,13 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
         <variable
             name="data"
-            type="com.doctor.sun.entity.Appointment" />
+            type="com.doctor.sun.immutables.Appointment" />
 
         <variable
             name="vh"
@@ -22,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{()->data.handler.onDoctorClickOrder(vh,adapter)}"
+        android:onClick="@{()->handler.onDoctorClickOrder(vh,adapter,data)}"
         android:orientation="vertical">
 
         <LinearLayout
@@ -36,7 +40,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.handler.recordName2}"
+                android:text="@{data.record.recordName}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
@@ -45,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_weight="1"
-                android:text="@{data.relation}"
+                android:text="@{data.record.relation}"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13" />
 
@@ -56,7 +60,7 @@
                 android:layout_marginStart="@dimen/dp_8"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13"
-                app:html="@{data.handler.styledOrderStatus()}" />
+                app:html="@{handler.styledOrderStatus(data)}" />
 
         </LinearLayout>
 
@@ -66,7 +70,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_time(data.handler.bookTime)}"
+            android:text="@{@string/appointment_time(data.book_time)}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 
@@ -76,7 +80,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_type(data.displayType)}"
+            android:text="@{@string/appointment_type(data.display_type)}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 
@@ -109,7 +113,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.handler.patientName}"
+                android:text="@{data.record.patientName}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_12" />
 
@@ -117,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
-                android:text="@{data.handler.relation}"
+                android:text="@{handler.getRelationAndName(data)}"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_12" />
 

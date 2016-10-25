@@ -15,12 +15,13 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityCancelAppointmentBinding;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.widget.SingleChoiceDialog;
+import com.doctor.sun.util.JacksonUtils;
 
 import java.util.ArrayList;
 
@@ -38,13 +39,13 @@ public class CancelAppointmentActivity extends BaseFragmentActivity2 {
 
     public static Intent makeIntent(Context context, Appointment data) {
         Intent i = new Intent(context, CancelAppointmentActivity.class);
-        i.putExtra(Constants.DATA, data);
+        i.putExtra(Constants.DATA, JacksonUtils.toJson(data));
         return i;
     }
 
     public Appointment getData() {
-        Appointment data = getIntent().getParcelableExtra(Constants.DATA);
-        return data;
+        String json = getIntent().getStringExtra(Constants.DATA);
+        return JacksonUtils.fromJson(json, Appointment.class);
     }
 
     public Messenger getHandler() {

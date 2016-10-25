@@ -3,6 +3,10 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler" />
+
         <variable
             name="data"
             type="com.doctor.sun.entity.MedicalRecord" />
@@ -46,7 +50,7 @@
                 android:layout_marginTop="@dimen/dp_3"
                 android:layout_weight="1"
                 android:gravity="top"
-                android:text="@{data.handler.recordDetail}"
+                android:text="@{handler.getInstance().getRecordDetail(data)}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 

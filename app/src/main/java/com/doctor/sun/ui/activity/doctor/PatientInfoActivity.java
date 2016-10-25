@@ -16,11 +16,11 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPatientInfoBinding;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.widget.CancelHistoryDialog;
@@ -37,6 +37,7 @@ import static com.doctor.sun.bean.Constants.PARAM_NICKNAME;
  * 个人信息
  * Created by Lynn on 12/29/15.
  */
+@Deprecated
 public class PatientInfoActivity extends BaseFragmentActivity2 implements View.OnClickListener {
     private ActivityPatientInfoBinding binding;
     private ImModule api = Api.of(ImModule.class);
@@ -57,8 +58,8 @@ public class PatientInfoActivity extends BaseFragmentActivity2 implements View.O
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_check_history:
-                startActivity(new Intent(PatientInfoActivity.this, ChattingRecordActivity.class)
-                        .putExtra(Constants.PARAM_APPOINTMENT, binding.getAppointment()));
+//                startActivity(new Intent(PatientInfoActivity.this, ChattingRecordActivity.class)
+//                        .putExtra(Constants.PARAM_APPOINTMENT, binding.getAppointment()));
                 break;
             case R.id.tv_cancel_history:
                 CancelHistoryDialog.showCancelHistoryDialog(PatientInfoActivity.this, String.valueOf(patient.getTid()));
@@ -165,16 +166,16 @@ public class PatientInfoActivity extends BaseFragmentActivity2 implements View.O
     }
 
     private void bindAppointment() {
-        Appointment appointment = new Appointment();
-        //id 至少有一个
-        appointment.setId(patient.getAppointmentId().get(patient.getAppointmentId().size() - 1));
-        appointment.setVoipAccount(binding.getData().getVoipAccount());
-        appointment.setPatientName(patient.getPatientName());
-        appointment.setAvatar(binding.getData().getAvatar());
-        appointment.setDoctor(Settings.getDoctorProfile());
-        appointment.setTid(patient.getTid());
-        appointment.setYunxinAccid(patient.getYunxinAccid());
-        binding.setAppointment(appointment);
+//        Appointment appointment = new Appointment();
+//        //id 至少有一个
+//        appointment.setId(patient.getAppointmentId().get(patient.getAppointmentId().size() - 1));
+//        appointment.setVoipAccount(binding.getData().getVoipAccount());
+//        appointment.setPatientName(patient.getPatientName());
+//        appointment.setAvatar(binding.getData().getAvatar());
+//        appointment.setDoctor(Settings.getDoctorProfile());
+//        appointment.setTid(patient.getTid());
+//        appointment.setYunxinAccid(patient.getYunxinAccid());
+//        binding.setAppointment(appointment);
     }
 
 

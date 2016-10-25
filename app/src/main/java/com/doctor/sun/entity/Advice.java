@@ -5,7 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.doctor.sun.R;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**

@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.BR;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
 
 import java.util.ArrayList;
 import java.util.Collections;

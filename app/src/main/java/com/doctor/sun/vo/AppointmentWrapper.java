@@ -2,8 +2,8 @@ package com.doctor.sun.vo;
 
 import android.content.Context;
 
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Tags;
+import com.doctor.sun.immutables.Appointment;
 
 import java.util.List;
 
@@ -21,19 +21,19 @@ public class AppointmentWrapper extends BaseItem {
     }
 
     public double getNeedPay(Context context) {
-        return Integer.parseInt(appointment.getNeedPay());
+        return appointment.getNeed_pay();
     }
 
     public String getBookTime() {
-        return appointment.getBookTime();
+        return appointment.getBook_time();
     }
 
     public String getDisplayType() {
-        return appointment.getDisplayType();
+        return appointment.getDisplay_type();
     }
 
     public String tagsSelectedStatus() {
-        List<Tags> selectTags = appointment.selectTags;
+        List<Tags> selectTags = appointment.getSelect_tags();
         if (selectTags == null || selectTags.isEmpty()) {
             return "没有选择任何咨询标签";
         }
@@ -42,7 +42,7 @@ public class AppointmentWrapper extends BaseItem {
     }
 
     public String tagsLabel() {
-        List<Tags> selectTags = appointment.selectTags;
+        List<Tags> selectTags = appointment.getSelect_tags();
         if (selectTags == null || selectTags.isEmpty()) {
             return "";
         }

@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.view.View;
 
 import com.doctor.sun.R;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**

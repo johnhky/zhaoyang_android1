@@ -3,9 +3,13 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
         <variable
             name="data"
-            type="com.doctor.sun.entity.Appointment" />
+            type="com.doctor.sun.immutables.Appointment" />
 
     </data>
 
@@ -18,7 +22,7 @@
         android:layout_marginRight="@dimen/dp_13"
         android:layout_marginTop="@dimen/dp_13"
         android:orientation="horizontal"
-        android:visibility="@{data.handler.msgCount()>0}">
+        android:visibility="@{handler.msgCount(data)>0}">
 
 
         <TextView
@@ -27,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:maxLines="2"
-            android:text="@{data.handler.lastMsg().body}"
+            android:text="@{handler.lastMsg(data).body}"
             android:textColor="#898989"
             android:textSize="@dimen/font_12" />
 
@@ -38,10 +42,10 @@
             android:layout_marginLeft="@dimen/dp_8"
             android:background="@drawable/shape_red_oval_dp17"
             android:gravity="center"
-            android:text='@{"" + data.handler.unreadMsgCount()}'
+            android:text='@{"" + handler.unreadMsgCount(data)}'
             android:textColor="#FFFFFF"
             android:textSize="@dimen/font_12"
-            android:visibility="@{data.handler.unreadMsgCount()>0}" />
+            android:visibility="@{handler.unreadMsgCount(data)>0}" />
 
     </LinearLayout>
 </layout>

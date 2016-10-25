@@ -10,12 +10,13 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.AppointmentHistoryEvent;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.pager.AnswerPagerAdapter;
 import com.doctor.sun.util.HistoryEventHandler;
+import com.doctor.sun.util.JacksonUtils;
 
 import io.ganguo.library.core.event.EventHub;
 
@@ -55,7 +56,8 @@ public class AppointmentDetailActivity extends TabActivity {
             historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Appointment appointment = getParcelableExtra(Constants.DATA);
+                    String json = getIntent().getStringExtra(Constants.DATA);
+                    Appointment appointment = JacksonUtils.fromJson(json, com.doctor.sun.immutables.Appointment.class);
                     EventHub.post(new AppointmentHistoryEvent(appointment, getSupportFragmentManager()));
                 }
             });
@@ -72,8 +74,9 @@ public class AppointmentDetailActivity extends TabActivity {
 
     @Override
     protected PagerAdapter createPagerAdapter() {
-        Appointment parcelableExtra = getParcelableExtra(Constants.DATA);
-        return new AnswerPagerAdapter(getSupportFragmentManager(), parcelableExtra);
+        String json = getIntent().getStringExtra(Constants.DATA);
+        Appointment data = JacksonUtils.fromJson(json, Appointment.class);
+        return new AnswerPagerAdapter(getSupportFragmentManager(), data);
     }
 
     @Override
@@ -83,7 +86,7 @@ public class AppointmentDetailActivity extends TabActivity {
 
     public static Intent intentFor(Context context, Appointment data) {
         Intent intent = new Intent(context, AppointmentDetailActivity.class);
-        intent.putExtra(Constants.DATA, data);
+        intent.putExtra(Constants.DATA, JacksonUtils.toJson(data));
         return intent;
     }
 }

@@ -12,7 +12,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.LayoutId;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
 import com.fasterxml.jackson.annotation.JsonIgnore;

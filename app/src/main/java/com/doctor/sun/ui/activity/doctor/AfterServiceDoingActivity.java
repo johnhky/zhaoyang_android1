@@ -10,7 +10,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.AppointmentHistoryEvent;

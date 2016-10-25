@@ -4,6 +4,10 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler" />
+
         <variable
             name="data"
             type="com.doctor.sun.entity.MedicalRecord" />
@@ -70,7 +74,7 @@
             android:layout_marginLeft="@dimen/dp_50"
             android:background="@drawable/ripple_default"
             android:gravity="center_vertical"
-            android:onClick="@{()->data.handler.afterServiceHistory(context)}"
+            android:onClick="@{()->handler.getInstance().afterServiceHistory(context,data)}"
             android:orientation="vertical">
 
             <com.zhy.android.percent.support.PercentFrameLayout
@@ -102,7 +106,7 @@
                     android:gravity="start"
                     android:maxLength="20"
                     android:maxLines="1"
-                    android:text='@{data.handler.genderRecord}'
+                    android:text='@{handler.getInstance().getGenderRecord(data)}'
                     android:textColor="@color/color_tick"
                     android:textSize="@dimen/font_15"
                     app:layout_marginLeftPercent="40%" />
@@ -119,7 +123,7 @@
                 android:maxLength="20"
                 android:maxLines="1"
                 android:paddingTop="@dimen/dp_2"
-                android:text='@{data.handler.applyingStatus()}'
+                android:text='@{handler.getInstance().applyingStatus(data)}'
                 android:textColor='@{tvStatus.enabled?@color/dark_36:@color/orange}'
                 android:textSize="@dimen/font_15"
                 app:layout_widthPercent="40%" />

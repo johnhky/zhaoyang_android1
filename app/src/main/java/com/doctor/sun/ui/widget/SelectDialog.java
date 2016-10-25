@@ -12,7 +12,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.DialogSelectBinding;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.event.CloseDialogEvent;
 import com.doctor.sun.http.Api;

@@ -10,13 +10,11 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.databinding.ItemMsgsBinding;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-
-import java.util.List;
+import com.doctor.sun.vo.LayoutId;
 
 import io.ganguo.library.core.image.GGlide;
 import io.ganguo.library.util.date.Date;
@@ -50,8 +48,8 @@ public class MsgsAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
                 name = Settings.getDoctorProfile().getName();
             } else {
                 //receive
-                avatar = appointment.getAvatar();
-                name = appointment.getPatientName();
+                avatar = appointment.getRecord().patientAvatar;
+                name = appointment.getRecord().getPatientName();
             }
             System.out.println(avatar + name);
             binding.tvName.setText(name);

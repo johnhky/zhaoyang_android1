@@ -9,13 +9,14 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityPayFailBinding;
-import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.handler.AppointmentHandler;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.util.JacksonUtils;
 
 import java.util.HashMap;
 
@@ -32,7 +33,7 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
     public static Intent makeIntent(Context context, Appointment data, boolean payWithWeChat) {
         Intent i = new Intent(context, PayFailActivity.class);
         i.putExtra(Constants.PAY_METHOD, payWithWeChat);
-        i.putExtra(Constants.DATA, data);
+        i.putExtra(Constants.DATA, JacksonUtils.toJson(data));
         i.putExtra(Constants.TYPE, APPOINTMENT);
         return i;
     }
@@ -49,7 +50,7 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
 
     //
     private Appointment getAppointment() {
-        return getIntent().getParcelableExtra(Constants.DATA);
+        return JacksonUtils.fromJson(getIntent().getStringExtra(Constants.DATA), Appointment.class);
     }
 
     private boolean shouldPayWithWeChat() {
@@ -83,11 +84,10 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
             case R.id.tv_retry:
                 switch (getIntent().getIntExtra(Constants.TYPE, -1)) {
                     case APPOINTMENT: {
-                        AppointmentHandler handler = new AppointmentHandler(getAppointment());
                         if (shouldPayWithWeChat()) {
-                            handler.payWithWeChat(this, "");
+                            AppointmentHandler2.payWithWeChat(this, "", getAppointment());
                         } else {
-                            handler.payWithAlipay(this, "");
+                            AppointmentHandler2.payWithAlipay(this, "", getAppointment());
                         }
                         break;
                     }

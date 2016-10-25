@@ -3,10 +3,10 @@ package com.doctor.sun.module;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.WeChatPayDTO;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.CommunicationType;
+import com.doctor.sun.immutables.Appointment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +64,7 @@ public interface AppointmentModule {
 
     @FormUrlEncoded
     @POST("appointment/patient-cancel")
-    Call<ApiDTO<String>> pCancel(@Field("appointmentId") int appointmentId);
+    Call<ApiDTO<String>> pCancel(@Field("appointmentId") String appointmentId);
 
 
     @FormUrlEncoded
@@ -73,12 +73,12 @@ public interface AppointmentModule {
 
     @FormUrlEncoded
     @POST("appointment/remind-answer")
-    Call<ApiDTO<String>> remind(@Field("appointmentId") int appointmentId, @Field("patientId") int patientId);
+    Call<ApiDTO<String>> remind(@Field("appointmentId") String appointmentId, @Field("patientId") int patientId);
 
 
     @FormUrlEncoded
     @POST("appointment/doing")
-    Call<ApiDTO<String>> startConsulting(@Field("appointmentId") int appointmentId);
+    Call<ApiDTO<String>> startConsulting(@Field("appointmentId") String appointmentId);
 
 
     @FormUrlEncoded
@@ -104,7 +104,7 @@ public interface AppointmentModule {
     @FormUrlEncoded
     @POST("appointment/evaluate-patient")
     Call<ApiDTO<String>> evaluatePatient(@Field("point") String point
-            , @Field("appointmentId") int appointmentId
+            , @Field("appointmentId") String appointmentId
             , @Field("detail") String detail
             , @Field("content") String content);
 
@@ -126,7 +126,7 @@ public interface AppointmentModule {
      */
     @FormUrlEncoded
     @POST("pay/info")
-    Call<ApiDTO<String>> buildAliPayOrder(@Field("appointmentId") int id,
+    Call<ApiDTO<String>> buildAliPayOrder(@Field("appointmentId") String id,
                                           @Field("type") String type, @Field("couponId") String couponId);
 
 
@@ -136,7 +136,7 @@ public interface AppointmentModule {
      */
     @FormUrlEncoded
     @POST("pay/info")
-    Call<ApiDTO<WeChatPayDTO>> buildWeChatOrder(@Field("appointmentId") int id,
+    Call<ApiDTO<WeChatPayDTO>> buildWeChatOrder(@Field("appointmentId") String id,
                                                 @Field("type") String type, @Field("couponId") String couponId);
 
 

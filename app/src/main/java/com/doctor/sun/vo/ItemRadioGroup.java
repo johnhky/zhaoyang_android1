@@ -3,8 +3,6 @@ package com.doctor.sun.vo;
 import android.view.View;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-
 /**
  * Created by rick on 23/12/2015.
  */

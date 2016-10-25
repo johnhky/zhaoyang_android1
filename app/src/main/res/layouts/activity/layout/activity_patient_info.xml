@@ -5,6 +5,9 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler" />
 
         <variable
             name="data"
@@ -16,7 +19,7 @@
 
         <variable
             name="appointment"
-            type="com.doctor.sun.entity.Appointment" />
+            type="com.doctor.sun.immutables.Appointment" />
     </data>
 
 
@@ -106,7 +109,7 @@
                         android:drawableLeft="@drawable/ic_case"
                         android:drawablePadding="@dimen/dp_10"
                         android:gravity="start"
-                        android:text="@{patient.getPatientNameRelation(context)}"
+                        android:text="@{handler.getPatientNameRelation(context, patient)}"
                         android:textColor="@color/color_tick"
                         android:textSize="@dimen/font_15" />
 
@@ -115,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:paddingLeft="@dimen/dp_24"
-                        android:text="@{patient.getGenderAndBirthday(context)}"
+                        android:text="@{handler.getGenderAndBirthday(context, patient)}"
                         android:textColor="@color/color_tick"
                         android:textSize="@dimen/font_15" />
 
@@ -125,7 +128,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="@dimen/dp_13"
                         android:paddingLeft="@dimen/dp_24"
-                        android:text="@{patient.getPatientAddress(context)}"
+                        android:text="@{handler.getPatientAddress(context, patient)}"
                         android:textColor="@color/color_tick"
                         android:textSize="@dimen/font_15" />
 
@@ -229,8 +232,8 @@
                     android:layout_marginBottom="@dimen/dp_21"
                     android:layout_marginTop="@dimen/dp_21"
                     android:background="@drawable/shape_blue_rect"
-                    android:clickable="true"
-                    android:onClick="@{()->appointment.handler.chat(context,appointment)}">
+                    android:clickable="true">
+                    <!--android:onClick="@{()->appointment.handler.chat(context,appointment)}">-->
 
                     <TextView
                         android:layout_width="match_parent"

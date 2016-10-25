@@ -1,7 +1,10 @@
 package com.doctor.sun.vo;
 
-import com.doctor.sun.entity.Appointment;
-import com.doctor.sun.entity.handler.AppointmentHandler;
+import android.content.Context;
+
+import com.doctor.sun.R;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
+import com.doctor.sun.immutables.Appointment;
 
 /**
  * Created by rick on 16/8/2016.
@@ -17,12 +20,18 @@ public class ItemPatientDetail extends BaseItem {
         this.data = data;
     }
 
-    public AppointmentHandler getHandler() {
-        return data.getHandler();
-    }
-
     public String getProgress() {
         return data.getProgress();
+    }
+
+    public Appointment getData() {
+        return data;
+    }
+
+    public String getPatientInfo(Context context) {
+        return context.getResources().getString(R.string.patient_info,
+                AppointmentHandler2.getGender(data),
+                AppointmentHandler2.getBirthday(data));
     }
 
     @Override

@@ -2,11 +2,11 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Drug;
 import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.immutables.Appointment;
 
 import java.util.List;
 

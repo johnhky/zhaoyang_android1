@@ -6,12 +6,14 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.immutables.SimpleAppointment;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.fragment.BottomSheetTabFragment;
 import com.doctor.sun.ui.pager.DoctorAppointmentDonePA;
+import com.doctor.sun.util.JacksonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,14 +31,14 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
     DiagnosisModule api = Api.of(DiagnosisModule.class);
 
     private Appointment appointment;
-    private List<Appointment> data = new ArrayList<>();
+    private List<SimpleAppointment> data = new ArrayList<>();
     private int currentIndex = 0;
 
     public static AppointmentHistoryDialog newInstance(Appointment data) {
         AppointmentHistoryDialog fragment = new AppointmentHistoryDialog();
         Bundle bundle = new Bundle();
 
-        bundle.putParcelable(Constants.DATA, data);
+        bundle.putString(Constants.DATA, JacksonUtils.toJson(data));
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -45,7 +47,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appointment = getArguments().getParcelable(Constants.DATA);
+        appointment = JacksonUtils.fromJson(getArguments().getString(Constants.DATA), Appointment.class);
         currentIndex = Config.getInt(HISTORY_INDEX + appointment.getId(), 0);
     }
 
@@ -76,9 +78,9 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
             }
         });
 
-        api.recordHistory(appointment.getRecordId(), "simple").enqueue(new SimpleCallback<List<Appointment>>() {
+        api.recordHistory(appointment.getRecord().getMedicalRecordId()).enqueue(new SimpleCallback<List<SimpleAppointment>>() {
             @Override
-            protected void handleResponse(List<Appointment> response) {
+            protected void handleResponse(List<SimpleAppointment> response) {
                 data.addAll(response);
 
                 toggleVisibility();
@@ -94,7 +96,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
 
     @Override
     protected PagerAdapter createPagerAdapter() {
-        answerPagerAdapter = new DoctorAppointmentDonePA(getChildFragmentManager(), data.get(currentIndex));
+        answerPagerAdapter = new DoctorAppointmentDonePA(getChildFragmentManager(), data.get(currentIndex).getId());
         return answerPagerAdapter;
     }
 

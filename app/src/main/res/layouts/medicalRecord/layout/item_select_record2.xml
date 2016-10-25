@@ -4,6 +4,10 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler" />
+
         <variable
             name="data"
             type="com.doctor.sun.entity.MedicalRecord" />
@@ -28,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/ripple_default"
-            android:onClick="@{()->data.handler.afterServiceHistory(context)}"
+            android:onClick="@{()->handler.getInstance().afterServiceHistory(context,data)}"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/dp_8"
             android:paddingLeft="@dimen/dp_13"
@@ -40,8 +44,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="center_vertical"
                 android:drawableLeft="@drawable/ic_case"
-                android:drawableStart="@drawable/ic_case"
                 android:drawablePadding="@dimen/dp_10"
+                android:drawableStart="@drawable/ic_case"
                 android:gravity="start"
                 android:maxLength="20"
                 android:singleLine="true"
@@ -59,7 +63,7 @@
                 android:gravity="start"
                 android:maxLength="20"
                 android:singleLine="true"
-                android:text='@{data.handler.genderRecord}'
+                android:text='@{handler.getInstance().getGenderRecord(data)}'
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_13"
                 app:layout_marginLeftPercent="40%" />
@@ -96,9 +100,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/dp_20"
-                android:paddingLeft="@dimen/dp_20"
                 android:maxLines="1"
+                android:paddingLeft="@dimen/dp_20"
+                android:paddingStart="@dimen/dp_20"
                 android:text="是否允许该医生进行定期随访"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_13" />
@@ -115,7 +119,7 @@
                 android:layout_marginEnd="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:checked='@{data.allowToApply.equals("1")}'
-                android:onClick="@{()->data.handler.allowToApply(data.handler.getDoctorId(adapter))}"
+                android:onClick="@{()->handler.getInstance().allowToApply(adapter,data)}"
                 android:setTintColor="@{@color/colorPrimaryDark}" />
 
         </LinearLayout>

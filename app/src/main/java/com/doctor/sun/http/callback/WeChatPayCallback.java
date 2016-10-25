@@ -4,9 +4,9 @@ import android.app.Activity;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.WeChatPayDTO;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.event.PayFailEvent;
 import com.doctor.sun.event.PaySuccessEvent;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.wxapi.WXPayEntryActivity;
 import com.tencent.mm.sdk.modelpay.PayReq;

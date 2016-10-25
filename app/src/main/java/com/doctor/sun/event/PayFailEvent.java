@@ -1,7 +1,7 @@
 package com.doctor.sun.event;
 
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.constans.IntBoolean;
+import com.doctor.sun.immutables.Appointment;
 
 import java.util.HashMap;
 

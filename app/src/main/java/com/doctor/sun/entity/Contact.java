@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.activity.patient.DoctorInfoActivity;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.LayoutId;
 import com.doctor.sun.ui.widget.SelectDialog;
 import com.doctor.sun.util.NameComparator;
 import com.fasterxml.jackson.annotation.JsonProperty;

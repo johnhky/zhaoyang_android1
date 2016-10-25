@@ -8,7 +8,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.entity.MedicineStore;
 import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.entity.im.TextMsg;

@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.activity.patient.RecordListActivity;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.LayoutId;
 
 /**
  * Created by lucas on 1/20/16.

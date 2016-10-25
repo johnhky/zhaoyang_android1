@@ -5,7 +5,7 @@ import com.doctor.sun.dto.IsChanged;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Advice;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.entity.Article;
 import com.doctor.sun.entity.Comment;
 import com.doctor.sun.entity.Coupon;

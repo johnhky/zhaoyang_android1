@@ -2,10 +2,11 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.immutables.SimpleAppointment;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,16 +42,6 @@ public interface DiagnosisModule {
 
 
     /**
-     * @param path path
-     *             <p>
-     *             drug/record-last?recordId=
-     *             diagnosis/patient-drug?id=
-     *             diagnosis/last-drug?id=
-     */
-    @GET()
-    Call<ApiDTO<List<Prescription>>> drugs(@Url() String path);
-
-    /**
      * 病历库
      *
      * @param page
@@ -65,7 +56,6 @@ public interface DiagnosisModule {
                                                           @Query("recordId") int recordId,
                                                           @Query("searchWord") String searchWord);
 
-    @GET("diagnosis/record-histories")
-    Call<ApiDTO<List<Appointment>>> recordHistory(@Query("recordId") int recordId,
-                                                  @Query("type") String type);
+    @GET("diagnosis/record-histories?type=simple")
+    Call<ApiDTO<List<SimpleAppointment>>> recordHistory(@Query("recordId") int recordId);
 }

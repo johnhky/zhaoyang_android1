@@ -3,6 +3,10 @@
 
     <data class=".ItemRMedical">
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler" />
+
         <variable
             name="data"
             type="com.doctor.sun.entity.MedicalRecord" />
@@ -43,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_6"
-                android:text="@{data.handler.getRecord}"
+                android:text="@{handler.getInstance().getRecord(data)}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_13" />
 

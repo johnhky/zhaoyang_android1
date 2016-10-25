@@ -8,9 +8,10 @@ import android.view.View;
 
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.pager.HistoryDetailAdapter;
+import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.ShowCaseUtil;
 
 /**
@@ -22,19 +23,20 @@ public class HistoryDetailActivity extends TabActivity {
 
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, HistoryDetailActivity.class);
-        i.putExtra(Constants.DATA, appointment);
+        i.putExtra(Constants.DATA, JacksonUtils.toJson(appointment));
         return i;
     }
 
     public static Intent makeIntent(Context context, Appointment appointment, int position) {
         Intent i = new Intent(context, HistoryDetailActivity.class);
-        i.putExtra(Constants.DATA, appointment);
+        i.putExtra(Constants.DATA, JacksonUtils.toJson(appointment));
         i.putExtra(Constants.POSITION, position);
         return i;
     }
 
     private Appointment getData() {
-        return getIntent().getParcelableExtra(Constants.DATA);
+        String json = getIntent().getStringExtra(Constants.DATA);
+        return JacksonUtils.fromJson(json, Appointment.class);
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.doctor.sun.vo;
 
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
-
 /**
  * Created by rick on 8/4/2016.
  */

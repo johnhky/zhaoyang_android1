@@ -3,9 +3,13 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
         <variable
             name="data"
-            type="com.doctor.sun.entity.Appointment" />
+            type="com.doctor.sun.immutables.Appointment" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,7 +23,7 @@
             android:layout_gravity="center"
             android:background="@color/grey_77"
             android:gravity="center"
-            android:text="@{data.handler.chatStatus}"
+            android:text="@{handler.chatStatus(data)}"
             android:textColor="@color/white"
             android:textSize="@dimen/font_14" />
 
@@ -32,7 +36,7 @@
             android:text="剩余就诊时长%s"
             android:textColor="#a36140"
             android:textSize="@dimen/font_14"
-            android:time="@{data.handler.getFinishedTime()}"
+            android:time="@{handler.getFinishedTime(data)}"
             tool:text="剩余就诊时间09分12秒" />
 
     </FrameLayout>

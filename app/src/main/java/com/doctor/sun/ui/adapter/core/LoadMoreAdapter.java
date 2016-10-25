@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.IncludeLoadingBinding;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.ui.adapter.ViewHolder.LayoutId;
+import com.doctor.sun.vo.LayoutId;
 
 import java.util.List;
 

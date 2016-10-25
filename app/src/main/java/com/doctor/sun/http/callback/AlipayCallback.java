@@ -6,9 +6,9 @@ import android.os.Message;
 import android.text.TextUtils;
 
 import com.alipay.sdk.app.PayTask;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.event.PayFailEvent;
 import com.doctor.sun.event.PaySuccessEvent;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.util.PayCallback;
 
 import java.util.HashMap;
