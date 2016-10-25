@@ -126,4 +126,16 @@ public class MedicalRecordHandler {
     public int getDoctorId(SimpleAdapter adapter) {
         return adapter.getInt(AdapterConfigKey.DOCTOR_ID);
     }
+
+    public static String getPatientNameRelation(Context context, MedicalRecord record) {
+        return context.getString(R.string.patient_name_relation, record.getPatientName(), record.getRecordName(), record.getRelation());
+    }
+
+    public static String getGenderAndBirthday(Context context, MedicalRecord record) {
+        return context.getString(R.string.gender_birth, record.getGender() == Gender.MALE ? "Male" : "Female", record.getBirthday());
+    }
+
+    public static String getPatientAddress(Context context, MedicalRecord record) {
+        return context.getString(R.string.patient_address, record.getProvince(), record.getCity());
+    }
 }
