@@ -200,6 +200,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_16"
             android:background="#ebf0f3"
-            android:visibility="@{handler.payVisible(data)}" />
+            android:visibility="@{!handler.payVisible(data)}" />
     </LinearLayout>
 </layout>

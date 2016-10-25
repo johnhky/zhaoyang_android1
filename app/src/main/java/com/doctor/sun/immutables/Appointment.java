@@ -46,7 +46,10 @@ public abstract class Appointment implements LayoutId {
 
     public abstract double getTake_time();
 
-    public abstract String getVisit_time();
+    @Value.Default
+    public String getVisit_time() {
+       return "";
+    }
 
     public abstract String getEnd_time();
 

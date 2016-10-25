@@ -9,6 +9,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.immutables.SimpleAppointment;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.fragment.BottomSheetTabFragment;
 import com.doctor.sun.ui.pager.DoctorAppointmentDonePA;
@@ -30,7 +31,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
     DiagnosisModule api = Api.of(DiagnosisModule.class);
 
     private Appointment appointment;
-    private List<Appointment> data = new ArrayList<>();
+    private List<SimpleAppointment> data = new ArrayList<>();
     private int currentIndex = 0;
 
     public static AppointmentHistoryDialog newInstance(Appointment data) {
@@ -77,9 +78,9 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
             }
         });
 
-        api.recordHistory(appointment.getRecord().getMedicalRecordId(), "simple").enqueue(new SimpleCallback<List<Appointment>>() {
+        api.recordHistory(appointment.getRecord().getMedicalRecordId()).enqueue(new SimpleCallback<List<SimpleAppointment>>() {
             @Override
-            protected void handleResponse(List<Appointment> response) {
+            protected void handleResponse(List<SimpleAppointment> response) {
                 data.addAll(response);
 
                 toggleVisibility();
@@ -95,7 +96,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
 
     @Override
     protected PagerAdapter createPagerAdapter() {
-        answerPagerAdapter = new DoctorAppointmentDonePA(getChildFragmentManager(), data.get(currentIndex));
+        answerPagerAdapter = new DoctorAppointmentDonePA(getChildFragmentManager(), data.get(currentIndex).getId());
         return answerPagerAdapter;
     }
 

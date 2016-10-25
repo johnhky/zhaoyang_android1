@@ -661,41 +661,14 @@ public class AppointmentHandler2 {
     }
 
     public static void viewDetail(final Context context, final int tab, Appointment data) {
-//        DiagnosisModule api = Api.of(DiagnosisModule.class);
-//        String type = "appointment";
-//        if (isAfterService()) {
-//            type = "followUp";
-//        }
-//        api.appointmentStatus(appointmentId(), type).enqueue(new SimpleCallback<AppointmentStatus>() {
-//            @Override
-//            protected void handleResponse(AppointmentStatus response) {
-//                int canEdit;
-//                if (response != null) {
-//                    canEdit = response.canEdit;
-//                    String orderStatus = response.displayStatus;
-//                    boolean isCanEditStatus = !orderStatus.equals(Status.FINISHED)
-//                            && !orderStatus.equals(Status.A_FINISHED)
-//                            && !orderStatus.equals(Status.REJECTED)
-//                            && !orderStatus.equals(Status.A_UNPAID)
-//                            && !orderStatus.equals(Status.CLOSED)
-//                            && !orderStatus.equals(Status.A_CANCEL);
-//                    if (isCanEditStatus) {
-//                        canEdit = IntBoolean.TRUE;
-//                    }
-//                } else {
-//                    canEdit = IntBoolean.NOT_GIVEN;
-//                }
-//                answerQuestion(context, tab, canEdit);
-//            }
-//        });
 
         AppointmentModule api = Api.of(AppointmentModule.class);
-//        api.appointmentDetail(data.getId()).enqueue(new SimpleCallback<Appointment>() {
-//            @Override
-//            protected void handleResponse(Appointment response) {
-//                answerQuestion(context, tab, response.canEdit, response);
-//            }
-//        });
+        api.appointmentDetail(data.getId()).enqueue(new SimpleCallback<Appointment>() {
+            @Override
+            protected void handleResponse(Appointment response) {
+                answerQuestion(context, tab, response.getCan_edit(), response);
+            }
+        });
     }
 
     public static void answerQuestion(Context context, int tab, int canEdit, Appointment data) {
