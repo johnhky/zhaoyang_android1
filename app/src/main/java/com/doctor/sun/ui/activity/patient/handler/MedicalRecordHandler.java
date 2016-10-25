@@ -3,6 +3,7 @@ package com.doctor.sun.ui.activity.patient.handler;
 import android.content.Context;
 import android.content.Intent;
 
+import com.doctor.sun.R;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.http.Api;
@@ -104,4 +105,15 @@ public class MedicalRecordHandler {
         }
     }
 
+    public static String getPatientNameRelation(Context context, MedicalRecord record) {
+        return context.getString(R.string.patient_name_relation, record.getPatientName(), record.getRecordName(), record.getRelation());
+    }
+
+    public static String getGenderAndBirthday(Context context, MedicalRecord record) {
+        return context.getString(R.string.gender_birth, record.getGender() == Gender.MALE ? "Male" : "Female", record.getBirthday());
+    }
+
+    public static String getPatientAddress(Context context, MedicalRecord record) {
+        return context.getString(R.string.patient_address, record.getProvince(), record.getCity());
+    }
 }
