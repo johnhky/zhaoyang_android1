@@ -110,6 +110,11 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
     }
 
     @Override
+    public void update(int position, SortedItem item) {
+        update(item);
+    }
+
+    @Override
     public void insertAll(List<SortedItem> items) {
 //        Log.d(TAG, "insertAll() called with: items = [" + items + "]");
         for (SortedItem item : items) {

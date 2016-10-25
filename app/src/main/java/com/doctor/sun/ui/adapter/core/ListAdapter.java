@@ -184,6 +184,11 @@ public abstract class ListAdapter<T extends LayoutId, VH extends ViewDataBinding
     }
 
     @Override
+    public void update(int position, T item) {
+        set(position, item);
+    }
+
+    @Override
     public void removeItemAt(int adapterPosition) {
         remove(adapterPosition);
     }

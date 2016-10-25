@@ -291,7 +291,7 @@ public class AppointmentHandler2 {
     public static void chat(BaseListAdapter adapter, BaseViewHolder vh, Appointment data) {
         if (!"0".equals(data.getTid())) {
             Intent intent = ChattingActivity.makeIntent(vh.itemView.getContext(), data);
-            if (adapter != null && vh != null) {
+            if (adapter != null) {
                 ItemHelper.initCallback(intent, adapter, vh);
             }
             vh.itemView.getContext().startActivity(intent);

@@ -8,6 +8,8 @@ import android.os.RemoteException;
 
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 
+import io.ganguo.library.util.Tasks;
+
 import static android.os.Message.obtain;
 import static android.support.v7.widget.RecyclerView.ViewHolder;
 
@@ -30,8 +32,10 @@ public class ItemHelper extends Handler {
     public static final int ITEM_CHANGE = 1;
     public static final int ITEM_REMOVE = 2;
     public static final int ITEM_INSERT = 3;
+    public static final int TIME_OUT = 4;
 
     public static final String HANDLER = "HANDLER";
+    public static final int FIVE_MINUTES = 300000;
 
     private BaseListAdapter mAdapter;
     private ViewHolder vh;
@@ -43,12 +47,15 @@ public class ItemHelper extends Handler {
 
     @Override
     public void handleMessage(final Message msg) {
+        if (mAdapter == null || vh == null) {
+            return;
+        }
         if (vh.getAdapterPosition() == -1) {
             return;
         }
         switch (msg.what) {
             case ITEM_CHANGE: {
-                mAdapter.insert(vh.getAdapterPosition(), msg.obj);
+                mAdapter.update(vh.getAdapterPosition(), msg.obj);
                 mAdapter.notifyItemChanged(vh.getAdapterPosition());
                 unbindIntent();
                 break;
@@ -70,6 +77,9 @@ public class ItemHelper extends Handler {
                 mAdapter.notifyItemInserted(msg.arg1);
                 unbindIntent();
                 break;
+            }
+            case TIME_OUT: {
+                unbindIntent();
             }
         }
 
@@ -103,7 +113,8 @@ public class ItemHelper extends Handler {
 
 
     public static Intent initCallback(Intent intent, BaseListAdapter mAdapter, ViewHolder viewHolder) {
-        intent.putExtra(HANDLER, new Messenger(new ItemHelper(mAdapter, viewHolder)));
+        final Messenger value = new Messenger(new ItemHelper(mAdapter, viewHolder));
+        intent.putExtra(HANDLER, value);
         return intent;
     }
 
