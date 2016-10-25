@@ -33,25 +33,23 @@ public class AppointmentWrapper extends BaseItem {
     }
 
     public String tagsSelectedStatus() {
-//        List<Tags> selectTags = appointment.selectTags;
-//        if (selectTags == null || selectTags.isEmpty()) {
-//            return "没有选择任何咨询标签";
-//        }
+        List<Tags> selectTags = appointment.getSelect_tags();
+        if (selectTags == null || selectTags.isEmpty()) {
+            return "没有选择任何咨询标签";
+        }
 
-//        return "已选择" + selectTags.size() + "个咨询标签：";
-        return "";
+        return "已选择" + selectTags.size() + "个咨询标签：";
     }
 
     public String tagsLabel() {
-//        List<Tags> selectTags = appointment.selectTags;
-//        if (selectTags == null || selectTags.isEmpty()) {
-//            return "";
-//        }
-//        StringBuilder sb = new StringBuilder();
-//        for (Tags selectTag : selectTags) {
-//            sb.append(selectTag.tagName).append(" ");
-//        }
-//        return sb.toString();
-        return "";
+        List<Tags> selectTags = appointment.getSelect_tags();
+        if (selectTags == null || selectTags.isEmpty()) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (Tags selectTag : selectTags) {
+            sb.append(selectTag.tagName).append(" ");
+        }
+        return sb.toString();
     }
 }

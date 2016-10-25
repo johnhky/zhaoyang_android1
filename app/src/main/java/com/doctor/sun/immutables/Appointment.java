@@ -3,6 +3,7 @@ package com.doctor.sun.immutables;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.Tags;
 import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.vo.LayoutId;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -10,10 +11,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import org.immutables.value.Value;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by rick on 21/10/2016.
  */
 @Value.Immutable
+@Value.Style(jdkOnly = true)
 @JsonSerialize(as = ImmutableAppointment.class)
 @JsonDeserialize(as = ImmutableAppointment.class)
 public abstract class Appointment implements LayoutId {
@@ -59,6 +64,8 @@ public abstract class Appointment implements LayoutId {
     public abstract String getDoctor_id();
 
     public abstract String getRecord_id();
+
+    public abstract List<Tags> getSelect_tags();
 
     @Value.Default
     public int getCan_edit() {
