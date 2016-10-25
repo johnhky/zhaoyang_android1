@@ -20,8 +20,6 @@ import com.doctor.sun.ui.fragment.EditRecordFragment;
  */
 public class MedicalRecordHandler {
 
-    public MedicalRecordHandler() {
-    }
 
     private static MedicalRecordHandler instance;
 
