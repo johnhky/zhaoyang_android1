@@ -22,6 +22,8 @@ import com.doctor.sun.ui.fragment.EditRecordFragment;
 public class MedicalRecordHandler {
     private MedicalRecord data;
 
+    public MedicalRecordHandler() {}
+
     public MedicalRecordHandler(MedicalRecord medicalRecord) {
         data = medicalRecord;
     }
