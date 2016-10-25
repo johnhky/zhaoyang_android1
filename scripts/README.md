@@ -1,2 +1,8 @@
-这个文件夹里面放的东西都是一些用来跑测试代码的shell script
-，使用之前先导入export里面的环境变量
+##测试代码的shell script
+
+###使用方法：
+1.将export文件里面的东西复制到bash.rc文件里面
+
+2.在bash.rc 里面把这个文件夹加入PATH里面
+
+3.在命令行里面输入 `runTest $registerDoctor $deviceId`
