@@ -38,6 +38,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.immutables.ImmutableAppointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
@@ -110,7 +111,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     private Appointment getData() {
         String json = getIntent().getStringExtra(Constants.DATA);
-        return JacksonUtils.fromJson(json, Appointment.class);
+        return JacksonUtils.fromJson(json, ImmutableAppointment.class);
     }
 
     @Override
@@ -183,12 +184,13 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     private void needSendDrug() {
         //TODO:
-        if (getData().getType() == AppointmentType.AFTER_SERVICE) {
+        Appointment data = getData();
+        if (data == null || data.getType() == AppointmentType.AFTER_SERVICE) {
             return;
         }
 
         if (!Settings.isDoctor())
-            drugModule.needSendDrug(Integer.parseInt(getData().getId())).enqueue(new ApiCallback<NeedSendDrug>() {
+            drugModule.needSendDrug(Integer.parseInt(data.getId())).enqueue(new ApiCallback<NeedSendDrug>() {
                 @Override
                 protected void handleResponse(NeedSendDrug response) {
                     if (Integer.parseInt(response.getNeed()) == 1) {

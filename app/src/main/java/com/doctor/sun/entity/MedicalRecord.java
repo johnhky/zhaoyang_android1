@@ -92,7 +92,6 @@ public class MedicalRecord extends BaseItem implements Parcelable {
     @JsonProperty("patient_avatar")
     public String patientAvatar;
 
-    MedicalRecordHandler handler = new MedicalRecordHandler(this);
 
 
     public void setPatientId(int patientId) {
@@ -233,16 +232,6 @@ public class MedicalRecord extends BaseItem implements Parcelable {
         this.patientAvatar = patientAvatar;
     }
 
-    public MedicalRecordHandler getHandler() {
-        if (handler == null) {
-            handler = new MedicalRecordHandler(this);
-        }
-        return handler;
-    }
-
-    public void setHandler(MedicalRecordHandler handler) {
-        this.handler = handler;
-    }
 
     @Override
     public int getItemLayoutId() {

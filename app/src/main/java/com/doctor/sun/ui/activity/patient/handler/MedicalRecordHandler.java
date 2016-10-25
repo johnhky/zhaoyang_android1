@@ -2,9 +2,7 @@ package com.doctor.sun.ui.activity.patient.handler;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 
-import com.doctor.sun.R;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.http.Api;
@@ -20,83 +18,66 @@ import com.doctor.sun.ui.fragment.EditRecordFragment;
  * Created by lucas on 1/7/16.
  */
 public class MedicalRecordHandler {
-    private MedicalRecord data;
 
-    public MedicalRecordHandler(MedicalRecord medicalRecord) {
-        data = medicalRecord;
+    public MedicalRecordHandler() {
     }
 
-    public void updateRecord(Context context) {
-//        Intent intent = EditRecordActivity.makeIntent(context, data);
-//        context.startActivity(intent);
+    private static MedicalRecordHandler instance;
 
+    public static MedicalRecordHandler getInstance() {
+        if (instance == null) {
+            instance = new MedicalRecordHandler();
+        }
+        return instance;
+    }
+
+    public void updateRecord(Context context, MedicalRecord data) {
         Intent intent = SingleFragmentActivity.intentFor(context, "病历详情", EditRecordFragment.getArgs(data));
         context.startActivity(intent);
     }
-//
-//    public void applyAppointment(View view) {
-//        Intent intent = UrgentCallActivity.makeIntent(view.getContext(), data);
-//        view.getContext().startActivity(intent);
-//    }
 
-    public void select(View view) {
-        view.setSelected(!view.isSelected());
+
+    public String getGenderResult(MedicalRecord data) {
+        return "(" + getGenderRecord(data) + ")";
     }
 
-    public String getGenderResult() {
-        String gender = "";
-        switch (data.getGender()) {
-            case 1:
-                gender = "（男）";
-                break;
-            case 2:
-                gender = "（女）";
-                break;
-        }
-        return gender;
-    }
 
-    public String getGenderRecord() {
+    public String getGenderRecord(MedicalRecord data) {
         String gender = "";
         switch (data.getGender()) {
-            case 1:
+            case Gender.MALE:
                 gender = "男";
                 break;
-            case 2:
+            case Gender.FEMALE:
                 gender = "女";
                 break;
         }
         return gender;
     }
 
-    public String getLocate() {
-        String locate;
-        locate = data.getProvince() + data.getCity();
-        return locate;
+
+    public String getRecord(MedicalRecord data) {
+        return "（" + getGenderRecord(data) + "/" + data.getAge() + "岁）";
     }
 
-    public String getRecord() {
-        return "（" + getGenderRecord() + "/" + data.getAge() + "岁）";
+    public String getRecordDetail(MedicalRecord data) {
+        return data.getRecordName() + "（" + getGenderRecord(data) + "/" + data.getAge() + "岁）";
     }
 
-    public String getRecordDetail() {
-        return data.getRecordName() + "（" + getGenderRecord() + "/" + data.getAge() + "岁）";
-    }
-
-    public int getDefaultAvatar() {
-        if (data.getGender() == Gender.MALE) {
-            return R.drawable.male_patient_avatar;
-        } else {
-            return R.drawable.female_patient_avatar;
-        }
-    }
-
-    public void afterServiceHistory(Context context) {
+    public void afterServiceHistory(Context context, MedicalRecord data) {
         Intent intent = AfterServiceHistoryActivity.intentFor(context, data.getMedicalRecordId());
         context.startActivity(intent);
     }
 
-    public void allowToApply(int doctorId) {
+    public void allowToApply(SimpleAdapter adapter, MedicalRecord data) {
+        allowToApply(getDoctorId(adapter), data);
+    }
+
+    public int getDoctorId(SimpleAdapter adapter) {
+        return adapter.getInt(AdapterConfigKey.DOCTOR_ID);
+    }
+
+    public void allowToApply(int doctorId, final MedicalRecord data) {
         AfterServiceModule of = Api.of(AfterServiceModule.class);
         //注意canFollowUp 跟canApplyFollowUp别弄错了.
         final int target = data.allowToApply.equals("1") ? 0 : 1;
@@ -108,7 +89,7 @@ public class MedicalRecordHandler {
         });
     }
 
-    public String applyingStatus() {
+    public String applyingStatus(MedicalRecord data) {
 
         switch (data.canFollowUp) {
             case "1": {
@@ -123,7 +104,4 @@ public class MedicalRecordHandler {
         }
     }
 
-    public int getDoctorId(SimpleAdapter adapter) {
-        return adapter.getInt(AdapterConfigKey.DOCTOR_ID);
-    }
 }

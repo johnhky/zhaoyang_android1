@@ -4,6 +4,10 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler" />
+
         <variable
             name="data"
             type="com.doctor.sun.entity.MedicalRecord" />
@@ -27,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/ripple_default"
-            android:onClick="@{()->data.handler.updateRecord(context)}"
+            android:onClick="@{()->handler.getInstance().updateRecord(context,data)}"
             android:paddingLeft="@dimen/dp_13"
             android:paddingStart="@dimen/dp_13"
             tools:ignore="RtlSymmetry">
@@ -51,7 +55,7 @@
                 android:layout_marginTop="@dimen/dp_11"
                 android:layout_toEndOf="@id/tv_name"
                 android:layout_toRightOf="@id/tv_name"
-                android:text="@{data.handler.getGenderResult}"
+                android:text="@{handler.getInstance().getGenderResult(data)}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_14"
                 tools:text="男" />
@@ -64,9 +68,9 @@
                 android:layout_marginBottom="@dimen/dp_8"
                 android:layout_marginTop="@dimen/dp_4"
                 android:text="@{data.birthday}"
-                tools:text="1992年13月32日"
                 android:textColor="#363636"
-                android:textSize="@dimen/font_14" />
+                android:textSize="@dimen/font_14"
+                tools:text="1992年13月32日" />
 
             <!--<TextView-->
             <!--android:id="@+id/tv_locate"-->
