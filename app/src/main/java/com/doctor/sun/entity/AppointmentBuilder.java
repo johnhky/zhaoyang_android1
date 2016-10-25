@@ -535,7 +535,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
                         break;
                     case PayMethod.SIMULATED:
                         if (BuildConfig.DEBUG) {
-                            AppointmentHandler2.simulatedPayImpl("", response);
+                            AppointmentHandler2.simulatedPayImpl(response.getId(), response);
                         } else {
                             Toast.makeText(view.getContext(), "搞事情?", Toast.LENGTH_SHORT).show();
                         }
