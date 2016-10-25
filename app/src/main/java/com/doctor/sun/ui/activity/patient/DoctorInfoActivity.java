@@ -12,7 +12,6 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityDoctorInfoBinding;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.Contact;
 import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.Doctor;
@@ -20,10 +19,10 @@ import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.activity.doctor.ChattingRecordActivity;
 import com.doctor.sun.ui.activity.doctor.HistoryRecordActivity;
 import com.doctor.sun.ui.activity.doctor.ModifyNicknameActivity;
 import com.doctor.sun.ui.widget.CancelHistoryDialog;
@@ -78,8 +77,8 @@ public class DoctorInfoActivity extends BaseFragmentActivity2 implements View.On
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.tv_check_history:
-                startActivity(new Intent(DoctorInfoActivity.this, ChattingRecordActivity.class)
-                        .putExtra(Constants.PARAM_APPOINTMENT, appointment));
+//                startActivity(new Intent(DoctorInfoActivity.this, ChattingRecordActivity.class)
+//                        .putExtra(Constants.PARAM_APPOINTMENT, appointment));
                 break;
             case R.id.tv_cancel_history:
                 if (appointment != null) {
@@ -187,13 +186,13 @@ public class DoctorInfoActivity extends BaseFragmentActivity2 implements View.On
         tool.doctorInfo(contact.getDoctorId()).enqueue(new SimpleCallback<Doctor>() {
             @Override
             protected void handleResponse(Doctor response) {
-                appointment = new Appointment();
-                appointment.setVoipAccount(binding.getData().getVoipAccount());
-                appointment.setPatientName(contact.getName());
-                appointment.setAvatar(binding.getData().getAvatar());
-                response.setVoipAccount(binding.getData().getVoipAccount());
-                appointment.setYunxinAccid(response.getYunxinAccid());
-                appointment.setDoctor(response);
+//                appointment = new Appointment();
+//                appointment.setVoipAccount(binding.getData().getVoipAccount());
+//                appointment.setPatientName(contact.getName());
+//                appointment.setAvatar(binding.getData().getAvatar());
+//                response.setVoipAccount(binding.getData().getVoipAccount());
+//                appointment.setYunxinAccid(response.getYunxinAccid());
+//                appointment.setDoctor(response);
             }
         });
 

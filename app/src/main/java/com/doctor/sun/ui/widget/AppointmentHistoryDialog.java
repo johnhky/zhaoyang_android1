@@ -6,12 +6,13 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.fragment.BottomSheetTabFragment;
 import com.doctor.sun.ui.pager.DoctorAppointmentDonePA;
+import com.doctor.sun.util.JacksonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
         AppointmentHistoryDialog fragment = new AppointmentHistoryDialog();
         Bundle bundle = new Bundle();
 
-        bundle.putParcelable(Constants.DATA, data);
+        bundle.putString(Constants.DATA, JacksonUtils.toJson(data));
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -45,7 +46,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appointment = getArguments().getParcelable(Constants.DATA);
+        appointment = JacksonUtils.fromJson(getArguments().getString(Constants.DATA), Appointment.class);
         currentIndex = Config.getInt(HISTORY_INDEX + appointment.getId(), 0);
     }
 
@@ -76,7 +77,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
             }
         });
 
-        api.recordHistory(appointment.getRecordId(), "simple").enqueue(new SimpleCallback<List<Appointment>>() {
+        api.recordHistory(appointment.getRecord().getMedicalRecordId(), "simple").enqueue(new SimpleCallback<List<Appointment>>() {
             @Override
             protected void handleResponse(List<Appointment> response) {
                 data.addAll(response);

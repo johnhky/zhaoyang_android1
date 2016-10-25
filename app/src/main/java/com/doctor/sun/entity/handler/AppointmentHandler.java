@@ -22,7 +22,7 @@
 //import com.doctor.sun.avchat.activity.AVChatActivity;
 //import com.doctor.sun.bean.Constants;
 //import com.doctor.sun.dto.ApiDTO;
-//import com.doctor.sun.entity.Appointment;
+//import com.doctor.sun.immutables.Appointment;
 //import com.doctor.sun.entity.Doctor;
 //import com.doctor.sun.entity.Patient;
 //import com.doctor.sun.entity.constans.AppointmentType;

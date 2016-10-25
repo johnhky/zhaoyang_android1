@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.QuestionsPath;
-import com.doctor.sun.entity.handler.AppointmentHandler;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
@@ -86,7 +86,7 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public boolean isAppointmentFinished() {
-        return AppointmentHandler.Status.FINISHED == status;
+        return AppointmentHandler2.Status.FINISHED == status;
     }
 
     /**

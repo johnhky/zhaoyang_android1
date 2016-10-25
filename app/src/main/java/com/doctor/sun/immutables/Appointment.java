@@ -3,6 +3,7 @@ package com.doctor.sun.immutables;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.vo.LayoutId;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -56,10 +57,20 @@ public abstract class Appointment implements LayoutId {
 
     public abstract String getRecord_id();
 
-    public abstract int getCan_edit();
-    public abstract String getYunxin_accid();
-    public abstract String getRecord_name();
-    public abstract String getRelation();
+    @Value.Default
+    public int getCan_edit() {
+        return IntBoolean.TRUE;
+    }
+
+    @Value.Default
+    public String getYunxin_accid() {
+        return "";
+    }
+
+    @Value.Default
+    public String getRecord_name() {
+        return "";
+    }
 
 
     @Value.Default

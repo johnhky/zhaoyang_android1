@@ -10,9 +10,10 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityPaySuccessBinding;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.constans.QuestionsPath;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.util.JacksonUtils;
 
 import io.ganguo.library.AppManager;
 
@@ -31,7 +32,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
             return makeIntent(context);
         }
         Intent i = new Intent(context, PaySuccessActivity.class);
-        i.putExtra(Constants.DATA, data);
+        i.putExtra(Constants.DATA, JacksonUtils.toJson(data));
         i.putExtra(Constants.TYPE, APPOINTMENT);
         return i;
     }
@@ -50,7 +51,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
     }
 
     private Appointment getAppointment() {
-        return getIntent().getParcelableExtra(Constants.DATA);
+        return JacksonUtils.fromJson(getIntent().getStringExtra(Constants.DATA), Appointment.class);
     }
 
 //    private UrgentCall getUrgentCall() {
@@ -78,13 +79,8 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
 
     private void setBookTime() {
         switch (getType()) {
-            case URGENT_CALL: {
-//                String bookTime = getUrgentCall().getBookTime().substring(0, getUrgentCall().getBookTime().length() - 12);
-//                binding.setData(bookTime);
-                break;
-            }
             case APPOINTMENT: {
-                String bookTime = getAppointment().getHandler().getBookTime();
+                String bookTime = getAppointment().getBook_time();
                 binding.setData(bookTime);
                 break;
             }
@@ -105,17 +101,15 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
             }
             case R.id.tv_question: {
                 //TODO
-                int id = getId();
-                if (id != -1) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        finishAffinity();
-                    }
-                    if (getType() == APPOINTMENT) {
-                        Intent intent1 = PMainActivity.intentFor(this);
-                        startActivity(intent1);
-                        Intent intent2 = EditQuestionActivity.intentFor(this, String.valueOf(id), QuestionsPath.NORMAL);
-                        startActivity(intent2);
-                    }
+                String id = getAppointment().getId();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    finishAffinity();
+                }
+                if (getType() == APPOINTMENT) {
+                    Intent intent1 = PMainActivity.intentFor(this);
+                    startActivity(intent1);
+                    Intent intent2 = EditQuestionActivity.intentFor(this, id, QuestionsPath.NORMAL);
+                    startActivity(intent2);
                 }
 
                 if (getType() == VOIP_PAY) {
@@ -126,24 +120,6 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                 break;
             }
         }
-    }
-
-    private int getId() {
-        int id = -1;
-        switch (getType()) {
-            case URGENT_CALL: {
-//                id = getUrgentCall().getId();
-                break;
-            }
-            case APPOINTMENT: {
-                id = getAppointment().getId();
-                break;
-            }
-            default: {
-
-            }
-        }
-        return id;
     }
 
     @Override

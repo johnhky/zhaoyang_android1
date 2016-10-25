@@ -10,7 +10,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPatientDetailBinding;
 import com.doctor.sun.entity.constans.QuestionsPath;
-import com.doctor.sun.entity.handler.AppointmentHandler;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.event.CallFailedShouldCallPhoneEvent;
 import com.doctor.sun.immutables.Appointment;
@@ -81,7 +81,7 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == AppointmentHandler.RECORD_AUDIO_PERMISSION) {
+        if (requestCode == AppointmentHandler2.RECORD_AUDIO_PERMISSION) {
             if (PermissionUtil.verifyPermissions(grantResults)) {
                 AppointmentHandler2.makePhoneCall(this);
             }

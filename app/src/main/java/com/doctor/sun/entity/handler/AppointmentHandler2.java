@@ -171,7 +171,7 @@ public class AppointmentHandler2 {
 
     public static void simulatedPay(final BaseListAdapter component, final View view, final BaseViewHolder vh, Appointment data) {
         String id = data.getId();
-        simulatedPayImpl(view, id, data);
+        simulatedPayImpl(id, data);
     }
 
     public static void simulatedPayImpl(String id, final Appointment data) {

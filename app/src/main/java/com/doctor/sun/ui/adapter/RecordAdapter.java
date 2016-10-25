@@ -10,9 +10,10 @@ import android.view.ViewGroup;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ItemRMedicalRecordBinding;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.event.CloseDialogEvent;
+import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.immutables.ImmutableAppointment;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.activity.doctor.PatientInfoActivity;
@@ -50,10 +51,12 @@ public class RecordAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
                     if (Config.getInt(Constants.USER_TYPE, -1) == AuthModule.PATIENT_TYPE) {
                         //病人端
                         if (appointment != null) {
-                            appointment.setId(medicalRecord.getAppointmentId().get(
+                            String id = String.valueOf(medicalRecord.getAppointmentId().get(
                                     medicalRecord.getAppointmentId().size() - 1));
-                            appointment.setTid(medicalRecord.getTid());
-                            v.getContext().startActivity(ChattingActivity.makeIntent(v.getContext(), appointment));
+                            ImmutableAppointment immutableAppointment = ImmutableAppointment.copyOf(appointment)
+                                    .withId(id)
+                                    .withTid(String.valueOf(medicalRecord.getTid()));
+                            v.getContext().startActivity(ChattingActivity.makeIntent(v.getContext(), immutableAppointment));
                         }
                     } else {
                         v.getContext().startActivity(new Intent(v.getContext(), PatientInfoActivity.class)

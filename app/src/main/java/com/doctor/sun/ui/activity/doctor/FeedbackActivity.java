@@ -13,11 +13,12 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityFeedbackBinding;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.util.JacksonUtils;
 
 
 /**
@@ -31,12 +32,12 @@ public class FeedbackActivity extends BaseFragmentActivity2 {
 
     public static Intent makeIntent(Context context, Appointment data) {
         Intent i = new Intent(context, FeedbackActivity.class);
-        i.putExtra(Constants.DATA, data);
+        i.putExtra(Constants.DATA, JacksonUtils.toJson(data));
         return i;
     }
 
     private Appointment getData() {
-        return getIntent().getParcelableExtra(Constants.DATA);
+        return JacksonUtils.fromJson(getIntent().getStringExtra(Constants.DATA), Appointment.class);
     }
 
     private Messenger getHandler() {

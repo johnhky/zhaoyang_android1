@@ -125,7 +125,7 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="@{@string/appointment_type(data.displayType)}"
+            android:text="@{@string/appointment_type(data.display_type)}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 
@@ -136,7 +136,7 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="@{@string/record(data.recordName)}"
+            android:text="@{@string/record(data.record.recordName)}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 

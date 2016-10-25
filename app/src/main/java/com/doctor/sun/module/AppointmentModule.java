@@ -104,7 +104,7 @@ public interface AppointmentModule {
     @FormUrlEncoded
     @POST("appointment/evaluate-patient")
     Call<ApiDTO<String>> evaluatePatient(@Field("point") String point
-            , @Field("appointmentId") int appointmentId
+            , @Field("appointmentId") String appointmentId
             , @Field("detail") String detail
             , @Field("content") String content);
 

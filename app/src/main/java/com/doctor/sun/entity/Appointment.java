@@ -5,7 +5,7 @@
 //import android.os.Parcelable;
 //
 //import com.doctor.sun.R;
-//import com.doctor.sun.entity.handler.AppointmentHandler;
+//import com.doctor.sun.entity.handler.AppointmentHandler2;
 //import com.doctor.sun.vo.LayoutId;
 //import com.fasterxml.jackson.annotation.JsonProperty;
 //

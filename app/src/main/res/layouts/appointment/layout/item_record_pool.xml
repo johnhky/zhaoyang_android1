@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_weight="1"
-                android:text="@{data.relation}"
+                android:text="@{data.record.relation}"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13" />
 
@@ -60,7 +60,7 @@
                 android:layout_marginStart="@dimen/dp_8"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13"
-                app:html="@{data.handler.styledOrderStatus()}" />
+                app:html="@{handler.styledOrderStatus(data)}" />
 
         </LinearLayout>
 
@@ -113,7 +113,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{handler.patientName(data)}"
+                android:text="@{data.record.patientName}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_12" />
 
@@ -121,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
-                android:text="@{handler.relation(data)}"
+                android:text="@{handler.getRelationAndName(data)}"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_12" />
 

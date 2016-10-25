@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -58,7 +58,7 @@ public class PayAppointmentFragment extends SortedListFragment {
             @Override
             protected void handleResponse(Appointment response) {
                 builder.setDoctor(response.getDoctor());
-                builder.setRecord(response.getUrgentRecord());
+                builder.setRecord(response.getRecord());
                 List<BaseItem> sortedItems = builder.toSortedItems(response);
                 for (int i = 0; i < sortedItems.size(); i++) {
                     BaseItem item = sortedItems.get(i);

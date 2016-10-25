@@ -88,7 +88,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@{handler.relation3(data.data)}"
+                    android:text="@{handler.getRelationWithPatient(data.data)}"
                     android:textColor="#717171"
                     android:textSize="@dimen/font_12" />
 

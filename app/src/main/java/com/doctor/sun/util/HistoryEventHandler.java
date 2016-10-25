@@ -2,7 +2,7 @@ package com.doctor.sun.util;
 
 import android.support.v4.app.FragmentManager;
 
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.ui.widget.AppointmentHistoryDialog;
 import com.squareup.otto.Subscribe;

@@ -15,7 +15,8 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.Appointment;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.entity.JPushExtra;
 import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.http.Api;
@@ -83,7 +84,7 @@ public class JPushReceiver extends BroadcastReceiver {
         api.appointmentDetail(id).enqueue(new SimpleCallback<Appointment>() {
             @Override
             protected void handleResponse(Appointment response) {
-                response.getHandler().viewDetail(context, 0);
+                AppointmentHandler2.viewDetail(context,0,response);
                 cancelNotification(context, intent);
             }
         });
