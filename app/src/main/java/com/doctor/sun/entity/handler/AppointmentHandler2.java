@@ -614,6 +614,12 @@ public class AppointmentHandler2 {
         return getCurrentStatus(data) == 1;
     }
 
+    public static void viewDetail(Context context, Appointment data) {
+        String id = data.getId();
+        Intent intent = AfterServiceDoneActivity.intentFor(context, id, 0);
+        context.startActivity(intent);
+    }
+
     public static void viewDetail(final Context context, final int tab, Appointment data) {
 
         AppointmentModule api = Api.of(AppointmentModule.class);
@@ -660,6 +666,32 @@ public class AppointmentHandler2 {
         builder.title("订单状态");
         builder.positiveText("确定");
         builder.customView(recyclerView, true).show();
+    }
+
+    public static void fillForum(final Context context, final Appointment data) {
+        final String id = data.getId();
+        final String recordId = data.getRecord_id();
+        AppointmentModule api = Api.of(AppointmentModule.class);
+        api.appointmentDetail(id).enqueue(new SimpleCallback<Appointment>() {
+            @Override
+            protected void handleResponse(Appointment response) {
+                int position = 0;
+                if (Settings.isDoctor()) {
+                    position = 1;
+                }
+                if (isFinished(data)) {
+                    position = 1;
+                }
+
+                if (response.getCan_edit() == IntBoolean.FALSE) {
+                    Intent intent = AfterServiceDoneActivity.intentFor(context, id, position);
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, position);
+                    context.startActivity(intent);
+                }
+            }
+        });
     }
 
     public static int getCurrentStatus(Appointment data) {

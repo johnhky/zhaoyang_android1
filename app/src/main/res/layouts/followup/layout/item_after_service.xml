@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
         <variable
             name="data"
-            type="com.doctor.sun.entity.AfterService" />
+            type="com.doctor.sun.immutables.Appointment" />
 
         <variable
             name="vh"
@@ -25,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/ripple_default"
-            android:onClick="@{()->data.chatting(context)}"
+            android:onClick="@{()->handler.chat(context, data)}"
             android:orientation="vertical">
 
             <LinearLayout
@@ -39,7 +43,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{data.record.recordName}"
+                    android:text="@{data.record.recordName, default = 病历名}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_15" />
 
@@ -48,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_8"
                     android:layout_weight="1"
-                    android:text='@{"("+data.record.relation+")"}'
+                    android:text='@{"("+data.record.relation+")", default = 关系}'
                     android:textColor="#898989"
                     android:textSize="@dimen/font_13" />
 
@@ -57,13 +61,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
                     android:layout_marginRight="@dimen/dp_13"
-                    android:background="@{data.backgroundColor}"
+                    android:background="@{handler.getStatusBackground(data)}"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_2"
                     android:paddingRight="@dimen/dp_2"
-                    android:text="@{data.displayStatus}"
-                    android:textColor="@{data.statusTextColor}"
-                    android:textSize="@dimen/font_13" />
+                    android:text="@{data.display_status, default = 订单状态}"
+                    android:textSize="@dimen/font_13"
+                    app:html="@{handler.styledOrderStatus(data)}"/>
 
             </LinearLayout>
 
@@ -92,7 +96,7 @@
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:layout_marginTop="@dimen/dp_6"
-                android:text='@{"问卷发起时间:" + data.bookTime}'
+                android:text='@{"问卷发起时间:" + data.book_time}'
                 android:textColor="#363636"
                 android:textSize="@dimen/font_13" />
 
@@ -112,8 +116,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_7"
-            android:orientation="horizontal"
-            android:visibility="@{data.btnVisible}">
+            android:orientation="horizontal">
 
             <View
                 android:layout_width="0dp"
@@ -125,15 +128,14 @@
                 android:layout_height="@dimen/dp_35"
                 android:layout_gravity="end"
                 android:background="@drawable/shape_blue_rect"
-                android:onClick="@{()->data.fillForum(context,data.id)}"
-                android:visibility="@{data.doingBtnVisible}">
+                android:onClick="@{()->handler.fillForum(context, data)}">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:text='@{data.isFinished(data.status) ?"查看问卷":"填写问卷"}'
+                    android:text='@{handler.isFinished(data) ? "查看问卷":"填写问卷"}'
                     android:textColor="#fff"
                     android:textSize="@dimen/font_13" />
             </FrameLayout>
