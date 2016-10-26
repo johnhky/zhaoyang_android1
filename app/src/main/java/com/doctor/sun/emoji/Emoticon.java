@@ -115,7 +115,7 @@ public class Emoticon implements LayoutId {
         if (id.getType() == SessionTypeEnum.Team) {
             IMManager.getInstance().sentSticker(id.getTeamId(), id.getType(), this, id.enablePush());
         } else {
-            IMManager.getInstance().sentSticker(id.getP2PId(), id.getType(), this, id.enablePush());
+            IMManager.getInstance().sentSticker(id.getTargetP2PId(), id.getType(), this, id.enablePush());
         }
     }
 }

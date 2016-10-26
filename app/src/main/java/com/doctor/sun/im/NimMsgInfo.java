@@ -10,7 +10,7 @@ public interface NimMsgInfo {
 
     String getTeamId();
 
-    String getP2PId();
+    String getTargetP2PId();
 
     boolean enablePush();
 

@@ -269,7 +269,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     }
 
     @Override
-    public String getP2PId() {
+    public String getTargetP2PId() {
         return sendTo;
     }
 

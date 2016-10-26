@@ -102,6 +102,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     private boolean isLoadMore = false;
 
     private HistoryEventHandler eventHandler;
+    private Appointment data;
 
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, ChattingActivity.class);
@@ -110,8 +111,11 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
     private Appointment getData() {
-        String json = getIntent().getStringExtra(Constants.DATA);
-        return JacksonUtils.fromJson(json, ImmutableAppointment.class);
+        if (data == null) {
+            String json = getIntent().getStringExtra(Constants.DATA);
+            data = JacksonUtils.fromJson(json, ImmutableAppointment.class);
+        }
+        return data;
     }
 
     @Override
@@ -319,7 +323,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     @Override
     public void finish() {
         super.finish();
-        setHaveRead(query.or().equalTo("sessionId", getP2PId()).equalTo("haveRead", false).findAll());
+        setHaveRead(query.or().equalTo("sessionId", getTargetP2PId()).equalTo("haveRead", false).findAll());
         ItemHelper.changeItem(getIntent(), getData());
     }
 
@@ -341,7 +345,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     }
 
     private void makePhoneCall() {
-        AppointmentHandler2.makePhoneCall(this,getData());
+        AppointmentHandler2.makePhoneCall(this, getData());
     }
 
     @Override
@@ -360,8 +364,8 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         return getData().getTid();
     }
 
-    public String getP2PId() {
-        return "";
+    public String getTargetP2PId() {
+        return AppointmentHandler2.getTargetP2PId(getData());
     }
 
     @Override

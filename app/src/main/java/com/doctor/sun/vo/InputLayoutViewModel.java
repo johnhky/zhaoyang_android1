@@ -80,7 +80,7 @@ public class InputLayoutViewModel extends BaseObservable {
         if (data.getType() == SessionTypeEnum.Team) {
             IMManager.getInstance().sentTextMsg(data.getTeamId(), data.getType(), msg, data.enablePush());
         } else if (data.getType() == SessionTypeEnum.P2P) {
-            IMManager.getInstance().sentTextMsg(data.getP2PId(), SessionTypeEnum.P2P, msg, data.enablePush());
+            IMManager.getInstance().sentTextMsg(data.getTargetP2PId(), SessionTypeEnum.P2P, msg, data.enablePush());
         }
         setMsg("");
     }
