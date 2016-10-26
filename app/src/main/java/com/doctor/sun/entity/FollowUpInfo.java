@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.doctor.sun.entity.constans.Gender;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
@@ -36,7 +37,7 @@ public class FollowUpInfo extends BaseItem {
     @JsonProperty("created_at")
     public String createdAt;
     @JsonProperty("status")
-    public String status;
+    public int status;
     @JsonProperty("doctor_name")
     public String doctorName;
     @JsonProperty("address")
@@ -53,8 +54,8 @@ public class FollowUpInfo extends BaseItem {
     public String patientName;
 
 
-    public boolean isFinished(String status) {
-        return !AfterService.Status.DOING.equals(status);
+    public boolean isFinished(int status) {
+        return AppointmentHandler2.Status.FINISHED == status;
     }
 
 

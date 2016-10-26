@@ -25,22 +25,17 @@ import java.util.HashMap;
  */
 
 public class ItemConsulting implements SortedItem {
-    private Appointment data;
     private long time;
+    private Appointment data;
 
     public ItemConsulting(long time, Appointment data) {
-        this.data = data;
         this.time = time;
+        this.data = data;
     }
 
     public Appointment getData() {
         return data;
     }
-
-    public void setData(Appointment data) {
-        this.data = data;
-    }
-
 
     @Override
     public int getLayoutId() {
@@ -58,7 +53,7 @@ public class ItemConsulting implements SortedItem {
 
     @Override
     public String getKey() {
-        return String.valueOf(data.getTid());
+        return data.getTid();
     }
 
     @Override
@@ -87,11 +82,6 @@ public class ItemConsulting implements SortedItem {
 
     public String getProgress() {
         return data.getProgress();
-    }
-
-    public String getAvatar() {
-        return "";
-//        return data.getAvatar();
     }
 
 

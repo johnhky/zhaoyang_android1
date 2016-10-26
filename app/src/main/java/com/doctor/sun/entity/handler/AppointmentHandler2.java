@@ -331,10 +331,10 @@ public class AppointmentHandler2 {
         return (int) data.getTake_time();
     }
 
-    public static Intent getFirstMenu(Context context, int canEdit, int tab, Appointment data) {
+    public static Intent getFirstMenu(Context context, int tab, Appointment data) {
         if (isAfterService(data)) {
             String id = String.valueOf(data.getId());
-            if (canEdit == IntBoolean.FALSE) {
+            if (Status.FINISHED == data.getStatus() && data.getCan_edit() == IntBoolean.FALSE) {
                 return AfterServiceDoneActivity.intentFor(context, id, tab);
             } else {
                 String recordId = String.valueOf(data.getRecord_id());
@@ -350,8 +350,8 @@ public class AppointmentHandler2 {
     public static int getDiscountMoney(Appointment data) {
         try {
             double money = data.getMoney();
-            double unpayMoney = data.getNeed_pay();
-            return (int) (money - unpayMoney);
+            double needPayMoney = data.getNeed_pay();
+            return (int) (money - needPayMoney);
         } catch (ClassCastException e) {
             return 0;
         }
@@ -631,13 +631,13 @@ public class AppointmentHandler2 {
         api.appointmentDetail(data.getId()).enqueue(new SimpleCallback<Appointment>() {
             @Override
             protected void handleResponse(Appointment response) {
-                answerQuestion(context, tab, response.getCan_edit(), response);
+                answerQuestion(context, tab, response);
             }
         });
     }
 
-    public static void answerQuestion(Context context, int tab, int canEdit, Appointment data) {
-        Intent i = getFirstMenu(context, canEdit, tab, data);
+    public static void answerQuestion(Context context, int tab, Appointment data) {
+        Intent i = getFirstMenu(context, tab, data);
         if (i != null) {
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);

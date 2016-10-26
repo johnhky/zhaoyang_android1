@@ -7,9 +7,9 @@ import io.ganguo.library.core.event.Event;
  */
 public class ModifyStatusEvent implements Event {
     public final String id;
-    public final String status;
+    public final int status;
 
-    public ModifyStatusEvent(String id, String status) {
+    public ModifyStatusEvent(String id, int status) {
         this.id = id;
         this.status = status;
     }
