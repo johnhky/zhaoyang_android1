@@ -492,7 +492,7 @@ public class AppointmentHandler2 {
 
 
     public static void makePhoneCall(final Context context, Appointment data) {
-        AVChatActivity.start(context, getP2PId(data), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+        AVChatActivity.start(context, getTargetP2PId(data), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
     }
 
     public static void callTelephone(final Context context, Appointment data) {
@@ -505,9 +505,13 @@ public class AppointmentHandler2 {
         });
     }
 
-    public static String getP2PId(Appointment data) {
+    public static String getTargetP2PId(Appointment data) {
         if (Settings.isDoctor()) {
-            return data.getYunxin_accid();
+            if (data.getRecord() != null) {
+                return data.getRecord().getYunxinAccid();
+            } else {
+                return data.getYunxin_accid();
+            }
         } else {
             if (data.getDoctor() != null) {
                 return data.getDoctor().getYunxinAccid();
@@ -614,14 +618,15 @@ public class AppointmentHandler2 {
         return getCurrentStatus(data) == 1;
     }
 
-    public static void viewDetail(Context context, Appointment data) {
-        String id = data.getId();
-        Intent intent = AfterServiceDoneActivity.intentFor(context, id, 0);
-        context.startActivity(intent);
+    public static void viewDetail(final Context context, Appointment data) {
+        if (isFinished(data)) {
+            viewDetail(context, 1, data);
+        } else {
+            viewDetail(context, 0, data);
+        }
     }
 
     public static void viewDetail(final Context context, final int tab, Appointment data) {
-
         AppointmentModule api = Api.of(AppointmentModule.class);
         api.appointmentDetail(data.getId()).enqueue(new SimpleCallback<Appointment>() {
             @Override

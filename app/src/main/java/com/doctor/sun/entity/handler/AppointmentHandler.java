@@ -457,7 +457,7 @@
 //    }
 //
 //    @Override
-//    public String getP2PId() {
+//    public String getTargetP2PId() {
 //        if (Settings.isDoctor()) {
 //            return data.getYunxinAccid();
 //        } else {
@@ -690,7 +690,7 @@
 //
 //
 //    public void makePhoneCall(final Context context) {
-//        AVChatActivity.start(context, getP2PId(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+//        AVChatActivity.start(context, getTargetP2PId(), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
 //    }
 //
 //    public void callTelephone(final Context context) {

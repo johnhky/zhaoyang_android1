@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import org.immutables.value.Value;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,7 +52,7 @@ public abstract class Appointment implements LayoutId {
 
     @Value.Default
     public String getVisit_time() {
-       return "";
+        return "";
     }
 
     public abstract String getEnd_time();
@@ -74,11 +73,6 @@ public abstract class Appointment implements LayoutId {
 
     @Value.Default
     public String getYunxin_accid() {
-        return "";
-    }
-
-    @Value.Default
-    public String getRecord_name() {
         return "";
     }
 

@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
         <variable
             name="data"
-            type="com.doctor.sun.entity.AfterService" />
+            type="com.doctor.sun.immutables.Appointment" />
 
         <variable
             name="vh"
@@ -16,7 +22,7 @@
             type="com.doctor.sun.ui.adapter.core.BaseListAdapter" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -25,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/ripple_default"
-            android:onClick="@{()->data.chatting(context)}"
+            android:onClick="@{()->handler.chat(context,data)}"
             android:orientation="vertical">
 
             <com.zhy.android.percent.support.PercentFrameLayout
@@ -41,6 +47,7 @@
                     android:drawable="@{@drawable/default_avatar}"
                     android:scaleType="centerCrop"
                     android:src="@{data.doctor.avatar}"
+                    tools:src="@drawable/female_doctor_avatar"
                     app:maskDrawable="@drawable/circle_mask" />
 
                 <LinearLayout
@@ -59,6 +66,7 @@
                         android:layout_marginBottom="@dimen/dp_1"
                         android:layout_marginLeft="@dimen/dp_13"
                         android:text="@{data.doctor.name}"
+                        tools:text="医生名字"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_15"
                         android:textStyle="bold" />
@@ -75,6 +83,7 @@
                         android:paddingRight="@dimen/dp_4"
                         android:singleLine="true"
                         android:text="@{data.doctor.level}"
+                        tools:text="主任医师"
                         android:textColor="#ffffff"
                         android:textSize="@dimen/font_9" />
 
@@ -82,16 +91,21 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_30"
                     android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="@dimen/dp_13"
+                    android:layout_marginLeft="@dimen/dp_13"
                     android:layout_marginRight="@dimen/dp_13"
-                    android:background="@{data.backgroundColor}"
+                    android:layout_marginStart="@dimen/dp_13"
+                    android:background="@{handler.getStatusBackground(data)}"
                     android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/dp_2"
-                    android:paddingRight="@dimen/dp_2"
-                    android:text="@{data.displayStatus}"
-                    android:textColor="@{data.statusTextColor}"
-                    android:textSize="@dimen/font_13" />
+                    android:paddingLeft="@dimen/dp_13"
+                    android:paddingStart="@dimen/dp_13"
+                    android:textSize="@dimen/font_13"
+                    app:drawableRightCompat="@{handler.getStatusArrow(data)}"
+                    app:html="@{handler.styledOrderStatus2(data)}"
+                    tools:ignore="RtlSymmetry"
+                    tools:text="进行中" />
 
             </com.zhy.android.percent.support.PercentFrameLayout>
 
@@ -101,7 +115,8 @@
                 android:layout_height="1px"
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginTop="@dimen/dp_6"
-                android:background="#c1cacf" />
+                android:background="#c1cacf"
+                tools:ignore="RtlHardcoded" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -111,7 +126,8 @@
                 android:layout_marginTop="@dimen/dp_6"
                 android:text='@{"病历:" + data.record.recordName}'
                 android:textColor="#363636"
-                android:textSize="@dimen/font_13" />
+                android:textSize="@dimen/font_13"
+                tools:text="病历: 病历" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -121,7 +137,8 @@
                 android:layout_marginTop="@dimen/dp_6"
                 android:text='@{"问卷完成度:" + data.progress}'
                 android:textColor="#363636"
-                android:textSize="@dimen/font_13" />
+                android:textSize="@dimen/font_13"
+                tools:text="问卷完成度: 10/10" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -130,16 +147,17 @@
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:layout_marginTop="@dimen/dp_6"
-                android:text='@{"问卷发起时间:" + data.bookTime}'
+                android:text='@{"问卷发起时间:" + data.book_time}'
                 android:textColor="#363636"
-                android:textSize="@dimen/font_13" />
+                android:textSize="@dimen/font_13"
+                tools:text="问卷发起时间:2016年10月1日" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginTop="@dimen/dp_6"
-                android:background="@{data.dividerColor}" />
+                android:background="@color/divider_color" />
 
         </LinearLayout>
 
@@ -152,71 +170,32 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_7"
-            android:orientation="horizontal"
-            android:visibility="@{data.btnVisible}">
+            android:orientation="horizontal">
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
-            <!--<FrameLayout-->
-            <!--android:id="@+id/reject"-->
-            <!--android:layout_width="@dimen/dp_90"-->
-            <!--android:layout_height="@dimen/dp_35"-->
-            <!--android:layout_gravity="end"-->
-            <!--android:layout_marginRight="@dimen/dp_11"-->
-            <!--android:background="@drawable/btn_small_white"-->
-            <!--android:onClick="@{()->data.reject(adapter,vh)}"-->
-            <!--android:visibility="@{data.todoBtnVisible}">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@drawable/ripple_default"-->
-            <!--android:gravity="center"-->
-            <!--android:text="拒  绝"-->
-            <!--android:textColor="#339de1"-->
-            <!--android:textSize="@dimen/font_13" />-->
-            <!--</FrameLayout>-->
-
-            <!--<FrameLayout-->
-            <!--android:id="@+id/accept"-->
-            <!--android:layout_width="@dimen/dp_90"-->
-            <!--android:layout_height="@dimen/dp_35"-->
-            <!--android:layout_gravity="end"-->
-            <!--android:background="@drawable/btn_small_blue"-->
-            <!--android:onClick="@{()->data.accept(adapter,vh)}"-->
-            <!--android:visibility="@{data.todoBtnVisible}">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@drawable/ripple_default"-->
-            <!--android:gravity="center"-->
-            <!--android:text="接  受"-->
-            <!--android:textColor="#fff"-->
-            <!--android:textSize="@dimen/font_13" />-->
-            <!--</FrameLayout>-->
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_35"
                 android:layout_gravity="end"
                 android:background="@drawable/shape_blue_rect"
-                android:onClick="@{()->data.fillForum(context,data.id)}"
+                android:onClick="@{()->handler.viewDetail(context,data)}"
                 android:paddingLeft="@dimen/dp_13"
-                android:paddingRight="@dimen/dp_13"
-                android:visibility="@{data.doingBtnVisible}">
+                android:paddingRight="@dimen/dp_13">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:text='@{data.isFinished(data.status) ?"查看医生建议":"填写问卷"}'
+                    android:text='@{handler.isFinished(data) ?"查看医生建议":"填写问卷"}'
                     android:textColor="#fff"
-                    android:textSize="@dimen/font_13" />
+                    android:textSize="@dimen/font_13"
+                    tools:text="查看医生建议" />
             </FrameLayout>
 
         </LinearLayout>
