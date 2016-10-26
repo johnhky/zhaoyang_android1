@@ -1,7 +1,6 @@
 package com.doctor.sun.model;
 
 import android.databinding.Observable;
-import android.util.Log;
 
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
@@ -229,33 +228,43 @@ public class QuestionsModel {
         vm.setPosition(i * PADDING);
         vm.setQuestionId(questions2.getKey());
         vm.setQuestionContent(questions2.questionContent);
-        if (questions2.option != null)
+        if (questions2.option != null) {
             for (Options2 options2 : questions2.option) {
-                if (options2.getSelected()) {
-                    vm.setHasAnswer(true);
-                    switch (options2.optionType) {
-                        case "A": {
+                switch (options2.optionType) {
+                    case "A": {
+                        if (options2.getSelected()) {
+                            vm.setHasAnswer(true);
                             vm.setBtnOneChecked(true);
                             vm.setDate(options2.questionContent);
-
-                            break;
                         }
-                        case "B": {
+                        vm.setBtnOneEnabled(true);
+
+                        break;
+                    }
+                    case "B": {
+                        if (options2.getSelected()) {
+                            vm.setHasAnswer(true);
                             vm.setBtnTwoChecked(true);
                             vm.setDate(options2.questionContent);
-
-                            break;
                         }
-                        case "C": {
+                        vm.setBtnTwoEnabled(true);
+
+                        break;
+                    }
+                    case "C": {
+                        if (options2.getSelected()) {
+                            vm.setHasAnswer(true);
                             vm.setBtnThreeChecked(true);
                             Doctor doctor = new Doctor();
                             doctor.fromHashMap(options2.selectedOption);
                             vm.setDoctor(doctor);
-                            break;
                         }
+                        vm.setBtnThreeEnabled(true);
+                        break;
                     }
                 }
             }
+        }
 
         items.add(vm);
     }

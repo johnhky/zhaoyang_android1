@@ -104,7 +104,7 @@ public class AppointmentHandler2 {
     }
 
     public static String getRelationWithPatient(Appointment data) {
-        return getPatientName(data) + "(患者的" + data.getRecord().getRelation() + ")";
+        return "(患者的" + data.getRecord().getRelation() + ")";
     }
 
     public static String getRelation(Appointment data) {

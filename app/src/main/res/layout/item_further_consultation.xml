@@ -95,7 +95,7 @@
                 android:background="@drawable/round_left_rect"
                 android:button="@null"
                 android:checked="@={data.btnOneChecked}"
-                android:enabled="@{data.isEnabled()}"
+                android:enabled="@{data.isEnabled()&amp;&amp;data.btnOneEnabled}"
                 android:gravity="center"
                 android:text="专属咨询"
                 android:textColor="@color/color_return_type" />
@@ -113,7 +113,7 @@
                 android:background="@drawable/full_rect"
                 android:button="@null"
                 android:checked="@={data.btnTwoChecked}"
-                android:enabled="@{data.isEnabled()}"
+                android:enabled="@{data.isEnabled()&amp;&amp;data.btnTwoEnabled}"
                 android:gravity="center"
                 android:text="留言咨询"
                 android:textColor="@color/color_return_type" />
@@ -131,7 +131,7 @@
                 android:background="@drawable/round_right_rect"
                 android:button="@null"
                 android:checked="@={data.btnThreeChecked}"
-                android:enabled="@{data.isEnabled()}"
+                android:enabled="@{data.isEnabled()&amp;&amp;data.btnThreeEnabled}"
                 android:gravity="center"
                 android:text="转诊"
                 android:textColor="@color/color_return_type" />
