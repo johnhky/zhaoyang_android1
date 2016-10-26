@@ -50,7 +50,7 @@
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_marginStart="@dimen/dp_8"
                 android:layout_weight="1"
-                android:text="@{data.record.relation, default = 关系}"
+                android:text='@{"(患者的" + data.record.relation +")", default = 关系}'
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13" />
 
@@ -114,16 +114,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.record.patientName}"
+                android:text="@{data.record.recordName}"
                 android:textColor="#363636"
-                android:textSize="@dimen/font_12" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_8"
-                android:text="@{data.record.relation}"
-                android:textColor="#898989"
                 android:textSize="@dimen/font_12" />
 
         </LinearLayout>
