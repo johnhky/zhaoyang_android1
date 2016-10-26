@@ -52,7 +52,6 @@ import com.doctor.sun.ui.activity.doctor.PatientDetailActivity;
 import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.activity.patient.FinishedOrderActivity;
-import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
@@ -334,8 +333,16 @@ public class AppointmentHandler2 {
     public static Intent getFirstMenu(Context context, int tab, Appointment data) {
         if (isAfterService(data)) {
             String id = String.valueOf(data.getId());
-            if (Status.FINISHED == data.getStatus() && data.getCan_edit() == IntBoolean.FALSE) {
-                return AfterServiceDoneActivity.intentFor(context, id, tab);
+            if (Status.FINISHED == data.getStatus()) {
+                if (Settings.isDoctor()) {
+                    if (data.getCan_edit() != IntBoolean.FALSE) {
+                        return AfterServiceDoingActivity.intentFor(context, id, data.getRecord_id(), tab);
+                    } else {
+                        return AfterServiceDoneActivity.intentFor(context, id, tab);
+                    }
+                } else {
+                    return AfterServiceDoneActivity.intentFor(context, id, tab);
+                }
             } else {
                 String recordId = String.valueOf(data.getRecord_id());
                 return AfterServiceDoingActivity.intentFor(context, id, recordId, tab);
@@ -428,8 +435,7 @@ public class AppointmentHandler2 {
             }
             case Status.FINISHED: {
                 chat(adapter, vh, data);
-                Intent intent = HistoryDetailActivity.makeIntent(vh.itemView.getContext(), data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY);
-                vh.itemView.getContext().startActivity(intent);
+                viewDetail(vh.itemView.getContext(), data);
                 break;
             }
             case Status.DOING:
@@ -673,31 +679,6 @@ public class AppointmentHandler2 {
         builder.customView(recyclerView, true).show();
     }
 
-    public static void fillForum(final Context context, final Appointment data) {
-        final String id = data.getId();
-        final String recordId = data.getRecord_id();
-        AppointmentModule api = Api.of(AppointmentModule.class);
-        api.appointmentDetail(id).enqueue(new SimpleCallback<Appointment>() {
-            @Override
-            protected void handleResponse(Appointment response) {
-                int position = 0;
-                if (Settings.isDoctor()) {
-                    position = 1;
-                }
-                if (isFinished(data)) {
-                    position = 1;
-                }
-
-                if (response.getCan_edit() == IntBoolean.FALSE) {
-                    Intent intent = AfterServiceDoneActivity.intentFor(context, id, position);
-                    context.startActivity(intent);
-                } else {
-                    Intent intent = AfterServiceDoingActivity.intentFor(context, id, recordId, position);
-                    context.startActivity(intent);
-                }
-            }
-        });
-    }
 
     public static int getCurrentStatus(Appointment data) {
         switch (data.getStatus()) {

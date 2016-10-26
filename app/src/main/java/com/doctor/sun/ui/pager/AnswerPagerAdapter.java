@@ -72,7 +72,7 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
                     }
                 }
                 case 1: {
-                    if (isAppointmentFinished()) {
+                    if (isAppointmentFinished() && canEdit == IntBoolean.FALSE) {
                         return ReadDiagnosisFragment.newInstance(appointmentId);
                     } else {
                         return DiagnosisFragment.newInstance(appointmentId, recordId);
@@ -84,7 +84,7 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public boolean isAppointmentFinished() {
-        return AppointmentHandler2.Status.FINISHED == status && canEdit == IntBoolean.FALSE;
+        return AppointmentHandler2.Status.FINISHED == status;
     }
 
     /**
