@@ -376,4 +376,8 @@ public class Options2 extends BaseItem {
                 return InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
         }
     }
+
+    public boolean show() {
+        return !Strings.isNullOrEmpty(optionInputHint) || !Strings.isNullOrEmpty(contentHead) || !Strings.isNullOrEmpty(contentTail);
+    }
 }
