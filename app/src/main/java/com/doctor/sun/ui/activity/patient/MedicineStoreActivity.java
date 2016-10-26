@@ -221,14 +221,6 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         api.appointments(pageCallback.getPage()).enqueue(pageCallback);
     }
 
-    //    public void onMenuClicked() {
-//    }
-//
-//    private void makePhoneCall() {
-//        IMManager.getInstance().makePhoneCall(sendTo);
-//        Intent i = VoIPCallActivity.makeIntent(MedicineStoreActivity.this, VoIPCallActivity.CALLING, sendTo);
-//        startActivity(i);
-//    }
 
     @Override
     protected void onStart() {
