@@ -19,8 +19,7 @@ public class AfterServiceActivity extends PageActivity2 {
     private AfterServiceModule api = Api.of(AfterServiceModule.class);
 
     public static Intent intentFor(Context context) {
-        Intent intent = new Intent(context, AfterServiceActivity.class);
-        return intent;
+        return new Intent(context, AfterServiceActivity.class);
     }
 
     @Override

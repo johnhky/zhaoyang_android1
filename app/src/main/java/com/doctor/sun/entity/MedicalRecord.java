@@ -327,16 +327,4 @@ public class MedicalRecord extends BaseItem implements Parcelable {
         result.put("relation", relation);
         return result;
     }
-
-    public String getPatientNameRelation(Context context) {
-        return context.getString(R.string.patient_name_relation, patientName, recordName, relation);
-    }
-
-    public String getGenderAndBirthday(Context context) {
-        return context.getString(R.string.gender_birth, gender == Gender.MALE ? "Male" : "Female", birthday);
-    }
-
-    public String getPatientAddress(Context context) {
-        return context.getString(R.string.patient_address, province, city);
-    }
 }
