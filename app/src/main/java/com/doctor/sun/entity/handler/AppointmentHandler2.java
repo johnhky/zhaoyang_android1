@@ -529,6 +529,9 @@ public class AppointmentHandler2 {
 
 
     public static boolean isFinished(Appointment data) {
+        if (data.getStatus() == Status.DOING) {
+            return false;
+        }
         return getFinishedTime(data) < System.currentTimeMillis();
     }
 
