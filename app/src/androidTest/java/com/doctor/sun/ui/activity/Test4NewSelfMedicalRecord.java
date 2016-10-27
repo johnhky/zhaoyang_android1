@@ -55,7 +55,7 @@ public class Test4NewSelfMedicalRecord {
     }
 
     public String getTag() {
-        return generateString(chars, 6);
+        return generateString(chars, 3);
     }
 
     private String generateString(String chars, int length) {

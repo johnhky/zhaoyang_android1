@@ -44,9 +44,9 @@ public class Test5NewOtherMedicalRecord {
         CustomViewAction.performActionAt(0,
                 typeText("relation" + getTag()));
         CustomViewAction.performActionAt(2,
-                typeText("selfName" + getTag()));
+                typeText("self" + getTag()));
         CustomViewAction.performActionAt(4,
-                typeText("patientName" + getTag()));
+                typeText("patient" + getTag()));
         CustomViewAction.performActionAt(8,
                 CustomViewAction.clickChildViewWithId(R.id.rb_male));
 
@@ -54,7 +54,7 @@ public class Test5NewOtherMedicalRecord {
     }
 
     public String getTag() {
-        return RandomUtil.generateString(6);
+        return RandomUtil.generateString(3);
     }
 
     private void clickNext() {
