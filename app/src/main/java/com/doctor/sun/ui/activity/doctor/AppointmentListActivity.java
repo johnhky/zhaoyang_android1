@@ -3,7 +3,6 @@ package com.doctor.sun.ui.activity.doctor;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.view.Menu;
 
 import com.doctor.sun.R;
 import com.doctor.sun.http.Api;
@@ -29,11 +28,11 @@ public class AppointmentListActivity extends PageActivity2 {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search, menu);
-        setupSearchView(menu);
-        return true;
+    protected void onPrepareHeader() {
+        super.onPrepareHeader();
+        insertSearchItem();
     }
+
 
     @NonNull
     @Override

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.facebook.device.yearclass.YearClass;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -76,6 +77,16 @@ public class Systems {
     public static float applyDimension(Context context, int unit, float value) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(unit, value, displayMetrics);
+    }
+
+    /**
+     * 打开软键盘
+     *
+     */
+    public static void showKeyboard(EditText view) {
+        InputMethodManager inputManager = (InputMethodManager) view.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(view, 0);
+        inputManager.showSoftInputFromInputMethod(view.getWindowToken(), 0);
     }
 
     /**

@@ -43,8 +43,12 @@ public class AfterServiceActivity extends PageActivity2 {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_patient_list, menu);
-        setupSearchView(menu);
         return true;
+    }
+    @Override
+    protected void onPrepareHeader() {
+        super.onPrepareHeader();
+        insertSearchItem();
     }
 
     @Override
