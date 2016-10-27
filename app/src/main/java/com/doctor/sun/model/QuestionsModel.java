@@ -1,10 +1,12 @@
 package com.doctor.sun.model;
 
 import android.databinding.Observable;
+import android.util.Log;
 
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.QuestionDTO;
+import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.FollowUpInfo;
 import com.doctor.sun.entity.Options2;
@@ -84,6 +86,20 @@ public class QuestionsModel {
                 int questionSize = 0;
                 if (response.questions != null) {
                     questionSize = response.questions.size();
+                }
+
+                if (questionSize == 0) {
+                    // 进行中的订单，医生建议显示【待医生诊断】
+                    Description description = new Description(R.layout.item_description, "医嘱");
+                    description.setItemId("description");
+                    description.setPosition(r.size());
+                    r.add(description);
+
+                    ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
+                    textInput.setInput("待医生诊断");
+                    textInput.setItemId("diagnosis");
+                    textInput.setPosition(r.size());
+                    r.add(textInput);
                 }
 
                 parseScales(response, r, questionSize);

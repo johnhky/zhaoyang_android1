@@ -126,10 +126,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         initData();
         registerRealmChangeListener();
 
-        // 随访聊天界面不显示历史记录按钮
-        if (!getData().getDisplay_type().equals("诊后随访")) {
-            addHistoryButton();
-        }
+        addHistoryButton();
     }
 
     private void addHistoryButton() {
