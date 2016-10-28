@@ -4,7 +4,6 @@
     <data>
 
 
-
         <variable
             name="inputLayout"
             type="com.doctor.sun.vo.InputLayoutViewModel" />
@@ -27,11 +26,27 @@
             <include layout="@layout/include_header" />
 
             <FrameLayout
-                android:id="@+id/fly_content"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1">
 
+                <FrameLayout
+                    android:id="@+id/fly_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <ViewStub
+                    android:id="@+id/fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="@dimen/dp_16"
+                    android:layout_marginEnd="@dimen/dp_16"
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:inflatedId="@+id/fab_stub"
+                    android:layout="@layout/item_fab_view_result" />
+
+            </FrameLayout>
         </LinearLayout>
 
 
