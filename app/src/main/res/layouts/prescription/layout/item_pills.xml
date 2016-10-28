@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.PrescriptionHandler" />
+
         <variable
             name="data"
-            type="com.doctor.sun.entity.Prescription" />
+            type="com.doctor.sun.immutables.Prescription" />
 
     </data>
 
@@ -30,7 +33,7 @@
             android:paddingLeft="@dimen/dp_13"
             android:paddingRight="@dimen/dp_4"
             android:paddingTop="@dimen/dp_8"
-            android:text="@{data.label}"
+            android:text="@{handler.getLabel(data)}"
             android:textColor="@color/color_tick"
             android:textSize="@dimen/font_15" />
 

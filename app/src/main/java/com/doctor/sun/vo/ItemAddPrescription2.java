@@ -10,13 +10,14 @@ import android.os.Messenger;
 import com.android.databinding.library.baseAdapters.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.QuestionType;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
+import com.doctor.sun.util.JacksonUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,8 +44,8 @@ public class ItemAddPrescription2 extends BaseItem {
             itemSize = opCount;
         }
 
-        parcelable.position = getPosition() - QuestionsModel.PADDING + 3 + opCount;
-        parcelable.itemId = UUID.randomUUID().toString();
+        parcelable.setPosition(getPosition() - QuestionsModel.PADDING + 3 + opCount);
+        parcelable.setItemId(UUID.randomUUID().toString());
         registerItemChangedListener(parcelable);
         adapter.insert(parcelable);
         notifyChange();
@@ -93,12 +94,12 @@ public class ItemAddPrescription2 extends BaseItem {
         }
         HashMap<String, Object> result = new HashMap<>();
         result.put("question_id", questionId);
-        ArrayList<HashMap<String, String>> hashMaps = new ArrayList<>();
+        ArrayList<Prescription> hashMaps = new ArrayList<>();
         for (int i = distance; i > 1; i--) {
             int index = adapterPosition - i + 1;
             try {
                 Prescription sortedItem = (Prescription) adapter.get(index);
-                hashMaps.add(sortedItem.toHashMap());
+                hashMaps.add(sortedItem);
             } catch (ClassCastException ignored) {
                 ignored.printStackTrace();
             }
@@ -135,7 +136,8 @@ public class ItemAddPrescription2 extends BaseItem {
             }
             switch (msg.what) {
                 case DiagnosisFragment.EDIT_PRESCRITPION: {
-                    Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
+                    String jsonStr = msg.getData().getString(Constants.DATA);
+                    Prescription parcelable = JacksonUtils.fromJson(jsonStr, Prescription.class);
                     if (parcelable == null) return false;
 
                     item.addPrescription(parcelable, adapter);

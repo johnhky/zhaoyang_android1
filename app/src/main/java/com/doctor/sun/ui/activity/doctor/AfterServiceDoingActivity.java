@@ -10,12 +10,11 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.immutables.Appointment;
-import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.pager.DoctorAfterServicePA;
@@ -27,7 +26,7 @@ import io.ganguo.library.core.event.EventHub;
 /**
  * Created by rick on 3/6/2016.
  */
-public class AfterServiceDoingActivity extends TabActivity implements Prescription.UrlToLoad {
+public class AfterServiceDoingActivity extends TabActivity  {
 
     private HistoryEventHandler eventHandler;
 
@@ -96,10 +95,6 @@ public class AfterServiceDoingActivity extends TabActivity implements Prescripti
         }
     }
 
-    @Override
-    public String url() {
-        return "drug/record-last?recordId=" + getRecordId();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

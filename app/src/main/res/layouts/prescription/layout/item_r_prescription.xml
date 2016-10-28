@@ -4,9 +4,13 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.PrescriptionHandler" />
+
         <variable
             name="data"
-            type="com.doctor.sun.entity.Prescription" />
+            type="com.doctor.sun.immutables.Prescription" />
 
     </data>
 
@@ -15,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{data.viewDetail()}"
+        android:onClick="@{handler.viewDetail(data)}"
         android:orientation="vertical"
         android:paddingLeft="@dimen/dp_13"
         android:paddingRight="@dimen/dp_13"
@@ -27,14 +31,14 @@
             android:layout_height="wrap_content"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            app:html="@{data.name}" />
+            app:html="@{handler.getName(data)}" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            app:html="@{data.IntervalWithLabel}" />
+            app:html="@{handler.getIntervalWithLabel(data)}" />
 
 
         <TextView
@@ -42,14 +46,14 @@
             android:layout_height="wrap_content"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            app:html="@{data.amount}" />
+            app:html="@{handler.getAmount(data)}" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            app:html="@{data.remarkLabel}" />
+            app:html="@{handler.getRemarkLabel(data)}" />
 
         <View
             android:layout_width="match_parent"

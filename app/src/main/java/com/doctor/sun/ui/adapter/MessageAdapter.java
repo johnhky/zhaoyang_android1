@@ -13,7 +13,7 @@ import com.doctor.sun.databinding.MsgPrescriptionListBinding;
 import com.doctor.sun.dto.PrescriptionDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
-import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.im.cache.NimUserInfoCache;

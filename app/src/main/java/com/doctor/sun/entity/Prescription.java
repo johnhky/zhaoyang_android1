@@ -139,43 +139,43 @@ public class Prescription extends BaseItem implements Parcelable {
         this.remark = remark;
     }
 
-    public void modify(Context context) {
-        Intent intent = EditPrescriptionActivity.makeIntent(context, Prescription.this);
-        Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                switch (msg.what) {
-                    case DiagnosisFragment.EDIT_PRESCRITPION: {
-                        Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
-                        if (parcelable == null) {
-                            return false;
-                        }
-                        drugName = parcelable.drugName;
-                        scientificName = parcelable.scientificName;
-                        interval = parcelable.interval;
-                        numbers = parcelable.numbers;
-                        unit = parcelable.unit;
-                        remark = parcelable.remark;
-                        isVisible = parcelable.isVisible;
-                        notifyChange();
-                    }
-                }
-                return false;
-            }
-        }));
-        intent.putExtra(Constants.HANDLER, messenger);
-        context.startActivity(intent);
-    }
-
-    public View.OnClickListener viewDetail() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = ViewPrescriptionActivity.makeIntent(v.getContext(), Prescription.this);
-                v.getContext().startActivity(intent);
-            }
-        };
-    }
+//    public void modify(Context context) {
+//        Intent intent = EditPrescriptionActivity.makeIntent(context, Prescription.this);
+//        Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
+//            @Override
+//            public boolean handleMessage(Message msg) {
+//                switch (msg.what) {
+//                    case DiagnosisFragment.EDIT_PRESCRITPION: {
+//                        Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
+//                        if (parcelable == null) {
+//                            return false;
+//                        }
+//                        drugName = parcelable.drugName;
+//                        scientificName = parcelable.scientificName;
+//                        interval = parcelable.interval;
+//                        numbers = parcelable.numbers;
+//                        unit = parcelable.unit;
+//                        remark = parcelable.remark;
+//                        isVisible = parcelable.isVisible;
+//                        notifyChange();
+//                    }
+//                }
+//                return false;
+//            }
+//        }));
+//        intent.putExtra(Constants.HANDLER, messenger);
+//        context.startActivity(intent);
+//    }
+//
+//    public View.OnClickListener viewDetail() {
+//        return new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = ViewPrescriptionActivity.makeIntent(v.getContext(), Prescription.this);
+//                v.getContext().startActivity(intent);
+//            }
+//        };
+//    }
 
     public List<HashMap<String, String>> getNumbers() {
         return numbers;

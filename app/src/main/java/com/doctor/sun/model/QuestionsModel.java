@@ -10,16 +10,17 @@ import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.FollowUpInfo;
 import com.doctor.sun.entity.Options2;
-import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.QuVisibilityManager;
 import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.Scales;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.entity.constans.QuestionsType;
+import com.doctor.sun.entity.handler.PrescriptionHandler;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -434,10 +435,9 @@ public class QuestionsModel {
 
         if (arrayContent != null) {
             for (int j = 0; j < arrayContent.size(); j++) {
-                Prescription prescription = new Prescription();
-                prescription.position = i * PADDING + j + 1;
-                prescription.itemId = UUID.randomUUID().toString();
-                prescription.fromHashMap(arrayContent.get(j));
+                Prescription prescription = PrescriptionHandler.fromHashMap(arrayContent.get(j));
+                prescription.setPosition(i * PADDING + j + 1);
+                prescription.setItemId(UUID.randomUUID().toString());
                 itemAddPrescription.registerItemChangedListener(prescription);
                 items.add(prescription);
             }

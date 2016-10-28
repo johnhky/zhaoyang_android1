@@ -7,8 +7,9 @@ import android.view.inputmethod.EditorInfo;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Description;
-import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.entity.handler.PrescriptionHandler;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.ItemRadioDialog;
@@ -28,7 +29,7 @@ public class EditPrescriptionModel {
 
     public List<SortedItem> parseData(Prescription data) {
         if (data == null) {
-            data = new Prescription();
+            data = PrescriptionHandler.newInstance();
         }
         List<SortedItem> result = new ArrayList<>();
 
@@ -37,7 +38,7 @@ public class EditPrescriptionModel {
         name.setSubTitle("(必填)");
         name.setResultNotEmpty();
         name.setItemId("drug_name");
-        name.setResult(data.getDrugName());
+        name.setResult(data.getDrug_name());
         result.add(name);
 
         ModelUtils.insertDividerMarginLR(result);
@@ -45,12 +46,14 @@ public class EditPrescriptionModel {
         ItemTextInput2 productName = new ItemTextInput2(R.layout.item_text_input2, "商品名", "");
         productName.setSubTitle("(选填)");
         productName.setItemId("scientific_name");
-        productName.setResult(data.getScientificName());
+        productName.setResult(data.getScientific_name());
         result.add(productName);
 
         ModelUtils.insertDividerMarginLR(result);
 
+        ItemRadioDialog.TextEvaluator evaluator = new ItemRadioDialog.TextEvaluator();
         ItemRadioDialog unit = new ItemRadioDialog(R.layout.item_pick_title);
+        unit.setEvaluator(evaluator);
         unit.setSelectedItem(0);
         unit.setResultNotEmpty();
         unit.setTitle("单位");
@@ -59,7 +62,7 @@ public class EditPrescriptionModel {
         String[] units = AppContext.me().getResources().getStringArray(R.array.unit_array);
         unit.addOptions(units);
         for (int i = 0; i < units.length; i++) {
-            if (units[i].equals(data.getUnit())) {
+            if (units[i].equals(data.getDrug_unit())) {
                 unit.setSelectedItem(i);
             }
         }
@@ -68,6 +71,7 @@ public class EditPrescriptionModel {
         ModelUtils.insertDividerMarginLR(result);
 
         ItemRadioDialog interval = new ItemRadioDialog(R.layout.item_pick_title);
+        interval.setEvaluator(evaluator);
         interval.setSelectedItem(0);
         interval.setResultNotEmpty();
         interval.setTitle("间隔");
@@ -76,7 +80,7 @@ public class EditPrescriptionModel {
         String[] intervals = AppContext.me().getResources().getStringArray(R.array.interval_array);
         interval.addOptions(intervals);
         for (int i = 0; i < intervals.length; i++) {
-            if (intervals[i].equals(data.getUnit())) {
+            if (intervals[i].equals(data.getFrequency())) {
                 interval.setSelectedItem(i);
             }
         }
@@ -90,7 +94,7 @@ public class EditPrescriptionModel {
         morning.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         morning.setSpan(6);
         morning.setItemId("morning");
-        morning.setResult(data.intervalAt(0));
+        morning.setResult(data.getMorning());
         morning.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -103,7 +107,7 @@ public class EditPrescriptionModel {
         afternoon.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         afternoon.setSpan(6);
         afternoon.setItemId("noon");
-        afternoon.setResult(data.intervalAt(1));
+        afternoon.setResult(data.getNoon());
         afternoon.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -114,11 +118,12 @@ public class EditPrescriptionModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
+        //这里接口晚上是用的night，但是实际上，表示晚上的是evening。所以。。不要怀疑
         final ItemTextInput2 evening = new ItemTextInput2(R.layout.item_text_input2, "晚", "");
         evening.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         evening.setSpan(6);
         evening.setItemId("night");
-        evening.setResult(data.intervalAt(2));
+        evening.setResult(data.getNight());
         evening.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -131,7 +136,7 @@ public class EditPrescriptionModel {
         night.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         night.setSpan(6);
         night.setItemId("before_sleep");
-        night.setResult(data.intervalAt(3));
+        night.setResult(data.getBefore_sleep());
         night.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {

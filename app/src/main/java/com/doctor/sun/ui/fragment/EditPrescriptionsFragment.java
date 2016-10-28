@@ -1,13 +1,13 @@
 package com.doctor.sun.ui.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,11 +15,12 @@ import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.entity.handler.PrescriptionHandler;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.model.EditPrescriptionModel;
-import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.BaseItem;
 
 import java.util.HashMap;
@@ -35,16 +36,10 @@ public class EditPrescriptionsFragment extends SortedListFragment {
     private EditPrescriptionModel model;
     private Prescription data;
 
-    public static Intent intentFor(Context context, Prescription data) {
-        Intent i = new Intent(context, SingleFragmentActivity.class);
-        i.putExtra(Constants.FRAGMENT_TITLE, "个人信息");
-        i.putExtra(Constants.FRAGMENT_CONTENT_BUNDLE, getArgs(data));
-        return i;
-    }
 
     public static Bundle getArgs(Prescription data) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.DATA, data);
+        bundle.putString(Constants.DATA, JacksonUtils.toJson(data));
         bundle.putString(Constants.FRAGMENT_NAME, TAG);
         return bundle;
     }
@@ -53,7 +48,7 @@ public class EditPrescriptionsFragment extends SortedListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         model = new EditPrescriptionModel();
-        data = getArguments().getParcelable(Constants.DATA);
+        data = JacksonUtils.fromJson(getArguments().getString(Constants.DATA), Prescription.class);
     }
 
     @Override
@@ -80,20 +75,20 @@ public class EditPrescriptionsFragment extends SortedListFragment {
         HashMap<String, String> save = model.save(getAdapter(), new SimpleCallback() {
             @Override
             protected void handleResponse(Object response) {
-
+                Log.d(TAG, "handleResponse() called with: response = [" + response + "]");
             }
         });
 
 
         if (save != null) {
-            Prescription data = new Prescription();
-            data.fromHashMap(save);
+            Prescription data = PrescriptionHandler.fromHashMap(save);
+            String jsonData = JacksonUtils.toJson(data);
             Messenger messenger = getActivity().getIntent().getParcelableExtra(Constants.HANDLER);
             if (messenger != null) {
                 try {
                     Message message = new Message();
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable(Constants.DATA, data);
+                    bundle.putString(Constants.DATA, jsonData);
                     message.setData(bundle);
                     message.what = DiagnosisFragment.EDIT_PRESCRITPION;
                     messenger.send(message);
@@ -102,7 +97,7 @@ public class EditPrescriptionsFragment extends SortedListFragment {
                 }
             }
             Intent intent = getActivity().getIntent();
-            intent.putExtra(Constants.DATA, data);
+            intent.putExtra(Constants.DATA, jsonData);
             getActivity().setResult(Activity.RESULT_OK, intent);
             getActivity().finish();
         }

@@ -4,7 +4,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.immutables.SimpleAppointment;
 

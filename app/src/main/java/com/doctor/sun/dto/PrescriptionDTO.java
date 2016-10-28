@@ -1,6 +1,6 @@
 package com.doctor.sun.dto;
 
-import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -7,7 +7,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.Symptom;
 import com.doctor.sun.entity.SymptomFactory;
