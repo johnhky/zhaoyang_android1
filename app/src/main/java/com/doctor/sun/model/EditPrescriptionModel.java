@@ -1,7 +1,5 @@
 package com.doctor.sun.model;
 
-import android.databinding.Observable;
-import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -23,7 +21,6 @@ import com.doctor.sun.vo.ItemRadioDialog;
 import com.doctor.sun.vo.ItemTextInput2;
 import com.doctor.sun.vo.validator.Validator;
 import com.google.common.base.Predicate;
-import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -131,18 +128,12 @@ public class EditPrescriptionModel {
 
         result.add(new Description(R.layout.item_description, "数量"));
 
-        final NumberValidator validator = new NumberValidator();
         final ItemTextInput2 morning = new ItemTextInput2(R.layout.item_text_input2, "早", "");
         morning.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         morning.setSpan(6);
         morning.setItemId("morning");
         morning.setResult(data.getMorning());
-        morning.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable observable, int i) {
-                validator.put(0, isValidNumber(morning.getValue()));
-            }
-        });
+
         result.add(morning);
 
         final ItemTextInput2 afternoon = new ItemTextInput2(R.layout.item_text_input2, "午", "");
@@ -150,12 +141,6 @@ public class EditPrescriptionModel {
         afternoon.setSpan(6);
         afternoon.setItemId("noon");
         afternoon.setResult(data.getNoon());
-        afternoon.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable observable, int i) {
-                validator.put(1, isValidNumber(afternoon.getValue()));
-            }
-        });
         result.add(afternoon);
 
         ModelUtils.insertDividerMarginLR(result);
@@ -166,12 +151,6 @@ public class EditPrescriptionModel {
         evening.setSpan(6);
         evening.setItemId("night");
         evening.setResult(data.getNight());
-        evening.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable observable, int i) {
-                validator.put(2, isValidNumber(evening.getValue()));
-            }
-        });
         result.add(evening);
 
         final ItemTextInput2 night = new ItemTextInput2(R.layout.item_text_input2, "睡前", "");
@@ -179,14 +158,9 @@ public class EditPrescriptionModel {
         night.setSpan(6);
         night.setItemId("before_sleep");
         night.setResult(data.getBefore_sleep());
-        night.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable observable, int i) {
-                validator.put(3, isValidNumber(night.getValue()));
-            }
-        });
         result.add(night);
 
+        final NumberValidator validator = new NumberValidator();
         morning.add(validator);
         afternoon.add(validator);
         evening.add(validator);
@@ -207,32 +181,21 @@ public class EditPrescriptionModel {
     }
 
     private static class NumberValidator implements Validator {
-        SparseBooleanArray states = new SparseBooleanArray(4);
-
-        public NumberValidator() {
-        }
-
-
-        public void put(int key, boolean value) {
-            states.put(key, value);
-        }
 
         @Override
         public boolean isValid(String input) {
-            return states.get(0, false)
-                    || states.get(1, false)
-                    || states.get(2, false)
-                    || states.get(3, false);
+            return isValidNumber(input);
         }
 
 
         @Override
         public String errorMsg() {
-            return "请填写药物服用份量";
+            return "用药份量格式错误";
+        }
+
+        boolean isValidNumber(String input) {
+            return !input.equals(".");
         }
     }
 
-    public boolean isValidNumber(String input) {
-        return !Strings.isNullOrEmpty(input) && !input.equals(".");
-    }
 }

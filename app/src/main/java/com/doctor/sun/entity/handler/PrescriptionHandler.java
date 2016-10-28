@@ -35,7 +35,7 @@ public class PrescriptionHandler {
                 switch (msg.what) {
                     case DiagnosisFragment.EDIT_PRESCRITPION: {
                         String string = msg.getData().getString(Constants.DATA);
-                        Prescription parcelable = JacksonUtils.fromJson(string,Prescription.class);
+                        Prescription parcelable = JacksonUtils.fromJson(string, Prescription.class);
                         parcelable.setItemId(data.getItemId());
                         parcelable.setPosition(data.getPosition());
                         adapter.update(parcelable);
@@ -164,6 +164,10 @@ public class PrescriptionHandler {
         strings.add(data.getNight());
         strings.add(data.getBefore_sleep());
         return strings;
+    }
+
+    public static String concatNumbers(Prescription data) {
+        return data.getMorning() + data.getNoon() + data.getNight() + data.getBefore_sleep();
     }
 
     public static Prescription newInstance() {

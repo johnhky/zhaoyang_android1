@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -75,31 +76,35 @@ public class EditPrescriptionsFragment extends SortedListFragment {
         HashMap<String, String> save = model.save(getAdapter(), new SimpleCallback() {
             @Override
             protected void handleResponse(Object response) {
-                Log.d(TAG, "handleResponse() called with: response = [" + response + "]");
             }
         });
 
 
         if (save != null) {
             Prescription data = PrescriptionHandler.fromHashMap(save);
-            String jsonData = JacksonUtils.toJson(data);
-            Messenger messenger = getActivity().getIntent().getParcelableExtra(Constants.HANDLER);
-            if (messenger != null) {
-                try {
-                    Message message = new Message();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(Constants.DATA, jsonData);
-                    message.setData(bundle);
-                    message.what = DiagnosisFragment.EDIT_PRESCRITPION;
-                    messenger.send(message);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
+            if (!PrescriptionHandler.concatNumbers(data).isEmpty()) {
+                String jsonData = JacksonUtils.toJson(data);
+                Messenger messenger = getActivity().getIntent().getParcelableExtra(Constants.HANDLER);
+                if (messenger != null) {
+                    try {
+                        Message message = new Message();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(Constants.DATA, jsonData);
+                        message.setData(bundle);
+                        message.what = DiagnosisFragment.EDIT_PRESCRITPION;
+                        messenger.send(message);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
                 }
+                Intent intent = getActivity().getIntent();
+                intent.putExtra(Constants.DATA, jsonData);
+                getActivity().setResult(Activity.RESULT_OK, intent);
+                getActivity().finish();
+            } else {
+                Toast.makeText(getContext(), "请填写用药份量", Toast.LENGTH_SHORT).show();
+                getBinding().recyclerView.scrollToPosition(5);
             }
-            Intent intent = getActivity().getIntent();
-            intent.putExtra(Constants.DATA, jsonData);
-            getActivity().setResult(Activity.RESULT_OK, intent);
-            getActivity().finish();
         }
     }
 
