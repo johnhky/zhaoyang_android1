@@ -47,7 +47,7 @@ public class SelectRecordDialog extends BaseDialog {
     public void beforeInitView() {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_select_record, null, false);
         binding.rvRecord.setLayoutManager(new LinearLayoutManager(context));
-        mAdapter = new SelectRecordAdapter(context, this);
+        mAdapter = new SelectRecordAdapter( this);
         mAdapter.mapLayout(R.layout.item_r_medical_record, R.layout.item_medical_record);
         binding.rvRecord.setAdapter(mAdapter);
     }

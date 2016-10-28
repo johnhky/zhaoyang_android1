@@ -1,7 +1,5 @@
 package com.doctor.sun.ui.adapter;
 
-import android.content.Context;
-
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
@@ -12,8 +10,8 @@ import com.doctor.sun.ui.widget.SelectRecordDialog;
 public class SelectRecordAdapter extends SimpleAdapter {
     private final SelectRecordDialog dialog;
 
-    public SelectRecordAdapter(Context context, SelectRecordDialog listener) {
-        super(context);
+    public SelectRecordAdapter( SelectRecordDialog listener) {
+        super();
         this.dialog = listener;
     }
 

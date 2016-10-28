@@ -39,7 +39,7 @@ public class StickerViewModel {
 
     public VpIndicatorAdapter indicatorAdapter() {
         if (vpIndicatorAdapter == null) {
-            vpIndicatorAdapter = new VpIndicatorAdapter(activity.get());
+            vpIndicatorAdapter = new VpIndicatorAdapter();
             vpIndicatorAdapter.setItemCount(EmoticonManager.getPageCount());
             vpIndicatorAdapter.setSelectedPosition(0);
         }
@@ -49,7 +49,7 @@ public class StickerViewModel {
     public SimpleAdapter tabsAdapter() {
 
         if (categoryAdapter == null) {
-            categoryAdapter = new SingleSelectAdapter(activity.get(), onTabSelectedListener(), 0);
+            categoryAdapter = new SingleSelectAdapter(onTabSelectedListener(), 0);
 
             categoryAdapter.add(new ClickMenu(R.layout.item_emoji_category, R.drawable.nim_emoji_icon, "", null));
             categoryAdapter.add(new ClickMenu(R.layout.item_emoji_category, R.drawable.nim_emoji_ajmd, "", null));

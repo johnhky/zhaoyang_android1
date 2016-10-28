@@ -112,7 +112,7 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
 
     @NonNull
     public SimpleAdapter createAdapter() {
-        return new SimpleAdapter(this);
+        return new SimpleAdapter();
     }
 
     @CallSuper

@@ -45,7 +45,7 @@ public class HistoryRecordActivity extends BaseFragmentActivity2 {
     }
 
     private void initData() {
-        mAdapter = new SimpleAdapter<>(this);
+        mAdapter = new SimpleAdapter<>();
         mAdapter.mapLayout(R.layout.item_appointment, R.layout.p_item_history);
         binding.rvRecord.setAdapter(mAdapter);
         getRecordHistories();

@@ -48,7 +48,7 @@ public class CustomActionViewModel {
 
     @NonNull
     public SimpleAdapter getSimpleAdapter() {
-        SimpleAdapter adapter = new SimpleAdapter(mActivity);
+        SimpleAdapter adapter = new SimpleAdapter();
 
         adapter.add(audioChatMenu());
         adapter.add(galleryMenu());

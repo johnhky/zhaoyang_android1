@@ -43,13 +43,13 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     private boolean shouldUpdate;
     private long finishedTime;
 
-    public MessageAdapter(Context context, Appointment data) {
-        super(context);
+    public MessageAdapter( Appointment data) {
+        super();
         initData(data);
     }
 
-    public MessageAdapter(MedicineStoreActivity context, String my, String your) {
-        super(context);
+    public MessageAdapter(String my, String your) {
+        super();
         initData(my, your);
     }
 

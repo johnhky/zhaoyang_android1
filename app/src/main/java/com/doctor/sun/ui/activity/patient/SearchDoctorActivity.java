@@ -166,7 +166,7 @@ public class SearchDoctorActivity extends BaseFragmentActivity2 implements View.
     }
 
     private void initAdapter() {
-        adapter = new SimpleAdapter(this);
+        adapter = new SimpleAdapter();
         adapter.putInt(AdapterConfigKey.APPOINTMENT_TYPE, getType());
         callback = new PageCallback<Doctor>(adapter) {
 

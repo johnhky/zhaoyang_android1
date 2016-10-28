@@ -660,7 +660,7 @@ public class AppointmentHandler2 {
 
     public static void showStatusTimeline(Context context, Appointment data) {
         RecyclerView recyclerView = new RecyclerView(context);
-        SimpleAdapter adapter = new SimpleAdapter(context);
+        SimpleAdapter adapter = new SimpleAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         String[] status = new String[]{"待付款", "填问卷", "进行中", "待建议", "已完成"};

@@ -222,7 +222,7 @@ public class ContactActivity extends BaseFragmentActivity2 {
 
     @NonNull
     protected SimpleAdapter createAdapter() {
-        return new ContactAdapter(this);
+        return new ContactAdapter();
     }
 
 

@@ -61,7 +61,7 @@ public class AllowAfterServiceActivity extends BaseFragmentActivity2 {
 //
 
     private void initRecyclerView() {
-        adapter = new SimpleAdapter(this);
+        adapter = new SimpleAdapter();
         adapter.putInt(AdapterConfigKey.DOCTOR_ID, contact.getId());
         adapter.onFinishLoadMore(true);
         adapter.mapLayout(R.layout.item_r_medical_record, R.layout.item_select_record2);

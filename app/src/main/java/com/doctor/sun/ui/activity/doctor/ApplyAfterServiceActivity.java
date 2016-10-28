@@ -117,7 +117,7 @@ public class ApplyAfterServiceActivity extends BaseFragmentActivity2 {
 
 
     private void initRecyclerView() {
-        adapter = new MultiSelectAdapter(this, new MultiSelectAdapter.OnSelectionChange() {
+        adapter = new MultiSelectAdapter(new MultiSelectAdapter.OnSelectionChange() {
             @Override
             public void onSelectionChange(BaseListAdapter a, SparseBooleanArray selectedItems) {
                 binding.setIsAllSelected(adapter.isAllSelected());

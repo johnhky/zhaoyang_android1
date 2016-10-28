@@ -32,7 +32,7 @@ public class ItemReminderList extends BaseItem {
 
     public SimpleAdapter adapter(Context context) {
         if (simpleAdapter == null) {
-            simpleAdapter = new SimpleAdapter<>(context);
+            simpleAdapter = new SimpleAdapter<>();
             simpleAdapter.setData(dates);
             simpleAdapter.onFinishLoadMore(true);
             if (observer != null) {

@@ -132,7 +132,7 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
 
     @NonNull
     public SimpleAdapter createAdapter() {
-        return new SimpleAdapter(getContext());
+        return new SimpleAdapter();
     }
 
     @CallSuper

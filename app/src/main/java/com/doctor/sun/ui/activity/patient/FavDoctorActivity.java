@@ -49,7 +49,7 @@ public class FavDoctorActivity extends BaseFragmentActivity2 {
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_fav_doctor);
 //        binding.setHeader(header);
-        adapter = new SimpleAdapter(this);
+        adapter = new SimpleAdapter();
         adapter.mapLayout(R.layout.item_doctor, R.layout.p_item_document);
         adapter.putBoolean(AdapterConfigKey.IS_EDIT_MODE, false);
         binding.rvDocument.setLayoutManager(new LinearLayoutManager(this));

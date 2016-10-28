@@ -30,12 +30,12 @@ import io.ganguo.library.core.event.EventHub;
 public class RecordAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     private Appointment appointment;
 
-    public RecordAdapter(Context context) {
-        super(context);
+    public RecordAdapter() {
+        super();
     }
 
-    public RecordAdapter(Context context, Appointment appointment) {
-        super(context);
+    public RecordAdapter( Appointment appointment) {
+        super();
         this.appointment = appointment;
     }
 

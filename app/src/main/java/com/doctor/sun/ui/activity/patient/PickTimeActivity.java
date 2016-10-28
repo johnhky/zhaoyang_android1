@@ -151,7 +151,7 @@ public class PickTimeActivity extends BaseFragmentActivity2 {
 
     @NonNull
     protected PickTimeAdapter createAdapter() {
-        PickTimeAdapter simpleAdapter = new PickTimeAdapter(this, data.getType(), getDateTime());
+        PickTimeAdapter simpleAdapter = new PickTimeAdapter( data.getType(), getDateTime());
         simpleAdapter.mapLayout(R.layout.item_time, R.layout.reserve_time);
         return simpleAdapter;
     }

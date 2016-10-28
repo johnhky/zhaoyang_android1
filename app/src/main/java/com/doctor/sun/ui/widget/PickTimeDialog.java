@@ -96,7 +96,7 @@ public class PickTimeDialog extends Dialog {
 
     @NonNull
     protected PickTimeAdapter createAdapter() {
-        PickTimeAdapter simpleAdapter = new PickTimeAdapter(getContext(), type, getDateTime());
+        PickTimeAdapter simpleAdapter = new PickTimeAdapter( type, getDateTime());
         simpleAdapter.mapLayout(R.layout.item_time, R.layout.reserve_time);
         return simpleAdapter;
     }

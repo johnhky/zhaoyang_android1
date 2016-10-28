@@ -252,7 +252,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
         sendTo = data.getTid();
 
-        mAdapter = new MessageAdapter(this, data);
+        mAdapter = new MessageAdapter(data);
         binding.recyclerView.setAdapter(mAdapter);
 
         query = getRealm().where(TextMsg.class)

@@ -17,8 +17,8 @@ import java.util.ListIterator;
 public abstract class ListAdapter<T extends LayoutId, VH extends ViewDataBinding> extends LoadMoreAdapter<T, VH> {
     private List<T> data = new ArrayList<>();
 
-    public ListAdapter(Context context) {
-        super(context);
+    public ListAdapter() {
+        super();
     }
 
     public List<T> getData() {

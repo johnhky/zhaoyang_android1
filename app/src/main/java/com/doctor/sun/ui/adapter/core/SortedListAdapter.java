@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.adapter.core;
 
-import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.util.SortedListAdapterCallback;
@@ -23,13 +22,11 @@ public class SortedListAdapter<B extends ViewDataBinding> extends BaseListAdapte
     private SortedList<SortedItem> mList;
     private final Map<String, SortedItem> mUniqueMapping = new HashMap<>();
 
-    public SortedListAdapter(Context context, SortedList<SortedItem> mList) {
-        super(context);
+    public SortedListAdapter(SortedList<SortedItem> mList) {
         this.mList = mList;
     }
 
-    public SortedListAdapter(Context context) {
-        super(context);
+    public SortedListAdapter() {
         this.mList = new SortedList<>(SortedItem.class, new SortedListAdapterCallback<SortedItem>(this) {
             @Override
             public int compare(SortedItem o1, SortedItem o2) {
