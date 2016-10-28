@@ -18,6 +18,7 @@ import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.im.cache.NimUserInfoCache;
 import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.immutables.SimpleAppointment;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.ImagePreviewActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
@@ -132,7 +133,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
                 }
                 PrescriptionDTO prescriptionDTO = JacksonUtils.fromJson(body, PrescriptionDTO.class);
                 if (prescriptionDTO == null) return;
-                Appointment appointment = prescriptionDTO.getAppointmentInfo();
+                SimpleAppointment appointment = prescriptionDTO.getAppointmentInfo();
                 if (appointment != null) {
                     binding.name.setText(String.format("%s  %s", appointment.getRecord_name(), appointment.getRelation()));
                     binding.time.setText(String.format("%s  %s", appointment.getBook_time(), appointment.getDisplay_type()));

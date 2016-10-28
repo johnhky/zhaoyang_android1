@@ -31,6 +31,7 @@ public class TextMsg extends RealmObject implements LayoutId {
     public static final int REFRESH_APPOINTMENT = 66;
     public static final int EXTEND_TIME = 98;
     public static final int Drug = 99;
+    public static final int DrugV2 = 101;
 
     public static final int IMAGE = 11;
     public static final int AUDIO = 12;
