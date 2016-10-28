@@ -65,12 +65,13 @@ public class Scales extends BaseItem {
             Bundle args = ReadQTemplateFragment.getArgs(scalesId, QuestionsPath.SCALES, "", isDone);
             args.putString(Constants.IS_TEMPLATE, "1");
             Bundle drawerArgs = QuestionStatsFragment.getArgs(scalesId, "smartScaleResult");
-            Intent intent = LeftDrawerFragmentActivity.intentFor(context, scaleName, args, drawerArgs);
+
+            Intent intent = LeftDrawerFragmentActivity.intentFor(context, scaleName, "查看\n结果", args, drawerArgs);
             context.startActivity(intent);
         } else {
             Bundle args = ReadQuestionsFragment.getArgs(scalesId, QuestionsPath.SCALES, "", isDone);
             Bundle drawerArgs = QuestionStatsFragment.getArgs(scalesId, "smartScaleResult");
-            Intent intent = LeftDrawerFragmentActivity.intentFor(context, scaleName, args, drawerArgs);
+            Intent intent = LeftDrawerFragmentActivity.intentFor(context, scaleName, "查看\n结果", args, drawerArgs);
             context.startActivity(intent);
         }
     }

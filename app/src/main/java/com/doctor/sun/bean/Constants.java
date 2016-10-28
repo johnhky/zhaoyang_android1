@@ -57,6 +57,7 @@ public class Constants {
 
     public static final String FRAGMENT_NAME = "FRAGMENT_NAME";
     public static final String FRAGMENT_TITLE = "FRAGMENT_TITLE";
+    public static final String FRAGMENT_FAB_TEXT = "FRAGMENT_FAB_TEXT";
     public static final String FRAGMENT_LEFT_DRAWER = "FRAGMENT_LEFT_DRAWER";
     public static final String FRAGMENT_LEFT_DRAWER_BUNDLE = "FRAGMENT_LEFT_DRAWER_BUNDLE";
     public static final String FRAGMENT_CONTENT_BUNDLE = "FRAGMENT_CONTENT_BUNDLE";

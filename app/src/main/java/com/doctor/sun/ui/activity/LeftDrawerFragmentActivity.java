@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.view.GravityCompat;
 import android.view.View;
 import android.view.ViewStub;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -23,9 +23,14 @@ public class LeftDrawerFragmentActivity extends BaseFragmentActivity2 {
     private ActivityLeftDrawerWraperBinding binding;
 
     public static Intent intentFor(Context context, String title, Bundle contentArgs, Bundle drawerArgs) {
+        return intentFor(context, title, null, contentArgs, drawerArgs);
+    }
+
+    public static Intent intentFor(Context context, String title, String fabText, Bundle contentArgs, Bundle drawerArgs) {
         Intent intent = new Intent(context, LeftDrawerFragmentActivity.class);
         intent.putExtra(Constants.FRAGMENT_TITLE, title);
         intent.putExtra(Constants.FRAGMENT_CONTENT_BUNDLE, contentArgs);
+        intent.putExtra(Constants.FRAGMENT_FAB_TEXT, fabText);
         intent.putExtra(Constants.FRAGMENT_LEFT_DRAWER_BUNDLE, drawerArgs);
         return intent;
     }
@@ -48,16 +53,19 @@ public class LeftDrawerFragmentActivity extends BaseFragmentActivity2 {
         binding.fab.setOnInflateListener(new ViewStub.OnInflateListener() {
             @Override
             public void onInflate(ViewStub stub, View inflated) {
-                Log.e(TAG, "OnInflate: ");
+                TextView viewById = (TextView) inflated.findViewById(R.id.tv_show_drawer);
+                viewById.setText(getStringExtra(Constants.FRAGMENT_FAB_TEXT));
+
+                inflated.findViewById(R.id.fab_show_drawer).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        binding.drawerLayout.openDrawer(GravityCompat.END);
+                    }
+                });
             }
         });
-        View view = binding.fab.getViewStub().inflate();
-        view.findViewById(R.id.fab_view_result).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), "FAB", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+        binding.fab.getViewStub().inflate();
 
         getSupportFragmentManager()
                 .beginTransaction()
