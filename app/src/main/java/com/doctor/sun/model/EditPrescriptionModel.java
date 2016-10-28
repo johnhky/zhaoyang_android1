@@ -2,24 +2,34 @@ package com.doctor.sun.model;
 
 import android.databinding.Observable;
 import android.util.SparseBooleanArray;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Description;
+import com.doctor.sun.entity.DrugAutoComplete;
 import com.doctor.sun.entity.handler.PrescriptionHandler;
+import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Prescription;
+import com.doctor.sun.module.AutoComplete;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.vo.ItemAutoCompleteTextInput;
 import com.doctor.sun.vo.ItemRadioDialog;
 import com.doctor.sun.vo.ItemTextInput2;
 import com.doctor.sun.vo.validator.Validator;
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Call;
 
 /**
  * Created by rick on 26/9/2016.
@@ -34,7 +44,28 @@ public class EditPrescriptionModel {
         List<SortedItem> result = new ArrayList<>();
 
 
-        ItemTextInput2 name = new ItemTextInput2(R.layout.item_text_input2, "药名/成分名", "");
+        final ItemAutoCompleteTextInput<DrugAutoComplete> name = new ItemAutoCompleteTextInput<>(R.layout.item_auto_complete_text, "药名/成分名", "");
+
+        AutoComplete autoComplete = Api.of(AutoComplete.class);
+        autoComplete.drugNames().enqueue(new SimpleCallback<List<DrugAutoComplete>>() {
+            @Override
+            protected void handleResponse(List<DrugAutoComplete> response) {
+                name.setAllEntries(response);
+            }
+
+            @Override
+            public void onFailure(Call<ApiDTO<List<DrugAutoComplete>>> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
+
+        name.setPredicate(new Predicate<DrugAutoComplete>() {
+            @Override
+            public boolean apply(DrugAutoComplete input) {
+                return input.toString().contains(name.getResult());
+            }
+        });
+
         name.setSubTitle("(必填)");
         name.setResultNotEmpty();
         name.setItemId("drug_name");
@@ -43,11 +74,22 @@ public class EditPrescriptionModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        ItemTextInput2 productName = new ItemTextInput2(R.layout.item_text_input2, "商品名", "");
+        final ItemTextInput2 productName = new ItemTextInput2(R.layout.item_text_input2, "商品名", "");
         productName.setSubTitle("(选填)");
         productName.setItemId("scientific_name");
         productName.setResult(data.getScientific_name());
         result.add(productName);
+
+        name.setListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DrugAutoComplete drugAutoComplete = name.getFilteredEntries().get(position);
+                name.setResult(drugAutoComplete.drugName);
+                productName.setResult(drugAutoComplete.productName);
+                name.dismissDialog();
+            }
+        });
+
 
         ModelUtils.insertDividerMarginLR(result);
 
