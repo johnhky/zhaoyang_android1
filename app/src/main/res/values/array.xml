@@ -9,4 +9,21 @@
         <item>医师</item>
         <item>心理治疗师</item>
     </string-array>
+
+
+    <string-array name="unit_array">
+        <item>克</item>
+        <item>毫克</item>
+        <item>毫升</item>
+        <item>粒</item>
+    </string-array>
+
+    <string-array name="interval_array">
+        <item>每天</item>
+        <item>每周</item>
+        <item>每月</item>
+        <item>隔天</item>
+        <item>隔两天</item>
+        <item>隔三天</item>
+    </string-array>
 </resources>

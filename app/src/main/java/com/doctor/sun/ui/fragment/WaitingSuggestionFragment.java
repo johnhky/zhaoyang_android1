@@ -37,7 +37,7 @@ public class WaitingSuggestionFragment extends RefreshListFragment {
     @NonNull
     @Override
     public SimpleAdapter createAdapter() {
-        adapter = new SimpleAdapter(getContext());
+        adapter = new SimpleAdapter();
         adapter.onFinishLoadMore(true);
 
         return adapter;

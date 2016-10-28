@@ -14,8 +14,8 @@ public class SimpleAdapter<T extends LayoutId, B extends ViewDataBinding> extend
     public static final String TAG = SimpleAdapter.class.getSimpleName();
     private MapLayoutIdInterceptor layoutIdMap = new MapLayoutIdInterceptor();
 
-    public SimpleAdapter(Context context) {
-        super(context);
+    public SimpleAdapter() {
+        super();
         setLayoutIdInterceptor(layoutIdMap);
     }
 

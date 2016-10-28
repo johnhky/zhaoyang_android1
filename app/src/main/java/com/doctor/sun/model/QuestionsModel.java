@@ -6,19 +6,21 @@ import android.util.Log;
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.QuestionDTO;
+import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.FollowUpInfo;
 import com.doctor.sun.entity.Options2;
-import com.doctor.sun.entity.Prescription;
 import com.doctor.sun.entity.QuVisibilityManager;
 import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.Scales;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.entity.constans.QuestionsType;
+import com.doctor.sun.entity.handler.PrescriptionHandler;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -85,6 +87,20 @@ public class QuestionsModel {
                 int questionSize = 0;
                 if (response.questions != null) {
                     questionSize = response.questions.size();
+                }
+
+                if (questionSize == 0) {
+                    // 进行中的订单，医生建议显示【待医生诊断】
+                    Description description = new Description(R.layout.item_description, "医嘱");
+                    description.setItemId("description");
+                    description.setPosition(r.size());
+                    r.add(description);
+
+                    ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
+                    textInput.setInput("待医生诊断");
+                    textInput.setItemId("diagnosis");
+                    textInput.setPosition(r.size());
+                    r.add(textInput);
                 }
 
                 parseScales(response, r, questionSize);
@@ -229,33 +245,43 @@ public class QuestionsModel {
         vm.setPosition(i * PADDING);
         vm.setQuestionId(questions2.getKey());
         vm.setQuestionContent(questions2.questionContent);
-        if (questions2.option != null)
+        if (questions2.option != null) {
             for (Options2 options2 : questions2.option) {
-                if (options2.getSelected()) {
-                    vm.setHasAnswer(true);
-                    switch (options2.optionType) {
-                        case "A": {
+                switch (options2.optionType) {
+                    case "A": {
+                        if (options2.getSelected()) {
+                            vm.setHasAnswer(true);
                             vm.setBtnOneChecked(true);
                             vm.setDate(options2.questionContent);
-
-                            break;
                         }
-                        case "B": {
+                        vm.setBtnOneEnabled(true);
+
+                        break;
+                    }
+                    case "B": {
+                        if (options2.getSelected()) {
+                            vm.setHasAnswer(true);
                             vm.setBtnTwoChecked(true);
                             vm.setDate(options2.questionContent);
-
-                            break;
                         }
-                        case "C": {
+                        vm.setBtnTwoEnabled(true);
+
+                        break;
+                    }
+                    case "C": {
+                        if (options2.getSelected()) {
+                            vm.setHasAnswer(true);
                             vm.setBtnThreeChecked(true);
                             Doctor doctor = new Doctor();
                             doctor.fromHashMap(options2.selectedOption);
                             vm.setDoctor(doctor);
-                            break;
                         }
+                        vm.setBtnThreeEnabled(true);
+                        break;
                     }
                 }
             }
+        }
 
         items.add(vm);
     }
@@ -409,10 +435,9 @@ public class QuestionsModel {
 
         if (arrayContent != null) {
             for (int j = 0; j < arrayContent.size(); j++) {
-                Prescription prescription = new Prescription();
-                prescription.position = i * PADDING + j + 1;
-                prescription.itemId = UUID.randomUUID().toString();
-                prescription.fromHashMap(arrayContent.get(j));
+                Prescription prescription = PrescriptionHandler.fromHashMap(arrayContent.get(j));
+                prescription.setPosition(i * PADDING + j + 1);
+                prescription.setItemId(UUID.randomUUID().toString());
                 itemAddPrescription.registerItemChangedListener(prescription);
                 items.add(prescription);
             }

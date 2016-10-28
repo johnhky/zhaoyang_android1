@@ -22,8 +22,7 @@ public class AdviceHistoryActivity extends PageActivity2 {
     }
 
     public static Intent intentFor(Context context) {
-        Intent intent = new Intent(context, AdviceHistoryActivity.class);
-        return intent;
+        return new Intent(context, AdviceHistoryActivity.class);
     }
 
     public static void startForm(Context context) {

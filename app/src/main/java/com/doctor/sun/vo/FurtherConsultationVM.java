@@ -37,6 +37,10 @@ public class FurtherConsultationVM extends BaseItem {
 
     private String questionContent;
 
+    private boolean btnOneEnabled = false;
+    private boolean btnTwoEnabled = false;
+    private boolean btnThreeEnabled = false;
+
     private boolean btnOneChecked = false;
     private boolean btnTwoChecked = false;
     private boolean btnThreeChecked = false;
@@ -92,6 +96,36 @@ public class FurtherConsultationVM extends BaseItem {
     public void setBtnOneChecked(boolean btnOneChecked) {
         this.btnOneChecked = btnOneChecked;
         notifyPropertyChanged(BR.btnOneChecked);
+    }
+
+    @Bindable
+    public boolean isBtnOneEnabled() {
+        return btnOneEnabled;
+    }
+
+    public void setBtnOneEnabled(boolean btnOneEnabled) {
+        this.btnOneEnabled = btnOneEnabled;
+        notifyPropertyChanged(BR.btnOneEnabled);
+    }
+
+    @Bindable
+    public boolean isBtnTwoEnabled() {
+        return btnTwoEnabled;
+    }
+
+    public void setBtnTwoEnabled(boolean btnTwoEnabled) {
+        this.btnTwoEnabled = btnTwoEnabled;
+        notifyPropertyChanged(BR.btnTwoEnabled);
+    }
+
+    @Bindable
+    public boolean isBtnThreeEnabled() {
+        return btnThreeEnabled;
+    }
+
+    public void setBtnThreeEnabled(boolean btnThreeEnabled) {
+        this.btnThreeEnabled = btnThreeEnabled;
+        notifyPropertyChanged(BR.btnThreeEnabled);
     }
 
     @Bindable

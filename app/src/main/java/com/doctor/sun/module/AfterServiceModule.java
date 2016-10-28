@@ -5,11 +5,11 @@ import android.support.annotation.Nullable;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.Patient;
+import com.doctor.sun.immutables.Appointment;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public interface AfterServiceModule {
      * @return 用户随访订单列表
      */
     @GET("follow-up/patient-orders")
-    Call<ApiDTO<PageDTO<AfterService>>> patientOrders(@AfterService.Status @Nullable @Query("followUpType") String type, @Query("page") String page);
+    Call<ApiDTO<PageDTO<Appointment>>> patientOrders(@Nullable @Query("followUpType") String type, @Query("page") String page);
 
     /**
      * @param id     随访id
@@ -41,7 +41,7 @@ public interface AfterServiceModule {
      */
     @FormUrlEncoded
     @POST("follow-up/patient-action")
-    Call<ApiDTO<Void>> perform(@NonNull @Field("followUpId") String id, @NonNull @AfterService.Actions @Field("followUpAction") String action);
+    Call<ApiDTO<Void>> perform(@NonNull @Field("followUpId") String id, @NonNull @Field("followUpAction") String action);
 
 
     /**
@@ -64,7 +64,7 @@ public interface AfterServiceModule {
      * @return 用户随访订单列表
      */
     @GET("follow-up/doctor-orders")
-    Call<ApiDTO<PageDTO<AfterService>>> doctorOrders(@AfterService.Status @Nullable @Query("followUpType") String type, @Query("keyword") String keyword, @Query("page") String page);
+    Call<ApiDTO<PageDTO<Appointment>>> doctorOrders(@Nullable @Query("followUpType") String type, @Query("keyword") String keyword, @Query("page") String page);
 
     /**
      * @param id   病历id
@@ -72,7 +72,7 @@ public interface AfterServiceModule {
      * @return
      */
     @GET("follow-up/record-histories")
-    Call<ApiDTO<PageDTO<AfterService>>> histories(@AfterService.Status @Nullable @Query("recordId") int id, @Query("page") String page);
+    Call<ApiDTO<PageDTO<Appointment>>> histories(@Nullable @Query("recordId") int id, @Query("page") String page);
 
 
     @GET("tool/doctorInfo/{doctorId}")

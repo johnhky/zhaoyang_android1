@@ -11,13 +11,24 @@ import android.view.ViewAnimationUtils;
  */
 
 public class AnimationUtils {
+
+    @android.databinding.BindingAdapter("android:visibilityAnimate")
+    public static void visibilityWithAnimation(View view, boolean visible) {
+        if (visible) {
+            revealView(view);
+        } else {
+            hideView(view);
+        }
+    }
+
     public static void revealView(View myView) {
 
-        int cx = (myView.getLeft() + myView.getRight()) / 2;
-        int cy = (myView.getTop() + myView.getBottom()) / 2;
 
-        int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && myView.isAttachedToWindow()) {
+            int cx = (myView.getLeft() + myView.getRight()) / 2;
+            int cy = (myView.getTop() + myView.getBottom()) / 2;
+            int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
+
             Animator anim =
                     ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
 
@@ -29,14 +40,11 @@ public class AnimationUtils {
     }
 
     public static void hideView(final View myView) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && myView.isAttachedToWindow()) {
+            int cx = (myView.getLeft() + myView.getRight()) / 2;
+            int cy = (myView.getTop() + myView.getBottom()) / 2;
+            int initialRadius = myView.getWidth();
 
-        int cx = (myView.getLeft() + myView.getRight()) / 2;
-        int cy = (myView.getTop() + myView.getBottom()) / 2;
-
-        int initialRadius = myView.getWidth();
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Animator anim =
                     ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0);
 

@@ -21,10 +21,6 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 public class PAfterServiceFragment extends RefreshListFragment {
     private AfterServiceModule api = Api.of(AfterServiceModule.class);
 
-    public static Intent intentFor(Context context) {
-        Intent intent = new Intent(context, PAfterServiceFragment.class);
-        return intent;
-    }
 
     public static PAfterServiceFragment newInstance() {
 
@@ -45,14 +41,13 @@ public class PAfterServiceFragment extends RefreshListFragment {
     @Override
     public SimpleAdapter createAdapter() {
         SimpleAdapter adapter = super.createAdapter();
-        adapter.mapLayout(R.layout.item_after_service, R.layout.p_item_after_service);
+        adapter.mapLayout(R.layout.item_appointment, R.layout.p_item_after_service);
         return adapter;
     }
 
 
     public void onMenuClicked() {
         Intent intent = AfterServiceContactActivity.intentFor(getContext(), ContactActivity.PATIENTS_CONTACT);
-//        Intent intent = ContactActivity.intentFor(this, ContactActivity.PATIENTS_CONTACT, R.layout.item_contact3);
         startActivity(intent);
     }
 

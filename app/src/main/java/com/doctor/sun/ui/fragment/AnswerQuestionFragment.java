@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,10 +17,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.AfterService;
 import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.constans.QuestionsType;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.EditEndEvent;
 import com.doctor.sun.event.ModifyStatusEvent;
@@ -133,7 +134,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
     @Override
     public SortedListAdapter createAdapter() {
         SortedListAdapter adapter = super.createAdapter();
-        if (!Settings.isDoctor()) {
+        if (Settings.isDoctor()) {
             MapLayoutIdInterceptor idInterceptor = new MapLayoutIdInterceptor();
             idInterceptor.put(R.layout.item_scales, R.layout.item_r_scales);
             adapter.setLayoutIdInterceptor(idInterceptor);
@@ -172,7 +173,7 @@ public class AnswerQuestionFragment extends SortedListFragment {
                     @Override
                     public void onApplyClick(final MaterialDialog dialog) {
                         save(IntBoolean.TRUE);
-                        EventHub.post(new ModifyStatusEvent(getAppointmentId(), AfterService.Status.FINISHED));
+                        EventHub.post(new ModifyStatusEvent(getAppointmentId(), AppointmentHandler2.Status.FINISHED));
                         dialog.dismiss();
                         getActivity().finish();
                     }

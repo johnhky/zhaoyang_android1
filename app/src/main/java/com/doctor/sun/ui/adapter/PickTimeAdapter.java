@@ -20,8 +20,8 @@ public class PickTimeAdapter extends SimpleAdapter<Time, ReserveTimeBinding> {
     private int selectedItem = -1;
     private Predicate<Time> predicate;
 
-    public PickTimeAdapter(Context context, int type, long dateTime) {
-        super(context);
+    public PickTimeAdapter( int type, long dateTime) {
+        super();
         this.dateTime = dateTime;
         TYPE = type;
         predicate = new Predicate<Time>() {

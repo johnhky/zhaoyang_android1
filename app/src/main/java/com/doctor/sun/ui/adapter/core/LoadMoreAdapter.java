@@ -21,8 +21,8 @@ public abstract class LoadMoreAdapter<T extends LayoutId, VH extends ViewDataBin
     private LoadMoreListener mLoadMoreListener;
     private boolean isLastPage = false;
 
-    public LoadMoreAdapter(Context context) {
-        super(context);
+    public LoadMoreAdapter() {
+        super();
     }
 
 

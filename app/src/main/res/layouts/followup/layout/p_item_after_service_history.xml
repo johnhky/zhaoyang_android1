@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
         <variable
             name="data"
-            type="com.doctor.sun.entity.AfterService" />
+            type="com.doctor.sun.immutables.Appointment" />
 
         <variable
             name="vh"
@@ -16,11 +22,11 @@
             type="com.doctor.sun.ui.adapter.core.BaseListAdapter" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{()->data.viewDetail(context,data.id)}"
+        android:onClick="@{()->handler.viewDetail(context,data)}"
         android:orientation="vertical">
 
         <com.zhy.android.percent.support.PercentFrameLayout
@@ -77,16 +83,21 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_30"
                 android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="@dimen/dp_13"
+                android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
-                android:background="@{data.backgroundColor}"
+                android:layout_marginStart="@dimen/dp_13"
+                android:background="@{handler.getStatusBackground(data)}"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_2"
-                android:paddingRight="@dimen/dp_2"
-                android:text="@{data.displayStatus}"
-                android:textColor="@{data.statusTextColor}"
-                android:textSize="@dimen/font_13" />
+                android:paddingLeft="@dimen/dp_13"
+                android:paddingStart="@dimen/dp_13"
+                android:textSize="@dimen/font_13"
+                app:drawableRightCompat="@{handler.getStatusArrow(data)}"
+                app:html="@{handler.styledOrderStatus2(data)}"
+                tools:ignore="RtlSymmetry"
+                tools:text="进行中" />
 
 
         </com.zhy.android.percent.support.PercentFrameLayout>
@@ -116,7 +127,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text='@{"问卷发起时间:" + data.bookTime}'
+            android:text='@{"问卷发起时间:" + data.book_time}'
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 

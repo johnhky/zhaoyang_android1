@@ -11,22 +11,21 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ItemRPrescriptionBinding;
 import com.doctor.sun.databinding.MsgPrescriptionListBinding;
 import com.doctor.sun.dto.PrescriptionDTO;
-import com.doctor.sun.entity.Avatar;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
-import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.entity.im.TextMsg;
-import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.im.cache.NimUserInfoCache;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AuthModule;
-import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.ImagePreviewActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.LayoutId;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -44,13 +43,13 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     private boolean shouldUpdate;
     private long finishedTime;
 
-    public MessageAdapter(Context context, Appointment data) {
-        super(context);
+    public MessageAdapter( Appointment data) {
+        super();
         initData(data);
     }
 
-    public MessageAdapter(MedicineStoreActivity context, String my, String your) {
-        super(context);
+    public MessageAdapter(String my, String your) {
+        super();
         initData(my, your);
     }
 
@@ -90,27 +89,23 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
      */
     private void initData(String my, String your) {
         this.finishedTime = Long.MAX_VALUE;
-        ImModule api = Api.of(ImModule.class);
-        api.avatar(my, "").enqueue(new SimpleCallback<Avatar>() {
+        myAvatar = Settings.getPatientProfile().getAvatar();
+
+        NimUserInfoCache.getInstance().getUserInfoFromRemote(your, new RequestCallback<NimUserInfo>() {
             @Override
-            protected void handleResponse(Avatar response) {
-                myAvatar = response.getAvatar();
-                if (shouldUpdate) {
-                    notifyDataSetChanged();
-                } else {
-                    shouldUpdate = true;
-                }
+            public void onSuccess(NimUserInfo nimUserInfo) {
+                yourAvatar = nimUserInfo.getAvatar();
+                notifyDataSetChanged();
             }
-        });
-        api.avatar(your, "").enqueue(new SimpleCallback<Avatar>() {
+
             @Override
-            protected void handleResponse(Avatar response) {
-                yourAvatar = response.getAvatar();
-                if (shouldUpdate) {
-                    notifyDataSetChanged();
-                } else {
-                    shouldUpdate = true;
-                }
+            public void onFailed(int i) {
+
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+
             }
         });
     }
@@ -139,7 +134,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
                 if (prescriptionDTO == null) return;
                 Appointment appointment = prescriptionDTO.getAppointmentInfo();
                 if (appointment != null) {
-                    binding.name.setText(String.format("%s  %s", appointment.getRecord_name(), appointment.getRecord().getRelation()));
+                    binding.name.setText(String.format("%s  %s", appointment.getRecord_name(), appointment.getRelation()));
                     binding.time.setText(String.format("%s  %s", appointment.getBook_time(), appointment.getDisplay_type()));
                 }
 

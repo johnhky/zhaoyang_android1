@@ -54,7 +54,7 @@ public class DrugListFragment extends RefreshListFragment {
     @NonNull
     @Override
     public SimpleAdapter createAdapter() {
-        adapter = new MultiSelectAdapter(getContext());
+        adapter = new MultiSelectAdapter();
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {

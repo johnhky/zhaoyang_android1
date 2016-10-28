@@ -29,7 +29,7 @@ public abstract class BaseListAdapter<T, B extends ViewDataBinding> extends Recy
 
     private LayoutIdInterceptor idInterceptor = new DefaultLayoutIdInterceptor();
 
-    BaseListAdapter(Context context) {
+    BaseListAdapter() {
     }
 
     protected LayoutInflater getInflater(Context context) {

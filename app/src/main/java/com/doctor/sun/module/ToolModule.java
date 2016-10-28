@@ -8,6 +8,7 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Hospital;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Version;
+import com.doctor.sun.immutables.Prescription;
 
 import java.util.HashMap;
 import java.util.List;
@@ -80,4 +81,6 @@ public interface ToolModule {
 
     @GET()
     Call<ApiDTO<List<HashMap<String, String>>>> listOfItems(@Url String path);
+    @GET()
+    Call<ApiDTO<List<Prescription>>> listOfDrugs(@Url String path);
 }

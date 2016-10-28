@@ -56,7 +56,7 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_time);
-        adapter = new SimpleAdapter(this);
+        adapter = new SimpleAdapter();
         adapter.putBoolean(AdapterConfigKey.IS_EDIT_MODE, false);
         binding.rvTime.setLayoutManager(new LinearLayoutManager(this));
         binding.rvTime.setAdapter(adapter);

@@ -15,8 +15,8 @@ public class VpIndicatorAdapter extends SimpleAdapter<LayoutId, ViewDataBinding>
     private int itemCount = 0;
     private int selectedPosition = 0;
 
-    public VpIndicatorAdapter(Context context) {
-        super(context);
+    public VpIndicatorAdapter() {
+        super();
         onFinishLoadMore(true);
     }
 

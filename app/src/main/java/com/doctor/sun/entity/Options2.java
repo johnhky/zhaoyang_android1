@@ -10,6 +10,8 @@ import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.ImmutablePrescription;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.AdapterOps;
@@ -334,7 +336,7 @@ public class Options2 extends BaseItem {
                         int index = adapterPosition - i + 1;
                         try {
                             Prescription sortedItem = (Prescription) adapter.get(index);
-                            toItem.addPrescription(sortedItem.copy(), adapter);
+                            toItem.addPrescription(ImmutablePrescription.copyOf(sortedItem), adapter);
                         } catch (ClassCastException ignored) {
                             ignored.printStackTrace();
                         }
@@ -344,13 +346,11 @@ public class Options2 extends BaseItem {
             }
         } else {
             ToolModule toolModule = Api.of(ToolModule.class);
-            toolModule.listOfItems(optionContent).enqueue(new SimpleCallback<List<HashMap<String, String>>>() {
+            toolModule.listOfDrugs(optionContent).enqueue(new SimpleCallback<List<Prescription>>() {
                 @Override
-                protected void handleResponse(List<HashMap<String, String>> response) {
+                protected void handleResponse(List<Prescription> response) {
                     ItemAddPrescription2 item = (ItemAddPrescription2) adapter.get(questionId + QuestionType.drug);
-                    for (HashMap<String, String> stringStringHashMap : response) {
-                        Prescription prescription = new Prescription();
-                        prescription.fromHashMap(stringStringHashMap);
+                    for (Prescription prescription : response) {
                         item.addPrescription(prescription, adapter);
                     }
                 }
@@ -375,5 +375,9 @@ public class Options2 extends BaseItem {
             default:
                 return InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
         }
+    }
+
+    public boolean show() {
+        return !Strings.isNullOrEmpty(optionInputHint) || !Strings.isNullOrEmpty(contentHead) || !Strings.isNullOrEmpty(contentTail);
     }
 }

@@ -43,10 +43,9 @@ public class RecordPoolActivity extends PageActivity2 {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search, menu);
-        setupSearchView(menu);
-        return true;
+    protected void onPrepareHeader() {
+        super.onPrepareHeader();
+        insertSearchItem();
     }
 
     @Override

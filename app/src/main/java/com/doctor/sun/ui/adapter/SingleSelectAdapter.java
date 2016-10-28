@@ -14,8 +14,8 @@ public class SingleSelectAdapter extends SimpleAdapter {
     private final OnSelectionChange listener;
     private int selectedPosition = 0;
 
-    public SingleSelectAdapter(Context context, OnSelectionChange listener, int selectedPosition) {
-        super(context);
+    public SingleSelectAdapter(OnSelectionChange listener, int selectedPosition) {
+        super();
         this.listener = listener;
         this.selectedPosition = selectedPosition;
     }

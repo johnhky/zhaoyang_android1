@@ -3,6 +3,7 @@ package com.doctor.sun.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -114,7 +115,7 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
                         return R.layout.item_r_question;
                     }
                     case R.layout.item_scales: {
-                        if (Settings.isDoctor() && !isReadOnly) {
+                        if (!Settings.isDoctor() && !isReadOnly) {
                             return origin;
                         }
                         return R.layout.item_r_scales;

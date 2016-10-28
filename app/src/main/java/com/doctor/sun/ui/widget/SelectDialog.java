@@ -12,11 +12,11 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.DialogSelectBinding;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.event.CloseDialogEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.adapter.RecordAdapter;
@@ -82,9 +82,9 @@ public class SelectDialog extends BaseDialog implements View.OnClickListener {
     @Override
     public void initData() {
         if (appointment == null) {
-            mAdapter = new RecordAdapter(context);
+            mAdapter = new RecordAdapter();
         } else {
-            mAdapter = new RecordAdapter(context, appointment);
+            mAdapter = new RecordAdapter(appointment);
         }
 
         LinearLayoutManager layout = new LinearLayoutManager(context);

@@ -12,6 +12,8 @@ public interface AdapterOps<T> {
 
     void update(T item);
 
+    void update(int position, T item);
+
     void insertAll(List<T> items);
 
     void swapList(List<T> items);

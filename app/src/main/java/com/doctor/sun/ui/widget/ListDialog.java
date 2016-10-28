@@ -39,7 +39,7 @@ public class ListDialog extends Dialog {
     }
 
     protected void initAdapter() {
-        adapter = new SimpleAdapter(getContext());
+        adapter = new SimpleAdapter();
         callback = new PageCallback<>(adapter);
         adapter.setLoadMoreListener(new LoadMoreListener() {
             @Override

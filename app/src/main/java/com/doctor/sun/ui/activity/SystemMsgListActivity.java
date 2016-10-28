@@ -93,7 +93,7 @@ public class SystemMsgListActivity extends PageActivity2 {
     @NonNull
     @Override
     public SimpleAdapter createAdapter() {
-        SimpleAdapter adapter = new SimpleAdapter(this);
+        SimpleAdapter adapter = new SimpleAdapter();
         adapter.putLong(AdapterConfigKey.LAST_VISIT_TIME, Config.getLong(visitTimeKey, -1));
 
         return adapter;

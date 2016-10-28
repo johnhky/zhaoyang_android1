@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
         <variable
             name="data"
-            type="com.doctor.sun.entity.AfterService" />
+            type="com.doctor.sun.immutables.Appointment" />
 
         <variable
             name="vh"
@@ -19,8 +24,8 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{()->data.viewDetail(context,data.id)}"
         android:background="@drawable/ripple_default"
+        android:onClick="@{()->handler.viewDetail(context, data)}"
         android:orientation="vertical">
 
         <LinearLayout
@@ -34,7 +39,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.record.recordName}"
+                android:text="@{data.record.recordName, default = 病历名}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
@@ -43,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_weight="1"
-                android:text='@{"("+data.record.relation+")"}'
+                android:text='@{"("+data.record.relation+")", default = 关系}'
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13" />
 
@@ -52,13 +57,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginRight="@dimen/dp_13"
-                android:background="@{data.backgroundColor}"
+                android:background="@{handler.getStatusBackground(data)}"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_2"
                 android:paddingRight="@dimen/dp_2"
-                android:text="@{data.displayStatus}"
-                android:textColor="@{data.statusTextColor}"
-                android:textSize="@dimen/font_13" />
+                android:text="@{data.display_status, default = 订单状态}"
+                android:textSize="@dimen/font_13"
+                app:html="@{handler.styledOrderStatus(data)}"/>
 
 
         </LinearLayout>
@@ -67,8 +72,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_marginTop="@dimen/dp_6"
             android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
             android:background="#c1cacf" />
 
         <TextView
@@ -84,14 +89,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_8"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:layout_marginBottom="@dimen/dp_8"
-            android:text='@{"问卷发起时间:" + data.bookTime}'
+            android:text='@{"问卷发起时间:" + data.book_time}'
             android:textColor="#363636"
-            android:textSize="@dimen/font_13"/>
-
+            android:textSize="@dimen/font_13" />
 
 
         <View

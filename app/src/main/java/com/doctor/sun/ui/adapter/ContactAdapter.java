@@ -21,8 +21,8 @@ public class ContactAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> imp
     private int lastItemSize = 0;
     private SparseIntArray positions;
 
-    public ContactAdapter(Context context) {
-        super(context);
+    public ContactAdapter() {
+        super();
     }
 
 

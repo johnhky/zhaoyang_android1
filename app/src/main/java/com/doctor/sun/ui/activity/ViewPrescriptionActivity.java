@@ -9,7 +9,8 @@ import android.view.inputmethod.EditorInfo;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityViewPrescriptionBinding;
-import com.doctor.sun.entity.Prescription;
+import com.doctor.sun.immutables.Prescription;
+import com.doctor.sun.util.JacksonUtils;
 
 import java.util.ArrayList;
 
@@ -24,13 +25,14 @@ public class ViewPrescriptionActivity extends BaseFragmentActivity2 {
 
     public static Intent makeIntent(Context context, Prescription data) {
         Intent i = new Intent(context, ViewPrescriptionActivity.class);
-        i.putExtra(Constants.DATA, data);
+        i.putExtra(Constants.DATA, JacksonUtils.toJson(data));
         return i;
     }
 
 
     private Prescription getData() {
-        return getIntent().getParcelableExtra(Constants.DATA);
+        String stringExtra = getIntent().getStringExtra(Constants.DATA);
+        return JacksonUtils.fromJson(stringExtra, Prescription.class);
     }
 
     @Override
@@ -92,22 +94,22 @@ public class ViewPrescriptionActivity extends BaseFragmentActivity2 {
     public void initData() {
         Prescription data = getData();
         if (data == null) return;
-        binding.medicineName.etInput.setText(data.getDrugName());
-        binding.goodsName.etInput.setText(data.getScientificName());
-        binding.morning.etInput.setText(data.getNumbers().get(0).get("早"));
-        binding.afternoon.etInput.setText(data.getNumbers().get(1).get("午"));
-        binding.evening.etInput.setText(data.getNumbers().get(2).get("晚"));
-        binding.night.etInput.setText(data.getNumbers().get(3).get("睡前"));
+        binding.medicineName.etInput.setText(data.getDrug_name());
+        binding.goodsName.etInput.setText(data.getScientific_name());
+        binding.morning.etInput.setText(data.getMorning());
+        binding.afternoon.etInput.setText(data.getNoon());
+        binding.evening.etInput.setText(data.getNight());
+        binding.night.etInput.setText(data.getBefore_sleep());
         for (int i = 0; i < units.size(); i++) {
-            if (units.get(i).equals(data.getUnit())) {
+            if (units.get(i).equals(data.getDrug_unit())) {
                 binding.unit.setSelectedItem(i);
-                binding.unit.etInput.setText(data.getUnit());
+                binding.unit.etInput.setText(data.getDrug_unit());
             }
         }
         for (int i = 0; i < intervals.size(); i++) {
-            if (intervals.get(i).equals(data.getInterval())) {
+            if (intervals.get(i).equals(data.getFrequency())) {
                 binding.interval.setSelectedItem(i);
-                binding.interval.etInput.setText(data.getInterval());
+                binding.interval.etInput.setText(data.getFrequency());
             }
         }
         binding.remark.setInput(data.getRemark());

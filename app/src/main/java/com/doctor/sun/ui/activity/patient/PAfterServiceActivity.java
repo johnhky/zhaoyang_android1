@@ -17,8 +17,7 @@ import com.doctor.sun.ui.pager.PatientRelationshipListPA;
 public class PAfterServiceActivity extends TabActivity {
 
     public static Intent intentFor(Context context) {
-        Intent intent = new Intent(context, PAfterServiceActivity.class);
-        return intent;
+        return new Intent(context, PAfterServiceActivity.class);
     }
 
     public static Intent intentFor(Context context, int position) {
@@ -38,26 +37,8 @@ public class PAfterServiceActivity extends TabActivity {
 
     public void onMenuClicked() {
         Intent intent = AfterServiceContactActivity.intentFor(this, ContactActivity.PATIENTS_CONTACT);
-//        Intent intent = ContactActivity.intentFor(this, ContactActivity.PATIENTS_CONTACT, R.layout.item_contact3);
         startActivity(intent);
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_doctor_list, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_doctor_list: {
-//                onMenuClicked();
-//                return true;
-//            }
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     public int getMidTitle() {

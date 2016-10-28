@@ -9,6 +9,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.validator.NotNullOrEmptyValidator;
 import com.doctor.sun.vo.validator.Validator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Strings;
 
 import java.util.HashMap;
@@ -66,6 +67,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         this.itemLayoutId = itemLayoutId;
     }
 
+    @JsonIgnore
     public boolean isEnabled() {
         return enabled;
     }
@@ -75,6 +77,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         notifyChange();
     }
 
+    @JsonIgnore
     public boolean isVisible() {
         return visible;
     }
@@ -88,6 +91,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         this.enabled = enabled;
     }
 
+    @JsonIgnore
     @Bindable
     public long getPosition() {
         return position;
@@ -106,21 +110,30 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         this.itemId = itemId;
     }
 
+    @JsonIgnore
+    public String getItemId() {
+        return itemId;
+    }
+
+    @JsonIgnore
     @Override
     public int getLayoutId() {
         return getItemLayoutId();
     }
 
+    @JsonIgnore
     @Override
     public long getCreated() {
         return -position;
     }
 
+    @JsonIgnore
     @Override
     public String getKey() {
         return itemId;
     }
 
+    @JsonIgnore
     @Bindable
     public String getTitle() {
         return title;
@@ -131,11 +144,13 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         notifyPropertyChanged(BR.title);
     }
 
+    @JsonIgnore
     @Override
     public String getValue() {
         return "";
     }
 
+    @JsonIgnore
     private int getResultVerifyMode() {
         return resultVerifyMode;
     }
@@ -144,6 +159,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         this.resultVerifyMode = resultVerifyMode;
     }
 
+    @JsonIgnore
     public boolean resultCanEmpty() {
         return getResultVerifyMode() != NOT__EMPTY_OR_NULL;
     }
@@ -167,6 +183,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         notifyPropertyChanged(BR.error);
     }
 
+    @JsonIgnore
     public boolean isValid(String ignoredInput) {
         String result = getValue();
         boolean isResultEmpty = result == null || result.equals("");
@@ -194,11 +211,13 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         return true;
     }
 
+    @JsonIgnore
     @Override
     public String errorMsg() {
         return error;
     }
 
+    @JsonIgnore
     @Bindable
     public String getError() {
         return error;
@@ -226,11 +245,13 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         }
     }
 
+    @JsonIgnore
     @Override
     public int getSpan() {
         return span;
     }
 
+    @JsonIgnore
     @Override
     @Bindable
     public boolean isUserSelected() {

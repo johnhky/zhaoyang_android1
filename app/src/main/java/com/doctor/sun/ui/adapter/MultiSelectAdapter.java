@@ -16,18 +16,18 @@ public class MultiSelectAdapter extends SimpleAdapter<LayoutId, ViewDataBinding>
     private final OnSelectionChange listener;
     private SparseBooleanArray selectedState = new SparseBooleanArray();
 
-    public MultiSelectAdapter(Context context) {
-        super(context);
+    public MultiSelectAdapter() {
+        super();
         listener = null;
     }
 
-    public MultiSelectAdapter(Context context, OnSelectionChange listener) {
-        super(context);
+    public MultiSelectAdapter(OnSelectionChange listener) {
+        super();
         this.listener = listener;
     }
 
-    public MultiSelectAdapter(Context context, OnSelectionChange listener, SparseBooleanArray initState) {
-        super(context);
+    public MultiSelectAdapter( OnSelectionChange listener, SparseBooleanArray initState) {
+        super();
         this.listener = listener;
         selectedState = initState;
     }

@@ -117,8 +117,7 @@ public class ChattingRecordActivity extends BaseFragmentActivity2 {
     }
 
     private void initData() {
-        mAdapter = new MsgsAdapter(ChattingRecordActivity.this,
-                (Appointment) getIntent().getParcelableExtra(Constants.PARAM_APPOINTMENT));
+        mAdapter = new MsgsAdapter((Appointment) getIntent().getParcelableExtra(Constants.PARAM_APPOINTMENT));
         mAdapter.onFinishLoadMore(true);
         binding.rvMsgs.setAdapter(mAdapter);
         realm = Realm.getDefaultInstance();

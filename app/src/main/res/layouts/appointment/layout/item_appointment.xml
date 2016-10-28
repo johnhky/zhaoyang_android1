@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -40,9 +41,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.record.patientName,default = 患者名}"
+                android:text="@{data.record.patientName}"
                 android:textColor="#363636"
-                android:textSize="@dimen/font_15" />
+                android:textSize="@dimen/font_15"
+                tools:text="患者名" />
 
             <TextView
                 android:layout_width="0dp"
@@ -50,9 +52,10 @@
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_marginStart="@dimen/dp_8"
                 android:layout_weight="1"
-                android:text="@{data.record.relation, default = 关系}"
+                android:text="@{handler.getRelationWithPatient(data)}"
                 android:textColor="#898989"
-                android:textSize="@dimen/font_13" />
+                android:textSize="@dimen/font_13"
+                tools:text="患者的朋友" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -61,7 +64,8 @@
                 android:layout_marginStart="@dimen/dp_8"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13"
-                app:html="@{handler.styledOrderStatus(data)}" />
+                app:html="@{handler.styledOrderStatus(data)}"
+                tools:text="进行中" />
 
         </LinearLayout>
 
@@ -71,9 +75,10 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_time(data.book_time),default = 预约时间}"
+            android:text="@{@string/appointment_time(data.book_time)}"
             android:textColor="#363636"
-            android:textSize="@dimen/font_13" />
+            android:textSize="@dimen/font_13"
+            tools:text="预约时间" />
 
         <TextView
             android:layout_width="match_parent"
@@ -81,9 +86,10 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_type(data.display_type),default = 专属咨询}"
+            android:text="@{@string/appointment_type(data.display_type)}"
             android:textColor="#363636"
-            android:textSize="@dimen/font_13" />
+            android:textSize="@dimen/font_13"
+            tools:text="专属咨询" />
 
         <TextView
             android:layout_width="match_parent"
@@ -91,9 +97,10 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_progress(data.progress),default = 问卷完成度 }"
+            android:text="@{@string/appointment_progress(data.progress)}"
             android:textColor="#363636"
-            android:textSize="@dimen/font_13" />
+            android:textSize="@dimen/font_13"
+            tools:text="问卷完成度 " />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -114,16 +121,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{data.record.patientName}"
+                android:text="@{data.record.recordName}"
                 android:textColor="#363636"
-                android:textSize="@dimen/font_12" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_8"
-                android:text="@{data.record.relation}"
-                android:textColor="#898989"
                 android:textSize="@dimen/font_12" />
 
         </LinearLayout>

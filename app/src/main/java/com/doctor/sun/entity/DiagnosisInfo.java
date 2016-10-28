@@ -3,6 +3,8 @@ package com.doctor.sun.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.doctor.sun.immutables.Prescription;
+import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -435,7 +437,6 @@ public class DiagnosisInfo implements Parcelable {
         dest.writeInt(this.recovered);
         dest.writeInt(this.treatment);
         dest.writeInt(this.effect);
-        dest.writeTypedList(this.prescription);
         dest.writeString(this.doctorAdvince);
         dest.writeInt(this.returnX);
         dest.writeInt(this.returnType);
@@ -475,7 +476,6 @@ public class DiagnosisInfo implements Parcelable {
         this.recovered = in.readInt();
         this.treatment = in.readInt();
         this.effect = in.readInt();
-        this.prescription = in.createTypedArrayList(Prescription.CREATOR);
         this.doctorAdvince = in.readString();
         this.returnX = in.readInt();
         this.returnType = in.readInt();

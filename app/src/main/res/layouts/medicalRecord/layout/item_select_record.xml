@@ -18,7 +18,7 @@
 
         <variable
             name="adapter"
-            type="com.doctor.sun.ui.adapter.core.BaseListAdapter" />
+            type="com.doctor.sun.ui.adapter.MultiSelectAdapter" />
     </data>
 
     <com.zhy.android.percent.support.PercentFrameLayout
@@ -37,6 +37,7 @@
             android:enabled='@{data.canFollowUp.equals("1")}'
             android:gravity="center"
             android:paddingLeft="@dimen/dp_10"
+            android:onClick="@{adapter.onItemClick(adapter, vh)}"
             android:selected="@{adapter.isSelected(vh)}" />
 
 

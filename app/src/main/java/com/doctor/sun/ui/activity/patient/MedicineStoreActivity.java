@@ -135,7 +135,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 
     private void initChat(String sendTo) {
         binding.rvChat.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
-        mChatAdapter = new MessageAdapter(this, IMManager.getInstance().getMyAccount(), sendTo);
+        mChatAdapter = new MessageAdapter(IMManager.getInstance().getMyAccount(), sendTo);
         binding.rvChat.setAdapter(mChatAdapter);
 
         query = getRealm().where(TextMsg.class)
@@ -202,7 +202,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 
     private void initAppointment() {
         binding.rvPrescription.setLayoutManager(new LinearLayoutManager(this));
-        mAppointmentAdapter = new SimpleAdapter(this);
+        mAppointmentAdapter = new SimpleAdapter();
         mAppointmentAdapter.mapLayout(R.layout.item_appointment, R.layout.item_medicine_helper);
         binding.rvPrescription.setAdapter(mAppointmentAdapter);
         PageCallback<Appointment> pageCallback = new PageCallback<Appointment>(mAppointmentAdapter) {
@@ -221,14 +221,6 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         api.appointments(pageCallback.getPage()).enqueue(pageCallback);
     }
 
-    //    public void onMenuClicked() {
-//    }
-//
-//    private void makePhoneCall() {
-//        IMManager.getInstance().makePhoneCall(sendTo);
-//        Intent i = VoIPCallActivity.makeIntent(MedicineStoreActivity.this, VoIPCallActivity.CALLING, sendTo);
-//        startActivity(i);
-//    }
 
     @Override
     protected void onStart() {
@@ -269,7 +261,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     }
 
     @Override
-    public String getP2PId() {
+    public String getTargetP2PId() {
         return sendTo;
     }
 

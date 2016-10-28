@@ -64,7 +64,7 @@ public class Prescription extends BaseItem implements Parcelable {
     @JsonProperty("productName")
     private String scientificName;
     @JsonProperty("interval")
-    private String interval;
+    private String interval = "";
     @JsonProperty("numbers")
     private List<HashMap<String, String>> numbers;
     @JsonProperty("unit")
@@ -139,43 +139,43 @@ public class Prescription extends BaseItem implements Parcelable {
         this.remark = remark;
     }
 
-    public void modify(Context context) {
-        Intent intent = EditPrescriptionActivity.makeIntent(context, Prescription.this);
-        Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                switch (msg.what) {
-                    case DiagnosisFragment.EDIT_PRESCRITPION: {
-                        Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
-                        if (parcelable == null) {
-                            return false;
-                        }
-                        drugName = parcelable.drugName;
-                        scientificName = parcelable.scientificName;
-                        interval = parcelable.interval;
-                        numbers = parcelable.numbers;
-                        unit = parcelable.unit;
-                        remark = parcelable.remark;
-                        isVisible = parcelable.isVisible;
-                        notifyChange();
-                    }
-                }
-                return false;
-            }
-        }));
-        intent.putExtra(Constants.HANDLER, messenger);
-        context.startActivity(intent);
-    }
-
-    public View.OnClickListener viewDetail() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = ViewPrescriptionActivity.makeIntent(v.getContext(), Prescription.this);
-                v.getContext().startActivity(intent);
-            }
-        };
-    }
+//    public void modify(Context context) {
+//        Intent intent = EditPrescriptionActivity.makeIntent(context, Prescription.this);
+//        Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
+//            @Override
+//            public boolean handleMessage(Message msg) {
+//                switch (msg.what) {
+//                    case DiagnosisFragment.EDIT_PRESCRITPION: {
+//                        Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
+//                        if (parcelable == null) {
+//                            return false;
+//                        }
+//                        drugName = parcelable.drugName;
+//                        scientificName = parcelable.scientificName;
+//                        interval = parcelable.interval;
+//                        numbers = parcelable.numbers;
+//                        unit = parcelable.unit;
+//                        remark = parcelable.remark;
+//                        isVisible = parcelable.isVisible;
+//                        notifyChange();
+//                    }
+//                }
+//                return false;
+//            }
+//        }));
+//        intent.putExtra(Constants.HANDLER, messenger);
+//        context.startActivity(intent);
+//    }
+//
+//    public View.OnClickListener viewDetail() {
+//        return new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = ViewPrescriptionActivity.makeIntent(v.getContext(), Prescription.this);
+//                v.getContext().startActivity(intent);
+//            }
+//        };
+//    }
 
     public List<HashMap<String, String>> getNumbers() {
         return numbers;
@@ -183,6 +183,17 @@ public class Prescription extends BaseItem implements Parcelable {
 
     public void setNumbers(List<HashMap<String, String>> numbers) {
         this.numbers = numbers;
+    }
+
+    public String intervalAt(int position) {
+        if (getNumbers() == null || getNumbers().isEmpty() || getNumbers().size() < position) {
+            return "";
+        }
+        HashMap<String, String> stringStringHashMap = getNumbers().get(position);
+        if (stringStringHashMap == null) {
+            return "";
+        }
+        return stringStringHashMap.get(keys.get(position));
     }
 
     @JsonIgnore
@@ -194,21 +205,22 @@ public class Prescription extends BaseItem implements Parcelable {
         } else {
             builder.append(",");
         }
-        if (!interval.equals("每天")) {
+        if (!"每天".equals(interval)) {
             builder.append(interval).append(":");
         }
 
-        for (int i = 0; i < numbers.size(); i++) {
-            String amount = numbers.get(i).get(keys.get(i));
-            if (null != amount && !amount.equals("")) {
-                try {
-                    double amountDouble = Double.parseDouble(amount);
-                    if (amountDouble > 0) {
-                        builder.append(keys.get(i)).append(amount).append(unit);
-                        builder.append(",");
+        if (numbers != null) {
+            for (int i = 0; i < numbers.size(); i++) {
+                String amount = numbers.get(i).get(keys.get(i));
+                if (null != amount && !amount.equals("")) {
+                    try {
+                        double amountDouble = Double.parseDouble(amount);
+                        if (amountDouble > 0) {
+                            builder.append(keys.get(i)).append(amount).append(unit);
+                            builder.append(",");
+                        }
+                    } catch (Exception e) {
                     }
-                } catch (Exception e) {
-
                 }
             }
         }
@@ -391,6 +403,9 @@ public class Prescription extends BaseItem implements Parcelable {
     }
 
     public void fromHashMap(Map<String, String> map) {
+        if (map == null) {
+            return;
+        }
         drugName = map.get("drug_name");
         scientificName = map.get("scientific_name");
         interval = map.get("frequency");

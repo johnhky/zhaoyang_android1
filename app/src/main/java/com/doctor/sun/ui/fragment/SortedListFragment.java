@@ -73,7 +73,7 @@ public class SortedListFragment extends BaseFragment implements SwipeRefreshLayo
 
     @NonNull
     public SortedListAdapter createAdapter() {
-        return new SortedListAdapter(getContext());
+        return new SortedListAdapter();
     }
 
     @CallSuper

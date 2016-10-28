@@ -11,7 +11,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -47,16 +46,17 @@ import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.CancelAppointmentActivity;
+import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
 import com.doctor.sun.ui.activity.doctor.PatientDetailActivity;
 import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.activity.patient.FinishedOrderActivity;
-import com.doctor.sun.ui.activity.patient.HistoryDetailActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.fragment.PayAppointmentFragment;
+import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.vo.BaseItem;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
@@ -104,7 +104,7 @@ public class AppointmentHandler2 {
     }
 
     public static String getRelationWithPatient(Appointment data) {
-        return getPatientName(data) + "(患者的" + data.getRecord().getRelation() + ")";
+        return "(患者的" + data.getRecord().getRelation() + ")";
     }
 
     public static String getRelation(Appointment data) {
@@ -171,9 +171,6 @@ public class AppointmentHandler2 {
         api.buildWeChatOrder(id, "wechat", couponId).enqueue(new WeChatPayCallback(activity, data));
     }
 
-    public static void simulatedPay(final BaseListAdapter component, final View view, final BaseViewHolder vh, Appointment data) {
-        simulatedPayImpl(data);
-    }
 
     public static void simulatedPayImpl(final Appointment data) {
         final PayCallback mCallback = new PayCallback() {
@@ -280,28 +277,28 @@ public class AppointmentHandler2 {
     }
 
     public static void chat(Context context, Appointment data) {
-//        if ("0".equals(data.getTid())) {
-//            Intent intent = ChattingActivity.makeIntent(context, data);
-//            context.startActivity(intent);
-//        } else {
-//            if (BuildConfig.DEV_MODE) {
-//                Toast.makeText(context, "云信群id为0", Toast.LENGTH_SHORT).show();
-//            }
-//        }
+        if (!"0".equals(data.getTid())) {
+            Intent intent = ChattingActivity.makeIntent(context, data);
+            context.startActivity(intent);
+        } else {
+            if (BuildConfig.DEV_MODE) {
+                Toast.makeText(context, "云信群id为0", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     public static void chat(BaseListAdapter adapter, BaseViewHolder vh, Appointment data) {
-//        if ("0".equals(data.getTid())) {
-//            Intent intent = ChattingActivity.makeIntent(vh.itemView.getContext(), data);
-//            if (adapter != null && vh != null) {
-//                ItemHelper.initCallback(intent, adapter, vh);
-//            }
-//            vh.itemView.getContext().startActivity(intent);
-//        } else {
-//            if (BuildConfig.DEV_MODE) {
-//                Toast.makeText(vh.itemView.getContext(), "云信群id为0", Toast.LENGTH_SHORT).show();
-//            }
-//        }
+        if (!"0".equals(data.getTid())) {
+            Intent intent = ChattingActivity.makeIntent(vh.itemView.getContext(), data);
+            if (adapter != null) {
+                ItemHelper.initCallback(intent, adapter, vh);
+            }
+            vh.itemView.getContext().startActivity(intent);
+        } else {
+            if (BuildConfig.DEV_MODE) {
+                Toast.makeText(vh.itemView.getContext(), "云信群id为0", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     public static void chatNoMenu(Context context, Appointment data) {
@@ -333,11 +330,19 @@ public class AppointmentHandler2 {
         return (int) data.getTake_time();
     }
 
-    public static Intent getFirstMenu(Context context, int canEdit, int tab, Appointment data) {
+    public static Intent getFirstMenu(Context context, int tab, Appointment data) {
         if (isAfterService(data)) {
             String id = String.valueOf(data.getId());
-            if (canEdit == IntBoolean.FALSE) {
-                return AfterServiceDoneActivity.intentFor(context, id, tab);
+            if (Status.FINISHED == data.getStatus()) {
+                if (Settings.isDoctor()) {
+                    if (data.getCan_edit() != IntBoolean.FALSE) {
+                        return AfterServiceDoingActivity.intentFor(context, id, data.getRecord_id(), tab);
+                    } else {
+                        return AfterServiceDoneActivity.intentFor(context, id, tab);
+                    }
+                } else {
+                    return AfterServiceDoneActivity.intentFor(context, id, tab);
+                }
             } else {
                 String recordId = String.valueOf(data.getRecord_id());
                 return AfterServiceDoingActivity.intentFor(context, id, recordId, tab);
@@ -352,8 +357,8 @@ public class AppointmentHandler2 {
     public static int getDiscountMoney(Appointment data) {
         try {
             double money = data.getMoney();
-            double unpayMoney = data.getNeed_pay();
-            return (int) (money - unpayMoney);
+            double needPayMoney = data.getNeed_pay();
+            return (int) (money - needPayMoney);
         } catch (ClassCastException e) {
             return 0;
         }
@@ -430,8 +435,7 @@ public class AppointmentHandler2 {
             }
             case Status.FINISHED: {
                 chat(adapter, vh, data);
-                Intent intent = HistoryDetailActivity.makeIntent(vh.itemView.getContext(), data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY);
-                vh.itemView.getContext().startActivity(intent);
+                viewDetail(vh.itemView.getContext(), data);
                 break;
             }
             case Status.DOING:
@@ -493,18 +497,11 @@ public class AppointmentHandler2 {
     }
 
 
-    public static void makePhoneCall(final Context context,Appointment data) {
-        AVChatActivity.start(context, getP2PId(data), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+    public static void makePhoneCall(final Context context, Appointment data) {
+        AVChatActivity.start(context, getTargetP2PId(data), AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
     }
 
     public static void callTelephone(final Context context, Appointment data) {
-//        ImModule imModule = Api.of(ImModule.class);
-//        imModule.makeYunXinPhoneCall(getMyPhoneNO(), getPhoneNO()).enqueue(new SimpleCallback<String>() {
-//            @Override
-//            protected void handleResponse(String response) {
-//                Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
-//            }
-//        });
         ImModule imModule = Api.of(ImModule.class);
         imModule.makeYunXinPhoneCall(data.getId()).enqueue(new SimpleCallback<String>() {
             @Override
@@ -514,9 +511,13 @@ public class AppointmentHandler2 {
         });
     }
 
-    public static String getP2PId(Appointment data) {
+    public static String getTargetP2PId(Appointment data) {
         if (Settings.isDoctor()) {
-            return data.getYunxin_accid();
+            if (data.getRecord() != null) {
+                return data.getRecord().getYunxinAccid();
+            } else {
+                return data.getYunxin_accid();
+            }
         } else {
             if (data.getDoctor() != null) {
                 return data.getDoctor().getYunxinAccid();
@@ -526,41 +527,11 @@ public class AppointmentHandler2 {
         }
     }
 
-    public static String styledOrderStatus(Appointment data) {
-        return "<font color='" + getStatusColor(data) + "'>" + getStatusLabel(data) + "</font>";
-    }
-
-    public static String styledOrderTypeAndStatus(Appointment data) {
-        return "<font color='" + getStatusColor(data) + "'>" + data.getDisplay_type() + "-" + getStatusLabel(data) + "</font>";
-    }
-
-
-    public static String getStatusColor(Appointment data) {
-        switch (data.getStatus()) {
-            case Status.FINISHED:
-                return "#363636";
-
-            case Status.UNPAID:
-                return "#ff1800";
-
-            case Status.PAID:
-                return "#ff8e43";
-
-            case Status.WAITING:
-                return "#ff1800";
-
-            case Status.DOING:
-                return "#88cb5a";
-
-            case Status.LOCKED:
-            case Status.CANCEL:
-                return "#898989";
-            default:
-                return "#acacac";
-        }
-    }
 
     public static boolean isFinished(Appointment data) {
+        if (data.getStatus() == Status.DOING) {
+            return false;
+        }
         return getFinishedTime(data) < System.currentTimeMillis();
     }
 
@@ -570,11 +541,7 @@ public class AppointmentHandler2 {
      * @return
      */
     public static long getFinishedTime(Appointment data) {
-        int orderStatus = data.getStatus();
-//        if (orderStatus == null) {
-//            orderStatus = "";
-//        }
-        if (orderStatus == Status.FINISHED) {
+        if (data.getStatus() == Status.FINISHED) {
             return 0;
         }
 
@@ -628,8 +595,7 @@ public class AppointmentHandler2 {
     }
 
     public static RealmResults<TextMsg> sortedByTime(RealmQuery<TextMsg> query) {
-        RealmResults<TextMsg> results = query.findAllSorted("time");
-        return results;
+        return query.findAllSorted("time");
     }
 
     public static RealmQuery<TextMsg> unreadMsg(RealmQuery<TextMsg> query) {
@@ -661,19 +627,26 @@ public class AppointmentHandler2 {
         return getCurrentStatus(data) == 1;
     }
 
-    public static void viewDetail(final Context context, final int tab, Appointment data) {
+    public static void viewDetail(final Context context, Appointment data) {
+        if (isFinished(data)) {
+            viewDetail(context, 1, data);
+        } else {
+            viewDetail(context, 0, data);
+        }
+    }
 
+    public static void viewDetail(final Context context, final int tab, Appointment data) {
         AppointmentModule api = Api.of(AppointmentModule.class);
         api.appointmentDetail(data.getId()).enqueue(new SimpleCallback<Appointment>() {
             @Override
             protected void handleResponse(Appointment response) {
-                answerQuestion(context, tab, response.getCan_edit(), response);
+                answerQuestion(context, tab, response);
             }
         });
     }
 
-    public static void answerQuestion(Context context, int tab, int canEdit, Appointment data) {
-        Intent i = getFirstMenu(context, canEdit, tab, data);
+    public static void answerQuestion(Context context, int tab, Appointment data) {
+        Intent i = getFirstMenu(context, tab, data);
         if (i != null) {
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
@@ -687,7 +660,7 @@ public class AppointmentHandler2 {
 
     public static void showStatusTimeline(Context context, Appointment data) {
         RecyclerView recyclerView = new RecyclerView(context);
-        SimpleAdapter adapter = new SimpleAdapter(context);
+        SimpleAdapter adapter = new SimpleAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         String[] status = new String[]{"待付款", "填问卷", "进行中", "待建议", "已完成"};
@@ -708,6 +681,7 @@ public class AppointmentHandler2 {
         builder.positiveText("确定");
         builder.customView(recyclerView, true).show();
     }
+
 
     public static int getCurrentStatus(Appointment data) {
         switch (data.getStatus()) {
@@ -782,11 +756,46 @@ public class AppointmentHandler2 {
         }
     }
 
-
-    public static String styledOrderStatus2(Appointment data) {
-        return "<font color='" + getStatusColor2(data) + "'>" + getStatusLabel(data) + "</font>";
+    public static String styledOrderStatus(Appointment data) {
+        return String.format("<font color='%s'>%s</font>", getStatusColor(data), getStatusLabel(data));
     }
 
+    public static String styledOrderTypeAndStatus(Appointment data) {
+        return String.format("<font color='%s'>%s-%s</font>", getStatusColor(data), data.getDisplay_type(), getStatusLabel(data));
+    }
+
+
+    public static String getStatusColor(Appointment data) {
+        switch (data.getStatus()) {
+            case Status.FINISHED:
+                return "#363636";
+
+            case Status.UNPAID:
+                return "#ff1800";
+
+            case Status.PAID:
+                return "#ff8e43";
+
+            case Status.WAITING:
+                return "#ff1800";
+
+            case Status.DOING:
+                return "#88cb5a";
+
+            case Status.LOCKED:
+            case Status.CANCEL:
+                return "#898989";
+            default:
+                return "#acacac";
+        }
+    }
+
+    @Deprecated
+    public static String styledOrderStatus2(Appointment data) {
+        return String.format("<font color='%s'>%s</font>", getStatusColor2(data), getStatusLabel(data));
+    }
+
+    @Deprecated
     public static String getStatusColor2(Appointment data) {
         switch (data.getStatus()) {
             case Status.FINISHED:

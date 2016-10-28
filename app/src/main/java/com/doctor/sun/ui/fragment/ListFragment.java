@@ -75,7 +75,7 @@ public class ListFragment extends BaseFragment {
 
     @NonNull
     public SimpleAdapter createAdapter() {
-        return new SimpleAdapter(getContext());
+        return new SimpleAdapter();
     }
 
     protected void loadMore() {

@@ -61,7 +61,7 @@ public class RecordListActivity extends BaseFragmentActivity2 {
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_record_list);
-        mAdapter = new SimpleAdapter(this);
+        mAdapter = new SimpleAdapter();
         mAdapter.mapLayout(R.layout.item_r_medical_record, R.layout.p_item_recordlist);
         binding.rvList.setLayoutManager(new LinearLayoutManager(this));
         binding.rvList.setAdapter(mAdapter);

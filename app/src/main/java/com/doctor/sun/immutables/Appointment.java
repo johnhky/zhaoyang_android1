@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import org.immutables.value.Value;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,7 +52,7 @@ public abstract class Appointment implements LayoutId {
 
     @Value.Default
     public String getVisit_time() {
-       return "";
+        return "";
     }
 
     public abstract String getEnd_time();
@@ -65,6 +64,28 @@ public abstract class Appointment implements LayoutId {
 
     public abstract String getRecord_id();
 
+
+    /**
+     * 不要用这个接口，这个只在用药信息里面会用到
+     *
+     * @return
+     */
+    @Deprecated
+    @Value.Default
+    public String getRecord_name() {
+        return "";
+    }
+    /**
+     * 不要用这个接口，这个只在用药信息里面会用到
+     *
+     * @return
+     */
+    @Deprecated
+    @Value.Default
+    public String getRelation() {
+        return "";
+    }
+
     public abstract List<Tags> getSelect_tags();
 
     @Value.Default
@@ -74,11 +95,6 @@ public abstract class Appointment implements LayoutId {
 
     @Value.Default
     public String getYunxin_accid() {
-        return "";
-    }
-
-    @Value.Default
-    public String getRecord_name() {
         return "";
     }
 

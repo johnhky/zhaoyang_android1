@@ -58,11 +58,12 @@ final class ModelUtils {
             }
 
             String value = item.getValue();
-            if (!Strings.isNullOrEmpty(value)) {
-                String key = item.getKey();
-                if (!Strings.isNullOrEmpty(key)) {
-                    result.put(key, value);
-                }
+            if (Strings.isNullOrEmpty(value)) {
+                value = "";
+            }
+            String key = item.getKey();
+            if (!Strings.isNullOrEmpty(key)) {
+                result.put(key, value);
             }
         }
         return result;

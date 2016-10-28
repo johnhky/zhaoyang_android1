@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_search"
-        android:title="搜索"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView" />
-
-    <item
         android:id="@+id/action_view_patients"
         android:title="我的患者"
         app:showAsAction="ifRoom|collapseActionView" />

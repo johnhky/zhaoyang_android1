@@ -17,6 +17,7 @@ public class ItemRadioDialog extends BaseItem implements LayoutId {
 
     private int selectedItem = -1;
     private ArrayList<String> options = new ArrayList<>();
+    private Evaluator evaluator;
 
     public ItemRadioDialog(int layoutId) {
         super(layoutId);
@@ -35,7 +36,7 @@ public class ItemRadioDialog extends BaseItem implements LayoutId {
 
     public String getSelectedItemText() {
         if (selectedItem == -1) {
-            return getTitle();
+            return "";
         }
         return options.get(selectedItem);
     }
@@ -54,6 +55,9 @@ public class ItemRadioDialog extends BaseItem implements LayoutId {
                 }).show();
     }
 
+    public void setEvaluator(Evaluator evaluator) {
+        this.evaluator = evaluator;
+    }
 
     public void addOptions(ArrayList<String> options) {
         this.options.addAll(options);
@@ -65,9 +69,25 @@ public class ItemRadioDialog extends BaseItem implements LayoutId {
 
     @Override
     public String getValue() {
+        if (evaluator != null) {
+            return evaluator.evaluate(this);
+        }
         if (selectedItem == -1) {
             return "";
         }
         return String.valueOf(selectedItem + 1);
+    }
+
+
+    public interface Evaluator {
+        String evaluate(ItemRadioDialog dialog);
+    }
+
+    public static class TextEvaluator implements Evaluator {
+
+        @Override
+        public String evaluate(ItemRadioDialog dialog) {
+            return dialog.getSelectedItemText();
+        }
     }
 }

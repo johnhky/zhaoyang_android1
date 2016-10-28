@@ -3,9 +3,17 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.PrescriptionHandler" />
+
         <variable
             name="data"
-            type="com.doctor.sun.entity.Prescription" />
+            type="com.doctor.sun.immutables.Prescription" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.BaseListAdapter" />
 
     </data>
 
@@ -26,12 +34,12 @@
             android:layout_weight="1"
             android:background="@drawable/ripple_prescription"
             android:gravity="start|center_vertical"
-            android:onClick="@{()->data.modify(context)}"
+            android:onClick="@{()->handler.modify(context,adapter,data)}"
             android:paddingBottom="@dimen/dp_8"
             android:paddingLeft="@dimen/dp_13"
             android:paddingRight="@dimen/dp_4"
             android:paddingTop="@dimen/dp_8"
-            android:text="@{data.label}"
+            android:text="@{handler.getLabel(data)}"
             android:textColor="@color/color_tick"
             android:textSize="@dimen/font_15" />
 
