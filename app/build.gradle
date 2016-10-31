@@ -50,6 +50,7 @@ dependencies {
     stageCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    releaseDebugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
     testCompile libs.junit
     testCompile libs.mockito
