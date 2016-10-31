@@ -132,6 +132,13 @@ public class TextMsgFactory {
                 result.add(createAttachmentPair(msg.getUuid() + BODY, msg1));
                 return result;
             }
+            case TextMsg.DrugV2: {
+                JSONObject data = (JSONObject) attachment.getData();
+                String msg1 = data.toString();
+                result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.DrugV2)));
+                result.add(createAttachmentPair(msg.getUuid() + BODY, msg1));
+                return result;
+            }
             case TextMsg.EXTEND_TIME: {
                 return null;
             }
