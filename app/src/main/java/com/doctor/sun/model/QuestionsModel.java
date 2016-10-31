@@ -340,6 +340,7 @@ public class QuestionsModel {
             }
         });
         questions2.answerCount = questions2.fillContent == null ? 0 : questions2.fillContent.length();
+        itemPickDate.isAnswered = !questions2.fillContent.equals("");
         items.add(itemPickDate);
     }
 

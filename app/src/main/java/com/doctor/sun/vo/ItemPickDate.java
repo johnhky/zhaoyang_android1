@@ -37,6 +37,7 @@ public class ItemPickDate extends BaseItem {
     private int monthOfYear;
     private int year;
 
+    public boolean isAnswered = true;
 
     public ItemPickDate(int layoutId, String title) {
         super(layoutId);
