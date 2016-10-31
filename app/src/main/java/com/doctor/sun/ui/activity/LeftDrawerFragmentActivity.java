@@ -83,4 +83,13 @@ public class LeftDrawerFragmentActivity extends BaseFragmentActivity2 {
     public String getMidTitleString() {
         return getStringExtra(Constants.FRAGMENT_TITLE);
     }
+
+    @Override
+    public void onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.END);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
