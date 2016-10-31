@@ -35,10 +35,10 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
         return fragment;
     }
 
-    public static Bundle getArgs(int appointmentId) {
+    public static Bundle getArgs(String appointmentId) {
         Bundle args = new Bundle();
         args.putString(Constants.FRAGMENT_NAME, TAG);
-        args.putInt(Constants.DATA, appointmentId);
+        args.putString(Constants.DATA, appointmentId);
 
         return args;
     }

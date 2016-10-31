@@ -320,7 +320,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
 
     public HashMap<String, String> toHashMap() {
         HashMap<String, String> result = new HashMap<String, String>();
-        result.put("medicalRecordId", String.valueOf(medicalRecordId));
+        result.put("recordId", String.valueOf(medicalRecordId));
         result.put("name", getRecordName());
         result.put("birthday", birthday);
         result.put("gender", String.valueOf(gender));

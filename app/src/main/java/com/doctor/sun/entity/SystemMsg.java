@@ -2,6 +2,7 @@ package com.doctor.sun.entity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
@@ -180,7 +181,8 @@ public class SystemMsg extends BaseItem {
                     apiProfile.doctorProfile().enqueue(new SimpleCallback<Doctor>() {
                         @Override
                         protected void handleResponse(Doctor response) {
-                            Intent intent = SingleFragmentActivity.intentFor(context, "我", EditDoctorInfoFragment.getArgs(response));
+                            Bundle args = EditDoctorInfoFragment.getArgs(response);
+                            Intent intent = SingleFragmentActivity.intentFor(context, "我", args);
                             context.startActivity(intent);
                         }
                     });
@@ -188,7 +190,8 @@ public class SystemMsg extends BaseItem {
                     apiProfile.patientProfile().enqueue(new SimpleCallback<PatientDTO>() {
                         @Override
                         protected void handleResponse(PatientDTO response) {
-                            Intent intent = SingleFragmentActivity.intentFor(context, "我", EditPatientInfoFragment.getArgs(response.getInfo()));
+                            Bundle args = EditPatientInfoFragment.getArgs(response.getInfo());
+                            Intent intent = SingleFragmentActivity.intentFor(context, "我", args);
                             context.startActivity(intent);
                         }
                     });
@@ -197,7 +200,9 @@ public class SystemMsg extends BaseItem {
             }
             case 10: {
                 if (!isDoctor) {
-                    i = SingleFragmentActivity.intentFor(context, "", ReadDiagnosisFragment.getArgs(Integer.parseInt(getExtras().appointmentId)));
+                    String appointmentId = getExtras().appointmentId;
+                    Bundle args = ReadDiagnosisFragment.getArgs(appointmentId);
+                    i = SingleFragmentActivity.intentFor(context, "", args);
                 }
                 break;
             }
@@ -333,7 +338,8 @@ public class SystemMsg extends BaseItem {
 
     @NonNull
     public static RealmQuery<TextMsg> getAllMsg(Realm realm) {
-        return realm.where(TextMsg.class).beginsWith("sessionId", "SYSTEM_MSG").equalTo("haveRead", false);
+        return realm.where(TextMsg.class).beginsWith("sessionId", "SYSTEM_MSG")
+                .equalTo("haveRead", false);
     }
 
     @NonNull

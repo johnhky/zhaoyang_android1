@@ -52,6 +52,8 @@ public class FollowUpInfo extends BaseItem {
     public String relation;
     @JsonProperty("patient_name")
     public String patientName;
+    @JsonProperty("birthday")
+    public String birthday;
 
 
     public boolean isFinished(int status) {
@@ -67,8 +69,12 @@ public class FollowUpInfo extends BaseItem {
     public void updateAddress(final Context context, String address, int id) {
         ProfileModule api = Api.of(ProfileModule.class);
         HashMap<String, String> medicalRecord = new HashMap<>();
-        medicalRecord.put("medicalRecordId", String.valueOf(id));
+        medicalRecord.put("recordId", String.valueOf(id));
+        medicalRecord.put("name", recordName);
         medicalRecord.put("address", address);
+        medicalRecord.put("gender", String.valueOf(gender));
+        medicalRecord.put("birthday", birthday);
+        medicalRecord.put("relation", relation);
         api.editMedicalRecord(medicalRecord).enqueue(new SimpleCallback<MedicalRecord>() {
             @Override
             protected void handleResponse(MedicalRecord response) {
