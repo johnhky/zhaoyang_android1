@@ -68,6 +68,9 @@ public class ApplyAfterServiceActivity extends BaseFragmentActivity2 {
                     api.requestService(id).enqueue(new SimpleCallback<Void>() {
                         @Override
                         protected void handleResponse(Void response) {
+                            // 没有作用
+                            //adapter.loadMore();
+                            initRecyclerView();
                             Toast.makeText(ApplyAfterServiceActivity.this, "成功提交随访申请", Toast.LENGTH_SHORT).show();
                         }
                     });

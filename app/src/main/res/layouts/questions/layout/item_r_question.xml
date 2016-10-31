@@ -86,7 +86,7 @@
                 android:selected="@{ivPosition.selected}"
                 android:text="@{ivPosition.enabled?&quot;重填未填写&quot;:&quot;未填写&quot;}"
                 android:textColor="@color/question_index_color"
-                android:textSize="@dimen/font_10"
+                android:textSize="@dimen/font_12"
                 android:visibility="@{!ivPosition.selected || ivPosition.enabled}"
                 tools:text="重填未填写" />
         </LinearLayout>

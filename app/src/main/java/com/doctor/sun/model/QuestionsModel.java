@@ -91,6 +91,11 @@ public class QuestionsModel {
 
                 if (questionSize == 0) {
                     // 进行中的订单，医生建议显示【待医生诊断】
+                    BaseItem item = new BaseItem(R.layout.divider_1px);
+                    item.setItemId(UUID.randomUUID().toString());
+                    item.setPosition(r.size());
+                    r.add(item);
+
                     Description description = new Description(R.layout.item_description, "医嘱");
                     description.setItemId("description");
                     description.setPosition(r.size());
@@ -327,7 +332,6 @@ public class QuestionsModel {
         itemPickDate.setPosition(positionIn(i, RANGE_ITEM_POSITION));
         itemPickDate.setItemId(questions2.getKey() + QuestionType.sDate);
         itemPickDate.setDate(questions2.fillContent);
-        itemPickDate.setEnabled(true);
         itemPickDate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {

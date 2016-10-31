@@ -23,6 +23,12 @@ public class AfterServiceActivity extends PageActivity2 {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        onRefresh();
+    }
+
+    @Override
     protected void loadMore() {
         super.loadMore();
         api.doctorOrders("", keyword, getCallback().getPage()).enqueue(getCallback());

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Bundle;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
@@ -297,10 +298,9 @@ public class Drug extends BaseObservable implements LayoutId {
     }
 
     public void showDetail(Context context, Drug drug) {
-//        if (getStatuses().equals("已支付") || getStatuses().equals("已关闭")) {
-//            return;
-//        }
-        Intent payPrescriptionIntent = SingleFragmentActivity.intentFor(context, "寄药支付", PayPrescriptionsFragment.getArgs(drug));
+
+        Bundle args = PayPrescriptionsFragment.getArgs(drug);
+        Intent payPrescriptionIntent = SingleFragmentActivity.intentFor(context, "寄药支付", args);
         context.startActivity(payPrescriptionIntent);
     }
 }
