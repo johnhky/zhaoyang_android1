@@ -49,7 +49,7 @@ public class AlipayCallback extends SimpleCallback<String> {
     }
 //
 
-    public AlipayCallback(final Activity activity, final String money, final HashMap<String, String> extraField) {
+    public AlipayCallback(final Activity activity, final double money, final HashMap<String, String> extraField) {
         this.activity = activity;
         mCallback = new PayCallback() {
             @Override

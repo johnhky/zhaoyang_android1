@@ -5,8 +5,8 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Drug;
 import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.NeedSendDrug;
-import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.immutables.Prescription;
 
 import java.util.List;
 
@@ -28,6 +28,9 @@ public interface DrugModule {
 
     @GET("drug/order-list")
     Call<ApiDTO<PageDTO<Drug>>> orderList(@Query("page") String page);
+
+    @GET("drug/order-detail")
+    Call<ApiDTO<Drug>> drugDetail(@Query("drugOrderId") String drugOrderId);
 
     @FormUrlEncoded
     @POST("drug/cancel")

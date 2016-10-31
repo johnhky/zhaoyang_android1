@@ -22,14 +22,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_10"
-            android:text="@string/medicine"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_15" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@{data.medicine}"
             android:textColor="@color/text_color_gray"
             android:textSize="@dimen/font_15"
@@ -50,26 +42,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='@{"￥" + data.medicinePrice + " （服务费：￥0 "}'
+                android:text='@{"￥" + data.medicinePrice}'
                 android:textColor="#f65600"
                 android:textSize="@dimen/font_15"
-                tools:text="￥420 (服务费：￥0" />
-
-            <TextView
-                android:id="@+id/tv_discount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@{data.setStrikeThru(tvDiscount)}"
-                android:text="￥100"
-                android:textColor="@color/text_color_gray"
-                android:textSize="@dimen/font_12" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=")"
-                android:textColor="#f65600"
-                android:textSize="@dimen/font_15" />
+                tools:text="￥420" />
         </LinearLayout>
     </LinearLayout>
 </layout>

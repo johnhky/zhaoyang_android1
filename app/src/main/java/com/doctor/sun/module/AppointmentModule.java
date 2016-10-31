@@ -146,13 +146,13 @@ public interface AppointmentModule {
      */
     @FormUrlEncoded
     @POST("pay/build-order")
-    Call<ApiDTO<String>> buildAlipayGoodsOrder(@Field("totalFee") String totalFee,
+    Call<ApiDTO<String>> buildAlipayGoodsOrder(@Field("totalFee") double totalFee,
                                                @Field("type") String type,
                                                @FieldMap HashMap<String, String> extraField);
 
     @FormUrlEncoded
     @POST("pay/build-order")
-    Call<ApiDTO<WeChatPayDTO>> buildWeChatGoodsOrder(@Field("totalFee") String totalFee,
+    Call<ApiDTO<WeChatPayDTO>> buildWeChatGoodsOrder(@Field("totalFee") double totalFee,
                                                      @Field("type") String type,
                                                      @FieldMap HashMap<String, String> extraField);
 

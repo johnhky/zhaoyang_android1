@@ -68,7 +68,7 @@ public class RechargeActivity extends BaseFragmentActivity2 {
                     Toast.makeText(RechargeActivity.this, "请输入充值金额", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String totalFee = money + "00";
+                double totalFee = Double.parseDouble(money + "00");
                 if (binding.rbWechat.isChecked()) {
                     appointmentModule.buildWeChatGoodsOrder(totalFee, "wechat", extraField)
                             .enqueue(new WeChatPayCallback(RechargeActivity.this, totalFee, extraField));

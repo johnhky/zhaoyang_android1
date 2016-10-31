@@ -61,7 +61,7 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
 //        WXPayEntryActivity.setCallback(mCallback);
 //    }
 
-    public WeChatPayCallback(final Activity activity, final String money, final HashMap<String, String> extraField) {
+    public WeChatPayCallback(final Activity activity, final double money, final HashMap<String, String> extraField) {
         this.activity = activity;
         mCallback = new PayCallback() {
             @Override

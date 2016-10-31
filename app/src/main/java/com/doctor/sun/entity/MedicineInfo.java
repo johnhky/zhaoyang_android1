@@ -17,7 +17,7 @@ public class MedicineInfo extends BaseItem implements LayoutId, Parcelable {
 
     private String medicine;
     private String orderId;
-    private String medicinePrice;
+    private double medicinePrice;
 
     public MedicineInfo() {
     }
@@ -30,11 +30,11 @@ public class MedicineInfo extends BaseItem implements LayoutId, Parcelable {
         this.medicine = medicine;
     }
 
-    public String getMedicinePrice() {
+    public double getMedicinePrice() {
         return medicinePrice;
     }
 
-    public void setMedicinePrice(String medicinePrice) {
+    public void setMedicinePrice(double medicinePrice) {
         this.medicinePrice = medicinePrice;
     }
 
@@ -54,7 +54,7 @@ public class MedicineInfo extends BaseItem implements LayoutId, Parcelable {
     protected MedicineInfo(Parcel in) {
         medicine = in.readString();
         orderId = in.readString();
-        medicinePrice = in.readString();
+        medicinePrice = in.readDouble();
     }
 
     public static final Creator<MedicineInfo> CREATOR = new Creator<MedicineInfo>() {
@@ -78,7 +78,7 @@ public class MedicineInfo extends BaseItem implements LayoutId, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(medicine);
         dest.writeString(orderId);
-        dest.writeString(medicinePrice);
+        dest.writeDouble(medicinePrice);
     }
 
     public int setStrikeThru(TextView textView) {

@@ -3,14 +3,13 @@ package com.doctor.sun.ui.binding;
 import android.annotation.TargetApi;
 import android.content.res.Resources;
 import android.databinding.BindingAdapter;
+import android.graphics.Paint;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -260,6 +259,13 @@ public class CustomBinding {
 
     @BindingAdapter("android:fragment")
     public static void fragment(FrameLayout layout, FragmentFactory.FactoryCommand command) {
+    }
+
+    @BindingAdapter("android:strikeThrough")
+    public static void setStrikeThrough(TextView textView, boolean b) {
+        if (b) {
+            textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
     }
 
 }

@@ -39,7 +39,7 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
     }
 
 
-    public static Intent makeIntent(Context context, String money, boolean payWithWeChat, HashMap<String, String> goods) {
+    public static Intent makeIntent(Context context, double money, boolean payWithWeChat, HashMap<String, String> goods) {
         Intent i = new Intent(context, PayFailActivity.class);
         i.putExtra(Constants.TYPE, OTHERS);
         i.putExtra(Constants.PAY_METHOD, payWithWeChat);
@@ -57,8 +57,8 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
         return getIntent().getBooleanExtra(Constants.PAY_METHOD, true);
     }
 
-    private String getMoney() {
-        return getIntent().getStringExtra(Constants.MONEY);
+    private double getMoney() {
+        return getIntent().getDoubleExtra(Constants.MONEY,0D);
     }
 
     private HashMap<String, String> getExtraField() {

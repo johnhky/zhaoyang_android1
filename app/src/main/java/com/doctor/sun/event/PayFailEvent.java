@@ -12,13 +12,13 @@ import io.ganguo.library.core.event.Event;
  */
 public class PayFailEvent implements Event {
 
-    private String money;
+    private double money;
     private boolean payWithWechat;
     private HashMap<String, String> extraField;
     private Appointment data;
     private int payAppointment;
 
-    public PayFailEvent(String money, boolean b, HashMap<String, String> extraField) {
+    public PayFailEvent(double money, boolean b, HashMap<String, String> extraField) {
         payAppointment = IntBoolean.FALSE;
         this.money = money;
         this.payWithWechat = b;
@@ -31,7 +31,7 @@ public class PayFailEvent implements Event {
         this.payWithWechat = b;
     }
 
-    public String getMoney() {
+    public double getMoney() {
         return money;
     }
 

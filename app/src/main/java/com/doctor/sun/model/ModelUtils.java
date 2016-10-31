@@ -41,6 +41,13 @@ final class ModelUtils {
         list.add(item);
     }
 
+    static void insertSpace(List<SortedItem> list, int layout) {
+        BaseItem item = new BaseItem(layout);
+        item.setItemId(UUID.randomUUID().toString());
+        item.setPosition(list.size());
+        list.add(item);
+    }
+
     static HashMap<String, String> toHashMap(SortedListAdapter adapter, Callback callback) {
         HashMap<String, String> result = new HashMap<>();
         for (int i = 0; i < adapter.size(); i++) {

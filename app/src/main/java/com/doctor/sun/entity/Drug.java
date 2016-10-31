@@ -13,9 +13,9 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
-import com.doctor.sun.vo.LayoutId;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
+import com.doctor.sun.vo.LayoutId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -67,6 +67,8 @@ public class Drug extends BaseObservable implements LayoutId {
     private String remark;
     @JsonProperty("money")
     private String money;
+    @JsonProperty("drug_money")
+    public String drugMoney;
     @JsonProperty("need_pay")
     private double needPay = -1;
     @JsonProperty("has_pay")
@@ -81,6 +83,8 @@ public class Drug extends BaseObservable implements LayoutId {
     private int appointmentId;
     @JsonProperty("doctor")
     private Doctor doctor;
+    @JsonProperty("charge")
+    private DrugExtraFee extraFee;
 
     @JsonIgnore
     private String status = "";
@@ -192,6 +196,14 @@ public class Drug extends BaseObservable implements LayoutId {
         this.doctor = doctor;
     }
 
+    public DrugExtraFee getExtraFee() {
+        return extraFee;
+    }
+
+    public void setExtraFee(DrugExtraFee extraFee) {
+        this.extraFee = extraFee;
+    }
+
     @Override
     public String toString() {
         return "Drug{" +
@@ -299,7 +311,7 @@ public class Drug extends BaseObservable implements LayoutId {
 
     public void showDetail(Context context, Drug drug) {
 
-        Bundle args = PayPrescriptionsFragment.getArgs(drug);
+        Bundle args = PayPrescriptionsFragment.getArgs(String.valueOf(drug.getId()));
         Intent payPrescriptionIntent = SingleFragmentActivity.intentFor(context, "寄药支付", args);
         context.startActivity(payPrescriptionIntent);
     }
