@@ -1,7 +1,7 @@
 package com.doctor.sun.dto;
 
 import com.doctor.sun.immutables.Prescription;
-import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.immutables.SimpleAppointment;
 import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
@@ -15,9 +15,9 @@ public class PrescriptionDTO implements MsgAttachment {
 
 
     @JsonProperty("appointment_info")
-    private Appointment appointmentInfo;
+    private SimpleAppointment appointmentInfo;
     @JsonProperty("follow_up_info")
-    private Appointment followUpInfo;
+    private SimpleAppointment followUpInfo;
     /**
      * mediaclName : 好好保护
      * productName :
@@ -30,14 +30,14 @@ public class PrescriptionDTO implements MsgAttachment {
     private List<Prescription> drug;
 
 
-    public Appointment getAppointmentInfo() {
+    public SimpleAppointment getAppointmentInfo() {
         if (appointmentInfo == null) {
             return followUpInfo;
         }
         return appointmentInfo;
     }
 
-    public void setAppointmentInfo(Appointment appointmentInfo) {
+    public void setAppointmentInfo(SimpleAppointment appointmentInfo) {
         this.appointmentInfo = appointmentInfo;
     }
 

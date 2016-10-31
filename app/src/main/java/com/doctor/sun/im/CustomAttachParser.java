@@ -53,6 +53,13 @@ public class CustomAttachParser implements MsgAttachmentParser {
                     return customAttachment;
                 }
 
+                case "101": {
+                    CustomAttachment<JSONObject> customAttachment = new CustomAttachment<>();
+                    customAttachment.setType(TextMsg.DrugV2);
+                    customAttachment.setData(object.getJSONObject("data"));
+                    return customAttachment;
+                }
+
                 case "follow_up_start":
                 case "follow_up_end":
                 case "appointment_start":
