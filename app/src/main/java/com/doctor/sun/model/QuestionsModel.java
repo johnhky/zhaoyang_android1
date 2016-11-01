@@ -96,7 +96,7 @@ public class QuestionsModel {
                     item.setPosition(r.size());
                     r.add(item);
 
-                    Description description = new Description(R.layout.item_description, "医嘱");
+                    Description description = new Description(R.layout.item_description, "嘱咐");
                     description.setItemId("description");
                     description.setPosition(r.size());
                     r.add(description);
@@ -340,7 +340,7 @@ public class QuestionsModel {
             }
         });
         questions2.answerCount = questions2.fillContent == null ? 0 : questions2.fillContent.length();
-        itemPickDate.isAnswered = !questions2.fillContent.equals("");
+        itemPickDate.isAnswered = questions2.fillContent != null;
         items.add(itemPickDate);
     }
 

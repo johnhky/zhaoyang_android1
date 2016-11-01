@@ -107,7 +107,7 @@
 
             <include
                 layout="@layout/item_string_description"
-                bind:data='@{"医嘱"}' />
+                bind:data='@{"嘱咐"}' />
 
             <include
                 android:id="@+id/doctor_advice"

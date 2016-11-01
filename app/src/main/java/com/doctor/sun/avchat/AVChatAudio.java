@@ -12,6 +12,10 @@ import com.doctor.sun.avchat.constant.CallStateEnum;
 import com.doctor.sun.avchat.widgets.ToggleListener;
 import com.doctor.sun.avchat.widgets.ToggleState;
 import com.doctor.sun.avchat.widgets.ToggleView;
+import com.doctor.sun.entity.CallConfig;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.widget.BezelImageView;
 
 import io.ganguo.library.util.Networks;
@@ -85,7 +89,15 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
                 callDirection = OUTGOING_CALL;
                 setSwitchVideo(false);
                 showProfile();//对方的详细信息
-                showNotify(R.string.avchat_wait_recieve);
+                ToolModule api = Api.of(ToolModule.class);
+                api.getCallConfig().enqueue(new SimpleCallback<CallConfig>() {
+                    @Override
+                    protected void handleResponse(CallConfig response) {
+                        notifyTV.setText(response.getPhoneCallText());
+                        notifyTV.setVisibility(View.VISIBLE);
+                    }
+                });
+
                 if (Settings.isDoctor()) {
                     hideSubNotify();
                 } else {

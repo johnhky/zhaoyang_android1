@@ -4,6 +4,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Area;
 import com.doctor.sun.entity.Banner;
 import com.doctor.sun.entity.BannerDetail;
+import com.doctor.sun.entity.CallConfig;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Hospital;
 import com.doctor.sun.entity.Photo;
@@ -56,6 +57,9 @@ public interface ToolModule {
 
     @GET("tool/version")
     Call<ApiDTO<Version>> getAppVersion(@Query("client") String client, @Query("version") String version);
+
+    @GET("tool/config")
+    Call<ApiDTO<CallConfig>> getCallConfig();
 
     @GET()
     @Streaming

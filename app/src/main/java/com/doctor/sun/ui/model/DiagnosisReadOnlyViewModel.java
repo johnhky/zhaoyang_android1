@@ -80,7 +80,7 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         diagnosis = new ItemTextInput(R.layout.item_text_option_display, "");
 
         //两个端都有
-        labelAdvice = new Description(R.layout.item_description, "医嘱");
+        labelAdvice = new Description(R.layout.item_description, "嘱咐");
         furtherConsultation = new Reminder();
     }
 
@@ -148,7 +148,7 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         }
 
         /**
-         * 医嘱
+         * 嘱咐
          */
         result.add(labelAdvice);
         result.add(adviceContent);
