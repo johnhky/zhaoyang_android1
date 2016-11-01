@@ -35,21 +35,9 @@ public interface ImModule {
     @GET("im/doctor-contact")
     Call<ApiDTO<ContactDetail>> doctorContact(@Query("doctorId") int doctorId);
 
-    /**
-     * 医生端传patientId, 公众端传doctorId
-     *
-     * @param patientId
-     * @return
-     */
     @GET("im/records")
     Call<ApiDTO<List<MedicalRecord>>> record(@Query("patientId") int patientId);
 
-    /**
-     * 医生端传patientId, 公众端传doctorId
-     *
-     * @param doctorId
-     * @return
-     */
     @GET("im/records")
     Call<ApiDTO<List<MedicalRecord>>> recordDoctor(@Query("doctorId") int doctorId);
 
@@ -60,9 +48,6 @@ public interface ImModule {
     @FormUrlEncoded
     @POST("im/patient-call-status")
     Call<ApiDTO<HashMap<String, String>>> patientCall(@Field("patientId") String patientId, @Field("status") String status);
-
-    @GET("im/doctor-call-to")
-    Call<ApiDTO<String>> doctorCallTo(@Query("patientId") int patientId);
 
     @GET("im/money")
     Call<ApiDTO<PatientMoney>> money();
@@ -83,18 +68,8 @@ public interface ImModule {
     @POST("im/doctor-call-status")
     Call<ApiDTO<HashMap<String, String>>> doctorCall(@Field("doctorId") String doctorId, @Field("status") String status);
 
-    @GET("im/patient-call-to")
-    Call<ApiDTO<String>> patientCallTo(@Query("doctorId") int doctorId);
-
     @GET("im/avatar")
     Call<ApiDTO<Avatar>> avatar(@Query("voipAccount") String voipAccount, @Query("phone") String phone);
-
-    @GET("im/finish-stat")
-    Call<ApiDTO<String>> finishStat(@Query("appointmentId") int appointmentId);
-
-    @FormUrlEncoded
-    @POST("im/call-back")
-    Call<ApiDTO<String>> makePhoneCall(@Field("to") String phone);
 
     @FormUrlEncoded
     @POST("im/yunxin-call")

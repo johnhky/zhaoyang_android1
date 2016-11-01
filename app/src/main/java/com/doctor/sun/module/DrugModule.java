@@ -51,6 +51,4 @@ public interface DrugModule {
     Call<ApiDTO<NeedSendDrug>> needSendDrug(@Query("appointmentId") int appointmentId);
 
 
-    @GET("drug/record-last")
-    Call<ApiDTO<List<Prescription>>> patientDrug(@Query("recordId") int recordId);
 }

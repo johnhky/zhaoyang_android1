@@ -4,8 +4,8 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.immutables.SimpleAppointment;
 
 import java.util.HashMap;
@@ -17,7 +17,6 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-import retrofit2.http.Url;
 
 /**
  * Created by rick on 12/23/15.
@@ -34,27 +33,12 @@ public interface DiagnosisModule {
     @GET("diagnosis/search-doctors")
     Call<ApiDTO<PageDTO<Doctor>>> searchDoctor(@Query("page") String page, @Query("search") String search);
 
-    @GET("diagnosis/last-drug")
-    Call<ApiDTO<List<Prescription>>> lastDrug(@Query("appointmentId") int appointmentId);
-
     @GET("diagnosis/patient-drug")
     Call<ApiDTO<List<Prescription>>> patientDrug(@Query("appointmentId") String appointmentId);
 
-
-    /**
-     * 病历库
-     *
-     * @param page
-     * @param searchWord
-     * @return
-     */
     @GET("diagnosis/doctor-orders")
     Call<ApiDTO<PageDTO<Appointment>>> recordPool(@Query("page") String page, @Query("searchWord") String searchWord);
 
-    @GET("diagnosis/doctor-orders")
-    Call<ApiDTO<PageDTO<Appointment>>> appointmentHistory(@Query("page") int page,
-                                                          @Query("recordId") int recordId,
-                                                          @Query("searchWord") String searchWord);
 
     @GET("diagnosis/record-histories?type=simple")
     Call<ApiDTO<List<SimpleAppointment>>> recordHistory(@Query("recordId") int recordId);

@@ -133,7 +133,7 @@ public class AppointmentHandler2 {
 
     public static String getTime(Context context, Appointment data) {
         switch (data.getType()) {
-            case AppointmentType.AFTER_SERVICE:
+            case AppointmentType.FollowUp:
                 return "就诊时间:" + data.getTime_bucket();
             default:
                 return "预约时间:" + data.getTime_bucket();
@@ -475,7 +475,7 @@ public class AppointmentHandler2 {
     }
 
     private static boolean isAfterService(Appointment data) {
-        return data.getType() == AppointmentType.AFTER_SERVICE;
+        return data.getType() == AppointmentType.FollowUp;
     }
 
 
@@ -491,7 +491,7 @@ public class AppointmentHandler2 {
                 case Status.FINISHED:
                 case Status.UNPAID:
                     switch (data.getType()) {
-                        case AppointmentType.AFTER_SERVICE:
+                        case AppointmentType.FollowUp:
                             Toast.makeText(context, "随访已经结束,请耐心等待下次随访", Toast.LENGTH_SHORT).show();
                             break;
                         default: {
@@ -577,7 +577,7 @@ public class AppointmentHandler2 {
 
     public static String chatStatus(Appointment data) {
         switch (data.getType()) {
-            case AppointmentType.AFTER_SERVICE:
+            case AppointmentType.FollowUp:
                 return "随访" + getStatusLabel(data);
         }
         if (Settings.isDoctor()) {
@@ -791,36 +791,36 @@ public class AppointmentHandler2 {
         }
     }
 
-    @Deprecated
-    public static String styledOrderStatus2(Appointment data) {
-        return String.format("<font color='%s'>%s</font>", getStatusColor2(data), getStatusLabel(data));
-    }
-
-    @Deprecated
-    public static String getStatusColor2(Appointment data) {
-        switch (data.getStatus()) {
-            case Status.FINISHED:
-                return "#339de1";
-
-            case Status.UNPAID:
-                return "#ff1800";
-
-            case Status.PAID:
-                return "#ff8e43";
-
-            case Status.WAITING:
-                return "#ff1800";
-
-            case Status.DOING:
-                return "#88cb5a";
-
-            case Status.LOCKED:
-            case Status.CANCEL:
-                return "#898989";
-            default:
-                return "#acacac";
-        }
-    }
+//    @Deprecated
+//    public static String styledOrderStatus2(Appointment data) {
+//        return String.format("<font color='%s'>%s</font>", getStatusColor2(data), getStatusLabel(data));
+//    }
+//
+//    @Deprecated
+//    public static String getStatusColor2(Appointment data) {
+//        switch (data.getStatus()) {
+//            case Status.FINISHED:
+//                return "#339de1";
+//
+//            case Status.UNPAID:
+//                return "#ff1800";
+//
+//            case Status.PAID:
+//                return "#ff8e43";
+//
+//            case Status.WAITING:
+//                return "#ff1800";
+//
+//            case Status.DOING:
+//                return "#88cb5a";
+//
+//            case Status.LOCKED:
+//            case Status.CANCEL:
+//                return "#898989";
+//            default:
+//                return "#acacac";
+//        }
+//    }
 
 
     @IntDef

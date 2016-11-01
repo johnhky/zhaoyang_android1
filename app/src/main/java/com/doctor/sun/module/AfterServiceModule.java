@@ -86,24 +86,13 @@ public interface AfterServiceModule {
     @POST("follow-up/apply-auth")
     Call<ApiDTO<Void>> allow(@NonNull @Field("doctorId") int id, @Field("followUpAuth") int allow, @Field("recordId") int recordId);
 
-//    @GET("follow-up/follow-up-question")
-//    Call<ApiDTO<AfterServiceDTO>> questions(@NonNull @Query("follow_order_id") String id, @Query("user_type") String userType);
-//
-//    @FormUrlEncoded
-//    @POST("follow-up/follow-up-question")
-//    Call<ApiDTO<String>> saveAnswer(@NonNull @Field("follow_order_id") String id, @Field("answer") String answer, @Field("finished") int isFinished);
-//
 
     //TODO:
-//    @GET("im/pContactList")
     @GET("follow-up/doctor-list")
     Call<ApiDTO<List<Doctor>>> doctorList();
 
     @GET("follow-up/new-doctor-list")
     Call<ApiDTO<PageDTO<Doctor>>> applyingDoctorList(@Query("search") String keyword, @Query("type") String type, @Query("page") String page);
-
-    @GET("follow-up/{path}")
-    Call<ApiDTO<List<Doctor>>> doctorListGeneric(@Path("path") String path);
 
     //TODO:
     @GET("follow-up/patient-list")
@@ -111,16 +100,6 @@ public interface AfterServiceModule {
 
     @GET("follow-up/new-patient-list")
     Call<ApiDTO<PageDTO<Patient>>> newPatientList(@Query("search") String keyword, @Query("type") String type);
-
-    @GET("im/doctor-contact-list")
-    Call<ApiDTO<List<Patient>>> patientList2();
-
-//    @GET("follow-up/doctor-feedback")
-//    Call<ApiDTO<List<Answer>>> feedback(@NonNull @Query("follow_order_id") String id);
-
-    @FormUrlEncoded
-    @POST("profile/updateMedicalRecord")
-    Call<ApiDTO<String>> updateAddress(@Field("address") String address, @Field("medicalRecordId") int id);
 
     @FormUrlEncoded
     @POST("follow-up/apply-build-relation")

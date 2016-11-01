@@ -7,7 +7,7 @@ ext {
     min_sdk_version = 14
     target_sdk_version = 23
 
-    support_version = '24.2.1'
+    support_version = '25.0.0'
     retrofit_version = '2.1.0'
     okhttp_version = '3.4.1'
 
@@ -22,6 +22,7 @@ ext {
             v4Ui                    : "com.android.support:support-core-ui:$support_version",
             v4Compat                : "com.android.support:support-compat:$support_version",
             v4Utils                 : "com.android.support:support-core-utils:$support_version",
+            supportAnnotation       : "com.android.support:support-annotations:$support_version",
 
             recyclerView            : "com.android.support:recyclerview-v7:$support_version",
             cardView                : "com.android.support:cardview-v7:$support_version",

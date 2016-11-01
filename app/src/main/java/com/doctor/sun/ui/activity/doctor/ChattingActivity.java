@@ -186,7 +186,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     private void needSendDrug() {
         //TODO:
         Appointment data = getData();
-        if (data == null || data.getType() == AppointmentType.AFTER_SERVICE) {
+        if (data == null || data.getType() == AppointmentType.FollowUp) {
             return;
         }
 

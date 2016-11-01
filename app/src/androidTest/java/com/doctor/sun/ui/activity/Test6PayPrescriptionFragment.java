@@ -55,7 +55,7 @@ public class Test6PayPrescriptionFragment {
         drug.setDoctor(doctor);
 
         Intent intent = new Intent();
-        intent.putExtra(Constants.FRAGMENT_CONTENT_BUNDLE, PayPrescriptionsFragment.getArgs(drug));
+        intent.putExtra(Constants.FRAGMENT_CONTENT_BUNDLE, PayPrescriptionsFragment.getArgs(String.valueOf(drug.getId())));
         mActivityTestRule.launchActivity(intent);
 
 //        onView(withId(R.id.recycler_view))

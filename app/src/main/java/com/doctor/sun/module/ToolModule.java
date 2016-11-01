@@ -38,8 +38,6 @@ public interface ToolModule {
     @POST("tool/upload")
     Call<ApiDTO<Photo>> uploadPhoto(@Part("photo\"; filename=\"photo\" ") RequestBody file);
 
-    @GET("tool/recommendDoctors")
-    Call<ApiDTO<List<Doctor>>> recommendDoctor();
 
     @GET("tool/doctorInfo/{doctorId}")
     Call<ApiDTO<Doctor>> doctorInfo(@Path("doctorId") int doctorId);
@@ -63,13 +61,6 @@ public interface ToolModule {
     @Streaming
     Call<ResponseBody> downloadFile(@Url() String path);
 
-    @GET("tool/help-images")
-    Call<ApiDTO<List<String>>> helpImage(@Query("clientType") String client, @Query("imageType") String imageType);
-
-    @FormUrlEncoded
-    @POST("tool/crash-log")
-    Call<ApiDTO<Void>> crashLog(@Field("log") String log);
-
     @GET
     Call<ApiDTO<List<Area>>> endemicAreaList(@Url String path);
 
@@ -81,6 +72,7 @@ public interface ToolModule {
 
     @GET()
     Call<ApiDTO<List<HashMap<String, String>>>> listOfItems(@Url String path);
+
     @GET()
     Call<ApiDTO<List<Prescription>>> listOfDrugs(@Url String path);
 }
