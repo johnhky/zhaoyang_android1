@@ -72,6 +72,6 @@ public interface ImModule {
     Call<ApiDTO<Avatar>> avatar(@Query("voipAccount") String voipAccount, @Query("phone") String phone);
 
     @FormUrlEncoded
-    @POST("im/yunxin-call")
+    @POST("im/phone-call")
     Call<ApiDTO<String>> makeYunXinPhoneCall(@Field("appointmentId") String appointmentId);
 }

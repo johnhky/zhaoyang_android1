@@ -93,8 +93,8 @@ public class RegisterFragment extends SortedListFragment {
         registerType.setPosition(sortedItems.size());
         sortedItems.add(registerType);
 
-        final String doctorRemarks = "*注册为医生";
-        final String patientRemarks = "*注册为患者";
+        final String doctorRemarks = "*注册为医生，可以通过昭阳医生服务更多的患者";
+        final String patientRemarks = "*注册为患者，可以通过昭阳医生找到更多的名医";
         final ItemTextInput2 imgPs = new ItemTextInput2(R.layout.item_r_orange_text, doctorRemarks, "");
         imgPs.setTitleGravity(Gravity.START);
         imgPs.setItemId(UUID.randomUUID().toString());

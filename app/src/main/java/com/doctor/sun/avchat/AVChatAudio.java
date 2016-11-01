@@ -1,6 +1,7 @@
 package com.doctor.sun.avchat;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.TextView;
@@ -89,14 +90,7 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
                 callDirection = OUTGOING_CALL;
                 setSwitchVideo(false);
                 showProfile();//对方的详细信息
-                ToolModule api = Api.of(ToolModule.class);
-                api.getCallConfig().enqueue(new SimpleCallback<CallConfig>() {
-                    @Override
-                    protected void handleResponse(CallConfig response) {
-                        notifyTV.setText(response.getPhoneCallText());
-                        notifyTV.setVisibility(View.VISIBLE);
-                    }
-                });
+                showPhoneCallText();
 
                 if (Settings.isDoctor()) {
                     hideSubNotify();
@@ -162,6 +156,17 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
             recordToggle.enable();
         }
         isEnabled = true;
+    }
+
+    private void showPhoneCallText() {
+        ToolModule api = Api.of(ToolModule.class);
+        api.getCallConfig().enqueue(new SimpleCallback<CallConfig>() {
+            @Override
+            protected void handleResponse(CallConfig response) {
+                notifyTV.setText(response.getPhoneCallText());
+                notifyTV.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     /**

@@ -37,7 +37,7 @@ public class NewMedicalRecordModel {
     public List<SortedItem> parseItem(int recordType) {
         List<SortedItem> result = new ArrayList<>();
 
-        if (recordType == NewMedicalRecordFragment.TYPE_SELF) {
+        if (recordType == NewMedicalRecordFragment.TYPE_OTHER) {
             Description warningDescription =
                     new Description(R.layout.item_description_record_warning,
                             context.getResources().getString(R.string.record_warning));
@@ -50,9 +50,6 @@ public class NewMedicalRecordModel {
             divider.setItemLayoutId(R.layout.divider_13dp_gray);
             divider.setPosition(result.size());
             result.add(divider);
-        }
-
-        if (recordType == NewMedicalRecordFragment.TYPE_OTHER) {
 
             ItemTextInput2 relation = new ItemTextInput2(R.layout.item_text_input2, "您是患者的", "必填");
             relation.setResultNotEmpty();
@@ -85,14 +82,14 @@ public class NewMedicalRecordModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        if (recordType == NewMedicalRecordFragment.TYPE_SELF) {
-            ItemTextInput2 email = new ItemTextInput2(R.layout.item_text_input2, "邮箱", "选填");
-            email.setItemId("email");
-            email.setPosition(result.size());
-            result.add(email);
-
-            ModelUtils.insertDividerMarginLR(result);
-        }
+//        if (recordType == NewMedicalRecordFragment.TYPE_SELF) {
+//            ItemTextInput2 email = new ItemTextInput2(R.layout.item_text_input2, "邮箱", "选填");
+//            email.setItemId("email");
+//            email.setPosition(result.size());
+//            result.add(email);
+//
+//            ModelUtils.insertDividerMarginLR(result);
+//        }
 
         ItemPickDate date = new ItemPickDate(R.layout.item_pick_date2, "出生年月");
         date.setItemId("birthday");
@@ -110,14 +107,14 @@ public class NewMedicalRecordModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        if (recordType == NewMedicalRecordFragment.TYPE_SELF) {
-            ItemTextInput2 idNumber = new ItemTextInput2(R.layout.item_text_input2, "身份证号码", "选填");
-            idNumber.setItemId("identityNumber");
-            idNumber.setPosition(result.size());
-            result.add(idNumber);
-
-            ModelUtils.insertDividerMarginLR(result);
-        }
+//        if (recordType == NewMedicalRecordFragment.TYPE_SELF) {
+//            ItemTextInput2 idNumber = new ItemTextInput2(R.layout.item_text_input2, "身份证号码", "选填");
+//            idNumber.setItemId("identityNumber");
+//            idNumber.setPosition(result.size());
+//            result.add(idNumber);
+//
+//            ModelUtils.insertDividerMarginLR(result);
+//        }
 
         return result;
     }

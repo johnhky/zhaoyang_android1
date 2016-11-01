@@ -20,7 +20,7 @@
     <string name="avchat_invalid_channel_id">对方已挂断</string>
     <string name="avchat_local_call_busy">本地通话中，无法使用易信进行通话。</string>
     <string name="avchat_peer_busy">对方正在通话中，请稍后再拨。</string>
-    <string name="avchat_wait_recieve">正在拨打网络电话\n\n\n\n如果20秒内未被接通，系统将自动转换为固话回拨（昭阳医生专线020-81212600同时拨通您和对方的注册手机，双方手机号码加密保护）</string>
+    <string name="avchat_wait_recieve">正在拨打网络电话</string>
     <string name="avchat_audio_call_request">请求通话</string>
     <string name="avchat_connecting">连接中…</string>
     <string name="avchat_audio_to_video_invitation">对方邀请你开启视频聊天…</string>

@@ -11,7 +11,7 @@ public class CallConfig extends BaseItem {
 
     @JsonProperty("phone_call_enable")
     private boolean phoneCallEnable;
-    @JsonProperty("phone_call_next")
+    @JsonProperty("phone_call_text")
     private String phoneCallText;
 
     public boolean isPhoneCallEnable() {
