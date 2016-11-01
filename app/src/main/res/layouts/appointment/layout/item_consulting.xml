@@ -132,19 +132,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text='@{"预约时间: "+handler.getTime(context,data.data)}'
+                    android:text='@{handler.getTime(context,data.data)}'
                     android:textColor="@color/grey_ab"
                     android:textSize="@dimen/font_12" />
 
-
-                <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="@dimen/dp_8"-->
-                <!--android:layout_weight="1"-->
-                <!--android:text="@{data.handler.recordName2}"-->
-                <!--android:textColor="#898989"-->
-                <!--android:textSize="@dimen/font_12" />-->
 
                 <TextView
                     android:id="@+id/tv_message_count"
@@ -158,20 +149,6 @@
                     android:textSize="@dimen/font_12"
                     android:visibility="@{handler.unreadMsgCount(data.data)>0}" />
             </LinearLayout>
-
-
-            <!--<View-->
-            <!--android:id="@+id/divider"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1px"-->
-            <!--android:layout_marginLeft="@dimen/dp_13"-->
-            <!--android:layout_marginStart="@dimen/dp_13"-->
-            <!--android:background="@color/divider_color" />-->
-
-            <!--<include-->
-            <!--android:id="@+id/lly_message"-->
-            <!--layout="@layout/include_message_count"-->
-            <!--app:data="@{data}" />-->
 
             <View
                 android:layout_width="match_parent"
