@@ -397,7 +397,7 @@ public class AppointmentHandler2 {
 
 
     public static boolean payVisible(Appointment data) {
-        return data.getStatus() == Status.UNPAID;
+        return data.getStatus() == Status.UNPAID || data.getStatus() == Status.PAID;
     }
 
     public static boolean isPayed(Appointment data) {

@@ -325,7 +325,8 @@ public class DiagnosisFragment extends BaseFragment {
         }
         if (requestCode == Constants.PRESCRITION_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                final Prescription prescription = data.getParcelableExtra(Constants.DATA);
+                String jsonData = data.getStringExtra(Constants.DATA);
+                Prescription prescription = JacksonUtils.fromJson(jsonData, Prescription.class);
                 addPrescription(prescription);
             }
         }
