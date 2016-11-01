@@ -147,7 +147,7 @@
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:layout_marginTop="@dimen/dp_6"
-                android:text='@{"问卷发起时间:" + data.book_time}'
+                android:text='@{handler.getTime(context,data)}'
                 android:textColor="#363636"
                 android:textSize="@dimen/font_13"
                 tools:text="问卷发起时间:2016年10月1日" />
