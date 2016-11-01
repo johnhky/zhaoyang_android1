@@ -351,10 +351,6 @@
             android:name="com.doctor.sun.ui.activity.patient.HistoryDetailActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.doctor.sun.ui.activity.patient.EditRecordActivity"
-            android:screenOrientation="portrait" />
-
 
         <activity
             android:name="com.doctor.sun.ui.activity.doctor.ModifyNicknameActivity"
