@@ -88,7 +88,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@{handler.getRelationWithPatient(data.data)}"
+                    android:text="@{data.data.record.patientName+handler.getRelationWithPatient(data.data)}"
                     android:textColor="#717171"
                     android:textSize="@dimen/font_12" />
 
@@ -132,7 +132,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text='@{"预约时间: "+data.data.book_time}'
+                    android:text='@{"预约时间: "+handler.getTime(context,data.data)}'
                     android:textColor="@color/grey_ab"
                     android:textSize="@dimen/font_12" />
 

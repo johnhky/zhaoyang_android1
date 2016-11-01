@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_9"
-                android:text="@{handler.bookTimeStatus(data)}"
+                android:text="@{handler.getTime(context,data)}"
                 android:textColor="@color/text_color_black"
                 android:textSize="@dimen/font_14" />
 

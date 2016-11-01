@@ -4,6 +4,10 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
         <variable
             name="data"
             type="com.doctor.sun.vo.AppointmentWrapper" />
@@ -29,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_time(data.bookTime)}"
+            android:text="@{handler.getTime(context,data.data)}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 

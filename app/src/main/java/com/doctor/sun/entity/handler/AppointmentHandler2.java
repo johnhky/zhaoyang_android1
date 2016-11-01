@@ -131,6 +131,15 @@ public class AppointmentHandler2 {
         return "病历: " + getRecordName(data);
     }
 
+    public static String getTime(Context context, Appointment data) {
+        switch (data.getType()) {
+            case AppointmentType.AFTER_SERVICE:
+                return "就诊时间:" + data.getTime_bucket();
+            default:
+                return "预约时间:" + data.getTime_bucket();
+        }
+    }
+
 
     public static void cancel2(final BaseListAdapter adapter, final BaseViewHolder vh, final Appointment data) {
         Intent intent = CancelAppointmentActivity.makeIntent(vh.itemView.getContext(), data);
@@ -578,14 +587,6 @@ public class AppointmentHandler2 {
         }
     }
 
-    public static String bookTimeStatus(Appointment data) {
-        switch (data.getType()) {
-            case AppointmentType.AFTER_SERVICE:
-                return "发起时间:" + getBookTime(data);
-            default:
-                return "预约时间:" + getBookTime(data);
-        }
-    }
 
 
     @NonNull

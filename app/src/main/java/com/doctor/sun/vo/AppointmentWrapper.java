@@ -20,6 +20,10 @@ public class AppointmentWrapper extends BaseItem {
         this.appointment = appointment;
     }
 
+    public Appointment getData() {
+        return appointment;
+    }
+
     public double getNeedPay(Context context) {
         return appointment.getNeed_pay();
     }

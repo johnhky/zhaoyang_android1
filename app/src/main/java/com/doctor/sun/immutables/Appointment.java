@@ -59,11 +59,15 @@ public abstract class Appointment implements LayoutId {
 
     public abstract String getBook_time();
 
+    @Value.Default
+    public String getTime_bucket() {
+        return "";
+    }
+
 
     public abstract String getDoctor_id();
 
     public abstract String getRecord_id();
-
 
 
     public abstract List<Tags> getSelect_tags();

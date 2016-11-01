@@ -39,8 +39,8 @@ import java.util.UUID;
 public class Options2 extends BaseItem {
     public static final String TAG = Options2.class.getSimpleName();
 
-    private static final int FORM_API = 0;
-    private static final int FORM_USER_INPUT = 1;
+    private static final int FROM_API = 0;
+    private static final int FROM_USER_INPUT = 1;
 
     /**
      * option_content : 保存密码
@@ -325,7 +325,7 @@ public class Options2 extends BaseItem {
      * @param adapter
      */
     public void loadPrescriptions(final SortedListAdapter adapter) {
-        if (resourseType == FORM_USER_INPUT) {
+        if (resourseType == FROM_USER_INPUT) {
             ItemAddPrescription2 fromItem = (ItemAddPrescription2) adapter.get(optionContent + QuestionType.drug);
             ItemAddPrescription2 toItem = (ItemAddPrescription2) adapter.get(questionId + QuestionType.drug);
             if (fromItem != null && toItem != null) {
@@ -344,7 +344,7 @@ public class Options2 extends BaseItem {
                 }
 
             }
-        } else {
+        } else if (resourseType == FROM_API) {
             ToolModule toolModule = Api.of(ToolModule.class);
             toolModule.listOfDrugs(optionContent).enqueue(new SimpleCallback<List<Prescription>>() {
                 @Override
