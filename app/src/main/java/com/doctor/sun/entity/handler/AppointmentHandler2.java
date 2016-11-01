@@ -134,9 +134,9 @@ public class AppointmentHandler2 {
     public static String getTime(Context context, Appointment data) {
         switch (data.getType()) {
             case AppointmentType.FollowUp:
-                return "就诊时间:" + data.getTime_bucket();
+                return "就诊时间: " + data.getTime_bucket();
             default:
-                return "预约时间:" + data.getTime_bucket();
+                return "预约时间: " + data.getTime_bucket();
         }
     }
 

@@ -1,65 +1,64 @@
-package com.doctor.sun.ui.activity.doctor;
-
-import android.content.Context;
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.doctor.sun.R;
-import com.doctor.sun.bean.Constants;
-import com.doctor.sun.databinding.ActivityEditPrescriptionBinding;
-import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.DrugAutoComplete;
-import com.doctor.sun.immutables.Prescription;
-import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.module.AutoComplete;
-import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.activity.SingleFragmentActivity;
-import com.doctor.sun.ui.fragment.DiagnosisFragment;
-import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
-import com.doctor.sun.ui.widget.SingleChoiceDialog;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import io.ganguo.library.util.log.Logger;
-import io.ganguo.library.util.log.LoggerFactory;
-import retrofit2.Call;
-
-/**
- * Created by rick on 29/12/2015.
- */
-public class EditPrescriptionActivity extends BaseFragmentActivity2 {
-    public static final String MORNING_KEY = "早";
-    public static final String AFTERNOON_KEY = "午";
-    public static final String EVENING_KEY = "晚";
-    public static final String NIGHT_KEY = "睡前";
-    private Logger logger = LoggerFactory.getLogger(EditPrescriptionActivity.class);
-
-    private ActivityEditPrescriptionBinding binding;
-    private ArrayList<String> units;
-    private ArrayList<String> intervals;
-
-    public static Intent makeIntent(Context context, Prescription data) {
-        return SingleFragmentActivity.intentFor(context, "添加/编辑用药", EditPrescriptionsFragment.getArgs(data));
+//package com.doctor.sun.ui.activity.doctor;
+//
+//import android.content.Context;
+//import android.content.Intent;
+//import android.databinding.DataBindingUtil;
+//import android.os.Bundle;
+//import android.os.Message;
+//import android.os.Messenger;
+//import android.os.RemoteException;
+//import android.view.Menu;
+//import android.view.MenuItem;
+//import android.view.View;
+//import android.view.inputmethod.EditorInfo;
+//import android.widget.AdapterView;
+//import android.widget.ArrayAdapter;
+//import android.widget.AutoCompleteTextView;
+//import android.widget.EditText;
+//import android.widget.Toast;
+//
+//import com.doctor.sun.R;
+//import com.doctor.sun.bean.Constants;
+//import com.doctor.sun.databinding.ActivityEditPrescriptionBinding;
+//import com.doctor.sun.dto.ApiDTO;
+//import com.doctor.sun.entity.DrugAutoComplete;
+//import com.doctor.sun.immutables.Prescription;
+//import com.doctor.sun.http.Api;
+//import com.doctor.sun.http.callback.SimpleCallback;
+//import com.doctor.sun.module.AutoComplete;
+//import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+//import com.doctor.sun.ui.activity.SingleFragmentActivity;
+//import com.doctor.sun.ui.fragment.DiagnosisFragment;
+//import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
+//import com.doctor.sun.ui.widget.SingleChoiceDialog;
+//
+//import java.util.ArrayList;
+//import java.util.HashMap;
+//import java.util.List;
+//
+//import io.ganguo.library.util.log.Logger;
+//import io.ganguo.library.util.log.LoggerFactory;
+//import retrofit2.Call;
+//
+///**
+// * Created by rick on 29/12/2015.
+// */
+//public class EditPrescriptionActivity extends BaseFragmentActivity2 {
+//    public static final String MORNING_KEY = "早";
+//    public static final String AFTERNOON_KEY = "午";
+//    public static final String EVENING_KEY = "晚";
+//    public static final String NIGHT_KEY = "睡前";
+//    private Logger logger = LoggerFactory.getLogger(EditPrescriptionActivity.class);
+//
+//    private ActivityEditPrescriptionBinding binding;
+//    private ArrayList<String> units;
+//    private ArrayList<String> intervals;
+//
+//    public static Intent makeIntent(Context context, Prescription data) {
 //        Intent i = new Intent(context, EditPrescriptionActivity.class);
 //        i.putExtra(Constants.DATA, data);
 //        return i;
-    }
+//    }
 //
 //    private Prescription getData() {
 //        return getIntent().getParcelableExtra(Constants.DATA);
@@ -339,4 +338,4 @@ public class EditPrescriptionActivity extends BaseFragmentActivity2 {
 //        }
 //        return super.onOptionsItemSelected(item);
 //    }
-}
+//}

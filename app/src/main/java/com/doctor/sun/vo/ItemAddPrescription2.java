@@ -3,6 +3,7 @@ package com.doctor.sun.vo;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.Observable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
@@ -14,9 +15,10 @@ import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.model.QuestionsModel;
-import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
+import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
 import com.doctor.sun.util.JacksonUtils;
 
 import java.util.ArrayList;
@@ -32,7 +34,8 @@ public class ItemAddPrescription2 extends BaseItem {
     private int itemSize = -1;
 
     public void addDrug(Context context, final SortedListAdapter adapter) {
-        Intent intent = EditPrescriptionActivity.makeIntent(context, null);
+        Bundle args = EditPrescriptionsFragment.getArgs(null);
+        Intent intent = SingleFragmentActivity.intentFor(context, "添加/编辑用药", args);
         Messenger messenger = new Messenger(new Handler(new Callback(this, adapter)));
         intent.putExtra(Constants.HANDLER, messenger);
         context.startActivity(intent);

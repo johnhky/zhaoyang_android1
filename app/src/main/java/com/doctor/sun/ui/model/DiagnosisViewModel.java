@@ -3,6 +3,7 @@ package com.doctor.sun.ui.model;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -13,7 +14,8 @@ import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Symptom;
 import com.doctor.sun.entity.SymptomFactory;
-import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.ItemButton;
 import com.doctor.sun.vo.ItemPickDate;
@@ -97,7 +99,8 @@ public class DiagnosisViewModel {
         btnGotoTabOne = new ItemButton(R.layout.item_edit_prescription, "修改用药") {
             @Override
             public void onClick(View view) {
-                Intent intent = EditPrescriptionActivity.makeIntent(context, null);
+                Bundle args = EditPrescriptionsFragment.getArgs(null);
+                Intent intent = SingleFragmentActivity.intentFor(context, "添加/编辑用药", args);
                 context.startActivityForResult(intent, Constants.PRESCRITION_REQUEST_CODE);
             }
         };

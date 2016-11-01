@@ -14,6 +14,7 @@ import org.immutables.value.Value;
 @Value.Style(jdkOnly = true)
 @JsonSerialize(as = ImmutablePrescription.class)
 @JsonDeserialize(as = ImmutablePrescription.class)
+@Value.Modifiable
 public abstract class Prescription extends BaseItem {
     public abstract String getDrug_name();
 

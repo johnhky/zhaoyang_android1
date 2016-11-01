@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.Observable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Messenger;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -39,7 +36,6 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
-import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.model.DiagnosisViewModel;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.JacksonUtils;
@@ -346,33 +342,6 @@ public class DiagnosisFragment extends BaseFragment {
                 prescriptions.remove(prescription);
             }
         });
-        prescriptionBinding.etOthers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!canWritePrescription()) {
-                    Toast.makeText(getContext(), "咨询／治疗师认证无处方权", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                Intent intent = EditPrescriptionActivity.makeIntent(getContext(), prescription);
-                Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(Message msg) {
-                        switch (msg.what) {
-                            case EDIT_PRESCRITPION: {
-                                Prescription parcelable = msg.getData().getParcelable(Constants.DATA);
-                                llyRoot.removeView(prescriptionBinding.getRoot());
-                                prescriptions.remove(prescription);
-                                addPrescription(parcelable);
-                            }
-                        }
-                        return false;
-                    }
-                }));
-                intent.putExtra(Constants.HANDLER, messenger);
-                startActivity(intent);
-            }
-        });
         prescriptionBinding.setData(prescription);
         llyRoot.addView(prescriptionBinding.getRoot(), llyRoot.getChildCount() - 1);
     }
@@ -426,13 +395,8 @@ public class DiagnosisFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        if (appointment.canEdit == IntBoolean.NOT_GIVEN) {
         inflater.inflate(R.menu.menu_save, menu);
         super.onCreateOptionsMenu(menu, inflater);
-//        } else {
-//            inflater.inflate(R.menu.menu_modify, menu);
-//            super.onCreateOptionsMenu(menu, inflater);
-//        }
     }
 
     @Override

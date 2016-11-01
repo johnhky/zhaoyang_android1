@@ -2,19 +2,21 @@ package com.doctor.sun.entity.handler;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
-import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.immutables.ImmutablePrescription;
+import com.doctor.sun.immutables.ModifiablePrescription;
 import com.doctor.sun.immutables.Prescription;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.ViewPrescriptionActivity;
-import com.doctor.sun.ui.activity.doctor.EditPrescriptionActivity;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
+import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
 import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -29,7 +31,8 @@ public class PrescriptionHandler {
     private static final String[] keys = new String[]{"早", "午", "晚", "睡前"};
 
     public static void modify(Context context, final BaseListAdapter adapter, final Prescription data) {
-        Intent intent = EditPrescriptionActivity.makeIntent(context, data);
+        Bundle args = EditPrescriptionsFragment.getArgs(data);
+        Intent intent = SingleFragmentActivity.intentFor(context, "添加/编辑用药", args);
         Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
@@ -39,9 +42,14 @@ public class PrescriptionHandler {
                         Prescription parcelable = JacksonUtils.fromJson(string, Prescription.class);
                         parcelable.setItemId(data.getItemId());
                         parcelable.setPosition(data.getPosition());
-                        adapter.update(parcelable);
-                        if (parcelable == null) {
-                            return false;
+                        if (adapter != null) {
+                            adapter.update(parcelable);
+                        } else {
+                            if (data instanceof ModifiablePrescription) {
+                                ModifiablePrescription temp = (ModifiablePrescription) data;
+                                temp.from(parcelable);
+                                temp.notifyChange();
+                            }
                         }
                     }
                 }
