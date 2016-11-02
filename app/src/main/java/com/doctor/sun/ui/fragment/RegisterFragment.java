@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.Observable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.Menu;
@@ -14,6 +15,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -236,19 +239,41 @@ public class RegisterFragment extends SortedListFragment {
     }
 
     private void done() {
-        AuthModule api = Api.of(AuthModule.class);
-        api.register(toHashMap(getAdapter())).enqueue(new SimpleCallback<Token>() {
-            @Override
-            protected void handleResponse(Token response) {
-                if (isDoctor()) {
-                    registerDoctorSuccess(getContext(), response);
-                    MobclickAgent.onEvent(getContext(), MobEventId.DOCTOR_REGISTRATION);
-                } else if (isPatient()) {
-                    registerPatientSuccess(getContext(), response);
-                    MobclickAgent.onEvent(getContext(), MobEventId.PATIENT_REGISTRATION);
-                }
-            }
-        });
+        String registerType;
+        if (isDoctor()) {
+            registerType = "医生";
+        } else {
+            registerType = "患者";
+        }
+        new MaterialDialog.Builder(getContext())
+                .title("您注册的身份为" + registerType)
+                .positiveText("确定")
+                .negativeText("取消")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        AuthModule api = Api.of(AuthModule.class);
+                        api.register(toHashMap(getAdapter())).enqueue(new SimpleCallback<Token>() {
+                            @Override
+                            protected void handleResponse(Token response) {
+                                if (isDoctor()) {
+                                    registerDoctorSuccess(getContext(), response);
+                                    MobclickAgent.onEvent(getContext(), MobEventId.DOCTOR_REGISTRATION);
+                                } else if (isPatient()) {
+                                    registerPatientSuccess(getContext(), response);
+                                    MobclickAgent.onEvent(getContext(), MobEventId.PATIENT_REGISTRATION);
+                                }
+                            }
+                        });
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .build().show();
     }
 
     private boolean isDoctor() {

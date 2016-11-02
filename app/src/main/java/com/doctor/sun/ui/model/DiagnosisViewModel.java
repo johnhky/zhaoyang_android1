@@ -353,7 +353,7 @@ public class DiagnosisViewModel {
         result.put("recovered", String.valueOf(recovered.getSelectedItem()));
         result.put("treatment", String.valueOf(treatment.getSelectedItem()));
         result.put("effect", String.valueOf(sideEffect.getSelectedItem()));
-        if (!prescriptions.equals("")) {
+        if (prescriptions != null && !prescriptions.equals("")) {
             result.put("prescription", prescriptions);
         }
         result.put("doctor_advince", binding.doctorAdvice.etOthers.getText().toString());

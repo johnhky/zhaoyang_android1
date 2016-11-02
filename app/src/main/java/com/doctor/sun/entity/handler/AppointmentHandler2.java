@@ -580,11 +580,16 @@ public class AppointmentHandler2 {
             case AppointmentType.FollowUp:
                 return "随访" + getStatusLabel(data);
         }
-        if (Settings.isDoctor()) {
-            return "本次咨询已结束";
+        if (data.getStatus() == 4) {
+            if (Settings.isDoctor()) {
+                return "本次咨询已结束";
+            } else {
+                return "本次咨询已结束,如需咨询,请再次预约";
+            }
         } else {
-            return "本次咨询已结束,如需咨询,请再次预约";
+            return "本次咨询" + data.getDisplay_status();
         }
+
     }
 
 

@@ -44,11 +44,9 @@ public class Test4NewSelfMedicalRecord {
         intent.putExtra(Constants.FRAGMENT_CONTENT_BUNDLE, args);
         mActivityTestRule.launchActivity(intent);
 
-         CustomViewAction.performActionAt(2,
+         CustomViewAction.performActionAt(0,
                         typeText("name" + getTag()));
          CustomViewAction.performActionAt(4,
-                        typeText("email" + getTag() + "@qq.com"));
-         CustomViewAction.performActionAt(8,
                         CustomViewAction.clickChildViewWithId(R.id.rb_male));
 
         clickNext();

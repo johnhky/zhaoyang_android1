@@ -41,13 +41,13 @@ public class Test5NewOtherMedicalRecord {
         intent.putExtra(Constants.FRAGMENT_CONTENT_BUNDLE, args);
         mActivityTestRule.launchActivity(intent);
 
-        CustomViewAction.performActionAt(0,
-                typeText("relation" + getTag()));
         CustomViewAction.performActionAt(2,
-                typeText("self" + getTag()));
+                typeText("relation" + getTag()));
         CustomViewAction.performActionAt(4,
+                typeText("self" + getTag()));
+        CustomViewAction.performActionAt(6,
                 typeText("patient" + getTag()));
-        CustomViewAction.performActionAt(8,
+        CustomViewAction.performActionAt(10,
                 CustomViewAction.clickChildViewWithId(R.id.rb_male));
 
         clickNext();
@@ -59,7 +59,7 @@ public class Test5NewOtherMedicalRecord {
 
     private void clickNext() {
         ViewInteraction actionMenuItemView = onView(
-                AllOf.allOf(withId(R.id.action_confirm), withText("确定"), withContentDescription("确定"), isDisplayed()));
+                AllOf.allOf(withId(R.id.action_confirm), withText("确定"  ), withContentDescription("确定"), isDisplayed()));
         actionMenuItemView.perform(click());
     }
 

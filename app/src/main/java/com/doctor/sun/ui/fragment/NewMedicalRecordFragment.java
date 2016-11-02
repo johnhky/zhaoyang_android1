@@ -82,8 +82,6 @@ public class NewMedicalRecordFragment extends SortedListFragment {
         model.saveMedicalRecord(getAdapter(), getRecordType(), new SimpleCallback<MedicalRecord>() {
             @Override
             protected void handleResponse(MedicalRecord response) {
-
-                TokenCallback.checkToken(getActivity());
                 Toast.makeText(getContext(), "病历创建成功", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getContext(), RecordListActivity.class);
                 getContext().startActivity(intent);

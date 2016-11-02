@@ -247,60 +247,28 @@
                 android:background="#c1cacf" />
         </FrameLayout>
 
-        <LinearLayout
-            android:id="@+id/lly_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <FrameLayout
+            android:id="@+id/fl_remind"
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="@dimen/dp_35"
+            android:layout_gravity="end"
             android:layout_marginBottom="@dimen/dp_8"
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_7"
-            android:orientation="horizontal"
-            app:visible="@{handler.payVisible(data)}">
+            android:background="@drawable/shape_blue_rect"
+            android:visibility="@{handler.getCurrentStatus(data) == 0}">
 
-            <View
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <FrameLayout
-                android:id="@+id/fl_cancel"
-                android:layout_width="@dimen/dp_90"
-                android:layout_height="@dimen/dp_35"
-                android:layout_gravity="end"
-                android:layout_marginRight="@dimen/dp_11"
-                android:background="@drawable/shape_white_rect">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_default"
-                    android:gravity="center"
-                    android:onClick="@{()->handler.pCancel(adapter, vh, data.id)}"
-                    android:text="取消预约"
-                    android:textColor="#339de1"
-                    android:textSize="@dimen/font_13" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/fl_remind"
-                android:layout_width="@dimen/dp_90"
-                android:layout_height="@dimen/dp_35"
-                android:layout_gravity="end"
-                android:background="@drawable/shape_blue_rect">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_default"
-                    android:gravity="center"
-                    android:onClick="@{()->handler.startPayActivity(context, data.id)}"
-                    android:text="立即支付"
-                    android:textColor="#fff"
-                    android:textSize="@dimen/font_13" />
-            </FrameLayout>
-
-        </LinearLayout>
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:onClick="@{()->handler.startPayActivity(context, data.id)}"
+                android:text="立即支付"
+                android:textColor="#fff"
+                android:textSize="@dimen/font_13" />
+        </FrameLayout>
 
         <FrameLayout
             android:layout_width="@dimen/dp_90"
