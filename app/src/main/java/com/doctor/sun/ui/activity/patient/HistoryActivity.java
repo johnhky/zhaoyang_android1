@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
+import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.PageActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -17,10 +19,11 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
  * Created by lucas on 1/4/16.
  */
 public class HistoryActivity extends PageActivity2 {
-    private ProfileModule api = Api.of(ProfileModule.class);
+    private DiagnosisModule api = Api.of(DiagnosisModule.class);
 
-    public static Intent makeIntent(Context context) {
+    public static Intent makeIntent(Context context, int recordId) {
         Intent i = new Intent(context, HistoryActivity.class);
+        i.putExtra(Constants.DATA, recordId);
         return i;
     }
 
@@ -36,7 +39,9 @@ public class HistoryActivity extends PageActivity2 {
     @Override
     protected void loadMore() {
         super.loadMore();
-        api.histories(Integer.parseInt(getCallback().getPage())).enqueue(getCallback());
+
+        int recordId = getIntent().getIntExtra(Constants.DATA, 0);
+        api.recordOrders(0, recordId, "").enqueue(getCallback());
     }
 
     @NonNull

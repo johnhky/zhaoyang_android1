@@ -1,7 +1,9 @@
 package com.doctor.sun.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.EditRecordModel;
+import com.doctor.sun.ui.activity.patient.HistoryActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.vo.BaseItem;
 
@@ -50,6 +53,17 @@ public class EditRecordFragment extends SortedListFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // 添加一个位于屏幕底部的按钮
+        View bottomButton = LayoutInflater.from(getContext()).inflate(R.layout.item_bottom_button, binding.flRoot, false);
+        bottomButton.findViewById(R.id.tv_history).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = HistoryActivity.makeIntent(getContext(), data.getMedicalRecordId());
+                startActivity(i);
+            }
+        });
+        binding.flRoot.addView(bottomButton);
 
         disableRefresh();
         setHasOptionsMenu(true);
