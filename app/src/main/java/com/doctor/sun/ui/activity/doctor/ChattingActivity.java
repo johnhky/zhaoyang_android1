@@ -38,7 +38,6 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.immutables.Appointment;
-import com.doctor.sun.immutables.ImmutableAppointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
@@ -113,7 +112,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     private Appointment getData() {
         if (data == null) {
             String json = getIntent().getStringExtra(Constants.DATA);
-            data = JacksonUtils.fromJson(json, ImmutableAppointment.class);
+            data = JacksonUtils.fromJson(json, Appointment.class);
         }
         return data;
     }
