@@ -24,7 +24,7 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginStart="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
-            android:text="@{data.scaleRuleName}"
+            android:text="@{data.scaleRuleName ?? &quot;&quot;}"
             android:textColor="@color/blue_grey"
             android:textSize="@dimen/font_18"
             android:textStyle="bold"

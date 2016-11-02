@@ -15,6 +15,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.databinding.FragmentRefreshListBinding;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
+import io.ganguo.library.core.event.EventHub;
 import io.realm.Realm;
 
 /**
@@ -33,6 +34,8 @@ public class SortedListFragment extends BaseFragment implements SwipeRefreshLayo
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
+
+        EventHub.register(this);
     }
 
 
@@ -40,6 +43,7 @@ public class SortedListFragment extends BaseFragment implements SwipeRefreshLayo
     public void onDestroy() {
         super.onDestroy();
         realm.close();
+        EventHub.unregister(this);
     }
 
     @Nullable

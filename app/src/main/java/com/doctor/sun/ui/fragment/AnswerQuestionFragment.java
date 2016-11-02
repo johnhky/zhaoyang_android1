@@ -88,22 +88,21 @@ public class AnswerQuestionFragment extends SortedListFragment {
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        EventHub.register(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        EventHub.unregister(this);
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        EventHub.register(this);
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        EventHub.unregister(this);
+//    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        id = 138;
         id = getArguments().getString(Constants.DATA);
         path = getArguments().getString(Constants.PATH);
         questionType = getArguments().getString(Constants.QUESTION_TYPE);
