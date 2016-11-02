@@ -554,14 +554,9 @@ public class AppointmentHandler2 {
             return 0;
         }
 
-        String bookTime = data.getBook_time();
+        String endTime = data.getEnd_time();
         try {
-            String substring;
-            if (bookTime != null) {
-                substring = bookTime.substring(17, bookTime.length());
-                String date = bookTime.substring(0, 11) + substring;
-                return parseDate(date);
-            }
+            return parseDate(endTime);
         } catch (Exception ignored) {
         }
         return 0;
@@ -569,7 +564,7 @@ public class AppointmentHandler2 {
 
 
     private static long parseDate(String date) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
         Date parse = dateFormat.parse(date);
         return parse.getTime();
     }
@@ -578,9 +573,9 @@ public class AppointmentHandler2 {
     public static String chatStatus(Appointment data) {
         switch (data.getType()) {
             case AppointmentType.FollowUp:
-                return "随访" + getStatusLabel(data);
+                return "随访" + data.getDisplay_status();
         }
-        if (data.getStatus() == 4) {
+        if (data.getStatus() == Status.FINISHED) {
             if (Settings.isDoctor()) {
                 return "本次咨询已结束";
             } else {
@@ -591,7 +586,6 @@ public class AppointmentHandler2 {
         }
 
     }
-
 
 
     @NonNull
@@ -659,10 +653,6 @@ public class AppointmentHandler2 {
         }
     }
 
-
-    public static String getStatusLabel(Appointment data) {
-        return data.getDisplay_status();
-    }
 
     public static void showStatusTimeline(Context context, Appointment data) {
         RecyclerView recyclerView = new RecyclerView(context);
@@ -763,11 +753,11 @@ public class AppointmentHandler2 {
     }
 
     public static String styledOrderStatus(Appointment data) {
-        return String.format("<font color='%s'>%s</font>", getStatusColor(data), getStatusLabel(data));
+        return String.format("<font color='%s'>%s</font>", getStatusColor(data), data.getDisplay_status());
     }
 
     public static String styledOrderTypeAndStatus(Appointment data) {
-        return String.format("<font color='%s'>%s-%s</font>", getStatusColor(data), data.getDisplay_type(), getStatusLabel(data));
+        return String.format("<font color='%s'>%s-%s</font>", getStatusColor(data), data.getDisplay_type(), data.getDisplay_status());
     }
 
 

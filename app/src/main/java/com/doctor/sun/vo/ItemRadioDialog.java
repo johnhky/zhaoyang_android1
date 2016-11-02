@@ -36,7 +36,7 @@ public class ItemRadioDialog extends BaseItem implements LayoutId {
 
     public String getSelectedItemText() {
         if (selectedItem == -1) {
-            return "";
+            return "请选择" + getTitle();
         }
         return options.get(selectedItem);
     }

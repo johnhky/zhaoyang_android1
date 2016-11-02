@@ -95,8 +95,7 @@ public class Settings {
         if (json == null) {
             return new Doctor();
         }
-        Doctor doctor = JacksonUtils.fromJson(json, Doctor.class);
-        return doctor;
+        return JacksonUtils.fromJson(json, Doctor.class);
     }
 
     public static String getPhone() {
