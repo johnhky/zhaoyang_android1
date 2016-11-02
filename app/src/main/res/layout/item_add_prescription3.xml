@@ -73,7 +73,7 @@
             android:onClick="@{()->data.addDrug(context,adapter)}"
             android:paddingLeft="@dimen/dp_10"
             android:paddingStart="@dimen/dp_10"
-            android:text="添加更多用药"
+            android:text="添加更多处方"
             android:textColor="@color/grey_ab"
             android:textSize="@dimen/font_15"
             tools:ignore="RtlSymmetry" />

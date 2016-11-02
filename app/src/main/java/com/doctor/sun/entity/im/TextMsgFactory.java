@@ -64,7 +64,7 @@ public class TextMsgFactory {
         result.setTime(msg.getTime());
         result.setFrom(msg.getFromAccount());
         String pushContent = msg.getPushContent();
-        if (pushContent != null && pushContent.equals("用药信息提醒")) {
+        if (pushContent != null && pushContent.equals("处方信息提醒")) {
             result.setUserData(ADMIN_DRUG);
         }
         RealmList<AttachmentPair> attachment = parseAttachment2(msg);

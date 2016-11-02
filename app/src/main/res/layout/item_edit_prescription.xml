@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_13"
                 android:singleLine="true"
-                android:text="修改用药"
+                android:text="修改处方"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
 

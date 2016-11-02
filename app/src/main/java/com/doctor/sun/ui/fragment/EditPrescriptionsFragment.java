@@ -108,7 +108,7 @@ public class EditPrescriptionsFragment extends SortedListFragment {
                 getActivity().setResult(Activity.RESULT_OK, intent);
                 getActivity().finish();
             } else {
-                Toast.makeText(getContext(), "请填写用药份量", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "请填写处方份量", Toast.LENGTH_SHORT).show();
                 getBinding().recyclerView.scrollToPosition(5);
             }
         }

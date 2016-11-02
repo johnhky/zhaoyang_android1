@@ -32,7 +32,7 @@ public class PrescriptionHandler {
 
     public static void modify(Context context, final BaseListAdapter adapter, final Prescription data) {
         Bundle args = EditPrescriptionsFragment.getArgs(data);
-        Intent intent = SingleFragmentActivity.intentFor(context, "添加/编辑用药", args);
+        Intent intent = SingleFragmentActivity.intentFor(context, "添加/编辑处方", args);
         Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
