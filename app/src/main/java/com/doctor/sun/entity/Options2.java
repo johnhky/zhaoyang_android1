@@ -3,11 +3,13 @@ package com.doctor.sun.entity;
 import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
+import com.doctor.sun.event.LoadDrugEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.ImmutablePrescription;
@@ -31,6 +33,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 28/7/2016.
@@ -349,6 +353,11 @@ public class Options2 extends BaseItem {
             toolModule.listOfDrugs(optionContent).enqueue(new SimpleCallback<List<Prescription>>() {
                 @Override
                 protected void handleResponse(List<Prescription> response) {
+
+                    if (response == null || response.size() == 0) {
+                        EventHub.post(new LoadDrugEvent());
+                        return;
+                    }
                     ItemAddPrescription2 item = (ItemAddPrescription2) adapter.get(questionId + QuestionType.drug);
                     for (Prescription prescription : response) {
                         item.addPrescription(prescription, adapter);
