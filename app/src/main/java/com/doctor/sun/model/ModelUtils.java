@@ -60,7 +60,9 @@ final class ModelUtils {
                 ApiDTO<String> body = new ApiDTO<>();
                 body.setStatus("500");
                 body.setMessage(item.errorMsg());
-                callback.onResponse(null, Response.success(body));
+                if (callback != null) {
+                    callback.onResponse(null, Response.success(body));
+                }
                 return null;
             }
 

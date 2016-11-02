@@ -7,7 +7,6 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +17,8 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.handler.PrescriptionHandler;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.ImmutablePrescription;
+import com.doctor.sun.immutables.ModifiablePrescription;
 import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.model.EditPrescriptionModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
@@ -40,7 +41,12 @@ public class EditPrescriptionsFragment extends SortedListFragment {
 
     public static Bundle getArgs(Prescription data) {
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.DATA, JacksonUtils.toJson(data));
+        if (data instanceof ModifiablePrescription) {
+            Prescription immutablePrescription = ImmutablePrescription.copyOf(data);
+            bundle.putString(Constants.DATA, JacksonUtils.toJson(immutablePrescription));
+        } else {
+            bundle.putString(Constants.DATA, JacksonUtils.toJson(data));
+        }
         bundle.putString(Constants.FRAGMENT_NAME, TAG);
         return bundle;
     }

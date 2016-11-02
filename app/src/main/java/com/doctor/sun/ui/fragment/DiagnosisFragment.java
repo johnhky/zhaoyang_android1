@@ -33,6 +33,7 @@ import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.ModifiablePrescription;
 import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
@@ -332,7 +333,8 @@ public class DiagnosisFragment extends BaseFragment {
         if (prescriptions == null) {
             prescriptions = new ArrayList<>();
         }
-        prescriptions.add(prescription);
+        ModifiablePrescription from = ModifiablePrescription.create().from(prescription);
+        prescriptions.add(from);
         final LinearLayout llyRoot = binding.editPrescription.llyRoot;
         final ItemPrescriptionBinding prescriptionBinding = ItemPrescriptionBinding.inflate(LayoutInflater.from(getContext()), llyRoot, false);
         prescriptionBinding.tvDelete.setOnClickListener(new View.OnClickListener() {
@@ -342,7 +344,7 @@ public class DiagnosisFragment extends BaseFragment {
                 prescriptions.remove(prescription);
             }
         });
-        prescriptionBinding.setData(prescription);
+        prescriptionBinding.setData(from);
         llyRoot.addView(prescriptionBinding.getRoot(), llyRoot.getChildCount() - 1);
     }
 
