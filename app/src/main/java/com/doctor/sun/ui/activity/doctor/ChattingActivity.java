@@ -29,6 +29,7 @@ import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.CallFailedShouldCallPhoneEvent;
+import com.doctor.sun.event.FinishRefreshEvent;
 import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.event.RejectInComingCallEvent;
 import com.doctor.sun.event.SendMessageEvent;
@@ -505,23 +506,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         MsgService service = NIMClient.getService(MsgService.class);
         IMMessage emptyMessage = MessageBuilder.createEmptyMessage(sendTo, SessionTypeEnum.Team, time);
         InvocationFuture<List<IMMessage>> listInvocationFuture = service.pullMessageHistoryEx(emptyMessage, time + ONE_DAY, 10, QueryDirectionEnum.QUERY_OLD, false);
-        listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
-            @Override
-            public void onSuccess(List<IMMessage> imMessages) {
-                MsgHandler.saveMsgs(imMessages, true);
-                binding.refreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onFailed(int i) {
-                binding.refreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onException(Throwable throwable) {
-                binding.refreshLayout.setRefreshing(false);
-            }
-        });
+        listInvocationFuture.setCallback(new FirstPageCallback());
     }
 
     @Subscribe
@@ -602,4 +587,26 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         }
     }
 
+    @Subscribe
+    public void onFinishRefresh(FinishRefreshEvent event) {
+        binding.refreshLayout.setRefreshing(false);
+    }
+
+    private class FirstPageCallback implements RequestCallback<List<IMMessage>> {
+        @Override
+        public void onSuccess(List<IMMessage> imMessages) {
+            MsgHandler.saveMsgs(imMessages, true);
+            EventHub.post(new FinishRefreshEvent());
+        }
+
+        @Override
+        public void onFailed(int i) {
+            EventHub.post(new FinishRefreshEvent());
+        }
+
+        @Override
+        public void onException(Throwable throwable) {
+            EventHub.post(new FinishRefreshEvent());
+        }
+    }
 }

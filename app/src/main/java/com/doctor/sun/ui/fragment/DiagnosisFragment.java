@@ -33,6 +33,7 @@ import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.ImmutablePrescription;
 import com.doctor.sun.immutables.ModifiablePrescription;
 import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.module.DiagnosisModule;
@@ -389,7 +390,11 @@ public class DiagnosisFragment extends BaseFragment {
             return "";
         }
         try {
-            return JacksonUtils.toJson(prescriptions);
+            ArrayList<Prescription> result = new ArrayList();
+            for (Prescription prescription : prescriptions) {
+                result.add(ImmutablePrescription.copyOf(prescription));
+            }
+            return JacksonUtils.toJson(result);
         } catch (Exception e) {
             return "";
         }
