@@ -10,6 +10,6 @@ public class TestConfig {
 
     public static final String PSW = "a1234567";
     public static final String PATIENT_PHONE_NUM = "13922228111";
-    public static final String DOCTOR_PHONE_NUM =  "13922221301";
+    public static final String DOCTOR_PHONE_NUM =  "13922221302";
     public static final String CAPTCHA = "123456";
 }
