@@ -174,7 +174,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTimeInMillis(time);
         String format = simpleDateFormat.format(calendar.getTime());
-        return "用户于" + format + "选择用药";
+        return "用户于" + format + "选择处方";
     }
 
     public View.OnClickListener previewImage(final String url) {

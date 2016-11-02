@@ -153,7 +153,7 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         result.add(labelAdvice);
         result.add(adviceContent);
         if (!prescriptions.isEmpty()) {
-            result.add(new Description(R.layout.item_description, "建议用药"));
+            result.add(new Description(R.layout.item_description, "建议处方"));
             result.addAll(prescriptions);
         }
         if (furtherConsultation != null) {

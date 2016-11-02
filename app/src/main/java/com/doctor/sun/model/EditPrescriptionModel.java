@@ -190,7 +190,7 @@ public class EditPrescriptionModel {
 
         @Override
         public String errorMsg() {
-            return "用药份量格式错误";
+            return "处方份量格式错误";
         }
 
         boolean isValidNumber(String input) {

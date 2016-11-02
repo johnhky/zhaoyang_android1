@@ -96,11 +96,11 @@ public class DiagnosisViewModel {
         labelEval = new Description(R.layout.item_description, "评估");
 
         labelAllCanSee = new Description(R.layout.item_description, "以下部分为病人可见");
-        btnGotoTabOne = new ItemButton(R.layout.item_edit_prescription, "修改用药") {
+        btnGotoTabOne = new ItemButton(R.layout.item_edit_prescription, "修改处方") {
             @Override
             public void onClick(View view) {
                 Bundle args = EditPrescriptionsFragment.getArgs(null);
-                Intent intent = SingleFragmentActivity.intentFor(context, "添加/编辑用药", args);
+                Intent intent = SingleFragmentActivity.intentFor(context, "添加/编辑处方", args);
                 context.startActivityForResult(intent, Constants.PRESCRITION_REQUEST_CODE);
             }
         };

@@ -34,7 +34,7 @@
                     android:id="@+id/tv_async_consultation"
                     android:layout_width="match_parent"
                     android:gravity="center"
-                    android:text="查看用药"
+                    android:text="查看处方"
                     android:textSize="@dimen/font_17"
                     android:textColor="#ffffffff"
                     android:layout_height="match_parent" />
