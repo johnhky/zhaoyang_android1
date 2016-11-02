@@ -77,15 +77,6 @@ public class EditPatientInfoModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        ItemTextInput2 email = new ItemTextInput2(R.layout.item_text_input2, "邮箱", "选填");
-        email.setResult(data.getEmail());
-        email.setItemId("email");
-        email.setPosition(result.size());
-        email.setEnabled(false);
-        result.add(email);
-
-        ModelUtils.insertDividerMarginLR(result);
-
         ItemPickDate birthday = new ItemPickDate(R.layout.item_pick_date2, "出生年月");
         birthday.setDate(data.getBirthday());
         birthday.setItemId("birthday");
@@ -112,7 +103,7 @@ public class EditPatientInfoModel {
     public void savePatientInfo(SortedListAdapter adapter, Callback<ApiDTO<Patient>> callback) {
         ProfileModule api = Api.of(ProfileModule.class);
         api.editPatientInfo(adapter.get("name").getValue(),
-                adapter.get("email").getValue(),
+                "",
                 adapter.get("birthday").getValue(),
                 Integer.parseInt(adapter.get("gender").getValue()),
                 adapter.get("avatar").getValue()).enqueue(callback);

@@ -81,9 +81,6 @@ public interface ProfileModule {
     @GET("profile/medical-records")
     Call<ApiDTO<List<MedicalRecord>>> medicalRecordList();
 
-    @GET("profile/histories")
-    Call<ApiDTO<PageDTO<Appointment>>> histories(@Query("page") int page);
-
     @FormUrlEncoded
     @POST("profile/money")
     Call<ApiDTO<String>> setFee(@Field("money") String money, @Field("secondMoney") String secondMoney);
