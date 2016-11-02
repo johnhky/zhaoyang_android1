@@ -73,6 +73,11 @@ public abstract class Appointment implements LayoutId {
     public abstract List<Tags> getSelect_tags();
 
     @Value.Default
+    public double getDoctor_point() {
+        return 0D;
+    }
+
+    @Value.Default
     public int getCan_edit() {
         return IntBoolean.NOT_GIVEN;
     }

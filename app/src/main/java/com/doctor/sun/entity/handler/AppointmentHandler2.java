@@ -405,7 +405,7 @@ public class AppointmentHandler2 {
     }
 
     public static boolean hasDoctorComment(Appointment data) {
-        return data.getDoctor().getPoint() > 0;
+        return data.getDoctor_point() > 0;
     }
 
 

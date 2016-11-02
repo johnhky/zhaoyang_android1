@@ -1,7 +1,6 @@
 package com.doctor.sun.model;
 
 import android.databinding.Observable;
-import android.util.Log;
 
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
@@ -35,6 +34,7 @@ import com.doctor.sun.vo.ItemPickHospital;
 import com.doctor.sun.vo.ItemPickImages;
 import com.doctor.sun.vo.ItemPickTime;
 import com.doctor.sun.vo.ItemTextInput;
+import com.doctor.sun.vo.ItemTextInput2;
 import com.google.common.base.Strings;
 
 import java.io.IOException;
@@ -391,15 +391,19 @@ public class QuestionsModel {
     }
 
     private void parseFill(List<SortedItem> items, int i, final Questions2 questions2) {
-        final ItemTextInput textInput = new ItemTextInput(R.layout.item_text_input6, "");
+        final ItemTextInput2 textInput = new ItemTextInput2(R.layout.item_text_input6, "", "");
+        textInput.setMaxLength(questions2.extendType);
         textInput.setPosition(positionIn(i, RANGE_ITEM_POSITION));
         textInput.setItemId(questions2.getKey() + QuestionType.fill);
-        textInput.setInput(questions2.fillContent);
-        questions2.answerCount = textInput.getInput().length();
+        textInput.setResult(questions2.fillContent);
+        if (Strings.isNullOrEmpty(textInput.getResult())) {
+            textInput.setResult("");
+        }
+        questions2.answerCount = textInput.getResult().length();
         textInput.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                questions2.answerCount = textInput.getInput().length();
+                questions2.answerCount = textInput.getResult().length();
                 questions2.notifyChange();
             }
         });

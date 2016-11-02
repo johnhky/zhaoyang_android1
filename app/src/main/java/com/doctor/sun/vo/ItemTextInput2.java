@@ -7,9 +7,13 @@ import android.view.inputmethod.EditorInfo;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.entity.Questions2;
+import com.doctor.sun.entity.constans.QuestionType;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.validator.RegexValidator;
 import com.google.common.base.Strings;
 
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 import io.ganguo.library.util.StringsUtils;
@@ -129,6 +133,19 @@ public class ItemTextInput2 extends BaseItem {
     public void clearAnswer() {
         setEnabled(true);
         setResult("");
+    }
+    @Override
+    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        if (!Strings.isNullOrEmpty(result)){
+            HashMap<String, Object> map = new HashMap<>();
+            String key = getKey().replace(QuestionType.fill, "");
+            Questions2 questions2 = (Questions2) adapter.get(key);
+            map.put("question_id", questions2.answerId);
+            map.put("fill_content", result);
+            return map;
+        } else {
+            return null;
+        }
     }
 
     public static ItemTextInput2 mobilePhoneInput(String title, String hint) {
