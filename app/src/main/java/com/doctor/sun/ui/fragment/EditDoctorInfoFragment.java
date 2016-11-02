@@ -64,7 +64,6 @@ public class EditDoctorInfoFragment extends SortedListFragment {
         super.onCreate(savedInstanceState);
         model = new EditDoctorInfoModel();
         data = getArguments().getParcelable(Constants.DATA);
-        EventHub.register(this);
     }
 
     @Override
@@ -160,9 +159,5 @@ public class EditDoctorInfoFragment extends SortedListFragment {
 //        getBinding().swipeRefresh.setRefreshing(false);
 //    }
 //
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventHub.unregister(this);
-    }
+
 }

@@ -20,7 +20,7 @@ public class ScalesResult extends BaseItem {
     @JsonProperty("scale_count_result")
     public String scaleCountResult;
     @JsonProperty("scale_point")
-    public String scalePoint;
+    public String scalePoint = "";
     @JsonProperty("scale_rule_name")
     public String scaleRuleName;
 

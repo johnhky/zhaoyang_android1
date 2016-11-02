@@ -11,6 +11,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
+import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
 
@@ -57,7 +58,12 @@ public class ItemPickImage extends BaseItem {
         String path = "file://" + file.getAbsolutePath();
 
         int pickerPosition = PickImageDialog.getRequestCode(requestCode);
-        final ItemPickImage pickerItem = (ItemPickImage) adapter.get(pickerPosition);
+        SortedItem sortedItem = adapter.get(pickerPosition);
+        boolean itemIsPicker = sortedItem != null && sortedItem instanceof ItemPickImage;
+        if (!itemIsPicker) {
+            return;
+        }
+        final ItemPickImage pickerItem = (ItemPickImage) sortedItem;
 
         pickerItem.setLocalPath(path);
 

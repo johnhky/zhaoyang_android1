@@ -94,10 +94,6 @@ public class AppointmentHandler2 {
         return data.getRecord().getRecordName();
     }
 
-    public static String getBookTime(Appointment data) {
-        return data.getBook_time();
-    }
-
 
     public static String getRelationAndName(Appointment data) {
         return "(" + data.getRecord().getRelation() + "/" + data.getRecord().getRecordName() + ")";
@@ -134,9 +130,9 @@ public class AppointmentHandler2 {
     public static String getTime(Context context, Appointment data) {
         switch (data.getType()) {
             case AppointmentType.FollowUp:
-                return "就诊时间: " + data.getTime_bucket();
+                return "随访时间: " + data.getTime_bucket();
             default:
-                return "预约时间: " + data.getTime_bucket();
+                return "就诊时间: " + data.getTime_bucket();
         }
     }
 
