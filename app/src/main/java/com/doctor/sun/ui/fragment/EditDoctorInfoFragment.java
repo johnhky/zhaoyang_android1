@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,8 +23,6 @@ import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.model.EditDoctorInfoModel;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
-import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
-import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.ItemAddTag;
@@ -36,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.ganguo.library.Config;
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 28/7/2016.
@@ -66,6 +64,7 @@ public class EditDoctorInfoFragment extends SortedListFragment {
         super.onCreate(savedInstanceState);
         model = new EditDoctorInfoModel();
         data = getArguments().getParcelable(Constants.DATA);
+        EventHub.register(this);
     }
 
     @Override
@@ -149,14 +148,21 @@ public class EditDoctorInfoFragment extends SortedListFragment {
             ItemPickImage.handleRequest(getActivity(), getAdapter(), data, requestCode);
         }
     }
+
     @Subscribe
     public void onActivityResultEvent(ActivityResultEvent event) {
         onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
     }
-//
+
+    //
 //    @Override
 //    public void onRefresh() {
 //        getBinding().swipeRefresh.setRefreshing(false);
 //    }
 //
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventHub.unregister(this);
+    }
 }

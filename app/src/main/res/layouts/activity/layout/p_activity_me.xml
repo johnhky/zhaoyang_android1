@@ -55,12 +55,12 @@
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
-            <RatingBar
-                style="@style/SmallRatingBarCenter"
-                android:layout_marginTop="@dimen/dp_8"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:rating="@{handler.data.point}" />
+            <!--<RatingBar-->
+                <!--style="@style/SmallRatingBarCenter"-->
+                <!--android:layout_marginTop="@dimen/dp_8"-->
+                <!--android:isIndicator="true"-->
+                <!--android:numStars="5"-->
+                <!--android:rating="@{handler.data.point}" />-->
 
         </LinearLayout>
 

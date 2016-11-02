@@ -156,9 +156,9 @@ public class EditDoctorInfoModel {
                 tag.setItemId(data.tags.get(i).tagId);
                 String tagName = data.tags.get(i).tagName;
                 tag.setResult(tagName);
-                if (!Strings.isNullOrEmpty(tagName)) {
-                    tag.lockResult();
-                }
+//                if (!Strings.isNullOrEmpty(tagName)) {
+//                    tag.lockResult();
+//                }
             }
             result.add(tag);
         }

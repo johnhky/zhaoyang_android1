@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -38,12 +39,14 @@ public class AddMedicalRecordDialog {
                         break;
                     }
                     case R.id.tv_self: {
-                        Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", NewMedicalRecordFragment.getArgs(NewMedicalRecordFragment.TYPE_SELF));
+                        Bundle args = NewMedicalRecordFragment.getArgs(NewMedicalRecordFragment.TYPE_SELF);
+                        Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", args);
                         context.startActivity(intent);
                         break;
                     }
                     case R.id.tv_relative: {
-                        Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", NewMedicalRecordFragment.getArgs(NewMedicalRecordFragment.TYPE_OTHER));
+                        Bundle args = NewMedicalRecordFragment.getArgs(NewMedicalRecordFragment.TYPE_OTHER);
+                        Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", args);
                         context.startActivity(intent);
                         break;
                     }
@@ -54,7 +57,7 @@ public class AddMedicalRecordDialog {
         binding.tvSelf.setOnClickListener(listener);
         binding.tvRelative.setOnClickListener(listener);
         if (isRegister) {
-            binding.tvRelative.setText("暂不填写,先逛逛");
+            binding.tvCancel.setText("暂不填写,先逛逛");
         }
         dialog.setCancelable(false);
         dialog.show();
