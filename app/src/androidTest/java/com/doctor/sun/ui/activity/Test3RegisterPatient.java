@@ -26,6 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -52,6 +53,8 @@ public class Test3RegisterPatient {
         fillRegisterInfo();
 
         clickNext();
+
+        clickPositiveDialog();
     }
 
     private void typePhoneNum(String doctorPhoneNum) {
@@ -68,6 +71,11 @@ public class Test3RegisterPatient {
         ViewInteraction actionMenuItemView = onView(
                 AllOf.allOf(withId(R.id.action_next), withText("下一步"), withContentDescription("下一步"), isDisplayed()));
         actionMenuItemView.perform(click());
+    }
+    private void clickPositiveDialog(){
+        ViewInteraction mDButton = onView(
+                allOf(withId(R.id.md_buttonDefaultPositive), withText("确定"), isDisplayed()));
+        mDButton.perform(click());
     }
 
     private void fillRegisterInfo() {

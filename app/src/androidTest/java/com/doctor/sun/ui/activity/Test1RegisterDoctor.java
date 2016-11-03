@@ -3,10 +3,9 @@ package com.doctor.sun.ui.activity;
 
 import android.content.Intent;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.test.filters.LargeTest;
 
 import com.doctor.sun.R;
 import com.doctor.sun.TestConfig;
@@ -26,6 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -52,16 +52,18 @@ public class Test1RegisterDoctor {
         fillRegisterInfo();
 
         clickNext();
+
+        clickPositiveDialog();
     }
 
 
     private void typePhoneNum(String doctorPhoneNum) {
-         CustomViewAction.performActionAt(4, typeText(doctorPhoneNum));
+        CustomViewAction.performActionAt(4, typeText(doctorPhoneNum));
     }
 
     private void selectRegisterType(int id) {
-         CustomViewAction.performActionAt(1,
-                        CustomViewAction.clickChildViewWithId(id));
+        CustomViewAction.performActionAt(1,
+                CustomViewAction.clickChildViewWithId(id));
 
     }
 
@@ -71,16 +73,22 @@ public class Test1RegisterDoctor {
         actionMenuItemView.perform(click());
     }
 
+    private void clickPositiveDialog() {
+        ViewInteraction mDButton = onView(
+                allOf(withId(R.id.md_buttonDefaultPositive), withText("确定"), isDisplayed()));
+        mDButton.perform(click());
+    }
+
     private void fillRegisterInfo() {
 
-         CustomViewAction.performActionAt(6, typeText(TestConfig.CAPTCHA));
-         CustomViewAction.performActionAt(6,
-                        CustomViewAction.clickChildViewWithId(R.id.btn_captcha));
+        CustomViewAction.performActionAt(6, typeText(TestConfig.CAPTCHA));
+        CustomViewAction.performActionAt(6,
+                CustomViewAction.clickChildViewWithId(R.id.btn_captcha));
 
-         CustomViewAction.performActionAt(8, typeText(TestConfig.PSW));
-         CustomViewAction.performActionAt(10, typeText(TestConfig.PSW));
-         CustomViewAction.performActionAt(12,
-                        CustomViewAction.clickChildViewWithId(R.id.cb_confirm));
+        CustomViewAction.performActionAt(8, typeText(TestConfig.PSW));
+        CustomViewAction.performActionAt(10, typeText(TestConfig.PSW));
+        CustomViewAction.performActionAt(12,
+                CustomViewAction.clickChildViewWithId(R.id.cb_confirm));
     }
 
 }

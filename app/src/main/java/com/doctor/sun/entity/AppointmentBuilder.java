@@ -353,7 +353,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         ApiCallback<Appointment> callback = new ApiCallback<Appointment>() {
             @Override
             protected void handleResponse(Appointment response) {
-                final String medicalRecordId = String.valueOf(getRecord().getMedicalRecordId());
+//                final String medicalRecordId = String.valueOf(getRecord().getMedicalRecordId());
 
                 if (isUseWechat) {
                     AppointmentHandler2.payWithWeChat((Activity) context, finalCouponId, response);
