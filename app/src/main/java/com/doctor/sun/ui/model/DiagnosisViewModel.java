@@ -23,6 +23,7 @@ import com.doctor.sun.vo.ItemPickTime;
 import com.doctor.sun.vo.ItemRadioGroup;
 import com.doctor.sun.vo.ItemReminderList;
 import com.doctor.sun.vo.ItemTextInput;
+import com.google.common.base.Strings;
 
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -353,7 +354,7 @@ public class DiagnosisViewModel {
         result.put("recovered", String.valueOf(recovered.getSelectedItem()));
         result.put("treatment", String.valueOf(treatment.getSelectedItem()));
         result.put("effect", String.valueOf(sideEffect.getSelectedItem()));
-        if (prescriptions != null && !prescriptions.equals("")) {
+        if (prescriptions != null && !"".equals(prescriptions)) {
             result.put("prescription", prescriptions);
         }
         result.put("doctor_advince", binding.doctorAdvice.etOthers.getText().toString());
@@ -397,7 +398,7 @@ public class DiagnosisViewModel {
     }
 
     public String getAdvice() {
-        if (advice.equals("")) {
+        if (Strings.isNullOrEmpty(advice)) {
             return "坚持服药,定期复诊";
         }
         return advice;

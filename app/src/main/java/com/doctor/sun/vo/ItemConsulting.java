@@ -17,6 +17,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.ItemHelper;
+import com.doctor.sun.util.JacksonUtils;
 
 import java.util.HashMap;
 
@@ -116,7 +117,8 @@ public class ItemConsulting implements SortedItem {
         @Override
         public boolean handleMessage(Message msg) {
             if (mAdapter != null) {
-                mAdapter.insert(new ItemConsulting(System.currentTimeMillis(), (Appointment) msg.obj));
+                Appointment data = JacksonUtils.fromJson(msg.obj.toString(), Appointment.class);
+                mAdapter.insert(new ItemConsulting(System.currentTimeMillis(), data));
                 mAdapter = null;
             }
             return false;

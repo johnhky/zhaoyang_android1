@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -28,7 +29,8 @@
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dp_13">
+            android:paddingLeft="@dimen/dp_13"
+            tools:ignore="RtlHardcoded,RtlSymmetry">
 
             <ImageView
                 android:id="@+id/iv_position"
@@ -52,6 +54,7 @@
         </FrameLayout>
 
         <TextView
+            android:id="@+id/tv_question"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -59,7 +62,7 @@
             android:layout_marginStart="@dimen/dp_6"
             android:layout_weight="1"
             android:text="@{data.questionContent}"
-            android:textColor="#363636"
+            android:textColor="@color/question_content_color"
             android:textSize="@dimen/font_15" />
 
 

@@ -155,6 +155,7 @@ public class SystemMsg extends BaseItem {
         boolean isDoctor = Settings.isDoctor();
         ProfileModule apiProfile = Api.of(ProfileModule.class);
         AppointmentModule apiAppointment = Api.of(AppointmentModule.class);
+        JPushExtra extras = getExtras();
         switch (type) {
             case 1: {
                 if (isDoctor) {
@@ -166,7 +167,10 @@ public class SystemMsg extends BaseItem {
             }
             case 5: {
                 if (!isDoctor) {
-                    apiAppointment.appointmentDetail(getExtras().appointmentId).enqueue(new SimpleCallback<Appointment>() {
+                    if (extras == null) {
+                        return;
+                    }
+                    apiAppointment.appointmentDetail(extras.appointmentId).enqueue(new SimpleCallback<Appointment>() {
                         @Override
                         protected void handleResponse(Appointment response) {
                             Intent intent = AppointmentDetailActivity.makeIntent(context, response, 0);
@@ -200,9 +204,11 @@ public class SystemMsg extends BaseItem {
             }
             case 10: {
                 if (!isDoctor) {
-                    String appointmentId = getExtras().appointmentId;
-                    Bundle args = ReadDiagnosisFragment.getArgs(appointmentId);
-                    i = SingleFragmentActivity.intentFor(context, "", args);
+                    if (extras != null) {
+                        String appointmentId = extras.appointmentId;
+                        Bundle args = ReadDiagnosisFragment.getArgs(appointmentId);
+                        i = SingleFragmentActivity.intentFor(context, "", args);
+                    }
                 }
                 break;
             }
@@ -240,7 +246,10 @@ public class SystemMsg extends BaseItem {
             }
             case 23: {
                 if (isDoctor) {
-                    apiAppointment.appointmentDetail(getExtras().appointmentId).enqueue(new SimpleCallback<Appointment>() {
+                    if (extras == null) {
+                        return;
+                    }
+                    apiAppointment.appointmentDetail(extras.appointmentId).enqueue(new SimpleCallback<Appointment>() {
                         @Override
                         protected void handleResponse(Appointment response) {
                             Intent intent = PatientDetailActivity.makeIntent(context, response, 0);
@@ -254,7 +263,7 @@ public class SystemMsg extends BaseItem {
                 if (isDoctor) {
                     i = AfterServiceActivity.intentFor(context);
                 } else {
-                    i = AfterServiceDoingActivity.intentFor(context, getExtras().followUpId, "", 0);
+                    i = AfterServiceDoingActivity.intentFor(context, extras.followUpId, "", 0);
                 }
                 break;
             }
@@ -266,7 +275,7 @@ public class SystemMsg extends BaseItem {
             }
             case 28: {
                 if (!isDoctor) {
-                    i = AfterServiceDoneActivity.intentFor(context, getExtras().appointmentId, 1);
+                    i = AfterServiceDoneActivity.intentFor(context, extras.appointmentId, 1);
                 }
                 break;
             }
