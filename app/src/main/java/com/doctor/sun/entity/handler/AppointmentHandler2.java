@@ -57,6 +57,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.fragment.PayAppointmentFragment;
 import com.doctor.sun.util.ItemHelper;
+import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PayCallback;
 import com.doctor.sun.vo.BaseItem;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
@@ -297,7 +298,7 @@ public class AppointmentHandler2 {
         if (!"0".equals(data.getTid())) {
             Intent intent = ChattingActivity.makeIntent(vh.itemView.getContext(), data);
             if (adapter != null) {
-                ItemHelper.initCallback(intent, adapter, vh);
+                intent.putExtra(ItemHelper.HANDLER, new Messenger(new Handler(new Callback(adapter, vh.getAdapterPosition()))));
             }
             vh.itemView.getContext().startActivity(intent);
         } else {
@@ -424,7 +425,7 @@ public class AppointmentHandler2 {
             }
             case Status.DOING:
             case Status.WAITING: {
-                chat(vh.itemView.getContext(), data);
+                chat(adapter, vh, data);
                 break;
             }
             default: {
@@ -782,37 +783,6 @@ public class AppointmentHandler2 {
         }
     }
 
-//    @Deprecated
-//    public static String styledOrderStatus2(Appointment data) {
-//        return String.format("<font color='%s'>%s</font>", getStatusColor2(data), getStatusLabel(data));
-//    }
-//
-//    @Deprecated
-//    public static String getStatusColor2(Appointment data) {
-//        switch (data.getStatus()) {
-//            case Status.FINISHED:
-//                return "#339de1";
-//
-//            case Status.UNPAID:
-//                return "#ff1800";
-//
-//            case Status.PAID:
-//                return "#ff8e43";
-//
-//            case Status.WAITING:
-//                return "#ff1800";
-//
-//            case Status.DOING:
-//                return "#88cb5a";
-//
-//            case Status.LOCKED:
-//            case Status.CANCEL:
-//                return "#898989";
-//            default:
-//                return "#acacac";
-//        }
-//    }
-
 
     @IntDef
     public @interface Status {
@@ -823,5 +793,26 @@ public class AppointmentHandler2 {
         int FINISHED = 4;
         int CANCEL = 6;
         int LOCKED = 7;
+    }
+
+    private static class Callback implements Handler.Callback {
+
+        private final int position;
+        private BaseListAdapter mAdapter;
+
+        public Callback(BaseListAdapter mAdapter, int position) {
+            this.mAdapter = mAdapter;
+            this.position = position;
+        }
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (mAdapter != null) {
+                Appointment data = JacksonUtils.fromJson(msg.obj.toString(), Appointment.class);
+                mAdapter.update(position, data);
+                mAdapter = null;
+            }
+            return false;
+        }
     }
 }

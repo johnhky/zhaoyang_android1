@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,7 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.ganguo.library.Config;
-import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 28/7/2016.
@@ -80,6 +80,9 @@ public class EditDoctorInfoFragment extends SortedListFragment {
         List<SortedItem> sortedItems = model.parseData(data);
         binding.swipeRefresh.setRefreshing(false);
         getAdapter().insertAll(sortedItems);
+        if (data.getReviewStatus().equals(Doctor.STATUS_PENDING)) {
+            Snackbar.make(binding.getRoot(), "资料正在审核，请耐心等待", Snackbar.LENGTH_INDEFINITE).show();
+        }
     }
 
     public void save() {
@@ -98,8 +101,7 @@ public class EditDoctorInfoFragment extends SortedListFragment {
                     api.doctorProfile().enqueue(new ApiCallback<Doctor>() {
                         @Override
                         protected void handleResponse(Doctor response) {
-                            Doctor data = response;
-                            Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(data));
+                            Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(response));
 
                             TokenCallback.checkToken(getActivity());
                         }

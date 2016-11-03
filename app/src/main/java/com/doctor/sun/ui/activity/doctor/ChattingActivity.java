@@ -56,6 +56,7 @@ import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.vo.BaseItem;
 import com.doctor.sun.vo.CustomActionViewModel;
 import com.doctor.sun.vo.InputLayoutViewModel;
+import com.doctor.sun.vo.ItemConsulting;
 import com.doctor.sun.vo.StickerViewModel;
 import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
@@ -321,7 +322,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     public void finish() {
         super.finish();
         setHaveRead(query.or().equalTo("sessionId", getTargetP2PId()).equalTo("haveRead", false).findAll());
-        ItemHelper.changeItem(getIntent(), getData());
+        ItemHelper.changeItem(getIntent(), JacksonUtils.toJson(getData()));
     }
 
     private void initInputLayout() {
