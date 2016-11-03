@@ -46,7 +46,7 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginStart="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_4"
-            android:text="@{&quot;问卷得分:&quot;+data.scalePoint}"
+            android:text="@{&quot;问卷得分:&quot;+data.getScalePoint()}"
             android:textSize="@dimen/font_15"
             tools:text="问卷得分 " />
 

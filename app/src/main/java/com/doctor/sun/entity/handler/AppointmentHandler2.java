@@ -439,7 +439,6 @@ public class AppointmentHandler2 {
                 break;
             }
             case Status.FINISHED: {
-                chat(adapter, vh, data);
                 viewDetail(vh.itemView.getContext(), data);
                 break;
             }

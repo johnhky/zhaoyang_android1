@@ -3,6 +3,7 @@ package com.doctor.sun.entity;
 import com.doctor.sun.R;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Strings;
 
 /**
  * Created by rick on 7/9/2016.
@@ -27,5 +28,12 @@ public class ScalesResult extends BaseItem {
     @Override
     public int getItemLayoutId() {
         return R.layout.item_scales_result;
+    }
+
+    public String getScalePoint() {
+        if (Strings.isNullOrEmpty(scalePoint)) {
+            return "";
+        }
+        return scalePoint;
     }
 }

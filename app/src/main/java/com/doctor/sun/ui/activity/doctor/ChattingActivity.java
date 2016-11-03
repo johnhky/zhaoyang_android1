@@ -592,7 +592,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         binding.refreshLayout.setRefreshing(false);
     }
 
-    private class FirstPageCallback implements RequestCallback<List<IMMessage>> {
+    private static class FirstPageCallback implements RequestCallback<List<IMMessage>> {
         @Override
         public void onSuccess(List<IMMessage> imMessages) {
             MsgHandler.saveMsgs(imMessages, true);
