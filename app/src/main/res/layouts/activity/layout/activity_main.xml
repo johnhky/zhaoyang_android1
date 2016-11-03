@@ -49,14 +49,14 @@
                 android:textColor="#f6fafd"
                 android:textSize="@dimen/font_12" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_6"
-                android:gravity="center"
-                android:text="@{@string/last_login_time(data.lastLogin)}"
-                android:textColor="#f6fafd"
-                android:textSize="@dimen/font_12" />
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="@dimen/dp_6"-->
+                <!--android:gravity="center"-->
+                <!--android:text="@{@string/last_login_time(data.lastLogin)}"-->
+                <!--android:textColor="#f6fafd"-->
+                <!--android:textSize="@dimen/font_12" />-->
 
             <View
                 android:layout_width="match_parent"
