@@ -225,7 +225,8 @@ public class AppointmentHandler2 {
 
     @Deprecated
     public static void accept(final Context context, final Appointment data) {
-        new MaterialDialog.Builder(context).content("若需要提前进行就诊，请先与患者确认。（点击下方通话键可联系患者）是否确认提前就诊？")
+        new MaterialDialog.Builder(context)
+                .content("若需要提前进行就诊，请先与患者确认。（点击下方通话键可联系患者）是否确认提前就诊？")
                 .positiveText("确认")
                 .negativeText("取消")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
