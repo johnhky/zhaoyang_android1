@@ -200,7 +200,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
                             @Override
                             public void onApplyClick(MaterialDialog dialog) {
                                 dialog.dismiss();
-                                Intent intent = MedicineStoreActivity.makeIntent(ChattingActivity.this);
+                                Intent intent = MedicineStoreActivity.makeIntent(ChattingActivity.this, true);
                                 startActivity(intent);
                             }
 
