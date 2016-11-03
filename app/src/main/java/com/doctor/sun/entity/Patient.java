@@ -6,8 +6,8 @@ import android.os.Parcelable;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.activity.patient.handler.PatientHandler;
-import com.doctor.sun.vo.LayoutId;
 import com.doctor.sun.util.NameComparator;
+import com.doctor.sun.vo.LayoutId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -136,7 +136,14 @@ public class Patient extends BaseObservable implements LayoutId, Parcelable, Nam
     }
 
     public String getPhone() {
-        return phone;
+        return semiHidePhoneNum(phone);
+    }
+
+    private String semiHidePhoneNum(String originPhone) {
+        if (originPhone == null || "".equals(originPhone)) {
+            return "";
+        }
+        return originPhone.substring(0, 3) + "****" + originPhone.substring(7);
     }
 
     public int getPatientId() {

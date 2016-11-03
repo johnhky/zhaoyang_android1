@@ -68,8 +68,8 @@ public interface ImModule {
     @POST("im/doctor-call-status")
     Call<ApiDTO<HashMap<String, String>>> doctorCall(@Field("doctorId") String doctorId, @Field("status") String status);
 
-    @GET("im/avatar")
-    Call<ApiDTO<Avatar>> avatar(@Query("voipAccount") String voipAccount, @Query("phone") String phone);
+//    @GET("im/avatar")
+//    Call<ApiDTO<Avatar>> avatar(@Query("voipAccount") String voipAccount, @Query("phone") String phone);
 
     @FormUrlEncoded
     @POST("im/phone-call")
