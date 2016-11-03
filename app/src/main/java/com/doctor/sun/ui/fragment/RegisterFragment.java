@@ -87,6 +87,9 @@ public class RegisterFragment extends SortedListFragment {
 
         insertSpace(sortedItems);
 
+        // 放在这里是为了监听registerType切换注册身份时，取消选中CheckBox
+        final ClickMenu registerPolicy = new ClickMenu(R.layout.item_register_policy, 0, "是否已知晓【注册须知】所述事项", null);
+
         final ItemRadioGroup registerType = new ItemRadioGroup(R.layout.item_pick_register_type);
         registerType.setSelectedItem(AuthModule.DOCTOR_TYPE);
         registerType.setResultNotEmpty();
@@ -111,6 +114,7 @@ public class RegisterFragment extends SortedListFragment {
                 } else if (registerType.getSelectedItem() == AuthModule.PATIENT_TYPE) {
                     imgPs.setTitle(patientRemarks);
                 }
+                registerPolicy.setEnabled(false);
             }
         });
         sortedItems.add(imgPs);
@@ -185,7 +189,7 @@ public class RegisterFragment extends SortedListFragment {
 
         insertDivider(sortedItems);
 
-        final ClickMenu registerPolicy = new ClickMenu(R.layout.item_register_policy, 0, "是否已知晓【注册须知】所述事项", null);
+//        final ClickMenu registerPolicy = new ClickMenu(R.layout.item_register_policy, 0, "是否已知晓【注册须知】所述事项", null);
         registerPolicy.setEnabled(false);
         registerPolicy.setItemId(UUID.randomUUID().toString());
         registerPolicy.setListener(new View.OnClickListener() {
