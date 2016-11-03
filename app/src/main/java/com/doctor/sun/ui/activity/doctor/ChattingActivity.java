@@ -322,7 +322,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     public void finish() {
         super.finish();
         setHaveRead(query.or().equalTo("sessionId", getTargetP2PId()).equalTo("haveRead", false).findAll());
-        ItemHelper.changeItem(getIntent(), JacksonUtils.toJson(getData()));
+        ItemHelper.changeItem(getIntent(), JacksonUtils.toJson(binding.getData()));
     }
 
     private void initInputLayout() {

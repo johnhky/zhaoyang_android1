@@ -810,6 +810,7 @@ public class AppointmentHandler2 {
             if (mAdapter != null) {
                 Appointment data = JacksonUtils.fromJson(msg.obj.toString(), Appointment.class);
                 mAdapter.update(position, data);
+                mAdapter.notifyItemChanged(position);
                 mAdapter = null;
             }
             return false;
