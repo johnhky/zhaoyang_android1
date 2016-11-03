@@ -11,6 +11,7 @@ import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -118,7 +119,8 @@ public class ItemConsulting implements SortedItem {
         public boolean handleMessage(Message msg) {
             if (mAdapter != null) {
                 Appointment data = JacksonUtils.fromJson(msg.obj.toString(), Appointment.class);
-                mAdapter.insert(new ItemConsulting(System.currentTimeMillis(), data));
+                long time = AppointmentHandler2.lastMsg(data).getTime();
+                mAdapter.insert(new ItemConsulting(time, data));
                 mAdapter = null;
             }
             return false;
