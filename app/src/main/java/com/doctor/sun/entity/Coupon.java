@@ -70,7 +70,19 @@ public class Coupon implements LayoutId {
 
     @Override
     public String toString() {
-        return info + availability() + "\n" + validBeginTime + "至" + validEndTime;
+        return detail() + availability() + "\n" + validBeginTime + "至" + validEndTime;
+    }
+
+    public String detail() {
+        String prefix;
+        String suffix = "优惠券";
+        int IntThreshold = Integer.parseInt(this.threshold);
+        if (IntThreshold <= 0) {
+            prefix = "立减";
+        } else {
+            prefix = "满" + threshold + "减";
+        }
+        return prefix + couponMoney + suffix;
     }
 
     public String availability() {

@@ -69,6 +69,7 @@
             android:layout_height="1px"
             android:layout_gravity="bottom"
             android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
             android:background="@color/grey_c2" />
     </FrameLayout>
 </layout>

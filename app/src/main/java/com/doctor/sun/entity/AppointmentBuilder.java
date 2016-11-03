@@ -289,7 +289,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
             return "您暂时没有可用优惠券";
         }
         if (isCouponSelected()) {
-            return "已使用" + coupons.get(selectedCoupon).info;
+            return "已使用" + coupons.get(selectedCoupon).detail();
         }
         return String.format(Locale.CHINA, "您有%d张可用优惠券", coupons.size());
     }
@@ -356,9 +356,9 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
                 final String medicalRecordId = String.valueOf(getRecord().getMedicalRecordId());
 
                 if (isUseWechat) {
-                    AppointmentHandler2.payWithWeChat((Activity) context, finalCouponId,response);
+                    AppointmentHandler2.payWithWeChat((Activity) context, finalCouponId, response);
                 } else {
-                    AppointmentHandler2.payWithAlipay((Activity) context, finalCouponId,response);
+                    AppointmentHandler2.payWithAlipay((Activity) context, finalCouponId, response);
                 }
             }
         };
@@ -537,7 +537,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
                         if (BuildConfig.DEBUG) {
                             AppointmentHandler2.simulatedPayImpl(response);
                         } else {
-                            Toast.makeText(view.getContext(), "搞事情?", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(view.getContext(), "正式服不支持模拟支付", Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case PayMethod.WECHAT:
