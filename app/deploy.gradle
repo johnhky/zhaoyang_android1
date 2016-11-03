@@ -70,8 +70,8 @@ android {
             buildConfigField "boolean", "DEV_MODE", "true"
 //            buildConfigField "String", "BASE_URL", '"http://10.0.0.202/api/"' //host, 必改
 //            buildConfigField "String", "BASE_URL", '"http://14.waymen.site/api/013/"'
-//            buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/013/"'
-            buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/013/"' //host, 必改
+            buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/013/"'
+//            buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/013/"' //host, 必改
             //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"' //app 数据保存目录, 必改
             //容联 deprecated
