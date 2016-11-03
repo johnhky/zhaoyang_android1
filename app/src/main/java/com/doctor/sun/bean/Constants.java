@@ -79,4 +79,6 @@ public class Constants {
     public static final String NOTIFICATION_ID = "NOTIFICATION_ID";
 
     public static final String ORDER_STATUS = "ORDER_STATUS";
+
+    public static final String OPEN_DRAWER = "OPEN_DRAWER";
 }

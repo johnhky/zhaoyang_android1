@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -92,8 +93,18 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         return i;
     }
 
+    public static Intent makeIntent(Context context, boolean openDrawer) {
+        Intent i = new Intent(context, MedicineStoreActivity.class);
+        i.putExtra(Constants.OPEN_DRAWER, openDrawer);
+        return i;
+    }
+
     private int getAppointmentNumber() {
         return getIntent().getIntExtra(Constants.NUMBER, -1);
+    }
+
+    private boolean doOpenDrawer() {
+        return getIntent().getBooleanExtra(Constants.OPEN_DRAWER, false);
     }
 
     @Override
@@ -108,6 +119,11 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_medicine_helper);
         keyboardWatcher = new KeyboardWatcher(this);
         keyboardWatcher.setListener(this);
+
+        if (doOpenDrawer()) {
+            binding.drawerLayout.openDrawer(GravityCompat.END);
+            Toast.makeText(this, "请选择需要寄药的订单", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
