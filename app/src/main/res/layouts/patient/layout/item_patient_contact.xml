@@ -60,10 +60,9 @@
                 android:layout_height="@dimen/dp_35"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/selector_blue_gray_rect"
-                android:enabled="@{data.handler.isUnApplied(data.status)}"
                 android:gravity="center"
                 android:onClick="@{()->data.handler.applyBuildRelation()}"
-                android:text="@{data.handler.isUnApplied(data.status)?&quot;点击申请&quot;:&quot;正在申请&quot;}"
+                android:text="点击申请"
                 android:textColor="@color/text_color_blue_white"
                 android:textSize="@dimen/font_15"
                 android:visibility="@{!data.handler.isApplied(data.status)}" />

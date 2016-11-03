@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.constans.RelationshipStatus;
@@ -83,16 +85,6 @@ public class PatientHandler {
 
     }
 
-    public int getDefaultAvatar(Patient patient) {
-        int result;
-        if (patient.getGender() == 0) {
-            result = R.drawable.female_doctor_avatar;
-        } else {
-            result = R.drawable.male_doctor_avatar;
-        }
-        return result;
-    }
-
     @JsonIgnore
     public String getGenderResult(Patient patient) {
         String result = "";
@@ -144,6 +136,7 @@ public class PatientHandler {
         module.applyBuildRelation(data.getId()).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
+                Toast.makeText(AppContext.me(), "已向患者发送随访关系的建立申请\n请静候患者处理", Toast.LENGTH_SHORT).show();
                 data.status = "applying";
                 data.notifyChange();
             }
