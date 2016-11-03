@@ -23,6 +23,7 @@ import com.doctor.sun.entity.constans.QuestionsType;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.EditEndEvent;
+import com.doctor.sun.event.LoadDrugEvent;
 import com.doctor.sun.event.ModifyStatusEvent;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.model.QuestionsModel;
@@ -236,6 +237,11 @@ public class AnswerQuestionFragment extends SortedListFragment {
                         dialog.dismiss();
                     }
                 }).show();
+    }
+
+    @Subscribe
+    public void onLoadDrugEvent(LoadDrugEvent event) {
+        Toast.makeText(getContext(), "暂无上次用药记录", Toast.LENGTH_SHORT).show();
     }
 
     @Override
