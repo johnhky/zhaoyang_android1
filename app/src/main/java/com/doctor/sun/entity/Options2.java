@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
+import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.event.LoadDrugEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -35,6 +37,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import io.ganguo.library.core.event.EventHub;
+import io.ganguo.library.util.Systems;
 
 /**
  * Created by rick on 28/7/2016.
@@ -182,13 +185,13 @@ public class Options2 extends BaseItem {
         }
     }
 
-    public void afterInputChanged(Editable newInputEditable) {
+    public void afterInputChanged(Editable newInputEditable, SortedListAdapter adapter) {
         String newInput = newInputEditable.toString();
         if (optionContent.equals(newInput)) {
             return;
         }
         boolean selected = !newInput.equals("");
-        setSelectedWrap(selected);
+        setSelectedWrap(selected, adapter);
     }
 
     public Boolean getSelected() {
@@ -275,6 +278,7 @@ public class Options2 extends BaseItem {
             if (!otherOptions.getKey().equals(this.getKey())) {
                 if (shouldClearThat(otherOptions)) {
                     otherOptions.setSelectedWrap(Boolean.FALSE, adapter);
+                    otherOptions.inputContent = "";
                     changedItem.add(otherOptions);
                 }
             }
