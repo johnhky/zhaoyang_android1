@@ -21,6 +21,7 @@ import java.util.List;
 public class ItemSystemQuestionLoader extends BaseItem {
     public static final String SYSTEM_QUESTION_LOADER = "SYSTEM_QUESTION_LOADER";
     private String id;
+    private String keyword;
     private boolean isInitialized = false;
     private boolean finished;
     private boolean isExpended;
@@ -32,9 +33,10 @@ public class ItemSystemQuestionLoader extends BaseItem {
     private QuestionModule questionModule = Api.of(QuestionModule.class);
     private QuestionsModel questionsModel = new QuestionsModel();
 
-    public ItemSystemQuestionLoader(int itemLayoutId, String id) {
+    public ItemSystemQuestionLoader(int itemLayoutId, String id, String keyword) {
         super(itemLayoutId);
         this.id = id;
+        this.keyword = keyword;
     }
 
     public void onClick(SortedListAdapter adapter) {
@@ -122,7 +124,7 @@ public class ItemSystemQuestionLoader extends BaseItem {
     }
 
     public void loadMore(final SortedListAdapter adapter) {
-        questionModule.systemQuestions(id, String.valueOf(systemQuestionsPage)).enqueue(new SimpleCallback<PageDTO<Questions2>>() {
+        questionModule.systemQuestions(id, String.valueOf(systemQuestionsPage), keyword).enqueue(new SimpleCallback<PageDTO<Questions2>>() {
             @Override
             protected void handleResponse(PageDTO<Questions2> response) {
                 isInitialized = true;

@@ -2,6 +2,7 @@ package com.doctor.sun.ui.activity;
 
 import android.support.v7.app.AppCompatActivity;
 
+import com.doctor.sun.util.NotificationUtil;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -14,6 +15,7 @@ public class UMBaseFragmentActivity extends AppCompatActivity {
         super.onResume();
         MobclickAgent.onPageStart(getLocalClassName());
         MobclickAgent.onResume(this);
+        NotificationUtil.isAppInForeGround = true;
     }
 
 
@@ -22,6 +24,7 @@ public class UMBaseFragmentActivity extends AppCompatActivity {
         super.onPause();
         MobclickAgent.onPageEnd(getLocalClassName());
         MobclickAgent.onPause(this);
+        NotificationUtil.isAppInForeGround = false;
     }
 
 }

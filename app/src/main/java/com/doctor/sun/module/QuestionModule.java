@@ -52,10 +52,12 @@ public interface QuestionModule {
     Call<ApiDTO<PageDTO<Scales>>> scales(@Query("appoint_id") String id, @Query("supplement_type") String type, @Query("page") String page);
 
     @GET("smartSupplement?supplement_type=3")
-    Call<ApiDTO<PageDTO<Questions2>>> customQuestions(@Query("appoint_id") String appointmentId, @Query("page") String page);
+    Call<ApiDTO<PageDTO<Questions2>>> customQuestions(@Query("appoint_id") String appointmentId,
+                                                      @Query("page") String page, @Query("key_word") String keyword);
 
     @GET("smartSupplement?supplement_type=1")
-    Call<ApiDTO<PageDTO<Questions2>>> systemQuestions(@Query("appoint_id") String appointmentId, @Query("page") String page);
+    Call<ApiDTO<PageDTO<Questions2>>> systemQuestions(@Query("appoint_id") String appointmentId,
+                                                      @Query("page") String page, @Query("key_word") String keyword);
 
     @GET("{type}/{id}")
     Call<ApiDTO<List<ScalesResult>>> questionResult(@Path("type") String type, @Path("id") String id);

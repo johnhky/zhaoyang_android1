@@ -25,6 +25,7 @@ public class ItemCustomQuestionLoader extends BaseItem {
     public static final String CUSTOM_QUESTION_LOADER = "CUSTOM_QUESTION_LOADER";
     public static final int FIRST_ITEM_POSITION_PADDING = 5000;
     private final String id;
+    private final String keyword;
     private boolean isInitialized = false;
     private boolean isExpended;
     private boolean isChildVisible = true;
@@ -37,9 +38,10 @@ public class ItemCustomQuestionLoader extends BaseItem {
     private boolean finished;
     private Call<ApiDTO<PageDTO<Questions2>>> apiDTOCall;
 
-    public ItemCustomQuestionLoader(int itemLayoutId, String id) {
+    public ItemCustomQuestionLoader(int itemLayoutId, String id, String keyword) {
         super(itemLayoutId);
         this.id = id;
+        this.keyword = keyword;
     }
 
     public void onClick(SortedListAdapter adapter) {
@@ -71,7 +73,7 @@ public class ItemCustomQuestionLoader extends BaseItem {
     }
 
     public void loadMore(final SortedListAdapter adapter) {
-        apiDTOCall = questionModule.customQuestions(id, String.valueOf(systemQuestionsPage));
+        apiDTOCall = questionModule.customQuestions(id, String.valueOf(systemQuestionsPage), keyword);
         apiDTOCall.enqueue(new SimpleCallback<PageDTO<Questions2>>() {
             @Override
             protected void handleResponse(PageDTO<Questions2> response) {

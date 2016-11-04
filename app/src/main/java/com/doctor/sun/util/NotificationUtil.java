@@ -26,7 +26,13 @@ public class NotificationUtil {
     public static final int NEW_MSG = 100;
     public static final int UPLOAD = 101;
 
+    public static boolean isAppInForeGround = true;
+
+
     public static void showNotification(TextMsg msg1) {
+        if (isAppInForeGround) {
+            return;
+        }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());
 
         if (msg1.getItemLayoutId() == R.layout.msg_prescription_list) {
