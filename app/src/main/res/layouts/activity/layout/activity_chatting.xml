@@ -40,20 +40,25 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/gray_eb" />
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray_eb" />
+
+                <LinearLayout
+                    android:id="@+id/fl_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom|end"
+                    android:orientation="horizontal" />
+            </FrameLayout>
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <LinearLayout
-            android:id="@+id/fl_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="right"
-            android:background="@color/gray_eb" />
 
         <include
             android:id="@+id/input"
