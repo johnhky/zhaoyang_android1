@@ -7,13 +7,15 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.immutables.Prescription;
+import com.doctor.sun.entity.LegacyPrescriptionDTO;
 import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.Symptom;
 import com.doctor.sun.entity.SymptomFactory;
+import com.doctor.sun.entity.handler.PrescriptionHandler;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.module.AuthModule;
-import com.doctor.sun.vo.LayoutId;
 import com.doctor.sun.vo.ItemTextInput;
+import com.doctor.sun.vo.LayoutId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,9 +108,11 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         if (reminderList != null) {
             this.reminderList.addAll(reminderList);
         }
-        ArrayList<Prescription> prescription = response.getPrescription();
+        ArrayList<LegacyPrescriptionDTO.Prescription> prescription = response.getPrescription();
         if (prescription != null) {
-            prescriptions.addAll(prescription);
+            for (LegacyPrescriptionDTO.Prescription data : prescription) {
+                prescriptions.add(PrescriptionHandler.fromLegacy(data));
+            }
         }
         doctor = response.getDoctorInfo();
         furtherConsultation.content = getReturnTypeAndInterval(response);

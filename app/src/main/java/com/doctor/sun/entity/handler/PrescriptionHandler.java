@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.LegacyPrescriptionDTO;
 import com.doctor.sun.immutables.ImmutablePrescription;
 import com.doctor.sun.immutables.ModifiablePrescription;
 import com.doctor.sun.immutables.Prescription;
@@ -19,6 +21,7 @@ import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
 import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -180,6 +183,12 @@ public class PrescriptionHandler {
     }
 
     public static Prescription newInstance() {
+        ImmutablePrescription.Builder builder = emptyBuilder();
+        return builder.build();
+    }
+
+    @NonNull
+    public static ImmutablePrescription.Builder emptyBuilder() {
         ImmutablePrescription.Builder builder = ImmutablePrescription.builder();
         builder.drug_name("");
         builder.scientific_name("");
@@ -190,7 +199,7 @@ public class PrescriptionHandler {
         builder.noon("");
         builder.night("");
         builder.before_sleep("");
-        return builder.build();
+        return builder;
     }
 
     public static Prescription fromHashMap(Map<String, String> map) {
@@ -198,15 +207,37 @@ public class PrescriptionHandler {
             return null;
         }
         ImmutablePrescription.Builder builder = ImmutablePrescription.builder();
-        builder.drug_name(map.get("drug_name"));
-        builder.scientific_name(map.get("scientific_name"));
-        builder.frequency(map.get("frequency"));
-        builder.drug_unit(map.get("drug_unit"));
-        builder.remark(map.get("remark"));
-        builder.morning(map.get("morning"));
-        builder.noon(map.get("noon"));
-        builder.night(map.get("night"));
-        builder.before_sleep(map.get("before_sleep"));
+        builder.drug_name(Strings.nullToEmpty(map.get("drug_name")));
+        builder.scientific_name(Strings.nullToEmpty(map.get("scientific_name")));
+        builder.frequency(Strings.nullToEmpty(map.get("frequency")));
+        builder.drug_unit(Strings.nullToEmpty(map.get("drug_unit")));
+        builder.remark(Strings.nullToEmpty(map.get("remark")));
+        builder.morning(Strings.nullToEmpty(map.get("morning")));
+        builder.noon(Strings.nullToEmpty(map.get("noon")));
+        builder.night(Strings.nullToEmpty(Strings.nullToEmpty(map.get("night"))));
+        builder.before_sleep(Strings.nullToEmpty(map.get("before_sleep")));
+        return builder.build();
+    }
+
+    public static Prescription fromLegacy(LegacyPrescriptionDTO.Prescription data) {
+        if (data == null) {
+            return null;
+        }
+
+        ImmutablePrescription.Builder builder = emptyBuilder();
+        builder.drug_name(data.getDrugName());
+        builder.scientific_name(data.getScientificName());
+        builder.frequency(data.getInterval());
+        builder.drug_unit(data.getUnit());
+        builder.remark(data.getRemark());
+        String morning = data.getNumbers().get(0).get("早");
+        builder.morning(Strings.nullToEmpty(morning));
+        String noon = data.getNumbers().get(1).get("午");
+        builder.noon(Strings.nullToEmpty(noon));
+        String evening = data.getNumbers().get(2).get("晚");
+        builder.night(Strings.nullToEmpty(evening));
+        String night = data.getNumbers().get(3).get("睡前");
+        builder.before_sleep(Strings.nullToEmpty(night));
         return builder.build();
     }
 }

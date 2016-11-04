@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.doctor.sun.R;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -447,12 +448,37 @@ public class LegacyPrescriptionDTO {
             return 12;
         }
 
+        public void fromImmutable(com.doctor.sun.immutables.Prescription prescription) {
+            if (prescription == null) {
+                return;
+            }
+            drugName = prescription.getDrug_name();
+            scientificName = prescription.getScientific_name();
+            interval = prescription.getFrequency();
+            unit = prescription.getDrug_unit();
+            remark = prescription.getRemark();
+            //        [{"早":"1"},{"午":"1"},{"晚":"1"},{"睡前":"1"}]
+            numbers = new ArrayList<>();
+            HashMap<String, String> morning = new HashMap<>();
+            morning.put("早", prescription.getMorning());
+            numbers.add(morning);
+            HashMap<String, String> afternoon = new HashMap<>();
+            afternoon.put("午", prescription.getNoon());
+            numbers.add(afternoon);
+            HashMap<String, String> evening = new HashMap<>();
+            evening.put("晚", prescription.getNight());
+            numbers.add(evening);
+            HashMap<String, String> night = new HashMap<>();
+            night.put("睡前", prescription.getBefore_sleep());
+            numbers.add(night);
+        }
+
         public interface UrlToLoad {
             String url();
 
         }
 
-        public void fromHashMap(Map<String, String> map) {
+        public void fromImmutable(Map<String, String> map) {
             if (map == null) {
                 return;
             }

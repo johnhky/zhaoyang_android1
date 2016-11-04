@@ -28,8 +28,10 @@ import com.doctor.sun.databinding.ItemPrescriptionBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.LegacyPrescriptionDTO;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.DoctorHandler;
+import com.doctor.sun.entity.handler.PrescriptionHandler;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -245,8 +247,8 @@ public class DiagnosisFragment extends BaseFragment {
                 binding.setData(viewModel);
                 binding.executePendingBindings();
                 if (response.getPrescription() != null) {
-                    for (Prescription prescription : response.getPrescription()) {
-                        addPrescription(prescription);
+                    for (LegacyPrescriptionDTO.Prescription prescription : response.getPrescription()) {
+                        addPrescription(PrescriptionHandler.fromLegacy(prescription));
                     }
                 }
                 int returnX = response.getReturnX();
@@ -390,9 +392,11 @@ public class DiagnosisFragment extends BaseFragment {
             return "";
         }
         try {
-            ArrayList<Prescription> result = new ArrayList();
+            ArrayList<LegacyPrescriptionDTO.Prescription> result = new ArrayList();
             for (Prescription prescription : prescriptions) {
-                result.add(ImmutablePrescription.copyOf(prescription));
+                LegacyPrescriptionDTO.Prescription copy = new LegacyPrescriptionDTO.Prescription();
+                copy.fromImmutable(prescription);
+                result.add(copy);
             }
             return JacksonUtils.toJson(result);
         } catch (Exception e) {
