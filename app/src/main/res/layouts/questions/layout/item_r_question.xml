@@ -36,24 +36,23 @@
 
             <ImageView
                 android:id="@+id/iv_position"
-                android:layout_width="@dimen/dp_50"
-                android:layout_height="@dimen/dp_50"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
                 android:enabled="@{data.refill == 1}"
                 android:selected="@{data.isAnswered(adapter,vh)}"
                 app:srcCompat="@drawable/semi_oval_selector" />
 
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/dp_5"
-                android:layout_marginEnd="@dimen/dp_5"
-                android:layout_marginRight="@dimen/dp_5"
-                android:gravity="top"
+                android:layout_marginEnd="@dimen/dp_2"
+                android:layout_marginRight="@dimen/dp_2"
+                android:gravity="center"
                 android:text='@{data.positionString()}'
                 android:textColor="@color/white"
-                android:textSize="@dimen/font_35"
+                android:textSize="@dimen/font_18"
                 tools:text="1" />
 
         </FrameLayout>
