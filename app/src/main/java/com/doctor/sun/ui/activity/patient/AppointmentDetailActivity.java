@@ -47,7 +47,7 @@ public class AppointmentDetailActivity extends TabActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        eventHandler = HistoryEventHandler.register();
+        eventHandler = HistoryEventHandler.register(getSupportFragmentManager());
     }
 
     private void addHistoryButton() {
@@ -58,7 +58,7 @@ public class AppointmentDetailActivity extends TabActivity {
                 public void onClick(View v) {
                     String json = getIntent().getStringExtra(Constants.DATA);
                     Appointment appointment = JacksonUtils.fromJson(json, com.doctor.sun.immutables.Appointment.class);
-                    EventHub.post(new AppointmentHistoryEvent(appointment, getSupportFragmentManager()));
+                    EventHub.post(new AppointmentHistoryEvent(appointment, false));
                 }
             });
             binding.flContainer.addView(historyButton);

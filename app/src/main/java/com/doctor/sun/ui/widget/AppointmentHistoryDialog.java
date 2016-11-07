@@ -6,6 +6,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Appointment;
@@ -19,12 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.ganguo.library.Config;
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 18/10/2016.
  */
 
 public class AppointmentHistoryDialog extends BottomSheetTabFragment {
+    public static final String TAG = AppointmentHistoryDialog.class.getSimpleName();
+
     public static final String HISTORY_INDEX = "HISTORY_INDEX";
     private DoctorAppointmentDonePA answerPagerAdapter;
 
@@ -58,12 +62,14 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
+                EventHub.post(new AppointmentHistoryEvent(appointment, true));
             }
         });
         getBinding().tvPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 currentIndex -= 1;
+                setIndex(currentIndex, appointment.getId());
                 toggleVisibility();
                 setPagerAdapter(createPagerAdapter());
             }
@@ -73,6 +79,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
             @Override
             public void onClick(View v) {
                 currentIndex += 1;
+                setIndex(currentIndex, appointment.getId());
                 toggleVisibility();
                 setPagerAdapter(createPagerAdapter());
             }
@@ -96,6 +103,9 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
 
     @Override
     protected PagerAdapter createPagerAdapter() {
+        if (currentIndex > data.size() || currentIndex < 0) {
+            currentIndex = 0;
+        }
         answerPagerAdapter = new DoctorAppointmentDonePA(getChildFragmentManager(), data.get(currentIndex).getId());
         return answerPagerAdapter;
     }
@@ -116,6 +126,14 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Config.putInt(HISTORY_INDEX + appointment.getId(), currentIndex);
+        setIndex(currentIndex, appointment.getId());
+    }
+
+    public static void setIndex(int index, String id) {
+        Config.putInt(HISTORY_INDEX + id, index);
+    }
+
+    public static int getIndex(String id) {
+        return Config.getInt(HISTORY_INDEX + id, 0);
     }
 }

@@ -45,6 +45,7 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.widget.AppointmentHistoryDialog;
 import com.doctor.sun.ui.widget.ExtendedEditText;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
@@ -56,7 +57,6 @@ import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.vo.BaseItem;
 import com.doctor.sun.vo.CustomActionViewModel;
 import com.doctor.sun.vo.InputLayoutViewModel;
-import com.doctor.sun.vo.ItemConsulting;
 import com.doctor.sun.vo.StickerViewModel;
 import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
@@ -136,7 +136,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
             historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EventHub.post(new AppointmentHistoryEvent(getData(), getSupportFragmentManager()));
+                    EventHub.post(new AppointmentHistoryEvent(getData(), false));
                 }
             });
             binding.flContainer.addView(historyButton);
@@ -226,7 +226,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     @Override
     protected void onResume() {
         super.onResume();
-        eventHandler = HistoryEventHandler.register();
+        eventHandler = HistoryEventHandler.register(getSupportFragmentManager());
     }
 
     @Override

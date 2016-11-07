@@ -1,7 +1,5 @@
 package com.doctor.sun.event;
 
-import android.support.v4.app.FragmentManager;
-
 import com.doctor.sun.immutables.Appointment;
 
 import io.ganguo.library.core.event.Event;
@@ -12,19 +10,19 @@ import io.ganguo.library.core.event.Event;
 
 public class AppointmentHistoryEvent implements Event {
 
+    private final boolean historyList;
     private Appointment data;
-    private FragmentManager fragmentManager;
 
-    public AppointmentHistoryEvent(Appointment data, FragmentManager fragmentManager) {
+    public AppointmentHistoryEvent(Appointment data,boolean historyList) {
         this.data = data;
-        this.fragmentManager = fragmentManager;
+        this.historyList = historyList;
     }
 
     public Appointment getData() {
         return data;
     }
 
-    public FragmentManager getFragmentManager() {
-        return fragmentManager;
+    public boolean isHistoryList() {
+        return historyList;
     }
 }

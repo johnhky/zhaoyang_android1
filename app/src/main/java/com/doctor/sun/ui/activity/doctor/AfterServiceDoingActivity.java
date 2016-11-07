@@ -26,7 +26,7 @@ import io.ganguo.library.core.event.EventHub;
 /**
  * Created by rick on 3/6/2016.
  */
-public class AfterServiceDoingActivity extends TabActivity  {
+public class AfterServiceDoingActivity extends TabActivity {
 
     private HistoryEventHandler eventHandler;
 
@@ -56,7 +56,7 @@ public class AfterServiceDoingActivity extends TabActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-        eventHandler = HistoryEventHandler.register();
+        eventHandler = HistoryEventHandler.register(getSupportFragmentManager());
     }
 
     private void addHistoryButton() {
@@ -70,7 +70,7 @@ public class AfterServiceDoingActivity extends TabActivity  {
                     api.appointmentDetail(id).enqueue(new SimpleCallback<Appointment>() {
                         @Override
                         protected void handleResponse(Appointment response) {
-                            EventHub.post(new AppointmentHistoryEvent(response, getSupportFragmentManager()));
+                            EventHub.post(new AppointmentHistoryEvent(response, false));
                         }
                     });
                 }

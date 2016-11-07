@@ -27,7 +27,9 @@ import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.CloseDrawerEvent;
+import com.doctor.sun.event.DismissHistoryListDialogEvent;
 import com.doctor.sun.event.PayFailEvent;
 import com.doctor.sun.event.PaySuccessEvent;
 import com.doctor.sun.http.Api;
@@ -76,6 +78,8 @@ import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import retrofit2.Call;
+
+import static com.doctor.sun.ui.widget.AppointmentHistoryDialog.HISTORY_INDEX;
 
 /**
  * Created by rick on 11/20/15.
@@ -454,6 +458,13 @@ public class AppointmentHandler2 {
             }
         }
     }
+
+    public static void showHistoryDetail(final BaseViewHolder vh, final BaseListAdapter adapter, Appointment data) {
+        Config.putInt(HISTORY_INDEX + data.getId(), vh.getAdapterPosition());
+        EventHub.post(new AppointmentHistoryEvent(data, false));
+        EventHub.post(new DismissHistoryListDialogEvent());
+    }
+
 
     public static void drugPush(Appointment data) {
         Call<ApiDTO<String>> apiDTOCall;

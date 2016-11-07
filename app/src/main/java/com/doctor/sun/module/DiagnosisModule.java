@@ -43,6 +43,9 @@ public interface DiagnosisModule {
     @GET("diagnosis/record-histories?type=simple")
     Call<ApiDTO<List<SimpleAppointment>>> recordHistory(@Query("recordId") int recordId);
 
+    @GET("diagnosis/record-histories?type=detail")
+    Call<ApiDTO<List<Appointment>>> recordHistoryDetail(@Query("recordId") int recordId);
+
     @GET("diagnosis/record-orders")
     Call<ApiDTO<PageDTO<Appointment>>> recordOrders(@Query("page") int page, @Query("recordId") int recordId, @Query("searchWord") String searchWord);
 }

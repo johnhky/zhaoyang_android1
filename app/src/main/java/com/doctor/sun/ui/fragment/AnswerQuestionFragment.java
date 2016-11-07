@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,7 +42,7 @@ import io.ganguo.library.core.event.EventHub;
  * Created by rick on 28/7/2016.
  */
 
-public class AnswerQuestionFragment extends SortedListFragment {
+public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
     public static final String TAG = AnswerQuestionFragment.class.getSimpleName();
 
     private QuestionsModel model;
@@ -83,22 +82,6 @@ public class AnswerQuestionFragment extends SortedListFragment {
         return path;
     }
 
-    protected String getQuestionType() {
-        return questionType;
-    }
-
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        EventHub.register(this);
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        EventHub.unregister(this);
-//    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -121,7 +104,6 @@ public class AnswerQuestionFragment extends SortedListFragment {
             public void apply(List<? extends SortedItem> sortedItems) {
                 onFinishLoadMore(sortedItems);
                 getAdapter().insertAll(sortedItems);
-                binding.swipeRefresh.setRefreshing(false);
             }
         });
     }
@@ -202,10 +184,6 @@ public class AnswerQuestionFragment extends SortedListFragment {
         onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
     }
 
-    @Override
-    public void onRefresh() {
-        getBinding().swipeRefresh.setRefreshing(false);
-    }
 
     @Subscribe
     public void onEventMainThread(SaveAnswerSuccessEvent event) {
