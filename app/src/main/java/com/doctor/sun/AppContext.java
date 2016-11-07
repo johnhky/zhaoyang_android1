@@ -15,6 +15,7 @@ import com.doctor.sun.im.observer.MsgStatusObserver;
 import com.doctor.sun.im.observer.ReceiveMsgObserver;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.squareup.leakcanary.LeakCanary;

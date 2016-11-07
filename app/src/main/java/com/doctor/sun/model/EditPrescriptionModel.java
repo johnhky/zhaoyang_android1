@@ -130,15 +130,17 @@ public class EditPrescriptionModel {
 
         final ItemTextInput2 morning = new ItemTextInput2(R.layout.item_text_input2, "早", "");
         morning.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
-        morning.setSpan(6);
+        morning.setSpan(5);
         morning.setItemId("morning");
         morning.setResult(data.getMorning());
 
         result.add(morning);
 
+        ModelUtils.insertVerticalDivider(result);
+
         final ItemTextInput2 afternoon = new ItemTextInput2(R.layout.item_text_input2, "午", "");
         afternoon.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
-        afternoon.setSpan(6);
+        afternoon.setSpan(5);
         afternoon.setItemId("noon");
         afternoon.setResult(data.getNoon());
         result.add(afternoon);
@@ -148,14 +150,16 @@ public class EditPrescriptionModel {
         //这里接口晚上是用的night，但是实际上，表示晚上的是evening。所以。。不要怀疑
         final ItemTextInput2 evening = new ItemTextInput2(R.layout.item_text_input2, "晚", "");
         evening.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
-        evening.setSpan(6);
+        evening.setSpan(5);
         evening.setItemId("night");
         evening.setResult(data.getNight());
         result.add(evening);
 
+        ModelUtils.insertVerticalDivider(result);
+
         final ItemTextInput2 night = new ItemTextInput2(R.layout.item_text_input2, "睡前", "");
         night.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
-        night.setSpan(6);
+        night.setSpan(5);
         night.setItemId("before_sleep");
         night.setResult(data.getBefore_sleep());
         result.add(night);
@@ -171,6 +175,7 @@ public class EditPrescriptionModel {
         ItemTextInput2 remark = new ItemTextInput2(R.layout.item_text_input2, "备注消息", "");
         remark.setSubTitle("备注消息");
         remark.setItemId("remark");
+        remark.setMaxLength(16);
         remark.setResult(data.getRemark());
         result.add(remark);
         return result;

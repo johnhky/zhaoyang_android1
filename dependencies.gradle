@@ -3,7 +3,6 @@
 ext {
     compile_sdk_version = 24
     build_tools_version = '24'
-    //TODO 打包前改这个为14
     min_sdk_version = 14
     target_sdk_version = 23
 

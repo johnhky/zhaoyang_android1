@@ -34,6 +34,14 @@ final class ModelUtils {
         list.add(item);
     }
 
+    static void insertVerticalDivider(List<SortedItem> list) {
+        BaseItem item = new BaseItem(R.layout.divider_vertical_1px);
+        item.setItemId(UUID.randomUUID().toString());
+        item.setSpan(2);
+        item.setPosition(list.size());
+        list.add(item);
+    }
+
     static void insertSpace(List<SortedItem> list) {
         BaseItem item = new BaseItem(R.layout.divider_30dp);
         item.setItemId(UUID.randomUUID().toString());
