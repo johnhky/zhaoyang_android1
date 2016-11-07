@@ -49,7 +49,7 @@ public class CountDownTextView extends TextView {
     }
 
     public void countDown() {
-        Log.d(TAG, "countDown() called with: " + "");
+        Log.d(TAG, "countDown() called with: remainTime" + remainTime);
         if (isRunning) {
             return;
         }

@@ -107,6 +107,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, ChattingActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         i.putExtra(Constants.DATA, JacksonUtils.toJson(appointment));
         return i;
     }

@@ -40,7 +40,7 @@
                 android:layout_marginLeft="@dimen/dp_13"
                 android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
-                android:src="@{data.data.doctor.avatar}"
+                android:src="@{data.data.record.patientAvatar}"
                 app:maskDrawable="@drawable/circle_mask" />
 
             <View

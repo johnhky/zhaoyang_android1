@@ -218,6 +218,9 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
 
             @Override
             public void onFailure(Call<ApiDTO<String>> call, Throwable t) {
+                if (getContext() == null) {
+                    return;
+                }
                 makeText(getContext(), "保存重填数据失败, 请检查网络设置", LENGTH_SHORT).show();
                 super.onFailure(call, t);
             }
