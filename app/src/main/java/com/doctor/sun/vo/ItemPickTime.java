@@ -159,6 +159,9 @@ public class ItemPickTime extends BaseItem {
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        if (!isEnabled()) {
+            return null;
+        }
         if (getTime() == null || getTime().equals("")) {
             return null;
         }

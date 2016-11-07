@@ -225,6 +225,9 @@ public class ItemPickDate extends BaseItem {
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        if (!isEnabled()) {
+            return null;
+        }
         if (getItemLayoutId() == R.layout.item_reminder2) {
             return null;
         }

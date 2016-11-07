@@ -259,6 +259,9 @@ public class ItemPickHospital extends BaseItem {
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        if (!isEnabled()) {
+            return null;
+        }
         HashMap<String, Object> result = new HashMap<>();
         String key = getKey().replace(QuestionType.asel, "");
         Questions2 item = (Questions2) adapter.get(key);

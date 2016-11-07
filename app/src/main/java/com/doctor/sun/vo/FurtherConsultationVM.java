@@ -220,6 +220,9 @@ public class FurtherConsultationVM extends BaseItem {
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        if (!isEnabled()) {
+            return null;
+        }
         HashMap<String, Object> result = new HashMap<>();
 
         String optionId = "";

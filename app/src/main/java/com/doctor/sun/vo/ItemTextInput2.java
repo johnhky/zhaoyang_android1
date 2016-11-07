@@ -136,6 +136,9 @@ public class ItemTextInput2 extends BaseItem {
     }
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        if (!isEnabled()) {
+            return null;
+        }
         if (!Strings.isNullOrEmpty(result)){
             HashMap<String, Object> map = new HashMap<>();
             String key = getKey().replace(QuestionType.fill, "");

@@ -87,6 +87,9 @@ public class ItemAddPrescription2 extends BaseItem {
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        if (!isEnabled()) {
+            return null;
+        }
 
         int adapterPosition = adapter.indexOfImpl(this);
         String key = getKey().replace(QuestionType.drug, "");

@@ -67,6 +67,9 @@ public class ItemAddTag extends BaseItem {
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        if (!isEnabled()) {
+            return null;
+        }
 
         int adapterPosition = adapter.indexOfImpl(this);
         int distance = adapter.inBetweenItemCount(adapterPosition, TAGS_START);

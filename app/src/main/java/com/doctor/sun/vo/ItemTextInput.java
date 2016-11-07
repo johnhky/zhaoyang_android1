@@ -43,6 +43,9 @@ public class ItemTextInput extends BaseItem {
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        if (!isEnabled()) {
+            return null;
+        }
         if (input != null && !"".equals(input)) {
             HashMap<String, Object> result = new HashMap<>();
             String key = getKey().replace(QuestionType.fill, "");

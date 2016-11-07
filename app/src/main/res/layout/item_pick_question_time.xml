@@ -16,6 +16,7 @@
         android:layout_marginRight="@dimen/dp_13"
         android:layout_marginStart="@dimen/dp_13"
         android:background="@drawable/ripple_default"
+        android:clickable="@{data.isEnabled()}"
         android:enabled="@{data.isEnabled()}"
         android:onClick="@{()->data.pickEndTime(context)}">
 

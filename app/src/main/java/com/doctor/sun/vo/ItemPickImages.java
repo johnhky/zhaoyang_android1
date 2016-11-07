@@ -165,6 +165,9 @@ public class ItemPickImages extends BaseItem {
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        if (!isEnabled()) {
+            return null;
+        }
         if (src == null || src.equals("")) {
             StringBuilder sb = getImagesCSV(adapter, this);
             if (sb == null) return null;
