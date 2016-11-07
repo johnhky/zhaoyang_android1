@@ -1,5 +1,6 @@
 package com.doctor.sun.ui.widget;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.doctor.sun.R;
+import com.doctor.sun.databinding.DialogFragmentListBinding;
 import com.doctor.sun.databinding.FragmentList2Binding;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
@@ -20,7 +23,7 @@ import io.realm.Realm;
  * Created by Lynn on 2/22/16.
  */
 public class BottomSheetListFragment<T> extends BottomSheetDialogFragment {
-    protected FragmentList2Binding binding;
+    protected DialogFragmentListBinding binding;
     private SimpleAdapter mAdapter;
     public Realm realm;
     private boolean isLoading = false;
@@ -44,7 +47,7 @@ public class BottomSheetListFragment<T> extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentList2Binding.inflate(inflater, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.dialog_fragment_list, container, false);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = createAdapter();
         mAdapter.setLoadMoreListener(new LoadMoreListener() {
@@ -86,7 +89,7 @@ public class BottomSheetListFragment<T> extends BottomSheetDialogFragment {
         return mAdapter;
     }
 
-    public FragmentList2Binding getBinding() {
+    public DialogFragmentListBinding getBinding() {
         return binding;
     }
 

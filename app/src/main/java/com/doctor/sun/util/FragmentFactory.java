@@ -194,11 +194,9 @@ public class FragmentFactory {
         });
     }
 
-    public class FragmentNotFoundException extends RuntimeException {
-        public FragmentNotFoundException() {
-        }
+    private class FragmentNotFoundException extends RuntimeException {
 
-        public FragmentNotFoundException(String name) {
+        FragmentNotFoundException(String name) {
             super(name);
         }
     }

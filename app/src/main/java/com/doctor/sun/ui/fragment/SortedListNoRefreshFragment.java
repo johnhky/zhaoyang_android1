@@ -4,16 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.doctor.sun.R;
 import com.doctor.sun.databinding.FragmentList2Binding;
-import com.doctor.sun.databinding.FragmentRefreshListBinding;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
 import io.ganguo.library.core.event.EventHub;
@@ -22,7 +19,7 @@ import io.realm.Realm;
 /**
  * Created by Rick on 6/7/16.
  */
-public class SortedListNoRefreshFragment extends BaseFragment  {
+public class SortedListNoRefreshFragment extends BaseFragment {
     protected FragmentList2Binding binding;
     private SortedListAdapter mAdapter;
     public Realm realm;
