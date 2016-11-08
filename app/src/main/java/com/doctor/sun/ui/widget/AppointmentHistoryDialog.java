@@ -106,6 +106,9 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
         if (currentIndex > data.size() || currentIndex < 0) {
             currentIndex = 0;
         }
+        if (data.size() <= 0) {
+            return null;
+        }
         answerPagerAdapter = new DoctorAppointmentDonePA(getChildFragmentManager(), data.get(currentIndex).getId());
         return answerPagerAdapter;
     }
