@@ -165,6 +165,7 @@ public class ItemPickDate extends BaseItem {
                 datePicker.setMinDate(System.currentTimeMillis() - ONE_HUNDRED_YEAR);
             }
         }, 100);
+        isAnswered = true;
     }
 
     public void pickTime(Context context, final long minDate, final long maxDate) {
@@ -178,6 +179,7 @@ public class ItemPickDate extends BaseItem {
                 datePicker.setMinDate(minDate);
             }
         }, 100);
+        isAnswered = true;
     }
 
     public void pickFutureTime(Context context, final int dayRangeBeforeNow, final int dayRangeFromNow) {
@@ -194,6 +196,7 @@ public class ItemPickDate extends BaseItem {
                 datePicker.setMinDate(System.currentTimeMillis() - passMillis);
             }
         }, 100);
+        isAnswered = true
     }
 
     public void pickTime2(Context context) {
@@ -220,6 +223,7 @@ public class ItemPickDate extends BaseItem {
             }
         });
         dateDialog.show();
+        isAnswered = true;
     }
 
     public long getMillis() {
