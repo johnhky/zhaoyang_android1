@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
-import android.widget.Toast;
 
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.event.AppointmentHistoryEvent;
@@ -90,14 +89,17 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
             @Override
             protected void handleResponse(List<SimpleAppointment> response) {
                 data.addAll(response);
+                if (data.isEmpty()) {
+                    dismiss();
+                } else {
+                    toggleVisibility();
 
-                toggleVisibility();
+                    initPagerAdapter();
 
-                initPagerAdapter();
+                    initPagerTabs();
 
-                initPagerTabs();
-
-                setCurrentItem();
+                    setCurrentItem();
+                }
             }
         });
     }
@@ -107,12 +109,14 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
         if (currentIndex > data.size() || currentIndex < 0) {
             currentIndex = 0;
         }
-        if (data.size() <= 0) {
-            Toast.makeText(getContext(), "暂时没有历史记录", Toast.LENGTH_SHORT).show();
-            dismiss();
-            return null;
+
+        String id;
+        if (data.isEmpty()) {
+            id = "";
+        } else {
+            id = data.get(currentIndex).getId();
         }
-        answerPagerAdapter = new DoctorAppointmentDonePA(getChildFragmentManager(), data.get(currentIndex).getId());
+        answerPagerAdapter = new DoctorAppointmentDonePA(getChildFragmentManager(), id);
         return answerPagerAdapter;
     }
 
