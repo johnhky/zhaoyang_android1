@@ -115,7 +115,7 @@
                 android:checked="@={data.btnTwoChecked}"
                 android:enabled="@{data.isEnabled()&amp;&amp;data.btnTwoEnabled}"
                 android:gravity="center"
-                android:text="留言咨询"
+                android:text="闲时咨询"
                 android:textColor="@color/color_return_type" />
 
             <View

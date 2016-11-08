@@ -42,9 +42,9 @@
     <string name="add_detail_time_ps">* 预留填写病历或者休息的时间</string>
     <string name="hours_until_midnight">今日剩余%s小时，可能期间医生无法及时回复，建议您提前预约；</string>
     <string name="text_89_36"><![CDATA[<font color="#898989">%1$s:</font> <font color="#363636">%2$s</font>]]></string>
-    <string name="add_quick_time_ps">* 留言咨询为非实时就诊方式，您可在预约当天自由安 排就诊时间，按次收费。</string>
+    <string name="add_quick_time_ps">* 闲时咨询为非实时就诊方式，您可在预约当天自由安 排就诊时间，按次收费。</string>
     <string name="premium_product_brief"><![CDATA[&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;医生预留专属时间为预约的客户进行详细咨询。建议<font color="#ff405a>第一次就诊</font>或者<font color="#ff405a>病情有变化、不稳定</font>的患者选择“专属咨询”服务，可与医生进行实时的互动交流，时间以15分钟为单位，可根据个人需要调节长短，推荐30~45分钟，以免时间不足影响咨询效果。]]></string>
-    <string name="normal_product_brief"><![CDATA[&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;建议<font color="#ff405a>病情稳定、需要定期复诊寄药</font>的患者选择“留言咨询”，费用较少，医生将用空闲时间回复您的留言，虽然并非即时通讯，但保证24小时内给出处方建议和48小时内寄出药物。（如果是第一次就诊或病情不稳定，推荐选择“专属咨询”，获取更完善的咨询服务。）]]></string>
+    <string name="normal_product_brief"><![CDATA[&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;建议<font color="#ff405a>病情稳定、需要定期复诊寄药</font>的患者选择“闲时咨询”，费用较少，医生将用空闲时间回复您的留言，虽然并非即时通讯，但保证24小时内给出处方建议和48小时内寄出药物。（如果是第一次就诊或病情不稳定，推荐选择“专属咨询”，获取更完善的咨询服务。）]]></string>
       <string name="custom_question_detail">"      "医生可根据个人诊疗习惯，编写需要患者回答的问题（自编题目），并添加进题库。自编题目会收录在您新建的模块里。需要的时候可添加到诊前问卷中让患者填写，或者加进您的默认问卷模板中。\n"
       "自编题目可以按需要设置为2种，分别是“单项选择题”（可带备注）和“填空题”。目前暂不支持“多项/不定项选择题”，有不便之处请谅解。\n"
       "符合需要的自编题目有可能经过修改、标准化后，收录到公共题库中供所有医生使用，若有版权异议请直接和客服联系。\n"
@@ -58,7 +58,7 @@
     <string name="team_allow_anyone_join">允许任何人加入</string>
     <string name="team_not_allow_anyone_join">不允许任何人申请加入</string>
 
-    <string name="standard_product">留言咨询</string>
+    <string name="standard_product">闲时咨询</string>
     <string name="premium_product">专属咨询</string>
 
 

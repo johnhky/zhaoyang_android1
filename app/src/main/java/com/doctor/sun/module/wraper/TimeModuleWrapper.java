@@ -27,7 +27,7 @@ import retrofit2.http.Query;
  */
 public class TimeModuleWrapper {
     private Description detailDescription = new Description(R.layout.item_description, "专属咨询");
-    private Description quickDescription = new Description(R.layout.item_description, "留言咨询(全天)");
+    private Description quickDescription = new Description(R.layout.item_description, "闲时咨询(全天)");
 
     private TimeModule time = Api.of(TimeModule.class);
     private DayModule day = Api.of(DayModule.class);

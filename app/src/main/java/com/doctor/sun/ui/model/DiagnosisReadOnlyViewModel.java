@@ -161,7 +161,7 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
             result.addAll(prescriptions);
         }
         if (furtherConsultation != null && !furtherConsultation.content.equals("")) {
-            result.add(new Description(R.layout.item_description, "专属咨询/留言咨询/转诊"));
+            result.add(new Description(R.layout.item_description, "专属咨询/闲时咨询/转诊"));
             result.add(furtherConsultation);
             if (doctor != null) {
                 result.add(doctor);
@@ -192,8 +192,8 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
                 type = "专属咨询";
                 break;
             case 2:
-                //留言咨询
-                type = "留言咨询";
+                //闲时咨询
+                type = "闲时咨询";
                 break;
             case 3:
                 //转诊

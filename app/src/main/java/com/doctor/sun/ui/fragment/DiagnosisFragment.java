@@ -96,7 +96,7 @@ public class DiagnosisFragment extends BaseFragment {
         if (viewModel == null) {
             viewModel = new DiagnosisViewModel((Activity) getContext());
         }
-        binding.needReturn.setData("需要专属咨询/转诊/留言咨询");
+        binding.needReturn.setData("需要专属咨询/转诊/闲时咨询");
         binding.needReturn.setIsChecked(false);
         binding.swRoot.setVerticalScrollBarEnabled(false);
         viewModel.getReturnType().setEnabled(false);

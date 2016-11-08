@@ -8,7 +8,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 /**
- * 是否留言咨询对话框
+ * 是否闲时咨询对话框
  * Created by lucas on 12/22/15.
  */
 public class TwoChoiceDialog {

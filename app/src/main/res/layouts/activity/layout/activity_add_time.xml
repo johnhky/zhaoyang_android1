@@ -78,7 +78,7 @@
                 android:onClick="@{()->data.setType(2)}"
                 android:paddingLeft="@dimen/dp_4"
                 android:paddingRight="@dimen/dp_4"
-                android:text="留言咨询"
+                android:text="闲时咨询"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
 

@@ -35,7 +35,7 @@ public class DiagnosisViewModel {
 
 
     public static final String DETAIL = "专属咨询";
-    public static final String QUICK = "留言咨询";
+    public static final String QUICK = "闲时咨询";
     private final Context context;
 
     private String advice = "";

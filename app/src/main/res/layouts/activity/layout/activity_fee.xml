@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_17"
                 android:maxLines="1"
-                android:text="留言咨询诊金 （元/次)"
+                android:text="闲时咨询诊金 （元/次)"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 

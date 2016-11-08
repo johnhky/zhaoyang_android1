@@ -61,7 +61,7 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 {
         if (getType() == AppointmentType.PREMIUM) {
             binding.setTypeLabel("专属咨询");
         } else {
-            binding.setTypeLabel("留言咨询");
+            binding.setTypeLabel("闲时咨询");
         }
         binding.setData(getData());
         initData();

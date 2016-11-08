@@ -447,7 +447,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
                 type = "专属咨询";
                 break;
             case AppointmentType.STANDARD:
-                type = "留言咨询";
+                type = "闲时咨询";
                 break;
         }
         return type;

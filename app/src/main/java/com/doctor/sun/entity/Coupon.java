@@ -93,7 +93,7 @@ public class Coupon implements LayoutId {
             return "(寄药订单可用)";
         }
         if (platform.equals(Scope.STANDARD_APPOINTMENT)) {
-            return "(留言咨询订单可用)";
+            return "(闲时咨询订单可用)";
         }
         if (platform.equals(Scope.PREMIUM_APPOINTMENT)) {
             return "(专属咨询订单可用)";

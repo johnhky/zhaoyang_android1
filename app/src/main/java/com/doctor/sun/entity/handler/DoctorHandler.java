@@ -157,7 +157,7 @@ public class DoctorHandler {
         if (getType(adapter) == AppointmentType.PREMIUM) {
             return "专属咨询";
         } else {
-            return "留言咨询";
+            return "闲时咨询";
         }
     }
 
