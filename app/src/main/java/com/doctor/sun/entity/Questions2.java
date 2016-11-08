@@ -139,7 +139,10 @@ public class Questions2 extends BaseItem {
             return true;
         }
 
-        return questionType.equals(QuestionType.asel);
+        if (questionType.equals(QuestionType.asel) && arrayContent != null && arrayContent.size() > 0) {
+            return true;
+        }
+        return false;
 
     }
 
