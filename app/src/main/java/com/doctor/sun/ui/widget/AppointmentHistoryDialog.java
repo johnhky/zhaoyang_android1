@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.event.AppointmentHistoryEvent;
@@ -90,6 +91,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
             protected void handleResponse(List<SimpleAppointment> response) {
                 data.addAll(response);
                 if (data.isEmpty()) {
+                    Toast.makeText(getContext(), "暂时没有任何历史记录", Toast.LENGTH_SHORT).show();
                     dismiss();
                 } else {
                     toggleVisibility();
