@@ -319,6 +319,7 @@ public class QuestionsModel {
         ItemPickHospital pickHospital = new ItemPickHospital(answerContent, url, lv1Id, lv2Id, lv3Id);
         pickHospital.setPosition(positionIn(i, RANGE_ITEM_POSITION));
         pickHospital.setItemId(questions2.getKey() + QuestionType.asel);
+        pickHospital.isAnswered = questions2.arrayContent.size() != 0;
         items.add(pickHospital);
     }
 
@@ -339,7 +340,7 @@ public class QuestionsModel {
             }
         });
         questions2.answerCount = questions2.fillContent == null ? 0 : questions2.fillContent.length();
-        itemPickDate.isAnswered = questions2.fillContent != null;
+        itemPickDate.isAnswered = questions2.fillContent != null && !questions2.fillContent.equals("");
         items.add(itemPickDate);
     }
 

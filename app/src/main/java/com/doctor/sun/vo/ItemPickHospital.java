@@ -37,6 +37,8 @@ public class ItemPickHospital extends BaseItem {
     private int lv2Position = 0;
     private int lv1Position = 0;
 
+    public boolean isAnswered = true;
+
     public ItemPickHospital(String[] lastAnswerContent, String path, final int lv1Id, final int lv2Id, final int lv3Id) {
         this.areaNames = lastAnswerContent;
 

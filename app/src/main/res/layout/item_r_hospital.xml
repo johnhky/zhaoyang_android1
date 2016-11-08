@@ -26,7 +26,7 @@
             android:background="@drawable/selector_grey_rect"
             android:gravity="start|center_vertical"
             android:paddingLeft="@dimen/dp_13"
-            android:selected="@{true}"
+            android:selected="@{data.isAnswered}"
             android:paddingRight="@dimen/dp_13"
             android:text="@{data.lastAnswerContent}"
             android:textColor="@color/color_tick"
