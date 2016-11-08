@@ -160,7 +160,7 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
             result.add(new Description(R.layout.item_description, "建议处方"));
             result.addAll(prescriptions);
         }
-        if (furtherConsultation != null) {
+        if (furtherConsultation != null && !furtherConsultation.content.equals("")) {
             result.add(new Description(R.layout.item_description, "专属咨询/留言咨询/转诊"));
             result.add(furtherConsultation);
             if (doctor != null) {
@@ -180,7 +180,8 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         if (response.getReturnX() == 1) {
             return getDiagnosisType(response.getReturnType());
         }
-        return "无需复诊";
+//        return "无需复诊";
+        return "";
     }
 
     private String getDiagnosisType(int returnType) {

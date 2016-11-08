@@ -48,6 +48,13 @@ public class BottomSheetListFragment<T> extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.dialog_fragment_list, container, false);
+        binding.tbTitle.setText("历史记录");
+        binding.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = createAdapter();
         mAdapter.setLoadMoreListener(new LoadMoreListener() {
