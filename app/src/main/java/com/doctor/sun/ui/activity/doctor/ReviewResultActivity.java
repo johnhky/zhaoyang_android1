@@ -17,6 +17,7 @@ import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 /**
  * Created by rick on 11/19/15.
  */
+@Deprecated
 public class ReviewResultActivity extends BaseFragmentActivity2 implements View.OnClickListener {
 
     private ActivityReviewResultBinding binding;
@@ -44,7 +45,7 @@ public class ReviewResultActivity extends BaseFragmentActivity2 implements View.
                 break;
             }
 
-            case Doctor.STATUS_REJECT: {
+            case Doctor.STATUS_REJECTED: {
                 binding.tvStatus.setText("审核不通过");
                 binding.tvInstruction.setText("资料有误，请重新填写");
                 break;

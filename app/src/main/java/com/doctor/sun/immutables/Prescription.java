@@ -2,6 +2,7 @@ package com.doctor.sun.immutables;
 
 import com.doctor.sun.R;
 import com.doctor.sun.vo.BaseItem;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -55,11 +56,13 @@ public abstract class Prescription extends BaseItem {
         return "";
     }
 
+    @JsonIgnore
     @Override
     public int getItemLayoutId() {
         return R.layout.item_prescription;
     }
 
+    @JsonIgnore
     @Override
     public int getLayoutId() {
         return R.layout.item_prescription3;

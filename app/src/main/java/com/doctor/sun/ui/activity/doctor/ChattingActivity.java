@@ -31,6 +31,7 @@ import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.CallFailedShouldCallPhoneEvent;
 import com.doctor.sun.event.FinishRefreshEvent;
 import com.doctor.sun.event.HideInputEvent;
+import com.doctor.sun.event.RefreshAppointmentEvent;
 import com.doctor.sun.event.RejectInComingCallEvent;
 import com.doctor.sun.event.SendMessageEvent;
 import com.doctor.sun.http.Api;
@@ -45,7 +46,6 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.widget.AppointmentHistoryDialog;
 import com.doctor.sun.ui.widget.ExtendedEditText;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
@@ -542,20 +542,26 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         }
     }
 
-    private class RefreshAppointmentCallback extends SimpleCallback<PageDTO<Appointment>> {
+    private static class RefreshAppointmentCallback extends SimpleCallback<PageDTO<Appointment>> {
+
         @Override
         protected void handleResponse(PageDTO<Appointment> response) {
             List<Appointment> data = response.getData();
             if (data != null && !data.isEmpty()) {
-                Appointment appointment = data.get(0);
-                Intent intent = getIntent();
-                intent.putExtra(Constants.DATA, JacksonUtils.toJson(appointment));
-                setIntent(intent);
-                binding.setData(appointment);
-                binding.appointmentStatus.setData(appointment);
-                mAdapter.setFinishedTime(AppointmentHandler2.getFinishedTime(getData()));
+                EventHub.post(new RefreshAppointmentEvent(data.get(0)));
             }
         }
+    }
+
+    @Subscribe
+    public void onRefreshAppointmentEvent(RefreshAppointmentEvent e) {
+        Appointment appointment = e.getData();
+        Intent intent = getIntent();
+        intent.putExtra(Constants.DATA, JacksonUtils.toJson(appointment));
+        setIntent(intent);
+        binding.setData(appointment);
+        binding.appointmentStatus.setData(appointment);
+        mAdapter.setFinishedTime(AppointmentHandler2.getFinishedTime(getData()));
     }
 
 
