@@ -38,8 +38,8 @@
 
                 <ImageView
                     android:id="@+id/iv_position"
-                    android:layout_width="@dimen/dp_50"
-                    android:layout_height="@dimen/dp_50"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
                     android:enabled="@{data.questions2.refill == 1}"
                     android:selected="@{data.hasAnswer}"
                     android:src="@drawable/semi_oval_selector" />
@@ -55,7 +55,7 @@
                     android:gravity="top"
                     android:text='@{""+data.position}'
                     android:textColor="@color/white"
-                    android:textSize="@dimen/font_35" />
+                    android:textSize="@dimen/font_18" />
 
             </FrameLayout>
 
