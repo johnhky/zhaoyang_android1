@@ -95,14 +95,12 @@ public class TokenCallback {
             @Override
             protected void handleResponse(Doctor response) {
                 LoadingHelper.hideMaterLoading();
-                Doctor data = response;
-                Log.e(TAG, "handleResponse: " + data);
-                Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(data));
-                if (data == null) {
+                Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(response));
+                if (response == null) {
                     Intent i = RegisterFragment.intentFor(context);
                     context.startActivity(i);
                     context.finish();
-                } else switch (data.getReviewStatus()) {
+                } else switch (response.getReviewStatus()) {
                     case Doctor.STATUS_REJECTED:
                     case Doctor.STATUS_PENDING:
                     case Doctor.STATUS_PASS: {
@@ -116,7 +114,7 @@ public class TokenCallback {
                     default: {
                         Intent me = MeActivity.makeIntent(context);
                         context.startActivity(me);
-                        Intent i = EditDoctorInfoFragment.intentFor(context, data);
+                        Intent i = EditDoctorInfoFragment.intentFor(context, response);
                         context.startActivity(i);
                         context.finish();
                         break;
