@@ -196,7 +196,7 @@ public class ItemPickDate extends BaseItem {
                 datePicker.setMinDate(System.currentTimeMillis() - passMillis);
             }
         }, 100);
-        isAnswered = true
+        isAnswered = true;
     }
 
     public void pickTime2(Context context) {

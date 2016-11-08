@@ -44,7 +44,7 @@ public class ApplyAppointmentActivity extends BaseFragmentActivity2 {
         binding.rbAlipay.setChecked(true);
         data.loadCoupons();
         data.loadTags();
-        payEventHandler = PayEventHandler.register();
+        payEventHandler = PayEventHandler.register(this);
     }
 
 

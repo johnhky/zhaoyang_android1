@@ -38,7 +38,7 @@ public class PayPrescriptionsFragment extends SortedListFragment {
         super.onCreate(savedInstanceState);
 
         model = new PayPrescriptionsModel();
-        payEventHandler = PayEventHandler.register();
+        payEventHandler = PayEventHandler.register(getActivity());
     }
 
     @Override

@@ -42,7 +42,7 @@ public class PayAppointmentFragment extends SortedListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         builder = new AppointmentBuilder();
-        payEventHandler = PayEventHandler.register();
+        payEventHandler = PayEventHandler.register(getActivity());
     }
 
     @Override

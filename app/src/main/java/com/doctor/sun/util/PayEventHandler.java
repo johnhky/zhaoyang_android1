@@ -1,7 +1,9 @@
 package com.doctor.sun.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.entity.constans.IntBoolean;
@@ -19,12 +21,21 @@ import io.ganguo.library.core.event.EventHub;
 
 public class PayEventHandler {
 
+    private Activity activity;
+
+    private PayEventHandler(Activity activity) {
+        this.activity = activity;
+    }
+
     @Subscribe
     public void onPaySuccessEvent(PaySuccessEvent e) {
         Context context = AppContext.me();
         Intent intent = PaySuccessActivity.makeIntent(context, e.getData());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            activity.finishAffinity();
+        }
     }
 
     @Subscribe
@@ -40,10 +51,13 @@ public class PayEventHandler {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            activity.finishAffinity();
+        }
     }
 
-    public static PayEventHandler register() {
-        PayEventHandler eventHandler = new PayEventHandler();
+    public static PayEventHandler register(Activity activity) {
+        PayEventHandler eventHandler = new PayEventHandler(activity);
         EventHub.register(eventHandler);
         return eventHandler;
     }

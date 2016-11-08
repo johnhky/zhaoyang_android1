@@ -77,8 +77,10 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_main:
-                Intent intent = PAppointmentListActivity.makeIntent(PayFailActivity.this);
-                startActivity(intent);
+                Intent intent1 = PMainActivity.intentFor(PayFailActivity.this);
+                startActivity(intent1);
+                Intent intent2 = PAppointmentListActivity.makeIntent(PayFailActivity.this);
+                startActivity(intent2);
                 finish();
                 break;
             case R.id.tv_retry:
@@ -109,4 +111,13 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent1 = PMainActivity.intentFor(PayFailActivity.this);
+        startActivity(intent1);
+        Intent intent2 = PAppointmentListActivity.makeIntent(PayFailActivity.this);
+        startActivity(intent2);
+        finish();
+    }
 }
