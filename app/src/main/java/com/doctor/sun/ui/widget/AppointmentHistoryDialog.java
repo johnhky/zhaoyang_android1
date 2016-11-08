@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.event.AppointmentHistoryEvent;
@@ -107,6 +108,8 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
             currentIndex = 0;
         }
         if (data.size() <= 0) {
+            Toast.makeText(getContext(), "暂时没有历史记录", Toast.LENGTH_SHORT).show();
+            dismiss();
             return null;
         }
         answerPagerAdapter = new DoctorAppointmentDonePA(getChildFragmentManager(), data.get(currentIndex).getId());
