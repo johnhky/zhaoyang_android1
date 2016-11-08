@@ -17,6 +17,7 @@ import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 /**
  * Created by rick on 11/19/15.
  */
+@Deprecated
 public class ReviewResultActivity extends BaseFragmentActivity2 implements View.OnClickListener {
 
     private ActivityReviewResultBinding binding;

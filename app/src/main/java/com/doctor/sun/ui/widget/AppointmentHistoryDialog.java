@@ -92,7 +92,6 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
                 data.addAll(response);
                 if (data.isEmpty()) {
                     Toast.makeText(getContext(), "暂时没有任何历史记录", Toast.LENGTH_SHORT).show();
-                    dismiss();
                 } else {
                     toggleVisibility();
 

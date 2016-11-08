@@ -13,12 +13,14 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.event.RefreshEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
+import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
@@ -224,6 +226,13 @@ public class DoctorHandler {
             @Override
             protected void handleResponse(String response) {
                 Toast.makeText(context, "成功建立随访关系", Toast.LENGTH_SHORT).show();
+                ProfileModule api = Api.of(ProfileModule.class);
+                api.patientProfile().enqueue(new SimpleCallback<PatientDTO>() {
+                    @Override
+                    protected void handleResponse(PatientDTO response) {
+                        Settings.setPatientProfile(response);
+                    }
+                });
             }
         });
         EventHub.post(new RefreshEvent());
