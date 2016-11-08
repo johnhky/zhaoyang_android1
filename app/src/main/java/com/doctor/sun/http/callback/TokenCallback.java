@@ -103,7 +103,7 @@ public class TokenCallback {
                     context.startActivity(i);
                     context.finish();
                 } else switch (data.getReviewStatus()) {
-                    case Doctor.STATUS_REJECT:
+                    case Doctor.STATUS_REJECTED:
                     case Doctor.STATUS_PENDING:
                     case Doctor.STATUS_PASS: {
 //                        Log.e(TAG, "firstTime: " + Config.getInt(Constants.PASSFIRSTTIME, -1));

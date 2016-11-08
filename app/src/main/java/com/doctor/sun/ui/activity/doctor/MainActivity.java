@@ -88,13 +88,13 @@ public class MainActivity extends BaseDoctorActivity {
         if (doctor == null) {
             return;
         }
-        boolean rejected = Doctor.STATUS_REJECT.equals(doctor.getReviewStatus());
+        boolean rejected = Doctor.STATUS_REJECTED.equals(doctor.getReviewStatus());
         boolean notChanged = Settings.lastDoctorStatus().equals(doctor.getReviewStatus());
         if (notChanged && !rejected) {
             return;
         }
         switch (doctor.getReviewStatus()) {
-            case Doctor.STATUS_REJECT: {
+            case Doctor.STATUS_REJECTED: {
                 ClickMenu menu = new ClickMenu(R.layout.dialog_pass, 0, "审核未能通过", null);
                 menu.setSubTitle("您可以修改信息并再次发起审核请求");
                 BindingDialog.newBuilder(this, menu)
