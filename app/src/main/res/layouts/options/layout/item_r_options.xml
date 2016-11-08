@@ -58,7 +58,7 @@
             android:text="@={data.inputContent}"
             android:textColorHint="@color/primary_color_selector"
             android:textSize="@dimen/font_15"
-            android:visibility="@{!data.optionInputHint.equals(&quot;&quot;)}" />
+            android:visibility="@{!data.optionInputHint.equals(&quot;&quot;) || !data.contentHead.equals(&quot;&quot;)}" />
 
         <TextView
             android:id="@+id/remaining"
