@@ -38,18 +38,18 @@ public class NewMedicalRecordModel {
         List<SortedItem> result = new ArrayList<>();
 
         if (recordType == NewMedicalRecordFragment.TYPE_OTHER) {
-            Description warningDescription =
-                    new Description(R.layout.item_description_record_warning,
-                            context.getResources().getString(R.string.record_warning));
-
-            warningDescription.setItemId("warningDescription");
-            warningDescription.setPosition(result.size());
-            result.add(warningDescription);
-
-            BaseItem divider = new BaseItem();
-            divider.setItemLayoutId(R.layout.divider_13dp_gray);
-            divider.setPosition(result.size());
-            result.add(divider);
+//            Description warningDescription =
+//                    new Description(R.layout.item_description_record_warning,
+//                            context.getResources().getString(R.string.record_warning));
+//
+//            warningDescription.setItemId("warningDescription");
+//            warningDescription.setPosition(result.size());
+//            result.add(warningDescription);
+//
+//            BaseItem divider = new BaseItem();
+//            divider.setItemLayoutId(R.layout.divider_13dp_gray);
+//            divider.setPosition(result.size());
+//            result.add(divider);
 
             ItemTextInput2 relation = new ItemTextInput2(R.layout.item_text_input2, "您是患者的", "必填");
             relation.setResultNotEmpty();

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
@@ -52,23 +51,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:background="@color/divider_color" />
-
-                <TextView
-                    android:id="@+id/tv_money"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_46"
-                    android:layout_marginLeft="@dimen/dp_13"
-                    android:layout_marginRight="@dimen/dp_13"
-                    android:gravity="center_vertical"
-                    android:textColor="#363636"
-                    android:textSize="@dimen/font_15"
-                    app:html="@{@string/diagnosis_money(typeLabel + data.handler.getFee(type))}" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/divider_color" />
-
 
                 <com.doctor.sun.ui.widget.SlidingTabLayout
                     android:id="@+id/pager_tabs"

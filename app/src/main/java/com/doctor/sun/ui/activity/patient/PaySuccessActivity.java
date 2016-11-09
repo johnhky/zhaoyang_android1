@@ -94,9 +94,11 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_main: {
-                Intent intent = PMainActivity.intentFor(this);
-                startActivity(intent);
-                AppManager.finishAllActivity();
+                Intent intent1 = PMainActivity.intentFor(PaySuccessActivity.this);
+                startActivity(intent1);
+                Intent intent2 = PAppointmentListActivity.makeIntent(PaySuccessActivity.this);
+                startActivity(intent2);
+                finish();
                 break;
             }
             case R.id.tv_question: {

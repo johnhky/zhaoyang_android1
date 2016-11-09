@@ -41,13 +41,13 @@ public class Test5NewOtherMedicalRecord {
         intent.putExtra(Constants.FRAGMENT_CONTENT_BUNDLE, args);
         mActivityTestRule.launchActivity(intent);
 
-        CustomViewAction.performActionAt(2,
+        CustomViewAction.performActionAt(0,
                 typeText("relation" + getTag()));
-        CustomViewAction.performActionAt(4,
+        CustomViewAction.performActionAt(2,
                 typeText("self" + getTag()));
-        CustomViewAction.performActionAt(6,
+        CustomViewAction.performActionAt(4,
                 typeText("patient" + getTag()));
-        CustomViewAction.performActionAt(10,
+        CustomViewAction.performActionAt(8,
                 CustomViewAction.clickChildViewWithId(R.id.rb_male));
 
         clickNext();
