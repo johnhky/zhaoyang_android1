@@ -67,7 +67,7 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
         instance = ReadQuestionsFragment.getInstance(data.getId(), QuestionsPath.NORMAL, false);
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fly_content, instance)
+                .replace(R.id.fl_container, instance)
                 .commit();
 
         addHistoryButton();
