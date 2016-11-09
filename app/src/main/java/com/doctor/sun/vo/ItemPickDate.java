@@ -95,7 +95,7 @@ public class ItemPickDate extends BaseItem {
 
     public String getDate() {
         if (!isAnswered) {
-            return "";
+            return "点击选择日期";
         }
         return String.format(Locale.CHINA, "%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
     }
@@ -232,6 +232,9 @@ public class ItemPickDate extends BaseItem {
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
+        if (!isAnswered) {
+            return null;
+        }
         if (!isEnabled()) {
             return null;
         }
