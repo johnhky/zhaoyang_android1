@@ -15,111 +15,123 @@
 
     </data>
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/fly_root"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <include layout="@layout/include_header" />
-
-
-            <View
-                android:layout_width="@dimen/dp_90"
-                android:layout_height="@dimen/dp_48"
-                android:layout_gravity="end"
-                android:showcase='@{"问卷不够全面?这里补充"}'
-                android:showcaseId='@{"patientDetail"}'
-                android:showcasePosition='@{0}'
-                android:showcaseSize='@{3}' />
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/fly_content"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_63"
-            android:background="#eff3f5"
-            android:orientation="horizontal">
-            <!--普通预约-->
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include layout="@layout/include_header" />
+
+
+                <View
+                    android:layout_width="@dimen/dp_90"
+                    android:layout_height="@dimen/dp_48"
+                    android:layout_gravity="end"
+                    android:showcase='@{"问卷不够全面?这里补充"}'
+                    android:showcaseId='@{"patientDetail"}'
+                    android:showcasePosition='@{0}'
+                    android:showcaseSize='@{3}' />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fly_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <FrameLayout
-                android:layout_width="@dimen/dp_144"
-                android:layout_height="@dimen/dp_49"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/shape_blue_rect"
-                android:showcase='@{"提醒患者完成问卷"}'
-                android:showcaseId='@{"patientDetail"}'
-                android:showcasePosition='@{1}'
-                android:showcaseSize='@{3}'>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_63"
+                android:background="#eff3f5"
+                android:orientation="horizontal">
+                <!--普通预约-->
 
-                <TextView
-                    android:layout_width="match_parent"
+                <View
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <FrameLayout
+                    android:layout_width="@dimen/dp_144"
+                    android:layout_height="@dimen/dp_49"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/shape_blue_rect"
+                    android:showcase='@{"提醒患者完成问卷"}'
+                    android:showcaseId='@{"patientDetail"}'
+                    android:showcasePosition='@{1}'
+                    android:showcaseSize='@{3}'>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ripple_default"
+                        android:gravity="center"
+                        android:onClick="@{()->handler.remind(context, data.getId(), data.getRecord().getPatientId())}"
+                        android:text="提  醒"
+                        android:textColor="#fff"
+                        android:textSize="@dimen/font_17" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_8"
+                    android:layout_marginRight="@dimen/dp_8"
                     android:background="@drawable/ripple_default"
-                    android:gravity="center"
-                    android:onClick="@{()->handler.remind(context, data.getId(), data.getRecord().getPatientId())}"
-                    android:text="提  醒"
-                    android:textColor="#fff"
-                    android:textSize="@dimen/font_17" />
-            </FrameLayout>
+                    android:onClick="@{()->handler.makePhoneCall(context,data)}"
+                    android:showcase='@{"就诊前也可以联系患者"}'
+                    android:showcaseId='@{"patientDetail"}'
+                    android:showcasePosition='@{2}'
+                    android:showcaseSize='@{3}'>
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dp_8"
-                android:layout_marginRight="@dimen/dp_8"
-                android:background="@drawable/ripple_default"
-                android:onClick="@{()->handler.makePhoneCall(context,data)}"
-                android:showcase='@{"就诊前也可以联系患者"}'
-                android:showcaseId='@{"patientDetail"}'
-                android:showcasePosition='@{2}'
-                android:showcaseSize='@{3}'>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ripple_default"
+                        android:gravity="center"
+                        android:src="@drawable/ic_telephone"
+                        android:textSize="@dimen/font_17" />
+                </FrameLayout>
 
-                <ImageView
-                    android:layout_width="match_parent"
+                <FrameLayout
+                    android:layout_width="@dimen/dp_144"
+                    android:layout_height="@dimen/dp_49"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/shape_blue_rect">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ripple_default"
+                        android:gravity="center"
+                        android:onClick="@{()->handler.accept(context,data)}"
+                        android:text="就  诊"
+                        android:textColor="#fff"
+                        android:textSize="@dimen/font_17" />
+                </FrameLayout>
+
+                <View
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/ripple_default"
-                    android:gravity="center"
-                    android:src="@drawable/ic_telephone"
-                    android:textSize="@dimen/font_17" />
-            </FrameLayout>
+                    android:layout_weight="1" />
+            </LinearLayout>
 
-            <FrameLayout
-                android:layout_width="@dimen/dp_144"
-                android:layout_height="@dimen/dp_49"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/shape_blue_rect">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_default"
-                    android:gravity="center"
-                    android:onClick="@{()->handler.accept(context,data)}"
-                    android:text="就  诊"
-                    android:textColor="#fff"
-                    android:textSize="@dimen/font_17" />
-            </FrameLayout>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
         </LinearLayout>
 
-    </LinearLayout>
+        <FrameLayout
+            android:id="@+id/fly_button"
+            android:layout_marginBottom="@dimen/dp_63"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
 </layout>
