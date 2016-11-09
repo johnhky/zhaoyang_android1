@@ -33,7 +33,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{handler.getPatientName(data.getData())}"
+                android:text="@{data.getData().record.recordName}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_15" />
 
