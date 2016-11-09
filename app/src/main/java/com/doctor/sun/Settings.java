@@ -7,6 +7,7 @@ import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.RecentAppointment;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.util.JacksonUtils;
+import com.google.common.base.Strings;
 
 import io.ganguo.library.Config;
 
@@ -79,6 +80,14 @@ public class Settings {
         }
         PatientDTO patient = JacksonUtils.fromJson(json, PatientDTO.class);
         return patient != null ? patient.getInfo() : null;
+    }
+
+    public static boolean haveSelfName() {
+        Patient patientProfile = Settings.getPatientProfile();
+        if (patientProfile == null) {
+            return false;
+        }
+        return !Strings.isNullOrEmpty(patientProfile.getName());
     }
 
     public static RecentAppointment getRecentAppointment() {
