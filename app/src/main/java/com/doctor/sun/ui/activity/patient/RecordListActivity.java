@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityRecordListBinding;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
@@ -37,11 +38,20 @@ public class RecordListActivity extends BaseFragmentActivity2 {
         return i;
     }
 
+    public static Intent makeIntent(Context context, boolean showDialog) {
+        Intent i = makeIntent(context);
+        i.putExtra(Constants.DATA, showDialog);
+        return i;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
         initListener();
+        if (getIntent().getBooleanExtra(Constants.DATA, false)) {
+            new AddMedicalRecordDialog(RecordListActivity.this, false).show();
+        }
     }
 
     @Override

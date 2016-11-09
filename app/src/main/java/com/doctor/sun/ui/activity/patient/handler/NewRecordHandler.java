@@ -24,7 +24,7 @@ public class NewRecordHandler implements LayoutId {
     }
 
     public void newRecord(View view) {
-        Intent intent = RecordListActivity.makeIntent(view.getContext());
+        Intent intent = RecordListActivity.makeIntent(view.getContext(), true);
         view.getContext().startActivity(intent);
         dialog.dismiss();
     }
