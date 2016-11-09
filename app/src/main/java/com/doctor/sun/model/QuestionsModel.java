@@ -319,7 +319,7 @@ public class QuestionsModel {
         ItemPickHospital pickHospital = new ItemPickHospital(answerContent, url, lv1Id, lv2Id, lv3Id);
         pickHospital.setPosition(positionIn(i, RANGE_ITEM_POSITION));
         pickHospital.setItemId(questions2.getKey() + QuestionType.asel);
-        pickHospital.isAnswered = questions2.arrayContent.size() != 0;
+        pickHospital.isAnswered = questions2.arrayContent != null && questions2.arrayContent.size() != 0;
         items.add(pickHospital);
     }
 
