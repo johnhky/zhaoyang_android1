@@ -2,14 +2,10 @@ package com.doctor.sun.ui.activity.patient.handler;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 
 import com.doctor.sun.R;
-import com.doctor.sun.Settings;
-import com.doctor.sun.entity.Patient;
-import com.doctor.sun.ui.activity.SingleFragmentActivity;
-import com.doctor.sun.ui.fragment.NewMedicalRecordFragment;
+import com.doctor.sun.ui.activity.patient.RecordListActivity;
 import com.doctor.sun.vo.LayoutId;
 
 /**
@@ -28,16 +24,8 @@ public class NewRecordHandler implements LayoutId {
     }
 
     public void newRecord(View view) {
-        Patient patientProfile = Settings.getPatientProfile();
-        if (patientProfile == null || "".equals(patientProfile.getName())) {
-            Bundle args = NewMedicalRecordFragment.getArgs(NewMedicalRecordFragment.TYPE_SELF);
-            Intent intent = SingleFragmentActivity.intentFor(view.getContext(), "新建个人病历", args);
-            view.getContext().startActivity(intent);
-        } else {
-            Bundle args = NewMedicalRecordFragment.getArgs(NewMedicalRecordFragment.TYPE_OTHER);
-            Intent intent = SingleFragmentActivity.intentFor(view.getContext(), "新建亲友病历", args);
-            view.getContext().startActivity(intent);
-        }
+        Intent intent = RecordListActivity.makeIntent(view.getContext());
+        view.getContext().startActivity(intent);
         dialog.dismiss();
     }
 }
