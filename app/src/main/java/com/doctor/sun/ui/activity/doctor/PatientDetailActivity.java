@@ -5,22 +5,32 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityPatientDetailBinding;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
+import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.CallFailedShouldCallPhoneEvent;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
+import com.doctor.sun.util.HistoryEventHandler;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.vo.ItemPatientDetail;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.squareup.otto.Subscribe;
+
+import io.ganguo.library.core.event.EventHub;
 
 
 /**
@@ -31,6 +41,7 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
     private ActivityPatientDetailBinding binding;
     private Appointment data;
     private ReadQuestionsFragment instance;
+    private HistoryEventHandler eventHandler;
 
     public static Intent makeIntent(Context context, Appointment data, int layout) {
         Intent i = new Intent(context, PatientDetailActivity.class);
@@ -58,6 +69,33 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
                 .beginTransaction()
                 .replace(R.id.fly_content, instance)
                 .commit();
+
+        addHistoryButton();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        eventHandler = HistoryEventHandler.register(getSupportFragmentManager());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        HistoryEventHandler.unregister(eventHandler);
+    }
+
+    private void addHistoryButton() {
+        if (Settings.isDoctor()) {
+            View historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.flyContent, false);
+            historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventHub.post(new AppointmentHistoryEvent(getData(), false));
+                }
+            });
+            binding.flyContent.addView(historyButton);
+        }
     }
 
     @Override
