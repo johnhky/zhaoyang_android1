@@ -35,22 +35,22 @@ public class LoginActivity extends BaseFragmentActivity2 {
 
     }
 
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        if (shouldCheck()) {
-            UpdateUtil.checkUpdate(this);
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        UpdateUtil.onPause();
-    }
-
-    @Subscribe
-    public void onUpdateEvent(UpdateEvent e) {
-        UpdateUtil.handleNewVersion(this, e.getData(), e.getVersionName());
-    }
+//    @Override
+//    protected void onPostResume() {
+//        super.onPostResume();
+//        if (shouldCheck()) {
+//            UpdateUtil.checkUpdate(this);
+//        }
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        UpdateUtil.onPause();
+//    }
+//
+//    @Subscribe
+//    public void onUpdateEvent(UpdateEvent e) {
+//        UpdateUtil.handleNewVersion(this, e.getData(), e.getVersionName());
+//    }
 }
