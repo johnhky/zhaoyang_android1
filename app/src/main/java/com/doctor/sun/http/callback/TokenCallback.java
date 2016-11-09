@@ -23,6 +23,7 @@ import com.doctor.sun.ui.activity.patient.PMainActivity;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.ui.fragment.RegisterFragment;
 import com.doctor.sun.util.JacksonUtils;
+import com.google.common.base.Strings;
 
 import java.util.Set;
 
@@ -100,24 +101,20 @@ public class TokenCallback {
                     Intent i = RegisterFragment.intentFor(context);
                     context.startActivity(i);
                     context.finish();
-                } else switch (response.getReviewStatus()) {
-                    case Doctor.STATUS_REJECTED:
-                    case Doctor.STATUS_PENDING:
-                    case Doctor.STATUS_PASS: {
-//                        Log.e(TAG, "firstTime: " + Config.getInt(Constants.PASSFIRSTTIME, -1));
-                        Config.putInt(Constants.USER_TYPE, AuthModule.DOCTOR_PASSED);
-                        Intent i = MainActivity.makeIntent(context);
-                        context.startActivity(i);
-                        context.finish();
-                        break;
-                    }
-                    default: {
+                } else {
+                    boolean haveNoName = Strings.isNullOrEmpty(response.getName());
+                    boolean notReviewYet = Strings.isNullOrEmpty(response.getReviewStatus());
+                    if (haveNoName && notReviewYet) {
                         Intent me = MeActivity.makeIntent(context);
                         context.startActivity(me);
                         Intent i = EditDoctorInfoFragment.intentFor(context, response);
                         context.startActivity(i);
                         context.finish();
-                        break;
+                    } else {
+                        Config.putInt(Constants.USER_TYPE, AuthModule.DOCTOR_PASSED);
+                        Intent i = MainActivity.makeIntent(context);
+                        context.startActivity(i);
+                        context.finish();
                     }
                 }
             }
