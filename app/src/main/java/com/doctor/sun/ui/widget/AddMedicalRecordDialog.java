@@ -42,12 +42,18 @@ public class AddMedicalRecordDialog {
                         Bundle args = NewMedicalRecordFragment.getArgs(NewMedicalRecordFragment.TYPE_SELF);
                         Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", args);
                         context.startActivity(intent);
+                        if (isRegister) {
+                            dialog.dismiss();
+                        }
                         break;
                     }
                     case R.id.tv_relative: {
                         Bundle args = NewMedicalRecordFragment.getArgs(NewMedicalRecordFragment.TYPE_OTHER);
                         Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", args);
                         context.startActivity(intent);
+                        if (isRegister) {
+                            dialog.dismiss();
+                        }
                         break;
                     }
                 }

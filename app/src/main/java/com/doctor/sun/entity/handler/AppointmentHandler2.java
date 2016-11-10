@@ -288,7 +288,7 @@ public class AppointmentHandler2 {
     }
 
     public static void chat(Context context, Appointment data) {
-        if (!"0".equals(data.getTid())) {
+        if (hasTid(data)) {
             Intent intent = ChattingActivity.makeIntent(context, data);
             context.startActivity(intent);
         } else {
@@ -298,8 +298,12 @@ public class AppointmentHandler2 {
         }
     }
 
+    private static boolean hasTid(Appointment data) {
+        return !"0".equals(data.getTid());
+    }
+
     public static void chat(BaseListAdapter adapter, BaseViewHolder vh, Appointment data) {
-        if (!"0".equals(data.getTid())) {
+        if (hasTid(data)) {
             Intent intent = ChattingActivity.makeIntent(vh.itemView.getContext(), data);
             if (adapter != null) {
                 intent.putExtra(ItemHelper.HANDLER, new Messenger(new Handler(new Callback(adapter, vh.getAdapterPosition()))));
@@ -313,7 +317,7 @@ public class AppointmentHandler2 {
     }
 
     public static void chatNoMenu(Context context, Appointment data) {
-        if ("0".equals(data.getTid())) {
+        if (hasTid(data)) {
             Intent intent = ChattingActivityNoMenu.makeIntent(context, data);
             context.startActivity(intent);
         } else {
@@ -449,7 +453,13 @@ public class AppointmentHandler2 {
                 break;
             }
             case Status.FINISHED: {
-                viewDetail(vh.itemView.getContext(), data);
+                getAppointmentDetail(data.getId(), new SimpleCallback<Appointment>() {
+                    @Override
+                    protected void handleResponse(Appointment response) {
+                        chat(adapter, vh, response);
+                        answerQuestion(vh.itemView.getContext(), 0, response);
+                    }
+                });
                 break;
             }
             case Status.DOING:
@@ -648,13 +658,17 @@ public class AppointmentHandler2 {
     }
 
     public static void viewDetail(final Context context, final int tab, Appointment data) {
-        AppointmentModule api = Api.of(AppointmentModule.class);
-        api.appointmentDetail(data.getId()).enqueue(new SimpleCallback<Appointment>() {
+        getAppointmentDetail(data.getId(), new SimpleCallback<Appointment>() {
             @Override
             protected void handleResponse(Appointment response) {
                 answerQuestion(context, tab, response);
             }
         });
+    }
+
+    public static void getAppointmentDetail(String id, retrofit2.Callback<ApiDTO<Appointment>> callback) {
+        AppointmentModule api = Api.of(AppointmentModule.class);
+        api.appointmentDetail(id).enqueue(callback);
     }
 
     public static void answerQuestion(Context context, int tab, Appointment data) {
