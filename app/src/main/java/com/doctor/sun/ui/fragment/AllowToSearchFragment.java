@@ -65,9 +65,9 @@ public class AllowToSearchFragment extends SortedListFragment {
         ArrayList<BaseItem> items = new ArrayList();
         final ItemSwitch itemSwitch = new ItemSwitch(R.layout.item_switch, "是否允许公开检索权限");
         if (hide == IntBoolean.TRUE) {
-            itemSwitch.setChecked(true);
-        } else {
             itemSwitch.setChecked(false);
+        } else {
+            itemSwitch.setChecked(true);
         }
 
         itemSwitch.setItemId(UUID.randomUUID().toString());

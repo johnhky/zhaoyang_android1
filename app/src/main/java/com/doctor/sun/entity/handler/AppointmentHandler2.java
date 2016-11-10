@@ -402,6 +402,10 @@ public class AppointmentHandler2 {
         return data.getStatus() == Status.UNPAID || data.getStatus() == Status.PAID;
     }
 
+    public static boolean hasPay(Appointment data) {
+        return data.getStatus() == Status.UNPAID;
+    }
+
     public static boolean isPayed(Appointment data) {
         return data.getStatus() == Status.PAID;
     }
