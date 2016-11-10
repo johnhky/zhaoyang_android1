@@ -261,7 +261,8 @@ public class AppointmentHandler2 {
             Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
                 @Override
                 public boolean handleMessage(Message msg) {
-                    data.getDoctor().setPoint((Float) msg.obj);
+                    String obj = String.valueOf(msg.obj);
+                    data.getDoctor().setPoint(Float.valueOf(obj));
                     adapter.notifyItemChanged(vh.getAdapterPosition());
                     return false;
                 }
