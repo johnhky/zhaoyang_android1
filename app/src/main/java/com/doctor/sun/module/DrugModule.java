@@ -6,9 +6,6 @@ import com.doctor.sun.entity.Drug;
 import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.immutables.Appointment;
-import com.doctor.sun.immutables.Prescription;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -39,10 +36,6 @@ public interface DrugModule {
     @FormUrlEncoded
     @POST("drug/push-drug")
     Call<ApiDTO<String>> pushDrug(@Field("appointmentId") String appointmentId);
-
-    @FormUrlEncoded
-    @POST("drug/push-drug")
-    Call<ApiDTO<String>> pushFollowUpDrug(@Field("followUpId") String followUpId);
 
     @GET("drug/admin-im-account")
     Call<ApiDTO<ImAccount>> serverAccount();

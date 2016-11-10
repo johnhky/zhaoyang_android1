@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -103,12 +104,15 @@ public class PatientHandler {
     public String getRecordsLabel(Patient patient) {
         StringBuilder result = new StringBuilder();
         result.append("病历:  ");
-        int lastIndex = patient.recordNames.size() - 1;
-        for (int i = 0; i < lastIndex; i++) {
-            result.append(patient.recordNames.get(i));
-            result.append("/");
+        List<String> recordNames = patient.recordNames;
+        if (recordNames != null && !recordNames.isEmpty()) {
+            for (int i = 0; i < recordNames.size(); i++) {
+                result.append(recordNames.get(i));
+                if (i != recordNames.size() - 1) {
+                    result.append("/");
+                }
+            }
         }
-        result.append(patient.recordNames.get(lastIndex));
         return result.toString();
     }
 

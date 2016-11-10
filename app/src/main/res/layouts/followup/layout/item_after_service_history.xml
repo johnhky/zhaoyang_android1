@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -70,15 +71,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginRight="@dimen/dp_13"
-                android:background="@{handler.getStatusBackground(data)}"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_2"
-                android:paddingRight="@dimen/dp_2"
-                android:text="@{data.display_status, default = 订单状态}"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:layout_marginStart="@dimen/dp_8"
+                android:textColor="#898989"
                 android:textSize="@dimen/font_13"
-                app:html="@{handler.styledOrderStatus(data)}" />
+                app:html="@{handler.styledOrderStatus(data)}"
+                tools:text="进行中" />
 
         </LinearLayout>
 

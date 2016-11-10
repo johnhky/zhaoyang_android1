@@ -33,7 +33,7 @@ android {
         minSdkVersion rootProject.ext.min_sdk_version
 //        targetSdkVersion rootProject.ext.target_sdk_version
         versionCode 11
-        versionName "1.3.0"
+        versionName "2.0.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -140,7 +140,7 @@ android {
                                     , nimKey  : "701994af7b0559728f9ee602a6f3c342"
                                     , jPushKey: "2c1736491f10bfbab86e90ae"]
             buildConfigField "boolean", "DEV_MODE", "false"
-            buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/"' //host, 必改
+            buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/013/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
             //容联 deprecated
 //            buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改

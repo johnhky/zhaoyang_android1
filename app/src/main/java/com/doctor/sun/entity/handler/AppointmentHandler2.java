@@ -482,11 +482,7 @@ public class AppointmentHandler2 {
 
     public static void drugPush(Appointment data) {
         Call<ApiDTO<String>> apiDTOCall;
-        if (isAfterService(data)) {
-            apiDTOCall = drugModule.pushFollowUpDrug(data.getId());
-        } else {
-            apiDTOCall = drugModule.pushDrug(data.getId());
-        }
+        apiDTOCall = drugModule.pushDrug(data.getId());
 
         apiDTOCall.enqueue(new SimpleCallback<String>() {
             @Override
