@@ -6,6 +6,7 @@ import android.databinding.BaseObservable;
 import android.view.View;
 
 import com.doctor.sun.entity.Patient;
+import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
 import com.doctor.sun.ui.activity.patient.CouponTabActivity;
@@ -70,6 +71,9 @@ public class MeHandler extends BaseObservable {
     public void setData(Patient data) {
         this.data = data;
         notifyChange();
+    }
+    public boolean reviewStatusVisible() {
+        return ReviewStatus.STATUS_PENDING.equals(data.getReview_status());
     }
 
     public Patient getData() {

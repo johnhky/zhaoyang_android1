@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
@@ -11,6 +12,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMeBinding;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Patient;
+import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;

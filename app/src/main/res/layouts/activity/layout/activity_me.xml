@@ -373,6 +373,19 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
+        <TextView
+            android:id="@+id/tv_review_status"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_45"
+            android:background="@color/dark_36"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_23"
+            android:paddingRight="@dimen/dp_23"
+            android:text="资料正在审核，请耐心等待"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_13"
+            android:visibility="gone" />
+
         <include
             layout="@layout/include_footer"
             bind:footer="@{footer}" />

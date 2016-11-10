@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.FeeActivity;
 import com.doctor.sun.ui.activity.doctor.RecordPoolActivity;
@@ -66,4 +67,5 @@ public class MeHandler {
         Intent intent = ViewFeedbackActivity.intentFor(context, data);
         context.startActivity(intent);
     }
+
 }
