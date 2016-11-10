@@ -149,6 +149,10 @@ public class QuestionsModel {
             return acc;
         }
         if (indexAtQuestions >= questions.size()) {
+            BaseItem e = new BaseItem(R.layout.space_200dp);
+            e.setItemId("FOOTER");
+            e.setPosition(Long.MAX_VALUE - 1);
+            acc.add(e);
             return acc;
         } else {
             final Questions2 questions2 = questions.get(indexAtQuestions);

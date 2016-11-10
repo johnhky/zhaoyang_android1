@@ -64,6 +64,10 @@ public abstract class Appointment implements LayoutId {
         return "";
     }
 
+    @Value.Default
+    public int getSelf() {
+        return 0;
+    }
 
     public abstract String getDoctor_id();
 
