@@ -28,6 +28,7 @@
             android:textSize="@dimen/font_14" />
 
         <com.doctor.sun.ui.widget.CountDownTextView
+            android:id="@+id/tv_time"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"

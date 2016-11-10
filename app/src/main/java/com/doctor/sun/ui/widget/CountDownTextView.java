@@ -23,6 +23,7 @@ public class CountDownTextView extends TextView {
 
     private boolean isRunning = false;
     private long remainTime;
+    private MyRunnable action;
 
     public CountDownTextView(Context context) {
         super(context);
@@ -54,7 +55,8 @@ public class CountDownTextView extends TextView {
             return;
         }
         isRunning = true;
-        post(new MyRunnable(getText().toString(), remainTime));
+        action = new MyRunnable(getText().toString(), remainTime);
+        post(action);
     }
 
     public static String getReadableTime(long timeMillis) {
@@ -79,6 +81,7 @@ public class CountDownTextView extends TextView {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        stop();
         EventHub.unregister(this);
     }
 
@@ -109,12 +112,19 @@ public class CountDownTextView extends TextView {
             EventHub.post(new TextChangedEvent(text));
             remainTime -= ONE_SECOND;
             if (remainTime > 0) {
+                Tasks.removeRunnable(this);
                 Tasks.runOnUiThread(this, ONE_SECOND);
             } else {
+                Tasks.removeRunnable(this);
                 EventHub.post(new CountDownTimeoutEvent());
             }
         }
 
+    }
+
+    public void stop() {
+        remainTime = -1;
+        Tasks.removeRunnable(action);
     }
 
     private static class CountDownTimeoutEvent implements Event {

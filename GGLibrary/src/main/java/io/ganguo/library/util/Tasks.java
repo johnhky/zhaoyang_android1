@@ -79,6 +79,10 @@ public class Tasks {
         return poolExecutor.submit(new RunnableAdapter(runnable));
     }
 
+    public static void removeRunnable(Runnable runnable) {
+       handler().removeCallbacks(runnable);
+    }
+
     /**
      * Runnable Adapter
      */
