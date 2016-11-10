@@ -834,10 +834,12 @@ public class AppointmentHandler2 {
         @Override
         public boolean handleMessage(Message msg) {
             if (mAdapter != null) {
-                Appointment data = JacksonUtils.fromJson(msg.obj.toString(), Appointment.class);
-                mAdapter.update(position, data);
-                mAdapter.notifyItemChanged(position);
-                mAdapter = null;
+                if (position >= 0 && position < mAdapter.size()) {
+                    Appointment data = JacksonUtils.fromJson(msg.obj.toString(), Appointment.class);
+                    mAdapter.update(position, data);
+                    mAdapter.notifyItemChanged(position);
+                    mAdapter = null;
+                }
             }
             return false;
         }
