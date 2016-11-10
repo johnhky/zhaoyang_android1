@@ -258,13 +258,19 @@ public class TextMsg extends RealmObject implements LayoutId {
         if (TextMsgFactory.isRefreshMsg(getType())) {
             return R.layout.msg_notification;
         }
+        if (getType().equals(String.valueOf(DrugV2))){
+            return R.layout.msg_prescription_list;
+        }
+        if (getType().equals(String.valueOf(Drug))) {
+            return R.layout.msg_prescription_list;
+        }
+        if (TextMsgFactory.ADMIN_DRUG.equals(getUserData())) {
+            return R.layout.msg_prescription_list;
+        }
 
         if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
             if (getType().equals(String.valueOf(Sticker))) {
                 return R.layout.msg_sticker_send;
-            }
-            if (getType().equals(String.valueOf(Drug))) {
-                return R.layout.msg_prescription_list;
             }
             if (getType().equals(String.valueOf(IMAGE))) {
                 return R.layout.msg_image_send;
@@ -278,18 +284,12 @@ public class TextMsg extends RealmObject implements LayoutId {
             if (getType().equals(String.valueOf(FILE))) {
                 return R.layout.msg_file_send;
             }
-            if (TextMsgFactory.ADMIN_DRUG.equals(getUserData())) {
-                return R.layout.msg_prescription_list;
-            }
             return R.layout.msg_text_send;
         }
 
         if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
             if (getType().equals(String.valueOf(Sticker))) {
                 return R.layout.msg_sticker_receive;
-            }
-            if (getType().equals(String.valueOf(Drug))) {
-                return R.layout.msg_prescription_list;
             }
             if (getType().equals(String.valueOf(IMAGE))) {
                 return R.layout.msg_image_receive;
@@ -303,9 +303,7 @@ public class TextMsg extends RealmObject implements LayoutId {
             if (getType().equals(String.valueOf(FILE))) {
                 return R.layout.msg_file_receive;
             }
-            if (TextMsgFactory.ADMIN_DRUG.equals(getUserData())) {
-                return R.layout.msg_prescription_list;
-            }
+
             if (getType().equals(String.valueOf(TextMsg.EXTEND_TIME))) {
                 return R.layout.msg_extend_time;
             }
