@@ -10,6 +10,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityReviewResultBinding;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 
@@ -39,13 +40,13 @@ public class ReviewResultActivity extends BaseFragmentActivity2 implements View.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_review_result);
         Doctor data = getData();
         switch (data.getReviewStatus()) {
-            case Doctor.STATUS_PENDING: {
+            case ReviewStatus.STATUS_PENDING: {
                 binding.tvStatus.setText("审核中");
                 binding.tvInstruction.setText("您的信息正在审核中，请耐心等待...");
                 break;
             }
 
-            case Doctor.STATUS_REJECTED: {
+            case ReviewStatus.STATUS_REJECTED: {
                 binding.tvStatus.setText("审核不通过");
                 binding.tvInstruction.setText("资料有误，请重新填写");
                 break;

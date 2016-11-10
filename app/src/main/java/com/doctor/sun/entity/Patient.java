@@ -54,9 +54,11 @@ public class Patient extends BaseObservable implements LayoutId, Parcelable, Nam
     @JsonProperty("phone")
     private String phone;
     @JsonProperty("yunxin_accid")
-    public String yunxinAccid;
+    private String yunxinAccid;
     @JsonProperty("status")
     public String status;
+    @JsonProperty("review_status")
+    private String review_status;
 
     @JsonProperty("record_names")
     public List<String> recordNames;
@@ -154,6 +156,18 @@ public class Patient extends BaseObservable implements LayoutId, Parcelable, Nam
         this.patientId = patientId;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public String getReview_status() {
+        return review_status;
+    }
+
+    public void setReview_status(String review_status) {
+        this.review_status = review_status;
+    }
+
     public PatientHandler getHandler() {
         return handler;
     }
@@ -183,6 +197,8 @@ public class Patient extends BaseObservable implements LayoutId, Parcelable, Nam
         dest.writeString(this.voipAccount);
         dest.writeString(this.phone);
         dest.writeString(this.yunxinAccid);
+        dest.writeString(this.status);
+        dest.writeString(this.review_status);
 //        dest.writeParcelable(this.handler, flags);
     }
 
@@ -198,6 +214,8 @@ public class Patient extends BaseObservable implements LayoutId, Parcelable, Nam
         this.voipAccount = in.readString();
         this.phone = in.readString();
         this.yunxinAccid = in.readString();
+        this.status = in.readString();
+        this.review_status = in.readString();
 //        this.handler = in.readParcelable(PatientHandler.class.getClassLoader());
     }
 

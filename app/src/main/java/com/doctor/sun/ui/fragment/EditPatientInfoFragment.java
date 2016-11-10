@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Patient;
+import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.EditPatientInfoModel;
@@ -59,6 +61,9 @@ public class EditPatientInfoFragment extends SortedListFragment {
         setHasOptionsMenu(true);
         disableRefresh();
         loadMore();
+        if (ReviewStatus.STATUS_PENDING.equals(patient.getReview_status())) {
+            Snackbar.make(view, "您好,您的信息正在审核当中，请耐心等待。", Snackbar.LENGTH_INDEFINITE).show();
+        }
     }
 
     @Override

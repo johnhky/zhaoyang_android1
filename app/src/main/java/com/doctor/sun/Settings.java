@@ -5,6 +5,7 @@ import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.RecentAppointment;
+import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.util.JacksonUtils;
 import com.google.common.base.Strings;
@@ -140,7 +141,7 @@ public class Settings {
      * 医生信息审核状态弹窗 上一次显示弹窗时候的状态
      */
     public static String lastDoctorStatus() {
-        return Config.getString(Constants.LAST_DOCTOR_STATUS, Doctor.STATUS_PASS);
+        return Config.getString(Constants.LAST_DOCTOR_STATUS, ReviewStatus.STATUS_PASS);
     }
 
     public static void setLastDoctorStatus(String status) {

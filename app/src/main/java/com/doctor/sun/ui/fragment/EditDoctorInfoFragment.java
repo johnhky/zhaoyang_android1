@@ -16,6 +16,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.IsChanged;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -80,7 +81,7 @@ public class EditDoctorInfoFragment extends SortedListFragment {
         List<SortedItem> sortedItems = model.parseData(data);
         binding.swipeRefresh.setRefreshing(false);
         getAdapter().insertAll(sortedItems);
-        if (data.getReviewStatus().equals(Doctor.STATUS_PENDING)) {
+        if (data.getReviewStatus().equals(ReviewStatus.STATUS_PENDING)) {
             Snackbar.make(binding.getRoot(), "资料正在审核，请耐心等待", Snackbar.LENGTH_INDEFINITE).show();
         }
     }

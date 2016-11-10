@@ -15,6 +15,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityMainBinding;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.DoctorIndex;
+import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
@@ -88,13 +89,13 @@ public class MainActivity extends BaseDoctorActivity {
         if (doctor == null) {
             return;
         }
-        boolean rejected = Doctor.STATUS_REJECTED.equals(doctor.getReviewStatus());
+        boolean rejected = ReviewStatus.STATUS_REJECTED.equals(doctor.getReviewStatus());
         boolean notChanged = Settings.lastDoctorStatus().equals(doctor.getReviewStatus());
         if (notChanged && !rejected) {
             return;
         }
         switch (doctor.getReviewStatus()) {
-            case Doctor.STATUS_REJECTED: {
+            case ReviewStatus.STATUS_REJECTED: {
                 ClickMenu menu = new ClickMenu(R.layout.dialog_pass, 0, "审核未能通过", null);
                 menu.setSubTitle("您可以修改信息并再次发起审核请求");
                 BindingDialog.newBuilder(this, menu)
@@ -112,14 +113,14 @@ public class MainActivity extends BaseDoctorActivity {
                         .show();
                 break;
             }
-            case Doctor.STATUS_PENDING: {
+            case ReviewStatus.STATUS_PENDING: {
                 ClickMenu menu = new ClickMenu(R.layout.dialog_pass, 0, "审核中", null);
                 menu.setSubTitle("您的信息正在审核中，请耐心等待...");
                 BindingDialog.newBuilder(this, menu)
                         .show();
                 break;
             }
-            case Doctor.STATUS_PASS: {
+            case ReviewStatus.STATUS_PASS: {
                 ClickMenu menu = new ClickMenu(R.layout.dialog_pass, 0, "审核通过", null);
                 menu.setSubTitle("欢迎加入昭阳医生");
                 BindingDialog.newBuilder(this, menu).show();

@@ -9,6 +9,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -252,8 +253,7 @@ public class SystemMsg extends BaseItem {
                     apiAppointment.appointmentDetail(extras.appointmentId).enqueue(new SimpleCallback<Appointment>() {
                         @Override
                         protected void handleResponse(Appointment response) {
-                            Intent intent = PatientDetailActivity.makeIntent(context, response, 0);
-                            context.startActivity(intent);
+                            AppointmentHandler2.viewDetail(context,0,response);
                         }
                     });
                 }

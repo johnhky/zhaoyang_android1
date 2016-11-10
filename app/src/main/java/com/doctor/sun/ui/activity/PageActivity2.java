@@ -31,6 +31,7 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
     private SimpleAdapter adapter;
     private PageCallback<Object> callback;
     private ItemSearch searchItem;
+    private boolean hasSearchItem = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +84,7 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
                     @Override
                     public void run() {
                         binding.refreshLayout.setRefreshing(false);
-                        if (adapter != null && adapter.isEmpty()) {
+                        if (hasNoContent()) {
                             binding.emptyIndicator.setText(getEmptyIndicatorText());
                             binding.emptyIndicator.setVisibility(View.VISIBLE);
                         } else {
@@ -99,6 +100,13 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
                 onPrepareHeader();
             }
         };
+    }
+
+    public boolean hasNoContent() {
+        if (hasSearchItem) {
+            return adapter != null && adapter.size() <= 1;
+        }
+        return adapter != null && adapter.isEmpty();
     }
 
     protected void onPrepareHeader() {
@@ -165,6 +173,7 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
 
     public void insertSearchItem() {
         if (searchItem == null) {
+            hasSearchItem = true;
             searchItem = new ItemSearch();
             searchItem.setItemLayoutId(R.layout.item_search);
             searchItem.setItemId("id");

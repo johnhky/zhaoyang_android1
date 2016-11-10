@@ -121,7 +121,7 @@ public class PayPrescriptionsModel {
             extraFee.setItemId("extraFee");
             extraFee.setPosition(result.size());
             result.add(extraFee);
-            ModelUtils.insertSpace(result, R.layout.space_dp8);
+            ModelUtils.insertSpace(result, R.layout.space_8dp);
             if (!extra.extraFee.isEmpty()) {
                 for (String s : extra.extraFee) {
                     ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_r_grey_text, s, "");
@@ -140,7 +140,7 @@ public class PayPrescriptionsModel {
                     result.add(itemTextInput2);
                 }
             }
-            ModelUtils.insertSpace(result, R.layout.space_dp8);
+            ModelUtils.insertSpace(result, R.layout.space_8dp);
         }
 
         if (!extra.discount.isEmpty()) {
@@ -148,7 +148,7 @@ public class PayPrescriptionsModel {
             discount.setItemId("discount");
             discount.setPosition(result.size());
             result.add(discount);
-            ModelUtils.insertSpace(result, R.layout.space_dp8);
+            ModelUtils.insertSpace(result, R.layout.space_8dp);
             for (String s : extra.discount) {
                 ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_r_grey_text, s, "");
                 itemTextInput2.setTitleGravity(Gravity.START);
@@ -156,14 +156,14 @@ public class PayPrescriptionsModel {
                 itemTextInput2.setPosition(result.size());
                 result.add(itemTextInput2);
             }
-            ModelUtils.insertSpace(result, R.layout.space_dp8);
+            ModelUtils.insertSpace(result, R.layout.space_8dp);
         }
 
         Description total = new Description(R.layout.item_description, "订单总计");
         total.setItemId("total");
         total.setPosition(result.size());
         result.add(total);
-        ModelUtils.insertSpace(result, R.layout.space_dp8);
+        ModelUtils.insertSpace(result, R.layout.space_8dp);
         String totalMoneyString = "总计： <font color=\"#f65600\">￥" + money + "</font>";
 
 
@@ -175,14 +175,14 @@ public class PayPrescriptionsModel {
         totalFee.setUserSelected(extra.commission.isEmpty());
 
         result.add(totalFee);
-        ModelUtils.insertSpace(result, R.layout.space_dp8);
+        ModelUtils.insertSpace(result, R.layout.space_8dp);
 
         if (hasPay) {
             Description needPay = new Description(R.layout.item_description, "实际付款");
             needPay.setItemId("needPay");
             needPay.setPosition(result.size());
             result.add(needPay);
-            ModelUtils.insertSpace(result, R.layout.space_dp8);
+            ModelUtils.insertSpace(result, R.layout.space_8dp);
 
             String needPayMoneyString = "实付： <font color=\"#f65600\">￥" + money + "</font>";
             ItemTextInput2 needPayMoney = new ItemTextInput2(R.layout.item_total_money, needPayMoneyString, "");
@@ -192,7 +192,7 @@ public class PayPrescriptionsModel {
             result.add(needPayMoney);
         }
 
-        ModelUtils.insertSpace(result, R.layout.space_dp8);
+        ModelUtils.insertSpace(result, R.layout.space_8dp);
 
         if (!hasPay) {
             Description couponDescription = new Description(R.layout.item_description, "优惠券");
