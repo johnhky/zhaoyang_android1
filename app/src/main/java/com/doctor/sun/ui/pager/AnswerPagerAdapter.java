@@ -55,9 +55,10 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
                 }
                 case 1: {
                     if (isAppointmentFinished()) {
-                        return WaitingSuggestionFragment.newInstance();
-                    } else {
                         return ReadDiagnosisFragment.newInstance(appointmentId);
+                    } else {
+                        //等待医生建议
+                        return WaitingSuggestionFragment.newInstance();
                     }
                 }
             }
