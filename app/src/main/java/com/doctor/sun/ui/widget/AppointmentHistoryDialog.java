@@ -63,7 +63,9 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
-                EventHub.post(new AppointmentHistoryEvent(appointment, true));
+                if (data != null && !data.isEmpty()) {
+                    EventHub.post(new AppointmentHistoryEvent(appointment, true));
+                }
             }
         });
         getBinding().tvPrevious.setOnClickListener(new View.OnClickListener() {
