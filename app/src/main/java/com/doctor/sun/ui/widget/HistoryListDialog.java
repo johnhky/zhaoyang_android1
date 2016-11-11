@@ -66,7 +66,7 @@ public class HistoryListDialog extends BottomSheetListFragment {
     @Override
     public SimpleAdapter createAdapter() {
         SimpleAdapter adapter = super.createAdapter();
-        adapter.mapLayout(R.layout.item_appointment, R.layout.item_appointment_history);
+        adapter.mapLayout(R.layout.item_appointment, R.layout.item_appointment_history_simple);
         return adapter;
     }
 
