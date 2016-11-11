@@ -7,6 +7,8 @@
 
         <import type="com.doctor.sun.ui.adapter.core.AdapterConfigKey" />
 
+        <import type="java.lang.Double" />
+
         <variable
             name="data"
             type="com.doctor.sun.vo.FurtherConsultationVM" />
@@ -233,6 +235,9 @@
                 android:id="@+id/lly_doctor"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_85"
+                android:background="@drawable/ripple_default"
+                android:clickable="true"
+                android:onClick="@{()->data.seeDoctorDetail(context, data.doctor)}"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/dp_13"
                 android:visibility="@{data.doctor != null}">
