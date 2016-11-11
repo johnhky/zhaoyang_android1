@@ -22,7 +22,7 @@ public class CountDownTextView extends TextView {
 
 
     private boolean isRunning = false;
-    private long remainTime;
+    private long initRemainTime;
     private MyRunnable action;
 
     public CountDownTextView(Context context) {
@@ -42,7 +42,7 @@ public class CountDownTextView extends TextView {
         long currentTimeMillis = System.currentTimeMillis();
         if (time > currentTimeMillis) {
             setVisibility(VISIBLE);
-            remainTime = (time - currentTimeMillis);
+            initRemainTime = (time - currentTimeMillis);
             countDown();
         } else {
             setVisibility(GONE);
@@ -50,12 +50,13 @@ public class CountDownTextView extends TextView {
     }
 
     public void countDown() {
-        Log.d(TAG, "countDown() called with: remainTime" + remainTime);
+        Log.d(TAG, "countDown() called with: initRemainTime" + initRemainTime);
         if (isRunning) {
+            start();
             return;
         }
         isRunning = true;
-        action = new MyRunnable(getText().toString(), remainTime);
+        action = new MyRunnable(getText().toString(), initRemainTime);
         post(action);
     }
 
@@ -98,6 +99,7 @@ public class CountDownTextView extends TextView {
 
     private static class MyRunnable implements Runnable {
 
+        private boolean shouldStop = false;
         private long remainTime;
         private String stringToFormat;
 
@@ -111,7 +113,9 @@ public class CountDownTextView extends TextView {
             String text = String.format(Locale.CHINA, stringToFormat, getReadableTime(remainTime));
             EventHub.post(new TextChangedEvent(text));
             remainTime -= ONE_SECOND;
-            if (remainTime > 0) {
+            if (shouldStop) {
+                Tasks.removeRunnable(this);
+            } else if (remainTime > 0) {
                 Tasks.removeRunnable(this);
                 Tasks.runOnUiThread(this, ONE_SECOND);
             } else {
@@ -123,8 +127,16 @@ public class CountDownTextView extends TextView {
     }
 
     public void stop() {
-        remainTime = -1;
+        if (action != null) {
+            action.shouldStop = true;
+        }
         Tasks.removeRunnable(action);
+    }
+
+    public void start() {
+        if (action != null) {
+            action.shouldStop = false;
+        }
     }
 
     private static class CountDownTimeoutEvent implements Event {
