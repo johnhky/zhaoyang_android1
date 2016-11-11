@@ -193,26 +193,28 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         }
 
         if (!Settings.isDoctor())
-            drugModule.needSendDrug(Integer.parseInt(data.getId())).enqueue(new ApiCallback<NeedSendDrug>() {
-                @Override
-                protected void handleResponse(NeedSendDrug response) {
-                    if (Integer.parseInt(response.getNeed()) == 1) {
-                        TwoChoiceDialog.show(ChattingActivity.this, "医生已给出建议，就诊结束。请问你是否需要代取并邮寄药物？", "否", "是", new TwoChoiceDialog.Options() {
-                            @Override
-                            public void onApplyClick(MaterialDialog dialog) {
-                                dialog.dismiss();
-                                Intent intent = MedicineStoreActivity.makeIntent(ChattingActivity.this, true);
-                                startActivity(intent);
-                            }
+            if (AppointmentHandler2.Status.FINISHED == data.getStatus()) {
+                drugModule.needSendDrug(Integer.parseInt(data.getId())).enqueue(new ApiCallback<NeedSendDrug>() {
+                    @Override
+                    protected void handleResponse(NeedSendDrug response) {
+                        if (Integer.parseInt(response.getNeed()) == 1) {
+                            TwoChoiceDialog.show(ChattingActivity.this, "医生已给出建议，就诊结束。请问你是否需要代取并邮寄药物？", "否", "是", new TwoChoiceDialog.Options() {
+                                @Override
+                                public void onApplyClick(MaterialDialog dialog) {
+                                    dialog.dismiss();
+                                    Intent intent = MedicineStoreActivity.makeIntent(ChattingActivity.this, true);
+                                    startActivity(intent);
+                                }
 
-                            @Override
-                            public void onCancelClick(MaterialDialog dialog) {
-                                dialog.dismiss();
-                            }
-                        });
+                                @Override
+                                public void onCancelClick(MaterialDialog dialog) {
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
                     }
-                }
-            });
+                });
+            }
     }
 
     private void initView() {
