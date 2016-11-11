@@ -3,14 +3,12 @@ package com.doctor.sun.entity;
 import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.ClearRules;
 import com.doctor.sun.entity.constans.QuestionType;
-import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.event.LoadDrugEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -37,7 +35,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import io.ganguo.library.core.event.EventHub;
-import io.ganguo.library.util.Systems;
 
 /**
  * Created by rick on 28/7/2016.
@@ -295,7 +292,20 @@ public class Options2 extends BaseItem {
         if (QuestionType.radio.equals(questionType)) {
             return true;
         }
-        return otherOptions.clearRule != clearRule;
+        if (otherOptions.clearRule == ClearRules.LEAVE_ME_ALONE_2) {
+            return false;
+        }
+        if (clearRule == ClearRules.LEAVE_ME_ALONE_2) {
+            return false;
+        }
+
+        if (clearRule == ClearRules.KILL_OTHERS_EXCEPT_TWO_1) {
+            return true;
+        }
+        if (clearRule == ClearRules.KILL_OTHERS_0) {
+            return ClearRules.KILL_OTHERS_0 != otherOptions.clearRule;
+        }
+        return false;
     }
 
     /**

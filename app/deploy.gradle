@@ -23,7 +23,8 @@ android {
                     'src/main/res/layouts/patient',
                     'src/main/res/layouts/prescription',
                     'src/main/res/layouts/questions',
-                    'src/main/res/layouts/textInput']
+                    'src/main/res/layouts/textInput',
+                    'src/main/res/layouts/customQuestionItem']
         }
     }
 
