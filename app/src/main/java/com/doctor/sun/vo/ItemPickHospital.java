@@ -3,6 +3,7 @@ package com.doctor.sun.vo;
 import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Area;
 import com.doctor.sun.entity.OptionsPair;
@@ -12,6 +13,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.util.JacksonUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +58,9 @@ public class ItemPickHospital extends BaseItem {
         api.endemicAreaList(path).enqueue(new SimpleCallback<List<Area>>() {
             @Override
             protected void handleResponse(List<Area> response) {
+                Area area = JacksonUtils.fromResource(AppContext.me(), R.raw.default_hospital, Area.class);
                 lv1Data = response;
+                lv1Data.add(0, area);
                 parseData(response, 0);
                 isInit = true;
                 notifyChange();
@@ -264,6 +268,10 @@ public class ItemPickHospital extends BaseItem {
         if (!isEnabled()) {
             return null;
         }
+        if (!hasAnswer()) {
+            return null;
+        }
+
         HashMap<String, Object> result = new HashMap<>();
         String key = getKey().replace(QuestionType.asel, "");
         Questions2 item = (Questions2) adapter.get(key);
@@ -271,5 +279,17 @@ public class ItemPickHospital extends BaseItem {
         result.put("question_id", item.answerId);
         result.put("fill_content", toJsonAnswer2());
         return result;
+    }
+
+    public boolean hasAnswer() {
+        return lv1Id != -1 && lv2Id != -2 && lv3Id != -3;
+    }
+
+    public int answerCount() {
+        if (hasAnswer()) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }

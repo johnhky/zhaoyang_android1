@@ -134,6 +134,9 @@ public class Questions2 extends BaseItem {
         if (answerCount > 0) {
             return true;
         }
+        if (QuestionType.asel.equals(questionType)) {
+            return false;
+        }
         int i = adapter.inBetweenItemCount(vh.getAdapterPosition(), questionId + questionType);
         if (Math.abs(i) > 1) {
             return true;

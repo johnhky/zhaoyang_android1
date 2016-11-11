@@ -294,10 +294,10 @@ public class QuestionsModel {
         items.add(vm);
     }
 
-    private void parsePickHospital(List<SortedItem> items, int i, Questions2 questions2) {
-        int lv1Id = 1;
-        int lv2Id = 1;
-        int lv3Id = 1;
+    private void parsePickHospital(List<SortedItem> items, int i, final Questions2 questions2) {
+        int lv1Id = -1;
+        int lv2Id = -2;
+        int lv3Id = -3;
         String[] answerContent = new String[3];
         try {
             if (questions2.arrayContent != null && questions2.arrayContent.size() >= 3) {
@@ -318,12 +318,21 @@ public class QuestionsModel {
                 if (options2.optionType.equals("A")) {
                     url = options2.optionContent;
                 }
+                options2.setSelectedWrap(false);
             }
         }
-        ItemPickHospital pickHospital = new ItemPickHospital(answerContent, url, lv1Id, lv2Id, lv3Id);
+        final ItemPickHospital pickHospital = new ItemPickHospital(answerContent, url, lv1Id, lv2Id, lv3Id);
         pickHospital.setPosition(positionIn(i, RANGE_ITEM_POSITION));
         pickHospital.setItemId(questions2.getKey() + QuestionType.asel);
-        pickHospital.isAnswered = questions2.arrayContent != null && questions2.arrayContent.size() != 0;
+
+        pickHospital.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                questions2.answerCount = pickHospital.answerCount();
+                questions2.notifyChange();
+            }
+        });
+
         items.add(pickHospital);
     }
 
