@@ -70,7 +70,8 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
         binding.tvQuestion.setOnClickListener(this);
         if (getType() == VOIP_PAY) {
             binding.tvSystemTip.setVisibility(View.GONE);
-            binding.tvQuestion.setText("返回订单列表");
+            binding.tvQuestion.setText("返回首页");
+            binding.tvMain.setText("返回寄药订单列表");
             binding.tvTip.setVisibility(View.GONE);
         } else {
             setBookTime();
@@ -96,18 +97,23 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
             case R.id.tv_main: {
                 Intent intent1 = PMainActivity.intentFor(PaySuccessActivity.this);
                 startActivity(intent1);
-                Intent intent2 = PAppointmentListActivity.makeIntent(PaySuccessActivity.this);
+                int position = 0;
+                if (getType() == VOIP_PAY) {
+                    position = 1;
+                }
+                Intent intent2 = PAppointmentListActivity.makeIntent(PaySuccessActivity.this, position);
                 startActivity(intent2);
                 finish();
                 break;
             }
             case R.id.tv_question: {
                 //TODO
-                String id = getAppointment().getId();
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     finishAffinity();
                 }
                 if (getType() == APPOINTMENT) {
+                    String id = getAppointment().getId();
                     Intent intent1 = PMainActivity.intentFor(this);
                     startActivity(intent1);
                     Intent intent2 = EditQuestionActivity.intentFor(this, id, QuestionsPath.NORMAL);
@@ -116,7 +122,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
 
                 if (getType() == VOIP_PAY) {
                     finish();
-                    Intent intent = PAppointmentListActivity.makeIntent(this);
+                    Intent intent = PMainActivity.intentFor(this);
                     startActivity(intent);
                 }
                 break;
