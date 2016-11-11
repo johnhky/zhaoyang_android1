@@ -98,6 +98,7 @@
             android:layout_marginBottom="@dimen/dp_6"
             android:layout_marginEnd="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
+            android:enabled="@{data.isEnabled(adapter,data.isEnabled())}"
             android:button="@drawable/ic_circle_tick"
             android:checked="@={data.userSelected}"
             android:visibility="@{!adapter.getBoolean(AdapterConfigKey.IS_READ_ONLY)}" />

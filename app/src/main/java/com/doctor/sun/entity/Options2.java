@@ -302,8 +302,8 @@ public class Options2 extends BaseItem {
         if (clearRule == ClearRules.KILL_OTHERS_EXCEPT_TWO_1) {
             return true;
         }
-        if (clearRule == ClearRules.KILL_OTHERS_0) {
-            return ClearRules.KILL_OTHERS_0 != otherOptions.clearRule;
+        if (clearRule == ClearRules.KILL_OTHERS_EXCEPT_ZERO_OR_TWO_0) {
+            return ClearRules.KILL_OTHERS_EXCEPT_ZERO_OR_TWO_0 != otherOptions.clearRule;
         }
         return false;
     }
