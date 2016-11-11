@@ -44,10 +44,8 @@ public class Test5NewOtherMedicalRecord {
         CustomViewAction.performActionAt(0,
                 typeText("relation" + getTag()));
         CustomViewAction.performActionAt(2,
-                typeText("self" + getTag()));
-        CustomViewAction.performActionAt(4,
                 typeText("patient" + getTag()));
-        CustomViewAction.performActionAt(8,
+        CustomViewAction.performActionAt(6,
                 CustomViewAction.clickChildViewWithId(R.id.rb_male));
 
         clickNext();

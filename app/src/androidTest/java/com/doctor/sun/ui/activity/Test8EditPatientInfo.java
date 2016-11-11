@@ -8,6 +8,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.test.filters.LargeTest;
 
 import com.doctor.sun.R;
+import com.doctor.sun.TestConfig;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.ui.activity.action.CustomViewAction;
@@ -61,7 +62,7 @@ public class Test8EditPatientInfo {
 
     private void editInfo() {
         CustomViewAction.performActionAt(2, typeText("name"));
-        CustomViewAction.performActionAt(4, typeText("abc@mail.com"));
+        CustomViewAction.performActionAt(4, typeText(TestConfig.PATIENT_PHONE_NUM));
         CustomViewAction.performActionAt(8, CustomViewAction.clickChildViewWithId(R.id.rb_female));
     }
 
