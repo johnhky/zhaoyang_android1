@@ -1,61 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="@drawable/avchat_call_bg"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/avchat_call_bg"
+    android:orientation="vertical">
 
     <com.doctor.sun.ui.widget.BezelImageView
-            android:id="@+id/avchat_video_head"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:layout_gravity="center_horizontal" />
+        android:id="@+id/avchat_video_head"
+        android:layout_width="@dimen/dp_55"
+        android:layout_height="@dimen/dp_55"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        app:maskDrawable="@drawable/circle_mask" />
 
     <TextView
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/avchat_video_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:text=""
-            android:gravity="center"
-            android:singleLine="true"
-            android:ellipsize="end"
-            />
+        android:id="@+id/avchat_video_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
     <TextView
-            android:layout_marginBottom="5dp"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/avchat_video_notify"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:text="@string/avchat_video_call_request"
-            android:gravity="center"
-            android:singleLine="true"
-            android:ellipsize="end"
-            />
+        android:id="@+id/avchat_video_notify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/avchat_video_call_request"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
 
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:paddingBottom="50dp"
-            >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingBottom="50dp">
 
         <include
-                android:id="@+id/avchat_video_refuse_receive"
-                layout="@layout/avchat_refuse_receive_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:visibility="gone"
-                />
+            android:id="@+id/avchat_video_refuse_receive"
+            layout="@layout/avchat_refuse_receive_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

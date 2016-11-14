@@ -13,7 +13,11 @@ import com.doctor.sun.avchat.constant.CallStateEnum;
 import com.doctor.sun.avchat.widgets.ToggleListener;
 import com.doctor.sun.avchat.widgets.ToggleState;
 import com.doctor.sun.avchat.widgets.ToggleView;
+import com.doctor.sun.im.cache.NimUserInfoCache;
+import com.doctor.sun.ui.binding.CustomBinding;
 import com.doctor.sun.ui.widget.BezelImageView;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 /**
  * 视频管理器， 视频界面初始化和相关管理
@@ -161,8 +165,23 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
      */
     private void showProfile() {
         String account = manager.getAccount();
-//        headImg.loadBuddyAvatar(account);
-//        nickNameTV.setText(NimUserInfoCache.getInstance().getUserDisplayName(account));
+        NimUserInfoCache.getInstance().getUserInfoFromRemote(account, new RequestCallback<NimUserInfo>() {
+            @Override
+            public void onSuccess(NimUserInfo nimUserInfo) {
+                nickNameTV.setText(nimUserInfo.getName());
+                CustomBinding.loadAvatar(headImg, nimUserInfo.getAvatar(), 0);
+            }
+
+            @Override
+            public void onFailed(int i) {
+
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+
+            }
+        });
     }
 
     /**

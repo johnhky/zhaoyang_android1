@@ -16,8 +16,12 @@ import com.doctor.sun.avchat.widgets.ToggleView;
 import com.doctor.sun.entity.CallConfig;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.im.cache.NimUserInfoCache;
 import com.doctor.sun.module.ToolModule;
+import com.doctor.sun.ui.binding.CustomBinding;
 import com.doctor.sun.ui.widget.BezelImageView;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import io.ganguo.library.util.Networks;
 import io.ganguo.library.util.Tasks;
@@ -220,9 +224,24 @@ public class AVChatAudio implements View.OnClickListener, ToggleListener {
      * 个人信息设置
      */
     private void showProfile() {
-//        String account = manager.getAccount();
-//        headImg.loadBuddyAvatar(account);
-//        nickNameTV.setText(NimUserInfoCache.getInstance().getUserDisplayName(account));
+        String account = manager.getAccount();
+        NimUserInfoCache.getInstance().getUserInfoFromRemote(account, new RequestCallback<NimUserInfo>() {
+            @Override
+            public void onSuccess(NimUserInfo nimUserInfo) {
+                nickNameTV.setText(nimUserInfo.getName());
+                CustomBinding.loadAvatar(headImg,nimUserInfo.getAvatar(),0);
+            }
+
+            @Override
+            public void onFailed(int i) {
+
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+
+            }
+        });
     }
 
     /**
