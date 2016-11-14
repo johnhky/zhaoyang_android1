@@ -22,8 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:clickable="@{data.handler.isApplied(data.status)}"
-        android:onClick="@{data.handler.isApplied(data.status) ? data.handler.applyAfterService(adapter,vh):null}"
+        android:onClick="@{data.handler.applyAfterService(adapter,vh)}"
         android:orientation="vertical">
 
 

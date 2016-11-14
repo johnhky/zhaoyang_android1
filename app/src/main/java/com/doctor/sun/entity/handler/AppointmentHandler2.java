@@ -141,6 +141,10 @@ public class AppointmentHandler2 {
         }
     }
 
+    public static boolean isCanceled(Appointment data) {
+       return data.getStatus() == Status.CANCEL;
+    }
+
 
     public static void cancel2(final BaseListAdapter adapter, final BaseViewHolder vh, final Appointment data) {
         Intent intent = CancelAppointmentActivity.makeIntent(vh.itemView.getContext(), data);
