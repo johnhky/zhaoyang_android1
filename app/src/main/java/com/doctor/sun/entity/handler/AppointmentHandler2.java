@@ -22,6 +22,7 @@ import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.constans.IntBoolean;
@@ -607,9 +608,23 @@ public class AppointmentHandler2 {
         } else {
             return "本次咨询" + data.getDisplay_status();
         }
-
     }
 
+    public static int chatStatusTextColor(Appointment data) {
+        if (data.getStatus() == Status.DOING) {
+            return R.color.brown;
+        } else {
+            return R.color.white;
+        }
+    }
+
+    public static int chatStatusBackgroundColor(Appointment data) {
+        if (data.getStatus() == Status.DOING) {
+            return R.color.yellow;
+        } else {
+            return R.color.grey_77;
+        }
+    }
 
     @NonNull
     public static RealmQuery<TextMsg> queryAllMsg(Realm realm, Appointment data) {
