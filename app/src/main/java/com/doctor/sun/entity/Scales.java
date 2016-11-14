@@ -11,6 +11,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.constans.QuestionsPath;
+import com.doctor.sun.event.ModifyQuestionsEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
@@ -26,6 +27,8 @@ import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 15/8/2016.
@@ -79,7 +82,7 @@ public class Scales extends BaseItem {
         context.startActivity(intent);
     }
 
-    public void addScaleToAppointment(String appointmentId) {
+    public void addScaleToAppointment(final String appointmentId) {
         HashMap<String, String> fieldMap = new HashMap<>();
         fieldMap.put("add_scale", scaleId);
         QuestionModule api = Api.of(QuestionModule.class);
@@ -87,6 +90,7 @@ public class Scales extends BaseItem {
             @Override
             protected void handleResponse(String response) {
                 setUserSelected(true);
+                EventHub.post(new ModifyQuestionsEvent(appointmentId));
             }
         });
     }

@@ -17,6 +17,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentQuestionsInventoryBinding;
 import com.doctor.sun.model.QuestionsModel;
+import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -97,20 +98,10 @@ public class QuestionsInventoryFragment extends SortedListFragment {
     public SortedListAdapter createAdapter() {
         SortedListAdapter adapter = super.createAdapter();
         adapter.putString(AdapterConfigKey.ID, getAppointmentId());
-        adapter.setLayoutIdInterceptor(new BaseListAdapter.LayoutIdInterceptor() {
-            @Override
-            public int intercept(int origin) {
-                switch (origin) {
-                    case R.layout.item_question: {
-                        return R.layout.item_inventory_question;
-                    }
-                    case R.layout.item_further_consultation: {
-                        return R.layout.item_empty;
-                    }
-                }
-                return origin;
-            }
-        });
+        MapLayoutIdInterceptor interceptor = new MapLayoutIdInterceptor();
+        interceptor.put(R.layout.item_question, R.layout.item_inventory_question);
+        interceptor.put(R.layout.item_further_consultation, R.layout.item_empty);
+        adapter.setLayoutIdInterceptor(interceptor);
         return adapter;
     }
 
@@ -123,7 +114,7 @@ public class QuestionsInventoryFragment extends SortedListFragment {
         loader.setTitle("系统题目");
         getAdapter().insert(loader);
 
-        ItemCustomQuestionLoader loader2 = new ItemCustomQuestionLoader(R.layout.item_custom_question_title, getAppointmentId(),keyword);
+        ItemCustomQuestionLoader loader2 = new ItemCustomQuestionLoader(R.layout.item_custom_question_title, getAppointmentId(), keyword);
         //放到最后一位
         loader2.setPosition(4999 * QuestionsModel.PADDING);
         loader2.setTitle("自定义题目");

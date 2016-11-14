@@ -24,6 +24,7 @@ import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.EditEndEvent;
 import com.doctor.sun.event.LoadDrugEvent;
 import com.doctor.sun.event.ModifyStatusEvent;
+import com.doctor.sun.event.RefreshQuestionsEvent;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
@@ -103,6 +104,7 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
             @Override
             public void apply(List<? extends SortedItem> sortedItems) {
                 onFinishLoadMore(sortedItems);
+                getAdapter().clear();
                 getAdapter().insertAll(sortedItems);
             }
         });
@@ -224,6 +226,13 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
     @Subscribe
     public void onLoadDrugEvent(LoadDrugEvent event) {
         Toast.makeText(getContext(), "暂无上次用药记录", Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe
+    public void onEventMainThread(RefreshQuestionsEvent event) {
+        if (event.getId().equals(getAppointmentId())) {
+            loadMore();
+        }
     }
 
     @Override

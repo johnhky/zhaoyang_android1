@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import io.ganguo.library.core.event.EventHub;
 import retrofit2.Call;
@@ -92,7 +91,7 @@ public class QuestionsModel {
                 if (questionSize == 0 && !Settings.isDoctor()) {
                     // 进行中的订单，医生建议显示【待医生诊断】
                     BaseItem item = new BaseItem(R.layout.divider_1px);
-                    item.setItemId(UUID.randomUUID().toString());
+                    item.setItemId("DIVIDER_DOCTOR_WAITING");
                     item.setPosition(r.size());
                     r.add(item);
 
@@ -378,7 +377,7 @@ public class QuestionsModel {
             for (int j = 0; j < split.length; j++) {
                 ItemPickImages item = new ItemPickImages(R.layout.item_view_image, split[j]);
                 item.setPosition(i * PADDING + j + 1);
-                item.setItemId(UUID.randomUUID().toString());
+                item.setItemId("IMAGE" + item.getPosition());
                 item.setParentId(questions2.getKey());
                 pickerItem.registerItemChangedListener(item);
                 items.add(item);
@@ -459,7 +458,7 @@ public class QuestionsModel {
             for (int j = 0; j < arrayContent.size(); j++) {
                 Prescription prescription = PrescriptionHandler.fromHashMap(arrayContent.get(j));
                 prescription.setPosition(i * PADDING + j + 1);
-                prescription.setItemId(UUID.randomUUID().toString());
+                prescription.setItemId(QuestionType.drug + prescription.getPosition());
                 itemAddPrescription.registerItemChangedListener(prescription);
                 items.add(prescription);
             }

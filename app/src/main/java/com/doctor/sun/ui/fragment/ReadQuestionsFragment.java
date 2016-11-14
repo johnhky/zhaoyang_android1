@@ -15,6 +15,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.QuestionsPath;
+import com.doctor.sun.event.RefreshQuestionsEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
@@ -22,6 +23,7 @@ import com.doctor.sun.ui.activity.doctor.TemplatesInventoryActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
@@ -230,5 +232,13 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
 
     public String getQuestionsPath() {
         return getArguments().getString(Constants.PATH);
+    }
+
+    @Subscribe
+    public void onEventMainThread(RefreshQuestionsEvent event) {
+        if (event.getId().equals(getAppointmentId())) {
+            getAdapter().clear();
+            loadMore();
+        }
     }
 }

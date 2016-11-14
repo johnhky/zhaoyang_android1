@@ -8,6 +8,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.QuestionType;
+import com.doctor.sun.event.ModifyQuestionsEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.QuestionsModel;
@@ -25,6 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 28/7/2016.
@@ -219,7 +222,7 @@ public class Questions2 extends BaseItem {
         return orDisableRule != null || orEnableRule != null;
     }
 
-    private void addQuestionToAppointment(String appointmentId) {
+    private void addQuestionToAppointment(final String appointmentId) {
         HashMap<String, String> fieldMap = new HashMap<>();
         if (getPosition() > ItemCustomQuestionLoader.FIRST_ITEM_POSITION_PADDING * QuestionsModel.PADDING) {
             fieldMap.put("add_template_question", getKey());
@@ -231,6 +234,7 @@ public class Questions2 extends BaseItem {
             @Override
             protected void handleResponse(String response) {
                 setUserSelected(true);
+                EventHub.post(new ModifyQuestionsEvent(appointmentId));
             }
         });
     }
