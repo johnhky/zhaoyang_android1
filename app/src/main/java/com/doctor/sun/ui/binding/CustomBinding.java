@@ -187,6 +187,7 @@ public class CustomBinding {
         view.setText(Html.fromHtml(text).toString());
     }
 
+    // TODO: delete this method
     @android.databinding.BindingAdapter("android:background")
     public static void background(View view, int color) {
         view.setBackgroundResource(color);

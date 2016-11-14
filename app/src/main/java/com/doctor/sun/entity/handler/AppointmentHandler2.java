@@ -610,15 +610,15 @@ public class AppointmentHandler2 {
         }
     }
 
-    public static int chatStatusTextColor(Appointment data) {
+    public static int chatStatusTextColor(Appointment data, Context context) {
         if (data.getStatus() == Status.DOING) {
-            return R.color.brown;
+            return context.getResources().getColor(R.color.brown);
         } else {
-            return R.color.white;
+            return context.getResources().getColor(R.color.white);
         }
     }
 
-    public static int chatStatusBackgroundColor(Appointment data) {
+    public static int chatStatusBackgroundColor(Appointment data, Context context) {
         if (data.getStatus() == Status.DOING) {
             return R.color.yellow;
         } else {

@@ -21,10 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="@{handler.chatStatusBackgroundColor(data)}"
+            android:background="@{handler.chatStatusBackgroundColor(data, context)}"
             android:gravity="center"
             android:text="@{handler.chatStatus(data)}"
-            android:textColor="@{handler.chatStatusTextColor(data)}"
+            android:textColor="@{handler.chatStatusTextColor(data, context)}"
             android:textSize="@dimen/font_14" />
 
         <com.doctor.sun.ui.widget.CountDownTextView
