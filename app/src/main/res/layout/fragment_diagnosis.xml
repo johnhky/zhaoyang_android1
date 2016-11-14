@@ -47,11 +47,11 @@
                 bind:data="@{data.emotion}" />
 
             <include
-                layout="@layout/item_symptom"
+                layout="@layout/item_symptom_single_choice"
                 bind:data="@{data.memory}" />
 
             <include
-                layout="@layout/item_symptom"
+                layout="@layout/item_symptom_single_choice"
                 bind:data="@{data.insight}" />
 
             <View

@@ -130,6 +130,14 @@ public class Symptom extends BaseObservable implements LayoutId {
         notifyChange();
     }
 
+    public void toggleSingleChoice(View view) {
+        int id = Integer.parseInt(view.getTag().toString());
+        states.clear();
+        states.put(0, false);
+        states.put(id, true);
+        notifyChange();
+    }
+
     public void select(final View view) {
         new MaterialDialog.Builder(view.getContext())
                 .title(title)
