@@ -9,6 +9,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.http.Api;
@@ -22,8 +23,8 @@ import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
-import com.doctor.sun.ui.activity.doctor.PatientDetailActivity;
 import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
+import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
@@ -220,7 +221,6 @@ public class SystemMsg extends BaseItem {
             case 15:
             case 16:
             case 17:
-            case 19:
             case 20: {
                 if (isDoctor) {
                     i = AppointmentListActivity.makeIntent(context);
@@ -245,6 +245,7 @@ public class SystemMsg extends BaseItem {
                 }
                 break;
             }
+            case 19:
             case 23: {
                 if (isDoctor) {
                     if (extras == null) {
@@ -253,9 +254,12 @@ public class SystemMsg extends BaseItem {
                     apiAppointment.appointmentDetail(extras.appointmentId).enqueue(new SimpleCallback<Appointment>() {
                         @Override
                         protected void handleResponse(Appointment response) {
-                            AppointmentHandler2.viewDetail(context,0,response);
+                            AppointmentHandler2.viewDetail(context, 0, response);
                         }
                     });
+                } else {
+                    Intent intent = EditQuestionActivity.intentFor(context, extras.appointmentId, QuestionsPath.NORMAL);
+                    context.startActivity(intent);
                 }
                 break;
             }
