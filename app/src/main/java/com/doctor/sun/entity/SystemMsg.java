@@ -263,7 +263,7 @@ public class SystemMsg extends BaseItem {
                 if (isDoctor) {
                     i = AfterServiceActivity.intentFor(context);
                 } else {
-                    i = AfterServiceDoingActivity.intentFor(context, extras.followUpId, "", 0);
+                    i = AfterServiceDoingActivity.intentFor(context, extras.appointmentId, "", 0);
                 }
                 break;
             }

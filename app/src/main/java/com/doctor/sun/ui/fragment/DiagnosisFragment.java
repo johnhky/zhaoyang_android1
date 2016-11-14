@@ -290,14 +290,14 @@ public class DiagnosisFragment extends BaseFragment {
     }
 
     private void loadPrescription(String id) {
-        Api.of(DiagnosisModule.class).patientDrug(id).enqueue(new SimpleCallback<List<Prescription>>() {
+        Api.of(DiagnosisModule.class).patientDrug(id).enqueue(new SimpleCallback<List<LegacyPrescriptionDTO.Prescription>>() {
             @Override
-            protected void handleResponse(List<Prescription> response) {
+            protected void handleResponse(List<LegacyPrescriptionDTO.Prescription> response) {
                 if (response == null) {
                     return;
                 }
-                for (Prescription prescription : response) {
-                    addPrescription(prescription);
+                for (LegacyPrescriptionDTO.Prescription prescription : response) {
+                    addPrescription(PrescriptionHandler.fromLegacy(prescription));
                 }
             }
         });

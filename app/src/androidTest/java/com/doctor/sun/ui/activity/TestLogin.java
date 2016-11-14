@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class TestLogin {
 
-    public static final String LOGIN_PHONE_NUM = TestConfig.PATIENT_PHONE_NUM;
+    public static final String LOGIN_PHONE_NUM = TestConfig.getPatientPhoneNum();
     @Rule
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
@@ -50,7 +50,7 @@ public class TestLogin {
     public void test40loginPatient() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.et_phone), isDisplayed()));
-        appCompatEditText.perform(replaceText(TestConfig.PATIENT_PHONE_NUM), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText(TestConfig.getPatientPhoneNum()), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.et_password), isDisplayed()));

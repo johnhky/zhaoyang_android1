@@ -34,15 +34,6 @@ public interface AfterServiceModule {
     @GET("follow-up/patient-orders")
     Call<ApiDTO<PageDTO<Appointment>>> patientOrders(@Nullable @Query("followUpType") String type, @Query("page") String page);
 
-    /**
-     * @param id     随访id
-     * @param action 操作类型 'accept'接受;'reject'拒绝
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("follow-up/patient-action")
-    Call<ApiDTO<Void>> perform(@NonNull @Field("followUpId") String id, @NonNull @Field("followUpAction") String action);
-
 
     /**
      * @param id 病人id

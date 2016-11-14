@@ -48,7 +48,7 @@ public class Test3RegisterPatient {
         int REGISTER_TYPE = R.id.rb_patient;
         selectRegisterType(REGISTER_TYPE);
 
-        typePhoneNum(TestConfig.PATIENT_PHONE_NUM);
+        typePhoneNum(TestConfig.getPatientPhoneNum());
 
         fillRegisterInfo();
 

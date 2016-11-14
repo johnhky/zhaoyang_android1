@@ -180,10 +180,10 @@ public class JPushReceiver extends BroadcastReceiver {
             actionName = "建立随访关系";
         }
 
-        if (!Strings.isNullOrEmpty(extra.followUpId)) {
+        if (!Strings.isNullOrEmpty(extra.appointmentId)) {
             intent.setAction(ACTION_FOLLOW_UP_DETAIL);
             intent.putExtra(Constants.NOTIFICATION_ID, notificationId);
-            intent.putExtra(Constants.DATA, extra.followUpId);
+            intent.putExtra(Constants.DATA, extra.appointmentId);
             if (Settings.isDoctor()) {
                 actionName = "查看问卷";
             } else {

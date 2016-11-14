@@ -62,7 +62,7 @@ public class Test8EditPatientInfo {
 
     private void editInfo() {
         CustomViewAction.performActionAt(2, typeText("name"));
-        CustomViewAction.performActionAt(4, typeText(TestConfig.PATIENT_PHONE_NUM));
+        CustomViewAction.performActionAt(4, typeText(TestConfig.getPatientPhoneNum()));
         CustomViewAction.performActionAt(8, CustomViewAction.clickChildViewWithId(R.id.rb_female));
     }
 

@@ -51,15 +51,6 @@ public class Scales extends BaseItem {
 
     public void readScalesQuestion(SortedListAdapter adapter, Context context, String scalesId, boolean isTemplates) {
         boolean isDone = adapter.getBoolean(AdapterConfigKey.IS_DONE);
-//        Bundle args;
-//        if (isTemplates) {
-//            args = ReadQTemplateFragment.getArgs(scalesId, QuestionsPath.SCALES, "", isDone);
-//            args.putString(Constants.IS_TEMPLATE, "1");
-//        } else {
-//            args = ReadQuestionsFragment.getArgs(scalesId, QuestionsPath.SCALES, "", isDone);
-//        }
-//        Intent intent = SingleFragmentActivity.intentFor(context, scaleName, args);
-//        context.startActivity(intent);
 
         if (isTemplates) {
             Bundle args = ReadQTemplateFragment.getArgs(scalesId, QuestionsPath.SCALES, "", isDone);
@@ -78,34 +69,6 @@ public class Scales extends BaseItem {
 
     public void editScalesQuestion(SortedListAdapter adapter, Context context, String scalesId) {
         boolean isDone = adapter.getBoolean(AdapterConfigKey.IS_DONE);
-        if (!isDone) {
-            Bundle args = AnswerQuestionFragment.getArgs(scalesId, QuestionsPath.SCALES, "");
-            Intent intent = SingleFragmentActivity.intentFor(context, scaleName, args);
-            context.startActivity(intent);
-        } else {
-            Bundle args = ReadQuestionsFragment.getArgs(scalesId, QuestionsPath.SCALES, "", isDone);
-            Intent intent = SingleFragmentActivity.intentFor(context, scaleName, args);
-            context.startActivity(intent);
-        }
-    }
-
-
-    public void editScalesQuestionWithResult(SortedListAdapter adapter, Context context, String scalesId) {
-        boolean isDone = adapter.getBoolean(AdapterConfigKey.IS_DONE);
-//        if (!isDone) {
-//            Bundle args = AnswerQuestionFragment.getArgs(scalesId, QuestionsPath.SCALES, "");
-//            Bundle drawerArgs = QuestionStatsFragment.getArgs(scalesId, "smartScaleResult");
-//            Intent intent = LeftDrawerFragmentActivity.intentFor(context, scaleName, args, drawerArgs);
-//            context.startActivity(intent);
-//        } else {
-//            Bundle args = ReadQuestionsFragment.getArgs(scalesId, QuestionsPath.SCALES, "", true);
-//            Bundle drawerArgs = QuestionStatsFragment.getArgs(scalesId, "smartScaleResult");
-//            Intent intent = LeftDrawerFragmentActivity.intentFor(context, scaleName, args, drawerArgs);
-//            context.startActivity(intent);
-//        }
-//        Intent intent = SingleFragmentActivity.intentFor(context, scaleName, args);
-//        context.startActivity(intent);
-
         Bundle args;
         if (!isDone) {
             args = AnswerQuestionFragment.getArgs(scalesId, QuestionsPath.SCALES, "");

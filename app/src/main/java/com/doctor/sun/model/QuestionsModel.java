@@ -527,7 +527,7 @@ public class QuestionsModel {
                 String string = composeAnswer(adapter);
                 Response<ApiDTO<String>> apiDTOResponse = postAnswer(appointmentId, type, string, qType, endAppointment);
                 if (apiDTOResponse != null && apiDTOResponse.isSuccessful()) {
-                    EventHub.post(new SaveAnswerSuccessEvent());
+                    EventHub.post(new SaveAnswerSuccessEvent(appointmentId));
                 }
             }
         }).start();

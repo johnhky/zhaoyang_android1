@@ -187,6 +187,10 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
 
     @Subscribe
     public void onEventMainThread(SaveAnswerSuccessEvent event) {
+        if (!event.getId().equals(getAppointmentId())) {
+            return;
+        }
+
         /**
          * 医生端保存问卷后不会弹窗提示要不要返回上一页,可以修改。
          * TODO:需要弹窗吗?

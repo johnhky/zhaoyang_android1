@@ -6,6 +6,7 @@ import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -243,7 +244,7 @@ public class RegisterFragment extends SortedListFragment {
     }
 
     private void done() {
-        String registerType;
+        final String registerType;
         if (isDoctor()) {
             registerType = "医生";
         } else {
@@ -256,6 +257,7 @@ public class RegisterFragment extends SortedListFragment {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        Log.e(TAG, "onClick: 确定注册身份"+registerType);
                         AuthModule api = Api.of(AuthModule.class);
                         api.register(toHashMap(getAdapter())).enqueue(new SimpleCallback<Token>() {
                             @Override
