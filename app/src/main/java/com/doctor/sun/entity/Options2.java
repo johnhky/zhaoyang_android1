@@ -87,7 +87,7 @@ public class Options2 extends BaseItem {
     @JsonProperty("content_tail")
     public String contentTail = "";
     @JsonProperty("option_array")
-    public List<String> childOptions;
+    public List<String> childOptions = new ArrayList<>();
     @JsonProperty("reply_index")
     public int selectedIndex = -1;
 
@@ -238,6 +238,9 @@ public class Options2 extends BaseItem {
     }
 
     public String getOption(int index) {
+        if (childOptions == null || index > childOptions.size() || index < 0) {
+            return "";
+        }
         try {
             return childOptions.get(index);
         } catch (Exception e) {
