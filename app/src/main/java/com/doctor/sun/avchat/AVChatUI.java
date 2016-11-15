@@ -228,7 +228,7 @@ public class AVChatUI implements AVChatUIListener {
                 if (code == ResponseCode.RES_FORBIDDEN) {
                     Toast.makeText(context, R.string.avchat_no_permission, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, R.string.avchat_call_failed, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, R.string.avchat_call_failed, Toast.LENGTH_SHORT).show();
                 }
                 EventHub.post(new CallFailedShouldCallPhoneEvent(AVChatType.AUDIO));
                 closeSessions(-1);
