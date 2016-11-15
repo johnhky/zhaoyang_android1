@@ -87,7 +87,10 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        medicalRecordHandler.unregister();
+        if (medicalRecordHandler.isRegister()) {
+            medicalRecordHandler.unregister();
+            medicalRecordHandler = null;
+        }
     }
 
     private void initData() {
