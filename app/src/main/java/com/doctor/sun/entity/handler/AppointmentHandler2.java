@@ -22,7 +22,6 @@ import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.constans.IntBoolean;
@@ -143,7 +142,7 @@ public class AppointmentHandler2 {
     }
 
     public static boolean isCanceled(Appointment data) {
-       return data.getStatus() == Status.CANCEL;
+        return data.getStatus() == Status.CANCEL;
     }
 
 
@@ -611,6 +610,9 @@ public class AppointmentHandler2 {
     }
 
     public static int chatStatusTextColor(Appointment data, Context context) {
+        if (data == null) {
+            return context.getResources().getColor(R.color.white);
+        }
         if (data.getStatus() == Status.DOING) {
             return context.getResources().getColor(R.color.brown);
         } else {
@@ -619,6 +621,9 @@ public class AppointmentHandler2 {
     }
 
     public static int chatStatusBackgroundColor(Appointment data, Context context) {
+        if (data == null) {
+            return R.color.grey_77;
+        }
         if (data.getStatus() == Status.DOING) {
             return R.color.yellow;
         } else {

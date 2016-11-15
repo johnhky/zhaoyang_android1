@@ -11,6 +11,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.constans.QuestionsPath;
+import com.doctor.sun.entity.constans.StringBoolean;
 import com.doctor.sun.event.ModifyQuestionsEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -56,11 +57,12 @@ public class Scales extends BaseItem {
         boolean isDone = adapter.getBoolean(AdapterConfigKey.IS_DONE);
 
         if (isTemplates) {
+            //TODO
             Bundle args = ReadQTemplateFragment.getArgs(scalesId, QuestionsPath.SCALES, "", isDone);
-            args.putString(Constants.IS_TEMPLATE, "1");
-            Bundle drawerArgs = QuestionStatsFragment.getArgs(scalesId, "smartScaleResult");
+            args.putString(Constants.IS_TEMPLATE, StringBoolean.TRUE);
+            Bundle drawerArgs = QuestionStatsFragment.getArgs(scalesId, "smartScaleRule");
 
-            Intent intent = LeftDrawerFragmentActivity.intentFor(context, scaleName, "查看\n结果", args, drawerArgs);
+            Intent intent = LeftDrawerFragmentActivity.intentFor(context, scaleName, "查看\n规则", args, drawerArgs);
             context.startActivity(intent);
         } else {
             Bundle args = ReadQuestionsFragment.getArgs(scalesId, QuestionsPath.SCALES, "", isDone);

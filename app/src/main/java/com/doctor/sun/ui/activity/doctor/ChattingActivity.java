@@ -115,7 +115,9 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     private Appointment getData() {
         if (data == null) {
             String json = getIntent().getStringExtra(Constants.DATA);
-            data = JacksonUtils.fromJson(json, Appointment.class);
+            if (json != null) {
+                data = JacksonUtils.fromJson(json, Appointment.class);
+            }
         }
         return data;
     }
@@ -251,6 +253,9 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     private void initData() {
         Appointment data = getData();
+        if (data == null) {
+            return;
+        }
         binding.setData(data);
 
 
