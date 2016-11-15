@@ -55,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_6"
-                    android:background="@drawable/shape_red_rect"
+                    android:background="@{data.doctor.levelBackgroundColor}"
                     android:gravity="center"
                     android:paddingLeft="@dimen/dp_4"
                     android:paddingRight="@dimen/dp_4"

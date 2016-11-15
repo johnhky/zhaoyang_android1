@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_6"
-                android:background="@drawable/shape_red_rect"
+                android:background="@{data.levelBackgroundColor}"
                 android:gravity="center"
                 android:maxLines="1"
                 android:paddingLeft="@dimen/dp_4"

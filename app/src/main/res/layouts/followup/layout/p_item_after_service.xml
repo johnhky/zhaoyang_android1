@@ -77,7 +77,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/dp_13"
                         android:layout_marginTop="@dimen/dp_1"
-                        android:background="@drawable/shape_red_rect"
+                        android:background="@{data.doctor.levelBackgroundColor}"
                         android:gravity="center"
                         android:paddingLeft="@dimen/dp_4"
                         android:paddingRight="@dimen/dp_4"

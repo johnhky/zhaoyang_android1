@@ -61,7 +61,7 @@
                     android:layout_alignLeft="@id/iv_me"
                     android:layout_marginLeft="@dimen/dp_56"
                     android:layout_marginTop="@dimen/dp_12"
-                    android:background="@drawable/shape_red_rect"
+                    android:background="@{data.levelBackgroundColor}"
                     android:gravity="center"
                     android:paddingLeft="@dimen/dp_4"
                     android:paddingRight="@dimen/dp_4"
