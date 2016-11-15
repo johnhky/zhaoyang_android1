@@ -38,7 +38,7 @@ public abstract class BaseFragmentActivity2 extends UMBaseFragmentActivity {
         if (!IMManager.getInstance().isNIMLogin()) {
             IMManager.getInstance().login();
         }
-        // register
+        // registerTo
         AppManager.addActivity(this);
         EventHub.register(this);
         tokenExpire = new OnTokenExpireEvent();

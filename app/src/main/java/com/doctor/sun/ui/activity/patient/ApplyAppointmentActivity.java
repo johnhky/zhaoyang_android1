@@ -9,8 +9,12 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityApplyAppointmentBinding;
 import com.doctor.sun.entity.AppointmentBuilder;
+import com.doctor.sun.event.SelectMedicalRecordEvent;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.util.PayEventHandler;
+import com.squareup.otto.Subscribe;
+
+import io.ganguo.library.core.event.EventHub;
 
 
 /**
@@ -45,6 +49,8 @@ public class ApplyAppointmentActivity extends BaseFragmentActivity2 {
         data.loadCoupons();
         data.loadTags();
         payEventHandler = PayEventHandler.register(this);
+        EventHub.register(data);
+        EventHub.post(new UnregisterMedicalRecordHandlerEvent());
     }
 
 
@@ -57,5 +63,11 @@ public class ApplyAppointmentActivity extends BaseFragmentActivity2 {
     protected void onDestroy() {
         super.onDestroy();
         PayEventHandler.unregister(payEventHandler);
+        EventHub.unregister(data);
+    }
+
+    @Subscribe
+    public void onEventMainThread(SelectMedicalRecordEvent event) {
+        data.setRecord(event.getRecord());
     }
 }

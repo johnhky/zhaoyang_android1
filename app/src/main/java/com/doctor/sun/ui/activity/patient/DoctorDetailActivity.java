@@ -16,6 +16,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.ui.handler.MedicalRecordEventHandler;
 import com.doctor.sun.ui.pager.DoctorDetailPagerAdapter;
 
 /**
@@ -32,6 +33,7 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 {
 
     private FragmentPagerAdapter pagerAdapter;
     private AppointmentBuilder data;
+    private MedicalRecordEventHandler medicalRecordHandler;
 
     public static Intent makeIntent(Context context, Doctor data, int type) {
         Intent i = new Intent(context, DoctorDetailActivity.class);
@@ -71,6 +73,22 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 {
         binding.duration.setData(data);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (medicalRecordHandler == null) {
+            medicalRecordHandler = new MedicalRecordEventHandler(data);
+        }
+        if (!medicalRecordHandler.isRegister()) {
+            medicalRecordHandler.registerTo(this);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        medicalRecordHandler.unregister();
+    }
 
     private void initData() {
         getDoctorInfo();
@@ -104,4 +122,5 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 {
         binding.pagerTabs.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimaryDark));
         binding.pagerTabs.setViewPager(binding.vp);
     }
+
 }

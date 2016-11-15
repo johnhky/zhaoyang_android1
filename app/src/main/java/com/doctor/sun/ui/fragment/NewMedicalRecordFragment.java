@@ -11,11 +11,14 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.event.SelectMedicalRecordEvent;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.NewMedicalRecordModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 
 import java.util.List;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by kb on 16-9-18.
@@ -82,7 +85,7 @@ public class NewMedicalRecordFragment extends SortedListFragment {
                 Toast.makeText(getContext(), "病历创建成功", Toast.LENGTH_SHORT).show();
 //                Intent intent = new Intent(getContext(), RecordListActivity.class);
 //                getContext().startActivity(intent);
-
+                EventHub.post(new SelectMedicalRecordEvent(getArguments().getString(Constants.FROM), response));
                 getActivity().finish();
             }
         });

@@ -20,6 +20,7 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.CouponType;
 import com.doctor.sun.entity.constans.PayMethod;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
+import com.doctor.sun.event.SelectMedicalRecordEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -37,6 +38,7 @@ import com.doctor.sun.vo.BaseItem;
 import com.doctor.sun.vo.ClickMenu;
 import com.doctor.sun.vo.ItemButton;
 import com.doctor.sun.vo.ItemRadioGroup;
+import com.squareup.otto.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -457,6 +459,11 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         return String.format("预约类型:%s", getTypeLabel());
     }
 
+
+    @Subscribe
+    public void onEventMainThread(SelectMedicalRecordEvent event) {
+        setRecord(event.getRecord());
+    }
 
     @Override
     public int describeContents() {

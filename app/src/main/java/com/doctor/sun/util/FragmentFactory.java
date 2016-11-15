@@ -56,7 +56,7 @@ public class FragmentFactory {
             result.setArguments(args);
             return result;
         } else {
-            throw new FragmentNotFoundException("Unable to find  fragment class {" + name + "}; have you register \n" +
+            throw new FragmentNotFoundException("Unable to find  fragment class {" + name + "}; have you registerTo \n" +
                     "this fragment in FragmentFactory?**");
         }
     }
