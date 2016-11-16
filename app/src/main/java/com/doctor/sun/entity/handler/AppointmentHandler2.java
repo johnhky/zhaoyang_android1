@@ -568,7 +568,6 @@ public class AppointmentHandler2 {
     }
 
     /**
-     * 将bookTime: 2016-04-19 15:55－16:10 转换为毫秒
      *
      * @return
      */
@@ -576,10 +575,10 @@ public class AppointmentHandler2 {
         if (data.getStatus() == Status.FINISHED) {
             return 0;
         }
-
-        String endTime = data.getEnd_time();
+        String visitTime = data.getVisit_time();
+        long duration = (long) (data.getTake_time() * 60000L);
         try {
-            return parseDate(endTime);
+            return parseDate(visitTime) + duration;
         } catch (Exception ignored) {
         }
         return 0;
