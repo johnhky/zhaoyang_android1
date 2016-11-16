@@ -411,6 +411,10 @@ public class QuestionsModel {
         if (Strings.isNullOrEmpty(textInput.getResult())) {
             textInput.setResult("");
         }
+        // 医生端查看问卷，未填写的填空题，不显示输入框
+        if (Settings.isDoctor() && questions2.fillContent.equals("")) {
+            textInput.setVisible(false);
+        }
         questions2.answerCount = textInput.getResult().length();
         textInput.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
