@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.LegacyPrescriptionDTO;
 import com.doctor.sun.immutables.ImmutablePrescription;
 import com.doctor.sun.immutables.ModifiablePrescription;
 import com.doctor.sun.immutables.Prescription;
@@ -219,25 +218,26 @@ public class PrescriptionHandler {
         return builder.build();
     }
 
-    public static Prescription fromLegacy(LegacyPrescriptionDTO.Prescription data) {
-        if (data == null) {
-            return null;
-        }
-
-        ImmutablePrescription.Builder builder = emptyBuilder();
-        builder.drug_name(data.getDrugName());
-        builder.scientific_name(data.getScientificName());
-        builder.frequency(data.getInterval());
-        builder.drug_unit(data.getUnit());
-        builder.remark(data.getRemark());
-        String morning = data.getNumbers().get(0).get("早");
-        builder.morning(Strings.nullToEmpty(morning));
-        String noon = data.getNumbers().get(1).get("午");
-        builder.noon(Strings.nullToEmpty(noon));
-        String evening = data.getNumbers().get(2).get("晚");
-        builder.night(Strings.nullToEmpty(evening));
-        String night = data.getNumbers().get(3).get("睡前");
-        builder.before_sleep(Strings.nullToEmpty(night));
-        return builder.build();
+    public static Prescription fromLegacy(Prescription data) {
+//        if (data == null) {
+//            return null;
+//        }
+//
+//        ImmutablePrescription.Builder builder = emptyBuilder();
+//        builder.drug_name(data.getDrugName());
+//        builder.scientific_name(data.getScientificName());
+//        builder.frequency(data.getInterval());
+//        builder.drug_unit(data.getUnit());
+//        builder.remark(data.getRemark());
+//        String morning = data.getNumbers().get(0).get("早");
+//        builder.morning(Strings.nullToEmpty(morning));
+//        String noon = data.getNumbers().get(1).get("午");
+//        builder.noon(Strings.nullToEmpty(noon));
+//        String evening = data.getNumbers().get(2).get("晚");
+//        builder.night(Strings.nullToEmpty(evening));
+//        String night = data.getNumbers().get(3).get("睡前");
+//        builder.before_sleep(Strings.nullToEmpty(night));
+//        return builder.build();
+        return data;
     }
 }

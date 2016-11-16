@@ -2,10 +2,8 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.dto.PrescriptionDTO;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.LegacyPrescriptionDTO;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.immutables.SimpleAppointment;
@@ -36,7 +34,7 @@ public interface DiagnosisModule {
     Call<ApiDTO<PageDTO<Doctor>>> searchDoctor(@Query("page") String page, @Query("search") String search);
 
     @GET("diagnosis/patient-drug")
-    Call<ApiDTO<List<LegacyPrescriptionDTO.Prescription>>> patientDrug(@Query("appointmentId") String appointmentId);
+    Call<ApiDTO<List<Prescription>>> patientDrug(@Query("appointmentId") String appointmentId);
 
     @GET("diagnosis/doctor-orders")
     Call<ApiDTO<PageDTO<Appointment>>> recordPool(@Query("page") String page, @Query("searchWord") String searchWord);

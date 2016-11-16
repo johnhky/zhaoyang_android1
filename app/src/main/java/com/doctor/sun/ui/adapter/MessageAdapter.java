@@ -1,7 +1,7 @@
 package com.doctor.sun.ui.adapter;
 
-import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.view.View;
 
@@ -15,16 +15,15 @@ import com.doctor.sun.dto.PrescriptionDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.LegacyPrescriptionDTO;
 import com.doctor.sun.entity.Patient;
-import com.doctor.sun.entity.im.TextMsgFactory;
-import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.im.cache.NimUserInfoCache;
 import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.immutables.SimpleAppointment;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.ImagePreviewActivity;
-import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.LayoutId;
@@ -47,7 +46,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     private boolean shouldUpdate;
     private long finishedTime;
 
-    public MessageAdapter( Appointment data) {
+    public MessageAdapter(Appointment data) {
         super();
         initData(data);
     }
@@ -146,10 +145,10 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
 
                     if (prescriptionDTO.getDrug() == null) return;
                     for (Prescription prescription : prescriptionDTO.getDrug()) {
-                        ItemRPrescriptionBinding item = ItemRPrescriptionBinding.inflate(getInflater(vh.itemView.getContext()), binding.prescription, true);
+                        ItemRPrescriptionBinding item = DataBindingUtil.inflate(getInflater(vh.itemView.getContext()), R.layout.item_r_prescription, binding.prescription, true);
                         item.setData(prescription);
                     }
-                }else if (attachmentType.equals(String.valueOf(TextMsg.Drug))) {
+                } else if (attachmentType.equals(String.valueOf(TextMsg.Drug))) {
                     LegacyPrescriptionDTO prescriptionDTO = JacksonUtils.fromJson(body, LegacyPrescriptionDTO.class);
                     if (prescriptionDTO == null) return;
                     LegacyPrescriptionDTO.AppointmentInfoEntity appointment = prescriptionDTO.getAppointment_info();
@@ -160,7 +159,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
 
                     if (prescriptionDTO.getDrug() == null) return;
                     for (LegacyPrescriptionDTO.Prescription prescription : prescriptionDTO.getDrug()) {
-                        ItemLegacyRPrescriptionBinding item = ItemLegacyRPrescriptionBinding.inflate(getInflater(vh.itemView.getContext()), binding.prescription, true);
+                        ItemLegacyRPrescriptionBinding item = DataBindingUtil.inflate(getInflater(vh.itemView.getContext()), R.layout.item_legacy_r_prescription, binding.prescription, true);
                         item.setData(prescription);
                     }
                 }

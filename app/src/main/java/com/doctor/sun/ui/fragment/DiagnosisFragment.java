@@ -28,7 +28,6 @@ import com.doctor.sun.databinding.ItemPrescriptionBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.LegacyPrescriptionDTO;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.entity.handler.PrescriptionHandler;
@@ -247,7 +246,7 @@ public class DiagnosisFragment extends BaseFragment {
                 binding.setData(viewModel);
                 binding.executePendingBindings();
                 if (response.getPrescription() != null) {
-                    for (LegacyPrescriptionDTO.Prescription prescription : response.getPrescription()) {
+                    for (Prescription prescription : response.getPrescription()) {
                         addPrescription(PrescriptionHandler.fromLegacy(prescription));
                     }
                 }
@@ -290,13 +289,13 @@ public class DiagnosisFragment extends BaseFragment {
     }
 
     private void loadPrescription(String id) {
-        Api.of(DiagnosisModule.class).patientDrug(id).enqueue(new SimpleCallback<List<LegacyPrescriptionDTO.Prescription>>() {
+        Api.of(DiagnosisModule.class).patientDrug(id).enqueue(new SimpleCallback<List<Prescription>>() {
             @Override
-            protected void handleResponse(List<LegacyPrescriptionDTO.Prescription> response) {
+            protected void handleResponse(List<Prescription> response) {
                 if (response == null) {
                     return;
                 }
-                for (LegacyPrescriptionDTO.Prescription prescription : response) {
+                for (Prescription prescription : response) {
                     addPrescription(PrescriptionHandler.fromLegacy(prescription));
                 }
             }
@@ -344,7 +343,7 @@ public class DiagnosisFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 llyRoot.removeView(prescriptionBinding.getRoot());
-                prescriptions.remove(prescription);
+                prescriptions.remove(prescriptionBinding.getData());
             }
         });
         prescriptionBinding.setData(from);
@@ -392,10 +391,9 @@ public class DiagnosisFragment extends BaseFragment {
             return "";
         }
         try {
-            ArrayList<LegacyPrescriptionDTO.Prescription> result = new ArrayList();
+            ArrayList<Prescription> result = new ArrayList();
             for (Prescription prescription : prescriptions) {
-                LegacyPrescriptionDTO.Prescription copy = new LegacyPrescriptionDTO.Prescription();
-                copy.fromImmutable(prescription);
+                Prescription copy = ImmutablePrescription.copyOf(prescription);
                 result.add(copy);
             }
             return JacksonUtils.toJson(result);

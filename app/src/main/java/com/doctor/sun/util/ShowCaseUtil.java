@@ -34,7 +34,6 @@ public class ShowCaseUtil {
 
     private static HashMap<String, SparseArray<MaterialShowcaseView.Builder>> buildersMap = new HashMap<>();
     private static SparseArray<MaterialShowcaseView.Builder> builders;
-    private static boolean isDisableShowCase = false;
 
     @BindingAdapter(requireAll = false,
             value = {"android:showcase"
@@ -85,7 +84,6 @@ public class ShowCaseUtil {
 
                     @Override
                     public void onShowcaseDismissed(MaterialShowcaseView materialShowcaseView) {
-                        isDisableShowCase = true;
                         if (builders == null) {
                             setHaveShow(id);
                         }
@@ -121,7 +119,7 @@ public class ShowCaseUtil {
     }
 
     public static boolean isShow(String id) {
-        return getBoolean(SHOWCASE_ID + id, isDisableShowCase);
+        return getBoolean(SHOWCASE_ID + id, false);
     }
 
     public static void reset() {

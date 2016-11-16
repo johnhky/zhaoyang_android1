@@ -7,7 +7,6 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.LegacyPrescriptionDTO;
 import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.Symptom;
 import com.doctor.sun.entity.SymptomFactory;
@@ -108,9 +107,9 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         if (reminderList != null) {
             this.reminderList.addAll(reminderList);
         }
-        ArrayList<LegacyPrescriptionDTO.Prescription> prescription = response.getPrescription();
+        ArrayList<Prescription> prescription = response.getPrescription();
         if (prescription != null) {
-            for (LegacyPrescriptionDTO.Prescription data : prescription) {
+            for (Prescription data : prescription) {
                 prescriptions.add(PrescriptionHandler.fromLegacy(data));
             }
         }

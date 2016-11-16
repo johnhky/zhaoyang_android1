@@ -95,23 +95,17 @@ public class EditDoctorInfoFragment extends SortedListFragment {
         model.saveDoctorInfo(getAdapter(), new SimpleCallback<IsChanged>() {
             @Override
             protected void handleResponse(IsChanged response) {
-                if (response.isChanged) {
-                    Toast.makeText(getContext(), "保存成功,请耐心等待资料审核", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "保存成功,请耐心等待资料审核", Toast.LENGTH_SHORT).show();
 
-                    ProfileModule api = Api.of(ProfileModule.class);
-                    api.doctorProfile().enqueue(new ApiCallback<Doctor>() {
-                        @Override
-                        protected void handleResponse(Doctor response) {
-                            Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(response));
+                ProfileModule api = Api.of(ProfileModule.class);
+                api.doctorProfile().enqueue(new ApiCallback<Doctor>() {
+                    @Override
+                    protected void handleResponse(Doctor response) {
+                        Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(response));
 
-                            TokenCallback.checkToken(getActivity());
-                        }
-                    });
-                } else {
-                    Toast.makeText(getContext(), "本次未修改资料", Toast.LENGTH_SHORT).show();
-
-                    TokenCallback.checkToken(getActivity());
-                }
+                        TokenCallback.checkToken(getActivity());
+                    }
+                });
             }
         });
     }

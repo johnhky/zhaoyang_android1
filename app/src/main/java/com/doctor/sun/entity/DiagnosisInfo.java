@@ -3,7 +3,7 @@ package com.doctor.sun.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.immutables.Prescription;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public class DiagnosisInfo implements Parcelable {
     @JsonProperty("effect")
     private int effect;
     @JsonProperty("prescription")
-    private ArrayList<LegacyPrescriptionDTO.Prescription> prescription = new ArrayList<>();
+    private ArrayList<Prescription> prescription = new ArrayList<>();
     @JsonProperty("doctor_advince")
     private String doctorAdvince;
     @JsonProperty("return")
@@ -247,11 +247,11 @@ public class DiagnosisInfo implements Parcelable {
         this.effect = effect;
     }
 
-    public ArrayList<LegacyPrescriptionDTO.Prescription> getPrescription() {
+    public ArrayList<Prescription> getPrescription() {
         return prescription;
     }
 
-    public void setPrescription(ArrayList<LegacyPrescriptionDTO.Prescription> prescription) {
+    public void setPrescription(ArrayList<Prescription> prescription) {
         this.prescription = prescription;
     }
 

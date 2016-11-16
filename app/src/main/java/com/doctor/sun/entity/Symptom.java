@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.vo.LayoutId;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import java.util.List;
 /**
  * Created by rick on 12/21/15.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Symptom extends BaseObservable implements LayoutId {
     public static final String TAG = Symptom.class.getSimpleName();
     public static final int SELECTED = 1;

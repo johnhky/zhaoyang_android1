@@ -98,7 +98,8 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         ItemPatientDetail item = new ItemPatientDetail(R.layout.include_patient_detail, data);
-        item.setPosition(Long.MAX_VALUE);
+        item.setItemId("patient_detail");
+        item.setPosition(Long.MAX_VALUE-1);
         SortedListAdapter adapter = instance.getAdapter();
         if (adapter != null) {
             adapter.insert(item);
