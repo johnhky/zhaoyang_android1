@@ -248,10 +248,10 @@ public class DoctorHandler {
         };
     }
 
-    public void allowAfterService(Context context, Doctor doctor) {
-        Intent intent = AllowAfterServiceActivity.intentFor(context, doctor);
-        context.startActivity(intent);
-    }
+//    public void allowAfterService(Context context, Doctor doctor) {
+//        Intent intent = AllowAfterServiceActivity.intentFor(context, doctor);
+//        context.startActivity(intent);
+//    }
 
 
     public boolean canWritePrescription() {
