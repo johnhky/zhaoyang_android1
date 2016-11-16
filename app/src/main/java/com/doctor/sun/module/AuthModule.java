@@ -23,13 +23,13 @@ public interface AuthModule {
     int FORGOT_PASSWORD = 16;
 
     @FormUrlEncoded
-    @POST("auth/registerTo")
+    @POST("auth/register")
     Call<ApiDTO<Token>> register(@Field("type") int type, @Field("phone") String phone,
                                  @Field("captcha") String captcha, @Field("password") String password);
 
 
     @FormUrlEncoded
-    @POST("auth/registerTo")
+    @POST("auth/register")
     Call<ApiDTO<Token>> register(@FieldMap Map<String, String> fields);
 
     @FormUrlEncoded
