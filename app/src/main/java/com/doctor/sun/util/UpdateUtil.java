@@ -2,6 +2,7 @@ package com.doctor.sun.util;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -145,9 +146,15 @@ public class UpdateUtil {
 
 
     public static void installPackage(Context context, String filePath) {
-        Intent intent = getInstallIntent(filePath);
-        if (intent == null) return;
-        context.startActivity(intent);
+        try {
+            Intent intent = getInstallIntent(filePath);
+            if (intent == null) return;
+            context.startActivity(intent);
+        }catch (ActivityNotFoundException e) {
+            Intent intent = getLegacyInstallIntent(filePath);
+            if (intent == null) return;
+            context.startActivity(intent);
+        }
     }
 
     @Nullable
@@ -159,6 +166,19 @@ public class UpdateUtil {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Uri data = FileProvider.getUriForFile(AppContext.me(), BuildConfig.FILE_PROVIDER, new File(filePath));
+        intent.setDataAndType(data, "application/vnd.android.package-archive");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        return intent;
+    }
+    @Nullable
+    public static Intent getLegacyInstallIntent(String filePath) {
+        File installFile = new File(filePath);
+        if (!installFile.exists()) {
+            return null;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Uri data = Uri.fromFile(new File(filePath));
         intent.setDataAndType(data, "application/vnd.android.package-archive");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         return intent;

@@ -43,7 +43,7 @@ import io.realm.RealmSchema;
  */
 public class AppContext extends BaseApp {
     public static final String TAG = AppContext.class.getSimpleName();
-    public static final int NEW_VERSION = 7;
+    public static final int NEW_VERSION = 8;
     private static boolean isInitialized;
 
     @Override
@@ -94,6 +94,7 @@ public class AppContext extends BaseApp {
                     }
                 })
                 .build();
+        Realm.deleteRealm(realmConfiguration);
         Realm.setDefaultConfiguration(realmConfiguration);
 
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
