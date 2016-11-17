@@ -36,6 +36,7 @@ public class QuestionsInventoryFragment extends SortedListFragment {
     private FragmentQuestionsInventoryBinding flBinding;
     private ItemSearch searchItem;
     private String keyword;
+    private boolean isOptionsExpanded = true;
 
 
     public static Bundle getArgs(String id) {
@@ -137,7 +138,11 @@ public class QuestionsInventoryFragment extends SortedListFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_hide_options, menu);
+        if (isOptionsExpanded) {
+            inflater.inflate(R.menu.menu_hide_options, menu);
+        } else {
+            inflater.inflate(R.menu.menu_show_options, menu);
+        }
     }
 
 
@@ -153,6 +158,8 @@ public class QuestionsInventoryFragment extends SortedListFragment {
                 break;
             }
         }
+        isOptionsExpanded = !isOptionsExpanded;
+        getActivity().invalidateOptionsMenu();
         return super.onOptionsItemSelected(item);
     }
 
