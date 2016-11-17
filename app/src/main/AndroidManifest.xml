@@ -689,7 +689,8 @@
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.doctor.sun.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            android:readPermission="com.doctor.sun.fileprovider.READ">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider" />
