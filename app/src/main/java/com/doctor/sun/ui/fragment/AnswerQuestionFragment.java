@@ -22,6 +22,7 @@ import com.doctor.sun.entity.constans.QuestionsType;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.EditEndEvent;
+import com.doctor.sun.event.FinishRefreshEvent;
 import com.doctor.sun.event.LoadDrugEvent;
 import com.doctor.sun.event.ModifyStatusEvent;
 import com.doctor.sun.event.RefreshQuestionsEvent;
@@ -106,6 +107,7 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
                 onFinishLoadMore(sortedItems);
                 getAdapter().clear();
                 getAdapter().insertAll(sortedItems);
+                EventHub.post(new FinishRefreshEvent());
             }
         });
     }

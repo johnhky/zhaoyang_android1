@@ -16,6 +16,7 @@ import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.CallFailedShouldCallPhoneEvent;
+import com.doctor.sun.event.FinishRefreshEvent;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -94,17 +95,6 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
         }
     }
 
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        ItemPatientDetail item = new ItemPatientDetail(R.layout.include_patient_detail, data);
-        item.setItemId("patient_detail");
-        item.setPosition(Long.MAX_VALUE-1);
-        SortedListAdapter adapter = instance.getAdapter();
-        if (adapter != null) {
-            adapter.insert(item);
-        }
-    }
 
     public void onMenuClicked() {
         String appointmentId = getData().getId();
@@ -130,6 +120,20 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
             if (AVChatType.AUDIO.getValue() == e.getChatType()) {
                 AppointmentHandler2.callTelephone(this, getData());
             }
+        }
+    }
+
+    @Subscribe
+    public void onEventMainThread(FinishRefreshEvent e) {
+        if (instance == null) {
+            return;
+        }
+        ItemPatientDetail item = new ItemPatientDetail(R.layout.include_patient_detail, data);
+        item.setItemId("patient_detail");
+        item.setPosition(Long.MAX_VALUE - 1);
+        SortedListAdapter adapter = instance.getAdapter();
+        if (adapter != null) {
+            adapter.insert(item);
         }
     }
 }
