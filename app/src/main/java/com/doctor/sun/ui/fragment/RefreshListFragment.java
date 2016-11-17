@@ -1,5 +1,6 @@
 package com.doctor.sun.ui.fragment;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
@@ -48,7 +49,7 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentRefreshListBinding.inflate(inflater, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_refresh_list, container, false);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = createAdapter();
         mAdapter.setLoadMoreListener(new LoadMoreListener() {
@@ -150,13 +151,9 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
 
     @Override
     public void onRefresh() {
-        if (!isLoading) {
-            isLoading = true;
-            getPageCallback().resetPage();
-            binding.swipeRefresh.setRefreshing(true);
-            loadMore();
-        } else {
-            binding.swipeRefresh.setRefreshing(false);
-        }
+        isLoading = true;
+        getPageCallback().resetPage();
+        binding.swipeRefresh.setRefreshing(true);
+        loadMore();
     }
 }
