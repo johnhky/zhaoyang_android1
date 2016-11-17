@@ -33,7 +33,7 @@ android {
         applicationId "com.doctor.sun"
         minSdkVersion rootProject.ext.min_sdk_version
 //        targetSdkVersion rootProject.ext.target_sdk_version
-        versionCode 11
+        versionCode 20
         versionName "2.0.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -125,6 +125,7 @@ android {
 //            buildConfigField "String", "IM_TOKEN", '"7c54a355857a08b2dfc3769c7dc05e8a"' //host, 必改
 //            buildConfigField "String", "UM_KEY", '"55b8a10be0f55aa35c00174d"'
 
+            buildConfigField "String", "UM_KEY", '"55b8a10be0f55aa35c00174d"'
             buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.fileprovider"'
 
             debuggable false
