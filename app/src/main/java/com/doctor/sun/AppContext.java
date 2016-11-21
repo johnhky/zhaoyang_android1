@@ -15,7 +15,6 @@ import com.doctor.sun.im.observer.MsgStatusObserver;
 import com.doctor.sun.im.observer.ReceiveMsgObserver;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
-import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.squareup.leakcanary.LeakCanary;
@@ -33,8 +32,6 @@ import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmMigration;
-import io.realm.RealmObjectSchema;
-import io.realm.RealmSchema;
 
 /**
  * App 上下文环境
@@ -43,8 +40,7 @@ import io.realm.RealmSchema;
  */
 public class AppContext extends BaseApp {
     public static final String TAG = AppContext.class.getSimpleName();
-    public static final int NEW_VERSION = 8;
-    private static boolean isInitialized;
+    public static final int NEW_VERSION = 9;
 
     @Override
     public void onCreate() {
@@ -79,7 +75,8 @@ public class AppContext extends BaseApp {
             JPushInterface.init(this);
         }
 
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
+        Realm.init(this);
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .schemaVersion(NEW_VERSION)
                 .migration(new DoctorSunMigration())
                 .initialData(new Realm.Transaction() {
@@ -93,8 +90,8 @@ public class AppContext extends BaseApp {
                         }
                     }
                 })
+                .deleteRealmIfMigrationNeeded()
                 .build();
-        Realm.deleteRealm(realmConfiguration);
         Realm.setDefaultConfiguration(realmConfiguration);
 
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
@@ -139,9 +136,6 @@ public class AppContext extends BaseApp {
 
     }
 
-    public static boolean isInitialized() {
-        return isInitialized;
-    }
 
     /**
      * 获取当前进程名
@@ -180,41 +174,9 @@ public class AppContext extends BaseApp {
     private static class DoctorSunMigration implements RealmMigration {
         @Override
         public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
-            RealmSchema schema = realm.getSchema();
-            RealmObjectSchema textMsg = schema.get("TextMsg");
-            if (oldVersion < 1) {
-                textMsg.addField("finished", boolean.class);
-                oldVersion++;
-            }
-            if (oldVersion < 2) {
-                textMsg.addField("imageWidth", int.class)
-                        .addField("imageHeight", int.class);
-                oldVersion++;
-            }
-            if (oldVersion < 3) {
-                if (!textMsg.hasField("duration")) {
-                    textMsg.addField("duration", int.class);
-                }
-                oldVersion++;
-            }
-            if (oldVersion < 4) {
-                if (!textMsg.hasField("haveListen")) {
-                    textMsg.addField("haveListen", boolean.class);
-                }
-                oldVersion++;
-            }
-            if (oldVersion < 5) {
-                schema.remove("DoctorIndex");
-                oldVersion++;
-            }
-            if (oldVersion <= 6) {
-                RealmObjectSchema pair = schema.create("AttachmentPair");
-                pair.addField("key", String.class);
-                pair.addField("value", String.class);
-                textMsg.addRealmListField("attachment", pair);
-                realm.where("TextMsg").findAll().deleteAllFromRealm();
-                oldVersion++;
-            }
+          if (oldVersion <= 8) {
+              realm.deleteAll();
+          }
         }
     }
 }
