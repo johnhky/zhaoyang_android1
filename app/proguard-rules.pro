@@ -59,6 +59,9 @@
 -keep class com.doctor.sun.dto.** {*;}
 -keep class com.doctor.sun.ui.** {*;}
 -keep class com.doctor.sun.vo.** {*;}
+-keep class com.doctor.sun.immutables.** {*;}
+-keep class com.doctor.sun.model.** {*;}
+-keep class com.doctor.sun.util.** {*;}
 -dontwarn com.doctor.sun.AppContext
 -dontwarn io.ganguo.library.BaseContext
 -keepclassmembers class * {
@@ -93,6 +96,7 @@
 -keep class com.umeng.** { *; }
 -keep class com.afollestad.** { *; }
 -keep class android.os.** { *; }
+-keep class com.sina.weibo.** { *; }
 
 -dontwarn org.apache.**
 -dontwarn io.ganguo.app.cache.**
@@ -145,6 +149,13 @@
 -keep class okhttp3.** { *; }
 -keep interface okhttp3.** { *; }
 -dontwarn okhttp3.**
+-dontnote okhttp3.**
+
+# Okio
+-keep class sun.misc.Unsafe { *; }
+-dontwarn java.nio.file.*
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
 
 # Glide specific rules #
 # https://github.com/bumptech/glide
@@ -155,11 +166,6 @@
     public *;
 }
 
--dontwarn okio.**
--dontwarn java.nio.file.Files
--dontwarn java.nio.file.Paths
--dontwarn java.nio.file.Path
--dontwarn java.nio.file.OpenOption
 -dontwarn java.beans.**
 -dontwarn com.taobao.**
 -dontwarn com.apache.http.**
@@ -167,3 +173,13 @@
 -dontwarn org.w3c.**
 
 -dontwarn android.os.Messenger
+
+-dontwarn com.netease.**
+-dontwarn io.netty.**
+-keep class com.netease.** {*;}
+#如果 netty 使用的官方版本，它中间用到了反射，因此需要 keep。如果使用的是我们提供的版本，则不需要 keep
+-keep class io.netty.** {*;}
+
+#如果你使用全文检索插件，需要加入
+-dontwarn org.apache.lucene.**
+-keep class org.apache.lucene.** {*;}
