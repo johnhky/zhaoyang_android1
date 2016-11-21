@@ -69,11 +69,11 @@ public class ItemRadioDialog extends BaseItem implements LayoutId {
 
     @Override
     public String getValue() {
-        if (evaluator != null) {
-            return evaluator.evaluate(this);
-        }
         if (selectedItem == -1) {
             return "";
+        }
+        if (evaluator != null) {
+            return evaluator.evaluate(this);
         }
         return String.valueOf(selectedItem + 1);
     }

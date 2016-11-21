@@ -186,7 +186,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
     @JsonIgnore
     public boolean isValid(String ignoredInput) {
         String result = getValue();
-        boolean isResultEmpty = result == null || result.equals("");
+        boolean isResultEmpty =Strings.isNullOrEmpty(result);
         if (isResultEmpty) {
             if (resultVerifyMode == NOT__EMPTY_OR_NULL) {
                 setError("请填写必填项目" + getTitle());

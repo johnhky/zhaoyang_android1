@@ -57,7 +57,10 @@ final class ModelUtils {
     }
 
     static HashMap<String, String> toHashMap(SortedListAdapter adapter, Callback callback) {
+        boolean isValid = true;
         HashMap<String, String> result = new HashMap<>();
+
+        //遍历所有的item
         for (int i = 0; i < adapter.size(); i++) {
             BaseItem item = (BaseItem) adapter.get(i);
 
@@ -65,13 +68,7 @@ final class ModelUtils {
                 if (!item.resultCanEmpty()) {
                     item.addNotNullOrEmptyValidator();
                 }
-                ApiDTO<String> body = new ApiDTO<>();
-                body.setStatus("500");
-                body.setMessage(item.errorMsg());
-                if (callback != null) {
-                    callback.onResponse(null, Response.success(body));
-                }
-                return null;
+                isValid = false;
             }
 
             String value = item.getValue();
@@ -82,6 +79,17 @@ final class ModelUtils {
                 }
             }
         }
-        return result;
+
+        if (!isValid) {
+            ApiDTO<String> body = new ApiDTO<>();
+            body.setStatus("500");
+            body.setMessage("请填写必填项目");
+            if (callback != null) {
+                callback.onResponse(null, Response.success(body));
+            }
+            return null;
+        } else {
+            return result;
+        }
     }
 }
