@@ -62,10 +62,14 @@ public class Test6PayPrescriptionFragment {
 //                .perform(RecyclerViewActions.actionOnItemAtPosition(6,
 //                        CustomViewAction.clickChildViewWithId(R.id.et_select)));
 
-         CustomViewAction.performActionAt(8,
+        onView(withId(R.id.recycler_view)).perform(
+                RecyclerViewActions.scrollToPosition(14)
+        );
+
+         CustomViewAction.performActionAt(14,
                         CustomViewAction.clickChildViewWithId(R.id.rb_alipay));
 
-         CustomViewAction.performActionAt(9,
+         CustomViewAction.performActionAt(15,
                         CustomViewAction.clickChildViewWithId(R.id.tv_confirm));
 
     }

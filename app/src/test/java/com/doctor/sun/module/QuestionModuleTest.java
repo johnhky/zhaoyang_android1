@@ -2,7 +2,6 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.ConfigImpl;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.Appointment;
 import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
@@ -10,7 +9,7 @@ import com.doctor.sun.entity.ReserveDate;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.ApiMock;
-import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Appointment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +22,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 /**
@@ -43,7 +41,7 @@ public class QuestionModuleTest {
 
     @Before
     public void setup() throws IOException {
-        ConfigImpl.getInstance().setToken("32e563e86914c5574b8df6e73602d5b1");
+        ConfigImpl.getInstance().setToken("41d354f5e505adf5e77c1b7aa787608a");
         doctorId = 293;
         medicalRecordId = 225;
         duration = 15;
