@@ -619,7 +619,7 @@ public class AppointmentHandler2 {
         }
     }
 
-    public static int chatStatusBackgroundColor(Appointment data, Context context) {
+    public static int chatStatusBackgroundColor(Appointment data) {
         if (data == null) {
             return R.color.grey_77;
         }
