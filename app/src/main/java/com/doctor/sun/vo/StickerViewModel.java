@@ -52,9 +52,9 @@ public class StickerViewModel {
             categoryAdapter = new SingleSelectAdapter(onTabSelectedListener(), 0);
 
             categoryAdapter.add(new ClickMenu(R.layout.item_emoji_category, R.drawable.nim_emoji_icon, "", null));
-            categoryAdapter.add(new ClickMenu(R.layout.item_emoji_category, R.drawable.nim_emoji_ajmd, "", null));
-            categoryAdapter.add(new ClickMenu(R.layout.item_emoji_category, R.drawable.nim_emoji_it, "", null));
-            categoryAdapter.add(new ClickMenu(R.layout.item_emoji_category, R.drawable.nim_emoji_xxy, "", null));
+//            categoryAdapter.add(new ClickMenu(R.layout.item_emoji_category, R.drawable.nim_emoji_ajmd, "", null));
+//            categoryAdapter.add(new ClickMenu(R.layout.item_emoji_category, R.drawable.nim_emoji_it, "", null));
+//            categoryAdapter.add(new ClickMenu(R.layout.item_emoji_category, R.drawable.nim_emoji_xxy, "", null));
 
             categoryAdapter.onFinishLoadMore(true);
         }
