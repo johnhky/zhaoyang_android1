@@ -93,7 +93,7 @@ public class EditPrescriptionModel {
         ItemRadioDialog.TextEvaluator evaluator = new ItemRadioDialog.TextEvaluator();
         ItemRadioDialog unit = new ItemRadioDialog(R.layout.item_pick_title);
         unit.setEvaluator(evaluator);
-        unit.setSelectedItem(0);
+        unit.setSelectedItem(-1);
         unit.setResultNotEmpty();
         unit.setTitle("单位");
         unit.setItemId("drug_unit");
@@ -111,7 +111,7 @@ public class EditPrescriptionModel {
 
         ItemRadioDialog interval = new ItemRadioDialog(R.layout.item_pick_title);
         interval.setEvaluator(evaluator);
-        interval.setSelectedItem(0);
+        interval.setSelectedItem(-1);
         interval.setResultNotEmpty();
         interval.setTitle("间隔");
         interval.setItemId("frequency");
@@ -147,7 +147,7 @@ public class EditPrescriptionModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        //这里接口晚上是用的night，但是实际上，表示晚上的是evening。所以。。不要怀疑
+        //这里接口晚上是用的night，但是实际上，晚上的英文翻译是evening。所以这里代码没有错，不要怀疑
         final ItemTextInput2 evening = new ItemTextInput2(R.layout.item_text_input2, "晚", "");
         evening.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         evening.setSpan(5);
@@ -175,7 +175,7 @@ public class EditPrescriptionModel {
         ItemTextInput2 remark = new ItemTextInput2(R.layout.item_text_input2, "备注消息", "");
         remark.setSubTitle("备注消息");
         remark.setItemId("remark");
-        remark.setMaxLength(16);
+        remark.setMaxLength(48);
         remark.setResult(data.getRemark());
         result.add(remark);
         return result;
