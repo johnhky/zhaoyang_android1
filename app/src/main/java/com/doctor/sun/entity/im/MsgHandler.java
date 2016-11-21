@@ -21,6 +21,7 @@ import com.doctor.sun.ui.activity.FileDetailActivity;
 import com.doctor.sun.util.NotificationUtil;
 import com.doctor.sun.util.TimeUtils;
 import com.doctor.sun.util.VoipCallUtil;
+import com.google.common.base.Strings;
 import com.netease.nimlib.sdk.InvocationFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -72,7 +73,7 @@ public class MsgHandler {
             @Override
             public void execute(Realm realm) {
                 TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
-                if (msg1 == null) return;
+                if (!isValid(msg1)) return;
 
                 if (msg1.getType().equals(MsgTypeEnum.avchat.toString())) {
                     msg1.setHaveRead(true);
@@ -95,7 +96,7 @@ public class MsgHandler {
                 for (IMMessage msg : msgs) {
                     boolean haveRead = NIMConnectionState.passThirtyMinutes(msg);
                     TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
-                    if (msg1 == null) continue;
+                    if (!isValid(msg1)) continue;
 
                     if (msg1.getType().equals(MsgTypeEnum.avchat.toString())) {
                         msg1.setHaveRead(true);
@@ -118,7 +119,7 @@ public class MsgHandler {
             public void execute(Realm realm) {
                 for (IMMessage msg : msgs) {
                     TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
-                    if (msg1 == null) continue;
+                    if (!isValid(msg1)) continue;
 
                     if (msg1.getType().equals(MsgTypeEnum.avchat.toString())) {
                         msg1.setHaveRead(true);
@@ -129,6 +130,10 @@ public class MsgHandler {
                 }
             }
         });
+    }
+
+    public static boolean isValid(TextMsg msg1) {
+        return msg1 != null && !Strings.isNullOrEmpty(msg1.getMsgId());
     }
 
     public void onResendClick(Context context, final String msgId) {
