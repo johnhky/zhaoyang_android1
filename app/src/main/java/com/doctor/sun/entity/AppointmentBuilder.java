@@ -144,7 +144,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     }
 
     public boolean canIncrement() {
-        return duration < 60;
+        return duration < 120;
     }
 
     public boolean canDecrement() {
@@ -152,12 +152,20 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     }
 
     public void incrementDuration() {
-        duration += 15;
+        if (duration < 60) {
+            duration += 15;
+        } else {
+            duration += 30;
+        }
         notifyChange();
     }
 
     public void decrementDuration() {
-        duration -= 15;
+        if (duration <= 60) {
+            duration -= 15;
+        } else {
+            duration -= 30;
+        }
         notifyChange();
     }
 

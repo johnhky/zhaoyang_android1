@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="@{handler.chatStatusBackgroundColor(data, context)}"
+            android:background="@{handler.chatStatusBackgroundColor(data)}"
             android:gravity="center"
             android:text="@{handler.chatStatus(data)}"
             android:textColor="@{handler.chatStatusTextColor(data, context)}"
