@@ -1,5 +1,7 @@
 package com.doctor.sun.vo.validator;
 
+import com.google.common.base.Strings;
+
 /**
  * Created by rick on 22/8/2016.
  */
@@ -14,7 +16,7 @@ public class NotNullOrEmptyValidator implements Validator {
 
     @Override
     public boolean isValid(String input) {
-        return !(input == null || input.equals(""));
+        return !(Strings.isNullOrEmpty(input));
     }
 
     @Override
