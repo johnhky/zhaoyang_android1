@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_6"
         android:layout_marginTop="@dimen/dp_6"
+        android:onClick="@{()->tvOption.toggle()}"
         android:orientation="horizontal">
 
         <CheckBox
@@ -65,6 +66,7 @@
             android:selected="@{data.selected}"
             android:text="@={data.inputContent}"
             android:textColor="@color/primary_color_selector"
+            android:textColorHint="@color/primary_color_selector"
             android:textSize="@dimen/font_15"
             android:visibility="@{data.show()}"
             tools:text="多少" />
