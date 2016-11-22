@@ -41,6 +41,7 @@
             android:selected="@{data.result!=null &amp;&amp; !data.result.equals(&quot;&quot;)}"
             android:text="@={data.result}"
             android:textColor="@color/color_tick"
-            android:textSize="@dimen/font_15" />
+            android:textSize="@dimen/font_15"
+            android:visibility="@{!data.result.equals(&quot;&quot;)}" />
     </LinearLayout>
 </layout>
