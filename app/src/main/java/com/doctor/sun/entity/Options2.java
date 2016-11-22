@@ -352,7 +352,7 @@ public class Options2 extends BaseItem {
             if (fromItem != null && toItem != null) {
                 int adapterPosition = adapter.indexOfImpl(fromItem);
                 int distance = adapter.inBetweenItemCount(adapterPosition, optionContent);
-                if (distance > 0) {
+                if (distance > 1) {
                     for (int i = distance; i > 1; i--) {
                         int index = adapterPosition - i + 1;
                         try {
@@ -362,6 +362,8 @@ public class Options2 extends BaseItem {
                             ignored.printStackTrace();
                         }
                     }
+                } else {
+                    EventHub.post(new LoadDrugEvent());
                 }
 
             }
