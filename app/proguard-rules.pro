@@ -57,8 +57,6 @@
 -keep class com.doctor.sun.entity.** {*;}
 -keep class com.doctor.sun.bean.** {*;}
 -keep class com.doctor.sun.dto.** {*;}
--keep class com.doctor.sun.ui.** {*;}
--keep class com.doctor.sun.vo.** {*;}
 -keep class com.doctor.sun.immutables.** {*;}
 -keep class com.doctor.sun.model.** {*;}
 -keep class com.doctor.sun.util.** {*;}
@@ -81,9 +79,9 @@
 # 不混淆的第三方
 -keepattributes *Annotation*
 -keepattributes Signature
--keep class sun.misc.Unsafe { *; }
 -keep class io.ganguo.app.cache.** { *; }
--keep class com.google.** { *; }
+-keep class com.google.common.base.Strings** { *; }
+-keep class com.google.common.collect.Collections2** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
 -keep class org.jsoup.** { *; }
 -keep class com.alimama.moblie.** { *; }
@@ -138,10 +136,10 @@
  -keep class org.codehaus.** { *; }
  -keepclassmembers public final enum org.codehaus.jackson.annotate.JsonAutoDetect$Visibility {
  public static final org.codehaus.jackson.annotate.JsonAutoDetect$Visibility *; }
--keep public class JacksonUtils.** {
-  public void set*(***);
-  public *** get*();
-}
+#-keep public class JacksonUtils.** {
+#  public void set*(***);
+#  public *** get*();
+#}
 
 # OkHttp
 -keepattributes Signature
