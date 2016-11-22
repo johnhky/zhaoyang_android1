@@ -32,7 +32,7 @@ dependencies {
     compile dependency.v7
     compile dependency.recyclerView
     compile dependency.annotations
-    compile dependency.gson
+//    compile dependency.gson
     compile dependency.otto
     compile dependency.yearclass
     compile dependency.retrofit

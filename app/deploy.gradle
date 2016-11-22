@@ -83,9 +83,10 @@ android {
             buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.fileprovider"'
 
             debuggable true
-            zipAlignEnabled false
-            shrinkResources false
-            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         // 测试环境 ,zhaoyangyisheng_server
@@ -130,8 +131,8 @@ android {
 
             debuggable false
             zipAlignEnabled true
-            shrinkResources false
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
