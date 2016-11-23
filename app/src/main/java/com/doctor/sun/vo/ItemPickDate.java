@@ -108,6 +108,10 @@ public class ItemPickDate extends BaseItem {
         return String.format(Locale.CHINA, "%04d-%02d-%02d", year + 18, monthOfYear + 1, dayOfMonth);
     }
 
+    public String getTomorrow() {
+        return String.format(Locale.CHINA, "%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth + 1);
+    }
+
     public String getBirthday() {
         return getDate();
     }
@@ -185,7 +189,7 @@ public class ItemPickDate extends BaseItem {
     public void pickFutureTime(Context context, final int dayRangeBeforeNow, final int dayRangeFromNow) {
         final long passMillis = (long) dayRangeBeforeNow * ONE_DAY_MILLIS;
         final long futureAmount = (long) dayRangeFromNow * ONE_DAY_MILLIS;
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context, setBeginDate, year, monthOfYear, dayOfMonth);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(context, setBeginDate, year, monthOfYear, dayOfMonth + 1);
         final DatePicker datePicker = datePickerDialog.getDatePicker();
         datePickerDialog.show();
         //有些机子,looper机制可能不一样,post runnable没有放到最后才运行,所以延迟100毫秒
@@ -193,7 +197,7 @@ public class ItemPickDate extends BaseItem {
             @Override
             public void run() {
                 datePicker.setMaxDate(System.currentTimeMillis() + futureAmount);
-                datePicker.setMinDate(System.currentTimeMillis() - passMillis);
+                datePicker.setMinDate(System.currentTimeMillis() - passMillis + ONE_DAY_MILLIS);
             }
         }, 100);
         isAnswered = true;
