@@ -32,7 +32,7 @@ public class ItemAutoCompleteTextInput<T> extends ItemTextInput2 {
         super(itemLayoutId, title, hint);
     }
 
-    public void showDropDown(View view, Editable e) {
+    public void showDropDown(View view) {
         if (dismissByUser) {
             dismissByUser = false;
             return;

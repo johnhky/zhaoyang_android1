@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.handler.PrescriptionHandler;
+import com.doctor.sun.event.HideKeyboardEvent;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.ImmutablePrescription;
 import com.doctor.sun.immutables.ModifiablePrescription;
@@ -24,9 +25,12 @@ import com.doctor.sun.model.EditPrescriptionModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vo.BaseItem;
+import com.squareup.otto.Subscribe;
 
 import java.util.HashMap;
 import java.util.List;
+
+import io.ganguo.library.util.Systems;
 
 /**
  * Created by rick on 28/7/2016.
@@ -130,4 +134,8 @@ public class EditPrescriptionsFragment extends SortedListFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Subscribe
+    public void onHideKeyboardEvent(HideKeyboardEvent event) {
+        Systems.hideKeyboard(getContext());
+    }
 }
