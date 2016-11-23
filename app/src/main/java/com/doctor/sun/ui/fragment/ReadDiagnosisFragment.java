@@ -86,6 +86,7 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
 
         SimpleAdapter adapter = super.createAdapter();
         adapter.mapLayout(R.layout.item_symptom, R.layout.item_symptom_readonly);
+        adapter.mapLayout(R.layout.item_symptom_single_choice, R.layout.item_symptom_readonly);
         adapter.mapLayout(R.layout.item_diagnosis, R.layout.item_consultation_readonly);
         adapter.mapLayout(R.layout.item_prescription, R.layout.item_r_prescription);
         adapter.mapLayout(R.layout.item_doctor, R.layout.item_transfer_doctor);

@@ -86,7 +86,6 @@ public class SymptomFactory {
 
     public static Symptom memorySymptom() {
         Symptom symptom = createSymptom();
-        symptom.setItemLayoutId(R.layout.item_symptom_single_choice);
         symptom.setTitle("智能记忆");
 
         ArrayList<String> values = new ArrayList<>();
@@ -101,7 +100,6 @@ public class SymptomFactory {
 
     public static Symptom insightSymptom() {
         Symptom symptom = createSymptom();
-        symptom.setItemLayoutId(R.layout.item_symptom_single_choice);
         symptom.setTitle("自知力");
 
         ArrayList<String> values = new ArrayList<>();
