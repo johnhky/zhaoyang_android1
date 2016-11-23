@@ -79,7 +79,7 @@ android {
 //            buildConfigField "String", "IM_KEY", '"aaf98f89529d327b0152a02ee629035e"' //
 //            buildConfigField "String", "IM_TOKEN", '"6b47a5fce4eb6d4eeebf8b5eadcb6584"'
 
-            buildConfigField "String", "UM_KEY", '"55b8a10be0f55aa35c00174d"'
+            buildConfigField "String", "UM_KEY", '"5835686cf43e4860d20009dd"'
             buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.fileprovider"'
 
             debuggable true
@@ -102,7 +102,7 @@ android {
             //容联 deprecated
 //            buildConfigField "String", "IM_KEY", '"aaf98f89506fc2f001507e1cab440ace"' //
 //            buildConfigField "String", "IM_TOKEN", '"a8d27b4500d3b3dcfbf96296091abf4d"' //host, 必改
-            buildConfigField "String", "UM_KEY", '"55b8a10be0f55aa35c00174d"'
+            buildConfigField "String", "UM_KEY", '"5835686cf43e4860d20009dd"'
             buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.fileprovider"'
 
             debuggable true
