@@ -235,13 +235,13 @@ public class RecordAudioViewModel extends BaseObservable implements IAudioRecord
 
     public void tick() {
         setAudioLengthSecond(audioLengthSecond + 1);
-        if (remainTime() == 0) {
+        if (audioLengthSecond > 61) {
             onEndAudioRecord(false);
         }
     }
 
     public int remainTime() {
-        return 60 - audioLengthSecond;
+        return 61 - audioLengthSecond;
     }
 
     public boolean isCountdownVisible() {

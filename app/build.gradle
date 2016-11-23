@@ -25,26 +25,6 @@ dependencies {
     provided "org.immutables:builder:2.3.7" // for annotations
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile libs.v4Compat
-    compile libs.v4Ui
-    compile libs.v4Fragment
-//    compile libs.v4Utils
-    compile libs.v7
-    compile libs.recyclerView
-    compile libs.cardView
-    compile libs.design
-    compile libs.annotations
-//    compile libs.gson
-    compile libs.otto
-//    compile libs.yearclass
-    compile libs.retrofit
-    compile libs.retrofitConverterJackson
-//    compile libs.okhttpLogging
-    compile libs.glide
-    compile libs.systembartint
-    compile(libs.materialDialogs) {
-        transitive = true
-    }
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     stageCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
