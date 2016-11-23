@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
@@ -63,11 +64,13 @@ public class AllowToSearchFragment extends SortedListFragment {
         final Doctor doctorProfile = Settings.getDoctorProfile();
         final int hide = doctorProfile.getHide();
         ArrayList<BaseItem> items = new ArrayList();
-        final ItemSwitch itemSwitch = new ItemSwitch(R.layout.item_switch, "是否允许公开检索权限");
+        final ItemSwitch itemSwitch = new ItemSwitch(R.layout.item_switch);
         if (hide == IntBoolean.TRUE) {
             itemSwitch.setChecked(false);
+            itemSwitch.setContent("公开检索权限已关闭");
         } else {
             itemSwitch.setChecked(true);
+            itemSwitch.setContent("公开检索权限已打开");
         }
 
         itemSwitch.setItemId(UUID.randomUUID().toString());
@@ -80,6 +83,11 @@ public class AllowToSearchFragment extends SortedListFragment {
                         protected void handleResponse(String response) {
                             Integer newValue = Integer.valueOf(response);
                             doctorProfile.setHide(newValue);
+                            if (newValue == IntBoolean.TRUE) {
+                                itemSwitch.setContent("公开检索权限已关闭");
+                            } else {
+                                itemSwitch.setContent("公开检索权限已打开");
+                            }
                             Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(doctorProfile));
                         }
                     });
@@ -95,7 +103,7 @@ public class AllowToSearchFragment extends SortedListFragment {
 
         ItemTextInput2 textInput2 = new ItemTextInput2(R.layout.item_r_text_dp200, "", "");
         textInput2.setItemId(UUID.randomUUID().toString());
-        textInput2.setTitle("* 说明 :  打开此权限公众端（患者和家属）可在APP上直接搜到您的个人信息，如您有信息保密的考虑，可关闭此权限。患者可通过扫码与您建立咨询和随访关系，您的信息仅在对方的手机上查看到。");
+        textInput2.setTitle("* 说明 :  打开此权限后，公众端（患者和家属）可在APP上直接搜到您的个人信息，如您有信息保密的考虑，可关闭此权限。患者可通过扫码与您建立咨询和随访关系，您的信息仅在对方的手机上查看到。");
         items.add(textInput2);
 
         for (int i = 0; i < items.size(); i++) {

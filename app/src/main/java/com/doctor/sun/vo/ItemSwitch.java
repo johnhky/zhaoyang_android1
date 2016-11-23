@@ -11,11 +11,16 @@ public class ItemSwitch extends BaseItem {
     private String content;
     private boolean isChecked = false;
 
-    public ItemSwitch(int layoutId, String content) {
+    public ItemSwitch(int layoutId) {
         super(layoutId);
-        this.content = content;
     }
 
+    public void setContent(String content) {
+        this.content = content;
+        notifyPropertyChanged(BR.content);
+    }
+
+    @Bindable
     public String getContent() {
         return content;
     }
