@@ -17,6 +17,7 @@ import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
 import com.doctor.sun.vo.LayoutId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
@@ -55,8 +56,8 @@ public class Drug extends BaseObservable implements LayoutId {
 
     @JsonProperty("id")
     private int id;
-    @JsonProperty("drug")
-    private List<String> drug;
+    @JsonProperty("drug_detail")
+    private List<DrugEntity> drug;
     @JsonProperty("to")
     private String to;
     @JsonProperty("phone")
@@ -93,7 +94,7 @@ public class Drug extends BaseObservable implements LayoutId {
         this.id = id;
     }
 
-    public void setDrug(List<String> drug) {
+    public void setDrug(List<DrugEntity> drug) {
         this.drug = drug;
     }
 
@@ -130,7 +131,7 @@ public class Drug extends BaseObservable implements LayoutId {
         return id;
     }
 
-    public List<String> getDrug() {
+    public List<DrugEntity> getDrug() {
         return drug;
     }
 
@@ -314,5 +315,16 @@ public class Drug extends BaseObservable implements LayoutId {
         Bundle args = PayPrescriptionsFragment.getArgs(String.valueOf(drug.getId()));
         Intent payPrescriptionIntent = SingleFragmentActivity.intentFor(context, "寄药支付", args);
         context.startActivity(payPrescriptionIntent);
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class DrugEntity {
+        public String drug;
+        public String price;
+
+        @Override
+        public String toString() {
+            return drug + ": " + price;
+        }
     }
 }

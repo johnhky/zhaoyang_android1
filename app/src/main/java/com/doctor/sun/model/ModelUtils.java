@@ -9,7 +9,6 @@ import com.google.common.base.Strings;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,21 +21,21 @@ final class ModelUtils {
 
     static void insertDividerMarginLR(List<SortedItem> list) {
         BaseItem item = new BaseItem(R.layout.divider_1px_start13_end13);
-        item.setItemId(UUID.randomUUID().toString());
+        item.setItemId("DIVIDER" + list.size());
         item.setPosition(list.size());
         list.add(item);
     }
 
     static void insertDividerNoMargin(List<SortedItem> list) {
         BaseItem item = new BaseItem(R.layout.divider_1px);
-        item.setItemId(UUID.randomUUID().toString());
+        item.setItemId("DIVIDER" + list.size());
         item.setPosition(list.size());
         list.add(item);
     }
 
     static void insertVerticalDivider(List<SortedItem> list) {
         BaseItem item = new BaseItem(R.layout.divider_vertical_1px);
-        item.setItemId(UUID.randomUUID().toString());
+        item.setItemId("DIVIDER" + list.size());
         item.setSpan(2);
         item.setPosition(list.size());
         list.add(item);
@@ -44,14 +43,14 @@ final class ModelUtils {
 
     static void insertSpace(List<SortedItem> list) {
         BaseItem item = new BaseItem(R.layout.divider_30dp);
-        item.setItemId(UUID.randomUUID().toString());
+        item.setItemId("SPACE" + list.size());
         item.setPosition(list.size());
         list.add(item);
     }
 
     static void insertSpace(List<SortedItem> list, int layout) {
         BaseItem item = new BaseItem(layout);
-        item.setItemId(UUID.randomUUID().toString());
+        item.setItemId("SPACE" + list.size());
         item.setPosition(list.size());
         list.add(item);
     }

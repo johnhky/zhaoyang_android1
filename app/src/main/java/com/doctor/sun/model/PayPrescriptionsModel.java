@@ -64,24 +64,8 @@ public class PayPrescriptionsModel {
 
 
     public List<SortedItem> parseData(Drug response) {
-        Address address = new Address();
-        address.setName(response.getTo());
-        address.setPhone(response.getPhone());
-        address.setAddress(response.getAddress());
-        final MedicineInfo medicineInfo = new MedicineInfo();
-        medicineInfo.setOrderId(String.valueOf(response.getId()));
-        // 药品信息分行显示
-        StringBuilder sb = new StringBuilder();
-        for (String medicine : response.getDrug()) {
-            sb.append(medicine);
-            sb.append("\n");
-        }
-        // 删掉最后一个换行符
-        if (sb.length() > 0) {
-            sb.setLength(sb.length() - 1);
-        }
-        medicineInfo.setMedicine(sb.toString());
-        medicineInfo.setMedicinePrice(Double.parseDouble(response.drugMoney));
+
+
         Doctor doctor = response.getDoctor();
         DrugExtraFee extra = response.getExtraFee();
         boolean hasPay = response.getHasPay() == IntBoolean.TRUE;
@@ -92,6 +76,10 @@ public class PayPrescriptionsModel {
 
         extraField = DrugListFragment.getDrugExtraField();
 
+        Address address = new Address();
+        address.setName(response.getTo());
+        address.setPhone(response.getPhone());
+        address.setAddress(response.getAddress());
         address.setItemId("address");
         address.setPosition(result.size());
         result.add(address);
@@ -113,9 +101,25 @@ public class PayPrescriptionsModel {
         drugDetail.setPosition(result.size());
         result.add(drugDetail);
 
+        ModelUtils.insertSpace(result, R.layout.space_8dp);
+        if (!response.getDrug().isEmpty()) {
+            for (Drug.DrugEntity s : response.getDrug()) {
+                ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_r_grey_menu, s.drug, "");
+                itemTextInput2.setSubTitle(s.price);
+                itemTextInput2.setTitleGravity(Gravity.START);
+                itemTextInput2.setItemId(s.toString());
+                itemTextInput2.setPosition(result.size());
+                result.add(itemTextInput2);
+            }
+        }
+
+        final MedicineInfo medicineInfo = new MedicineInfo();
+        medicineInfo.setOrderId(String.valueOf(response.getId()));
+        medicineInfo.setMedicinePrice(Double.parseDouble(response.drugMoney));
         medicineInfo.setItemId("medicineInfo");
         medicineInfo.setPosition(result.size());
         result.add(medicineInfo);
+
         if (!extra.extraFee.isEmpty() || !extra.commission.isEmpty()) {
             Description extraFee = new Description(R.layout.item_description, "其他收费");
             extraFee.setItemId("extraFee");
