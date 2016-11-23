@@ -8,7 +8,6 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.entity.MedicineStore;
 import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.entity.im.TextMsg;
@@ -16,6 +15,7 @@ import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.ShowCaseUtil;
@@ -246,7 +246,14 @@ public class ConsultingFragment2 extends SortedListFragment {
                 page += 1;
                 for (Appointment appointment : response.getData()) {
                     String tid = String.valueOf(appointment.getTid());
-                    ItemConsulting itemConsulting = new ItemConsulting(tids.get(tid).getTime(), appointment);
+                    RecentContact recentContact = tids.get(tid);
+                    long time = 0;
+                    if (recentContact == null) {
+                        time = System.currentTimeMillis();
+                    } else {
+                        time = recentContact.getTime();
+                    }
+                    ItemConsulting itemConsulting = new ItemConsulting(time, appointment);
                     getAdapter().insert(itemConsulting);
                 }
                 int to = response.getTo();

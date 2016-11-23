@@ -5,12 +5,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.databinding.DataBindingUtil;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.PopupAudioBinding;
 import com.doctor.sun.im.IMManager;
@@ -20,6 +23,8 @@ import com.netease.nimlib.sdk.media.record.IAudioRecordCallback;
 import com.netease.nimlib.sdk.media.record.RecordType;
 
 import java.io.File;
+
+import io.ganguo.library.util.Tasks;
 
 /**
  * Created by rick on 14/4/2016.
@@ -37,6 +42,7 @@ public class RecordAudioViewModel extends BaseObservable implements IAudioRecord
     private Activity activity;
     private AudioRecorder audioMessageHelper;
     private Dialog dialog;
+    private int audioLengthSecond = 0;
 
     public RecordAudioViewModel(Context context) {
         activity = (Activity) context;
@@ -103,7 +109,7 @@ public class RecordAudioViewModel extends BaseObservable implements IAudioRecord
 
     private Dialog getDialog() {
         if (dialog == null) {
-            final PopupAudioBinding inflate = PopupAudioBinding.inflate(LayoutInflater.from(activity));
+            final PopupAudioBinding inflate = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.popup_audio, null, false);
             inflate.setData(this);
             dialog = new Dialog(activity, R.style.Translucent_NoTitle);
             dialog.setContentView(inflate.getRoot());
@@ -196,6 +202,7 @@ public class RecordAudioViewModel extends BaseObservable implements IAudioRecord
 
     @Override
     public void onRecordStart(File file, RecordType recordType) {
+        audioLengthSecond = 0;
     }
 
     @Override
@@ -215,4 +222,31 @@ public class RecordAudioViewModel extends BaseObservable implements IAudioRecord
     @Override
     public void onRecordReachedMaxTime(int i) {
     }
+
+    @Bindable
+    public int getAudioLengthSecond() {
+        return audioLengthSecond;
+    }
+
+    public void setAudioLengthSecond(int audioLengthSecond) {
+        this.audioLengthSecond = audioLengthSecond;
+        notifyPropertyChanged(BR.audioLengthSecond);
+    }
+
+    public void tick() {
+        setAudioLengthSecond(audioLengthSecond + 1);
+        if (remainTime() == 0) {
+            onEndAudioRecord(false);
+        }
+    }
+
+    public int remainTime() {
+        return 60 - audioLengthSecond;
+    }
+
+    public boolean isCountdownVisible() {
+        int time = remainTime();
+        return time <= 5 && time >= 0;
+    }
+
 }

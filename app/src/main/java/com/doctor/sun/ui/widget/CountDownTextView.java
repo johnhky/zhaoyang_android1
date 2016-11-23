@@ -86,6 +86,14 @@ public class CountDownTextView extends TextView {
         EventHub.unregister(this);
     }
 
+    public long getRemainTime() {
+        if (action == null) {
+            return 0;
+        } else {
+            return action.remainTime;
+        }
+    }
+
     @Subscribe
     public void onTimeoutEvent(CountDownTimeoutEvent e) {
         setVisibility(GONE);

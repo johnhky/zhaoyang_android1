@@ -15,24 +15,41 @@
         android:orientation="vertical">
 
 
-        <Chronometer
-            android:id="@+id/time"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/dp_80"
-            android:textSize="@dimen/font_30"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:gravity="center" />
+            android:layout_height="@dimen/dp_80">
+
+            <Chronometer
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:OnChronometerTickListener="@{()->data.tick()}"
+                android:gravity="center"
+                android:minHeight="@dimen/dp_80"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_30"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_count_down"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="center_horizontal"
+                android:text="@{data.remainTime()+&quot;秒后将自动发送&quot;}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_12"
+                android:visibility="@{data.isCountdownVisible()}"/>
+        </FrameLayout>
 
         <TextView
             android:layout_width="@dimen/dp_200"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:minHeight="@dimen/dp_30"
+            android:background="@{data.getPopLabelBg()}"
             android:clickable="true"
             android:gravity="center"
-            android:background="@{data.getPopLabelBg()}"
+            android:minHeight="@dimen/dp_30"
             android:setOnTouchListener="@{data.controller}"
             android:text="@{data.getPopLabel}"
             android:textColor="@color/white"
