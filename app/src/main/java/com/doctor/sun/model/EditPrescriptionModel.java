@@ -10,6 +10,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DrugAutoComplete;
 import com.doctor.sun.entity.handler.PrescriptionHandler;
+import com.doctor.sun.event.HideKeyboardEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Prescription;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import io.ganguo.library.core.event.EventHub;
 import retrofit2.Call;
 
 /**
@@ -84,6 +86,7 @@ public class EditPrescriptionModel {
                 name.setResult(drugAutoComplete.drugName);
                 productName.setResult(drugAutoComplete.productName);
                 name.dismissDialog();
+                EventHub.post(new HideKeyboardEvent());
             }
         });
 
