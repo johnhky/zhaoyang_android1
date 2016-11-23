@@ -52,7 +52,6 @@
             android:button="@drawable/ic_options"
             android:enabled="@{data.isEnabled()}"
             android:hint="@{data.optionInputHint}"
-            android:textColorHint="@color/primary_color_selector"
             android:imeOptions="actionDone"
             android:inputType="@{data.inputType}"
             android:maxLength="@{data.optionInputLength}"
