@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:singleLine="false"
-                    android:text="@{data.dateLabel()}"
+                    android:text="@{data.handler.dateLabel()}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_14" />
 
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:singleLine="true"
-                    android:text="@{data.time}"
+                    android:text="@{data.handler.time}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_30" />
 

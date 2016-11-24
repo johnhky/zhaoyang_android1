@@ -4,16 +4,13 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.IntDef;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.TimeType;
 import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.vo.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 
 /**
@@ -22,10 +19,6 @@ import java.lang.annotation.RetentionPolicy;
 public class Time extends BaseObservable implements LayoutId, Parcelable {
 
 
-    public static final int TYPE_UNDEFINE = 0;
-    public static final int TYPE_DETAIL = 1;
-    public static final int TYPE_QUICK = 2;
-    public static final int TYPE_BREAK = 3;
     /**
      * interval :
      * doctor_id : 1
@@ -36,6 +29,8 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
      * updated_at : 2015-08-10 17:49:58
      * created_at : 2015-08-10 17:49:58
      * id : 9
+     * reserva : 0
+     * optional : 0
      */
 
     @JsonProperty("id")
@@ -44,9 +39,9 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
     private int doctorId;
     @JsonProperty("week")
     private int week;
-    @Type
+    @TimeType
     @JsonProperty("type")
-    private int type = TYPE_DETAIL;
+    private int type = TimeType.TYPE_DETAIL;
     @JsonProperty("from")
     private String from = "";
     @JsonProperty("to")
@@ -59,18 +54,12 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
     private String date;
     @JsonProperty("interval")
     public int interval = 5;
-
-
-    private TimeHandler handler = new TimeHandler(this);
-    /**
-     * reserva : 0
-     * optional : 0
-     */
-
     @JsonProperty("reserva")
     private int reserva;
     @JsonProperty("optional")
     private int optional;
+
+    private TimeHandler handler = new TimeHandler(this);
 
     public TimeHandler getHandler() {
         return handler;
@@ -129,44 +118,6 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
         this.date = date;
     }
 
-    //TODO 修改这里
-    public String getWeekLabel() {
-
-        StringBuilder result = new StringBuilder();
-
-        if (week == 127) {
-            return "每天";
-        }
-        if ((week & 31) == 31) {
-            result.append("  工作日");
-        } else {
-            if ((week & 1) == 1) {
-                result.append("  星期一");
-            }
-            if ((week >> 1 & 1) == 1) {
-                result.append("  星期二");
-            }
-            if ((week >> 2 & 1) == 1) {
-                result.append("  星期三");
-            }
-            if ((week >> 3 & 1) == 1) {
-                result.append("  星期四");
-            }
-            if ((week >> 4 & 1) == 1) {
-                result.append("  星期五");
-            }
-        }
-
-        if ((week >> 5 & 1) == 1) {
-            result.append("  星期六");
-        }
-        if ((week >> 6 & 1) == 1) {
-            result.append("  星期日");
-        }
-
-        return result.toString();
-    }
-
     @Bindable
     public int getType() {
         return type;
@@ -191,54 +142,6 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
     public int getId() {
         return id;
     }
-
-    public String dateLabel() {
-        return (type == TYPE_QUICK ? "闲时咨询\n" : "专属咨询") + ':' + getWeekLabel();
-    }
-
-    public String disturbDate() {
-        return "免打扰周期:" + getWeekLabel();
-    }
-
-    public String time() {
-        if (from == null || from.equals("")) {
-            return "";
-        }
-        return from.substring(0, 5) + " - " + to.substring(0, 5);
-    }
-
-    public String disturbTime() {
-        if (from == null || from.equals("")) {
-            return "";
-        }
-        return from.substring(0, 5) + ' ' + '-' + ' ' + to.substring(0, 5);
-    }
-
-    @Override
-    public int getItemLayoutId() {
-        if (type == TYPE_QUICK) {
-            return R.layout.item_quick_time;
-        }
-        return R.layout.item_time;
-    }
-
-    @Override
-    public String toString() {
-        return "Time{" +
-                "doctorId=" + doctorId +
-                ", week='" + week + '\'' +
-                ", type='" + type + '\'' +
-                ", from='" + from + '\'' +
-                ", to='" + to + '\'' +
-                ", updatedAt='" + updatedAt + '\'' +
-                ", createdAt='" + createdAt + '\'' +
-                ", id=" + id +
-                '}';
-    }
-
-    public Time() {
-    }
-
     public void setReserva(int reserva) {
         this.reserva = reserva;
     }
@@ -254,6 +157,20 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
     public int getOptional() {
         return optional;
     }
+
+    @Override
+    public int getItemLayoutId() {
+        if (type == TimeType.TYPE_QUICK) {
+            return R.layout.item_quick_time;
+        }
+        return R.layout.item_time;
+    }
+
+
+
+    public Time() {
+    }
+
 
     @Override
     public int describeContents() {
@@ -301,9 +218,18 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
             return new Time[size];
         }
     };
-
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({TYPE_UNDEFINE, TYPE_DETAIL, TYPE_QUICK, TYPE_BREAK})
-    public @interface Type {
+    @Override
+    public String toString() {
+        return "Time{" +
+                "doctorId=" + doctorId +
+                ", week='" + week + '\'' +
+                ", type='" + type + '\'' +
+                ", from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", id=" + id +
+                '}';
     }
+
 }

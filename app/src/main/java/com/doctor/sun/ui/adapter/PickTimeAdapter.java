@@ -100,6 +100,6 @@ public class PickTimeAdapter extends SimpleAdapter<Time, ReserveTimeBinding> {
     }
 
     public String getTime() {
-        return get(selectedItem).time();
+        return get(selectedItem).getHandler().time();
     }
 }

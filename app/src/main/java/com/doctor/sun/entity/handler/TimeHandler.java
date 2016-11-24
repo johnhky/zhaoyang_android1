@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Time;
+import com.doctor.sun.entity.constans.TimeType;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.doctor.AddTimeActivity;
@@ -46,6 +47,70 @@ public class TimeHandler {
 
     public TimeHandler() {
     }
+
+
+    //TODO 修改这里
+    public String getWeekLabel() {
+
+        StringBuilder result = new StringBuilder();
+
+        if (data.getWeek() == 127) {
+            return "每天";
+        }
+        if ((data.getWeek() & 31) == 31) {
+            result.append("  工作日");
+        } else {
+            if ((data.getWeek() & 1) == 1) {
+                result.append("  星期一");
+            }
+            if ((data.getWeek() >> 1 & 1) == 1) {
+                result.append("  星期二");
+            }
+            if ((data.getWeek() >> 2 & 1) == 1) {
+                result.append("  星期三");
+            }
+            if ((data.getWeek() >> 3 & 1) == 1) {
+                result.append("  星期四");
+            }
+            if ((data.getWeek() >> 4 & 1) == 1) {
+                result.append("  星期五");
+            }
+        }
+
+        if ((data.getWeek() >> 5 & 1) == 1) {
+            result.append("  星期六");
+        }
+        if ((data.getWeek() >> 6 & 1) == 1) {
+            result.append("  星期日");
+        }
+
+        return result.toString();
+    }
+
+
+
+    public String dateLabel() {
+        return (data.getType()== TimeType.TYPE_QUICK ? "闲时咨询\n" : "专属咨询") + ':' + getWeekLabel();
+    }
+
+    public String disturbDate() {
+        return "免打扰周期:" + getWeekLabel();
+    }
+
+    public String time() {
+        if (data.getFrom() == null || data.getFrom().equals("")) {
+            return "";
+        }
+        return data.getFrom().substring(0, 5) + " - " + data.getTo().substring(0, 5);
+    }
+
+    public String disturbTime() {
+        if (data.getFrom() == null || data.getFrom().equals("")) {
+            return "";
+        }
+        return data.getFrom().substring(0, 5) + ' ' + '-' + ' ' + data.getTo().substring(0, 5);
+    }
+
 
     public String getFrom() {
         String from = data.getFrom();

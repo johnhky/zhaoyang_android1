@@ -12,6 +12,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityAddTimeBinding;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Time;
+import com.doctor.sun.entity.constans.TimeType;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
@@ -109,13 +110,13 @@ public class AddTimeActivity extends BaseFragmentActivity2 {
 
 
     private int getType() {
-        int type = Time.TYPE_UNDEFINE;
+        int type = TimeType.TYPE_UNDEFINE;
         if (!binding.rbQuick.isChecked() && !binding.rbDetail.isChecked())
-            type = Time.TYPE_UNDEFINE;
+            type = TimeType.TYPE_UNDEFINE;
         if (binding.rbQuick.isChecked())
-            type = Time.TYPE_QUICK;
+            type = TimeType.TYPE_QUICK;
         if (binding.rbDetail.isChecked())
-            type = Time.TYPE_DETAIL;
+            type = TimeType.TYPE_DETAIL;
         return type;
     }
 
