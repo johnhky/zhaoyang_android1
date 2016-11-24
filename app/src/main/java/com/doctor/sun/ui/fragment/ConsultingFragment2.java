@@ -10,6 +10,7 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.MedicineStore;
 import com.doctor.sun.entity.SystemMsg;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.http.Api;
@@ -141,12 +142,7 @@ public class ConsultingFragment2 extends SortedListFragment {
             @Override
             protected void handleResponse(final PageDTO<Appointment> response) {
                 for (Appointment appointment : response.getData()) {
-                    long time;
-                    if (recentContact == null) {
-                        time = System.currentTimeMillis();
-                    } else {
-                        time = recentContact.getTime();
-                    }
+                    long time = AppointmentHandler2.lastMsg(appointment).getTime();
                     ItemConsulting itemConsulting = new ItemConsulting(time, appointment);
                     getAdapter().insert(itemConsulting);
                 }
@@ -245,14 +241,7 @@ public class ConsultingFragment2 extends SortedListFragment {
             protected void handleResponse(PageDTO<Appointment> response) {
                 page += 1;
                 for (Appointment appointment : response.getData()) {
-                    String tid = String.valueOf(appointment.getTid());
-                    RecentContact recentContact = tids.get(tid);
-                    long time = 0;
-                    if (recentContact == null) {
-                        time = System.currentTimeMillis();
-                    } else {
-                        time = recentContact.getTime();
-                    }
+                    long time = AppointmentHandler2.lastMsg(appointment).getTime();
                     ItemConsulting itemConsulting = new ItemConsulting(time, appointment);
                     getAdapter().insert(itemConsulting);
                 }

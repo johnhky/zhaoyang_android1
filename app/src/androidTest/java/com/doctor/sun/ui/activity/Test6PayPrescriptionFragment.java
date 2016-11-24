@@ -41,8 +41,11 @@ public class Test6PayPrescriptionFragment {
         drug.setAddress("七喜创意园");
         drug.setPhone("11111");
         drug.setId(12);
-        List<String> drugs = new ArrayList<>();
-        drugs.add("药");
+        List<Drug.DrugEntity> drugs = new ArrayList<>();
+        Drug.DrugEntity e = new Drug.DrugEntity();
+        e.drug = "drug";
+        e.price = "1";
+        drugs.add(e);
         drug.setDrug(drugs);
         drug.setMoney("100");
         drug.setHasPay(0);
