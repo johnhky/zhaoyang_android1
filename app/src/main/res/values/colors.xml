@@ -38,6 +38,7 @@
     <color name="dark_36_transparent">#dd363636</color>
 
     <color name="yellow">#f2e493</color>
+    <color name="yellow_dark">#ffae00</color>
     <color name="brown">#a36140</color>
     <color name="orange_transparent">#fecfb3</color>
     <color name="orange">#FF8E43</color>

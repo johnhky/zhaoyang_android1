@@ -284,12 +284,22 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (Settings.isDoctor()) {
-            getMenuInflater().inflate(R.menu.menu_chatting, menu);
-            return true;
+        if (data.getStatus() == AppointmentHandler2.Status.PAID) {
+            if (Settings.isDoctor()) {
+                getMenuInflater().inflate(R.menu.menu_questions, menu);
+                return true;
+            } else {
+                getMenuInflater().inflate(R.menu.p_menu_questions, menu);
+                return true;
+            }
         } else {
-            getMenuInflater().inflate(R.menu.p_menu_chatting, menu);
-            return true;
+            if (Settings.isDoctor()) {
+                getMenuInflater().inflate(R.menu.menu_chatting, menu);
+                return true;
+            } else {
+                getMenuInflater().inflate(R.menu.p_menu_chatting, menu);
+                return true;
+            }
         }
     }
 

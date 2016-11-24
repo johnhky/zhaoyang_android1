@@ -368,6 +368,13 @@ public class AppointmentHandler2 {
                 return AfterServiceDoingActivity.intentFor(context, id, recordId, tab);
             }
         } else {
+            if (data.getStatus() == Status.PAID) {
+                if (Settings.isDoctor()) {
+                    return PatientDetailActivity.makeIntent(context, data, 0);
+                } else {
+                    return EditQuestionActivity.intentFor(context, data.getId(), QuestionsPath.NORMAL);
+                }
+            }
 //            data.canEdit = canEdit;
             return AppointmentDetailActivity.makeIntent(context, data, tab);
         }
@@ -568,11 +575,13 @@ public class AppointmentHandler2 {
     }
 
     /**
-     *
      * @return
      */
     public static long getFinishedTime(Appointment data) {
         if (data.getStatus() == Status.FINISHED) {
+            return 0;
+        }
+        if (data.getStatus() == Status.PAID) {
             return 0;
         }
         String visitTime = data.getVisit_time();
@@ -597,14 +606,18 @@ public class AppointmentHandler2 {
             case AppointmentType.FollowUp:
                 return "随访" + data.getDisplay_status();
         }
-        if (data.getStatus() == Status.FINISHED) {
-            if (Settings.isDoctor()) {
-                return "本次咨询已结束";
-            } else {
-                return "本次咨询已结束,如需咨询,请再次预约";
-            }
-        } else {
-            return "本次咨询" + data.getDisplay_status();
+        int status = data.getStatus();
+        switch (status) {
+            case Status.FINISHED:
+                if (Settings.isDoctor()) {
+                    return "本次咨询已结束";
+                } else {
+                    return "本次咨询已结束,如需咨询,请再次预约";
+                }
+            case Status.PAID:
+                return "已预约" + data.getBook_time() + "   " + data.getDisplay_type();
+            default:
+                return "本次咨询" + data.getDisplay_status();
         }
     }
 
@@ -612,10 +625,12 @@ public class AppointmentHandler2 {
         if (data == null) {
             return context.getResources().getColor(R.color.white);
         }
-        if (data.getStatus() == Status.DOING) {
-            return context.getResources().getColor(R.color.brown);
-        } else {
-            return context.getResources().getColor(R.color.white);
+        int status = data.getStatus();
+        switch (status) {
+            case Status.DOING:
+                return context.getResources().getColor(R.color.brown);
+            default:
+                return context.getResources().getColor(R.color.white);
         }
     }
 
@@ -623,10 +638,14 @@ public class AppointmentHandler2 {
         if (data == null) {
             return R.color.grey_77;
         }
-        if (data.getStatus() == Status.DOING) {
-            return R.color.yellow;
-        } else {
-            return R.color.grey_77;
+        int status = data.getStatus();
+        switch (status) {
+            case Status.PAID:
+                return R.color.yellow_dark;
+            case Status.DOING:
+                return R.color.yellow;
+            default:
+                return R.color.grey_77;
         }
     }
 
