@@ -45,7 +45,7 @@ public class Drug extends BaseObservable implements LayoutId {
     /**
      * status
      * 0=>'未付款'
-     * 1=>'已付款'
+     * 1=>'候诊中'
      * 2=>'进行中'
      * 3=>'待建议'
      * 4=>'已完成'
