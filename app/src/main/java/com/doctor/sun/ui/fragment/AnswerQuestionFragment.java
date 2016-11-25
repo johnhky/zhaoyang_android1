@@ -54,7 +54,7 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
     private String path;
     private String questionType;
     private String templateType;
-    private boolean isReadOnly = true;
+    private boolean isReadOnly = false;
 
     public static AnswerQuestionFragment getInstance(String id, String type) {
 
@@ -123,7 +123,7 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
     public SortedListAdapter createAdapter() {
         SortedListAdapter adapter = super.createAdapter();
         adapter.setLayoutIdInterceptor(createLayoutInterceptor());
-        adapter.putBoolean(AdapterConfigKey.IS_READ_ONLY,true);
+        adapter.putBoolean(AdapterConfigKey.IS_READ_ONLY, true);
         return adapter;
     }
 

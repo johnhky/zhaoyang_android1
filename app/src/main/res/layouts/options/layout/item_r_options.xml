@@ -16,8 +16,8 @@
     <org.apmem.tools.layouts.FlowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/tv_option"
@@ -27,9 +27,10 @@
             android:layout_marginLeft="@dimen/dp_17"
             android:layout_marginStart="@dimen/dp_17"
             android:layout_marginTop="@dimen/dp_6"
-            android:button="@drawable/ic_tick_read_only"
+            android:button="@drawable/ic_tick"
             android:checked="@{data.selected}"
-            android:enabled="false"
+            android:clickable="false"
+            android:enabled="@{data.isEnabled()}"
             android:maxLines="1"
             android:paddingLeft="@dimen/dp_14"
             android:paddingStart="@dimen/dp_14"
@@ -44,7 +45,8 @@
             android:layout_marginBottom="@dimen/dp_6"
             android:layout_marginTop="@dimen/dp_6"
             android:background="@drawable/bg_options"
-            android:enabled="false"
+            android:clickable="false"
+            android:enabled="@{data.isEnabled()}"
             android:hint="@{data.optionInputHint}"
             android:maxLength="@{data.optionInputLength}"
             android:minWidth="@dimen/dp_35"
@@ -54,10 +56,10 @@
             android:paddingRight="@dimen/dp_8"
             android:paddingStart="@dimen/dp_8"
             android:paddingTop="@dimen/dp_4"
-            android:textColor="@color/primary_color_selector_read_only"
             android:selected="@{data.selected}"
             android:text="@={data.inputContent}"
-            android:textColorHint="@color/primary_color_selector"
+            android:textColor="@color/primary_color_selector_read_only"
+            android:textColorHint="@color/primary_color_selector_read_only"
             android:textSize="@dimen/font_15"
             android:visibility="@{!data.optionInputHint.equals(&quot;&quot;) || !data.contentHead.equals(&quot;&quot;)}" />
 
@@ -68,7 +70,8 @@
             android:layout_marginBottom="@dimen/dp_6"
             android:layout_marginTop="@dimen/dp_6"
             android:button="@drawable/ic_options"
-            android:enabled="false"
+            android:clickable="false"
+            android:enabled="@{data.isEnabled()}"
             android:selected="@{data.selected}"
             android:text='@{data.contentTail}'
             android:textColor="@color/primary_color_selector_read_only"

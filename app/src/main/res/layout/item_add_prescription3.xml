@@ -37,7 +37,7 @@
             android:paddingRight="@dimen/dp_44"
             android:paddingTop="@dimen/dp_8"
             android:text="点击输入第1种历史服药情况"
-            android:textColor="@color/grey_ab"
+            android:textColor="@color/primary_color_selector"
             android:textSize="@dimen/font_15"
             android:visibility='@{data.sizeLessThen(1,adapter)}'
             tools:ignore="RtlHardcoded" />
@@ -56,7 +56,7 @@
             android:paddingRight="@dimen/dp_4"
             android:paddingTop="@dimen/dp_8"
             android:text="点击输入第2种历史服药情况"
-            android:textColor="@color/grey_ab"
+            android:textColor="@color/primary_color_selector"
             android:textSize="@dimen/font_15"
             android:visibility='@{data.sizeLessThen(2,adapter)}'
             tools:ignore="RtlHardcoded" />
@@ -74,7 +74,7 @@
             android:paddingLeft="@dimen/dp_10"
             android:paddingStart="@dimen/dp_10"
             android:text="添加更多处方"
-            android:textColor="@color/grey_ab"
+            android:textColor="@color/primary_color_selector"
             android:textSize="@dimen/font_15"
             tools:ignore="RtlSymmetry" />
 
