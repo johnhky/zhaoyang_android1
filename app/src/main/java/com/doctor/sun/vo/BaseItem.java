@@ -41,6 +41,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
     private int itemLayoutId = -1;
     private long position;
     private int span = 12;
+    private String action = "填写";
 
     public BaseItem() {
     }
@@ -186,10 +187,10 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
     @JsonIgnore
     public boolean isValid(String ignoredInput) {
         String result = getValue();
-        boolean isResultEmpty =Strings.isNullOrEmpty(result);
+        boolean isResultEmpty = Strings.isNullOrEmpty(result);
         if (isResultEmpty) {
             if (resultVerifyMode == NOT__EMPTY_OR_NULL) {
-                setError("请填写必填项目" + getTitle());
+                setError("请" + getAction() + "必填项目" + getTitle());
                 return false;
             } else if (resultVerifyMode == CAN__EMPTY_OR_NULL) {
                 setError("");
@@ -266,5 +267,13 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         return null;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 }

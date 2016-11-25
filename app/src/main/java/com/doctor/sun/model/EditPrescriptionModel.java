@@ -1,5 +1,6 @@
 package com.doctor.sun.model;
 
+import android.databinding.Observable;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -7,7 +8,6 @@ import android.widget.AdapterView;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DrugAutoComplete;
 import com.doctor.sun.entity.handler.PrescriptionHandler;
 import com.doctor.sun.event.HideKeyboardEvent;
@@ -43,7 +43,7 @@ public class EditPrescriptionModel {
         List<SortedItem> result = new ArrayList<>();
 
 
-        final ItemAutoCompleteTextInput<DrugAutoComplete> name = new ItemAutoCompleteTextInput<>(R.layout.item_auto_complete_text, "药名/成分名", "");
+        final ItemAutoCompleteTextInput<DrugAutoComplete> name = new ItemAutoCompleteTextInput<>(R.layout.item_auto_complete_text, "药名", "");
 
         AutoComplete autoComplete = Api.of(AutoComplete.class);
         autoComplete.drugNames().enqueue(new SimpleCallback<List<DrugAutoComplete>>() {
@@ -73,18 +73,17 @@ public class EditPrescriptionModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        final ItemTextInput2 productName = new ItemTextInput2(R.layout.item_text_input2, "商品名", "");
-        productName.setSubTitle("(选填)");
-        productName.setItemId("scientific_name");
-        productName.setResult(data.getScientific_name());
-        result.add(productName);
+//        final ItemTextInput2 productName = new ItemTextInput2(R.layout.item_text_input2, "商品名", "");
+//        productName.setItemId("scientific_name");
+//        productName.setResult(data.getScientific_name());
+//        result.add(productName);
 
         name.setListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DrugAutoComplete drugAutoComplete = name.getFilteredEntries().get(position);
                 name.setResult(drugAutoComplete.drugName);
-                productName.setResult(drugAutoComplete.productName);
+//                productName.setResult(drugAutoComplete.productName);
                 name.dismissDialog();
                 EventHub.post(new HideKeyboardEvent());
             }
@@ -93,24 +92,7 @@ public class EditPrescriptionModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        ItemRadioDialog.TextEvaluator evaluator = new ItemRadioDialog.TextEvaluator();
-        ItemRadioDialog unit = new ItemRadioDialog(R.layout.item_pick_title);
-        unit.setEvaluator(evaluator);
-        unit.setSelectedItem(-1);
-        unit.setResultNotEmpty();
-        unit.setTitle("单位");
-        unit.setItemId("drug_unit");
-        unit.setPosition(result.size());
-        String[] units = AppContext.me().getResources().getStringArray(R.array.unit_array);
-        unit.addOptions(units);
-        for (int i = 0; i < units.length; i++) {
-            if (units[i].equals(data.getDrug_unit())) {
-                unit.setSelectedItem(i);
-            }
-        }
-        result.add(unit);
-
-        ModelUtils.insertDividerMarginLR(result);
+        final ItemRadioDialog.TextEvaluator evaluator = new ItemRadioDialog.TextEvaluator();
 
         ItemRadioDialog interval = new ItemRadioDialog(R.layout.item_pick_title);
         interval.setEvaluator(evaluator);
@@ -129,21 +111,40 @@ public class EditPrescriptionModel {
         result.add(interval);
 
 
-        result.add(new Description(R.layout.item_description, "数量"));
+        ModelUtils.insertDividerMarginLR(result);
 
-        final ItemTextInput2 morning = new ItemTextInput2(R.layout.item_text_input2, "早", "");
+        final ItemRadioDialog unit = new ItemRadioDialog(R.layout.item_pick_title);
+        unit.setEvaluator(evaluator);
+        unit.setSelectedItem(-1);
+        unit.setResultNotEmpty();
+        unit.setTitle("单位");
+        unit.setItemId("drug_unit");
+        unit.setPosition(result.size());
+        String[] units = AppContext.me().getResources().getStringArray(R.array.unit_array);
+        unit.addOptions(units);
+        for (int i = 0; i < units.length; i++) {
+            if (units[i].equals(data.getDrug_unit())) {
+                unit.setSelectedItem(i);
+            }
+        }
+        result.add(unit);
+
+
+//        result.add(new Description(R.layout.item_description, "数量"));
+        ModelUtils.insertDividerMarginLR(result);
+
+        final ItemTextInput2 morning = new ItemTextInput2(R.layout.item_number_input, "早:    ", "");
         morning.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
-        morning.setSpan(5);
+        morning.setSpan(6);
         morning.setItemId("morning");
         morning.setResult(data.getMorning());
 
         result.add(morning);
 
-        ModelUtils.insertVerticalDivider(result);
 
-        final ItemTextInput2 afternoon = new ItemTextInput2(R.layout.item_text_input2, "午", "");
+        final ItemTextInput2 afternoon = new ItemTextInput2(R.layout.item_number_input, "午:    ", "");
         afternoon.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
-        afternoon.setSpan(5);
+        afternoon.setSpan(6);
         afternoon.setItemId("noon");
         afternoon.setResult(data.getNoon());
         result.add(afternoon);
@@ -151,18 +152,17 @@ public class EditPrescriptionModel {
         ModelUtils.insertDividerMarginLR(result);
 
         //这里接口晚上是用的night，但是实际上，晚上的英文翻译是evening。所以这里代码没有错，不要怀疑
-        final ItemTextInput2 evening = new ItemTextInput2(R.layout.item_text_input2, "晚", "");
+        final ItemTextInput2 evening = new ItemTextInput2(R.layout.item_number_input, "晚:    ", "");
         evening.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
-        evening.setSpan(5);
+        evening.setSpan(6);
         evening.setItemId("night");
         evening.setResult(data.getNight());
         result.add(evening);
 
-        ModelUtils.insertVerticalDivider(result);
 
-        final ItemTextInput2 night = new ItemTextInput2(R.layout.item_text_input2, "睡前", "");
+        final ItemTextInput2 night = new ItemTextInput2(R.layout.item_number_input, "睡前:", "");
         night.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
-        night.setSpan(5);
+        night.setSpan(6);
         night.setItemId("before_sleep");
         night.setResult(data.getBefore_sleep());
         result.add(night);
@@ -175,8 +175,17 @@ public class EditPrescriptionModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
+        unit.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                morning.setSubTitle(unit.getSelectedItemText());
+                afternoon.setSubTitle(unit.getSelectedItemText());
+                evening.setSubTitle(unit.getSelectedItemText());
+                night.setSubTitle(unit.getSelectedItemText());
+            }
+        });
+
         ItemTextInput2 remark = new ItemTextInput2(R.layout.item_text_input2, "备注消息", "");
-        remark.setSubTitle("备注消息");
         remark.setItemId("remark");
         remark.setMaxLength(48);
         remark.setResult(data.getRemark());

@@ -365,7 +365,7 @@
         <activity
             android:name="com.doctor.sun.ui.activity.patient.EditQuestionActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
             android:name="com.doctor.sun.ui.activity.FileDetailActivity"
@@ -441,7 +441,7 @@
         <activity
             android:name=".ui.activity.SingleFragmentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         //TODO 打包的时候注释掉
         <activity
@@ -456,7 +456,7 @@
         <activity
             android:name=".ui.activity.LeftDrawerFragmentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
 
         <activity

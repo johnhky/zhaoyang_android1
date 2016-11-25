@@ -21,6 +21,7 @@ public class ItemRadioDialog extends BaseItem implements LayoutId {
 
     public ItemRadioDialog(int layoutId) {
         super(layoutId);
+        setAction("选择");
     }
 
 
