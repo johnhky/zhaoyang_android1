@@ -116,8 +116,10 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                     String id = getAppointment().getId();
                     Intent intent1 = PMainActivity.intentFor(this);
                     startActivity(intent1);
-                    Intent intent2 = EditQuestionActivity.intentFor(this, id, QuestionsPath.NORMAL);
+                    Intent intent2 = PAppointmentListActivity.makeIntent(this);
                     startActivity(intent2);
+                    Intent intent3 = EditQuestionActivity.intentFor(this, id, QuestionsPath.NORMAL);
+                    startActivity(intent3);
                 }
 
                 if (getType() == VOIP_PAY) {
