@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
@@ -30,6 +29,8 @@ import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.Function0;
@@ -53,6 +54,7 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
     private String path;
     private String questionType;
     private String templateType;
+    private boolean isReadOnly = true;
 
     public static AnswerQuestionFragment getInstance(String id, String type) {
 
@@ -120,12 +122,23 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
     @Override
     public SortedListAdapter createAdapter() {
         SortedListAdapter adapter = super.createAdapter();
-        if (Settings.isDoctor()) {
-            MapLayoutIdInterceptor idInterceptor = new MapLayoutIdInterceptor();
-            idInterceptor.put(R.layout.item_scales, R.layout.item_r_scales);
-            adapter.setLayoutIdInterceptor(idInterceptor);
-        }
+        adapter.setLayoutIdInterceptor(createLayoutInterceptor());
+        adapter.putBoolean(AdapterConfigKey.IS_READ_ONLY,true);
         return adapter;
+    }
+
+    public BaseListAdapter.LayoutIdInterceptor createLayoutInterceptor() {
+        if (isReadOnly) {
+            return new ReadQuestionsFragment.ReadOnlyQuestionsInterceptor(true);
+        } else {
+            if (Settings.isDoctor()) {
+                MapLayoutIdInterceptor idInterceptor = new MapLayoutIdInterceptor();
+                idInterceptor.put(R.layout.item_scales, R.layout.item_r_scales);
+                return idInterceptor;
+            } else {
+                return null;
+            }
+        }
     }
 
     public void save(int endAppointment) {
@@ -134,7 +147,11 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_save, menu);
+        if (!isReadOnly) {
+            inflater.inflate(R.menu.menu_save, menu);
+        } else {
+            inflater.inflate(R.menu.menu_edit, menu);
+        }
     }
 
     @Override
@@ -147,6 +164,11 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
                     save(IntBoolean.FALSE);
                 }
                 break;
+            }
+            case R.id.action_edit: {
+                isReadOnly = false;
+                getAdapter().setLayoutIdInterceptor(createLayoutInterceptor());
+                getActivity().invalidateOptionsMenu();
             }
         }
         return super.onOptionsItemSelected(item);
@@ -195,34 +217,10 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
             return;
         }
 
-        /**
-         * 医生端保存问卷后不会弹窗提示要不要返回上一页,可以修改。
-         * TODO:需要弹窗吗?
-         */
-        if (Settings.isDoctor()) {
-            Toast.makeText(getContext(), "保存问卷成功", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(getContext());
-
-        builder.content("问卷已保存成功，请留意信息提醒及保持电话通畅，医生可能会要求您补充、修改或进行提前就诊。")
-                .positiveText("留在本页")
-                .negativeText("返回上一页")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
-
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        getActivity().finish();
-                        dialog.dismiss();
-                    }
-                }).show();
+        Toast.makeText(getContext(), "保存问卷成功", Toast.LENGTH_SHORT).show();
+        isReadOnly = true;
+        getAdapter().setLayoutIdInterceptor(createLayoutInterceptor());
+        getActivity().invalidateOptionsMenu();
     }
 
     @Subscribe

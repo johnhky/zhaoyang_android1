@@ -3,7 +3,6 @@ package com.doctor.sun.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +19,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.doctor.TemplatesInventoryActivity;
+import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -73,65 +73,7 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
         SortedListAdapter adapter = super.createAdapter();
         adapter.putBoolean(AdapterConfigKey.IS_READ_ONLY, isReadOnly || !isEditMode);
         adapter.putBoolean(AdapterConfigKey.IS_DONE, isReadOnly);
-        adapter.setLayoutIdInterceptor(new SortedListAdapter.LayoutIdInterceptor() {
-            @Override
-            public int intercept(int origin) {
-                switch (origin) {
-                    case R.layout.item_options: {
-                        return R.layout.item_r_options;
-                    }
-                    case R.layout.item_options_dialog: {
-                        return R.layout.item_r_options_dialog;
-                    }
-                    case R.layout.item_options_rect_input: {
-                        return R.layout.item_r_options_rect_input;
-                    }
-                    case R.layout.item_options_rect: {
-                        return R.layout.item_r_options_rect;
-                    }
-                    case R.layout.item_further_consultation: {
-                        return R.layout.item_r_further_consultation;
-                    }
-                    case R.layout.item_pick_date3: {
-                        return R.layout.item_r_pick_date3;
-                    }
-                    case R.layout.item_pick_question_time: {
-                        return R.layout.item_r_pick_time;
-                    }
-                    case R.layout.item_text_input6: {
-                        return R.layout.item_r_text_input6;
-                    }
-                    case R.layout.item_prescription3: {
-                        return R.layout.item_r_prescription;
-                    }
-                    case R.layout.item_hospital: {
-                        return R.layout.item_r_hospital;
-                    }
-                    case R.layout.item_reminder2: {
-                        return R.layout.item_r_reminder2;
-                    }
-                    case R.layout.item_view_image: {
-                        return R.layout.item_r_view_image;
-                    }
-                    case R.layout.item_question: {
-                        return R.layout.item_r_question;
-                    }
-                    case R.layout.item_scales: {
-                        if (!Settings.isDoctor() && !isReadOnly) {
-                            return origin;
-                        }
-                        return R.layout.item_r_scales;
-                    }
-                    case R.layout.item_load_prescription:
-                    case R.layout.item_add_reminder:
-                    case R.layout.item_pick_image:
-                    case R.layout.item_add_prescription3: {
-                        return R.layout.item_empty;
-                    }
-                }
-                return origin;
-            }
-        });
+        adapter.setLayoutIdInterceptor(new ReadOnlyQuestionsInterceptor(isReadOnly));
         return adapter;
     }
 
@@ -239,6 +181,50 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
         if (event.getId().equals(getAppointmentId())) {
             getAdapter().clear();
             loadMore();
+        }
+    }
+
+    public static class ReadOnlyQuestionsInterceptor extends MapLayoutIdInterceptor {
+
+        public ReadOnlyQuestionsInterceptor(boolean isReadOnly) {
+
+            put(R.layout.item_options, R.layout.item_r_options);
+
+            put(R.layout.item_options_dialog, R.layout.item_r_options_dialog);
+
+            put(R.layout.item_options_rect_input, R.layout.item_r_options_rect_input);
+
+            put(R.layout.item_options_rect, R.layout.item_r_options_rect);
+
+            put(R.layout.item_further_consultation, R.layout.item_r_further_consultation);
+
+            put(R.layout.item_pick_date3, R.layout.item_r_pick_date3);
+
+            put(R.layout.item_pick_question_time, R.layout.item_r_pick_time);
+
+            put(R.layout.item_text_input6, R.layout.item_r_text_input6);
+
+            put(R.layout.item_prescription3, R.layout.item_r_prescription);
+
+            put(R.layout.item_hospital, R.layout.item_r_hospital);
+
+            put(R.layout.item_reminder2, R.layout.item_r_reminder2);
+
+            put(R.layout.item_view_image, R.layout.item_r_view_image);
+
+            put(R.layout.item_question, R.layout.item_r_question);
+
+            if (Settings.isDoctor() || isReadOnly) {
+                put(R.layout.item_scales, R.layout.item_r_scales);
+            }
+
+            put(R.layout.item_load_prescription, R.layout.item_empty);
+
+            put(R.layout.item_add_reminder, R.layout.item_empty);
+
+            put(R.layout.item_pick_image, R.layout.item_empty);
+
+            put(R.layout.item_add_prescription3, R.layout.item_empty);
         }
     }
 }

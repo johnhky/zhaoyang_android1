@@ -131,7 +131,7 @@ public class ItemPickImages extends BaseItem {
         int pickerPosition = PickImageDialog.getRequestCode(requestCode);
         ItemPickImages pickerItem = (ItemPickImages) adapter.get(pickerPosition);
 
-        final ItemPickImages item = new ItemPickImages(R.layout.item_pick_image, "");
+        final ItemPickImages item = new ItemPickImages(R.layout.item_view_image, "");
         item.setLocalPath(path);
         item.setPosition(getPositionForNewImage(adapter, pickerItem));
         item.setParentId(pickerItem.getParentId());

@@ -58,8 +58,12 @@ public abstract class BaseListAdapter<T, B extends ViewDataBinding> extends Recy
         holder.bindTo(get(position));
     }
 
-    public void setLayoutIdInterceptor(@NonNull LayoutIdInterceptor idInterceptor) {
-        this.idInterceptor = idInterceptor;
+    public void setLayoutIdInterceptor(LayoutIdInterceptor idInterceptor) {
+        if (idInterceptor == null) {
+            this.idInterceptor = new DefaultLayoutIdInterceptor();
+        }else {
+            this.idInterceptor = idInterceptor;
+        }
         notifyDataSetChanged();
     }
 
