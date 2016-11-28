@@ -53,7 +53,9 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appointment = JacksonUtils.fromJson(getArguments().getString(Constants.DATA), Appointment.class);
-        currentIndex = Config.getInt(HISTORY_INDEX + appointment.getId(), 0);
+        if (appointment != null) {
+            currentIndex = Config.getInt(HISTORY_INDEX + appointment.getId(), 0);
+        }
     }
 
     @Override

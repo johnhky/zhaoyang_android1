@@ -310,7 +310,7 @@ public class PayPrescriptionsModel {
             return;
         }
 
-        extraField.put(Constants.DRUG_ORDER_ID, orderId);
+        extraField.put("drugOrderId", orderId);
 
         if (!getCouponId().equals("-1")) {
             extraField.put("couponId", getCouponId());

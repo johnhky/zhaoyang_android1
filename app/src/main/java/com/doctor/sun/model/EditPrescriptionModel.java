@@ -82,12 +82,19 @@ public class EditPrescriptionModel {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DrugAutoComplete drugAutoComplete = name.getFilteredEntries().get(position);
-                name.setResult(drugAutoComplete.drugName);
+                name.setResult(drugAutoComplete.drugName + "(" + drugAutoComplete.productName + ")");
 //                productName.setResult(drugAutoComplete.productName);
                 name.dismissDialog();
                 EventHub.post(new HideKeyboardEvent());
             }
         });
+
+        ModelUtils.insertDividerMarginLR(result);
+
+        final ItemTextInput2 productName = new ItemTextInput2(R.layout.item_text_input2, "用药天数", "");
+        productName.setItemId("");
+        productName.setResult(data.getDuration());
+        result.add(productName);
 
 
         ModelUtils.insertDividerMarginLR(result);

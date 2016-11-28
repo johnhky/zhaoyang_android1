@@ -56,6 +56,11 @@ public abstract class Prescription extends BaseItem {
         return "";
     }
 
+    @Value.Default
+    public String getDuration() {
+        return "";
+    }
+
     @JsonIgnore
     @Override
     public int getItemLayoutId() {
@@ -67,4 +72,5 @@ public abstract class Prescription extends BaseItem {
     public int getLayoutId() {
         return R.layout.item_prescription3;
     }
+
 }
