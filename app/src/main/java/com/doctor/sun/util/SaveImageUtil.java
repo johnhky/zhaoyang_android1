@@ -2,6 +2,7 @@ package com.doctor.sun.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.MediaStore;
 
 /**
@@ -10,8 +11,8 @@ import android.provider.MediaStore;
 
 public class SaveImageUtil {
 
-    public static void saveImage(Context context, Bitmap bmp) {
+    public static String saveImage(Context context, Bitmap bmp) {
         String fileName = String.valueOf(System.currentTimeMillis());
-        MediaStore.Images.Media.insertImage(context.getContentResolver(), bmp, fileName, null);
+        return MediaStore.Images.Media.insertImage(context.getContentResolver(), bmp, fileName, null);
     }
 }

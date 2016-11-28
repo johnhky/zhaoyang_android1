@@ -1,10 +1,16 @@
 package com.doctor.sun.ui.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -76,7 +82,28 @@ public class ImagePreviewActivity extends BaseFragmentActivity2 {
 
     private void saveImage() {
         Bitmap bitmap = binding.ivPreview.getDrawingCache();
-        SaveImageUtil.saveImage(this, bitmap);
-        Toast.makeText(this, "成功保存图片", Toast.LENGTH_SHORT).show();
+        String imageURL = SaveImageUtil.saveImage(this, bitmap);
+        Uri uri = Uri.parse(imageURL);
+        showNotification(uri);
+    }
+
+    private void showNotification(Uri uri) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri, "image/*");
+        int requestID = (int) System.currentTimeMillis();
+        int flags = PendingIntent.FLAG_CANCEL_CURRENT;
+        PendingIntent pi = PendingIntent.getActivity(this, requestID, intent, flags);
+        Notification notification = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setLights(Color.GREEN, 1000, 3000)
+                .setContentTitle("成功保存图片")
+                .setContentText("点击查看")
+                .setContentIntent(pi)
+                .setAutoCancel(true)
+                .build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, notification);
     }
 }
