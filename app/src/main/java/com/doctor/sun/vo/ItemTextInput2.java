@@ -1,6 +1,9 @@
 package com.doctor.sun.vo;
 
+import android.content.Context;
 import android.databinding.Bindable;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.inputmethod.EditorInfo;
@@ -31,6 +34,10 @@ public class ItemTextInput2 extends BaseItem {
     private String hint;
     private String result = "";
 
+    @ColorRes
+    private int titleColor = R.color.text_color_black;
+    @DimenRes
+    private int textSize = R.dimen.font_15;
 
     public ItemTextInput2(int itemLayoutId, String title, String hint) {
         super(itemLayoutId);
@@ -114,6 +121,22 @@ public class ItemTextInput2 extends BaseItem {
         return result;
     }
 
+    public void setTitleColor(@ColorRes int titleColor) {
+        this.titleColor = titleColor;
+    }
+
+    public int getTitleColor(Context context) {
+        return context.getResources().getColor(titleColor);
+    }
+
+    public void setTextSize(@DimenRes int textSize) {
+        this.textSize = textSize;
+    }
+
+    public float getTextSize(Context context) {
+        return context.getResources().getDimension(textSize);
+    }
+
     public void toggleEditable() {
         if (isEnabled()) {
             if (!Strings.isNullOrEmpty(getResult())) {
@@ -134,12 +157,13 @@ public class ItemTextInput2 extends BaseItem {
         setEnabled(true);
         setResult("");
     }
+
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
         if (!isEnabled()) {
             return null;
         }
-        if (!Strings.isNullOrEmpty(result)){
+        if (!Strings.isNullOrEmpty(result)) {
             HashMap<String, Object> map = new HashMap<>();
             String key = getKey().replace(QuestionType.fill, "");
             Questions2 questions2 = (Questions2) adapter.get(key);
