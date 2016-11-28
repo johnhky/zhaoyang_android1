@@ -13,14 +13,12 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
-import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
 import com.doctor.sun.vo.LayoutId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -163,18 +161,6 @@ public class Drug extends BaseObservable implements LayoutId {
         return createdAt;
     }
 
-    @Bindable
-    public String getStatus() {
-        if (status.equals("")) {
-            if (hasPay == 1) {
-                return "已支付";
-            } else {
-                return "未支付";
-            }
-        } else {
-            return status;
-        }
-    }
 
     public void setStatus(String status) {
         this.status = status;
@@ -226,25 +212,6 @@ public class Drug extends BaseObservable implements LayoutId {
         return R.layout.p_item_drug;
     }
 
-//    public String getStatuses() {
-//        String statuses = "";
-//        switch (getStatus()) {
-//            case "normal":
-//                switch (getHasPay()) {
-//                    case 0:
-//                        statuses = "未支付";
-//                        break;
-//                    case 1:
-//                        statuses = "已支付";
-//                        break;
-//                }
-//                break;
-//            case "cancel":
-//                statuses = "已关闭";
-//                break;
-//        }
-//        return statuses;
-//    }
 
     public void setAppointmentId(int appointmentId) {
         this.appointmentId = appointmentId;
@@ -254,30 +221,29 @@ public class Drug extends BaseObservable implements LayoutId {
         return appointmentId;
     }
 
+    @Bindable
+    public String getStatus() {
+        if (status.equals("")) {
+            if (hasPay == 1) {
+                return "已支付";
+            } else {
+                return "未支付";
+            }
+        } else {
+            return status;
+        }
+    }
+
     public String getDetail() {
         return drug + "，邮寄地址:" + address + "，收件人:" + to + "，" + phone;
     }
 
-    public void getCoupon() {
-
-    }
 
     public void showPayMethod(Context context, String money, Drug drug) {
-        final HashMap<String, String> extraField = DrugListFragment.getDrugExtraField();
-        extraField.put("drugOrderId", String.valueOf(drug.id));
-
-        final String totalFee;
-        if (needPay > 0) {
-            totalFee = String.valueOf(needPay);
-            extraField.remove(DrugListFragment.COUPON_ID);
-        } else {
-            totalFee = money;
-        }
-
         showDetail(context, drug);
     }
 
-    public void cancelOrder(Context context, int id) {
+    public void cancelOrder(Context context, String id) {
         DrugModule api = Api.of(DrugModule.class);
         api.cancelOrder(id).enqueue(new ApiCallback<String>() {
             @Override
@@ -327,4 +293,5 @@ public class Drug extends BaseObservable implements LayoutId {
             return drug + ": " + price;
         }
     }
+
 }

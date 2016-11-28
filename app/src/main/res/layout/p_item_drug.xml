@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.entity.Drug" />
+            type="com.doctor.sun.immutables.Drug" />
 
         <variable
             name="vh"
@@ -42,7 +42,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{@string/order_create_time(data.createdAt)}"
+                    android:text="@{@string/order_create_time(data.getCreated_at)}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13" />
 
@@ -81,7 +81,7 @@
                     android:layout_marginStart="@dimen/dp_4"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13"
-                    android:visibility="@{data.needPay>0}"
+                    android:visibility="@{data.need_pay>0}"
                     app:html="@{&quot;(此订单已使用优惠券)&quot;}" />
 
 
@@ -140,7 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="@{data.hasPay==0}">
+                android:visibility="@{data.has_pay==0}">
 
                 <View
                     android:layout_width="match_parent"
@@ -183,7 +183,7 @@
                         android:layout_gravity="end"
                         android:layout_marginRight="@dimen/dp_15"
                         android:background="@drawable/shape_blue_rect"
-                        android:onClick="@{()->data.showPayMethod(context,data.money,data)}"
+                        android:onClick="@{()->data.showPayMethod(context,data)}"
                         android:padding="@dimen/dp_8">
 
                         <TextView

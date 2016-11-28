@@ -2,10 +2,10 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.Drug;
 import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.immutables.Drug;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -31,7 +31,7 @@ public interface DrugModule {
 
     @FormUrlEncoded
     @POST("drug/cancel")
-    Call<ApiDTO<String>> cancelOrder(@Field("orderId") int orderId);
+    Call<ApiDTO<String>> cancelOrder(@Field("orderId") String orderId);
 
     @FormUrlEncoded
     @POST("drug/push-drug")

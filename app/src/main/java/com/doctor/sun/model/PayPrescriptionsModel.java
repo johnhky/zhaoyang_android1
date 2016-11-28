@@ -15,7 +15,6 @@ import com.doctor.sun.entity.Address;
 import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.Drug;
 import com.doctor.sun.entity.DrugExtraFee;
 import com.doctor.sun.entity.MedicineInfo;
 import com.doctor.sun.entity.constans.CouponType;
@@ -25,6 +24,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.AlipayCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.WeChatPayCallback;
+import com.doctor.sun.immutables.Drug;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
@@ -67,9 +67,9 @@ public class PayPrescriptionsModel {
 
 
         Doctor doctor = response.getDoctor();
-        DrugExtraFee extra = response.getExtraFee();
-        boolean hasPay = response.getHasPay() == IntBoolean.TRUE;
-        money = Double.parseDouble(response.getMoney());
+        DrugExtraFee extra = response.getExtra_fee();
+        boolean hasPay = response.getHas_pay() == IntBoolean.TRUE;
+        money = response.getMoney();
 
 
         List<SortedItem> result = new ArrayList<>();
@@ -103,7 +103,7 @@ public class PayPrescriptionsModel {
 
         ModelUtils.insertSpace(result, R.layout.space_8dp);
         if (!response.getDrug().isEmpty()) {
-            for (Drug.DrugEntity s : response.getDrug()) {
+            for (Drug.DrugEntity s : response.getDrug_detail()) {
                 ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_r_grey_menu, s.drug, "");
                 itemTextInput2.setSubTitle(s.price);
                 itemTextInput2.setTitleGravity(Gravity.START);
@@ -114,8 +114,8 @@ public class PayPrescriptionsModel {
         }
 
         final MedicineInfo medicineInfo = new MedicineInfo();
-        medicineInfo.setOrderId(String.valueOf(response.getId()));
-        medicineInfo.setMedicinePrice(Double.parseDouble(response.drugMoney));
+        medicineInfo.setOrderId(response.getId());
+        medicineInfo.setMedicinePrice(response.getDrug_money());
         medicineInfo.setItemId("medicineInfo");
         medicineInfo.setPosition(result.size());
         result.add(medicineInfo);

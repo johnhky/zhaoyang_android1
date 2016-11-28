@@ -5,9 +5,9 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.Drug;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Drug;
 import com.doctor.sun.model.PayPrescriptionsModel;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
