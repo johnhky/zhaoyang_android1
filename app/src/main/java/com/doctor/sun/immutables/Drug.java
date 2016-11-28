@@ -1,16 +1,22 @@
 package com.doctor.sun.immutables;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.DrugExtraFee;
+import com.doctor.sun.entity.constans.PayMethod;
 import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.AlipayCallback;
 import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.http.callback.WeChatPayCallback;
+import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
@@ -22,6 +28,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import org.immutables.value.Value;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -63,7 +70,7 @@ public abstract class Drug extends BaseItem {
     public abstract String getType();
 
     @Value.Default
-    public  double getDrug_money() {
+    public double getDrug_money() {
         return 0D;
     }
 
@@ -82,7 +89,7 @@ public abstract class Drug extends BaseItem {
 
     @Override
     public int getItemLayoutId() {
-        return R.layout.p_item_drug;
+        return R.layout.p_item_drug2;
     }
 
 
@@ -153,6 +160,29 @@ public abstract class Drug extends BaseItem {
         @Override
         public String toString() {
             return drug + ": " + price;
+        }
+    }
+
+    public void confirmPay(Context context, int payMethod, String couponId, double totalFee, HashMap<String, String> extraField) {
+        extraField.put("drugOrderId", getId());
+
+        if (!couponId.equals("-1")) {
+            extraField.put("couponId", couponId);
+        }
+
+        AppointmentModule api = Api.of(AppointmentModule.class);
+
+        switch (payMethod) {
+            case PayMethod.ALIPAY:
+                api.buildAlipayGoodsOrder(totalFee, "alipay", extraField)
+                        .enqueue(new AlipayCallback((Activity) context, totalFee, extraField));
+                break;
+            case PayMethod.WECHAT:
+                api.buildWeChatGoodsOrder(totalFee, "wechat", extraField)
+                        .enqueue(new WeChatPayCallback((Activity) context, totalFee, extraField));
+                break;
+            case PayMethod.SIMULATED:
+                Toast.makeText(context, "模拟支付", Toast.LENGTH_SHORT).show();
         }
     }
 }
