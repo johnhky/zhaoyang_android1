@@ -61,7 +61,7 @@
                     android:drawableLeft="@drawable/ic_pencil_grey_15dp"
                     android:enabled="@{data.enabled}"
                     android:focusableInTouchMode="@{data.enabled}"
-                    android:gravity="center_vertical"
+                    android:gravity="center_horizontal"
                     android:hint="@{data.hint}"
                     android:inputType="@{data.inputType}"
                     android:maxLength="@{data.maxLength}"

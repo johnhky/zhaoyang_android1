@@ -189,7 +189,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
-                    android:text="支付详情"
+                    android:text="去支付"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_13" />
             </FrameLayout>

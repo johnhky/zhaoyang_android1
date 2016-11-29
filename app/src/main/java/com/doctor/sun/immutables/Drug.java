@@ -86,6 +86,7 @@ public abstract class Drug extends BaseItem {
 
     public abstract List<DrugEntity> getDrug_detail();
 
+    public abstract String getStatus();
 
     @Override
     public int getItemLayoutId() {
@@ -94,7 +95,7 @@ public abstract class Drug extends BaseItem {
 
 
     @Bindable
-    public String getStatus() {
+    public String getStatusText() {
         if (getHas_pay() == 1) {
             return "已支付";
         } else {
@@ -141,7 +142,7 @@ public abstract class Drug extends BaseItem {
 
 
     public String styledStatus() {
-        return "<font color='" + statusColor(getStatus()) + "'>" + getStatus() + "</font>";
+        return "<font color='" + statusColor(getStatusText()) + "'>" + getStatusText() + "</font>";
     }
 
     public void showDetail(Context context, Drug drug) {

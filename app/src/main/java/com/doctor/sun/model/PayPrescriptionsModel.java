@@ -13,6 +13,7 @@ import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DrugExtraFee;
 import com.doctor.sun.entity.constans.CouponType;
+import com.doctor.sun.entity.constans.DrugStatus;
 import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -38,7 +39,6 @@ public class PayPrescriptionsModel {
     public static final String TAG = PayPrescriptionsModel.class.getSimpleName();
 
     private ProfileModule api;
-    private AppointmentModule payApi;
 
     private List<Coupon> coupons;
     private int selectedCoupon = -1;
@@ -52,7 +52,6 @@ public class PayPrescriptionsModel {
 
     public PayPrescriptionsModel() {
         api = Api.of(ProfileModule.class);
-        payApi = Api.of(AppointmentModule.class);
     }
 
 
@@ -69,13 +68,15 @@ public class PayPrescriptionsModel {
         ModelUtils.insertSpace(result, R.layout.space_8dp);
 
         ItemTextInput2 receiver = new ItemTextInput2(R.layout.item_text_subtitle, "    收件人：", "");
-        receiver.setSubTitle(response.getTo());
+        String receiverName = response.getTo() == null || response.getTo().equals("") ? "(未填写)" : response.getTo();
+        receiver.setSubTitle(receiverName);
         receiver.setItemId("receiver");
         receiver.setPosition(result.size());
         result.add(receiver);
 
         ItemTextInput2 phone = new ItemTextInput2(R.layout.item_text_subtitle, "手机号码：", "");
-        phone.setSubTitle(response.getPhone());
+        String phoneNumber = response.getPhone() == null || response.getPhone().equals("") ? "(未填写)" : response.getPhone();
+        phone.setSubTitle(phoneNumber);
         phone.setItemId("phone");
         phone.setPosition(result.size());
         result.add(phone);
@@ -232,7 +233,7 @@ public class PayPrescriptionsModel {
 
         ModelUtils.insertSpace(result, R.layout.space_8dp);
 
-        String totalMoneyString = "订单应付：￥" + money;
+        String totalMoneyString = "订单总额：￥" + money;
         if (extra.commission.isEmpty()) {
             totalMoneyString += "（服务费: ￥100）";
         }
@@ -245,7 +246,7 @@ public class PayPrescriptionsModel {
 
         ModelUtils.insertSpace(result, R.layout.space_8dp);
 
-        String shouldPayMoneyString = "<font color=\"#f65600\">实际付款：￥" + money + "</font>";
+        String shouldPayMoneyString = "<font color=\"#f65600\">实际应付：￥" + money + "</font>";
         shouldPayMoney = new ItemTextInput2(R.layout.item_total_money, shouldPayMoneyString, "");
         shouldPayMoney.setTitleGravity(Gravity.START);
         shouldPayMoney.setItemId("shouldPayMoney");
@@ -270,7 +271,13 @@ public class PayPrescriptionsModel {
             payMethod.setPosition(result.size());
             result.add(payMethod);
 
-            ItemButton confirmButton = new ItemButton(R.layout.item_big_button, "确定") {
+            String buttonText;
+            if (response.getStatus().equals(DrugStatus.CERTAIN)) {
+                buttonText = "确定";
+            } else {
+                buttonText = "跳转寄药小组手确认药单";
+            }
+            ItemButton confirmButton = new ItemButton(R.layout.item_big_button, buttonText) {
                 @Override
                 public void onClick(View view) {
 
