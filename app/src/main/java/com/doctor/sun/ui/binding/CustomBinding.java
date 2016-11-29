@@ -12,6 +12,7 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.Html;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -269,4 +270,10 @@ public class CustomBinding {
         }
     }
 
+    @BindingAdapter("android:layout_width")
+    public static void setLayoutWidth(View view, int width) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.width = width;
+        view.setLayoutParams(layoutParams);
+    }
 }

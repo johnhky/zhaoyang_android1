@@ -3,18 +3,17 @@ package com.doctor.sun.ui.adapter.core;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by rick on 13/8/2016.
@@ -45,8 +44,9 @@ public abstract class BaseListAdapter<T, B extends ViewDataBinding> extends Recy
         try {
             B binding = DataBindingUtil.inflate(getInflater(parent.getContext()), viewType, parent, false);
             return new BaseViewHolder<>(binding);
-        } catch (InflateException e) {
+        } catch (Exception e) {
             Log.e(TAG, "onCreateViewHolder: R.layout: " + Integer.toHexString(viewType));
+            MobclickAgent.reportError(parent.getContext(), e.getCause());
             B inflate = DataBindingUtil.inflate(getInflater(parent.getContext()), com.doctor.sun.R.layout.item_error, parent, false);
             return new BaseViewHolder<>(inflate);
         }
@@ -61,7 +61,7 @@ public abstract class BaseListAdapter<T, B extends ViewDataBinding> extends Recy
     public void setLayoutIdInterceptor(LayoutIdInterceptor idInterceptor) {
         if (idInterceptor == null) {
             this.idInterceptor = new DefaultLayoutIdInterceptor();
-        }else {
+        } else {
             this.idInterceptor = idInterceptor;
         }
         notifyDataSetChanged();

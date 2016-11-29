@@ -4,16 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -81,6 +80,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     private RealmResults<TextMsg> results;
     private KeyboardWatcher keyboardWatcher;
     private RealmChangeListener<RealmResults<TextMsg>> listener;
+    private int screenWidth;
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, MedicineStoreActivity.class);
@@ -112,7 +112,9 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         super.onCreate(savedInstanceState);
         initView();
         getAccountInitChat();
+        screenWidth = Systems.getScreenWidth(this);
         initAppointment();
+
     }
 
     private void initView() {
@@ -121,8 +123,8 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         keyboardWatcher.setListener(this);
 
         if (doOpenDrawer()) {
-            binding.drawerLayout.openDrawer(GravityCompat.END);
-            Toast.makeText(this, "请选择需要寄药的订单", Toast.LENGTH_SHORT).show();
+//            binding.drawerLayout.openDrawer(GravityCompat.END);
+//            Toast.makeText(this, "请选择需要寄药的订单", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -217,20 +219,59 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     }
 
     private void initAppointment() {
-        binding.rvPrescription.setLayoutManager(new LinearLayoutManager(this));
+        final LinearLayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        binding.rvPrescription.setLayoutManager(layout);
+        final LinearSnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(binding.rvPrescription);
         mAppointmentAdapter = new SimpleAdapter();
-        mAppointmentAdapter.mapLayout(R.layout.item_appointment, R.layout.item_medicine_helper);
+        mAppointmentAdapter.mapLayout(R.layout.item_appointment, R.layout.item_drug_order);
         binding.rvPrescription.setAdapter(mAppointmentAdapter);
+        binding.flyPrescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.flyPrescription.setVisibility(View.GONE);
+            }
+        });
+
+        binding.rvPrescription.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int firstVisibleItemPosition = layout.findFirstVisibleItemPosition();
+                int lastVisibleItemPosition = layout.findLastVisibleItemPosition();
+
+                for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; i++) {
+                    View view = layout.findViewByPosition(i);
+
+                    float viewCenter = (float) view.getRight() - view.getWidth() / 2F;
+                    float screenCenter = screenWidth / 2F;
+
+                    float distance = Math.abs(screenCenter - viewCenter);
+
+                    float percentage = distance / screenCenter;
+                    float scale = 1F - percentage / 20F;
+                    view.setScaleX(scale);
+                    view.setScaleY(scale);
+                }
+            }
+        });
+
+
         PageCallback<Appointment> pageCallback = new PageCallback<Appointment>(mAppointmentAdapter) {
             @Override
             protected void handleResponse(PageDTO<Appointment> response) {
                 super.handleResponse(response);
                 if (response.getTotal() == 0) {
-                    binding.rvPrescription.setVisibility(View.GONE);
-                    binding.ivNoMedicine.setVisibility(View.VISIBLE);
+                    binding.flyPrescription.setVisibility(View.GONE);
+//                    binding.ivNoMedicine.setVisibility(View.VISIBLE);
                 } else {
-                    binding.rvPrescription.setVisibility(View.VISIBLE);
-                    binding.ivNoMedicine.setVisibility(View.GONE);
+                    binding.flyPrescription.setVisibility(View.VISIBLE);
+//                    binding.ivNoMedicine.setVisibility(View.GONE);
                 }
             }
         };
@@ -268,7 +309,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 
     @Subscribe
     public void closeDrawer(CloseDrawerEvent event) {
-        binding.drawerLayout.closeDrawer(GravityCompat.END);
+//        binding.drawerLayout.closeDrawer(GravityCompat.END);
     }
 
     @Override
@@ -360,8 +401,8 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         InputLayoutViewModel inputLayout = binding.getInputLayout();
         if (inputLayout != null && inputLayout.getKeyboardType() != 0) {
             inputLayout.setKeyboardType(0);
-        } else if (binding.drawerLayout.isDrawerOpen(GravityCompat.END)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.END);
+//        } else if (binding.drawerLayout.isDrawerOpen(GravityCompat.END)) {
+//            binding.drawerLayout.closeDrawer(GravityCompat.END);
         } else {
             super.onBackPressed();
         }
@@ -470,7 +511,14 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_pick_prescription: {
-                binding.drawerLayout.openDrawer(Gravity.RIGHT);
+//                binding.drawerLayout.openDrawer(Gravity.RIGHT);
+                int visibility = binding.flyPrescription.getVisibility();
+                if (visibility == View.VISIBLE) {
+                    binding.flyPrescription.setVisibility(View.GONE);
+                } else {
+                    Systems.hideKeyboard(this);
+                    binding.flyPrescription.setVisibility(View.VISIBLE);
+                }
                 return true;
             }
         }
@@ -485,11 +533,9 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     @Override
     public String getSubTitle() {
         if (getAppointmentNumber() == -1) {
-            String s = "就诊";
-            return s;
+            return "就诊";
         } else {
-            String s = "就诊(" + getAppointmentNumber() + ")";
-            return s;
+            return "就诊(" + getAppointmentNumber() + ")";
         }
     }
 

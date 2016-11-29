@@ -14,7 +14,7 @@
             type="boolean" />
     </data>
 
-    <android.support.v4.widget.DrawerLayout
+    <FrameLayout
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -68,30 +68,38 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/lly_medicine_list"
-            android:layout_width="@dimen/dp_300"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:background="@color/white"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:setOnTouchListener="@{()->inputLayout.True()}">
+        <!--<LinearLayout-->
+        <!--android:id="@+id/lly_medicine_list"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="end"-->
+        <!--android:background="@color/white"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="vertical"-->
+        <!--android:setOnTouchListener="@{()->inputLayout.True()}">-->
 
-            <ImageView
-                android:id="@+id/iv_no_medicine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_no_medicine"
-                android:visibility="gone" />
+        <!--<ImageView-->
+        <!--android:id="@+id/iv_no_medicine"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:background="@drawable/ic_no_medicine"-->
+        <!--android:visibility="gone" />-->
+
+        <FrameLayout
+            android:id="@+id/fly_prescription"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black_transparent_c8"
+            android:visibility="gone">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_prescription"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/dp_150"
+                android:layout_marginTop="@dimen/dp_100" />
+        </FrameLayout>
 
-        </LinearLayout>
-
-    </android.support.v4.widget.DrawerLayout>
+    </FrameLayout>
 </layout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="io.ganguo.library.util.Systems" />
+
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.AppointmentHandler2" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.immutables.Appointment" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.BaseListAdapter" />
+
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="@{Systems.getScreenWidth(context) - Systems.dpToPx(context,100), default=wrap_content}"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@drawable/ripple_blue_rect"
+        android:onClick="@{()->handler.drugPush(data)}"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/item_medicine_helper"
+            bind:data="@{data}" />
+
+
+    </LinearLayout>
+</layout>
