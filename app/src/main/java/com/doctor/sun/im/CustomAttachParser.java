@@ -66,12 +66,16 @@ public class CustomAttachParser implements MsgAttachmentParser {
                 case "appointment_end": {
                     CustomAttachment<ArrayList<AttachmentPair>> customAttachment = new CustomAttachment<>();
                     customAttachment.setType(TextMsg.REFRESH_APPOINTMENT);
+                    parseJsonToPairs(object, customAttachment);
+                    return customAttachment;
+                }
+                default: {
+                    String msg = object.optString("msg", "未知消息类型，请更新版本查看");
+                    String data = object.optString("data", msg);
+                    CustomAttachment<ArrayList<AttachmentPair>> customAttachment = new CustomAttachment<>();
+                    customAttachment.setType(TextMsg.STRING_MSG);
                     ArrayList<AttachmentPair> pairs = new ArrayList<>();
-                    Iterator<String> keys = object.keys();
-                    while (keys.hasNext()) {
-                        String next = keys.next();
-                        pairs.add(new AttachmentPair(next, object.getString(next)));
-                    }
+                    pairs.add(new AttachmentPair("data", data));
                     customAttachment.setData(pairs);
                     return customAttachment;
                 }
@@ -80,6 +84,15 @@ public class CustomAttachParser implements MsgAttachmentParser {
             e.printStackTrace();
             return null;
         }
-        return null;
+    }
+
+    public void parseJsonToPairs(JSONObject object, CustomAttachment<ArrayList<AttachmentPair>> customAttachment) throws JSONException {
+        ArrayList<AttachmentPair> pairs = new ArrayList<>();
+        Iterator<String> keys = object.keys();
+        while (keys.hasNext()) {
+            String next = keys.next();
+            pairs.add(new AttachmentPair(next, object.getString(next)));
+        }
+        customAttachment.setData(pairs);
     }
 }

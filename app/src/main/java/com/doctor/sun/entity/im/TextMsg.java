@@ -24,6 +24,8 @@ import io.realm.annotations.Required;
  */
 public class TextMsg extends RealmObject implements LayoutId {
     // 多端统一
+    public static final int STRING_MSG = -2;
+    public static final int UNKNOWN = -1;
     public static final int Guess = 1;
     public static final int SnapChat = 2;
     public static final int Sticker = 3;
@@ -40,7 +42,6 @@ public class TextMsg extends RealmObject implements LayoutId {
 
     public static final String TAG = TextMsg.class.getSimpleName();
     public static final MsgHandler handler = new MsgHandler();
-
     //uuid
     @Required
     @PrimaryKey
@@ -252,6 +253,9 @@ public class TextMsg extends RealmObject implements LayoutId {
 
     @Override
     public int getItemLayoutId() {
+        if (getType().equals(String.valueOf(UNKNOWN))) {
+            return R.layout.msg_notification;
+        }
         if (getType().equals(String.valueOf(MsgTypeEnum.notification))) {
             return R.layout.msg_notification;
         }

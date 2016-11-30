@@ -142,9 +142,29 @@ public class TextMsgFactory {
             case TextMsg.EXTEND_TIME: {
                 return null;
             }
+            case TextMsg.STRING_MSG: {
+                ArrayList<AttachmentPair> data = (ArrayList<AttachmentPair>) attachment.getData();
+                result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.REFRESH_APPOINTMENT)));
+                for (int i = 0; i < data.size(); i++) {
+                    AttachmentPair attachmentPair = data.get(i);
+                    attachmentPair.setKey(msg.getUuid() + attachmentPair.getKey());
+                }
+                result.addAll(data);
+                return result;
+            }
             case TextMsg.REFRESH_APPOINTMENT: {
                 ArrayList<AttachmentPair> data = (ArrayList<AttachmentPair>) attachment.getData();
                 result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.REFRESH_APPOINTMENT)));
+                for (int i = 0; i < data.size(); i++) {
+                    AttachmentPair attachmentPair = data.get(i);
+                    attachmentPair.setKey(msg.getUuid() + attachmentPair.getKey());
+                }
+                result.addAll(data);
+                return result;
+            }
+            case TextMsg.UNKNOWN: {
+                ArrayList<AttachmentPair> data = (ArrayList<AttachmentPair>) attachment.getData();
+                result.add(createAttachmentPair(msg.getUuid() + ATTACHMENT_TYPE, String.valueOf(TextMsg.UNKNOWN)));
                 for (int i = 0; i < data.size(); i++) {
                     AttachmentPair attachmentPair = data.get(i);
                     attachmentPair.setKey(msg.getUuid() + attachmentPair.getKey());

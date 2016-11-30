@@ -98,8 +98,7 @@ public class IMManager {
     public static ImAccount getVoipAccount() {
         String json = Config.getString(Constants.VOIP_ACCOUNT);
         if (null != json && !json.equals("")) {
-            ImAccount account = JacksonUtils.fromJson(json, ImAccount.class);
-            return account;
+            return JacksonUtils.fromJson(json, ImAccount.class);
         }
         return null;
     }
