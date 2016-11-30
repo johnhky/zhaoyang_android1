@@ -3,6 +3,7 @@ package com.doctor.sun.ui.binding;
 import android.annotation.TargetApi;
 import android.content.res.Resources;
 import android.databinding.BindingAdapter;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
@@ -10,6 +11,7 @@ import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.adapter.core.AdapterOps;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.util.FragmentFactory;
+import com.doctor.sun.vo.BaseItem;
+
+import java.util.List;
 
 
 /**
@@ -194,6 +202,11 @@ public class CustomBinding {
         view.setBackgroundResource(color);
     }
 
+    @android.databinding.BindingAdapter("app:backgroundColorString")
+    public static void backgroundColor(View view, String colorString) {
+        view.setBackgroundColor(Color.parseColor(colorString));
+    }
+
     @android.databinding.BindingAdapter("bind:visibility")
     public static void visibility(View view, int visibility) {
         switch (visibility) {
@@ -275,5 +288,28 @@ public class CustomBinding {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         layoutParams.width = width;
         view.setLayoutParams(layoutParams);
+    }
+
+    @BindingAdapter("items")
+    public static void setItems(RecyclerView view, List<? extends BaseItem> items) {
+        RecyclerView.Adapter<?> adapter = view.getAdapter();
+        if (adapter == null) {
+            adapter = new SimpleAdapter<>();
+            view.setAdapter(adapter);
+        }
+        ((AdapterOps) adapter).clear();
+        ((AdapterOps) adapter).insertAll(items);
+        adapter.notifyDataSetChanged();
+    }
+
+    @BindingAdapter("layouts")
+    public static void setLayouts(RecyclerView view, BaseListAdapter.LayoutIdInterceptor data) {
+        BaseListAdapter adapter = (BaseListAdapter) view.getAdapter();
+        if (adapter == null) {
+            adapter = new SimpleAdapter<>();
+            view.setAdapter(adapter);
+        }
+        adapter.setLayoutIdInterceptor(data);
+        adapter.notifyDataSetChanged();
     }
 }

@@ -1,6 +1,7 @@
 package com.doctor.sun.immutables;
 
 import com.doctor.sun.R;
+import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

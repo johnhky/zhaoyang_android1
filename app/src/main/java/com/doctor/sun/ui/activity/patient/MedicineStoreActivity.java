@@ -31,6 +31,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.immutables.PrescriptionOrder;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.MessageAdapter;
@@ -38,6 +39,7 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.widget.ExtendedEditText;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.FileChooser;
+import com.doctor.sun.vo.BaseItem;
 import com.doctor.sun.vo.CustomActionViewModel;
 import com.doctor.sun.vo.InputLayoutViewModel;
 import com.doctor.sun.vo.StickerViewModel;
@@ -233,49 +235,34 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
             }
         });
 
-        binding.rvPrescription.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.rvPrescription.addOnScrollListener(new ScaleCenterScrollListener(layout));
+
+
+        PageCallback<PrescriptionOrder> pageCallback = new PageCallback<PrescriptionOrder>(mAppointmentAdapter) {
+
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
+            public void insertFooter() {
+                super.insertFooter();
+                mAppointmentAdapter.insert(new BaseItem(R.layout.space_vertical_45dp));
             }
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int firstVisibleItemPosition = layout.findFirstVisibleItemPosition();
-                int lastVisibleItemPosition = layout.findLastVisibleItemPosition();
-
-                for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; i++) {
-                    View view = layout.findViewByPosition(i);
-
-                    float viewCenter = (float) view.getRight() - view.getWidth() / 2F;
-                    float screenCenter = screenWidth / 2F;
-
-                    float distance = Math.abs(screenCenter - viewCenter);
-
-                    float percentage = distance / screenCenter;
-                    float scale = 1F - percentage / 20F;
-                    view.setScaleX(scale);
-                    view.setScaleY(scale);
-                }
+            public void onInitHeader() {
+                super.onInitHeader();
+                mAppointmentAdapter.insert(new BaseItem(R.layout.space_vertical_45dp));
             }
-        });
 
-
-        PageCallback<Appointment> pageCallback = new PageCallback<Appointment>(mAppointmentAdapter) {
             @Override
-            protected void handleResponse(PageDTO<Appointment> response) {
+            protected void handleResponse(PageDTO<PrescriptionOrder> response) {
                 super.handleResponse(response);
                 if (response.getTotal() == 0) {
                     binding.flyPrescription.setVisibility(View.GONE);
-//                    binding.ivNoMedicine.setVisibility(View.VISIBLE);
                 } else {
                     binding.flyPrescription.setVisibility(View.VISIBLE);
-//                    binding.ivNoMedicine.setVisibility(View.GONE);
                 }
             }
         };
-        api.appointments(pageCallback.getPage()).enqueue(pageCallback);
+        api.myPrescriptions(pageCallback.getPage()).enqueue(pageCallback);
     }
 
 
@@ -542,5 +529,39 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     @Override
     public int getDuration() {
         return 0;
+    }
+
+    private class ScaleCenterScrollListener extends RecyclerView.OnScrollListener {
+        private final LinearLayoutManager layout;
+
+        public ScaleCenterScrollListener(LinearLayoutManager layout) {
+            this.layout = layout;
+        }
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int firstVisibleItemPosition = layout.findFirstVisibleItemPosition();
+            int lastVisibleItemPosition = layout.findLastVisibleItemPosition();
+
+            for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; i++) {
+                View view = layout.findViewByPosition(i);
+
+                float viewCenter = (float) view.getRight() - view.getWidth() / 2F;
+                float screenCenter = screenWidth / 2F;
+
+                float distance = Math.abs(screenCenter - viewCenter);
+
+                float percentage = distance / screenCenter;
+                float scale = 1F - percentage / 20F;
+                view.setScaleX(scale);
+                view.setScaleY(scale);
+            }
+        }
     }
 }
