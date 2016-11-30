@@ -66,6 +66,7 @@
                     android:layout_marginEnd="@dimen/dp_15"
                     android:layout_marginRight="@dimen/dp_15"
                     android:numStars="5"
+                    android:isIndicator="true"
                     android:rating="@{data.point}" />
 
             </LinearLayout>
