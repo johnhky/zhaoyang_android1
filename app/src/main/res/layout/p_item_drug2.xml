@@ -169,7 +169,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text='@{"订单应付：￥" + data.money}'
+                    android:text='@{"订单总额：￥" + data.money}'
                     android:textColor="@color/text_color_gray"
                     android:textSize="@dimen/font_10" />
 
@@ -177,7 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_6"
-                    android:text='@{"实际付款：￥" + data.need_pay}'
+                    android:text='@{"实际应付：￥" + data.need_pay}'
                     android:textColor="#f65600"
                     android:textSize="@dimen/font_13" />
             </LinearLayout>
