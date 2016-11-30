@@ -103,6 +103,14 @@ public abstract class Drug extends BaseItem {
         }
     }
 
+    public String getButtonText() {
+        if (getHas_pay() == 1) {
+            return "订单详情";
+        } else {
+            return "去支付";
+        }
+    }
+
     public String getDetail() {
         return getDrug() + "，邮寄地址:" + getAddress() + "，收件人:" + getTo() + "，" + getPhone();
     }
