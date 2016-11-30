@@ -18,7 +18,6 @@ import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Drug;
-import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.fragment.DrugListFragment;
@@ -234,9 +233,6 @@ public class PayPrescriptionsModel {
         ModelUtils.insertSpace(result, R.layout.space_8dp);
 
         String totalMoneyString = "订单总额：￥" + money;
-        if (extra.commission.isEmpty()) {
-            totalMoneyString += "（服务费: ￥100）";
-        }
         final ItemTextInput2 totalMoney = new ItemTextInput2(R.layout.item_r_grey_text, totalMoneyString, "");
         totalMoney.setTextSize(R.dimen.font_12);
         totalMoney.setTitleGravity(Gravity.START);
@@ -325,16 +321,22 @@ public class PayPrescriptionsModel {
                         selectedCoupon = which;
                         double discountMoney = Double.parseDouble(coupons.get(selectedCoupon).couponMoney);
                         selectCoupon.setTitle("已优惠" + discountMoney + "元");
-                        updateShouldPayMoney(discountMoney);
+                        //　选择优惠券后，订单应付金额减到优惠券的金额
+                        updateShouldPayMoney(-discountMoney);
                         return true;
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        // 选择优惠券后，选择不使用优惠券，订单应付金额应加上之前选中的优惠券的金额
+                        if (selectedCoupon != -1) {
+                            double previousDiscountMoney = Double.parseDouble(coupons.get(selectedCoupon).couponMoney);
+                            updateShouldPayMoney(previousDiscountMoney);
+                        }
                         selectedCoupon = -1;
                         selectCoupon.setTitle("未使用优惠券");
-                        updateShouldPayMoney(0);
+
                     }
                 })
                 .build().show();
@@ -355,7 +357,7 @@ public class PayPrescriptionsModel {
 
     private void updateShouldPayMoney(double discountMoney) {
 
-        money = money - discountMoney > 0 ? money - discountMoney : 0;
+        money = money + discountMoney > 0 ? money + discountMoney : 0;
         shouldPayMoney.setTitle("<font color=\"#f65600\">实际付款：￥" + money + "</font>");
     }
 
