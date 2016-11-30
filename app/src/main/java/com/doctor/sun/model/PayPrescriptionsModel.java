@@ -89,7 +89,7 @@ public class PayPrescriptionsModel {
         result.add(address);
 
         ItemTextInput2 remark = new ItemTextInput2(R.layout.item_text_subtitle, "备注信息：", "");
-        remark.setSubTitle(response.getRecord_name());
+        remark.setSubTitle(response.getRemark());
         remark.setItemId("remark");
         remark.setPosition(result.size());
         result.add(remark);
