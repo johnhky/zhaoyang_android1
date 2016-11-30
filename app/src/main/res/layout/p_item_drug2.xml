@@ -193,6 +193,7 @@
                 android:layout_height="@dimen/dp_35"
                 android:layout_marginRight="@dimen/dp_13"
                 android:layout_marginEnd="@dimen/dp_13"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/shape_blue_rect"
                 android:onClick="@{()->data.showPayMethod(context,data)}">
 

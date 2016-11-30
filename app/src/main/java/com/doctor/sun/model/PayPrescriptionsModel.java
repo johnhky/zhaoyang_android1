@@ -1,6 +1,7 @@
 package com.doctor.sun.model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Drug;
 import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.vo.ClickMenu;
@@ -54,7 +56,7 @@ public class PayPrescriptionsModel {
     }
 
 
-    public List<SortedItem> parseData(final Drug response) {
+    public List<SortedItem> parseData(final Context context, final Drug response) {
 
         final DrugExtraFee extra = response.getExtra_fee();
         boolean hasPay = response.getHas_pay() == IntBoolean.TRUE;
@@ -251,12 +253,25 @@ public class PayPrescriptionsModel {
         shouldPayMoney.setUserSelected(extra.commission.isEmpty());
 
         result.add(shouldPayMoney);
-        ModelUtils.insertSpace(result, R.layout.space_8dp);
 
         ModelUtils.insertSpace(result, R.layout.space_8dp);
 
-        if (!hasPay) {
+        if (response.getStatus().equals(DrugStatus.UNCERTAIN)) {
 
+            ModelUtils.insertDividerNoMargin(result);
+            ModelUtils.insertSpace(result, R.layout.space_8dp);
+
+            ItemButton confirmDrugButton = new ItemButton(R.layout.item_big_button, "跳转寄药小组手确认药单") {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, MedicineStoreActivity.class);
+                    context.startActivity(intent);
+                }
+            };
+            confirmDrugButton.setItemId("confirmDrugButton");
+            confirmDrugButton.setPosition(result.size());
+            result.add(confirmDrugButton);
+        } else if (!hasPay) {
             Description payDescription = new Description(R.layout.item_description, "支付方式");
             payDescription.setItemId("payDescription");
             payDescription.setPosition(result.size());
@@ -267,13 +282,7 @@ public class PayPrescriptionsModel {
             payMethod.setPosition(result.size());
             result.add(payMethod);
 
-            String buttonText;
-            if (response.getStatus().equals(DrugStatus.CERTAIN)) {
-                buttonText = "确定";
-            } else {
-                buttonText = "跳转寄药小组手确认药单";
-            }
-            ItemButton confirmButton = new ItemButton(R.layout.item_big_button, buttonText) {
+            ItemButton confirmButton = new ItemButton(R.layout.item_big_button, "确定") {
                 @Override
                 public void onClick(View view) {
 
@@ -290,7 +299,6 @@ public class PayPrescriptionsModel {
 
             loadCoupons();
         } else {
-
             ModelUtils.insertDividerNoMargin(result);
 
             ItemButton button = new ItemButton(R.layout.item_grey_button, "已支付") {

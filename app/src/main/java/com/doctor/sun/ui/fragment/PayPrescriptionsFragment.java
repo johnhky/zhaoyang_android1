@@ -55,7 +55,7 @@ public class PayPrescriptionsFragment extends SortedListFragment {
             @Override
             protected void handleResponse(Drug response) {
                 List<SortedItem> sortedItems =
-                        model.parseData(response);
+                        model.parseData(getContext(), response);
                 binding.swipeRefresh.setRefreshing(false);
                 getAdapter().insertAll(sortedItems);
             }
