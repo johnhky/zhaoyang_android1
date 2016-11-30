@@ -103,6 +103,12 @@ public class PrescriptionHandler {
             }
         }
 
+        if (data.getTake_medicine_days() != null && !data.getTake_medicine_days().equals("")) {
+            String takeMedicineDays = "用药天数:" + data.getTake_medicine_days() + "天";
+            builder.append(takeMedicineDays);
+            builder.append(",");
+        }
+
         if (data.getRemark() != null && !data.getRemark().isEmpty()) {
             builder.append(data.getRemark());
         } else {
@@ -198,6 +204,7 @@ public class PrescriptionHandler {
         builder.noon("");
         builder.night("");
         builder.before_sleep("");
+        builder.take_medicine_days("");
         return builder;
     }
 
@@ -215,6 +222,7 @@ public class PrescriptionHandler {
         builder.noon(Strings.nullToEmpty(map.get("noon")));
         builder.night(Strings.nullToEmpty(Strings.nullToEmpty(map.get("night"))));
         builder.before_sleep(Strings.nullToEmpty(map.get("before_sleep")));
+        builder.take_medicine_days(Strings.nullToEmpty(map.get("take_medicine_days")));
         return builder.build();
     }
 

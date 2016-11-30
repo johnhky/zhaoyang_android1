@@ -42,7 +42,6 @@ public class EditPrescriptionModel {
         }
         List<SortedItem> result = new ArrayList<>();
 
-
         final ItemAutoCompleteTextInput<DrugAutoComplete> name = new ItemAutoCompleteTextInput<>(R.layout.item_auto_complete_text, "药名", "");
 
         AutoComplete autoComplete = Api.of(AutoComplete.class);
@@ -73,16 +72,11 @@ public class EditPrescriptionModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-//        final ItemTextInput2 productName = new ItemTextInput2(R.layout.item_text_input2, "商品名", "");
-//        productName.setItemId("scientific_name");
-//        productName.setResult(data.getScientific_name());
-//        result.add(productName);
-
         name.setListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DrugAutoComplete drugAutoComplete = name.getFilteredEntries().get(position);
-                name.setResult(drugAutoComplete.drugName + "(" + drugAutoComplete.productName + ")");
+                name.setResult(drugAutoComplete.drugName);
 //                productName.setResult(drugAutoComplete.productName);
                 name.dismissDialog();
                 EventHub.post(new HideKeyboardEvent());
@@ -91,11 +85,11 @@ public class EditPrescriptionModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        final ItemTextInput2 productName = new ItemTextInput2(R.layout.item_text_input2, "用药天数", "");
-        productName.setItemId("");
-        productName.setResult(data.getDuration());
-        result.add(productName);
-
+        final ItemTextInput2 takeMedicineDays = new ItemTextInput2(R.layout.item_text_input2, "用药天数", "");
+        takeMedicineDays.setItemId("take_medicine_days");
+        takeMedicineDays.setResult(data.getTake_medicine_days());
+        takeMedicineDays.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
+        result.add(takeMedicineDays);
 
         ModelUtils.insertDividerMarginLR(result);
 
@@ -117,7 +111,6 @@ public class EditPrescriptionModel {
         }
         result.add(interval);
 
-
         ModelUtils.insertDividerMarginLR(result);
 
         final ItemRadioDialog unit = new ItemRadioDialog(R.layout.item_pick_title);
@@ -136,8 +129,6 @@ public class EditPrescriptionModel {
         }
         result.add(unit);
 
-
-//        result.add(new Description(R.layout.item_description, "数量"));
         ModelUtils.insertDividerMarginLR(result);
 
         final ItemTextInput2 morning = new ItemTextInput2(R.layout.item_number_input, "早:    ", "");

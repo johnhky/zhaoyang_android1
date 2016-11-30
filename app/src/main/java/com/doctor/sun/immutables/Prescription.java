@@ -61,6 +61,11 @@ public abstract class Prescription extends BaseItem {
         return "";
     }
 
+    @Value.Default
+    public String getTake_medicine_days() {
+        return "";
+    }
+
     @JsonIgnore
     @Override
     public int getItemLayoutId() {
