@@ -1,8 +1,8 @@
 //Note: 定义全局的gradle依赖包, 统一管理lib版本号
 
 ext {
-    compile_sdk_version = 24
-    build_tools_version = '24'
+    compile_sdk_version = 25
+    build_tools_version = '25'
     min_sdk_version = 14
     target_sdk_version = 23
 
