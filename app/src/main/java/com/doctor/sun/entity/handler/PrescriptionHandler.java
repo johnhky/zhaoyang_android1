@@ -118,6 +118,39 @@ public class PrescriptionHandler {
         return builder.toString();
     }
 
+    public static String getInstruction(Prescription data) {
+        StringBuilder builder = new StringBuilder();
+
+        if (data.getTake_medicine_days() != null && !data.getTake_medicine_days().equals("")) {
+            String takeMedicineDays = "用药天数:" + data.getTake_medicine_days() + "天";
+            builder.append(takeMedicineDays);
+            builder.append(",");
+        }
+
+        if (!"每天".equals(data.getFrequency())) {
+            builder.append(data.getFrequency()).append(":");
+        }
+
+        ArrayList<String> numbers = numbers(data);
+        if (numbers != null) {
+            for (int i = 0; i < numbers.size(); i++) {
+                String amount = numbers.get(i);
+                if (null != amount && !amount.equals("")) {
+                    try {
+                        double amountDouble = Double.parseDouble(amount);
+                        if (amountDouble > 0) {
+                            builder.append(keys[i]).append(amount).append(data.getDrug_unit());
+                            builder.append(",");
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        }
+        builder.deleteCharAt(builder.length() - 1);
+        return builder.toString();
+    }
+
     @JsonIgnore
     public static String getName(Prescription data) {
         String s = "<font color='#898989'>药名: </font>" + data.getDrug_name();
@@ -136,9 +169,21 @@ public class PrescriptionHandler {
     }
 
     @JsonIgnore
-    public static String getAmount(Prescription data) {
+    public static String getAmountKV(Prescription data) {
         StringBuilder builder = new StringBuilder();
-        builder.append("<font color='#898989'>数量:   </font>");
+        builder.append(getAmountK());
+        StringBuilder amountV = getAmountV(data);
+        builder.append(amountV);
+        return builder.toString();
+    }
+
+    @NonNull
+    public static String getAmountK() {
+        return "<font color='#898989'>数量:   </font>";
+    }
+
+    public static StringBuilder getAmountV(Prescription data) {
+        StringBuilder builder = new StringBuilder();
         ArrayList<String> numbers = numbers(data);
         for (int i = 0; i < numbers.size(); i++) {
             String amount = numbers.get(i);
@@ -147,7 +192,7 @@ public class PrescriptionHandler {
             }
         }
         builder.deleteCharAt(builder.length() - 1);
-        return builder.toString();
+        return builder;
     }
 
 

@@ -1,9 +1,15 @@
 package com.doctor.sun.immutables;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
+import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -32,6 +38,8 @@ public abstract class PrescriptionOrder extends BaseItem {
 
     public abstract String getAppointment_id();
 
+    public abstract String getDrug_order_id();
+
     public abstract String getRecord_id();
 
     public abstract String getDoctor_id();
@@ -44,7 +52,7 @@ public abstract class PrescriptionOrder extends BaseItem {
 
     public abstract String getEnd_time();
 
-    public abstract String getStatus();
+    public abstract int getStatus();
 
     public abstract String getDisplay_type();
 
@@ -97,7 +105,7 @@ public abstract class PrescriptionOrder extends BaseItem {
 
     public MapLayoutIdInterceptor idInterceptor() {
         MapLayoutIdInterceptor mapLayoutIdInterceptor = new MapLayoutIdInterceptor();
-        mapLayoutIdInterceptor.put(R.layout.item_prescription, R.layout.item_r_prescription);
+        mapLayoutIdInterceptor.put(R.layout.item_prescription, R.layout.item_r_prescription_simple);
         return mapLayoutIdInterceptor;
     }
 
@@ -112,5 +120,13 @@ public abstract class PrescriptionOrder extends BaseItem {
         int WAITING_PAYMENT = 3;
         //过期
         int EXPIRED = 4;
+    }
+
+    public void viewPrescriptionDetail(Context context) {
+        if (getPrescription_status() == Status.WAITING_PAYMENT) {
+            Bundle args = PayPrescriptionsFragment.getArgs(getDrug_order_id());
+            Intent intent = SingleFragmentActivity.intentFor(context, "寄药支付", args);
+            context.startActivity(intent);
+        }
     }
 }

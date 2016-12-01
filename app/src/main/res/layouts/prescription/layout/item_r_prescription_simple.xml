@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import
+            alias="handler"
+            type="com.doctor.sun.entity.handler.PrescriptionHandler" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.immutables.Prescription" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_default"
+        android:onClick="@{handler.viewDetail(data)}"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingLeft="@dimen/dp_13"
+        android:paddingRight="@dimen/dp_13"
+        android:paddingTop="@dimen/dp_10"
+        app:backgroundColorString="@{ vh.isEven() ? &quot;#ffffff&quot;:&quot;#f7f7f7&quot;}">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#7c7c7c"
+            android:textSize="@dimen/font_15"
+            app:html="@{data.drug_name}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#acacac"
+            android:textSize="@dimen/font_12"
+            app:html="@{handler.getInstruction(data)}" />
+
+    </LinearLayout>
+</layout>

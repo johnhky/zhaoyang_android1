@@ -158,11 +158,12 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
             android:layout_gravity="bottom"
-            app:backgroundColorString="@{data.getStatusBackground()}"
             android:gravity="center"
+            android:onClick="@{()->data.viewPrescriptionDetail(context)}"
             android:text="@{data.prescription_display_status}"
             android:textColor="@color/white"
-            android:textSize="@dimen/font_14" />
+            android:textSize="@dimen/font_14"
+            app:backgroundColorString="@{data.getStatusBackground()}" />
 
     </android.support.v7.widget.CardView>
 </layout>

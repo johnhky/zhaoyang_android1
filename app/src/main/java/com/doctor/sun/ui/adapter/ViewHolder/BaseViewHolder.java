@@ -33,4 +33,8 @@ public class BaseViewHolder<T extends ViewDataBinding> extends RecyclerView.View
     public boolean isBinding() {
         return isBinding;
     }
+
+    public boolean isEven() {
+        return getAdapterPosition() % 2 == 0;
+    }
 }

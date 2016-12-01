@@ -1,7 +1,6 @@
 package com.doctor.sun.immutables;
 
 import com.doctor.sun.R;
-import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -65,13 +64,19 @@ public abstract class Prescription extends BaseItem {
     @JsonIgnore
     @Override
     public int getItemLayoutId() {
-        return R.layout.item_prescription;
+        if (super.getItemLayoutId() == -1) {
+            return R.layout.item_prescription;
+        }
+        return super.getItemLayoutId();
     }
 
     @JsonIgnore
     @Override
     public int getLayoutId() {
-        return R.layout.item_prescription3;
+        if (super.getItemLayoutId() == -1) {
+            return R.layout.item_prescription3;
+        }
+        return super.getLayoutId();
     }
 
 }
