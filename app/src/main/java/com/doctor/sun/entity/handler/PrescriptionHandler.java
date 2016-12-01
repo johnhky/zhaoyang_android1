@@ -82,6 +82,13 @@ public class PrescriptionHandler {
         } else {
             builder.append(",");
         }
+
+        if (data.getTake_medicine_days() != null && !data.getTake_medicine_days().equals("")) {
+            String takeMedicineDays = "用药天数:" + data.getTake_medicine_days() + "天";
+            builder.append(takeMedicineDays);
+            builder.append(",");
+        }
+
         if (!"每天".equals(data.getFrequency())) {
             builder.append(data.getFrequency()).append(":");
         }
@@ -101,12 +108,6 @@ public class PrescriptionHandler {
                     }
                 }
             }
-        }
-
-        if (data.getTake_medicine_days() != null && !data.getTake_medicine_days().equals("")) {
-            String takeMedicineDays = "用药天数:" + data.getTake_medicine_days() + "天";
-            builder.append(takeMedicineDays);
-            builder.append(",");
         }
 
         if (data.getRemark() != null && !data.getRemark().isEmpty()) {

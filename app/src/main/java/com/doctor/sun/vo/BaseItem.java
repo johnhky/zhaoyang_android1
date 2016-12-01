@@ -269,6 +269,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         return null;
     }
 
+    @JsonIgnore
     public String getAction() {
         return action;
     }

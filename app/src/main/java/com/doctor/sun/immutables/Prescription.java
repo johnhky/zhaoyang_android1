@@ -58,11 +58,6 @@ public abstract class Prescription extends BaseItem {
     }
 
     @Value.Default
-    public String getDuration() {
-        return "";
-    }
-
-    @Value.Default
     public String getTake_medicine_days() {
         return "";
     }
