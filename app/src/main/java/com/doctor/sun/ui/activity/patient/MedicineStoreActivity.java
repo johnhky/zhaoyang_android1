@@ -388,8 +388,8 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         InputLayoutViewModel inputLayout = binding.getInputLayout();
         if (inputLayout != null && inputLayout.getKeyboardType() != 0) {
             inputLayout.setKeyboardType(0);
-//        } else if (binding.drawerLayout.isDrawerOpen(GravityCompat.END)) {
-//            binding.drawerLayout.closeDrawer(GravityCompat.END);
+        } else if (binding.flyPrescription.getVisibility() == View.VISIBLE) {
+            binding.flyPrescription.setVisibility(View.GONE);
         } else {
             super.onBackPressed();
         }
