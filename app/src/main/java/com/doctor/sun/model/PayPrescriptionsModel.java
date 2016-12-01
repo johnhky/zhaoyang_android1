@@ -20,6 +20,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Drug;
 import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.fragment.DrugListFragment;
@@ -264,7 +265,8 @@ public class PayPrescriptionsModel {
             ItemButton confirmDrugButton = new ItemButton(R.layout.item_big_button, "跳转寄药小组手确认药单") {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, MedicineStoreActivity.class);
+                    Intent intent = ConsultingActivity.makeIntent(context);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     context.startActivity(intent);
                 }
             };
