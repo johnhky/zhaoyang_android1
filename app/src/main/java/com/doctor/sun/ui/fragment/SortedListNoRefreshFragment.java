@@ -26,7 +26,8 @@ public class SortedListNoRefreshFragment extends BaseFragment {
     protected FragmentList2Binding binding;
     private SortedListAdapter mAdapter;
     public Realm realm;
-    private int mActionBarAutoHideSignal = 250;
+    private int mActionBarAutoHideSignal = 0;
+    private boolean isFirstTime = false;
 
     public SortedListNoRefreshFragment() {
     }
@@ -64,6 +65,11 @@ public class SortedListNoRefreshFragment extends BaseFragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                if (isFirstTime) {
+                    isFirstTime = false;
+                    return;
+                }
+
                 if (shouldShowFAB(dy)) {
                     EventHub.post(new ShowFABEvent());
                 } else {
