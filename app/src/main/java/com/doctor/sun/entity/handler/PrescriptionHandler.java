@@ -14,7 +14,6 @@ import com.doctor.sun.immutables.ImmutablePrescription;
 import com.doctor.sun.immutables.ModifiablePrescription;
 import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
-import com.doctor.sun.ui.activity.ViewPrescriptionActivity;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
@@ -33,7 +32,7 @@ public class PrescriptionHandler {
     private static final String[] keys = new String[]{"早", "午", "晚", "睡前"};
 
     public static void modify(Context context, final BaseListAdapter adapter, final Prescription data) {
-        Bundle args = EditPrescriptionsFragment.getArgs(data);
+        Bundle args = EditPrescriptionsFragment.getArgs(data, false);
         Intent intent = SingleFragmentActivity.intentFor(context, "添加/编辑处方", args);
         Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
             @Override
@@ -66,7 +65,10 @@ public class PrescriptionHandler {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ViewPrescriptionActivity.makeIntent(v.getContext(), data);
+//                Intent intent = ViewPrescriptionActivity.makeIntent(v.getContext(), data);
+//                v.getContext().startActivity(intent);
+                Bundle bundle = EditPrescriptionsFragment.getArgs(data, true);
+                Intent intent = SingleFragmentActivity.intentFor(v.getContext(), "处方详情", bundle);
                 v.getContext().startActivity(intent);
             }
         };
@@ -160,6 +162,11 @@ public class PrescriptionHandler {
             s += "";
         }
         return s;
+    }
+
+    @JsonIgnore
+    public static String getTakeMedicineDays(Prescription data) {
+        return "<font color='#898989'>用药天数:   </font>" + data.getTake_medicine_days() + "天";
     }
 
     @JsonIgnore

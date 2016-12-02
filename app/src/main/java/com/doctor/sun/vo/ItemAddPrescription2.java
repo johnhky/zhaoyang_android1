@@ -34,7 +34,7 @@ public class ItemAddPrescription2 extends BaseItem {
     private int itemSize = -1;
 
     public void addDrug(Context context, final SortedListAdapter adapter) {
-        Bundle args = EditPrescriptionsFragment.getArgs(null);
+        Bundle args = EditPrescriptionsFragment.getArgs(null, false);
         Intent intent = SingleFragmentActivity.intentFor(context, "添加/编辑处方", args);
         Messenger messenger = new Messenger(new Handler(new Callback(this, adapter)));
         intent.putExtra(Constants.HANDLER, messenger);

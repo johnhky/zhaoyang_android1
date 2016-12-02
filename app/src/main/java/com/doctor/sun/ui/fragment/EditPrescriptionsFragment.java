@@ -41,9 +41,10 @@ public class EditPrescriptionsFragment extends SortedListFragment {
 
     private EditPrescriptionModel model;
     private Prescription data;
+    private boolean isReadOnly;
 
 
-    public static Bundle getArgs(Prescription data) {
+    public static Bundle getArgs(Prescription data, boolean isReadOnly) {
         Bundle bundle = new Bundle();
         if (data instanceof ModifiablePrescription) {
             Prescription immutablePrescription = ImmutablePrescription.copyOf(data);
@@ -51,6 +52,7 @@ public class EditPrescriptionsFragment extends SortedListFragment {
         } else {
             bundle.putString(Constants.DATA, JacksonUtils.toJson(data));
         }
+        bundle.putBoolean(Constants.READ_ONLY, isReadOnly);
         bundle.putString(Constants.FRAGMENT_NAME, TAG);
         return bundle;
     }
@@ -60,6 +62,7 @@ public class EditPrescriptionsFragment extends SortedListFragment {
         super.onCreate(savedInstanceState);
         model = new EditPrescriptionModel();
         data = JacksonUtils.fromJson(getArguments().getString(Constants.DATA), Prescription.class);
+        isReadOnly = getArguments().getBoolean(Constants.READ_ONLY, false);
     }
 
     @Override
@@ -73,7 +76,7 @@ public class EditPrescriptionsFragment extends SortedListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
-        List<SortedItem> sortedItems = model.parseData(data);
+        List<SortedItem> sortedItems = model.parseData(data, isReadOnly);
         binding.swipeRefresh.setRefreshing(false);
         for (int i = 0; i < sortedItems.size(); i++) {
             BaseItem item = (BaseItem) sortedItems.get(i);
@@ -121,7 +124,9 @@ public class EditPrescriptionsFragment extends SortedListFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_finish, menu);
+        if (!isReadOnly) {
+            inflater.inflate(R.menu.menu_finish, menu);
+        }
     }
 
     @Override

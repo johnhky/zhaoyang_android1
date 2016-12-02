@@ -36,7 +36,7 @@ import retrofit2.Call;
 
 public class EditPrescriptionModel {
 
-    public List<SortedItem> parseData(Prescription data) {
+    public List<SortedItem> parseData(Prescription data, boolean isReadOnly) {
         if (data == null) {
             data = PrescriptionHandler.newInstance();
         }
@@ -68,6 +68,7 @@ public class EditPrescriptionModel {
         name.setResultNotEmpty();
         name.setItemId("drug_name");
         name.setResult(data.getDrug_name());
+        name.setEnabled(!isReadOnly);
         result.add(name);
 
         ModelUtils.insertDividerMarginLR(result);
@@ -89,6 +90,7 @@ public class EditPrescriptionModel {
         takeMedicineDays.setItemId("take_medicine_days");
         takeMedicineDays.setResult(data.getTake_medicine_days());
         takeMedicineDays.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
+        takeMedicineDays.setEnabled(!isReadOnly);
         result.add(takeMedicineDays);
 
         ModelUtils.insertDividerMarginLR(result);
@@ -109,6 +111,7 @@ public class EditPrescriptionModel {
                 interval.setSelectedItem(i);
             }
         }
+        interval.setEnabled(!isReadOnly);
         result.add(interval);
 
         ModelUtils.insertDividerMarginLR(result);
@@ -127,6 +130,7 @@ public class EditPrescriptionModel {
                 unit.setSelectedItem(i);
             }
         }
+        unit.setEnabled(!isReadOnly);
         result.add(unit);
 
         ModelUtils.insertDividerMarginLR(result);
@@ -136,7 +140,7 @@ public class EditPrescriptionModel {
         morning.setSpan(6);
         morning.setItemId("morning");
         morning.setResult(data.getMorning());
-
+        morning.setEnabled(!isReadOnly);
         result.add(morning);
 
 
@@ -145,6 +149,7 @@ public class EditPrescriptionModel {
         afternoon.setSpan(6);
         afternoon.setItemId("noon");
         afternoon.setResult(data.getNoon());
+        afternoon.setEnabled(!isReadOnly);
         result.add(afternoon);
 
         ModelUtils.insertDividerMarginLR(result);
@@ -155,6 +160,7 @@ public class EditPrescriptionModel {
         evening.setSpan(6);
         evening.setItemId("night");
         evening.setResult(data.getNight());
+        evening.setEnabled(!isReadOnly);
         result.add(evening);
 
 
@@ -163,6 +169,7 @@ public class EditPrescriptionModel {
         night.setSpan(6);
         night.setItemId("before_sleep");
         night.setResult(data.getBefore_sleep());
+        night.setEnabled(!isReadOnly);
         result.add(night);
 
         final NumberValidator validator = new NumberValidator();
@@ -187,6 +194,7 @@ public class EditPrescriptionModel {
         remark.setItemId("remark");
         remark.setMaxLength(48);
         remark.setResult(data.getRemark());
+        remark.setEnabled(!isReadOnly);
         result.add(remark);
         return result;
     }
