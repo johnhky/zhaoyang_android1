@@ -6,6 +6,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.text.InputType;
 import android.view.Gravity;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
 import com.doctor.sun.BR;
@@ -38,6 +39,8 @@ public class ItemTextInput2 extends BaseItem {
     private int titleColor = R.color.text_color_black;
     @DimenRes
     private int textSize = R.dimen.font_15;
+    private View.OnClickListener listener;
+    private boolean clickable;
 
     public ItemTextInput2(int itemLayoutId, String title, String hint) {
         super(itemLayoutId);
@@ -204,5 +207,21 @@ public class ItemTextInput2 extends BaseItem {
                 InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         return viewModel;
+    }
+
+    public void setOnClickListener(View.OnClickListener listener) {
+        this.listener = listener;
+    }
+
+    public View.OnClickListener getOnClickListener() {
+        return listener;
+    }
+
+    public void setClickable(boolean clickable) {
+        this.clickable = clickable;
+    }
+
+    public boolean getClickable() {
+        return clickable;
     }
 }

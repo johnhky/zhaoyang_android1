@@ -76,7 +76,7 @@ public class EditPrescriptionsFragment extends SortedListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
-        List<SortedItem> sortedItems = model.parseData(data, isReadOnly);
+        List<SortedItem> sortedItems = model.parseData(getActivity(), data, isReadOnly);
         binding.swipeRefresh.setRefreshing(false);
         for (int i = 0; i < sortedItems.size(); i++) {
             BaseItem item = (BaseItem) sortedItems.get(i);

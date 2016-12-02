@@ -1,5 +1,6 @@
 package com.doctor.sun.model;
 
+import android.app.Activity;
 import android.databinding.Observable;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -17,6 +18,7 @@ import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.module.AutoComplete;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.ui.widget.NumberPickerDialog;
 import com.doctor.sun.vo.ItemAutoCompleteTextInput;
 import com.doctor.sun.vo.ItemRadioDialog;
 import com.doctor.sun.vo.ItemTextInput2;
@@ -36,7 +38,7 @@ import retrofit2.Call;
 
 public class EditPrescriptionModel {
 
-    public List<SortedItem> parseData(Prescription data, boolean isReadOnly) {
+    public List<SortedItem> parseData(Activity context, Prescription data, boolean isReadOnly) {
         if (data == null) {
             data = PrescriptionHandler.newInstance();
         }
@@ -86,11 +88,29 @@ public class EditPrescriptionModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        final ItemTextInput2 takeMedicineDays = new ItemTextInput2(R.layout.item_text_input2, "用药天数", "");
+        final ItemTextInput2 takeMedicineDays = new ItemTextInput2(R.layout.item_take_medicine_days, "用药天数", "");
         takeMedicineDays.setItemId("take_medicine_days");
-        takeMedicineDays.setResult(data.getTake_medicine_days());
+        takeMedicineDays.setResult(data.getTake_medicine_days().equals("") ? "28" : data.getTake_medicine_days());
         takeMedicineDays.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         takeMedicineDays.setEnabled(!isReadOnly);
+        takeMedicineDays.setClickable(!isReadOnly);
+        final NumberPickerDialog dialog = new NumberPickerDialog(context, 1, 28);
+        if (!data.getTake_medicine_days().equals("")) {
+            dialog.setValue(Integer.parseInt(data.getTake_medicine_days()));
+        }
+        dialog.setConfirm(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takeMedicineDays.setResult(String.valueOf(dialog.getValue()));
+                dialog.dismiss();
+            }
+        });
+        takeMedicineDays.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.show();
+            }
+        });
         result.add(takeMedicineDays);
 
         ModelUtils.insertDividerMarginLR(result);
