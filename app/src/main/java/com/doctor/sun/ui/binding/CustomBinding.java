@@ -273,9 +273,9 @@ public class CustomBinding {
     }
 
 
-    @BindingAdapter("android:fragment")
-    public static void fragment(FrameLayout layout, FragmentFactory.FactoryCommand command) {
-    }
+//    @BindingAdapter("android:fragment")
+//    public static void fragment(FrameLayout layout, FragmentFactory.FactoryCommand command) {
+//    }
 
     @BindingAdapter("android:strikeThrough")
     public static void setStrikeThrough(TextView textView, boolean b) {

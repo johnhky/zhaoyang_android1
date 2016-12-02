@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.adapter;
 
-import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -26,7 +25,7 @@ public class MultiSelectAdapter extends SimpleAdapter<LayoutId, ViewDataBinding>
         this.listener = listener;
     }
 
-    public MultiSelectAdapter( OnSelectionChange listener, SparseBooleanArray initState) {
+    public MultiSelectAdapter(OnSelectionChange listener, SparseBooleanArray initState) {
         super();
         this.listener = listener;
         selectedState = initState;
