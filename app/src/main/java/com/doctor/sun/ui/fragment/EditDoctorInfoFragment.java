@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.IsChanged;
@@ -40,6 +41,7 @@ import io.ganguo.library.Config;
  * Created by rick on 28/7/2016.
  */
 
+@Factory(type = BaseFragment.class, id = "EditDoctorInfoFragment")
 public class EditDoctorInfoFragment extends SortedListFragment {
     public static final String TAG = EditDoctorInfoFragment.class.getSimpleName();
 

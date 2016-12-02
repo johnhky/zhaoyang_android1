@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.MedicalRecord;
@@ -24,6 +25,7 @@ import io.ganguo.library.core.event.EventHub;
  * Created by kb on 16-9-18.
  */
 
+@Factory(type = BaseFragment.class, id = "NewMedicalRecordFragment")
 public class NewMedicalRecordFragment extends SortedListFragment {
 
     public static final String TAG = NewMedicalRecordFragment.class.getSimpleName();

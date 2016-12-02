@@ -3,6 +3,7 @@ package com.doctor.sun.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
@@ -14,6 +15,7 @@ import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
  * Created by rick on 9/9/2016.
  */
 
+@Factory(type = BaseFragment.class, id = "MyScalesInventoryFragment")
 public class MyScalesInventoryFragment extends RefreshListFragment {
     public static final String TAG = MyScalesInventoryFragment.class.getSimpleName();
 

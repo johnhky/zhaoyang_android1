@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.MedicalRecord;
@@ -25,6 +26,7 @@ import java.util.List;
  * Created by kb on 16-9-26.
  */
 
+@Factory(type = BaseFragment.class, id = "EditRecordFragment")
 public class EditRecordFragment extends SortedListFragment {
 
     public static final String TAG = EditRecordFragment.class.getSimpleName();

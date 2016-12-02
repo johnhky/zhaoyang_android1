@@ -24,6 +24,9 @@ dependencies {
     provided "org.immutables:value:2.3.7" // for annotations
     provided "org.immutables:builder:2.3.7" // for annotations
 
+    apt project(':FactoryProcessor')
+    provided project(':FactoryAnnotation')
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'

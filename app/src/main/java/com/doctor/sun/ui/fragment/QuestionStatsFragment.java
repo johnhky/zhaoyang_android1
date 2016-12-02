@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.ScalesResult;
 import com.doctor.sun.http.Api;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * Created by rick on 9/8/2016.
  */
+@Factory(type = BaseFragment.class, id = "QuestionStatsFragment")
 public class QuestionStatsFragment extends RefreshListFragment {
     public static final String TAG = QuestionStatsFragment.class.getSimpleName();
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Description;
@@ -19,6 +20,7 @@ import com.doctor.sun.vo.ItemTextInput;
  * Created by rick on 29/6/2016.
  * 就诊医生建议只读
  */
+@Factory(type = BaseFragment.class, id = "ReadDiagnosisFragment")
 public class ReadDiagnosisFragment extends RefreshListFragment {
     private DiagnosisModule api = Api.of(DiagnosisModule.class);
     private DiagnosisReadOnlyViewModel viewModel;

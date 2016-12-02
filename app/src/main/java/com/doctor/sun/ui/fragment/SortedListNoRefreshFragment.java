@@ -6,11 +6,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.doctor.sun.databinding.FragmentList2Binding;
+import com.doctor.sun.event.HideFABEvent;
+import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
 import io.ganguo.library.core.event.EventHub;
@@ -23,6 +26,8 @@ public class SortedListNoRefreshFragment extends BaseFragment {
     protected FragmentList2Binding binding;
     private SortedListAdapter mAdapter;
     public Realm realm;
+    private int mActionBarAutoHideSignal = 0;
+    private boolean isFirstTime = false;
 
     public SortedListNoRefreshFragment() {
     }
@@ -50,8 +55,49 @@ public class SortedListNoRefreshFragment extends BaseFragment {
         binding.recyclerView.setLayoutManager(createLayoutManager());
         mAdapter = createAdapter();
         binding.recyclerView.setAdapter(mAdapter);
+        binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (isFirstTime) {
+                    isFirstTime = false;
+                    return;
+                }
+
+                if (shouldShowFAB(dy)) {
+                    EventHub.post(new ShowFABEvent());
+                } else {
+                    EventHub.post(new HideFABEvent());
+                }
+            }
+        });
 
         return binding.getRoot();
+    }
+
+    private boolean shouldShowFAB(int deltaY) {
+        int mActionBarAutoHideSensivity = 250;
+        if (deltaY > mActionBarAutoHideSensivity) {
+            deltaY = mActionBarAutoHideSensivity;
+        } else if (deltaY < -mActionBarAutoHideSensivity) {
+            deltaY = -mActionBarAutoHideSensivity;
+        }
+
+        if (Math.signum(deltaY) * Math.signum(mActionBarAutoHideSignal) < 0) {
+            // deltaY is a motion opposite to the accumulated signal, so reset signal
+            mActionBarAutoHideSignal = deltaY;
+        } else {
+            // add to accumulated signal
+            mActionBarAutoHideSignal += deltaY;
+        }
+
+        return (mActionBarAutoHideSignal <= -mActionBarAutoHideSensivity);
     }
 
     @NonNull

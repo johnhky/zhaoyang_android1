@@ -1,17 +1,22 @@
 package com.doctor.sun.ui.activity.patient;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.AppointmentHistoryEvent;
+import com.doctor.sun.event.HideFABEvent;
+import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.pager.AnswerPagerAdapter;
@@ -30,6 +35,8 @@ public class AppointmentDetailActivity extends TabActivity {
     public static final int POSITION_SUGGESTION_READONLY = 2;
 
     private HistoryEventHandler eventHandler;
+    private View historyButton;
+    private boolean animating;
 
     public static Intent makeIntent(Context context, Appointment data, int position) {
         Intent i = intentFor(context, data);
@@ -52,7 +59,7 @@ public class AppointmentDetailActivity extends TabActivity {
 
     private void addHistoryButton() {
         if (Settings.isDoctor()) {
-            View historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.flContainer, false);
+            historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.flContainer, false);
             historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -89,4 +96,57 @@ public class AppointmentDetailActivity extends TabActivity {
         intent.putExtra(Constants.DATA, JacksonUtils.toJson(data));
         return intent;
     }
+
+    @com.squareup.otto.Subscribe
+    public void onEventMainThread(HideFABEvent event) {
+        if (historyButton == null || animating) {
+            return;
+        }
+        historyButton.animate()
+                .translationY(historyButton.getHeight())
+                .alpha(0)
+                .setDuration(250)
+                .setListener(getAnimationListener())
+                .setInterpolator(new DecelerateInterpolator());
+
+    }
+
+    @com.squareup.otto.Subscribe
+    public void onEventMainThread(ShowFABEvent event) {
+        if (historyButton == null || animating) {
+            return;
+        }
+        historyButton.animate()
+                .translationY(0)
+                .alpha(1)
+                .setDuration(250)
+                .setListener(getAnimationListener())
+                .setInterpolator(new DecelerateInterpolator());
+    }
+
+    @NonNull
+    public Animator.AnimatorListener getAnimationListener() {
+        return new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                animating = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                animating = false;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+                animating = false;
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        };
+    }
+
 }

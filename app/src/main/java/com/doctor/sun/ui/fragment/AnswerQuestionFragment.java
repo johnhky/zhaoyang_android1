@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
@@ -45,6 +46,7 @@ import io.ganguo.library.core.event.EventHub;
  * Created by rick on 28/7/2016.
  */
 
+@Factory(type = BaseFragment.class, id = "AnswerQuestionFragment")
 public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
     public static final String TAG = AnswerQuestionFragment.class.getSimpleName();
 

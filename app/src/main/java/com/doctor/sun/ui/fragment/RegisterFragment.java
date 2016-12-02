@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.auto.Factory;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -56,6 +57,7 @@ import io.ganguo.library.core.event.extend.OnSingleClickListener;
  * Created by rick on 19/8/2016.
  */
 
+@Factory(type = BaseFragment.class, id = "RegisterFragment")
 public class RegisterFragment extends SortedListFragment {
     public static final String TAG = RegisterFragment.class.getSimpleName();
 

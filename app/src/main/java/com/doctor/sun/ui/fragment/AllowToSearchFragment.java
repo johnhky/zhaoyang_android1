@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
@@ -32,6 +33,7 @@ import io.ganguo.library.Config;
  * Created by rick on 28/7/2016.
  */
 
+@Factory(type = BaseFragment.class, id = "AllowToSearchFragment")
 public class AllowToSearchFragment extends SortedListFragment {
     public static final String TAG = AllowToSearchFragment.class.getSimpleName();
     private ProfileModule profileModule = Api.of(ProfileModule.class);

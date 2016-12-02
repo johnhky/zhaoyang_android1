@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.handler.PrescriptionHandler;
@@ -36,6 +37,7 @@ import io.ganguo.library.util.Systems;
  * Created by rick on 28/7/2016.
  */
 
+@Factory(type = BaseFragment.class, id = "EditPrescriptionsFragment")
 public class EditPrescriptionsFragment extends SortedListFragment {
     public static final String TAG = EditPrescriptionsFragment.class.getSimpleName();
 

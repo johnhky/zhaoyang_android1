@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -19,7 +20,7 @@ import java.util.List;
  * Created by rick on 14/9/2016.
  * 寄药订单支付界面
  */
-
+@Factory(type = BaseFragment.class, id = "PayPrescriptionsFragment")
 public class PayPrescriptionsFragment extends SortedListFragment {
     public static final String TAG = PayPrescriptionsFragment.class.getSimpleName();
 

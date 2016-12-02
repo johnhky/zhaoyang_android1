@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.immutables.Appointment;
@@ -24,6 +25,7 @@ import java.util.List;
  * 寄药订单支付界面
  */
 
+@Factory(type = BaseFragment.class, id = "PayAppointmentFragment")
 public class PayAppointmentFragment extends SortedListFragment {
     public static final String TAG = PayAppointmentFragment.class.getSimpleName();
 
