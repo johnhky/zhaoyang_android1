@@ -18,30 +18,61 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/tool_bar"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/grey_42"
-                android:orientation="vertical"
-                app:collapseIcon="@drawable/ic_back"
-                app:navigationIcon="@drawable/ic_back"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/ToolbarTheme">
-
-
+                android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/tb_title"
+                    android:id="@+id/tb_collapse"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
                     android:background="@color/transparent"
                     android:gravity="center"
+                    android:text="返回"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/font_13" />
 
-            </android.support.v7.widget.Toolbar>
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/tool_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/grey_42"
+                    android:orientation="vertical"
+                    app:collapseIcon="@drawable/ic_back"
+                    app:navigationIcon="@drawable/ic_back"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:theme="@style/ToolbarTheme"
+                    app:titleTextAppearance="@style/Toolbar.TitleText">
+
+
+                    <TextView
+                        android:id="@+id/tb_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/font_17"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tb_menu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="@dimen/dp_13"
+                        android:layout_marginRight="@dimen/dp_13"
+                        android:background="@color/transparent"
+                        android:gravity="center"
+                        android:text="历史记录"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/font_13" />
+
+                </android.support.v7.widget.Toolbar>
+            </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/pager_tabs_container"
@@ -63,7 +94,7 @@
                     android:layout_gravity="start"
                     android:background="@color/gray_f5"
                     android:gravity="center"
-                    android:text="上一个"
+                    android:text="前一个"
                     android:textColor="@color/colorPrimaryDark" />
 
                 <TextView
@@ -73,7 +104,7 @@
                     android:layout_gravity="end"
                     android:background="@color/gray_f5"
                     android:gravity="center"
-                    android:text="下一个"
+                    android:text="后一个"
                     android:textColor="@color/colorPrimaryDark" />
 
                 <View

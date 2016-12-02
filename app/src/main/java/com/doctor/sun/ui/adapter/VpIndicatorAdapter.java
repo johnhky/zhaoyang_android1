@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.adapter;
 
-import android.content.Context;
 import android.databinding.ViewDataBinding;
 
 import com.doctor.sun.R;

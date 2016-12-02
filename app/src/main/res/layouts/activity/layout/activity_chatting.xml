@@ -27,7 +27,36 @@
         android:animateLayoutChanges="true"
         android:orientation="vertical">
 
-        <include layout="@layout/include_header" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/include_header" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginStart="@dimen/dp_40"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{data.record.patientName}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_12" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{data.record.relation}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_8" />
+            </LinearLayout>
+        </FrameLayout>
 
         <include
             android:id="@+id/appointment_status"

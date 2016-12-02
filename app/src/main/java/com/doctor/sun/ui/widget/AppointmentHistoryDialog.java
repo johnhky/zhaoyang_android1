@@ -6,6 +6,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.widget.Toast;
 
+import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.http.Api;
@@ -27,7 +28,7 @@ import io.ganguo.library.core.event.EventHub;
  * Created by rick on 18/10/2016.
  */
 
-public class AppointmentHistoryDialog extends BottomSheetTabFragment {
+public class AppointmentHistoryDialog extends BottomSheetTabFragment implements View.OnClickListener {
     public static final String TAG = AppointmentHistoryDialog.class.getSimpleName();
 
     public static final String HISTORY_INDEX = "HISTORY_INDEX";
@@ -61,34 +62,10 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getBinding().toolBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-                if (data != null && !data.isEmpty()) {
-                    EventHub.post(new AppointmentHistoryEvent(appointment, true));
-                }
-            }
-        });
-        getBinding().tvPrevious.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentIndex -= 1;
-                setIndex(currentIndex, appointment.getId());
-                toggleVisibility();
-                setPagerAdapter(createPagerAdapter());
-            }
-        });
-
-        getBinding().tvNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentIndex += 1;
-                setIndex(currentIndex, appointment.getId());
-                toggleVisibility();
-                setPagerAdapter(createPagerAdapter());
-            }
-        });
+        getBinding().toolBar.setNavigationOnClickListener(this);
+        getBinding().tvPrevious.setOnClickListener(this);
+        getBinding().tvNext.setOnClickListener(this);
+        getBinding().tbMenu.setOnClickListener(this);
 
         api.recordHistory(appointment.getRecord().getMedicalRecordId()).enqueue(new SimpleCallback<List<SimpleAppointment>>() {
             @Override
@@ -150,5 +127,36 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment {
 
     public static int getIndex(String id) {
         return Config.getInt(HISTORY_INDEX + id, 0);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_previous: {
+                currentIndex -= 1;
+                setIndex(currentIndex, appointment.getId());
+                toggleVisibility();
+                setPagerAdapter(createPagerAdapter());
+                break;
+            }
+            case R.id.tv_next: {
+                currentIndex += 1;
+                setIndex(currentIndex, appointment.getId());
+                toggleVisibility();
+                setPagerAdapter(createPagerAdapter());
+                break;
+            }
+            case R.id.tb_menu: {
+                dismiss();
+                if (data != null && !data.isEmpty()) {
+                    EventHub.post(new AppointmentHistoryEvent(appointment, true));
+                }
+                break;
+            }
+            default: {
+                dismiss();
+                break;
+            }
+        }
     }
 }

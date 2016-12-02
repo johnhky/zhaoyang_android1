@@ -43,6 +43,7 @@ import io.ganguo.library.Config;
 public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
     private String myAvatar;
     private String yourAvatar;
+    private String yourName;
     private boolean shouldUpdate;
     private long finishedTime;
 
@@ -68,6 +69,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
                 Doctor doctor = data.getDoctor();
                 Patient dto = Settings.getPatientProfile();
                 yourAvatar = doctor.getAvatar();
+                yourName = doctor.getName();
                 if (dto != null) {
                     myAvatar = dto.getAvatar();
                 } else {
@@ -78,6 +80,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
             default: {
                 Doctor doctor = Settings.getDoctorProfile();
                 yourAvatar = data.getRecord().getPatientAvatar();
+                yourName = data.getRecord().getPatientName();
                 if (doctor != null) {
                     myAvatar = doctor.getAvatar();
                 } else {
@@ -98,6 +101,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
             @Override
             public void onSuccess(NimUserInfo nimUserInfo) {
                 yourAvatar = nimUserInfo.getAvatar();
+                yourName = nimUserInfo.getName();
                 notifyDataSetChanged();
             }
 
@@ -119,6 +123,14 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
 
     public String getYourAvatar() {
         return yourAvatar;
+    }
+
+    public String getYourName() {
+        return yourName;
+    }
+
+    public void setYourName(String yourName) {
+        this.yourName = yourName;
     }
 
     @Override

@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.AdapterOps;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.FragmentFactory;
 import com.doctor.sun.vo.BaseItem;
 
@@ -288,6 +289,18 @@ public class CustomBinding {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         layoutParams.width = width;
         view.setLayoutParams(layoutParams);
+    }
+
+    @BindingAdapter("sortedItems")
+    public static void setSortedItems(RecyclerView view, List<? extends BaseItem> items) {
+        RecyclerView.Adapter<?> adapter = view.getAdapter();
+        if (adapter == null) {
+            adapter = new SortedListAdapter<>();
+            view.setAdapter(adapter);
+        }
+        ((AdapterOps) adapter).clear();
+        ((AdapterOps) adapter).insertAll(items);
+        adapter.notifyDataSetChanged();
     }
 
     @BindingAdapter("items")
