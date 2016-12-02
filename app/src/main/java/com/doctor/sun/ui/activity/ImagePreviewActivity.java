@@ -1,24 +1,23 @@
 package com.doctor.sun.ui.activity;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.Manifest;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityImagePreviewBinding;
-import com.doctor.sun.util.SaveImageUtil;
+import com.doctor.sun.util.PermissionUtil;
+
+import java.util.UUID;
 
 
 /**
@@ -27,7 +26,7 @@ import com.doctor.sun.util.SaveImageUtil;
  * Created by Lynn on 2/1/16.
  */
 public class ImagePreviewActivity extends BaseFragmentActivity2 {
-
+    public static final String WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private ActivityImagePreviewBinding binding;
 
     public static Intent makeIntent(Context context, String url) {
@@ -49,7 +48,6 @@ public class ImagePreviewActivity extends BaseFragmentActivity2 {
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_image_preview);
-        binding.ivPreview.setDrawingCacheEnabled(true);
         binding.setData(getData());
     }
 
@@ -64,7 +62,7 @@ public class ImagePreviewActivity extends BaseFragmentActivity2 {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (getIntent().getStringExtra(Constants.HEADER).equals("")) {
+        if (getIntent().getStringExtra(Constants.HEADER).equals("") && isDownloadableLink(getData())) {
             getMenuInflater().inflate(R.menu.menu_save_image, menu);
         }
         return true;
@@ -80,30 +78,39 @@ public class ImagePreviewActivity extends BaseFragmentActivity2 {
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveImage() {
-        Bitmap bitmap = binding.ivPreview.getDrawingCache();
-        String imageURL = SaveImageUtil.saveImage(this, bitmap);
-        Uri uri = Uri.parse(imageURL);
-        showNotification(uri);
+    private boolean isDownloadableLink(String url) {
+        return !url.startsWith("file://");
     }
 
-    private void showNotification(Uri uri) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(uri, "image/*");
-        int requestID = (int) System.currentTimeMillis();
-        int flags = PendingIntent.FLAG_CANCEL_CURRENT;
-        PendingIntent pi = PendingIntent.getActivity(this, requestID, intent, flags);
-        Notification notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setLights(Color.GREEN, 1000, 3000)
-                .setContentTitle("成功保存图片")
-                .setContentText("点击查看")
-                .setContentIntent(pi)
-                .setAutoCancel(true)
-                .build();
+    private void saveImage() {
+        boolean hasSelfPermission = PermissionUtil.hasSelfPermission(this, WRITE_EXTERNAL_STORAGE);
+        if (hasSelfPermission) {
+            String url = getData();
+            if (!url.equals("")) {
+                Uri uri = Uri.parse(url);
+                DownloadManager.Request r = new DownloadManager.Request(uri);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notification);
+                r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, UUID.randomUUID() + ".png");
+
+                r.allowScanningByMediaScanner();
+
+                r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+                DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                dm.enqueue(r);
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE}, 100);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults[0] == RESULT_OK) {
+            saveImage();
+        }
     }
 }
