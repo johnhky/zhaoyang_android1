@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -30,7 +31,6 @@ import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimMsgInfo;
-import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.immutables.PrescriptionOrder;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
@@ -83,6 +83,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     private KeyboardWatcher keyboardWatcher;
     private RealmChangeListener<RealmResults<TextMsg>> listener;
     private int screenWidth;
+    private PageCallback<PrescriptionOrder> prescriptionOrderPageCallback;
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, MedicineStoreActivity.class);
@@ -238,7 +239,11 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         binding.rvPrescription.addOnScrollListener(new ScaleCenterScrollListener(layout));
 
 
-        PageCallback<PrescriptionOrder> pageCallback = new PageCallback<PrescriptionOrder>(mAppointmentAdapter) {
+        //loadPrescriptionOrder();
+    }
+
+    private void loadPrescriptionOrder() {
+        prescriptionOrderPageCallback = new PageCallback<PrescriptionOrder>(mAppointmentAdapter) {
 
             @Override
             public void insertFooter() {
@@ -256,13 +261,14 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
             protected void handleResponse(PageDTO<PrescriptionOrder> response) {
                 super.handleResponse(response);
                 if (response.getTotal() == 0) {
+                    Toast.makeText(MedicineStoreActivity.this, "您暂无任何药单", Toast.LENGTH_SHORT).show();
                     binding.flyPrescription.setVisibility(View.GONE);
                 } else {
                     binding.flyPrescription.setVisibility(View.VISIBLE);
                 }
             }
         };
-        api.myPrescriptions(pageCallback.getPage()).enqueue(pageCallback);
+        api.myPrescriptions(prescriptionOrderPageCallback.getPage()).enqueue(prescriptionOrderPageCallback);
     }
 
 
@@ -498,15 +504,17 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_pick_prescription: {
-//                binding.drawerLayout.openDrawer(Gravity.RIGHT);
-                int visibility = binding.flyPrescription.getVisibility();
-                if (visibility == View.VISIBLE) {
-                    binding.flyPrescription.setVisibility(View.GONE);
-                } else {
-                    Systems.hideKeyboard(this);
-                    binding.flyPrescription.setVisibility(View.VISIBLE);
-                }
-                return true;
+////                binding.drawerLayout.openDrawer(Gravity.RIGHT);
+//                int visibility = binding.flyPrescription.getVisibility();
+//                if (visibility == View.VISIBLE) {
+//                    binding.flyPrescription.setVisibility(View.GONE);
+//                } else {
+//                    Systems.hideKeyboard(this);
+//                    binding.flyPrescription.setVisibility(View.VISIBLE);
+//                }
+//                return true;
+                prescriptionOrderPageCallback.resetPage();
+                loadPrescriptionOrder();
             }
         }
         return super.onOptionsItemSelected(item);
