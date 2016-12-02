@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
@@ -36,6 +37,7 @@ import static com.doctor.sun.ui.adapter.core.AdapterConfigKey.IS_READ_ONLY;
 /**
  * Created by rick on 9/8/2016.
  */
+@Factory(type = BaseFragment.class, id = "ReadQuestionsFragment")
 public class ReadQuestionsFragment extends AnswerQuestionFragment {
     public static final String TAG = ReadQuestionsFragment.class.getSimpleName();
 

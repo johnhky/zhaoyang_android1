@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -31,6 +32,7 @@ import com.google.common.base.Strings;
  * Created by rick on 9/9/2016.
  */
 
+@Factory(type = BaseFragment.class, id = "QuestionsInventoryFragment")
 public class QuestionsInventoryFragment extends SortedListFragment {
     public static final String TAG = QuestionsInventoryFragment.class.getSimpleName();
     private FragmentQuestionsInventoryBinding flBinding;

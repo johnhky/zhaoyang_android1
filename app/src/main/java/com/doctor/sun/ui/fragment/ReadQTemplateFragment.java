@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuInflater;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.constans.QuestionsPath;
@@ -13,6 +14,7 @@ import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 /**
  * Created by rick on 9/8/2016.
  */
+@Factory(type = BaseFragment.class, id = "ReadQTemplateFragment")
 public class ReadQTemplateFragment extends AnswerQuestionFragment {
     public static final String TAG = ReadQTemplateFragment.class.getSimpleName();
 

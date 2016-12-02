@@ -1,2 +1,2 @@
-include ':app', ':GGLibrary', ':OpenSDK', ':DatePicker'
+include ':app', ':GGLibrary', ':OpenSDK', ':DatePicker', ':FactoryProcessor', ':FactoryAnnotation'
 //, ':DatePicker-release'

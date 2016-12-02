@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
@@ -31,7 +32,7 @@ import io.ganguo.library.core.event.extend.OnSingleClickListener;
 /**
  * Created by rick on 19/8/2016.
  */
-
+@Factory(type = BaseFragment.class, id = "ChangeMyPhoneNumFragment")
 public class ChangeMyPhoneNumFragment extends SortedListFragment {
     public static final String TAG = ChangeMyPhoneNumFragment.class.getSimpleName();
 

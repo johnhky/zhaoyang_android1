@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
@@ -14,6 +15,7 @@ import com.doctor.sun.vo.ItemTextInput2;
  * Created by rick on 5/9/2016.
  */
 
+@Factory(type = BaseFragment.class, id = "QTemplatesFragment")
 public class QTemplatesFragment extends RefreshListFragment {
     public static final String TAG = QTemplatesFragment.class.getSimpleName();
 

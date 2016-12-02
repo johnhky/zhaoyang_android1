@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Patient;
@@ -31,6 +32,7 @@ import java.util.List;
  * Created by kb on 16-9-26.
  */
 
+@Factory(type = BaseFragment.class, id = "EditPatientInfoFragment")
 public class EditPatientInfoFragment extends SortedListFragment {
     public static final String TAG = EditPatientInfoFragment.class.getSimpleName();
 
