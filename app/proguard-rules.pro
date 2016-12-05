@@ -60,6 +60,8 @@
 -keep class com.doctor.sun.immutables.** {*;}
 -keep class com.doctor.sun.model.** {*;}
 -keep class com.doctor.sun.util.** {*;}
+-keep class com.doctor.sun.ui.fragment.BaseFragmentFactory {*;}
+-keep class com.doctor.sun.util.FragmentFactory {*;}
 -dontwarn com.doctor.sun.AppContext
 -dontwarn io.ganguo.library.BaseContext
 -keepclassmembers class * {

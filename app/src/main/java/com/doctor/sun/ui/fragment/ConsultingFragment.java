@@ -43,8 +43,8 @@ import io.realm.Sort;
 /**
  * Created by rick on 12/18/15.
  */
-public class ConsultingFragment2 extends SortedListFragment {
-    public static final String TAG = ConsultingFragment2.class.getSimpleName();
+public class ConsultingFragment extends SortedListFragment {
+    public static final String TAG = ConsultingFragment.class.getSimpleName();
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private ArrayList<String> keys = new ArrayList<>();
     private int page = 1;
@@ -56,7 +56,7 @@ public class ConsultingFragment2 extends SortedListFragment {
     private RealmResults<TextMsg> unReadMsg;
     private RealmChangeListener<RealmResults<TextMsg>> listener;
 
-    public ConsultingFragment2() {
+    public ConsultingFragment() {
     }
 
 
@@ -109,7 +109,7 @@ public class ConsultingFragment2 extends SortedListFragment {
                                 appointment.setTime(System.currentTimeMillis());
                                 getAdapter().update(appointment);
                             } else {
-                                pullAppointment(s, tids.get(s));
+                                pullAppointment(s);
                             }
                         }
                     }
@@ -137,7 +137,7 @@ public class ConsultingFragment2 extends SortedListFragment {
         return systemMsg;
     }
 
-    public void pullAppointment(String s, final RecentContact recentContact) {
+    public void pullAppointment(String s) {
         api.appointmentInTid("[" + s + "]", "1").enqueue(new SimpleCallback<PageDTO<Appointment>>() {
             @Override
             protected void handleResponse(final PageDTO<Appointment> response) {

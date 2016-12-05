@@ -13,7 +13,7 @@ import com.doctor.sun.databinding.ActivityConsultationBinding;
 import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.fragment.ConsultingFragment2;
+import com.doctor.sun.ui.fragment.ConsultingFragment;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.pager.ConsultingPagerAdapter;
 import com.squareup.otto.Subscribe;
@@ -71,7 +71,7 @@ public class PConsultingActivity extends BaseFragmentActivity2 {
     @Subscribe
     public void onShowCaseFinished(ShowCaseFinishedEvent e) {
         if (getIntent().getBooleanExtra(Constants.IS_SHOWCASE, false)) {
-            if (e.id.equals(ConsultingFragment2.TAG)) {
+            if (e.id.equals(ConsultingFragment.TAG)) {
                 finish();
             }
         }
