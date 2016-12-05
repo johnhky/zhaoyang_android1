@@ -17,6 +17,7 @@ import com.doctor.sun.vo.ItemRadioGroup;
 import com.doctor.sun.vo.ItemTextInput2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Callback;
@@ -101,11 +102,11 @@ public class EditPatientInfoModel {
     }
 
     public void savePatientInfo(SortedListAdapter adapter, Callback<ApiDTO<Patient>> callback) {
-        ProfileModule api = Api.of(ProfileModule.class);
-        api.editPatientInfo(adapter.get("name").getValue(),
-                "",
-                adapter.get("birthday").getValue(),
-                Integer.parseInt(adapter.get("gender").getValue()),
-                adapter.get("avatar").getValue()).enqueue(callback);
+        HashMap<String, String> result = ModelUtils.toHashMap(adapter, callback);
+        if (result != null) {
+            ProfileModule api = Api.of(ProfileModule.class);
+            api.editPatientInfo(result).enqueue(callback);
+        }
+
     }
 }

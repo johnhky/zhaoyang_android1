@@ -35,6 +35,10 @@ public interface ProfileModule {
     @POST("profile/patient-base")
     Call<ApiDTO<Patient>> editPatientInfo(@Field("name") String name, @Field("email") String email, @Field("birthday") String birthday, @Field("gender") int gender, @Field("avatar") String avatar);
 
+    @FormUrlEncoded
+    @POST("profile/patient-base")
+    Call<ApiDTO<Patient>> editPatientInfo(@FieldMap Map<String, String> patientInfo);
+
     @GET("profile/patient-base")
     Call<ApiDTO<PatientDTO>> patientProfile();
 
