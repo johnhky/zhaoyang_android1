@@ -6,7 +6,7 @@ import android.content.Intent;
 import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.event.SelectMedicalRecordEvent;
 import com.doctor.sun.ui.activity.patient.PickDateActivity;
-import com.doctor.sun.ui.activity.patient.UnregisterMedicalRecordHandlerEvent;
+import com.doctor.sun.event.UnregisterMedicalRecordHandlerEvent;
 import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.core.event.EventHub;

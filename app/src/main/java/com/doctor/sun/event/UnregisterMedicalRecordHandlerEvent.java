@@ -1,4 +1,4 @@
-package com.doctor.sun.ui.activity.patient;
+package com.doctor.sun.event;
 
 import io.ganguo.library.core.event.Event;
 

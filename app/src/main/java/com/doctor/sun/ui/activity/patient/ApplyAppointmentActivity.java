@@ -10,6 +10,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityApplyAppointmentBinding;
 import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.event.SelectMedicalRecordEvent;
+import com.doctor.sun.event.UnregisterMedicalRecordHandlerEvent;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.util.PayEventHandler;
 import com.squareup.otto.Subscribe;
