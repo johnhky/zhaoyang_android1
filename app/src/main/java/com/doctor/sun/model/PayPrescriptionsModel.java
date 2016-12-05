@@ -216,16 +216,30 @@ public class PayPrescriptionsModel {
 
             extraField = DrugListFragment.getDrugExtraField();
 
-            selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "未使用优惠券", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    selectCoupon(v.getContext());
-                }
-            });
-            selectCoupon.setSubTitle("点击选择");
-            selectCoupon.setItemId("selectCoupon");
-            selectCoupon.setPosition(result.size());
-            result.add(selectCoupon);
+            if (response.getUser_coupon_id() != null && !response.getUser_coupon_id().equals("")) {
+
+                selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "已使用优惠券", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+                selectCoupon.setEnabled(false);
+                selectCoupon.setItemId("selectCoupon");
+                selectCoupon.setPosition(result.size());
+                result.add(selectCoupon);
+            } else {
+                selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "未使用优惠券", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        selectCoupon(v.getContext());
+                    }
+                });
+                selectCoupon.setSubTitle("点击选择");
+                selectCoupon.setItemId("selectCoupon");
+                selectCoupon.setPosition(result.size());
+                result.add(selectCoupon);
+            }
         }
 
         Description total = new Description(R.layout.item_description, "总价");
@@ -245,7 +259,7 @@ public class PayPrescriptionsModel {
 
         ModelUtils.insertSpace(result, R.layout.space_8dp);
 
-        String shouldPayMoneyString = "<font color=\"#f65600\">实际应付：￥" + money + "</font>";
+        String shouldPayMoneyString = "<font color=\"#f65600\">实际应付：￥" + response.getNeed_pay() + "</font>";
         shouldPayMoney = new ItemTextInput2(R.layout.item_total_money, shouldPayMoneyString, "");
         shouldPayMoney.setTitleGravity(Gravity.START);
         shouldPayMoney.setItemId("shouldPayMoney");
