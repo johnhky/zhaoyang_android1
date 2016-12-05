@@ -106,22 +106,12 @@ public class EditRecordFragment extends SortedListFragment {
     }
 
     private void saveRecord() {
-
-        MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setMedicalRecordId(data.getMedicalRecordId());
-        medicalRecord.setRecordName(getAdapter().get("name").getValue());
-        medicalRecord.setRelation(getAdapter().get("relation").getValue());
-        medicalRecord.setBirthday(getAdapter().get("birthday").getValue());
-        medicalRecord.setGender(Integer.parseInt(getAdapter().get("gender").getValue()));
-
-        model.saveRecord(medicalRecord, new SimpleCallback<MedicalRecord>() {
+        model.saveRecord(getAdapter(), new SimpleCallback<MedicalRecord>() {
             @Override
-            protected void handleResponse(MedicalRecord response) {
-                if (response == null) {
-                    Toast.makeText(getContext(), "成功申请修改病历,请耐心等待审核", Toast.LENGTH_SHORT).show();
+            protected void handleResponse(MedicalRecord ignored) {
+                Toast.makeText(getContext(), "成功申请修改病历,请耐心等待审核", Toast.LENGTH_SHORT).show();
 
-                    getActivity().finish();
-                }
+                getActivity().finish();
             }
         });
     }

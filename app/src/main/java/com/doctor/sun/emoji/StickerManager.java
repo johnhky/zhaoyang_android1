@@ -35,24 +35,24 @@ public class StickerManager {
     }
 
     public void loadStickerCategory() {
-        AssetManager assetManager = AppContext.me().getAssets();
-        try {
-            String[] files = assetManager.list("sticker");
-            for (int i = 0; i < files.length; i++) {
-                String name = files[i];
-                List<Emoticon> emoticons = loadStickerData(name);
-                for (int size = 0; size < emoticons.size(); size += PER_PAGE) {
-
-                    int end = size + PER_PAGE;
-                    end = end < emoticons.size() ? end : emoticons.size();
-
-                    this.datas.put(this.datas.size(), emoticons.subList(size, end));
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        AssetManager assetManager = AppContext.me().getAssets();
+//        try {
+//            String[] files = assetManager.list("sticker");
+//            for (int i = 0; i < files.length; i++) {
+//                String name = files[i];
+//                List<Emoticon> emoticons = loadStickerData(name);
+//                for (int size = 0; size < emoticons.size(); size += PER_PAGE) {
+//
+//                    int end = size + PER_PAGE;
+//                    end = end < emoticons.size() ? end : emoticons.size();
+//
+//                    this.datas.put(this.datas.size(), emoticons.subList(size, end));
+//                }
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private List<Emoticon> loadStickerData(String name) {

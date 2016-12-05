@@ -513,7 +513,9 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 //                    binding.flyPrescription.setVisibility(View.VISIBLE);
 //                }
 //                return true;
-                prescriptionOrderPageCallback.resetPage();
+                if (prescriptionOrderPageCallback != null) {
+                    prescriptionOrderPageCallback.resetPage();
+                }
                 loadPrescriptionOrder();
             }
         }

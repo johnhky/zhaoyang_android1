@@ -52,7 +52,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{data.record.relation}"
+                    android:text="@{&quot;患者的&quot; + data.record.relation}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_8" />
             </LinearLayout>

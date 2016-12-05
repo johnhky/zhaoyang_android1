@@ -6,14 +6,18 @@ import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.ItemPickDate;
 import com.doctor.sun.vo.ItemRadioGroup;
 import com.doctor.sun.vo.ItemTextInput2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by kb on 16-9-26.
@@ -27,6 +31,12 @@ public class EditRecordModel {
         }
 
         List<SortedItem> result = new ArrayList<>();
+
+        //careful , don't miss this field
+        ItemTextInput2 id = new ItemTextInput2(R.layout.item_empty, "", "");
+        id.setItemId("recordId");
+        id.setResult(String.valueOf(data.getMedicalRecordId()));
+        result.add(id);
 
         ItemTextInput2 relation = new ItemTextInput2(R.layout.item_text_input2, "您是患者的", "必填");
         relation.setEnabled(false);
@@ -70,10 +80,21 @@ public class EditRecordModel {
 
         return result;
     }
+    public void saveRecord(SortedListAdapter medicalRecord, Callback<ApiDTO<MedicalRecord>> callback) {
+        HashMap<String, String> data = ModelUtils.toHashMap(medicalRecord, new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+            }
 
-    public void saveRecord(MedicalRecord medicalRecord, Callback<ApiDTO<MedicalRecord>> callback) {
-        ProfileModule api = Api.of(ProfileModule.class);
-        api.editMedicalRecord(medicalRecord.toHashMap()).enqueue(callback);
+            @Override
+            public void onFailure(Call call, Throwable t) {
+
+            }
+        });
+        if (data != null) {
+            ProfileModule api = Api.of(ProfileModule.class);
+            api.editMedicalRecord(data).enqueue(callback);
+        }
     }
 
 }
