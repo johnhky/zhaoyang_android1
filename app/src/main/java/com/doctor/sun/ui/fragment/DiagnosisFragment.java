@@ -6,6 +6,7 @@ import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -32,6 +34,8 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.entity.handler.PrescriptionHandler;
 import com.doctor.sun.event.ActivityResultEvent;
+import com.doctor.sun.event.HideFABEvent;
+import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.ImmutablePrescription;
@@ -49,6 +53,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import io.ganguo.library.core.event.Event;
 import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Tasks;
 import retrofit2.Call;
@@ -75,6 +80,8 @@ public class DiagnosisFragment extends BaseFragment {
     private int returnType = 1;
     private boolean shouldScrollDown = false;
     private ArrayList<Prescription> prescriptions;
+    private int mActionBarAutoHideSignal = 0;
+    private boolean isFirstTime = true;
 
 
     public static DiagnosisFragment newInstance(String appointmentId, String recordId) {
@@ -98,6 +105,22 @@ public class DiagnosisFragment extends BaseFragment {
         binding.needReturn.setData("需要专属咨询/转诊/闲时咨询");
         binding.needReturn.setIsChecked(false);
         binding.swRoot.setVerticalScrollBarEnabled(false);
+        binding.swRoot.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (isFirstTime) {
+                    isFirstTime = false;
+                    return;
+                }
+
+                if (scrollY - oldScrollY <= 0) {
+                    EventHub.post(new ShowFABEvent(getAppointmentId()));
+                } else {
+                    EventHub.post(new HideFABEvent(getAppointmentId()));
+                }
+            }
+        });
+
         viewModel.getReturnType().setEnabled(false);
         binding.setData(viewModel);
         prescriptions = new ArrayList<>();

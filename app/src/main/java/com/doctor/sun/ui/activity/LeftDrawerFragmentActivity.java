@@ -1,18 +1,24 @@
 package com.doctor.sun.ui.activity;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityLeftDrawerWraperBinding;
+import com.doctor.sun.event.HideFABEvent;
+import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.util.FragmentFactory;
 
 /**
@@ -37,6 +43,8 @@ public class LeftDrawerFragmentActivity extends BaseFragmentActivity2 {
 
     private Fragment mainContent;
     private Fragment leftDrawer;
+    private View resultButton;
+    private boolean animating;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,13 +73,65 @@ public class LeftDrawerFragmentActivity extends BaseFragmentActivity2 {
             }
         });
 
-        binding.fab.getViewStub().inflate();
+        resultButton = binding.fab.getViewStub().inflate();
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fly_content, mainContent)
                 .replace(R.id.fly_left_drawer, leftDrawer)
                 .commit();
+    }
+
+    @com.squareup.otto.Subscribe
+    public void onEventMainThread(HideFABEvent event) {
+        if (resultButton == null || animating) {
+            return;
+        }
+        resultButton.animate()
+                .translationY(resultButton.getHeight())
+                .alpha(0)
+                .setDuration(250)
+                .setListener(getAnimationListener())
+                .setInterpolator(new DecelerateInterpolator());
+
+    }
+
+    @com.squareup.otto.Subscribe
+    public void onEventMainThread(ShowFABEvent event) {
+        if (resultButton == null || animating) {
+            return;
+        }
+        resultButton.animate()
+                .translationY(0)
+                .alpha(1)
+                .setDuration(250)
+                .setListener(getAnimationListener())
+                .setInterpolator(new DecelerateInterpolator());
+    }
+
+    @NonNull
+    public Animator.AnimatorListener getAnimationListener() {
+        return new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                animating = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                animating = false;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+                animating = false;
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        };
     }
 
     @Override

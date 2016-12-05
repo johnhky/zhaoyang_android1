@@ -15,7 +15,9 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.QuestionsPath;
+import com.doctor.sun.event.HideFABEvent;
 import com.doctor.sun.event.RefreshQuestionsEvent;
+import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
@@ -228,5 +230,15 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
 
             put(R.layout.item_add_prescription3, R.layout.item_empty);
         }
+    }
+
+    @Override
+    public ShowFABEvent getShowFABEvent() {
+        return new ShowFABEvent(getAppointmentId());
+    }
+
+    @Override
+    public HideFABEvent getHideFABEvent() {
+        return new HideFABEvent(getAppointmentId());
     }
 }

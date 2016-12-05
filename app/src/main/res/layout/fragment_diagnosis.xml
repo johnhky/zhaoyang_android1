@@ -9,7 +9,7 @@
             type="com.doctor.sun.ui.model.DiagnosisViewModel" />
     </data>
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/sw_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -180,6 +180,6 @@
                 android:background="@color/gray_f5" />
 
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 </layout>

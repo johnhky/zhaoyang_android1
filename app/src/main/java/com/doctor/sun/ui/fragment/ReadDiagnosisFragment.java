@@ -9,6 +9,8 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
+import com.doctor.sun.event.HideFABEvent;
+import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.DiagnosisModule;
@@ -93,5 +95,15 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
         adapter.mapLayout(R.layout.item_prescription, R.layout.item_r_prescription);
         adapter.mapLayout(R.layout.item_doctor, R.layout.item_transfer_doctor);
         return adapter;
+    }
+
+    @Override
+    public ShowFABEvent getShowFABEvent() {
+        return new ShowFABEvent(getAppointmentId());
+    }
+
+    @Override
+    public HideFABEvent getHideFABEvent() {
+        return new HideFABEvent(getAppointmentId());
     }
 }

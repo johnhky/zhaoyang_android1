@@ -7,16 +7,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.FragmentRefreshListBinding;
+import com.doctor.sun.event.HideFABEvent;
+import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 
+import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Tasks;
 import io.realm.Realm;
 
@@ -29,6 +33,8 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
     public Realm realm;
     private PageCallback<T> pageCallback;
     private boolean isLoading = false;
+    private int mActionBarAutoHideSignal = 0;
+    private boolean isFirstTime = true;
 
     public RefreshListFragment() {
     }
@@ -51,6 +57,28 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_refresh_list, container, false);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (isFirstTime) {
+                    isFirstTime = false;
+                    return;
+                }
+
+                if (shouldShowFAB(dy)) {
+                    EventHub.post(getShowFABEvent());
+                } else {
+                    EventHub.post(getHideFABEvent());
+                }
+            }
+        });
         mAdapter = createAdapter();
         mAdapter.setLoadMoreListener(new LoadMoreListener() {
             @Override
@@ -74,6 +102,33 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
 
         getPageCallback();
         return binding.getRoot();
+    }
+
+    private boolean shouldShowFAB(int deltaY) {
+        int mActionBarAutoHideSensivity = 250;
+        if (deltaY > mActionBarAutoHideSensivity) {
+            deltaY = mActionBarAutoHideSensivity;
+        } else if (deltaY < -mActionBarAutoHideSensivity) {
+            deltaY = -mActionBarAutoHideSensivity;
+        }
+
+        if (Math.signum(deltaY) * Math.signum(mActionBarAutoHideSignal) < 0) {
+            // deltaY is a motion opposite to the accumulated signal, so reset signal
+            mActionBarAutoHideSignal = deltaY;
+        } else {
+            // add to accumulated signal
+            mActionBarAutoHideSignal += deltaY;
+        }
+
+        return (mActionBarAutoHideSignal <= -mActionBarAutoHideSensivity);
+    }
+
+    public ShowFABEvent getShowFABEvent() {
+        return new ShowFABEvent();
+    }
+
+    public HideFABEvent getHideFABEvent() {
+        return new HideFABEvent();
     }
 
     protected void refreshEmptyIndicator() {

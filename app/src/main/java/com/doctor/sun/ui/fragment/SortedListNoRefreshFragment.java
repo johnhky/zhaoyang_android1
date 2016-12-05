@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ public class SortedListNoRefreshFragment extends BaseFragment {
     private SortedListAdapter mAdapter;
     public Realm realm;
     private int mActionBarAutoHideSignal = 0;
-    private boolean isFirstTime = false;
+    private boolean isFirstTime = true;
 
     public SortedListNoRefreshFragment() {
     }
@@ -71,9 +72,9 @@ public class SortedListNoRefreshFragment extends BaseFragment {
                 }
 
                 if (shouldShowFAB(dy)) {
-                    EventHub.post(new ShowFABEvent());
+                    EventHub.post(getShowFABEvent());
                 } else {
-                    EventHub.post(new HideFABEvent());
+                    EventHub.post(getHideFABEvent());
                 }
             }
         });
@@ -98,6 +99,14 @@ public class SortedListNoRefreshFragment extends BaseFragment {
         }
 
         return (mActionBarAutoHideSignal <= -mActionBarAutoHideSensivity);
+    }
+
+    public ShowFABEvent getShowFABEvent() {
+        return new ShowFABEvent();
+    }
+
+    public HideFABEvent getHideFABEvent() {
+        return new HideFABEvent();
     }
 
     @NonNull
