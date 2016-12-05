@@ -16,7 +16,6 @@ import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.immutables.ImmutableAppointment;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
-import com.doctor.sun.ui.activity.doctor.PatientInfoActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.vo.LayoutId;
 
@@ -59,8 +58,8 @@ public class RecordAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
                             v.getContext().startActivity(ChattingActivity.makeIntent(v.getContext(), immutableAppointment));
                         }
                     } else {
-                        v.getContext().startActivity(new Intent(v.getContext(), PatientInfoActivity.class)
-                                .putExtra(Constants.PARAM_PATIENT, medicalRecord));
+//                        v.getContext().startActivity(new Intent(v.getContext(), PatientInfoActivity.class)
+//                                .putExtra(Constants.PARAM_PATIENT, medicalRecord));
                     }
                     EventHub.post(new CloseDialogEvent(true));
                 }

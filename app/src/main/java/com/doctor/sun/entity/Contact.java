@@ -1,15 +1,13 @@
 package com.doctor.sun.entity;
 
-import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
 
 import com.doctor.sun.R;
-import com.doctor.sun.ui.activity.patient.DoctorInfoActivity;
-import com.doctor.sun.vo.LayoutId;
 import com.doctor.sun.ui.widget.SelectDialog;
 import com.doctor.sun.util.NameComparator;
+import com.doctor.sun.vo.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -121,8 +119,8 @@ public class Contact implements LayoutId, Parcelable, NameComparator.Name {
         if (patientId != -1) {
             SelectDialog.showSelectDialog(view.getContext(), getPatientId());
         } else if (doctorId != -1) {
-            Intent intent = DoctorInfoActivity.makeIntent(view.getContext(), this);
-            view.getContext().startActivity(intent);
+//            Intent intent = DoctorInfoActivity.makeIntent(view.getContext(), this);
+//            view.getContext().startActivity(intent);
         }
     }
 

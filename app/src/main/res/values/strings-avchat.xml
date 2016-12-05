@@ -32,10 +32,8 @@
     <string name="avchat_notification">正在与%1$s通话中，点击继续</string>
     <string name="avchat_call">网络通话</string>
     <string name="avchat_no_pickup_call">未接听</string>
-    <string name="avchat_call_failed">发起通话失败</string>
     <string name="avchat_no_permission">暂无权限，请开通音视频服务</string>
     <string name="avchat_in_switch">请耐心等待！</string>
     <string name="avchat_device_no_ready">音视频设备未准备好</string>
-    <string name="avchat_video_descriptions">如果20秒内未被接通，系统将自动转换为固话回拨（昭阳医生专线020-81212600同时拨通您和对方的注册手机，双方手机号码加密保护）</string>
 
 </resources>
