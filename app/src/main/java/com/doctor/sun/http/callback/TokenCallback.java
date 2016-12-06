@@ -89,7 +89,7 @@ public class TokenCallback {
         }
     }
 
-    private static void loadDoctorProfile(final Activity context) {
+    public static void loadDoctorProfile(final Activity context) {
         ProfileModule profileModule = Api.of(ProfileModule.class);
         LoadingHelper.showMaterLoading(context, "正在加载个人信息");
         profileModule.doctorProfile().enqueue(new ApiCallback<Doctor>() {

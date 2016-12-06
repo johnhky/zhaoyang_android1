@@ -18,7 +18,7 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
  * Created by rick on 7/4/2016.
  */
 public class EmoticonFragment extends ListFragment {
-    public static final String ASSET_PREFIX = "file:///android_asset/nim_emoji_del.png";
+    public static final String EMOJI_DEL_PATH = "file:///android_asset/nim_emoji_del.png";
     public static final String TAG = EmoticonFragment.class.getSimpleName();
     public static final int PER_PAGE = 20;
 
@@ -46,7 +46,7 @@ public class EmoticonFragment extends ListFragment {
         getAdapter().addAll(EmoticonManager.getEmoticons(startPosition, endPosition));
 
         Emoticon emoticon = new Emoticon(R.layout.item_emoji_del);
-        emoticon.setAssetPath(ASSET_PREFIX);
+        emoticon.setAssetPath(EMOJI_DEL_PATH);
         getAdapter().add(emoticon);
         getAdapter().notifyDataSetChanged();
     }

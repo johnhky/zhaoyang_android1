@@ -17,7 +17,6 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
-import com.squareup.leakcanary.LeakCanary;
 import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
 
@@ -45,12 +44,7 @@ public class AppContext extends BaseApp {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
-        LeakCanary.install(this);
+
 
         AppEnv.init(this);
         // init libs
