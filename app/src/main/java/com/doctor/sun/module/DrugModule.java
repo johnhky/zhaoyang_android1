@@ -6,7 +6,10 @@ import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.immutables.Drug;
+import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.immutables.PrescriptionOrder;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -47,5 +50,7 @@ public interface DrugModule {
     @GET("drug/need-send-drug")
     Call<ApiDTO<NeedSendDrug>> needSendDrug(@Query("appointmentId") int appointmentId);
 
+    @GET("drug/record-last")
+    Call<ApiDTO<List<Prescription>>> recordLast(@Query("recordId") String recordId);
 
 }

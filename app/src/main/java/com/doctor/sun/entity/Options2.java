@@ -347,6 +347,9 @@ public class Options2 extends BaseItem {
      */
     public void loadPrescriptions(final SortedListAdapter adapter) {
         if (resourseType == FROM_USER_INPUT) {
+            /**
+             *导入上面患者填写的用药
+             */
             ItemAddPrescription2 fromItem = (ItemAddPrescription2) adapter.get(optionContent + QuestionType.drug);
             ItemAddPrescription2 toItem = (ItemAddPrescription2) adapter.get(questionId + QuestionType.drug);
             if (fromItem != null && toItem != null) {
@@ -368,6 +371,9 @@ public class Options2 extends BaseItem {
 
             }
         } else if (resourseType == FROM_API) {
+            /**
+             * 导入api里面返回的用药
+             */
             ToolModule toolModule = Api.of(ToolModule.class);
             toolModule.listOfDrugs(optionContent).enqueue(new SimpleCallback<List<Prescription>>() {
                 @Override

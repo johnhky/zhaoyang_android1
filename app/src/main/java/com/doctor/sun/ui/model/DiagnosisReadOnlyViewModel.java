@@ -10,7 +10,6 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.Symptom;
 import com.doctor.sun.entity.SymptomFactory;
-import com.doctor.sun.entity.handler.PrescriptionHandler;
 import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.vo.ItemTextInput;
@@ -110,7 +109,7 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         ArrayList<Prescription> prescription = response.getPrescription();
         if (prescription != null) {
             for (Prescription data : prescription) {
-                prescriptions.add(PrescriptionHandler.fromLegacy(data));
+                prescriptions.add(data);
             }
         }
         doctor = response.getDoctorInfo();

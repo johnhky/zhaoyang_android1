@@ -42,6 +42,7 @@ import com.doctor.sun.immutables.ImmutablePrescription;
 import com.doctor.sun.immutables.ModifiablePrescription;
 import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.module.DiagnosisModule;
+import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.model.DiagnosisViewModel;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
@@ -270,7 +271,7 @@ public class DiagnosisFragment extends BaseFragment {
                 binding.executePendingBindings();
                 if (response.getPrescription() != null) {
                     for (Prescription prescription : response.getPrescription()) {
-                        addPrescription(PrescriptionHandler.fromLegacy(prescription));
+                        addPrescription(prescription);
                     }
                 }
                 int returnX = response.getReturnX();
@@ -319,7 +320,7 @@ public class DiagnosisFragment extends BaseFragment {
                     return;
                 }
                 for (Prescription prescription : response) {
-                    addPrescription(PrescriptionHandler.fromLegacy(prescription));
+                    addPrescription(prescription);
                 }
             }
         });
@@ -414,7 +415,7 @@ public class DiagnosisFragment extends BaseFragment {
             return "";
         }
         try {
-            ArrayList<Prescription> result = new ArrayList();
+            ArrayList<Prescription> result = new ArrayList<>();
             for (Prescription prescription : prescriptions) {
                 Prescription copy = ImmutablePrescription.copyOf(prescription);
                 result.add(copy);
