@@ -3,6 +3,7 @@ package com.doctor.sun.model;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
@@ -206,6 +207,8 @@ public class PayPrescriptionsModel {
         }
 
         if (!hasPay) {
+            loadCoupons(response);
+
             Description couponDescription = new Description(R.layout.item_description, "优惠券");
             couponDescription.setBackgroundColor(R.color.color_coupon_background_yellow);
             couponDescription.setTitleColor(R.color.white);
@@ -213,12 +216,12 @@ public class PayPrescriptionsModel {
             couponDescription.setPosition(result.size());
             result.add(couponDescription);
 
-
             extraField = DrugListFragment.getDrugExtraField();
 
-            if (response.getUser_coupon_id() != null && !response.getUser_coupon_id().equals("")) {
+            if (!response.getUser_coupon_id().equals("0")) {
 
-                selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "已使用优惠券", new View.OnClickListener() {
+                String couponString = "已选取" + response.getCoupon_info().couponMoney + "元优惠券";
+                selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, couponString, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -229,7 +232,7 @@ public class PayPrescriptionsModel {
                 selectCoupon.setPosition(result.size());
                 result.add(selectCoupon);
             } else {
-                selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "未使用优惠券", new View.OnClickListener() {
+                selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         selectCoupon(v.getContext());
@@ -240,6 +243,25 @@ public class PayPrescriptionsModel {
                 selectCoupon.setPosition(result.size());
                 result.add(selectCoupon);
             }
+        } else {
+            Description couponDescription = new Description(R.layout.item_description, "优惠券");
+            couponDescription.setBackgroundColor(R.color.color_coupon_background_yellow);
+            couponDescription.setTitleColor(R.color.white);
+            couponDescription.setItemId("couponDescription");
+            couponDescription.setPosition(result.size());
+            result.add(couponDescription);
+
+            String couponString = "使用了" + response.getCoupon_info().couponMoney + "元优惠券";
+            selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, couponString, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+            selectCoupon.setEnabled(false);
+            selectCoupon.setItemId("selectCoupon");
+            selectCoupon.setPosition(result.size());
+            result.add(selectCoupon);
         }
 
         Description total = new Description(R.layout.item_description, "总价");
@@ -313,7 +335,6 @@ public class PayPrescriptionsModel {
             confirmButton.setPosition(result.size());
             result.add(confirmButton);
 
-            loadCoupons();
         } else {
             ModelUtils.insertDividerNoMargin(result);
 
@@ -344,7 +365,7 @@ public class PayPrescriptionsModel {
                     public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
                         selectedCoupon = which;
                         double discountMoney = Double.parseDouble(coupons.get(selectedCoupon).couponMoney);
-                        selectCoupon.setTitle("已优惠" + discountMoney + "元");
+                        selectCoupon.setTitle("已选择" + coupons.get(selectedCoupon).detail());
                         //　选择优惠券后，订单应付金额减到优惠券的金额
                         updateShouldPayMoney(-discountMoney);
                         return true;
@@ -355,23 +376,24 @@ public class PayPrescriptionsModel {
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         // 选择优惠券后，选择不使用优惠券，订单应付金额应加上之前选中的优惠券的金额
                         if (selectedCoupon != -1) {
-                            double previousDiscountMoney = Double.parseDouble(coupons.get(selectedCoupon).couponMoney);
-                            updateShouldPayMoney(previousDiscountMoney);
+                            shouldPayMoney.setTitle("<font color=\"#f65600\">实际付款：￥" + money + "</font>");
                         }
                         selectedCoupon = -1;
-                        selectCoupon.setTitle("未使用优惠券");
-
+                        selectCoupon.setTitle("您有" + coupons.size() + "张优惠券可用");
                     }
                 })
                 .build().show();
     }
 
-    private void loadCoupons() {
+    private void loadCoupons(final Drug drug) {
         api.coupons(CouponType.CAN_USE_NOW, Coupon.Scope.DRUG_ORDER, money).enqueue(new SimpleCallback<List<Coupon>>() {
             @Override
             protected void handleResponse(List<Coupon> response) {
                 if (response != null && !response.isEmpty()) {
                     coupons = response;
+                    if (drug.getUser_coupon_id().equals("0")) {
+                        selectCoupon.setTitle("您有" + coupons.size() + "张优惠券可用");
+                    }
                 } else {
                     coupons = null;
                 }
@@ -381,8 +403,8 @@ public class PayPrescriptionsModel {
 
     private void updateShouldPayMoney(double discountMoney) {
 
-        money = money + discountMoney > 0 ? money + discountMoney : 0;
-        shouldPayMoney.setTitle("<font color=\"#f65600\">实际付款：￥" + money + "</font>");
+        double moneyWithCoupon = money + discountMoney > 0 ? money + discountMoney : 0;
+        shouldPayMoney.setTitle("<font color=\"#f65600\">实际付款：￥" + moneyWithCoupon + "</font>");
     }
 
     private String getCouponId() {

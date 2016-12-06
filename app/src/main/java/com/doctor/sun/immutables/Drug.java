@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.DrugExtraFee;
 import com.doctor.sun.entity.constans.PayMethod;
@@ -87,6 +88,11 @@ public abstract class Drug extends BaseItem {
     public abstract List<DrugEntity> getDrug_detail();
 
     public abstract String getStatus();
+
+    @Value.Default
+    public Coupon getCoupon_info() {
+        return new Coupon();
+    }
 
     @Override
     public int getItemLayoutId() {
