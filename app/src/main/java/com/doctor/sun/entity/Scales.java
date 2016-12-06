@@ -56,13 +56,13 @@ public class Scales extends BaseItem {
     public void readScalesQuestion(SortedListAdapter adapter, Context context, String scalesId, boolean isTemplates) {
         boolean isDone = adapter.getBoolean(AdapterConfigKey.IS_DONE);
 
+        //从模版那里进入量表
         if (isTemplates) {
             //TODO
             Bundle args = ReadQTemplateFragment.getArgs(scalesId, QuestionsPath.SCALES, "", isDone);
             args.putString(Constants.IS_TEMPLATE, StringBoolean.TRUE);
-            Bundle drawerArgs = QuestionStatsFragment.getArgs(scalesId, "smartScaleRule");
 
-            Intent intent = LeftDrawerFragmentActivity.intentFor(context, scaleName, "查看\n规则", args, drawerArgs);
+            Intent intent = SingleFragmentActivity.intentFor(context, scaleName, args);
             context.startActivity(intent);
         } else {
             Bundle args = ReadQuestionsFragment.getArgs(scalesId, QuestionsPath.SCALES, "", isDone);
