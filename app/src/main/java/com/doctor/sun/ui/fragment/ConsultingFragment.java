@@ -15,7 +15,6 @@ import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.im.IMManager;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.util.JacksonUtils;
@@ -24,14 +23,10 @@ import com.doctor.sun.util.Try;
 import com.doctor.sun.vo.ItemConsulting;
 import com.doctor.sun.vo.ItemLoadMore;
 import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.RequestCallbackWrapper;
-import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import io.ganguo.library.util.Tasks;
 import io.realm.Realm;
@@ -48,7 +43,6 @@ public class ConsultingFragment extends SortedListFragment {
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private ArrayList<String> keys = new ArrayList<>();
     private int page = 1;
-    private HashMap<String, TextMsg> tids = new HashMap<>();
     private SystemMsg systemMsg;
     private MedicineStore medicineStore;
 
@@ -89,32 +83,7 @@ public class ConsultingFragment extends SortedListFragment {
 
     private void createRealmChangeListener() {
         if (listener == null) {
-            listener = new RealmChangeListener<RealmResults<TextMsg>>() {
-                @Override
-                public void onChange(RealmResults<TextMsg> element) {
-                    boolean empty = element.isEmpty();
-                    boolean shouldRefresh;
-                    if (!empty) {
-                        TextMsg first = element.first();
-                        if (first.getMsgId().equals(lastRefreshMsgId)) return;
-
-                        shouldRefresh = TextMsgFactory.isRefreshMsg(first.getType());
-                        String s = first.getSessionId();
-                        if (s.startsWith("SYSTEM_MSG")) {
-                            getAdapter().notifyItemChanged(0);
-                        } else {
-                            ItemConsulting appointment = (ItemConsulting) getAdapter().get(s);
-                            lastRefreshMsgId = first.getMsgId();
-                            if (appointment != null && !shouldRefresh) {
-                                appointment.setTime(System.currentTimeMillis());
-                                getAdapter().update(appointment);
-                            } else {
-                                pullAppointment(s);
-                            }
-                        }
-                    }
-                }
-            };
+            listener = new UnReadMsgChangeListener();
         }
     }
 
@@ -138,16 +107,7 @@ public class ConsultingFragment extends SortedListFragment {
     }
 
     public void pullAppointment(String s) {
-        api.appointmentInTid("[" + s + "]", "1").enqueue(new SimpleCallback<PageDTO<Appointment>>() {
-            @Override
-            protected void handleResponse(final PageDTO<Appointment> response) {
-                for (Appointment appointment : response.getData()) {
-                    long time = AppointmentHandler2.lastMsg(appointment).getTime();
-                    ItemConsulting itemConsulting = new ItemConsulting(time, appointment);
-                    getAdapter().insert(itemConsulting);
-                }
-            }
-        });
+        api.appointmentInTid("[" + s + "]", "1").enqueue(new AppointmentOfTidCallback());
     }
 
     @Override
@@ -182,22 +142,11 @@ public class ConsultingFragment extends SortedListFragment {
     protected void loadMore() {
         super.loadMore();
         if (keys == null || keys.isEmpty()) {
-            MsgService service = NIMClient.getService(MsgService.class);
-            service.queryRecentContacts()
-                    .setCallback(new RecentContactCallback());
             RealmQuery<TextMsg> query = Realm.getDefaultInstance().where(TextMsg.class);
             RealmResults<TextMsg> textMsgs = query.findAllSorted("time", Sort.DESCENDING).distinctAsync("sessionId");
-            textMsgs.addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
-                @Override
-                public void onChange(RealmResults<TextMsg> recents) {
-                    if (recents == null) return;
-
-                    tids = getTids(recents);
-                    api.appointmentInTid(JacksonUtils.toJson(keys), page + "").enqueue(getCallback(tids));
-                }
-            });
+            textMsgs.addChangeListener(new DistinctTeamIdCallback());
         } else {
-            api.appointmentInTid(JacksonUtils.toJson(keys), page + "").enqueue(getCallback(tids));
+            api.appointmentInTid(JacksonUtils.toJson(keys), page + "").enqueue(getCallback());
         }
     }
 
@@ -211,32 +160,6 @@ public class ConsultingFragment extends SortedListFragment {
         super.onRefresh();
     }
 
-    private class RecentContactCallback extends RequestCallbackWrapper<List<RecentContact>> {
-        @Override
-        public void onResult(int code, List<RecentContact> recents, Throwable e) {
-//            // recents参数即为最近联系人列表（最近会话列表）
-//            if (recents == null) return;
-//
-//            tids = getTids(recents);
-//            api.appointmentInTid(JacksonUtils.toJson(keys), page + "").enqueue(getCallback(tids));
-
-        }
-
-        @Override
-        public void onFailed(int i) {
-            super.onFailed(i);
-            IMManager.getInstance().login();
-            hideRefreshing();
-        }
-
-        @Override
-        public void onException(Throwable throwable) {
-            super.onException(throwable);
-            IMManager.getInstance().login();
-            hideRefreshing();
-        }
-    }
-
     public void hideRefreshing() {
         Tasks.runOnUiThread(new Runnable() {
             @Override
@@ -247,37 +170,8 @@ public class ConsultingFragment extends SortedListFragment {
     }
 
     @NonNull
-    public SimpleCallback<PageDTO<Appointment>> getCallback(final HashMap<String, TextMsg> tids) {
-        return new SimpleCallback<PageDTO<Appointment>>() {
-            @Override
-            protected void handleResponse(PageDTO<Appointment> response) {
-                page += 1;
-                for (Appointment appointment : response.getData()) {
-                    long time = AppointmentHandler2.lastMsg(appointment).getTime();
-                    ItemConsulting itemConsulting = new ItemConsulting(time, appointment);
-                    getAdapter().insert(itemConsulting);
-                }
-                int to = response.getTo();
-                int total = response.getTotal();
-                int perPage = response.getPerPage();
-                boolean finished = to >= total || (page - 1) * perPage >= total;
-                if (!finished) {
-                    insertLoadMore();
-                } else {
-                    getAdapter().removeItem(new ItemLoadMore());
-                }
-                isLoading = false;
-                showShowCase();
-
-                hideRefreshing();
-                if (getAdapter().getItemCount() <= getHeaderItemCount()) {
-                    binding.emptyIndicator.setText("您当前没有进行中的聊天");
-                    binding.emptyIndicator.setVisibility(View.VISIBLE);
-                } else {
-                    binding.emptyIndicator.setVisibility(View.GONE);
-                }
-            }
-        };
+    public SimpleCallback<PageDTO<Appointment>> getCallback() {
+        return new AppointmentListPageCallback();
     }
 
     private int getHeaderItemCount() {
@@ -317,15 +211,92 @@ public class ConsultingFragment extends SortedListFragment {
     }
 
     @NonNull
-    private HashMap<String, TextMsg> getTids(RealmResults<TextMsg> recents) {
-        HashMap<String, TextMsg> tids = new HashMap<>();
+    private ArrayList<String> getTids(RealmResults<TextMsg> recents) {
         for (TextMsg recent : recents) {
             String contactId = recent.getSessionId();
             if (recent.getSessionTypeEnum() == SessionTypeEnum.Team) {
-                tids.put(contactId, recent);
                 keys.add(contactId);
             }
         }
-        return tids;
+        return keys;
+    }
+
+    private class UnReadMsgChangeListener implements RealmChangeListener<RealmResults<TextMsg>> {
+        @Override
+        public void onChange(RealmResults<TextMsg> element) {
+            boolean empty = element.isEmpty();
+            boolean shouldRefresh;
+            if (!empty) {
+                TextMsg first = element.first();
+                if (first.getMsgId().equals(lastRefreshMsgId)) return;
+
+                shouldRefresh = TextMsgFactory.isRefreshMsg(first.getType());
+                String s = first.getSessionId();
+                if (s.startsWith("SYSTEM_MSG")) {
+                    getAdapter().notifyItemChanged(0);
+                } else {
+                    ItemConsulting appointment = (ItemConsulting) getAdapter().get(s);
+                    lastRefreshMsgId = first.getMsgId();
+                    if (appointment != null && !shouldRefresh) {
+                        appointment.setTime(System.currentTimeMillis());
+                        getAdapter().update(appointment);
+                    } else {
+                        pullAppointment(s);
+                    }
+                }
+            }
+        }
+    }
+
+    private class AppointmentOfTidCallback extends SimpleCallback<PageDTO<Appointment>> {
+        @Override
+        protected void handleResponse(final PageDTO<Appointment> response) {
+            for (Appointment appointment : response.getData()) {
+                long time = AppointmentHandler2.lastMsg(appointment).getTime();
+                ItemConsulting itemConsulting = new ItemConsulting(time, appointment);
+                getAdapter().insert(itemConsulting);
+            }
+        }
+    }
+
+    private class AppointmentListPageCallback extends SimpleCallback<PageDTO<Appointment>> {
+        @Override
+        protected void handleResponse(PageDTO<Appointment> response) {
+            page += 1;
+            for (Appointment appointment : response.getData()) {
+                long time = AppointmentHandler2.lastMsg(appointment).getTime();
+                ItemConsulting itemConsulting = new ItemConsulting(time, appointment);
+                getAdapter().insert(itemConsulting);
+            }
+            int to = response.getTo();
+            int total = response.getTotal();
+            int perPage = response.getPerPage();
+            boolean finished = to >= total || (page - 1) * perPage >= total;
+            if (!finished) {
+                insertLoadMore();
+            } else {
+                getAdapter().removeItem(new ItemLoadMore());
+            }
+            isLoading = false;
+            showShowCase();
+
+            hideRefreshing();
+            if (getAdapter().getItemCount() <= getHeaderItemCount()) {
+                binding.emptyIndicator.setText("您当前没有进行中的聊天");
+                binding.emptyIndicator.setVisibility(View.VISIBLE);
+            } else {
+                binding.emptyIndicator.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private class DistinctTeamIdCallback implements RealmChangeListener<RealmResults<TextMsg>> {
+        @Override
+        public void onChange(RealmResults<TextMsg> recents) {
+            if (recents == null) return;
+
+
+            api.appointmentInTid(JacksonUtils.toJson(getTids(recents)), page + "").enqueue(getCallback());
+        }
     }
 }
