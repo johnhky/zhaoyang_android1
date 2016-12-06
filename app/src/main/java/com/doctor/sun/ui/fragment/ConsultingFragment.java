@@ -48,7 +48,7 @@ public class ConsultingFragment extends SortedListFragment {
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private ArrayList<String> keys = new ArrayList<>();
     private int page = 1;
-    private HashMap<String, RecentContact> tids = new HashMap<>();
+    private HashMap<String, TextMsg> tids = new HashMap<>();
     private SystemMsg systemMsg;
     private MedicineStore medicineStore;
 
@@ -185,6 +185,17 @@ public class ConsultingFragment extends SortedListFragment {
             MsgService service = NIMClient.getService(MsgService.class);
             service.queryRecentContacts()
                     .setCallback(new RecentContactCallback());
+            RealmQuery<TextMsg> query = Realm.getDefaultInstance().where(TextMsg.class);
+            RealmResults<TextMsg> textMsgs = query.findAllSorted("time", Sort.DESCENDING).distinctAsync("sessionId");
+            textMsgs.addChangeListener(new RealmChangeListener<RealmResults<TextMsg>>() {
+                @Override
+                public void onChange(RealmResults<TextMsg> recents) {
+                    if (recents == null) return;
+
+                    tids = getTids(recents);
+                    api.appointmentInTid(JacksonUtils.toJson(keys), page + "").enqueue(getCallback(tids));
+                }
+            });
         } else {
             api.appointmentInTid(JacksonUtils.toJson(keys), page + "").enqueue(getCallback(tids));
         }
@@ -203,11 +214,12 @@ public class ConsultingFragment extends SortedListFragment {
     private class RecentContactCallback extends RequestCallbackWrapper<List<RecentContact>> {
         @Override
         public void onResult(int code, List<RecentContact> recents, Throwable e) {
-            // recents参数即为最近联系人列表（最近会话列表）
-            if (recents == null) return;
+//            // recents参数即为最近联系人列表（最近会话列表）
+//            if (recents == null) return;
+//
+//            tids = getTids(recents);
+//            api.appointmentInTid(JacksonUtils.toJson(keys), page + "").enqueue(getCallback(tids));
 
-            tids = getTids(recents);
-            api.appointmentInTid(JacksonUtils.toJson(keys), page + "").enqueue(getCallback(tids));
         }
 
         @Override
@@ -235,7 +247,7 @@ public class ConsultingFragment extends SortedListFragment {
     }
 
     @NonNull
-    public SimpleCallback<PageDTO<Appointment>> getCallback(final HashMap<String, RecentContact> tids) {
+    public SimpleCallback<PageDTO<Appointment>> getCallback(final HashMap<String, TextMsg> tids) {
         return new SimpleCallback<PageDTO<Appointment>>() {
             @Override
             protected void handleResponse(PageDTO<Appointment> response) {
@@ -305,11 +317,11 @@ public class ConsultingFragment extends SortedListFragment {
     }
 
     @NonNull
-    private HashMap<String, RecentContact> getTids(List<RecentContact> recents) {
-        HashMap<String, RecentContact> tids = new HashMap<>();
-        for (RecentContact recent : recents) {
-            String contactId = recent.getContactId();
-            if (recent.getSessionType() == SessionTypeEnum.Team) {
+    private HashMap<String, TextMsg> getTids(RealmResults<TextMsg> recents) {
+        HashMap<String, TextMsg> tids = new HashMap<>();
+        for (TextMsg recent : recents) {
+            String contactId = recent.getSessionId();
+            if (recent.getSessionTypeEnum() == SessionTypeEnum.Team) {
                 tids.put(contactId, recent);
                 keys.add(contactId);
             }

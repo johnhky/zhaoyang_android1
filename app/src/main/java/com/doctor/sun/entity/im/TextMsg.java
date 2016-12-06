@@ -16,6 +16,7 @@ import java.lang.annotation.RetentionPolicy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
+import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
@@ -47,6 +48,7 @@ public class TextMsg extends RealmObject implements LayoutId {
     @PrimaryKey
     private String msgId;
     private long id;
+    @Index
     private String sessionId;
     private String type;
     private String direction;
@@ -262,7 +264,7 @@ public class TextMsg extends RealmObject implements LayoutId {
         if (TextMsgFactory.isRefreshMsg(getType())) {
             return R.layout.msg_notification;
         }
-        if (getType().equals(String.valueOf(DrugV2))){
+        if (getType().equals(String.valueOf(DrugV2))) {
             return R.layout.msg_prescription_list;
         }
         if (getType().equals(String.valueOf(Drug))) {
