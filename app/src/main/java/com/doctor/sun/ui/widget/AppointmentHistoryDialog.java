@@ -39,6 +39,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
     private Appointment appointment;
     private List<SimpleAppointment> data = new ArrayList<>();
     private int currentIndex = 0;
+    private int tabPosition = 0;
 
     public static AppointmentHistoryDialog newInstance(Appointment data) {
         AppointmentHistoryDialog fragment = new AppointmentHistoryDialog();
@@ -131,12 +132,14 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
     @Override
     public void onClick(View view) {
+        tabPosition = getBinding().bottomSheetViewpager.getCurrentItem();
         switch (view.getId()) {
             case R.id.tv_previous: {
                 currentIndex -= 1;
                 setIndex(currentIndex, appointment.getId());
                 toggleVisibility();
                 setPagerAdapter(createPagerAdapter());
+                setCurrentItem();
                 break;
             }
             case R.id.tv_next: {
@@ -144,6 +147,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
                 setIndex(currentIndex, appointment.getId());
                 toggleVisibility();
                 setPagerAdapter(createPagerAdapter());
+                setCurrentItem();
                 break;
             }
             case R.id.tb_menu: {
@@ -158,5 +162,10 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
                 break;
             }
         }
+    }
+
+    @Override
+    public int getPosition() {
+        return tabPosition;
     }
 }
