@@ -15,6 +15,7 @@ import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.entity.im.TextMsgFactory;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.im.IMManager;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.util.JacksonUtils;
@@ -23,10 +24,13 @@ import com.doctor.sun.util.Try;
 import com.doctor.sun.vo.ItemConsulting;
 import com.doctor.sun.vo.ItemLoadMore;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 import io.ganguo.library.util.Tasks;
 import io.realm.Realm;
@@ -210,16 +214,6 @@ public class ConsultingFragment extends SortedListFragment {
         }
     }
 
-    @NonNull
-    private ArrayList<String> getTids(RealmResults<TextMsg> recents) {
-        for (TextMsg recent : recents) {
-            String contactId = recent.getSessionId();
-            if (recent.getSessionTypeEnum() == SessionTypeEnum.Team) {
-                keys.add(contactId);
-            }
-        }
-        return keys;
-    }
 
     private class UnReadMsgChangeListener implements RealmChangeListener<RealmResults<TextMsg>> {
         @Override
@@ -293,10 +287,62 @@ public class ConsultingFragment extends SortedListFragment {
     private class DistinctTeamIdCallback implements RealmChangeListener<RealmResults<TextMsg>> {
         @Override
         public void onChange(RealmResults<TextMsg> recents) {
-            if (recents == null) return;
+            if (recents == null || recents.isEmpty()) {
+                MsgService service = NIMClient.getService(MsgService.class);
+                service.queryRecentContacts()
+                        .setCallback(new RecentContactCallback());
+                return;
+            }
 
 
             api.appointmentInTid(JacksonUtils.toJson(getTids(recents)), page + "").enqueue(getCallback());
         }
+    }
+
+    private class RecentContactCallback extends RequestCallbackWrapper<List<RecentContact>> {
+        @Override
+        public void onResult(int code, List<RecentContact> recents, Throwable e) {
+            // recents参数即为最近联系人列表（最近会话列表）
+            if (recents == null) return;
+
+            keys = getTids(recents);
+            api.appointmentInTid(JacksonUtils.toJson(keys), page + "").enqueue(getCallback());
+
+        }
+
+        @Override
+        public void onFailed(int i) {
+            super.onFailed(i);
+            IMManager.getInstance().login();
+            hideRefreshing();
+        }
+
+        @Override
+        public void onException(Throwable throwable) {
+            super.onException(throwable);
+            IMManager.getInstance().login();
+            hideRefreshing();
+        }
+    }
+
+    private ArrayList<String> getTids(List<RecentContact> recents) {
+        for (RecentContact recent : recents) {
+            String contactId = recent.getContactId();
+            if (recent.getSessionType() == SessionTypeEnum.Team) {
+                keys.add(contactId);
+            }
+        }
+        return keys;
+    }
+
+    @NonNull
+    private ArrayList<String> getTids(RealmResults<TextMsg> recents) {
+        for (TextMsg recent : recents) {
+            String contactId = recent.getSessionId();
+            if (recent.getSessionTypeEnum() == SessionTypeEnum.Team) {
+                keys.add(contactId);
+            }
+        }
+        return keys;
     }
 }

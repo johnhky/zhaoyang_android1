@@ -174,9 +174,9 @@ public class AppContext extends BaseApp {
     private static class DoctorSunMigration implements RealmMigration {
         @Override
         public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
-          if (oldVersion <= 8) {
-              realm.deleteAll();
-          }
+            if (oldVersion <= 8) {
+                realm.deleteAll();
+            }
         }
     }
 }
