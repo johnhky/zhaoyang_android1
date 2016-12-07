@@ -13,6 +13,7 @@ import com.doctor.sun.databinding.PActivityRecordListBinding;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -50,7 +51,8 @@ public class RecordListActivity extends BaseFragmentActivity2 {
         initView();
         initListener();
         if (getIntent().getBooleanExtra(Constants.DATA, false)) {
-            new AddMedicalRecordDialog(RecordListActivity.this, false).show();
+//            new AddMedicalRecordDialog(RecordListActivity.this, false).show();
+            showDialog();
         }
     }
 
@@ -64,7 +66,8 @@ public class RecordListActivity extends BaseFragmentActivity2 {
         binding.tvNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddMedicalRecordDialog(RecordListActivity.this, false).show();
+//                new AddMedicalRecordDialog(RecordListActivity.this, false).show();
+                showDialog();
             }
         });
     }
@@ -95,6 +98,21 @@ public class RecordListActivity extends BaseFragmentActivity2 {
         });
     }
 
+    public void showDialog() {
+        ProfileModule api = Api.of(ProfileModule.class);
+        api.medicalRecordList().enqueue(new SimpleCallback<List<MedicalRecord>>() {
+            @Override
+            protected void handleResponse(List<MedicalRecord> response) {
+                for (MedicalRecord medicalRecord : response) {
+                    if (medicalRecord.getRelation().equals("本人")) {
+                        new AddMedicalRecordDialog(RecordListActivity.this, false).show(true);
+                        return;
+                    }
+                }
+                new AddMedicalRecordDialog(RecordListActivity.this, false).show(false);
+            }
+        });
+    }
 
     @Override
     public int getMidTitle() {

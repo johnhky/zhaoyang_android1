@@ -105,4 +105,28 @@ public class TwoChoiceDialog {
         }
         builder.show();
     }
+
+    public static void showDialogUncancelable(Context context, String question, String cancel, String apply, final Options button) {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+        builder.negativeText(cancel)
+                .positiveText(apply)
+                .content(question)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        button.onApplyClick(dialog);
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        button.onCancelClick(dialog);
+                    }
+                })
+                .negativeColor(Color.parseColor("#777777"));
+        if (apply.equals("删除")) {
+            builder.positiveColor(Color.parseColor("#f04c62"));
+        }
+        builder.cancelable(false).show();
+    }
 }

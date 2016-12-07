@@ -25,7 +25,7 @@
             android:background="@drawable/ripple_default"
             android:gravity="center"
             android:text="建立本人病历"
-            android:textColor="#349de1"
+            android:textColor="@color/color_blue_gray"
             android:textSize="@dimen/font_15" />
 
         <View

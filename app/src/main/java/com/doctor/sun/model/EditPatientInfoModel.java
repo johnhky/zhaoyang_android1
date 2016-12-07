@@ -92,7 +92,9 @@ public class EditPatientInfoModel {
         radioGroup.setResultNotEmpty();
         radioGroup.setItemId("gender");
         radioGroup.setPosition(result.size());
-        radioGroup.setSelectedItem(data.getGender());
+        if (data.getGender() != 0) {
+            radioGroup.setSelectedItem(data.getGender());
+        }
         radioGroup.setEnabled(false);
         result.add(radioGroup);
 

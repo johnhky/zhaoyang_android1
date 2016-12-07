@@ -8,14 +8,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.auto.Factory;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.Patient;
 import com.doctor.sun.event.SelectMedicalRecordEvent;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.NewMedicalRecordModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
+import com.doctor.sun.vo.ItemPickDate;
+import com.doctor.sun.vo.ItemRadioGroup;
+import com.doctor.sun.vo.ItemTextInput2;
 
 import java.util.List;
 
@@ -47,7 +54,7 @@ public class NewMedicalRecordFragment extends SortedListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        model = new NewMedicalRecordModel(this.getContext());
+        model = new NewMedicalRecordModel();
     }
 
     @Override
@@ -58,6 +65,29 @@ public class NewMedicalRecordFragment extends SortedListFragment {
         setHasOptionsMenu(true);
         List<SortedItem> sortedItems = model.parseItem(getRecordType());
         getAdapter().insertAll(sortedItems);
+
+        Patient patientProfile = Settings.getPatientProfile();
+        if (getRecordType() == TYPE_SELF && patientProfile != null && !patientProfile.getName().equals("")) {
+            showDialog(patientProfile);
+        }
+    }
+
+    private void showDialog(final Patient patient) {
+        TwoChoiceDialog.showDialogUncancelable(getActivity(), getString(R.string.create_record_with_profile),
+                "暂不生成", "一键生成", new TwoChoiceDialog.Options() {
+                    @Override
+                    public void onApplyClick(MaterialDialog dialog) {
+                        ((ItemTextInput2) getAdapter().get("selfName")).setResult(patient.getName());
+                        ((ItemPickDate) getAdapter().get("birthday")).setDateAndNotify(patient.getBirthday());
+                        ((ItemRadioGroup) getAdapter().get("gender")).setSelectedItem(patient.getGender());
+                        saveMedicalRecord();
+                    }
+
+                    @Override
+                    public void onCancelClick(MaterialDialog dialog) {
+                        getActivity().finish();
+                    }
+                });
     }
 
     @Override
@@ -85,8 +115,6 @@ public class NewMedicalRecordFragment extends SortedListFragment {
             @Override
             protected void handleResponse(MedicalRecord response) {
                 Toast.makeText(getContext(), "病历创建成功", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(getContext(), RecordListActivity.class);
-//                getContext().startActivity(intent);
                 EventHub.post(new SelectMedicalRecordEvent(getArguments().getString(Constants.FROM), response));
                 getActivity().finish();
             }

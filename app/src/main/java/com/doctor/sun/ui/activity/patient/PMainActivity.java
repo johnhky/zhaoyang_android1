@@ -59,11 +59,11 @@ public class PMainActivity extends BaseFragmentActivity2 {
             if (patientProfile != null) {
                 String phone = patientProfile.getPhone();
                 if (Config.getBoolean(Constants.SHOULD_SHOW_ADD_RECORD_DIALOG + phone, true)) {
-                    new AddMedicalRecordDialog(this, true).show();
+                    new AddMedicalRecordDialog(this, true).show(false);
                     Config.putBoolean(Constants.SHOULD_SHOW_ADD_RECORD_DIALOG + phone, false);
                 }
             } else {
-                new AddMedicalRecordDialog(this, true).show();
+                new AddMedicalRecordDialog(this, true).show(false);
             }
         } else {
             showShowCase();

@@ -2,8 +2,10 @@ package com.doctor.sun.vo;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.databinding.Bindable;
 import android.widget.DatePicker;
 
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.QuestionType;
@@ -157,6 +159,11 @@ public class ItemPickDate extends BaseItem {
         }
     }
 
+    //TODO
+    public void setDateAndNotify(String date) {
+        setDate(date);
+        notifyChange();
+    }
 
     public void pickTime(Context context) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(context, setBeginDate, year, monthOfYear, dayOfMonth);
