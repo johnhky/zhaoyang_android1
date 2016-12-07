@@ -1,11 +1,15 @@
 package com.doctor.sun.ui.widget;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.event.AppointmentHistoryEvent;
@@ -21,6 +25,7 @@ import com.doctor.sun.util.JacksonUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.ganguo.library.BaseApp;
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
 
@@ -39,7 +44,6 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
     private Appointment appointment;
     private List<SimpleAppointment> data = new ArrayList<>();
     private int currentIndex = 0;
-    private int tabPosition = 0;
 
     public static AppointmentHistoryDialog newInstance(Appointment data) {
         AppointmentHistoryDialog fragment = new AppointmentHistoryDialog();
@@ -132,7 +136,9 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
     @Override
     public void onClick(View view) {
-        tabPosition = getBinding().bottomSheetViewpager.getCurrentItem();
+        SharedPreferences.Editor editor = getSharedPref().edit();
+        editor.putInt(Constants.TAB_POSITION, getBinding().bottomSheetViewpager.getCurrentItem());
+        editor.apply();
         switch (view.getId()) {
             case R.id.tv_previous: {
                 currentIndex -= 1;
@@ -166,6 +172,15 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
     @Override
     public int getPosition() {
-        return tabPosition;
+        return getTabPosition();
+    }
+
+    private SharedPreferences getSharedPref() {
+        BaseApp me = AppContext.me();
+        return me.getSharedPreferences("APPOINTMENT_HISTORY", Context.MODE_PRIVATE);
+    }
+
+    private int getTabPosition() {
+        return getSharedPref().getInt(Constants.TAB_POSITION, 1);
     }
 }
