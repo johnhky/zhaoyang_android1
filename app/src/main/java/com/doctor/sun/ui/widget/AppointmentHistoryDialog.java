@@ -42,6 +42,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
     DiagnosisModule api = Api.of(DiagnosisModule.class);
 
     private Appointment appointment;
+    private String recordId;
     private List<SimpleAppointment> data = new ArrayList<>();
     private int currentIndex = 0;
 
@@ -60,6 +61,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
         super.onCreate(savedInstanceState);
         appointment = JacksonUtils.fromJson(getArguments().getString(Constants.DATA), Appointment.class);
         if (appointment != null) {
+            recordId = appointment.getRecord_id();
             currentIndex = Config.getInt(HISTORY_INDEX + appointment.getId(), 0);
         }
     }
@@ -136,9 +138,8 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
     @Override
     public void onClick(View view) {
-        SharedPreferences.Editor editor = getSharedPref().edit();
-        editor.putInt(Constants.TAB_POSITION, getBinding().bottomSheetViewpager.getCurrentItem());
-        editor.apply();
+        setTabPosition();
+
         switch (view.getId()) {
             case R.id.tv_previous: {
                 currentIndex -= 1;
@@ -180,7 +181,13 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
         return me.getSharedPreferences("APPOINTMENT_HISTORY", Context.MODE_PRIVATE);
     }
 
+    private void setTabPosition() {
+        SharedPreferences.Editor editor = getSharedPref().edit();
+        editor.putInt(recordId + Constants.TAB_POSITION, getBinding().bottomSheetViewpager.getCurrentItem());
+        editor.apply();
+    }
+
     private int getTabPosition() {
-        return getSharedPref().getInt(Constants.TAB_POSITION, 1);
+        return getSharedPref().getInt(recordId + Constants.TAB_POSITION, 1);
     }
 }
