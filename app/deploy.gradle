@@ -87,6 +87,7 @@ android {
 //            buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/013/"' //host, 必改
             //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"' //app 数据保存目录, 必改
+            buildConfigField "int", "IS_DOCTOR", '-1'
             //容联 deprecated
 //            buildConfigField "String", "IM_KEY", '"aaf98f89529d327b0152a02ee629035e"' //
 //            buildConfigField "String", "IM_TOKEN", '"6b47a5fce4eb6d4eeebf8b5eadcb6584"'
@@ -111,6 +112,7 @@ android {
             buildConfigField "boolean", "DEV_MODE", "true"
             buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/013/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"' //app 数据保存目录, 必改
+            buildConfigField "int", "IS_DOCTOR", '-1'
             //容联 deprecated
 //            buildConfigField "String", "IM_KEY", '"aaf98f89506fc2f001507e1cab440ace"' //
 //            buildConfigField "String", "IM_TOKEN", '"a8d27b4500d3b3dcfbf96296091abf4d"' //host, 必改
@@ -134,6 +136,7 @@ android {
             buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/013/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
             buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
+            buildConfigField "int", "IS_DOCTOR", '-1'
 
             //容联 deprecated
 //            buildConfigField "String", "IM_TOKEN", '"7c54a355857a08b2dfc3769c7dc05e8a"' //host, 必改
@@ -158,6 +161,7 @@ android {
             buildConfigField "boolean", "DEV_MODE", "false"
             buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/013/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
+            buildConfigField "int", "IS_DOCTOR", '-1'
             //容联 deprecated
 //            buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
 //            buildConfigField "String", "IM_TOKEN", '"7c54a355857a08b2dfc3769c7dc05e8a"' //host, 必改
@@ -177,9 +181,11 @@ android {
                                     , nimKey  : "701994af7b0559728f9ee602a6f3c342"
                                     , jPushKey: "2c1736491f10bfbab86e90ae"]
             buildConfigField "boolean", "DEV_MODE", "false"
-            buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/013/"' //host, 必改
+//            buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/013/"' //host, 必改
+            buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/013/"'
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
             buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
+            buildConfigField "int", "IS_DOCTOR", '0'
 
             //容联 deprecated
 //            buildConfigField "String", "IM_TOKEN", '"7c54a355857a08b2dfc3769c7dc05e8a"' //host, 必改
@@ -201,9 +207,11 @@ android {
                                     , nimKey  : "701994af7b0559728f9ee602a6f3c342"
                                     , jPushKey: "2c1736491f10bfbab86e90ae"]
             buildConfigField "boolean", "DEV_MODE", "false"
-            buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/013/"' //host, 必改
+//            buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/013/"' //host, 必改
+            buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/013/"'
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
             buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
+            buildConfigField "int", "IS_DOCTOR", '1'
 
             //容联 deprecated
 //            buildConfigField "String", "IM_TOKEN", '"7c54a355857a08b2dfc3769c7dc05e8a"' //host, 必改

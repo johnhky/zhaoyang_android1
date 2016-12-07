@@ -310,7 +310,7 @@
         <activity
             android:name="com.doctor.sun.ui.activity.patient.EditQuestionActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHiddentg" />
 
         <activity
             android:name="com.doctor.sun.ui.activity.FileDetailActivity"
