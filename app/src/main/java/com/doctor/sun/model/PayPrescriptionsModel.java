@@ -50,6 +50,7 @@ public class PayPrescriptionsModel {
     private ItemRadioGroup payMethod;
     private ItemTextInput2 shouldPayMoney;
     private double money;
+    private Drug drug;
 
     private HashMap<String, String> extraField;
 
@@ -60,6 +61,7 @@ public class PayPrescriptionsModel {
 
     public List<SortedItem> parseData(final Context context, final Drug response) {
 
+        drug = response;
         final DrugExtraFee extra = response.getExtra_fee();
         boolean hasPay = response.getHas_pay() == IntBoolean.TRUE;
         money = response.getMoney();
@@ -328,7 +330,13 @@ public class PayPrescriptionsModel {
                         Toast.makeText(view.getContext(), "请选择支付方式", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    response.confirmPay(view.getContext(), payMethod.getSelectedItem(), getCouponId(), money, extraField);
+                    String coupon;
+                    if (selectedCoupon != -1) {
+                        coupon = getCouponId();
+                    } else {
+                        coupon = "";
+                    }
+                    response.confirmPay(view.getContext(), payMethod.getSelectedItem(), coupon, money, extraField);
                 }
             };
             confirmButton.setItemId("confirmButton");
