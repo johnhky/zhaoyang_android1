@@ -1,5 +1,6 @@
 package com.doctor.sun.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import com.doctor.sun.entity.Patient;
 import com.doctor.sun.event.SelectMedicalRecordEvent;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.NewMedicalRecordModel;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.vo.ItemPickDate;
@@ -116,9 +118,16 @@ public class NewMedicalRecordFragment extends SortedListFragment {
             protected void handleResponse(MedicalRecord response) {
                 Toast.makeText(getContext(), "病历创建成功", Toast.LENGTH_SHORT).show();
                 EventHub.post(new SelectMedicalRecordEvent(getArguments().getString(Constants.FROM), response));
+                viewRecordDetail(response);
                 getActivity().finish();
             }
         });
+    }
+
+    private void viewRecordDetail(MedicalRecord medicalRecord) {
+        Bundle bundle = EditRecordFragment.getArgs(medicalRecord);
+        Intent intent = SingleFragmentActivity.intentFor(getActivity(), "病历详情", bundle);
+        getActivity().startActivity(intent);
 
     }
 
