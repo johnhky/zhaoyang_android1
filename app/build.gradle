@@ -29,11 +29,6 @@ dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    stageCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    releaseDebugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
     testCompile libs.junit
     testCompile libs.mockito

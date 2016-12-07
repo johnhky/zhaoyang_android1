@@ -3,6 +3,7 @@ package com.doctor.sun.module;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Token;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -55,13 +56,17 @@ public interface AuthModule {
     @POST("auth/login")
     Call<ApiDTO<Token>> login(@Field("phone") String phone, @Field("password") String password);
 
+    /**
+     * @param phone
+     * @param password
+     * @param options  clientModel,clientVersion,installVersion,userType
+     * @return
+     */
     @FormUrlEncoded
     @POST("auth/login")
     Call<ApiDTO<Token>> login(@Field("phone") String phone,
                               @Field("password") String password,
-                              @Field("clientModel") String clientModel,
-                              @Field("clientVersion") String clientVersion,
-                              @Field("installVersion") String installVersion);
+                              @FieldMap HashMap<String, String> options);
 
     @FormUrlEncoded
     @POST("auth/reset")

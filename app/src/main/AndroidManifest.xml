@@ -310,7 +310,7 @@
         <activity
             android:name="com.doctor.sun.ui.activity.patient.EditQuestionActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHiddentg" />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <activity
             android:name="com.doctor.sun.ui.activity.FileDetailActivity"
@@ -624,10 +624,10 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.doctor.sun.fileprovider"
+            android:authorities="${fileProvider}"
             android:exported="false"
             android:grantUriPermissions="true"
-            android:readPermission="com.doctor.sun.fileprovider.READ">
+            android:readPermission="${fileProvider}.READ">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider" />

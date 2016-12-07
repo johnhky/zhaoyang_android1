@@ -2,6 +2,8 @@
     <string name="app_name">昭阳医生</string>
     <string name="app_name_dev">昭阳医生开发服</string>
     <string name="app_name_stage">昭阳医生测试服</string>
+    <string name="app_name_patient">昭阳医生患者版</string>
+    <string name="app_name_doctor">昭阳医生医生版</string>
     <string name="get_captcha">重新获取(%02d)</string>
     <string name="welcome">%s，欢迎您登录昭阳医生</string>
     <string name="label_appointment"><![CDATA[有<font color=\'#339de1\'>%d</font>个预约病人]]></string>

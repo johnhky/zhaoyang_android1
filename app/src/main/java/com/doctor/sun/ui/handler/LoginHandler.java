@@ -11,6 +11,7 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Token;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
@@ -19,6 +20,8 @@ import com.doctor.sun.ui.fragment.RegisterFragment;
 import com.doctor.sun.ui.fragment.ResetPswFragment;
 import com.doctor.sun.util.MD5;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.HashMap;
 
 import io.ganguo.library.common.LoadingHelper;
 import io.ganguo.library.util.StringsUtils;
@@ -51,14 +54,34 @@ public class LoginHandler {
             return;
         }
         LoadingHelper.showMaterLoading(context, "正在登录");
+        HashMap<String, String> options = new HashMap<>();
+        options.put("clientModel", getClientModel());
+        options.put("clientVersion", getClientVersion());
+        options.put("installVersion", getInstallVersion());
+        options.put("userType", BuildConfig.USER_TYPE);
 
-        api.login(phone, MD5.getMessageDigest(password.getBytes()),
-                getClientModel(), getClientVersion(), getInstallVersion()).enqueue(new SimpleCallback<Token>() {
+        String encodedPassword = MD5.getMessageDigest(password.getBytes());
+        api.login(phone, encodedPassword, options).enqueue(new SimpleCallback<Token>() {
             @Override
             protected void handleResponse(Token response) {
                 LoadingHelper.hideMaterLoading();
                 TokenCallback.handleToken(response);
-                TokenCallback.checkToken((Activity) context);
+                int isDoctor = BuildConfig.IS_DOCTOR;
+                switch (isDoctor) {
+                    case IntBoolean.TRUE:
+                        TokenCallback.loadDoctorProfile((Activity) context);
+                        break;
+                    case IntBoolean.FALSE:
+                        TokenCallback.loadPatientProfile((Activity) context);
+                        break;
+                    case IntBoolean.NOT_GIVEN:
+                        TokenCallback.checkToken((Activity) context);
+                        break;
+                    default: {
+                        TokenCallback.checkToken((Activity) context);
+                        break;
+                    }
+                }
                 MobclickAgent.onProfileSignIn(String.valueOf(response.getAccount().getUserId()));
             }
 

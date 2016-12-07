@@ -147,8 +147,8 @@ public class ConsultingFragment extends SortedListFragment {
         super.loadMore();
         if (keys == null || keys.isEmpty()) {
             RealmQuery<TextMsg> query = Realm.getDefaultInstance().where(TextMsg.class);
-            RealmResults<TextMsg> textMsgs = query.findAllSorted("time", Sort.DESCENDING).distinctAsync("sessionId");
-            textMsgs.addChangeListener(new DistinctTeamIdCallback());
+            RealmResults<TextMsg> lastMsg = query.findAllSorted("time", Sort.DESCENDING).distinctAsync("sessionId");
+            lastMsg.addChangeListener(new DistinctTeamIdCallback());
         } else {
             api.appointmentInTid(JacksonUtils.toJson(keys), page + "").enqueue(getCallback());
         }
@@ -296,6 +296,7 @@ public class ConsultingFragment extends SortedListFragment {
 
 
             api.appointmentInTid(JacksonUtils.toJson(getTids(recents)), page + "").enqueue(getCallback());
+            recents.removeChangeListener(this);
         }
     }
 
