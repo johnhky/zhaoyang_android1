@@ -1,6 +1,7 @@
 package com.doctor.sun.ui.adapter.core;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,8 @@ import com.umeng.analytics.MobclickAgent;
  */
 public abstract class BaseListAdapter<T, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseViewHolder<B>> implements AdapterOps<T> {
     public static final String TAG = BaseListAdapter.class.getSimpleName();
+
+    private final SparseArray<Exception> mErrors = new SparseArray<>();
 
     private final SparseBooleanArray mBooleanConfig = new SparseBooleanArray();
     private final SparseArray<String> mStringConfig = new SparseArray<>();
@@ -47,6 +50,7 @@ public abstract class BaseListAdapter<T, B extends ViewDataBinding> extends Recy
         } catch (Exception e) {
             Log.e(TAG, "onCreateViewHolder: R.layout: " + Integer.toHexString(viewType));
             MobclickAgent.reportError(parent.getContext(), e.getCause());
+            mErrors.put(viewType, e);
             B inflate = DataBindingUtil.inflate(getInflater(parent.getContext()), com.doctor.sun.R.layout.item_error, parent, false);
             return new BaseViewHolder<>(inflate);
         }
@@ -54,8 +58,17 @@ public abstract class BaseListAdapter<T, B extends ViewDataBinding> extends Recy
 
     @Override
     public void onBindViewHolder(BaseViewHolder<B> holder, int position) {
-        holder.getBinding().setVariable(BR.adapter, this);
-        holder.bindTo(get(position));
+        int itemViewType = getItemViewType(position);
+        Exception exception = mErrors.get(itemViewType);
+        if (exception != null) {
+            Resources resources = holder.itemView.getContext().getResources();
+            String resourceName = resources.getResourceName(itemViewType);
+            holder.bindTo(exception);
+            holder.getBinding().setVariable(BR.layout, resourceName);
+        } else {
+            holder.getBinding().setVariable(BR.adapter, this);
+            holder.bindTo(get(position));
+        }
     }
 
     public void setLayoutIdInterceptor(LayoutIdInterceptor idInterceptor) {

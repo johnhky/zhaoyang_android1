@@ -5,12 +5,46 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vm.LayoutId" />
+            type="Exception" />
+
+        <variable
+            name="layout"
+            type="String" />
 
     </data>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@{&quot;显示'&quot; + data.toString + &quot;'时出现错误&quot;}" />
+        android:orientation="vertical">
+
+        <include layout="@layout/divider_13dp_gray" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:text="@{layout}"
+            android:textSize="@dimen/font_15"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:text="@{data.getMessage()}"
+            android:textSize="@dimen/font_15" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:text="@{data.getCause().toString()}"
+            android:textSize="@dimen/font_12" />
+
+        <include layout="@layout/divider_13dp_gray" />
+    </LinearLayout>
 </layout>
