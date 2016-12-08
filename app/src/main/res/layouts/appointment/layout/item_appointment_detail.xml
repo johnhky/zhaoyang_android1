@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -35,7 +36,8 @@
             android:layout_marginTop="@dimen/dp_6"
             android:text="@{handler.getTime(context,data.data)}"
             android:textColor="#363636"
-            android:textSize="@dimen/font_13" />
+            android:textSize="@dimen/font_13"
+            tools:text="预约时间:2012年9月12日 20:20" />
 
         <TextView
             android:layout_width="match_parent"
@@ -43,7 +45,8 @@
             android:layout_marginTop="@dimen/dp_6"
             android:text="@{@string/appointment_type(data.displayType)}"
             android:textColor="#363636"
-            android:textSize="@dimen/font_13" />
+            android:textSize="@dimen/font_13"
+            tools:text="预约类型:专属就诊" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,7 +54,8 @@
             android:layout_marginTop="@dimen/dp_6"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            app:html="@{@string/should_pay(data.getNeedPay(context))}" />
+            app:html="@{@string/should_pay(data.getNeedPay(context))}"
+            tools:text="应付:100元" />
 
         <TextView
             android:layout_width="wrap_content"

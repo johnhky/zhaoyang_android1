@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -29,13 +30,15 @@
             android:paddingLeft="@dimen/dp_13">
 
             <com.doctor.sun.ui.widget.BezelImageView
+                android:id="@+id/bezelImageView"
                 android:layout_width="@dimen/dp_60"
                 android:layout_height="@dimen/dp_60"
                 android:layout_marginTop="@dimen/dp_12"
                 android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
                 android:src="@{data.doctor.avatar}"
-                app:maskDrawable="@drawable/circle_mask" />
+                app:maskDrawable="@drawable/circle_mask"
+                tools:src="@drawable/female_doctor_avatar" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,7 +60,8 @@
                         android:layout_height="wrap_content"
                         android:text="@{data.doctor.name}"
                         android:textColor="#363636"
-                        android:textSize="@dimen/font_15" />
+                        android:textSize="@dimen/font_15"
+                        tools:text="精神病医生" />
 
                     <View
                         android:layout_width="0dp"
@@ -81,19 +85,21 @@
                     android:gravity="center"
                     android:paddingLeft="@dimen/dp_4"
                     android:paddingRight="@dimen/dp_4"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:text="@{data.doctor.level}"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/font_9" />
+                    android:textSize="@dimen/font_9"
+                    tools:background="@drawable/shape_red_rect"
+                    tools:text="专治病" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_8"
-                    android:singleLine="false"
                     android:text="@{data.doctor.handler.careerInfo}"
                     android:textColor="#363636"
-                    android:textSize="@dimen/font_13" />
+                    android:textSize="@dimen/font_13"
+                    tools:text="测试医院/主任医师/专科" />
 
             </LinearLayout>
 
@@ -116,7 +122,8 @@
             android:gravity="center_vertical"
             android:text="@{handler.getTime(context,data)}"
             android:textColor="#363636"
-            android:textSize="@dimen/font_13" />
+            android:textSize="@dimen/font_13"
+            tools:text="就诊时间:2016年12月12日" />
 
         <TextView
             android:layout_width="match_parent"
@@ -127,7 +134,8 @@
             android:gravity="center_vertical"
             android:text="@{@string/appointment_type(data.display_type)}"
             android:textColor="#363636"
-            android:textSize="@dimen/font_13" />
+            android:textSize="@dimen/font_13"
+            tools:text="预约类型:专属就诊" />
 
         <TextView
             android:layout_width="match_parent"
@@ -138,7 +146,8 @@
             android:gravity="center_vertical"
             android:text="@{@string/record(data.record.recordName)}"
             android:textColor="#363636"
-            android:textSize="@dimen/font_13" />
+            android:textSize="@dimen/font_13"
+            tools:text="病历:病历名字" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -150,7 +159,8 @@
             android:gravity="center_vertical"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            app:html="@{@string/money(data.money)}" />
+            app:html="@{@string/money(data.money)}"
+            tools:text="实际付款:120元" />
 
         <View
             android:layout_width="match_parent"

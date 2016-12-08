@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -41,7 +42,8 @@
                 android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
                 android:src="@{data.data.record.patientAvatar}"
-                app:maskDrawable="@drawable/circle_mask" />
+                app:maskDrawable="@drawable/circle_mask"
+                tools:src="@drawable/female_doctor_avatar" />
 
             <View
                 android:layout_width="match_parent"
@@ -67,7 +69,8 @@
                 android:layout_marginRight="@dimen/dp_13"
                 android:text="@{handler.getConsultingTitle(data.data)}"
                 android:textColor="@color/dark_36"
-                android:textSize="@dimen/font_15" />
+                android:textSize="@dimen/font_15"
+                tools:text="病历:医生有病" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,7 +85,8 @@
                     android:layout_height="wrap_content"
                     android:text="交谈者: "
                     android:textColor="#717171"
-                    android:textSize="@dimen/font_12" />
+                    android:textSize="@dimen/font_12"
+                    tools:text="交谈者: 患者没病" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -108,16 +112,23 @@
                     android:layout_weight="1"
                     android:text="@{@string/appointment_progress(data.data.progress)}"
                     android:textColor="@color/grey_ab"
-                    android:textSize="@dimen/font_12" />
+                    android:textSize="@dimen/font_12"
+                    tools:text="问卷完成度:0/0" />
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_12"
-                    app:html="@{handler.styledOrderTypeAndStatus(data.data)}" />
+                    app:html="@{handler.styledOrderTypeAndStatus(data.data)}"
+                    tools:text="专属咨询-待建议" />
             </LinearLayout>
 
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -134,7 +145,8 @@
                     android:layout_weight="1"
                     android:text='@{handler.getTime(context,data.data)}'
                     android:textColor="@color/grey_ab"
-                    android:textSize="@dimen/font_12" />
+                    android:textSize="@dimen/font_12"
+                    tools:text="就诊时间:2016-12-07 13:30:15:20" />
 
 
                 <TextView
@@ -149,11 +161,6 @@
                     android:textSize="@dimen/font_12"
                     android:visibility="@{handler.unreadMsgCount(data.data)>0}" />
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/divider_color" />
         </LinearLayout>
 
     </LinearLayout>

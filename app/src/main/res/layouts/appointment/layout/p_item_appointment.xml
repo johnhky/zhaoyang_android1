@@ -45,7 +45,26 @@
                 android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
                 android:src="@{data.doctor.avatar}"
-                app:maskDrawable="@drawable/circle_mask" />
+                app:maskDrawable="@drawable/circle_mask"
+                tools:src="@drawable/female_doctor_avatar" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_30"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="@dimen/dp_13"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginStart="@dimen/dp_13"
+                android:background="@{handler.getStatusBackground(data)}"
+                android:gravity="center_vertical"
+                android:onClick="@{()->handler.showStatusTimeline(context, data)}"
+                android:paddingLeft="@dimen/dp_13"
+                android:paddingStart="@dimen/dp_13"
+                android:textSize="@dimen/font_13"
+                app:drawableRightCompat="@{handler.getStatusArrow(data)}"
+                app:html="@{handler.styledOrderStatus(data)}"
+                tools:ignore="RtlSymmetry" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,7 +86,8 @@
                     android:text="@{data.doctor.name}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_15"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="精神病医生" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -82,27 +102,11 @@
                     android:singleLine="true"
                     android:text="@{data.doctor.level}"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/font_9" />
+                    android:textSize="@dimen/font_9"
+                    tools:text="专科医生"
+                    tools:background="@drawable/shape_red_rect"/>
 
             </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_30"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="@dimen/dp_13"
-                android:layout_marginLeft="@dimen/dp_13"
-                android:layout_marginRight="@dimen/dp_13"
-                android:layout_marginStart="@dimen/dp_13"
-                android:background="@{handler.getStatusBackground(data)}"
-                android:gravity="center_vertical"
-                android:onClick="@{()->handler.showStatusTimeline(context, data)}"
-                android:paddingLeft="@dimen/dp_13"
-                android:paddingStart="@dimen/dp_13"
-                android:textSize="@dimen/font_13"
-                app:drawableRightCompat="@{handler.getStatusArrow(data)}"
-                app:html="@{handler.styledOrderStatus(data)}"
-                tools:ignore="RtlSymmetry" />
 
         </com.zhy.android.percent.support.PercentFrameLayout>
 
@@ -132,7 +136,8 @@
                 android:layout_height="wrap_content"
                 android:text="@{handler.getRecordName(data)}"
                 android:textColor="#363636"
-                android:textSize="@dimen/font_13" />
+                android:textSize="@dimen/font_13"
+                tools:text="病历名字" />
 
         </LinearLayout>
 
@@ -144,7 +149,8 @@
             android:layout_marginTop="@dimen/dp_6"
             android:text="@{handler.getTime(context,data)}"
             android:textColor="#363636"
-            android:textSize="@dimen/font_13" />
+            android:textSize="@dimen/font_13"
+            tools:text="预约时间: 2016年12月21日" />
 
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
@@ -160,6 +166,7 @@
                 android:text="@{@string/appointment_type(data.display_type)}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_13"
+                tools:text="预约类型:专属就诊"
                 app:layout_widthPercent="40%" />
 
             <LinearLayout
@@ -206,7 +213,8 @@
                 android:textColor="#363636"
                 android:textSize="@dimen/font_13"
                 app:html="@{@string/money(data.money)}"
-                app:layout_widthPercent="40%" />
+                app:layout_widthPercent="40%"
+                tools:text="需要付款 120元" />
 
 
             <LinearLayout
@@ -222,7 +230,8 @@
                     android:gravity="center"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13"
-                    app:html="@{@string/need_pay(data.need_pay)}" />
+                    app:html="@{@string/need_pay(data.need_pay)}"
+                    tools:text="实际付款 120元" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -265,6 +274,7 @@
                 android:gravity="start"
                 android:text="@{&quot;取消原因: &quot;  + data.cancel_reason}"
                 android:textColor="@color/grey_42"
+                tools:text="取消原因: 医生太抠门了"
                 android:textSize="@dimen/font_13" />
 
 
@@ -280,6 +290,7 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_7"
             android:orientation="horizontal"
+            tools:visibility="gone"
             app:visible="@{handler.hasPay(data)}">
 
             <View
@@ -336,6 +347,7 @@
             android:layout_marginTop="@dimen/dp_7"
             android:background="@drawable/btn_comment"
             android:visibility="@{handler.showCommentBtn(data)}"
+            tools:visibility="gone"
             app:selected="@{handler.hasDoctorComment(data)}">
 
             <TextView
