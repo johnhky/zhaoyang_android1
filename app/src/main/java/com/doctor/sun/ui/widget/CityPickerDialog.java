@@ -7,7 +7,7 @@ import android.widget.NumberPicker;
 
 import com.doctor.sun.bean.City;
 import com.doctor.sun.bean.Province;
-import com.doctor.sun.databinding.ItemCityPickerBinding;
+import com.doctor.sun.databinding.ItemPickCityBinding;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 import java.lang.reflect.InvocationTargetException;
@@ -42,7 +42,7 @@ public class CityPickerDialog {
             return;
         }
 
-        ItemCityPickerBinding binding = ItemCityPickerBinding.inflate(LayoutInflater.from(context));
+        ItemPickCityBinding binding = ItemPickCityBinding.inflate(LayoutInflater.from(context));
         if (confirm != null) {
             binding.confirm.setOnClickListener(confirm);
         }

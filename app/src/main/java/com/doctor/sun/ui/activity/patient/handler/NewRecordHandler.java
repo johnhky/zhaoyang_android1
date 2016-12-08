@@ -20,7 +20,7 @@ public class NewRecordHandler implements LayoutId {
 
     @Override
     public int getItemLayoutId() {
-        return R.layout.item_new;
+        return R.layout.item_new_record;
     }
 
     public void newRecord(View view) {

@@ -6,7 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
 
-import com.doctor.sun.databinding.ItemNumberPickerBinding;
+import com.doctor.sun.databinding.ItemPickNumberBinding;
+
 
 /**
  * Created by kb on 16-12-2.
@@ -33,7 +34,7 @@ public class NumberPickerDialog {
             return;
         }
 
-        ItemNumberPickerBinding binding = ItemNumberPickerBinding.inflate(LayoutInflater.from(context));
+        ItemPickNumberBinding binding = ItemPickNumberBinding.inflate(LayoutInflater.from(context));
         if (confirm != null) {
             binding.confirm.setOnClickListener(confirm);
         }
