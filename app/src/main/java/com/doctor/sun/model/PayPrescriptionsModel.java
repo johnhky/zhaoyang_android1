@@ -50,7 +50,6 @@ public class PayPrescriptionsModel {
     private ItemRadioGroup payMethod;
     private ItemTextInput2 shouldPayMoney;
     private double money;
-    private Drug drug;
 
     private HashMap<String, String> extraField;
 
@@ -61,7 +60,6 @@ public class PayPrescriptionsModel {
 
     public List<SortedItem> parseData(final Context context, final Drug response) {
 
-        drug = response;
         final DrugExtraFee extra = response.getExtra_fee();
         boolean hasPay = response.getHas_pay() == IntBoolean.TRUE;
         money = response.getMoney();
@@ -245,7 +243,7 @@ public class PayPrescriptionsModel {
                 selectCoupon.setPosition(result.size());
                 result.add(selectCoupon);
             }
-        } else {
+        } else if (response.getCoupon_info() != null && response.getCoupon_info().couponMoney != null){
             Description couponDescription = new Description(R.layout.item_description, "优惠券");
             couponDescription.setBackgroundColor(R.color.color_coupon_background_yellow);
             couponDescription.setTitleColor(R.color.white);
