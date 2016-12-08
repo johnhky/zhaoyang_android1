@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import org.immutables.value.Value;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -83,7 +84,10 @@ public abstract class Drug extends BaseItem {
 
     public abstract Doctor getDoctor();
 
-    public abstract List<String> getDrug();
+    @Value.Default
+    public List<String> getDrug() {
+        return new ArrayList<>();
+    }
 
     public abstract List<DrugEntity> getDrug_detail();
 
