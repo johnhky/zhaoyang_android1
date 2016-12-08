@@ -37,14 +37,6 @@
             android:text="@{data.getMessage()}"
             android:textSize="@dimen/font_15" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:text="@{data.getCause().toString()}"
-            android:textSize="@dimen/font_12" />
-
         <include layout="@layout/divider_13dp_gray" />
     </LinearLayout>
 </layout>
