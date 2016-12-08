@@ -8,7 +8,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.databinding.ItemLegacyRPrescriptionBinding;
+import com.doctor.sun.databinding.ItemRLegacyPrescriptionBinding;
 import com.doctor.sun.databinding.ItemRPrescriptionBinding;
 import com.doctor.sun.databinding.MsgPrescriptionListBinding;
 import com.doctor.sun.dto.PrescriptionDTO;
@@ -171,7 +171,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
 
                     if (prescriptionDTO.getDrug() == null) return;
                     for (LegacyPrescriptionDTO.Prescription prescription : prescriptionDTO.getDrug()) {
-                        ItemLegacyRPrescriptionBinding item = DataBindingUtil.inflate(getInflater(vh.itemView.getContext()), R.layout.item_r_legacy_prescription, binding.prescription, true);
+                        ItemRLegacyPrescriptionBinding item = DataBindingUtil.inflate(getInflater(vh.itemView.getContext()), R.layout.item_r_legacy_prescription, binding.prescription, true);
                         item.setData(prescription);
                     }
                 }
