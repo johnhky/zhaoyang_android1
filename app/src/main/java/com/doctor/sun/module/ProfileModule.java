@@ -5,7 +5,6 @@ import com.doctor.sun.dto.IsChanged;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Advice;
-import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.entity.Article;
 import com.doctor.sun.entity.Comment;
 import com.doctor.sun.entity.Coupon;
@@ -105,6 +104,10 @@ public interface ProfileModule {
     Call<ApiDTO<String>> resetPassword(@Field("password") String password,
                                        @Field("newPassword") String newPassword,
                                        @Field("confirmPassword") String confirmPassword);
+
+    @FormUrlEncoded
+    @POST("profile/new-password")
+    Call<ApiDTO<String>> resetPassword(@FieldMap Map<String, String> map);
 
 
     @GET("profile/comments")

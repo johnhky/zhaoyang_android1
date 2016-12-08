@@ -4,12 +4,14 @@ import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.util.MD5;
 import com.doctor.sun.vm.BaseItem;
 import com.google.common.base.Strings;
 
 import java.util.HashMap;
 import java.util.List;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -71,6 +73,43 @@ final class ModelUtils {
             }
 
             String value = item.getValue();
+            if (!Strings.isNullOrEmpty(value)) {
+                String key = item.getKey();
+                if (!Strings.isNullOrEmpty(key)) {
+                    result.put(key, value);
+                }
+            }
+        }
+
+        if (!isValid) {
+            ApiDTO<String> body = new ApiDTO<>();
+            body.setStatus("500");
+            body.setMessage("请填写必填项目");
+            if (callback != null) {
+                callback.onResponse(null, Response.success(body));
+            }
+            return null;
+        } else {
+            return result;
+        }
+    }
+
+    static HashMap<String, String> passwordToHashMap(SortedListAdapter adapter, Callback callback) {
+        boolean isValid = true;
+        HashMap<String, String> result = new HashMap<>();
+
+        //遍历所有的item
+        for (int i = 0; i < adapter.size(); i++) {
+            BaseItem item = (BaseItem) adapter.get(i);
+
+            if (!item.isValid("")) {
+                if (!item.resultCanEmpty()) {
+                    item.addNotNullOrEmptyValidator();
+                }
+                isValid = false;
+            }
+
+            String value = MD5.getMessageDigest(item.getValue().getBytes());
             if (!Strings.isNullOrEmpty(value)) {
                 String key = item.getKey();
                 if (!Strings.isNullOrEmpty(key)) {

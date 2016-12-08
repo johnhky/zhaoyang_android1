@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -19,14 +20,15 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.LoginActivity;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.AdviceActivity;
-import com.doctor.sun.ui.activity.doctor.ChangePswActivity;
 import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.activity.doctor.MeActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.activity.patient.PMainActivity;
 import com.doctor.sun.ui.activity.patient.PMeActivity;
 import com.doctor.sun.ui.fragment.AllowToSearchFragment;
+import com.doctor.sun.ui.fragment.ChangePasswordFragment;
 import com.doctor.sun.ui.widget.ShareDialog;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
@@ -58,7 +60,8 @@ public class SettingHandler {
     }
 
     public void changePassword(View view) {
-        Intent intent = ChangePswActivity.makeIntent(view.getContext());
+        Bundle bundle = ChangePasswordFragment.getArgs();
+        Intent intent = SingleFragmentActivity.intentFor(view.getContext(), "修改密码", bundle);
         view.getContext().startActivity(intent);
     }
 
