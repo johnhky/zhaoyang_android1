@@ -38,7 +38,10 @@ public abstract class PrescriptionOrder extends BaseItem {
 
     public abstract String getAppointment_id();
 
-    public abstract String getDrug_order_id();
+    @Value.Default
+    public String getDrug_order_id(){
+        return "";
+    }
 
     public abstract String getRecord_id();
 
