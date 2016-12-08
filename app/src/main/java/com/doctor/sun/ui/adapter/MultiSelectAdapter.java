@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 
 /**
  * Created by rick on 16/3/2016.

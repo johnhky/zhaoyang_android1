@@ -22,7 +22,7 @@
 
         <variable
             name="banner"
-            type="com.doctor.sun.vo.AutoScrollViewModel" />
+            type="com.doctor.sun.vm.AutoScrollViewModel" />
     </data>
 
     <com.zhy.android.percent.support.PercentFrameLayout

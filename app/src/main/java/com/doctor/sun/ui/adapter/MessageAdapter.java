@@ -26,7 +26,7 @@ import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.ImagePreviewActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.util.JacksonUtils;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 

@@ -1,10 +1,9 @@
 package com.doctor.sun.ui.adapter;
 
-import android.content.Context;
 import android.databinding.ViewDataBinding;
 
 import com.doctor.sun.ui.adapter.core.ListAdapter;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 
 
 /**

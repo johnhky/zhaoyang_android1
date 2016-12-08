@@ -24,7 +24,7 @@ import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.QuestionStatsFragment;
 import com.doctor.sun.ui.fragment.ReadQTemplateFragment;
 import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;

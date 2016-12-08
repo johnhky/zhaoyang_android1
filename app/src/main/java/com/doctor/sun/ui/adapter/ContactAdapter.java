@@ -1,6 +1,5 @@
 package com.doctor.sun.ui.adapter;
 
-import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.util.SparseIntArray;
 import android.widget.SectionIndexer;
@@ -8,7 +7,7 @@ import android.widget.SectionIndexer;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.ui.widget.SideSelector;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 
 import java.util.List;
 

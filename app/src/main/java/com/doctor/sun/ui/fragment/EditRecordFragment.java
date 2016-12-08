@@ -18,7 +18,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.EditRecordModel;
 import com.doctor.sun.ui.activity.patient.HistoryActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 
 import java.util.List;
 

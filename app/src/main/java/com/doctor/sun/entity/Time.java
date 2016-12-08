@@ -9,7 +9,7 @@ import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.TimeType;
 import com.doctor.sun.entity.handler.TimeHandler;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 

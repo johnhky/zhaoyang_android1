@@ -1,13 +1,12 @@
 package com.doctor.sun.ui.adapter.core;
 
-import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.view.ViewGroup;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.IncludeLoadingBinding;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 
 import java.util.List;
 

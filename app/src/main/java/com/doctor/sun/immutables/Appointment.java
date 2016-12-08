@@ -5,7 +5,7 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.Tags;
 import com.doctor.sun.entity.constans.IntBoolean;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

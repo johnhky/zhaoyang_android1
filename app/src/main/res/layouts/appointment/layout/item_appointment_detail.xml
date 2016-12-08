@@ -11,7 +11,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.AppointmentWrapper" />
+            type="com.doctor.sun.vm.AppointmentWrapper" />
 
         <variable
             name="vh"

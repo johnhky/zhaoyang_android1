@@ -25,7 +25,7 @@ import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.model.EditPrescriptionModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.util.JacksonUtils;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 import com.squareup.otto.Subscribe;
 
 import java.util.HashMap;

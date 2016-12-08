@@ -19,10 +19,10 @@ import com.doctor.sun.module.AutoComplete;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.widget.NumberPickerDialog;
-import com.doctor.sun.vo.ItemAutoCompleteTextInput;
-import com.doctor.sun.vo.ItemRadioDialog;
-import com.doctor.sun.vo.ItemTextInput2;
-import com.doctor.sun.vo.validator.Validator;
+import com.doctor.sun.vm.ItemAutoCompleteTextInput;
+import com.doctor.sun.vm.ItemRadioDialog;
+import com.doctor.sun.vm.ItemTextInput2;
+import com.doctor.sun.vm.validator.Validator;
 import com.google.common.base.Predicate;
 
 import java.util.ArrayList;

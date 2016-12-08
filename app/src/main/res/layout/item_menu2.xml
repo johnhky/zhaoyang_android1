@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.BaseMenu" />
+            type="com.doctor.sun.vm.BaseMenu" />
 
     </data>
 

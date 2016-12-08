@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemSwitch" />
+            type="com.doctor.sun.vm.ItemSwitch" />
     </data>
 
     <!--TODO remove this file-->

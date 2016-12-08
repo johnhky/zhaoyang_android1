@@ -9,7 +9,7 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.DayModule;
 import com.doctor.sun.module.TimeModule;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 import com.doctor.sun.util.Function0;
 
 import java.io.IOException;

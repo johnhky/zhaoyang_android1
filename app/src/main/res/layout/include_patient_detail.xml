@@ -9,7 +9,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemPatientDetail" />
+            type="com.doctor.sun.vm.ItemPatientDetail" />
 
         <variable
             name="position"

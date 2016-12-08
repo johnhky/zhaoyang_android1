@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
@@ -20,9 +19,9 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.util.JacksonUtils;
-import com.doctor.sun.vo.BaseItem;
-import com.doctor.sun.vo.ItemSwitch;
-import com.doctor.sun.vo.ItemTextInput2;
+import com.doctor.sun.vm.BaseItem;
+import com.doctor.sun.vm.ItemSwitch;
+import com.doctor.sun.vm.ItemTextInput2;
 
 import java.util.ArrayList;
 import java.util.UUID;

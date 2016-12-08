@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ClickMenu" />
+            type="com.doctor.sun.vm.ClickMenu" />
 
         <variable
             name="vh"

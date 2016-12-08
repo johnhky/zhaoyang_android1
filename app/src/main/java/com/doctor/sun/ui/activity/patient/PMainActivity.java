@@ -28,7 +28,7 @@ import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
-import com.doctor.sun.vo.AutoScrollViewModel;
+import com.doctor.sun.vm.AutoScrollViewModel;
 import com.squareup.otto.Subscribe;
 
 import java.util.List;

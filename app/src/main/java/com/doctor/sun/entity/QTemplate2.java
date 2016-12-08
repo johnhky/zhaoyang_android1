@@ -17,7 +17,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.fragment.ReadQTemplateFragment;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;

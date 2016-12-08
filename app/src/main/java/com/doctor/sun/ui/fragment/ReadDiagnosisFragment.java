@@ -16,7 +16,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.DiagnosisReadOnlyViewModel;
-import com.doctor.sun.vo.ItemTextInput;
+import com.doctor.sun.vm.ItemTextInput;
 
 /**
  * Created by rick on 29/6/2016.

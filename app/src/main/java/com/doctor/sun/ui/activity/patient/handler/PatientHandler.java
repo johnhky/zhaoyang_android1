@@ -18,7 +18,7 @@ import com.doctor.sun.ui.activity.doctor.ApplyAfterServiceActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
-import com.doctor.sun.vo.ItemPickTime;
+import com.doctor.sun.vm.ItemPickTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Calendar;

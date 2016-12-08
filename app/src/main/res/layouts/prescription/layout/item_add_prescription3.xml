@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemAddPrescription2" />
+            type="com.doctor.sun.vm.ItemAddPrescription2" />
 
         <variable
             name="adapter"

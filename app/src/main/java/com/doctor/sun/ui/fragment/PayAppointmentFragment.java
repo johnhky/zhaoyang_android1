@@ -16,7 +16,7 @@ import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.PayEventHandler;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 
 import java.util.List;
 

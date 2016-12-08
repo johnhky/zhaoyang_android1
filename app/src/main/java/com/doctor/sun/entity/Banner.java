@@ -6,7 +6,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**

@@ -9,7 +9,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemRadioGroup" />
+            type="com.doctor.sun.vm.ItemRadioGroup" />
 
     </data>
 

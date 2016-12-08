@@ -11,7 +11,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemConsulting" />
+            type="com.doctor.sun.vm.ItemConsulting" />
 
         <variable
             name="vh"

@@ -61,7 +61,7 @@ import com.doctor.sun.ui.fragment.PayAppointmentFragment;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PayCallback;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 
 import java.text.ParseException;

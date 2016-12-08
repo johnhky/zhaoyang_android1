@@ -21,11 +21,11 @@ import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.CountDownUtil;
 import com.doctor.sun.util.MD5;
-import com.doctor.sun.vo.BaseItem;
-import com.doctor.sun.vo.ItemCaptchaInput;
-import com.doctor.sun.vo.ItemTextInput2;
-import com.doctor.sun.vo.validator.RegexValidator;
-import com.doctor.sun.vo.validator.Validator;
+import com.doctor.sun.vm.BaseItem;
+import com.doctor.sun.vm.ItemCaptchaInput;
+import com.doctor.sun.vm.ItemTextInput2;
+import com.doctor.sun.vm.validator.RegexValidator;
+import com.doctor.sun.vm.validator.Validator;
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;

@@ -35,7 +35,7 @@ import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.Function0;
-import com.doctor.sun.vo.ItemPickImages;
+import com.doctor.sun.vm.ItemPickImages;
 import com.squareup.otto.Subscribe;
 
 import java.util.List;

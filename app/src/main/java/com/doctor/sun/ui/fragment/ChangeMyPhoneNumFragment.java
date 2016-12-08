@@ -16,11 +16,11 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.util.CountDownUtil;
-import com.doctor.sun.vo.BaseItem;
-import com.doctor.sun.vo.ClickMenu;
-import com.doctor.sun.vo.ItemCaptchaInput;
-import com.doctor.sun.vo.ItemTextInput2;
-import com.doctor.sun.vo.validator.RegexValidator;
+import com.doctor.sun.vm.BaseItem;
+import com.doctor.sun.vm.ClickMenu;
+import com.doctor.sun.vm.ItemCaptchaInput;
+import com.doctor.sun.vm.ItemTextInput2;
+import com.doctor.sun.vm.validator.RegexValidator;
 
 import java.util.ArrayList;
 import java.util.List;

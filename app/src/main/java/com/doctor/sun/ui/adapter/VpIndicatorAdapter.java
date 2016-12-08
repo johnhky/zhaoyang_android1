@@ -4,8 +4,8 @@ import android.databinding.ViewDataBinding;
 
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.vo.EmptyLayoutId;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.EmptyLayoutId;
+import com.doctor.sun.vm.LayoutId;
 
 /**
  * Created by rick on 8/4/2016.

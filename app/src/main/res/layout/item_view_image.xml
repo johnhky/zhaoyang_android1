@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemPickImages" />
+            type="com.doctor.sun.vm.ItemPickImages" />
 
         <variable
             name="vh"

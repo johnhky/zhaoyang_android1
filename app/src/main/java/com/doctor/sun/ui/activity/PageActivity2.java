@@ -16,7 +16,7 @@ import com.doctor.sun.databinding.ActivityListBinding;
 import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
-import com.doctor.sun.vo.ItemSearch;
+import com.doctor.sun.vm.ItemSearch;
 import com.google.common.base.Strings;
 
 import io.ganguo.library.util.Tasks;

@@ -22,8 +22,8 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.EditPatientInfoModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
-import com.doctor.sun.vo.BaseItem;
-import com.doctor.sun.vo.ItemPickImage;
+import com.doctor.sun.vm.BaseItem;
+import com.doctor.sun.vm.ItemPickImage;
 import com.squareup.otto.Subscribe;
 
 import java.util.List;

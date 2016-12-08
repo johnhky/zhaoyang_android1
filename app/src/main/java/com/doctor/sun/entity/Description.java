@@ -5,7 +5,7 @@ import android.support.annotation.ColorRes;
 
 import com.doctor.sun.R;
 import com.doctor.sun.util.NameComparator;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 
 /**
  * Created by lucas on 12/2/15.

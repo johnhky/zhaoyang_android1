@@ -9,7 +9,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.QuestionModule;
-import com.doctor.sun.vo.ItemTextInput2;
+import com.doctor.sun.vm.ItemTextInput2;
 
 /**
  * Created by rick on 5/9/2016.

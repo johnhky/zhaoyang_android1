@@ -12,8 +12,8 @@ import com.doctor.sun.entity.Symptom;
 import com.doctor.sun.entity.SymptomFactory;
 import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.module.AuthModule;
-import com.doctor.sun.vo.ItemTextInput;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.ItemTextInput;
+import com.doctor.sun.vm.LayoutId;
 
 import java.util.ArrayList;
 import java.util.List;

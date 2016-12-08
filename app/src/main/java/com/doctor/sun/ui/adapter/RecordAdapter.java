@@ -1,7 +1,5 @@
 package com.doctor.sun.ui.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +15,7 @@ import com.doctor.sun.immutables.ImmutableAppointment;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
