@@ -169,7 +169,7 @@ public class ItemPickHospital extends BaseItem {
 
     @Override
     public int getItemLayoutId() {
-        return R.layout.item_hospital;
+        return R.layout.item_pick_hospital;
     }
 
     public HashMap<String, Object> toJsonAnswer() {
@@ -256,7 +256,7 @@ public class ItemPickHospital extends BaseItem {
         if (!isVisible()) {
             return R.layout.item_empty;
         }
-        return R.layout.item_hospital;
+        return R.layout.item_pick_hospital;
     }
 
     public String lastAnswerContent() {

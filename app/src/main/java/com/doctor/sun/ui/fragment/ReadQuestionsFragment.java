@@ -210,7 +210,7 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
 
             put(R.layout.item_prescription3, R.layout.item_r_prescription);
 
-            put(R.layout.item_hospital, R.layout.item_r_hospital);
+            put(R.layout.item_pick_hospital, R.layout.item_r_hospital);
 
             put(R.layout.item_reminder2, R.layout.item_r_reminder2);
 

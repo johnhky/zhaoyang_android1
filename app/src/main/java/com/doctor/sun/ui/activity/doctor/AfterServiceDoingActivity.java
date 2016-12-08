@@ -61,7 +61,7 @@ public class AfterServiceDoingActivity extends TabActivity {
 
     private void addHistoryButton() {
         if (Settings.isDoctor()) {
-            View historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.flContainer, false);
+            View historyButton = LayoutInflater.from(this).inflate(R.layout.item_fab_view_history, binding.flContainer, false);
             historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

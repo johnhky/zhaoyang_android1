@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -60,7 +59,7 @@ public class AppointmentDetailActivity extends TabActivity {
 
     private void addHistoryButton() {
         if (Settings.isDoctor()) {
-            historyButton = LayoutInflater.from(this).inflate(R.layout.item_history_button, binding.flContainer, false);
+            historyButton = LayoutInflater.from(this).inflate(R.layout.item_fab_view_history, binding.flContainer, false);
             historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
