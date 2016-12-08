@@ -20,7 +20,6 @@ import com.doctor.sun.databinding.FragmentQuestionsInventoryBinding;
 import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
-import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.BaseItem;
 import com.doctor.sun.vo.ItemCustomQuestionLoader;
@@ -102,7 +101,7 @@ public class QuestionsInventoryFragment extends SortedListFragment {
         SortedListAdapter adapter = super.createAdapter();
         adapter.putString(AdapterConfigKey.ID, getAppointmentId());
         MapLayoutIdInterceptor interceptor = new MapLayoutIdInterceptor();
-        interceptor.put(R.layout.item_question, R.layout.item_inventory_question);
+        interceptor.put(R.layout.item_question, R.layout.item_question_inventory);
         interceptor.put(R.layout.item_further_consultation, R.layout.item_empty);
         adapter.setLayoutIdInterceptor(interceptor);
         return adapter;
@@ -184,7 +183,7 @@ public class QuestionsInventoryFragment extends SortedListFragment {
     }
 
     public void setInVisible(BaseItem item) {
-        if (item.getLayoutId() != R.layout.item_inventory_question) {
+        if (item.getLayoutId() != R.layout.item_question_inventory) {
             if (item.getLayoutId() != R.layout.divider_1px_top13) {
                 item.setVisible(false);
             }
@@ -192,7 +191,7 @@ public class QuestionsInventoryFragment extends SortedListFragment {
     }
 
     public void setVisible(BaseItem item) {
-        if (item.getLayoutId() != R.layout.item_inventory_question) {
+        if (item.getLayoutId() != R.layout.item_question_inventory) {
             if (item.getLayoutId() != R.layout.divider_1px_top13) {
                 item.setVisible(true);
             }

@@ -34,7 +34,7 @@ public class Reminder implements LayoutId {
     @JsonIgnore
     @Override
     public int getItemLayoutId() {
-        return R.layout.r_item_reminder;
+        return R.layout.item_r_reminder;
     }
 
     public static Reminder fromMap(Map<String, String> stringStringMap) {

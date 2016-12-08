@@ -222,7 +222,7 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
                 put(R.layout.item_scales, R.layout.item_r_scales);
             }
 
-            put(R.layout.item_load_prescription, R.layout.item_empty);
+            put(R.layout.item_options_load_prescription, R.layout.item_empty);
 
             put(R.layout.item_add_reminder, R.layout.item_empty);
 

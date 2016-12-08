@@ -171,7 +171,7 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
 
                     if (prescriptionDTO.getDrug() == null) return;
                     for (LegacyPrescriptionDTO.Prescription prescription : prescriptionDTO.getDrug()) {
-                        ItemLegacyRPrescriptionBinding item = DataBindingUtil.inflate(getInflater(vh.itemView.getContext()), R.layout.item_legacy_r_prescription, binding.prescription, true);
+                        ItemLegacyRPrescriptionBinding item = DataBindingUtil.inflate(getInflater(vh.itemView.getContext()), R.layout.item_r_legacy_prescription, binding.prescription, true);
                         item.setData(prescription);
                     }
                 }

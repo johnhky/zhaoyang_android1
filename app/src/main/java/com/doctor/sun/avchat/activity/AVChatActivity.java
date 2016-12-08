@@ -128,7 +128,7 @@ public class AVChatActivity extends BaseFragmentActivity2 implements AVChatUI.AV
             finish();
             return;
         }
-        View root = LayoutInflater.from(this).inflate(R.layout.avchat_activity, null);
+        View root = LayoutInflater.from(this).inflate(R.layout.activity_avchat, null);
         setContentView(root);
         checkPermission();
         mIsInComingCall = getIntent().getBooleanExtra(KEY_IN_CALLING, false);

@@ -14,16 +14,26 @@ android {
             res.srcDirs += [
                     'src/main/res/layouts/activity',
                     'src/main/res/layouts/appointment',
+                    'src/main/res/layouts/avchat',
+                    'src/main/res/layouts/button',
+                    'src/main/res/layouts/description',
+                    'src/main/res/layouts/dialog',
+                    'src/main/res/layouts/diagnosis',
                     'src/main/res/layouts/divider',
                     'src/main/res/layouts/doctor',
+                    'src/main/res/layouts/drug',
+                    'src/main/res/layouts/emoji',
                     'src/main/res/layouts/followup',
                     'src/main/res/layouts/medicalRecord',
                     'src/main/res/layouts/message',
                     'src/main/res/layouts/options',
                     'src/main/res/layouts/patient',
+                    'src/main/res/layouts/picker',
                     'src/main/res/layouts/prescription',
                     'src/main/res/layouts/questions',
-                    'src/main/res/layouts/textInput',
+                    'src/main/res/layouts/reminder',
+                    'src/main/res/layouts/symptom',
+                    'src/main/res/layouts/text',
                     'src/main/res/layouts/customQuestionItem']
         }
     }

@@ -111,7 +111,7 @@ public class Options2 extends BaseItem {
         }
         switch (questionType) {
             case QuestionType.drug:
-                return R.layout.item_load_prescription;
+                return R.layout.item_options_load_prescription;
             case QuestionType.sel:
                 return R.layout.item_options_dialog;
             case QuestionType.rectangle:
