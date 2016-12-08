@@ -34,7 +34,7 @@ import com.doctor.sun.ui.activity.patient.handler.SystemMsgHandler;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.ui.fragment.EditPatientInfoFragment;
 import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.realm.Realm;

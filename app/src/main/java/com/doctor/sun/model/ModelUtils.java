@@ -4,7 +4,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 import com.google.common.base.Strings;
 
 import java.util.HashMap;

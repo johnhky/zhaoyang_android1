@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemPickTime" />
+            type="com.doctor.sun.vm.ItemPickTime" />
     </data>
 
     <LinearLayout

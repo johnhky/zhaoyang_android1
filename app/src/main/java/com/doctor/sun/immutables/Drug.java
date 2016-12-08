@@ -21,7 +21,7 @@ import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

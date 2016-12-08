@@ -1,6 +1,6 @@
 package com.doctor.sun.entity;
 
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**

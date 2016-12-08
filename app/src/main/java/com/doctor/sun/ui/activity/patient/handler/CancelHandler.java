@@ -4,7 +4,7 @@ import android.app.Dialog;
 import android.view.View;
 
 import com.doctor.sun.R;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 
 /**
  * Created by lucas on 1/20/16.

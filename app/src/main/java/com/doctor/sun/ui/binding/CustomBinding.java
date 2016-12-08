@@ -15,7 +15,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,8 +23,7 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.AdapterOps;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
-import com.doctor.sun.util.FragmentFactory;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 
 import java.util.List;
 

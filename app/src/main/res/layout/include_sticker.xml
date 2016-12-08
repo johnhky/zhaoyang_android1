@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.StickerViewModel" />
+            type="com.doctor.sun.vm.StickerViewModel" />
 
         <variable
             name="rootVisibility"

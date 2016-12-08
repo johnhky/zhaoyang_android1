@@ -6,7 +6,7 @@
     <data>
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemCustomQuestionLoader" />
+            type="com.doctor.sun.vm.ItemCustomQuestionLoader" />
 
         <variable
             name="adapter"

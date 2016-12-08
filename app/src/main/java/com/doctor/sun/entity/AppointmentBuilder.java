@@ -33,11 +33,11 @@ import com.doctor.sun.ui.activity.patient.ApplyAppointmentActivity;
 import com.doctor.sun.ui.activity.patient.PickDateActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
-import com.doctor.sun.vo.AppointmentWrapper;
-import com.doctor.sun.vo.BaseItem;
-import com.doctor.sun.vo.ClickMenu;
-import com.doctor.sun.vo.ItemButton;
-import com.doctor.sun.vo.ItemRadioGroup;
+import com.doctor.sun.vm.AppointmentWrapper;
+import com.doctor.sun.vm.BaseItem;
+import com.doctor.sun.vm.ClickMenu;
+import com.doctor.sun.vm.ItemButton;
+import com.doctor.sun.vm.ItemRadioGroup;
 import com.squareup.otto.Subscribe;
 
 import java.text.SimpleDateFormat;

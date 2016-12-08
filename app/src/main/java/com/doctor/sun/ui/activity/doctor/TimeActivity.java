@@ -17,7 +17,7 @@ import com.doctor.sun.entity.handler.TimeHandler;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.util.Function0;
 

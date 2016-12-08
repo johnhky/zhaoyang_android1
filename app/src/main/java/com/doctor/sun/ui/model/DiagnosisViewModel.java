@@ -17,12 +17,12 @@ import com.doctor.sun.entity.SymptomFactory;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
 import com.doctor.sun.util.JacksonUtils;
-import com.doctor.sun.vo.ItemButton;
-import com.doctor.sun.vo.ItemPickDate;
-import com.doctor.sun.vo.ItemPickTime;
-import com.doctor.sun.vo.ItemRadioGroup;
-import com.doctor.sun.vo.ItemReminderList;
-import com.doctor.sun.vo.ItemTextInput;
+import com.doctor.sun.vm.ItemButton;
+import com.doctor.sun.vm.ItemPickDate;
+import com.doctor.sun.vm.ItemPickTime;
+import com.doctor.sun.vm.ItemRadioGroup;
+import com.doctor.sun.vm.ItemReminderList;
+import com.doctor.sun.vm.ItemTextInput;
 import com.google.common.base.Strings;
 
 import java.util.GregorianCalendar;

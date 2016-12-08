@@ -7,9 +7,9 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
-import com.doctor.sun.vo.ItemPickDate;
-import com.doctor.sun.vo.ItemRadioGroup;
-import com.doctor.sun.vo.ItemTextInput2;
+import com.doctor.sun.vm.ItemPickDate;
+import com.doctor.sun.vm.ItemRadioGroup;
+import com.doctor.sun.vm.ItemTextInput2;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -28,8 +28,8 @@ import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.util.JacksonUtils;
-import com.doctor.sun.vo.ItemAddTag;
-import com.doctor.sun.vo.ItemPickImage;
+import com.doctor.sun.vm.ItemAddTag;
+import com.doctor.sun.vm.ItemPickImage;
 import com.squareup.otto.Subscribe;
 
 import java.util.HashMap;

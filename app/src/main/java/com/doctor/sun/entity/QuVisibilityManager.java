@@ -3,7 +3,7 @@ package com.doctor.sun.entity;
 import com.doctor.sun.R;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

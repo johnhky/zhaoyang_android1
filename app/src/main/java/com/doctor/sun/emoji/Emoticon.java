@@ -9,8 +9,8 @@ import android.widget.TextView;
 import com.doctor.sun.R;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimMsgInfo;
-import com.doctor.sun.vo.LayoutId;
-import com.doctor.sun.vo.InputLayoutViewModel;
+import com.doctor.sun.vm.LayoutId;
+import com.doctor.sun.vm.InputLayoutViewModel;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 /**

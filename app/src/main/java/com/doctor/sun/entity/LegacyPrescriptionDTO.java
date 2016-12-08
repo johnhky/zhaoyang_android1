@@ -4,12 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.doctor.sun.R;
-import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.squareup.otto.Produce;
 
 import java.util.ArrayList;
 import java.util.HashMap;

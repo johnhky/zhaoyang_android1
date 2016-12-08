@@ -19,7 +19,7 @@ import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.doctor.AddTimeActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;

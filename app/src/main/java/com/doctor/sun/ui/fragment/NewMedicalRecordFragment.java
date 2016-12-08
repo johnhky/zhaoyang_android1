@@ -22,9 +22,9 @@ import com.doctor.sun.model.NewMedicalRecordModel;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
-import com.doctor.sun.vo.ItemPickDate;
-import com.doctor.sun.vo.ItemRadioGroup;
-import com.doctor.sun.vo.ItemTextInput2;
+import com.doctor.sun.vm.ItemPickDate;
+import com.doctor.sun.vm.ItemRadioGroup;
+import com.doctor.sun.vm.ItemTextInput2;
 
 import java.util.List;
 

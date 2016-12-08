@@ -8,7 +8,7 @@ import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;

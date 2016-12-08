@@ -10,11 +10,11 @@ import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.fragment.ChangeMyPhoneNumFragment;
-import com.doctor.sun.vo.ClickMenu;
-import com.doctor.sun.vo.ItemPickDate;
-import com.doctor.sun.vo.ItemPickImage;
-import com.doctor.sun.vo.ItemRadioGroup;
-import com.doctor.sun.vo.ItemTextInput2;
+import com.doctor.sun.vm.ClickMenu;
+import com.doctor.sun.vm.ItemPickDate;
+import com.doctor.sun.vm.ItemPickImage;
+import com.doctor.sun.vm.ItemRadioGroup;
+import com.doctor.sun.vm.ItemTextInput2;
 
 import java.util.ArrayList;
 import java.util.HashMap;

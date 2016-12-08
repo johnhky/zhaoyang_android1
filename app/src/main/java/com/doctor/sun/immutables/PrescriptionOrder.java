@@ -10,7 +10,7 @@ import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
 import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

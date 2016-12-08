@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemSearch" />
+            type="com.doctor.sun.vm.ItemSearch" />
     </data>
 
     <LinearLayout

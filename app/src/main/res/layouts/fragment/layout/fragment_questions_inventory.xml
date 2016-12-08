@@ -6,11 +6,11 @@
 
         <variable
             name="customQuestions"
-            type="com.doctor.sun.vo.ItemCustomQuestionLoader" />
+            type="com.doctor.sun.vm.ItemCustomQuestionLoader" />
 
         <variable
             name="systemQuestions"
-            type="com.doctor.sun.vo.ItemSystemQuestionLoader" />
+            type="com.doctor.sun.vm.ItemSystemQuestionLoader" />
 
         <variable
             name="adapter"
@@ -18,7 +18,7 @@
 
         <variable
             name="searchItem"
-            type="com.doctor.sun.vo.ItemSearch" />
+            type="com.doctor.sun.vm.ItemSearch" />
     </data>
 
     <FrameLayout

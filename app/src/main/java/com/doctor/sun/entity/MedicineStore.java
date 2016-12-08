@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
-import com.doctor.sun.vo.BaseItem;
+import com.doctor.sun.vm.BaseItem;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;

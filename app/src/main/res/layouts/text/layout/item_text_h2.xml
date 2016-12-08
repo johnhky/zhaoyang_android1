@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemTextInput2" />
+            type="com.doctor.sun.vm.ItemTextInput2" />
 
     </data>
 

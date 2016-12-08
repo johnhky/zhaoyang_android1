@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemReminderList" />
+            type="com.doctor.sun.vm.ItemReminderList" />
 
     </data>
 

@@ -14,7 +14,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

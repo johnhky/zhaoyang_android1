@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.RecordAudioViewModel" />
+            type="com.doctor.sun.vm.RecordAudioViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -1,7 +1,7 @@
 package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.LayoutId" />
+            type="com.doctor.sun.vm.LayoutId" />
 
     </data>
 

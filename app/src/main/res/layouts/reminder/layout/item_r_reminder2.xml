@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vo.ItemPickDate" />
+            type="com.doctor.sun.vm.ItemPickDate" />
 
         <variable
             name="vh"

@@ -28,7 +28,7 @@ import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 import com.doctor.sun.util.HistoryEventHandler;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PermissionUtil;
-import com.doctor.sun.vo.ItemPatientDetail;
+import com.doctor.sun.vm.ItemPatientDetail;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.squareup.otto.Subscribe;
 

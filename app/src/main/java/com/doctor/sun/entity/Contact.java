@@ -7,7 +7,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.ui.widget.SelectDialog;
 import com.doctor.sun.util.NameComparator;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

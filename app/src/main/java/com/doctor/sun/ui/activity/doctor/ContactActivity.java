@@ -23,7 +23,7 @@ import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.ContactAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 import com.doctor.sun.ui.adapter.core.LoadMoreAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.binding.CustomBinding;

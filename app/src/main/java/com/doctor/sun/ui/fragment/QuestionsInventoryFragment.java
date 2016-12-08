@@ -21,10 +21,10 @@ import com.doctor.sun.model.QuestionsModel;
 import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
-import com.doctor.sun.vo.BaseItem;
-import com.doctor.sun.vo.ItemCustomQuestionLoader;
-import com.doctor.sun.vo.ItemSearch;
-import com.doctor.sun.vo.ItemSystemQuestionLoader;
+import com.doctor.sun.vm.BaseItem;
+import com.doctor.sun.vm.ItemCustomQuestionLoader;
+import com.doctor.sun.vm.ItemSearch;
+import com.doctor.sun.vm.ItemSystemQuestionLoader;
 import com.google.common.base.Strings;
 
 /**

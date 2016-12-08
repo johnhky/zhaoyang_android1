@@ -31,7 +31,7 @@ import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
-import com.doctor.sun.vo.ClickMenu;
+import com.doctor.sun.vm.ClickMenu;
 import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.Config;

@@ -5,7 +5,7 @@ import android.support.annotation.IntDef;
 
 import com.doctor.sun.R;
 import com.doctor.sun.im.AttachmentPair;
-import com.doctor.sun.vo.LayoutId;
+import com.doctor.sun.vm.LayoutId;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
