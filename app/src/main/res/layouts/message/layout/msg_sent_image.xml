@@ -79,7 +79,8 @@
                         android:src="@{data.attachmentData(data.handler.localPathExits(data)?&quot;path&quot;:&quot;url&quot;)}"
                         app:height="@{Integer.valueOf(data.attachmentData(&quot;height&quot;))}"
                         app:maskDrawable="@drawable/shape_rect_r12"
-                        app:width="@{Integer.valueOf(data.attachmentData(&quot;width&quot;))}" />
+                        app:width="@{Integer.valueOf(data.attachmentData(&quot;width&quot;))}"
+                        tools:src="@drawable/female_doctor_avatar" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -97,19 +98,10 @@
                 android:visibility2="@{data.sending||data.failed}"
                 tools:text="发送失败" />
 
-            <com.doctor.sun.ui.widget.BezelImageView
-                android:id="@+id/avatar"
-                android:layout_width="@dimen/dp_40"
-                android:layout_height="@dimen/dp_40"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_2"
-                android:layout_marginRight="@dimen/dp_10"
-                android:drawable="@{@drawable/default_avatar}"
-                android:scaleType="centerCrop"
-                android:src="@{adapter.myAvatar}"
-                app:maskDrawable="@drawable/circle_mask" />
+            <include
+                layout="@layout/include_my_avatar"
+                app:data="@{adapter.myAvatar}" />
+
         </RelativeLayout>
     </LinearLayout>
 </layout>

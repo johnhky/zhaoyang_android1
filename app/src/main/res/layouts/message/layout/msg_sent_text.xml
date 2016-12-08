@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.doctor.sun.im.IMManager" />
+
         <variable
             name="data"
             type="com.doctor.sun.entity.im.TextMsg" />
@@ -16,13 +18,14 @@
         <variable
             name="vh"
             type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="@dimen/dp_15">
+        android:paddingTop="@dimen/dp_8">
 
         <include
             layout="@layout/include_msg_time"
@@ -32,15 +35,37 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/dp_70"
+                android:layout_marginRight="@dimen/dp_70"
+                android:text="@{data.handler.statusText(data.messageStatus)}"
+                android:textSize="@dimen/font_6"
+                android:visibility2="@{data.sending||data.failed}" />
+
+            <include
+                layout="@layout/include_my_avatar"
+                app:data="@{adapter.myAvatar}" />
 
 
             <LinearLayout
+                android:id="@+id/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:layout_marginLeft="@dimen/dp_55"
                 android:layout_marginStart="@dimen/dp_55"
                 android:layout_toLeftOf="@+id/avatar"
+                android:layout_toStartOf="@+id/avatar"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -56,38 +81,18 @@
                     android:visibility="@{data.failed}"
                     app:srcCompat="@drawable/ic_refresh_white_24dp" />
 
-                <FrameLayout
+                <TextView
+                    android:id="@+id/body"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/dp_8"
-                    android:layout_marginRight="@dimen/dp_8"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="@dimen/dp_100"
-                        android:layout_height="@dimen/dp_100"
-                        android:scaleType="fitCenter"
-                        android:src="@{data.attachmentData(&quot;data&quot;)}" />
-                </FrameLayout>
-
+                    android:background="@drawable/nim_message_right_blue_bg"
+                    android:emoticon="@{data.body}"
+                    android:padding="@dimen/dp_10"
+                    android:textColor="@color/white"
+                    android:textIsSelectable="true"
+                    android:textSize="@dimen/font_13"
+                    tools:text="请问有没有好好吃药" />
             </LinearLayout>
-
-
-            <com.doctor.sun.ui.widget.BezelImageView
-                android:id="@+id/avatar"
-                android:layout_width="@dimen/dp_40"
-                android:layout_height="@dimen/dp_40"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_2"
-                android:layout_marginRight="@dimen/dp_10"
-                android:drawable="@{@drawable/default_avatar}"
-                android:scaleType="centerCrop"
-                android:src="@{adapter.myAvatar}"
-                app:maskDrawable="@drawable/circle_mask" />
         </RelativeLayout>
     </LinearLayout>
 </layout>

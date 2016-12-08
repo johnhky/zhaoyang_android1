@@ -69,7 +69,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     public static final String ADMIN_DRUG = "admin";
     public static final double FILE_REQUEST_CODE = FileChooser.FILE_REQUEST_CODE;
     public static final double IMAGE_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
-    public static final double VIDEO_REQUEST_CODE = CustomActionViewModel.IMAGE_REQUEST_CODE;
+    public static final double VIDEO_REQUEST_CODE = CustomActionViewModel.VIDEO_REQUEST_CODE;
     private static final long ONE_DAY = 86400000;
 
     private PActivityMedicineHelperBinding binding;

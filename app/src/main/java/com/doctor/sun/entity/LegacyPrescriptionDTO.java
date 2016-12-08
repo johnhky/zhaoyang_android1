@@ -9,6 +9,7 @@ import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.vo.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.squareup.otto.Produce;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -26,7 +27,8 @@
             android:padding="@dimen/dp_6"
             android:text="@{data.attachmentData(&quot;data&quot;)}"
             android:textColor="#ffffff"
-            android:textSize="@dimen/font_12" />
+            android:textSize="@dimen/font_12"
+            tools:text="今天加班，大家加把劲，下班后自己滚回家吧，还想要加班费？呵呵" />
     </FrameLayout>
 
 </layout>

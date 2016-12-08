@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -36,13 +37,15 @@
             android:layout_height="wrap_content"
             android:textColor="#7c7c7c"
             android:textSize="@dimen/font_15"
-            app:html="@{data.drug_name}" />
+            app:html="@{data.drug_name}"
+            tools:text="名字" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#acacac"
             android:textSize="@dimen/font_12"
+            tools:text="一天3次28天,早3克，午3克，晚3克，睡前3克，记得吃完洗手,不然会齿颊留香" />
             app:html="@{handler.getInstruction(data)}" />
 
     </LinearLayout>

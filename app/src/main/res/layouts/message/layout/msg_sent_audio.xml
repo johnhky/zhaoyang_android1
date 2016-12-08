@@ -16,7 +16,6 @@
         <variable
             name="vh"
             type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
-
     </data>
 
     <LinearLayout
@@ -35,6 +34,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <!--<com.doctor.sun.ui.widget.BezelImageView-->
+            <!--android:id="@+id/iv_count"-->
+            <!--android:layout_width="@dimen/dp_5"-->
+            <!--android:layout_height="@dimen/dp_5"-->
+            <!--android:layout_toLeftOf="@id/message_item_audio_container"-->
+            <!--android:layout_toStartOf="@id/message_item_audio_container"-->
+            <!--android:src="@color/red_f7"-->
+            <!--android:visibility="gone"-->
+            <!--bind:maskDrawable="@drawable/circle_mask" />-->
             <LinearLayout
                 android:id="@+id/content"
                 android:layout_width="wrap_content"
@@ -58,48 +66,29 @@
                     app:srcCompat="@drawable/ic_refresh_white_24dp" />
 
                 <FrameLayout
-                    android:layout_width="@dimen/dp_200"
-                    android:layout_height="@dimen/dp_80"
-                    android:layout_gravity="center"
+                    android:id="@+id/message_item_audio_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_toLeftOf="@+id/avatar"
                     android:background="@drawable/nim_message_right_blue_bg"
-                    android:onClick="@{data.handler.fileDetail(data)}"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/dp_4"
-                    android:paddingEnd="@dimen/dp_8"
-                    android:paddingLeft="@dimen/dp_4"
-                    android:paddingRight="@dimen/dp_8"
-                    android:paddingStart="@dimen/dp_4"
-                    android:paddingTop="@dimen/dp_4">
+                    android:onClick="@{data.handler.onAudioClick(data)}"
+                    android:padding="@dimen/dp_10">
 
                     <ImageView
-                        android:layout_width="@dimen/dp_44"
-                        android:layout_height="@dimen/dp_54"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/dp_15"
-                        android:layout_marginStart="@dimen/dp_15"
-                        android:scaleType="centerCrop"
-                        android:src="@{data.handler.drawableForFileType(data.attachmentData(&quot;extension&quot;))}" />
-
-                    <TextView
+                        android:id="@+id/message_item_audio_playing_animation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_marginLeft="@dimen/dp_74"
-                        android:layout_marginStart="@dimen/dp_74"
-                        android:layout_marginTop="@dimen/dp_15"
-                        android:text="@{data.attachmentData(&quot;body&quot;)}"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/font_13" />
+                        android:layout_gravity="end"
+                        android:background="@drawable/nim_audio_animation_list_right" />
 
                     <TextView
+                        android:id="@+id/message_item_audio_duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginBottom="@dimen/dp_15"
-                        android:layout_marginLeft="@dimen/dp_74"
-                        android:layout_marginStart="@dimen/dp_74"
-                        android:text='@{data.handler.fileSize(data.attachmentLong(&quot;fileSize&quot;))}'
+                        android:layout_gravity="start"
+                        android:emoticon="@{data.attachmentLong(&quot;duration&quot;)+&quot;&quot;&quot;}"
+                        android:paddingRight="@{data.handler.msgWidth(data.attachmentLong(&quot;duration&quot;))}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/font_13" />
                 </FrameLayout>
@@ -119,6 +108,7 @@
                 android:visibility2="@{data.sending||data.failed}"
                 tools:text="发送失败" />
 
+
             <com.doctor.sun.ui.widget.BezelImageView
                 android:id="@+id/avatar"
                 android:layout_width="@dimen/dp_40"
@@ -132,6 +122,11 @@
                 android:scaleType="centerCrop"
                 android:src="@{adapter.myAvatar}"
                 app:maskDrawable="@drawable/circle_mask" />
+
+            <include
+                layout="@layout/include_my_avatar"
+                app:data="@{adapter.myAvatar}" />
+
         </RelativeLayout>
     </LinearLayout>
 </layout>

@@ -276,44 +276,41 @@ public class TextMsg extends RealmObject implements LayoutId {
 
         if (TextMsgFactory.DIRECTION_SEND.equals(getDirection())) {
             if (getType().equals(String.valueOf(Sticker))) {
-                return R.layout.msg_sticker_send;
+                return R.layout.msg_sent_sticker;
             }
             if (getType().equals(String.valueOf(IMAGE))) {
-                return R.layout.msg_image_send;
+                return R.layout.msg_sent_image;
             }
             if (getType().equals(String.valueOf(AUDIO))) {
-                return R.layout.msg_audio_send;
+                return R.layout.msg_sent_audio;
             }
             if (getType().equals(String.valueOf(VIDEO))) {
-                return R.layout.msg_file_send;
+                return R.layout.msg_sent_file;
             }
             if (getType().equals(String.valueOf(FILE))) {
-                return R.layout.msg_file_send;
+                return R.layout.msg_sent_file;
             }
-            return R.layout.msg_text_send;
+            return R.layout.msg_sent_text;
         }
 
         if (TextMsgFactory.DIRECTION_RECEIVE.equals(getDirection())) {
             if (getType().equals(String.valueOf(Sticker))) {
-                return R.layout.msg_sticker_receive;
+                return R.layout.msg_receive_sticker;
             }
             if (getType().equals(String.valueOf(IMAGE))) {
-                return R.layout.msg_image_receive;
+                return R.layout.msg_receive_image;
             }
             if (getType().equals(String.valueOf(VIDEO))) {
-                return R.layout.msg_file_receive;
+                return R.layout.msg_receive_file;
             }
             if (getType().equals(String.valueOf(AUDIO))) {
-                return R.layout.msg_audio_receive;
+                return R.layout.msg_receive_audio;
             }
             if (getType().equals(String.valueOf(FILE))) {
-                return R.layout.msg_file_receive;
+                return R.layout.msg_receive_file;
             }
 
-            if (getType().equals(String.valueOf(TextMsg.EXTEND_TIME))) {
-                return R.layout.msg_extend_time;
-            }
-            return R.layout.msg_text_receive;
+            return R.layout.msg_receive_text;
         }
 
         return itemLayoutId;

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -31,14 +32,16 @@
             android:layout_height="wrap_content"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            app:html="@{handler.getName(data)}" />
+            app:html="@{handler.getName(data)}"
+            tools:text="药" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            app:html="@{handler.getIntervalWithLabel(data)}" />
+            app:html="@{handler.getIntervalWithLabel(data)}"
+            tools:text="间隔:每天" />
 
 
         <TextView
@@ -46,21 +49,24 @@
             android:layout_height="wrap_content"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            app:html="@{handler.getAmountKV(data)}" />
+            app:html="@{handler.getAmountKV(data)}"
+            tools:text="数量:早3克，午3克，晚3克，睡前3克" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            app:html="@{handler.getTakeMedicineDays(data)}" />
+            app:html="@{handler.getTakeMedicineDays(data)}"
+            tools:text="天数:28天" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            app:html="@{handler.getRemarkLabel(data)}" />
+            app:html="@{handler.getRemarkLabel(data)}"
+            tools:text="备注:记得每天都吃，不然病情不会有好转" />
 
         <View
             android:layout_width="match_parent"
