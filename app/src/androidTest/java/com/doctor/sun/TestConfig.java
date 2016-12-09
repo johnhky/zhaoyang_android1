@@ -11,7 +11,7 @@ public class TestConfig {
     public static final String CHANGED_PSW = "a123456";
 
     public static final String PSW = "a1234567";
-    public static final String PATIENT_PHONE_NUM = "13922228114";
+    public static final String PATIENT_PHONE_NUM = "13922228115";
     public static final String DOCTOR_PHONE_NUM = "13922221313";
     public static final String CAPTCHA = "123456";
 

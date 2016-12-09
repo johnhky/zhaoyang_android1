@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -25,6 +26,14 @@
             android:selected="@{data.valid}"
             app:srcCompat="@{data.valid?R.drawable.ic_bg_valid_coupon:R.drawable.ic_bg_invalid_coupon}" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:background="@color/grey_c2" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_102"
@@ -42,7 +51,9 @@
                 android:layout_marginRight="@dimen/dp_30"
                 android:text='@{"¥ "+ data.couponMoney}'
                 android:textColor="@{data.valid? @color/white : @color/grey_c2}"
-                android:textSize="@dimen/font_40" />
+                android:textSize="@dimen/font_40"
+                tools:textColor="@color/grey_c2"
+                tools:text="¥100元" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -60,16 +71,10 @@
                 android:layout_marginRight="@dimen/dp_30"
                 android:text="@{data.status}"
                 android:textColor="@{data.valid? @color/grey_42 : @color/grey_c2}"
-                android:textSize="@dimen/font_9" />
+                android:textSize="@dimen/font_9"
+                tools:textColor="@color/grey_42"
+                tools:text="已使用" />
 
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:background="@color/grey_c2" />
     </FrameLayout>
 </layout>

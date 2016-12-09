@@ -1,5 +1,7 @@
 package com.doctor.sun.model;
 
+import android.text.InputType;
+
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.MedicalRecord;
@@ -44,6 +46,10 @@ public class EditRecordModel {
         relation.setResultNotEmpty();
         relation.setItemId("relation");
         relation.setPosition(result.size());
+        boolean notEditable = "本人".equals(data.getRelation());
+        if (notEditable) {
+            relation.setInputType(InputType.TYPE_NULL);
+        }
         result.add(relation);
 
         ModelUtils.insertDividerMarginLR(result);
@@ -80,6 +86,7 @@ public class EditRecordModel {
 
         return result;
     }
+
     public void saveRecord(SortedListAdapter medicalRecord, Callback<ApiDTO<MedicalRecord>> callback) {
         HashMap<String, String> data = ModelUtils.toHashMap(medicalRecord, new Callback() {
             @Override

@@ -82,7 +82,7 @@ public class NewMedicalRecordFragment extends SortedListFragment {
                         ((ItemTextInput2) getAdapter().get("selfName")).setResult(patient.getName());
                         ((ItemPickDate) getAdapter().get("birthday")).setDateAndNotify(patient.getBirthday());
                         ((ItemRadioGroup) getAdapter().get("gender")).setSelectedItem(patient.getGender());
-                        saveMedicalRecord();
+                        saveMedicalRecord(true);
                     }
 
                     @Override
@@ -101,7 +101,7 @@ public class NewMedicalRecordFragment extends SortedListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_confirm: {
-                saveMedicalRecord();
+                saveMedicalRecord(false);
             }
         }
 
@@ -112,13 +112,15 @@ public class NewMedicalRecordFragment extends SortedListFragment {
         return getArguments().getInt(Constants.RECORD_TYPE);
     }
 
-    private void saveMedicalRecord() {
+    private void saveMedicalRecord(final boolean isFromProfile) {
         model.saveMedicalRecord(getAdapter(), getRecordType(), new SimpleCallback<MedicalRecord>() {
             @Override
             protected void handleResponse(MedicalRecord response) {
                 Toast.makeText(getContext(), "病历创建成功", Toast.LENGTH_SHORT).show();
                 EventHub.post(new SelectMedicalRecordEvent(getArguments().getString(Constants.FROM), response));
-                viewRecordDetail(response);
+                if (isFromProfile) {
+                    viewRecordDetail(response);
+                }
                 getActivity().finish();
             }
         });
