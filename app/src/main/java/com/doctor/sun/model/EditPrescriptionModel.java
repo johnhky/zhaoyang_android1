@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.DrugAutoComplete;
 import com.doctor.sun.entity.handler.PrescriptionHandler;
@@ -111,7 +112,9 @@ public class EditPrescriptionModel {
                 dialog.show();
             }
         });
-        result.add(takeMedicineDays);
+        if (Settings.isDoctor()) {
+            result.add(takeMedicineDays);
+        }
 
         ModelUtils.insertDividerMarginLR(result);
 
