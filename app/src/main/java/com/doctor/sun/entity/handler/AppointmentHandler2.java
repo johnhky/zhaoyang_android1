@@ -465,13 +465,15 @@ public class AppointmentHandler2 {
                 break;
             }
             case Status.FINISHED: {
-                getAppointmentDetail(data.getId(), new SimpleCallback<Appointment>() {
-                    @Override
-                    protected void handleResponse(Appointment response) {
-                        chat(adapter, vh, response);
-                        answerQuestion(vh.itemView.getContext(), 0, response);
-                    }
-                });
+//                getAppointmentDetail(data.getId(), new SimpleCallback<Appointment>() {
+//                    @Override
+//                    protected void handleResponse(Appointment response) {
+//                        chat(adapter, vh, response);
+//                        answerQuestion(vh.itemView.getContext(), 0, response);
+//                    }
+//                });
+                Intent intent = FinishedOrderActivity.makeIntent(vh.itemView.getContext(), data);
+                vh.itemView.getContext().startActivity(intent);
                 break;
             }
             case Status.DOING:

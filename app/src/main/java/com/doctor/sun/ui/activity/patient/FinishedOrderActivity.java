@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.immutables.Appointment;
@@ -75,7 +76,11 @@ public class FinishedOrderActivity extends TabActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_appointment_history, menu);
+        if (Settings.isDoctor()) {
+            getMenuInflater().inflate(R.menu.menu_chat, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_appointment_history, menu);
+        }
         return true;
     }
 
