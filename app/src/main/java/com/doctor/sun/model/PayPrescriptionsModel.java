@@ -20,7 +20,6 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Drug;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
@@ -218,19 +217,12 @@ public class PayPrescriptionsModel {
 
             extraField = DrugListFragment.getDrugExtraField();
 
-            if (!response.getUser_coupon_id().equals("0")) {
+            // 如果没有使用优惠券，则优惠券id为0
+            if (!hasUsedCoupon(response)) {
 
                 String couponString = "已选取" + response.getCoupon_info().couponMoney + "元优惠券";
-                selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, couponString, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
+                selectCoupon = getNoClickEventClickMenu(couponString);
                 selectCoupon.setEnabled(false);
-                selectCoupon.setItemId("selectCoupon");
-                selectCoupon.setPosition(result.size());
-                result.add(selectCoupon);
             } else {
                 selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "", new View.OnClickListener() {
                     @Override
@@ -238,10 +230,6 @@ public class PayPrescriptionsModel {
                         selectCoupon(v.getContext());
                     }
                 });
-                selectCoupon.setSubTitle("点击选择");
-                selectCoupon.setItemId("selectCoupon");
-                selectCoupon.setPosition(result.size());
-                result.add(selectCoupon);
             }
         } else if (response.getCoupon_info() != null && response.getCoupon_info().couponMoney != null) {
             Description couponDescription = new Description(R.layout.item_description, "优惠券");
@@ -252,17 +240,13 @@ public class PayPrescriptionsModel {
             result.add(couponDescription);
 
             String couponString = "使用了" + response.getCoupon_info().couponMoney + "元优惠券";
-            selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, couponString, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
+            selectCoupon = getNoClickEventClickMenu(couponString);
             selectCoupon.setEnabled(false);
-            selectCoupon.setItemId("selectCoupon");
-            selectCoupon.setPosition(result.size());
-            result.add(selectCoupon);
         }
+
+        selectCoupon.setItemId("selectCoupon");
+        selectCoupon.setPosition(result.size());
+        result.add(selectCoupon);
 
         Description total = new Description(R.layout.item_description, "总价");
         total.setItemId("total");
@@ -399,7 +383,7 @@ public class PayPrescriptionsModel {
             protected void handleResponse(List<Coupon> response) {
                 if (response != null && !response.isEmpty()) {
                     coupons = response;
-                    if (drug.getUser_coupon_id().equals("0")) {
+                    if (hasUsedCoupon(drug)) {
                         selectCoupon.setTitle("您有" + coupons.size() + "张优惠券可用");
                     }
                 } else {
@@ -420,5 +404,18 @@ public class PayPrescriptionsModel {
             return String.valueOf(-1);
         }
         return coupons.get(selectedCoupon).id;
+    }
+
+    private boolean hasUsedCoupon(Drug data) {
+        return data.getUser_coupon_id().equals("0");
+    }
+
+    private ClickMenu getNoClickEventClickMenu(String couponString) {
+        return new ClickMenu(R.layout.item_select_coupon, 0, couponString, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 }
