@@ -114,9 +114,9 @@ public class EditPrescriptionModel {
         });
         if (Settings.isDoctor()) {
             result.add(takeMedicineDays);
+            ModelUtils.insertDividerMarginLR(result);
         }
 
-        ModelUtils.insertDividerMarginLR(result);
 
         final ItemRadioDialog.TextEvaluator evaluator = new ItemRadioDialog.TextEvaluator();
 
