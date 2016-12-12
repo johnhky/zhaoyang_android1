@@ -61,6 +61,7 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
                     Description divider = new Description(R.layout.item_description, "嘱咐");
                     ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
                     textInput.setInput("待医生诊断");
+                    getAdapter().clear();
                     getAdapter().add(divider);
                     getAdapter().add(textInput);
                     getAdapter().notifyDataSetChanged();
