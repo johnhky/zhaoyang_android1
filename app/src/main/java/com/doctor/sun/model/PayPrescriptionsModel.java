@@ -21,6 +21,8 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Drug;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
+import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
+import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.vm.ClickMenu;
@@ -241,7 +243,7 @@ public class PayPrescriptionsModel {
                 selectCoupon.setPosition(result.size());
                 result.add(selectCoupon);
             }
-        } else if (response.getCoupon_info() != null && response.getCoupon_info().couponMoney != null){
+        } else if (response.getCoupon_info() != null && response.getCoupon_info().couponMoney != null) {
             Description couponDescription = new Description(R.layout.item_description, "优惠券");
             couponDescription.setBackgroundColor(R.color.color_coupon_background_yellow);
             couponDescription.setTitleColor(R.color.white);
@@ -299,9 +301,11 @@ public class PayPrescriptionsModel {
             ItemButton confirmDrugButton = new ItemButton(R.layout.item_big_button, "跳转寄药小组手确认药单") {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = ConsultingActivity.makeIntent(context);
+                    Intent intent = PConsultingActivity.makeIntent(context);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     context.startActivity(intent);
+                    Intent medicineStore = MedicineStoreActivity.makeIntent(context);
+                    context.startActivity(medicineStore);
                 }
             };
             confirmDrugButton.setItemId("confirmDrugButton");
