@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.constans.Gender;
+import com.doctor.sun.event.SelectMedicalRecordEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
@@ -14,6 +15,8 @@ import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.fragment.EditRecordFragment;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by lucas on 1/7/16.
@@ -113,5 +116,9 @@ public class MedicalRecordHandler {
 
     public static String getPatientAddress(Context context, MedicalRecord record) {
         return context.getString(R.string.patient_address, record.getProvince(), record.getCity());
+    }
+
+    public static void onRecordSelected(MedicalRecord data) {
+        EventHub.post(new SelectMedicalRecordEvent(data.getItemId(), data));
     }
 }

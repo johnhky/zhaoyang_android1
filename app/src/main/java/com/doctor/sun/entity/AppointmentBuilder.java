@@ -30,7 +30,6 @@ import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.patient.ApplyAppointmentActivity;
-import com.doctor.sun.ui.activity.patient.PickDateActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
 import com.doctor.sun.vm.AppointmentWrapper;
@@ -180,15 +179,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     }
 
     public void pickDate(final Context context) {
-        SelectRecordDialog.showRecordDialog(context, new SelectRecordDialog.SelectRecordListener() {
-            @Override
-            public void onSelectRecord(SelectRecordDialog dialog, MedicalRecord record) {
-                setRecord(record);
-                Intent intent = PickDateActivity.makeIntent(context, AppointmentBuilder.this);
-                context.startActivity(intent);
-                dialog.dismiss();
-            }
-        });
+        SelectRecordDialog.showRecordDialog(context);
     }
 
     public void latestAvailableTime(final Context context, int doctorId, int duration) {
@@ -312,13 +303,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     }
 
     public void changeMedicalRecord(Context context) {
-        SelectRecordDialog.showRecordDialog(context, new SelectRecordDialog.SelectRecordListener() {
-            @Override
-            public void onSelectRecord(SelectRecordDialog dialog, MedicalRecord selected) {
-                setRecord(selected);
-                dialog.dismiss();
-            }
-        });
+        SelectRecordDialog.showRecordDialog(context);
     }
 
     public void showSelectTagsDialog(Context context) {

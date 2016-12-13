@@ -31,11 +31,5 @@
                 android:textSize="@dimen/font_15" />
 
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#c2cacd" />
-
     </LinearLayout>
 </layout>
