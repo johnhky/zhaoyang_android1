@@ -7,6 +7,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 
 import com.doctor.sun.AppContext;
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.dto.ApiDTO;
@@ -48,7 +49,7 @@ public class EditPrescriptionModel {
         final ItemAutoCompleteTextInput<DrugAutoComplete> name = new ItemAutoCompleteTextInput<>(R.layout.item_auto_complete_text, "药名", "");
 
         AutoComplete autoComplete = Api.of(AutoComplete.class);
-        autoComplete.drugNames().enqueue(new SimpleCallback<List<DrugAutoComplete>>() {
+        autoComplete.drugInfo().enqueue(new SimpleCallback<List<DrugAutoComplete>>() {
             @Override
             protected void handleResponse(List<DrugAutoComplete> response) {
                 name.setAllEntries(response);
@@ -63,7 +64,7 @@ public class EditPrescriptionModel {
         name.setPredicate(new Predicate<DrugAutoComplete>() {
             @Override
             public boolean apply(DrugAutoComplete input) {
-                return input.toString().contains(name.getResult());
+                return input.contains(name.getResult());
             }
         });
 
@@ -76,16 +77,6 @@ public class EditPrescriptionModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        name.setListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DrugAutoComplete drugAutoComplete = name.getFilteredEntries().get(position);
-                name.setResult(drugAutoComplete.drugName);
-//                productName.setResult(drugAutoComplete.productName);
-                name.dismissDialog();
-                EventHub.post(new HideKeyboardEvent());
-            }
-        });
 
         ModelUtils.insertDividerMarginLR(result);
 
@@ -146,10 +137,10 @@ public class EditPrescriptionModel {
         unit.setTitle("单位");
         unit.setItemId("drug_unit");
         unit.setPosition(result.size());
-        String[] units = AppContext.me().getResources().getStringArray(R.array.unit_array);
-        unit.addOptions(units);
-        for (int i = 0; i < units.length; i++) {
-            if (units[i].equals(data.getDrug_unit())) {
+        final String[] defaultUnits = AppContext.me().getResources().getStringArray(R.array.unit_array);
+        unit.addOptions(defaultUnits);
+        for (int i = 0; i < defaultUnits.length; i++) {
+            if (defaultUnits[i].equals(data.getDrug_unit())) {
                 unit.setSelectedItem(i);
             }
         }
@@ -203,6 +194,32 @@ public class EditPrescriptionModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
+        name.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                if (i == BR.entries) {
+                    ArrayList<DrugAutoComplete> filteredEntries = name.getFilteredEntries();
+                    if (filteredEntries.size() > 0) {
+                        List<String> drugUnit = filteredEntries.get(0).drugUnit;
+                        setDrugUnits(unit, drugUnit, defaultUnits);
+                    }
+                }
+            }
+        });
+
+        name.setListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DrugAutoComplete drugAutoComplete = name.getFilteredEntries().get(position);
+                List<String> drugUnit = drugAutoComplete.drugUnit;
+                setDrugUnits(unit, drugUnit, defaultUnits);
+                name.setResult(drugAutoComplete.drugName);
+//                productName.setResult(drugAutoComplete.productName);
+                name.dismissDialog();
+
+                EventHub.post(new HideKeyboardEvent());
+            }
+        });
         unit.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -220,6 +237,28 @@ public class EditPrescriptionModel {
         remark.setEnabled(!isReadOnly);
         result.add(remark);
         return result;
+    }
+
+    private void setDrugUnits(ItemRadioDialog unit, List<String> drugUnit, String[] defaultUnits) {
+        if (drugUnit != null && drugUnit.size() > 0) {
+            if (!unit.hasSameOptions(drugUnit)) {
+                unit.clearOptions();
+                unit.addOptions(drugUnit);
+                if (unit.getOptions().size() == 1) {
+                    unit.setSelectedItem(0);
+                }
+                unit.notifyChange();
+            }
+        } else {
+            if (!unit.hasSameOptions(defaultUnits)) {
+                unit.clearOptions();
+                unit.addOptions(defaultUnits);
+                if (unit.getOptions().size() == 1) {
+                    unit.setSelectedItem(0);
+                }
+                unit.notifyChange();
+            }
+        }
     }
 
     public HashMap<String, String> save(SortedListAdapter adapter, SimpleCallback callback) {

@@ -16,4 +16,9 @@ public interface AutoComplete {
     @GET("list/drug-names")
     Call<ApiDTO<List<DrugAutoComplete>>> drugNames();
 
+    @GET("list/new-drug-names")
+    Call<ApiDTO<List<DrugAutoComplete>>> newDrugNames();
+
+    @GET("list/drug-info")
+    Call<ApiDTO<List<DrugAutoComplete>>> drugInfo();
 }

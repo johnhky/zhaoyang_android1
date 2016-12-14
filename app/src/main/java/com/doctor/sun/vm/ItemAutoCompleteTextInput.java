@@ -1,5 +1,7 @@
 package com.doctor.sun.vm;
 
+import android.databinding.Bindable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.ListPopupWindow;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.doctor.sun.BR;
 /**
  * Created by rick on 28/10/2016.
  */
@@ -20,6 +23,7 @@ public class ItemAutoCompleteTextInput<T> extends ItemTextInput2 {
     public static final String TAG = ItemAutoCompleteTextInput.class.getSimpleName();
     private long lastFilterTime = 0;
     private ArrayList<T> allEntries = new ArrayList<>();
+    @Bindable
     private ArrayList<T> entries = new ArrayList<>();
     private AdapterView.OnItemClickListener listener;
     private Predicate<T> predicate;
@@ -36,12 +40,7 @@ public class ItemAutoCompleteTextInput<T> extends ItemTextInput2 {
             dismissByUser = false;
             return;
         }
-        if (popupWindow == null) {
-            popupWindow = new ListPopupWindow(view.getContext());
-            popupWindow.setAnchorView(view);
-            popupWindow.setOnItemClickListener(listener);
-            popupWindow.setInputMethodMode(ListPopupWindow.INPUT_METHOD_NEEDED);
-        }
+        initPopupWindow(view);
 
         arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, getEntries());
         popupWindow.setAdapter(arrayAdapter);
@@ -51,6 +50,16 @@ public class ItemAutoCompleteTextInput<T> extends ItemTextInput2 {
         }
         if (!entries.isEmpty()) {
             popupWindow.show();
+            notifyPropertyChanged(BR.entries);
+        }
+    }
+
+    private void initPopupWindow(View view) {
+        if (popupWindow == null) {
+            popupWindow = new ListPopupWindow(view.getContext());
+            popupWindow.setAnchorView(view);
+            popupWindow.setOnItemClickListener(listener);
+            popupWindow.setInputMethodMode(ListPopupWindow.INPUT_METHOD_NEEDED);
         }
     }
 
@@ -64,6 +73,7 @@ public class ItemAutoCompleteTextInput<T> extends ItemTextInput2 {
         return entries;
     }
 
+    @NonNull
     public ArrayList<T> getFilteredEntries() {
         return entries;
     }

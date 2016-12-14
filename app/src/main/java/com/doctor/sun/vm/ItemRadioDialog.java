@@ -8,7 +8,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.BR;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by rick on 23/12/2015.
@@ -60,12 +62,29 @@ public class ItemRadioDialog extends BaseItem implements LayoutId {
         this.evaluator = evaluator;
     }
 
-    public void addOptions(ArrayList<String> options) {
+    public void addOptions(List<String> options) {
         this.options.addAll(options);
     }
 
     public void addOptions(String[] stringArray) {
         Collections.addAll(options, stringArray);
+    }
+
+    public boolean hasSameOptions(List<String> strings) {
+        return options.equals(strings);
+    }
+
+    public boolean hasSameOptions(String[] strings) {
+        return options.equals(Arrays.asList(strings));
+    }
+
+    public void clearOptions() {
+        options.clear();
+        selectedItem = -1;
+    }
+
+    public ArrayList<String> getOptions() {
+        return options;
     }
 
     @Override
