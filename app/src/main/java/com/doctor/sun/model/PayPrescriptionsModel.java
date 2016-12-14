@@ -45,7 +45,7 @@ public class PayPrescriptionsModel {
     private List<Coupon> coupons;
     private int selectedCoupon = -1;
 
-    private ClickMenu selectCoupon;
+    private ClickMenu selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "", null);
     private ItemRadioGroup payMethod;
     private ItemTextInput2 shouldPayMoney;
     private double money;
@@ -221,15 +221,20 @@ public class PayPrescriptionsModel {
             if (!hasUsedCoupon(response)) {
 
                 String couponString = "已选取" + response.getCoupon_info().couponMoney + "元优惠券";
-                selectCoupon = getNoClickEventClickMenu(couponString);
+                selectCoupon.setTitle(couponString);
                 selectCoupon.setEnabled(false);
             } else {
-                selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        selectCoupon(v.getContext());
-                    }
-                });
+                if (coupons == null || coupons.isEmpty()) {
+                    selectCoupon.setTitle("暂时没有可以选择的优惠券");
+                } else {
+                    selectCoupon.setTitle("您有" + coupons.size() + "可以选择使用");
+                    selectCoupon.setListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            selectCoupon(v.getContext());
+                        }
+                    });
+                }
             }
         } else if (response.getCoupon_info() != null && response.getCoupon_info().couponMoney != null) {
             Description couponDescription = new Description(R.layout.item_description, "优惠券");
@@ -240,8 +245,10 @@ public class PayPrescriptionsModel {
             result.add(couponDescription);
 
             String couponString = "使用了" + response.getCoupon_info().couponMoney + "元优惠券";
-            selectCoupon = getNoClickEventClickMenu(couponString);
+            selectCoupon.setTitle(couponString);
             selectCoupon.setEnabled(false);
+        } else {
+            selectCoupon.setTitle("暂时没有可以使用的优惠券");
         }
 
         selectCoupon.setItemId("selectCoupon");
@@ -408,14 +415,5 @@ public class PayPrescriptionsModel {
 
     private boolean hasUsedCoupon(Drug data) {
         return data.getUser_coupon_id().equals("0");
-    }
-
-    private ClickMenu getNoClickEventClickMenu(String couponString) {
-        return new ClickMenu(R.layout.item_select_coupon, 0, couponString, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
     }
 }
