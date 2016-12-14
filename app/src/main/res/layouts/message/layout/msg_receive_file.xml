@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="@dimen/dp_15"
-        tools:background="@color/blue_grey">
+        tools:background="@color/gray_eb">
 
         <include
             layout="@layout/include_msg_time"
