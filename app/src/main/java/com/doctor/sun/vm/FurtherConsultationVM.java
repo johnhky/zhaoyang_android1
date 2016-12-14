@@ -33,7 +33,7 @@ public class FurtherConsultationVM extends BaseItem {
     private boolean hasAnswer = false;
 
     public Questions2 questions2;
-    public ItemPickDate date;
+    public ItemPickDSchedule date;
     private Doctor doctor;
 
     private String questionContent;
@@ -48,7 +48,7 @@ public class FurtherConsultationVM extends BaseItem {
     private String questionId = "";
 
     public FurtherConsultationVM() {
-        date = new ItemPickDate(0, "", 0);
+        date = new ItemPickDSchedule(0, "", 0);
     }
 
     public void chooseDoctor(Context context) {

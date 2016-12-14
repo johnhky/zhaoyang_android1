@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vm.ItemPickDate" />
+            type="com.doctor.sun.vm.ItemPickDSchedule" />
 
         <variable
             name="vh"
@@ -41,7 +41,7 @@
             android:layout_marginStart="@dimen/dp_13"
             android:layout_width="match_parent"
             android:background="@drawable/ripple_default"
-            android:onClick="@{()->data.pickTime2(context)}"
+            android:onClick="@{()->data.pickDSchedule(context)}"
             android:layout_height="wrap_content">
 
             <TextView

@@ -18,7 +18,7 @@ import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vm.ItemButton;
-import com.doctor.sun.vm.ItemPickDate;
+import com.doctor.sun.vm.ItemPickDSchedule;
 import com.doctor.sun.vm.ItemPickTime;
 import com.doctor.sun.vm.ItemRadioGroup;
 import com.doctor.sun.vm.ItemReminderList;
@@ -53,7 +53,7 @@ public class DiagnosisViewModel {
     private Symptom treatment;
     private Symptom sideEffect;
 
-    private ItemPickDate date;
+    private ItemPickDSchedule date;
     private ItemPickTime time;
     private ItemTextInput money;
 
@@ -86,7 +86,7 @@ public class DiagnosisViewModel {
         treatment = SymptomFactory.treatment();
         sideEffect = SymptomFactory.sideEffect();
 
-        date = new ItemPickDate(R.layout.item_pick_date, "复诊日期");
+        date = new ItemPickDSchedule(R.layout.item_pick_doctor_schedule, "复诊日期");
         date.setYear(date.getYear() + 18);
         time = new ItemPickTime(R.layout.item_pick_time, "复诊时间");
         money = new ItemTextInput(R.layout.item_text_input, "复诊诊金(元/次/半小时)");
@@ -230,11 +230,11 @@ public class DiagnosisViewModel {
         this.sideEffect = sideEffect;
     }
 
-    public ItemPickDate getDate() {
+    public ItemPickDSchedule getDate() {
         return date;
     }
 
-    public void setDate(ItemPickDate date) {
+    public void setDate(ItemPickDSchedule date) {
         this.date = date;
     }
 

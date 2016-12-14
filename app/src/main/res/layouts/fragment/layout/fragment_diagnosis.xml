@@ -134,7 +134,7 @@
 
                 <include
                     android:id="@+id/pick_date"
-                    layout="@layout/item_pick_date"
+                    layout="@layout/item_pick_doctor_schedule"
                     bind:data="@{data.date}" />
 
 

@@ -67,7 +67,7 @@ public class NewMedicalRecordModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        ItemPickDate date = new ItemPickDate(R.layout.item_pick_date2, "出生年月");
+        ItemPickDate date = new ItemPickDate(R.layout.item_pick_birthday, "出生年月");
         date.setItemId("birthday");
         date.setPosition(result.size());
         result.add(date);

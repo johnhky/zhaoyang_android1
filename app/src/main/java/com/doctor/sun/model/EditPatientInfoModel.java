@@ -78,7 +78,7 @@ public class EditPatientInfoModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        ItemPickDate birthday = new ItemPickDate(R.layout.item_pick_date2, "出生年月");
+        ItemPickDate birthday = new ItemPickDate(R.layout.item_pick_birthday, "出生年月");
         birthday.setDate(data.getBirthday());
         birthday.setItemId("birthday");
         birthday.setPosition(result.size());

@@ -1,8 +1,6 @@
 package com.doctor.sun.vm;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
-import android.widget.DatePicker;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Questions2;
@@ -17,16 +15,11 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Locale;
 
-import io.ganguo.library.util.Tasks;
-
 /**
  * Created by rick on 12/22/15.
  */
-public class ItemPickDate extends BaseItem {
-    public static final String TAG = ItemPickDate.class.getSimpleName();
-    public static final long ONE_HUNDRED_YEAR = 3153600000000L;
-    public static final long ONE_DAY_MILLIS = 86400000L;
-    public static final int DAYS_OF_ONE_HUNDRED_YEAR = 36525;
+public class ItemPickDSchedule extends BaseItem {
+    public static final String TAG = ItemPickDSchedule.class.getSimpleName();
 
     private final GregorianCalendar calendar = new GregorianCalendar();
     private String title;
@@ -40,7 +33,7 @@ public class ItemPickDate extends BaseItem {
 
     public boolean isAnswered = true;
 
-    public ItemPickDate(int layoutId, String title) {
+    public ItemPickDSchedule(int layoutId, String title) {
         super(layoutId);
         this.title = title;
         year = calendar.get(Calendar.YEAR) - 18;
@@ -48,7 +41,7 @@ public class ItemPickDate extends BaseItem {
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
     }
 
-    public ItemPickDate(int layoutId, String title, int yearBefore) {
+    public ItemPickDSchedule(int layoutId, String title, int yearBefore) {
         super(layoutId);
         this.title = title;
         year = calendar.get(Calendar.YEAR) - yearBefore;
@@ -56,21 +49,6 @@ public class ItemPickDate extends BaseItem {
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
     }
 
-
-    private DatePickerDialog.OnDateSetListener setBeginDate = new DatePickerDialog.OnDateSetListener() {
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            ItemPickDate.this.year = year;
-            ItemPickDate.this.monthOfYear = monthOfYear;
-            ItemPickDate.this.dayOfMonth = dayOfMonth;
-            calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH, monthOfYear);
-            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-            notifyChange();
-        }
-    };
 
 
     public int getSubPosition() {
@@ -164,62 +142,34 @@ public class ItemPickDate extends BaseItem {
         notifyChange();
     }
 
-    public void pickTime(Context context) {
-        pickFutureTime(context, DAYS_OF_ONE_HUNDRED_YEAR, 0);
+
+    public void pickDSchedule(Context context) {
+        pickDateImpl(context, type);
     }
 
-    public void pickTime(Context context, final long minDate, final long maxDate) {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context, setBeginDate, year, monthOfYear, dayOfMonth);
-        final DatePicker datePicker = datePickerDialog.getDatePicker();
-        datePickerDialog.show();
-        Tasks.runOnUiThread(new Runnable() {
+    void pickDateImpl(Context context, int type) {
+        final PickDateDialog dateDialog = new PickDateDialog(context, type);
+        dateDialog.setCellClickInterceptor(new CalendarPickerView.CellClickInterceptor() {
             @Override
-            public void run() {
-                datePicker.setMaxDate(maxDate);
-                datePicker.setMinDate(minDate);
+            public boolean onCellClicked(Date date) {
+                boolean result = dateDialog.isContains(date);
+                Calendar calendar = GregorianCalendar.getInstance();
+                calendar.setTime(date);
+                if (result) {
+                    ItemPickDSchedule.this.year = calendar.get(Calendar.YEAR);
+                    ItemPickDSchedule.this.monthOfYear = calendar.get(Calendar.MONTH);
+                    ItemPickDSchedule.this.dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+                    notifyChange();
+                }
+                dateDialog.dismiss();
+                return true;
             }
-        }, 100);
+        });
+        dateDialog.show();
         isAnswered = true;
     }
 
-    public void pickFutureTime(Context context, final int dayRangeBeforeNow, final int dayRangeFromNow) {
-        final long passMillis = (long) dayRangeBeforeNow * ONE_DAY_MILLIS;
-        final long futureAmount = (long) dayRangeFromNow * ONE_DAY_MILLIS;
-        long maxDate = System.currentTimeMillis() + futureAmount;
-        long minDate = System.currentTimeMillis() - passMillis + ONE_DAY_MILLIS;
-        pickTime(context, minDate, maxDate);
-    }
-
-
-
-    public long getMillis() {
-        return calendar.getTimeInMillis();
-    }
-
-    @Override
-    public HashMap<String, Object> toJson(SortedListAdapter adapter) {
-        if (!isAnswered) {
-            return null;
-        }
-        if (!isEnabled()) {
-            return null;
-        }
-        if (getItemLayoutId() == R.layout.item_reminder2) {
-            return null;
-        }
-
-        if (getDate() == null || getDate().equals("")) {
-            return null;
-        }
-        HashMap<String, Object> result = new HashMap<>();
-        String key = getKey().replace(QuestionType.sDate, "");
-        Questions2 item = (Questions2) adapter.get(key);
-        String questionId = item.answerId;
-
-        result.put("question_id", questionId);
-        result.put("fill_content", getDate());
-        return result;
-    }
 
     @Override
     public String getValue() {
