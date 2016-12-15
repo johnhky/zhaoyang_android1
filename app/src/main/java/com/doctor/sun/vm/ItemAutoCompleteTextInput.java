@@ -64,7 +64,7 @@ public class ItemAutoCompleteTextInput<T> extends ItemTextInput2 {
     }
 
     private ArrayList<T> getEntries() {
-        if (System.currentTimeMillis() - lastFilterTime > 250 && !allEntries.isEmpty()) {
+        if (System.currentTimeMillis() - lastFilterTime > 200 && !allEntries.isEmpty()) {
             Collection<T> filter = Collections2.filter(allEntries, predicate);
             entries.clear();
             entries.addAll(filter);

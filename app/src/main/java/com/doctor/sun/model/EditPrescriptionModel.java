@@ -64,6 +64,9 @@ public class EditPrescriptionModel {
         name.setPredicate(new Predicate<DrugAutoComplete>() {
             @Override
             public boolean apply(DrugAutoComplete input) {
+                if ("".equals(name.getResult())){
+                    return true;
+                }
                 return input.contains(name.getResult());
             }
         });
