@@ -233,7 +233,7 @@ public class EditPrescriptionModel {
             }
         });
 
-        ItemTextInput2 remark = new ItemTextInput2(R.layout.item_text_input2, "备注消息", "");
+        ItemTextInput2 remark = new ItemTextInput2(R.layout.item_text_input4, "备注消息", "");
         remark.setItemId("remark");
         remark.setMaxLength(48);
         remark.setResult(data.getRemark());
