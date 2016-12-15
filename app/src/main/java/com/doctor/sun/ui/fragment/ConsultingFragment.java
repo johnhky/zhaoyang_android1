@@ -228,7 +228,9 @@ public class ConsultingFragment extends SortedListFragment {
                 String s = first.getSessionId();
                 if (s.startsWith("SYSTEM_MSG")) {
                     getAdapter().notifyItemChanged(0);
-                } else {
+                }if (s.equals("admin")) {
+                    getAdapter().notifyItemChanged(1);
+                }else  {
                     ItemConsulting appointment = (ItemConsulting) getAdapter().get(s);
                     lastRefreshMsgId = first.getMsgId();
                     if (appointment != null && !shouldRefresh) {

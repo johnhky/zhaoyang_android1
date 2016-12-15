@@ -97,22 +97,49 @@ android {
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
-        // 测试环境 ,zhaoyangyisheng_server
-        stage {
+        // 生产环境
+        PatientStage {
+            applicationIdSuffix ".patienttest"
+            versionNameSuffix "_patient"
+            manifestPlaceholders = [appLabel      : "@string/app_name_patient"
+                                    , fileProvider: "com.doctor.sun.patienttest.fileprovider"
+                                    , nimKey      : "9439a1f4b31a23c48660c290a69f89e3"
+                                    , jPushKey    : "68a2dff519f202f4fca29fbd"]
+            buildConfigField "boolean", "DEV_MODE", "true"
+            buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/013/"' //host, 必改
+            buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
+            buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
+            buildConfigField "int", "IS_DOCTOR", '0'
+
+            buildConfigField "String", "UM_KEY", '"5835686cf43e4860d20009dd"'
+            buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.patienttest.fileprovider"'
+            buildConfigField "String", "USER_TYPE", '"patient"'
+
+            debuggable true
+            zipAlignEnabled false
+            shrinkResources false
+            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        DoctorStage {
             applicationIdSuffix ".stage"
             versionNameSuffix "_test"
-            manifestPlaceholders = [appLabel      : "@string/app_name_stage"
-                                    , fileProvider: "com.doctor.sun.stage.fileprovider"
+            manifestPlaceholders = [appLabel      : "@string/app_name_doctor"
+                                    , fileProvider: "com.doctor.sun.fileprovider"
                                     , nimKey      : "9439a1f4b31a23c48660c290a69f89e3"
                                     , jPushKey    : "b421412f29b79d12b1760f2f"]
             buildConfigField "boolean", "DEV_MODE", "true"
-            buildConfigField "String", "BASE_URL", '"ttp://api.zhaoyang120.cn/api/013/"' //host, 必改
-            buildConfigField "String", "DATA_PATH", '"DoctorSun"' //app 数据保存目录, 必改
-            buildConfigField "int", "IS_DOCTOR", '-1'
+            buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/013/"' //host, 必改
+            buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
+            buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
+            buildConfigField "int", "IS_DOCTOR", '1'
 
             buildConfigField "String", "UM_KEY", '"5835686cf43e4860d20009dd"'
             buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.stage.fileprovider"'
-            buildConfigField "String", "USER_TYPE", '""'
+            buildConfigField "String", "USER_TYPE", '"doctor"'
+
 
             debuggable true
             zipAlignEnabled false
@@ -129,7 +156,7 @@ android {
             manifestPlaceholders = [appLabel      : "@string/app_name_patient"
                                     , fileProvider: "com.doctor.sun.patient.fileprovider"
                                     , nimKey      : "701994af7b0559728f9ee602a6f3c342"
-                                    , jPushKey    : "2c1736491f10bfbab86e90ae"]
+                                    , jPushKey    : "f4c69a956ab67c244f0df9dd"]
             buildConfigField "boolean", "DEV_MODE", "false"
             buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/013/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改

@@ -318,6 +318,9 @@ public class TextMsg extends RealmObject implements LayoutId {
 
 
     public SessionTypeEnum getSessionTypeEnum() {
+        if (getSessionType() == null) {
+            return SessionTypeEnum.None;
+        }
         return SessionTypeEnum.valueOf(getSessionType());
     }
 

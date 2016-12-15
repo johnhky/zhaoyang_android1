@@ -332,7 +332,7 @@ public class SystemMsg extends BaseItem {
                 msg1.setHaveRead(false);
                 msg1.setBody(msg);
                 msg1.setTime(System.currentTimeMillis());
-                Realm.getDefaultInstance().copyToRealm(msg1);
+                Realm.getDefaultInstance().copyToRealmOrUpdate(msg1);
             }
         });
     }
