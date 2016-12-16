@@ -22,6 +22,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.ToolModule;
+import com.doctor.sun.ui.activity.DoctorDetailActivity2;
 import com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
 import com.doctor.sun.ui.activity.patient.HospitalDetailActivity;
@@ -124,7 +125,10 @@ public class DoctorHandler {
     }
 
     public void viewDetail(Context context, int type) {
-        Intent intent = DoctorDetailActivity.makeIntent(context, data, type);
+//        Intent intent = DoctorDetailActivity.makeIntent(context, data, type);
+//        context.startActivity(intent);
+        Intent intent = new Intent(context, DoctorDetailActivity2.class);
+        intent.putExtra(Constants.DATA, data);
         context.startActivity(intent);
     }
 

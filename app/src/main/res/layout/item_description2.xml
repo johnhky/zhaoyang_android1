@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vm.ItemDescription" />
+
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_6"
+        android:paddingEnd="@dimen/dp_13"
+        android:paddingLeft="@dimen/dp_13"
+        android:paddingRight="@dimen/dp_13"
+        android:paddingStart="@dimen/dp_13"
+        android:paddingTop="@dimen/dp_6">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dp_6"
+            android:layout_marginRight="@dimen/dp_6"
+            android:orientation="vertical"
+            android:visibility="@{data.hasImage}">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@{data.image}"
+                tools:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.imageText}"
+                android:textSize="@dimen/font_12"
+                android:visibility="@{data.hasImageText}"
+                tools:text="昭阳医生" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <RatingBar
+                style="@style/SmallRatingBar"
+                android:layout_marginBottom="@dimen/dp_6"
+                android:layout_marginLeft="@dimen/dp_0"
+                android:layout_marginStart="@dimen/dp_0"
+                android:layout_marginTop="@dimen/dp_6"
+                android:isIndicator="true"
+                android:rating="@{data.ratingPoint}"
+                android:visibility="@{data.hasRating}" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{data.mainContent}"
+                tools:text="欢迎使用昭阳医生，我们能够随时随地为您提供最舒适便捷的咨询服务。" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{data.subContent}"
+                android:visibility="@{data.hasSubContent}"
+                tools:text="2016-12-12 00:00:00" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

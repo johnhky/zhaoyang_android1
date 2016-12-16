@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vm.ItemTitle" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="@dimen/dp_6"
+            android:paddingEnd="@dimen/dp_13"
+            android:paddingLeft="@dimen/dp_13"
+            android:paddingRight="@dimen/dp_13"
+            android:paddingStart="@dimen/dp_13"
+            android:paddingTop="@dimen/dp_6">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{data.title}"
+                tools:text="简介" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.subtitle}"
+                android:visibility="@{data.hasSubtitle}"
+                tools:text="查看更多" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+    </LinearLayout>
+</layout>

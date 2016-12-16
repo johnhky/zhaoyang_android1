@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vm.ItemStandardAppointment" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_13"
+        android:background="@color/yellow"
+        android:gravity="center_horizontal"
+        android:onClick="@{()->data.select()}">
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/dp_13"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/MaterialDialogItem"
+            android:layout_alignTop="@id/iv"
+            android:layout_toRightOf="@id/iv"
+            android:text="闲时咨询" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            style="@style/MaterialDialogItem"
+            android:layout_toRightOf="@id/tv_title"
+            android:text="10元／每次"
+            android:textColor="#f65600" />
+
+        <TextView
+            android:id="@+id/tv_1"
+            style="@style/MaterialDialogItem"
+            android:layout_below="@id/tv_title"
+            android:layout_toRightOf="@id/iv"
+            android:drawableLeft="@drawable/ic_hospital"
+            android:text="在线聊天" />
+
+        <TextView
+            android:id="@+id/tv_2"
+            style="@style/MaterialDialogItem"
+            android:layout_alignLeft="@id/tv_1"
+            android:layout_below="@id/tv_1"
+            android:drawableLeft="@drawable/ic_hospital"
+            android:text="音频通话" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/iv"
+            android:layout_below="@id/tv_2"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="@string/standard_appointment_description" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+            <View
+                android:layout_width="@dimen/dp_45"
+                android:layout_height="@dimen/dp_70"
+                android:selected="@{data.isSelected}"
+                android:background="@drawable/selector_top_right_triangle" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_15"
+                android:layout_height="@dimen/dp_15"
+                android:layout_gravity="end"
+                android:paddingRight="@dimen/dp_5"
+                app:srcCompat="@drawable/ic_close_grey_12dp" />
+        </FrameLayout>
+    </RelativeLayout>
+</layout>

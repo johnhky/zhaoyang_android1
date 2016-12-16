@@ -51,6 +51,8 @@
     <string name="standard_product">闲时咨询</string>
     <string name="premium_product">专属咨询</string>
 
+    <string name="premium_appointment_description">在预约时间内与医生进行实时的互动交流</string>
+    <string name="standard_appointment_description">在预约当天24小时内，医生利用空闲时间回复您的留言</string>
 
     <string name="title" />
     <string name="title_favorite_doctor">我的收藏</string>
