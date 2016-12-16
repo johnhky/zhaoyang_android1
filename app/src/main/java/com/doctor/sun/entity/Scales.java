@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.constans.StringBoolean;
@@ -65,10 +66,18 @@ public class Scales extends BaseItem {
             Intent intent = SingleFragmentActivity.intentFor(context, scaleName, args);
             context.startActivity(intent);
         } else {
+            //查看问卷
             Bundle args = ReadQuestionsFragment.getArgs(scalesId, QuestionsPath.SCALES, "", isDone);
-            Bundle drawerArgs = QuestionStatsFragment.getArgs(scalesId, "smartScaleResult");
-            Intent intent = LeftDrawerFragmentActivity.intentFor(context, scaleName, "查看\n结果", args, drawerArgs);
-            context.startActivity(intent);
+            if (!Settings.isDoctor()) {
+                //患者查看量表,不需要看结果
+                Intent intent = SingleFragmentActivity.intentFor(context, scaleName, args);
+                context.startActivity(intent);
+            } else {
+                //医生查看量表,需要看结果
+                Bundle drawerArgs = QuestionStatsFragment.getArgs(scalesId, "smartScaleResult");
+                Intent intent = LeftDrawerFragmentActivity.intentFor(context, scaleName, "查看\n结果", args, drawerArgs);
+                context.startActivity(intent);
+            }
         }
     }
 

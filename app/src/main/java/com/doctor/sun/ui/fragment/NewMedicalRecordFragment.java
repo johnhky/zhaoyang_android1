@@ -121,7 +121,12 @@ public class NewMedicalRecordFragment extends SortedListFragment {
                 if (isFromProfile) {
                     viewRecordDetail(response);
                 }
-                getActivity().finish();
+                Settings.loadPatientProfile(new Runnable() {
+                    @Override
+                    public void run() {
+                        getActivity().finish();
+                    }
+                });
             }
         });
     }

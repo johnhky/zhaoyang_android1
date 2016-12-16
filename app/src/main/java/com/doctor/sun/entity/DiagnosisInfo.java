@@ -118,6 +118,8 @@ public class DiagnosisInfo implements Parcelable {
     public List<Reminder> reminderList;
     @JsonProperty("can_edit")
     public int canEdit = 0;
+    @JsonProperty("is_finish")
+    public int isFinish = 0;
 
     public int getId() {
         return id;

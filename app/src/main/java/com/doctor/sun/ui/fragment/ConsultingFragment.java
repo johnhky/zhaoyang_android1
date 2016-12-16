@@ -111,6 +111,9 @@ public class ConsultingFragment extends SortedListFragment {
     }
 
     public void pullAppointment(String s) {
+        if (s.equals("admin")) {
+            return;
+        }
         api.appointmentInTid("[" + s + "]", "1").enqueue(new AppointmentOfTidCallback());
     }
 
@@ -228,9 +231,9 @@ public class ConsultingFragment extends SortedListFragment {
                 String s = first.getSessionId();
                 if (s.startsWith("SYSTEM_MSG")) {
                     getAdapter().notifyItemChanged(0);
-                }if (s.equals("admin")) {
+                } else if (s.equals("admin")) {
                     getAdapter().notifyItemChanged(1);
-                }else  {
+                } else {
                     ItemConsulting appointment = (ItemConsulting) getAdapter().get(s);
                     lastRefreshMsgId = first.getMsgId();
                     if (appointment != null && !shouldRefresh) {

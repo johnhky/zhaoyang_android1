@@ -6,7 +6,10 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.RecentAppointment;
 import com.doctor.sun.entity.constans.ReviewStatus;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AuthModule;
+import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.util.JacksonUtils;
 import com.google.common.base.Strings;
 
@@ -146,6 +149,17 @@ public class Settings {
 
     public static void setLastDoctorStatus(String status) {
         Config.putString(Constants.LAST_DOCTOR_STATUS, status);
+    }
+
+    public static void loadPatientProfile(final Runnable callback){
+        ProfileModule api = Api.of(ProfileModule.class);
+        api.patientProfile().enqueue(new SimpleCallback<PatientDTO>() {
+            @Override
+            protected void handleResponse(PatientDTO response) {
+                Settings.setPatientProfile(response);
+                callback.run();
+            }
+        });
     }
 
 }
