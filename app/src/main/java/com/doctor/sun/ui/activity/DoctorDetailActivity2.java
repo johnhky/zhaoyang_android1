@@ -53,6 +53,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity{
     }
 
     private void initToolbar() {
+        setSupportActionBar(binding.toolbar);
         binding.appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             int scrollRange = -1;
 
@@ -74,7 +75,6 @@ public class DoctorDetailActivity2 extends AppCompatActivity{
                 onBackPressed();
             }
         });
-        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setTitle("");
     }
 
