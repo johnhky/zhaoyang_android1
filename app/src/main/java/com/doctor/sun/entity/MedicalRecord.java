@@ -6,11 +6,11 @@ import android.os.Parcelable;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -88,7 +88,8 @@ public class MedicalRecord extends BaseItem implements Parcelable {
     public String allowToApply;
     @JsonProperty("patient_avatar")
     public String patientAvatar;
-
+    @JsonProperty("review_status")
+    public String reviewStatus = "";
 
 
     public void setPatientId(int patientId) {
@@ -279,6 +280,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
         dest.writeList(this.appointmentId);
         dest.writeInt(this.tid);
         dest.writeString(this.yunxinAccid);
+        dest.writeString(this.reviewStatus);
     }
 
     public MedicalRecord() {
@@ -302,6 +304,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
         in.readList(this.appointmentId, List.class.getClassLoader());
         this.tid = in.readInt();
         this.yunxinAccid = in.readString();
+        this.reviewStatus = in.readString();
     }
 
 
@@ -314,14 +317,4 @@ public class MedicalRecord extends BaseItem implements Parcelable {
             return new MedicalRecord[size];
         }
     };
-
-    public HashMap<String, String> toHashMap() {
-        HashMap<String, String> result = new HashMap<String, String>();
-        result.put("recordId", String.valueOf(medicalRecordId));
-        result.put("name", getRecordName());
-        result.put("birthday", birthday);
-        result.put("gender", String.valueOf(gender));
-        result.put("relation", relation);
-        return result;
-    }
 }

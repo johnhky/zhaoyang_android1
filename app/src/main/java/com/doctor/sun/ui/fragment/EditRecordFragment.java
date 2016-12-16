@@ -1,9 +1,9 @@
 package com.doctor.sun.ui.fragment;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.databinding.ItemBottomButtonBinding;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.EditRecordModel;
@@ -57,15 +58,9 @@ public class EditRecordFragment extends SortedListFragment {
         super.onViewCreated(view, savedInstanceState);
 
         // 添加一个位于屏幕底部的按钮
-        View bottomButton = LayoutInflater.from(getContext()).inflate(R.layout.item_bottom_button, binding.flRoot, false);
-        bottomButton.findViewById(R.id.tv_history).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = HistoryActivity.makeIntent(getContext(), data.getMedicalRecordId());
-                startActivity(i);
-            }
-        });
-        binding.flRoot.addView(bottomButton);
+        ItemBottomButtonBinding inflate = DataBindingUtil.inflate(getLayoutInflater(savedInstanceState), R.layout.item_bottom_button, binding.flRoot, false);
+        inflate.setData(data);
+        binding.flRoot.addView(inflate.getRoot());
 
         disableRefresh();
         setHasOptionsMenu(true);
@@ -109,7 +104,11 @@ public class EditRecordFragment extends SortedListFragment {
         model.saveRecord(getAdapter(), new SimpleCallback<MedicalRecord>() {
             @Override
             protected void handleResponse(MedicalRecord ignored) {
-                Toast.makeText(getContext(), "成功申请修改病历,请耐心等待审核", Toast.LENGTH_SHORT).show();
+                if (ignored!=null){
+                    Toast.makeText(getContext(), "成功修改病历", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getContext(), "成功申请修改病历,请耐心等待审核", Toast.LENGTH_SHORT).show();
+                }
 
                 getActivity().finish();
             }

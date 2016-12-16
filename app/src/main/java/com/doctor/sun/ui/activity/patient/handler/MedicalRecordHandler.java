@@ -6,12 +6,14 @@ import android.content.Intent;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.constans.Gender;
+import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.event.SelectMedicalRecordEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.AfterServiceHistoryActivity;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.activity.patient.HistoryActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.fragment.EditRecordFragment;
@@ -120,5 +122,14 @@ public class MedicalRecordHandler {
 
     public static void onRecordSelected(MedicalRecord data) {
         EventHub.post(new SelectMedicalRecordEvent(data.getItemId(), data));
+    }
+
+    public static boolean isPending(MedicalRecord data) {
+        return ReviewStatus.STATUS_PENDING.equals(data.reviewStatus);
+    }
+
+    public static void showRecordHistory(Context context, MedicalRecord data) {
+        Intent i = HistoryActivity.makeIntent(context, data.getMedicalRecordId());
+        context.startActivity(i);
     }
 }

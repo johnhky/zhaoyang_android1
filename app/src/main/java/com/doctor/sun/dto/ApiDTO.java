@@ -13,6 +13,7 @@ public class ApiDTO<T> {
      */
     private int code;
     private String status;
+    private String is_change;
     private Object message;
     private T data;
     // api 不规范才放这个在这里
@@ -58,13 +59,23 @@ public class ApiDTO<T> {
         this.count = count;
     }
 
+    public String getIs_change() {
+        return is_change;
+    }
+
+    public void setIs_change(String is_change) {
+        this.is_change = is_change;
+    }
+
     @Override
     public String toString() {
         return "ApiDTO{" +
                 "code=" + code +
                 ", status='" + status + '\'' +
-                ", message='" + message + '\'' +
+                ", is_change='" + is_change + '\'' +
+                ", message=" + message +
                 ", data=" + data +
+                ", count=" + count +
                 '}';
     }
 }

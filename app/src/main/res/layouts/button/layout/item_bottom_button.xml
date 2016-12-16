@@ -3,33 +3,62 @@
 
     <data>
 
+        <import
+            alias="handler"
+            type="com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.MedicalRecord" />
 
     </data>
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_63"
+        android:layout_height="@dimen/dp_108"
         android:layout_gravity="bottom"
-        android:background="@color/gray_eb"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_review_status"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_45"
+            android:background="@color/dark_36"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_23"
+            android:paddingRight="@dimen/dp_23"
+            android:text="您好，您的病历资料正在审核，请耐心等待"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_13"
+            android:visibility2="@{handler.isPending(data)}" />
 
         <FrameLayout
-            android:layout_width="@dimen/dp_283"
-            android:layout_height="@dimen/dp_49"
-            android:layout_gravity="center"
-            android:background="@drawable/shape_blue_rect"
-            android:clickable="true">
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_63"
+            android:layout_gravity="bottom"
+            android:background="@color/gray_eb"
+            android:gravity="center">
 
-            <TextView
-                android:id="@+id/tv_history"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple_default"
-                android:gravity="center"
-                android:text="病历记录"
-                android:textColor="#fff"
-                android:textSize="@dimen/font_17" />
+            <FrameLayout
+                android:layout_width="@dimen/dp_283"
+                android:layout_height="@dimen/dp_49"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_blue_rect"
+                android:clickable="true">
+
+                <TextView
+                    android:id="@+id/tv_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:onClick="@{()->handler.showRecordHistory(context,data)}"
+                    android:text="病历记录"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_17" />
+            </FrameLayout>
         </FrameLayout>
     </LinearLayout>
 </layout>
