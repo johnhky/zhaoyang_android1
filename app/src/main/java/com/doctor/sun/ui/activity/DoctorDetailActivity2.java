@@ -7,7 +7,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 
 import com.afollestad.materialdialogs.GravityEnum;
@@ -28,6 +27,8 @@ import com.doctor.sun.vm.ItemStandardAppointment;
 import com.squareup.otto.Subscribe;
 
 import java.util.List;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by kb on 13/12/2016.
@@ -101,11 +102,24 @@ public class DoctorDetailActivity2 extends AppCompatActivity{
 
     @Subscribe
     public void onSelectAppointmentTypeEvent(SelectAppointmentTypeEvent event) {
-        Log.e("KB", "Test");
 
         dialog.dismiss();
-        adapter.clear();
 
+        adapter.clear();
         adapter.insert(new ItemPickAppointmentDuration());
+        binding.flSelectDuration.setVisibility(View.GONE);
+        binding.llSelectRecord.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventHub.register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventHub.unregister(this);
     }
 }
