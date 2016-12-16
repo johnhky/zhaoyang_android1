@@ -240,6 +240,13 @@ public class PrescriptionHandler {
         return data.getMorning() + data.getNoon() + data.getNight() + data.getBefore_sleep();
     }
 
+    public static double totalNumberPerFrequency(Prescription data) {
+        return Double.valueOf(nullOrEmptyToZero(trimZero(data.getMorning())))
+                + Double.valueOf(nullOrEmptyToZero(trimZero(data.getNoon())))
+                + Double.valueOf(nullOrEmptyToZero(trimZero(data.getNight())))
+                + Double.valueOf(nullOrEmptyToZero(trimZero(data.getBefore_sleep())));
+    }
+
     public static Prescription newInstance() {
         ImmutablePrescription.Builder builder = emptyBuilder();
         return builder.build();
@@ -271,11 +278,37 @@ public class PrescriptionHandler {
         builder.frequency(Strings.nullToEmpty(map.get("frequency")));
         builder.drug_unit(Strings.nullToEmpty(map.get("drug_unit")));
         builder.remark(Strings.nullToEmpty(map.get("remark")));
-        builder.morning(Strings.nullToEmpty(map.get("morning")));
-        builder.noon(Strings.nullToEmpty(map.get("noon")));
-        builder.night(Strings.nullToEmpty(Strings.nullToEmpty(map.get("night"))));
-        builder.before_sleep(Strings.nullToEmpty(map.get("before_sleep")));
+
+        builder.morning(getNumber(map.get("morning")));
+        builder.noon(getNumber(map.get("noon")));
+        builder.night(getNumber(map.get("night")));
+        builder.before_sleep(getNumber(map.get("before_sleep")));
+
         builder.take_medicine_days(Strings.nullToEmpty(map.get("take_medicine_days")));
         return builder.build();
+    }
+
+    @NonNull
+    private static String getNumber(String num) {
+        return trimZero(Strings.nullToEmpty(num));
+    }
+
+    private static String nullOrEmptyToZero(String string) {
+        return (string == null || "".equals(string)) ? "0" : string;
+    }
+
+    private static String trimZero(String string) {
+        if (string.length() == 0) {
+            return "";
+        }
+        if (string.charAt(0) == '0') {
+            return trimZero(string.substring(1));
+        } else {
+            if (string.startsWith(".")) {
+                return "0" + string;
+            } else {
+                return string;
+            }
+        }
     }
 }

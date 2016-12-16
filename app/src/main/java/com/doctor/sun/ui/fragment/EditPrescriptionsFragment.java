@@ -97,7 +97,7 @@ public class EditPrescriptionsFragment extends SortedListFragment {
 
         if (save != null) {
             Prescription data = PrescriptionHandler.fromHashMap(save);
-            if (!PrescriptionHandler.concatNumbers(data).isEmpty()) {
+            if (PrescriptionHandler.totalNumberPerFrequency(data) > 0D) {
                 String jsonData = JacksonUtils.toJson(data);
                 Messenger messenger = getActivity().getIntent().getParcelableExtra(Constants.HANDLER);
                 if (messenger != null) {
