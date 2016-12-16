@@ -2,8 +2,11 @@ package com.doctor.sun.ui.activity.patient;
 
 import android.Manifest;
 import android.app.DownloadManager;
+import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
@@ -11,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -31,6 +35,7 @@ public class MyQrCodeActivity extends BaseFragmentActivity2 {
     private String data = "";
 
     private ActivityMyQrCodeBinding binding;
+    private long enqueue;
 
     public static Intent intentFor(Context context, Doctor doctor) {
         Intent intent = new Intent(context, MyQrCodeActivity.class);
@@ -74,7 +79,9 @@ public class MyQrCodeActivity extends BaseFragmentActivity2 {
                 r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
                 DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                dm.enqueue(r);
+                enqueue = dm.enqueue(r);
+                registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                enqueue = dm.enqueue(r);
             }
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -112,4 +119,23 @@ public class MyQrCodeActivity extends BaseFragmentActivity2 {
     public int getMidTitle() {
         return R.string.title_my_qrcode;
     }
+
+
+    private BroadcastReceiver onComplete = new BroadcastReceiver() {
+        public void onReceive(Context ctxt, Intent intent) {
+            // your code
+            DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+            try {
+                Toast.makeText(ctxt, "保存图片成功", Toast.LENGTH_SHORT).show();
+                Uri uriForDownloadedFile = dm.getUriForDownloadedFile(enqueue);
+                Intent install = new Intent(Intent.ACTION_VIEW);
+                install.setDataAndType(uriForDownloadedFile, "image/*");
+                startActivity(install);
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(ctxt, "图片已经保存成功，请安装查看图片的软件来打开图片", Toast.LENGTH_SHORT).show();
+            }
+            unregisterReceiver(this);
+        }
+    };
 }
