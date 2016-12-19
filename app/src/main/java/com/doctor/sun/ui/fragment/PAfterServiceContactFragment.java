@@ -44,6 +44,7 @@ public class PAfterServiceContactFragment extends RefreshListFragment {
         api.newPatientList("", string).enqueue(new SimpleCallback<PageDTO<Patient>>() {
             @Override
             protected void handleResponse(PageDTO<Patient> response) {
+                getAdapter().clear();
                 getAdapter().addAll(response.getData());
                 getAdapter().notifyDataSetChanged();
                 binding.swipeRefresh.setRefreshing(false);
