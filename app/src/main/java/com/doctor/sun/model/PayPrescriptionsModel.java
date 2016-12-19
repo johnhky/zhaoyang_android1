@@ -218,7 +218,7 @@ public class PayPrescriptionsModel {
             extraField = DrugListFragment.getDrugExtraField();
 
             // 如果没有使用优惠券，则优惠券id为0
-            if (!hasUsedCoupon(response)) {
+            if (!canUseCoupon(response)) {
 
                 String couponString = "已选取" + response.getCoupon_info().couponMoney + "元优惠券";
                 selectCoupon.setTitle(couponString);
@@ -390,8 +390,14 @@ public class PayPrescriptionsModel {
             protected void handleResponse(List<Coupon> response) {
                 if (response != null && !response.isEmpty()) {
                     coupons = response;
-                    if (hasUsedCoupon(drug)) {
+                    if (canUseCoupon(drug)) {
                         selectCoupon.setTitle("您有" + coupons.size() + "张优惠券可用");
+                        selectCoupon.setListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                selectCoupon(v.getContext());
+                            }
+                        });
                     }
                 } else {
                     coupons = null;
@@ -413,7 +419,7 @@ public class PayPrescriptionsModel {
         return coupons.get(selectedCoupon).id;
     }
 
-    private boolean hasUsedCoupon(Drug data) {
+    private boolean canUseCoupon(Drug data) {
         return data.getUser_coupon_id().equals("0");
     }
 }
