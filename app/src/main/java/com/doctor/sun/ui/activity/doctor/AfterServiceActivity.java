@@ -51,6 +51,7 @@ public class AfterServiceActivity extends PageActivity2 {
         getMenuInflater().inflate(R.menu.menu_patient_list, menu);
         return true;
     }
+
     @Override
     protected void onPrepareHeader() {
         super.onPrepareHeader();

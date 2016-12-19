@@ -2,6 +2,8 @@ package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -50,5 +52,18 @@ public class PAfterServiceContactFragment extends RefreshListFragment {
                 binding.swipeRefresh.setRefreshing(false);
             }
         });
+
+        // getEmptyIndicatorText 无效。。。
+        if (getAdapter().size() == 0) {
+            String type = getArguments().getString(Constants.TYPE);
+            String text;
+            if (type.equals("follow")) {
+                text = "暂无已建立随访关系的患者";
+            } else {
+                text = "暂无未建立随访关系的患者";
+            }
+            binding.emptyIndicator.setText(text);
+            binding.emptyIndicator.setVisibility(View.VISIBLE);
+        }
     }
 }
