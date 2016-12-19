@@ -178,7 +178,7 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
 
     public void showEndAppointmentDialog() {
 
-        TwoChoiceDialog.show(getActivity(), getString(R.string.save_record_dialog),
+        TwoChoiceDialog.show(getActivity(), getString(R.string.edit_diagnosis),
                 "存为草稿", "保存并结束", new TwoChoiceDialog.Options() {
                     @Override
                     public void onApplyClick(final MaterialDialog dialog) {

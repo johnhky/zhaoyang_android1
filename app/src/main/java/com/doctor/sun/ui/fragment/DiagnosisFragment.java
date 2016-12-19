@@ -30,6 +30,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.HideFABEvent;
@@ -78,7 +79,8 @@ public class DiagnosisFragment extends BaseFragment {
     private boolean shouldScrollDown = false;
     private ArrayList<Prescription> prescriptions;
     private int mActionBarAutoHideSignal = 0;
-    private boolean isFirstTime = true;
+    private boolean neverScrollAfterOnCreateView = true;
+    private boolean isAppointmentFinish = false;
 
 
     public static DiagnosisFragment newInstance(String appointmentId, String recordId) {
@@ -105,8 +107,8 @@ public class DiagnosisFragment extends BaseFragment {
         binding.swRoot.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (isFirstTime) {
-                    isFirstTime = false;
+                if (neverScrollAfterOnCreateView) {
+                    neverScrollAfterOnCreateView = false;
                     return;
                 }
 
@@ -261,6 +263,8 @@ public class DiagnosisFragment extends BaseFragment {
                 if (response == null) {
                     return;
                 }
+                isAppointmentFinish = (response.isFinish == IntBoolean.TRUE);
+                getActivity().invalidateOptionsMenu();
                 viewModel.cloneFromDiagnosisInfo(response);
                 returnType = response.getReturnType();
                 binding.setData(viewModel);
@@ -371,8 +375,20 @@ public class DiagnosisFragment extends BaseFragment {
     }
 
     public void save() {
-        TwoChoiceDialog.show(getContext(), getString(R.string.save_record_dialog),
-                "存为草稿", "保存并结束", new TwoChoiceDialog.Options() {
+        String string;
+        String positiveText;
+        String negativeText;
+        if (isAppointmentFinish) {
+            string = getString(R.string.edit_diagnosis);
+            positiveText = "保存并通知患者";
+            negativeText = null;
+        } else {
+            string = getString(R.string.save_diagnosis);
+            positiveText = "保存并结束";
+            negativeText = "存为草稿";
+        }
+        TwoChoiceDialog.show(getContext(), string,
+                negativeText, positiveText, new TwoChoiceDialog.Options() {
                     @Override
                     public void onApplyClick(final MaterialDialog dialog) {
                         final HashMap<String, String> query = viewModel.toHashMap(getAppointmentId(), getRecordId(), binding, getPrescriptions());
@@ -424,7 +440,11 @@ public class DiagnosisFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_save, menu);
+        if (isAppointmentFinish) {
+            inflater.inflate(R.menu.menu_edit, menu);
+        } else {
+            inflater.inflate(R.menu.menu_save, menu);
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -432,6 +452,10 @@ public class DiagnosisFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save: {
+                save();
+                return true;
+            }
+            case R.id.action_edit: {
                 save();
                 return true;
             }
