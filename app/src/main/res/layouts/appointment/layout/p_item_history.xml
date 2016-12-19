@@ -83,11 +83,11 @@
                     android:layout_marginTop="@dimen/dp_6"
                     android:background="@{data.doctor.levelBackgroundColor}"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:paddingLeft="@dimen/dp_4"
                     android:paddingRight="@dimen/dp_4"
-                    android:maxLines="1"
                     android:text="@{data.doctor.level}"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/blue_grey"
                     android:textSize="@dimen/font_9"
                     tools:background="@drawable/shape_red_rect"
                     tools:text="专治病" />
