@@ -9,7 +9,6 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
-import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.event.HideFABEvent;
 import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.http.Api;
@@ -58,7 +57,7 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
         api.diagnosisInfo(getAppointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
             @Override
             protected void handleResponse(DiagnosisInfo response) {
-                if (response == null || response.isFinish == IntBoolean.TRUE) {
+                if (response == null) {
                     Description divider = new Description(R.layout.item_description, "嘱咐");
                     ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
                     textInput.setInput("坚持治疗,定期复诊");

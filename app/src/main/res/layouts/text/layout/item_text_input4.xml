@@ -66,11 +66,12 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
                 android:background="@drawable/bg_transparent"
+                android:enabled="@{data.enabled}"
                 android:gravity="start"
                 android:hint="@{data.hint}"
                 android:maxLength="@{data.maxLength}"
                 android:text="@={data.result}"
-                android:textColor="@color/color_tick"
+                android:textColor="#363636"
                 android:textSize="@dimen/font_13" />
 
             <TextView
@@ -80,6 +81,7 @@
                 android:text="@{data.result.length()+&quot;/&quot;+data.maxLength+ &quot;字&quot;}"
                 android:textColor="#9bb6c5"
                 android:textSize="@dimen/font_12"
+                android:visibility="@{data.enabled}"
                 tools:text="100/200字体" />
 
         </FrameLayout>
