@@ -360,7 +360,8 @@ public class Options2 extends BaseItem {
                         int index = adapterPosition - i + 1;
                         try {
                             Prescription sortedItem = (Prescription) adapter.get(index);
-                            toItem.addPrescription(ImmutablePrescription.copyOf(sortedItem), adapter);
+                            ImmutablePrescription build = ImmutablePrescription.builder().from(sortedItem).build();
+                            toItem.addPrescription(build, adapter);
                         } catch (ClassCastException ignored) {
                             ignored.printStackTrace();
                         }
