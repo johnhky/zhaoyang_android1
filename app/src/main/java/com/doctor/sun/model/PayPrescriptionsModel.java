@@ -42,7 +42,7 @@ public class PayPrescriptionsModel {
 
     private ProfileModule api;
 
-    private List<Coupon> coupons;
+    private List<Coupon> coupons = new ArrayList<>();
     private int selectedCoupon = -1;
 
     private ClickMenu selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, "", null);
@@ -217,25 +217,6 @@ public class PayPrescriptionsModel {
 
             extraField = DrugListFragment.getDrugExtraField();
 
-            // 如果没有使用优惠券，则优惠券id为0
-            if (!canUseCoupon(response)) {
-
-                String couponString = "已选取" + response.getCoupon_info().couponMoney + "元优惠券";
-                selectCoupon.setTitle(couponString);
-                selectCoupon.setEnabled(false);
-            } else {
-                if (coupons == null || coupons.isEmpty()) {
-                    selectCoupon.setTitle("暂时没有可以选择的优惠券");
-                } else {
-                    selectCoupon.setTitle("您有" + coupons.size() + "可以选择使用");
-                    selectCoupon.setListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            selectCoupon(v.getContext());
-                        }
-                    });
-                }
-            }
         } else if (response.getCoupon_info() != null && response.getCoupon_info().couponMoney != null) {
             Description couponDescription = new Description(R.layout.item_description, "优惠券");
             couponDescription.setBackgroundColor(R.color.color_coupon_background_yellow);
@@ -378,10 +359,25 @@ public class PayPrescriptionsModel {
                             shouldPayMoney.setTitle("<font color=\"#f65600\">实际付款：￥" + money + "</font>");
                         }
                         selectedCoupon = -1;
-                        selectCoupon.setTitle("您有" + coupons.size() + "张优惠券可用");
+                        initCouponBtn();
                     }
                 })
                 .build().show();
+    }
+
+    private void initCouponBtn() {
+        if (coupons == null || coupons.isEmpty()) {
+            selectCoupon.setTitle("暂时没有可以选择的优惠券");
+        } else {
+            selectCoupon.setTitle("您有" + coupons.size() + "张优惠券可用");
+            selectCoupon.setListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectCoupon(v.getContext());
+                }
+            });
+            selectCoupon.notifyChange();
+        }
     }
 
     private void loadCoupons(final Drug drug) {
@@ -391,16 +387,13 @@ public class PayPrescriptionsModel {
                 if (response != null && !response.isEmpty()) {
                     coupons = response;
                     if (canUseCoupon(drug)) {
-                        selectCoupon.setTitle("您有" + coupons.size() + "张优惠券可用");
-                        selectCoupon.setListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                selectCoupon(v.getContext());
-                            }
-                        });
+                        initCouponBtn();
+                    } else {
+                        // 如果没有使用优惠券，则优惠券id为0
+                        String couponString = "已选取" + drug.getCoupon_info().couponMoney + "元优惠券";
+                        selectCoupon.setTitle(couponString);
+                        selectCoupon.setEnabled(false);
                     }
-                } else {
-                    coupons = null;
                 }
             }
         });
