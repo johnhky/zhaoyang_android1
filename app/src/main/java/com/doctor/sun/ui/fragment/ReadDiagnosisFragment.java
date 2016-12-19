@@ -9,6 +9,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.event.HideFABEvent;
 import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.http.Api;
@@ -57,17 +58,6 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
         api.diagnosisInfo(getAppointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
             @Override
             protected void handleResponse(DiagnosisInfo response) {
-                if (response == null) {
-                    Description divider = new Description(R.layout.item_description, "嘱咐");
-                    ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
-                    textInput.setInput("坚持治疗,定期复诊");
-                    getAdapter().clear();
-                    getAdapter().add(divider);
-                    getAdapter().add(textInput);
-                    getAdapter().notifyDataSetChanged();
-                    binding.swipeRefresh.setRefreshing(false);
-                    return;
-                }
                 viewModel = new DiagnosisReadOnlyViewModel();
                 viewModel.cloneFromDiagnosisInfo(response);
                 getAdapter().onFinishLoadMore(true);
@@ -76,8 +66,20 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
                 getAdapter().notifyDataSetChanged();
                 binding.swipeRefresh.setRefreshing(false);
                 if (getAdapter().isEmpty()) {
-                    binding.emptyIndicator.setText("请耐心等待");
-                    binding.emptyIndicator.setVisibility(View.VISIBLE);
+                    if (response != null && response.isFinish == IntBoolean.TRUE) {
+                        Description divider = new Description(R.layout.item_description, "嘱咐");
+                        ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
+                        textInput.setInput("坚持治疗,定期复诊");
+                        getAdapter().clear();
+                        getAdapter().add(divider);
+                        getAdapter().add(textInput);
+                        getAdapter().notifyDataSetChanged();
+                        binding.swipeRefresh.setRefreshing(false);
+                        return;
+                    }else {
+                        binding.emptyIndicator.setText("请耐心等待");
+                        binding.emptyIndicator.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     binding.emptyIndicator.setVisibility(View.GONE);
                 }
