@@ -50,10 +50,15 @@ public class PAfterServiceContactFragment extends RefreshListFragment {
                 getAdapter().addAll(response.getData());
                 getAdapter().notifyDataSetChanged();
                 binding.swipeRefresh.setRefreshing(false);
+                updateEmptyIndicator();
             }
         });
 
         // getEmptyIndicatorText 无效。。。
+
+    }
+
+    public void updateEmptyIndicator() {
         if (getAdapter().size() == 0) {
             String type = getArguments().getString(Constants.TYPE);
             String text;
