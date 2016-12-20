@@ -224,7 +224,7 @@ public class PayPrescriptionsModel {
 
         ModelUtils.insertSpace(result, R.layout.space_8dp);
 
-        String totalMoneyString = "订单应付：￥" + money;
+        String totalMoneyString = "订单总额：￥" + money;
         final ItemTextInput2 totalMoney = new ItemTextInput2(R.layout.item_r_grey_text, totalMoneyString, "");
         totalMoney.setTextSize(R.dimen.font_12);
         totalMoney.setTitleGravity(Gravity.START);

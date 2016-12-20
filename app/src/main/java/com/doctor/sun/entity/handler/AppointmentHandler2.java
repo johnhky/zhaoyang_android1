@@ -617,7 +617,7 @@ public class AppointmentHandler2 {
                     return "本次咨询已结束,如需咨询,请再次预约";
                 }
             case Status.PAID:
-                return "已预约" + data.getBook_time() + "   " + data.getDisplay_type();
+                return "非就诊时段,已预约" + data.getBook_time() + "   " + data.getDisplay_type();
             default:
                 return "本次咨询" + data.getDisplay_status();
         }

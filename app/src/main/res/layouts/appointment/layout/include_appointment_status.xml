@@ -25,7 +25,7 @@
             android:gravity="center"
             android:text="@{handler.chatStatus(data)}"
             android:textColor="@{handler.chatStatusTextColor(data, context)}"
-            android:textSize="@dimen/font_14" />
+            android:textSize="@dimen/font_13" />
 
         <com.doctor.sun.ui.widget.CountDownTextView
             android:id="@+id/tv_time"
@@ -36,7 +36,7 @@
             android:gravity="center"
             android:text="剩余就诊时长%s"
             android:textColor="#a36140"
-            android:textSize="@dimen/font_14"
+            android:textSize="@dimen/font_13"
             android:time="@{handler.getFinishedTime(data)}"
             tool:text="剩余就诊时间09分12秒" />
 
