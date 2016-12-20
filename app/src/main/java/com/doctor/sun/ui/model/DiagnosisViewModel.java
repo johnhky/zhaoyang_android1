@@ -399,7 +399,7 @@ public class DiagnosisViewModel {
 
     public String getAdvice() {
         if (Strings.isNullOrEmpty(advice)) {
-            return "坚持治疗，定期复诊";
+            return "坚持治疗,定期复诊";
         }
         return advice;
     }
