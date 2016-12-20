@@ -19,6 +19,7 @@ public class PageCallback<T> extends ApiCallback<PageDTO<T>> {
 
     private int page = 1;
     private LoadMoreAdapter adapter;
+    public boolean hasInsertedFooter = false;
 
     public PageCallback(LoadMoreAdapter adapter) {
         this.adapter = adapter;
@@ -44,6 +45,7 @@ public class PageCallback<T> extends ApiCallback<PageDTO<T>> {
         getAdapter().onFinishLoadMore(isLastPage);
         if (isLastPage) {
             insertFooter();
+            hasInsertedFooter = true;
         }
         getAdapter().notifyDataSetChanged();
         onFinishRefresh();

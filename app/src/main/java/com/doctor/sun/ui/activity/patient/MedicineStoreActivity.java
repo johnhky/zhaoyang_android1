@@ -84,6 +84,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     private RealmChangeListener<RealmResults<TextMsg>> listener;
     private int screenWidth;
     private PageCallback<PrescriptionOrder> prescriptionOrderPageCallback;
+    private LinearLayoutManager layout;
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, MedicineStoreActivity.class);
@@ -106,10 +107,6 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         return getIntent().getIntExtra(Constants.NUMBER, -1);
     }
 
-    private boolean doOpenDrawer() {
-        return getIntent().getBooleanExtra(Constants.OPEN_DRAWER, false);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,11 +121,6 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_medicine_helper);
         keyboardWatcher = new KeyboardWatcher(this);
         keyboardWatcher.setListener(this);
-
-        if (doOpenDrawer()) {
-//            binding.drawerLayout.openDrawer(GravityCompat.END);
-//            Toast.makeText(this, "请选择需要寄药的订单", Toast.LENGTH_SHORT).show();
-        }
     }
 
 
@@ -222,7 +214,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     }
 
     private void initAppointment() {
-        final LinearLayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        layout = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         binding.rvPrescription.setLayoutManager(layout);
         final LinearSnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(binding.rvPrescription);
@@ -265,6 +257,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
                     binding.flyPrescription.setVisibility(View.GONE);
                 } else {
                     binding.flyPrescription.setVisibility(View.VISIBLE);
+                    showPrescriptionIndicator(layout.findFirstVisibleItemPosition());
                 }
             }
         };
@@ -504,15 +497,6 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_pick_prescription: {
-////                binding.drawerLayout.openDrawer(Gravity.RIGHT);
-//                int visibility = binding.flyPrescription.getVisibility();
-//                if (visibility == View.VISIBLE) {
-//                    binding.flyPrescription.setVisibility(View.GONE);
-//                } else {
-//                    Systems.hideKeyboard(this);
-//                    binding.flyPrescription.setVisibility(View.VISIBLE);
-//                }
-//                return true;
                 if (prescriptionOrderPageCallback != null) {
                     prescriptionOrderPageCallback.resetPage();
                 }
@@ -572,6 +556,28 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
                 view.setScaleX(scale);
                 view.setScaleY(scale);
             }
+
+            showPrescriptionIndicator(layout.findFirstVisibleItemPosition());
         }
+    }
+
+    /**
+     * 显示当前item的位置与最后一个item的位置，1／13
+     *
+     * @param currentPosition
+     */
+    private void showPrescriptionIndicator(int currentPosition) {
+        // position是从0开始的，加1
+        currentPosition++;
+        // 因为加了header，根据情况减1或减2
+        int lastPosition;
+        if (prescriptionOrderPageCallback.hasInsertedFooter) {
+            lastPosition = mAppointmentAdapter.size() - 2;
+        } else {
+            lastPosition = mAppointmentAdapter.size() - 1;
+        }
+
+        String indicatorText = currentPosition + " / " + lastPosition;
+        binding.tvIndicator.setText(indicatorText);
     }
 }

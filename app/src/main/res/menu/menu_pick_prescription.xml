@@ -4,6 +4,6 @@
 
     <item
         android:id="@+id/action_pick_prescription"
-        android:title="选择处方"
+        android:title="我的药单"
         app:showAsAction="always" />
 </menu>

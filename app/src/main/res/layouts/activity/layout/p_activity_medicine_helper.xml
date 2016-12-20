@@ -86,7 +86,7 @@
         <!--android:background="@drawable/ic_no_medicine"-->
         <!--android:visibility="gone" />-->
 
-        <FrameLayout
+        <RelativeLayout
             android:id="@+id/fly_prescription"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -96,10 +96,19 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_prescription"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/dp_150"
-                android:layout_marginTop="@dimen/dp_100" />
-        </FrameLayout>
+                android:layout_height="@dimen/dp_480"
+                android:layout_centerInParent="true"/>
+
+            <TextView
+                android:id="@+id/tv_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/rv_prescription"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:padding="@dimen/dp_13"
+                android:textSize="@dimen/font_13" />
+        </RelativeLayout>
 
     </FrameLayout>
 </layout>
