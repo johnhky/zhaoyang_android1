@@ -117,7 +117,7 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
         switch (state) {
             case OUTGOING_VIDEO_CALLING:
                 showProfile();//对方的详细信息
-                showNotify(R.string.avchat_wait_recieve);
+                showNotify(R.string.avchat_wait_video_call);
                 setRefuseReceive(false);
                 shouldEnableToggle = true;
                 setTopRoot(false);
