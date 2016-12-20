@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -138,6 +137,10 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
     @Override
     public void onClick(View view) {
+        if (data == null || data.isEmpty()) {
+            Toast.makeText(getContext(), "暂时没有任何历史记录", Toast.LENGTH_SHORT).show();
+            return;
+        }
         setTabPosition();
 
         switch (view.getId()) {
