@@ -73,11 +73,11 @@ android {
         }
     }
     buildTypes {
-        debug {
+        DoctorDebug {
             // zhaoyang_server
             applicationIdSuffix ".dev"
             versionNameSuffix "_dev"
-            manifestPlaceholders = [appLabel      : "@string/app_name_dev"
+            manifestPlaceholders = [appLabel      : "@string/app_name_doctor"
                                     , fileProvider: "com.doctor.sun.dev.fileprovider"
                                     , nimKey      : "84bcda3a943a3a781f5e4a8bae628a74"
                                     , jPushKey    : "c29f700e97249bca7e40c395"]
@@ -89,6 +89,30 @@ android {
 
             buildConfigField "String", "UM_KEY", '"5835686cf43e4860d20009dd"'
             buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.dev.fileprovider"'
+
+            debuggable true
+            zipAlignEnabled false
+            shrinkResources false
+            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        PatientDebug {
+            // zhaoyang_server
+            applicationIdSuffix ".patientdev"
+            versionNameSuffix "_patientdev"
+            manifestPlaceholders = [appLabel      : "@string/app_name_patient"
+                                    , fileProvider: "com.doctor.sun.patientdev.fileprovider"
+                                    , nimKey      : "84bcda3a943a3a781f5e4a8bae628a74"
+                                    , jPushKey    : "c29f700e97249bca7e40c395"]
+            buildConfigField "boolean", "DEV_MODE", "true"
+            buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/013/"'
+            buildConfigField "String", "DATA_PATH", '"DoctorSun"' //app 数据保存目录, 必改
+            buildConfigField "int", "IS_DOCTOR", '-1'
+            buildConfigField "String", "USER_TYPE", '""'
+
+            buildConfigField "String", "UM_KEY", '"5835686cf43e4860d20009dd"'
+            buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.patientdev.fileprovider"'
 
             debuggable true
             zipAlignEnabled false

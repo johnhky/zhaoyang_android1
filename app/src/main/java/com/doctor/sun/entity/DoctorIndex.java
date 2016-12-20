@@ -1,6 +1,7 @@
 package com.doctor.sun.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Strings;
 
 /**
  * Created by rick on 11/20/15.
@@ -79,6 +80,13 @@ public class DoctorIndex {
 
     public String getName() {
         return name;
+    }
+
+    public String getName2() {
+        if (Strings.isNullOrEmpty(name)) {
+            return "";
+        }
+        return name+",";
     }
 
     public int getFollowUpNum() {

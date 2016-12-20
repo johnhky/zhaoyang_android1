@@ -2,6 +2,7 @@ package com.doctor.sun.model;
 
 import android.databinding.Observable;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.dto.ApiDTO;

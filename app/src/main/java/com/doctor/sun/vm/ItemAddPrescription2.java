@@ -56,7 +56,7 @@ public class ItemAddPrescription2 extends BaseItem {
         itemSize += 1;
     }
 
-    public void registerItemChangedListener(Prescription parcelable) {
+    public void registerItemChangedListener(final Prescription parcelable) {
         parcelable.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -64,6 +64,12 @@ public class ItemAddPrescription2 extends BaseItem {
                     itemSize -= 1;
                     notifyChange();
                 }
+            }
+        });
+        addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                parcelable.setEnabled(isEnabled());
             }
         });
     }

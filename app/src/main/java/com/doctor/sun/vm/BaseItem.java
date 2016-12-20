@@ -51,6 +51,9 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
     }
 
     public void removeThis(SortedListAdapter adapter) {
+        if (!isEnabled()) {
+            return;
+        }
         notifyPropertyChanged(BR.removed);
         adapter.removeItem(this);
     }

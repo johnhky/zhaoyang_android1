@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_22"
                 android:gravity="center"
-                android:text="@{@string/welcome(data.name)}"
+                android:text="@{@string/welcome(data.getName2())}"
                 android:textColor="#f6fafd"
                 android:textSize="@dimen/font_12" />
 

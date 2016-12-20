@@ -32,6 +32,10 @@ public class PrescriptionHandler {
     private static final String[] keys = new String[]{"早", "午", "晚", "睡前"};
 
     public static void modify(Context context, final BaseListAdapter adapter, final Prescription data) {
+        if (!data.isEnabled()) {
+            viewDetailImpl(context, data);
+            return;
+        }
         Bundle args = EditPrescriptionsFragment.getArgs(data, false);
         Intent intent = SingleFragmentActivity.intentFor(context, "添加/编辑处方", args);
         Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
@@ -67,11 +71,15 @@ public class PrescriptionHandler {
             public void onClick(View v) {
 //                Intent intent = ViewPrescriptionActivity.makeIntent(v.getContext(), data);
 //                v.getContext().startActivity(intent);
-                Bundle bundle = EditPrescriptionsFragment.getArgs(data, true);
-                Intent intent = SingleFragmentActivity.intentFor(v.getContext(), "处方详情", bundle);
-                v.getContext().startActivity(intent);
+                viewDetailImpl(v.getContext(), data);
             }
         };
+    }
+
+    private static void viewDetailImpl(Context v, Prescription data) {
+        Bundle bundle = EditPrescriptionsFragment.getArgs(data, true);
+        Intent intent = SingleFragmentActivity.intentFor(v, "处方详情", bundle);
+        v.startActivity(intent);
     }
 
 
