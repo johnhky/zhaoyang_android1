@@ -64,7 +64,7 @@ public class Drug extends BaseObservable implements LayoutId {
     private String address;
     @JsonProperty("remark")
     private String remark;
-    @JsonProperty("money")
+    @JsonProperty("total_money")
     private String money;
     @JsonProperty("drug_money")
     public String drugMoney;

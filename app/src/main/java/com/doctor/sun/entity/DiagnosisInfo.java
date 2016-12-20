@@ -33,7 +33,7 @@ public class DiagnosisInfo implements Parcelable {
      * treatment : 0
      * effect : 0
      * prescription : null
-     * doctor_advince : 坚持服药，定期复诊
+     * doctor_advince : 坚持治疗，定期复诊
      * return : 1
      * return_type : 3
      * return_paid : 0

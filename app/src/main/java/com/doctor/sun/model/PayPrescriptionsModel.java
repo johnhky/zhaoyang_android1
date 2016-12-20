@@ -246,6 +246,9 @@ public class PayPrescriptionsModel {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
                 double shouldPay = response.getNeed_pay() - selectCoupon.getDiscountMoney();
+                if (shouldPay < 0D) {
+                    shouldPay = 0D;
+                }
                 String shouldPayMoneyString = "<font color=\"#f65600\">实际付款：￥" + shouldPay + "</font>";
                 shouldPayMoney.setTitle(shouldPayMoneyString);
                 shouldPayMoney.notifyChange();

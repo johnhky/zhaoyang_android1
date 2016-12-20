@@ -121,7 +121,7 @@ public interface ProfileModule {
 
     @GET("profile/coupons")
     Call<ApiDTO<List<Coupon>>> coupons(@Query("type") String type,
-                                       @Query("Scope") String Scope,
+                                       @Query("scope") String Scope,
                                        @Query("originalMoney") double originalMoney);
 
     @GET("profile/qrcode")
