@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vm.ClickMenu" />
+            type="com.doctor.sun.vm.ItemCoupons" />
 
     </data>
 
@@ -43,7 +43,7 @@
             android:layout_marginStart="@dimen/dp_13"
             android:background="@drawable/selector_blue_rect"
             android:gravity="center"
-            android:onClick="@{data.itemClick()}"
+            android:onClick="@{()->data.selectCoupon(context)}"
             android:text="点击选择"
             android:textColor="@color/text_color_blue"
             android:visibility="@{data.enabled}" />
