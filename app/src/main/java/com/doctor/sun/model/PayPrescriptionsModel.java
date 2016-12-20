@@ -243,7 +243,7 @@ public class PayPrescriptionsModel {
 
         ModelUtils.insertSpace(result, R.layout.space_8dp);
 
-        String totalMoneyString = "订单总额：￥" + money;
+        String totalMoneyString = "订单应付：￥" + money;
         final ItemTextInput2 totalMoney = new ItemTextInput2(R.layout.item_r_grey_text, totalMoneyString, "");
         totalMoney.setTextSize(R.dimen.font_12);
         totalMoney.setTitleGravity(Gravity.START);
@@ -253,7 +253,7 @@ public class PayPrescriptionsModel {
 
         ModelUtils.insertSpace(result, R.layout.space_8dp);
 
-        String shouldPayMoneyString = "<font color=\"#f65600\">实际应付：￥" + response.getNeed_pay() + "</font>";
+        String shouldPayMoneyString = "<font color=\"#f65600\">实际付款：￥" + response.getNeed_pay() + "</font>";
         shouldPayMoney = new ItemTextInput2(R.layout.item_total_money, shouldPayMoneyString, "");
         shouldPayMoney.setTitleGravity(Gravity.START);
         shouldPayMoney.setItemId("shouldPayMoney");
