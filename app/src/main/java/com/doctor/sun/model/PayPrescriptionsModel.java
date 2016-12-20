@@ -212,7 +212,7 @@ public class PayPrescriptionsModel {
         }
 
         final ItemCoupons selectCoupon = new ItemCoupons(response);
-        selectCoupon.setItemLayoutId(R.layout.item_select_coupon);
+        selectCoupon.setItemLayoutId(R.layout.item_select_coupon_new);
         selectCoupon.setItemId("selectCoupon");
         selectCoupon.setPosition(result.size());
         result.add(selectCoupon);

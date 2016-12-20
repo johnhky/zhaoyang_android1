@@ -443,8 +443,13 @@ public class AppointmentHandler2 {
                 break;
             }
             case Status.FINISHED: {
-                Intent intent = FinishedOrderActivity.makeIntent(vh.itemView.getContext(), data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY);
-                vh.itemView.getContext().startActivity(intent);
+                if (data.getType() == AppointmentType.FollowUp) {
+                    Intent intent = AfterServiceDoneActivity.intentFor(vh.itemView.getContext(), data.getId(), 0);
+                    vh.itemView.getContext().startActivity(intent);
+                } else {
+                    Intent intent = FinishedOrderActivity.makeIntent(vh.itemView.getContext(), data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY);
+                    vh.itemView.getContext().startActivity(intent);
+                }
                 break;
             }
             case Status.DOING:
@@ -472,8 +477,13 @@ public class AppointmentHandler2 {
 //                        answerQuestion(vh.itemView.getContext(), 0, response);
 //                    }
 //                });
-                Intent intent = FinishedOrderActivity.makeIntent(vh.itemView.getContext(), data);
-                vh.itemView.getContext().startActivity(intent);
+                if (data.getType() == AppointmentType.FollowUp) {
+                    Intent intent = AfterServiceDoneActivity.intentFor(vh.itemView.getContext(), data.getId(), 0);
+                    vh.itemView.getContext().startActivity(intent);
+                } else {
+                    Intent intent = FinishedOrderActivity.makeIntent(vh.itemView.getContext(), data);
+                    vh.itemView.getContext().startActivity(intent);
+                }
                 break;
             }
             case Status.DOING:
@@ -617,7 +627,7 @@ public class AppointmentHandler2 {
                     return "本次咨询已结束,如需咨询,请再次预约";
                 }
             case Status.PAID:
-                return "非就诊时段,已预约" + data.getBook_time() + "   " + data.getDisplay_type();
+                return "非就诊时段位,已预约" + data.getBook_time() + "   " + data.getDisplay_type();
             default:
                 return "本次咨询" + data.getDisplay_status();
         }
