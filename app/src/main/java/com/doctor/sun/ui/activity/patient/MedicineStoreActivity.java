@@ -36,6 +36,7 @@ import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.widget.ExtendedEditText;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.FileChooser;
@@ -219,6 +220,12 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         final LinearSnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(binding.rvPrescription);
         mAppointmentAdapter = new SimpleAdapter();
+        mAppointmentAdapter.setLoadMoreListener(new LoadMoreListener() {
+            @Override
+            protected void onLoadMore() {
+                loadMore();
+            }
+        });
         mAppointmentAdapter.mapLayout(R.layout.item_appointment, R.layout.item_drug_order);
         binding.rvPrescription.setAdapter(mAppointmentAdapter);
         binding.flyPrescription.setOnClickListener(new View.OnClickListener() {
@@ -232,6 +239,10 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 
 
         //loadPrescriptionOrder();
+    }
+
+    private void loadMore() {
+        api.myPrescriptions(prescriptionOrderPageCallback.getPage()).enqueue(prescriptionOrderPageCallback);
     }
 
     private void loadPrescriptionOrder() {
@@ -261,9 +272,8 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
                 }
             }
         };
-        api.myPrescriptions(prescriptionOrderPageCallback.getPage()).enqueue(prescriptionOrderPageCallback);
+        loadMore();
     }
-
 
     @Override
     protected void onStart() {
