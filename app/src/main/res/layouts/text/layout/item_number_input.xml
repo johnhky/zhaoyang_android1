@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.doctor.sun.R"/>
 
         <import type="android.view.View" />
 
@@ -58,7 +60,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_pencil_grey_15dp"
                     android:enabled="@{data.enabled}"
                     android:focusableInTouchMode="@{data.enabled}"
                     android:gravity="center_horizontal"
@@ -69,7 +70,8 @@
                     android:text="@={data.result}"
                     android:textColor="@{data.isValid(data.result)?@color/color_tick:@color/red_f0}"
                     android:textColorHint="@color/gray_d9"
-                    android:textSize="@dimen/font_13" />
+                    android:textSize="@dimen/font_13"
+                    app:drawableLeftCompat="@{R.drawable.ic_pencil_grey_15dp}" />
 
                 <TextView
                     android:layout_width="wrap_content"

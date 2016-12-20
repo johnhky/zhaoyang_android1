@@ -542,6 +542,10 @@ public class AppointmentHandler2 {
                         }
                     }
                     break;
+                case Status.PAID: {
+                    Toast.makeText(context, "新的预约时间未到,请耐心等待", Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 default:
             }
         }
@@ -627,7 +631,7 @@ public class AppointmentHandler2 {
                     return "本次咨询已结束,如需咨询,请再次预约";
                 }
             case Status.PAID:
-                return "非就诊时段位,已预约" + data.getBook_time() + "   " + data.getDisplay_type();
+                return "非就诊时段,已预约" + data.getTime_bucket() + "   " + data.getDisplay_type();
             default:
                 return "本次咨询" + data.getDisplay_status();
         }

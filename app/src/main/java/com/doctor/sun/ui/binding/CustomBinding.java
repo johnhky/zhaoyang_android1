@@ -96,6 +96,18 @@ public class CustomBinding {
         }
     }
 
+    @android.databinding.BindingAdapter("app:drawableLeftCompat")
+    public static void drawableLeftCompat(TextView view, @DrawableRes int id) {
+        Drawable d = VectorDrawableCompat.create(view.getResources(), id, null);
+        Drawable dWrap = DrawableCompat.wrap(d);
+        if (dWrap != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                view.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+            } else {
+                view.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+            }
+        }
+    }
 
     @android.databinding.BindingAdapter("app:drawableTopCompat")
     public static void drawableTopCompat(TextView view, @DrawableRes int id) {
