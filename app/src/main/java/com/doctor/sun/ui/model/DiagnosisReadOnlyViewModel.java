@@ -86,6 +86,9 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
 
 
     public void cloneFromDiagnosisInfo(DiagnosisInfo response) {
+        if (response == null) {
+            return;
+        }
         if (!isPatient()) {
             perception.setStates(response.getPerception());
             thinking.setStates(response.getThinking());
@@ -158,7 +161,7 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
             result.add(new Description(R.layout.item_description, "建议处方"));
             result.addAll(prescriptions);
         }
-        if (furtherConsultation != null && !furtherConsultation.content.equals("")) {
+        if (furtherConsultation != null && !"".equals(furtherConsultation.content)) {
             result.add(new Description(R.layout.item_description, "专属咨询/闲时咨询/转诊"));
             result.add(furtherConsultation);
             if (doctor != null) {
