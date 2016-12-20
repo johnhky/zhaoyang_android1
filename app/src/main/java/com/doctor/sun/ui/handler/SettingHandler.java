@@ -209,8 +209,6 @@ public class SettingHandler {
                 IMManager.getInstance().logout();
                 view.getContext().startActivity(intent);
                 AppManager.finishAllActivity();
-                Realm realm = Realm.getDefaultInstance();
-                realm.executeTransaction(new ClearAllTransaction());
             }
         });
     }

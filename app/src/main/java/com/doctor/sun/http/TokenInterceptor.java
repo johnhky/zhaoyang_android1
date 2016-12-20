@@ -39,6 +39,7 @@ class TokenInterceptor implements Interceptor {
                 .addHeader("from", "android")
                 .addHeader("version", BuildConfig.VERSION_NAME)
                 .addHeader("client", "android")
+                .addHeader("type", BuildConfig.USER_TYPE)
                 .build();
         if (BuildConfig.DEV_MODE) {
             Log.e(Api.TAG, request.method() + " " + request.url() + " token " + token);

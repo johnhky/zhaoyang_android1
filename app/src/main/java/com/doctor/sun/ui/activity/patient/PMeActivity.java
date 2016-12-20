@@ -11,6 +11,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMeBinding;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Patient;
+import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.PatientProfileChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
@@ -32,6 +33,7 @@ public class PMeActivity extends BaseFragmentActivity2 {
     private PActivityMeBinding binding;
 
     private MeHandler handler;
+    private Runnable runnable;
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, PMeActivity.class);
@@ -48,12 +50,6 @@ public class PMeActivity extends BaseFragmentActivity2 {
         handler = new MeHandler(patient);
         binding.setHandler(handler);
 
-        Tasks.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                refreshPatientProfile();
-            }
-        }, 5000);
     }
 
     private FooterViewModel getFooter() {
@@ -88,7 +84,7 @@ public class PMeActivity extends BaseFragmentActivity2 {
         getRealm().addChangeListener(getFooter());
     }
 
-    public static void refreshPatientProfile() {
+    public static void refreshProfile() {
         ProfileModule api = Api.of(ProfileModule.class);
         api.patientProfile().enqueue(new PatientDTOApiCallback());
     }
@@ -96,6 +92,7 @@ public class PMeActivity extends BaseFragmentActivity2 {
     @Override
     protected void onResume() {
         super.onResume();
+        refreshProfile();
     }
 
 
@@ -116,12 +113,24 @@ public class PMeActivity extends BaseFragmentActivity2 {
     @Subscribe
     public void onEventMainThread(PatientProfileChangedEvent e) {
         handler.setData(e.getResponse().getInfo());
-        Tasks.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                refreshPatientProfile();
-            }
-        }, 5000);
+        String review_status = e.getResponse().getInfo().getReview_status();
+        if (ReviewStatus.STATUS_PENDING.equals(review_status)) {
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    if (Settings.isLogin()) {
+                        refreshProfile();
+                    }
+                }
+            };
+            Tasks.runOnUiThread(runnable, 5000);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Tasks.removeRunnable(runnable);
     }
 
     private static class PatientDTOApiCallback extends ApiCallback<PatientDTO> {
