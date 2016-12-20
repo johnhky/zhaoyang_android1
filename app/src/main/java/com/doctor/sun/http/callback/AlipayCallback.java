@@ -109,7 +109,9 @@ public class AlipayCallback extends SimpleCallback<String> {
                         mCallback.onPaySuccess();
                     } else {
                         //Log.d("fail" + payStatus);
-                        mCallback.onPayFail();
+                        if (mCallback != null) {
+                            mCallback.onPayFail();
+                        }
                     }
                     mCallback = null;
             }

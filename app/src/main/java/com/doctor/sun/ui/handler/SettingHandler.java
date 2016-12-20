@@ -236,5 +236,7 @@ public class SettingHandler {
         Config.putString(Constants.VOIP_ACCOUNT, "");
         Settings.setPatientProfile(null);
         Config.putString(Constants.DOCTOR_PROFILE, null);
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new ClearAllTransaction());
     }
 }

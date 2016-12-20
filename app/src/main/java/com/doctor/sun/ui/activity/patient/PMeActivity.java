@@ -136,4 +136,5 @@ public class PMeActivity extends BaseFragmentActivity2 {
             EventHub.post(new PatientProfileChangedEvent(response));
         }
     }
+
 }

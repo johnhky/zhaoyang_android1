@@ -17,6 +17,7 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import io.ganguo.library.AppManager;
 import io.ganguo.library.core.event.Event;
+import io.realm.Realm;
 
 /**
  * Created by rick on 11/27/15.
