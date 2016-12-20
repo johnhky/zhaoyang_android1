@@ -14,7 +14,6 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Drug;
 import com.doctor.sun.module.ProfileModule;
-import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,7 @@ public class ItemCoupons extends BaseItem {
         notifyChange();
     }
 
-    private boolean canUseCoupon() {
+    public boolean canUseCoupon() {
         return drug.getUser_coupon_id().equals("0");
     }
 
@@ -114,28 +113,22 @@ public class ItemCoupons extends BaseItem {
         return "暂时没有可以选择的优惠券";
     }
 
-    private boolean notPay() {
+    public boolean notPay() {
         return drug.getHas_pay() == IntBoolean.FALSE;
     }
 
-    private boolean neverUseCouponBefore() {
+    public boolean neverUseCouponBefore() {
         return drug.getCoupon_info() == null
                 && drug.getCoupon_info().couponMoney == null;
     }
 
     public double getDiscountMoney() {
-        if (notPay() && neverUseCouponBefore()) {
+        if (canUseCoupon()) {
             if (selectedCoupon == -1) {
                 return 0D;
             }
             return Double.parseDouble(coupons.get(selectedCoupon).couponMoney);
         } else {
-            if (drug.getCoupon_info() != null) {
-                String couponMoney = drug.getCoupon_info().couponMoney;
-                if (!Strings.isNullOrEmpty(couponMoney)) {
-                    return Double.parseDouble(couponMoney);
-                }
-            }
             return 0D;
         }
     }

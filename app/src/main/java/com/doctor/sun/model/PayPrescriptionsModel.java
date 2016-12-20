@@ -299,7 +299,7 @@ public class PayPrescriptionsModel {
                     } else {
                         coupon = "";
                     }
-                    response.confirmPay(view.getContext(), payMethod.getSelectedItem(), coupon, money, extraField);
+                    response.confirmPay(view.getContext(), payMethod.getSelectedItem(), coupon, money - selectCoupon.getDiscountMoney(), extraField);
                 }
             };
             confirmButton.setItemId("confirmButton");
