@@ -75,8 +75,8 @@ android {
     buildTypes {
         DoctorDebug {
             // zhaoyang_server
-            applicationIdSuffix ".dev"
-            versionNameSuffix "_dev"
+            applicationIdSuffix ".doctordev"
+            versionNameSuffix "_doctordev"
             manifestPlaceholders = [appLabel      : "@string/app_name_doctor"
                                     , fileProvider: "com.doctor.sun.doctordev.fileprovider"
                                     , nimKey      : "84bcda3a943a3a781f5e4a8bae628a74"
@@ -99,8 +99,8 @@ android {
         }
         PatientDebug {
             // zhaoyang_server
-            applicationIdSuffix ".patientdev"
-            versionNameSuffix "_patientdev"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "_dev"
             manifestPlaceholders = [appLabel      : "@string/app_name_patient"
                                     , fileProvider: "com.doctor.sun.dev.fileprovider"
                                     , nimKey      : "84bcda3a943a3a781f5e4a8bae628a74"
@@ -123,8 +123,8 @@ android {
         }
         // 生产环境
         PatientStage {
-            applicationIdSuffix ".patienttest"
-            versionNameSuffix "_patient"
+            applicationIdSuffix ".dev12"
+            versionNameSuffix "_dev12"
             manifestPlaceholders = [appLabel      : "@string/app_name_patient"
                                     , fileProvider: "com.doctor.sun.dev12.fileprovider"
                                     , nimKey      : "9439a1f4b31a23c48660c290a69f89e3"
@@ -132,7 +132,7 @@ android {
             buildConfigField "boolean", "DEV_MODE", "true"
             buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/013/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
-            buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
+
             buildConfigField "int", "IS_DOCTOR", '0'
 
             buildConfigField "String", "UM_KEY", '"5835686cf43e4860d20009dd"'
@@ -148,8 +148,8 @@ android {
         }
 
         DoctorStage {
-            applicationIdSuffix ".stage"
-            versionNameSuffix "_test"
+            applicationIdSuffix ".doctortest"
+            versionNameSuffix "_doctortest"
             manifestPlaceholders = [appLabel      : "@string/app_name_doctor"
                                     , fileProvider: "com.doctor.sun.doctortest.fileprovider"
                                     , nimKey      : "9439a1f4b31a23c48660c290a69f89e3"
@@ -157,7 +157,6 @@ android {
             buildConfigField "boolean", "DEV_MODE", "true"
             buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/013/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
-            buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
             buildConfigField "int", "IS_DOCTOR", '1'
 
             buildConfigField "String", "UM_KEY", '"5835686cf43e4860d20009dd"'
@@ -184,7 +183,7 @@ android {
             buildConfigField "boolean", "DEV_MODE", "false"
             buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/013/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
-            buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
+            buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"'
             buildConfigField "int", "IS_DOCTOR", '0'
             buildConfigField "String", "USER_TYPE", '"patient"'
 
@@ -207,7 +206,6 @@ android {
             buildConfigField "boolean", "DEV_MODE", "false"
             buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/013/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
-            buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"' //host, 必改
             buildConfigField "int", "IS_DOCTOR", '1'
             buildConfigField "String", "USER_TYPE", '"doctor"'
 

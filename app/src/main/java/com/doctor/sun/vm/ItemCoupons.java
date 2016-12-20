@@ -127,7 +127,8 @@ public class ItemCoupons extends BaseItem {
             if (selectedCoupon == -1) {
                 return 0D;
             }
-            return Double.parseDouble(coupons.get(selectedCoupon).couponMoney);
+            double discount = Double.parseDouble(coupons.get(selectedCoupon).couponMoney);
+            return Math.max(0D, discount);
         } else {
             return 0D;
         }
