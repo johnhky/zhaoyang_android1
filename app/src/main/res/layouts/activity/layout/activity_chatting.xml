@@ -46,7 +46,7 @@
                     android:id="@+id/tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{Settings.doctor? data.doctor.name :data.record.patientName}"
+                    android:text="@{!Settings.doctor? data.doctor.name :data.record.patientName}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_12" />
 
@@ -56,7 +56,7 @@
                     android:text="@{&quot;患者的&quot; + data.record.relation}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_8"
-                    android:visibility="@{!Settings.doctor}" />
+                    android:visibility="@{Settings.doctor}" />
             </LinearLayout>
         </FrameLayout>
 

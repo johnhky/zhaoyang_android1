@@ -57,7 +57,7 @@ public class PAfterServiceContactFragment extends RefreshListFragment {
         if (getAdapter().size() == 0) {
             String type = getArguments().getString(Constants.TYPE);
             String text;
-            if (type.equals("follow")) {
+            if ("follow".equals(type)) {
                 text = "暂无已建立随访关系的患者";
             } else {
                 text = "暂无未建立随访关系的患者";
