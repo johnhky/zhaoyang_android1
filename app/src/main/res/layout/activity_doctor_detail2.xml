@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.Doctor" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -27,6 +30,7 @@
                 <include
                     android:id="@+id/doctor_detail"
                     layout="@layout/item_doctor_detail_header"
+                    app:data="@{data}"
                     app:layout_collapseMode="parallax"
                     app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" />
 
@@ -44,14 +48,14 @@
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <FrameLayout
             android:id="@+id/fl_select_duration"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_49"
-            android:background="@color/colorPrimaryDark"
             android:layout_gravity="bottom"
+            android:background="@color/colorPrimaryDark"
             android:onClick="appointment">
 
             <TextView

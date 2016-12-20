@@ -1,6 +1,8 @@
 package com.doctor.sun.model;
 
 import com.doctor.sun.R;
+import com.doctor.sun.entity.Article;
+import com.doctor.sun.entity.Comment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.vm.ItemDescription;
@@ -15,7 +17,7 @@ import java.util.List;
 
 public class DoctorDetailModel {
 
-    public List<SortedItem> parseData(Doctor data) {
+    public List<SortedItem> parseData(Doctor data, List<Article> articleList, List<Comment> commentList) {
 
         List<SortedItem> result = new ArrayList<>();
 
@@ -25,7 +27,7 @@ public class DoctorDetailModel {
         result.add(introductionTitle);
 
         ItemDescription introduction = new ItemDescription();
-        introduction.setMainContent("我是钢铁侠");
+        introduction.setMainContent(data.getDetail());
         introduction.setItemId("introduction");
         introduction.setPosition(result.size());
         result.add(introduction);
@@ -38,12 +40,15 @@ public class DoctorDetailModel {
         articleTitle.setPosition(result.size());
         result.add(articleTitle);
 
-        ItemDescription article = new ItemDescription();
-        article.setMainContent("欢迎使用昭阳医生");
-        article.setSubContent("2016-00-00 00:00:00");
-        article.setItemId("article");
-        article.setPosition(result.size());
-        result.add(article);
+        if (articleList.size() > 0) {
+            Article articleDetail = articleList.get(0);
+            ItemDescription article = new ItemDescription();
+            article.setMainContent(articleDetail.getTitle());
+            article.setItemId("article");
+            article.setPosition(result.size());
+            result.add(article);
+        }
+
 
         ModelUtils.insertSpace(result, R.layout.divider_13dp_gray);
 
@@ -52,12 +57,31 @@ public class DoctorDetailModel {
         commentTitle.setPosition(result.size());
         result.add(commentTitle);
 
-        ItemDescription comments = new ItemDescription();
-        comments.setMainContent("我是美国队长");
-        comments.setRatingPoint(Float.valueOf("3.6"));
-        comments.setItemId("comments");
-        comments.setPosition(result.size());
-        result.add(comments);
+        if (commentList.size() > 0) {
+            Comment comment1 = commentList.get(0);
+            ItemDescription comments = new ItemDescription();
+            comments.setMainContent(comment1.getComment());
+            comments.setSubContent(comment1.getCommentTime());
+            comments.setImage(comment1.getAvatar());
+            comments.setImageText(comment1.getPatientName());
+            comments.setRatingPoint(Float.valueOf("3.6"));
+            comments.setItemId("comments");
+            comments.setPosition(result.size());
+            result.add(comments);
+        }
+
+        if (commentList.size() > 1) {
+            Comment comment1 = commentList.get(0);
+            ItemDescription comments = new ItemDescription();
+            comments.setMainContent(comment1.getComment());
+            comments.setSubContent(comment1.getCommentTime());
+            comments.setImage(comment1.getAvatar());
+            comments.setImageText(comment1.getPatientName());
+            comments.setRatingPoint(Float.valueOf("3.6"));
+            comments.setItemId("comments");
+            comments.setPosition(result.size());
+            result.add(comments);
+        }
 
         ModelUtils.insertSpace(result, R.layout.space_8dp);
 
