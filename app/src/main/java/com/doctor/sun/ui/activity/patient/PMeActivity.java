@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
@@ -12,8 +11,8 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMeBinding;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Patient;
-import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.event.MainTabChangedEvent;
+import com.doctor.sun.event.PatientProfileChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -23,12 +22,15 @@ import com.doctor.sun.ui.activity.patient.handler.MeHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.squareup.otto.Subscribe;
 
+import io.ganguo.library.core.event.EventHub;
+import io.ganguo.library.util.Tasks;
+
 /**
  * Created by lucas on 1/4/16.
  */
 public class PMeActivity extends BaseFragmentActivity2 {
     private PActivityMeBinding binding;
-    private ProfileModule api = Api.of(ProfileModule.class);
+
     private MeHandler handler;
 
     public static Intent makeIntent(Context context) {
@@ -46,7 +48,12 @@ public class PMeActivity extends BaseFragmentActivity2 {
         handler = new MeHandler(patient);
         binding.setHandler(handler);
 
-        api.patientProfile().enqueue(new PatientDTOApiCallback(handler));
+        Tasks.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                refreshPatientProfile();
+            }
+        }, 5000);
     }
 
     private FooterViewModel getFooter() {
@@ -81,6 +88,10 @@ public class PMeActivity extends BaseFragmentActivity2 {
         getRealm().addChangeListener(getFooter());
     }
 
+    public static void refreshPatientProfile() {
+        ProfileModule api = Api.of(ProfileModule.class);
+        api.patientProfile().enqueue(new PatientDTOApiCallback());
+    }
 
     @Override
     protected void onResume() {
@@ -102,19 +113,27 @@ public class PMeActivity extends BaseFragmentActivity2 {
         return R.string.title_me;
     }
 
+    @Subscribe
+    public void onEventMainThread(PatientProfileChangedEvent e) {
+        handler.setData(e.getResponse().getInfo());
+        Tasks.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                refreshPatientProfile();
+            }
+        }, 5000);
+    }
+
     private static class PatientDTOApiCallback extends ApiCallback<PatientDTO> {
 
-        private MeHandler handler;
 
-        PatientDTOApiCallback(MeHandler handler) {
-            this.handler = handler;
+        PatientDTOApiCallback() {
         }
 
         @Override
         protected void handleResponse(PatientDTO response) {
-            Patient data = response.getInfo();
             Settings.setPatientProfile(response);
-            handler.setData(data);
+            EventHub.post(new PatientProfileChangedEvent(response));
         }
     }
 }
