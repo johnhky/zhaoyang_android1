@@ -78,6 +78,7 @@ android {
             applicationIdSuffix ".doctordev"
             versionNameSuffix "_doctordev"
             manifestPlaceholders = [appLabel      : "@string/app_name_doctor"
+                                    , launcherIcon: "@drawable/ic_launcher"
                                     , fileProvider: "com.doctor.sun.doctordev.fileprovider"
                                     , nimKey      : "84bcda3a943a3a781f5e4a8bae628a74"
                                     , jPushKey    : "914ba0008a2a0579ee5a147f"]
@@ -102,6 +103,7 @@ android {
             applicationIdSuffix ".dev"
             versionNameSuffix "_dev"
             manifestPlaceholders = [appLabel      : "@string/app_name_patient"
+                                    , launcherIcon: "@drawable/patient_launcher"
                                     , fileProvider: "com.doctor.sun.dev.fileprovider"
                                     , nimKey      : "84bcda3a943a3a781f5e4a8bae628a74"
                                     , jPushKey    : "c29f700e97249bca7e40c395"]
@@ -126,6 +128,7 @@ android {
             applicationIdSuffix ".dev12"
             versionNameSuffix "_dev12"
             manifestPlaceholders = [appLabel      : "@string/app_name_patient"
+                                    , launcherIcon: "@drawable/patient_launcher"
                                     , fileProvider: "com.doctor.sun.dev12.fileprovider"
                                     , nimKey      : "9439a1f4b31a23c48660c290a69f89e3"
                                     , jPushKey    : "b421412f29b79d12b1760f2f"]
@@ -151,6 +154,7 @@ android {
             applicationIdSuffix ".doctortest"
             versionNameSuffix "_doctortest"
             manifestPlaceholders = [appLabel      : "@string/app_name_doctor"
+                                    , launcherIcon: "@drawable/doctor_launcher"
                                     , fileProvider: "com.doctor.sun.doctortest.fileprovider"
                                     , nimKey      : "9439a1f4b31a23c48660c290a69f89e3"
                                     , jPushKey    : "98ba2d29983f4e958f9831e7"]
@@ -174,9 +178,8 @@ android {
 
         // 生产环境
         PatientRelease {
-            applicationIdSuffix ".patient"
-            versionNameSuffix "_patient"
-            manifestPlaceholders = [appLabel      : "@string/app_name_patient"
+            manifestPlaceholders = [appLabel      : "@string/app_name"
+                                    , launcherIcon: "@drawable/patient_launcher"
                                     , fileProvider: "com.doctor.sun.fileprovider"
                                     , nimKey      : "701994af7b0559728f9ee602a6f3c342"
                                     , jPushKey    : "2c1736491f10bfbab86e90ae"]
@@ -199,7 +202,10 @@ android {
         }
 
         DoctorRelease {
+            applicationIdSuffix ".doctor"
+            versionNameSuffix "_doctor"
             manifestPlaceholders = [appLabel      : "@string/app_name_doctor"
+                                    , launcherIcon: "@drawable/doctor_launcher"
                                     , fileProvider: "com.doctor.sun.doctor.fileprovider"
                                     , nimKey      : "701994af7b0559728f9ee602a6f3c342"
                                     , jPushKey    : "37f693db2b56ed6cdf98c1ba"]
