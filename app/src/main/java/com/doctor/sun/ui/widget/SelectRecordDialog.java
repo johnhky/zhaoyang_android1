@@ -2,6 +2,7 @@ package com.doctor.sun.ui.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.Observable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 
@@ -9,7 +10,9 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
@@ -24,7 +27,7 @@ import java.util.List;
  */
 public class SelectRecordDialog {
 
-    public static void showRecordDialog(final Context context) {
+    public static void showRecordDialog(final Context context, final AppointmentBuilder appointmentBuilder) {
         ProfileModule api = Api.of(ProfileModule.class);
         api.medicalRecordList().enqueue(new ApiCallback<List<MedicalRecord>>() {
             @Override
@@ -45,12 +48,23 @@ public class SelectRecordDialog {
                 builder.stackingBehavior(StackingBehavior.ALWAYS);
                 builder.buttonsGravity(GravityEnum.CENTER);
                 builder.titleGravity(GravityEnum.CENTER);
-                MaterialDialog dialog = builder.adapter(mAdapter, new LinearLayoutManager(context)).build();
+                final MaterialDialog dialog = builder.adapter(mAdapter, new LinearLayoutManager(context)).build();
                 mAdapter.mapLayout(R.layout.item_r_medical_record, R.layout.item_medical_record);
                 mAdapter.addAll(response);
                 mAdapter.onFinishLoadMore(true);
                 mAdapter.notifyDataSetChanged();
                 dialog.show();
+                if (appointmentBuilder!=null) {
+                    appointmentBuilder.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+                        @Override
+                        public void onPropertyChanged(Observable observable, int i) {
+                            if (i == BR.record) {
+                                dialog.dismiss();
+                            }
+                            appointmentBuilder.removeOnPropertyChangedCallback(this);
+                        }
+                    });
+                }
             }
         });
     }

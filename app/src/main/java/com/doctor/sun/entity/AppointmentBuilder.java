@@ -179,7 +179,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     }
 
     public void pickDate(final Context context) {
-        SelectRecordDialog.showRecordDialog(context);
+        SelectRecordDialog.showRecordDialog(context, null);
     }
 
     public void latestAvailableTime(final Context context, int doctorId, int duration) {
@@ -303,7 +303,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     }
 
     public void changeMedicalRecord(Context context) {
-        SelectRecordDialog.showRecordDialog(context);
+        SelectRecordDialog.showRecordDialog(context, this);
     }
 
     public void showSelectTagsDialog(Context context) {
