@@ -76,14 +76,16 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
+    <!--android:icon="@drawable/ic_launcher"-->
     <application
         android:name=".AppContext"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="${launcherIcon}"
         android:label="${appLabel}"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:label">
+        tools:replace="android:label,android:icon">
+
         <activity
             android:name=".ui.activity.doctor.MainActivity"
             android:launchMode="singleTop"
@@ -560,7 +562,7 @@
         <activity
             android:name=".ui.activity.DoctorDetailActivity2"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.PMainActivity2"></activity>
+        <activity android:name=".ui.activity.PMainActivity2"/>
     </application>
 
 </manifest>
