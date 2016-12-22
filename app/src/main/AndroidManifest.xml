@@ -562,7 +562,10 @@
         <activity
             android:name=".ui.activity.DoctorDetailActivity2"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.PMainActivity2"/>
+        <activity android:name=".ui.activity.PMainActivity2"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.patient.MyOrderActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

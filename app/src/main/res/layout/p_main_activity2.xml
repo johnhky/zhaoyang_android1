@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.ui.handler.patient.PMainHandler" />
+
+        <variable
+            name="patient"
+            type="com.doctor.sun.dto.PatientDTO" />
 
     </data>
 
@@ -21,42 +30,78 @@
                 android:layout_height="@dimen/dp_195"
                 android:background="#51aaf6">
 
-                <ImageView
-                    android:layout_width="@dimen/dp_140"
-                    android:layout_height="@dimen/dp_140"
-                    app:srcCompat="@drawable/search_doctor"
-                    android:layout_gravity="center"/>
+                <!--用来放右上角的公告，红包之类的-->
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_marginEnd="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:layout_marginTop="@dimen/dp_10">
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_140"
+                        android:layout_height="@dimen/dp_140"
+                        android:layout_gravity="center"
+                        android:onClick="@{()->data.lookForDoctor()}"
+                        app:srcCompat="@drawable/search_doctor" />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="找医生"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/font_17"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_gravity="center"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:layout_gravity="center"/>
+                    android:text="找医生"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/font_17"
+                    android:textStyle="bold" />
             </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_85"
-                android:background="@color/white"
-                android:layout_marginTop="@dimen/dp_10">
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/white">
 
                 <FrameLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_gravity="center">
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:onClick="@{()->data.myOrder(context)}">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ripple_default"
+                        android:layout_gravity="center"
                         android:drawableTop="@drawable/ic_launcher"
                         android:gravity="center"
                         android:text="@string/title_my_order" />
+
+                    <TextView
+                        android:layout_width="@dimen/dp_22"
+                        android:layout_height="@dimen/dp_22"
+                        android:layout_gravity="top|end"
+                        android:layout_marginEnd="@dimen/dp_8"
+                        android:layout_marginRight="@dimen/dp_8"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:background="@drawable/shape_red_circle"
+                        android:gravity="center"
+                        android:text='@{"" + patient.myOrderNum}'
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_12"
+                        android:visibility="@{patient.myOrderNum > 0}"
+                        tools:text="11" />
                 </FrameLayout>
 
 
@@ -69,16 +114,33 @@
 
                 <FrameLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_gravity="center">
+                    android:background="@drawable/ripple_default"
+                    android:onClick="@{()->data.myDrug(context)}">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:drawableTop="@drawable/ic_launcher"
                         android:gravity="center"
                         android:text="@string/drug_order" />
+
+                    <TextView
+                        android:layout_width="@dimen/dp_22"
+                        android:layout_height="@dimen/dp_22"
+                        android:layout_gravity="top|end"
+                        android:layout_marginEnd="@dimen/dp_8"
+                        android:layout_marginRight="@dimen/dp_8"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:background="@drawable/shape_red_circle"
+                        android:gravity="center"
+                        android:text='@{"" + patient.drugOrderNum}'
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_12"
+                        android:visibility="@{patient.drugOrderNum > 0}"
+                        tools:text="11" />
                 </FrameLayout>
 
                 <View
@@ -90,9 +152,10 @@
 
                 <FrameLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_gravity="center">
+                    android:background="@drawable/ripple_default"
+                    android:onClick="@{()->data.askForService()}">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -108,36 +171,37 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:background="@color/white"
-                android:layout_marginTop="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_10"
                 android:layout_marginEnd="@dimen/dp_10"
-                android:paddingTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/white"
+                android:gravity="center_vertical"
                 android:paddingBottom="@dimen/dp_10"
+                android:paddingEnd="@dimen/dp_12"
                 android:paddingLeft="@dimen/dp_12"
-                android:paddingStart="@dimen/dp_12"
                 android:paddingRight="@dimen/dp_12"
-                android:paddingEnd="@dimen/dp_12">
+                android:paddingStart="@dimen/dp_12"
+                android:paddingTop="@dimen/dp_10">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textStyle="bold"
+                    android:text="最新消息"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/font_15"
-                    android:text="最新消息"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
+                    android:onClick="@{()->data.allMyMessages(context)}"
+                    android:text="查看更多"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/font_12"
-                    android:text="查看更多"/>
+                    android:textSize="@dimen/font_12" />
             </LinearLayout>
 
             <View
@@ -149,35 +213,35 @@
                 android:id="@+id/rv_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_10"
                 android:layout_marginEnd="@dimen/dp_10"
-                android:background="@color/white"/>
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:background="@color/white" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_20"
-                android:layout_marginTop="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_10"
                 android:layout_marginEnd="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
                 android:background="@color/colorPrimaryDark"
-                android:textColor="@color/white"
-                android:textSize="@dimen/font_12"
                 android:gravity="center"
-                android:text="推荐医生"/>
+                android:text="推荐医生"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_12" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_recommend_doctor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_10"
                 android:layout_marginEnd="@dimen/dp_10"
-                android:background="@color/white"/>
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:background="@color/white" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

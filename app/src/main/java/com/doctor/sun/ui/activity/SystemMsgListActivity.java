@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.PushModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -34,6 +35,12 @@ public class SystemMsgListActivity extends PageActivity2 {
     public static Intent makeIntent(Context context, int appointmentNumber) {
         Intent i = new Intent(context, SystemMsgListActivity.class);
         i.putExtra(Constants.NUMBER, appointmentNumber);
+        return i;
+    }
+
+    public static Intent makeIntent(Context context) {
+        Intent i = new Intent(context, SystemMsgListActivity.class);
+
         return i;
     }
 
