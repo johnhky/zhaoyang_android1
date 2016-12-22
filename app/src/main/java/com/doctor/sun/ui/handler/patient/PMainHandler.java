@@ -15,6 +15,7 @@ import com.doctor.sun.module.PushModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.SystemMsgListActivity;
 import com.doctor.sun.ui.activity.patient.MyOrderActivity;
+import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 
@@ -27,8 +28,10 @@ import java.util.HashMap;
 
 public class PMainHandler {
 
-    public void lookForDoctor() {
+    public void lookForDoctor(Context context) {
+        Intent intent = SearchDoctorActivity.makeIntent(context);
 
+        context.startActivity(intent);
     }
 
     public void myOrder(Context context) {

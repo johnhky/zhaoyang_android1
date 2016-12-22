@@ -126,11 +126,11 @@
         <item name="android:textSize">@dimen/font_8</item>
     </style>
 
-    <style name="MaterialDialogItem">
+    <style name="PremiumAppointmentText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_premium_appointment</item>
+        <item name="android:textSize">@dimen/font_12</item>
         <item name="android:drawablePadding">@dimen/dp_6</item>
-        <item name="android:layout_marginTop">@dimen/dp_6</item>
-        <item name="android:layout_marginRight">@dimen/dp_13</item>
     </style>
 </resources>

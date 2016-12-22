@@ -51,4 +51,7 @@
     <color name="color_medicine_price">#f7733f</color>
 
     <color name="color_background_gray">#dedede</color>
+
+    <color name="color_premium_appointment">#51aaf6</color>
+    <color name="color_standard_appointment">#6acde6</color>
 </resources>

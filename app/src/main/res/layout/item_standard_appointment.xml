@@ -12,77 +12,106 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_13"
-        android:background="@color/yellow"
-        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="#ecf6f7"
         android:onClick="@{()->data.select()}">
 
         <ImageView
             android:id="@+id/iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:padding="@dimen/dp_13"
-            android:src="@drawable/ic_launcher" />
+            android:layout_marginBottom="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_18"
+            android:layout_marginLeft="@dimen/dp_40"
+            android:layout_marginRight="@dimen/dp_18"
+            android:layout_marginStart="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_16"
+            app:srcCompat="@drawable/ic_standard_appointment" />
 
         <TextView
             android:id="@+id/tv_title"
-            style="@style/MaterialDialogItem"
+            style="@style/PremiumAppointmentText"
             android:layout_alignTop="@id/iv"
+            android:layout_toEndOf="@id/iv"
             android:layout_toRightOf="@id/iv"
-            android:text="闲时咨询" />
+            android:text="专属咨询"
+            android:textSize="@dimen/font_16"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_price"
-            style="@style/MaterialDialogItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tv_title"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_2"
+            android:layout_toEndOf="@id/tv_title"
             android:layout_toRightOf="@id/tv_title"
-            android:text="10元／每次"
-            android:textColor="#f65600" />
+            android:text="10元/每次"
+            android:textColor="#f65600"
+            android:textSize="@dimen/font_12" />
 
         <TextView
             android:id="@+id/tv_1"
-            style="@style/MaterialDialogItem"
+            style="@style/PremiumAppointmentText"
             android:layout_below="@id/tv_title"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_toEndOf="@id/iv"
             android:layout_toRightOf="@id/iv"
-            android:drawableLeft="@drawable/ic_hospital"
-            android:text="在线聊天" />
+            android:drawableLeft="@drawable/ic_chat"
+            android:drawableStart="@drawable/ic_chat"
+            android:gravity="center"
+            android:text="在线聊天"
+            android:textSize="@dimen/font_12" />
 
         <TextView
             android:id="@+id/tv_2"
-            style="@style/MaterialDialogItem"
+            style="@style/PremiumAppointmentText"
             android:layout_alignLeft="@id/tv_1"
+            android:layout_alignStart="@id/tv_1"
             android:layout_below="@id/tv_1"
-            android:drawableLeft="@drawable/ic_hospital"
-            android:text="音频通话" />
+            android:layout_marginTop="@dimen/dp_5"
+            android:drawableLeft="@drawable/ic_camera"
+            android:drawableStart="@drawable/ic_camera"
+            android:gravity="center"
+            android:text="视频通话"
+            android:textSize="@dimen/font_12" />
 
         <TextView
             android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/iv"
+            android:layout_alignStart="@id/iv"
             android:layout_below="@id/tv_2"
-            android:layout_marginBottom="@dimen/dp_6"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_8"
-            android:text="@string/standard_appointment_description" />
+            android:layout_marginBottom="@dimen/dp_22"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_12"
+            android:text="@string/standard_appointment_description"
+            android:textSize="@dimen/font_14" />
 
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true">
 
             <View
                 android:layout_width="@dimen/dp_45"
                 android:layout_height="@dimen/dp_70"
-                android:selected="@{data.isSelected}"
-                android:background="@drawable/selector_top_right_triangle" />
+                android:background="@drawable/selector_top_right_triangle"
+                android:selected="@{data.isSelected}" />
 
             <ImageView
                 android:layout_width="@dimen/dp_15"
                 android:layout_height="@dimen/dp_15"
                 android:layout_gravity="end"
-                android:paddingRight="@dimen/dp_5"
-                app:srcCompat="@drawable/ic_close_grey_12dp" />
+                android:layout_marginEnd="@dimen/dp_2"
+                android:layout_marginRight="@dimen/dp_2"
+                android:layout_marginTop="@dimen/dp_2"
+                app:srcCompat="@drawable/ic_done" />
         </FrameLayout>
     </RelativeLayout>
 </layout>

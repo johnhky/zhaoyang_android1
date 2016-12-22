@@ -81,6 +81,11 @@ public class SearchDoctorActivity extends BaseFragmentActivity2 implements View.
         return i;
     }
 
+    public static Intent makeIntent(Context context) {
+        Intent i = new Intent(context, SearchDoctorActivity.class);
+        return i;
+    }
+
 
     @AppointmentType
     public int getType() {
