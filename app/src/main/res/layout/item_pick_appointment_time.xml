@@ -32,7 +32,7 @@
                 android:layout_height="@dimen/dp_30"
                 android:layout_marginBottom="@dimen/dp_8"
                 android:layout_marginTop="@dimen/dp_8"
-                app:srcCompat="@{data.titleDrawable}" />
+                app:srcCompat="@drawable/ic_premium_appointment" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginStart="@dimen/dp_12"
-                android:text="@{data.title}"
+                android:text="专属咨询"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView

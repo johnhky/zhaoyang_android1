@@ -37,6 +37,7 @@
             android:layout_toEndOf="@id/iv"
             android:layout_toRightOf="@id/iv"
             android:text="闲时咨询"
+            android:textColor="@color/color_standard_appointment"
             android:textSize="@dimen/font_16"
             android:textStyle="bold" />
 
@@ -61,9 +62,10 @@
             android:layout_marginTop="@dimen/dp_5"
             android:layout_toEndOf="@id/iv"
             android:layout_toRightOf="@id/iv"
-            android:drawableLeft="@drawable/ic_chat"
-            android:drawableStart="@drawable/ic_chat"
+            android:drawableLeft="@drawable/ic_chat_standard"
+            android:drawableStart="@drawable/ic_chat_standard"
             android:gravity="center"
+            android:textColor="@color/color_standard_appointment"
             android:text="在线聊天"
             android:textSize="@dimen/font_12" />
 
@@ -74,9 +76,10 @@
             android:layout_alignStart="@id/tv_1"
             android:layout_below="@id/tv_1"
             android:layout_marginTop="@dimen/dp_5"
-            android:drawableLeft="@drawable/ic_camera"
-            android:drawableStart="@drawable/ic_camera"
+            android:drawableLeft="@drawable/ic_alarm_clock"
+            android:drawableStart="@drawable/ic_alarm_clock"
             android:gravity="center"
+            android:textColor="@color/color_standard_appointment"
             android:text="视频通话"
             android:textSize="@dimen/font_12" />
 

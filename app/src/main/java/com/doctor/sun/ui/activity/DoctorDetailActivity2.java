@@ -26,7 +26,6 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.event.SelectAppointmentTypeEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.model.DoctorDetailModel;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -202,7 +201,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         } else {
             price = getData().getSecondMoney();
         }
-        final ItemPickAppointmentDuration item = new ItemPickAppointmentDuration(type, price);
+        final ItemPickAppointmentDuration item = new ItemPickAppointmentDuration(price);
         item.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {

@@ -28,7 +28,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_195"
-                android:background="#51aaf6">
+                android:background="@drawable/bg_main">
 
                 <!--用来放右上角的公告，红包之类的-->
                 <FrameLayout

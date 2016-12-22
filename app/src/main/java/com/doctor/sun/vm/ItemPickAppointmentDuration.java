@@ -11,6 +11,8 @@ import com.doctor.sun.entity.constans.AppointmentType;
  */
 
 public class ItemPickAppointmentDuration extends BaseItem {
+
+    private double price;
     private int selectedItem;
 
     public ItemPickAppointmentDuration() {
@@ -26,11 +28,8 @@ public class ItemPickAppointmentDuration extends BaseItem {
         notifyPropertyChanged(BR.selectedItem);
     }
 
-    private int type;
-    private double price;
 
-    public ItemPickAppointmentDuration(int type, double price) {
-        this.type = type;
+    public ItemPickAppointmentDuration(double price) {
         this.price = price;
     }
 
@@ -39,31 +38,7 @@ public class ItemPickAppointmentDuration extends BaseItem {
         return R.layout.item_pick_appointment_time;
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public String getTitle() {
-        if (type == AppointmentType.PREMIUM) {
-            return "专属咨询";
-        } else {
-            return "闲时咨询";
-        }
-    }
-
-    public int getTitleDrawable() {
-        if (type == AppointmentType.PREMIUM) {
-            return R.drawable.ic_premium_appointment;
-        } else {
-            return R.drawable.ic_standard_appointment;
-        }
-    }
-
     public String getPrice() {
-        if (type == AppointmentType.PREMIUM) {
             return price + "元/15分钟";
-        } else {
-            return price + "元/每次";
-        }
     }
 }
