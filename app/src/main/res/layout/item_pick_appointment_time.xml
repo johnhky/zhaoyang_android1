@@ -164,9 +164,9 @@
                 android:layout_weight="1"
                 android:background="@drawable/selector_blue_rect_or_stroke"
                 android:button="@null"
-                android:checked="@{data.selectedItem==5}"
+                android:checked="@{data.selectedItem==6}"
                 android:gravity="center"
-                android:onClick="@{()->data.setSelectedItem(5)}"
+                android:onClick="@{()->data.setSelectedItem(6)}"
                 android:text="90分钟"
                 android:textColor="@color/text_color_gray"
                 android:textSize="@dimen/font_15" />
@@ -189,9 +189,9 @@
                 android:layout_height="@dimen/dp_35"
                 android:background="@drawable/selector_blue_rect_or_stroke"
                 android:button="@null"
-                android:checked="@{data.selectedItem==6}"
+                android:checked="@{data.selectedItem==8}"
                 android:gravity="center"
-                android:onClick="@{()->data.setSelectedItem(6)}"
+                android:onClick="@{()->data.setSelectedItem(8)}"
                 android:text="120分钟"
                 android:textColor="@color/text_color_gray"
                 android:textSize="@dimen/font_15" />
