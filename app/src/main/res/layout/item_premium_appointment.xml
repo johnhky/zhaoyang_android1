@@ -49,7 +49,7 @@
             android:layout_marginTop="@dimen/dp_2"
             android:layout_toEndOf="@id/tv_title"
             android:layout_toRightOf="@id/tv_title"
-            android:text="50元/15分钟"
+            android:text='@{data.price + "元/15分钟"}'
             android:textColor="#f65600"
             android:textSize="@dimen/font_12" />
 

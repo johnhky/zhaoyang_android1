@@ -4,6 +4,7 @@ import android.databinding.Bindable;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.event.SelectAppointmentTypeEvent;
 
 import io.ganguo.library.core.event.EventHub;
@@ -12,9 +13,15 @@ import io.ganguo.library.core.event.EventHub;
  * Created by kb on 15/12/2016.
  */
 
-public class ItemPremiumAppointment extends BaseItem{
+public class ItemPremiumAppointment extends BaseItem {
+
+    private double price;
 
     private boolean selected = false;
+
+    public ItemPremiumAppointment(double price) {
+        this.price = price;
+    }
 
     @Override
     public int getItemLayoutId() {
@@ -25,11 +32,15 @@ public class ItemPremiumAppointment extends BaseItem{
         selected = !selected;
         notifyPropertyChanged(BR.selected);
 
-        EventHub.post(new SelectAppointmentTypeEvent());
+        EventHub.post(new SelectAppointmentTypeEvent(AppointmentType.PREMIUM));
     }
 
     @Bindable
     public boolean isSelected() {
         return selected;
+    }
+
+    public double getPrice() {
+        return price;
     }
 }

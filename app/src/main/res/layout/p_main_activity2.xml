@@ -84,7 +84,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:drawableTop="@drawable/ic_launcher"
+                        android:drawableTop="@drawable/ic_my_order"
+                        android:drawablePadding="@dimen/dp_6"
                         android:gravity="center"
                         android:text="@string/title_my_order" />
 
@@ -120,14 +121,6 @@
                     android:onClick="@{()->data.myDrug(context)}">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:drawableTop="@drawable/ic_launcher"
-                        android:gravity="center"
-                        android:text="@string/drug_order" />
-
-                    <TextView
                         android:layout_width="@dimen/dp_22"
                         android:layout_height="@dimen/dp_22"
                         android:layout_gravity="top|end"
@@ -141,6 +134,16 @@
                         android:textSize="@dimen/font_12"
                         android:visibility="@{patient.drugOrderNum > 0}"
                         tools:text="11" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawableTop="@drawable/ic_drug_order"
+                        android:drawablePadding="@dimen/dp_6"
+                        android:gravity="center"
+                        android:text="@string/drug_order"
+                        android:id="@+id/textView3" />
                 </FrameLayout>
 
                 <View
@@ -155,13 +158,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/ripple_default"
-                    android:onClick="@{()->data.askForService()}">
+                    android:onClick="@{()->data.askForService(context)}">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:drawableTop="@drawable/ic_launcher"
+                        android:drawableTop="@drawable/ic_service"
+                        android:drawablePadding="@dimen/dp_6"
                         android:gravity="center"
                         android:text="@string/contact_us" />
                 </FrameLayout>

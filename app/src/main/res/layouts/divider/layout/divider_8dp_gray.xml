@@ -6,7 +6,7 @@
     </data>
 
     <View xmlns:android="http://schemas.android.com/apk/res/android"
-        android:background="#dedede"
+        android:background="@color/color_background_gray"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_13" />
+        android:layout_height="@dimen/dp_8" />
 </layout>

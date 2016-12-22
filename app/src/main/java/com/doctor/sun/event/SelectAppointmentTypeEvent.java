@@ -7,4 +7,14 @@ import io.ganguo.library.core.event.Event;
  */
 
 public class SelectAppointmentTypeEvent implements Event{
+
+    private int type;
+
+    public SelectAppointmentTypeEvent(int type) {
+        this.type = type;
+    }
+
+    public int getType() {
+        return type;
+    }
 }

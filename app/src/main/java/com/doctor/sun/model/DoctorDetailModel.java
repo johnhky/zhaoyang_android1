@@ -21,18 +21,26 @@ public class DoctorDetailModel {
 
         List<SortedItem> result = new ArrayList<>();
 
+        ModelUtils.insertSpace(result, R.layout.divider_8dp_gray);
+
         ItemTitle introductionTitle = new ItemTitle(R.layout.item_title, "简介");
         introductionTitle.setItemId("introductionTitle");
         introductionTitle.setPosition(result.size());
         result.add(introductionTitle);
 
+        String detail;
+        if (data.getDetail() != null && !data.getDetail().equals("")) {
+            detail = data.getDetail();
+        } else {
+            detail = "暂无个人简介";
+        }
         ItemDescription introduction = new ItemDescription();
-        introduction.setMainContent(data.getDetail());
+        introduction.setMainContent(detail);
         introduction.setItemId("introduction");
         introduction.setPosition(result.size());
         result.add(introduction);
 
-        ModelUtils.insertSpace(result, R.layout.divider_13dp_gray);
+        ModelUtils.insertSpace(result, R.layout.divider_8dp_gray);
 
         ItemTitle articleTitle = new ItemTitle(R.layout.item_title, "文章");
         articleTitle.setSubtitle("more");
@@ -50,7 +58,7 @@ public class DoctorDetailModel {
         }
 
 
-        ModelUtils.insertSpace(result, R.layout.divider_13dp_gray);
+        ModelUtils.insertSpace(result, R.layout.divider_8dp_gray);
 
         ItemTitle commentTitle = new ItemTitle(R.layout.item_title, "评论");
         commentTitle.setItemId("commentTitle");

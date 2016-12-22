@@ -14,6 +14,7 @@ import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.PushModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.SystemMsgListActivity;
+import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.activity.patient.MyOrderActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -46,8 +47,9 @@ public class PMainHandler {
         context.startActivity(intent);
     }
 
-    public void askForService() {
-
+    public void askForService(Context context) {
+        Intent intent = MedicineStoreActivity.makeIntent(context);
+        context.startActivity(intent);
     }
 
     public void allMyMessages(Context context) {

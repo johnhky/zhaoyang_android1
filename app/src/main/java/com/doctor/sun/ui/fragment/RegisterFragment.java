@@ -136,7 +136,7 @@ public class RegisterFragment extends SortedListFragment {
             sortedItems.add(imgPs);
 
             BaseItem baseItem = new BaseItem();
-            baseItem.setItemLayoutId(R.layout.divider_13dp_gray);
+            baseItem.setItemLayoutId(R.layout.divider_8dp_gray);
             sortedItems.add(baseItem);
         }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -18,7 +19,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_8"
-            android:background="@color/divider_color" />
+            android:background="@color/color_background_gray" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,25 +28,36 @@
             android:paddingLeft="@dimen/dp_13">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher" />
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                app:srcCompat="@{data.titleDrawable}" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/premium_product"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginStart="@dimen/dp_12"
+                android:text="@{data.title}"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginStart="@dimen/dp_12"
+                android:text="@{data.price}"
+                android:textColor="#f65600"
+                android:textSize="@dimen/font_12" />
         </LinearLayout>
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_8"
-            android:background="@color/divider_color" />
+            android:background="@color/color_background_gray" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -34,7 +34,7 @@
             android:layout_alignTop="@id/iv"
             android:layout_toEndOf="@id/iv"
             android:layout_toRightOf="@id/iv"
-            android:text="专属咨询"
+            android:text="闲时咨询"
             android:textSize="@dimen/font_16"
             android:textStyle="bold" />
 
@@ -48,7 +48,7 @@
             android:layout_marginTop="@dimen/dp_2"
             android:layout_toEndOf="@id/tv_title"
             android:layout_toRightOf="@id/tv_title"
-            android:text="10元/每次"
+            android:text='@{data.price + "元/每次"}'
             android:textColor="#f65600"
             android:textSize="@dimen/font_12" />
 

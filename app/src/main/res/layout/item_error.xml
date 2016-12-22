@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/divider_13dp_gray" />
+        <include layout="@layout/divider_8dp_gray" />
 
         <TextView
             android:layout_width="match_parent"
@@ -37,6 +37,6 @@
             android:text="@{data.getMessage()}"
             android:textSize="@dimen/font_15" />
 
-        <include layout="@layout/divider_13dp_gray" />
+        <include layout="@layout/divider_8dp_gray" />
     </LinearLayout>
 </layout>

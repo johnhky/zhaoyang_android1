@@ -22,6 +22,7 @@ import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Article;
 import com.doctor.sun.entity.Comment;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.event.SelectAppointmentTypeEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -115,6 +116,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         binding.rv.setAdapter(adapter);
         fillAdapter();
     }
+
     private void fillAdapter() {
         if (isPickingDuration) {
             adapter.clear();
@@ -150,9 +152,9 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(this);
         builder.title("预约类型");
         builder.titleGravity(GravityEnum.CENTER);
-        adapter.add(new ItemPremiumAppointment());
+        adapter.add(new ItemPremiumAppointment(getData().getMoney()));
         adapter.add(new ItemSpace());
-        adapter.add(new ItemStandardAppointment());
+        adapter.add(new ItemStandardAppointment(getData().getSecondMoney()));
         dialog = builder.adapter(adapter, new LinearLayoutManager(this)).build();
         dialog.show();
     }
@@ -165,7 +167,14 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         isPickingDuration = true;
 
         adapter.clear();
-        final ItemPickAppointmentDuration item = new ItemPickAppointmentDuration();
+        int type = event.getType();
+        double price;
+        if (type == AppointmentType.PREMIUM) {
+            price = getData().getMoney();
+        } else {
+            price = getData().getSecondMoney();
+        }
+        final ItemPickAppointmentDuration item = new ItemPickAppointmentDuration(type, price);
         item.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {

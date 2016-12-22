@@ -30,6 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="@dimen/font_16"
                 android:text="@{data.title}"
                 tools:text="简介" />
 
@@ -44,6 +45,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginEnd="@dimen/dp_13"
             android:background="@color/divider_color" />
     </LinearLayout>
 </layout>
