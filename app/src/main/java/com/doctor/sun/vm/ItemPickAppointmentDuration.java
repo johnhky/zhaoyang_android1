@@ -1,5 +1,8 @@
 package com.doctor.sun.vm;
 
+import android.databinding.Bindable;
+
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
 
 /**
@@ -7,6 +10,20 @@ import com.doctor.sun.R;
  */
 
 public class ItemPickAppointmentDuration extends BaseItem {
+    private int selectedItem;
+
+    public ItemPickAppointmentDuration() {
+    }
+
+    @Bindable
+    public int getSelectedItem() {
+        return selectedItem;
+    }
+
+    public void setSelectedItem(int selectedItem) {
+        this.selectedItem = selectedItem;
+        notifyPropertyChanged(BR.selectedItem);
+    }
 
     @Override
     public int getItemLayoutId() {

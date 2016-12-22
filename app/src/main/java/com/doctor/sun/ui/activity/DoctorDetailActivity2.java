@@ -3,6 +3,7 @@ package com.doctor.sun.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -12,10 +13,12 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityDoctorDetail2Binding;
 import com.doctor.sun.dto.PageDTO;
+import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Article;
 import com.doctor.sun.entity.Comment;
 import com.doctor.sun.entity.Doctor;
@@ -42,7 +45,7 @@ import io.ganguo.library.core.event.EventHub;
  * Created by kb on 13/12/2016.
  */
 
-public class DoctorDetailActivity2 extends AppCompatActivity{
+public class DoctorDetailActivity2 extends AppCompatActivity {
 
     private ActivityDoctorDetail2Binding binding;
     private SortedListAdapter adapter;
@@ -50,6 +53,10 @@ public class DoctorDetailActivity2 extends AppCompatActivity{
     private MaterialDialog dialog;
 
     private ProfileModule api = Api.of(ProfileModule.class);
+
+    private boolean isPickingDuration = false;
+    private AppointmentBuilder builder = new AppointmentBuilder();
+
 
     public static Intent makeIntent(Context context, Doctor data) {
         Intent i = new Intent(context, DoctorDetailActivity2.class);
@@ -67,6 +74,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity{
         model = new DoctorDetailModel();
 
         binding.setData(getData());
+        builder.setDoctor(getData());
         initToolbar();
         initView();
     }
@@ -103,6 +111,14 @@ public class DoctorDetailActivity2 extends AppCompatActivity{
     }
 
     private void initView() {
+        binding.rv.setLayoutManager(new LinearLayoutManager(this));
+        binding.rv.setAdapter(adapter);
+        fillAdapter();
+    }
+    private void fillAdapter() {
+        if (isPickingDuration) {
+            adapter.clear();
+        }
         Doctor data = getData();
 
         final List<Article> articleList = new ArrayList<>();
@@ -125,8 +141,8 @@ public class DoctorDetailActivity2 extends AppCompatActivity{
 
         List<SortedItem> items = model.parseData(data, articleList, commentList);
         adapter.insertAll(items);
-        binding.rv.setLayoutManager(new LinearLayoutManager(this));
-        binding.rv.setAdapter(adapter);
+        binding.flSelectDuration.setVisibility(View.VISIBLE);
+        binding.llSelectRecord.setVisibility(View.GONE);
     }
 
     public void appointment(View view) {
@@ -146,8 +162,19 @@ public class DoctorDetailActivity2 extends AppCompatActivity{
 
         dialog.dismiss();
 
+        isPickingDuration = true;
+
         adapter.clear();
-        adapter.insert(new ItemPickAppointmentDuration());
+        final ItemPickAppointmentDuration item = new ItemPickAppointmentDuration();
+        item.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                if (i == BR.selectedItem) {
+                    builder.setDuration(item.getSelectedItem() * 15);
+                }
+            }
+        });
+        adapter.insert(item);
         binding.flSelectDuration.setVisibility(View.GONE);
         binding.llSelectRecord.setVisibility(View.VISIBLE);
     }
@@ -162,5 +189,15 @@ public class DoctorDetailActivity2 extends AppCompatActivity{
     protected void onPause() {
         super.onPause();
         EventHub.unregister(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isPickingDuration) {
+            fillAdapter();
+            isPickingDuration = false;
+        } else {
+            super.onBackPressed();
+        }
     }
 }

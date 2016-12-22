@@ -48,8 +48,8 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_width="@dimen/dp_140"
-                        android:layout_height="@dimen/dp_140"
+                        android:layout_width="@dimen/dp_165"
+                        android:layout_height="@dimen/dp_165"
                         android:layout_gravity="center"
                         android:onClick="@{()->data.lookForDoctor(context)}"
                         app:srcCompat="@drawable/search_doctor" />
