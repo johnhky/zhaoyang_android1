@@ -26,11 +26,13 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.event.SelectAppointmentTypeEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.model.DoctorDetailModel;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.ui.handler.MedicalRecordEventHandler;
 import com.doctor.sun.vm.ItemPickAppointmentDuration;
 import com.doctor.sun.vm.ItemPremiumAppointment;
 import com.doctor.sun.vm.ItemSpace;
@@ -57,6 +59,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
 
     private boolean isPickingDuration = false;
     private AppointmentBuilder builder = new AppointmentBuilder();
+    private MedicalRecordEventHandler medicalRecordHandler;
 
 
     public static Intent makeIntent(Context context, Doctor data) {
@@ -74,10 +77,30 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         adapter = new SortedListAdapter();
         model = new DoctorDetailModel();
 
-        binding.setData(getData());
         builder.setDoctor(getData());
+        binding.setData(builder);
         initToolbar();
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (medicalRecordHandler == null) {
+            medicalRecordHandler = new MedicalRecordEventHandler(builder);
+        }
+        if (!medicalRecordHandler.isRegister()) {
+            medicalRecordHandler.registerTo(this);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (medicalRecordHandler.isRegister()) {
+            medicalRecordHandler.unregister();
+            medicalRecordHandler = null;
+        }
     }
 
     private Doctor getData() {
@@ -162,7 +185,12 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
     @Subscribe
     public void onSelectAppointmentTypeEvent(SelectAppointmentTypeEvent event) {
 
+        builder.setType(event.getType());
         dialog.dismiss();
+        if (event.getType() == AppointmentType.STANDARD) {
+            builder.pickDate(this);
+            return;
+        }
 
         isPickingDuration = true;
 
@@ -179,7 +207,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
                 if (i == BR.selectedItem) {
-                    builder.setDuration(item.getSelectedItem() * 15);
+                    builder.setDurationNotifyAll(item.getSelectedItem() * 15);
                 }
             }
         });

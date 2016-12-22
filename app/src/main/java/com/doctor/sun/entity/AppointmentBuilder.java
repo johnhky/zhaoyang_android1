@@ -115,6 +115,10 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         this.duration = duration;
         notifyPropertyChanged(BR.duration);
     }
+    public void setDurationNotifyAll(int duration) {
+        this.duration = duration;
+        notifyChange();
+    }
 
     @Bindable
     public Time getTime() {

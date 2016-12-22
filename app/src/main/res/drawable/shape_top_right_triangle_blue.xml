@@ -11,6 +11,7 @@
                     android:width="10dp"
                     android:color="@color/transparent" />
                 <solid android:color="@color/colorPrimaryDark" />
+                <corners android:radius="@dimen/dp_5"/>
             </shape>
         </rotate>
     </item>

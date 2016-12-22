@@ -13,8 +13,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:layout_marginRight="@dimen/dp_8"
         android:layout_marginTop="@dimen/dp_8"
-        android:background="#e3f2fe"
+        android:background="@drawable/shape_light_blue_rect"
         android:onClick="@{()->data.select()}">
 
         <ImageView
