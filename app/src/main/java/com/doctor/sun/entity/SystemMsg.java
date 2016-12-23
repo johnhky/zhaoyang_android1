@@ -31,6 +31,7 @@ import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.activity.patient.handler.SystemMsgHandler;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.ui.fragment.EditPatientInfoFragment;
 import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
@@ -150,6 +151,11 @@ public class SystemMsg extends BaseItem {
 
     public void setExtras(JPushExtra extras) {
         this.extras = extras;
+    }
+
+    public void setLastVisitTime(Context context, SimpleAdapter adapter) {
+        getHandler().setTime(adapter, this);
+        itemClick(context);
     }
 
     public void itemClick(final Context context) {

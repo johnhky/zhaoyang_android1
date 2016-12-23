@@ -1,13 +1,13 @@
 package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
-import com.doctor.sun.vm.LayoutId;
+import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Lynn on 2/15/16.
  */
-public class Comment implements LayoutId {
+public class Comment extends BaseItem {
     /**
      * "comment": "cdfef",
      * "patient_name": "Albee",

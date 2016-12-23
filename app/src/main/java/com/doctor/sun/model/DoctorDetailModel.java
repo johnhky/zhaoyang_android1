@@ -21,7 +21,7 @@ public class DoctorDetailModel {
 
         List<SortedItem> result = new ArrayList<>();
 
-        ModelUtils.insertSpace(result, R.layout.divider_8dp_gray);
+        ModelUtils.insertSpace(result, R.layout.divider_13dp);
 
         ItemTitle introductionTitle = new ItemTitle(R.layout.item_title, "简介");
         introductionTitle.setItemId("introductionTitle");
@@ -29,12 +29,13 @@ public class DoctorDetailModel {
         result.add(introductionTitle);
 
         String detail;
+        ItemDescription introduction = new ItemDescription();
         if (data.getDetail() != null && !data.getDetail().equals("")) {
             detail = data.getDetail();
         } else {
-            detail = "暂无个人简介";
+            detail = "暂时未有医生相关简介";
+            introduction.setEnabled(false);
         }
-        ItemDescription introduction = new ItemDescription();
         introduction.setMainContent(detail);
         introduction.setItemId("introduction");
         introduction.setPosition(result.size());
@@ -55,6 +56,13 @@ public class DoctorDetailModel {
             article.setItemId("article");
             article.setPosition(result.size());
             result.add(article);
+        } else {
+            ItemDescription noArticle = new ItemDescription();
+            noArticle.setEnabled(false);
+            noArticle.setMainContent("暂时未有医生相关文章");
+            noArticle.setItemId("noArticle");
+            noArticle.setPosition(result.size());
+            result.add(noArticle);
         }
 
 
@@ -66,29 +74,11 @@ public class DoctorDetailModel {
         result.add(commentTitle);
 
         if (commentList.size() > 0) {
-            Comment comment1 = commentList.get(0);
-            ItemDescription comments = new ItemDescription();
-            comments.setMainContent(comment1.getComment());
-            comments.setSubContent(comment1.getCommentTime());
-            comments.setImage(comment1.getAvatar());
-            comments.setImageText(comment1.getPatientName());
-            comments.setRatingPoint(Float.valueOf("3.6"));
-            comments.setItemId("comments");
-            comments.setPosition(result.size());
-            result.add(comments);
-        }
-
-        if (commentList.size() > 1) {
-            Comment comment1 = commentList.get(0);
-            ItemDescription comments = new ItemDescription();
-            comments.setMainContent(comment1.getComment());
-            comments.setSubContent(comment1.getCommentTime());
-            comments.setImage(comment1.getAvatar());
-            comments.setImageText(comment1.getPatientName());
-            comments.setRatingPoint(Float.valueOf("3.6"));
-            comments.setItemId("comments");
-            comments.setPosition(result.size());
-            result.add(comments);
+            for (int i = 0; i < commentList.size(); i++) {
+                Comment e = commentList.get(i);
+                e.setPosition(result.size());
+                result.add(e);
+            }
         }
 
         ModelUtils.insertSpace(result, R.layout.space_8dp);

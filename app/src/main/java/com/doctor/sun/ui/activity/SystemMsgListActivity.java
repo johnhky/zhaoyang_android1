@@ -27,8 +27,8 @@ import io.ganguo.library.Config;
 public class SystemMsgListActivity extends PageActivity2 {
     public static final int PHONE_CALL_REQUEST = 1;
     public static final String LAST_VISIT_TIME = "LAST_VISIT_TIME";
-    private PushModule api = Api.of(PushModule.class);
     private String visitTimeKey = LAST_VISIT_TIME + Config.getString(Constants.VOIP_ACCOUNT);
+    private PushModule api = Api.of(PushModule.class);
 
     private PermissionsUtil permissionsUtil;
 

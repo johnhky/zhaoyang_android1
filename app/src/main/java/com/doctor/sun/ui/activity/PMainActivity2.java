@@ -35,12 +35,14 @@ public class PMainActivity2 extends AppCompatActivity {
 
     private void initRvMessage() {
         SimpleAdapter adapter = handler.getMessageAdapter();
+        adapter.onFinishLoadMore(true);
         binding.rvMessage.setLayoutManager(new LinearLayoutManager(this));
         binding.rvMessage.setAdapter(adapter);
     }
 
     private void initDoctorView() {
         SimpleAdapter adapter = handler.getDoctorAdapter();
+        adapter.onFinishLoadMore(true);
         binding.rvRecommendDoctor.setLayoutManager(new LinearLayoutManager(this));
         binding.rvRecommendDoctor.setAdapter(adapter);
     }

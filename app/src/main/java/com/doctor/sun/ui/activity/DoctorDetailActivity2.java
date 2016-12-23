@@ -17,12 +17,14 @@ import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityDoctorDetail2Binding;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Article;
 import com.doctor.sun.entity.Comment;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.event.AdapterItemsEvent;
 import com.doctor.sun.event.SelectAppointmentTypeEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -40,8 +42,11 @@ import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import io.ganguo.library.core.event.EventHub;
+import retrofit2.Call;
 
 /**
  * Created by kb on 13/12/2016.
@@ -143,34 +148,59 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         if (isPickingDuration) {
             adapter.clear();
         }
-        Doctor data = getData();
+        final Doctor data = getData();
 
-        final List<Article> articleList = new ArrayList<>();
-        final List<Comment> commentList = new ArrayList<>();
-        api.articles(getData().getId(), "1").enqueue(new SimpleCallback<PageDTO<Article>>() {
+        new Thread(new Runnable() {
             @Override
-            protected void handleResponse(PageDTO<Article> response) {
-                if (response.getData().size() > 0) {
+            public void run() {
+                final CountDownLatch latch = new CountDownLatch(2);
+                final List<Article> articleList = new ArrayList<>();
+                final List<Comment> commentList = new ArrayList<>();
+                Call<ApiDTO<PageDTO<Article>>> articles = api.articles(getData().getId(), "1");
+                Call<ApiDTO<PageDTO<Comment>>> comments = api.comments(data.getId(), "1");
+                articles.enqueue(new SimpleCallback<PageDTO<Article>>() {
+                    @Override
+                    protected void handleResponse(PageDTO<Article> response) {
+                        if (response.getData().size() > 0) {
+                            articleList.addAll(response.getData());
+                        }
+                        latch.countDown();
+                    }
+                });
+                comments.enqueue(new SimpleCallback<PageDTO<Comment>>() {
+                    @Override
+                    protected void handleResponse(PageDTO<Comment> response) {
+                        if (response.getData() != null && response.getData().size() > 1) {
+                            commentList.add(response.getData().get(0));
+                        }
+                        if (response.getData() != null && response.getData().size() > 2) {
+                            commentList.add(response.getData().get(1));
+                        }
+                        latch.countDown();
+                    }
+                });
 
+                try {
+                    latch.await(5000, TimeUnit.MILLISECONDS);
+                    List<SortedItem> items = model.parseData(data, articleList, commentList);
+                    EventHub.post(new AdapterItemsEvent(items));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
-        });
-        api.comments(data.getId(), "1").enqueue(new SimpleCallback<PageDTO<Comment>>() {
-            @Override
-            protected void handleResponse(PageDTO<Comment> response) {
-                commentList.add(response.getData().get(0));
-                commentList.add(response.getData().get(1));
-            }
-        });
+        }).start();
+    }
 
-        List<SortedItem> items = model.parseData(data, articleList, commentList);
-        adapter.insertAll(items);
+    @Subscribe
+    public void onEventMainThread(AdapterItemsEvent e) {
+        adapter.insertAll(e.getItemList());
         binding.flSelectDuration.setVisibility(View.VISIBLE);
         binding.llSelectRecord.setVisibility(View.GONE);
     }
 
     public void appointment(View view) {
         SimpleAdapter adapter = new SimpleAdapter();
+        adapter.onFinishLoadMore(true);
         MaterialDialog.Builder builder = new MaterialDialog.Builder(this);
         builder.title("预约类型");
         builder.titleGravity(GravityEnum.CENTER);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.SystemMsg;
@@ -18,16 +19,21 @@ import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.activity.patient.MyOrderActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import io.ganguo.library.Config;
 
 /**
  * Created by kb on 21/12/2016.
  */
 
 public class PMainHandler {
+    public static final String LAST_VISIT_TIME = "LAST_VISIT_TIME";
+    private String visitTimeKey = LAST_VISIT_TIME + Config.getString(Constants.VOIP_ACCOUNT);
 
     public void lookForDoctor(Context context) {
         Intent intent = SearchDoctorActivity.makeIntent(context);
@@ -60,6 +66,7 @@ public class PMainHandler {
     public SimpleAdapter getMessageAdapter() {
         PushModule messageApi = Api.of(PushModule.class);
         final SimpleAdapter adapter = new SimpleAdapter();
+        adapter.putLong(AdapterConfigKey.LAST_VISIT_TIME, Config.getLong(visitTimeKey, System.currentTimeMillis()));
         messageApi.systemMsg("1").enqueue(new SimpleCallback<PageDTO<SystemMsg>>() {
             @Override
             protected void handleResponse(PageDTO<SystemMsg> response) {

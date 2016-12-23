@@ -68,6 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{data.mainContent}"
+                android:enabled="@{data.isEnabled()}"
                 tools:text="欢迎使用昭阳医生，我们能够随时随地为您提供最舒适便捷的咨询服务。" />
 
             <TextView
