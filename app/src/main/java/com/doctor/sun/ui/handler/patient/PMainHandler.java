@@ -37,14 +37,12 @@ public class PMainHandler {
 
     public void lookForDoctor(Context context) {
         Intent intent = SearchDoctorActivity.makeIntent(context);
-
         context.startActivity(intent);
     }
 
     public void myOrder(Context context) {
         Intent intent = MyOrderActivity.makeIntent(context);
         context.startActivity(intent);
-
     }
 
     public void myDrug(Context context) {

@@ -1,5 +1,7 @@
 package com.doctor.sun.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +21,11 @@ public class PMainActivity2 extends AppCompatActivity {
     private PMainActivity2Binding binding;
 
     private PMainHandler handler;
+
+    public static Intent makeIntent(Context context) {
+        Intent intent = new Intent(context, PMainActivity2.class);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

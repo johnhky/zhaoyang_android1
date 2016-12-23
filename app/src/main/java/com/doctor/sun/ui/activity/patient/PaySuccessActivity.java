@@ -13,6 +13,7 @@ import com.doctor.sun.databinding.PActivityPaySuccessBinding;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.ui.activity.PMainActivity2;
 import com.doctor.sun.util.JacksonUtils;
 
 import io.ganguo.library.AppManager;
@@ -95,7 +96,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_main: {
-                Intent intent1 = PMainActivity.intentFor(PaySuccessActivity.this);
+                Intent intent1 = PMainActivity2.makeIntent(PaySuccessActivity.this);
                 startActivity(intent1);
                 int position = 0;
                 if (getType() == VOIP_PAY) {
@@ -114,7 +115,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                 }
                 if (getType() == APPOINTMENT) {
                     String id = getAppointment().getId();
-                    Intent intent1 = PMainActivity.intentFor(this);
+                    Intent intent1 = PMainActivity2.makeIntent(this);
                     startActivity(intent1);
                     Intent intent2 = PAppointmentListActivity.makeIntent(this);
                     startActivity(intent2);
@@ -124,7 +125,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
 
                 if (getType() == VOIP_PAY) {
                     finish();
-                    Intent intent = PMainActivity.intentFor(this);
+                    Intent intent = PMainActivity2.makeIntent(this);
                     startActivity(intent);
                 }
                 break;
@@ -136,7 +137,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
     public void onBackPressed() {
 
         super.onBackPressed();
-        Intent intent = PMainActivity.intentFor(this);
+        Intent intent = PMainActivity2.makeIntent(this);
         startActivity(intent);
         AppManager.finishAllActivity();
 

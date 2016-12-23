@@ -16,6 +16,9 @@ import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.ui.activity.PMainActivity2;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.util.JacksonUtils;
 
 import java.util.HashMap;
@@ -48,7 +51,6 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
         return i;
     }
 
-    //
     private Appointment getAppointment() {
         return JacksonUtils.fromJson(getIntent().getStringExtra(Constants.DATA), Appointment.class);
     }
@@ -58,7 +60,7 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
     }
 
     private double getMoney() {
-        return getIntent().getDoubleExtra(Constants.MONEY,0D);
+        return getIntent().getDoubleExtra(Constants.MONEY, 0D);
     }
 
     private HashMap<String, String> getExtraField() {
@@ -77,9 +79,9 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_main:
-                Intent intent1 = PMainActivity.intentFor(PayFailActivity.this);
+                Intent intent1 = PMainActivity2.makeIntent(this);
                 startActivity(intent1);
-                Intent intent2 = PAppointmentListActivity.makeIntent(PayFailActivity.this);
+                Intent intent2 = getAppointmentOrDrugIntent();
                 startActivity(intent2);
                 finish();
                 break;
@@ -114,10 +116,26 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent1 = PMainActivity.intentFor(PayFailActivity.this);
+        Intent intent1 = PMainActivity2.makeIntent(PayFailActivity.this);
         startActivity(intent1);
-        Intent intent2 = PAppointmentListActivity.makeIntent(PayFailActivity.this);
+        Intent intent2 = getAppointmentOrDrugIntent();
         startActivity(intent2);
         finish();
+    }
+
+    private boolean isTypeAppointment() {
+        return getIntent().getIntExtra(Constants.TYPE, -1) == APPOINTMENT;
+    }
+
+    private Intent getAppointmentOrDrugIntent() {
+        Intent intent;
+        if (isTypeAppointment()) {
+            intent = MyOrderActivity.makeIntent(this);
+        } else {
+            Bundle bundle = DrugListFragment.getArgs();
+            intent = SingleFragmentActivity.intentFor(this, "寄药订单", bundle);
+        }
+
+        return intent;
     }
 }

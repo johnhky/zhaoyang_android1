@@ -20,12 +20,12 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.LoginActivity;
+import com.doctor.sun.ui.activity.PMainActivity2;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.AdviceActivity;
 import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.activity.doctor.MeActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
-import com.doctor.sun.ui.activity.patient.PMainActivity;
 import com.doctor.sun.ui.activity.patient.PMeActivity;
 import com.doctor.sun.ui.fragment.AllowToSearchFragment;
 import com.doctor.sun.ui.fragment.ChangePasswordFragment;
@@ -87,7 +87,7 @@ public class SettingHandler {
             Intent consulting = PConsultingActivity.makeIntent(context);
             startShowCase(context, consulting);
 
-            Intent intent = PMainActivity.intentFor(context);
+            Intent intent = PMainActivity2.makeIntent(context);
             startShowCase(context, intent);
         }
     }
