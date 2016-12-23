@@ -26,6 +26,7 @@ import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
 import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
+import com.doctor.sun.ui.activity.patient.MyOrderActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
 import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
@@ -231,7 +232,7 @@ public class SystemMsg extends BaseItem {
                 if (isDoctor) {
                     i = AppointmentListActivity.makeIntent(context);
                 } else {
-                    i = PAppointmentListActivity.makeIntent(context);
+                    i = MyOrderActivity.makeIntent(context);
                 }
                 break;
             }

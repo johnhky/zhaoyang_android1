@@ -102,7 +102,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                 if (getType() == VOIP_PAY) {
                     position = 1;
                 }
-                Intent intent2 = PAppointmentListActivity.makeIntent(PaySuccessActivity.this, position);
+                Intent intent2 = MyOrderActivity.makeIntent(PaySuccessActivity.this, position);
                 startActivity(intent2);
                 finish();
                 break;
@@ -117,7 +117,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                     String id = getAppointment().getId();
                     Intent intent1 = PMainActivity2.makeIntent(this);
                     startActivity(intent1);
-                    Intent intent2 = PAppointmentListActivity.makeIntent(this);
+                    Intent intent2 = MyOrderActivity.makeIntent(this);
                     startActivity(intent2);
                     Intent intent3 = EditQuestionActivity.intentFor(this, id, QuestionsPath.NORMAL);
                     startActivity(intent3);

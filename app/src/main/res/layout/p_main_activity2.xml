@@ -13,256 +13,286 @@
             name="patient"
             type="com.doctor.sun.dto.PatientDTO" />
 
+        <variable
+            name="footer"
+            type="com.doctor.sun.ui.model.FooterViewModel" />
+
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_background_gray">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_195"
-                android:background="@drawable/bg_main">
-
-                <!--用来放右上角的公告，红包之类的-->
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|end"
-                    android:layout_marginEnd="@dimen/dp_13"
-                    android:layout_marginRight="@dimen/dp_13"
-                    android:layout_marginTop="@dimen/dp_10">
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="@dimen/dp_165"
-                        android:layout_height="@dimen/dp_165"
-                        android:layout_gravity="center"
-                        android:onClick="@{()->data.allDoctors(context)}"
-                        app:srcCompat="@drawable/search_doctor" />
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/dp_16"
-                    android:text="找医生"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/font_17"
-                    android:textStyle="bold" />
-            </FrameLayout>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/color_background_gray">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_85"
-                android:layout_marginTop="@dimen/dp_10"
-                android:background="@color/white">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/ripple_default"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_195"
+                    android:background="@drawable/bg_main">
+
+                    <!--用来放右上角的公告，红包之类的-->
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|end"
+                        android:layout_marginEnd="@dimen/dp_13"
+                        android:layout_marginRight="@dimen/dp_13"
+                        android:layout_marginTop="@dimen/dp_10">
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="@dimen/dp_165"
+                            android:layout_height="@dimen/dp_165"
+                            android:layout_gravity="center"
+                            android:onClick="@{()->data.allDoctors(context)}"
+                            app:srcCompat="@drawable/search_doctor" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/dp_16"
+                        android:text="找医生"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/font_17"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_85"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/white">
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/ripple_default"
+                        android:gravity="center"
+                        android:onClick="@{()->data.myOrder(context)}">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawablePadding="@dimen/dp_6"
+                            android:drawableTop="@drawable/ic_my_order"
+                            android:gravity="center"
+                            android:text="@string/title_my_order" />
+
+                        <TextView
+                            android:layout_width="@dimen/dp_22"
+                            android:layout_height="@dimen/dp_22"
+                            android:layout_gravity="top|end"
+                            android:layout_marginEnd="@dimen/dp_8"
+                            android:layout_marginRight="@dimen/dp_8"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:background="@drawable/shape_red_circle"
+                            android:gravity="center"
+                            android:text='@{"" + patient.myOrderNum}'
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_12"
+                            android:visibility="@{patient.myOrderNum > 0}"
+                            tools:text="11" />
+                    </FrameLayout>
+
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:background="@color/colorPrimaryDark" />
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/ripple_default"
+                        android:onClick="@{()->data.myDrug(context)}">
+
+                        <TextView
+                            android:layout_width="@dimen/dp_22"
+                            android:layout_height="@dimen/dp_22"
+                            android:layout_gravity="top|end"
+                            android:layout_marginEnd="@dimen/dp_8"
+                            android:layout_marginRight="@dimen/dp_8"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:background="@drawable/shape_red_circle"
+                            android:gravity="center"
+                            android:text='@{"" + patient.drugOrderNum}'
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_12"
+                            android:visibility="@{patient.drugOrderNum > 0}"
+                            tools:text="11" />
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawablePadding="@dimen/dp_6"
+                            android:drawableTop="@drawable/ic_drug_order"
+                            android:gravity="center"
+                            android:text="@string/drug_order" />
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:background="@color/colorPrimaryDark" />
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/ripple_default"
+                        android:onClick="@{()->data.askForService(context)}">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawablePadding="@dimen/dp_6"
+                            android:drawableTop="@drawable/ic_service"
+                            android:gravity="center"
+                            android:text="@string/contact_us" />
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:paddingEnd="@dimen/dp_12"
+                    android:paddingLeft="@dimen/dp_12"
+                    android:paddingRight="@dimen/dp_12"
+                    android:paddingStart="@dimen/dp_12"
+                    android:paddingTop="@dimen/dp_10">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="最新消息"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/font_15"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:onClick="@{()->data.allMyMessages(context)}"
+                        android:text="查看更多"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/font_12" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_color" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_20"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/colorPrimaryDark"
                     android:gravity="center"
-                    android:onClick="@{()->data.myOrder(context)}">
+                    android:text="推荐医生"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_12" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:drawablePadding="@dimen/dp_6"
-                        android:drawableTop="@drawable/ic_my_order"
-                        android:gravity="center"
-                        android:text="@string/title_my_order" />
-
-                    <TextView
-                        android:layout_width="@dimen/dp_22"
-                        android:layout_height="@dimen/dp_22"
-                        android:layout_gravity="top|end"
-                        android:layout_marginEnd="@dimen/dp_8"
-                        android:layout_marginRight="@dimen/dp_8"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:background="@drawable/shape_red_circle"
-                        android:gravity="center"
-                        android:text='@{"" + patient.myOrderNum}'
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/font_12"
-                        android:visibility="@{patient.myOrderNum > 0}"
-                        tools:text="11" />
-                </FrameLayout>
-
-
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:background="@color/colorPrimaryDark" />
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/ripple_default"
-                    android:onClick="@{()->data.myDrug(context)}">
-
-                    <TextView
-                        android:layout_width="@dimen/dp_22"
-                        android:layout_height="@dimen/dp_22"
-                        android:layout_gravity="top|end"
-                        android:layout_marginEnd="@dimen/dp_8"
-                        android:layout_marginRight="@dimen/dp_8"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:background="@drawable/shape_red_circle"
-                        android:gravity="center"
-                        android:text='@{"" + patient.drugOrderNum}'
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/font_12"
-                        android:visibility="@{patient.drugOrderNum > 0}"
-                        tools:text="11" />
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:drawablePadding="@dimen/dp_6"
-                        android:drawableTop="@drawable/ic_drug_order"
-                        android:gravity="center"
-                        android:text="@string/drug_order" />
-                </FrameLayout>
-
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:background="@color/colorPrimaryDark" />
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/ripple_default"
-                    android:onClick="@{()->data.askForService(context)}">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:drawablePadding="@dimen/dp_6"
-                        android:drawableTop="@drawable/ic_service"
-                        android:gravity="center"
-                        android:text="@string/contact_us" />
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_10"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:paddingBottom="@dimen/dp_10"
-                android:paddingEnd="@dimen/dp_12"
-                android:paddingLeft="@dimen/dp_12"
-                android:paddingRight="@dimen/dp_12"
-                android:paddingStart="@dimen/dp_12"
-                android:paddingTop="@dimen/dp_10">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_recommend_doctor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:background="@color/white" />
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="最新消息"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/font_15"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:onClick="@{()->data.allMyMessages(context)}"
-                    android:text="查看更多"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_6"
+                    android:paddingBottom="@dimen/dp_6"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:onClick="@{()->data.allDoctors(context)}"
+                    android:text="查看所有医生"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/font_12" />
             </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/divider_color" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_message"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
-                android:background="@color/white" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_20"
-                android:layout_marginEnd="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_10"
-                android:background="@color/colorPrimaryDark"
-                android:gravity="center"
-                android:text="推荐医生"
-                android:textColor="@color/white"
-                android:textSize="@dimen/font_12" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_recommend_doctor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
-                android:background="@color/white" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_10"
-                android:paddingTop="@dimen/dp_6"
-                android:paddingBottom="@dimen/dp_6"
-                android:background="@color/white"
-                android:gravity="center"
-                android:onClick="@{()->data.allDoctors(context)}"
-                android:text="查看所有医生"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/font_12" />
+            <include
+                android:id="@+id/include_footer"
+                layout="@layout/include_footer"
+                tools:footer="@{footer}" />
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
 
+        <!--<include-->
+            <!--android:id="@+id/include_footer"-->
+            <!--layout="@layout/include_footer"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--tools:footer="@[footer}" />-->
+    </LinearLayout>
 </layout>
