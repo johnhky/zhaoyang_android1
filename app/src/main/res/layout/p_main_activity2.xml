@@ -51,7 +51,7 @@
                         android:layout_width="@dimen/dp_165"
                         android:layout_height="@dimen/dp_165"
                         android:layout_gravity="center"
-                        android:onClick="@{()->data.lookForDoctor(context)}"
+                        android:onClick="@{()->data.allDoctors(context)}"
                         app:srcCompat="@drawable/search_doctor" />
                 </FrameLayout>
 
@@ -84,8 +84,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:drawableTop="@drawable/ic_my_order"
                         android:drawablePadding="@dimen/dp_6"
+                        android:drawableTop="@drawable/ic_my_order"
                         android:gravity="center"
                         android:text="@string/title_my_order" />
 
@@ -136,14 +136,14 @@
                         tools:text="11" />
 
                     <TextView
+                        android:id="@+id/textView3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:drawableTop="@drawable/ic_drug_order"
                         android:drawablePadding="@dimen/dp_6"
+                        android:drawableTop="@drawable/ic_drug_order"
                         android:gravity="center"
-                        android:text="@string/drug_order"
-                        android:id="@+id/textView3" />
+                        android:text="@string/drug_order" />
                 </FrameLayout>
 
                 <View
@@ -164,8 +164,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:drawableTop="@drawable/ic_service"
                         android:drawablePadding="@dimen/dp_6"
+                        android:drawableTop="@drawable/ic_service"
                         android:gravity="center"
                         android:text="@string/contact_us" />
                 </FrameLayout>
@@ -246,6 +246,22 @@
                 android:layout_marginRight="@dimen/dp_10"
                 android:layout_marginStart="@dimen/dp_10"
                 android:background="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_6"
+                android:paddingBottom="@dimen/dp_6"
+                android:background="@color/white"
+                android:gravity="center"
+                android:onClick="@{()->data.allDoctors(context)}"
+                android:text="查看所有医生"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/font_12" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

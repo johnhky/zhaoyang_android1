@@ -3,6 +3,7 @@ package com.doctor.sun.ui.activity.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMedicineHelperBinding;
@@ -24,6 +26,7 @@ import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.event.CallServiceEvent;
 import com.doctor.sun.event.CloseDrawerEvent;
 import com.doctor.sun.event.HideInputEvent;
 import com.doctor.sun.http.Api;
@@ -34,12 +37,15 @@ import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.immutables.PrescriptionOrder;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.ui.activity.SystemMsgListActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.widget.ExtendedEditText;
 import com.doctor.sun.ui.widget.PickImageDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.FileChooser;
+import com.doctor.sun.util.PermissionsUtil;
 import com.doctor.sun.vm.BaseItem;
 import com.doctor.sun.vm.CustomActionViewModel;
 import com.doctor.sun.vm.InputLayoutViewModel;
@@ -87,6 +93,9 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     private PageCallback<PrescriptionOrder> prescriptionOrderPageCallback;
     private LinearLayoutManager layout;
 
+    public static final int PHONE_CALL_REQUEST = 1;
+    private PermissionsUtil permissionsUtil;
+
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, MedicineStoreActivity.class);
         return i;
@@ -115,7 +124,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         getAccountInitChat();
         screenWidth = Systems.getScreenWidth(this);
         initAppointment();
-
+        permissionsUtil = new PermissionsUtil(this);
     }
 
     private void initView() {
@@ -589,5 +598,42 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 
         String indicatorText = currentPosition + " / " + lastPosition;
         binding.tvIndicator.setText(indicatorText);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PHONE_CALL_REQUEST) {
+            if (grantResults.length > 0 &&
+                    grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                onCallServiceEvent(new CallServiceEvent());
+            }
+        }
+    }
+
+    @Subscribe
+    public void onCallServiceEvent(CallServiceEvent event) {
+        TwoChoiceDialog.show(this, "020-4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
+            @Override
+            public void onApplyClick(MaterialDialog dialog) {
+                if (permissionsUtil.lacksPermissions(PermissionsUtil.PERMISSION_CALL)) {
+                    permissionsUtil.requestPermissions(MedicineStoreActivity.this, PHONE_CALL_REQUEST, PermissionsUtil.PERMISSION_CALL);
+                    return;
+                }
+                try {
+                    Uri uri = Uri.parse("tel:4008352600");
+                    Intent intent = new Intent(Intent.ACTION_CALL, uri);
+                    startActivity(intent);
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onCancelClick(MaterialDialog dialog) {
+                dialog.dismiss();
+            }
+        });
     }
 }

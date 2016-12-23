@@ -25,21 +25,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/dp_6"
-            android:layout_marginRight="@dimen/dp_6"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
             android:orientation="vertical"
             android:visibility="@{data.hasImage}">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_gravity="center"
                 android:src="@{data.image}"
                 tools:src="@drawable/ic_launcher" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_5"
                 android:text="@{data.imageText}"
                 android:textSize="@dimen/font_12"
                 android:visibility="@{data.hasImageText}"
@@ -67,8 +69,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{data.mainContent}"
                 android:enabled="@{data.isEnabled()}"
+                android:text="@{data.mainContent}"
                 tools:text="欢迎使用昭阳医生，我们能够随时随地为您提供最舒适便捷的咨询服务。" />
 
             <TextView

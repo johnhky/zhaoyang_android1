@@ -9,6 +9,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,10 +20,12 @@ import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.entity.constans.StringBoolean;
+import com.doctor.sun.event.CallServiceEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.module.AppointmentModule;
+import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
 import com.doctor.sun.util.FileChooser;
@@ -32,6 +35,7 @@ import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import java.io.File;
 
 import io.ganguo.library.Config;
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 13/4/2016.
@@ -206,7 +210,11 @@ public class CustomActionViewModel {
                 }
             });
         } else {
-            askConfirmation(view.getContext(), "该功能仅限于专属实时咨询的就诊时间内使用");
+            if (mActivity instanceof MedicineStoreActivity) {
+                EventHub.post(new CallServiceEvent());
+            } else {
+                askConfirmation(view.getContext(), "该功能仅限于专属实时咨询的就诊时间内使用");
+            }
         }
     }
 

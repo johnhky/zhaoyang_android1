@@ -76,9 +76,21 @@ public class DoctorDetailModel {
         if (commentList.size() > 0) {
             for (int i = 0; i < commentList.size(); i++) {
                 Comment e = commentList.get(i);
-                e.setPosition(result.size());
-                result.add(e);
+                ItemDescription comment = new ItemDescription();
+                comment.setImage(e.getAvatar());
+                comment.setImageText(e.getPatientName());
+                comment.setMainContent(e.getComment());
+                comment.setSubContent(e.getCommentTime());
+                comment.setPosition(result.size());
+                result.add(comment);
             }
+        } else {
+            ItemDescription noComment = new ItemDescription();
+            noComment.setEnabled(false);
+            noComment.setMainContent("暂时未有该医生的相关评论");
+            noComment.setItemId("noComment");
+            noComment.setPosition(result.size());
+            result.add(noComment);
         }
 
         ModelUtils.insertSpace(result, R.layout.space_8dp);

@@ -11,7 +11,7 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.module.AppointmentModule;
+import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.PushModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.SystemMsgListActivity;
@@ -24,6 +24,7 @@ import com.doctor.sun.ui.fragment.DrugListFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import io.ganguo.library.Config;
 
@@ -35,7 +36,7 @@ public class PMainHandler {
     public static final String LAST_VISIT_TIME = "LAST_VISIT_TIME";
     private String visitTimeKey = LAST_VISIT_TIME + Config.getString(Constants.VOIP_ACCOUNT);
 
-    public void lookForDoctor(Context context) {
+    public void allDoctors(Context context) {
         Intent intent = SearchDoctorActivity.makeIntent(context);
         context.startActivity(intent);
     }
@@ -80,13 +81,12 @@ public class PMainHandler {
     }
 
     public SimpleAdapter getDoctorAdapter() {
-        AppointmentModule doctorApi = Api.of(AppointmentModule.class);
+        ProfileModule doctorApi = Api.of(ProfileModule.class);
         final SimpleAdapter adapter = new SimpleAdapter();
-        doctorApi.allDoctors("1", getQueryParams(), getTitleParams()).enqueue(new SimpleCallback<PageDTO<Doctor>>() {
+        doctorApi.recommendDoctors().enqueue(new SimpleCallback<List<Doctor>>() {
             @Override
-            protected void handleResponse(PageDTO<Doctor> response) {
-                adapter.insert(response.getData().get(0));
-                adapter.insert(response.getData().get(1));
+            protected void handleResponse(List<Doctor> response) {
+                adapter.insertAll(response);
                 adapter.notifyDataSetChanged();
             }
         });
