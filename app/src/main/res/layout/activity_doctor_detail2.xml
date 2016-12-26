@@ -75,6 +75,7 @@
             android:layout_height="@dimen/dp_49"
             android:layout_gravity="bottom"
             android:baselineAligned="false"
+            android:background="@color/white"
             android:visibility="gone">
 
             <LinearLayout

@@ -34,6 +34,7 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.handler.MedicalRecordEventHandler;
+import com.doctor.sun.vm.BaseItem;
 import com.doctor.sun.vm.ItemPickAppointmentDuration;
 import com.doctor.sun.vm.ItemPremiumAppointment;
 import com.doctor.sun.vm.ItemSpace;
@@ -241,8 +242,16 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
             }
         });
         adapter.insert(item);
+        insertTail();
         binding.flSelectDuration.setVisibility(View.GONE);
         binding.llSelectRecord.setVisibility(View.VISIBLE);
+    }
+
+    public void insertTail() {
+        BaseItem tail = new BaseItem(R.layout.space_370dp_gray);
+        tail.setItemId("space_"+adapter.size());
+        tail.setPosition(adapter.size());
+        adapter.insert(tail);
     }
 
     @Override
