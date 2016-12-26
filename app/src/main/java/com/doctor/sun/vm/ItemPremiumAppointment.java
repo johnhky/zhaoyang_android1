@@ -43,4 +43,12 @@ public class ItemPremiumAppointment extends BaseItem {
     public double getPrice() {
         return price;
     }
+
+    public int getAppointmentBackground() {
+        return R.drawable.ic_premium_appointment;
+    }
+
+    public int getDoneIcon() {
+        return R.drawable.ic_done;
+    }
 }

@@ -62,7 +62,8 @@
                             android:layout_height="@dimen/dp_165"
                             android:layout_gravity="center"
                             android:onClick="@{()->data.allDoctors(context)}"
-                            app:srcCompat="@drawable/search_doctor" />
+                            app:backgroundCompat="@{data.searchDoctorBackground}"
+                            tools:src="@drawable/search_doctor" />
                     </FrameLayout>
 
                     <TextView
@@ -90,14 +91,26 @@
                         android:gravity="center"
                         android:onClick="@{()->data.myOrder(context)}">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:drawablePadding="@dimen/dp_6"
-                            android:drawableTop="@drawable/ic_my_order"
-                            android:gravity="center"
-                            android:text="@string/title_my_order" />
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:backgroundCompat="@{data.myOrderBackground}"
+                                tools:src="@drawable/ic_my_order"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:paddingTop="@dimen/dp_6"
+                                android:gravity="center"
+                                android:text="@string/title_my_order" />
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="@dimen/dp_22"
@@ -130,6 +143,29 @@
                         android:background="@drawable/ripple_default"
                         android:onClick="@{()->data.myDrug(context)}">
 
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:backgroundCompat="@{data.drugOrderBackground}"
+                                tools:src="@drawable/ic_drug_order"/>
+
+                            <TextView
+                                android:id="@+id/textView3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:paddingTop="@dimen/dp_6"
+                                android:gravity="center"
+                                android:text="@string/drug_order" />
+                        </LinearLayout>
+
                         <TextView
                             android:layout_width="@dimen/dp_22"
                             android:layout_height="@dimen/dp_22"
@@ -144,16 +180,6 @@
                             android:textSize="@dimen/font_12"
                             android:visibility="@{patient.drugOrderNum > 0}"
                             tools:text="11" />
-
-                        <TextView
-                            android:id="@+id/textView3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:drawablePadding="@dimen/dp_6"
-                            android:drawableTop="@drawable/ic_drug_order"
-                            android:gravity="center"
-                            android:text="@string/drug_order" />
                     </FrameLayout>
 
                     <View
@@ -170,14 +196,27 @@
                         android:background="@drawable/ripple_default"
                         android:onClick="@{()->data.askForService(context)}">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:drawablePadding="@dimen/dp_6"
-                            android:drawableTop="@drawable/ic_service"
-                            android:gravity="center"
-                            android:text="@string/contact_us" />
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:backgroundCompat="@{data.serviceBackground}"
+                                tools:src="@drawable/ic_service"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:paddingTop="@dimen/dp_6"
+                                android:gravity="center"
+                                android:text="@string/contact_us" />
+                        </LinearLayout>
+
                     </FrameLayout>
 
                 </LinearLayout>

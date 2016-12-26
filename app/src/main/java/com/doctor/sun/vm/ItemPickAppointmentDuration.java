@@ -41,4 +41,8 @@ public class ItemPickAppointmentDuration extends BaseItem {
     public String getPrice() {
             return price + "元/15分钟";
     }
+
+    public int getAppointmentIcon() {
+        return R.drawable.ic_premium_appointment;
+    }
 }

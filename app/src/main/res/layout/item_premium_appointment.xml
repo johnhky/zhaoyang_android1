@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -29,7 +30,8 @@
             android:layout_marginRight="@dimen/dp_18"
             android:layout_marginStart="@dimen/dp_40"
             android:layout_marginTop="@dimen/dp_16"
-            app:srcCompat="@drawable/ic_premium_appointment" />
+            app:backgroundCompat="@{data.appointmentBackground}"
+            tools:src="@drawable/ic_premium_appointment"/>
 
         <TextView
             android:id="@+id/tv_title"
@@ -137,7 +139,8 @@
                 android:layout_marginEnd="@dimen/dp_2"
                 android:layout_marginRight="@dimen/dp_2"
                 android:layout_marginTop="@dimen/dp_2"
-                app:srcCompat="@drawable/ic_done" />
+                app:backgroundCompat="@{data.doneIcon}"
+                tools:src="@drawable/ic_done" />
         </FrameLayout>
     </RelativeLayout>
 </layout>

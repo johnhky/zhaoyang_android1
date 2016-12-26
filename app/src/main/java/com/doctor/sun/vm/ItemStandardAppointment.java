@@ -43,4 +43,12 @@ public class ItemStandardAppointment extends BaseItem {
     public double getPrice() {
         return price;
     }
+
+    public int getAppointmentBackground() {
+        return R.drawable.ic_standard_appointment;
+    }
+
+    public int getDoneIcon() {
+        return R.drawable.ic_done;
+    }
 }

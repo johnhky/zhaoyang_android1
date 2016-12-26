@@ -62,6 +62,22 @@ public class PMainHandler {
         context.startActivity(intent);
     }
 
+    public int getSearchDoctorBackground() {
+        return R.drawable.search_doctor;
+    }
+
+    public int getMyOrderBackground() {
+        return R.drawable.ic_my_order;
+    }
+
+    public int getDrugOrderBackground() {
+        return R.drawable.ic_drug_order;
+    }
+
+    public int getServiceBackground() {
+        return R.drawable.ic_service;
+    }
+
     public SimpleAdapter getMessageAdapter() {
         PushModule messageApi = Api.of(PushModule.class);
         final SimpleAdapter adapter = new SimpleAdapter();
