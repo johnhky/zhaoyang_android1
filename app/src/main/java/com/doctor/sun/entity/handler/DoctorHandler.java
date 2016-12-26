@@ -24,7 +24,6 @@ import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.DoctorDetailActivity2;
 import com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity;
-import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
 import com.doctor.sun.ui.activity.patient.HospitalDetailActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -59,7 +58,7 @@ public class DoctorHandler {
     }
 
     public void detail(View view) {
-        Intent intent = DoctorDetailActivity.makeIntent(view.getContext(), data, AppointmentType.PREMIUM);
+        Intent intent = DoctorDetailActivity2.makeIntent(view.getContext(), data);
         view.getContext().startActivity(intent);
     }
 
@@ -134,7 +133,7 @@ public class DoctorHandler {
 
     public void viewDetailIfIsPatient(Context context) {
         if (!Settings.isDoctor()) {
-            Intent intent = DoctorDetailActivity.makeIntent(context, data, AppointmentType.PREMIUM);
+            Intent intent = DoctorDetailActivity2.makeIntent(context, data);
             context.startActivity(intent);
         }
     }
