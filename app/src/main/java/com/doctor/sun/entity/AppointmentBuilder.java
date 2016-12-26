@@ -21,6 +21,7 @@ import com.doctor.sun.entity.constans.CouponType;
 import com.doctor.sun.entity.constans.PayMethod;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.event.SelectMedicalRecordEvent;
+import com.doctor.sun.event.ShowDialogEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -45,6 +46,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 6/7/2016.
@@ -556,5 +559,9 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         result.add(confirmButton);
 
         return result;
+    }
+
+    public void showSelectAppointmentTypeDialog() {
+        EventHub.post(new ShowDialogEvent());
     }
 }

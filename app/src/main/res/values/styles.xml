@@ -46,7 +46,7 @@
     </style>
 
     <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
-        <item name="homeAsUpIndicator">@drawable/ic_back</item>
+        <item name="homeAsUpIndicator">@drawable/ic_back_white</item>
     </style>
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">

@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.GravityEnum;
@@ -22,10 +24,12 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Article;
 import com.doctor.sun.entity.Comment;
+import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.event.AdapterItemsEvent;
 import com.doctor.sun.event.SelectAppointmentTypeEvent;
+import com.doctor.sun.event.ShowDialogEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.DoctorDetailModel;
@@ -35,6 +39,7 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.handler.MedicalRecordEventHandler;
 import com.doctor.sun.vm.BaseItem;
+import com.doctor.sun.vm.ItemCouponMessage;
 import com.doctor.sun.vm.ItemPickAppointmentDuration;
 import com.doctor.sun.vm.ItemPremiumAppointment;
 import com.doctor.sun.vm.ItemSpace;
@@ -66,6 +71,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
     private AppointmentBuilder builder = new AppointmentBuilder();
     private MedicalRecordEventHandler medicalRecordHandler;
 
+    private boolean isToolbarCollapsed = false;
 
     public static Intent makeIntent(Context context, Doctor data) {
         Intent i = new Intent(context, DoctorDetailActivity2.class);
@@ -124,10 +130,13 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    binding.toolbar.setNavigationIcon(R.drawable.ic_back);
+                    isToolbarCollapsed = true;
+                    binding.toolbar.setNavigationIcon(R.drawable.ic_back_white);
                 } else {
+                    isToolbarCollapsed = false;
                     binding.toolbar.setNavigationIcon(R.drawable.ic_back_blue);
                 }
+                invalidateOptionsMenu();
             }
         });
         binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -199,7 +208,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         binding.llSelectRecord.setVisibility(View.GONE);
     }
 
-    public void appointment(View view) {
+    public void showDialog() {
         SimpleAdapter adapter = new SimpleAdapter();
         adapter.onFinishLoadMore(true);
         MaterialDialog.Builder builder = new MaterialDialog.Builder(this);
@@ -213,7 +222,14 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
     }
 
     @Subscribe
+    public void onShowDialogEvent(ShowDialogEvent event) {
+        showDialog();
+    }
+
+    @Subscribe
     public void onSelectAppointmentTypeEvent(SelectAppointmentTypeEvent event) {
+
+        ProfileModule api = Api.of(ProfileModule.class);
 
         builder.setType(event.getType());
         dialog.dismiss();
@@ -241,17 +257,57 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
                 }
             }
         });
-        adapter.insert(item);
-        insertTail();
+        api.coupons("").enqueue(new SimpleCallback<List<Coupon>>() {
+            @Override
+            protected void handleResponse(List<Coupon> response) {
+                if (response.size() > 0) {
+                    String couponMessage = "您的账户有一张" + response.get(0).couponMoney + "元优惠券" +
+                            "，满" + response.get(0).threshold + "元可以使用哦";
+                    ItemCouponMessage itemCouponMessage = new ItemCouponMessage(couponMessage);
+                    itemCouponMessage.setItemId("itemCouponMessage");
+                    itemCouponMessage.setPosition(adapter.size());
+                    adapter.insert(itemCouponMessage);
+                }
+                item.setPosition(adapter.size());
+                adapter.insert(item);
+                insertTail();
+
+            }
+        });
         binding.flSelectDuration.setVisibility(View.GONE);
         binding.llSelectRecord.setVisibility(View.VISIBLE);
     }
 
     public void insertTail() {
         BaseItem tail = new BaseItem(R.layout.space_370dp_gray);
-        tail.setItemId("space_"+adapter.size());
+        tail.setItemId("space_" + adapter.size());
         tail.setPosition(adapter.size());
         adapter.insert(tail);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (isToolbarCollapsed) {
+            menu.getItem(0).setIcon(R.drawable.ic_star_white);
+        } else {
+            menu.getItem(0).setIcon(R.drawable.ic_star_blue);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_fav_doctor, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_fav:
+                getData().getHandler().toggleFav(this, getData());
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

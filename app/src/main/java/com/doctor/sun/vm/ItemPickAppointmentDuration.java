@@ -4,7 +4,9 @@ import android.databinding.Bindable;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
-import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.event.ShowDialogEvent;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by kb on 16/12/2016.
@@ -44,5 +46,9 @@ public class ItemPickAppointmentDuration extends BaseItem {
 
     public int getAppointmentIcon() {
         return R.drawable.ic_premium_appointment;
+    }
+
+    public void selectAppointmentType() {
+        EventHub.post(new ShowDialogEvent());
     }
 }

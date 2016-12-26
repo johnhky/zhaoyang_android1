@@ -10,7 +10,6 @@
 
     </data>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,66 +18,21 @@
         android:paddingLeft="@dimen/dp_13"
         android:paddingRight="@dimen/dp_13"
         android:paddingStart="@dimen/dp_13"
-        android:paddingTop="@dimen/dp_6">
+        android:paddingTop="@dimen/dp_6"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/dp_20"
-            android:layout_marginRight="@dimen/dp_20"
-            android:orientation="vertical"
-            android:visibility="@{data.hasImage}">
+            android:enabled="@{data.isEnabled()}"
+            android:text="@{data.mainContent}"
+            tools:text="欢迎使用昭阳医生，我们能够随时随地为您提供最舒适便捷的咨询服务。" />
 
-            <ImageView
-                android:layout_width="@dimen/dp_40"
-                android:layout_height="@dimen/dp_40"
-                android:layout_gravity="center"
-                android:src="@{data.image}"
-                tools:src="@drawable/ic_launcher" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dp_5"
-                android:text="@{data.imageText}"
-                android:textSize="@dimen/font_12"
-                android:visibility="@{data.hasImageText}"
-                tools:text="昭阳医生" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <RatingBar
-                style="@style/SmallRatingBar"
-                android:layout_marginBottom="@dimen/dp_6"
-                android:layout_marginLeft="@dimen/dp_0"
-                android:layout_marginStart="@dimen/dp_0"
-                android:layout_marginTop="@dimen/dp_6"
-                android:isIndicator="true"
-                android:rating="@{data.ratingPoint}"
-                android:visibility="@{data.hasRating}" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="@{data.isEnabled()}"
-                android:text="@{data.mainContent}"
-                tools:text="欢迎使用昭阳医生，我们能够随时随地为您提供最舒适便捷的咨询服务。" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{data.subContent}"
-                android:visibility="@{data.hasSubContent}"
-                tools:text="2016-12-12 00:00:00" />
-        </LinearLayout>
+            android:text="@{data.subContent}"
+            android:visibility="@{data.hasSubContent}"
+            tools:text="2016-12-12 00:00:00" />
     </LinearLayout>
 </layout>

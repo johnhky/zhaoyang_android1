@@ -56,7 +56,7 @@
             android:layout_height="@dimen/dp_49"
             android:layout_gravity="bottom"
             android:background="@color/colorPrimaryDark"
-            android:onClick="appointment">
+            android:onClick="@{()->data.showSelectAppointmentTypeDialog()}">
 
             <TextView
                 android:id="@+id/tv_new"
@@ -74,8 +74,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_49"
             android:layout_gravity="bottom"
-            android:baselineAligned="false"
             android:background="@color/white"
+            android:baselineAligned="false"
             android:visibility="gone">
 
             <LinearLayout

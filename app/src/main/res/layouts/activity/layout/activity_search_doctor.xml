@@ -21,8 +21,8 @@
             android:layout_height="wrap_content"
             android:background="#339de1"
             android:gravity="center"
-            app:collapseIcon="@drawable/ic_back"
-            app:navigationIcon="@drawable/ic_back"
+            app:collapseIcon="@drawable/ic_back_white"
+            app:navigationIcon="@drawable/ic_back_white"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ToolbarTheme">
 

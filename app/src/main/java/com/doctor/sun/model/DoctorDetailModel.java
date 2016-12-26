@@ -21,7 +21,7 @@ public class DoctorDetailModel {
 
         List<SortedItem> result = new ArrayList<>();
 
-        ModelUtils.insertSpace(result, R.layout.divider_13dp);
+        ModelUtils.insertSpace(result, R.layout.divider_8dp_gray);
 
         ItemTitle introductionTitle = new ItemTitle(R.layout.item_title, "简介");
         introductionTitle.setItemId("introductionTitle");
@@ -74,15 +74,10 @@ public class DoctorDetailModel {
         result.add(commentTitle);
 
         if (commentList.size() > 0) {
-            for (int i = 0; i < commentList.size(); i++) {
+            for (int i = 0; i < commentList.size() && i < 3; i++) {
                 Comment e = commentList.get(i);
-                ItemDescription comment = new ItemDescription();
-                comment.setImage(e.getAvatar());
-                comment.setImageText(e.getPatientName());
-                comment.setMainContent(e.getComment());
-                comment.setSubContent(e.getCommentTime());
-                comment.setPosition(result.size());
-                result.add(comment);
+                e.setPosition(result.size());
+                result.add(e);
             }
         } else {
             ItemDescription noComment = new ItemDescription();
