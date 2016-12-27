@@ -1,10 +1,16 @@
 package com.doctor.sun.model;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Article;
 import com.doctor.sun.entity.Comment;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.fragment.DoctorArticleFragment;
 import com.doctor.sun.vm.ItemDescription;
 import com.doctor.sun.vm.ItemTitle;
 
@@ -17,7 +23,7 @@ import java.util.List;
 
 public class DoctorDetailModel {
 
-    public List<SortedItem> parseData(Doctor data, List<Article> articleList, List<Comment> commentList) {
+    public List<SortedItem> parseData(final Doctor data, List<Article> articleList, List<Comment> commentList) {
 
         List<SortedItem> result = new ArrayList<>();
 
@@ -45,6 +51,14 @@ public class DoctorDetailModel {
 
         ItemTitle articleTitle = new ItemTitle(R.layout.item_title, "文章");
         articleTitle.setSubtitle("more");
+        articleTitle.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = DoctorArticleFragment.getArgs(data.getId());
+                Intent intent = SingleFragmentActivity.intentFor(v.getContext(), "文章", bundle);
+                v.getContext().startActivity(intent);
+            }
+        });
         articleTitle.setItemId("articleTitle");
         articleTitle.setPosition(result.size());
         result.add(articleTitle);
