@@ -33,8 +33,6 @@ public class PMainActivity2 extends AppCompatActivity {
 
     private PMainHandler handler;
 
-    private FooterViewModel footer;
-
     public static Intent makeIntent(Context context) {
         Intent intent = new Intent(context, PMainActivity2.class);
         return intent;
@@ -48,7 +46,7 @@ public class PMainActivity2 extends AppCompatActivity {
         handler = new PMainHandler();
         binding.setData(handler);
 
-        footer = getFooter();
+        FooterViewModel footer = getFooter();
         binding.setFooter(footer);
 
         setPatientProfile();

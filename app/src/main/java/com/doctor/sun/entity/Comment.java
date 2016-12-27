@@ -23,6 +23,8 @@ public class Comment extends BaseItem {
     private String avatar;
     @JsonProperty("comment_time")
     private String commentTime;
+    @JsonProperty("doctor_point")
+    private String doctorPoint;
 
     public String getComment() {
         return comment;
@@ -54,6 +56,14 @@ public class Comment extends BaseItem {
 
     public void setCommentTime(String commentTime) {
         this.commentTime = commentTime;
+    }
+
+    public float getDoctorPoint() {
+        return Float.parseFloat(doctorPoint);
+    }
+
+    public void setDoctorPoint(String doctorPoint) {
+        this.doctorPoint = doctorPoint;
     }
 
     @Override

@@ -28,7 +28,6 @@ import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.activity.patient.MyOrderActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
-import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.activity.patient.handler.SystemMsgHandler;
@@ -216,7 +215,7 @@ public class SystemMsg extends BaseItem {
                     if (extras != null) {
                         String appointmentId = extras.appointmentId;
                         Bundle args = ReadDiagnosisFragment.getArgs(appointmentId);
-                        i = SingleFragmentActivity.intentFor(context, "", args);
+                        i = SingleFragmentActivity.intentFor(context, "医生建议", args);
                     }
                 }
                 break;
