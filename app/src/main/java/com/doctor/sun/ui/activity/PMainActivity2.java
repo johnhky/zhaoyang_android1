@@ -8,14 +8,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.PMainActivity2Binding;
 import com.doctor.sun.dto.PatientDTO;
+import com.doctor.sun.entity.CallConfig;
 import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.UpdateEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.activity.patient.PMeActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -52,6 +56,19 @@ public class PMainActivity2 extends AppCompatActivity {
         setPatientProfile();
         initRvMessage();
         initDoctorView();
+        showBanner();
+    }
+
+    private void showBanner() {
+        ToolModule api = Api.of(ToolModule.class);
+        api.getCallConfig().enqueue(new SimpleCallback<CallConfig>() {
+            @Override
+            protected void handleResponse(CallConfig response) {
+                Glide.with(PMainActivity2.this)
+                        .load(response.getBannerIcon())
+                        .into(binding.ivBanner);
+            }
+        });
     }
 
     private void initRvMessage() {

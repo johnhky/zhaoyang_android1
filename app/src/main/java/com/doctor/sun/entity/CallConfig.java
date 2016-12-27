@@ -13,6 +13,8 @@ public class CallConfig extends BaseItem {
     private boolean phoneCallEnable;
     @JsonProperty("phone_call_text")
     private String phoneCallText;
+    @JsonProperty("banner_icon")
+    private String bannerIcon;
 
     public boolean isPhoneCallEnable() {
         return phoneCallEnable;
@@ -28,5 +30,13 @@ public class CallConfig extends BaseItem {
 
     public void setPhoneCallText(String phoneCallText) {
         this.phoneCallText = phoneCallText;
+    }
+
+    public String getBannerIcon() {
+        return bannerIcon;
+    }
+
+    public void setBannerIcon(String bannerIcon) {
+        this.bannerIcon = bannerIcon;
     }
 }
