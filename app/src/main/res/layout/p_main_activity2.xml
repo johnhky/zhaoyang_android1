@@ -59,6 +59,7 @@
                             android:layout_height="@dimen/dp_165"
                             android:layout_gravity="center"
                             android:onClick="@{()->data.allDoctors(context)}"
+                            app:srcCompat="@drawable/search_doctor"
                             app:backgroundCompat="@{data.searchDoctorBackground}"
                             tools:src="@drawable/search_doctor" />
                     </FrameLayout>
