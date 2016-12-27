@@ -3,16 +3,20 @@ package com.doctor.sun.ui.handler.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PageDTO;
+import com.doctor.sun.entity.Banner;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.PushModule;
+import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.SystemMsgListActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
@@ -21,12 +25,14 @@ import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.fragment.DrugListFragment;
+import com.doctor.sun.ui.pager.BindingPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import io.ganguo.library.Config;
+import io.ganguo.library.ui.widget.AutoScrollViewPager;
 
 /**
  * Created by kb on 21/12/2016.
@@ -123,5 +129,25 @@ public class PMainHandler {
 
 
         return result;
+    }
+
+    public void showDialog(Context context) {
+        ToolModule api = Api.of(ToolModule.class);
+        final MaterialDialog dialog = new MaterialDialog.Builder(context)
+                .customView(R.layout.dialog_view_pager, false)
+                .build();
+
+        final AutoScrollViewPager viewPager = (AutoScrollViewPager) dialog.getCustomView().findViewById(R.id.vp_banner);
+        final BindingPagerAdapter adapter = new BindingPagerAdapter();
+        api.patientBanner().enqueue(new SimpleCallback<List<Banner>>() {
+            @Override
+            protected void handleResponse(List<Banner> response) {
+                adapter.setItems(response);
+                adapter.notifyDataSetChanged();
+
+                viewPager.setAdapter(adapter);
+                dialog.show();
+            }
+        });
     }
 }
