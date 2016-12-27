@@ -84,9 +84,9 @@ public class PMainActivity2 extends AppCompatActivity {
         api.systemMsg("").enqueue(new SimpleCallback<PageDTO<SystemMsg>>() {
             @Override
             protected void handleResponse(PageDTO<SystemMsg> response) {
-                String unreadMessageCount = response.getUnreadNum();
-                if (Integer.parseInt(unreadMessageCount) > 0) {
-                    binding.tvUnreadMessageCount.setText(unreadMessageCount);
+                int unreadMessageCount = response.getUnreadNum();
+                if (unreadMessageCount > 0) {
+                    binding.tvUnreadMessageCount.setText(String.valueOf(unreadMessageCount));
                     binding.tvUnreadMessageCount.setVisibility(View.VISIBLE);
                 } else {
                     binding.tvUnreadMessageCount.setVisibility(View.GONE);
