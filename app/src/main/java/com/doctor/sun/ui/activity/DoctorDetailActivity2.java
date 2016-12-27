@@ -34,6 +34,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.DoctorDetailModel;
 import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -73,6 +74,8 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
 
     private boolean isToolbarCollapsed = false;
 
+    private Doctor doctor;
+
     public static Intent makeIntent(Context context, Doctor data) {
         Intent i = new Intent(context, DoctorDetailActivity2.class);
         i.putExtra(Constants.DATA, data);
@@ -88,10 +91,22 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         adapter = new SortedListAdapter();
         model = new DoctorDetailModel();
 
-        builder.setDoctor(getData());
-        binding.setData(builder);
-        initToolbar();
-        initView();
+        showDoctorInfo();
+    }
+
+    private void showDoctorInfo() {
+        ToolModule api = Api.of(ToolModule.class);
+        api.doctorInfo(getData().getId()).enqueue(new SimpleCallback<Doctor>() {
+            @Override
+            protected void handleResponse(Doctor response) {
+                builder.setDoctor(getData());
+                binding.setData(builder);
+                initToolbar();
+                initView();
+
+                doctor = response;
+            }
+        });
     }
 
     @Override
@@ -292,9 +307,17 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (isToolbarCollapsed) {
-            menu.getItem(0).setIcon(R.drawable.ic_star_white);
+            if (doctor.getIsFav().equals("1")) {
+                menu.getItem(0).setIcon(R.drawable.ic_favorite_white_fill);
+            } else {
+                menu.getItem(0).setIcon(R.drawable.ic_favorite_white_border);
+            }
         } else {
-            menu.getItem(0).setIcon(R.drawable.ic_star_blue);
+            if (doctor.getIsFav().equals("1")) {
+                menu.getItem(0).setIcon(R.drawable.ic_favorite_blue_fill);
+            } else {
+                menu.getItem(0).setIcon(R.drawable.ic_favorite_blue_border);
+            }
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -309,7 +332,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_fav:
-                getData().getHandler().toggleFav(this, getData());
+                doctor.getHandler().toggleFav(this, doctor);
         }
         return super.onOptionsItemSelected(item);
     }

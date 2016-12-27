@@ -53,8 +53,6 @@ public class DoctorHandler {
     public boolean isSelected(SimpleAdapter adapter, BaseViewHolder vh) {
         Doctor doctor = (Doctor) adapter.get(vh.getAdapterPosition());
         return doctor.isUserSelected();
-
-//        return isSelected;
     }
 
     public void detail(View view) {
@@ -180,18 +178,6 @@ public class DoctorHandler {
         return result;
     }
 
-//    public int money() {
-//        switch (data.getType()) {
-//            case AppointmentType.STANDARD:
-//                return data.getSecondMoney();
-//            case AppointmentType.PREMIUM:
-//                int scalar = Integer.parseInt(data.getDuration()) / 15;
-//                return data.getMoney() * scalar;
-//            default:
-//                return 0;
-//        }
-//    }
-
     public void toggleFav(final Context context, final Doctor doctor) {
         ToolModule api = Api.of(ToolModule.class);
         if ("1".equals(doctor.getIsFav())) {
@@ -250,12 +236,6 @@ public class DoctorHandler {
             }
         };
     }
-
-//    public void allowAfterService(Context context, Doctor doctor) {
-//        Intent intent = AllowAfterServiceActivity.intentFor(context, doctor);
-//        context.startActivity(intent);
-//    }
-
 
     public boolean canWritePrescription() {
         return "执业医师认证".equals(data.getLevel());
