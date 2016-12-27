@@ -31,7 +31,6 @@
             android:checked="@{data.selected}"
             android:clickable="false"
             android:enabled="@{data.isEnabled()}"
-            android:maxLines="1"
             android:paddingLeft="@dimen/dp_14"
             android:paddingStart="@dimen/dp_14"
             android:text="@{data.optionType+&quot;.&quot; +data.optionContent+data.contentHead}"

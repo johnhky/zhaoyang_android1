@@ -33,7 +33,6 @@
             android:button="@drawable/ic_tick"
             android:checked="@{data.selected}"
             android:enabled="@{data.isEnabled()}"
-            android:maxLines="1"
             android:onCheckedChanged="@{(v,b)->data.setSelectedWrap(b,adapter)}"
             android:paddingLeft="@dimen/dp_14"
             android:paddingStart="@dimen/dp_14"
