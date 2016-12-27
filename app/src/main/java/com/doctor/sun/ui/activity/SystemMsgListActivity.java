@@ -6,13 +6,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.event.ReadMessageEvent;
 import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.PushModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
+import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.Config;
 
@@ -53,7 +57,15 @@ public class SystemMsgListActivity extends PageActivity2 {
     }
 
     public void onMenuClicked() {
+        api.markMessageAsRead("all").enqueue(new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                Toast.makeText(SystemMsgListActivity.this,
+                        "全部未读消息标记为已读", Toast.LENGTH_SHORT).show();
 
+                refreshMessage();
+            }
+        });
     }
 
     @NonNull
@@ -92,5 +104,16 @@ public class SystemMsgListActivity extends PageActivity2 {
     @Override
     public int getMidTitle() {
         return R.string.title_system_msg;
+    }
+
+    @Subscribe
+    public void onReadMessageEvent(ReadMessageEvent event) {
+        refreshMessage();
+    }
+
+    private void refreshMessage() {
+        getAdapter().clear();
+        getCallback().resetPage();
+        loadMore();
     }
 }

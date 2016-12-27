@@ -12,11 +12,13 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.event.ReadMessageEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.module.PushModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
@@ -38,6 +40,7 @@ import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
 import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.ganguo.library.core.event.EventHub;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
@@ -64,6 +67,8 @@ public class SystemMsg extends BaseItem {
      * patient_avatar : null
      */
 
+    @JsonProperty("id")
+    private String id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("doctor_name")
@@ -78,6 +83,8 @@ public class SystemMsg extends BaseItem {
     private Object patientName;
     @JsonProperty("extras")
     private JPushExtra extras;
+    @JsonProperty("read")
+    private String read;
 
     @Override
     public int getItemLayoutId() {
@@ -151,6 +158,14 @@ public class SystemMsg extends BaseItem {
 
     public void setExtras(JPushExtra extras) {
         this.extras = extras;
+    }
+
+    public String getRead() {
+        return read;
+    }
+
+    public void setRead(String read) {
+        this.read = read;
     }
 
     public void setLastVisitTime(Context context, SimpleAdapter adapter) {
@@ -300,6 +315,14 @@ public class SystemMsg extends BaseItem {
         if (i != null) {
             context.startActivity(i);
         }
+
+        PushModule apiMessage = Api.of(PushModule.class);
+        apiMessage.markMessageAsRead(id).enqueue(new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                EventHub.post(new ReadMessageEvent());
+            }
+        });
     }
 
     @Override

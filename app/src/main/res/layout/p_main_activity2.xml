@@ -44,9 +44,9 @@
                         android:id="@+id/iv_banner"
                         android:layout_width="@dimen/dp_40"
                         android:layout_height="@dimen/dp_40"
-                        android:layout_margin="@dimen/dp_14"
                         android:layout_gravity="top|end"
-                        tools:src="@drawable/ic_launcher"/>
+                        android:layout_margin="@dimen/dp_14"
+                        tools:src="@drawable/ic_launcher" />
 
                     <FrameLayout
                         android:layout_width="wrap_content"
@@ -245,20 +245,21 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_unread_message_count"
                         android:layout_width="@dimen/dp_22"
                         android:layout_height="@dimen/dp_22"
                         android:layout_gravity="top|end"
+                        android:layout_marginEnd="@dimen/dp_13"
+                        android:layout_marginLeft="@dimen/dp_13"
+                        android:layout_marginRight="@dimen/dp_13"
+                        android:layout_marginStart="@dimen/dp_13"
                         android:background="@drawable/shape_red_circle"
                         android:gravity="center"
-                        android:layout_marginLeft="@dimen/dp_13"
-                        android:layout_marginStart="@dimen/dp_13"
-                        android:layout_marginRight="@dimen/dp_13"
-                        android:layout_marginEnd="@dimen/dp_13"
-                        android:text='@{"" + footer.unReadMsgCount}'
                         android:textColor="@color/white"
                         android:textSize="@dimen/font_12"
-                        android:visibility="@{footer.unReadMsgCount > 0}"
-                        tools:text="11" />
+                        android:visibility="gone"
+                        tools:text="11"
+                        tools:visibility="visible" />
 
                     <TextView
                         android:layout_width="0dp"

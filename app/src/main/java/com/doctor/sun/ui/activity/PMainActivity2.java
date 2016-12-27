@@ -7,18 +7,25 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.PMainActivity2Binding;
+import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.CallConfig;
+import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.event.MainTabChangedEvent;
+import com.doctor.sun.event.ReadMessageEvent;
 import com.doctor.sun.event.UpdateEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.module.PushModule;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.activity.patient.PMeActivity;
@@ -57,6 +64,7 @@ public class PMainActivity2 extends AppCompatActivity {
         initRvMessage();
         initDoctorView();
         showBanner();
+        showUnreadMessageCount();
     }
 
     private void showBanner() {
@@ -67,6 +75,22 @@ public class PMainActivity2 extends AppCompatActivity {
                 Glide.with(PMainActivity2.this)
                         .load(response.getBannerIcon())
                         .into(binding.ivBanner);
+            }
+        });
+    }
+
+    private void showUnreadMessageCount() {
+        PushModule api = Api.of(PushModule.class);
+        api.systemMsg("").enqueue(new SimpleCallback<PageDTO<SystemMsg>>() {
+            @Override
+            protected void handleResponse(PageDTO<SystemMsg> response) {
+                String unreadMessageCount = response.getUnreadNum();
+                if (Integer.parseInt(unreadMessageCount) > 0) {
+                    binding.tvUnreadMessageCount.setText(unreadMessageCount);
+                    binding.tvUnreadMessageCount.setVisibility(View.VISIBLE);
+                } else {
+                    binding.tvUnreadMessageCount.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -141,6 +165,10 @@ public class PMainActivity2 extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         EventHub.register(this);
+
+        // 如果系统消息界面把所有的消息标记为已读，这里要重新加载消息，去除未读的红点标记
+        initRvMessage();
+        showUnreadMessageCount();
     }
 
     @Override
@@ -158,5 +186,11 @@ public class PMainActivity2 extends AppCompatActivity {
     @Subscribe
     public void onUpdateEvent(UpdateEvent e) {
         UpdateUtil.handleNewVersion(this, e.getData(), e.getVersionName());
+    }
+
+    @Subscribe
+    public void onReadMessageEvent(ReadMessageEvent event) {
+        initRvMessage();
+        showUnreadMessageCount();
     }
 }
