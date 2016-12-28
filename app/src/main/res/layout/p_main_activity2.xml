@@ -320,6 +320,7 @@
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
                     android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginBottom="@dimen/dp_20"
                     android:background="@color/white"
                     android:gravity="center"
                     android:onClick="@{()->data.allDoctors(context)}"

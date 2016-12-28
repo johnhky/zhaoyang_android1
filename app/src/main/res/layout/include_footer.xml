@@ -36,7 +36,7 @@
                 android:drawableTop="@drawable/tab_appointment"
                 android:gravity="center"
                 android:paddingTop="@dimen/dp_4"
-                android:text="预约"
+                android:text="昭阳医生"
                 android:textSize="@dimen/font_11"
                 app:onClick="@{footer.onFooterClick}"
                 app:selected="@{footer.id}" />
