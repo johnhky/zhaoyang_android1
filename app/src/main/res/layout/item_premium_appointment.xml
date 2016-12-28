@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.doctor.sun.R"/>
 
         <variable
             name="data"
@@ -64,8 +65,7 @@
             android:layout_marginTop="@dimen/dp_5"
             android:layout_toEndOf="@id/iv"
             android:layout_toRightOf="@id/iv"
-            android:drawableLeft="@drawable/ic_chat"
-            android:drawableStart="@drawable/ic_chat"
+            app:drawableLeftCompat="@{R.drawable.ic_chat}"
             android:gravity="center"
             android:text="在线聊天" />
 
@@ -78,8 +78,7 @@
             android:layout_marginStart="@dimen/dp_18"
             android:layout_toEndOf="@id/tv_1"
             android:layout_toRightOf="@id/tv_1"
-            android:drawableLeft="@drawable/ic_phone_ring"
-            android:drawableStart="@drawable/ic_phone_ring"
+            app:drawableLeftCompat="@{R.drawable.ic_phone_ring}"
             android:gravity="center"
             android:text="音频通话" />
 
@@ -90,8 +89,7 @@
             android:layout_alignStart="@id/tv_1"
             android:layout_below="@id/tv_1"
             android:layout_marginTop="@dimen/dp_5"
-            android:drawableLeft="@drawable/ic_camera"
-            android:drawableStart="@drawable/ic_camera"
+            app:drawableLeftCompat="@{R.drawable.ic_camera}"
             android:gravity="center"
             android:text="视频通话" />
 
@@ -102,8 +100,7 @@
             android:layout_alignStart="@id/tv_2"
             android:layout_alignTop="@id/tv_3"
             android:layout_below="@+id/tv_2"
-            android:drawableLeft="@drawable/ic_ring"
-            android:drawableStart="@drawable/ic_ring"
+            app:drawableLeftCompat="@{R.drawable.ic_ring}"
             android:gravity="center"
             android:text="信息及时" />
 

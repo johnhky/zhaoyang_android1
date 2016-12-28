@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.doctor.sun.R"/>
 
         <variable
             name="data"
@@ -63,8 +64,7 @@
             android:layout_marginTop="@dimen/dp_5"
             android:layout_toEndOf="@id/iv"
             android:layout_toRightOf="@id/iv"
-            android:drawableLeft="@drawable/ic_chat_standard"
-            android:drawableStart="@drawable/ic_chat_standard"
+            app:drawableLeftCompat="@{R.drawable.ic_chat_standard}"
             android:gravity="center"
             android:textColor="@color/color_standard_appointment"
             android:text="在线聊天"
@@ -77,8 +77,7 @@
             android:layout_alignStart="@id/tv_1"
             android:layout_below="@id/tv_1"
             android:layout_marginTop="@dimen/dp_5"
-            android:drawableLeft="@drawable/ic_alarm_clock"
-            android:drawableStart="@drawable/ic_alarm_clock"
+            app:drawableLeftCompat="@{R.drawable.ic_alarm_clock}"
             android:gravity="center"
             android:textColor="@color/color_standard_appointment"
             android:text="视频通话"
