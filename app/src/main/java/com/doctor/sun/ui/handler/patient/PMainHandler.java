@@ -3,7 +3,8 @@ package com.doctor.sun.ui.handler.patient;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
@@ -136,6 +137,14 @@ public class PMainHandler {
         final MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .customView(R.layout.dialog_view_pager, false)
                 .build();
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        if (window != null) {
+            lp.copyFrom(window.getAttributes());
+            lp.width = context.getResources().getDimensionPixelSize(R.dimen.dp_390);
+            lp.height = context.getResources().getDimensionPixelSize(R.dimen.dp_480);
+            window.setAttributes(lp);
+        }
 
         final AutoScrollViewPager viewPager = (AutoScrollViewPager) dialog.getCustomView().findViewById(R.id.vp_banner);
         final BindingPagerAdapter adapter = new BindingPagerAdapter();

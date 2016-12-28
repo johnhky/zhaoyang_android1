@@ -45,8 +45,7 @@ public class PMainActivity2 extends AppCompatActivity {
     private PMainHandler handler;
 
     public static Intent makeIntent(Context context) {
-        Intent intent = new Intent(context, PMainActivity2.class);
-        return intent;
+        return new Intent(context, PMainActivity2.class);
     }
 
     @Override
