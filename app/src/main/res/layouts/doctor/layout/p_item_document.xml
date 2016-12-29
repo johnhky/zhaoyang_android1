@@ -52,7 +52,7 @@
                 android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
                 android:src="@{data.avatar}"
-                android:transitionName='@{"doctor" + data.id}'
+                app:transitionName='@{"doctor" + data.id}'
                 app:maskDrawable="@drawable/circle_mask" />
 
             <LinearLayout
