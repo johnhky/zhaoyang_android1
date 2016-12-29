@@ -152,7 +152,7 @@ public class PMainHandler {
         Window window = dialog.getWindow();
         if (window != null) {
             lp.copyFrom(window.getAttributes());
-            lp.width = context.getResources().getDimensionPixelSize(R.dimen.dp_390);
+            lp.width = context.getResources().getDimensionPixelSize(R.dimen.dp_350);
             lp.height = context.getResources().getDimensionPixelSize(R.dimen.dp_480);
             window.setAttributes(lp);
         }
