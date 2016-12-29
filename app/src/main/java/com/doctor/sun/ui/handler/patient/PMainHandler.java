@@ -116,6 +116,10 @@ public class PMainHandler {
         doctorApi.recommendDoctors().enqueue(new SimpleCallback<List<Doctor>>() {
             @Override
             protected void handleResponse(List<Doctor> response) {
+                // 由于每次到首页要重新刷新，disable掉首页的推荐医生点击跳转动画
+                for (Doctor doctor : response) {
+                    doctor.disableSharedTransition();
+                }
                 adapter.insertAll(response);
                 adapter.notifyDataSetChanged();
             }

@@ -4,14 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -90,6 +93,8 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_doctor_detail2);
         adapter = new SortedListAdapter();
         model = new DoctorDetailModel();
+
+        postponeTransition();
 
         showDoctorInfo();
     }
@@ -221,6 +226,8 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         adapter.insertAll(e.getItemList());
         binding.flSelectDuration.setVisibility(View.VISIBLE);
         binding.llSelectRecord.setVisibility(View.GONE);
+
+        startPostponedTransition();
     }
 
     public void showDialog() {
@@ -356,6 +363,22 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
             isPickingDuration = false;
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private void postponeTransition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition();
+        } else {
+            supportPostponeEnterTransition();
+        }
+    }
+
+    private void startPostponedTransition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startPostponedEnterTransition();
+        } else {
+            supportStartPostponedEnterTransition();
         }
     }
 }

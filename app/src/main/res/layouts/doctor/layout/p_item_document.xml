@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{data.handler.detail}"
+        android:onClick="@{()->data.handler.detail(context, ivAvatar)}"
         android:orientation="vertical">
 
         <LinearLayout
@@ -43,6 +43,7 @@
                 android:visibility="@{data.handler.isVisible(adapter)}" />
 
             <com.doctor.sun.ui.widget.BezelImageView
+                android:id="@+id/iv_avatar"
                 android:layout_width="@dimen/dp_60"
                 android:layout_height="@dimen/dp_60"
                 android:layout_gravity="top"
@@ -51,6 +52,7 @@
                 android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
                 android:src="@{data.avatar}"
+                android:transitionName='@{"doctor" + data.id}'
                 app:maskDrawable="@drawable/circle_mask" />
 
             <LinearLayout

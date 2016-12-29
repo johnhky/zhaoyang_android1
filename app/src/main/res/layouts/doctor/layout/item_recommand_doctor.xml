@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{()->data.handler.viewDetail(adapter,context)}"
+        android:onClick="@{(view)->data.handler.viewDetail(adapter,context, view)}"
         android:orientation="vertical">
 
         <View
@@ -44,6 +44,7 @@
                 android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
                 android:src="@{data.avatar}"
+                android:transitionName='@{"doctor" + data.id}'
                 app:maskDrawable="@drawable/circle_mask"
                 tools:src="@drawable/female_doctor_avatar"/>
 
