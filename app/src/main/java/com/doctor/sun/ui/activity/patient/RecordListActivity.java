@@ -16,8 +16,8 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
 
 import java.util.List;
 
@@ -103,13 +103,7 @@ public class RecordListActivity extends BaseFragmentActivity2 {
         api.medicalRecordList().enqueue(new SimpleCallback<List<MedicalRecord>>() {
             @Override
             protected void handleResponse(List<MedicalRecord> response) {
-                for (MedicalRecord medicalRecord : response) {
-                    if (medicalRecord.getRelation().equals("本人")) {
-                        new AddMedicalRecordDialog(RecordListActivity.this, false).show(true);
-                        return;
-                    }
-                }
-                new AddMedicalRecordDialog(RecordListActivity.this, false).show(false);
+                MedicalRecordHandler.newRecord(RecordListActivity.this, response);
             }
         });
     }

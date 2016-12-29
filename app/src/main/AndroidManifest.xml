@@ -346,6 +346,10 @@
             android:name=".ui.activity.patient.FollowUpDoctorListActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.activity.BundlesTabActivity"
+            android:screenOrientation="portrait" />
+
         <!-- </intent-filter> -->
         <!-- </receiver> -->
         <!-- alipay sdk begin -->
@@ -562,9 +566,11 @@
         <activity
             android:name=".ui.activity.DoctorDetailActivity2"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.PMainActivity2"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.patient.MyOrderActivity"
+        <activity
+            android:name=".ui.activity.PMainActivity2"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.patient.MyOrderActivity"
             android:screenOrientation="portrait" />
     </application>
 
