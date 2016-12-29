@@ -45,8 +45,8 @@ android {
         applicationId "com.doctor.sun"
         minSdkVersion rootProject.ext.min_sdk_version
 //        targetSdkVersion rootProject.ext.target_sdk_version
-        versionCode 20
-        versionName "2.0.5"
+        versionCode 210
+        versionName "2.1.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
