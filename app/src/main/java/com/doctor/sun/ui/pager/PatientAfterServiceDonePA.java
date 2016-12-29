@@ -38,7 +38,7 @@ public class PatientAfterServiceDonePA extends FragmentStatePagerAdapter {
                         true);
             }
         }
-        return fragment;
+        return null;
     }
 
     @Override

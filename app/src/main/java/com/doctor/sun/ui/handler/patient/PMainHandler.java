@@ -93,8 +93,15 @@ public class PMainHandler {
             @Override
             protected void handleResponse(PageDTO<SystemMsg> response) {
                 // 只显示两条信息
-                adapter.insert(response.getData().get(0));
-                adapter.insert(response.getData().get(1));
+                if (response == null || response.getData() == null) {
+                    return;
+                }
+                if (response.getData().size() > 0) {
+                    adapter.insert(response.getData().get(0));
+                }
+                if (response.getData().size() > 1) {
+                    adapter.insert(response.getData().get(1));
+                }
                 adapter.notifyDataSetChanged();
             }
         });

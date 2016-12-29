@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.Observable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
@@ -31,6 +32,11 @@ public class SelectRecordDialog {
         api.medicalRecordList().enqueue(new ApiCallback<List<MedicalRecord>>() {
             @Override
             protected void handleResponse(final List<MedicalRecord> response) {
+                if (response.size()<=0) {
+                    Toast.makeText(context, "请先建立病历", Toast.LENGTH_SHORT).show();
+                    MedicalRecordHandler.newRecord(context, response);
+                    return;
+                }
                 SimpleAdapter mAdapter = new SimpleAdapter();
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
                 builder.title("选择病历");
