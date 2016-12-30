@@ -199,7 +199,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     private void initCustomAction() {
         binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
         CustomActionViewModel customActionViewModel = new CustomActionViewModel(this);
-        SimpleAdapter adapter = customActionViewModel.getSimpleAdapter();
+        SimpleAdapter adapter = customActionViewModel.getSimpleAdapter(true);
 
         binding.customAction.setAdapter(adapter);
     }

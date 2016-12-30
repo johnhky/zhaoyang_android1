@@ -355,7 +355,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     private void initCustomAction(Appointment data) {
         binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
         customActionViewModel = new CustomActionViewModel(this);
-        SimpleAdapter adapter = customActionViewModel.getSimpleAdapter();
+        SimpleAdapter adapter = customActionViewModel.getSimpleAdapter(false);
 
         binding.customAction.setAdapter(adapter);
     }
