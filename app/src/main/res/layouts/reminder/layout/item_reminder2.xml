@@ -101,7 +101,7 @@
                     android:minHeight="@dimen/dp_45"
                     android:paddingLeft="@dimen/dp_13"
                     android:paddingRight="@dimen/dp_13"
-                    android:text="@{data.tomorrow}"
+                    android:text="@{data.date}"
                     android:textColor="@color/color_tick"
                     android:textSize="@dimen/font_15" />
             </LinearLayout>

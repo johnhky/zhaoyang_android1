@@ -89,7 +89,6 @@
                 android:onClick="@{()->data.pickFutureTime(context,0,60)}">
 
                 <TextView
-                    android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_grey_rect"
@@ -98,7 +97,7 @@
                     android:minHeight="@dimen/dp_45"
                     android:paddingLeft="@dimen/dp_13"
                     android:paddingRight="@dimen/dp_13"
-                    android:text="@{data.selectedDate}"
+                    android:text="@{data.date}"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/font_15" />
             </LinearLayout>

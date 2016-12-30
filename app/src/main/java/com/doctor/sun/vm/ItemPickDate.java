@@ -36,7 +36,6 @@ public class ItemPickDate extends BaseItem {
     private int year;
 
     public boolean isAnswered = true;
-    private boolean hasSelectedDate = false;
 
     public ItemPickDate(int layoutId, String title) {
         super(layoutId);
@@ -187,16 +186,6 @@ public class ItemPickDate extends BaseItem {
         long minDate = System.currentTimeMillis() - passMillis + ONE_DAY_MILLIS;
         pickTime(context, minDate, maxDate);
 
-        // 如果没选择日期，默认给当天日期的第二天，选择了的话就给选择的日期
-        hasSelectedDate = true;
-    }
-
-    public String getSelectedDate() {
-        if (hasSelectedDate) {
-            return String.format(Locale.CHINA, "%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
-        } else {
-            return getTomorrow();
-        }
     }
 
     public long getMillis() {
