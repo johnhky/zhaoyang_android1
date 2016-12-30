@@ -45,7 +45,7 @@ public class ItemReminderList extends BaseItem {
     public void addReminder() {
         if (dates != null) {
             ItemPickDate object = new ItemPickDate(R.layout.item_reminder, "", 0);
-            object.setDate(object.getTomorrow());
+            object.setDayOfMonth(object.getDayOfMonth() + 1);
             object.setPosition(dates.size() + 1);
             dates.add(object);
             if (simpleAdapter != null) {
