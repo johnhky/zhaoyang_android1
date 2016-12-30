@@ -64,7 +64,7 @@ public class EditRecordModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        ItemPickDate birthday = new ItemPickDate(R.layout.item_pick_birthday, "出生年月");
+        ItemPickDate birthday = new ItemPickDate(R.layout.item_pick_birthmonth, "出生年月");
         birthday.setEnabled(false);
         birthday.setResultNotEmpty();
         birthday.setDate(data.getBirthday());
