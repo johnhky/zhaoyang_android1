@@ -95,7 +95,12 @@ public class MessageAdapter extends SimpleAdapter<LayoutId, ViewDataBinding> {
      */
     private void initData(String my, String your) {
         this.finishedTime = Long.MAX_VALUE;
-        myAvatar = Settings.getPatientProfile().getAvatar();
+        Patient patientProfile = Settings.getPatientProfile();
+        if (patientProfile != null) {
+            myAvatar = patientProfile.getAvatar();
+        }else {
+            myAvatar = "";
+        }
 
         NimUserInfoCache.getInstance().getUserInfoFromRemote(your, new RequestCallback<NimUserInfo>() {
             @Override

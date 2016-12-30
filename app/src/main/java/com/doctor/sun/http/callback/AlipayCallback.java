@@ -70,7 +70,9 @@ public class AlipayCallback extends SimpleCallback<String> {
     protected void handleResponse(final String data) {
 
         if (data.equals("finish_pay")) {
-            mCallback.onPaySuccess();
+            if (mCallback != null) {
+                mCallback.onPaySuccess();
+            }
             return;
         }
 
@@ -106,7 +108,9 @@ public class AlipayCallback extends SimpleCallback<String> {
                     String payStatus = aliPayResult.getResultStatus();
                     if (payStatus.equals(STATUS_SUCCESS)) {
                         //Log.d("success");
-                        mCallback.onPaySuccess();
+                        if (mCallback != null) {
+                            mCallback.onPaySuccess();
+                        }
                     } else {
                         //Log.d("fail" + payStatus);
                         if (mCallback != null) {

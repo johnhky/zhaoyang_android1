@@ -99,7 +99,9 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
         super.onFailure(call, t);
         String localizedMessage = t.getLocalizedMessage();
         if (localizedMessage != null && localizedMessage.contains("finish_pay")) {
-            mCallback.onPaySuccess();
+            if (mCallback != null) {
+                mCallback.onPaySuccess();
+            }
         }
     }
 }
