@@ -72,7 +72,11 @@ public class MeHandler extends BaseObservable {
         this.data = data;
         notifyChange();
     }
+
     public boolean reviewStatusVisible() {
+        if (data == null) {
+            return false;
+        }
         return ReviewStatus.STATUS_PENDING.equals(data.getReview_status());
     }
 
