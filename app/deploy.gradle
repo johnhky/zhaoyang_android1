@@ -45,6 +45,7 @@ android {
         applicationId "com.doctor.sun"
         minSdkVersion rootProject.ext.min_sdk_version
 //        targetSdkVersion rootProject.ext.target_sdk_version
+        //患者端目前210，医生端目前 110
         versionCode 210
         versionName "2.1.0"
         multiDexEnabled true
