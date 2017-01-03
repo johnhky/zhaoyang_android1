@@ -8,13 +8,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -123,6 +121,13 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         if (!medicalRecordHandler.isRegister()) {
             medicalRecordHandler.registerTo(this);
         }
+        EventHub.register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventHub.unregister(this);
     }
 
     @Override
@@ -341,17 +346,6 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventHub.register(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        EventHub.unregister(this);
-    }
 
     @Override
     public void onBackPressed() {

@@ -1,6 +1,7 @@
 package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.doctor.auto.Factory;
 import com.doctor.sun.bean.Constants;
@@ -13,7 +14,7 @@ import com.doctor.sun.module.ProfileModule;
  * Created by rick on 1/4/2016.
  */
 @Factory(type = BaseFragment.class, id = "DoctorArticleFragment")
-public class DoctorArticleFragment extends ListFragment {
+public class DoctorArticleFragment extends RefreshListFragment {
     public static final String TAG = DoctorArticleFragment.class.getSimpleName();
     private ProfileModule api = Api.of(ProfileModule.class);
 
@@ -39,7 +40,14 @@ public class DoctorArticleFragment extends ListFragment {
 
     @Override
     protected void loadMore() {
+        super.loadMore();
         PageCallback<Article> callback = new PageCallback<Article>(getAdapter());
         api.articles(getDoctorId(), callback.getPage()).enqueue(callback);
+    }
+
+    @NonNull
+    @Override
+    protected String getEmptyIndicatorText() {
+        return "该医生暂时没有发布任何文章";
     }
 }
