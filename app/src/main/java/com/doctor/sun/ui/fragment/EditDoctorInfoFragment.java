@@ -97,7 +97,11 @@ public class EditDoctorInfoFragment extends SortedListFragment {
         model.saveDoctorInfo(getAdapter(), new SimpleCallback<IsChanged>() {
             @Override
             protected void handleResponse(IsChanged response) {
-                Toast.makeText(getContext(), "保存成功,请耐心等待资料审核", Toast.LENGTH_SHORT).show();
+                if (response.isChanged) {
+                    Toast.makeText(getContext(), "保存成功,请耐心等待资料审核", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getContext(), "资料保存成功", Toast.LENGTH_SHORT).show();
+                }
 
                 ProfileModule api = Api.of(ProfileModule.class);
                 api.doctorProfile().enqueue(new ApiCallback<Doctor>() {
