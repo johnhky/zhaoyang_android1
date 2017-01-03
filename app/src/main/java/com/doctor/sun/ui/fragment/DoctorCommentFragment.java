@@ -14,7 +14,7 @@ import com.doctor.sun.module.ProfileModule;
  * Created by rick on 1/4/2016.
  */
 @Factory(type = BaseFragment.class, id = "DoctorCommentFragment")
-public class DoctorCommentFragment extends RefreshListFragment {
+public class DoctorCommentFragment extends RefreshListFragment<Comment> {
     public static final String TAG = DoctorCommentFragment.class.getSimpleName();
     private ProfileModule api = Api.of(ProfileModule.class);
 

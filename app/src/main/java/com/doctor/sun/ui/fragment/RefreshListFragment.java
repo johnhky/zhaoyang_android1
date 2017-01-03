@@ -146,7 +146,7 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
         return "";
     }
 
-    public PageCallback getPageCallback() {
+    public PageCallback<T> getPageCallback() {
         if (pageCallback == null) {
             pageCallback = new PageCallback<T>(mAdapter) {
                 @Override
