@@ -285,7 +285,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
             @Override
             protected void handleResponse(List<Coupon> response) {
                 if (response.size() > 0) {
-                    insertCouponMessage(response.get(0));
+                    insertCouponMessage(response.get(0), response.size());
                 }
                 item.setPosition(adapter.size());
                 adapter.insert(item);
@@ -297,8 +297,8 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         binding.llSelectRecord.setVisibility(View.VISIBLE);
     }
 
-    private void insertCouponMessage(Coupon coupon) {
-        String couponMessage = "您的账户有一张" + coupon.couponMoney + "元优惠券" +
+    private void insertCouponMessage(Coupon coupon, int size) {
+        String couponMessage = "您的账户有" + size + "张" + coupon.couponMoney + "元优惠券" +
                 "，满" + coupon.threshold + "元可以使用哦";
         ItemCouponMessage itemCouponMessage = new ItemCouponMessage(couponMessage);
         itemCouponMessage.setItemId("itemCouponMessage");
