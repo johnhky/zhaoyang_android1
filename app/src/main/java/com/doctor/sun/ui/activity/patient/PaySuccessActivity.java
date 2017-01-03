@@ -14,6 +14,8 @@ import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.activity.PMainActivity2;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.util.JacksonUtils;
 
 import io.ganguo.library.AppManager;
@@ -22,9 +24,8 @@ import io.ganguo.library.AppManager;
  * Created by lucas on 1/23/16.
  */
 public class PaySuccessActivity extends BaseFragmentActivity2 implements View.OnClickListener {
-    public static final int URGENT_CALL = 1;
-    public static final int APPOINTMENT = 2;
-    public static final int VOIP_PAY = 3;
+    public static final int APPOINTMENT = 1;
+    public static final int PRESCRIPTION = 2;
 
     private PActivityPaySuccessBinding binding;
 
@@ -47,7 +48,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
 
     private static Intent makeIntent(Context context) {
         Intent i = new Intent(context, PaySuccessActivity.class);
-        i.putExtra(Constants.TYPE, VOIP_PAY);
+        i.putExtra(Constants.TYPE, PRESCRIPTION);
         return i;
     }
 
@@ -67,12 +68,12 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_pay_success);
-        binding.tvMain.setOnClickListener(this);
-        binding.tvQuestion.setOnClickListener(this);
-        if (getType() == VOIP_PAY) {
+        binding.tvMainButton.setOnClickListener(this);
+        binding.tvSubButton.setOnClickListener(this);
+        if (getType() == PRESCRIPTION) {
             binding.tvSystemTip.setVisibility(View.GONE);
-            binding.tvQuestion.setText("返回首页");
-            binding.tvMain.setText("返回寄药订单列表");
+            binding.tvSubButton.setText("返回首页");
+            binding.tvMainButton.setText("返回寄药订单列表");
             binding.tvTip.setVisibility(View.GONE);
         } else {
             setBookTime();
@@ -95,19 +96,22 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_main: {
+            case R.id.tv_main_button: {
                 Intent intent1 = PMainActivity2.makeIntent(PaySuccessActivity.this);
                 startActivity(intent1);
                 int position = 0;
-                if (getType() == VOIP_PAY) {
-                    position = 1;
+                if (getType() == APPOINTMENT) {
+                    Intent intent2 = MyOrderActivity.makeIntent(PaySuccessActivity.this, position);
+                    startActivity(intent2);
+                    finish();
+                }else if (getType() == PRESCRIPTION) {
+                    Bundle bundle = DrugListFragment.getArgs();
+                    Intent intent = SingleFragmentActivity.intentFor(this, "寄药订单", bundle);
+                    startActivity(intent);
                 }
-                Intent intent2 = MyOrderActivity.makeIntent(PaySuccessActivity.this, position);
-                startActivity(intent2);
-                finish();
                 break;
             }
-            case R.id.tv_question: {
+            case R.id.tv_sub_button: {
                 //TODO
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -123,7 +127,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                     startActivity(intent3);
                 }
 
-                if (getType() == VOIP_PAY) {
+                if (getType() == PRESCRIPTION) {
                     finish();
                     Intent intent = PMainActivity2.makeIntent(this);
                     startActivity(intent);
