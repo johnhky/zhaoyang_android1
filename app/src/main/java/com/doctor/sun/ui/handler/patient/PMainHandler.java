@@ -172,11 +172,13 @@ public class PMainHandler {
                         result.add(banner);
                     }
                 }
-                adapter.setItems(result);
-                adapter.notifyDataSetChanged();
+                if (result.size() > 0) {
+                    adapter.setItems(result);
+                    adapter.notifyDataSetChanged();
 
-                viewPager.setAdapter(adapter);
-                dialog.show();
+                    viewPager.setAdapter(adapter);
+                    dialog.show();
+                }
             }
         });
     }
