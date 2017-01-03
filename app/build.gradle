@@ -1,7 +1,6 @@
 apply from: 'deploy.gradle'
 apply from: 'options.gradle'
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'realm-android'
 
 
@@ -20,11 +19,11 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'org.apmem.tools:layouts:1.10@aar'
 
-    apt "org.immutables:value:2.3.7" // for annotation processor
+    annotationProcessor "org.immutables:value:2.3.7" // for annotation processor
     provided "org.immutables:value:2.3.7" // for annotations
     provided "org.immutables:builder:2.3.7" // for annotations
 
-    apt project(':FactoryProcessor')
+    annotationProcessor project(':FactoryProcessor')
     provided project(':FactoryAnnotation')
 
     compile fileTree(dir: 'libs', include: ['*.jar'])

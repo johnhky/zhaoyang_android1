@@ -17,6 +17,7 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.ui.activity.PMainActivity2;
 import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.activity.doctor.MeActivity;
 import com.doctor.sun.ui.activity.patient.PMainActivity;
@@ -69,7 +70,7 @@ public class TokenCallback {
                     if (patientProfile == null) {
                         loadPatientProfile(context);
                     } else {
-                        Intent i = PMainActivity.intentFor(context);
+                        Intent i = PMainActivity2.makeIntent(context);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                             context.finishAffinity();
                         } else {
@@ -143,7 +144,7 @@ public class TokenCallback {
                     context.startActivity(i);
                     context.finish();
                 } else {
-                    Intent i = PMainActivity.intentFor(context);
+                    Intent i = PMainActivity2.makeIntent(context);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         context.finishAffinity();
                     } else {

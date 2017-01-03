@@ -2,6 +2,7 @@ package com.doctor.sun.ui.activity.patient.handler;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.MedicalRecord;
@@ -12,11 +13,15 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.ui.activity.AfterServiceHistoryActivity;
+import com.doctor.sun.ui.activity.BundlesTabActivity;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.patient.HistoryActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.fragment.EditRecordFragment;
+import com.doctor.sun.ui.fragment.NewMedicalRecordFragment;
+
+import java.util.List;
 
 import io.ganguo.library.core.event.EventHub;
 
@@ -105,6 +110,29 @@ public class MedicalRecordHandler {
             default: {
                 return data.canFollowUp;
             }
+        }
+    }
+
+    public static boolean hasSelfRecord(List<MedicalRecord> records) {
+        if (records == null) {
+            return false;
+        }
+        for (int i = 0; i < records.size(); i++) {
+            if ("本人".equals(records.get(i).getRelation())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static void newRecord(Context context, List<MedicalRecord> response) {
+        Bundle otherRecord = NewMedicalRecordFragment.newOtherRecord();
+        if (MedicalRecordHandler.hasSelfRecord(response)) {
+            Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", otherRecord);
+            context.startActivity(intent);
+        } else {
+            Bundle selfRecord = NewMedicalRecordFragment.newSelfRecord();
+            Intent intent = BundlesTabActivity.intentFor(context, selfRecord, otherRecord);
+            context.startActivity(intent);
         }
     }
 

@@ -13,6 +13,7 @@ import com.doctor.sun.databinding.ActivityConsultationBinding;
 import com.doctor.sun.event.MainTabChangedEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.ui.activity.PMainActivity2;
 import com.doctor.sun.ui.fragment.ConsultingFragment;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.pager.ConsultingPagerAdapter;
@@ -48,7 +49,7 @@ public class PConsultingActivity extends BaseFragmentActivity2 {
     public void onMainTabChangedEvent(MainTabChangedEvent e) {
         switch (e.getPosition()) {
             case 0: {
-                startActivity(PMainActivity.class);
+                startActivity(PMainActivity2.class);
                 break;
             }
             case 1: {

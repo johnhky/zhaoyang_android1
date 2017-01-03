@@ -84,7 +84,7 @@
                         android:singleLine="true"
                         android:text="@{data.doctor.level}"
                         tools:text="主任医师"
-                        android:textColor="#ffffff"
+                        android:textColor="@color/blue_grey"
                         android:textSize="@dimen/font_9" />
 
                 </LinearLayout>

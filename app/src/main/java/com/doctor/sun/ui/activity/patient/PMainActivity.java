@@ -22,6 +22,7 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.ui.activity.PMainActivity2;
 import com.doctor.sun.ui.handler.patient.PMainActivityHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
@@ -70,6 +71,8 @@ public class PMainActivity extends BaseFragmentActivity2 {
         }
         updateProfileInfo();
         loadBannerInfo();
+
+        startActivity(new Intent(this, PMainActivity2.class));
     }
 
     private void updateProfileInfo() {

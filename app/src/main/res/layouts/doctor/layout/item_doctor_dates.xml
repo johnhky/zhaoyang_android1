@@ -15,11 +15,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/divider_color" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_85"
@@ -86,7 +81,7 @@
                     android:paddingRight="@dimen/dp_4"
                     android:singleLine="true"
                     android:text="@{data.level}"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/blue_grey"
                     android:textSize="@dimen/font_9" />
 
                 <TextView
@@ -101,6 +96,11 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
 
         <View
             android:layout_width="match_parent"

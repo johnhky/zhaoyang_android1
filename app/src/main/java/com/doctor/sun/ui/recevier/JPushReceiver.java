@@ -15,16 +15,16 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.handler.AppointmentHandler2;
-import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.entity.JPushExtra;
 import com.doctor.sun.entity.SystemMsg;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
+import com.doctor.sun.ui.activity.PMainActivity2;
 import com.doctor.sun.ui.activity.doctor.MainActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
-import com.doctor.sun.ui.activity.patient.PMainActivity;
 import com.doctor.sun.util.JacksonUtils;
 import com.google.common.base.Strings;
 
@@ -106,7 +106,7 @@ public class JPushReceiver extends BroadcastReceiver {
         if (Settings.isDoctor()) {
             intent = MainActivity.makeIntent(context);
         } else {
-            intent = PMainActivity.intentFor(context);
+            intent = PMainActivity2.makeIntent(context);
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
@@ -149,7 +149,7 @@ public class JPushReceiver extends BroadcastReceiver {
         if (Settings.isDoctor()) {
             intent = MainActivity.makeIntent(AppContext.me());
         } else {
-            intent = PMainActivity.intentFor(AppContext.me());
+            intent = PMainActivity2.makeIntent(AppContext.me());
         }
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

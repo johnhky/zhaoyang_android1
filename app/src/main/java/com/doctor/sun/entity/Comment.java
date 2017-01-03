@@ -1,13 +1,13 @@
 package com.doctor.sun.entity;
 
 import com.doctor.sun.R;
-import com.doctor.sun.vm.LayoutId;
+import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Lynn on 2/15/16.
  */
-public class Comment implements LayoutId {
+public class Comment extends BaseItem {
     /**
      * "comment": "cdfef",
      * "patient_name": "Albee",
@@ -23,6 +23,8 @@ public class Comment implements LayoutId {
     private String avatar;
     @JsonProperty("comment_time")
     private String commentTime;
+    @JsonProperty("doctor_point")
+    private String doctorPoint;
 
     public String getComment() {
         return comment;
@@ -54,6 +56,14 @@ public class Comment implements LayoutId {
 
     public void setCommentTime(String commentTime) {
         this.commentTime = commentTime;
+    }
+
+    public float getDoctorPoint() {
+        return Float.parseFloat(doctorPoint);
+    }
+
+    public void setDoctorPoint(String doctorPoint) {
+        this.doctorPoint = doctorPoint;
     }
 
     @Override

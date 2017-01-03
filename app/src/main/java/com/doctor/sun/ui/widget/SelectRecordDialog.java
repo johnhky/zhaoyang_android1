@@ -1,10 +1,10 @@
 package com.doctor.sun.ui.widget;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.Observable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
@@ -17,7 +17,7 @@ import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.ui.activity.patient.RecordListActivity;
+import com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 
 import java.util.List;
@@ -31,7 +31,12 @@ public class SelectRecordDialog {
         ProfileModule api = Api.of(ProfileModule.class);
         api.medicalRecordList().enqueue(new ApiCallback<List<MedicalRecord>>() {
             @Override
-            protected void handleResponse(List<MedicalRecord> response) {
+            protected void handleResponse(final List<MedicalRecord> response) {
+                if (response.size()<=0) {
+                    Toast.makeText(context, "请先建立病历", Toast.LENGTH_SHORT).show();
+                    MedicalRecordHandler.newRecord(context, response);
+                    return;
+                }
                 SimpleAdapter mAdapter = new SimpleAdapter();
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
                 builder.title("选择病历");
@@ -40,9 +45,7 @@ public class SelectRecordDialog {
                 builder.onNeutral(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        Intent intent = RecordListActivity.makeIntent(dialog.getContext(), true);
-                        dialog.getContext().startActivity(intent);
-                        dialog.dismiss();
+                        MedicalRecordHandler.newRecord(dialog.getContext(), response);
                     }
                 });
                 builder.stackingBehavior(StackingBehavior.ALWAYS);
@@ -54,7 +57,7 @@ public class SelectRecordDialog {
                 mAdapter.onFinishLoadMore(true);
                 mAdapter.notifyDataSetChanged();
                 dialog.show();
-                if (appointmentBuilder!=null) {
+                if (appointmentBuilder != null) {
                     appointmentBuilder.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
                         @Override
                         public void onPropertyChanged(Observable observable, int i) {

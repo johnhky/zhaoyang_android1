@@ -53,4 +53,9 @@ public class PatientDTO {
     public int totalFollowUpNum() {
         return followUpDoingNum + applyingNum;
     }
+
+    // 新流程使用
+    public int getMyOrderNum() {
+        return appointmentNum + followUpDoingNum + applyingNum;
+    }
 }

@@ -14,8 +14,8 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.model.QuestionsModel;
+import com.doctor.sun.ui.activity.DoctorDetailActivity2;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
-import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 
 import java.util.HashMap;
@@ -70,7 +70,7 @@ public class FurtherConsultationVM extends BaseItem {
     }
 
     public void seeDoctorDetail(Context context, Doctor doctor) {
-        Intent intent = DoctorDetailActivity.makeIntent(context, doctor, 1);
+        Intent intent = DoctorDetailActivity2.makeIntent(context, doctor);
         context.startActivity(intent);
     }
 

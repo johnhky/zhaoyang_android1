@@ -22,8 +22,8 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.ToolModule;
+import com.doctor.sun.ui.activity.DoctorDetailActivity2;
 import com.doctor.sun.ui.activity.patient.AllowAfterServiceActivity;
-import com.doctor.sun.ui.activity.patient.DoctorDetailActivity;
 import com.doctor.sun.ui.activity.patient.HospitalDetailActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
@@ -53,12 +53,10 @@ public class DoctorHandler {
     public boolean isSelected(SimpleAdapter adapter, BaseViewHolder vh) {
         Doctor doctor = (Doctor) adapter.get(vh.getAdapterPosition());
         return doctor.isUserSelected();
-
-//        return isSelected;
     }
 
     public void detail(View view) {
-        Intent intent = DoctorDetailActivity.makeIntent(view.getContext(), data, AppointmentType.PREMIUM);
+        Intent intent = DoctorDetailActivity2.makeIntent(view.getContext(), data);
         view.getContext().startActivity(intent);
     }
 
@@ -124,13 +122,16 @@ public class DoctorHandler {
     }
 
     public void viewDetail(Context context, int type) {
-        Intent intent = DoctorDetailActivity.makeIntent(context, data, type);
+//        Intent intent = DoctorDetailActivity.makeIntent(context, data, type);
+//        context.startActivity(intent);
+        Intent intent = new Intent(context, DoctorDetailActivity2.class);
+        intent.putExtra(Constants.DATA, data);
         context.startActivity(intent);
     }
 
     public void viewDetailIfIsPatient(Context context) {
         if (!Settings.isDoctor()) {
-            Intent intent = DoctorDetailActivity.makeIntent(context, data, AppointmentType.PREMIUM);
+            Intent intent = DoctorDetailActivity2.makeIntent(context, data);
             context.startActivity(intent);
         }
     }
@@ -176,18 +177,6 @@ public class DoctorHandler {
         }
         return result;
     }
-
-//    public int money() {
-//        switch (data.getType()) {
-//            case AppointmentType.STANDARD:
-//                return data.getSecondMoney();
-//            case AppointmentType.PREMIUM:
-//                int scalar = Integer.parseInt(data.getDuration()) / 15;
-//                return data.getMoney() * scalar;
-//            default:
-//                return 0;
-//        }
-//    }
 
     public void toggleFav(final Context context, final Doctor doctor) {
         ToolModule api = Api.of(ToolModule.class);
@@ -247,12 +236,6 @@ public class DoctorHandler {
             }
         };
     }
-
-//    public void allowAfterService(Context context, Doctor doctor) {
-//        Intent intent = AllowAfterServiceActivity.intentFor(context, doctor);
-//        context.startActivity(intent);
-//    }
-
 
     public boolean canWritePrescription() {
         return "执业医师认证".equals(data.getLevel());

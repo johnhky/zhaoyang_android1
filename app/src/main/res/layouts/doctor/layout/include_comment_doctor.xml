@@ -78,7 +78,7 @@
                     android:paddingRight="@dimen/dp_4"
                     android:singleLine="true"
                     android:text="@{data.level}"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/blue_grey"
                     android:textSize="@dimen/font_9" />
 
                 <TextView

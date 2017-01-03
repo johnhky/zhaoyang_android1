@@ -12,11 +12,13 @@ import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.entity.im.TextMsg;
+import com.doctor.sun.event.ReadMessageEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.module.PushModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
@@ -26,17 +28,19 @@ import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
 import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
+import com.doctor.sun.ui.activity.patient.MyOrderActivity;
 import com.doctor.sun.ui.activity.patient.PAfterServiceActivity;
-import com.doctor.sun.ui.activity.patient.PAppointmentListActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.activity.patient.handler.SystemMsgHandler;
+import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.ui.fragment.EditPatientInfoFragment;
 import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
 import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.ganguo.library.core.event.EventHub;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
@@ -63,6 +67,8 @@ public class SystemMsg extends BaseItem {
      * patient_avatar : null
      */
 
+    @JsonProperty("id")
+    private String id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("doctor_name")
@@ -77,6 +83,8 @@ public class SystemMsg extends BaseItem {
     private Object patientName;
     @JsonProperty("extras")
     private JPushExtra extras;
+    @JsonProperty("read")
+    private String read;
 
     @Override
     public int getItemLayoutId() {
@@ -152,6 +160,19 @@ public class SystemMsg extends BaseItem {
         this.extras = extras;
     }
 
+    public String getRead() {
+        return read;
+    }
+
+    public void setRead(String read) {
+        this.read = read;
+    }
+
+    public void setLastVisitTime(Context context, SimpleAdapter adapter) {
+        getHandler().setTime(adapter, this);
+        itemClick(context);
+    }
+
     public void itemClick(final Context context) {
         Intent i = null;
         boolean isDoctor = Settings.isDoctor();
@@ -209,7 +230,7 @@ public class SystemMsg extends BaseItem {
                     if (extras != null) {
                         String appointmentId = extras.appointmentId;
                         Bundle args = ReadDiagnosisFragment.getArgs(appointmentId);
-                        i = SingleFragmentActivity.intentFor(context, "", args);
+                        i = SingleFragmentActivity.intentFor(context, "医生建议", args);
                     }
                 }
                 break;
@@ -225,7 +246,7 @@ public class SystemMsg extends BaseItem {
                 if (isDoctor) {
                     i = AppointmentListActivity.makeIntent(context);
                 } else {
-                    i = PAppointmentListActivity.makeIntent(context);
+                    i = MyOrderActivity.makeIntent(context);
                 }
                 break;
             }
@@ -294,6 +315,14 @@ public class SystemMsg extends BaseItem {
         if (i != null) {
             context.startActivity(i);
         }
+
+        PushModule apiMessage = Api.of(PushModule.class);
+        apiMessage.markMessageAsRead(id).enqueue(new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                EventHub.post(new ReadMessageEvent());
+            }
+        });
     }
 
     @Override

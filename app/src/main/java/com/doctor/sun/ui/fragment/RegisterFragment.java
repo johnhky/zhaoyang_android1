@@ -30,9 +30,9 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.module.AuthModule;
+import com.doctor.sun.ui.activity.PMainActivity2;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.WebBrowserActivity;
-import com.doctor.sun.ui.activity.patient.PMainActivity;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.CountDownUtil;
 import com.doctor.sun.util.MD5;
@@ -136,7 +136,7 @@ public class RegisterFragment extends SortedListFragment {
             sortedItems.add(imgPs);
 
             BaseItem baseItem = new BaseItem();
-            baseItem.setItemLayoutId(R.layout.divider_13dp_gray);
+            baseItem.setItemLayoutId(R.layout.divider_8dp_gray);
             sortedItems.add(baseItem);
         }
 
@@ -376,7 +376,7 @@ public class RegisterFragment extends SortedListFragment {
     private void registerPatientSuccess(Context context, Token response) {
         if (response != null) {
             TokenCallback.handleToken(response);
-            Intent i = PMainActivity.intentFor(context);
+            Intent i = PMainActivity2.makeIntent(context);
             context.startActivity(i);
         }
     }

@@ -1,0 +1,10 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="15dp"
+    android:height="15dp"
+    android:viewportHeight="30"
+    android:viewportWidth="30">
+    <path
+        android:name="ring 拷贝 3"
+        android:fillColor="#51aaf6"
+        android:pathData="m15 7.5c-2.663 0 -4.821 2.239 -4.821 5v4l-1.929 4h4.388c0.223 1.141 1.196 2 2.362 2c1.166 0 2.139 -0.859 2.362 -2h4.388l-1.929 -4v-4c0 -2.761 -2.159 -5 -4.821 -5zm0 -5.156c6.99 0 12.656 5.666 12.656 12.656c0 6.99 -5.666 12.656 -12.656 12.656c-6.99 0 -12.656 -5.666 -12.656 -12.656c0 -6.99 5.666 -12.656 12.656 -12.656zm0 -2.344c-8.285 0 -15 6.715 -15 15c0 8.285 6.715 15 15 15c8.285 0 15 -6.715 15 -15c0 -8.285 -6.715 -15 -15 -15z" />
+</vector>

@@ -141,4 +141,7 @@ public interface ProfileModule {
 
     @GET("profile/update-search-status")
     Call<ApiDTO<String>> toggleSearchable();
+
+    @GET("profile/recommend-doctors")
+    Call<ApiDTO<List<Doctor>>> recommendDoctors();
 }

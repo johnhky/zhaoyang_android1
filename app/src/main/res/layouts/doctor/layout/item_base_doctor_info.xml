@@ -82,7 +82,7 @@
                 android:paddingLeft="@dimen/dp_4"
                 android:paddingRight="@dimen/dp_4"
                 android:text="@{data.level}"
-                android:textColor="#ffffff"
+                android:textColor="@color/blue_grey"
                 android:textSize="@dimen/font_9"
                 tools:text="执业医生认证" />
 

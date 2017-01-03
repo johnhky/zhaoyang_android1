@@ -46,7 +46,7 @@
     </style>
 
     <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
-        <item name="homeAsUpIndicator">@drawable/ic_back</item>
+        <item name="homeAsUpIndicator">@drawable/ic_back_white</item>
     </style>
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -126,4 +126,11 @@
         <item name="android:textSize">@dimen/font_8</item>
     </style>
 
+    <style name="PremiumAppointmentText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_premium_appointment</item>
+        <item name="android:textSize">@dimen/font_12</item>
+        <item name="android:drawablePadding">@dimen/dp_6</item>
+    </style>
 </resources>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vm.ItemPickAppointmentDuration" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_13">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_8"
+            android:background="@color/color_background_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:onClick="@{()->data.selectAppointmentType()}"
+            android:paddingLeft="@dimen/dp_13">
+
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                app:backgroundCompat="@{data.appointmentIcon}"
+                tools:src="@drawable/ic_premium_appointment" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginStart="@dimen/dp_12"
+                android:text="专属咨询"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginStart="@dimen/dp_12"
+                android:text="@{data.price}"
+                android:textColor="#f65600"
+                android:textSize="@dimen/font_12" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_8"
+            android:background="@color/color_background_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_9"
+            android:layout_marginTop="@dimen/dp_9">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_35"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:gravity="center"
+                android:text="请选择预约时长"
+                android:textColor="@color/color_tick" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:gravity="center"
+                android:text="请选择预约时长"
+                android:textColor="@color/red_f0" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/zero"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_35"
+                android:layout_weight="1"
+                android:background="@drawable/selector_blue_rect_or_stroke"
+                android:button="@null"
+                android:checked="@{data.selectedItem==1}"
+                android:gravity="center"
+                android:onClick="@{()->data.setSelectedItem(1)}"
+                android:text="15分钟"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/font_15" />
+
+            <RadioButton
+                android:id="@+id/one"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_35"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:layout_weight="1"
+                android:background="@drawable/selector_blue_rect_or_stroke"
+                android:button="@null"
+                android:checked="@{data.selectedItem==2}"
+                android:gravity="center"
+                android:onClick="@{()->data.setSelectedItem(2)}"
+                android:text="30分钟"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/font_15" />
+
+            <RadioButton
+                android:id="@+id/two"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_35"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:layout_weight="1"
+                android:background="@drawable/selector_blue_rect_or_stroke"
+                android:button="@null"
+                android:checked="@{data.selectedItem==3}"
+                android:gravity="center"
+                android:onClick="@{()->data.setSelectedItem(3)}"
+                android:text="45分钟"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/font_15" />
+
+            <RadioButton
+                android:id="@+id/three"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_35"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:layout_weight="1"
+                android:background="@drawable/selector_blue_rect_or_stroke"
+                android:button="@null"
+                android:checked="@{data.selectedItem==4}"
+                android:gravity="center"
+                android:onClick="@{()->data.setSelectedItem(4)}"
+                android:text="60分钟"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/font_15" />
+
+            <RadioButton
+                android:id="@+id/four"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_35"
+                android:layout_marginLeft="@dimen/dp_11"
+                android:layout_weight="1"
+                android:background="@drawable/selector_blue_rect_or_stroke"
+                android:button="@null"
+                android:checked="@{data.selectedItem==6}"
+                android:gravity="center"
+                android:onClick="@{()->data.setSelectedItem(6)}"
+                android:text="90分钟"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/font_15" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_12"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/five"
+                android:layout_width="@dimen/dp_75"
+                android:layout_height="@dimen/dp_35"
+                android:background="@drawable/selector_blue_rect_or_stroke"
+                android:button="@null"
+                android:checked="@{data.selectedItem==8}"
+                android:gravity="center"
+                android:onClick="@{()->data.setSelectedItem(8)}"
+                android:text="120分钟"
+                android:textColor="@color/text_color_gray"
+                android:textSize="@dimen/font_15" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

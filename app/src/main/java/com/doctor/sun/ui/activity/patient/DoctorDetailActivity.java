@@ -23,6 +23,7 @@ import com.doctor.sun.ui.pager.DoctorDetailPagerAdapter;
  * 医生详情
  * Created by rick on 20/1/2016.
  */
+@Deprecated
 public class DoctorDetailActivity extends BaseFragmentActivity2 {
     public static final String TAG = DoctorDetailActivity.class.getSimpleName();
 

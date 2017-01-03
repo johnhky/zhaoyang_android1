@@ -8,7 +8,9 @@ import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Questions2;
@@ -41,6 +43,7 @@ public class ItemTextInput2 extends BaseItem {
     private int textSize = R.dimen.font_15;
     private View.OnClickListener listener;
     private boolean clickable;
+    private boolean haveAlertMaxLength = false;
 
     public ItemTextInput2(int itemLayoutId, String title, String hint) {
         super(itemLayoutId);
@@ -116,6 +119,12 @@ public class ItemTextInput2 extends BaseItem {
 
     public void setResult(String result) {
         this.result = result;
+        if (result.length() >= maxLength && result.length() != 0 && !haveAlertMaxLength) {
+            Toast.makeText(AppContext.me(), "字数不能大于" + maxLength + "位", Toast.LENGTH_SHORT).show();
+            haveAlertMaxLength = true;
+        }else {
+            haveAlertMaxLength = false;
+        }
         notifyPropertyChanged(BR.result);
     }
 

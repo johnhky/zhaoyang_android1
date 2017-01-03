@@ -38,6 +38,9 @@ public class PageDTO<T> {
     private int from;
     @JsonProperty("to")
     private int to;
+    // 系统消息接口，获取未读消息数量
+    @JsonProperty("unread_num")
+    private int unreadNum;
     @JsonProperty("data")
     private List<T> data;
 
@@ -103,6 +106,14 @@ public class PageDTO<T> {
 
     public void setTo(int to) {
         this.to = to;
+    }
+
+    public int getUnreadNum() {
+        return unreadNum;
+    }
+
+    public void setUnreadNum(int unreadNum) {
+        this.unreadNum = unreadNum;
     }
 
     public List<T> getData() {

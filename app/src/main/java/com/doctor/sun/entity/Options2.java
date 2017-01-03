@@ -4,8 +4,10 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
 import android.view.View;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.ClearRules;
 import com.doctor.sun.entity.constans.QuestionType;
@@ -184,6 +186,9 @@ public class Options2 extends BaseItem {
 
     public void afterInputChanged(Editable newInputEditable, SortedListAdapter adapter) {
         String newInput = newInputEditable.toString();
+        if (0 <= optionInputLength && optionInputLength <= newInput.length()) {
+            Toast.makeText(AppContext.me(), "字数不能大于" + optionInputLength + "位", Toast.LENGTH_SHORT).show();
+        }
         if (optionContent.equals(newInput)) {
             return;
         }

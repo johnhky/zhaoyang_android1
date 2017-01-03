@@ -52,6 +52,18 @@ public class NewMedicalRecordFragment extends SortedListFragment {
         return bundle;
     }
 
+    public static Bundle newOtherRecord() {
+        Bundle args = getArgs(TYPE_OTHER);
+        args.putString(Constants.FRAGMENT_TITLE, "新建亲友病历");
+        return args;
+    }
+
+    public static Bundle newSelfRecord() {
+        Bundle args = getArgs(TYPE_SELF);
+        args.putString(Constants.FRAGMENT_TITLE, "新建个人病历");
+        return args;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +99,7 @@ public class NewMedicalRecordFragment extends SortedListFragment {
 
                     @Override
                     public void onCancelClick(MaterialDialog dialog) {
-                        getActivity().finish();
+                        dialog.dismiss();
                     }
                 });
     }
