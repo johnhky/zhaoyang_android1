@@ -317,13 +317,13 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (isToolbarCollapsed) {
             if (doctor.getIsFav().equals("1")) {
-                menu.getItem(0).setIcon(R.drawable.ic_favorite_white_fill);
+                menu.getItem(0).setIcon(R.drawable.ic_favorite_red_fill);
             } else {
                 menu.getItem(0).setIcon(R.drawable.ic_favorite_white_border);
             }
         } else {
             if (doctor.getIsFav().equals("1")) {
-                menu.getItem(0).setIcon(R.drawable.ic_favorite_blue_fill);
+                menu.getItem(0).setIcon(R.drawable.ic_favorite_red_fill);
             } else {
                 menu.getItem(0).setIcon(R.drawable.ic_favorite_blue_border);
             }
