@@ -30,6 +30,7 @@
             android:layout_gravity="center_horizontal"
             android:scaleType="centerCrop"
             android:src="@{data.avatar}"
+            app:transitionName='@{"doctor" + data.id}'
             app:maskDrawable="@drawable/circle_mask"
             tools:src="@drawable/female_doctor_avatar" />
 

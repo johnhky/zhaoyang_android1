@@ -45,8 +45,9 @@ android {
         applicationId "com.doctor.sun"
         minSdkVersion rootProject.ext.min_sdk_version
 //        targetSdkVersion rootProject.ext.target_sdk_version
-        versionCode 20
-        versionName "2.0.5"
+        //患者端目前210，医生端目前 110
+        versionCode 210
+        versionName "2.1.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -106,7 +107,7 @@ android {
                                     , launcherIcon: "@drawable/patient_launcher"
                                     , fileProvider: "com.doctor.sun.dev.fileprovider"
                                     , nimKey      : "84bcda3a943a3a781f5e4a8bae628a74"
-                                    , jPushKey    : "c29f700e97249bca7e40c395"]
+                                    , jPushKey    : "0d77825a85d3cba1c228850b"]
             buildConfigField "boolean", "DEV_MODE", "true"
             buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/013/"'
             buildConfigField "String", "DATA_PATH", '"DoctorSun"' //app 数据保存目录, 必改
@@ -131,7 +132,7 @@ android {
                                     , launcherIcon: "@drawable/patient_launcher"
                                     , fileProvider: "com.doctor.sun.dev12.fileprovider"
                                     , nimKey      : "9439a1f4b31a23c48660c290a69f89e3"
-                                    , jPushKey    : "b421412f29b79d12b1760f2f"]
+                                    , jPushKey    : "11d29c50a3778dc3863ec85e"]
             buildConfigField "boolean", "DEV_MODE", "true"
             buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/013/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改

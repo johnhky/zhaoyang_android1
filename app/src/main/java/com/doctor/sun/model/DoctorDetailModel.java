@@ -11,11 +11,14 @@ import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.fragment.DoctorArticleFragment;
+import com.doctor.sun.ui.fragment.DoctorCommentFragment;
 import com.doctor.sun.vm.ItemDescription;
 import com.doctor.sun.vm.ItemTitle;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.ganguo.library.core.event.extend.OnSingleClickListener;
 
 /**
  * Created by kb on 13/12/2016.
@@ -50,10 +53,10 @@ public class DoctorDetailModel {
         ModelUtils.insertSpace(result, R.layout.divider_8dp_gray);
 
         ItemTitle articleTitle = new ItemTitle(R.layout.item_title, "文章");
-        articleTitle.setSubtitle("more");
-        articleTitle.setClickListener(new View.OnClickListener() {
+        articleTitle.setSubtitle("更多");
+        articleTitle.setClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Bundle bundle = DoctorArticleFragment.getArgs(data.getId());
                 Intent intent = SingleFragmentActivity.intentFor(v.getContext(), "文章", bundle);
                 v.getContext().startActivity(intent);
@@ -83,6 +86,15 @@ public class DoctorDetailModel {
         ModelUtils.insertSpace(result, R.layout.divider_8dp_gray);
 
         ItemTitle commentTitle = new ItemTitle(R.layout.item_title, "评论");
+        commentTitle.setSubtitle("更多");
+        commentTitle.setClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                Bundle bundle = DoctorCommentFragment.getArgs(data.getId());
+                Intent intent = SingleFragmentActivity.intentFor(v.getContext(), "评论", bundle);
+                v.getContext().startActivity(intent);
+            }
+        });
         commentTitle.setItemId("commentTitle");
         commentTitle.setPosition(result.size());
         result.add(commentTitle);
@@ -91,6 +103,7 @@ public class DoctorDetailModel {
             for (int i = 0; i < commentList.size() && i < 3; i++) {
                 Comment e = commentList.get(i);
                 e.setPosition(result.size());
+                e.setItemId("comment" + i);
                 result.add(e);
             }
         } else {

@@ -109,8 +109,7 @@ public class SelectAppointmentTypeActivity extends BaseFragmentActivity2 {
     }
 
     public static Intent intentFor(Context context) {
-        Intent intent = new Intent(context, SelectAppointmentTypeActivity.class);
-        return intent;
+        return new Intent(context, SelectAppointmentTypeActivity.class);
     }
 
     @Override

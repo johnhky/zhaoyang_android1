@@ -31,27 +31,19 @@ public class ItemPickDate extends BaseItem {
     private int subPosition;
 
     private int type;
-    private int dayOfMonth;
-    private int monthOfYear;
-    private int year;
 
     public boolean isAnswered = true;
-    private boolean hasSelectedDate = false;
 
     public ItemPickDate(int layoutId, String title) {
         super(layoutId);
         this.title = title;
-        year = calendar.get(Calendar.YEAR) - 18;
-        monthOfYear = calendar.get(Calendar.MONTH);
-        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        setYear(calendar.get(Calendar.YEAR) - 18);
     }
 
     public ItemPickDate(int layoutId, String title, int yearBefore) {
         super(layoutId);
         this.title = title;
-        year = calendar.get(Calendar.YEAR) - yearBefore;
-        monthOfYear = calendar.get(Calendar.MONTH);
-        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        setYear(calendar.get(Calendar.YEAR) - yearBefore);
     }
 
 
@@ -59,9 +51,6 @@ public class ItemPickDate extends BaseItem {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            ItemPickDate.this.year = year;
-            ItemPickDate.this.monthOfYear = monthOfYear;
-            ItemPickDate.this.dayOfMonth = dayOfMonth;
             calendar.set(Calendar.YEAR, year);
             calendar.set(Calendar.MONTH, monthOfYear);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -96,19 +85,19 @@ public class ItemPickDate extends BaseItem {
         if (!isAnswered) {
             return "点击选择日期";
         }
-        return String.format(Locale.CHINA, "%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
+        return String.format(Locale.CHINA, "%04d-%02d-%02d", getYear(), getMonthOfYear() + 1, getDayOfMonth());
     }
 
     public String getBirthMonth() {
-        return String.format(Locale.CHINA, "%04d-%02d", year, monthOfYear + 1);
+        return String.format(Locale.CHINA, "%04d-%02d", getYear(), getMonthOfYear() + 1);
     }
 
     public String getToday() {
-        return String.format(Locale.CHINA, "%04d-%02d-%02d", year + 18, monthOfYear + 1, dayOfMonth);
+        return String.format(Locale.CHINA, "%04d-%02d-%02d", getYear() + 18, getMonthOfYear() + 1, getDayOfMonth());
     }
 
     public String getTomorrow() {
-        return String.format(Locale.CHINA, "%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth + 1);
+        return String.format(Locale.CHINA, "%04d-%02d-%02d", getYear(), getMonthOfYear() + 1, getDayOfMonth() + 1);
     }
 
     public String getBirthday() {
@@ -120,27 +109,27 @@ public class ItemPickDate extends BaseItem {
     }
 
     public int getDayOfMonth() {
-        return dayOfMonth;
+        return calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     public void setDayOfMonth(int dayOfMonth) {
-        this.dayOfMonth = dayOfMonth;
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
     }
 
     public int getMonthOfYear() {
-        return monthOfYear;
+        return calendar.get(Calendar.MONTH);
     }
 
     public void setMonthOfYear(int monthOfYear) {
-        this.monthOfYear = monthOfYear;
+        calendar.set(Calendar.MONTH, monthOfYear);
     }
 
     public int getYear() {
-        return year;
+        return calendar.get(Calendar.YEAR);
     }
 
     public void setYear(int year) {
-        this.year = year;
+        calendar.set(Calendar.YEAR,year);
     }
 
     //TODO
@@ -148,9 +137,9 @@ public class ItemPickDate extends BaseItem {
         try {
             if (date == null || date.equals("")) return;
             String[] split = date.split("-");
-            year = Integer.valueOf(split[0]);
-            monthOfYear = Integer.valueOf(split[1]) - 1;
-            dayOfMonth = Integer.valueOf(split[2]);
+            setYear(Integer.valueOf(split[0]));
+            setMonthOfYear(Integer.valueOf(split[1]) - 1);
+            setDayOfMonth(Integer.valueOf(split[2]));
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
@@ -167,7 +156,7 @@ public class ItemPickDate extends BaseItem {
     }
 
     public void pickTime(Context context, final long minDate, final long maxDate) {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context, setBeginDate, year, monthOfYear, dayOfMonth);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(context, setBeginDate, getYear(), getMonthOfYear(), getDayOfMonth());
         final DatePicker datePicker = datePickerDialog.getDatePicker();
         datePickerDialog.show();
         Tasks.runOnUiThread(new Runnable() {
@@ -187,16 +176,6 @@ public class ItemPickDate extends BaseItem {
         long minDate = System.currentTimeMillis() - passMillis + ONE_DAY_MILLIS;
         pickTime(context, minDate, maxDate);
 
-        // 如果没选择日期，默认给当天日期的第二天，选择了的话就给选择的日期
-        hasSelectedDate = true;
-    }
-
-    public String getSelectedDate() {
-        if (hasSelectedDate) {
-            return String.format(Locale.CHINA, "%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
-        } else {
-            return getTomorrow();
-        }
     }
 
     public long getMillis() {

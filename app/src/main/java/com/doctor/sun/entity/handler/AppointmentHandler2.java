@@ -202,13 +202,17 @@ public class AppointmentHandler2 {
         api.pay(data.getId()).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
-                mCallback.onPaySuccess();
+                if (mCallback != null) {
+                    mCallback.onPaySuccess();
+                }
             }
 
             @Override
             public void onFailure(Call<ApiDTO<String>> call, Throwable t) {
                 super.onFailure(call, t);
-                mCallback.onPayFail();
+                if (mCallback != null) {
+                    mCallback.onPayFail();
+                }
             }
         });
     }

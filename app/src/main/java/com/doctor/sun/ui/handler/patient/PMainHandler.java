@@ -116,6 +116,10 @@ public class PMainHandler {
         doctorApi.recommendDoctors().enqueue(new SimpleCallback<List<Doctor>>() {
             @Override
             protected void handleResponse(List<Doctor> response) {
+                // 由于每次到首页要重新刷新，disable掉首页的推荐医生点击跳转动画
+                for (Doctor doctor : response) {
+                    doctor.disableSharedTransition();
+                }
                 adapter.insertAll(response);
                 adapter.notifyDataSetChanged();
             }
@@ -148,7 +152,7 @@ public class PMainHandler {
         Window window = dialog.getWindow();
         if (window != null) {
             lp.copyFrom(window.getAttributes());
-            lp.width = context.getResources().getDimensionPixelSize(R.dimen.dp_390);
+            lp.width = context.getResources().getDimensionPixelSize(R.dimen.dp_350);
             lp.height = context.getResources().getDimensionPixelSize(R.dimen.dp_480);
             window.setAttributes(lp);
         }

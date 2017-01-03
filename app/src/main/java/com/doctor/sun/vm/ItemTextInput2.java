@@ -119,10 +119,10 @@ public class ItemTextInput2 extends BaseItem {
 
     public void setResult(String result) {
         this.result = result;
-        if (result.length() >= maxLength && result.length() != 0 && !haveAlertMaxLength) {
+        if (result != null && result.length() >= maxLength && result.length() != 0 && !haveAlertMaxLength) {
             Toast.makeText(AppContext.me(), "字数不能大于" + maxLength + "位", Toast.LENGTH_SHORT).show();
             haveAlertMaxLength = true;
-        }else {
+        } else {
             haveAlertMaxLength = false;
         }
         notifyPropertyChanged(BR.result);
@@ -153,8 +153,6 @@ public class ItemTextInput2 extends BaseItem {
         if (isEnabled()) {
             if (!Strings.isNullOrEmpty(getResult())) {
                 lockResult();
-            } else {
-                return;
             }
         } else {
             clearAnswer();

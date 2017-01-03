@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -16,12 +17,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_12"
-            android:textColor="#f65600"
-            android:paddingLeft="@dimen/dp_13"
-            android:paddingRight="@dimen/dp_13"
-            android:paddingTop="@dimen/dp_6"
+            android:drawableLeft="@drawable/ic_coupons"
+            android:drawablePadding="@dimen/dp_17"
+            android:drawableStart="@drawable/ic_coupons"
+            android:gravity="center_vertical"
             android:paddingBottom="@dimen/dp_6"
-            android:text="@{data.message}" />
+            android:paddingLeft="@dimen/dp_17"
+            android:paddingRight="@dimen/dp_17"
+            android:paddingTop="@dimen/dp_6"
+            android:text="@{data.message}"
+            android:textColor="#f65600"
+            android:textSize="@dimen/font_12"
+            tools:text="没人有一张46元安慰奖" />
     </LinearLayout>
 </layout>

@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{()->data.handler.viewDetail(adapter,context)}"
+        android:onClick="@{()->data.handler.viewDetail(adapter,context,ivAvatar)}"
         android:orientation="vertical">
 
         <View
@@ -39,6 +39,7 @@
             android:paddingLeft="@dimen/dp_13">
 
             <com.doctor.sun.ui.widget.BezelImageView
+                android:id="@+id/iv_avatar"
                 android:layout_width="@dimen/dp_60"
                 android:layout_height="@dimen/dp_60"
                 android:layout_gravity="top"
@@ -47,6 +48,7 @@
                 android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
                 android:src="@{data.avatar}"
+                app:transitionName='@{"doctor" + data.id}'
                 app:maskDrawable="@drawable/circle_mask" />
 
             <LinearLayout
@@ -125,15 +127,15 @@
                 <!--app:html="@{data.handler.getTypeLabel(adapter) + data.handler.getFee(data.handler.getType(adapter))}"-->
                 <!--tools:text="诊金" />-->
 
-                <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="@dimen/dp_13"-->
-                <!--android:layout_marginRight="@dimen/dp_13"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:text='@{data.specialist}'-->
-                <!--android:textColor="#363636"-->
-                <!--android:textSize="@dimen/font_13" />-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_13"
+                    android:layout_marginRight="@dimen/dp_13"
+                    android:gravity="center_vertical"
+                    android:text='@{data.specialist}'
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_13" />
             </LinearLayout>
 
         </LinearLayout>

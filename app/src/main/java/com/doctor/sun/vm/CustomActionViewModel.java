@@ -9,7 +9,6 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -51,13 +50,19 @@ public class CustomActionViewModel {
     }
 
     @NonNull
-    public SimpleAdapter getSimpleAdapter() {
+    public SimpleAdapter getSimpleAdapter(boolean fromMedicineStore) {
         SimpleAdapter adapter = new SimpleAdapter();
 
-        adapter.add(audioChatMenu());
+        if (!fromMedicineStore) {
+            adapter.add(audioChatMenu("语音电话"));
+        }else {
+            adapter.add(audioChatMenu("客服电话"));
+        }
         adapter.add(galleryMenu());
         adapter.add(cameraMenu());
-        adapter.add(videoChatMenu());
+        if (!fromMedicineStore) {
+            adapter.add(videoChatMenu());
+        }
         adapter.add(chooseFileMenu());
 //        ClickMenu object = extendTimeMenu();
 //        object.setEnable(true);
@@ -165,8 +170,8 @@ public class CustomActionViewModel {
     }
 
     @NonNull
-    private ClickMenu audioChatMenu() {
-        return new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_phone2, "语音电话", new View.OnClickListener() {
+    private ClickMenu audioChatMenu(String title) {
+        return new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_phone2, title, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Settings.isDoctor()) {

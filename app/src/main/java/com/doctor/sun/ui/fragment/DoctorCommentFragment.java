@@ -1,7 +1,9 @@
 package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Comment;
 import com.doctor.sun.http.Api;
@@ -11,9 +13,18 @@ import com.doctor.sun.module.ProfileModule;
 /**
  * Created by rick on 1/4/2016.
  */
-public class DoctorCommentFragment extends ListFragment {
+@Factory(type = BaseFragment.class, id = "DoctorCommentFragment")
+public class DoctorCommentFragment extends RefreshListFragment<Comment> {
+    public static final String TAG = DoctorCommentFragment.class.getSimpleName();
     private ProfileModule api = Api.of(ProfileModule.class);
 
+    public static Bundle getArgs(int doctorId) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.FRAGMENT_NAME, TAG);
+        bundle.putInt(Constants.DATA, doctorId);
+
+        return bundle;
+    }
 
     public static DoctorCommentFragment getInstance(int doctorId) {
         DoctorCommentFragment instance = new DoctorCommentFragment();
@@ -29,7 +40,13 @@ public class DoctorCommentFragment extends ListFragment {
 
     @Override
     protected void loadMore() {
-        PageCallback<Comment> callback = new PageCallback<>(getAdapter());
-        api.comments(getDoctorId(), callback.getPage()).enqueue(callback);
+        super.loadMore();
+        api.comments(getDoctorId(), getPageCallback().getPage()).enqueue(getPageCallback());
+    }
+
+    @NonNull
+    @Override
+    protected String getEmptyIndicatorText() {
+        return "还没有任何人对该医生进行过评论";
     }
 }

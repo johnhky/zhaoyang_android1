@@ -61,7 +61,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     private ToolModule toolModule;
 
     private int type = AppointmentType.PREMIUM;
-    private int duration = 15;
+    private int duration = -1;
     private Time time;
     private boolean isToday;
 
@@ -114,10 +114,28 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         return duration;
     }
 
+    public String getDurationLabel() {
+        if (duration <= 0) {
+            return "<font color=\"#363636\">预约时长:</font>  <font color=\"#c1cacf\">暂未选择</font>";
+        } else {
+            return "<font color=\"#363636\">预约时长:</font>  " + duration + "分钟";
+        }
+    }
+
+    public String getMoneyLabel() {
+        //前面的空格
+        if (duration <= 0) {
+            return "<font color=\"#363636\">诊金:</font>  <font color=\"#c1cacf\">暂无</font>";
+        } else {
+            return "<font color=\"#363636\">诊金:</font>  " + money() + "元";
+        }
+    }
+
     public void setDuration(int duration) {
         this.duration = duration;
         notifyPropertyChanged(BR.duration);
     }
+
     public void setDurationNotifyAll(int duration) {
         this.duration = duration;
         notifyChange();
@@ -186,6 +204,10 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     }
 
     public void pickDate(final Context context) {
+        if (duration <= 0) {
+            Toast.makeText(context, "请选择就诊时长", Toast.LENGTH_SHORT).show();
+            return;
+        }
         SelectRecordDialog.showRecordDialog(context, null);
     }
 

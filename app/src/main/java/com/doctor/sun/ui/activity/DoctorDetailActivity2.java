@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -91,6 +92,8 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         adapter = new SortedListAdapter();
         model = new DoctorDetailModel();
 
+        postponeTransition();
+
         showDoctorInfo();
     }
 
@@ -118,6 +121,13 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         if (!medicalRecordHandler.isRegister()) {
             medicalRecordHandler.registerTo(this);
         }
+        EventHub.register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventHub.unregister(this);
     }
 
     @Override
@@ -195,11 +205,8 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
                 comments.enqueue(new SimpleCallback<PageDTO<Comment>>() {
                     @Override
                     protected void handleResponse(PageDTO<Comment> response) {
-                        if (response.getData() != null && response.getData().size() > 1) {
-                            commentList.add(response.getData().get(0));
-                        }
-                        if (response.getData() != null && response.getData().size() > 2) {
-                            commentList.add(response.getData().get(1));
+                        if (response.getData() != null && response.getData().size() >= 1) {
+                            commentList.addAll(response.getData());
                         }
                         latch.countDown();
                     }
@@ -221,6 +228,8 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         adapter.insertAll(e.getItemList());
         binding.flSelectDuration.setVisibility(View.VISIBLE);
         binding.llSelectRecord.setVisibility(View.GONE);
+
+        startPostponedTransition();
     }
 
     public void showDialog() {
@@ -264,6 +273,9 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
             price = getData().getSecondMoney();
         }
         final ItemPickAppointmentDuration item = new ItemPickAppointmentDuration(price);
+        if (builder.getDuration() > 0) {
+            item.setSelectedItem(builder.getDuration() / 15);
+        }
         item.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -276,7 +288,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
             @Override
             protected void handleResponse(List<Coupon> response) {
                 if (response.size() > 0) {
-                    insertCouponMessage(response.get(0));
+                    insertCouponMessage(response.get(0), response.size());
                 }
                 item.setPosition(adapter.size());
                 adapter.insert(item);
@@ -288,8 +300,8 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         binding.llSelectRecord.setVisibility(View.VISIBLE);
     }
 
-    private void insertCouponMessage(Coupon coupon) {
-        String couponMessage = "您的账户有一张" + coupon.couponMoney + "元优惠券" +
+    private void insertCouponMessage(Coupon coupon, int size) {
+        String couponMessage = "您的账户有" + size + "张" + coupon.couponMoney + "元优惠券" +
                 "，满" + coupon.threshold + "元可以使用哦";
         ItemCouponMessage itemCouponMessage = new ItemCouponMessage(couponMessage);
         itemCouponMessage.setItemId("itemCouponMessage");
@@ -308,13 +320,13 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (isToolbarCollapsed) {
             if (doctor.getIsFav().equals("1")) {
-                menu.getItem(0).setIcon(R.drawable.ic_favorite_white_fill);
+                menu.getItem(0).setIcon(R.drawable.ic_favorite_red_fill);
             } else {
                 menu.getItem(0).setIcon(R.drawable.ic_favorite_white_border);
             }
         } else {
             if (doctor.getIsFav().equals("1")) {
-                menu.getItem(0).setIcon(R.drawable.ic_favorite_blue_fill);
+                menu.getItem(0).setIcon(R.drawable.ic_favorite_red_fill);
             } else {
                 menu.getItem(0).setIcon(R.drawable.ic_favorite_blue_border);
             }
@@ -337,17 +349,6 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventHub.register(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        EventHub.unregister(this);
-    }
 
     @Override
     public void onBackPressed() {
@@ -356,6 +357,22 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
             isPickingDuration = false;
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private void postponeTransition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition();
+        } else {
+            supportPostponeEnterTransition();
+        }
+    }
+
+    private void startPostponedTransition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startPostponedEnterTransition();
+        } else {
+            supportStartPostponedEnterTransition();
         }
     }
 }

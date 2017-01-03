@@ -4,5 +4,6 @@
     android:id="@+id/vp_banner"
     android:layout_width="@dimen/dp_60"
     android:layout_height="@dimen/dp_60"
+    android:padding="@dimen/dp_4"
     android:layout_gravity="center"
     android:background="@color/gray_eb" />

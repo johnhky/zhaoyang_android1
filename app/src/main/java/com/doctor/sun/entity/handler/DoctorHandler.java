@@ -3,10 +3,12 @@ package com.doctor.sun.entity.handler;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 import android.widget.Toast;
 
@@ -41,6 +43,7 @@ import io.ganguo.library.core.event.EventHub;
 public class DoctorHandler {
     private Doctor data;
     private boolean isSelected;
+    private boolean hasSharedTransition;
 
     public DoctorHandler(Doctor doctorDTO) {
         data = doctorDTO;
@@ -50,14 +53,25 @@ public class DoctorHandler {
         isSelected = selected;
     }
 
+    public void hasSharedTransition(boolean hasSharedTransition) {
+        this.hasSharedTransition = hasSharedTransition;
+    }
+
     public boolean isSelected(SimpleAdapter adapter, BaseViewHolder vh) {
         Doctor doctor = (Doctor) adapter.get(vh.getAdapterPosition());
         return doctor.isUserSelected();
     }
 
-    public void detail(View view) {
-        Intent intent = DoctorDetailActivity2.makeIntent(view.getContext(), data);
-        view.getContext().startActivity(intent);
+    public void detail(Context context, View view) {
+        Intent intent = DoctorDetailActivity2.makeIntent(context, data);
+
+        if (hasSharedTransition && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation((Activity) view.getContext(), view, view.getTransitionName());
+            context.startActivity(intent, options.toBundle());
+        } else {
+            context.startActivity(intent);
+        }
     }
 
     @JsonIgnore
@@ -116,17 +130,24 @@ public class DoctorHandler {
         activity.finish();
     }
 
-    public void viewDetail(BaseListAdapter temp, Context context) {
+    public void viewDetail(BaseListAdapter temp, Context context, View view) {
         SimpleAdapter adapter = (SimpleAdapter) temp;
-        viewDetail(context, adapter.getInt(AdapterConfigKey.APPOINTMENT_TYPE));
+        viewDetail(context, adapter.getInt(AdapterConfigKey.APPOINTMENT_TYPE), view);
     }
 
-    public void viewDetail(Context context, int type) {
+    public void viewDetail(Context context, int type, View view) {
 //        Intent intent = DoctorDetailActivity.makeIntent(context, data, type);
 //        context.startActivity(intent);
         Intent intent = new Intent(context, DoctorDetailActivity2.class);
         intent.putExtra(Constants.DATA, data);
-        context.startActivity(intent);
+
+        if (hasSharedTransition && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation((Activity) context, view, view.getTransitionName());
+            context.startActivity(intent, options.toBundle());
+        } else {
+            context.startActivity(intent);
+        }
     }
 
     public void viewDetailIfIsPatient(Context context) {
