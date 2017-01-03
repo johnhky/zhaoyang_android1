@@ -273,6 +273,9 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
             price = getData().getSecondMoney();
         }
         final ItemPickAppointmentDuration item = new ItemPickAppointmentDuration(price);
+        if (builder.getDuration() > 0) {
+            item.setSelectedItem(builder.getDuration() / 15);
+        }
         item.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
