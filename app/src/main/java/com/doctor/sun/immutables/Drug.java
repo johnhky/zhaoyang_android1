@@ -57,6 +57,7 @@ public abstract class Drug extends BaseItem {
 
     public abstract String getRemark();
 
+    @JsonProperty("total_money")
     public abstract double getMoney();
 
     public abstract double getNeed_pay();
