@@ -13,6 +13,7 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Banner;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.SystemMsg;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
@@ -27,8 +28,11 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.ui.pager.BindingPagerAdapter;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -162,7 +166,13 @@ public class PMainHandler {
         api.patientBanner().enqueue(new SimpleCallback<List<Banner>>() {
             @Override
             protected void handleResponse(List<Banner> response) {
-                adapter.setItems(response);
+                ArrayList<Banner> result = new ArrayList<Banner>();
+                for (Banner banner : response) {
+                    if (banner.getActivityShowIntroduce() == IntBoolean.TRUE) {
+                        result.add(banner);
+                    }
+                }
+                adapter.setItems(result);
                 adapter.notifyDataSetChanged();
 
                 viewPager.setAdapter(adapter);

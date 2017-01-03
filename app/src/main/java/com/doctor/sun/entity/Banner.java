@@ -27,6 +27,8 @@ public class Banner implements LayoutId {
     private int activityDisplayType;
     @JsonProperty("activity_pic_small")
     private String activityPicSmall;
+    @JsonProperty("activity_show_introduce")
+    private int activityShowIntroduce;
 
     public String getId() {
         return id;
@@ -42,6 +44,14 @@ public class Banner implements LayoutId {
 
     public void setActivityPicSmall(String activityPicSmall) {
         this.activityPicSmall = activityPicSmall;
+    }
+
+    public int getActivityShowIntroduce() {
+        return activityShowIntroduce;
+    }
+
+    public void setActivityShowIntroduce(int activityShowIntroduce) {
+        this.activityShowIntroduce = activityShowIntroduce;
     }
 
     public void viewDetail(final Context context) {
