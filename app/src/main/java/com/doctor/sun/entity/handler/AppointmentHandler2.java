@@ -474,20 +474,13 @@ public class AppointmentHandler2 {
                 break;
             }
             case Status.FINISHED: {
-//                getAppointmentDetail(data.getId(), new SimpleCallback<Appointment>() {
-//                    @Override
-//                    protected void handleResponse(Appointment response) {
-//                        chat(adapter, vh, response);
-//                        answerQuestion(vh.itemView.getContext(), 0, response);
-//                    }
-//                });
-                if (data.getType() == AppointmentType.FollowUp) {
-                    Intent intent = AfterServiceDoneActivity.intentFor(vh.itemView.getContext(), data.getId(), 0);
-                    vh.itemView.getContext().startActivity(intent);
-                } else {
-                    Intent intent = FinishedOrderActivity.makeIntent(vh.itemView.getContext(), data);
-                    vh.itemView.getContext().startActivity(intent);
-                }
+                getAppointmentDetail(data.getId(), new SimpleCallback<Appointment>() {
+                    @Override
+                    protected void handleResponse(Appointment response) {
+                        chat(adapter, vh, response);
+                        answerQuestion(vh.itemView.getContext(), 2, response);
+                    }
+                });
                 break;
             }
             case Status.DOING:
