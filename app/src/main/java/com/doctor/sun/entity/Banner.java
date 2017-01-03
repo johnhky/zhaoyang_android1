@@ -55,6 +55,12 @@ public class Banner implements LayoutId {
     }
 
     public void viewDetail(final Context context) {
+        if (activityDisplayType == 0) {
+            return;
+        }
+        if (activityShowIntroduce == 0) {
+            return;
+        }
         ToolModule api = Api.of(ToolModule.class);
 
         api.bannerDetail(id).enqueue(new SimpleCallback<BannerDetail>() {

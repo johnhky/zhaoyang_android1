@@ -204,7 +204,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     }
 
     public void pickDate(final Context context) {
-        if (duration <= 0) {
+        if (duration <= 0 && getType() == AppointmentType.PREMIUM) {
             Toast.makeText(context, "请选择就诊时长", Toast.LENGTH_SHORT).show();
             return;
         }

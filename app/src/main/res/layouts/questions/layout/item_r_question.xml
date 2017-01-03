@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/dp_5">
+        android:layout_marginBottom="@dimen/dp_5">
 
         <FrameLayout
             android:id="@+id/fl_index"
@@ -90,6 +90,7 @@
                 android:textColor="@color/question_index_color"
                 android:textSize="@dimen/font_12"
                 android:visibility="@{!ivPosition.selected || ivPosition.enabled}"
+                tools:visibility="gone"
                 tools:text="重填未填写" />
         </LinearLayout>
 

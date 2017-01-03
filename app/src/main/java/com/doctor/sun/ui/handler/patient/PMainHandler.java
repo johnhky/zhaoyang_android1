@@ -166,14 +166,8 @@ public class PMainHandler {
         api.patientBanner().enqueue(new SimpleCallback<List<Banner>>() {
             @Override
             protected void handleResponse(List<Banner> response) {
-                ArrayList<Banner> result = new ArrayList<Banner>();
-                for (Banner banner : response) {
-                    if (banner.getActivityShowIntroduce() == IntBoolean.TRUE) {
-                        result.add(banner);
-                    }
-                }
-                if (result.size() > 0) {
-                    adapter.setItems(result);
+                if (response.size() > 0) {
+                    adapter.setItems(response);
                     adapter.notifyDataSetChanged();
 
                     viewPager.setAdapter(adapter);
