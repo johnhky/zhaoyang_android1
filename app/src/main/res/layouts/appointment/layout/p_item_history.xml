@@ -19,8 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:orientation="vertical">
-        <!--android:onClick="@{handler.historyDetail(data)}"-->
+        android:orientation="vertical"
+        android:onClick="@{()->handler.viewDetail(context,data)}">
 
 
         <LinearLayout
