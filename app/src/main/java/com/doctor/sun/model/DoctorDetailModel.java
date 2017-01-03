@@ -91,6 +91,7 @@ public class DoctorDetailModel {
             for (int i = 0; i < commentList.size() && i < 3; i++) {
                 Comment e = commentList.get(i);
                 e.setPosition(result.size());
+                e.setItemId("comment" + i);
                 result.add(e);
             }
         } else {

@@ -2,6 +2,7 @@ package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
 
+import com.doctor.auto.Factory;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Comment;
 import com.doctor.sun.http.Api;
@@ -11,7 +12,9 @@ import com.doctor.sun.module.ProfileModule;
 /**
  * Created by rick on 1/4/2016.
  */
+@Factory(type = BaseFragment.class, id = "DoctorCommentFragment")
 public class DoctorCommentFragment extends ListFragment {
+    public static final String TAG = DoctorCommentFragment.class.getSimpleName();
     private ProfileModule api = Api.of(ProfileModule.class);
 
 

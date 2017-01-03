@@ -200,11 +200,8 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
                 comments.enqueue(new SimpleCallback<PageDTO<Comment>>() {
                     @Override
                     protected void handleResponse(PageDTO<Comment> response) {
-                        if (response.getData() != null && response.getData().size() > 1) {
-                            commentList.add(response.getData().get(0));
-                        }
-                        if (response.getData() != null && response.getData().size() > 2) {
-                            commentList.add(response.getData().get(1));
+                        if (response.getData() != null && response.getData().size() >= 1) {
+                            commentList.addAll(response.getData());
                         }
                         latch.countDown();
                     }
