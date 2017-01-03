@@ -22,6 +22,8 @@ import com.doctor.sun.vm.ItemCoupons;
 import com.doctor.sun.vm.ItemRadioGroup;
 import com.doctor.sun.vm.ItemTextInput2;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -249,7 +251,8 @@ public class PayPrescriptionsModel {
                 if (shouldPay < 0D) {
                     shouldPay = 0D;
                 }
-                String shouldPayMoneyString = "<font color=\"#f65600\">实际付款：￥" + shouldPay + "</font>";
+                BigDecimal bigDecimal = new BigDecimal(shouldPay).setScale(2, BigDecimal.ROUND_UP);
+                String shouldPayMoneyString = "<font color=\"#f65600\">实际付款：￥" + bigDecimal.doubleValue() + "</font>";
                 shouldPayMoney.setTitle(shouldPayMoneyString);
                 shouldPayMoney.notifyChange();
             }
