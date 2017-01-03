@@ -236,7 +236,6 @@ public class SystemMsg extends BaseItem {
                 break;
             }
             case 6:
-            case 8:
             case 13:
             case 14:
             case 15:
@@ -266,6 +265,7 @@ public class SystemMsg extends BaseItem {
                 }
                 break;
             }
+            case 8:
             case 19:
             case 23: {
                 if (isDoctor) {
