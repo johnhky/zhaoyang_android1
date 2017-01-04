@@ -196,8 +196,7 @@ public class SystemMsg extends BaseItem {
                     apiAppointment.appointmentDetail(extras.appointmentId).enqueue(new SimpleCallback<Appointment>() {
                         @Override
                         protected void handleResponse(Appointment response) {
-                            Intent intent = AppointmentDetailActivity.makeIntent(context, response, 0);
-                            context.startActivity(intent);
+                            AppointmentHandler2.answerQuestion(context,0,response);
                         }
                     });
                 }

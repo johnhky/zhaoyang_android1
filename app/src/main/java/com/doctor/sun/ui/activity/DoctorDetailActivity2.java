@@ -303,8 +303,10 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
     }
 
     private void insertCouponMessage(Coupon coupon, int size) {
-        String couponMessage = "您的账户有" + size + "张" + coupon.couponMoney + "元优惠券" +
-                "，满" + coupon.threshold + "元可以使用哦";
+        String couponMessage = "您的账户有" + size + "张" + coupon.couponMoney + "元优惠券";
+        if (size == 1) {
+            couponMessage += "，诊金满" + coupon.threshold + "元就可以使用哦";
+        }
         ItemCouponMessage itemCouponMessage = new ItemCouponMessage(couponMessage);
         itemCouponMessage.setItemId("itemCouponMessage");
         itemCouponMessage.setPosition(adapter.size());
