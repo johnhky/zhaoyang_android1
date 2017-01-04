@@ -24,6 +24,7 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.emoji.KeyboardWatcher;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.ImAccount;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.CallServiceEvent;
@@ -37,7 +38,6 @@ import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.immutables.PrescriptionOrder;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
-import com.doctor.sun.ui.activity.SystemMsgListActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
@@ -98,6 +98,12 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, MedicineStoreActivity.class);
+        return i;
+    }
+
+    public static Intent intentForCustomerService(Context context) {
+        Intent i = new Intent(context, MedicineStoreActivity.class);
+        i.putExtra(Constants.DATA, IntBoolean.NOT_GIVEN);
         return i;
     }
 
@@ -199,7 +205,9 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     private void initCustomAction() {
         binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
         CustomActionViewModel customActionViewModel = new CustomActionViewModel(this);
-        SimpleAdapter adapter = customActionViewModel.getSimpleAdapter(true);
+        //TODO
+        int intExtra = getIntent().getIntExtra(Constants.DATA, IntBoolean.TRUE);
+        SimpleAdapter adapter = customActionViewModel.getSimpleAdapter(intExtra);
 
         binding.customAction.setAdapter(adapter);
     }
@@ -527,7 +535,11 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 
     @Override
     public int getMidTitle() {
-        return R.string.title_medicine_store;
+        if (getIntent().getIntExtra(Constants.DATA,IntBoolean.TRUE)==IntBoolean.TRUE ){
+            return R.string.title_medicine_store;
+        }else {
+            return R.string.title_customer_service;
+        }
     }
 
     @Override

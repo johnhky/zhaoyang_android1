@@ -6,6 +6,8 @@ import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.event.SelectAppointmentTypeEvent;
+import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 
 import io.ganguo.library.core.event.EventHub;
 
@@ -17,7 +19,6 @@ public class ItemPremiumAppointment extends BaseItem {
 
     private double price;
 
-    private boolean selected = false;
 
     public ItemPremiumAppointment(double price) {
         this.price = price;
@@ -28,16 +29,14 @@ public class ItemPremiumAppointment extends BaseItem {
         return R.layout.item_premium_appointment;
     }
 
-    public void select() {
-        selected = !selected;
-        notifyPropertyChanged(BR.selected);
-
+    public void select(BaseListAdapter adapter) {
+        adapter.putInt(AdapterConfigKey.APPOINTMENT_TYPE,AppointmentType.PREMIUM);
+        adapter.notifyDataSetChanged();
         EventHub.post(new SelectAppointmentTypeEvent(AppointmentType.PREMIUM));
     }
 
-    @Bindable
-    public boolean isSelected() {
-        return selected;
+    public boolean isSelected(BaseListAdapter adapter) {
+        return adapter.getInt(AdapterConfigKey.APPOINTMENT_TYPE) == AppointmentType.PREMIUM;
     }
 
     public double getPrice() {

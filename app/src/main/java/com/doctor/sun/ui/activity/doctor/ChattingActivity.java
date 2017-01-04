@@ -23,6 +23,7 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.emoji.KeyboardWatcher;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.entity.im.TextMsg;
@@ -355,7 +356,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     private void initCustomAction(Appointment data) {
         binding.customAction.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
         customActionViewModel = new CustomActionViewModel(this);
-        SimpleAdapter adapter = customActionViewModel.getSimpleAdapter(false);
+        SimpleAdapter adapter = customActionViewModel.getSimpleAdapter(IntBoolean.FALSE);
 
         binding.customAction.setAdapter(adapter);
     }

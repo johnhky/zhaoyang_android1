@@ -88,6 +88,7 @@
     <string name="title_appoint_doctor">预约医生</string>
     <string name="title_add_prescription">处方详情</string>
     <string name="title_medicine_store">寄药小助手</string>
+    <string name="title_customer_service">客服</string>
     <string name="title_advice_history">历史反馈</string>
     <string name="title_record_pool">病历库</string>
     <string name="title_follow_up">随访列表</string>

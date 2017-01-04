@@ -9,6 +9,13 @@
         <variable
             name="data"
             type="com.doctor.sun.vm.ItemStandardAppointment" />
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.BaseListAdapter" />
     </data>
 <RelativeLayout
         android:layout_width="match_parent"
@@ -17,7 +24,7 @@
         android:layout_marginRight="@dimen/dp_8"
         android:layout_marginTop="@dimen/dp_8"
         android:background="@drawable/shape_cyan_rect"
-        android:onClick="@{()->data.select()}">
+        android:onClick="@{()->data.select(adapter)}">
 
         <ImageView
             android:id="@+id/iv"
@@ -105,9 +112,9 @@
 
             <View
                 android:layout_width="@dimen/dp_45"
-                android:layout_height="@dimen/dp_70"
-                android:background="@drawable/selector_top_right_triangle"
-                android:selected="@{data.isSelected}" />
+                android:layout_height="@dimen/dp_45"
+                app:backgroundCompat="@{R.drawable.selector_top_right_triangle}"
+                android:selected="@{data.isSelected(adapter)}" />
 
             <ImageView
                 android:layout_width="@dimen/dp_15"

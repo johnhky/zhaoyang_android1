@@ -64,7 +64,7 @@ public class PMainHandler {
     }
 
     public void askForService(Context context) {
-        Intent intent = MedicineStoreActivity.makeIntent(context);
+        Intent intent = MedicineStoreActivity.intentForCustomerService(context);
         context.startActivity(intent);
     }
 

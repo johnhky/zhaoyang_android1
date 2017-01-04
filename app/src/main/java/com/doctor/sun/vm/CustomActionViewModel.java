@@ -18,6 +18,7 @@ import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.avchat.activity.AVChatActivity;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.StringBoolean;
 import com.doctor.sun.event.CallServiceEvent;
 import com.doctor.sun.http.Api;
@@ -50,17 +51,17 @@ public class CustomActionViewModel {
     }
 
     @NonNull
-    public SimpleAdapter getSimpleAdapter(boolean fromMedicineStore) {
+    public SimpleAdapter getSimpleAdapter(int fromMedicineStore) {
         SimpleAdapter adapter = new SimpleAdapter();
 
-        if (!fromMedicineStore) {
+        if (fromMedicineStore == IntBoolean.FALSE) {
             adapter.add(audioChatMenu("语音电话"));
-        }else {
+        } else if (fromMedicineStore == IntBoolean.NOT_GIVEN) {
             adapter.add(audioChatMenu("客服电话"));
         }
         adapter.add(galleryMenu());
         adapter.add(cameraMenu());
-        if (!fromMedicineStore) {
+        if (fromMedicineStore == IntBoolean.FALSE) {
             adapter.add(videoChatMenu());
         }
         adapter.add(chooseFileMenu());

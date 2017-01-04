@@ -234,15 +234,17 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
     }
 
     public void showDialog() {
-        SimpleAdapter adapter = new SimpleAdapter();
-        adapter.onFinishLoadMore(true);
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(this);
-        builder.title("预约类型");
-        builder.titleGravity(GravityEnum.CENTER);
-        adapter.add(new ItemPremiumAppointment(getData().getMoney()));
-        adapter.add(new ItemSpace());
-        adapter.add(new ItemStandardAppointment(getData().getSecondMoney()));
-        dialog = builder.adapter(adapter, new LinearLayoutManager(this)).build();
+        if (dialog == null) {
+            SimpleAdapter adapter = new SimpleAdapter();
+            adapter.onFinishLoadMore(true);
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(this);
+            builder.title("预约类型");
+            builder.titleGravity(GravityEnum.CENTER);
+            adapter.add(new ItemPremiumAppointment(getData().getMoney()));
+            adapter.add(new ItemSpace());
+            adapter.add(new ItemStandardAppointment(getData().getSecondMoney()));
+            dialog = builder.adapter(adapter, new LinearLayoutManager(this)).build();
+        }
         dialog.show();
     }
 
