@@ -40,6 +40,7 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.handler.MedicalRecordEventHandler;
+import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.vm.BaseItem;
 import com.doctor.sun.vm.ItemCouponMessage;
 import com.doctor.sun.vm.ItemPickAppointmentDuration;
@@ -298,6 +299,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         });
         binding.flSelectDuration.setVisibility(View.GONE);
         binding.llSelectRecord.setVisibility(View.VISIBLE);
+        ShowCaseUtil.showCase(binding.llSelectRecord, "点击下一步选择要预约的患者病历", "select_duration", 2, 1, true);
     }
 
     private void insertCouponMessage(Coupon coupon, int size) {

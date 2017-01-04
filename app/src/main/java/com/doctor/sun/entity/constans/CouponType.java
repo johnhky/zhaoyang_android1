@@ -14,5 +14,5 @@ public @interface CouponType {
     String ALL = "all";
     String VALID = "valid";
     String INVALID = "invalid";
-    String CAN_USE_NOW = "can_pay";
+    String CAN_USE_NOW = "valid";
 }

@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
  * Created by rick on 3/5/2016.
  */
 public class ShowCaseUtil {
+    public static final String TAG = ShowCaseUtil.class.getSimpleName();
     public static final String SHOWCASE_ID = "SHOWCASE_ID";
 
 
@@ -45,7 +47,9 @@ public class ShowCaseUtil {
 //        if (BuildConfig.DEV_MODE) {
 //            return;
 //        }
-        if (isShow(id)) return;
+        if (isShow(id)){
+            return;
+        }
 
         if (view == null) {
             return;
@@ -148,8 +152,9 @@ public class ShowCaseUtil {
         MaterialShowcaseView.Builder builder = new MaterialShowcaseView.Builder(context)
                 .setTarget(view)
                 .setContentText(content)
-                .setDismissText("我知道了")
                 .setTargetTouchable(true)
+                .setDismissOnTargetTouch(true)
+                .setDismissOnTouch(false)
                 .setDismissTextColor(resources.getColor(R.color.colorPrimaryDark))
                 .setMaskColour(resources.getColor(R.color.dark_36_transparent));
         if (isRect) {

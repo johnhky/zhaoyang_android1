@@ -15,6 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:showcase='@{"点击选择预约咨询时长"}'
+        android:showcaseId='@{"select_duration"}'
+        android:showcasePosition='@{0}'
+        android:showcaseSize='@{2}'
+        android:isRect="@{true}"
         android:paddingBottom="@dimen/dp_13">
 
         <View
