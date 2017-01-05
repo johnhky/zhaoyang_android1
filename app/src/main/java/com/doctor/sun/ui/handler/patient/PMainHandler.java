@@ -12,6 +12,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Banner;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.MedicineStore;
 import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.http.Api;
@@ -46,6 +47,7 @@ import io.ganguo.library.ui.widget.AutoScrollViewPager;
 public class PMainHandler {
     public static final String LAST_VISIT_TIME = "LAST_VISIT_TIME";
     private String visitTimeKey = LAST_VISIT_TIME + Config.getString(Constants.VOIP_ACCOUNT);
+    private MedicineStore medicineStore = new MedicineStore();
 
     public void allDoctors(Context context) {
         Intent intent = SearchDoctorActivity.makeIntent(context);
@@ -175,5 +177,9 @@ public class PMainHandler {
                 }
             }
         });
+    }
+
+    public MedicineStore getMedicineStore() {
+        return medicineStore;
     }
 }

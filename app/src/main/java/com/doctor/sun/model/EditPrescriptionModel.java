@@ -89,7 +89,7 @@ public class EditPrescriptionModel {
         takeMedicineDays.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         takeMedicineDays.setEnabled(!isReadOnly);
         takeMedicineDays.setClickable(!isReadOnly);
-        final NumberPickerDialog dialog = new NumberPickerDialog(context, 1, 28);
+        final NumberPickerDialog dialog = new NumberPickerDialog(context, 1, Integer.MAX_VALUE);
         if (!data.getTake_medicine_days().equals("")) {
             dialog.setValue(Integer.parseInt(data.getTake_medicine_days()));
         }

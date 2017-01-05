@@ -164,6 +164,7 @@ public class PMainActivity2 extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         EventHub.register(this);
+        handler.getMedicineStore().registerRealmChanged();
 
         // 如果系统消息界面把所有的消息标记为已读，这里要重新加载消息，去除未读的红点标记
         initRvMessage();
