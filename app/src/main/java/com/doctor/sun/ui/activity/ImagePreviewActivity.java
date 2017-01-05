@@ -126,10 +126,10 @@ public class ImagePreviewActivity extends BaseFragmentActivity2 {
             DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
             try {
                 Toast.makeText(ctxt, "保存图片成功", Toast.LENGTH_SHORT).show();
-                Uri uriForDownloadedFile = dm.getUriForDownloadedFile(enqueue);
-                Intent install = new Intent(Intent.ACTION_VIEW);
-                install.setDataAndType(uriForDownloadedFile, "image/*");
-                startActivity(install);
+//                Uri uriForDownloadedFile = dm.getUriForDownloadedFile(enqueue);
+//                Intent install = new Intent(Intent.ACTION_VIEW);
+//                install.setDataAndType(uriForDownloadedFile, "image/*");
+//                startActivity(install);
             } catch (ActivityNotFoundException e) {
                 e.printStackTrace();
                 Toast.makeText(ctxt, "图片已经保存成功，请安装查看图片的软件来打开图片", Toast.LENGTH_SHORT).show();
