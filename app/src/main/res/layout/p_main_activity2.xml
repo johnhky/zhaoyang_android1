@@ -64,7 +64,6 @@
                             android:showcaseId='@{"patientMain"}'
                             android:showcasePosition='@{0}'
                             android:showcaseSize='@{1}'
-                            app:backgroundCompat="@{data.searchDoctorBackground}"
                             app:srcCompat="@drawable/search_doctor"
                             tools:src="@drawable/search_doctor" />
                     </FrameLayout>

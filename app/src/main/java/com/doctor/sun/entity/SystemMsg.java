@@ -267,10 +267,10 @@ public class SystemMsg extends BaseItem {
             case 8:
             case 19:
             case 23: {
+                if (extras == null) {
+                    return;
+                }
                 if (isDoctor) {
-                    if (extras == null) {
-                        return;
-                    }
                     apiAppointment.appointmentDetail(extras.appointmentId).enqueue(new SimpleCallback<Appointment>() {
                         @Override
                         protected void handleResponse(Appointment response) {
