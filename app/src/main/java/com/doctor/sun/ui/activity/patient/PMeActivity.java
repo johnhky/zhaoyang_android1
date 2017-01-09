@@ -100,7 +100,7 @@ public class PMeActivity extends BaseFragmentActivity2 {
     @Subscribe
     public void onShowCaseFinished(ShowCaseFinishedEvent e) {
         if (getIntent().getBooleanExtra(Constants.IS_SHOWCASE, false)) {
-            if (e.id.equals("patientMe")) {
+            if ("patientMe".equals(e.id)) {
                 finish();
             }
         }

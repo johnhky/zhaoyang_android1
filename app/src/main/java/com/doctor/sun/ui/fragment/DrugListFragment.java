@@ -1,12 +1,19 @@
 package com.doctor.sun.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.doctor.auto.Factory;
+import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.DrugModule;
+import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.MultiSelectAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 
@@ -40,6 +47,12 @@ public class DrugListFragment extends RefreshListFragment {
         return drugExtraField;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @NonNull
     @Override
     public SimpleAdapter createAdapter() {
@@ -57,5 +70,22 @@ public class DrugListFragment extends RefreshListFragment {
     @Override
     protected String getEmptyIndicatorText() {
         return "没有任何寄药订单";
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_medicinestore, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_medicine_store: {
+                Intent intent = MedicineStoreActivity.makeIntent(getContext());
+                getContext().startActivity(intent);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
