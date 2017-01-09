@@ -113,8 +113,10 @@
             <View
                 android:layout_width="@dimen/dp_45"
                 android:layout_height="@dimen/dp_45"
-                app:backgroundCompat="@{R.drawable.selector_top_right_triangle}"
-                android:selected="@{data.isSelected(adapter)}" />
+                android:layout_marginEnd="1px"
+                android:layout_marginRight="1px"
+                android:layout_marginTop="1px"
+                app:backgroundCompat="@{data.triangle(adapter)}"/>
 
             <ImageView
                 android:layout_width="@dimen/dp_15"

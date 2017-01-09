@@ -1,8 +1,5 @@
 package com.doctor.sun.vm;
 
-import android.databinding.Bindable;
-
-import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.event.SelectAppointmentTypeEvent;
@@ -29,7 +26,7 @@ public class ItemStandardAppointment extends BaseItem {
     }
 
     public void select(BaseListAdapter adapter) {
-        adapter.putInt(AdapterConfigKey.APPOINTMENT_TYPE,AppointmentType.STANDARD);
+        adapter.putInt(AdapterConfigKey.APPOINTMENT_TYPE, AppointmentType.STANDARD);
         adapter.notifyDataSetChanged();
         EventHub.post(new SelectAppointmentTypeEvent(AppointmentType.STANDARD));
     }
@@ -48,5 +45,13 @@ public class ItemStandardAppointment extends BaseItem {
 
     public int getDoneIcon() {
         return R.drawable.ic_done;
+    }
+
+    public int triangle(BaseListAdapter adapter) {
+        if (isSelected(adapter)) {
+            return R.drawable.shape_top_right_triangle_blue;
+        } else {
+            return R.drawable.shape_top_right_triangle;
+        }
     }
 }

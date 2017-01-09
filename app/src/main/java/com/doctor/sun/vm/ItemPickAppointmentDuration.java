@@ -4,6 +4,8 @@ import android.databinding.Bindable;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.entity.AppointmentBuilder;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.event.ShowDialogEvent;
 
 import io.ganguo.library.core.event.EventHub;
@@ -14,10 +16,11 @@ import io.ganguo.library.core.event.EventHub;
 
 public class ItemPickAppointmentDuration extends BaseItem {
 
-    private double price;
     private int selectedItem;
+    private AppointmentBuilder builder;
 
-    public ItemPickAppointmentDuration() {
+    public ItemPickAppointmentDuration(AppointmentBuilder builder) {
+        this.builder = builder;
     }
 
     @Bindable
@@ -27,12 +30,8 @@ public class ItemPickAppointmentDuration extends BaseItem {
 
     public void setSelectedItem(int selectedItem) {
         this.selectedItem = selectedItem;
+        builder.setDurationNotifyAll(selectedItem * 15);
         notifyPropertyChanged(BR.selectedItem);
-    }
-
-
-    public ItemPickAppointmentDuration(double price) {
-        this.price = price;
     }
 
     @Override
@@ -41,14 +40,36 @@ public class ItemPickAppointmentDuration extends BaseItem {
     }
 
     public String getPrice() {
-            return price + "元/15分钟";
+        switch (builder.getType()) {
+            case AppointmentType.PREMIUM:
+                return builder.price() + "元/15分钟";
+            case AppointmentType.STANDARD:
+                return builder.price() + "元/天(医生空闲时间)";
+            default:
+                return builder.price() + "元/15分钟";
+        }
     }
 
     public int getAppointmentIcon() {
-        return R.drawable.ic_premium_appointment;
+        switch (builder.getType()) {
+            case AppointmentType.PREMIUM:
+                return R.drawable.ic_premium_appointment;
+            case AppointmentType.STANDARD:
+                return R.drawable.ic_standard_appointment;
+            default:
+                return R.drawable.ic_premium_appointment;
+        }
     }
 
     public void selectAppointmentType() {
         EventHub.post(new ShowDialogEvent());
+    }
+
+    public boolean isPremium() {
+        return builder.getType() == AppointmentType.PREMIUM;
+    }
+
+    public String getTypeLabel() {
+        return builder.getTypeLabel();
     }
 }

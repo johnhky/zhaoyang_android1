@@ -115,6 +115,9 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     }
 
     public String getDurationLabel() {
+        if (getType() == AppointmentType.STANDARD) {
+            return "<font color=\"#363636\">预约时长:</font>  预约当天";
+        }
         if (duration <= 0) {
             return "<font color=\"#363636\">预约时长:</font>  <font color=\"#c1cacf\">暂未选择</font>";
         } else {
@@ -123,6 +126,9 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     }
 
     public String getMoneyLabel() {
+        if (getType() == AppointmentType.STANDARD) {
+            return "<font color=\"#363636\">诊金:</font>  " + money() + "元";
+        }
         //前面的空格
         if (duration <= 0) {
             return "<font color=\"#363636\">诊金:</font>  <font color=\"#c1cacf\">暂无</font>";
@@ -237,6 +243,17 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
             case AppointmentType.PREMIUM:
                 int scalar = getDuration() / 15;
                 return doctor.getMoney() * scalar;
+            default:
+                return 0;
+        }
+    }
+
+    public double price() {
+        switch (getType()) {
+            case AppointmentType.STANDARD:
+                return doctor.getSecondMoney();
+            case AppointmentType.PREMIUM:
+                return doctor.getMoney();
             default:
                 return 0;
         }

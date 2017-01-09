@@ -50,4 +50,12 @@ public class ItemPremiumAppointment extends BaseItem {
     public int getDoneIcon() {
         return R.drawable.ic_done;
     }
+
+    public int triangle(BaseListAdapter adapter) {
+        if (isSelected(adapter)) {
+            return R.drawable.shape_top_right_triangle_blue;
+        } else {
+            return R.drawable.shape_top_right_triangle;
+        }
+    }
 }

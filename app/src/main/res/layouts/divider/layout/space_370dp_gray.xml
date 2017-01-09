@@ -6,5 +6,5 @@
     <View
         android:background="@color/color_background_gray"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_370" />
+        android:layout_height="@dimen/dp_430" />
 </layout>

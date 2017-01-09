@@ -260,33 +260,11 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
 
         builder.setType(event.getType());
         dialog.dismiss();
-        if (event.getType() == AppointmentType.STANDARD) {
-            builder.pickDate(this);
-            return;
-        }
 
         isPickingDuration = true;
-
         adapter.clear();
-        int type = event.getType();
-        double price;
-        if (type == AppointmentType.PREMIUM) {
-            price = getData().getMoney();
-        } else {
-            price = getData().getSecondMoney();
-        }
-        final ItemPickAppointmentDuration item = new ItemPickAppointmentDuration(price);
-        if (builder.getDuration() > 0) {
-            item.setSelectedItem(builder.getDuration() / 15);
-        }
-        item.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable observable, int i) {
-                if (i == BR.selectedItem) {
-                    builder.setDurationNotifyAll(item.getSelectedItem() * 15);
-                }
-            }
-        });
+
+        final ItemPickAppointmentDuration item = new ItemPickAppointmentDuration(builder);
         api.coupons("").enqueue(new SimpleCallback<List<Coupon>>() {
             @Override
             protected void handleResponse(List<Coupon> response) {
@@ -302,6 +280,9 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         binding.flSelectDuration.setVisibility(View.GONE);
         binding.llSelectRecord.setVisibility(View.VISIBLE);
         ShowCaseUtil.showCase(binding.llSelectRecord, "点击下一步选择要预约的患者病历", "select_duration", 2, 1, true);
+        if (builder.getType() == AppointmentType.STANDARD){
+            builder.pickDate(this);
+        }
     }
 
     private void insertCouponMessage(Coupon coupon, int size) {

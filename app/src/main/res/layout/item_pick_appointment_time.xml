@@ -14,13 +14,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:isRect="@{true}"
         android:orientation="vertical"
         android:showcase='@{"点击选择预约咨询时长"}'
         android:showcaseId='@{"select_duration"}'
         android:showcasePosition='@{0}'
         android:showcaseSize='@{2}'
-        android:isRect="@{true}"
-        android:paddingBottom="@dimen/dp_13">
+        tools:background="@color/divider_color">
 
         <View
             android:layout_width="match_parent"
@@ -32,7 +32,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:onClick="@{()->data.selectAppointmentType()}"
-            android:paddingLeft="@dimen/dp_13">
+            android:paddingLeft="@dimen/dp_13"
+            android:paddingStart="@dimen/dp_13">
 
             <ImageView
                 android:layout_width="@dimen/dp_30"
@@ -48,7 +49,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginStart="@dimen/dp_12"
-                android:text="专属咨询"
+                android:text="@{data.typeLabel}"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
@@ -65,13 +66,17 @@
         <View
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_8"
-            android:background="@color/color_background_gray" />
+            android:background="@color/color_background_gray"
+            android:visibility="@{data.premium}"
+            tools:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_9"
-            android:layout_marginTop="@dimen/dp_9">
+            android:layout_marginTop="@dimen/dp_9"
+            android:visibility="@{data.premium}"
+            tools:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -95,7 +100,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/divider_color" />
+            android:background="@color/divider_color"
+            android:visibility="@{data.premium}"
+            tools:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -103,7 +110,9 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_13"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="@{data.premium}"
+            tools:visibility="gone">
 
             <RadioButton
                 android:id="@+id/zero"
@@ -189,7 +198,10 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginStart="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_12"
-            android:orientation="horizontal">
+            android:layout_marginBottom="@dimen/dp_13"
+            android:orientation="horizontal"
+            android:visibility="@{data.premium}"
+            tools:visibility="gone">
 
             <RadioButton
                 android:id="@+id/five"

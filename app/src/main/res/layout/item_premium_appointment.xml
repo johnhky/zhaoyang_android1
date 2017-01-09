@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.doctor.sun.R"/>
+
+        <import type="com.doctor.sun.R" />
 
         <variable
             name="data"
@@ -39,7 +40,7 @@
             android:layout_marginStart="@dimen/dp_18"
             android:layout_marginTop="@dimen/dp_16"
             app:backgroundCompat="@{data.appointmentBackground}"
-            tools:src="@drawable/ic_premium_appointment"/>
+            tools:src="@drawable/ic_premium_appointment" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -72,9 +73,9 @@
             android:layout_marginTop="@dimen/dp_5"
             android:layout_toEndOf="@id/iv"
             android:layout_toRightOf="@id/iv"
-            app:drawableLeftCompat="@{R.drawable.ic_chat}"
             android:gravity="center"
-            android:text="在线聊天" />
+            android:text="在线聊天"
+            app:drawableLeftCompat="@{R.drawable.ic_chat}" />
 
         <TextView
             android:id="@+id/tv_2"
@@ -85,9 +86,9 @@
             android:layout_marginStart="@dimen/dp_18"
             android:layout_toEndOf="@id/tv_1"
             android:layout_toRightOf="@id/tv_1"
-            app:drawableLeftCompat="@{R.drawable.ic_phone_ring}"
             android:gravity="center"
-            android:text="音频通话" />
+            android:text="音频通话"
+            app:drawableLeftCompat="@{R.drawable.ic_phone_ring}" />
 
         <TextView
             android:id="@+id/tv_3"
@@ -96,9 +97,9 @@
             android:layout_alignStart="@id/tv_1"
             android:layout_below="@id/tv_1"
             android:layout_marginTop="@dimen/dp_5"
-            app:drawableLeftCompat="@{R.drawable.ic_camera}"
             android:gravity="center"
-            android:text="视频通话" />
+            android:text="视频通话"
+            app:drawableLeftCompat="@{R.drawable.ic_camera}" />
 
         <TextView
             android:id="@+id/tv_4"
@@ -107,9 +108,9 @@
             android:layout_alignStart="@id/tv_2"
             android:layout_alignTop="@id/tv_3"
             android:layout_below="@+id/tv_2"
-            app:drawableLeftCompat="@{R.drawable.ic_ring}"
             android:gravity="center"
-            android:text="信息及时" />
+            android:text="信息及时"
+            app:drawableLeftCompat="@{R.drawable.ic_ring}" />
 
         <TextView
             android:id="@+id/tv_description"
@@ -133,9 +134,10 @@
             <View
                 android:layout_width="@dimen/dp_45"
                 android:layout_height="@dimen/dp_45"
-                android:layout_gravity="top"
-                app:backgroundCompat="@{R.drawable.selector_top_right_triangle}"
-                android:selected="@{data.isSelected(adapter)}" />
+                android:layout_marginEnd="1px"
+                android:layout_marginRight="1px"
+                android:layout_marginTop="1px"
+                app:backgroundCompat="@{data.triangle(adapter)}" />
 
             <ImageView
                 android:layout_width="@dimen/dp_15"
