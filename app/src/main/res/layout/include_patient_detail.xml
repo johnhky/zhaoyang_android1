@@ -63,7 +63,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_4"
-            android:text="@{@string/appointment_time(data.data.getBook_time())}"
+            android:text="@{@string/appointment_time(handler.getTime(context,data.data))}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13" />
 
