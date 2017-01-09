@@ -1,5 +1,6 @@
 package com.doctor.sun.entity.handler;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.immutables.ImmutablePrescription;
@@ -32,6 +34,11 @@ public class PrescriptionHandler {
     private static final String[] keys = new String[]{"早", "午", "晚", "睡前"};
 
     public static void modify(Context context, final BaseListAdapter adapter, final Prescription data) {
+        View focusCurrent =((Activity)context).getWindow().getCurrentFocus();
+        if (focusCurrent != null) {
+            focusCurrent.clearFocus();
+        }
+
         if (!data.isEnabled()) {
             viewDetailImpl(context, data);
             return;
