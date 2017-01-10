@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vm.ItemTextInput2" />
+
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_51"
+        android:background="@drawable/bg_dialog_title"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.title}"
+            android:layout_marginTop="@dimen/dp_8"
+            android:textColor="@color/dark_36"
+            android:textSize="@dimen/font_18"
+            tools:text="内容" />
+
+    </LinearLayout>
+</layout>

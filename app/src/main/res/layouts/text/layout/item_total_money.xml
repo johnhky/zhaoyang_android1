@@ -33,7 +33,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='@{"（服务费：￥0 "}'
+            android:text='@{"（服务费： "}'
             android:textColor="#f65600"
             android:textSize="@dimen/font_15"
             android:visibility="@{data.userSelected}"
@@ -46,7 +46,7 @@
             android:background="@drawable/bg_transparent"
             android:strikeThrough="@{true}"
             android:text="￥100"
-            android:textColor="@color/text_color_gray"
+            android:textColor="#f65600"
             android:textSize="@dimen/font_12"
             android:visibility="@{data.userSelected}" />
 

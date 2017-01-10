@@ -176,6 +176,8 @@ public abstract class Drug extends BaseItem {
     public static class DrugEntity {
         public String drug;
         public String price;
+        public String specification;
+        public String drug_num;
 
         @Override
         public String toString() {

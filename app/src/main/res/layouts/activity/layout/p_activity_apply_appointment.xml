@@ -296,8 +296,13 @@
                         android:layout_height="@dimen/dp_50"
                         android:background="@drawable/ripple_default"
                         android:clickable="true"
+                        android:current="@{10}"
                         android:gravity="center_vertical"
-                        android:onClick="@{()->data.selectCoupon(context)}">
+                        android:next="@{-1}"
+                        android:onClick="@{()->data.selectCoupon(context)}"
+                        android:isRect="@{true}"
+                        android:previous='@{-1}'
+                        android:showcase='@{"点击选择您可用的优惠券作费用抵扣"}'>
 
                         <TextView
                             android:id="@+id/cb_coupon_count"

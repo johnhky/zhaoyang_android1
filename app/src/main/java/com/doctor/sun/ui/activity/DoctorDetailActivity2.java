@@ -26,6 +26,7 @@ import com.doctor.sun.entity.Comment;
 import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.constans.CouponType;
 import com.doctor.sun.event.AdapterItemsEvent;
 import com.doctor.sun.event.SelectAppointmentTypeEvent;
 import com.doctor.sun.event.ShowDialogEvent;
@@ -45,6 +46,7 @@ import com.doctor.sun.vm.ItemPickAppointmentDuration;
 import com.doctor.sun.vm.ItemPremiumAppointment;
 import com.doctor.sun.vm.ItemSpace;
 import com.doctor.sun.vm.ItemStandardAppointment;
+import com.doctor.sun.vm.ItemTextInput2;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -236,8 +238,9 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
             SimpleAdapter adapter = new SimpleAdapter();
             adapter.onFinishLoadMore(true);
             MaterialDialog.Builder builder = new MaterialDialog.Builder(this);
-            builder.title("预约类型");
+
             builder.titleGravity(GravityEnum.CENTER);
+            adapter.add(ItemTextInput2.newDialogTitle("预约类型"));
             adapter.add(new ItemPremiumAppointment(getData().getMoney()));
             adapter.add(new ItemSpace());
             adapter.add(new ItemStandardAppointment(getData().getSecondMoney()));
@@ -263,7 +266,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         adapter.clear();
 
         final ItemPickAppointmentDuration item = new ItemPickAppointmentDuration(builder);
-        api.coupons("").enqueue(new SimpleCallback<List<Coupon>>() {
+        api.coupons(CouponType.VALID).enqueue(new SimpleCallback<List<Coupon>>() {
             @Override
             protected void handleResponse(List<Coupon> response) {
                 if (response.size() > 0) {

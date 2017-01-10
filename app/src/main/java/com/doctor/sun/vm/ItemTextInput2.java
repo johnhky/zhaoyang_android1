@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.Bindable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
+import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
@@ -194,6 +195,14 @@ public class ItemTextInput2 extends BaseItem {
         viewModel.add(new RegexValidator(StringsUtils.MOBILE_PATTERN, "手机号码格式错误"));
 
         return viewModel;
+    }
+
+    @NonNull
+    public static ItemTextInput2 newDialogTitle(String title) {
+        ItemTextInput2 item = new ItemTextInput2(R.layout.item_dialog_title, title, "");
+        item.setItemId("TITLE");
+        item.setPosition(0);
+        return item;
     }
 
     public static ItemTextInput2 phoneInput(String title, String hint) {

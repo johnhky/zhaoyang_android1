@@ -19,6 +19,7 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
+import com.doctor.sun.vm.ItemTextInput2;
 
 import java.util.List;
 
@@ -39,7 +40,6 @@ public class SelectRecordDialog {
                 }
                 SimpleAdapter mAdapter = new SimpleAdapter();
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
-                builder.title("选择病历");
                 builder.btnStackedGravity(GravityEnum.CENTER);
                 builder.neutralText("新建病历");
                 builder.onNeutral(new MaterialDialog.SingleButtonCallback() {
@@ -53,6 +53,7 @@ public class SelectRecordDialog {
                 builder.titleGravity(GravityEnum.CENTER);
                 final MaterialDialog dialog = builder.adapter(mAdapter, new LinearLayoutManager(context)).build();
                 mAdapter.mapLayout(R.layout.item_r_medical_record, R.layout.item_medical_record);
+                mAdapter.add(ItemTextInput2.newDialogTitle("选择病历"));
                 mAdapter.addAll(response);
                 mAdapter.onFinishLoadMore(true);
                 mAdapter.notifyDataSetChanged();

@@ -1,17 +1,19 @@
 package com.doctor.sun.model;
 
+import android.support.annotation.NonNull;
+
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.MD5;
 import com.doctor.sun.vm.BaseItem;
+import com.doctor.sun.vm.ItemTextInput2;
 import com.google.common.base.Strings;
 
 import java.util.HashMap;
 import java.util.List;
 
-import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -34,6 +36,20 @@ final class ModelUtils {
         item.setPosition(list.size());
         list.add(item);
     }
+
+    static void insertTitle(List<SortedItem> list, String title) {
+        ItemTextInput2 item = newTitles(list, title);
+        list.add(item);
+    }
+
+    @NonNull
+    private static ItemTextInput2 newTitles(List<SortedItem> list, String title) {
+        ItemTextInput2 item = new ItemTextInput2(R.layout.item_dialog_title, title, "");
+        item.setItemId("DIVIDER" + list.size());
+        item.setPosition(list.size());
+        return item;
+    }
+
 
     static void insertVerticalDivider(List<SortedItem> list) {
         BaseItem item = new BaseItem(R.layout.divider_vertical_1px);

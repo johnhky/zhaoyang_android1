@@ -3,6 +3,7 @@ package com.doctor.sun.model;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.Observable;
+import android.databinding.ViewDataBinding;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
@@ -16,14 +17,16 @@ import com.doctor.sun.immutables.Drug;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
+import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.vm.ItemButton;
 import com.doctor.sun.vm.ItemCoupons;
+import com.doctor.sun.vm.ItemDrugDetailBtn;
 import com.doctor.sun.vm.ItemRadioGroup;
 import com.doctor.sun.vm.ItemTextInput2;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,41 +86,17 @@ public class PayPrescriptionsModel {
         remark.setPosition(result.size());
         result.add(remark);
 
-        ModelUtils.insertSpace(result, R.layout.space_8dp);
-
-        Description drugDetail = new Description(R.layout.item_description, "寄药详细");
-        drugDetail.setItemId("drugDetail");
-        drugDetail.setPosition(result.size());
-        result.add(drugDetail);
-
-        ModelUtils.insertSpace(result, R.layout.space_8dp);
-
-        ItemTextInput2 recordName = new ItemTextInput2(R.layout.item_text_subtitle, "处方病历：", "");
-        recordName.setSubTitle(response.getRecord_name());
-        recordName.setItemId("recordName");
-        recordName.setPosition(result.size());
-        result.add(recordName);
-
-        ItemTextInput2 doctorName = new ItemTextInput2(R.layout.item_text_subtitle, "处方医生：", "");
-        doctorName.setSubTitle(response.getDoctor().getName());
-        doctorName.setItemId("doctorName");
-        doctorName.setPosition(result.size());
-        result.add(doctorName);
-
-        ItemTextInput2 createdTime = new ItemTextInput2(R.layout.item_text_subtitle, "下单时间：", "");
-        createdTime.setSubTitle(response.getCreated_at());
-        createdTime.setItemId("createdTime");
-        createdTime.setPosition(result.size());
-        result.add(createdTime);
-
+//
         ModelUtils.insertSpace(result, R.layout.space_8dp);
         ModelUtils.insertDividerNoMargin(result);
 
         ModelUtils.insertSpace(result, R.layout.space_8dp);
 
-        ItemTextInput2 drugName = new ItemTextInput2(R.layout.item_text_h2, "药品品类：", "");
+        ItemDrugDetailBtn drugName = new ItemDrugDetailBtn(R.layout.item_drug_detail_btn, "药品：", "");
+        drugName.setSubTitle("收费明细");
         drugName.setItemId("药品品类");
         drugName.setPosition(result.size());
+        drugName.setAdapter(drugDetailAdapter(response, extra));
         result.add(drugName);
 
         ModelUtils.insertSpace(result, R.layout.space_8dp);
@@ -126,72 +105,18 @@ public class PayPrescriptionsModel {
 
             for (Drug.DrugEntity s : response.getDrug_detail()) {
 
-                ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_r_grey_menu, s.drug, "");
-                itemTextInput2.setSubTitle(s.price);
+                ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_drug_spec, s.drug + s.specification, "");
+                itemTextInput2.setSubTitle(s.drug_num);
                 itemTextInput2.setTitleGravity(Gravity.START);
-                itemTextInput2.setItemId(s.toString());
+                itemTextInput2.setItemId(itemTextInput2.getTitle() + itemTextInput2.getSubTitle());
                 itemTextInput2.setPosition(result.size());
                 result.add(itemTextInput2);
             }
 
             ModelUtils.insertSpace(result, R.layout.space_8dp);
         }
+        //下面这些都放在弹窗里面显示
 
-        ItemTextInput2 medicinePrice = new ItemTextInput2(R.layout.item_text_h2, "药单总价：￥" + response.getDrug_money(), "");
-        medicinePrice.setTitleColor(R.color.color_medicine_price);
-        medicinePrice.setItemId("medicinePrice");
-        medicinePrice.setPosition(result.size());
-        result.add(medicinePrice);
-
-        ModelUtils.insertSpace(result, R.layout.space_8dp);
-
-        if (!extra.extraFee.isEmpty() || !extra.commission.isEmpty()) {
-            ModelUtils.insertDividerNoMargin(result);
-            ModelUtils.insertSpace(result, R.layout.space_8dp);
-
-            ItemTextInput2 itemText = new ItemTextInput2(R.layout.item_text_h2, "其他收费：", "");
-            itemText.setItemId("其他收费");
-            itemText.setPosition(result.size());
-            result.add(itemText);
-
-            ModelUtils.insertSpace(result, R.layout.space_8dp);
-
-            if (!extra.extraFee.isEmpty()) {
-                for (String s : extra.extraFee) {
-                    ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_r_grey_text, s, "");
-                    itemTextInput2.setTitleGravity(Gravity.START);
-                    itemTextInput2.setItemId(s);
-                    itemTextInput2.setPosition(result.size());
-                    result.add(itemTextInput2);
-                }
-            }
-            if (!extra.commission.isEmpty()) {
-                for (String s : extra.commission) {
-                    ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_r_grey_text, s, "");
-                    itemTextInput2.setTitleGravity(Gravity.START);
-                    itemTextInput2.setItemId(s);
-                    itemTextInput2.setPosition(result.size());
-                    result.add(itemTextInput2);
-                }
-            }
-            ModelUtils.insertSpace(result, R.layout.space_8dp);
-        }
-
-        if (!extra.discount.isEmpty()) {
-            Description discount = new Description(R.layout.item_description, "寄药优惠");
-            discount.setItemId("discount");
-            discount.setPosition(result.size());
-            result.add(discount);
-            ModelUtils.insertSpace(result, R.layout.space_8dp);
-            for (String s : extra.discount) {
-                ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_r_grey_text, s, "");
-                itemTextInput2.setTitleGravity(Gravity.START);
-                itemTextInput2.setItemId(s);
-                itemTextInput2.setPosition(result.size());
-                result.add(itemTextInput2);
-            }
-            ModelUtils.insertSpace(result, R.layout.space_8dp);
-        }
 
         if (!hasPay) {
 
@@ -219,22 +144,6 @@ public class PayPrescriptionsModel {
         selectCoupon.setPosition(result.size());
         result.add(selectCoupon);
 
-        Description total = new Description(R.layout.item_description, "总价");
-        total.setItemId("total");
-        total.setPosition(result.size());
-        result.add(total);
-
-        ModelUtils.insertSpace(result, R.layout.space_8dp);
-
-        String totalMoneyString = "订单总额：￥" + money;
-        final ItemTextInput2 totalMoney = new ItemTextInput2(R.layout.item_r_grey_text, totalMoneyString, "");
-        totalMoney.setTextSize(R.dimen.font_12);
-        totalMoney.setTitleGravity(Gravity.START);
-        totalMoney.setItemId("totalMoney");
-        totalMoney.setPosition(result.size());
-        result.add(totalMoney);
-
-        ModelUtils.insertSpace(result, R.layout.space_8dp);
 
         String shouldPayMoneyString = "<font color=\"#f65600\">实际付款：￥" + response.getNeed_pay() + "</font>";
         final ItemTextInput2 shouldPayMoney = new ItemTextInput2(R.layout.item_total_money, shouldPayMoneyString, "");
@@ -326,6 +235,95 @@ public class PayPrescriptionsModel {
         }
 
         return result;
+    }
+
+
+    public BaseListAdapter<SortedItem, ViewDataBinding> drugDetailAdapter(Drug response, DrugExtraFee extra) {
+        //下面这些都放在弹窗里面显示
+
+        List<SortedItem> result = new ArrayList<>();
+        ModelUtils.insertTitle(result, "收费明细");
+
+        ItemDrugDetailBtn drugName = new ItemDrugDetailBtn(R.layout.item_text_h2, "药品收费：", "");
+        drugName.setItemId("药品品类");
+        drugName.setPosition(result.size());
+        result.add(drugName);
+
+        if (!response.getDrug().isEmpty()) {
+
+            for (int i = 0; i < response.getDrug_detail().size(); i++) {
+                Drug.DrugEntity s = response.getDrug_detail().get(i);
+                ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_drug_spec2, i + "." + s.drug, "");
+                itemTextInput2.setResult(s.specification);
+                itemTextInput2.setSubTitle(s.drug_num);
+                itemTextInput2.setTitleGravity(Gravity.START);
+                itemTextInput2.setItemId(itemTextInput2.getTitle() + itemTextInput2.getSubTitle());
+                itemTextInput2.setPosition(result.size());
+                result.add(itemTextInput2);
+            }
+
+            ModelUtils.insertSpace(result, R.layout.space_8dp);
+        }
+        ModelUtils.insertDividerNoMargin(result);
+        ItemTextInput2 medicinePrice = new ItemTextInput2(R.layout.item_text_h2, "药单总价：￥" + response.getDrug_money(), "");
+        medicinePrice.setTitleColor(R.color.text_color_gray);
+        medicinePrice.setItemId("medicinePrice");
+        medicinePrice.setPosition(result.size());
+        result.add(medicinePrice);
+
+        ModelUtils.insertSpace(result, R.layout.space_8dp);
+        ModelUtils.insertDividerNoMargin(result);
+
+        if (!extra.extraFee.isEmpty() || !extra.commission.isEmpty()) {
+            ModelUtils.insertDividerNoMargin(result);
+            ModelUtils.insertSpace(result, R.layout.space_8dp);
+
+            ItemTextInput2 itemText = new ItemTextInput2(R.layout.item_text_h2, "其他收费：", "");
+            itemText.setItemId("其他收费");
+            itemText.setPosition(result.size());
+            result.add(itemText);
+
+            ModelUtils.insertSpace(result, R.layout.space_8dp);
+
+            if (!extra.extraFee.isEmpty()) {
+                for (String s : extra.extraFee) {
+                    ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_r_grey_text, s, "");
+                    itemTextInput2.setTitleGravity(Gravity.START);
+                    itemTextInput2.setItemId(s);
+                    itemTextInput2.setPosition(result.size());
+                    result.add(itemTextInput2);
+                }
+            }
+            if (!extra.commission.isEmpty()) {
+                for (String s : extra.commission) {
+                    ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_r_grey_text, s, "");
+                    itemTextInput2.setTitleGravity(Gravity.START);
+                    itemTextInput2.setItemId(s);
+                    itemTextInput2.setPosition(result.size());
+                    result.add(itemTextInput2);
+                }
+            }
+            ModelUtils.insertSpace(result, R.layout.space_8dp);
+        }
+
+        if (!extra.discount.isEmpty()) {
+            Description discount = new Description(R.layout.item_description, "寄药优惠");
+            discount.setItemId("discount");
+            discount.setPosition(result.size());
+            result.add(discount);
+            ModelUtils.insertSpace(result, R.layout.space_8dp);
+            for (String s : extra.discount) {
+                ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_r_grey_text, s, "");
+                itemTextInput2.setTitleGravity(Gravity.START);
+                itemTextInput2.setItemId(s);
+                itemTextInput2.setPosition(result.size());
+                result.add(itemTextInput2);
+            }
+            ModelUtils.insertSpace(result, R.layout.space_8dp);
+        }
+        SortedListAdapter<ViewDataBinding> adapter = new SortedListAdapter<>();
+        adapter.insertAll(result);
+        return adapter;
     }
 
 

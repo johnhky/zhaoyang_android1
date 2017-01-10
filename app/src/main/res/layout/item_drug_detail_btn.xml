@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vm.ItemDrugDetailBtn" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{()->data.showDialog(context)}"
+        android:background="@drawable/ripple_default"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:background="@drawable/bg_transparent"
+            android:gravity="start"
+            android:hint="@{data.hint}"
+            android:text="@{data.title}"
+            android:textColor="@{data.getTitleColor(context)}"
+            android:textSize="@dimen/font_15"
+            tools:text="title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:background="@drawable/bg_transparent"
+            android:drawablePadding="@dimen/dp_4"
+            android:gravity="end"
+            android:maxLines="1"
+            android:text="@{data.subTitle}"
+            android:textColor="@color/colorPrimaryDark"
+            android:drawableRight="@drawable/ic_enter"
+            android:drawableEnd="@drawable/ic_enter"
+            android:textSize="@dimen/font_12"
+            tools:text="subtitle" />
+    </LinearLayout>
+
+</layout>
