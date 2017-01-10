@@ -38,9 +38,9 @@
                 android:onClick="@{handler.info}"
                 android:scaleType="centerCrop"
                 android:showcase='@{"点击头像可以修改个人信息"}'
-                android:showcaseId='@{"patientMe"}'
-                android:showcasePosition='@{0}'
-                android:showcaseSize='@{3}'
+                android:previous='@{-1}'
+                android:next="@{2}"
+                android:current="@{1}"
                 android:src="@{handler.data.avatar}"
                 bind:maskDrawable="@drawable/circle_mask" />
 
@@ -75,9 +75,9 @@
                 android:onClick="@{handler.Record}"
                 android:orientation="vertical"
                 android:showcase='@{"这里可以查看病历信息和新建病历"}'
-                android:showcaseId='@{"patientMe"}'
-                android:showcasePosition='@{2}'
-                android:showcaseSize='@{3}'>
+                android:previous='@{-1}'
+                android:next="@{2}"
+                android:current="@{1}">
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -152,9 +152,9 @@
                 android:onClick="@{()->handler.followUpDoctorList(context)}"
                 android:orientation="vertical"
                 android:showcase='@{"随访医生都在这里"}'
-                android:showcaseId='@{"patientMe"}'
-                android:showcasePosition='@{1}'
-                android:showcaseSize='@{3}'>
+                android:previous='@{-1}'
+                android:next="@{2}"
+                android:current="@{1}">
 
                 <FrameLayout
                     android:layout_width="wrap_content"

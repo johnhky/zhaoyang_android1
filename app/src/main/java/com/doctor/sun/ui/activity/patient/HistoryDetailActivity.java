@@ -63,9 +63,9 @@ public class HistoryDetailActivity extends TabActivity {
         View childAt = binding.showcase;
         if (childAt != null) {
             if (Settings.isDoctor()) {
-                ShowCaseUtil.showCase(childAt, "记录病历和给患者建议和调药", "diagnosisResult", 1, 0, true);
+                ShowCaseUtil.showCase2(childAt, "记录病历和给患者建议和调药", 1, 1, 0, true);
             } else {
-                ShowCaseUtil.showCase(childAt, "您可以在这里看到医生的医嘱和处方建议", "diagnosisResult", 1, 0, true);
+                ShowCaseUtil.showCase2(childAt, "您可以在这里看到医生的医嘱和处方建议", 1, 1, 0, true);
             }
         }
     }

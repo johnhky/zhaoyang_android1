@@ -59,10 +59,10 @@
             android:background="@color/colorPrimaryDark"
             android:isRect="@{true}"
             android:onClick="@{()->data.showSelectAppointmentTypeDialog()}"
+            android:previous='@{-1}'
+            android:next="@{5}"
+            android:current="@{3}"
             android:showcase='@{"点击了解和选择预约类型"}'
-            android:showcaseId='@{"select_type"}'
-            android:showcasePosition='@{0}'
-            android:showcaseSize='@{1}'
             tools:visibility="gone">
 
             <TextView

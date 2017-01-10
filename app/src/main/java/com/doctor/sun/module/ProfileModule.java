@@ -144,4 +144,14 @@ public interface ProfileModule {
 
     @GET("profile/recommend-doctors")
     Call<ApiDTO<List<Doctor>>> recommendDoctors();
+
+
+    @FormUrlEncoded
+    @POST("profile/tutorial-record")
+    Call<ApiDTO<String>> setIsShow(@Field("step") int id);
+
+
+    @GET("profile/tutorial-record")
+    Call<ApiDTO<List<String>>> tutorialRecord();
+
 }

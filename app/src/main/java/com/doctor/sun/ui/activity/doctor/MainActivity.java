@@ -217,14 +217,14 @@ public class MainActivity extends BaseDoctorActivity {
         if (isShowing) {
             return;
         }
-        if (ShowCaseUtil.isShow(TAG)) {
-            return;
-        }
+//        if (ShowCaseUtil.isShow(TAG)) {
+//            return;
+//        }
         if (Settings.isDoctor()) {
             isShowing = true;
-            ShowCaseUtil.showCase(binding.llyAppointment, "所有已预约患者都在这里", TAG, 3, 0, true);
-            ShowCaseUtil.showCase(binding.llyAfterService, "点击这里向已出院患者或者就诊后的患者进行随访", TAG, 3, 1, true);
-            ShowCaseUtil.showCase(binding.includeFooter.flTabTwo, "您可以在这里与患者通过文字信息或者电话进行沟通", TAG, 3, 2, false);
+            ShowCaseUtil.showCase2(binding.llyAppointment, "所有已预约患者都在这里", 2, 3, 0, true);
+            ShowCaseUtil.showCase2(binding.llyAfterService, "点击这里向已出院患者或者就诊后的患者进行随访", 2, 3, 1, true);
+            ShowCaseUtil.showCase2(binding.includeFooter.flTabTwo, "您可以在这里与患者通过文字信息或者电话进行沟通", 2, 3, 2, false);
         }
     }
 

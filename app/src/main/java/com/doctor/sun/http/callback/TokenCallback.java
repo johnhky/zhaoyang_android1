@@ -24,6 +24,7 @@ import com.doctor.sun.ui.activity.patient.PMainActivity;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.ui.fragment.RegisterFragment;
 import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.util.ShowCaseUtil;
 import com.google.common.base.Strings;
 
 import java.util.Set;
@@ -181,6 +182,7 @@ public class TokenCallback {
         String key = "LAST_VISIT_TIME" + account;
         Config.putLong(key, System.currentTimeMillis());
         IMManager.getInstance().login(token.getAccount());
+        ShowCaseUtil.restoreState();
     }
 
 }

@@ -115,7 +115,7 @@ public class DoctorDetailModel {
             result.add(noComment);
         }
 
-        ModelUtils.insertSpace(result, R.layout.space_370dp_gray);
+        ModelUtils.insertSpace(result, R.layout.space_match_parent_gray);
 
         return result;
     }

@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,15 +14,16 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.IncludeSkipShowcaseBinding;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.ProfileModule;
 
-import java.util.HashMap;
+import java.util.List;
 
 import io.ganguo.library.BaseApp;
 import io.ganguo.library.core.event.EventHub;
 import uk.co.deanwild.materialshowcaseview.IShowcaseListener;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
-import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 /**
  * Created by rick on 3/5/2016.
@@ -33,79 +32,61 @@ public class ShowCaseUtil {
     public static final String TAG = ShowCaseUtil.class.getSimpleName();
     public static final String SHOWCASE_ID = "SHOWCASE_ID";
 
+    private static SparseArray<BuilderHolder> buildersMap2 = new SparseArray<>();
 
-    private static HashMap<String, SparseArray<MaterialShowcaseView.Builder>> buildersMap = new HashMap<>();
-    private static SparseArray<MaterialShowcaseView.Builder> builders;
 
     @BindingAdapter(requireAll = false,
             value = {"android:showcase"
-                    , "android:showcaseId"
-                    , "android:showcaseSize"
-                    , "android:showcasePosition"
+                    , "android:previous"
+                    , "android:current"
+                    , "android:next"
                     , "android:isRect"})
-    public static void showCase(View view, String content, final String id, int size, int position, boolean isRect) {
-//        if (BuildConfig.DEV_MODE) {
-//            return;
-//        }
-        if (isShow(id)){
-            return;
+    public static void showCase2(final View view, String content, final int previous, final int current, final int next, boolean isRect) {
+        boolean showThisItemNow = previous == -1;
+        if (showThisItemNow) {
+            if (isShow(current)) {
+                showNext(next);
+            } else {
+                showThis(view, content, current, next, isRect);
+            }
+        } else {
+            buildersMap2.put(current, new BuilderHolder(view, content, isRect, next));
         }
 
-        if (view == null) {
-            return;
-        }
+    }
 
+    private static void showThis(View view, String content, final int current, final int next, boolean isRect) {
         final MaterialShowcaseView.Builder builder = newBuilder(view, content, isRect);
-
-
-        builders = buildersMap.get(id);
-        if (builders == null) {
-            builders = new SparseArray<>();
-        }
-        builders.put(position, builder);
-        buildersMap.put(id, builders);
-
-        if (builders.size() >= size) {
-            for (int i = 0; i < builders.size(); i++) {
-                final MaterialShowcaseView.Builder currentBuilder = builders.get(i);
-                final int nextPosition = i + 1;
-                currentBuilder.setListener(new IShowcaseListener() {
+        builder.setListener(new IShowcaseListener() {
+            @Override
+            public void onShowcaseDisplayed(final MaterialShowcaseView materialShowcaseView) {
+                LayoutInflater from = LayoutInflater.from(materialShowcaseView.getContext());
+                IncludeSkipShowcaseBinding inflate = DataBindingUtil.inflate(from, R.layout.include_skip_showcase, materialShowcaseView, true);
+                inflate.setData("跳过帮助教程");
+                inflate.dismissShowcase.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onShowcaseDisplayed(final MaterialShowcaseView materialShowcaseView) {
-                        LayoutInflater from = LayoutInflater.from(materialShowcaseView.getContext());
-                        IncludeSkipShowcaseBinding inflate = DataBindingUtil.inflate(from, R.layout.include_skip_showcase, materialShowcaseView, true);
-                        inflate.setData("跳过帮助教程");
-                        inflate.dismissShowcase.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (builders != null) {
-                                    builders.clear();
-                                }
-                                materialShowcaseView.onClick(v);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onShowcaseDismissed(MaterialShowcaseView materialShowcaseView) {
-                        if (builders == null) {
-                            setHaveShow(id);
-                        }
-                        final MaterialShowcaseView.Builder nextBuilder = builders.get(nextPosition);
-                        if (nextBuilder != null) {
-                            show(nextBuilder);
-                        } else {
-                            builders.clear();
-                            buildersMap.remove(id);
-                            setHaveShow(id);
-                        }
+                    public void onClick(View v) {
+                        materialShowcaseView.onClick(v);
                     }
                 });
             }
-            MaterialShowcaseView.Builder firstBuilder = builders.get(0);
-            if (firstBuilder != null) {
-                show(firstBuilder);
+
+            @Override
+            public void onShowcaseDismissed(MaterialShowcaseView materialShowcaseView) {
+                showNext(next);
+                saveToServer(current);
             }
+        });
+        builder.show();
+    }
+
+    private static void showNext(int next) {
+        BuilderHolder builderHolder = buildersMap2.get(next);
+        if (builderHolder != null) {
+            showCase2(builderHolder.getView(), builderHolder.getContent(), -1, next, builderHolder.getNext(), builderHolder.isRect);
+        } else {
+            //最后一页
+            buildersMap2.clear();
         }
     }
 
@@ -117,32 +98,44 @@ public class ShowCaseUtil {
         }
     }
 
+    public static void setHaveShow(int id) {
+        putBoolean(SHOWCASE_ID + id, true);
+        EventHub.post(new ShowCaseFinishedEvent(id));
+    }
+
     public static void setHaveShow(String id) {
         putBoolean(SHOWCASE_ID + id, true);
         EventHub.post(new ShowCaseFinishedEvent(id));
     }
 
-    public static boolean isShow(String id) {
+    public static void saveToServer(final int id) {
+        ProfileModule api = Api.of(ProfileModule.class);
+        api.setIsShow(id).enqueue(new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                setHaveShow(id);
+            }
+        });
+    }
+
+    public static void restoreState() {
+        ProfileModule api = Api.of(ProfileModule.class);
+        api.tutorialRecord().enqueue(new SimpleCallback<List<String>>() {
+            @Override
+            protected void handleResponse(List<String> response) {
+                for (String s : response) {
+                    setHaveShow(s);
+                }
+            }
+        });
+    }
+
+    public static boolean isShow(int id) {
         return getBoolean(SHOWCASE_ID + id, false);
     }
 
     public static void reset() {
         getSharedPreferences().edit().clear().apply();
-    }
-
-    @NonNull
-    private static MaterialShowcaseSequence getShowcaseSequence(View view, SparseArray<MaterialShowcaseView.Builder> builders) {
-        MaterialShowcaseSequence showcaseSequence = new MaterialShowcaseSequence((Activity) view.getContext());
-        ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(500);
-        showcaseSequence.setConfig(config);
-        for (int i = 0; i < builders.size(); i++) {
-            MaterialShowcaseView.Builder b = builders.get(i);
-            if (b != null) {
-                showcaseSequence.addSequenceItem(b.build());
-            }
-        }
-        return showcaseSequence;
     }
 
     private static MaterialShowcaseView.Builder newBuilder(View view, String content, boolean isRect) {
@@ -188,5 +181,35 @@ public class ShowCaseUtil {
             editor.remove(key);
         }
         editor.apply();
+    }
+
+    private static class BuilderHolder {
+        private final int next;
+        private View view;
+        private String content;
+        private boolean isRect;
+
+        public BuilderHolder(View view, String content, boolean isRect, int next) {
+            this.view = view;
+            this.content = content;
+            this.isRect = isRect;
+            this.next = next;
+        }
+
+        public View getView() {
+            return view;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public boolean isRect() {
+            return isRect;
+        }
+
+        public int getNext() {
+            return next;
+        }
     }
 }

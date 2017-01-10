@@ -30,6 +30,7 @@ import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.widget.CityPickerDialog;
 import com.doctor.sun.util.AnimationUtils;
+import com.doctor.sun.util.ShowCaseUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -101,6 +102,7 @@ public class SearchDoctorActivity extends BaseFragmentActivity2 implements View.
         initRecyclerView();
         initRefreshLayout();
         initFilter();
+//        ShowCaseUtil.showCase2(binding.flSearch,"点击搜索您需要预约的医生",-1,2,-1,true);
     }
 
     private void initRefreshLayout() {

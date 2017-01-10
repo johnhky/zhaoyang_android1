@@ -17,9 +17,9 @@
         android:isRect="@{true}"
         android:orientation="vertical"
         android:showcase='@{"点击选择预约咨询时长"}'
-        android:showcaseId='@{"select_duration"}'
-        android:showcasePosition='@{0}'
-        android:showcaseSize='@{2}'
+        android:previous='@{-1}'
+        android:next="@{6}"
+        android:current="@{5}"
         tools:background="@color/divider_color">
 
         <View

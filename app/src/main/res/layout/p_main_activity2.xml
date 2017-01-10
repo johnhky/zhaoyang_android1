@@ -61,9 +61,9 @@
                             android:layout_gravity="center"
                             android:onClick="@{()->data.allDoctors(context)}"
                             android:showcase='@{"点击找医生预约医生"}'
-                            android:showcaseId='@{"patientMain"}'
-                            android:showcasePosition='@{0}'
-                            android:showcaseSize='@{1}'
+                            android:previous='@{-1}'
+                            android:next="@{2}"
+                            android:current="@{1}"
                             app:srcCompat="@drawable/search_doctor"
                             tools:src="@drawable/search_doctor" />
                     </FrameLayout>

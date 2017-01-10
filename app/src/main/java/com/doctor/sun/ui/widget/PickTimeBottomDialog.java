@@ -108,7 +108,7 @@ public class PickTimeBottomDialog extends BottomSheetDialog {
 
     @NonNull
     protected PickTimeAdapter createAdapter() {
-        PickTimeAdapter simpleAdapter = new PickTimeAdapter( builder.getType(), getDateTime());
+        PickTimeAdapter simpleAdapter = new PickTimeAdapter(builder.getType(), getDateTime());
         simpleAdapter.mapLayout(R.layout.item_time, R.layout.reserve_time);
         return simpleAdapter;
     }

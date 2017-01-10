@@ -45,9 +45,9 @@
                     android:layout_marginTop="@dimen/dp_10"
                     android:scaleType="centerCrop"
                     android:showcase='@{"点击头像可以修改个人信息"}'
-                    android:showcaseId='@{"doctorMe"}'
-                    android:showcasePosition='@{0}'
-                    android:showcaseSize='@{2}'
+                    android:previous='@{-1}'
+                    android:next="@{2}"
+                    android:current="@{1}"
                     android:src="@{data.avatar}"
                     app:maskDrawable="@drawable/circle_mask" />
 

@@ -3,7 +3,6 @@ package com.doctor.sun.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.Observable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +15,6 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityDoctorDetail2Binding;
@@ -279,8 +277,8 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         });
         binding.flSelectDuration.setVisibility(View.GONE);
         binding.llSelectRecord.setVisibility(View.VISIBLE);
-        ShowCaseUtil.showCase(binding.llSelectRecord, "点击下一步选择要预约的患者病历", "select_duration", 2, 1, true);
-        if (builder.getType() == AppointmentType.STANDARD){
+        ShowCaseUtil.showCase2(binding.llSelectRecord, "点击下一步选择要预约的患者病历", 5, 6, 7, true);
+        if (builder.getType() == AppointmentType.STANDARD) {
             builder.pickDate(this);
         }
     }
@@ -297,7 +295,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
     }
 
     public void insertTail() {
-        BaseItem tail = new BaseItem(R.layout.space_370dp_gray);
+        BaseItem tail = new BaseItem(R.layout.space_match_parent_gray);
         tail.setItemId("space_" + adapter.size());
         tail.setPosition(adapter.size());
         adapter.insert(tail);

@@ -12,4 +12,8 @@ public class ShowCaseFinishedEvent implements Event {
         this.id = id;
     }
 
+    public ShowCaseFinishedEvent(int id) {
+        this.id = String.valueOf(id);
+    }
+
 }

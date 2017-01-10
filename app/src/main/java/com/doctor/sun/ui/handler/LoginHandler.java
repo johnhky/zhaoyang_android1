@@ -19,6 +19,7 @@ import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.fragment.RegisterFragment;
 import com.doctor.sun.ui.fragment.ResetPswFragment;
 import com.doctor.sun.util.MD5;
+import com.doctor.sun.util.ShowCaseUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;

@@ -32,9 +32,9 @@
                 android:layout_height="@dimen/dp_48"
                 android:layout_gravity="end"
                 android:showcase='@{"问卷不够全面?这里补充"}'
-                android:showcaseId='@{"patientDetail"}'
-                android:showcasePosition='@{0}'
-                android:showcaseSize='@{3}' />
+                android:previous='@{-1}'
+                android:next="@{2}"
+                android:current="@{1}"/>
         </FrameLayout>
 
         <FrameLayout
@@ -67,9 +67,9 @@
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/shape_blue_rect"
                 android:showcase='@{"提醒患者完成问卷"}'
-                android:showcaseId='@{"patientDetail"}'
-                android:showcasePosition='@{1}'
-                android:showcaseSize='@{3}'>
+                android:previous='@{-1}'
+                android:next="@{2}"
+                android:current="@{1}">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -91,9 +91,9 @@
                 android:background="@drawable/ripple_default"
                 android:onClick="@{()->handler.makePhoneCall(context,data)}"
                 android:showcase='@{"就诊前也可以联系患者"}'
-                android:showcaseId='@{"patientDetail"}'
-                android:showcasePosition='@{2}'
-                android:showcaseSize='@{3}'>
+                android:previous='@{-1}'
+                android:next="@{2}"
+                android:current="@{1}">
 
                 <ImageView
                     android:layout_width="match_parent"

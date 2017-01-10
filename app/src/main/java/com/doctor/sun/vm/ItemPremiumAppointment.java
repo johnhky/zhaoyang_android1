@@ -53,9 +53,9 @@ public class ItemPremiumAppointment extends BaseItem {
 
     public int triangle(BaseListAdapter adapter) {
         if (isSelected(adapter)) {
-            return R.drawable.shape_top_right_triangle_blue;
+            return R.drawable.vector_top_right_triangle_blue;
         } else {
-            return R.drawable.shape_top_right_triangle;
+            return R.drawable.vector_top_right_triangle;
         }
     }
 }
