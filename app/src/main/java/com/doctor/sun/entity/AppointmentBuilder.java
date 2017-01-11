@@ -353,7 +353,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     }
 
     public void showSelectTagsDialog(Context context) {
-        if (doctor.tags == null || doctor.tags.isEmpty()) {
+        if (hasNoTags()) {
             Toast.makeText(context, "该医生没有任何标签可选", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -378,8 +378,12 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
                 .build().show();
     }
 
+    public boolean hasNoTags() {
+        return doctor.tags == null || doctor.tags.isEmpty();
+    }
+
     public String tagsRemarks() {
-        if (doctor.tags == null || doctor.tags.isEmpty()) {
+        if (hasNoTags()) {
             return "该医生没有任何标签可选";
         }
         if (selectTags == null || selectTags.length == 0) {
@@ -551,15 +555,18 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     public List<BaseItem> toSortedItems(final Appointment response) {
         ArrayList<BaseItem> result = new ArrayList<>();
 
-        result.add(record);
-        result.add(new Description(R.layout.item_description, "预约详情"));
-        result.add(doctor);
+//        result.add(record);
+//        result.add(new Description(R.layout.item_description, "预约详情"));
+//        result.add(doctor);
 
-        result.add(new BaseItem(R.layout.divider_1px));
+//        result.add(new BaseItem(R.layout.divider_1px));
 
         result.add(new AppointmentWrapper(R.layout.item_appointment_detail, response));
 
-        result.add(new Description(R.layout.item_description, "优惠券"));
+        Description couponDescription = new Description(R.layout.item_description, "优惠券");
+        couponDescription.setBackgroundColor(R.color.color_coupon_background_yellow);
+        couponDescription.setTitleColor(R.color.white);
+        result.add(couponDescription);
 
         int discountMoney = AppointmentHandler2.getDiscountMoney(response);
         String status;

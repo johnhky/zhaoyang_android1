@@ -38,16 +38,21 @@ public class AppointmentWrapper extends BaseItem {
 
     public String tagsSelectedStatus() {
         List<Tags> selectTags = appointment.getSelect_tags();
-        if (selectTags == null || selectTags.isEmpty()) {
+        if (!hasSelectedTags()) {
             return "没有选择任何咨询标签";
         }
 
         return "已选择" + selectTags.size() + "个咨询标签：";
     }
 
+    public boolean hasSelectedTags() {
+        List<Tags> selectTags = appointment.getSelect_tags();
+        return selectTags != null && !selectTags.isEmpty();
+    }
+
     public String tagsLabel() {
         List<Tags> selectTags = appointment.getSelect_tags();
-        if (selectTags == null || selectTags.isEmpty()) {
+        if (!hasSelectedTags()) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
