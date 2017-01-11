@@ -34,192 +34,85 @@
                 <LinearLayout
                     android:id="@+id/lly_medical_record"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_37"
                     android:background="@drawable/ripple_default"
                     android:onClick="@{()->data.changeMedicalRecord(context)}"
                     android:orientation="horizontal"
+                    android:paddingBottom="@dimen/dp_8"
                     android:paddingLeft="@dimen/dp_13"
-                    android:paddingRight="@dimen/dp_13">
+                    android:paddingRight="@dimen/dp_13"
+                    android:paddingTop="@dimen/dp_8">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/dp_68"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="@dimen/dp_14"
-                        android:src="@drawable/ic_medical_record" />
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:text="当前病历: "
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_marginBottom="@dimen/dp_3"
-                            android:layout_weight="1"
-                            android:gravity="bottom"
-                            android:text="当前病历"
-                            android:textColor="#363636"
-                            android:textSize="@dimen/font_15" />
-
-                        <TextView
-                            android:id="@+id/tv_medcialRecord"
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_marginTop="@dimen/dp_3"
-                            android:layout_weight="1"
-                            android:gravity="top"
-                            android:text="@{handler.getInstance().getRecordDetail(data.record)}"
-                            android:textColor="#363636"
-                            android:textSize="@dimen/font_15" />
-
-                    </LinearLayout>
-
-                    <View
+                    <TextView
+                        android:id="@+id/tv_medcialRecord"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:text="@{handler.getInstance().getRecordDetail(data.record)}"
+                        android:textColor="#606060"
+                        android:textSize="@dimen/font_15" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_enter" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_30"
-                    android:background="#ebf0f3"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/dp_13"
-                    android:text="预约详细"
-                    android:textColor="#a2aaae"
-                    android:textSize="@dimen/font_15" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <com.doctor.sun.ui.widget.BezelImageView
-                        android:layout_width="@dimen/dp_60"
-                        android:layout_height="@dimen/dp_60"
-                        android:layout_gravity="top"
-                        android:layout_marginLeft="@dimen/dp_13"
-                        android:layout_marginTop="@dimen/dp_11"
-                        android:scaleType="centerCrop"
-                        android:src="@{data.doctor.avatar}"
-                        app:maskDrawable="@drawable/circle_mask" />
-
-                    <LinearLayout
-                        android:layout_width="@dimen/dp_272"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_15"
-                        android:orientation="vertical"
-                        android:paddingTop="@dimen/dp_11">
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dp_18"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@{data.doctor.name}"
-                                android:textColor="#363636"
-                                android:textSize="@dimen/font_15" />
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
-
-                            <RatingBar
-                                style="@style/SmallRatingBarCenter"
-                                android:layout_marginRight="@dimen/dp_15"
-                                android:numStars="5"
-                                android:rating="@{data.doctor.point}" />
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/tv_test"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_3"
-                            android:background="@{data.doctor.levelBackgroundColor}"
-                            android:gravity="center"
-                            android:paddingLeft="@dimen/dp_4"
-                            android:paddingRight="@dimen/dp_4"
-                            android:singleLine="true"
-                            android:text="@{data.doctor.level}"
-                            android:textColor="@color/blue_grey"
-                            android:textSize="@dimen/font_9" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/dp_11"
-                            android:layout_marginRight="@dimen/dp_13"
-                            android:layout_marginTop="@dimen/dp_3"
-                            android:minHeight="@dimen/dp_13"
-                            android:singleLine="false"
-                            android:text="@{data.doctor.handler.careerInfo}"
-                            android:textColor="#363636"
-                            android:textSize="@dimen/font_13" />
-
-                    </LinearLayout>
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="#c1cacf" />
+                    android:background="@color/divider_color" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_111"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_13"
                     android:layout_marginRight="@dimen/dp_13"
                     android:orientation="vertical">
 
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_2"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:gravity="center_vertical"
+                        android:textColor="#606060"
+                        android:textSize="@dimen/font_15"
+                        app:html="@{@string/string_36_60(&quot;预约医生:&quot;,data.doctor.name)}" />
+
+                    <TextView
                         android:id="@+id/tv_type"
                         android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_2"
                         android:gravity="center_vertical"
-                        android:text="@{data.formatTypeLabel()}"
                         android:textColor="#363636"
-                        android:textSize="@dimen/font_15" />
+                        android:textSize="@dimen/font_15"
+                        app:html="@{@string/string_36_60(&quot;预约类型:&quot;,data.typeLabel)}" />
 
                     <TextView
                         android:id="@+id/tv_time"
                         android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_2"
                         android:gravity="center_vertical"
-                        android:text="@{data.getTimeLabel()}"
                         android:textColor="#363636"
-                        android:textSize="@dimen/font_15" />
+                        android:textSize="@dimen/font_15"
+                        app:html="@{@string/string_36_60(&quot;预约时间:&quot;,data.timeLabel)}" />
 
                     <TextView
                         android:id="@+id/money"
                         android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_8"
                         android:gravity="center_vertical"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_15"
-                        app:html="@{@string/should_pay(data.money)}" />
+                        app:html="@{@string/string_36_60(&quot;应付诊金:&quot;, &quot;￥&quot;+data.money())}" />
 
                 </LinearLayout>
 
@@ -284,11 +177,11 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_30"
-                        android:background="#ebf0f3"
+                        android:background="#ffcb5c"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/dp_13"
                         android:text="优惠券"
-                        android:textColor="#a2aaae"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/font_15" />
 
                     <FrameLayout
@@ -298,9 +191,9 @@
                         android:clickable="true"
                         android:current="@{10}"
                         android:gravity="center_vertical"
+                        android:isRect="@{true}"
                         android:next="@{-1}"
                         android:onClick="@{()->data.selectCoupon(context)}"
-                        android:isRect="@{true}"
                         android:previous='@{-1}'
                         android:showcase='@{"点击选择您可用的优惠券作费用抵扣"}'>
 

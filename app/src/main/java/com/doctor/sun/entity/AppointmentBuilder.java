@@ -471,6 +471,10 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         return timestamp;
     }
 
+    public String getFormatedTimeLabel() {
+        return String.format("预约时间:%s", getTimeLabel());
+    }
+
     public String getTimeLabel() {
         Time time = getTime();
         StringBuilder builder = new StringBuilder();
@@ -478,7 +482,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         if (getType() == AppointmentType.PREMIUM) {
             builder.append(" ").append(time.getFrom()).append("-").append(time.getTo());
         }
-        return String.format("预约时间:%s", builder);
+        return builder.toString();
     }
 
     public String getTypeLabel() {
