@@ -19,7 +19,6 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.vm.ItemTextInput2;
 
 import java.util.List;
 
@@ -33,27 +32,28 @@ public class SelectRecordDialog {
         api.medicalRecordList().enqueue(new ApiCallback<List<MedicalRecord>>() {
             @Override
             protected void handleResponse(final List<MedicalRecord> response) {
-                if (response.size()<=0) {
+                if (response.size() <= 0) {
                     Toast.makeText(context, "请先建立病历", Toast.LENGTH_SHORT).show();
                     MedicalRecordHandler.newRecord(context, response);
                     return;
                 }
-                SimpleAdapter mAdapter = new SimpleAdapter();
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
-                builder.btnStackedGravity(GravityEnum.CENTER);
-                builder.neutralText("新建病历");
-                builder.onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        MedicalRecordHandler.newRecord(dialog.getContext(), response);
-                    }
-                });
-                builder.stackingBehavior(StackingBehavior.ALWAYS);
-                builder.buttonsGravity(GravityEnum.CENTER);
-                builder.titleGravity(GravityEnum.CENTER);
+                builder.btnStackedGravity(GravityEnum.CENTER)
+                        .stackingBehavior(StackingBehavior.ALWAYS)
+                        .buttonsGravity(GravityEnum.CENTER)
+                        .titleGravity(GravityEnum.CENTER)
+                        .title("选择病历")
+                        .neutralText("新建病历")
+                        .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                MedicalRecordHandler.newRecord(dialog.getContext(), response);
+                            }
+                        });
+
+                SimpleAdapter mAdapter = new SimpleAdapter();
                 final MaterialDialog dialog = builder.adapter(mAdapter, new LinearLayoutManager(context)).build();
                 mAdapter.mapLayout(R.layout.item_r_medical_record, R.layout.item_medical_record);
-                mAdapter.add(ItemTextInput2.newDialogTitle("选择病历"));
                 mAdapter.addAll(response);
                 mAdapter.onFinishLoadMore(true);
                 mAdapter.notifyDataSetChanged();

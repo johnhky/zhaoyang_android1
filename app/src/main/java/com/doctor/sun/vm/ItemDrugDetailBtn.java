@@ -13,7 +13,7 @@ import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 /**
  * Created by rick on 10/1/2017.
  */
-public class ItemDrugDetailBtn extends ItemTextInput2{
+public class ItemDrugDetailBtn extends ItemTextInput2 {
     private BaseListAdapter<SortedItem, ViewDataBinding> adapter;
 
     public ItemDrugDetailBtn(int itemLayoutId, String title, String hint) {
@@ -25,12 +25,13 @@ public class ItemDrugDetailBtn extends ItemTextInput2{
 
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
 
-        builder.stackingBehavior(StackingBehavior.ALWAYS);
-        builder.btnStackedGravity(GravityEnum.CENTER);
-        builder.neutralText("关闭");
-        builder.adapter(adapter,new LinearLayoutManager(context));
-
-        builder.show();
+        builder.stackingBehavior(StackingBehavior.ALWAYS)
+                .btnStackedGravity(GravityEnum.CENTER)
+                .titleGravity(GravityEnum.CENTER)
+                .title("收费明细")
+                .neutralText("关闭")
+                .adapter(adapter, new LinearLayoutManager(context))
+                .show();
 
     }
 

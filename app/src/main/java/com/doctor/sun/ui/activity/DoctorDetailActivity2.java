@@ -46,7 +46,6 @@ import com.doctor.sun.vm.ItemPickAppointmentDuration;
 import com.doctor.sun.vm.ItemPremiumAppointment;
 import com.doctor.sun.vm.ItemSpace;
 import com.doctor.sun.vm.ItemStandardAppointment;
-import com.doctor.sun.vm.ItemTextInput2;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -237,10 +236,10 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         if (dialog == null) {
             SimpleAdapter adapter = new SimpleAdapter();
             adapter.onFinishLoadMore(true);
-            MaterialDialog.Builder builder = new MaterialDialog.Builder(this);
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                    .titleGravity(GravityEnum.CENTER)
+                    .title("预约类型");
 
-            builder.titleGravity(GravityEnum.CENTER);
-            adapter.add(ItemTextInput2.newDialogTitle("预约类型"));
             adapter.add(new ItemPremiumAppointment(getData().getMoney()));
             adapter.add(new ItemSpace());
             adapter.add(new ItemStandardAppointment(getData().getSecondMoney()));

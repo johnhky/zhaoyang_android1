@@ -90,7 +90,7 @@ public class PayPrescriptionsModel {
         ModelUtils.insertSpace(result, R.layout.space_8dp);
         ModelUtils.insertDividerNoMargin(result);
 
-        ModelUtils.insertSpace(result, R.layout.space_8dp);
+
 
         ItemDrugDetailBtn drugName = new ItemDrugDetailBtn(R.layout.item_drug_detail_btn, "药品：", "");
         drugName.setSubTitle("收费明细");
@@ -99,7 +99,6 @@ public class PayPrescriptionsModel {
         drugName.setAdapter(drugDetailAdapter(response, extra));
         result.add(drugName);
 
-        ModelUtils.insertSpace(result, R.layout.space_8dp);
 
         if (!response.getDrug().isEmpty()) {
 
@@ -242,7 +241,7 @@ public class PayPrescriptionsModel {
         //下面这些都放在弹窗里面显示
 
         List<SortedItem> result = new ArrayList<>();
-        ModelUtils.insertTitle(result, "收费明细");
+
 
         ItemDrugDetailBtn drugName = new ItemDrugDetailBtn(R.layout.item_text_h2, "药品收费：", "");
         drugName.setItemId("药品品类");
@@ -253,7 +252,7 @@ public class PayPrescriptionsModel {
 
             for (int i = 0; i < response.getDrug_detail().size(); i++) {
                 Drug.DrugEntity s = response.getDrug_detail().get(i);
-                ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_drug_spec2, i + "." + s.drug, "");
+                ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_drug_spec2, (i + 1) + "." + s.drug, "");
                 itemTextInput2.setResult(s.specification);
                 itemTextInput2.setSubTitle(s.drug_num);
                 itemTextInput2.setTitleGravity(Gravity.START);
@@ -265,16 +264,16 @@ public class PayPrescriptionsModel {
             ModelUtils.insertSpace(result, R.layout.space_8dp);
         }
         ModelUtils.insertDividerNoMargin(result);
+        ModelUtils.insertSpace(result, R.layout.space_8dp);
         ItemTextInput2 medicinePrice = new ItemTextInput2(R.layout.item_text_h2, "药单总价：￥" + response.getDrug_money(), "");
         medicinePrice.setTitleColor(R.color.text_color_gray);
         medicinePrice.setItemId("medicinePrice");
         medicinePrice.setPosition(result.size());
         result.add(medicinePrice);
 
-        ModelUtils.insertSpace(result, R.layout.space_8dp);
-        ModelUtils.insertDividerNoMargin(result);
 
         if (!extra.extraFee.isEmpty() || !extra.commission.isEmpty()) {
+            ModelUtils.insertSpace(result, R.layout.space_8dp);
             ModelUtils.insertDividerNoMargin(result);
             ModelUtils.insertSpace(result, R.layout.space_8dp);
 
