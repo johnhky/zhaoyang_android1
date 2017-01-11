@@ -1,12 +1,15 @@
 package com.doctor.sun.ui.handler.patient;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PageDTO;
@@ -14,7 +17,6 @@ import com.doctor.sun.entity.Banner;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicineStore;
 import com.doctor.sun.entity.SystemMsg;
-import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.ProfileModule;
@@ -29,11 +31,8 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.ui.pager.BindingPagerAdapter;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -151,9 +150,12 @@ public class PMainHandler {
 
     public void showDialog(Context context) {
         ToolModule api = Api.of(ToolModule.class);
-        final MaterialDialog dialog = new MaterialDialog.Builder(context)
-                .customView(R.layout.dialog_view_pager, false)
-                .build();
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View inflate = inflater.inflate(R.layout.dialog_view_pager, null, false);
+        dialog.setContentView(inflate);
+
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = dialog.getWindow();
         if (window != null) {
@@ -161,9 +163,10 @@ public class PMainHandler {
             lp.width = context.getResources().getDimensionPixelSize(R.dimen.dp_350);
             lp.height = context.getResources().getDimensionPixelSize(R.dimen.dp_480);
             window.setAttributes(lp);
+            window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         }
 
-        final AutoScrollViewPager viewPager = (AutoScrollViewPager) dialog.getCustomView().findViewById(R.id.vp_banner);
+        final AutoScrollViewPager viewPager = (AutoScrollViewPager) inflate.findViewById(R.id.vp_banner);
         final BindingPagerAdapter adapter = new BindingPagerAdapter();
         api.patientBanner().enqueue(new SimpleCallback<List<Banner>>() {
             @Override

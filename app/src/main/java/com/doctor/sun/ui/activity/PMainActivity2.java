@@ -7,13 +7,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.PMainActivity2Binding;
-import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.CallConfig;
