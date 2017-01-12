@@ -372,6 +372,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ebf0f3"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginBottom="@dimen/dp_4"
             android:visibility="@{data.type == 2}">
 
             <include

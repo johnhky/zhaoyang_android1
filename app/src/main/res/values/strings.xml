@@ -42,8 +42,8 @@
     <string name="add_detail_time_ps">* 预留填写病历或者休息的时间</string>
     <string name="hours_until_midnight">今日剩余%s小时，可能期间医生无法及时回复，建议您提前预约；</string>
     <string name="text_89_36"><![CDATA[<font color="#898989">%1$s:</font> <font color="#363636">%2$s</font>]]></string>
-    <string name="add_quick_time_ps">* 闲时咨询为非实时就诊方式，您可在预约当天自由安 排就诊时间，按次收费。</string>
-    <string name="enable_push_ps">*说明: 打开此开关,患者在【闲时咨询就诊中】和【随访进行中】发来的消息可以正常推送到您的手机; 关闭此开关, 则患者在【闲时咨询就诊中】和【随访进行中】发来的消息将不再推送到您的手机。</string>
+    <string name="add_quick_time_ps">*闲闲时咨询预约时长为24小时/次，您只要在预约时间内回复患者即可，按次收费。</string>
+    <string name="enable_push_ps">*打开此开关，闲时咨询和随访订单状态为【进行中】时，您可以正常收到消息提醒；否则，您将不会收到消息提醒。</string>
     <string name="premium_product_brief">户进行详细咨询。建议</string>
     <string name="normal_product_brief"><![CDATA[&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;建议<font color="#ff405a>病情稳定、需要定期复诊寄药</font>的患者选择“闲时咨询”，费用较少，医生将用空闲时间回复您的留言，虽然并非即时通讯，但保证24小时内给出处方建议和48小时内寄出药物。（如果是第一次就诊或病情不稳定，推荐选择“专属咨询”，获取更完善的咨询服务。）]]></string>
     <string name="pay_success_tip">医生可能随时有消息反馈给你，为免遗漏，请允许本程序向你推送通知。（按手机设置，然后点击“通知”找到程序“昭阳医生”点击进去再打开“允许通知”按钮）</string>
