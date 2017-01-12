@@ -21,45 +21,60 @@
             android:id="@+id/iv_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginBottom="@dimen/dp_8"
+            android:layout_marginLeft="@dimen/dp_6"
+            android:layout_marginRight="@dimen/dp_6"
+            android:layout_marginTop="@dimen/dp_22"
             android:src="@drawable/shape_red_oval_dp4"
-            android:visibility='@{data.read.equals("0")}' />
+            android:visibility2='@{data.read.equals("0")}' />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
             android:background="@drawable/ripple_default"
             android:onClick="@{()->data.setLastVisitTime(context,adapter)}"
-            android:orientation="vertical"
-            android:paddingEnd="@dimen/dp_16"
-            android:paddingLeft="@dimen/dp_24"
-            android:paddingRight="@dimen/dp_17"
-            android:paddingStart="@dimen/dp_24">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
                 android:text="@{data.title}"
-                android:textSize="@dimen/font_14"
+                android:textSize="@dimen/font_12"
                 tools:text="最新消息" />
 
-            <TextView
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_7"
-                android:text="@{data.createdAt}"
-                android:textSize="@dimen/font_11"
-                tools:text="2000-00-00 00:00:00" />
+                android:layout_marginTop="@dimen/dp_7">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/divider_color" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:text="马上查看"
+                    android:textColor="#339de1"
+                    android:textSize="@dimen/font_12" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:gravity="center_vertical"
+                    android:text="@{data.createdAt}"
+                    android:textSize="@dimen/font_9"
+                    tools:text="2000-00-00 00:00:00" />
+            </FrameLayout>
+
         </LinearLayout>
+        <View
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_color" />
     </FrameLayout>
 </layout>

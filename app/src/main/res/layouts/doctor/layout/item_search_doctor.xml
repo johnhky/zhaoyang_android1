@@ -48,8 +48,8 @@
                 android:drawable="@{@drawable/default_avatar}"
                 android:scaleType="centerCrop"
                 android:src="@{data.avatar}"
-                app:transitionName='@{"doctor" + data.id}'
-                app:maskDrawable="@drawable/circle_mask" />
+                app:maskDrawable="@drawable/circle_mask"
+                app:transitionName='@{"doctor" + data.id}' />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -110,32 +110,32 @@
                     android:layout_marginBottom="@dimen/dp_4"
                     android:layout_marginLeft="@dimen/dp_13"
                     android:layout_marginRight="@dimen/dp_13"
-                    android:text="@{data.hospitalName}"
+                    android:text="@{data.hospitalName+&quot;/&quot;+data.specialist}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13"
                     tools:text="医院名" />
 
-                <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="@dimen/dp_4"-->
-                <!--android:layout_marginLeft="@dimen/dp_13"-->
-                <!--android:layout_marginRight="@dimen/dp_13"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:textColor="#363636"-->
-                <!--android:textSize="@dimen/font_13"-->
-                <!--app:html="@{data.handler.getTypeLabel(adapter) + data.handler.getFee(data.handler.getType(adapter))}"-->
-                <!--tools:text="诊金" />-->
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_4"
                     android:layout_marginLeft="@dimen/dp_13"
                     android:layout_marginRight="@dimen/dp_13"
                     android:gravity="center_vertical"
-                    android:text='@{data.specialist}'
-                    android:textColor="#363636"
-                    android:textSize="@dimen/font_13" />
+                    android:text="@{&quot;专属咨询:  ￥&quot;+data.money + &quot;   闲时咨询:  ￥&quot;+data.secondMoney}"
+                    android:textColor="@color/orange"
+                    android:textSize="@dimen/font_13"
+                    tools:text="诊金" />
+
+                <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="@dimen/dp_13"-->
+                <!--android:layout_marginRight="@dimen/dp_13"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text='@{data.specialist}'-->
+                <!--android:textColor="#363636"-->
+                <!--android:textSize="@dimen/font_13" />-->
             </LinearLayout>
 
         </LinearLayout>

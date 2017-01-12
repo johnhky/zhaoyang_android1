@@ -1,23 +1,4 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
-    android:viewportHeight="330"
-    android:viewportWidth="330">
-    <path
-        android:fillAlpha="0.3"
-        android:fillColor="#fff"
-        android:pathData="m165 15c77.3 0 140 62.7 140 140c0 77.3 -62.7 140 -140 140c-77.3 0 -140 -62.7 -140 -140c0 -77.3 62.7 -140 140 -140z" />
-    <path
-        android:fillAlpha="0.6"
-        android:fillColor="#fff"
-        android:pathData="m165 30c69 0 125 56 125 125c0 69 -56 125 -125 125c-69 0 -125 -56 -125 -125c0 -69 56 -125 125 -125z" />
-    <path
-        android:fillColor="#fff"
-        android:pathData="m165 45c60.8 0 110 49.2 110 110c0 60.8 -49.2 110 -110 110c-60.8 0 -110 -49.2 -110 -110c0 -60.8 49.2 -110 110 -110z" />
-    <path
-        android:fillColor="#cde0f1"
-        android:pathData="m165 47c59.6 0 108 48.4 108 108c0 59.6 -48.4 108 -108 108c-59.6 0 -108 -48.4 -108 -108c0 -59.6 48.4 -108 108 -108zm0 -2c-60.8 0 -110 49.2 -110 110c0 60.8 49.2 110 110 110c60.8 0 110 -49.2 110 -110c0 -60.8 -49.2 -110 -110 -110z" />
-    <path
-        android:fillColor="#51aaf6"
-        android:pathData="m163 91c16.6 0 30 13.4 30 30c0 16.6 -13.4 30 -30 30c-16.6 0 -30 -13.4 -30 -30c0 -16.6 13.4 -30 30 -30zm0.2 -11c-22.8 0 -41.2 18.5 -41.2 41.2c0 22.8 18.5 41.2 41.2 41.2c8.9 0 17.1 -2.9 23.9 -7.7l9.1 8.1c1.3 1.3 3.1 2 4.9 2c1.8 0 3.5 -0.7 4.9 -2c2.7 -2.7 2.7 -7 0 -9.7l-9.1 -8.1c4.8 -6.7 7.7 -15 7.7 -23.9c0 -22.8 -18.5 -41.2 -41.2 -41.2z" />
-</vector>
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/btn_search_doctor" />
+</selector>

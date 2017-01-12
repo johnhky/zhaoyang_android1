@@ -35,6 +35,7 @@ import com.doctor.sun.util.UpdateUtil;
 import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.core.event.EventHub;
+import io.ganguo.library.util.Systems;
 
 public class PMainActivity2 extends AppCompatActivity {
 
@@ -50,6 +51,8 @@ public class PMainActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.p_main_activity2);
+
+        Systems.setStatusTranslucent(this);
 
         handler = new PMainHandler();
         binding.setData(handler);
@@ -87,6 +90,11 @@ public class PMainActivity2 extends AppCompatActivity {
                     binding.tvUnreadMessageCount.setVisibility(View.VISIBLE);
                 } else {
                     binding.tvUnreadMessageCount.setVisibility(View.GONE);
+                }
+                if (response.getData() != null && response.getData().size() > 0) {
+                    binding.llySystemMsg.setVisibility(View.VISIBLE);
+                }else {
+                    binding.llySystemMsg.setVisibility(View.GONE);
                 }
             }
         });
