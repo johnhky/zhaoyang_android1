@@ -341,8 +341,11 @@ public class AppointmentHandler2 {
         if (Settings.isDoctor()) {
             return true;
         }
-        boolean isDetailAppointment = isDetail(data);
-        return isDetailAppointment && data.getStatus() == Status.DOING;
+        if (isDetail(data)) {
+            return data.getStatus() == Status.DOING;
+        } else {
+            return data.getStatus() == Status.DOING && data.getDoctor().push_enable == IntBoolean.TRUE;
+        }
     }
 
 

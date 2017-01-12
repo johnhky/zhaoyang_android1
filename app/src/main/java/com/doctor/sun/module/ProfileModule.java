@@ -13,6 +13,7 @@ import com.doctor.sun.entity.DoctorIndex;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.Patient;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -154,4 +155,7 @@ public interface ProfileModule {
     @GET("profile/tutorial-record")
     Call<ApiDTO<List<String>>> tutorialRecord();
 
+    @FormUrlEncoded
+    @POST("profile/config")
+    Call<ApiDTO<HashMap<String, String>>> config(@FieldMap HashMap<String, String> fields);
 }

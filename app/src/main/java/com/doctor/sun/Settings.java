@@ -1,19 +1,32 @@
 package com.doctor.sun;
 
+import android.databinding.Observable;
+import android.widget.Toast;
+
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.RecentAppointment;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.ReviewStatus;
+import com.doctor.sun.event.DoctorProfileChangedEvent;
 import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ProfileModule;
+import com.doctor.sun.ui.activity.doctor.MeActivity;
 import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.vm.ItemSwitch;
 import com.google.common.base.Strings;
 
+import java.util.HashMap;
+
 import io.ganguo.library.Config;
+import io.ganguo.library.core.event.EventHub;
+import retrofit2.Call;
 
 /**
  * 设置选项
@@ -94,6 +107,11 @@ public class Settings {
         return !Strings.isNullOrEmpty(patientProfile.getName());
     }
 
+    public static boolean isEnablePush() {
+        return getDoctorProfile().push_enable == IntBoolean.TRUE;
+    }
+
+
     public static RecentAppointment getRecentAppointment() {
         String json = Config.getString(Constants.PATIENT_PROFILE);
         if (json == null) {
@@ -151,7 +169,7 @@ public class Settings {
         Config.putString(Constants.LAST_DOCTOR_STATUS, status);
     }
 
-    public static void loadPatientProfile(final Runnable callback){
+    public static void loadPatientProfile(final Runnable callback) {
         ProfileModule api = Api.of(ProfileModule.class);
         api.patientProfile().enqueue(new SimpleCallback<PatientDTO>() {
             @Override
@@ -162,4 +180,76 @@ public class Settings {
         });
     }
 
+    public static ItemSwitch pushSwitch() {
+        final ItemSwitch itemSwitch = new ItemSwitch(R.layout.item_switch);
+        boolean enablePush = isEnablePush();
+        itemSwitch.setChecked(enablePush);
+        if (enablePush) {
+            itemSwitch.setContent("已开启后台推送");
+        } else {
+            itemSwitch.setContent("已关闭后台推送");
+        }
+        itemSwitch.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+
+            private Call<ApiDTO<HashMap<String, String>>> apiDTOCall;
+
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                if (i == BR.isChecked) {
+                    if (apiDTOCall != null) {
+                        if (!apiDTOCall.isExecuted() && !apiDTOCall.isCanceled()) {
+                            apiDTOCall.cancel();
+                        }
+                    }
+                    if (itemSwitch.isChecked()) {
+                        apiDTOCall = toggleEnablePush(IntBoolean.TRUE, itemSwitch);
+                    } else {
+                        apiDTOCall = toggleEnablePush(IntBoolean.FALSE, itemSwitch);
+                    }
+                }
+            }
+        });
+        return itemSwitch;
+    }
+
+    public static Call<ApiDTO<HashMap<String, String>>> toggleEnablePush(final int enabled, final ItemSwitch itemSwitch) {
+        ProfileModule api = Api.of(ProfileModule.class);
+        HashMap<String, String> fields = new HashMap<>();
+        fields.put("push_enable", "" + enabled);
+        Call<ApiDTO<HashMap<String, String>>> config = api.config(fields);
+        config.enqueue(new SimpleCallback<HashMap<String, String>>() {
+            @Override
+            protected void handleResponse(HashMap<String, String> response) {
+                //TODO response to the user
+                Doctor doctorProfile = getDoctorProfile();
+                doctorProfile.push_enable = enabled;
+                setDoctorProfile(doctorProfile);
+                if (enabled == IntBoolean.TRUE) {
+                    Toast.makeText(AppContext.me(), "成功开启后台推送", Toast.LENGTH_SHORT).show();
+                    itemSwitch.setContent("已开启后台推送");
+                } else {
+                    Toast.makeText(AppContext.me(), "成功关闭后台推送", Toast.LENGTH_SHORT).show();
+                    itemSwitch.setContent("已关闭后台推送");
+                }
+            }
+        });
+        return config;
+    }
+
+    public static void loadDoctorProfile() {
+        ProfileModule api = Api.of(ProfileModule.class);
+        api.doctorProfile().enqueue(new DoctorApiCallback());
+    }
+
+    private static class DoctorApiCallback extends ApiCallback<Doctor> {
+        @Override
+        protected void handleResponse(Doctor response) {
+            setDoctorProfile(response);
+            EventHub.post(new DoctorProfileChangedEvent(response));
+        }
+    }
+
+    private static void setDoctorProfile(Doctor response) {
+        Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(response));
+    }
 }

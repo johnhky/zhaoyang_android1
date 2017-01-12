@@ -3,11 +3,11 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.doctor.sun.Settings"/>
 
         <variable
             name="data"
             type="com.doctor.sun.entity.Time" />
-
 
 
         <variable
@@ -21,9 +21,7 @@
         android:animateLayoutChanges="true"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/include_header"
-           />
+        <include layout="@layout/include_header" />
 
         <LinearLayout
             android:id="@+id/rl_type"
@@ -365,6 +363,30 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_8"
             android:text="@string/add_quick_time_ps"
+            android:textColor="@color/red_f0"
+            android:textSize="@dimen/font_14"
+            android:visibility="@{data.type == 2}" />
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ebf0f3"
+            android:visibility="@{data.type == 2}">
+
+            <include
+                android:id="@+id/push_switch"
+                layout="@layout/item_switch_gray"
+                bind:data="@{Settings.pushSwitch}" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="@string/enable_push_ps"
             android:textColor="@color/red_f0"
             android:textSize="@dimen/font_14"
             android:visibility="@{data.type == 2}" />
