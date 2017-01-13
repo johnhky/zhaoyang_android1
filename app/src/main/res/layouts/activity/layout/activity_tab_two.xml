@@ -36,7 +36,7 @@
                     android:id="@+id/tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{!Settings.doctor? &quot;&quot;:data.record.patientName}"
+                    android:text="@{!Settings.doctor? &quot;&quot;:data.record.recordName}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_12"
                     android:visibility="@{data!=null}" />

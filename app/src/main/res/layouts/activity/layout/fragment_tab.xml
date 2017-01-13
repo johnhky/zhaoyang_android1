@@ -21,6 +21,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/tb_collapse"
                     android:layout_width="wrap_content"
@@ -67,7 +68,7 @@
                         android:layout_marginRight="@dimen/dp_13"
                         android:background="@color/transparent"
                         android:gravity="center"
-                        android:text="历史记录"
+                        android:text="历史记录列表"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/font_13" />
 
@@ -94,7 +95,7 @@
                     android:layout_gravity="start"
                     android:background="@color/gray_f5"
                     android:gravity="center"
-                    android:text="前一个"
+                    android:text="后一个"
                     android:textColor="@color/colorPrimaryDark" />
 
                 <TextView
@@ -104,7 +105,7 @@
                     android:layout_gravity="end"
                     android:background="@color/gray_f5"
                     android:gravity="center"
-                    android:text="后一个"
+                    android:text="前一个"
                     android:textColor="@color/colorPrimaryDark" />
 
                 <View
