@@ -3,7 +3,13 @@
 
     <data>
 
+        <import type="com.doctor.sun.Settings" />
+        <import type="com.doctor.sun.entity.handler.AppointmentHandler2"
+            alias="handler"/>
 
+        <variable
+            name="data"
+            type="com.doctor.sun.immutables.Appointment" />
     </data>
 
     <LinearLayout
@@ -11,7 +17,38 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/include_header" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/include_header" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginStart="@dimen/dp_40"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{!Settings.doctor? &quot;&quot;:data.record.recordName}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_12"
+                    android:visibility="@{data!=null}" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{data!=null?handler.getGenderAndAge(data):&quot;&quot;}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_8"
+                    android:visibility="@{data!= null&amp;&amp;Settings.doctor}" />
+            </LinearLayout>
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/lly_content"

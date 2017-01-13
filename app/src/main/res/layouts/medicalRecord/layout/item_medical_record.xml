@@ -39,7 +39,8 @@
             android:layout_height="@dimen/dp_58"
             android:gravity="center"
             android:text="@{data.recordName}"
-            android:textColor="#88c4f6"
+            android:textColor="@color/dark_36"
+            android:textStyle="bold"
             android:textSize="@dimen/font_15" />
 
         <View

@@ -100,7 +100,7 @@
     <string name="edit_diagnosis">病历记录的修改将覆盖上一次保存的病历记录,修改患者可见部分的病历记录(医嘱、用药建议等)将会及时通知患者。</string>
     <string name="create_record_with_profile">已存在个人资料，是否一键生成个人病历</string>
 
-    <string name="my_order">我的订单</string>
+    <string name="my_order">咨询订单</string>
     <string name="drug_order">寄药订单</string>
     <string name="contact_us">联系客服</string>
 

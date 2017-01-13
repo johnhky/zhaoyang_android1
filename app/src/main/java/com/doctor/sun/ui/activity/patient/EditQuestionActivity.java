@@ -8,6 +8,10 @@ import android.os.Bundle;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityFillForumBinding;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 
@@ -42,6 +46,13 @@ public class EditQuestionActivity extends BaseFragmentActivity2 {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_fill_forum);
         initFragment();
+        AppointmentModule api = Api.of(AppointmentModule.class);
+        api.appointmentDetail(getData()).enqueue(new SimpleCallback<Appointment>() {
+            @Override
+            protected void handleResponse(Appointment response) {
+                binding.setData(response);
+            }
+        });
     }
 
     private void initFragment() {

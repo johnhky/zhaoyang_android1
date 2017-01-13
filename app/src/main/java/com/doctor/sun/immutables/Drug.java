@@ -207,4 +207,16 @@ public abstract class Drug extends BaseItem {
                 Toast.makeText(context, "模拟支付", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private boolean canUseCoupon() {
+        return getUser_coupon_id().equals("0");
+    }
+
+    public String labelHasUsedCoupon() {
+        if (canUseCoupon()) {
+            return "";
+        } else {
+            return "(已使用优惠券)";
+        }
+    }
 }
