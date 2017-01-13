@@ -52,10 +52,10 @@
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_marginStart="@dimen/dp_8"
                 android:layout_weight="1"
-                android:text="@{handler.getRelationWithPatient(data)}"
+                android:text="@{&quot;(&quot;+handler.getGenderAndAge(data)+&quot;)&quot;}"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13"
-                tools:text="患者的朋友" />
+                tools:text="(男/3岁）" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,57 +75,77 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_6"
+            android:text="@{handler.getInterviewer(data)}"
+            android:textColor="@color/grey_77"
+            android:textSize="@dimen/font_13"
+            tools:text="交谈者:  账号名 (患者的关系)" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_6"
             android:text="@{handler.getTime(context,data)}"
-            android:textColor="#363636"
+            android:textColor="@color/grey_77"
             android:textSize="@dimen/font_13"
-            tools:text="预约时间" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_type(data.display_type)}"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_13"
-            tools:text="专属咨询" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
-            android:text="@{@string/appointment_progress(data.progress)}"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_13"
-            tools:text="问卷完成度 " />
+            tools:text="预约时间:  2015-06-12  15:00-16:00" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_14"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
+            android:layout_marginBottom="@dimen/dp_15"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="当前病历: "
-                android:textColor="#363636"
-                android:textSize="@dimen/font_12" />
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_6"
+                android:layout_weight="1"
+                android:text="@{@string/appointment_type(data.display_type)}"
+                android:textColor="@color/grey_77"
+                android:textSize="@dimen/font_13"
+                tools:text="预约类型:  专属咨询" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{data.record.recordName}"
-                android:textColor="#363636"
-                android:textSize="@dimen/font_12" />
-
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_6"
+                android:layout_weight="1"
+                android:text="@{@string/appointment_progress(data.progress)}"
+                android:textColor="@color/grey_77"
+                android:textSize="@dimen/font_13"
+                tools:text="问卷完成度:  9/20" />
         </LinearLayout>
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="@dimen/dp_14"-->
+        <!--android:layout_marginLeft="@dimen/dp_13"-->
+        <!--android:layout_marginRight="@dimen/dp_13"-->
+        <!--android:layout_marginTop="@dimen/dp_6"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="当前病历: "-->
+        <!--android:textColor="#363636"-->
+        <!--android:textSize="@dimen/font_12" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@{data.record.recordName}"-->
+        <!--android:textColor="#363636"-->
+        <!--android:textSize="@dimen/font_12" />-->
+
+        <!--</LinearLayout>-->
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -136,7 +156,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="#c1cacf"
-                android:paddingLeft="@dimen/dp_13" />
+                android:paddingLeft="@dimen/dp_13"
+                android:paddingStart="@dimen/dp_13" />
         </FrameLayout>
 
         <LinearLayout

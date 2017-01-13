@@ -48,6 +48,7 @@ public class AppointmentDetailActivity extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        binding.setData(getData());
         addHistoryButton();
     }
 
@@ -63,8 +64,7 @@ public class AppointmentDetailActivity extends TabActivity {
             historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String json = getIntent().getStringExtra(Constants.DATA);
-                    Appointment appointment = JacksonUtils.fromJson(json, com.doctor.sun.immutables.Appointment.class);
+                    Appointment appointment = getData();
                     EventHub.post(new AppointmentHistoryEvent(appointment, false));
                 }
             });
@@ -81,9 +81,13 @@ public class AppointmentDetailActivity extends TabActivity {
 
     @Override
     protected PagerAdapter createPagerAdapter() {
-        String json = getIntent().getStringExtra(Constants.DATA);
-        Appointment data = JacksonUtils.fromJson(json, Appointment.class);
+        Appointment data = getData();
         return new AnswerPagerAdapter(getSupportFragmentManager(), data);
+    }
+
+    private Appointment getData() {
+        String json = getIntent().getStringExtra(Constants.DATA);
+        return JacksonUtils.fromJson(json, Appointment.class);
     }
 
     @Override

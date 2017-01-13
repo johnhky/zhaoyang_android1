@@ -22,6 +22,7 @@ import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.constans.IntBoolean;
@@ -120,6 +121,10 @@ public class AppointmentHandler2 {
         }
     }
 
+    public static String getGenderAndAge(Appointment data) {
+        return String.format("%s/%s", getGender(data), data.getRecord().getAge());
+    }
+
     public static String getBirthday(Appointment data) {
         return data.getRecord().getBirthday();
     }
@@ -139,6 +144,11 @@ public class AppointmentHandler2 {
             default:
                 return "就诊时间: " + data.getTime_bucket();
         }
+    }
+
+    public static String getInterviewer(Appointment data) {
+        MedicalRecord record = data.getRecord();
+        return String.format("交谈者:  %s(患者的%s)", record.getPatientName(), record.getRelation());
     }
 
     public static boolean isCanceled(Appointment data) {

@@ -44,6 +44,8 @@
                 android:layout_marginTop="@dimen/dp_16"
                 android:text="@{data.title}"
                 android:textSize="@dimen/font_12"
+                android:selected='@{data.read.equals("0")}'
+                android:textColor="@color/text_color_36_77"
                 tools:text="最新消息" />
 
             <FrameLayout

@@ -76,7 +76,8 @@
                     android:layout_marginBottom="@dimen/dp_15"
                     android:singleLine="false"
                     android:text="@{data.title}"
-                    android:textColor="#363636"
+                    android:selected='@{data.read.equals("0")}'
+                    android:textColor="@color/text_color_36_77"
                     android:textSize="@dimen/font_13" />
 
             </LinearLayout>
