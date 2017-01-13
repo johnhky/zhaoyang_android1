@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{data.record.recordName}"
-                android:textColor="#363636"
+                android:textColor="@color/dark_36"
                 android:textSize="@dimen/font_15"
                 tools:text="病历名" />
 
@@ -53,7 +53,7 @@
                 android:layout_marginStart="@dimen/dp_8"
                 android:layout_weight="1"
                 android:text="@{&quot;(&quot;+handler.getGenderAndAge(data)+&quot;)&quot;}"
-                android:textColor="#898989"
+                android:textColor="@color/dark_36"
                 android:textSize="@dimen/font_13"
                 tools:text="(男/3岁）" />
 
