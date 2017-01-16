@@ -186,9 +186,6 @@ public class Options2 extends BaseItem {
 
     public void afterInputChanged(Editable newInputEditable, SortedListAdapter adapter) {
         String newInput = newInputEditable.toString();
-        if (0 <= optionInputLength && optionInputLength <= newInput.length()) {
-            Toast.makeText(AppContext.me(), "字数不能大于" + optionInputLength + "位", Toast.LENGTH_SHORT).show();
-        }
         if (optionContent.equals(newInput)) {
             return;
         }
