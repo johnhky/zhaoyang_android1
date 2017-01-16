@@ -109,6 +109,10 @@ public class AppointmentHandler2 {
         return "(由患者" + data.getRecord().getRelation() + "咨询)";
     }
 
+    public static String getRelationWithPatient2(Appointment data) {
+        return "(由患者" + data.getRecord().getRelation() + data.getRecord().getPatientName() + "咨询)";
+    }
+
     public static String getRelation(Appointment data) {
         return data.getRecord().getRelation();
     }

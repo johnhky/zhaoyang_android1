@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
-                android:text="@{handler.getRelationAndName(data.getData())}"
+                android:text="@{handler.getRelationWithPatient2(data.getData())}"
                 android:textColor="#898989"
                 android:textSize="@dimen/font_13" />
 
