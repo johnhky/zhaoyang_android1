@@ -253,8 +253,8 @@ public class PayPrescriptionsModel {
             for (int i = 0; i < response.getDrug_detail().size(); i++) {
                 Drug.DrugEntity s = response.getDrug_detail().get(i);
                 ItemTextInput2 itemTextInput2 = new ItemTextInput2(R.layout.item_drug_spec2, (i + 1) + "." + s.drug, "");
-                itemTextInput2.setResult(s.specification);
-                itemTextInput2.setSubTitle(s.drug_num);
+                itemTextInput2.setResult(s.specification + "*" + s.drug_num);
+                itemTextInput2.setSubTitle(s.price);
                 itemTextInput2.setTitleGravity(Gravity.START);
                 itemTextInput2.setItemId(itemTextInput2.getTitle() + itemTextInput2.getSubTitle());
                 itemTextInput2.setPosition(result.size());
