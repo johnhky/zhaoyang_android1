@@ -9,6 +9,8 @@ import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.vm.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.ganguo.library.Config;
+
 /**
  * Created by rick on 20/7/2016.
  */
@@ -77,5 +79,13 @@ public class Banner implements LayoutId {
     @Override
     public int getItemLayoutId() {
         return R.layout.item_bannner;
+    }
+
+    public boolean showed() {
+        return Config.getBoolean("BANNER" + activityShowIntroduce, false);
+    }
+
+    public void markShowed(){
+        Config.putBoolean("BANNER" + activityShowIntroduce, true);
     }
 }

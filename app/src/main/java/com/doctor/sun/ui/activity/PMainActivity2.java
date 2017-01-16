@@ -77,6 +77,7 @@ public class PMainActivity2 extends AppCompatActivity {
                 Glide.with(PMainActivity2.this)
                         .load(response.getBannerIcon())
                         .into(binding.ivBanner);
+                handler.showPromotion(PMainActivity2.this, false);
             }
         });
     }
@@ -95,7 +96,7 @@ public class PMainActivity2 extends AppCompatActivity {
                 }
                 if (response.getData() != null && response.getData().size() > 0) {
                     binding.llySystemMsg.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     binding.llySystemMsg.setVisibility(View.GONE);
                 }
             }

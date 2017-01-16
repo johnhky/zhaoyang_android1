@@ -160,7 +160,7 @@ public class PMainActivity extends BaseFragmentActivity2 {
     }
 
     public void showShowCase() {
-//        if (ShowCaseUtil.isShow(TAG)) {
+//        if (ShowCaseUtil.shown(TAG)) {
 //            return;
 //        }
         if (!Settings.isDoctor()) {

@@ -47,7 +47,7 @@
                         android:layout_height="@dimen/dp_40"
                         android:layout_gravity="top|end"
                         android:layout_marginTop="@dimen/dp_34"
-                        android:onClick="@{()->data.showDialog(context)}"
+                        android:onClick="@{()->data.showPromotion(context,true)}"
                         tools:src="@drawable/ic_launcher" />
 
                     <FrameLayout

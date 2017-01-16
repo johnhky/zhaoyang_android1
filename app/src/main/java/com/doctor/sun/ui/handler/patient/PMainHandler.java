@@ -148,7 +148,7 @@ public class PMainHandler {
         return result;
     }
 
-    public void showDialog(Context context) {
+    public void showPromotion(Context context, final boolean fromUserAction) {
         ToolModule api = Api.of(ToolModule.class);
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -171,12 +171,15 @@ public class PMainHandler {
         api.patientBanner().enqueue(new SimpleCallback<List<Banner>>() {
             @Override
             protected void handleResponse(List<Banner> response) {
-                if (response.size() > 0) {
-                    adapter.setItems(response);
-                    adapter.notifyDataSetChanged();
-
-                    viewPager.setAdapter(adapter);
-                    dialog.show();
+                if (response != null && response.size() > 0) {
+                    Banner banner = response.get(0);
+                    if (fromUserAction||!banner.showed()) {
+                        adapter.setItems(response);
+                        adapter.notifyDataSetChanged();
+                        viewPager.setAdapter(adapter);
+                        dialog.show();
+                        banner.markShowed();
+                    }
                 }
             }
         });

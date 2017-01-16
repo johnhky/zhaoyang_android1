@@ -17,7 +17,6 @@ import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.module.ProfileModule;
-import com.doctor.sun.ui.activity.doctor.MeActivity;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vm.ItemSwitch;
 import com.google.common.base.Strings;

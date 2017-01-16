@@ -217,7 +217,7 @@ public class MainActivity extends BaseDoctorActivity {
         if (isShowing) {
             return;
         }
-//        if (ShowCaseUtil.isShow(TAG)) {
+//        if (ShowCaseUtil.shown(TAG)) {
 //            return;
 //        }
         if (Settings.isDoctor()) {

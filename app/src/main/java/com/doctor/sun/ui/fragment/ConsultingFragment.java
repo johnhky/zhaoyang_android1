@@ -205,7 +205,7 @@ public class ConsultingFragment extends SortedListFragment {
 
 
     private void showShowCase() {
-//        if (ShowCaseUtil.isShow(TAG)) {
+//        if (ShowCaseUtil.shown(TAG)) {
 //            return;
 //        }
         if (!Settings.isDoctor()) {
