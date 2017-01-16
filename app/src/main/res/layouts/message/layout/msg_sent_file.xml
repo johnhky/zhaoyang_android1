@@ -89,10 +89,12 @@
                         android:layout_marginLeft="@dimen/dp_74"
                         android:layout_marginStart="@dimen/dp_74"
                         android:layout_marginTop="@dimen/dp_15"
+                        android:ellipsize="end"
+                        android:minLines="1"
                         android:text="@{data.attachmentData(&quot;body&quot;)}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/font_13"
-                        tools:text="文件名" />
+                        tools:text="只能说文件名太长了,不知道怎么办.f" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -103,7 +105,8 @@
                         android:layout_marginStart="@dimen/dp_74"
                         android:text='@{data.handler.fileSize(data.attachmentLong(&quot;fileSize&quot;))}'
                         android:textColor="@color/white"
-                        android:textSize="@dimen/font_13" />
+                        android:textSize="@dimen/font_13"
+                        tools:text="50G" />
                 </FrameLayout>
             </LinearLayout>
 
