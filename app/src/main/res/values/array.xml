@@ -25,5 +25,6 @@
         <item>隔天</item>
         <item>隔两天</item>
         <item>隔三天</item>
+        <item>必要时</item>
     </string-array>
 </resources>
