@@ -122,7 +122,7 @@ public class AppointmentHandler2 {
     }
 
     public static String getGenderAndAge(Appointment data) {
-        return String.format("%s/%s", getGender(data), data.getRecord().getAge());
+        return String.format("%s/%s岁", getGender(data), data.getRecord().getAge());
     }
 
     public static String getBirthday(Appointment data) {
