@@ -12,8 +12,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.Patient;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.module.ProfileModule;
@@ -69,6 +71,48 @@ public class SelectRecordDialog {
                         }
                     });
                 }
+            }
+        });
+    }
+
+    public static void showNewRecordDialog(final Context context) {
+        Patient patientProfile = Settings.getPatientProfile();
+        if (patientProfile != null) {
+            if (patientProfile.getName() != null && !patientProfile.getName().equals("")) {
+                return;
+            }
+        }
+        ProfileModule api = Api.of(ProfileModule.class);
+        api.medicalRecordList().enqueue(new ApiCallback<List<MedicalRecord>>() {
+            @Override
+            protected void handleResponse(final List<MedicalRecord> response) {
+                if (response.size() <= 0) {
+                    Toast.makeText(context, "请先建立病历", Toast.LENGTH_SHORT).show();
+                    MedicalRecordHandler.newRecord(context, response);
+                    return;
+                }
+                MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+                builder.btnStackedGravity(GravityEnum.CENTER)
+                        .stackingBehavior(StackingBehavior.ALWAYS)
+                        .buttonsGravity(GravityEnum.CENTER)
+                        .titleGravity(GravityEnum.CENTER)
+                        .title("选择病历")
+                        .neutralText("新建病历")
+                        .negativeText("先逛逛")
+                        .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                MedicalRecordHandler.newRecord(dialog.getContext(), response);
+                            }
+                        });
+
+                SimpleAdapter mAdapter = new SimpleAdapter();
+                final MaterialDialog dialog = builder.adapter(mAdapter, new LinearLayoutManager(context)).build();
+                mAdapter.mapLayout(R.layout.item_r_medical_record, R.layout.item_medical_record);
+                mAdapter.addAll(response);
+                mAdapter.onFinishLoadMore(true);
+                mAdapter.notifyDataSetChanged();
+                dialog.show();
             }
         });
     }

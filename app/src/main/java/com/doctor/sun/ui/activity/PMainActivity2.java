@@ -30,6 +30,7 @@ import com.doctor.sun.ui.activity.patient.PMeActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.handler.patient.PMainHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
+import com.doctor.sun.ui.widget.SelectRecordDialog;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.UpdateUtil;
 import com.squareup.otto.Subscribe;
@@ -65,6 +66,7 @@ public class PMainActivity2 extends AppCompatActivity {
         initDoctorView();
         showBanner();
         showUnreadMessageCount();
+        SelectRecordDialog.showNewRecordDialog(this);
     }
 
     private void showBanner() {
