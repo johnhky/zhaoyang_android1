@@ -1,7 +1,11 @@
 #!/bin/bash
 
-for dir in  ../app/build/outputs/apk/*
+for dir in $(find ${WORKSPACE}/app/build/outputs/apk/ -name '*Release_official*')
 do
     dir=${dir%*/}
-    curl -F "file=@${dir##*/}" -F "uKey=8de545c59a38c1400514d989d670a96c" -F "_api_key=859bf3b47f6d1ab920f70b354d069681" https://qiniu-storage.pgyer.com/apiv1/app/upload
+    curl -F "file=@${WORKSPACE}/app/build/outputs/apk/${dir##*/}" -F "uKey=8de545c59a38c1400514d989d670a96c" -F "_api_key=859bf3b47f6d1ab920f70b354d069681" https://qiniu-storage.pgyer.com/apiv1/app/upload
 done
+
+mkdir /Users/rick/Documents/ZhaoYangReleaseMaping/build${BUILD_NUMBER}
+mv ${WORKSPACE}/app/build/outputs/mapping /Users/rick/Documents/ZhaoYangReleaseMaping/build${BUILD_NUMBER}/
+mv ${WORKSPACE}/app/build/outputs/apk/ /Users/rick/Documents/ZhaoYangReleaseMaping/build${BUILD_NUMBER}/
