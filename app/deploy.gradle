@@ -237,12 +237,19 @@ android {
         //命名各apk
         applicationVariants.all { variant ->
             def flavor = variant.mergedFlavor
-            if (variant.buildType.name == "DoctorRelease") {
-                flavor.versionName = doctorVersionName
-                flavor.versionCode = doctorVersion
-            } else if (variant.buildType.name == "PatientRelease") {
-                flavor.versionName = patientVersionName
-                flavor.versionCode = patientVersion
+            switch (variant.buildType.name) {
+                case "DoctorDebug":
+                case "DoctorStage":
+                case "DoctorRelease":
+                    flavor.versionName = doctorVersionName
+                    flavor.versionCode = doctorVersion
+                    break
+                case "PatientDebug":
+                case "PatientStage":
+                case "PatientRelease":
+                    flavor.versionName = patientVersionName
+                    flavor.versionCode = patientVersion
+                    break;
             }
 
             variant.outputs.each { output ->
