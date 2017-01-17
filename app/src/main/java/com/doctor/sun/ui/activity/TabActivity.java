@@ -39,7 +39,7 @@ public abstract class TabActivity extends BaseFragmentActivity2 {
 
     private void setCurrentItem() {
         int position = getPosition();
-        if (position <= pagerAdapter.getCount()) {
+        if (position >= 0 && position <= pagerAdapter.getCount()) {
             binding.vp.setCurrentItem(position);
         }
     }

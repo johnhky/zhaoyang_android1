@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Questions2;
@@ -108,7 +109,14 @@ public class ItemPickImages extends BaseItem {
             String imagesCSV = sb != null ? sb.toString() : "";
             String[] split = imagesCSV.split(",");
             ArrayList<String> strings = new ArrayList<>(Arrays.asList(split));
+            int myPosition = -1;
+            for (int i = 0; i < strings.size(); i++) {
+                if (src != null && src.equals(strings.get(i))) {
+                    myPosition = i;
+                }
+            }
             Intent intent = ImageListFragment.intentFor(context, strings);
+            intent.putExtra(Constants.POSITION,myPosition);
             context.startActivity(intent);
         }
     }
