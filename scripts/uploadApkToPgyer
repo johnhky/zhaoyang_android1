@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for dir in  ../app/build/outputs/apk/*
+do
+    dir=${dir%*/}
+    curl -F "file=@${dir##*/}" -F "uKey=8de545c59a38c1400514d989d670a96c" -F "_api_key=859bf3b47f6d1ab920f70b354d069681" https://qiniu-storage.pgyer.com/apiv1/app/upload
+done
