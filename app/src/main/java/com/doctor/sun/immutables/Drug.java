@@ -167,7 +167,7 @@ public abstract class Drug extends BaseItem {
     public void showDetail(Context context, Drug drug) {
 
         Bundle args = PayPrescriptionsFragment.getArgs(String.valueOf(drug.getId()));
-        Intent payPrescriptionIntent = SingleFragmentActivity.intentFor(context, "寄药支付", args);
+        Intent payPrescriptionIntent = SingleFragmentActivity.intentFor(context, getRecord_name() + "的寄药单", args);
         context.startActivity(payPrescriptionIntent);
     }
 

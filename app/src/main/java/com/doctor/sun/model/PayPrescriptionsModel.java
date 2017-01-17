@@ -25,6 +25,7 @@ import com.doctor.sun.vm.ItemCoupons;
 import com.doctor.sun.vm.ItemDrugDetailBtn;
 import com.doctor.sun.vm.ItemRadioGroup;
 import com.doctor.sun.vm.ItemTextInput2;
+import com.google.common.base.Strings;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -84,12 +85,13 @@ public class PayPrescriptionsModel {
         remark.setSubTitle(response.getRemark());
         remark.setItemId("remark");
         remark.setPosition(result.size());
-        result.add(remark);
+        if (!Strings.isNullOrEmpty(response.getRemark())) {
+            result.add(remark);
+        }
 
 //
         ModelUtils.insertSpace(result, R.layout.space_8dp);
         ModelUtils.insertDividerNoMargin(result);
-
 
 
         ItemDrugDetailBtn drugName = new ItemDrugDetailBtn(R.layout.item_drug_detail_btn, "药品：", "");

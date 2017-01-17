@@ -39,7 +39,7 @@ public abstract class PrescriptionOrder extends BaseItem {
     public abstract String getAppointment_id();
 
     @Value.Default
-    public String getDrug_order_id(){
+    public String getDrug_order_id() {
         return "";
     }
 
@@ -128,7 +128,7 @@ public abstract class PrescriptionOrder extends BaseItem {
     public void viewPrescriptionDetail(Context context) {
         if (getPrescription_status() == Status.WAITING_PAYMENT) {
             Bundle args = PayPrescriptionsFragment.getArgs(getDrug_order_id());
-            Intent intent = SingleFragmentActivity.intentFor(context, "寄药支付", args);
+            Intent intent = SingleFragmentActivity.intentFor(context, getRecord().getRecordName() + "的寄药单", args);
             context.startActivity(intent);
         }
     }
