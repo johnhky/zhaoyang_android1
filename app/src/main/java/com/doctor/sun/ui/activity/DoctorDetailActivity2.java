@@ -286,7 +286,7 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
     }
 
     private void insertCouponMessage(Coupon coupon, int size) {
-        String couponMessage = "您的账户有" + size + "张" + coupon.couponMoney + "元优惠券";
+        String couponMessage = "您的账户有" + size + "张优惠券";
         if (size == 1) {
             couponMessage += "，诊金满" + coupon.threshold + "元就可以使用哦";
         }
