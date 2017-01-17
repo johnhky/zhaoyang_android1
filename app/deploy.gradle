@@ -84,8 +84,8 @@ android {
             // zhaoyang_server
             applicationIdSuffix ".doctordev"
             versionNameSuffix "_doctordev"
-            manifestPlaceholders = [appLabel      : "@string/app_name_doctor"
-                                    , launcherIcon: "@drawable/ic_launcher"
+            manifestPlaceholders = [appLabel      : "@string/app_name_doctor_debug"
+                                    , launcherIcon: "@drawable/doctor_launcher"
                                     , fileProvider: "com.doctor.sun.doctordev.fileprovider"
                                     , nimKey      : "84bcda3a943a3a781f5e4a8bae628a74"
                                     , jPushKey    : "914ba0008a2a0579ee5a147f"]
@@ -109,7 +109,7 @@ android {
             // zhaoyang_server
             applicationIdSuffix ".dev"
             versionNameSuffix "_dev"
-            manifestPlaceholders = [appLabel      : "@string/app_name_patient"
+            manifestPlaceholders = [appLabel      : "@string/app_name_patient_debug"
                                     , launcherIcon: "@drawable/patient_launcher"
                                     , fileProvider: "com.doctor.sun.dev.fileprovider"
                                     , nimKey      : "84bcda3a943a3a781f5e4a8bae628a74"
@@ -134,7 +134,7 @@ android {
         PatientStage {
             applicationIdSuffix ".dev12"
             versionNameSuffix "_dev12"
-            manifestPlaceholders = [appLabel      : "@string/app_name_patient"
+            manifestPlaceholders = [appLabel      : "@string/app_name_patient_test"
                                     , launcherIcon: "@drawable/patient_launcher"
                                     , fileProvider: "com.doctor.sun.dev12.fileprovider"
                                     , nimKey      : "9439a1f4b31a23c48660c290a69f89e3"
@@ -160,7 +160,7 @@ android {
         DoctorStage {
             applicationIdSuffix ".doctortest"
             versionNameSuffix "_doctortest"
-            manifestPlaceholders = [appLabel      : "@string/app_name_doctor"
+            manifestPlaceholders = [appLabel      : "@string/app_name_doctor_test"
                                     , launcherIcon: "@drawable/doctor_launcher"
                                     , fileProvider: "com.doctor.sun.doctortest.fileprovider"
                                     , nimKey      : "9439a1f4b31a23c48660c290a69f89e3"

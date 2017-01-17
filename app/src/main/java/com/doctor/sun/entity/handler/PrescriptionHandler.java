@@ -181,7 +181,11 @@ public class PrescriptionHandler {
 
     @JsonIgnore
     public static String getTakeMedicineDays(Prescription data) {
-        return "<font color='#898989'>用药天数:   </font>" + data.getTake_medicine_days() + "天";
+        String take_medicine_days = data.getTake_medicine_days();
+        if (Strings.isNullOrEmpty(take_medicine_days)) {
+            take_medicine_days = "28";
+        }
+        return "<font color='#898989'>用药天数:   </font>" + take_medicine_days + "天";
     }
 
     @JsonIgnore
