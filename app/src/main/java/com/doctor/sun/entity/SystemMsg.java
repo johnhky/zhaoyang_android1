@@ -239,6 +239,7 @@ public class SystemMsg extends BaseItem {
             case 15:
             case 16:
             case 17:
+            case 26:
             case 20: {
                 if (isDoctor) {
                     i = AppointmentListActivity.makeIntent(context);
