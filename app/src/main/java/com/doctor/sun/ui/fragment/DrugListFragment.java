@@ -69,7 +69,7 @@ public class DrugListFragment extends RefreshListFragment {
     @NonNull
     @Override
     protected String getEmptyIndicatorText() {
-        return "没有任何寄药订单";
+        return "您当前暂无寄药订单\r如需使用寄药服务请联系寄药小助手";
     }
 
     @Override
