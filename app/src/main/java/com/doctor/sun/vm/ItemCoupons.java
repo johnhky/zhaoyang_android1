@@ -31,7 +31,9 @@ public class ItemCoupons extends BaseItem {
 
     public ItemCoupons(Drug drug) {
         this.drug = drug;
-        loadCoupons();
+        if (notPay()) {
+            loadCoupons();
+        }
     }
 
     public List<Coupon> getCoupons() {
@@ -101,7 +103,14 @@ public class ItemCoupons extends BaseItem {
     @Override
     public String getTitle() {
         if (!canUseCoupon()) {
-            return "已选取" + drug.getCoupon_info().couponMoney + "元优惠券";
+            if (notPay()) {
+                return "已选取" + drug.getCoupon_info().couponMoney + "元优惠券";
+            }else {
+                return "已使用" + drug.getCoupon_info().couponMoney + "元优惠券";
+            }
+        }
+        if (!notPay()) {
+            return "未使用优惠券";
         }
         if (coupons != null && coupons.size() > 0) {
             if (selectedCoupon != -1) {

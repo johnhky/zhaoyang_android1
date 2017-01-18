@@ -129,14 +129,6 @@ public class PayPrescriptionsModel {
             result.add(couponDescription);
 
             extraField = DrugListFragment.getDrugExtraField();
-
-        } else if (response.getCoupon_info() != null && response.getCoupon_info().couponMoney != null) {
-            Description couponDescription = new Description(R.layout.item_description, "优惠券");
-            couponDescription.setBackgroundColor(R.color.color_coupon_background_yellow);
-            couponDescription.setTitleColor(R.color.white);
-            couponDescription.setItemId("couponDescription");
-            couponDescription.setPosition(result.size());
-            result.add(couponDescription);
         }
 
         final ItemCoupons selectCoupon = new ItemCoupons(response);

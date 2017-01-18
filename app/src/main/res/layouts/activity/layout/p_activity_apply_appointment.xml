@@ -226,6 +226,21 @@
                             android:text="点击选择"
                             android:textColor="@color/colorPrimaryDark" />
                     </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_13"
+                        android:layout_marginStart="@dimen/dp_13"
+                        android:background="@drawable/bg_transparent"
+                        android:maxLines="1"
+                        android:text="@{&quot;实际付款: ￥&quot; + data.shouldPay}"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/font_15" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_8"/>
                 </LinearLayout>
 
                 <TextView

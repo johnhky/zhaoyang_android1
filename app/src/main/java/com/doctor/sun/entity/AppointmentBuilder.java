@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.Observable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -38,8 +40,10 @@ import com.doctor.sun.vm.BaseItem;
 import com.doctor.sun.vm.ClickMenu;
 import com.doctor.sun.vm.ItemButton;
 import com.doctor.sun.vm.ItemRadioGroup;
+import com.doctor.sun.vm.ItemTextInput2;
 import com.squareup.otto.Subscribe;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -341,6 +345,16 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         return String.format(Locale.CHINA, "您有%d张可用优惠券", coupons.size());
     }
 
+    public String getShouldPay() {
+        if (isCouponSelected()) {
+            double couponMoney = Double.parseDouble(coupons.get(selectedCoupon).couponMoney);
+            double d = Math.max(0D, money() - couponMoney);
+            return String.valueOf(d);
+        } else {
+            return String.valueOf(money());
+        }
+    }
+
     public boolean isCouponSelected() {
         if (coupons == null || coupons.isEmpty()) {
             return false;
@@ -578,6 +592,32 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         final ClickMenu selectCoupon = new ClickMenu(R.layout.item_select_coupon, 0, status, null);
         selectCoupon.setEnabled(false);
         result.add(selectCoupon);
+
+        String shouldPayMoneyString = "<font color=\"#f65600\">实际付款：￥" + response.getNeed_pay() + "</font>";
+        final ItemTextInput2 shouldPayMoney = new ItemTextInput2(R.layout.item_total_money, shouldPayMoneyString, "");
+        shouldPayMoney.setTitleGravity(Gravity.START);
+        shouldPayMoney.setItemId("shouldPayMoney");
+        shouldPayMoney.setPosition(result.size());
+
+        selectCoupon.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                double shouldPay = response.getNeed_pay();
+                if (shouldPay < 0D) {
+                    shouldPay = 0D;
+                }
+                BigDecimal bigDecimal = new BigDecimal(shouldPay).setScale(2, BigDecimal.ROUND_UP);
+                String shouldPayMoneyString = "<font color=\"#f65600\">实际付款：￥" + bigDecimal.doubleValue() + "</font>";
+                shouldPayMoney.setTitle(shouldPayMoneyString);
+                shouldPayMoney.notifyChange();
+            }
+        });
+        result.add(shouldPayMoney);
+
+        BaseItem baseItem = new BaseItem(R.layout.space_8dp);
+        baseItem.setItemId("SPACE" + result.size());
+        baseItem.setPosition(result.size());
+        result.add(baseItem);
 
         result.add(new Description(R.layout.item_description, "支付方式"));
         final ItemRadioGroup payMethod = new ItemRadioGroup(R.layout.item_pick_pay_method);

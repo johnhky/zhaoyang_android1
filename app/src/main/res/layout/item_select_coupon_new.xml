@@ -46,6 +46,6 @@
             android:onClick="@{()->data.selectCoupon(context)}"
             android:text="点击选择"
             android:textColor="@color/text_color_blue"
-            android:visibility="@{data.canUseCoupon()}" />
+            android:visibility="@{data.canUseCoupon() &amp;&amp; data.notPay()}" />
     </FrameLayout>
 </layout>

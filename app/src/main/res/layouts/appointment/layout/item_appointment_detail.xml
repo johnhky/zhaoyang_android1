@@ -105,7 +105,7 @@
             android:gravity="center_vertical"
             android:textColor="#363636"
             android:textSize="@dimen/font_15"
-            app:html="@{@string/string_36_60(&quot;应付诊金:&quot;, &quot;￥&quot;+data.getNeedPay(context))}" />
+            app:html="@{@string/string_36_60(&quot;诊金    :&quot;, &quot;￥&quot;+data.getNeedPay(context))}" />
 
         <TextView
             android:layout_width="wrap_content"
