@@ -50,11 +50,11 @@ public class MyOrderPagerAdapter2 extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "咨询订单," + patientDTO.appointmentNum;
+                return "咨询订单," + (patientDTO == null ? "" : patientDTO.appointmentNum);
             case 1:
-                return "随访订单," + patientDTO.followUpDoingNum;
+                return "随访订单," + (patientDTO == null ? "" : patientDTO.followUpDoingNum);
             case 2:
-                return  "随访关系," + patientDTO.applyingNum;
+                return "随访关系," + (patientDTO == null ? "" : patientDTO.applyingNum);
         }
         return "";
     }

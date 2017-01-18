@@ -11,6 +11,7 @@ import com.doctor.sun.entity.Reminder;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,7 +62,11 @@ public class ItemReminderList extends BaseItem {
         if (dates != null) {
             ItemPickDate object = new ItemPickDate(R.layout.item_reminder, reminder.content, 0);
             object.setPosition(dates.size() + 1);
-            object.setDate(reminder.time);
+            if (Strings.isNullOrEmpty(reminder.time)) {
+                object.setDayOfMonth(object.getDayOfMonth() + 1);
+            } else {
+                object.setDate(reminder.time);
+            }
             dates.add(object);
             if (simpleAdapter != null) {
                 simpleAdapter.notifyItemInserted(dates.size());
