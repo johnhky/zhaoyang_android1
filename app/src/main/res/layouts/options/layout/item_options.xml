@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -19,6 +20,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_6"
         android:layout_marginTop="@dimen/dp_6"
+        android:layout_marginEnd="@dimen/dp_17"
+        android:layout_marginLeft="@dimen/dp_17"
+        android:layout_marginRight="@dimen/dp_17"
+        android:layout_marginStart="@dimen/dp_17"
         android:orientation="horizontal">
 
         <CheckBox
@@ -26,8 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_4"
-            android:layout_marginLeft="@dimen/dp_17"
-            android:layout_marginStart="@dimen/dp_17"
             android:layout_marginTop="@dimen/dp_4"
             android:button="@drawable/ic_tick"
             android:checked="@{data.selected}"
