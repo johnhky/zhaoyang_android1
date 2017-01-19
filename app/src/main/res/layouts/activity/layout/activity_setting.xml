@@ -31,7 +31,7 @@
 
                 <include
                     android:id="@+id/push_switch"
-                    layout="@layout/item_switch"
+                    layout="@layout/item_switch_white"
                     bind:data="@{handler.pushSwitch}" />
 
                 <LinearLayout

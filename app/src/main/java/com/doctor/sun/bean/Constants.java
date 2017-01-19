@@ -80,4 +80,5 @@ public class Constants {
     public static final String TAB_POSITION = "TAB_POSITION";
 
     public static final String ENABLE_NOTIFICATION = "ENABLE_NOTIFICATION";
+    public static final String NEW_REGISTER = "NEW_REGISTER";
 }

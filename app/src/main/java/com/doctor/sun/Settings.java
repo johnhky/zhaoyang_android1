@@ -251,4 +251,12 @@ public class Settings {
     private static void setDoctorProfile(Doctor response) {
         Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(response));
     }
+
+    public static boolean is(String key) {
+        return Config.getBoolean(key, true);
+    }
+
+    public static void set(String key, boolean value) {
+        Config.putBoolean(key, value);
+    }
 }
