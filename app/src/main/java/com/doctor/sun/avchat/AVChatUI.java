@@ -185,7 +185,7 @@ public class AVChatUI implements AVChatUIListener {
     public void outGoingCalling(String account, AVChatType callTypeEnum) {
 //        LoadingHelper.showMaterLoading(context, null);
 
-        SoundPlayer.instance(context).play(SoundPlayer.RingerTypeEnum.CONNECTING);
+        SoundPlayer.instance(context).play(SoundPlayer.RingerTypeEnum.RING);
 
         this.receiverId = account;
 
