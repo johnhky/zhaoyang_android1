@@ -2,7 +2,6 @@ package com.doctor.sun.model;
 
 import android.databinding.Observable;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.dto.ApiDTO;
@@ -341,7 +340,7 @@ public class QuestionsModel {
     }
 
     private void parsePickDate(List<SortedItem> items, int i, final Questions2 questions2) {
-        ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_pick_date3, "");
+        ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_pick_date3, "", 0);
         itemPickDate.setPosition(positionIn(i, RANGE_ITEM_POSITION));
         itemPickDate.setItemId(questions2.getKey() + QuestionType.sDate);
         itemPickDate.setDate(questions2.fillContent);
