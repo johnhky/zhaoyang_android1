@@ -178,7 +178,7 @@ public class SystemMsg extends BaseItem {
         boolean isDoctor = Settings.isDoctor();
         ProfileModule apiProfile = Api.of(ProfileModule.class);
         AppointmentModule apiAppointment = Api.of(AppointmentModule.class);
-        JPushExtra extras = getExtras();
+        final JPushExtra extras = getExtras();
         switch (type) {
             case 1: {
                 if (isDoctor) {
