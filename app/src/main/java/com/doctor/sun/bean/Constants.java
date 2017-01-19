@@ -78,4 +78,6 @@ public class Constants {
     public static final String OPEN_DRAWER = "OPEN_DRAWER";
     public static final String FROM = "FROM";
     public static final String TAB_POSITION = "TAB_POSITION";
+
+    public static final String ENABLE_NOTIFICATION = "ENABLE_NOTIFICATION";
 }

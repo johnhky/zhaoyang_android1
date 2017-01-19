@@ -30,9 +30,9 @@
                 android:orientation="vertical">
 
                 <include
-                    android:id="@+id/switch_button"
-                    layout="@layout/include_switch"
-                    bind:data='@{"信息推送"}' />
+                    android:id="@+id/push_switch"
+                    layout="@layout/item_switch"
+                    bind:data="@{handler.pushSwitch}" />
 
                 <LinearLayout
                     android:id="@+id/lly_passwd"

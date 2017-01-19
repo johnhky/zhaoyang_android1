@@ -15,6 +15,7 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
 import com.doctor.sun.ui.activity.patient.PConsultingActivity;
+import com.doctor.sun.ui.handler.SettingHandler;
 
 import java.io.File;
 
@@ -31,6 +32,9 @@ public class NotificationUtil {
 
     public static void showNotification(TextMsg msg1) {
         if (isAppInForeGround) {
+            return;
+        }
+        if (!SettingHandler.isEnablePush()) {
             return;
         }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AppContext.me());

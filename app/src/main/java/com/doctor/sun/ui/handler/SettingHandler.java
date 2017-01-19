@@ -3,6 +3,7 @@ package com.doctor.sun.ui.handler;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.Observable;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.doctor.sun.BR;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
@@ -32,6 +34,7 @@ import com.doctor.sun.ui.fragment.ChangePasswordFragment;
 import com.doctor.sun.ui.widget.ShareDialog;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
+import com.doctor.sun.vm.ItemSwitch;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
@@ -237,4 +240,30 @@ public class SettingHandler {
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransaction(new ClearAllTransaction());
     }
+
+    public ItemSwitch pushSwitch() {
+        final ItemSwitch itemSwitch = new ItemSwitch(R.layout.item_switch);
+        boolean enablePush = isEnablePush();
+        itemSwitch.setChecked(enablePush);
+        itemSwitch.setContent("信息推送");
+        itemSwitch.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                if (i == BR.isChecked) {
+                    setEnablePush(itemSwitch.isChecked());
+                }
+            }
+        });
+        return itemSwitch;
+    }
+
+    public static boolean isEnablePush() {
+        return Config.getBoolean(Constants.ENABLE_NOTIFICATION, true);
+    }
+
+    public void setEnablePush(boolean b) {
+        Config.putBoolean(Constants.ENABLE_NOTIFICATION, b);
+    }
+
 }
