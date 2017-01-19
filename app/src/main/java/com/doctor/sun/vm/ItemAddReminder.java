@@ -32,6 +32,7 @@ public class ItemAddReminder extends BaseItem {
     @NonNull
     public ItemPickDate createReminder() {
         ItemPickDate parcelable = new ItemPickDate(R.layout.item_reminder2, "", 0);
+        parcelable.setDayOfMonth(parcelable.getDayOfMonth() + 1);
         parcelable.setPosition(getPosition() - QuestionsModel.PADDING + 3 + opCount);
         parcelable.setSubPosition(itemSize());
         parcelable.setItemId(UUID.randomUUID().toString());
