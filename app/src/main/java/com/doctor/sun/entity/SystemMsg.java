@@ -19,12 +19,14 @@ import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.PushModule;
+import com.doctor.sun.ui.activity.AfterServiceContactActivity;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoingActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceDoneActivity;
 import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
+import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.activity.patient.MyOrderActivity;
@@ -312,6 +314,12 @@ public class SystemMsg extends BaseItem {
                     i = AfterServiceDoneActivity.intentFor(context, extras.appointmentId, 1);
                 }
                 break;
+            }
+            case 32: {
+                if (Settings.isDoctor()) {
+                    i = AfterServiceContactActivity.intentFor(context, ContactActivity.DOCTORS_CONTACT);
+                    break;
+                }
             }
             default: {
                 if (isDoctor) {

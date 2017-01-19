@@ -74,10 +74,10 @@ public class PMainActivity2 extends AppCompatActivity {
         api.getCallConfig().enqueue(new SimpleCallback<CallConfig>() {
             @Override
             protected void handleResponse(CallConfig response) {
-                Glide.with(PMainActivity2.this)
-                        .load(response.getBannerIcon())
-                        .into(binding.ivBanner);
-                handler.showPromotion(PMainActivity2.this, false);
+                if (binding != null) {
+                    binding.setCallConfig(response);
+                    handler.showPromotion(PMainActivity2.this, false);
+                }
             }
         });
     }

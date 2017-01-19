@@ -17,6 +17,10 @@
             name="footer"
             type="com.doctor.sun.ui.model.FooterViewModel" />
 
+        <variable
+            name="callConfig"
+            type="com.doctor.sun.entity.CallConfig" />
+
     </data>
 
     <LinearLayout
@@ -47,6 +51,7 @@
                         android:layout_height="@dimen/dp_40"
                         android:layout_gravity="top|end"
                         android:layout_marginTop="@dimen/dp_34"
+                        android:src="@{callConfig.bannerIcon}"
                         android:onClick="@{()->data.showPromotion(context,true)}"
                         tools:src="@drawable/ic_launcher" />
 
@@ -142,11 +147,11 @@
 
 
                     <!--<View-->
-                        <!--android:layout_width="1px"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_marginBottom="@dimen/dp_10"-->
-                        <!--android:layout_marginTop="@dimen/dp_10"-->
-                        <!--android:background="@color/colorPrimaryDark" />-->
+                    <!--android:layout_width="1px"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginBottom="@dimen/dp_10"-->
+                    <!--android:layout_marginTop="@dimen/dp_10"-->
+                    <!--android:background="@color/colorPrimaryDark" />-->
 
                     <FrameLayout
                         android:layout_width="0dp"
@@ -202,11 +207,11 @@
                     </FrameLayout>
 
                     <!--<View-->
-                        <!--android:layout_width="1px"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_marginBottom="@dimen/dp_10"-->
-                        <!--android:layout_marginTop="@dimen/dp_10"-->
-                        <!--android:background="@color/colorPrimaryDark" />-->
+                    <!--android:layout_width="1px"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginBottom="@dimen/dp_10"-->
+                    <!--android:layout_marginTop="@dimen/dp_10"-->
+                    <!--android:background="@color/colorPrimaryDark" />-->
 
                     <FrameLayout
                         android:layout_width="0dp"
