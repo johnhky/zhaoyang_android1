@@ -51,8 +51,8 @@
                         android:layout_height="@dimen/dp_40"
                         android:layout_gravity="top|end"
                         android:layout_marginTop="@dimen/dp_34"
-                        android:src="@{callConfig.bannerIcon}"
                         android:onClick="@{()->data.showPromotion(context,true)}"
+                        android:src="@{callConfig.bannerIcon}"
                         tools:src="@drawable/ic_launcher" />
 
                     <FrameLayout
@@ -70,7 +70,7 @@
                             android:next="@{2}"
                             android:onClick="@{()->data.allDoctors(context)}"
                             android:previous='@{-1}'
-                            android:showcase='@{"点击找医生预约医生"}'
+                            android:showcase='@{"点击选择医生医生"}'
                             app:srcCompat="@drawable/search_doctor"
                             tools:src="@drawable/search_doctor" />
                     </FrameLayout>

@@ -7,7 +7,6 @@
         <import type="com.doctor.sun.R" />
 
 
-
     </data>
 
     <LinearLayout
@@ -15,58 +14,68 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/tool_bar"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#339de1"
-            android:gravity="center"
-            app:collapseIcon="@drawable/ic_back_white"
-            app:navigationIcon="@drawable/ic_back_white"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ToolbarTheme">
+            android:current="@{1}"
+            android:isRect="@{true}"
+            android:next="@{2}"
+            android:previous='@{-1}'
+            android:showcase='@{"输入您想预约的医生姓名"}'>
 
-            <FrameLayout
-                android:id="@+id/fl_search"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dp_35"
-                android:layout_marginRight="@dimen/dp_35"
-                android:background="@drawable/bg_search_doctor"
-                android:focusable="true">
+                android:background="#339de1"
+                android:gravity="center"
+                app:collapseIcon="@drawable/ic_back_white"
+                app:navigationIcon="@drawable/ic_back_white"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ToolbarTheme">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:drawableLeft="@drawable/ic_search"
-                    android:drawablePadding="@dimen/dp_10"
-                    android:drawableStart="@drawable/ic_search"
-                    android:gravity="center"
-                    android:hint="搜索"
-                    android:textColor="#ffffffff"
-                    android:textColorHint="#ffffffff"
-                    android:textSize="@dimen/font_14" />
-
-                <EditText
-                    android:id="@+id/search"
+                <FrameLayout
+                    android:id="@+id/fl_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@drawable/bg_search"
-                    android:drawablePadding="@dimen/dp_10"
-                    android:gravity="center_vertical"
-                    android:hint="搜索"
-                    android:maxLines="1"
-                    android:padding="@dimen/dp_8"
-                    android:textColor="#363636"
-                    android:textColorHint="@color/divider_color"
-                    android:textSize="@dimen/font_14"
-                    android:visibility="gone" />
+                    android:layout_marginEnd="@dimen/dp_35"
+                    android:layout_marginRight="@dimen/dp_35"
+                    android:background="@drawable/bg_search_doctor"
+                    android:focusable="true">
 
-            </FrameLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:drawableLeft="@drawable/ic_search"
+                        android:drawablePadding="@dimen/dp_10"
+                        android:drawableStart="@drawable/ic_search"
+                        android:gravity="center"
+                        android:hint="输入医生姓名"
+                        android:textColor="#ffffffff"
+                        android:textColorHint="#ffffffff"
+                        android:textSize="@dimen/font_14" />
 
-        </android.support.v7.widget.Toolbar>
+                    <EditText
+                        android:id="@+id/search"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_search"
+                        android:drawablePadding="@dimen/dp_10"
+                        android:gravity="center_vertical"
+                        android:hint="搜索"
+                        android:maxLines="1"
+                        android:padding="@dimen/dp_8"
+                        android:textColor="#363636"
+                        android:textColorHint="@color/divider_color"
+                        android:textSize="@dimen/font_14"
+                        android:visibility="gone" />
+
+                </FrameLayout>
+
+            </android.support.v7.widget.Toolbar>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

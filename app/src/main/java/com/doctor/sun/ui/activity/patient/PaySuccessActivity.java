@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -17,6 +18,7 @@ import com.doctor.sun.ui.activity.PMainActivity2;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.util.ShowCaseUtil;
 
 import io.ganguo.library.AppManager;
 
@@ -104,7 +106,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                     Intent intent2 = MyOrderActivity.makeIntent(PaySuccessActivity.this, position);
                     startActivity(intent2);
                     finish();
-                }else if (getType() == PRESCRIPTION) {
+                } else if (getType() == PRESCRIPTION) {
                     Bundle bundle = DrugListFragment.getArgs();
                     Intent intent = SingleFragmentActivity.intentFor(this, "寄药订单", bundle);
                     startActivity(intent);
@@ -145,5 +147,13 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
         startActivity(intent);
         AppManager.finishAllActivity();
 
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        if (getType() == APPOINTMENT) {
+            ShowCaseUtil.showCase2(binding.tvSubButton, "点击开始填写问卷", -1, 12, 13, true);
+        }
     }
 }

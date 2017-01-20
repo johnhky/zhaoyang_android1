@@ -1,6 +1,7 @@
 package com.doctor.sun.entity;
 
 import android.content.Context;
+import android.databinding.Bindable;
 import android.text.Editable;
 import android.text.InputType;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.ClearRules;
 import com.doctor.sun.entity.constans.QuestionType;
@@ -99,12 +101,22 @@ public class Options2 extends BaseItem {
     @JsonProperty("reply_object")
     public Map<String, String> selectedOption;
     @JsonProperty("reply_content")
-    public String inputContent;
+    private String inputContent;
 
     @JsonProperty("option_or_enable")
     public List<String> optionOrEnable;
     @JsonProperty("option_or_disable")
     public List<String> optionOrDisable;
+
+    @Bindable
+    public String getInputContent() {
+        return inputContent;
+    }
+
+    public void setInputContent(String inputContent) {
+        this.inputContent = inputContent;
+        notifyPropertyChanged(BR.inputContent);
+    }
 
     @Override
     public int getLayoutId() {

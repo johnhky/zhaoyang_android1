@@ -43,6 +43,10 @@
             android:layout_marginStart="@dimen/dp_13"
             android:background="@drawable/selector_blue_rect"
             android:gravity="center"
+            android:current="@{15}"
+            android:next="@{16}"
+            android:previous='@{-1}'
+            android:showcase='@{"点击选择可用的优惠券抵扣咨询费用"}'
             android:onClick="@{()->data.selectCoupon(context)}"
             android:text="点击选择"
             android:textColor="@color/text_color_blue"

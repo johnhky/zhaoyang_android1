@@ -19,6 +19,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:current="@{14}"
+            android:next="@{15}"
+            android:previous='@{-1}'
+            android:showcase='@{"与小助手确认订单后，根据提示进行操作即可"}' />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -97,7 +105,7 @@
                 android:id="@+id/rv_prescription"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_480"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true" />
 
             <TextView
                 android:id="@+id/tv_indicator"
@@ -105,8 +113,8 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/rv_prescription"
                 android:layout_centerInParent="true"
-                android:textColor="@color/white"
                 android:padding="@dimen/dp_13"
+                android:textColor="@color/white"
                 android:textSize="@dimen/font_13" />
         </RelativeLayout>
 

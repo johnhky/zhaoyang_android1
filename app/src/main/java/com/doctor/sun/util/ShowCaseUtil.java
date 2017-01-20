@@ -148,6 +148,7 @@ public class ShowCaseUtil {
                 .setTargetTouchable(true)
                 .setDismissOnTargetTouch(true)
                 .setDismissOnTouch(false)
+                .setDismissText("我知道了")
                 .setDismissTextColor(resources.getColor(R.color.colorPrimaryDark))
                 .setMaskColour(resources.getColor(R.color.dark_36_transparent));
         if (isRect) {

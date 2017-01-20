@@ -30,7 +30,6 @@ import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.LoadMoreListener;
 import com.doctor.sun.ui.widget.CityPickerDialog;
 import com.doctor.sun.util.AnimationUtils;
-import com.doctor.sun.util.ShowCaseUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
