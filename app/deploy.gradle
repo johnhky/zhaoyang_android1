@@ -3,10 +3,10 @@ apply plugin: 'com.android.application'
 
 android {
 
-    def doctorVersion = 110
-    def doctorVersionName = "1.1.0"
-    def patientVersion = 210
-    def patientVersionName = "2.1.0"
+    def doctorVersion = 120
+    def doctorVersionName = "1.2.0"
+    def patientVersion = 220
+    def patientVersionName = "2.2.0"
 
     compileSdkVersion rootProject.ext.compile_sdk_version
     buildToolsVersion rootProject.ext.build_tools_version
