@@ -93,7 +93,7 @@ public class SelectRecordDialog {
                 .content("请先填写病历信息")
                 .positiveText("新建病历")
                 .negativeText("先逛逛")
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         MedicalRecordHandler.newRecord(dialog.getContext(), new ArrayList<MedicalRecord>());
