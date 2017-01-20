@@ -4,9 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.doctor.auto.Factory;
 import com.doctor.sun.R;
@@ -66,10 +71,47 @@ public class DrugListFragment extends RefreshListFragment {
         api.orderList(getPageCallback().getPage()).enqueue(getPageCallback());
     }
 
+    @Override
+    protected void refreshEmptyIndicator() {
+        if (getAdapter() != null && !getAdapter().isEmpty()) {
+            String s = getEmptyIndicatorText();
+            SpannableString spanned = new SpannableString(s);
+            spanned.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(View widget) {
+                    Intent intent = MedicineStoreActivity.makeIntent(getContext());
+                    getContext().startActivity(intent);
+                }
+            }, s.length() - 6, s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            binding.emptyIndicator.setText(spanned);
+            binding.emptyIndicator.setMovementMethod(LinkMovementMethod.getInstance());
+            binding.emptyIndicator.setVisibility(View.GONE);
+        } else {
+            String s = getEmptyIndicatorText();
+            SpannableString spanned = new SpannableString(s);
+            spanned.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(View widget) {
+                    Intent intent = MedicineStoreActivity.makeIntent(getContext());
+                    getContext().startActivity(intent);
+                }
+            }, s.length() - 6, s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            binding.emptyIndicator.setText(spanned);
+            binding.emptyIndicator.setMovementMethod(LinkMovementMethod.getInstance());
+            binding.emptyIndicator.setVisibility(View.VISIBLE);
+        }
+
+
+    }
+
     @NonNull
     @Override
     protected String getEmptyIndicatorText() {
-        return "您当前暂无寄药订单\r如需使用寄药服务请联系寄药小助手";
+        return "您当前暂无寄药订单" +
+                "\n如需使用寄药服务请联系寄药小助手" +
+                "\n找寄药小助手";
     }
 
     @Override

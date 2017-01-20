@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -25,7 +26,8 @@
         android:layout_marginLeft="@dimen/dp_13"
         android:layout_marginRight="@dimen/dp_13"
         android:layout_marginStart="@dimen/dp_13"
-        android:background="@drawable/ripple_default">
+        android:background="@drawable/ripple_default"
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/et_others"
@@ -34,13 +36,23 @@
             android:background="@drawable/selector_grey_rect"
             android:enabled="@{data.isEnabled()}"
             android:gravity="start|center_vertical"
+            android:maxLength="@{data.maxLength}"
             android:minHeight="@dimen/dp_45"
             android:paddingLeft="@dimen/dp_13"
             android:paddingRight="@dimen/dp_13"
             android:selected="@{data.result!=null &amp;&amp; !data.result.equals(&quot;&quot;)}"
             android:text="@={data.result}"
-            android:maxLength="@{data.maxLength}"
             android:textColor="@color/color_tick"
             android:textSize="@dimen/font_15" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:text="@{data.result.length()+&quot;/&quot;+data.maxLength+ &quot;字&quot;}"
+            android:textColor="#9bb6c5"
+            android:textSize="@dimen/font_12"
+            android:visibility="@{data.enabled&amp;&amp;data.maxLength>0}"
+            tools:text="100/200字体" />
     </LinearLayout>
 </layout>
