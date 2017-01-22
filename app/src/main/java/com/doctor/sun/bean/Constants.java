@@ -81,4 +81,5 @@ public class Constants {
 
     public static final String ENABLE_NOTIFICATION = "ENABLE_NOTIFICATION";
     public static final String NEW_REGISTER = "NEW_REGISTER";
+    public static final String IS_LEGACY = "IS_LEGACY";
 }
