@@ -2,7 +2,6 @@ package com.doctor.sun.util;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +15,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Version;
 import com.doctor.sun.event.ProgressEvent;
@@ -145,12 +145,18 @@ public class UpdateUtil {
     }
 
 
-    public static void installPackage(Context context, String filePath) {
+    public static void installPackage(final Context context, final String filePath) {
         try {
-            Intent intent = getInstallIntent(filePath);
+            Intent intent;
+            if (Config.getBoolean(Constants.IS_LEGACY, false)) {
+                intent = getInstallIntent(filePath);
+            } else {
+                intent = getLegacyInstallIntent(filePath);
+            }
             if (intent == null) return;
             context.startActivity(intent);
-        }catch (ActivityNotFoundException e) {
+        } catch (Exception any) {
+            Config.putBoolean(Constants.IS_LEGACY, true);
             Intent intent = getLegacyInstallIntent(filePath);
             if (intent == null) return;
             context.startActivity(intent);
@@ -170,6 +176,7 @@ public class UpdateUtil {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         return intent;
     }
+
     @Nullable
     public static Intent getLegacyInstallIntent(String filePath) {
         File installFile = new File(filePath);
