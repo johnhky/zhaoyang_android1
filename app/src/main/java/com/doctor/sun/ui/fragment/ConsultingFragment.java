@@ -139,9 +139,9 @@ public class ConsultingFragment extends SortedListFragment {
 
     public void insertHeader() {
         getAdapter().insert(getSystemMsg());
-        if (!Settings.isDoctor()) {
+//        if (!Settings.isDoctor()) {
             getAdapter().insert(getMedicineStore());
-        }
+//        }
     }
 
     @SuppressWarnings("unchecked")
