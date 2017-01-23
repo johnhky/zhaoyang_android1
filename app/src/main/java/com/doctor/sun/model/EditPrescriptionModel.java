@@ -48,28 +48,6 @@ public class EditPrescriptionModel {
 
         final ItemAutoCompleteTextInput<DrugAutoComplete> name = new ItemAutoCompleteTextInput<>(R.layout.item_auto_complete_text, "药名", "");
 
-        AutoComplete autoComplete = Api.of(AutoComplete.class);
-        autoComplete.drugInfo().enqueue(new SimpleCallback<List<DrugAutoComplete>>() {
-            @Override
-            protected void handleResponse(List<DrugAutoComplete> response) {
-                name.setAllEntries(response);
-            }
-
-            @Override
-            public void onFailure(Call<ApiDTO<List<DrugAutoComplete>>> call, Throwable t) {
-                super.onFailure(call, t);
-            }
-        });
-
-        name.setPredicate(new Predicate<DrugAutoComplete>() {
-            @Override
-            public boolean apply(DrugAutoComplete input) {
-                if ("".equals(name.getResult())){
-                    return true;
-                }
-                return input.contains(name.getResult());
-            }
-        });
 
         name.setSubTitle("(必填)");
         name.setResultNotEmpty();
@@ -141,12 +119,7 @@ public class EditPrescriptionModel {
         unit.setItemId("drug_unit");
         unit.setPosition(result.size());
         final String[] defaultUnits = AppContext.me().getResources().getStringArray(R.array.unit_array);
-        unit.addOptions(defaultUnits);
-        for (int i = 0; i < defaultUnits.length; i++) {
-            if (defaultUnits[i].equals(data.getDrug_unit())) {
-                unit.setSelectedItem(i);
-            }
-        }
+
         unit.setEnabled(!isReadOnly);
         result.add(unit);
 
@@ -239,7 +212,51 @@ public class EditPrescriptionModel {
         remark.setResult(data.getRemark());
         remark.setEnabled(!isReadOnly);
         result.add(remark);
+
+        loadAutoCompleteDrug(data, name, unit, defaultUnits);
+
+        name.setPredicate(new Predicate<DrugAutoComplete>() {
+            @Override
+            public boolean apply(DrugAutoComplete input) {
+                if ("".equals(name.getResult())) {
+                    return true;
+                }
+                return input.contains(name.getResult());
+            }
+        });
+
         return result;
+    }
+
+    private void loadAutoCompleteDrug(Prescription data, final ItemAutoCompleteTextInput<DrugAutoComplete> name, final ItemRadioDialog unit, final String[] defaultUnits) {
+        final String selectedDrugUnit = data.getDrug_unit();
+        AutoComplete autoComplete = Api.of(AutoComplete.class);
+        autoComplete.drugInfo().enqueue(new SimpleCallback<List<DrugAutoComplete>>() {
+            @Override
+            protected void handleResponse(List<DrugAutoComplete> response) {
+                name.setAllEntries(response);
+
+                for (DrugAutoComplete drugAutoComplete : response) {
+                    if (drugAutoComplete.drugName.equals(name.getResult())) {
+                        List<String> drugUnit = drugAutoComplete.drugUnit;
+                        setDrugUnits(unit, drugUnit, defaultUnits);
+                    }
+                }
+                if (unit.getOptions().isEmpty()) {
+                    unit.addOptions(defaultUnits);
+                }
+                for (int i = 0; i < unit.getOptions().size(); i++) {
+                    if (unit.getOptions().get(i).equals(selectedDrugUnit)) {
+                        unit.setSelectedItem(i);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiDTO<List<DrugAutoComplete>>> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
     }
 
     private void setDrugUnits(ItemRadioDialog unit, List<String> drugUnit, String[] defaultUnits) {
