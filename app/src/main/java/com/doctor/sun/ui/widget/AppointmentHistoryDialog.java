@@ -15,7 +15,6 @@ import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Appointment;
-import com.doctor.sun.immutables.SimpleAppointment;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.fragment.BottomSheetTabFragment;
 import com.doctor.sun.ui.pager.DoctorAppointmentDonePA;
@@ -42,7 +41,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
     private Appointment appointment;
     private String recordId;
-    private List<SimpleAppointment> data = new ArrayList<>();
+    private List<Appointment> data = new ArrayList<>();
     private int currentIndex = 0;
 
     public static AppointmentHistoryDialog newInstance(Appointment data) {
@@ -73,9 +72,9 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
         getBinding().tvNext.setOnClickListener(this);
         getBinding().tbMenu.setOnClickListener(this);
 
-        api.recordHistory(appointment.getRecord().getMedicalRecordId()).enqueue(new SimpleCallback<List<SimpleAppointment>>() {
+        api.recordHistory(appointment.getRecord().getMedicalRecordId()).enqueue(new SimpleCallback<List<Appointment>>() {
             @Override
-            protected void handleResponse(List<SimpleAppointment> response) {
+            protected void handleResponse(List<Appointment> response) {
                 data.addAll(response);
                 if (data.isEmpty()) {
                     Toast.makeText(getContext(), "暂时没有任何历史记录", Toast.LENGTH_SHORT).show();
@@ -192,5 +191,14 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
     private int getTabPosition() {
         return getSharedPref().getInt(recordId + Constants.TAB_POSITION, 1);
+    }
+
+    @Override
+    protected String getTitle() {
+        try {
+            return data.get(currentIndex).getTime_bucket().split(" ")[0];
+        } catch (Exception e) {
+            return "";
+        }
     }
 }

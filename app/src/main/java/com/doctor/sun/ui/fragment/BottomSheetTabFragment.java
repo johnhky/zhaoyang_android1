@@ -39,7 +39,12 @@ public abstract class BottomSheetTabFragment extends ViewPagerBottomSheetDialogF
         int position = getPosition();
         if (position <= pagerAdapter.getCount()) {
             binding.bottomSheetViewpager.setCurrentItem(position);
+            binding.tbTitle.setText(getTitle());
         }
+    }
+
+    protected String getTitle() {
+        return "";
     }
 
 

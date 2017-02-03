@@ -40,8 +40,8 @@ public interface DiagnosisModule {
     Call<ApiDTO<PageDTO<Appointment>>> recordPool(@Query("page") String page, @Query("searchWord") String searchWord);
 
 
-    @GET("diagnosis/record-histories?type=simple")
-    Call<ApiDTO<List<SimpleAppointment>>> recordHistory(@Query("recordId") int recordId);
+    @GET("diagnosis/record-histories?type=detail")
+    Call<ApiDTO<List<Appointment>>> recordHistory(@Query("recordId") int recordId);
 
     @GET("diagnosis/record-histories?type=detail")
     Call<ApiDTO<List<Appointment>>> recordHistoryDetail(@Query("recordId") int recordId);
