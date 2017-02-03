@@ -210,6 +210,43 @@
                     android:layout_height="1px"
                     android:background="@color/divider_color" />
 
+                <FrameLayout
+                    android:id="@+id/lly_custom_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center_vertical"
+                    android:onClick="@{()->handler.getCustomerService(context)}"
+                    android:orientation="horizontal"
+                    android:visibility="@{Settings.doctor}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_13"
+                        android:layout_marginStart="@dimen/dp_13"
+                        android:text="联系客服"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_marginEnd="@dimen/dp_13"
+                        android:layout_marginRight="@dimen/dp_13"
+                        android:text="400-835-2600"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_color"
+                    android:visibility="@{Settings.doctor}" />
+
                 <LinearLayout
                     android:id="@+id/lly_cache"
                     android:layout_width="match_parent"

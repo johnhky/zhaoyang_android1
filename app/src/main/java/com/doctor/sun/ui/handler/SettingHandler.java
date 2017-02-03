@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.databinding.Observable;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.BR;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
@@ -32,6 +34,7 @@ import com.doctor.sun.ui.activity.patient.PMeActivity;
 import com.doctor.sun.ui.fragment.AllowToSearchFragment;
 import com.doctor.sun.ui.fragment.ChangePasswordFragment;
 import com.doctor.sun.ui.widget.ShareDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
 import com.doctor.sun.vm.ItemSwitch;
@@ -56,6 +59,28 @@ import io.realm.Realm;
  */
 public class SettingHandler {
     public static final String imagePath = Config.getImagePath() + "/ic_share.png";
+
+    public void getCustomerService(final Context context) {
+
+        TwoChoiceDialog.show(context, "020-4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
+            @Override
+            public void onApplyClick(MaterialDialog dialog) {
+                try {
+                    Uri uri = Uri.parse("tel:4008352600");
+                    Intent intent = new Intent(Intent.ACTION_CALL, uri);
+                    context.startActivity(intent);
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelClick(MaterialDialog dialog) {
+
+            }
+        });
+
+    }
 
 
     public void allowToSearch(Context context) {
