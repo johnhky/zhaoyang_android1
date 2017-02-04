@@ -133,4 +133,9 @@
         <item name="android:textSize">@dimen/font_12</item>
         <item name="android:drawablePadding">@dimen/dp_6</item>
     </style>
+
+    <style name="menu_labels_style">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 </resources>

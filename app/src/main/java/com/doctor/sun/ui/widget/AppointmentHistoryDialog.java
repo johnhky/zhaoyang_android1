@@ -5,12 +5,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -19,6 +21,7 @@ import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.fragment.BottomSheetTabFragment;
 import com.doctor.sun.ui.pager.DoctorAppointmentDonePA;
 import com.doctor.sun.util.JacksonUtils;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +46,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
     private String recordId;
     private List<Appointment> data = new ArrayList<>();
     private int currentIndex = 0;
+    private View fabRoot;
 
     public static AppointmentHistoryDialog newInstance(Appointment data) {
         AppointmentHistoryDialog fragment = new AppointmentHistoryDialog();
@@ -89,6 +93,21 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
                 }
             }
         });
+
+        fabRoot = LayoutInflater.from(getContext()).inflate(R.layout.fab_import_answer, getBinding().flyContainer, false);
+        final FloatingActionsMenu fabMenu = (FloatingActionsMenu) fabRoot.findViewById(R.id.btn_appointment_history);
+        fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+            @Override
+            public void onMenuExpanded() {
+                getBinding().setFabExpended(true);
+            }
+
+            @Override
+            public void onMenuCollapsed() {
+                getBinding().setFabExpended(false);
+            }
+        });
+        getBinding().flyContainer.addView(fabRoot);
     }
 
     @Override
@@ -102,6 +121,13 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
             id = "";
         } else {
             id = data.get(currentIndex).getId();
+            if (fabRoot != null) {
+                if (appointment.getType() != AppointmentType.FollowUp || data.get(currentIndex).getType() == AppointmentType.FollowUp) {
+                    fabRoot.setVisibility(View.GONE);
+                } else {
+                    fabRoot.setVisibility(View.VISIBLE);
+                }
+            }
         }
         answerPagerAdapter = new DoctorAppointmentDonePA(getChildFragmentManager(), id);
         return answerPagerAdapter;

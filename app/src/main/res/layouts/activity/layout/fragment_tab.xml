@@ -5,6 +5,9 @@
     <data>
 
 
+        <variable
+            name="fabExpended"
+            type="boolean" />
     </data>
 
     <LinearLayout
@@ -73,6 +76,13 @@
                         android:textSize="@dimen/font_13" />
 
                 </android.support.v7.widget.Toolbar>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/black_transparent_c8"
+                    android:onClick="@{()->null}"
+                    android:visibility="@{fabExpended}" />
             </FrameLayout>
 
             <FrameLayout
@@ -113,18 +123,34 @@
                     android:layout_width="@dimen/dp_190"
                     android:layout_height="@dimen/dp_40"
                     android:layout_gravity="end" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/black_transparent_c8"
+                    android:onClick="@{()->null}"
+                    android:visibility="@{fabExpended}" />
             </FrameLayout>
 
         </android.support.design.widget.AppBarLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#c1cacf" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/bottom_sheet_viewpager"
+        <FrameLayout
+            android:id="@+id/fly_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/bottom_sheet_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black_transparent_c8"
+                android:onClick="@{()->null}"
+                android:visibility="@{fabExpended}" />
+        </FrameLayout>
     </LinearLayout>
 </layout>

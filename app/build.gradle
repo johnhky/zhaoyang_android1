@@ -19,6 +19,8 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'org.apmem.tools:layouts:1.10@aar'
 
+    compile 'com.getbase:floatingactionbutton:1.10.1'
+
     annotationProcessor "org.immutables:value:2.3.7" // for annotation processor
     provided "org.immutables:value:2.3.7" // for annotations
     provided "org.immutables:builder:2.3.7" // for annotations
