@@ -105,7 +105,7 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
     }
 
     private boolean shouldShowFAB(int deltaY) {
-        int mActionBarAutoHideSensivity = 250;
+        int mActionBarAutoHideSensivity = 10;
         if (deltaY > mActionBarAutoHideSensivity) {
             deltaY = mActionBarAutoHideSensivity;
         } else if (deltaY < -mActionBarAutoHideSensivity) {
