@@ -131,6 +131,9 @@ public class ItemTextInput2 extends BaseItem {
 
     @Override
     public String getValue() {
+        if (Strings.isNullOrEmpty(result)){
+            return " ";
+        }
         return result;
     }
 
