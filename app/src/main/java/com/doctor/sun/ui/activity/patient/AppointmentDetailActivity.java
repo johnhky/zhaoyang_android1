@@ -100,33 +100,33 @@ public class AppointmentDetailActivity extends TabActivity {
         intent.putExtra(Constants.DATA, JacksonUtils.toJson(data));
         return intent;
     }
-
-    @com.squareup.otto.Subscribe
-    public void onEventMainThread(HideFABEvent event) {
-        if (historyButton == null || animating) {
-            return;
-        }
-        historyButton.animate()
-                .translationY(historyButton.getHeight())
-                .alpha(0)
-                .setDuration(250)
-                .setListener(getAnimationListener())
-                .setInterpolator(new DecelerateInterpolator());
-
-    }
-
-    @com.squareup.otto.Subscribe
-    public void onEventMainThread(ShowFABEvent event) {
-        if (historyButton == null || animating) {
-            return;
-        }
-        historyButton.animate()
-                .translationY(0)
-                .alpha(1)
-                .setDuration(250)
-                .setListener(getAnimationListener())
-                .setInterpolator(new DecelerateInterpolator());
-    }
+//
+//    @com.squareup.otto.Subscribe
+//    public void onEventMainThread(HideFABEvent event) {
+//        if (historyButton == null || animating) {
+//            return;
+//        }
+//        historyButton.animate()
+//                .translationY(historyButton.getHeight())
+//                .alpha(0)
+//                .setDuration(250)
+//                .setListener(getAnimationListener())
+//                .setInterpolator(new DecelerateInterpolator());
+//
+//    }
+//
+//    @com.squareup.otto.Subscribe
+//    public void onEventMainThread(ShowFABEvent event) {
+//        if (historyButton == null || animating) {
+//            return;
+//        }
+//        historyButton.animate()
+//                .translationY(0)
+//                .alpha(1)
+//                .setDuration(250)
+//                .setListener(getAnimationListener())
+//                .setInterpolator(new DecelerateInterpolator());
+//    }
 
     @NonNull
     public Animator.AnimatorListener getAnimationListener() {
