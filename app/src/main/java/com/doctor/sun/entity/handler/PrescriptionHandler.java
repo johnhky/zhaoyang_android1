@@ -9,7 +9,6 @@ import android.os.Message;
 import android.os.Messenger;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.immutables.ImmutablePrescription;
@@ -34,7 +33,7 @@ public class PrescriptionHandler {
     private static final String[] keys = new String[]{"早", "午", "晚", "睡前"};
 
     public static void modify(Context context, final BaseListAdapter adapter, final Prescription data) {
-        View focusCurrent =((Activity)context).getWindow().getCurrentFocus();
+        View focusCurrent = ((Activity) context).getWindow().getCurrentFocus();
         if (focusCurrent != null) {
             focusCurrent.clearFocus();
         }
@@ -260,10 +259,36 @@ public class PrescriptionHandler {
     }
 
     public static double totalNumberPerFrequency(Prescription data) {
-        return Double.valueOf(nullOrEmptyToZero(trimZero(data.getMorning())))
-                + Double.valueOf(nullOrEmptyToZero(trimZero(data.getNoon())))
-                + Double.valueOf(nullOrEmptyToZero(trimZero(data.getNight())))
-                + Double.valueOf(nullOrEmptyToZero(trimZero(data.getBefore_sleep())));
+        String morningS = nullOrEmptyToZero(trimZero(data.getMorning()));
+        String noonS = nullOrEmptyToZero(trimZero(data.getNoon()));
+        String nightS = nullOrEmptyToZero(trimZero(data.getNight()));
+        String beforeSleepS = nullOrEmptyToZero(trimZero(data.getBefore_sleep()));
+        double morningV;
+        try {
+            morningV = Strings.isNullOrEmpty(morningS) ? 0 : Double.valueOf(morningS);
+        } catch (NumberFormatException e) {
+            morningV = 0D;
+        }
+        double noonV;
+        try {
+            noonV = Strings.isNullOrEmpty(noonS) ? 0 : Double.valueOf(noonS);
+        } catch (NumberFormatException e) {
+            noonV = 0D;
+        }
+        double nightV;
+        try {
+            nightV = Strings.isNullOrEmpty(beforeSleepS) ? 0 : Double.valueOf(beforeSleepS);
+        } catch (NumberFormatException e) {
+            nightV = 0D;
+        }
+        double beforeSleepV;
+        try {
+            beforeSleepV = Strings.isNullOrEmpty(nightS) ? 0 : Double.valueOf(nightS);
+        } catch (NumberFormatException e) {
+            beforeSleepV = 0D;
+        }
+
+        return morningV + noonV + nightV + beforeSleepV;
     }
 
     public static Prescription newInstance() {
@@ -317,7 +342,7 @@ public class PrescriptionHandler {
     }
 
     private static String trimZero(String string) {
-        if (Strings.isNullOrEmpty(string)){
+        if (Strings.isNullOrEmpty(string)) {
             return "";
         }
         if (string.length() == 0) {
