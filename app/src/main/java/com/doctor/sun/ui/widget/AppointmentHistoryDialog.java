@@ -108,11 +108,15 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
             @Override
             public void onMenuExpanded() {
                 getBinding().setFabExpended(true);
+                fabBinding.fabTitle.setVisibility(View.GONE);
+                fabBinding.fabIcon.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onMenuCollapsed() {
                 getBinding().setFabExpended(false);
+                fabBinding.fabTitle.setVisibility(View.VISIBLE);
+                fabBinding.fabIcon.setVisibility(View.GONE);
             }
         });
         fabBinding.fabAll.setOnClickListener(this);
