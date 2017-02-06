@@ -479,6 +479,10 @@ public class DiagnosisFragment extends BaseFragment {
             api.diagnosisInfo(e.toId).enqueue(new SimpleCallback<DiagnosisInfo>() {
                 @Override
                 protected void handleResponse(DiagnosisInfo response) {
+                    if (response == null) {
+                        Toast.makeText(getContext(), "导入病历记录失败", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     switch (e.type) {
                         case ImportType.ALL: {
                             viewModel.cloneAll(response);
@@ -487,6 +491,7 @@ public class DiagnosisFragment extends BaseFragment {
                                     addPrescription(prescription);
                                 }
                             }
+                            Toast.makeText(getContext(), "全部导入成功", Toast.LENGTH_SHORT).show();
                             break;
                         }
                         case ImportType.ADVICE_AND_PRESCRIPTION: {
@@ -496,10 +501,12 @@ public class DiagnosisFragment extends BaseFragment {
                                     addPrescription(prescription);
                                 }
                             }
+                            Toast.makeText(getContext(), "处方医嘱导入成功", Toast.LENGTH_SHORT).show();
                             break;
                         }
                         case ImportType.DIAGNOSIS: {
                             viewModel.cloneDiagnosisRecord(response);
+                            Toast.makeText(getContext(), "病程记录导入成功", Toast.LENGTH_SHORT).show();
                             break;
                         }
                     }

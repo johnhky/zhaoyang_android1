@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -202,18 +205,15 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
                 break;
             }
             case R.id.fab_all: {
-                postImportEvent(ImportType.ALL);
-                dismiss();
+                showImportAlert(ImportType.ALL);
                 break;
             }
             case R.id.fab_diagnosis: {
-                postImportEvent(ImportType.DIAGNOSIS);
-                dismiss();
+                showImportAlert(ImportType.DIAGNOSIS);
                 break;
             }
             case R.id.fab_advice: {
-                postImportEvent(ImportType.ADVICE_AND_PRESCRIPTION);
-                dismiss();
+                showImportAlert(ImportType.ADVICE_AND_PRESCRIPTION);
                 break;
             }
             default: {
@@ -221,6 +221,21 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
                 break;
             }
         }
+    }
+
+
+    public void showImportAlert(final int type) {
+        new MaterialDialog.Builder(getContext())
+                .content("您将导入整个病历记录/病程记录/处方医嘱, 此次导入会覆盖您已经填写的内容, 是否继续导入?")
+                .negativeText("取消")
+                .positiveText("继续导入")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        postImportEvent(type);
+                        AppointmentHistoryDialog.this.dismiss();
+                    }
+                }).show();
     }
 
     public void postImportEvent(int importType) {
