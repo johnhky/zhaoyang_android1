@@ -16,14 +16,17 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.HideFABEvent;
+import com.doctor.sun.event.ImportDiagnosisEvent;
 import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.pager.AnswerPagerAdapter;
 import com.doctor.sun.util.HistoryEventHandler;
 import com.doctor.sun.util.JacksonUtils;
+import com.google.common.base.Strings;
 
 import io.ganguo.library.core.event.EventHub;
+import io.ganguo.library.util.Tasks;
 
 /**
  * Created by rick on 1/8/2016.
@@ -50,6 +53,19 @@ public class AppointmentDetailActivity extends TabActivity {
 
         binding.setData(getData());
         addHistoryButton();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        Tasks.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (hasImportDiagnosisArgs()) {
+                    resendImportDiagnosisEvent();
+                }
+            }
+        }, 200);
     }
 
     @Override
@@ -151,6 +167,25 @@ public class AppointmentDetailActivity extends TabActivity {
 
             }
         };
+    }
+
+    public boolean hasImportDiagnosisArgs() {
+        boolean hasImportId = !Strings.isNullOrEmpty(getImportId());
+        boolean hasImportType = getImportType() != -1;
+        return hasImportId && hasImportType;
+    }
+
+    public int getImportType() {
+        return getIntent().getIntExtra(Constants.IMPORT_TYPE, -1);
+    }
+
+    public String getImportId() {
+        return getIntent().getStringExtra(Constants.IMPORT_ID);
+    }
+
+    public void resendImportDiagnosisEvent() {
+        ImportDiagnosisEvent event = new ImportDiagnosisEvent(getData().getId(), getImportId(), getImportType());
+        EventHub.post(event);
     }
 
 }

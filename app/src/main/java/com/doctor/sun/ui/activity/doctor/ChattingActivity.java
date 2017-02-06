@@ -32,6 +32,7 @@ import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.CallFailedShouldCallPhoneEvent;
 import com.doctor.sun.event.FinishRefreshEvent;
 import com.doctor.sun.event.HideInputEvent;
+import com.doctor.sun.event.ImportDiagnosisEvent;
 import com.doctor.sun.event.RefreshAppointmentEvent;
 import com.doctor.sun.event.RejectInComingCallEvent;
 import com.doctor.sun.event.SendMessageEvent;
@@ -105,6 +106,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     private HistoryEventHandler eventHandler;
     private Appointment data;
+    private boolean isPause;
 
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, ChattingActivity.class);
@@ -233,12 +235,14 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     protected void onResume() {
         super.onResume();
         eventHandler = HistoryEventHandler.register(getSupportFragmentManager());
+        isPause = false;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         HistoryEventHandler.unregister(eventHandler);
+        isPause = true;
     }
 
     @Override
@@ -633,6 +637,19 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         @Override
         public void onException(Throwable throwable) {
             EventHub.post(new FinishRefreshEvent());
+        }
+    }
+
+
+    @Subscribe
+    public void onEventMainThread(final ImportDiagnosisEvent e) {
+        if (getData().getId().equals(e.formId)) {
+            if (!isPause) {
+                Intent firstMenu = AppointmentHandler2.getFirstMenu(this, 1, getData());
+                firstMenu.putExtra(Constants.IMPORT_ID, e.toId);
+                firstMenu.putExtra(Constants.IMPORT_TYPE, e.type);
+                startActivity(firstMenu);
+            }
         }
     }
 }

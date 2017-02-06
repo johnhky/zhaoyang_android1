@@ -121,6 +121,24 @@ public class DiagnosisViewModel {
 
     public void cloneFromDiagnosisInfo(DiagnosisInfo response) {
 
+
+        cloneAll(response);
+
+        money.setInput(String.valueOf(response.getMoney()));
+        date.setDate(response.getDate());
+        returnType.setSelectedItem(response.getReturnType());
+        doctor = response.getDoctorInfo();
+        reminderList.addReminders(response.reminderList);
+    }
+
+    public void cloneAll(DiagnosisInfo response) {
+        cloneDiagnosisRecord(response);
+
+//        time.setTime(response.getTime());
+        cloneAdvice(response);
+    }
+
+    public void cloneDiagnosisRecord(DiagnosisInfo response) {
         perception.setStates(response.getPerception());
         thinking.setStates(response.getThinking());
         pipedream.setStates(response.getPipedream());
@@ -134,15 +152,10 @@ public class DiagnosisViewModel {
         recovered.setSelectedItem(response.getRecovered());
         treatment.setSelectedItem(response.getTreatment());
         sideEffect.setSelectedItem(response.getEffect());
-        money.setInput(String.valueOf(response.getMoney()));
-        date.setDate(response.getDate());
-//        time.setTime(response.getTime());
+    }
+
+    public void cloneAdvice(DiagnosisInfo response) {
         advice = response.getDoctorAdvince();
-
-
-        returnType.setSelectedItem(response.getReturnType());
-        doctor = response.getDoctorInfo();
-        reminderList.addReminders(response.reminderList);
     }
 
 

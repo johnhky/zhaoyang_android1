@@ -7,6 +7,7 @@
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fl_root"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
@@ -24,9 +25,9 @@
             app:fab_labelStyle="@style/menu_labels_style">
 
             <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{()->null}"
                 app:fab_colorDisabled="@color/white"
                 app:fab_colorNormal="@color/white"
                 app:fab_colorPressed="@color/button_press"
@@ -35,9 +36,9 @@
                 app:fab_title="导入全部" />
 
             <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_diagnosis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{()->null}"
                 app:fab_colorDisabled="@color/white"
                 app:fab_colorNormal="@color/white"
                 app:fab_colorPressed="@color/button_press"
@@ -47,9 +48,9 @@
                 app:fab_title="只导入病程记录" />
 
             <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_advice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{()->null}"
                 app:fab_colorDisabled="@color/white"
                 app:fab_colorNormal="@color/white"
                 app:fab_colorPressed="@color/button_press"

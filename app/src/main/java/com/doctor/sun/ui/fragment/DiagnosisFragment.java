@@ -30,10 +30,12 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.entity.constans.ImportType;
 import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.handler.DoctorHandler;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.HideFABEvent;
+import com.doctor.sun.event.ImportDiagnosisEvent;
 import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -469,5 +471,41 @@ public class DiagnosisFragment extends BaseFragment {
 
     public String getRecordId() {
         return getArguments().getString(Constants.PARAM_RECORD_ID);
+    }
+
+    @Subscribe
+    public void onEventMainThread(final ImportDiagnosisEvent e) {
+        if (getAppointmentId().equals(e.formId)) {
+            api.diagnosisInfo(e.toId).enqueue(new SimpleCallback<DiagnosisInfo>() {
+                @Override
+                protected void handleResponse(DiagnosisInfo response) {
+                    switch (e.type) {
+                        case ImportType.ALL: {
+                            viewModel.cloneAll(response);
+                            if (response.getPrescription() != null) {
+                                for (Prescription prescription : response.getPrescription()) {
+                                    addPrescription(prescription);
+                                }
+                            }
+                            break;
+                        }
+                        case ImportType.ADVICE_AND_PRESCRIPTION: {
+                            viewModel.cloneAdvice(response);
+                            if (response.getPrescription() != null) {
+                                for (Prescription prescription : response.getPrescription()) {
+                                    addPrescription(prescription);
+                                }
+                            }
+                            break;
+                        }
+                        case ImportType.DIAGNOSIS: {
+                            viewModel.cloneDiagnosisRecord(response);
+                            break;
+                        }
+                    }
+                    binding.setData(viewModel);
+                }
+            });
+        }
     }
 }

@@ -317,6 +317,9 @@ public class PrescriptionHandler {
     }
 
     private static String trimZero(String string) {
+        if (Strings.isNullOrEmpty(string)){
+            return "";
+        }
         if (string.length() == 0) {
             return "";
         }
