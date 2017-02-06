@@ -225,8 +225,28 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
 
     public void showImportAlert(final int type) {
+        String from = appointment.getId();
+        String toId = data.get(currentIndex).getId();
+        if (from != null && from.equals(toId)) {
+            Toast.makeText(getContext(), "此次导入的病历记录跟填写的病历记录为同一个预约单", Toast.LENGTH_SHORT).show();
+        }
+        String typeString = "";
+        switch (type) {
+            case ImportType.ALL: {
+                typeString = "整个病历记录";
+                break;
+            }
+            case ImportType.DIAGNOSIS: {
+                typeString = "病程记录";
+                break;
+            }
+            case ImportType.ADVICE_AND_PRESCRIPTION: {
+                typeString = "处方医嘱";
+                break;
+            }
+        }
         new MaterialDialog.Builder(getContext())
-                .content("您将导入整个病历记录/病程记录/处方医嘱, 此次导入会覆盖您已经填写的内容, 是否继续导入?")
+                .content(String.format("您将导入%s,此次导入会覆盖您已经填写的内容, 是否继续导入?", typeString))
                 .negativeText("取消")
                 .positiveText("继续导入")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
