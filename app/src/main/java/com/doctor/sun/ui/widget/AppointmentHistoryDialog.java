@@ -19,6 +19,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FabImportAnswerBinding;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.ImportType;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.ImportDiagnosisEvent;
@@ -145,9 +146,10 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
     private void refreshFabVisibility() {
         if (fabBinding != null) {
+            boolean cannotEdit = appointment.getStatus() == AppointmentHandler2.Status.FINISHED && appointment.getCan_edit() == IntBoolean.FALSE;
             boolean isFollowUp = AppointmentType.FollowUp == appointment.getType();
             boolean selectedFollowUp = AppointmentType.FollowUp == data.get(currentIndex).getType();
-            if (appointment.getStatus() == AppointmentHandler2.Status.PAID || isFollowUp ||
+            if (cannotEdit || appointment.getStatus() == AppointmentHandler2.Status.PAID || isFollowUp ||
                     selectedFollowUp) {
                 fabBinding.flRoot.setVisibility(View.GONE);
             } else {
