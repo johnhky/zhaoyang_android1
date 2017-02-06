@@ -19,6 +19,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FabImportAnswerBinding;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.ImportType;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.ImportDiagnosisEvent;
 import com.doctor.sun.http.Api;
@@ -132,17 +133,23 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
             id = "";
         } else {
             id = data.get(currentIndex).getId();
-            if (fabBinding != null) {
-                if (AppointmentType.FollowUp == appointment.getType() ||
-                        AppointmentType.FollowUp == data.get(currentIndex).getType()) {
-                    fabBinding.flRoot.setVisibility(View.GONE);
-                } else {
-                    fabBinding.flRoot.setVisibility(View.VISIBLE);
-                }
-            }
+            refreshFabVisibility();
         }
         answerPagerAdapter = new DoctorAppointmentDonePA(getChildFragmentManager(), id);
         return answerPagerAdapter;
+    }
+
+    private void refreshFabVisibility() {
+        if (fabBinding != null) {
+            boolean isFollowUp = AppointmentType.FollowUp == appointment.getType();
+            boolean selectedFollowUp = AppointmentType.FollowUp == data.get(currentIndex).getType();
+            if (appointment.getStatus() == AppointmentHandler2.Status.PAID || isFollowUp ||
+                    selectedFollowUp) {
+                fabBinding.flRoot.setVisibility(View.GONE);
+            } else {
+                fabBinding.flRoot.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void toggleVisibility() {
