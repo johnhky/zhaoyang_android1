@@ -1,4 +1,4 @@
-package com.doctor.sun.ui.model;
+package com.doctor.sun.model;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,7 +31,7 @@ import java.util.HashMap;
 /**
  * Created by rick on 25/12/2015.
  */
-public class DiagnosisViewModel {
+public class DiagnosisModel {
 
 
     public static final String DETAIL = "专属咨询";
@@ -69,7 +69,7 @@ public class DiagnosisViewModel {
 
     public ItemReminderList reminderList;
 
-    public DiagnosisViewModel(final Activity context) {
+    public DiagnosisModel(final Activity context) {
         this.context = context;
         perception = SymptomFactory.perceptionSymptom();
         thinking = SymptomFactory.thinkingSymptom();
@@ -323,7 +323,7 @@ public class DiagnosisViewModel {
 
     @Override
     public String toString() {
-        return "DiagnosisViewModel{" +
+        return "DiagnosisModel{" +
                 ", perception=" + perception +
                 ", thinking=" + thinking +
                 ", pipedream=" + pipedream +

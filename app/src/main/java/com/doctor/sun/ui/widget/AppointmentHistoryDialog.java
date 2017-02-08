@@ -146,16 +146,29 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
     private void refreshFabVisibility() {
         if (fabBinding != null) {
-            boolean cannotEdit = appointment.getStatus() == AppointmentHandler2.Status.FINISHED && appointment.getCan_edit() == IntBoolean.FALSE;
-            boolean isFollowUp = AppointmentType.FollowUp == appointment.getType();
-            boolean selectedFollowUp = AppointmentType.FollowUp == data.get(currentIndex).getType();
-            if (cannotEdit || appointment.getStatus() == AppointmentHandler2.Status.PAID || isFollowUp ||
-                    selectedFollowUp) {
+            if (canNotEdit() || notStartedYet() || isFollowUp() || selectedItemIsFollowUp()) {
                 fabBinding.flRoot.setVisibility(View.GONE);
             } else {
                 fabBinding.flRoot.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    private boolean notStartedYet() {
+        return appointment.getStatus() == AppointmentHandler2.Status.PAID;
+    }
+
+    private boolean selectedItemIsFollowUp() {
+        return AppointmentType.FollowUp == data.get(currentIndex).getType();
+    }
+
+    private boolean isFollowUp() {
+        return AppointmentType.FollowUp == appointment.getType();
+    }
+
+    private boolean canNotEdit() {
+        return appointment.getStatus() == AppointmentHandler2.Status.FINISHED
+                && appointment.getCan_edit() == IntBoolean.FALSE;
     }
 
     private void toggleVisibility() {

@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.ui.model.DiagnosisViewModel" />
+            type="com.doctor.sun.model.DiagnosisModel" />
     </data>
 
     <android.support.v4.widget.NestedScrollView

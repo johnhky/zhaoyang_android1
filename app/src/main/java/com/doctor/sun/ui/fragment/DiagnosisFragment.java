@@ -42,9 +42,9 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.ImmutablePrescription;
 import com.doctor.sun.immutables.ModifiablePrescription;
 import com.doctor.sun.immutables.Prescription;
+import com.doctor.sun.model.DiagnosisModel;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
-import com.doctor.sun.ui.model.DiagnosisViewModel;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vm.ItemButton;
@@ -73,7 +73,7 @@ public class DiagnosisFragment extends BaseFragment {
 
     private DiagnosisModule api = Api.of(DiagnosisModule.class);
     private FragmentDiagnosisBinding binding;
-    private DiagnosisViewModel viewModel;
+    private DiagnosisModel viewModel;
 
     private RadioGroup.OnCheckedChangeListener returnTypeChangeListener;
     private Doctor doctor;
@@ -101,7 +101,7 @@ public class DiagnosisFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentDiagnosisBinding.inflate(inflater, container, false);
         if (viewModel == null) {
-            viewModel = new DiagnosisViewModel((Activity) getContext());
+            viewModel = new DiagnosisModel((Activity) getContext());
         }
         binding.needReturn.setData("需要专属咨询/转诊/闲时咨询");
         binding.needReturn.setIsChecked(false);
@@ -197,13 +197,13 @@ public class DiagnosisFragment extends BaseFragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case RETURN_TYPE_NET: {
-                        showReturn(DiagnosisViewModel.DETAIL);
+                        showReturn(DiagnosisModel.DETAIL);
                         viewModel.getDate().setType(AppointmentType.PREMIUM);
                         viewModel.getTime().setType(3);
                         break;
                     }
                     case RETURN_TYPE_FACE: {
-                        showReturn(DiagnosisViewModel.QUICK);
+                        showReturn(DiagnosisModel.QUICK);
                         viewModel.getDate().setType(AppointmentType.STANDARD);
                         viewModel.getTime().setType(2);
                         break;
