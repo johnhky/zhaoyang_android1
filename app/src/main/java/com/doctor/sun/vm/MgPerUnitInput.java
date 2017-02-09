@@ -2,6 +2,8 @@ package com.doctor.sun.vm;
 
 import android.databinding.Observable;
 
+import com.google.common.base.Strings;
+
 import java.util.ArrayList;
 
 /**
@@ -43,15 +45,22 @@ public class MgPerUnitInput extends ItemTextInput2 {
 
     @Override
     public String getValue() {
+        String value = getResult();
         switch (dialog.getSelectedItem()) {
             case 0:
-                return super.getValue() + ",毫克";
+                if (Strings.isNullOrEmpty(value)) {
+                    return null;
+                }
+                return value + ",毫克";
             case 1:
-                return super.getValue() + ",克";
+                if (Strings.isNullOrEmpty(value)) {
+                    return null;
+                }
+                return value + ",克";
             case 2:
                 return "-1" + ",ignored";
         }
-        return "";
+        return null;
     }
 
     public ItemRadioDialog getDialog() {

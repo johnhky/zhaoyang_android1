@@ -2,7 +2,6 @@ package com.doctor.sun.model;
 
 import android.app.Activity;
 import android.databinding.Observable;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -179,6 +178,8 @@ public class EditPrescriptionModel {
         mgPerUnit.setResult(data.getBefore_sleep());
         mgPerUnit.setEnabled(!isReadOnly);
         if (Settings.isDoctor()) {
+            mgPerUnit.setResultNotEmpty();
+            mgPerUnit.getDialog().setResultNotEmpty();
             result.add(mgPerUnit);
             ModelUtils.insertDividerMarginLR(result);
         }
@@ -305,7 +306,6 @@ public class EditPrescriptionModel {
         if (stringStringHashMap != null) {
             String mg_per_unit = stringStringHashMap.remove("mg_per_unit");
             String[] split = mg_per_unit.split(",");
-            Log.e("TAG", "save: " + split[0] + split[1]);
             stringStringHashMap.put("units", split[1]);
             stringStringHashMap.put("specification", split[0]);
         }
