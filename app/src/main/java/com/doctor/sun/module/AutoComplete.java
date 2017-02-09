@@ -2,6 +2,7 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.DrugAutoComplete;
+import com.doctor.sun.entity.DrugDetail;
 
 import java.util.List;
 
@@ -21,4 +22,7 @@ public interface AutoComplete {
 
     @GET("list/drug-info")
     Call<ApiDTO<List<DrugAutoComplete>>> drugInfo();
+
+    @GET("list/drug-detail")
+    Call<ApiDTO<List<DrugDetail>>> drugDetail();
 }
