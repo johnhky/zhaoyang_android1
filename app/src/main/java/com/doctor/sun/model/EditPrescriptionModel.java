@@ -183,9 +183,12 @@ public class EditPrescriptionModel {
         }
 
         name.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            private boolean isFirstTime = true;
+
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                if (i == BR.result) {
+                if (i == BR.result && !isFirstTime) {
+                    isFirstTime = false;
                     List<DrugDetail> filteredEntries = name.getFilteredEntries();
                     if (filteredEntries.size() > 0 && !Strings.isNullOrEmpty(name.getResult())) {
                         List<String> drugUnit = filteredEntries.get(0).drugUnit();
@@ -237,6 +240,11 @@ public class EditPrescriptionModel {
 
     private void loadAutoCompleteDrug(Prescription data, final ItemAutoCompleteTextInput<DrugAutoComplete> name, final ItemRadioDialog unit, final String[] defaultUnits) {
         unit.addOptions(defaultUnits);
+        for (int i = 0; i < defaultUnits.length; i++) {
+            if (defaultUnits[i].equals(data.getDrug_unit())) {
+                unit.setSelectedItem(i);
+            }
+        }
         AutoComplete autoComplete = Api.of(AutoComplete.class);
         autoComplete.drugDetail().enqueue(new SimpleCallback<List<DrugDetail>>() {
             @Override
