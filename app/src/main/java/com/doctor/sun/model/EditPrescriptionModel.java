@@ -2,6 +2,7 @@ package com.doctor.sun.model;
 
 import android.app.Activity;
 import android.databinding.Observable;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -235,6 +236,24 @@ public class EditPrescriptionModel {
 
         loadAutoCompleteDrug(data, name, unit, defaultUnits);
 
+        switch (data.getUnits()) {
+            case "毫克": {
+                mgPerUnit.getDialog().setSelectedItem(0);
+                break;
+            }
+            case "克": {
+                mgPerUnit.getDialog().setSelectedItem(1);
+                break;
+            }
+            default: {
+            }
+        }
+        if (data.getSpecification().equals("-1")) {
+            mgPerUnit.getDialog().setSelectedItem(2);
+        } else {
+            mgPerUnit.setResult(data.getSpecification());
+        }
+
         return result;
     }
 
@@ -282,7 +301,15 @@ public class EditPrescriptionModel {
     }
 
     public HashMap<String, String> save(SortedListAdapter adapter, SimpleCallback callback) {
-        return ModelUtils.toHashMap(adapter, callback);
+        HashMap<String, String> stringStringHashMap = ModelUtils.toHashMap(adapter, callback);
+        if (stringStringHashMap != null) {
+            String mg_per_unit = stringStringHashMap.remove("mg_per_unit");
+            String[] split = mg_per_unit.split(",");
+            Log.e("TAG", "save: " + split[0] + split[1]);
+            stringStringHashMap.put("units", split[1]);
+            stringStringHashMap.put("specification", split[0]);
+        }
+        return stringStringHashMap;
     }
 
     private static class NumberValidator implements Validator {

@@ -309,6 +309,8 @@ public class PrescriptionHandler {
         builder.night("");
         builder.before_sleep("");
         builder.take_medicine_days("");
+        builder.specification("");
+        builder.units("");
         return builder;
     }
 
@@ -329,6 +331,8 @@ public class PrescriptionHandler {
         builder.before_sleep(getNumber(map.get("before_sleep")));
 
         builder.take_medicine_days(Strings.nullToEmpty(map.get("take_medicine_days")));
+        builder.units(Strings.nullToEmpty(map.get("units")));
+        builder.specification(Strings.nullToEmpty(map.get("specification")));
         return builder.build();
     }
 
