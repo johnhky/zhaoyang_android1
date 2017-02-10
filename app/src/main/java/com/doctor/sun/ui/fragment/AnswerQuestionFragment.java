@@ -126,6 +126,7 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
         SortedListAdapter adapter = super.createAdapter();
         adapter.setLayoutIdInterceptor(createLayoutInterceptor());
         adapter.putBoolean(AdapterConfigKey.IS_READ_ONLY, true);
+        adapter.putString(AdapterConfigKey.TAB_POSITION, getArguments().getString(Constants.QUESTION_TYPE, ""));
         return adapter;
     }
 

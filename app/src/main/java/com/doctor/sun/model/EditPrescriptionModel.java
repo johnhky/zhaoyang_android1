@@ -305,9 +305,11 @@ public class EditPrescriptionModel {
         HashMap<String, String> stringStringHashMap = ModelUtils.toHashMap(adapter, callback);
         if (stringStringHashMap != null) {
             String mg_per_unit = stringStringHashMap.remove("mg_per_unit");
-            String[] split = mg_per_unit.split(",");
-            stringStringHashMap.put("units", split[1]);
-            stringStringHashMap.put("specification", split[0]);
+            if (!Strings.isNullOrEmpty(mg_per_unit)) {
+                String[] split = mg_per_unit.split(",");
+                stringStringHashMap.put("units", split[1]);
+                stringStringHashMap.put("specification", split[0]);
+            }
         }
         return stringStringHashMap;
     }
