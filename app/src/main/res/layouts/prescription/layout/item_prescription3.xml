@@ -79,7 +79,7 @@
             android:paddingLeft="@dimen/dp_13"
             android:paddingRight="@dimen/dp_13"
             android:paddingStart="@dimen/dp_13"
-            android:text="请填写用药剂量"
+            android:text="用药信息不完整,需要您完善剂量信息"
             android:textAppearance="@style/AppTheme.TextErrorAppearance"
             android:visibility="@{!handler.isValid(data,adapter)}"
             tools:text="请认真填写剂量"

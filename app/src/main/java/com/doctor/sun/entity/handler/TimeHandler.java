@@ -167,13 +167,13 @@ public class TimeHandler {
                         LayoutId objectFace = (LayoutId) adapter.get(adapter.size() - 1);
                         if (objectFace.getItemLayoutId() == R.layout.item_description) {
                             adapter.removeItem(adapter.get(adapter.size() - 1));
-                            adapter.notifyItemRemoved(adapter.size() - 1);
+//                            adapter.notifyItemRemoved(adapter.size() - 1);
                         }
                         if (adapter.size() > 2) {
                             LayoutId objectNetwork = (LayoutId) adapter.get(1);
                             if (objectNetwork.getItemLayoutId() == R.layout.item_description) {
                                 adapter.removeItem(adapter.get(0));
-                                adapter.notifyItemRemoved(0);
+//                                adapter.notifyItemRemoved(0);
                             }
                         }
                     }
