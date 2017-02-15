@@ -45,12 +45,12 @@
                     android:layout_height="@dimen/dp_74"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dp_10"
+                    android:current="@{0}"
+                    android:next="@{1}"
                     android:onClick="@{handler.head}"
+                    android:previous='@{-1}'
                     android:scaleType="centerCrop"
                     android:showcase='@{"点击头像可以修改个人信息"}'
-                    android:previous='@{-1}'
-                    android:next="@{1}"
-                    android:current="@{0}"
                     android:src="@{data.avatar}"
                     app:maskDrawable="@drawable/circle_mask" />
 
@@ -135,12 +135,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_120"
+            android:current="@{1}"
             android:isRect="@{true}"
-            android:orientation="horizontal"
-            android:showcase='@{"医生可以自定义自己的设置"}'
-            android:previous='@{0}'
             android:next="@{-1}"
-            android:current="@{1}">
+            android:orientation="horizontal"
+            android:previous='@{0}'
+            android:showcase='@{"医生可以自定义自己的设置"}'>
 
             <LinearLayout
                 android:id="@+id/btn_time_setting"
@@ -367,6 +367,68 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="#c1cacf" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_120"
+            android:orientation="horizontal">
+
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:onClick="@{()->handler.doctorIncome(context)}"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dp_40">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/my_income" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_16"
+                        android:text="我的账单"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_14" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_gravity="bottom"
+                    android:background="#c1cacf" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="#c1cacf" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2" />
+
+
+        </LinearLayout>
+
 
         <View
             android:layout_width="match_parent"

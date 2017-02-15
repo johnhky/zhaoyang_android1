@@ -350,6 +350,10 @@
             android:name=".ui.activity.BundlesTabActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.activity.doctor.MyIncomeActivity"
+            android:screenOrientation="portrait" />
+
         <!-- </intent-filter> -->
         <!-- </receiver> -->
         <!-- alipay sdk begin -->
