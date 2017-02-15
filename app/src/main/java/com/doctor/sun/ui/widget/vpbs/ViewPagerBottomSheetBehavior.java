@@ -48,7 +48,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
 
-import static android.support.design.widget.BottomSheetBehavior.STATE_EXPANDED;
+import io.ganguo.library.util.Tasks;
 
 
 /**
@@ -96,7 +96,7 @@ public class ViewPagerBottomSheetBehavior<V extends View> extends CoordinatorLay
 
     /**
      * The bottom sheet is expanded.
-     *
+     */
     public static final int STATE_EXPANDED = 3;
 
     /**
