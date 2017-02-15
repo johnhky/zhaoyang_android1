@@ -84,4 +84,7 @@ public class Constants {
     public static final String IS_LEGACY = "IS_LEGACY";
     public static final String IMPORT_ID = "IMPORT_ID";
     public static final String IMPORT_TYPE = "IMPORT_TYPE";
+    public static final String INCOME_OVERVIEW = "INCOME_OVERVIEW";
+    public static final String SUBSIDY = "SUBSIDY";
+    public static final String BILL_DETAIL = "BILL_DETAIL";
 }
