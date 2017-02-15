@@ -97,8 +97,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     private PermissionsUtil permissionsUtil;
 
     public static Intent makeIntent(Context context) {
-        Intent i = new Intent(context, MedicineStoreActivity.class);
-        return i;
+        return new Intent(context, MedicineStoreActivity.class);
     }
 
     public static Intent intentForCustomerService(Context context) {

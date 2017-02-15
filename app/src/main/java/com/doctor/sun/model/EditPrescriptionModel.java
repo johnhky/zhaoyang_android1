@@ -10,8 +10,8 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
-import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.DrugAutoComplete;
+import com.doctor.sun.entity.DrugDetail;
 import com.doctor.sun.entity.handler.PrescriptionHandler;
 import com.doctor.sun.event.HideKeyboardEvent;
 import com.doctor.sun.http.Api;
@@ -24,15 +24,16 @@ import com.doctor.sun.ui.widget.NumberPickerDialog;
 import com.doctor.sun.vm.ItemAutoCompleteTextInput;
 import com.doctor.sun.vm.ItemRadioDialog;
 import com.doctor.sun.vm.ItemTextInput2;
+import com.doctor.sun.vm.MgPerUnitInput;
 import com.doctor.sun.vm.validator.Validator;
-import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import io.ganguo.library.core.event.EventHub;
-import retrofit2.Call;
+import io.realm.Realm;
 
 /**
  * Created by rick on 26/9/2016.
@@ -170,14 +171,32 @@ public class EditPrescriptionModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
+        final MgPerUnitInput mgPerUnit = new MgPerUnitInput(R.layout.item_mg_per_unit, "单位含量:", "");
+        mgPerUnit.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
+        mgPerUnit.setSpan(12);
+        mgPerUnit.setItemId("mg_per_unit");
+        mgPerUnit.setResult(data.getBefore_sleep());
+        mgPerUnit.setEnabled(!isReadOnly);
+        if (Settings.isDoctor()) {
+            mgPerUnit.setResultNotEmpty();
+            mgPerUnit.getDialog().setResultNotEmpty();
+            result.add(mgPerUnit);
+            ModelUtils.insertDividerMarginLR(result);
+        }
+
         name.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            private boolean isFirstTime = true;
+
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                if (i == BR.entries) {
-                    ArrayList<DrugAutoComplete> filteredEntries = name.getFilteredEntries();
-                    if (filteredEntries.size() > 0) {
-                        List<String> drugUnit = filteredEntries.get(0).drugUnit;
+                if (i == BR.result && !isFirstTime) {
+                    isFirstTime = false;
+                    List<DrugDetail> filteredEntries = name.getFilteredEntries();
+                    if (filteredEntries.size() > 0 && !Strings.isNullOrEmpty(name.getResult())) {
+                        List<String> drugUnit = filteredEntries.get(0).drugUnit();
                         setDrugUnits(unit, drugUnit, defaultUnits);
+                    } else {
+                        setDrugUnits(unit, new ArrayList<String>(), defaultUnits);
                     }
                 }
             }
@@ -186,11 +205,10 @@ public class EditPrescriptionModel {
         name.setListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DrugAutoComplete drugAutoComplete = name.getFilteredEntries().get(position);
-                List<String> drugUnit = drugAutoComplete.drugUnit;
+                DrugDetail drugAutoComplete = name.getFilteredEntries().get(position);
+                List<String> drugUnit = drugAutoComplete.drugUnit();
                 setDrugUnits(unit, drugUnit, defaultUnits);
-                name.setResult(drugAutoComplete.drugName);
-//                productName.setResult(drugAutoComplete.productName);
+                name.setResult(drugAutoComplete.getDrug_name());
                 name.dismissDialog();
 
                 EventHub.post(new HideKeyboardEvent());
@@ -203,6 +221,10 @@ public class EditPrescriptionModel {
                 afternoon.setSubTitle(unit.getSelectedItemText());
                 evening.setSubTitle(unit.getSelectedItemText());
                 night.setSubTitle(unit.getSelectedItemText());
+                mgPerUnit.setSubTitle(unit.getSelectedItemText());
+                boolean isStandardUnit = unit.getSelectedItemText().equals("克")
+                        || unit.getSelectedItemText().equals("毫克");
+                mgPerUnit.setVisible(!isStandardUnit);
             }
         });
 
@@ -215,46 +237,44 @@ public class EditPrescriptionModel {
 
         loadAutoCompleteDrug(data, name, unit, defaultUnits);
 
-        name.setPredicate(new Predicate<DrugAutoComplete>() {
-            @Override
-            public boolean apply(DrugAutoComplete input) {
-                if ("".equals(name.getResult())) {
-                    return true;
-                }
-                return input.contains(name.getResult());
+        switch (data.getUnits()) {
+            case "毫克": {
+                mgPerUnit.getDialog().setSelectedItem(0);
+                break;
             }
-        });
+            case "克": {
+                mgPerUnit.getDialog().setSelectedItem(1);
+                break;
+            }
+            default: {
+            }
+        }
+        if (data.getSpecification().equals("-1")) {
+            mgPerUnit.getDialog().setSelectedItem(2);
+        } else {
+            mgPerUnit.setResult(data.getSpecification());
+        }
 
         return result;
     }
 
     private void loadAutoCompleteDrug(Prescription data, final ItemAutoCompleteTextInput<DrugAutoComplete> name, final ItemRadioDialog unit, final String[] defaultUnits) {
-        final String selectedDrugUnit = data.getDrug_unit();
-        AutoComplete autoComplete = Api.of(AutoComplete.class);
-        autoComplete.drugInfo().enqueue(new SimpleCallback<List<DrugAutoComplete>>() {
-            @Override
-            protected void handleResponse(List<DrugAutoComplete> response) {
-                name.setAllEntries(response);
-
-                for (DrugAutoComplete drugAutoComplete : response) {
-                    if (drugAutoComplete.drugName.equals(name.getResult())) {
-                        List<String> drugUnit = drugAutoComplete.drugUnit;
-                        setDrugUnits(unit, drugUnit, defaultUnits);
-                    }
-                }
-                if (unit.getOptions().isEmpty()) {
-                    unit.addOptions(defaultUnits);
-                }
-                for (int i = 0; i < unit.getOptions().size(); i++) {
-                    if (unit.getOptions().get(i).equals(selectedDrugUnit)) {
-                        unit.setSelectedItem(i);
-                    }
-                }
+        unit.addOptions(defaultUnits);
+        for (int i = 0; i < defaultUnits.length; i++) {
+            if (defaultUnits[i].equals(data.getDrug_unit())) {
+                unit.setSelectedItem(i);
             }
-
+        }
+        AutoComplete autoComplete = Api.of(AutoComplete.class);
+        autoComplete.drugDetail().enqueue(new SimpleCallback<List<DrugDetail>>() {
             @Override
-            public void onFailure(Call<ApiDTO<List<DrugAutoComplete>>> call, Throwable t) {
-                super.onFailure(call, t);
+            protected void handleResponse(final List<DrugDetail> response) {
+                Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.copyToRealmOrUpdate(response);
+                    }
+                });
             }
         });
     }
@@ -282,7 +302,16 @@ public class EditPrescriptionModel {
     }
 
     public HashMap<String, String> save(SortedListAdapter adapter, SimpleCallback callback) {
-        return ModelUtils.toHashMap(adapter, callback);
+        HashMap<String, String> stringStringHashMap = ModelUtils.toHashMap(adapter, callback);
+        if (stringStringHashMap != null) {
+            String mg_per_unit = stringStringHashMap.remove("mg_per_unit");
+            if (!Strings.isNullOrEmpty(mg_per_unit)) {
+                String[] split = mg_per_unit.split(",");
+                stringStringHashMap.put("units", split[1]);
+                stringStringHashMap.put("specification", split[0]);
+            }
+        }
+        return stringStringHashMap;
     }
 
     private static class NumberValidator implements Validator {

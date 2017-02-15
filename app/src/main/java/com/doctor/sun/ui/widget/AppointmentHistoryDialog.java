@@ -146,7 +146,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
     private void refreshFabVisibility() {
         if (fabBinding != null) {
-            if (canNotEdit() || notStartedYet() || isFollowUp() || selectedItemIsFollowUp()) {
+            if (isFollowUp()) {
                 fabBinding.flRoot.setVisibility(View.GONE);
             } else {
                 fabBinding.flRoot.setVisibility(View.VISIBLE);
@@ -251,6 +251,28 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
 
     public void showImportAlert(final int type) {
+        if (canNotEdit()) {
+            new MaterialDialog.Builder(getContext())
+                    .content("当前就诊已完成并不可修改，不能进行导入操作。")
+                    .positiveText("知道了")
+                    .show();
+            return;
+        }
+        if (selectedItemIsFollowUp()) {
+            new MaterialDialog.Builder(getContext())
+                    .content("选择的历史记录为随访历史记录,不能进行导入操作。")
+                    .positiveText("知道了")
+                    .show();
+            return;
+        }
+        if (notStartedYet()) {
+            new MaterialDialog.Builder(getContext())
+                    .content("当前咨询为开始，您可以选择提前就诊或等待咨询开始后再进行导入操作。")
+                    .positiveText("知道了")
+                    .show();
+            return;
+        }
+
         String from = appointment.getId();
         String toId = data.get(currentIndex).getId();
         if (from != null && from.equals(toId)) {

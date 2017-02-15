@@ -22,46 +22,66 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:paddingBottom="@dimen/dp_4"
         android:paddingLeft="@dimen/dp_13"
-        android:paddingRight="@dimen/dp_13"
-        android:visibility="@{data.isVisible}">
+        android:paddingRight="@dimen/dp_13">
 
-        <TextView
-            android:id="@+id/et_others"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/ripple_prescription"
-            android:enabled="@{data.isEnabled()}"
-            android:gravity="start|center_vertical"
-            android:onClick="@{()->handler.modify(context,adapter,data)}"
-            android:paddingBottom="@dimen/dp_8"
-            android:paddingLeft="@dimen/dp_13"
-            android:paddingRight="@dimen/dp_4"
-            android:paddingTop="@dimen/dp_8"
-            android:text="@{handler.getLabel(data)}"
-            android:textColor="@color/primary_color_selector"
-            android:textSize="@dimen/font_15"
-            tools:text="药:一天3次28天,早3克，午3克，晚3克，睡前3克，记得吃完洗手,不然会齿颊留香" />
-
-        <FrameLayout
-            android:id="@+id/tv_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_marginEnd="@dimen/dp_35"
-            android:layout_marginRight="@dimen/dp_35"
-            android:background="@drawable/ic_delete_prescription">
+            android:orientation="horizontal"
+            android:visibility="@{data.isVisible}">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple_default"
-                android:gravity="center"
-                android:textColor="#fff"
-                android:textSize="@dimen/font_17" />
-        </FrameLayout>
+                android:id="@+id/et_others"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_prescription"
+                android:enabled="@{data.isEnabled()}"
+                android:gravity="start|center_vertical"
+                android:onClick="@{()->handler.modify(context,adapter,data)}"
+                android:paddingBottom="@dimen/dp_8"
+                android:paddingLeft="@dimen/dp_13"
+                android:paddingRight="@dimen/dp_4"
+                android:paddingTop="@dimen/dp_8"
+                android:text="@{handler.getLabel(data)}"
+                android:textColor="@color/primary_color_selector"
+                android:textSize="@dimen/font_15"
+                tools:text="药:一天3次28天,早3克，午3克，晚3克，睡前3克，记得吃完洗手,不然会齿颊留香" />
+
+            <FrameLayout
+                android:id="@+id/tv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginEnd="@dimen/dp_35"
+                android:layout_marginRight="@dimen/dp_35"
+                android:background="@drawable/ic_delete_prescription">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_17" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/dp_13"
+            android:paddingLeft="@dimen/dp_13"
+            android:paddingRight="@dimen/dp_13"
+            android:paddingStart="@dimen/dp_13"
+            android:text="用药信息不完整,需要您完善剂量信息"
+            android:textAppearance="@style/AppTheme.TextErrorAppearance"
+            android:visibility="@{!handler.isValid(data,adapter)}"
+            tools:text="请认真填写剂量"
+            tools:visibility="visible" />
     </LinearLayout>
 </layout>

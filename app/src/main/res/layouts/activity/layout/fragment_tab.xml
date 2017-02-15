@@ -10,11 +10,16 @@
             type="boolean" />
     </data>
 
-    <LinearLayout
-        android:id="@+id/lly_root"
+    <FrameLayout
+        android:id="@+id/fly_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/bottom_sheet_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/dp_100" />
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/bottom_sheet_appbar"
@@ -136,21 +141,11 @@
 
 
         <FrameLayout
-            android:id="@+id/fly_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/black_transparent_c8"
+            android:onClick="@{()->null}"
+            android:visibility="@{fabExpended}" />
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/bottom_sheet_viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/black_transparent_c8"
-                android:onClick="@{()->null}"
-                android:visibility="@{fabExpended}" />
-        </FrameLayout>
-    </LinearLayout>
+    </FrameLayout>
 </layout>

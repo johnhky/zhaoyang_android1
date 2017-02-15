@@ -75,11 +75,28 @@ public class PrescriptionHandler {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = ViewPrescriptionActivity.makeIntent(v.getContext(), data);
-//                v.getContext().startActivity(intent);
                 viewDetailImpl(v.getContext(), data);
             }
         };
+    }
+
+    public static boolean isValid(Prescription data, BaseListAdapter adapter) {
+        if (adapter != null && adapter.getString(8).equals("1")) {
+            return true;
+        }
+
+        //1s单位
+        boolean isOneS = data.getSpecification().equals("-1");
+        if (isOneS) {
+            return true;
+        }
+
+        //克 毫克
+        if (data.getDrug_unit().equals("克") || data.getDrug_unit().equals("毫克")) {
+            return true;
+        }
+
+        return !Strings.isNullOrEmpty(data.getSpecification());
     }
 
     private static void viewDetailImpl(Context v, Prescription data) {
@@ -309,6 +326,8 @@ public class PrescriptionHandler {
         builder.night("");
         builder.before_sleep("");
         builder.take_medicine_days("");
+        builder.specification("");
+        builder.units("");
         return builder;
     }
 
@@ -329,6 +348,8 @@ public class PrescriptionHandler {
         builder.before_sleep(getNumber(map.get("before_sleep")));
 
         builder.take_medicine_days(Strings.nullToEmpty(map.get("take_medicine_days")));
+        builder.units(Strings.nullToEmpty(map.get("units")));
+        builder.specification(Strings.nullToEmpty(map.get("specification")));
         return builder.build();
     }
 

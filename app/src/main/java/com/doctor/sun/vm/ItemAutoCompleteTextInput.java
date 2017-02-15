@@ -1,34 +1,26 @@
 package com.doctor.sun.vm;
 
-import android.databinding.Bindable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.ListPopupWindow;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
+import com.doctor.sun.entity.DrugDetail;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import com.doctor.sun.BR;
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 /**
  * Created by rick on 28/10/2016.
  */
 
 public class ItemAutoCompleteTextInput<T> extends ItemTextInput2 {
     public static final String TAG = ItemAutoCompleteTextInput.class.getSimpleName();
-    private long lastFilterTime = 0;
-    private ArrayList<T> allEntries = new ArrayList<>();
-    @Bindable
-    private ArrayList<T> entries = new ArrayList<>();
     private AdapterView.OnItemClickListener listener;
-    private Predicate<T> predicate;
     private ListPopupWindow popupWindow;
-    private ArrayAdapter<T> arrayAdapter;
     private boolean dismissByUser = false;
 
     public ItemAutoCompleteTextInput(int itemLayoutId, String title, String hint) {
@@ -42,16 +34,13 @@ public class ItemAutoCompleteTextInput<T> extends ItemTextInput2 {
         }
         initPopupWindow(view);
 
-        arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, getEntries());
+        ArrayAdapter<DrugDetail> arrayAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, getEntries());
         popupWindow.setAdapter(arrayAdapter);
 
         if (popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
-        if (!entries.isEmpty()) {
-            popupWindow.show();
-            notifyPropertyChanged(BR.entries);
-        }
+        popupWindow.show();
     }
 
     private void initPopupWindow(View view) {
@@ -63,19 +52,17 @@ public class ItemAutoCompleteTextInput<T> extends ItemTextInput2 {
         }
     }
 
-    public ArrayList<T> getEntries() {
-        if (System.currentTimeMillis() - lastFilterTime > 200 && !allEntries.isEmpty()) {
-            Collection<T> filter = Collections2.filter(allEntries, predicate);
-            entries.clear();
-            entries.addAll(filter);
-            lastFilterTime = System.currentTimeMillis();
-        }
-        return entries;
+    public List<DrugDetail> getEntries() {
+        RealmResults<DrugDetail> drug_name = Realm.getDefaultInstance()
+                .where(DrugDetail.class)
+                .contains("drug_name", getResult())
+                .findAll().distinct("drug_name");
+        return drug_name.subList(0, drug_name.size());
     }
 
     @NonNull
-    public ArrayList<T> getFilteredEntries() {
-        return entries;
+    public List<DrugDetail> getFilteredEntries() {
+        return getEntries();
     }
 
     public AdapterView.OnItemClickListener getListener() {
@@ -93,14 +80,5 @@ public class ItemAutoCompleteTextInput<T> extends ItemTextInput2 {
     public void dismissDialog() {
         popupWindow.dismiss();
         dismissByUser = true;
-    }
-
-
-    public void setAllEntries(List<T> allEntries) {
-        this.allEntries.addAll(allEntries);
-    }
-
-    public void setPredicate(Predicate<T> predicate) {
-        this.predicate = predicate;
     }
 }

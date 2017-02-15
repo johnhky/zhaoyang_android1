@@ -61,6 +61,16 @@ public abstract class Prescription extends BaseItem {
         return "28";
     }
 
+    @Value.Default
+    public String getUnits() {
+        return "";
+    }
+
+    @Value.Default
+    public String getSpecification() {
+        return "";
+    }
+
     @JsonIgnore
     @Override
     public int getItemLayoutId() {
