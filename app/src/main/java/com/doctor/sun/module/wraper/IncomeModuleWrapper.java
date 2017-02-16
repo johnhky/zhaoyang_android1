@@ -41,8 +41,8 @@ public class IncomeModuleWrapper {
         return api.monthList();
     }
 
-    public Call<ApiDTO<PageDTO<Appointment>>> appointmentList() {
-        return api.appointmentList();
+    public Call<ApiDTO<PageDTO<Appointment>>> appointmentList(String time, String type) {
+        return api.appointmentList(time, type);
     }
 
     public void refreshIncomeOverView() {
@@ -64,32 +64,39 @@ public class IncomeModuleWrapper {
         }
     }
 
-    public void refreshSubsidy() {
-        api.subsidy().enqueue(new SimpleCallback<SubsidyDetail>() {
+    //补贴
+    public void refreshSubsidy(final String time) {
+        api.subsidy(time).enqueue(new SimpleCallback<SubsidyDetail>() {
             @Override
             protected void handleResponse(SubsidyDetail response) {
-                Config.putString(Constants.SUBSIDY, JacksonUtils.toJson(response));
+                Config.putString(time + Constants.SUBSIDY, JacksonUtils.toJson(response));
             }
         });
     }
 
-    public SubsidyDetail getSubsidy() {
-        String string = Config.getString(Constants.SUBSIDY);
+    public SubsidyDetail getSubsidy(String time) {
+        String string = Config.getString(time + Constants.SUBSIDY);
         return JacksonUtils.fromJson(string, SubsidyDetail.class);
     }
 
-    public void refreshBillDetail() {
-        api.bill().enqueue(new SimpleCallback<BillDetail>() {
+    public void refreshBillDetail(final String time) {
+        api.bill(time).enqueue(new SimpleCallback<BillDetail>() {
             @Override
             protected void handleResponse(BillDetail response) {
-                Config.putString(Constants.BILL_DETAIL, JacksonUtils.toJson(response));
+                String key = time + Constants.BILL_DETAIL;
+                Config.putString(key, JacksonUtils.toJson(response));
+                EventHub.post(new ConfigChangedEvent(key));
             }
         });
     }
 
-    public BillDetail getBillDetail() {
-        String string = Config.getString(Constants.BILL_DETAIL);
-        return JacksonUtils.fromJson(string, BillDetail.class);
+    public BillDetail getBillDetail(String time) {
+        String string = Config.getString(time + Constants.BILL_DETAIL);
+        if (!Strings.isNullOrEmpty(string)) {
+            return JacksonUtils.fromJson(string, BillDetail.class);
+        } else {
+            return new BillDetail();
+        }
     }
 }
 

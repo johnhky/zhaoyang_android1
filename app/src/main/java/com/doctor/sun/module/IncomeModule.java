@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * Created by rick on 15/2/2017.
@@ -23,15 +24,15 @@ public interface IncomeModule {
     Call<ApiDTO<ArrayList<String>>> monthList();
 
     @GET("income/appointment-list")
-    Call<ApiDTO<PageDTO<Appointment>>> appointmentList();
+    Call<ApiDTO<PageDTO<Appointment>>> appointmentList(@Query("time") String time, @Query("type") String type);
 
     @GET("income/overview")
     Call<ApiDTO<InComeOverView>> overview();
 
     @GET("income/subsidy-detail")
-    Call<ApiDTO<SubsidyDetail>> subsidy();
+    Call<ApiDTO<SubsidyDetail>> subsidy(@Query("time") String time);
 
     @GET("income/bill")
-    Call<ApiDTO<BillDetail>> bill();
+    Call<ApiDTO<BillDetail>> bill(@Query("time") String time);
 
 }

@@ -87,4 +87,5 @@ public class Constants {
     public static final String INCOME_OVERVIEW = "INCOME_OVERVIEW";
     public static final String SUBSIDY = "SUBSIDY";
     public static final String BILL_DETAIL = "BILL_DETAIL";
+    public static final String BILL_TIME = "BILL_TIME";
 }

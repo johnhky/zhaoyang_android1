@@ -2,6 +2,7 @@ package com.doctor.sun.ui.activity.doctor;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -11,9 +12,16 @@ import com.doctor.sun.databinding.ItemIncomeOverviewBinding;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.event.ConfigChangedEvent;
 import com.doctor.sun.module.wraper.IncomeModuleWrapper;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.fragment.BillFragment;
 import com.doctor.sun.vm.BaseItem;
 import com.doctor.sun.vm.BaseMenu;
 import com.squareup.otto.Subscribe;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by rick on 15/2/2017.
@@ -87,8 +95,12 @@ public class MyIncomeActivity extends CoordinatorActivity {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Intent intent = MainActivity.makeIntent(v.getContext());
-//                        v.getContext().startActivity(intent);
+                        Calendar instance = Calendar.getInstance();
+                        DateFormat format = new SimpleDateFormat("yyyy-MM", Locale.CHINA);
+                        String currentTime = format.format(instance.getTime());
+                        Bundle args = BillFragment.getArgs(currentTime);
+                        Intent intent = SingleFragmentActivity.intentFor(v.getContext(), "月度收入明细", args);
+                        v.getContext().startActivity(intent);
                     }
                 };
             }
@@ -106,8 +118,9 @@ public class MyIncomeActivity extends CoordinatorActivity {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Intent intent = MainActivity.makeIntent(v.getContext());
-//                        v.getContext().startActivity(intent);
+                        Bundle args = BillFragment.getArgs("recent_seven_days");
+                        Intent intent = SingleFragmentActivity.intentFor(v.getContext(), "近七日账单", args);
+                        v.getContext().startActivity(intent);
                     }
                 };
             }
@@ -125,8 +138,9 @@ public class MyIncomeActivity extends CoordinatorActivity {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Intent intent = MainActivity.makeIntent(v.getContext());
-//                        v.getContext().startActivity(intent);
+                        Bundle args = BillFragment.getArgs("today");
+                        Intent intent = SingleFragmentActivity.intentFor(v.getContext(), "当天账单", args);
+                        v.getContext().startActivity(intent);
                     }
                 };
             }
