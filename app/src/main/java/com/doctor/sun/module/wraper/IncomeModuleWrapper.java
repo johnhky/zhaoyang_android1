@@ -6,15 +6,18 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.BillDetail;
 import com.doctor.sun.entity.InComeOverView;
 import com.doctor.sun.entity.SubsidyDetail;
+import com.doctor.sun.event.ConfigChangedEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.IncomeModule;
 import com.doctor.sun.util.JacksonUtils;
+import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 
 import io.ganguo.library.Config;
+import io.ganguo.library.core.event.EventHub;
 import retrofit2.Call;
 
 /**
@@ -47,13 +50,18 @@ public class IncomeModuleWrapper {
             @Override
             protected void handleResponse(InComeOverView response) {
                 Config.putString(Constants.INCOME_OVERVIEW, JacksonUtils.toJson(response));
+                EventHub.post(new ConfigChangedEvent(Constants.INCOME_OVERVIEW));
             }
         });
     }
 
     public InComeOverView getIncomeOverView() {
         String string = Config.getString(Constants.INCOME_OVERVIEW);
-        return JacksonUtils.fromJson(string, InComeOverView.class);
+        if (!Strings.isNullOrEmpty(string)) {
+            return JacksonUtils.fromJson(string, InComeOverView.class);
+        } else {
+            return new InComeOverView();
+        }
     }
 
     public void refreshSubsidy() {

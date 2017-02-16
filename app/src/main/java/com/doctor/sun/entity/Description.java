@@ -1,8 +1,10 @@
 package com.doctor.sun.entity;
 
 import android.content.Context;
+import android.databinding.Bindable;
 import android.support.annotation.ColorRes;
 
+import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.util.NameComparator;
 import com.doctor.sun.vm.BaseItem;
@@ -14,10 +16,8 @@ public class Description extends BaseItem implements NameComparator.Name {
 
     private int layoutId;
     private String content;
+    private String subContent;
     private int indexPosition;
-
-    private int backgroundColor = R.color.color_description_background;
-    private int titleColor = R.color.color_description_title;
 
     public Description(int layoutId) {
         this.layoutId = layoutId;
@@ -51,20 +51,14 @@ public class Description extends BaseItem implements NameComparator.Name {
         this.indexPosition = indexPosition;
     }
 
-    public void setBackgroundColor(@ColorRes int backgroundColor) {
-        this.backgroundColor = backgroundColor;
+    @Bindable
+    public String getSubContent() {
+        return subContent;
     }
 
-    public int getBackgroundColor() {
-        return backgroundColor;
-    }
-
-    public void setTitleColor(@ColorRes int titleColor) {
-        this.titleColor = titleColor;
-    }
-
-    public int getTitleColor(Context context) {
-        return context.getResources().getColor(titleColor);
+    public void setSubContent(String subContent) {
+        this.subContent = subContent;
+        notifyPropertyChanged(BR.subContent);
     }
 
     @Override

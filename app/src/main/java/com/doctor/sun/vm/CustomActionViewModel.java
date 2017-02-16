@@ -75,7 +75,7 @@ public class CustomActionViewModel {
 
     @NonNull
     private ClickMenu chooseFileMenu() {
-        return new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_file_selector2, "文件传输", new View.OnClickListener() {
+        return new ClickMenu(R.layout.item_chat_menu, R.drawable.message_plus_file_selector2, "文件传输", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FileChooser.showFileChooser((Activity) v.getContext());
@@ -99,7 +99,7 @@ public class CustomActionViewModel {
 
     @NonNull
     private ClickMenu cameraMenu() {
-        return new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_video_selector2, "拍摄", new View.OnClickListener() {
+        return new ClickMenu(R.layout.item_chat_menu, R.drawable.nim_message_plus_video_selector2, "拍摄", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new MaterialDialog.Builder(v.getContext()).items("拍摄照片", "拍摄视频").itemsCallback(new MaterialDialog.ListCallback() {
@@ -162,7 +162,7 @@ public class CustomActionViewModel {
 
     @NonNull
     private ClickMenu galleryMenu() {
-        return new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_photo_selector2, "相册", new View.OnClickListener() {
+        return new ClickMenu(R.layout.item_chat_menu, R.drawable.nim_message_plus_photo_selector2, "相册", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PickImageDialog.openGallery(mActivity, IMAGE_REQUEST_CODE);
@@ -172,7 +172,7 @@ public class CustomActionViewModel {
 
     @NonNull
     private ClickMenu audioChatMenu(String title) {
-        return new ClickMenu(R.layout.item_menu2, R.drawable.nim_message_plus_phone2, title, new View.OnClickListener() {
+        return new ClickMenu(R.layout.item_chat_menu, R.drawable.nim_message_plus_phone2, title, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Settings.isDoctor()) {
@@ -187,7 +187,7 @@ public class CustomActionViewModel {
 
     @NonNull
     private ClickMenu videoChatMenu() {
-        return new ClickMenu(R.layout.item_menu2, R.drawable.message_plus_video_chat_selector2, "视频聊天", new View.OnClickListener() {
+        return new ClickMenu(R.layout.item_chat_menu, R.drawable.message_plus_video_chat_selector2, "视频聊天", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Settings.isDoctor()) {

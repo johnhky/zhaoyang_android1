@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vm.BaseMenu" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@{data.getBackgroundColor()}"
+        android:gravity="center_vertical"
+        android:onClick="@{data.itemClick}"
+        tools:showIn="@layout/activity_time">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ripple_default" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginRight="@dimen/dp_12"
+            android:drawableEnd="@drawable/ic_enter"
+            android:drawableRight="@drawable/ic_enter"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@{data.subTitle ?? String.valueOf(' ')}"
+            android:textColor="@{data.getTitleColor(context)}"
+            android:textSize="@dimen/font_15"
+            app:visible="@{data.enabled}"
+            tools:text="1000.00" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginRight="@dimen/dp_12"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@{data.title ?? String.valueOf(' ')}"
+            android:textColor="@{data.getTitleColor(context)}"
+            android:textSize="@dimen/font_15"
+            app:visible="@{data.enabled}"
+            tools:text="content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="bottom"
+            android:background="@color/divider_color" />
+
+    </FrameLayout>
+</layout>

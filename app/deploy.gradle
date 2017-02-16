@@ -42,6 +42,7 @@ android {
                     'src/main/res/layouts/reminder',
                     'src/main/res/layouts/symptom',
                     'src/main/res/layouts/text',
+                    'src/main/res/layouts/menu',
                     'src/main/res/layouts/customQuestionItem']
         }
     }
