@@ -5,7 +5,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vm.BaseItem" />
+            type="com.doctor.sun.vm.BaseMenu" />
     </data>
 
     <LinearLayout
@@ -15,6 +15,8 @@
         android:layout_marginLeft="@dimen/dp_13"
         android:layout_marginRight="@dimen/dp_13"
         android:layout_marginStart="@dimen/dp_13"
+        android:background="@drawable/ripple_default"
+        android:onClick="@{data.itemClick()}"
         android:orientation="horizontal">
 
         <View

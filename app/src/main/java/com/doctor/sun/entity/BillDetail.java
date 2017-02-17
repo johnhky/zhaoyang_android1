@@ -1,5 +1,6 @@
 package com.doctor.sun.entity;
 
+import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -7,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BillDetail {
+public class BillDetail extends BaseItem {
     public String consultation_fee = "0";
     public String detail_consult_explain;
     public String detail_consult_fee = "0.00";

@@ -12,10 +12,11 @@ import com.doctor.sun.module.wraper.IncomeModuleWrapper;
 import com.doctor.sun.ui.activity.BundlesTabActivity;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.fragment.BillRulesFragment;
 import com.doctor.sun.ui.fragment.HistoryBillFragment;
 import com.doctor.sun.ui.fragment.PrescriptionsFragment;
 import com.doctor.sun.ui.fragment.SubsidyDetailFragment;
-import com.doctor.sun.vm.BaseItem;
+import com.doctor.sun.vm.BaseMenu;
 import com.doctor.sun.vm.BillMenu;
 
 import java.util.ArrayList;
@@ -108,7 +109,19 @@ public class BillModel {
 
         ModelUtils.insertDividerNoMargin(result);
 
-        BaseItem baseItem = new BaseItem(R.layout.item_total_bill);
+        BaseMenu baseItem = new BaseMenu(R.layout.item_total_bill, 0, "") {
+            @Override
+            public View.OnClickListener itemClick() {
+                return new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle args = BillRulesFragment.getArgs(time);
+                        Intent intent = SingleFragmentActivity.intentFor(v.getContext(), "账单规则", args);
+                        v.getContext().startActivity(intent);
+                    }
+                };
+            }
+        };
         baseItem.setItemId("TOTAL_FEE");
         baseItem.setTitle(billDetail.total_fee);
         baseItem.setPosition(3);
