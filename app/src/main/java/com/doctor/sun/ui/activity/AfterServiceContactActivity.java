@@ -75,17 +75,6 @@ public class AfterServiceContactActivity extends ContactActivity {
                 getContactAdapter().updatePosition();
             }
         });
-//        api.patientList2().enqueue(new ApiCallback<List<Patient>>() {
-//            @Override
-//            protected void handleResponse(List<Patient> response) {
-//                getAdapter().clear();
-//                getAdapter().addAll(response);
-//                Collections.sort(getAdapter(), new NameComparator());
-//                getContactAdapter().updatePosition();
-//                getAdapter().onFinishLoadMore(true);
-//                getAdapter().notifyDataSetChanged();
-//            }
-//        });
     }
 
     @Override

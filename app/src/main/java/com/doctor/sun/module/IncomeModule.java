@@ -24,7 +24,7 @@ public interface IncomeModule {
     Call<ApiDTO<ArrayList<String>>> monthList();
 
     @GET("income/appointment-list")
-    Call<ApiDTO<PageDTO<Appointment>>> appointmentList(@Query("time") String time, @Query("type") String type);
+    Call<ApiDTO<PageDTO<Appointment>>> appointmentList(@Query("time") String time, @Query("type") int type, @Query("page") String page);
 
     @GET("income/overview")
     Call<ApiDTO<InComeOverView>> overview();

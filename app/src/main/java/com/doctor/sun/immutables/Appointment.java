@@ -21,34 +21,58 @@ import java.util.List;
 @JsonSerialize(as = ImmutableAppointment.class)
 @JsonDeserialize(as = ImmutableAppointment.class)
 public abstract class Appointment implements LayoutId {
-
+    //    [tid, has_pay, need_pay, display_type, display_status, cancel_reason, progress, take_time, doctor_id]
     public abstract String getId();
 
-    public abstract String getTid();
+    @Value.Default
+    public String getTid() {
+        return "";
+    }
 
 
     public abstract int getStatus();
 
-    public abstract int getHas_pay();
+    @Value.Default
+    public int getHas_pay() {
+        return IntBoolean.FALSE;
+    }
 
     public abstract double getMoney();
 
-    public abstract double getNeed_pay();
+    @Value.Default
+    public double getNeed_pay() {
+        return 0D;
+    }
 
 
     public abstract int getType();
 
-    public abstract String getDisplay_type();
+    @Value.Default
+    public String getDisplay_type() {
+        return "";
+    }
 
-    public abstract String getDisplay_status();
+    @Value.Default
+    public String getDisplay_status() {
+        return "";
+    }
 
 
-    public abstract String getCancel_reason();
+    @Value.Default
+    public String getCancel_reason() {
+        return "";
+    }
 
 
-    public abstract String getProgress();
+    @Value.Default
+    public String getProgress() {
+        return "";
+    }
 
-    public abstract double getTake_time();
+    @Value.Default
+    public double getTake_time() {
+        return 0D;
+    }
 
     @Value.Default
     public String getVisit_time() {
@@ -69,7 +93,10 @@ public abstract class Appointment implements LayoutId {
         return 0;
     }
 
-    public abstract String getDoctor_id();
+    @Value.Default
+    public String getDoctor_id() {
+        return "";
+    }
 
     public abstract String getRecord_id();
 

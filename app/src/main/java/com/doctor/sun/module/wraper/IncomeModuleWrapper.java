@@ -41,8 +41,8 @@ public class IncomeModuleWrapper {
         return api.monthList();
     }
 
-    public Call<ApiDTO<PageDTO<Appointment>>> appointmentList(String time, String type) {
-        return api.appointmentList(time, type);
+    public Call<ApiDTO<PageDTO<Appointment>>> appointmentList(String time, int type, String page) {
+        return api.appointmentList(time, type, page);
     }
 
     public void refreshIncomeOverView() {

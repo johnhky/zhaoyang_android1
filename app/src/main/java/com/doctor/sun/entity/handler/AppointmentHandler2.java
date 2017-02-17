@@ -155,6 +155,11 @@ public class AppointmentHandler2 {
         return String.format("交谈者:  %s(患者的%s)", record.getPatientName(), record.getRelation());
     }
 
+    public static String getConsultee(Appointment data) {
+        MedicalRecord record = data.getRecord();
+        return String.format("咨询者:  %s(患者的%s)", record.getPatientName(), record.getRelation());
+    }
+
     public static boolean isCanceled(Appointment data) {
         return data.getStatus() == Status.CANCEL;
     }
