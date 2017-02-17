@@ -5,12 +5,16 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.BillDetail;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.module.wraper.IncomeModuleWrapper;
+import com.doctor.sun.ui.activity.BundlesTabActivity;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.fragment.HistoryBillFragment;
+import com.doctor.sun.ui.fragment.PrescriptionsFragment;
+import com.doctor.sun.ui.fragment.SubsidyDetailFragment;
 import com.doctor.sun.vm.BaseItem;
 import com.doctor.sun.vm.BillMenu;
 
@@ -80,7 +84,18 @@ public class BillModel {
         BillMenu subsidy = new BillMenu(R.layout.item_bill_menu, 0, "补贴") {
             @Override
             public View.OnClickListener itemClick() {
-                return null;
+                return new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle tab1 = PrescriptionsFragment.getArgs(time);
+                        tab1.putString(Constants.FRAGMENT_TITLE, "处方量");
+                        Bundle tab2 = SubsidyDetailFragment.getArgs(time);
+                        tab2.putString(Constants.FRAGMENT_TITLE, "详情");
+                        Intent intent = BundlesTabActivity.intentFor(v.getContext(), tab1, tab2);
+                        intent.putExtra(Constants.ACTIVITY_TITLE, "补贴");
+                        v.getContext().startActivity(intent);
+                    }
+                };
             }
         };
         subsidy.setSubTitle("");

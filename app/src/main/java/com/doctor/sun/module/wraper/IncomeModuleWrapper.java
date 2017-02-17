@@ -69,14 +69,20 @@ public class IncomeModuleWrapper {
         api.subsidy(time).enqueue(new SimpleCallback<SubsidyDetail>() {
             @Override
             protected void handleResponse(SubsidyDetail response) {
-                Config.putString(time + Constants.SUBSIDY, JacksonUtils.toJson(response));
+                String key = time + Constants.SUBSIDY;
+                Config.putString(key, JacksonUtils.toJson(response));
+                EventHub.post(new ConfigChangedEvent(key));
             }
         });
     }
 
     public SubsidyDetail getSubsidy(String time) {
         String string = Config.getString(time + Constants.SUBSIDY);
-        return JacksonUtils.fromJson(string, SubsidyDetail.class);
+        if (!Strings.isNullOrEmpty(string)) {
+            return JacksonUtils.fromJson(string, SubsidyDetail.class);
+        } else {
+            return new SubsidyDetail();
+       }
     }
 
     public void refreshBillDetail(final String time) {

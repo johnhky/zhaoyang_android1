@@ -1,8 +1,10 @@
 package com.doctor.sun.entity;
 
 import com.doctor.sun.immutables.Prescription;
+import com.doctor.sun.immutables.Subsidy;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // FIXME generate failure  field _$Prescription3178
@@ -13,16 +15,6 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SubsidyDetail {
-
-
-    public List<DetailEntity> detail;
-    public List<Prescription> prescription;
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class DetailEntity {
-        public String fee;
-        public String item;
-        public String remark;
-        public String subsidy;
-    }
+    public List<Subsidy> detail = new ArrayList<>();
+    public List<Prescription> prescription = new ArrayList<>();
 }
