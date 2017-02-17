@@ -95,6 +95,7 @@ public class BillFragment extends SortedListFragment {
                 @Override
                 protected void handleResponse(ArrayList<String> response) {
                     MaterialDialog.Builder builder = new MaterialDialog.Builder(getContext());
+                    builder.title("历史账单");
                     builder.items(response)
                             .itemsCallback(new MaterialDialog.ListCallback() {
                                 @Override
