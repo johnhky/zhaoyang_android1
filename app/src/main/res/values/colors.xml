@@ -54,4 +54,6 @@
 
     <color name="color_premium_appointment">#51aaf6</color>
     <color name="color_standard_appointment">#6acde6</color>
+    <color name="blue_33">#339de1</color>
+    <color name="cyan_88">#88a2b2</color>
 </resources>

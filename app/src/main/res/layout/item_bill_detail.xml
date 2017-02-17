@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,10 +14,233 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_8" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="专属咨询:"
+                android:textColor="@color/dark_36"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="@{data.detail_consult_explain}"
+                android:textColor="@color/blue_33"
+                android:textSize="@dimen/font_15"
+                tools:text="2000元" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="闲时咨询:"
+                android:textColor="@color/dark_36"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="@{data.simple_consult_explain}"
+                android:textColor="@color/blue_33"
+                android:textSize="@dimen/font_15"
+                tools:text="2000元" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_8" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/gray_eb" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="咨询总额:"
+                android:textColor="@color/blue_33"
+                android:textSize="@dimen/font_15"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="@{data.consultation_fee+&quot;(元)&quot;}"
+                android:textColor="@color/blue_33"
+                android:textSize="@dimen/font_24"
+                tools:text="2000元" />
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_8"
+            android:background="@color/gray_eb" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_8" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="处方补贴:"
+                android:textColor="@color/dark_36"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="@{data.prescription_subsidy_explain}"
+                android:textColor="@color/blue_33"
+                android:textSize="@dimen/font_15"
+                tools:text="2000元" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="其他补贴:"
+                android:textColor="@color/dark_36"
+                android:textSize="@dimen/font_15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="@{data.other_subsidy}"
+                android:textColor="@color/blue_33"
+                android:textSize="@dimen/font_15"
+                tools:text="2000元" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_8" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/gray_eb" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_13"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:layout_marginRight="@dimen/dp_13"
+            android:layout_marginStart="@dimen/dp_13"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="补贴总额:"
+                android:textColor="@color/blue_33"
+                android:textSize="@dimen/font_15"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="@{data.total_subsidy+&quot;(元)&quot;}"
+                android:textColor="@color/blue_33"
+                android:textSize="@dimen/font_24"
+                tools:text="2000元" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_8" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{data.detail_consult_explain}" />
+            android:background="@color/gray_eb"
+            android:paddingBottom="@dimen/dp_4"
+            android:paddingLeft="@dimen/dp_13"
+            android:paddingRight="@dimen/dp_13"
+            android:paddingTop="@dimen/dp_4"
+            android:text="温馨提示"
+            android:textColor="@color/cyan_88"
+            android:textSize="@dimen/font_15" />
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray_eb">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_13"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginStart="@dimen/dp_13"
+                android:text="您的个人所得收入 =  专属咨询总金额 *  提成比例(x%)+ 闲时咨询总金额 *  提成比例(y%) + 处方药物总金额 * 补贴系数(z%) + 其他补贴(w);
+如对您的收入有任何疑问, 请及时拨打客服电话 400 - 835 - 2600 进行咨询, 我们的工作人员将在第一时间为您服务。"
+                android:textColor="@color/cyan_88" />
+
+        </FrameLayout>
     </LinearLayout>
 </layout>

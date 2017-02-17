@@ -67,5 +67,4 @@ public class BillRulesFragment extends SortedListFragment {
             loadMore();
         }
     }
-
 }
