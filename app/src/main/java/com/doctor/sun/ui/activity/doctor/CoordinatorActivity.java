@@ -85,7 +85,7 @@ public abstract class CoordinatorActivity extends BaseFragmentActivity2 {
         }
     }
 
-    private void initToolbar() {
+    protected void initToolbar() {
         setSupportActionBar(binding.toolBar);
         // 上滑时，toolbar改变颜色
         binding.appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -113,7 +113,7 @@ public abstract class CoordinatorActivity extends BaseFragmentActivity2 {
             }
         });
         getSupportActionBar().setTitle("");
-        binding.tbTitle.setText("我的账单");
+//        binding.tbTitle.setText("我的账单");
     }
 
     public ActivityCoordinatorBinding getBinding() {

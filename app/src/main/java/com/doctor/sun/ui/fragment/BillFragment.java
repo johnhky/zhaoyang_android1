@@ -12,6 +12,7 @@ import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.event.ConfigChangedEvent;
+import com.doctor.sun.event.OnTitleChangedEvent;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.BillModel;
 import com.doctor.sun.module.wraper.IncomeModuleWrapper;
@@ -19,8 +20,15 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.vm.BaseItem;
 import com.squareup.otto.Subscribe;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
+import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 16/2/2017.
@@ -101,6 +109,17 @@ public class BillFragment extends SortedListFragment {
                                 @Override
                                 public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                                     time = String.valueOf(text);
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM", Locale.CHINA);
+                                    try {
+                                        Date parse = format.parse(time);
+                                        Calendar instance = Calendar.getInstance();
+                                        instance.setTime(parse);
+                                        int month = instance.get(Calendar.MONTH)+1;
+                                        int year = instance.get(Calendar.YEAR);
+                                        EventHub.post(new OnTitleChangedEvent(year + "年" + month + "月收入明细"));
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
                                     IncomeModuleWrapper.getInstance().refreshBillDetail(time);
                                 }
                             });

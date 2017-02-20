@@ -9,7 +9,9 @@ import android.support.v4.app.Fragment;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.event.ActivityResultEvent;
+import com.doctor.sun.event.OnTitleChangedEvent;
 import com.doctor.sun.util.FragmentFactory;
+import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.core.event.EventHub;
 
@@ -52,5 +54,11 @@ public class SingleFragmentActivity extends BaseFragmentActivity2 {
     @Override
     public String getMidTitleString() {
         return getStringExtra(Constants.FRAGMENT_TITLE);
+    }
+
+    @Subscribe
+    public void onEventMainThread(OnTitleChangedEvent e) {
+        getIntent().putExtra(Constants.FRAGMENT_TITLE,e.title);
+        initToolbar();
     }
 }

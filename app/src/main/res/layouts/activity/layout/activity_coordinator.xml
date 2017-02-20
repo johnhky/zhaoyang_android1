@@ -45,14 +45,7 @@
 
                 </android.support.v7.widget.Toolbar>
 
-                <TextView
-                    android:id="@+id/tb_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/transparent"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+
             </android.support.design.widget.CollapsingToolbarLayout>
 
         </android.support.design.widget.AppBarLayout>

@@ -99,7 +99,7 @@ public class MyIncomeActivity extends CoordinatorActivity {
                         DateFormat format = new SimpleDateFormat("yyyy-MM", Locale.CHINA);
                         String currentTime = format.format(instance.getTime());
                         Bundle args = BillFragment.getArgs(currentTime);
-                        Intent intent = SingleFragmentActivity.intentFor(v.getContext(), "月度收入明细", args);
+                        Intent intent = SingleFragmentActivity.intentFor(v.getContext(), "当月收入明细", args);
                         v.getContext().startActivity(intent);
                     }
                 };
