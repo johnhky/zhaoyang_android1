@@ -1,7 +1,9 @@
 package com.doctor.sun.vm;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.annotation.ColorRes;
 
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
@@ -42,6 +44,8 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
     private long position;
     private int span = 12;
     private String action = "填写";
+    private int backgroundColor = R.color.color_description_background;
+    private int titleColor = R.color.color_description_title;
 
     public BaseItem() {
     }
@@ -279,5 +283,21 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
 
     public void setAction(String action) {
         this.action = action;
+    }
+
+    public void setBackgroundColor(@ColorRes int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setTitleColor(@ColorRes int titleColor) {
+        this.titleColor = titleColor;
+    }
+
+    public int getTitleColor(Context context) {
+        return context.getResources().getColor(titleColor);
     }
 }

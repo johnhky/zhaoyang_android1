@@ -45,4 +45,9 @@ public class BundlesTabActivity extends TabActivity {
         }
         return bundles;
     }
+
+    @Override
+    public String getMidTitleString() {
+        return getIntent().getStringExtra(Constants.ACTIVITY_TITLE);
+    }
 }

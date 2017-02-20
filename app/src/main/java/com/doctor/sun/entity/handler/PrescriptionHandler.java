@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -378,5 +379,9 @@ public class PrescriptionHandler {
                 return string;
             }
         }
+    }
+
+    public static String totalNum(Prescription data) {
+        return String.format(Locale.CHINA, "%.2f", data.getTotal_num());
     }
 }

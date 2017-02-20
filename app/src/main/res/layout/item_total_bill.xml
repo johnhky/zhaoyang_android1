@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vm.BaseMenu" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_70"
+        android:layout_marginEnd="@dimen/dp_13"
+        android:layout_marginLeft="@dimen/dp_13"
+        android:layout_marginRight="@dimen/dp_13"
+        android:layout_marginStart="@dimen/dp_13"
+        android:background="@drawable/ripple_default"
+        android:onClick="@{data.itemClick()}"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_marginRight="@dimen/dp_8"
+            android:layout_marginStart="@dimen/dp_8"
+            android:background="@drawable/shape_blue_rect_r2"
+            android:padding="@dimen/dp_2"
+            android:text="收入总额"
+            android:textColor="@color/white" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{data.title}"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/font_30" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center"
+            android:gravity="bottom"
+            android:text="元"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/font_14" />
+
+    </LinearLayout>
+</layout>

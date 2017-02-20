@@ -3,6 +3,7 @@ package com.doctor.sun.immutables;
 import com.doctor.sun.R;
 import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -11,12 +12,14 @@ import org.immutables.value.Value;
 /**
  * Created by rick on 27/10/2016.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Value.Immutable
 @Value.Style(jdkOnly = true)
 @JsonSerialize(as = ImmutablePrescription.class)
 @JsonDeserialize(as = ImmutablePrescription.class)
 @Value.Modifiable
 public abstract class Prescription extends BaseItem {
+
     public abstract String getDrug_name();
 
     @Value.Default
@@ -24,7 +27,10 @@ public abstract class Prescription extends BaseItem {
         return "";
     }
 
-    public abstract String getFrequency();
+    @Value.Default
+    public String getFrequency() {
+        return "";
+    }
 
     @Value.Default
     public String getMorning() {
@@ -69,6 +75,26 @@ public abstract class Prescription extends BaseItem {
     @Value.Default
     public String getSpecification() {
         return "";
+    }
+
+    @Value.Default
+    public String getDrug_id() {
+        return "";
+    }
+
+    @Value.Default
+    public String getDose_units() {
+        return "";
+    }
+
+    @Value.Default
+    public double getTotal_num() {
+        return 0D;
+    }
+
+    @Value.Default
+    public double getTotal_fee() {
+        return 0D;
     }
 
     @JsonIgnore

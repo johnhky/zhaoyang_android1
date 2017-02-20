@@ -52,7 +52,7 @@ public abstract class BaseFragmentActivity2 extends UMBaseFragmentActivity {
         initToolbar();
     }
 
-    private void initToolbar() {
+    protected void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.InComeOverView" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_income_overview"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
+            android:text="我的账单"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_16" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_35"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/ic_rmb"
+            android:drawablePadding="@dimen/dp_4"
+            android:drawableStart="@drawable/ic_rmb"
+            android:gravity="center"
+            android:text="本周收益"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_16" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="@{data.recent_seven_days_fee}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_50"
+                tools:text="10.00" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="元"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

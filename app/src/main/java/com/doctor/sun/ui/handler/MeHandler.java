@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.FeeActivity;
+import com.doctor.sun.ui.activity.doctor.MyIncomeActivity;
 import com.doctor.sun.ui.activity.doctor.RecordPoolActivity;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
 import com.doctor.sun.ui.activity.doctor.TimeActivity;
@@ -65,6 +65,11 @@ public class MeHandler {
 
     public void viewFeedback(Context context) {
         Intent intent = ViewFeedbackActivity.intentFor(context, data);
+        context.startActivity(intent);
+    }
+
+    public void doctorIncome(Context context) {
+        Intent intent = MyIncomeActivity.intentFor(context);
         context.startActivity(intent);
     }
 

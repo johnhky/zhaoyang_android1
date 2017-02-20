@@ -61,7 +61,6 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
             }
 
             @Override
