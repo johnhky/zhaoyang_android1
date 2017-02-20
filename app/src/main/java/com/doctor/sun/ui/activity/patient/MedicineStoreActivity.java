@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMedicineHelperBinding;
 import com.doctor.sun.dto.PageDTO;
@@ -515,7 +516,9 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_pick_prescription, menu);
+        if (!Settings.isDoctor()) {
+            getMenuInflater().inflate(R.menu.menu_pick_prescription, menu);
+        }
         return true;
     }
 
@@ -534,9 +537,9 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 
     @Override
     public int getMidTitle() {
-        if (getIntent().getIntExtra(Constants.DATA,IntBoolean.TRUE)==IntBoolean.TRUE ){
+        if (getIntent().getIntExtra(Constants.DATA, IntBoolean.TRUE) == IntBoolean.TRUE) {
             return R.string.title_medicine_store;
-        }else {
+        } else {
             return R.string.title_customer_service;
         }
     }
