@@ -108,6 +108,7 @@ public class MyIncomeActivity extends CoordinatorActivity {
         baseMenu.setItemId("month_revenue");
         baseMenu.setPosition(3);
         baseMenu.setBackgroundColor(R.color.white);
+        baseMenu.setTitleColor(R.color.dark_36);
         return baseMenu;
     }
 
@@ -128,6 +129,7 @@ public class MyIncomeActivity extends CoordinatorActivity {
         baseMenu.setItemId("week_revenue");
         baseMenu.setPosition(4);
         baseMenu.setBackgroundColor(R.color.white);
+        baseMenu.setTitleColor(R.color.dark_36);
         return baseMenu;
     }
 
@@ -148,6 +150,7 @@ public class MyIncomeActivity extends CoordinatorActivity {
         baseMenu.setItemId("day_revenue");
         baseMenu.setPosition(5);
         baseMenu.setBackgroundColor(R.color.white);
+        baseMenu.setTitleColor(R.color.dark_36);
         return baseMenu;
     }
 }
