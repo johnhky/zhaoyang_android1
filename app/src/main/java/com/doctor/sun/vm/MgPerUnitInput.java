@@ -45,6 +45,12 @@ public class MgPerUnitInput extends ItemTextInput2 {
 
     @Override
     public String getValue() {
+        if ("克".equals(getSubTitle())) {
+            return "-1" + ",ignored";
+        }
+        if ("毫克".equals(getSubTitle())) {
+            return "-1" + ",ignored";
+        }
         String value = getResult();
         switch (dialog.getSelectedItem()) {
             case 0:
