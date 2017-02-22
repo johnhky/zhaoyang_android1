@@ -225,8 +225,9 @@
             android:textColor="@color/cyan_88"
             android:textSize="@dimen/font_15" />
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="match_parent"
             android:background="@color/gray_eb">
 
@@ -237,10 +238,20 @@
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:layout_marginStart="@dimen/dp_13"
-                android:text="您的个人所得收入 =  专属咨询总金额 *  提成比例(x%)+ 闲时咨询总金额 *  提成比例(y%) + 处方药物总金额 * 补贴系数(z%) + 其他补贴(w);
-\r如对您的收入有任何疑问, 请及时拨打客服电话 400 - 835 - 2600 进行咨询, 我们的工作人员将在第一时间为您服务。"
+                android:text="您的个人所得收入 =  专属咨询总金额 *  提成比例(x%)+ 闲时咨询总金额 *  提成比例(y%) + 处方药物总金额 * 补贴系数(z%) + 其他补贴(w);"
                 android:textColor="@color/cyan_88" />
 
-        </FrameLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_13"
+                android:layout_marginLeft="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginStart="@dimen/dp_13"
+                android:text="如对您的收入有任何疑问, 请及时拨打客服电话400-835-2600进行咨询, 我们的工作人员将在第一时间为您服务。"
+                android:textColor="@color/cyan_88" />
+
+
+        </LinearLayout>
     </LinearLayout>
 </layout>
