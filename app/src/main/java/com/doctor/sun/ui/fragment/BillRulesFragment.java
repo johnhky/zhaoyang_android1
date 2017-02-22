@@ -20,7 +20,6 @@ import com.squareup.otto.Subscribe;
 public class BillRulesFragment extends SortedListFragment {
     public static final String TAG = BillRulesFragment.class.getSimpleName();
 
-    private BillModel model;
     private String time;
 
     public static Bundle getArgs(String time) {
@@ -37,7 +36,6 @@ public class BillRulesFragment extends SortedListFragment {
         super.onCreate(savedInstanceState);
         time = getTime();
         setHasOptionsMenu(true);
-        model = new BillModel();
     }
 
     public String getTime() {

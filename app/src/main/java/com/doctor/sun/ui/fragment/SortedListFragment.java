@@ -108,4 +108,14 @@ public class SortedListFragment extends BaseFragment implements SwipeRefreshLayo
         binding.swipeRefresh.setEnabled(false);
         isLoading = true;
     }
+
+    public void showOrHideEmptyIndicator(boolean show, String msg) {
+        getBinding().emptyIndicator.setText(msg);
+        if (show) {
+            getBinding().emptyIndicator.setVisibility(View.VISIBLE);
+        } else {
+            getBinding().emptyIndicator.setVisibility(View.GONE);
+        }
+
+    }
 }

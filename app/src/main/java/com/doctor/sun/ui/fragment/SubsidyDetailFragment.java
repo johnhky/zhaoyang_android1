@@ -8,9 +8,7 @@ import android.view.View;
 import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.entity.SubsidyDetail;
 import com.doctor.sun.event.ConfigChangedEvent;
-import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.immutables.Subsidy;
 import com.doctor.sun.module.wraper.IncomeModuleWrapper;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
@@ -67,12 +65,14 @@ public class SubsidyDetailFragment extends SortedListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
+        showOrHideEmptyIndicator(false, "");
         List<Subsidy> subsidies = IncomeModuleWrapper.getInstance().getSubsidy(time).detail;
         for (Subsidy p : subsidies) {
             p.setItemLayoutId(R.layout.item_subsidy);
         }
         getAdapter().insertAll(subsidies);
         getBinding().swipeRefresh.setRefreshing(false);
+        showOrHideEmptyIndicator(getAdapter().size() <= 0, "暂时没有更多了");
     }
 
     @Subscribe

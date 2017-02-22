@@ -65,12 +65,14 @@ public class PrescriptionsFragment extends SortedListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
+        showOrHideEmptyIndicator(false, "");
         List<Prescription> prescription = IncomeModuleWrapper.getInstance().getSubsidy(time).prescription;
         for (Prescription p : prescription) {
             p.setItemLayoutId(R.layout.item_prescription_bill);
         }
         getAdapter().insertAll(prescription);
         getBinding().swipeRefresh.setRefreshing(false);
+        showOrHideEmptyIndicator(getAdapter().size() <= 0, "暂时没有更多了");
     }
 
     @Subscribe

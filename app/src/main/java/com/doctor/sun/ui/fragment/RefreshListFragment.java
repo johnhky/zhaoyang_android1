@@ -82,6 +82,7 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
         mAdapter.setLoadMoreListener(new LoadMoreListener() {
             @Override
             protected void onLoadMore() {
+                getBinding().emptyIndicator.setVisibility(View.GONE);
                 if (!isLoading) {
                     loadMore();
                     isLoading = true;
