@@ -134,7 +134,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -448,9 +448,10 @@
 
             <TextView
                 android:id="@+id/tv_review_status"
-                android:layout_gravity="bottom"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="@dimen/dp_49"
                 android:background="@color/dark_36"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_23"
@@ -460,16 +461,15 @@
                 android:textSize="@dimen/font_13"
                 android:visibility="gone" />
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
+
+                <include
+                    layout="@layout/include_footer"
+                    bind:footer="@{footer}" />
+            </FrameLayout>
         </FrameLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-
-        <include
-            layout="@layout/include_footer"
-            bind:footer="@{footer}" />
     </LinearLayout>
 </layout>

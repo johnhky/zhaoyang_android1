@@ -9,7 +9,6 @@ import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.BillDetail;
 import com.doctor.sun.event.ConfigChangedEvent;
-import com.doctor.sun.model.BillModel;
 import com.doctor.sun.module.wraper.IncomeModuleWrapper;
 import com.squareup.otto.Subscribe;
 
