@@ -132,276 +132,37 @@
             android:layout_height="1px"
             android:background="#c1cacf" />
 
-        <ScrollView
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_120"
-                    android:current="@{1}"
-                    android:isRect="@{true}"
-                    android:next="@{-1}"
-                    android:orientation="horizontal"
-                    android:previous='@{0}'
-                    android:showcase='@{"医生可以自定义自己的设置"}'>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/btn_time_setting"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/ripple_default"
-                        android:gravity="center"
-                        android:onClick="@{handler.Time}"
-                        android:orientation="vertical">
-
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/dp_40">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_time_setting" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_15"
-                            android:text="出诊时间"
-                            android:textColor="#363636"
-                            android:textSize="@dimen/font_14" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1px"
-                        android:layout_height="match_parent"
-                        android:background="#c1cacf" />
-
-                    <LinearLayout
-                        android:id="@+id/btn_price_setting"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/ripple_default"
-                        android:gravity="center"
-                        android:onClick="@{handler.Price}"
-                        android:orientation="vertical">
-
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/dp_40">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_price_setting" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_15"
-                            android:text="诊金设置"
-                            android:textColor="#363636"
-                            android:textSize="@dimen/font_14" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1px"
-                        android:layout_height="match_parent"
-                        android:background="#c1cacf" />
-
-                    <LinearLayout
-                        android:id="@+id/btn_template_setting"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/ripple_default"
-                        android:gravity="center"
-                        android:onClick="@{handler.Template}"
-                        android:orientation="vertical">
-
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/dp_40">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_template_setting" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_15"
-                            android:text="问诊模板"
-                            android:textColor="#363636"
-                            android:textSize="@dimen/font_14" />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="#c1cacf" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_120"
-                    android:orientation="horizontal">
-
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/ripple_default"
-                        android:gravity="center"
-                        android:onClick="@{handler.myQrCode}"
-                        android:orientation="vertical">
-
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/dp_40">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_qrcode" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_16"
-                            android:text="我的二维码"
-                            android:textColor="#363636"
-                            android:textSize="@dimen/font_14" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1px"
-                        android:layout_height="match_parent"
-                        android:background="#c1cacf" />
-
-                    <LinearLayout
-                        android:id="@+id/btn_disturb_setting"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/ripple_default"
-                        android:gravity="center"
-                        android:onClick="@{()->handler.recordPool(context)}"
-                        android:orientation="vertical">
-
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/dp_40">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_record_pool" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_15"
-                            android:text="病历库"
-                            android:textColor="#363636"
-                            android:textSize="@dimen/font_14" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1px"
-                        android:layout_height="match_parent"
-                        android:background="#c1cacf" />
-
-                    <LinearLayout
-                        android:id="@+id/btn_setting"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/ripple_default"
-                        android:gravity="center"
-                        android:onClick="@{handler.Setting}"
-                        android:orientation="vertical">
-
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/dp_40">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_setting" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_16"
-                            android:text="设置"
-                            android:textColor="#363636"
-                            android:textSize="@dimen/font_14" />
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="#c1cacf" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_120"
-                    android:orientation="horizontal">
-
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:layout_gravity="bottom"
-                            android:background="#c1cacf" />
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_120"
+                        android:current="@{1}"
+                        android:isRect="@{true}"
+                        android:next="@{-1}"
+                        android:orientation="horizontal"
+                        android:previous='@{0}'
+                        android:showcase='@{"医生可以自定义自己的设置"}'>
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:id="@+id/btn_time_setting"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:background="@drawable/ripple_default"
                             android:gravity="center"
-                            android:onClick="@{()->handler.doctorIncome(context)}"
+                            android:onClick="@{handler.Time}"
                             android:orientation="vertical">
 
                             <FrameLayout
@@ -412,52 +173,300 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/my_income" />
+                                    android:src="@drawable/ic_time_setting" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_15"
+                                android:text="出诊时间"
+                                android:textColor="#363636"
+                                android:textSize="@dimen/font_14" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="#c1cacf" />
+
+                        <LinearLayout
+                            android:id="@+id/btn_price_setting"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/ripple_default"
+                            android:gravity="center"
+                            android:onClick="@{handler.Price}"
+                            android:orientation="vertical">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/dp_40">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_price_setting" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_15"
+                                android:text="诊金设置"
+                                android:textColor="#363636"
+                                android:textSize="@dimen/font_14" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="#c1cacf" />
+
+                        <LinearLayout
+                            android:id="@+id/btn_template_setting"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/ripple_default"
+                            android:gravity="center"
+                            android:onClick="@{handler.Template}"
+                            android:orientation="vertical">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/dp_40">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_template_setting" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_15"
+                                android:text="问诊模板"
+                                android:textColor="#363636"
+                                android:textSize="@dimen/font_14" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="#c1cacf" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_120"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/ripple_default"
+                            android:gravity="center"
+                            android:onClick="@{handler.myQrCode}"
+                            android:orientation="vertical">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/dp_40">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_qrcode" />
                             </FrameLayout>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dp_16"
-                                android:text="我的账单"
+                                android:text="我的二维码"
                                 android:textColor="#363636"
                                 android:textSize="@dimen/font_14" />
 
                         </LinearLayout>
-                    </FrameLayout>
+
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="#c1cacf" />
+
+                        <LinearLayout
+                            android:id="@+id/btn_disturb_setting"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/ripple_default"
+                            android:gravity="center"
+                            android:onClick="@{()->handler.recordPool(context)}"
+                            android:orientation="vertical">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/dp_40">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_record_pool" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_15"
+                                android:text="病历库"
+                                android:textColor="#363636"
+                                android:textSize="@dimen/font_14" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="#c1cacf" />
+
+                        <LinearLayout
+                            android:id="@+id/btn_setting"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/ripple_default"
+                            android:gravity="center"
+                            android:onClick="@{handler.Setting}"
+                            android:orientation="vertical">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/dp_40">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_setting" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_16"
+                                android:text="设置"
+                                android:textColor="#363636"
+                                android:textSize="@dimen/font_14" />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
                     <View
-                        android:layout_width="1px"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
                         android:background="#c1cacf" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_120"
+                        android:orientation="horizontal">
 
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:layout_gravity="bottom"
+                                android:background="#c1cacf" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/ripple_default"
+                                android:gravity="center"
+                                android:onClick="@{()->handler.doctorIncome(context)}"
+                                android:orientation="vertical">
+
+                                <FrameLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/dp_40">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/my_income" />
+                                </FrameLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dp_16"
+                                    android:text="我的账单"
+                                    android:textColor="#363636"
+                                    android:textSize="@dimen/font_14" />
+
+                            </LinearLayout>
+                        </FrameLayout>
+
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="#c1cacf" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2" />
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
+            </ScrollView>
 
-            </LinearLayout>
-        </ScrollView>
+            <TextView
+                android:id="@+id/tv_review_status"
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:background="@color/dark_36"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_23"
+                android:paddingRight="@dimen/dp_23"
+                android:text="资料正在审核，请耐心等待"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_13"
+                android:visibility="gone" />
+
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/tv_review_status"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_45"
-            android:background="@color/dark_36"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/dp_23"
-            android:paddingRight="@dimen/dp_23"
-            android:text="资料正在审核，请耐心等待"
-            android:textColor="@color/white"
-            android:textSize="@dimen/font_13"
-            android:visibility="gone" />
 
         <include
             layout="@layout/include_footer"
