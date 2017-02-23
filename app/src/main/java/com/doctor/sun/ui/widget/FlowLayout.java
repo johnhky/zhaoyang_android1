@@ -50,13 +50,16 @@ public class FlowLayout extends ViewGroup {
             int childWidth = childView.getMeasuredWidth();
             int childHeight = childView.getMeasuredHeight();
 
+            //当前这一行的高度取决于这一排的最高的子控件的高度
             lineHeight = Math.max(childHeight, lineHeight);
 
             if (childLeft + childWidth + paddingRight > selfWidth) {
+                // 当子控件的右侧超过了屏幕右侧就换行,并重置行高
                 childLeft = paddingLeft;
                 childTop += mVerticalSpacing + lineHeight;
-                lineHeight = childHeight;
+                lineHeight = 0;
             } else {
+                // 记录当前view的左侧位置在哪里
                 childLeft += childWidth + mHorizontalSpacing;
             }
         }
