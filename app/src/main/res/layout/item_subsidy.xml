@@ -61,7 +61,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{&quot;总额:&quot;+data.fee + &quot;元&quot;}"
+                android:text="@{&quot;总额:&quot;+data.subsidy + &quot;元&quot;}"
                 android:textColor="@color/grey_42"
                 android:textSize="@dimen/font_13"
                 tools:text="药" />

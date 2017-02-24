@@ -6,11 +6,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.event.ConfigChangedEvent;
 import com.doctor.sun.event.OnTitleChangedEvent;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -114,7 +116,7 @@ public class BillFragment extends SortedListFragment {
                                         Date parse = format.parse(time);
                                         Calendar instance = Calendar.getInstance();
                                         instance.setTime(parse);
-                                        int month = instance.get(Calendar.MONTH)+1;
+                                        int month = instance.get(Calendar.MONTH) + 1;
                                         int year = instance.get(Calendar.YEAR);
                                         EventHub.post(new OnTitleChangedEvent(year + "年" + month + "月收入明细"));
                                     } catch (ParseException e) {
@@ -124,6 +126,14 @@ public class BillFragment extends SortedListFragment {
                                 }
                             });
                     builder.build().show();
+                }
+
+                @Override
+                protected void handleApi(ApiDTO<ArrayList<String>> body) {
+                    super.handleApi(body);
+                    if (body == null) {
+                        Toast.makeText(getContext(), "没有任何历史账单", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 

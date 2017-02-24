@@ -3,6 +3,7 @@ package com.doctor.sun.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.doctor.auto.Factory;
@@ -67,8 +68,12 @@ public class PrescriptionsFragment extends SortedListFragment {
         super.loadMore();
         showOrHideEmptyIndicator(false, "");
         List<Prescription> prescription = IncomeModuleWrapper.getInstance().getSubsidy(time).prescription;
+        int i = 0;
         for (Prescription p : prescription) {
+            p.setItemId(i + "");
             p.setItemLayoutId(R.layout.item_prescription_bill);
+            p.setPosition(i);
+            i += 1;
         }
         getAdapter().insertAll(prescription);
         getBinding().swipeRefresh.setRefreshing(false);
