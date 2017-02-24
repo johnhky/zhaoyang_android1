@@ -10,6 +10,7 @@ import android.os.Messenger;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.immutables.ImmutablePrescription;
 import com.doctor.sun.immutables.ModifiablePrescription;
@@ -82,6 +83,9 @@ public class PrescriptionHandler {
     }
 
     public static boolean isValid(Prescription data, BaseListAdapter adapter) {
+        if (!Settings.isDoctor()){
+            return true;
+        }
         if (adapter != null && adapter.getString(8).equals("1")) {
             return true;
         }
