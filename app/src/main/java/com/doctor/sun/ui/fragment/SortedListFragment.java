@@ -24,6 +24,7 @@ import io.realm.Realm;
 public class SortedListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     protected FragmentRefreshListBinding binding;
     private SortedListAdapter mAdapter;
+    
     public Realm realm;
     protected boolean isLoading = false;
 

@@ -34,9 +34,13 @@ public class DoctorAppointmentDonePA extends FragmentStatePagerAdapter {
         switch (position) {
             case 0: {
                 return ReadQuestionsFragment.getInstance(appointmentId, QuestionsPath.NORMAL, true);
+
+                //return ReadDiagnosisFragment.newInstance(appointmentId);
             }
             case 1: {
-                return ReadDiagnosisFragment.newInstance(appointmentId);
+               return ReadDiagnosisFragment.newInstance(appointmentId);
+                //return ReadQuestionsFragment.getInstance(appointmentId, QuestionsPath.NORMAL, true);
+
             }
         }
         return null;

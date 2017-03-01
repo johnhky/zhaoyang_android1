@@ -307,18 +307,20 @@ public class SearchDoctorActivity extends BaseFragmentActivity2 implements View.
         ArrayList<Integer> result = new ArrayList<>();
         if (binding.titleOne.isSelected()) {
             result.add(1);
-        }
-        if (binding.titleTwo.isSelected()) {
             result.add(2);
         }
-        if (binding.titleThree.isSelected()) {
+        if (binding.titleTwo.isSelected()) {
             result.add(3);
         }
-        if (binding.titleFour.isSelected()) {
+        if (binding.titleThree.isSelected()) {
             result.add(4);
+            result.add(5);
+        }
+        if (binding.titleFour.isSelected()) {
+            result.add(6);
         }
         if (binding.titleFive.isSelected()) {
-            result.add(5);
+            result.add(7);
         }
         return result;
     }
