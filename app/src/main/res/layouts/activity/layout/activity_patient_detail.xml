@@ -77,7 +77,7 @@
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
                     android:onClick="@{()->handler.remind(context, data.getId(), data.getRecord().getPatientId())}"
-                    android:text="提  醒"
+                    android:text="提醒患者\n填写问卷"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_17" />
             </FrameLayout>
@@ -116,7 +116,7 @@
                     android:background="@drawable/ripple_default"
                     android:gravity="center"
                     android:onClick="@{()->handler.accept(context,data)}"
-                    android:text="就  诊"
+                    android:text="提前就诊"
                     android:textColor="#fff"
                     android:textSize="@dimen/font_17" />
             </FrameLayout>

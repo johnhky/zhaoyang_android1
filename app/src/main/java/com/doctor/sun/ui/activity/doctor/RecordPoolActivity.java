@@ -3,6 +3,7 @@ package com.doctor.sun.ui.activity.doctor;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Menu;
 
 import com.doctor.sun.R;
@@ -13,6 +14,7 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 
 /**
  * Created by rick on 1/6/2016.
+ * 显示医生病历库第一层界面
  */
 public class RecordPoolActivity extends PageActivity2 {
     private DiagnosisModule api = Api.of(DiagnosisModule.class);
@@ -26,14 +28,17 @@ public class RecordPoolActivity extends PageActivity2 {
     @Override
     public SimpleAdapter createAdapter() {
         SimpleAdapter adapter = super.createAdapter();
-        adapter.mapLayout(R.layout.item_appointment, R.layout.item_record_pool);
+       //adapter.mapLayout(R.layout.item_appointment, R.layout.item_record_pool);
+       adapter.mapLayout(R.layout.item_appointment, R.layout.item_single);
         return adapter;
     }
-
+//通过网络请求绑定数据和布局
     @Override
     protected void loadMore() {
         super.loadMore();
-        api.recordPool(getCallback().getPage(), keyword).enqueue(getCallback());
+       // api.recordPool(getCallback().getPage(), keyword).enqueue(getCallback());
+        api.CaseLibarayrList(getCallback().getPage(), keyword).enqueue(getCallback());
+
     }
 
     @NonNull

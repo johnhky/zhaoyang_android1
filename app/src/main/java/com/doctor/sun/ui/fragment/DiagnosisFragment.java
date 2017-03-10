@@ -45,6 +45,7 @@ import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.model.DiagnosisModel;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.doctor.ContactActivity;
+import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vm.ItemButton;
@@ -54,6 +55,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Tasks;
 import retrofit2.Call;
@@ -377,7 +379,7 @@ public class DiagnosisFragment extends BaseFragment {
     }
 
     public void save() {
-        String string;
+        final String string;
         String positiveText;
         String negativeText;
         if (isAppointmentFinish) {
@@ -395,6 +397,7 @@ public class DiagnosisFragment extends BaseFragment {
                     public void onApplyClick(final MaterialDialog dialog) {
                         final HashMap<String, String> query = viewModel.toHashMap(getAppointmentId(), getRecordId(), binding, getPrescriptions());
                         saveDiagnosis(dialog, query);
+
                     }
 
                     @Override

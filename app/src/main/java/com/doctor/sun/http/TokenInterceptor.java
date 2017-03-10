@@ -25,7 +25,7 @@ class TokenInterceptor implements Interceptor {
         // app/1.0_dev (android; 4.4.4; 19)
         String userAgent = "app/" + Systems.getVersionName(AppContext.me()) + " (android; " + Build.VERSION.RELEASE + "; " + Build.VERSION.SDK_INT + ")";
         // 1.0.0
-        String version = Systems.getVersionName(AppContext.me()) + "";
+        String  version = Systems.getVersionName(AppContext.me()) + "";
         String token = Config.getString(Constants.TOKEN);
         if (token == null) {
             token = "";

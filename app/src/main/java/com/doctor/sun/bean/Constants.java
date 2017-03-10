@@ -6,6 +6,9 @@ package com.doctor.sun.bean;
  * Created by Tony on 11/10/15.
  */
 public class Constants {
+    //病历记录的flag
+    public static final String QUESTION_FLAG="FLAG";
+
     public static final String TOKEN = "TOKEN";
 
     public static final String BASE_URI = "URI";

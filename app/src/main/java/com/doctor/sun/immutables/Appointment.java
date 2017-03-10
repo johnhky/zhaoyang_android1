@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by rick on 21/10/2016.
+ * ／／关于预约的返回数据全可以在这找
  */
 @Value.Immutable
 @Value.Style(jdkOnly = true)

@@ -58,6 +58,8 @@ public class CustomActionViewModel {
             adapter.add(audioChatMenu("语音电话"));
         } else if (fromMedicineStore == IntBoolean.NOT_GIVEN) {
             adapter.add(audioChatMenu("客服电话"));
+        }else if(fromMedicineStore==IntBoolean.TRUE){
+            adapter.add(audioChatMenu("落地电话"));
         }
         adapter.add(galleryMenu());
         adapter.add(cameraMenu());

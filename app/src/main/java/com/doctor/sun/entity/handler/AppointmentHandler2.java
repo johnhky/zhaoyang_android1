@@ -22,6 +22,7 @@ import com.doctor.sun.avchat.activity.AVChatActivity;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.MedicalHistory;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
@@ -52,6 +53,7 @@ import com.doctor.sun.ui.activity.doctor.CancelAppointmentActivity;
 import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
 import com.doctor.sun.ui.activity.doctor.PatientDetailActivity;
+import com.doctor.sun.ui.activity.doctor.SinglePatientHistoryActivity;
 import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.activity.patient.FinishedOrderActivity;
@@ -124,11 +126,22 @@ public class AppointmentHandler2 {
             return "女";
         }
     }
+    public  static String getGender2(MedicalHistory data){
+        if(data.getGender()==Gender.MALE){
+            return "男";
+        }else {
+            return "女";
+        }
+    }
 
     public static String getGenderAndAge(Appointment data) {
         return String.format("%s/%s岁", getGender(data), data.getRecord().getAge());
     }
-
+    //返回医生界面病历库的第一层界面显示的数据
+    public static String getMage(MedicalHistory data){
+    String content=String.format("%s/%s岁", getGender2(data), data.getAge());
+    return data.record_name+"    ("+content+")";
+}
     public static String getBirthday(Appointment data) {
         return data.getRecord().getBirthday();
     }
@@ -514,6 +527,13 @@ public class AppointmentHandler2 {
                 break;
             }
         }
+    }
+    //点击跳转到某个病人的病历历史记录
+    public static void onSingleOrder(final BaseViewHolder vh,String id){
+        Context context=vh.itemView.getContext();
+        Intent intent =new Intent(context, SinglePatientHistoryActivity.class);
+        intent.putExtra("id",id);
+        context.startActivity(intent);
     }
 
     public static void showHistoryDetail(final BaseViewHolder vh, final BaseListAdapter adapter, Appointment data) {

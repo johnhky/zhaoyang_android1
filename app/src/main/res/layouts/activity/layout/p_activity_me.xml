@@ -43,11 +43,13 @@
                 android:current="@{1}"
                 android:src="@{handler.data.avatar}"
                 bind:maskDrawable="@drawable/circle_mask" />
-
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="点击头像编辑个人资料"
+                android:drawableRight="@drawable/pencil"
+                android:textColor="#4a8fef"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_11"
                 android:singleLine="true"
                 android:text="@{handler.data.name}"
                 android:textColor="#363636"

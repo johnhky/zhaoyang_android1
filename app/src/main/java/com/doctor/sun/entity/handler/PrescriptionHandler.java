@@ -81,7 +81,7 @@ public class PrescriptionHandler {
             }
         };
     }
-
+//在这判断在倒入病患处方信息的时候 患者的处方是否符合标准，不符合则弹出提示
     public static boolean isValid(Prescription data, BaseListAdapter adapter) {
         if (!Settings.isDoctor()){
             return true;

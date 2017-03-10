@@ -2,6 +2,10 @@ package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.doctor.auto.Factory;
@@ -15,6 +19,7 @@ import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.DiagnosisModule;
+import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.DiagnosisReadOnlyViewModel;
 import com.doctor.sun.vm.ItemTextInput;
@@ -27,8 +32,14 @@ import com.doctor.sun.vm.ItemTextInput;
 public class ReadDiagnosisFragment extends RefreshListFragment {
     private DiagnosisModule api = Api.of(DiagnosisModule.class);
     private DiagnosisReadOnlyViewModel viewModel;
+    public static boolean show=false;
+
 
     public static final String TAG = ReadDiagnosisFragment.class.getSimpleName();
+    public static ReadDiagnosisFragment newInstance(String appointmentId,boolean isShow) {
+        show=isShow;
+       return newInstance(appointmentId);
+    }
 
     public static ReadDiagnosisFragment newInstance(String appointmentId) {
 
@@ -50,6 +61,12 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
 
     public String getAppointmentId() {
         return getArguments().getString(Constants.DATA);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -98,6 +115,31 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
         adapter.mapLayout(R.layout.item_prescription, R.layout.item_r_prescription);
         adapter.mapLayout(R.layout.item_doctor, R.layout.item_transfer_doctor);
         return adapter;
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (show) {
+            inflater.inflate(R.menu.menu_change, menu);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.advice_change: {
+                save();
+                return true;
+            }
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void save() {
+        AppointmentDetailActivity.onlyRead=false;
+        AppointmentDetailActivity activity= (AppointmentDetailActivity) getActivity();
+        activity.initPagerAdapter();
     }
 
     @Override

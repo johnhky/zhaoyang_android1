@@ -41,8 +41,9 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
         initAdapter();
         initRecyclerView();
         initRefreshLayout();
+        getDataFrom();
     }
-
+    public void getDataFrom(){}
     private void initRefreshLayout() {
         binding.refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimaryDark));
         binding.refreshLayout.setOnRefreshListener(this);
@@ -54,6 +55,7 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
     protected void initRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(adapter);
+
     }
 
     protected void initAdapter() {

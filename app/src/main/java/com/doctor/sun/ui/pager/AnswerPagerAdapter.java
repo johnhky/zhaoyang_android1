@@ -5,15 +5,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.doctor.sun.Settings;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.fragment.AnswerQuestionFragment;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.fragment.ReadDiagnosisFragment;
 import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
 import com.doctor.sun.ui.fragment.WaitingSuggestionFragment;
+
+import io.ganguo.library.Config;
 
 /**
  * Created by rick on 1/8/2016.
@@ -75,7 +79,11 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
                 case 1: {
                     if (isAppointmentFinished() && canEdit == IntBoolean.FALSE) {
                         return ReadDiagnosisFragment.newInstance(appointmentId);
-                    } else {
+                    }
+//                    if (isAppointmentFinished() ) {
+//                        return ReadDiagnosisFragment.newInstance(appointmentId,canEdit==IntBoolean.TRUE);
+//                    }
+                    else {
                         return DiagnosisFragment.newInstance(appointmentId, recordId);
                     }
                 }

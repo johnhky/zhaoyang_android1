@@ -47,7 +47,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude module: 'recyclerview-v7'
     }
-    compile files('build/intermediates/exploded-aar/io.realm/realm-android-library/2.3.0/jars/classes.jar')
+
 }
 
 

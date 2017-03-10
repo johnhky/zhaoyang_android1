@@ -378,7 +378,10 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
+        <!--单个病人的病历历史显示-->
+        <activity android:name=".ui.activity.doctor.SinglePatientHistoryActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop"/>
         <meta-data
             android:name="com.netease.nim.appKey"
             android:value="${nimKey}" />

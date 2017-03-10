@@ -195,23 +195,23 @@
                     android:textSize="@dimen/font_13" />
             </FrameLayout>
 
-            <FrameLayout
-                android:id="@+id/fl_remind"
-                android:layout_width="@dimen/dp_90"
-                android:layout_height="@dimen/dp_35"
-                android:layout_gravity="end"
-                android:background="@drawable/shape_blue_rect">
+            <!--<FrameLayout-->
+                <!--android:id="@+id/fl_remind"-->
+                <!--android:layout_width="@dimen/dp_90"-->
+                <!--android:layout_height="@dimen/dp_35"-->
+                <!--android:layout_gravity="end"-->
+                <!--android:background="@drawable/shape_blue_rect">-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_default"
-                    android:gravity="center"
-                    android:onClick="@{()->handler.remind(context,data.id,data.record.patientId)}"
-                    android:text="提  醒"
-                    android:textColor="#fff"
-                    android:textSize="@dimen/font_13" />
-            </FrameLayout>
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="@drawable/ripple_default"-->
+                    <!--android:gravity="center"-->
+                    <!--android:onClick="@{()->handler.remind(context,data.id,data.record.patientId)}"-->
+                    <!--android:text="提  醒"-->
+                    <!--android:textColor="#fff"-->
+                    <!--android:textSize="@dimen/font_13" />-->
+            <!--</FrameLayout>-->
 
         </LinearLayout>
 

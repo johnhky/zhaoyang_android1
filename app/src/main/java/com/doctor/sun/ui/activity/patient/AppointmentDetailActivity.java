@@ -21,6 +21,7 @@ import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.pager.AnswerPagerAdapter;
+import com.doctor.sun.ui.pager.ReadAnswerPagerAdapter;
 import com.doctor.sun.util.HistoryEventHandler;
 import com.doctor.sun.util.JacksonUtils;
 import com.google.common.base.Strings;
@@ -36,6 +37,8 @@ public class AppointmentDetailActivity extends TabActivity {
     public static final int POSITION_ANSWER = 0;
     public static final int POSITION_SUGGESTION = 1;
     public static final int POSITION_SUGGESTION_READONLY = 2;
+    public static boolean onlyRead;
+
 
     private HistoryEventHandler eventHandler;
     private View historyButton;
@@ -44,6 +47,7 @@ public class AppointmentDetailActivity extends TabActivity {
     public static Intent makeIntent(Context context, Appointment data, int position) {
         Intent i = intentFor(context, data);
         i.putExtra(Constants.POSITION, position);
+        onlyRead=true;
         return i;
     }
 
@@ -55,18 +59,18 @@ public class AppointmentDetailActivity extends TabActivity {
         addHistoryButton();
     }
 
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        Tasks.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (hasImportDiagnosisArgs()) {
-                    resendImportDiagnosisEvent();
-                }
-            }
-        }, 200);
-    }
+//    @Override
+//    protected void onPostResume() {
+//        super.onPostResume();
+//        Tasks.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (hasImportDiagnosisArgs()) {
+//                    resendImportDiagnosisEvent();
+//                }
+//            }
+//        }, 200);
+//    }
 
     @Override
     protected void onResume() {
@@ -98,6 +102,9 @@ public class AppointmentDetailActivity extends TabActivity {
     @Override
     protected PagerAdapter createPagerAdapter() {
         Appointment data = getData();
+        if(onlyRead){
+            return new ReadAnswerPagerAdapter(getSupportFragmentManager(), data);
+        }
         return new AnswerPagerAdapter(getSupportFragmentManager(), data);
     }
 
@@ -169,23 +176,23 @@ public class AppointmentDetailActivity extends TabActivity {
         };
     }
 
-    public boolean hasImportDiagnosisArgs() {
-        boolean hasImportId = !Strings.isNullOrEmpty(getImportId());
-        boolean hasImportType = getImportType() != -1;
-        return hasImportId && hasImportType;
-    }
-
-    public int getImportType() {
-        return getIntent().getIntExtra(Constants.IMPORT_TYPE, -1);
-    }
-
-    public String getImportId() {
-        return getIntent().getStringExtra(Constants.IMPORT_ID);
-    }
-
-    public void resendImportDiagnosisEvent() {
-        ImportDiagnosisEvent event = new ImportDiagnosisEvent(getData().getId(), getImportId(), getImportType());
-        EventHub.post(event);
-    }
+//    public boolean hasImportDiagnosisArgs() {
+//        boolean hasImportId = !Strings.isNullOrEmpty(getImportId());
+//        boolean hasImportType = getImportType() != -1;
+//        return hasImportId && hasImportType;
+//    }
+//
+//    public int getImportType() {
+//        return getIntent().getIntExtra(Constants.IMPORT_TYPE, -1);
+//    }
+//
+//    public String getImportId() {
+//        return getIntent().getStringExtra(Constants.IMPORT_ID);
+//    }
+//
+//    public void resendImportDiagnosisEvent() {
+//        ImportDiagnosisEvent event = new ImportDiagnosisEvent(getData().getId(), getImportId(),getImportType());
+//        EventHub.post(event);
+//    }
 
 }

@@ -4,6 +4,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.MedicalHistory;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.immutables.SimpleAppointment;
@@ -35,10 +36,15 @@ public interface DiagnosisModule {
 
     @GET("diagnosis/patient-drug")
     Call<ApiDTO<List<Prescription>>> patientDrug(@Query("appointmentId") String appointmentId);
-
+    //医生所有已完成的就诊记录［病历库］
     @GET("diagnosis/doctor-orders")
     Call<ApiDTO<PageDTO<Appointment>>> recordPool(@Query("page") String page, @Query("searchWord") String searchWord);
-
+    //病历库病历列表
+    @GET("diagnosis/doctor-case-records")
+    Call<ApiDTO<PageDTO<MedicalHistory>>>CaseLibarayrList(@Query("page") String page, @Query("searchWord") String searchWord);
+    //单个病人的病历记录
+    @GET("diagnosis/single-record-histories")
+    Call<ApiDTO<PageDTO<Appointment>>> singleHistory(@Query("recordId") String recordId);
 
     @GET("diagnosis/record-histories?type=detail")
     Call<ApiDTO<List<Appointment>>> recordHistory(@Query("recordId") int recordId);
