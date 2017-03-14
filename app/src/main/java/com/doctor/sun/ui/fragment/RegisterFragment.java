@@ -166,6 +166,7 @@ public class RegisterFragment extends SortedListFragment {
                         CountDownUtil.countDown((TextView) v, "重新获取(%d)", "获取验证码", 60);
                     }
                 });
+            Log.e("www","one");
             }
         });
         captcha.setSubTitle("获取验证码");
