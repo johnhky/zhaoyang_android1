@@ -1,6 +1,7 @@
 package com.doctor.sun.vm;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.handler.AppointmentHandler2;

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import alias="handler" type="com.doctor.sun.entity.handler.AppointmentHandler2"/>
+        <variable
+            name="data"
+            type="com.doctor.sun.entity.MedicalHistory" />
+
+        <variable
+            name="vh"
+            type="com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.core.BaseListAdapter"/>
+    </data>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:onClick="@{()->handler.onSingleOrder(vh,data.id)}">
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <!--<TextView-->
+            <!--android:layout_marginLeft="8dp"-->
+            <!--android:layout_marginTop="7dp"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1.2"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="@{data.record_name}"-->
+            <!--android:textColor="@color/dark_36"-->
+            <!--android:textSize="@dimen/font_15"-->
+            <!--android:singleLine="true"-->
+            <!--tools:text="病历名" />-->
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:gravity="center_vertical"
+            android:text="@{handler.getMage(data)}"
+            android:textColor="@color/dark_36"
+            android:textSize="@dimen/font_13"
+            tools:text="(男/3岁)"/>
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_enter"/>
+    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/black_transparent_c8"/>
+    </LinearLayout>
+</layout>

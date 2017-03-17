@@ -16,6 +16,7 @@ import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 9/9/2016.
+ * 补充问卷类
  */
 
 public class TemplatesInventoryActivity extends TabActivity {

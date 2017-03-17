@@ -28,6 +28,7 @@ import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.widget.PickImageDialog;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.FileChooser;
 import com.doctor.sun.util.PermissionUtil;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
@@ -43,7 +44,8 @@ import io.ganguo.library.core.event.EventHub;
 public class CustomActionViewModel {
     public static final int IMAGE_REQUEST_CODE = 100;
     public static final int VIDEO_REQUEST_CODE = 101;
-
+    public static final int CALL_PHONE_ALLOW = 111;
+    public static final int CALL_PHONE_NOT_ALLOW = 112;
     private Activity mActivity;
 
     public CustomActionViewModel(Context context) {
@@ -55,11 +57,11 @@ public class CustomActionViewModel {
         SimpleAdapter adapter = new SimpleAdapter();
 
         if (fromMedicineStore == IntBoolean.FALSE) {
-            adapter.add(audioChatMenu("语音电话"));
+            adapter.add(audioChatMenu("语音电话",CALL_PHONE_ALLOW));
         } else if (fromMedicineStore == IntBoolean.NOT_GIVEN) {
-            adapter.add(audioChatMenu("客服电话"));
+            adapter.add(audioChatMenu("客服电话",CALL_PHONE_ALLOW));
         }else if(fromMedicineStore==IntBoolean.TRUE){
-            adapter.add(audioChatMenu("落地电话"));
+            adapter.add(audioChatMenu("语音电话",CALL_PHONE_NOT_ALLOW));
         }
         adapter.add(galleryMenu());
         adapter.add(cameraMenu());
@@ -173,16 +175,81 @@ public class CustomActionViewModel {
     }
 
     @NonNull
-    private ClickMenu audioChatMenu(String title) {
+    private ClickMenu audioChatMenu(String title, final int type) {
         return new ClickMenu(R.layout.item_chat_menu, R.drawable.nim_message_plus_phone2, title, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Settings.isDoctor()) {
-                    NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
-                    startAVChat(nimTeamId, AVChatType.AUDIO.getValue(), nimTeamId.getDuration());
-                } else {
-                    tryStartAVChat(v, AVChatType.AUDIO.getValue());
+                if(Settings.isDoctor()){
+                    TwoChoiceDialog.show(mActivity, "020-4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
+                        @Override
+                        public void onApplyClick(MaterialDialog dialog) {
+                            try {
+                                Uri uri = Uri.parse("tel:4008352600");
+                                Intent intent = new Intent(Intent.ACTION_CALL, uri);
+                                mActivity.startActivity(intent);
+                            } catch (SecurityException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelClick(MaterialDialog dialog) {
+
+                        }
+                    });
+                }else{
+                    switch (type){
+                        case CALL_PHONE_ALLOW:
+                            TwoChoiceDialog.show(mActivity, "020-4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
+                                @Override
+                                public void onApplyClick(MaterialDialog dialog) {
+                                    try {
+                                        Uri uri = Uri.parse("tel:4008352600");
+                                        Intent intent = new Intent(Intent.ACTION_CALL, uri);
+                                        mActivity.startActivity(intent);
+                                    } catch (SecurityException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelClick(MaterialDialog dialog) {
+
+                                }
+                            });
+                            break;
+                        case CALL_PHONE_NOT_ALLOW:
+                            Toast.makeText(mActivity,"寄药小助手暂时不支持语音电话！",Toast.LENGTH_LONG).show();
+                            break;
+                        default:
+                            break;
+                    }
                 }
+
+          /*      if (Settings.isDoctor()) {
+                   *//* NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
+                    startAVChat(nimTeamId, AVChatType.AUDIO.getValue(), nimTeamId.getDuration());*//*
+                    TwoChoiceDialog.show(mActivity, "020-4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
+                        @Override
+                        public void onApplyClick(MaterialDialog dialog) {
+                            try {
+                                Uri uri = Uri.parse("tel:4008352600");
+                                Intent intent = new Intent(Intent.ACTION_CALL, uri);
+                                mActivity.startActivity(intent);
+                            } catch (SecurityException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelClick(MaterialDialog dialog) {
+
+                        }
+                    });
+                } else {
+                   *//* tryStartAVChat(v, AVChatType.AUDIO.getValue());*//*
+
+                }*/
             }
         });
     }

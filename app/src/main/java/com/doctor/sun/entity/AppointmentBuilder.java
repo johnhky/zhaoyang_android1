@@ -9,6 +9,7 @@ import android.databinding.Observable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.BR;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.CouponType;
 import com.doctor.sun.entity.constans.PayMethod;
@@ -52,9 +54,12 @@ import java.util.List;
 import java.util.Locale;
 
 import io.ganguo.library.core.event.EventHub;
+import retrofit2.Call;
 
 /**
  * Created by rick on 6/7/2016.
+ * 预约操作类
+ *
  */
 
 public class AppointmentBuilder extends BaseObservable implements Parcelable {
@@ -409,20 +414,28 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
     public void applyAppointment(final Context context, final boolean isUseWechat) {
         final String finalCouponId = getFinalCouponId();
 
-        ApiCallback<Appointment> callback = new ApiCallback<Appointment>() {
+        final ApiCallback<Appointment> callback = new ApiCallback<Appointment>() {
             @Override
             protected void handleResponse(Appointment response) {
 //                final String medicalRecordId = String.valueOf(getRecord().getMedicalRecordId());
+              if (response.getId()!=null){
+                  if (isUseWechat) {
+                      AppointmentHandler2.payWithWeChat((Activity) context, finalCouponId, response);
+                  } else {
+                      AppointmentHandler2.payWithAlipay((Activity) context, finalCouponId, response);
+                  }
+              }
 
-                if (isUseWechat) {
-                    AppointmentHandler2.payWithWeChat((Activity) context, finalCouponId, response);
-                } else {
-                    AppointmentHandler2.payWithAlipay((Activity) context, finalCouponId, response);
-                }
+
+            }
+            @Override
+            public void onFailure(Call<ApiDTO<Appointment>> call, Throwable t) {
+                super.onFailure(call, t);
+                Toast.makeText(context,"请检查您的网络情况后再试！",Toast.LENGTH_LONG).show();
             }
         };
-
         applyAppointment(callback);
+
     }
 
     public String getFinalCouponId() {

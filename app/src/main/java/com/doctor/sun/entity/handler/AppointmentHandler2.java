@@ -11,6 +11,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -159,7 +160,7 @@ public class AppointmentHandler2 {
             case AppointmentType.FollowUp:
                 return "随访时间: " + data.getTime_bucket();
             default:
-                return "就诊时间: " + data.getTime_bucket();
+                return data.getTime_bucket();
         }
     }
 
