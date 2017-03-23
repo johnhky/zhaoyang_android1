@@ -23,6 +23,7 @@ import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.bean.MobEventId;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Token;
 import com.doctor.sun.entity.constans.IntBoolean;
@@ -53,6 +54,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import io.ganguo.library.core.event.extend.OnSingleClickListener;
+import retrofit2.Call;
 
 /**
  * Created by rick on 19/8/2016.
@@ -71,9 +73,10 @@ public class RegisterFragment extends SortedListFragment {
 
     public static Intent intentFor(Context context) {
         String title;
-        if (BuildConfig.IS_DOCTOR == IntBoolean.NOT_GIVEN) {
+    /*    if (BuildConfig.IS_DOCTOR == IntBoolean.NOT_GIVEN) {
             title = "注册";
-        } else if (BuildConfig.IS_DOCTOR == IntBoolean.TRUE) {
+        } else*/
+        if (BuildConfig.IS_DOCTOR == IntBoolean.TRUE) {
             title = "医生注册";
         } else {
             title = "患者注册";
@@ -99,14 +102,11 @@ public class RegisterFragment extends SortedListFragment {
     protected void loadMore() {
         super.loadMore();
         List<BaseItem> sortedItems = new ArrayList<>();
-
         // 放在这里是为了监听registerType切换注册身份时，取消选中CheckBox
         final ClickMenu registerPolicy = new ClickMenu(R.layout.item_register_policy, 0, "我已阅读【注册须知】", null);
-
-        if (BuildConfig.IS_DOCTOR == IntBoolean.NOT_GIVEN) {
+ /*       if (BuildConfig.IS_DOCTOR == IntBoolean.NOT_GIVEN) {
             insertSpace(sortedItems);
-
-            final ItemRadioGroup registerType = new ItemRadioGroup(R.layout.item_pick_register_type);
+           /* final ItemRadioGroup registerType = new ItemRadioGroup(R.layout.item_pick_register_type);
             registerType.setSelectedItem(AuthModule.DOCTOR_TYPE);
             registerType.setResultNotEmpty();
             registerType.setTitle("注册类型");
@@ -138,8 +138,7 @@ public class RegisterFragment extends SortedListFragment {
             BaseItem baseItem = new BaseItem();
             baseItem.setItemLayoutId(R.layout.divider_8dp_gray);
             sortedItems.add(baseItem);
-        }
-
+        }*/
         final ItemTextInput2 newPhoneNum = ItemTextInput2.mobilePhoneInput("手机号码", "请输入11位手机号码");
         newPhoneNum.setResultNotEmpty();
         newPhoneNum.setItemLayoutId(R.layout.item_text_input2);
@@ -166,7 +165,6 @@ public class RegisterFragment extends SortedListFragment {
                         CountDownUtil.countDown((TextView) v, "重新获取(%d)", "获取验证码", 60);
                     }
                 });
-            Log.e("www","one");
             }
         });
         captcha.setSubTitle("获取验证码");
@@ -253,12 +251,13 @@ public class RegisterFragment extends SortedListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_next: {
-                done();
+                registerDone();
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
+/*
     private void done() {
         if (BuildConfig.IS_DOCTOR == IntBoolean.NOT_GIVEN) {
             final String registerType;
@@ -289,6 +288,7 @@ public class RegisterFragment extends SortedListFragment {
             registerDone();
         }
     }
+*/
 
     private void registerDone() {
         AuthModule api = Api.of(AuthModule.class);
@@ -302,6 +302,12 @@ public class RegisterFragment extends SortedListFragment {
                     registerPatientSuccess(getContext(), response);
                     MobclickAgent.onEvent(getContext(), MobEventId.PATIENT_REGISTRATION);
                 }
+            }
+
+            @Override
+            public void onFailure(Call<ApiDTO<Token>> call, Throwable t) {
+                super.onFailure(call, t);
+                Toast.makeText(getContext(),"请求失败，请先检查您的网络!",Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -393,6 +399,7 @@ public class RegisterFragment extends SortedListFragment {
     }
 
     public void editDoctorInfo(Context context) {
+        Toast.makeText(context, "注册成功,请完善您的个人信息!", Toast.LENGTH_SHORT).show();
         Doctor data = new Doctor();
         data.setPhone(getAdapter().get("phone").getValue());
         Intent intent = EditDoctorInfoFragment.intentFor(context, data);
