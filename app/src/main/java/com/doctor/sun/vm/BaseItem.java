@@ -183,7 +183,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
     public void addNotNullOrEmptyValidator() {
         resultVerifyMode = UNSPECIFIED;
         errorVisibleMode = ALWAYS_VISIBLE;
-        add(new NotNullOrEmptyValidator("请填写必填项目" + getTitle()));
+        add(new NotNullOrEmptyValidator("请填写" + getTitle()));
     }
 
     public void setError(String error) {
@@ -197,7 +197,7 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         boolean isResultEmpty = Strings.isNullOrEmpty(result);
         if (isResultEmpty) {
             if (resultVerifyMode == NOT__EMPTY_OR_NULL) {
-                setError("请" + getAction() + "必填项目" + getTitle());
+                setError("请" + getAction() + getTitle());
                 return false;
             } else if (resultVerifyMode == CAN__EMPTY_OR_NULL) {
                 setError("");

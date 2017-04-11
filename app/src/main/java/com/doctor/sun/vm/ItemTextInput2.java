@@ -9,9 +9,7 @@ import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Toast;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Questions2;
@@ -132,7 +130,7 @@ public class ItemTextInput2 extends BaseItem {
     @Override
     public String getValue() {
         if (Strings.isNullOrEmpty(result)){
-            return " ";
+            return "";
         }
         return result;
     }

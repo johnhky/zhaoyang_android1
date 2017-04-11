@@ -1,5 +1,8 @@
 package com.doctor.sun.module.wraper;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
@@ -56,7 +59,7 @@ public class IncomeModuleWrapper {
     }
 
     public InComeOverView getIncomeOverView() {
-        String string = Config.getString(Constants.INCOME_OVERVIEW);
+        String string =  Config.getString(Constants.INCOME_OVERVIEW);
         if (!Strings.isNullOrEmpty(string)) {
             return JacksonUtils.fromJson(string, InComeOverView.class);
         } else {

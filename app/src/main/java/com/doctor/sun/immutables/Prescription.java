@@ -19,7 +19,6 @@ import org.immutables.value.Value;
 @JsonDeserialize(as = ImmutablePrescription.class)
 @Value.Modifiable
 public abstract class Prescription extends BaseItem {
-
     public abstract String getDrug_name();
 
     @Value.Default

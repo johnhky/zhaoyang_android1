@@ -31,6 +31,7 @@ import com.squareup.otto.Subscribe;
 import java.util.HashMap;
 import java.util.List;
 
+import io.ganguo.library.common.LoadingHelper;
 import io.ganguo.library.util.Systems;
 
 /**
@@ -88,12 +89,12 @@ public class EditPrescriptionsFragment extends SortedListFragment {
     }
 
     public void save() {
+        LoadingHelper.showMaterLoading(getContext(),"正在保存");
         HashMap<String, String> save = model.save(getAdapter(), new SimpleCallback() {
             @Override
             protected void handleResponse(Object response) {
             }
         });
-
 
         if (save != null) {
             Prescription data = PrescriptionHandler.fromHashMap(save);
@@ -112,6 +113,7 @@ public class EditPrescriptionsFragment extends SortedListFragment {
                         e.printStackTrace();
                     }
                 }
+                LoadingHelper.hideMaterLoading();
                 Intent intent = getActivity().getIntent();
                 intent.putExtra(Constants.DATA, jsonData);
                 getActivity().setResult(Activity.RESULT_OK, intent);

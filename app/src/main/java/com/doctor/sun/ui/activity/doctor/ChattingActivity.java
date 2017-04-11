@@ -143,6 +143,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
                 @Override
                 public void onClick(View v) {
                     EventHub.post(new AppointmentHistoryEvent(getData(), false));
+
                 }
             });
             binding.flContainer.addView(historyButton);
@@ -505,6 +506,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
             @Override
             public void onException(Throwable throwable) {
+                Toast.makeText(ChattingActivity.this,throwable.getMessage().toString(),Toast.LENGTH_LONG).show();
                 binding.refreshLayout.setRefreshing(false);
             }
         });

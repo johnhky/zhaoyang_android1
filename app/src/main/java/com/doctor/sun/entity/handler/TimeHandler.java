@@ -2,21 +2,25 @@ package com.doctor.sun.entity.handler;
 
 
 import android.app.TimePickerDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.entity.constans.TimeType;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.doctor.AddTimeActivity;
+import com.doctor.sun.ui.activity.doctor.TimeActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.vm.LayoutId;
@@ -163,9 +167,12 @@ public class TimeHandler {
                         deleteDialog.dismiss();
                         adapter.removeItem(data);
                         adapter.notifyItemRemoved(vh.getAdapterPosition());
-
-                        LayoutId objectFace = (LayoutId) adapter.get(adapter.size() - 1);
+                           Intent toStart = new Intent();
+                            toStart.setAction("toFinish");
+                            AppContext.me().sendBroadcast(toStart);
+                           /* LayoutId objectFace = (LayoutId) adapter.get(adapter.size()-1);
                         if (objectFace.getItemLayoutId() == R.layout.item_description) {
+
                             adapter.removeItem(adapter.get(adapter.size() - 1));
 //                            adapter.notifyItemRemoved(adapter.size() - 1);
                         }
@@ -175,11 +182,10 @@ public class TimeHandler {
                                 adapter.removeItem(adapter.get(0));
 //                                adapter.notifyItemRemoved(0);
                             }
-                        }
+                        }*/
                     }
                 });
             }
-
             @Override
             public void onCancelClick(MaterialDialog dialog) {
                 dialog.dismiss();

@@ -17,6 +17,7 @@ import com.squareup.otto.Subscribe;
 
 /**
  * Created by rick on 11/30/15.
+ * 就诊类
  */
 public class ConsultingActivity extends BaseFragmentActivity2 {
 

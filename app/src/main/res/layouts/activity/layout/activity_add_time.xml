@@ -14,7 +14,10 @@
             name="description"
             type="com.doctor.sun.entity.Description" />
     </data>
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -393,4 +396,5 @@
             android:textSize="@dimen/font_14"
             android:visibility="@{data.type == 2}" />
     </LinearLayout>
+    </ScrollView>
 </layout>

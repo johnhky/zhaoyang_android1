@@ -6,6 +6,7 @@ import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentDiagnosisBinding;
 import com.doctor.sun.databinding.ItemPrescriptionBinding;
 import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
@@ -88,12 +90,11 @@ public class DiagnosisFragment extends BaseFragment {
 
 
     public static DiagnosisFragment newInstance(String appointmentId, String recordId) {
-
+        DiagnosisFragment fragment = new DiagnosisFragment();
         Bundle args = new Bundle();
         args.putString(Constants.PARAM_APPOINTMENT, appointmentId);
         args.putString(Constants.PARAM_RECORD_ID, recordId);
 
-        DiagnosisFragment fragment = new DiagnosisFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -260,7 +261,6 @@ public class DiagnosisFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         EventHub.register(this);
         shouldScrollDown = false;
-
         api.diagnosisInfo(getAppointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
             @Override
             protected void handleResponse(DiagnosisInfo response) {
@@ -268,6 +268,13 @@ public class DiagnosisFragment extends BaseFragment {
                     return;
                 }
                 isAppointmentFinish = (response.isFinish == IntBoolean.TRUE);
+                if (Settings.isDoctor()) {
+                    if (isAppointmentFinish&&response.canEdit!=0) {
+                        Snackbar snackbar = Snackbar.make(binding.mAddview,"提醒:点击右上角可保存修改",Snackbar.LENGTH_INDEFINITE);
+                        snackbar.getView().setBackgroundColor(getResources().getColor(R.color.black_transparent_80));
+                        snackbar.show();
+                    }
+                }
                 getActivity().invalidateOptionsMenu();
                 viewModel.cloneFromDiagnosisInfo(response);
                 returnType = response.getReturnType();
@@ -279,7 +286,6 @@ public class DiagnosisFragment extends BaseFragment {
                     }
                 }
                 int returnX = response.getReturnX();
-                Log.e(TAG, "handleResponse: " + returnX);
                 binding.needReturn.setIsChecked(returnX == 1);
                 if (response.getDoctorInfo() != null) {
                     doctor = response.getDoctorInfo();
@@ -421,7 +427,6 @@ public class DiagnosisFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage());
                 dialog.dismiss();
             }
         });
@@ -445,11 +450,7 @@ public class DiagnosisFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (isAppointmentFinish) {
-            inflater.inflate(R.menu.menu_edit, menu);
-        } else {
             inflater.inflate(R.menu.menu_save, menu);
-        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -458,11 +459,7 @@ public class DiagnosisFragment extends BaseFragment {
         switch (item.getItemId()) {
             case R.id.action_save: {
                 save();
-                return true;
-            }
-            case R.id.action_edit: {
-                save();
-                return true;
+                break;
             }
         }
         return super.onOptionsItemSelected(item);

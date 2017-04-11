@@ -14,6 +14,7 @@ import com.doctor.sun.ui.activity.PageActivity2;
 
 /**
  * Created by rick on 1/6/2016.
+ * 随访列表
  */
 public class AfterServiceActivity extends PageActivity2 {
     private AfterServiceModule api = Api.of(AfterServiceModule.class);

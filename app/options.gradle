@@ -4,10 +4,8 @@ android {
 
     dexOptions {
         javaMaxHeapSize "4g"
-        incremental true
         preDexLibraries = false
     }
-
     lintOptions {
         abortOnError false
     }

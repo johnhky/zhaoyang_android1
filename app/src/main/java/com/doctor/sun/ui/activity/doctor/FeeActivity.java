@@ -21,6 +21,7 @@ import java.util.Locale;
 
 /**
  * Created by lucas on 12/8/15.
+ * 诊金设置
  */
 public class FeeActivity extends BaseFragmentActivity2 {
 

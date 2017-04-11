@@ -72,9 +72,7 @@ public class LeftDrawerFragmentActivity extends BaseFragmentActivity2 {
                 });
             }
         });
-
         resultButton = binding.fab.getViewStub().inflate();
-
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fly_content, mainContent)
@@ -87,12 +85,12 @@ public class LeftDrawerFragmentActivity extends BaseFragmentActivity2 {
         if (resultButton == null || animating) {
             return;
         }
-        resultButton.animate()
+     /*   resultButton.animate()
                 .translationY(resultButton.getHeight())
                 .alpha(0)
                 .setDuration(250)
                 .setListener(getAnimationListener())
-                .setInterpolator(new DecelerateInterpolator());
+                .setInterpolator(new DecelerateInterpolator());*/
 
     }
 
@@ -101,7 +99,7 @@ public class LeftDrawerFragmentActivity extends BaseFragmentActivity2 {
         if (resultButton == null || animating) {
             return;
         }
-        resultButton.animate()
+       resultButton.animate()
                 .translationY(0)
                 .alpha(1)
                 .setDuration(250)

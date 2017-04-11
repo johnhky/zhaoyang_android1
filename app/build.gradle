@@ -2,8 +2,6 @@ apply from: 'deploy.gradle'
 apply from: 'options.gradle'
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
-
-
 dependencies {
     Map<String, String> libs = rootProject.ext.dependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -16,7 +14,7 @@ dependencies {
     compile 'com.google.guava:guava:19.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.deano2390:MaterialShowcaseView:1.1.0'
-    compile 'com.umeng.analytics:analytics:latest.integration'
+    //compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'com.getbase:floatingactionbutton:1.10.1'
     annotationProcessor "org.immutables:value:2.3.7"
@@ -27,7 +25,6 @@ dependencies {
     // for annotations
     annotationProcessor project(':FactoryProcessor')
     provided project(':FactoryAnnotation')
-    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile libs.junit
     testCompile libs.mockito
     testCompile libs.hamcrest
@@ -48,11 +45,8 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
 }
-
-
 android {
     defaultConfig {
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
-
 }

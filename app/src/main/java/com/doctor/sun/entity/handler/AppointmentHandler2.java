@@ -9,6 +9,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -400,6 +401,7 @@ public class AppointmentHandler2 {
                     } else {
                         return AfterServiceDoneActivity.intentFor(context, id, tab);
                     }
+
                 } else {
                     return AfterServiceDoneActivity.intentFor(context, id, tab);
                 }
@@ -475,6 +477,7 @@ public class AppointmentHandler2 {
         switch (data.getStatus()) {
             case Status.UNPAID: {
                 startPayActivity(vh.itemView.getContext(), data.getId());
+
                 break;
             }
             case Status.PAID: {

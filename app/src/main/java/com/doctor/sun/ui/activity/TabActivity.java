@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityTabTwoBinding;
@@ -44,7 +46,6 @@ public abstract class TabActivity extends BaseFragmentActivity2 {
             binding.vp.setCurrentItem(position);
         }
     }
-
 
     public void initPagerAdapter() {
         pagerAdapter = createPagerAdapter();

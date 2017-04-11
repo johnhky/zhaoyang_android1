@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 /**
  * Created by rick on 14/2/2016.
+ *  取消预约
  */
 public class CancelAppointmentActivity extends BaseFragmentActivity2 {
 

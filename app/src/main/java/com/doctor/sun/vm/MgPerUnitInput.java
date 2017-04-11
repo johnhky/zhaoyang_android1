@@ -2,6 +2,7 @@ package com.doctor.sun.vm;
 
 import android.databinding.Observable;
 
+import com.doctor.sun.R;
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
@@ -11,8 +12,7 @@ import java.util.ArrayList;
  */
 public class MgPerUnitInput extends ItemTextInput2 {
 
-    private ItemRadioDialog dialog = new ItemRadioDialog(0);
-
+        private ItemRadioDialog dialog = new ItemRadioDialog(0);
     public MgPerUnitInput(int itemLayoutId, String title, String hint) {
         super(itemLayoutId, title, hint);
         dialog.setTitle("剂量单位");

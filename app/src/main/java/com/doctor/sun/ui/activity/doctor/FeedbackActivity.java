@@ -23,6 +23,7 @@ import com.doctor.sun.util.JacksonUtils;
 
 /**
  * Created by rick on 12/17/15.
+ * 评价
  */
 public class FeedbackActivity extends BaseFragmentActivity2 {
 

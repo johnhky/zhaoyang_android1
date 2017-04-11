@@ -41,7 +41,7 @@ public class MedicalRecordHandler {
     }
 
     public void updateRecord(Context context, MedicalRecord data) {
-        Intent intent = SingleFragmentActivity.intentFor(context, "病历详情", EditRecordFragment.getArgs(data));
+        Intent intent = SingleFragmentActivity.intentFor(context, "病例详情", EditRecordFragment.getArgs(data));
         context.startActivity(intent);
     }
 

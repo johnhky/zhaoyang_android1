@@ -21,7 +21,6 @@
 -dontskipnonpubliclibraryclasses
 -dontpreverify
 -verbose
-
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
@@ -36,6 +35,7 @@
 -keep interface android.support.v4.app.** { *; }
 -keep public class * extends android.support.v4.**
 -keep public class * extends android.app.Fragment
+-keep class * extends java.lang.annotation.Annotation { *; }#注解包下的所有内容不要混淆
 -keepclasseswithmembernames class * {
     native <methods>;
 }
@@ -52,9 +52,21 @@
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
 }
+#保持 Serializable 不被混淆
+-keepnames class * implements java.io.Serializable
+# 同上
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
 
 # app
 -keep class com.doctor.sun.entity.** {*;}
+-keep class com.doctor.auto.**{*;}
 -keep class com.doctor.sun.bean.** {*;}
 -keep class com.doctor.sun.dto.** {*;}
 -keep class com.doctor.sun.immutables.** {*;}
@@ -94,6 +106,7 @@
 -keep class com.nostra13.universalimageloader.** { *; }
 -keep class com.squareup.** { *; }
 -keep class com.umeng.** { *; }
+-keepclassmembers class **{*;}
 -keep class com.afollestad.** { *; }
 -keep class android.os.** { *; }
 -keep class com.sina.weibo.** { *; }
@@ -131,7 +144,6 @@
 -keep class com.fasterxml.jackson.databind.ObjectWriter {
     public ** writeValueAsString(**);
 }
-
 -keepattributes *Annotation*,EnclosingMethod,Signature
 -keepnames class com.fasterxml.jackson.** { *; }
  -dontwarn com.fasterxml.jackson.databind.**

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +18,8 @@ import com.doctor.auto.Factory;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.constans.QuestionsPath;
 import com.doctor.sun.entity.constans.QuestionsType;
@@ -27,7 +31,12 @@ import com.doctor.sun.event.LoadDrugEvent;
 import com.doctor.sun.event.ModifyStatusEvent;
 import com.doctor.sun.event.RefreshQuestionsEvent;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.model.DiagnosisModel;
 import com.doctor.sun.model.QuestionsModel;
+import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
@@ -41,6 +50,7 @@ import com.squareup.otto.Subscribe;
 import java.util.List;
 
 import io.ganguo.library.core.event.EventHub;
+import retrofit2.Call;
 
 /**
  * Created by rick on 28/7/2016.
@@ -105,6 +115,7 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
+
         model.questions(path, id, questionType, templateType, new Function0<List<? extends SortedItem>>() {
             @Override
             public void apply(List<? extends SortedItem> sortedItems) {
@@ -117,7 +128,6 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
     }
 
     protected void onFinishLoadMore(List<? extends SortedItem> sortedItems) {
-
     }
 
     @NonNull

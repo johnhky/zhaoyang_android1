@@ -21,6 +21,7 @@ import retrofit2.Call;
 
 /**
  * Created by lucas on 12/22/15.
+ * 修改密码
  */
 public class ChangePswActivity extends BaseFragmentActivity2 {
     private ActivityPasswordBinding binding;

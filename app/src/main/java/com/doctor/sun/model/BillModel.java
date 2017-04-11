@@ -92,7 +92,7 @@ public class BillModel {
                         tab1.putString(Constants.FRAGMENT_TITLE, "处方量");
                         Bundle tab2 = SubsidyDetailFragment.getArgs(time);
                         tab2.putString(Constants.FRAGMENT_TITLE, "详情");
-                        Intent intent = BundlesTabActivity.intentFor(v.getContext(), tab1, tab2);
+                        Intent intent = BundlesTabActivity.intentFor(v.getContext(), tab2, tab1);
                         intent.putExtra(Constants.ACTIVITY_TITLE, "补贴");
                         v.getContext().startActivity(intent);
                     }

@@ -105,7 +105,7 @@ public class DiagnosisModel {
                     focusCurrent.clearFocus();
                 }
                 Bundle args = EditPrescriptionsFragment.getArgs(null, false);
-                Intent intent = SingleFragmentActivity.intentFor(context, "添加/编辑处方", args);
+                Intent intent = SingleFragmentActivity.intentFor(context, "添加/编辑用药", args);
                 context.startActivityForResult(intent, Constants.PRESCRITION_REQUEST_CODE);
             }
         };

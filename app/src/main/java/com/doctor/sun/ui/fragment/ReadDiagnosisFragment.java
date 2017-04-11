@@ -1,19 +1,32 @@
 package com.doctor.sun.ui.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import java.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.doctor.auto.Factory;
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.constans.IntBoolean;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.event.HideFABEvent;
 import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.http.Api;
@@ -24,17 +37,35 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.DiagnosisReadOnlyViewModel;
 import com.doctor.sun.vm.ItemTextInput;
 
+import io.ganguo.library.util.date.Date;
+
 /**
  * Created by rick on 29/6/2016.
  * 就诊医生建议只读
+ * 03-24 09:45:29.903 4448-4448/com.doctor.sun.dev E/eee:
+ * DiagnosisInfo{id=1163, doctorId=69, id=2630, isDiagnosis=1,
+ * perception={0=0, 1=1, otherContent= }, thinking={0=1, otherContent= },
+ * pipedream={0=0, 1=1, otherContent= }, emotion={0=1, otherContent= },
+ * memory={0=1, otherContent= }, insight={0=1, otherContent= },
+ * description='', diagnosisRecord=, currentStatus=0, recovered=0,
+ * treatment=0, effect=0, prescription=[Prescription{drug_name=阿戈美拉汀片(阿羹宁),
+ * scientific_name=, frequency=隔天, morning=3, noon= , night= , before_sleep= ,
+ * drug_unit=粒, remark= , take_medicine_days=28, units=毫克, specification=5,
+ * drug_id=, dose_units=, total_num=0.0, total_fee=0.0},
+ * Prescription{drug_name=阿立哌唑口腔崩解片(博思清), scientific_name=,
+ * frequency=每月, morning=2, noon= , night= , before_sleep= , drug_unit=粒,
+ * remark= , take_medicine_days=28, units=毫克, specification=5,
+ * drug_id=, dose_units=, total_num=0.0, total_fee=0.0}], doctorAdvince='坚持治疗,定期复诊',
+ * returnX=0, returnType=0, returnPaid=0, isAccept=0, returnTime=0, money=0, returnAppointmentId=0
+ * , doctorRequire=0, comment='', status=4, hasPay=0, date='null', time='null', doctorInfo=null}
+
  */
 @Factory(type = BaseFragment.class, id = "ReadDiagnosisFragment")
 public class ReadDiagnosisFragment extends RefreshListFragment {
     private DiagnosisModule api = Api.of(DiagnosisModule.class);
     private DiagnosisReadOnlyViewModel viewModel;
     public static boolean show=false;
-
-
+    private int canEdit = 0;
     public static final String TAG = ReadDiagnosisFragment.class.getSimpleName();
     public static ReadDiagnosisFragment newInstance(String appointmentId,boolean isShow) {
         show=isShow;
@@ -75,11 +106,18 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
         api.diagnosisInfo(getAppointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
             @Override
             protected void handleResponse(DiagnosisInfo response) {
-                viewModel = new DiagnosisReadOnlyViewModel();
+                 viewModel = new DiagnosisReadOnlyViewModel();
                 viewModel.cloneFromDiagnosisInfo(response);
                 getAdapter().onFinishLoadMore(true);
                 getAdapter().clear();
                 getAdapter().addAll(viewModel.toList());
+                if(Settings.isDoctor()) {
+                    if (hasOptionsMenu()==true&&canEdit!=0){
+                        Snackbar snackbar = Snackbar.make(binding.recyclerView,"提醒：点击右上角可修改建议",Snackbar.LENGTH_INDEFINITE);
+                        snackbar.getView().setBackgroundColor(getResources().getColor(R.color.black_transparent_80));
+                        snackbar.show();
+                    }
+                }
                 getAdapter().notifyDataSetChanged();
                 binding.swipeRefresh.setRefreshing(false);
                 if (getAdapter().isEmpty()) {
@@ -100,6 +138,7 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
                 } else {
                     binding.emptyIndicator.setVisibility(View.GONE);
                 }
+
             }
         });
     }
@@ -118,17 +157,21 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (show) {
-            inflater.inflate(R.menu.menu_change, menu);
-        }
         super.onCreateOptionsMenu(menu, inflater);
+        if (show) {
+            if(menu.size()==0){
+                inflater.inflate(R.menu.menu_change, menu);
+                canEdit = 1;
+            }
+        }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.advice_change: {
-                save();
+                update();
                 return true;
             }
 
@@ -136,7 +179,7 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void save() {
+    private void update() {
         AppointmentDetailActivity.onlyRead=false;
         AppointmentDetailActivity activity= (AppointmentDetailActivity) getActivity();
         activity.initPagerAdapter();

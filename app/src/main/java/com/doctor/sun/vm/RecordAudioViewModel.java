@@ -156,7 +156,7 @@ public class RecordAudioViewModel extends BaseObservable implements IAudioRecord
     public String getPopLabel() {
         switch (status) {
             case IDLE: {
-                return "按住说话";
+                return "按住说话（单次限时60s）";
             }
             case STARTED: {
                 return "上滑取消发送";
@@ -172,7 +172,7 @@ public class RecordAudioViewModel extends BaseObservable implements IAudioRecord
     public String getStatusLabel() {
         switch (status) {
             case IDLE: {
-                return "按住说话";
+                return "按住说话（单次限时60s）";
             }
             case STARTED: {
                 return "松开手指发送语音";
@@ -181,7 +181,7 @@ public class RecordAudioViewModel extends BaseObservable implements IAudioRecord
                 return "松开手指取消发送";
             }
             default:
-                return "按住说话";
+                return "按住说话（单次限时60s）";
         }
     }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -24,7 +25,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_70"
+        android:layout_height="@dimen/dp_80"
         android:layout_marginLeft="@dimen/dp_13"
         android:layout_marginStart="@dimen/dp_13"
         android:animateLayoutChanges="true"
@@ -46,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingTop="@dimen/dp_4">
 
                 <TextView
@@ -60,7 +61,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-
                     <EditText
                         android:id="@+id/et_input"
                         android:layout_width="0dp"
@@ -71,7 +71,7 @@
                         android:focusableInTouchMode="@{data.enabled}"
                         android:gravity="center_horizontal"
                         android:hint="@{data.hint}"
-                        android:inputType="@{data.inputType}"
+                        android:inputType="number"
                         android:maxLength="@{data.maxLength}"
                         android:maxLines="1"
                         android:text="@={data.result}"
@@ -80,25 +80,28 @@
                         android:textSize="@dimen/font_13"
                         app:drawableLeftCompat="@{R.drawable.ic_pencil_grey_15dp}" />
 
-                    <Button
+                    <LinearLayout
                         android:id="@+id/btn_title"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/dp_0"
                         android:layout_height="@dimen/dp_30"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/dp_13"
                         android:layout_marginRight="@dimen/dp_13"
-                        android:background="@drawable/ripple_blue_rect"
-                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:background="@drawable/spinner_2"
                         android:minWidth="@dimen/dp_65"
-                        android:onClick="@{()->data.dialog.showOptions(context)}"
-                        android:paddingEnd="@dimen/dp_6"
-                        android:paddingLeft="@dimen/dp_6"
-                        android:paddingRight="@dimen/dp_6"
-                        android:paddingStart="@dimen/dp_6"
-                        android:selected="@{true}"
-                        android:text="@{data.dialog.selectedItemText}"
-                        android:textColor="@color/text_color_blue"
-                        android:textSize="@dimen/font_15" />
+                        android:onClick="@{(thisview)->data.dialog.showPopupWindow(thisview,context)}"
+                        android:selected="@{true}">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:text="@{data.dialog.selectedItemText}"
+                            android:textColor="@color/text_color_black"
+                            android:textSize="@dimen/font_15" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
@@ -111,13 +114,5 @@
                 android:textAppearance="@style/AppTheme.TextErrorAppearance"
                 android:visibility="@{data.errorVisible(data.error)}" />
         </LinearLayout>
-
-
-        <View
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:background="@color/divider_color" />
-
     </FrameLayout>
 </layout>

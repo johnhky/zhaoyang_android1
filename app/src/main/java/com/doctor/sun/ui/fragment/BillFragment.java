@@ -2,6 +2,7 @@ package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.Locale;
 
 import io.ganguo.library.core.event.EventHub;
+import retrofit2.Call;
 
 /**
  * Created by rick on 16/2/2017.
@@ -41,7 +43,6 @@ public class BillFragment extends SortedListFragment {
 
     private BillModel model;
     private String time;
-
     public static Bundle getArgs(String time) {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FRAGMENT_NAME, TAG);
@@ -100,44 +101,56 @@ public class BillFragment extends SortedListFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_bill_history) {
-            IncomeModuleWrapper.getInstance().monthList().enqueue(new SimpleCallback<ArrayList<String>>() {
-                @Override
-                protected void handleResponse(ArrayList<String> response) {
-                    MaterialDialog.Builder builder = new MaterialDialog.Builder(getContext());
-                    builder.title("历史账单");
-                    builder.items(response)
-                            .itemsCallback(new MaterialDialog.ListCallback() {
-                                @Override
-                                public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                                    time = String.valueOf(text);
-                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM", Locale.CHINA);
-                                    try {
-                                        Date parse = format.parse(time);
-                                        Calendar instance = Calendar.getInstance();
-                                        instance.setTime(parse);
-                                        int month = instance.get(Calendar.MONTH) + 1;
-                                        int year = instance.get(Calendar.YEAR);
-                                        EventHub.post(new OnTitleChangedEvent(year + "年" + month + "月收入明细"));
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                    IncomeModuleWrapper.getInstance().refreshBillDetail(time);
-                                }
-                            });
-                    builder.build().show();
-                }
-
-                @Override
-                protected void handleApi(ApiDTO<ArrayList<String>> body) {
-                    super.handleApi(body);
-                    if (body == null) {
-                        Toast.makeText(getContext(), "没有任何历史账单", Toast.LENGTH_SHORT).show();
+        switch (item.getItemId()){
+            case R.id.action_bill_history:
+                IncomeModuleWrapper.getInstance().monthList().enqueue(new SimpleCallback<ArrayList<String>>() {
+                    @Override
+                    protected void handleBody(ApiDTO<ArrayList<String>> body) {
+                        super.handleBody(body);
+                        if (body==null){
+                            Toast.makeText(getContext(),"没有任何历史账单",Toast.LENGTH_LONG).show();
+                        }
                     }
-                }
-            });
 
-            return true;
+                    @Override
+                    public void onFailure(Call<ApiDTO<ArrayList<String>>> call, Throwable t) {
+                        super.onFailure(call, t);
+                        if (t.getMessage()==null){
+                            Toast.makeText(getContext(),"没有任何历史账单",Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    protected void handleResponse(ArrayList<String> response) {
+                        MaterialDialog.Builder builder = new MaterialDialog.Builder(getContext());
+                        builder.title("历史账单");
+                        builder.items(response)
+                                .itemsCallback(new MaterialDialog.ListCallback() {
+                                    @Override
+                                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                                        time = String.valueOf(text);
+                                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM", Locale.CHINA);
+                                        try {
+                                            Date parse = format.parse(time);
+                                            Calendar instance = Calendar.getInstance();
+                                            instance.setTime(parse);
+                                            int month = instance.get(Calendar.MONTH) + 1;
+                                            int year = instance.get(Calendar.YEAR);
+                                            EventHub.post(new OnTitleChangedEvent(year + "年" + month + "月收入明细"));
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        IncomeModuleWrapper.getInstance().refreshBillDetail(time);
+                                    }
+                                });
+
+                        builder.build().show();
+                    }
+
+                });
+                break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

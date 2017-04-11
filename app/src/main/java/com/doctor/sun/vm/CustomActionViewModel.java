@@ -55,9 +55,8 @@ public class CustomActionViewModel {
     @NonNull
     public SimpleAdapter getSimpleAdapter(int fromMedicineStore) {
         SimpleAdapter adapter = new SimpleAdapter();
-
         if (fromMedicineStore == IntBoolean.FALSE) {
-            adapter.add(audioChatMenu("语音电话",CALL_PHONE_ALLOW));
+            adapter.add(audioChat("语音电话"));
         } else if (fromMedicineStore == IntBoolean.NOT_GIVEN) {
             adapter.add(audioChatMenu("客服电话",CALL_PHONE_ALLOW));
         }else if(fromMedicineStore==IntBoolean.TRUE){
@@ -173,14 +172,27 @@ public class CustomActionViewModel {
             }
         });
     }
-
+@NonNull
+private ClickMenu audioChat(String title){
+ return    new ClickMenu(R.layout.item_chat_menu, R.drawable.nim_message_plus_phone2, title, new View.OnClickListener() {
+     @Override
+     public void onClick(View v) {
+            if(Settings.isDoctor()){
+                NimMsgInfo nimTeamId = (NimMsgInfo) mActivity;
+                startAVChat(nimTeamId, AVChatType.AUDIO.getValue(), nimTeamId.getDuration());
+            }else{
+                tryStartAVChat(v, AVChatType.AUDIO.getValue());
+            }
+     }
+ });
+}
     @NonNull
     private ClickMenu audioChatMenu(String title, final int type) {
         return new ClickMenu(R.layout.item_chat_menu, R.drawable.nim_message_plus_phone2, title, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(Settings.isDoctor()){
-                    TwoChoiceDialog.show(mActivity, "020-4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
+                    TwoChoiceDialog.show(mActivity, "4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
                         @Override
                         public void onApplyClick(MaterialDialog dialog) {
                             try {
@@ -200,7 +212,7 @@ public class CustomActionViewModel {
                 }else{
                     switch (type){
                         case CALL_PHONE_ALLOW:
-                            TwoChoiceDialog.show(mActivity, "020-4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
+                            TwoChoiceDialog.show(mActivity, "4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
                                 @Override
                                 public void onApplyClick(MaterialDialog dialog) {
                                     try {

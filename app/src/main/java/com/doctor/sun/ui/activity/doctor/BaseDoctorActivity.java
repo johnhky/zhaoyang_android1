@@ -10,6 +10,7 @@ import com.squareup.otto.Subscribe;
 
 /**
  * Created by rick on 11/30/15.
+ * 医生端基类
  */
 public class BaseDoctorActivity extends BaseFragmentActivity2  {
 

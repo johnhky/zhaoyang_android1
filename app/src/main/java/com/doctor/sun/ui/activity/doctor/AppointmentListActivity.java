@@ -12,6 +12,7 @@ import com.doctor.sun.ui.activity.PageActivity2;
 
 /**
  * Created by rick on 11/20/15.
+ * 已预约患者
  */
 public class AppointmentListActivity extends PageActivity2 {
     private AppointmentModule api = Api.of(AppointmentModule.class);

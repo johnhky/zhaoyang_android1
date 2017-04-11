@@ -89,7 +89,6 @@ public class RegisterFragment extends SortedListFragment {
         bundle.putString(Constants.FRAGMENT_NAME, TAG);
         return bundle;
     }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -104,17 +103,30 @@ public class RegisterFragment extends SortedListFragment {
         List<BaseItem> sortedItems = new ArrayList<>();
         // 放在这里是为了监听registerType切换注册身份时，取消选中CheckBox
         final ClickMenu registerPolicy = new ClickMenu(R.layout.item_register_policy, 0, "我已阅读【注册须知】", null);
- /*       if (BuildConfig.IS_DOCTOR == IntBoolean.NOT_GIVEN) {
-            insertSpace(sortedItems);
-           /* final ItemRadioGroup registerType = new ItemRadioGroup(R.layout.item_pick_register_type);
-            registerType.setSelectedItem(AuthModule.DOCTOR_TYPE);
-            registerType.setResultNotEmpty();
-            registerType.setTitle("注册类型");
-            registerType.setResultNotEmpty();
-            registerType.setItemId("type");
-            registerType.setPosition(sortedItems.size());
-            sortedItems.add(registerType);
+      if (BuildConfig.IS_DOCTOR==IntBoolean.FALSE){
+            BaseItem type = new BaseItem(R.layout.divider_1px);
+            type.setItemId("type");
+          type.setPosition(AuthModule.PATIENT_TYPE);
+            sortedItems.add(type);
+        }
 
+      /* if (BuildConfig.IS_DOCTOR == IntBoolean.NOT_GIVEN) {
+            *//*insertSpace(sortedItems);*//*
+          *//*  final ItemRadioGroup registerType = new ItemRadioGroup(R.layout.item_pick_register_type);*//*
+           BaseItem registerType= new BaseItem();
+           if(BuildConfig.IS_DOCTOR==IntBoolean.TRUE){
+               registerType.setPosition(AuthModule.DOCTOR_TYPE);
+           }else{
+               registerType.setPosition(AuthModule.PATIENT_TYPE);
+           }
+            registerType.setResultNotEmpty();
+          *//* registerType.setSelectedItem(AuthModule.DOCTOR_TYPE);*//*
+      *//*      registerType.setTitle("注册类型");
+            registerType.setResultNotEmpty();*//*
+            registerType.setItemId("type");
+
+            sortedItems.add(registerType);
+                *//*
             final String doctorRemarks = "*注册为医生，可以通过昭阳医生服务更多的患者";
             final String patientRemarks = "*注册为患者，可以通过昭阳医生找到更多的名医";
             final ItemTextInput2 imgPs = new ItemTextInput2(R.layout.item_r_orange_text, doctorRemarks, "");
@@ -137,7 +149,7 @@ public class RegisterFragment extends SortedListFragment {
 
             BaseItem baseItem = new BaseItem();
             baseItem.setItemLayoutId(R.layout.divider_8dp_gray);
-            sortedItems.add(baseItem);
+            sortedItems.add(baseItem);*//*
         }*/
         final ItemTextInput2 newPhoneNum = ItemTextInput2.mobilePhoneInput("手机号码", "请输入11位手机号码");
         newPhoneNum.setResultNotEmpty();
@@ -307,7 +319,6 @@ public class RegisterFragment extends SortedListFragment {
             @Override
             public void onFailure(Call<ApiDTO<Token>> call, Throwable t) {
                 super.onFailure(call, t);
-                Toast.makeText(getContext(),"请求失败，请先检查您的网络!",Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -348,12 +359,11 @@ public class RegisterFragment extends SortedListFragment {
         HashMap<String, String> result = new HashMap<>();
         for (int i = 0; i < adapter.size(); i++) {
             BaseItem item = (BaseItem) adapter.get(i);
-
             if (!item.isValid("")) {
                 if (!item.resultCanEmpty()) {
                     item.addNotNullOrEmptyValidator();
                 }
-                Toast.makeText(getContext(), item.errorMsg(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), item.errorMsg()+"", Toast.LENGTH_SHORT).show();
                 return null;
             }
 
@@ -375,13 +385,13 @@ public class RegisterFragment extends SortedListFragment {
         } else if (BuildConfig.IS_DOCTOR == IntBoolean.FALSE) {
             result.put("type", TYPE_PATIENT);
         }
-
         return result;
     }
 
 
     private void registerPatientSuccess(Context context, Token response) {
         if (response != null) {
+            Toast.makeText(context,"注册成功!",Toast.LENGTH_LONG).show();
             TokenCallback.handleToken(response);
             Intent i = PMainActivity2.makeIntent(context);
             context.startActivity(i);

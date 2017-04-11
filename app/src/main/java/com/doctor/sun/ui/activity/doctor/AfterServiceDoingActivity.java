@@ -3,6 +3,7 @@ package com.doctor.sun.ui.activity.doctor;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.http.Api;
@@ -25,6 +27,7 @@ import io.ganguo.library.core.event.EventHub;
 
 /**
  * Created by rick on 3/6/2016.
+ * 可修改医生建议类
  */
 public class AfterServiceDoingActivity extends TabActivity {
 
@@ -71,6 +74,7 @@ public class AfterServiceDoingActivity extends TabActivity {
                         @Override
                         protected void handleResponse(Appointment response) {
                             EventHub.post(new AppointmentHistoryEvent(response, false));
+
                         }
                     });
                 }

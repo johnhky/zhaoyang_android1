@@ -59,7 +59,5 @@
                 android:textColor="@color/white" />
 
         </LinearLayout>
-
-
     </LinearLayout>
 </layout>

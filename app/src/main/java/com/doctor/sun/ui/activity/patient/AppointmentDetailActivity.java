@@ -86,6 +86,7 @@ public class AppointmentDetailActivity extends TabActivity {
                 public void onClick(View v) {
                     Appointment appointment = getData();
                     EventHub.post(new AppointmentHistoryEvent(appointment, false));
+
                 }
             });
             binding.flContainer.addView(historyButton);
@@ -129,12 +130,12 @@ public class AppointmentDetailActivity extends TabActivity {
         if (historyButton == null || animating) {
             return;
         }
-        historyButton.animate()
+/*        historyButton.animate()
                 .translationY(historyButton.getHeight())
                 .alpha(0)
                 .setDuration(250)
                 .setListener(getAnimationListener())
-                .setInterpolator(new DecelerateInterpolator());
+                .setInterpolator(new DecelerateInterpolator());*/
 
     }
 
@@ -143,12 +144,12 @@ public class AppointmentDetailActivity extends TabActivity {
         if (historyButton == null || animating) {
             return;
         }
-        historyButton.animate()
+   /*     historyButton.animate()
                 .translationY(0)
                 .alpha(1)
                 .setDuration(250)
                 .setListener(getAnimationListener())
-                .setInterpolator(new DecelerateInterpolator());
+                .setInterpolator(new DecelerateInterpolator());*/
     }
 
     @NonNull

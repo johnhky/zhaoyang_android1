@@ -52,6 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@{data.title}"
+                    android:textColor="@color/text_color_black"
                     android:textAppearance="@style/AppTheme.TextFloatLabelAppearance" />
 
                 <EditText

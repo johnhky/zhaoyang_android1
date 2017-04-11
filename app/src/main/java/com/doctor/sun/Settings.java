@@ -20,9 +20,13 @@ import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vm.ItemSwitch;
 import com.google.common.base.Strings;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.msg.MsgService;
 
 import java.util.HashMap;
 
+import cn.jpush.android.api.JPushInterface;
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
 import retrofit2.Call;
@@ -229,7 +233,22 @@ public class Settings {
                 } else {
                     Toast.makeText(AppContext.me(), "成功关闭后台推送", Toast.LENGTH_SHORT).show();
                     itemSwitch.setContent("已关闭后台推送");
-                }
+               /*     NIMClient.getService(MixPushService.class).enable(false).setCallback(new RequestCallback<Void>(){
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+
+                        @Override
+                        public void onException(Throwable throwable) {
+
+                        }
+
+                        @Override
+                        public void onFailed(int i) {
+
+                        }
+                    }); */               }
             }
         });
         return config;

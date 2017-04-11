@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-<data>
-    <variable
-        name="data"
-        type="com.doctor.sun.immutables.Appointment" />
-</data>
-<LinearLayout
-    android:id="@+id/item_doctor_remind"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_appointment_mind"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:gravity="center"
@@ -19,4 +13,3 @@
         android:textColor="@color/white"
         android:layout_height="wrap_content" />
 </LinearLayout>
-</layout>

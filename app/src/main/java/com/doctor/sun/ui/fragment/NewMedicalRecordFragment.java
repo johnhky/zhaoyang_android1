@@ -145,7 +145,7 @@ public class NewMedicalRecordFragment extends SortedListFragment {
 
     private void viewRecordDetail(MedicalRecord medicalRecord) {
         Bundle bundle = EditRecordFragment.getArgs(medicalRecord);
-        Intent intent = SingleFragmentActivity.intentFor(getActivity(), "病历详情", bundle);
+        Intent intent = SingleFragmentActivity.intentFor(getActivity(), "病例详情", bundle);
         getActivity().startActivity(intent);
 
     }

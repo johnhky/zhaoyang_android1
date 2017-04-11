@@ -315,8 +315,8 @@
         <activity
             android:name=".ui.activity.SingleFragmentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        //TODO 打包的时候注释掉
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+<!--        //TODO 打包的时候注释掉
         <activity
             android:name=".ui.activity.TestFragmentActivity"
             android:screenOrientation="portrait">
@@ -325,7 +325,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
+        </activity>-->
         <activity
             android:name=".ui.activity.LeftDrawerFragmentActivity"
             android:screenOrientation="portrait"

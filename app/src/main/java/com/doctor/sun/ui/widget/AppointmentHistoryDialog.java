@@ -232,6 +232,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
             }
             case R.id.fab_all: {
                 showImportAlert(ImportType.ALL);
+
                 break;
             }
             case R.id.fab_diagnosis: {
@@ -267,13 +268,13 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
         }
         if (notStartedYet()) {
             new MaterialDialog.Builder(getContext())
-                    .content("当前咨询为开始，您可以选择提前就诊或等待咨询开始后再进行导入操作。")
+                    .content("当前咨询未开始，您可以选择提前就诊或等待咨询开始后再进行导入操作。")
                     .positiveText("知道了")
                     .show();
             return;
         }
 
-        String from = appointment.getId();
+        String from = appointment.getRecord_id();
         String toId = data.get(currentIndex).getId();
         if (from != null && from.equals(toId)) {
             Toast.makeText(getContext(), "此次导入的病历记录跟填写的病历记录为同一个预约单", Toast.LENGTH_SHORT).show();

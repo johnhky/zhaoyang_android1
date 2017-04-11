@@ -29,6 +29,7 @@ import java.util.Map;
 
 /**
  * Created by rick on 27/10/2016.
+ *
  */
 
 public class PrescriptionHandler {
@@ -45,7 +46,7 @@ public class PrescriptionHandler {
             return;
         }
         Bundle args = EditPrescriptionsFragment.getArgs(data, false);
-        Intent intent = SingleFragmentActivity.intentFor(context, "添加/编辑处方", args);
+        Intent intent = SingleFragmentActivity.intentFor(context, "添加/编辑用药", args);
         Messenger messenger = new Messenger(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
@@ -232,10 +233,10 @@ public class PrescriptionHandler {
     public static StringBuilder getAmountV(Prescription data) {
         StringBuilder builder = new StringBuilder();
         ArrayList<String> numbers = numbers(data);
-        for (int i = 0; i < numbers.size(); i++) {
-            String amount = numbers.get(i);
-            if (null != amount && !amount.equals("") && !amount.equals("0")) {
-                builder.append(keys[i]).append(amount).append(data.getDrug_unit()).append(",");
+       for (int i = 0; i < numbers.size(); i++) {
+            String amonut = numbers.get(i);
+            if(null!=amonut.trim()&&!amonut.trim().equals("0")&&!amonut.trim().equals("")){
+                builder.append(keys[i]).append(amonut).append(data.getDrug_unit()).append(",");
             }
         }
         builder.deleteCharAt(builder.length() - 1);
@@ -269,10 +270,10 @@ public class PrescriptionHandler {
 
     public static ArrayList<String> numbers(Prescription data) {
         ArrayList<String> strings = new ArrayList<>();
-        strings.add(data.getMorning());
-        strings.add(data.getNoon());
-        strings.add(data.getNight());
-        strings.add(data.getBefore_sleep());
+            strings.add(data.getMorning());
+            strings.add(data.getNoon());
+            strings.add(data.getNight());
+            strings.add(data.getBefore_sleep());
         return strings;
     }
 

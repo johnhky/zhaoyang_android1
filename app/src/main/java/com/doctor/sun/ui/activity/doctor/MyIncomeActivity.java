@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
@@ -67,6 +68,8 @@ public class MyIncomeActivity extends CoordinatorActivity {
         getAdapter().insert(monthRevenue());
         getAdapter().insert(weekRevenue());
         getAdapter().insert(dayRevenue());
+        insertLargeSpace(6);
+            getAdapter().insert(getOderReminder());
     }
 
     private void insertSpace(int p) {
@@ -98,7 +101,7 @@ public class MyIncomeActivity extends CoordinatorActivity {
                         Calendar instance = Calendar.getInstance();
                         DateFormat format = new SimpleDateFormat("yyyy-MM", Locale.CHINA);
                         String currentTime = format.format(instance.getTime());
-                        Bundle args = BillFragment.getArgs(currentTime);
+                        Bundle args = BillFragment.getArgs("");
                         Intent intent = SingleFragmentActivity.intentFor(v.getContext(), "当月收入明细", args);
                         v.getContext().startActivity(intent);
                     }
@@ -152,5 +155,21 @@ public class MyIncomeActivity extends CoordinatorActivity {
         baseMenu.setBackgroundColor(R.color.white);
         baseMenu.setTitleColor(R.color.dark_36);
         return baseMenu;
+    }
+
+    private void insertLargeSpace(int p) {
+        BaseItem item = new BaseItem(R.layout.space_150dp);
+        item.setItemId("SPACE" + p);
+        item.setBackgroundColor(R.color.gray_eb);
+        item.setPosition(p);
+        getAdapter().insert(item);
+    }
+
+    private Description getOderReminder() {
+        Description getReminder = new Description(R.layout.item_order_reminder, api.getIncomeOverView().explain);
+        getReminder.setItemId("explain");
+        getReminder.setSpan(12);
+        getReminder.setPosition(7);
+        return getReminder;
     }
 }

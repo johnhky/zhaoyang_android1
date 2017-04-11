@@ -38,6 +38,7 @@ import java.util.List;
 
 /**
  * Created by rick on 11/25/15.
+ * 通讯录
  */
 public class ContactActivity extends BaseFragmentActivity2 {
     public static final int DOCTORS_CONTACT = 33;

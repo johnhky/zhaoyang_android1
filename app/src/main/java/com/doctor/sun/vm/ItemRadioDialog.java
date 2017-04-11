@@ -3,6 +3,9 @@ package com.doctor.sun.vm;
 import android.content.Context;
 import android.databinding.Bindable;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListPopupWindow;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.BR;
@@ -42,6 +45,24 @@ public class ItemRadioDialog extends BaseItem implements LayoutId {
             return "请选择" + getTitle();
         }
         return options.get(selectedItem);
+    }
+
+    public void showPopupWindow(View view,Context context){
+        ArrayList<String> items = options;
+        final ListPopupWindow listPopupWindow = new ListPopupWindow(context);
+        listPopupWindow.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1,items));
+        listPopupWindow.setWidth(view.getWidth());
+        listPopupWindow.setHeight(450);
+        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedItem = position;
+                listPopupWindow.dismiss();
+                notifyChange();
+            }
+        });
+        listPopupWindow.setAnchorView(view);
+        listPopupWindow.show();
     }
 
     public void showOptions(Context context) {

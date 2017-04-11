@@ -1,7 +1,9 @@
 package com.doctor.sun.ui.activity.doctor;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,7 +37,7 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
     private SimpleAdapter adapter;
     private ActivityTimeBinding binding;
     private TimeModuleWrapper api = TimeModuleWrapper.getInstance();
-
+    private IntentFilter getBorad = new IntentFilter();
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, TimeActivity.class);
         return i;
@@ -61,6 +63,8 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
         binding.rvTime.setLayoutManager(new LinearLayoutManager(this));
         binding.rvTime.setAdapter(adapter);
         binding.setHandler(new TimeHandler());
+        getBorad.addAction("toFinish");
+        registerReceiver(broadcastReceiver,getBorad);
     }
 
     private void initData() {
@@ -159,5 +163,20 @@ public class TimeActivity extends BaseFragmentActivity2 implements TimeHandler.G
     @Override
     public int getMidTitle() {
         return R.string.title_times;
+    }
+
+    public BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+                    if (intent.getAction()=="toFinish"){
+                        finish();
+                    }
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
     }
 }

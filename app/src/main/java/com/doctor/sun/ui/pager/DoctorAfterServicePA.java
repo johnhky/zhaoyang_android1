@@ -3,6 +3,8 @@ package com.doctor.sun.ui.pager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.constans.QuestionsPath;

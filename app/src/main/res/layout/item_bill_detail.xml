@@ -238,7 +238,7 @@
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:layout_marginStart="@dimen/dp_13"
-                android:text="您的个人所得收入 =  专属咨询总金额 *  提成比例(x%)+ 闲时咨询总金额 *  提成比例(y%) + 处方药物总金额 * 补贴系数(z%) + 其他补贴(w);"
+                android:text="@{data.introduction}"
                 android:textColor="@color/cyan_88" />
 
             <TextView

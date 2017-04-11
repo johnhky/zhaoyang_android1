@@ -62,7 +62,7 @@ public class SettingHandler {
 
     public void getCustomerService(final Context context) {
 
-        TwoChoiceDialog.show(context, "020-4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
+        TwoChoiceDialog.show(context, "4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
             @Override
             public void onApplyClick(MaterialDialog dialog) {
                 try {
@@ -102,10 +102,8 @@ public class SettingHandler {
         ShowCaseUtil.reset();
         Context context = view.getContext();
         if (Settings.isDoctor()) {
-
             Intent meActivity = MeActivity.makeIntent(context);
             startShowCase(context, meActivity);
-
             Intent intent = MainActivity.makeIntent(context);
             startShowCase(context, intent);
         } else {

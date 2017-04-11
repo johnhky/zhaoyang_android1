@@ -12,6 +12,7 @@ import com.doctor.sun.ui.pager.PatientAfterServiceDonePA;
 
 /**
  * Created by rick on 3/6/2016.
+ * 不可修改医生建议
  */
 public class AfterServiceDoneActivity extends TabActivity {
     public static Intent intentFor(Context context, String orderId, int position) {

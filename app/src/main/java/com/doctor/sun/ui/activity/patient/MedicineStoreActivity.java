@@ -627,7 +627,7 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
 
     @Subscribe
     public void onCallServiceEvent(CallServiceEvent event) {
-        TwoChoiceDialog.show(this, "020-4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
+        TwoChoiceDialog.show(this, "4008352600", "取消", "呼叫", new TwoChoiceDialog.Options() {
             @Override
             public void onApplyClick(MaterialDialog dialog) {
                 if (permissionsUtil.lacksPermissions(PermissionsUtil.PERMISSION_CALL)) {

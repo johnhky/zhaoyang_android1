@@ -12,12 +12,12 @@
 
 
     <string-array name="unit_array">
-        <item>克</item>
         <item>毫克</item>
-        <item>毫升</item>
+        <item>克</item>
         <item>粒</item>
         <item>袋</item>
         <item>支</item>
+        <item>毫升</item>
     </string-array>
 
     <string-array name="interval_array">

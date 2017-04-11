@@ -3,16 +3,21 @@ package com.doctor.sun.ui.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.auto.Factory;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.ScalesResult;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.QuestionModule;
 
 import java.util.List;
+
+import retrofit2.Call;
 
 /**
  * Created by rick on 9/8/2016.
@@ -50,6 +55,12 @@ public class QuestionStatsFragment extends RefreshListFragment {
                 getAdapter().addAll(response);
                 getAdapter().notifyDataSetChanged();
                 binding.swipeRefresh.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(Call<ApiDTO<List<ScalesResult>>> call, Throwable t) {
+                super.onFailure(call, t);
+                Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -112,6 +112,11 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
+        if (menu.size()>0){
+            if (menu.size()==2){
+                return;
+            }
+        }
         final boolean isReadOnly = getArguments().getBoolean(Constants.READ_ONLY, false);
         if (isReadOnly) {
             return;

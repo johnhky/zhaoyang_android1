@@ -97,6 +97,7 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
                 @Override
                 public void onClick(View v) {
                     EventHub.post(new AppointmentHistoryEvent(getData(), false));
+
                 }
             });
         }
@@ -149,12 +150,12 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
         if (fab == null || animating) {
             return;
         }
-        fab.animate()
+     /*   fab.animate()
                 .translationY(fab.getHeight())
                 .alpha(0)
                 .setDuration(250)
                 .setListener(getAnimationListener())
-                .setInterpolator(new DecelerateInterpolator());
+                .setInterpolator(new DecelerateInterpolator());*/
 
     }
 
@@ -163,12 +164,12 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
         if (fab == null || animating) {
             return;
         }
-        fab.animate()
+   /*     fab.animate()
                 .translationY(0)
                 .alpha(1)
                 .setDuration(250)
                 .setListener(getAnimationListener())
-                .setInterpolator(new DecelerateInterpolator());
+                .setInterpolator(new DecelerateInterpolator());*/
     }
 
     @NonNull

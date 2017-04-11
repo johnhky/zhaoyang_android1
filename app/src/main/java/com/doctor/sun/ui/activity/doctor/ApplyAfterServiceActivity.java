@@ -31,6 +31,7 @@ import io.ganguo.library.core.event.extend.OnSingleClickListener;
 
 /**
  * Created by rick on 1/6/2016.
+ * 患者信息
  */
 public class ApplyAfterServiceActivity extends BaseFragmentActivity2 {
     private AfterServiceModule api = Api.of(AfterServiceModule.class);

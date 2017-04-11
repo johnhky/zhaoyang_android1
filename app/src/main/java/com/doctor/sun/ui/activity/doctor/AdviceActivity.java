@@ -17,6 +17,7 @@ import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 /**
  * Created by lucas on 1/15/16.
+ * 意见反馈
  */
 public class AdviceActivity extends BaseFragmentActivity2 {
     private ActivityAdviceBinding binding;
@@ -60,6 +61,7 @@ public class AdviceActivity extends BaseFragmentActivity2 {
             @Override
             protected void handleResponse(String response) {
                 Toast.makeText(AdviceActivity.this, "系统已经收到您的反馈,感谢您!", Toast.LENGTH_SHORT).show();
+                finish();
 //                finish();
             }
         });

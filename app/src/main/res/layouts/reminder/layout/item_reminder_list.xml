@@ -42,7 +42,7 @@
                 android:text='添加更多事项提醒'
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/font_12" />
-        </FrameLayout>
 
+        </FrameLayout>
     </LinearLayout>
 </layout>
