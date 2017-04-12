@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 
@@ -24,7 +25,7 @@ public final class ViewPagerBottomSheetDialog extends AppCompatDialog {
     private boolean mCancelable = true;
     private boolean mCanceledOnTouchOutside = true;
     private boolean mCanceledOnTouchOutsideSet;
-
+    private View mView;
     public ViewPagerBottomSheetDialog(@NonNull Context context) {
         this(context, 0);
     }
@@ -91,8 +92,9 @@ public final class ViewPagerBottomSheetDialog extends AppCompatDialog {
                 R.layout.design_view_pager_bottom_sheet_dialog, null);
         if (layoutResId != 0 && view == null) {
             view = getLayoutInflater().inflate(layoutResId, coordinator, false);
+            mView = view;
         }
-        FrameLayout bottomSheet = (FrameLayout) coordinator.findViewById(R.id.design_bottom_sheet);
+        final FrameLayout bottomSheet = (FrameLayout) coordinator.findViewById(R.id.design_bottom_sheet);
         mBehavior = ViewPagerBottomSheetBehavior.from(bottomSheet);
         mBehavior.setBottomSheetCallback(mBottomSheetCallback);
         mBehavior.setHideable(mCancelable);

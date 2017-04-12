@@ -1,15 +1,20 @@
 package com.doctor.sun.ui.widget;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.DialogFragmentListBinding;
@@ -44,9 +49,10 @@ public class BottomSheetListFragment<T> extends BottomSheetDialogFragment {
         realm.close();
     }
 
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.dialog_fragment_list, container, false);
         binding.tbTitle.setText("历史记录");
         binding.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -73,7 +79,6 @@ public class BottomSheetListFragment<T> extends BottomSheetDialogFragment {
             }
         });
         binding.recyclerView.setAdapter(mAdapter);
-
         return binding.getRoot();
     }
 
@@ -99,5 +104,6 @@ public class BottomSheetListFragment<T> extends BottomSheetDialogFragment {
     public DialogFragmentListBinding getBinding() {
         return binding;
     }
+
 
 }

@@ -259,6 +259,8 @@ public class ViewPagerBottomSheetBehavior<V extends View> extends CoordinatorLay
         return true;
     }
 
+
+
     @Override
     public boolean onInterceptTouchEvent(CoordinatorLayout parent, V child, MotionEvent event) {
         if (!child.isShown()) {

@@ -34,7 +34,6 @@ public class HistoryListDialog extends BottomSheetListFragment {
     public static HistoryListDialog newInstance(int recordId) {
         HistoryListDialog fragment = new HistoryListDialog();
         Bundle bundle = new Bundle();
-
         bundle.putInt(Constants.DATA, recordId);
         fragment.setArguments(bundle);
         return fragment;

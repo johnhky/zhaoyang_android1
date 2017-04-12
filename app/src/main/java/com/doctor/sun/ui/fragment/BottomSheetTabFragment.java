@@ -51,6 +51,7 @@ public abstract class BottomSheetTabFragment extends ViewPagerBottomSheetDialogF
     protected void initPagerAdapter() {
         pagerAdapter = createPagerAdapter();
         binding.bottomSheetViewpager.setAdapter(pagerAdapter);
+
     }
 
     protected void setPagerAdapter(PagerAdapter adapter) {
