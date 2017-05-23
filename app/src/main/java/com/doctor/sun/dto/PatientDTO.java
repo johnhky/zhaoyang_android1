@@ -27,7 +27,8 @@ public class PatientDTO {
     public int drugOrderNum = 0;
     @JsonProperty("applying_num")
     public int applyingNum = 0;
-
+    @JsonProperty("self_record")
+    public boolean self_record;
     public void setRecent_appointment(RecentAppointment recent_appointment) {
         this.recent_appointment = recent_appointment;
     }
@@ -54,8 +55,24 @@ public class PatientDTO {
         return followUpDoingNum + applyingNum;
     }
 
+
+    public boolean isSelf_record() {
+        return self_record;
+    }
+
+    public void setSelf_record(boolean self_record) {
+        this.self_record = self_record;
+    }
+
     // 新流程使用
     public int getMyOrderNum() {
         return appointmentNum + followUpDoingNum + applyingNum;
+    }
+
+
+    @Override
+    public String toString() {
+        return "data{recent_appointment"+recent_appointment+",self_record"+self_record+",followUpDoingNum"
+                +followUpDoingNum+",patientInfo"+info+"}";
     }
 }

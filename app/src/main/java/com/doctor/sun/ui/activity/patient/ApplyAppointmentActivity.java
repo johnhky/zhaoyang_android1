@@ -52,6 +52,13 @@ public class ApplyAppointmentActivity extends BaseFragmentActivity2 {
         payEventHandler = PayEventHandler.register(this);
         EventHub.register(data);
         EventHub.post(new UnregisterMedicalRecordHandlerEvent());
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
     }
 
 

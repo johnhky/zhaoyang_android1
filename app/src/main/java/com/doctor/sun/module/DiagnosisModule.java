@@ -5,6 +5,7 @@ import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalHistory;
+import com.doctor.sun.entity.SentDrugRecordInfo;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.immutables.SimpleAppointment;
@@ -27,9 +28,20 @@ public interface DiagnosisModule {
     @POST("diagnosis/set-diagnosis")
     Call<ApiDTO<String>> setDiagnosis(@FieldMap HashMap<String, String> query);
 
+    //判断某个病历是否有过寄药记录
+    @GET("diagnosis/sent-drug-status")
+    Call<ApiDTO>getSentDrugRecord(@Query("recordId")String recordId);
 
+    //将医生建议生成处方
+    @POST("diagnosis/prescription-enable")
+    Call<ApiDTO>createRecipe(@Query("appointmentId")String appointmentId);
+
+    /*获取患者病历记录*/
     @GET("diagnosis/diagnosis-info")
     Call<ApiDTO<DiagnosisInfo>> diagnosisInfo(@Query("appointmentId") String appointmentId);
+    /*获取患者病历记录*/
+    @GET("diagnosis/diagnosis-info")
+    Call<ApiDTO> getDiagnosisInfo(@Query("appointmentId") String appointmentId);
 
     @GET("diagnosis/search-doctors")
     Call<ApiDTO<PageDTO<Doctor>>> searchDoctor(@Query("page") String page, @Query("search") String search);

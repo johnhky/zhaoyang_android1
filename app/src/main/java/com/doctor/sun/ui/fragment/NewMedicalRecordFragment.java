@@ -128,6 +128,9 @@ public class NewMedicalRecordFragment extends SortedListFragment {
         model.saveMedicalRecord(getAdapter(), getRecordType(), new SimpleCallback<MedicalRecord>() {
             @Override
             protected void handleResponse(MedicalRecord response) {
+                Intent intent = new Intent();
+                intent.setAction(Constants.CREATE_SUCCESS);
+                getActivity().sendBroadcast(intent);
                 Toast.makeText(getContext(), "病历创建成功", Toast.LENGTH_SHORT).show();
                 EventHub.post(new SelectMedicalRecordEvent(getArguments().getString(Constants.FROM), response));
                 if (isFromProfile) {

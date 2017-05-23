@@ -1,6 +1,7 @@
 package com.doctor.sun.http.callback;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.WeChatPayDTO;

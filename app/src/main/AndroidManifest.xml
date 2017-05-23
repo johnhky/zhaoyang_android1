@@ -115,6 +115,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.patient.AppointmentDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            />
+        <activity
+            android:name=".ui.activity.patient.AddressManagerActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.doctor.AppointmentListActivity"
@@ -137,6 +142,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.patient.PAfterServiceActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.patient.POrderMessageActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -167,7 +176,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.doctor.AddTimeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            />
         <activity
             android:name=".ui.activity.doctor.FeeActivity"
             android:screenOrientation="portrait"
@@ -200,6 +211,7 @@
         <activity
             android:name=".ui.fragment.ImageListFragment"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.doctor.UpdateReviewedActivity"></activity>
 
         <!-- patient -->
         <activity

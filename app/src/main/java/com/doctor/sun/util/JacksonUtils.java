@@ -8,6 +8,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +30,19 @@ public class JacksonUtils {
     private JacksonUtils() {
 
     }
-
+    public static <T> JSONObject objectToJson(T obj
+    ) throws JSONException,
+            IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        // Convert object to JSON string
+        String jsonStr = "";
+        try {
+            jsonStr = mapper.writeValueAsString(obj);
+        } catch (IOException e) {
+            throw e;
+        }
+        return new JSONObject(jsonStr);
+    }
     public static ObjectMapper getInstance() {
         if (objectMapper == null) {
             ObjectMapper mapper = new ObjectMapper();

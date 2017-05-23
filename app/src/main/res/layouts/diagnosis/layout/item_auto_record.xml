@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vm.ItemAutoInputRecord" />
+
+        <variable
+            name="adapter"
+            type="com.doctor.sun.ui.adapter.SimpleAdapter" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/lly_root"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_70"
+        android:layout_marginEnd="@dimen/dp_13"
+        android:layout_marginLeft="@dimen/dp_13"
+        android:layout_marginRight="@dimen/dp_13"
+        android:layout_marginStart="@dimen/dp_13"
+        android:animateLayoutChanges="true"
+        android:gravity="center_vertical"
+        android:onClick="@{()->etInput.requestFocus()}"
+        android:orientation="vertical"
+        android:textColorHint="#9bb6c5">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_4"
+                android:text="@{data.title}"
+                android:textColor="@color/text_color_black"
+                android:textAppearance="@style/AppTheme.TextFloatLabelAppearance" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red_f7"
+                android:paddingTop="5dp"
+                android:text="删除"
+                android:onClick="@{()->data.removeThis(adapter)}"
+                android:textSize="16sp"
+                />
+
+        </LinearLayout>
+        <EditText
+            android:id="@+id/et_input"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:paddingLeft="8dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:afterTextChanged="@{()->data.showDropDown(llyRoot)}"
+            android:background="@drawable/selector_grey_rect"
+            android:enabled="@{data.enabled}"
+            android:focusable="true"
+            android:focusableInTouchMode="@{data.enabled}"
+            android:gravity="center_vertical"
+            android:hint="@{data.hint}"
+            android:inputType="@{data.inputType}"
+            android:maxLines="1"
+            android:onClick="@{()->data.showDropDown(llyRoot)}"
+            android:text="@={data.result}"
+            android:textColor="@{data.isValid(data.result)?@color/color_tick:@color/red_f0}"
+            android:textColorHint="@color/gray_d9"
+            android:textSize="@dimen/font_13" />
+
+    </LinearLayout>
+</layout>

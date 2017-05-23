@@ -70,11 +70,10 @@
                 layout="@layout/item_description"
                 bind:data="@{data.labelConsultation}" />
 
-            <include
-                android:id="@+id/diagnosisRecord"
-                layout="@layout/item_description_input"
-                bind:data="@{data.diagnosisRecord}" />
-
+            <include android:id="@+id/diagnosisList"
+                layout="@layout/item_add_record"
+                bind:data="@{data.recordList}"
+                ></include>
             <include
                 layout="@layout/item_description"
                 bind:data="@{data.labelEval}" />

@@ -26,20 +26,22 @@
         android:layout_marginStart="@dimen/dp_13"
         android:background="@drawable/ripple_default"
         android:clickable="@{data.enabled}"
+        android:gravity="center_vertical"
         android:onClick="@{()->data.pickTime(context)}"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:paddingTop="@dimen/dp_12"
             android:text="@{data.title}"
             android:textAppearance="@style/AppTheme.TextFloatLabelAppearance"
             tools:text="出生年月" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_4">
 

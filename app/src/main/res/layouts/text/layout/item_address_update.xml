@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import
+            name="handler"
+            alias="handler"
+            type="com.doctor.sun.ui.activity.patient.handler.AddressHandler" />
+
+        <variable
+            name="data"
+            type="com.doctor.sun.vm.ItemTextInput2"></variable>
+    </data>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_default"
+            tools:ignore="RtlSymmetry">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="@{data.receiver}"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/font_18"
+                tools:text="收件人" />
+
+            <TextView
+                android:id="@+id/tv_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_toEndOf="@id/tv_name"
+                android:layout_toRightOf="@id/tv_name"
+                android:text="@{data.phone}"
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/font_18"
+                tools:text="189****1234" />
+
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_name"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:layout_marginLeft="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_birthday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@{data.province}"
+                    android:textColor="#363636"
+                    android:maxLines="2"
+                    android:textSize="@dimen/font_16"
+                    tools:text="广东省 广州市 越秀区 xxxxxxxxx" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="55dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/ic_enter_gray"
+                    android:gravity="center_vertical"
+                    android:onClick="@{()->handler.showChooseAddress(context,data.result)}"
+                    android:text="点击修改"
+                    android:textColor="#c4c4c4"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_locate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll"
+                android:layout_marginLeft="14dp"
+                android:text="@{@string/remark_msg+data.remark}"
+                android:textColor="#c4c4c4"
+                android:textSize="@dimen/font_16"
+                tools:text="备注信息:" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_below="@+id/tv_locate"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ic_blue_red_line"></View>
+        </RelativeLayout>
+
+</layout>

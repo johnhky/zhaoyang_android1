@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -75,8 +76,11 @@ public class PMainActivity2 extends AppCompatActivity {
             @Override
             protected void handleResponse(CallConfig response) {
                 if (binding != null) {
+                    binding.ivBanner.setVisibility(View.VISIBLE);
                     binding.setCallConfig(response);
                     handler.showPromotion(PMainActivity2.this, false);
+                }else{
+                    binding.ivBanner.setVisibility(View.GONE);
                 }
             }
         });

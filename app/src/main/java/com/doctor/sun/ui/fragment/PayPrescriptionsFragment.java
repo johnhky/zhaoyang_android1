@@ -1,14 +1,21 @@
 package com.doctor.sun.ui.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.doctor.auto.Factory;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Drug;
+import com.doctor.sun.immutables.DrugOrderDetail;
 import com.doctor.sun.model.PayPrescriptionsModel;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
@@ -37,7 +44,9 @@ public class PayPrescriptionsFragment extends SortedListFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("updateSuccess");
+        getActivity().registerReceiver(receiver,filter);
         model = new PayPrescriptionsModel();
         payEventHandler = PayEventHandler.register(getActivity());
     }
@@ -52,14 +61,16 @@ public class PayPrescriptionsFragment extends SortedListFragment {
     protected void loadMore() {
         super.loadMore();
         DrugModule api = Api.of(DrugModule.class);
-        api.drugDetail(getDrugId()).enqueue(new SimpleCallback<Drug>() {
+        api.drugDetail(getDrugId()).enqueue(new SimpleCallback<DrugOrderDetail>() {
+
             @Override
-            protected void handleResponse(Drug response) {
+            protected void handleResponse(DrugOrderDetail response) {
                 List<SortedItem> sortedItems =
                         model.parseData(getContext(), response);
                 binding.swipeRefresh.setRefreshing(false);
                 getAdapter().insertAll(sortedItems);
             }
+
         });
     }
 
@@ -72,4 +83,23 @@ public class PayPrescriptionsFragment extends SortedListFragment {
         super.onDestroy();
         PayEventHandler.unregister(payEventHandler);
     }
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, final Intent intent) {
+            if (intent.getAction().equals("updateSuccess")){
+                DrugModule api = Api.of(DrugModule.class);
+                api.drugDetail(getDrugId()).enqueue(new SimpleCallback<DrugOrderDetail>() {
+
+                    @Override
+                    protected void handleResponse(DrugOrderDetail response) {
+                        List<SortedItem> sortedItems =
+                                model.parseData(getContext(), response);
+                        binding.swipeRefresh.setRefreshing(false);
+                        getAdapter().insertAll(sortedItems);
+                    }
+
+                });
+            }
+        }
+    };
 }

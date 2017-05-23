@@ -1,5 +1,10 @@
 package com.doctor.sun.module.wraper;
 
+import android.util.Log;
+import android.widget.ListPopupWindow;
+import android.widget.Toast;
+
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Description;
@@ -26,8 +31,9 @@ import retrofit2.http.Query;
  * Created by rick on 23/6/2016.
  */
 public class TimeModuleWrapper {
-    private Description detailDescription = new Description(R.layout.item_description, "专属咨询");
-    private Description quickDescription = new Description(R.layout.item_description, "闲时咨询(全天)");
+    private Description detailDescription = new Description(R.layout.item_description, "专属网诊");
+    private Description netDescription = new Description(R.layout.item_description, "诊所面诊");
+    private Description quickDescription = new Description(R.layout.item_description, "建议复诊");
 
     private TimeModule time = Api.of(TimeModule.class);
     private DayModule day = Api.of(DayModule.class);
@@ -68,11 +74,13 @@ public class TimeModuleWrapper {
         ArrayList<LayoutId> result = new ArrayList<>();
         Response<ApiDTO<List<Time>>> detail = null;
         Response<ApiDTO<List<Time>>> quick = null;
+        Response<ApiDTO<List<Time>>> net = null;
         try {
             detail = time.getTime(1).execute();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         try {
             quick = day.getAllTime().execute();
         } catch (IOException e) {
@@ -99,6 +107,14 @@ public class TimeModuleWrapper {
         return result;
     }
 
+    public Call<ApiDTO<Time>> newUpdateTime(@Field("drTimeId") int id, @Field("week") int week, @Field("type") int type, @Field("from") String from, @Field("to") String to, int interval) {
+        return time.newUpdateTime(id, week, type, from, to, interval);
+    }
+
+    public Call<ApiDTO<Time>> newSetTime(@Field("week") int week, @Field("type") int type, @Field("from") String from, @Field("to") String to, int interval) {
+        return time.newSetTime(week, type, from, to, interval);
+    }
+
     public Call<ApiDTO<Time>> setTime(@Field("week") int week, @Field("type") int type, @Field("from") String from, @Field("to") String to, int interval) {
         if (type == AppointmentType.STANDARD) {
             return day.setTime(week);
@@ -106,6 +122,7 @@ public class TimeModuleWrapper {
             return time.setTime(week, type, from, to, interval);
         }
     }
+
 
     public Call<ApiDTO<Time>> updateTime(@Field("id") int id, @Field("week") int week, @Field("type") int type, @Field("from") String from, @Field("to") String to, int interval) {
         if (type == AppointmentType.STANDARD) {

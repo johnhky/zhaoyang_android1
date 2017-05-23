@@ -104,7 +104,6 @@ public abstract class Drug extends BaseItem {
         return R.layout.p_item_drug2;
     }
 
-
     @Bindable
     public String getStatusText() {
         if (getHas_pay() == 1) {
@@ -178,6 +177,7 @@ public abstract class Drug extends BaseItem {
         public String price;
         public String specification;
         public String drug_num;
+        public String money;
 
         @Override
         public String toString() {

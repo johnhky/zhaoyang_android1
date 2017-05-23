@@ -60,6 +60,7 @@ public class ChangeMyPhoneNumFragment extends SortedListFragment {
         super.onViewCreated(view, savedInstanceState);
 //        setHasOptionsMenu(true);
         loadMore();
+        disableRefresh();
     }
 
     @Override

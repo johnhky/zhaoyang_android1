@@ -27,7 +27,7 @@
         android:drawablePadding="@dimen/dp_10"
         android:drawableStart="@drawable/ic_load_prescription"
         android:enabled="@{data.isEnabled()}"
-        android:onClick="@{()->data.loadPrescriptions(adapter)}"
+        android:onClick="@{()->data.loadPrescriptions(adapter,context)}"
         android:paddingLeft="@dimen/dp_10"
         android:paddingStart="@dimen/dp_10"
         android:text="@{data.optionType}"

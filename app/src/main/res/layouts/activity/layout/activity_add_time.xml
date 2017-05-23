@@ -29,27 +29,32 @@
         <LinearLayout
             android:id="@+id/rl_type"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_69"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_style"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/dp_13"
                 android:singleLine="true"
+                android:background="#ebf0f3"
                 android:text="就诊类型"
+                android:padding="@dimen/dp_13"
                 android:textColor="#000000"
                 android:textSize="@dimen/font_15" />
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_69"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical"
+                    >
 
             <RadioButton
                 android:id="@+id/rb_detail"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dp_41"
                 android:background="#00000000"
                 android:button="@null"
                 android:checked="@{data.type == 1}"
@@ -60,29 +65,28 @@
                 android:onClick="@{()->data.setType(1)}"
                 android:paddingLeft="@dimen/dp_4"
                 android:paddingRight="@dimen/dp_4"
-                android:text="专属咨询"
+                android:text="专属网诊"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
-
             <RadioButton
-                android:id="@+id/rb_quick"
-                android:layout_width="wrap_content"
+                android:id="@+id/rb_face"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/dp_20"
                 android:background="#00000000"
                 android:button="@null"
-                android:checked="@{data.type == 2}"
+                android:checked="@{data.type == 4}"
                 android:drawableLeft="@drawable/ic_tick"
                 android:drawablePadding="@dimen/dp_6"
-                android:enabled="@{data.id==0||data.type==2}"
+                android:enabled="@{data.id==0||data.type==4}"
                 android:gravity="center_vertical"
-                android:onClick="@{()->data.setType(2)}"
+                android:onClick="@{()->data.setType(4)}"
                 android:paddingLeft="@dimen/dp_4"
                 android:paddingRight="@dimen/dp_4"
-                android:text="闲时咨询"
+                android:text="专属面诊"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
-
+                </LinearLayout>
         </LinearLayout>
 
         <include
@@ -212,12 +216,22 @@
                 android:textSize="@dimen/font_15" />
 
         </com.doctor.sun.ui.widget.FlowLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red_f0"
+            android:textSize="15sp"
+            android:text="*面诊地点:心晴门诊的具体地点"
+            android:visibility="@{data.type==4}"
+            android:layout_marginLeft="13dp"
+            android:layout_marginBottom="@dimen/dp_13"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="@{data.type == 1}">
+            android:visibility="@{data.type == 1||data.type==4}">
 
             <include
                 layout="@layout/item_string_description"
@@ -311,16 +325,31 @@
                 android:layout_height="1px"
                 android:background="#c1cacf" />
 
-            <include
-                layout="@layout/item_string_description"
-                bind:data='@{"时间间隔"}' />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ebf0f3"
+                android:visibility="@{data.type==1}"
+                android:gravity="center_vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="时间间隔"
+                    android:textColor="#a2aaae"
+                    android:textSize="@dimen/font_15" />
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:layout_marginTop="@dimen/dp_20"
+                android:visibility="@{data.type==1}"
                 android:orientation="horizontal">
 
                 <EditText
@@ -353,25 +382,14 @@
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:layout_marginTop="@dimen/dp_8"
+                android:visibility="@{data.type==1}"
                 android:text="@string/add_detail_time_ps"
                 android:textColor="@color/red_f0"
                 android:textSize="@dimen/font_14" />
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_8"
-            android:text="@string/add_quick_time_ps"
-            android:textColor="@color/red_f0"
-            android:textSize="@dimen/font_14"
-            android:visibility="@{data.type == 2}" />
-
-
-        <FrameLayout
+     <!--   <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ebf0f3"
@@ -394,7 +412,7 @@
             android:text="@string/enable_push_ps"
             android:textColor="@color/red_f0"
             android:textSize="@dimen/font_14"
-            android:visibility="@{data.type == 2}" />
+            android:visibility="@{data.type == 2}" />-->
     </LinearLayout>
     </ScrollView>
 </layout>

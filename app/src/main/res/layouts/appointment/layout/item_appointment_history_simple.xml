@@ -51,7 +51,7 @@
             android:text="@{@string/appointment_type(data.display_type) + &quot;(医生:&quot; +data.doctor.name + &quot;)&quot;}"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            tools:text="专属咨询" />
+            tools:text="专属网诊" />
 
 
         <View

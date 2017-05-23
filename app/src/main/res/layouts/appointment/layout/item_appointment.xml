@@ -107,7 +107,7 @@
                 android:text="@{@string/appointment_type(data.display_type)}"
                 android:textColor="@color/grey_77"
                 android:textSize="@dimen/font_13"
-                tools:text="预约类型:  专属咨询" />
+                tools:text="预约类型:  专属网诊" />
 
             <TextView
                 android:layout_width="0dp"
@@ -122,30 +122,27 @@
                 tools:text="问卷完成度:  9/20" />
         </LinearLayout>
 
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginBottom="@dimen/dp_14"-->
-        <!--android:layout_marginLeft="@dimen/dp_13"-->
-        <!--android:layout_marginRight="@dimen/dp_13"-->
-        <!--android:layout_marginTop="@dimen/dp_6"-->
-        <!--android:orientation="horizontal">-->
+        <LinearLayout
+            android:id="@+id/ll_ordervisible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:orientation="vertical"
+            android:visibility="@{data.drug_Orders.state!=0}">
 
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="当前病历: "-->
-        <!--android:textColor="#363636"-->
-        <!--android:textSize="@dimen/font_12" />-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ebf0f3" />
 
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@{data.record.recordName}"-->
-        <!--android:textColor="#363636"-->
-        <!--android:textSize="@dimen/font_12" />-->
-
-        <!--</LinearLayout>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="寄药订单进度:"
+                android:textColor="@color/grey_77"
+                android:textSize="13sp" />
+        </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -196,21 +193,21 @@
             </FrameLayout>
 
             <!--<FrameLayout-->
-                <!--android:id="@+id/fl_remind"-->
-                <!--android:layout_width="@dimen/dp_90"-->
-                <!--android:layout_height="@dimen/dp_35"-->
-                <!--android:layout_gravity="end"-->
-                <!--android:background="@drawable/shape_blue_rect">-->
+            <!--android:id="@+id/fl_remind"-->
+            <!--android:layout_width="@dimen/dp_90"-->
+            <!--android:layout_height="@dimen/dp_35"-->
+            <!--android:layout_gravity="end"-->
+            <!--android:background="@drawable/shape_blue_rect">-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="@drawable/ripple_default"-->
-                    <!--android:gravity="center"-->
-                    <!--android:onClick="@{()->handler.remind(context,data.id,data.record.patientId)}"-->
-                    <!--android:text="提  醒"-->
-                    <!--android:textColor="#fff"-->
-                    <!--android:textSize="@dimen/font_13" />-->
+            <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@drawable/ripple_default"-->
+            <!--android:gravity="center"-->
+            <!--android:onClick="@{()->handler.remind(context,data.id,data.record.patientId)}"-->
+            <!--android:text="提  醒"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="@dimen/font_13" />-->
             <!--</FrameLayout>-->
 
         </LinearLayout>

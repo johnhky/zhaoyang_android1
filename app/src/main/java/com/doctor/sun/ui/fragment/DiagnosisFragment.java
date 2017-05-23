@@ -22,6 +22,8 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.alibaba.fastjson.JSON;
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
@@ -31,6 +33,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.SentDrugRecordInfo;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.ImportType;
 import com.doctor.sun.entity.constans.IntBoolean;
@@ -51,16 +54,22 @@ import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vm.ItemButton;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import io.ganguo.library.Config;
+import io.ganguo.library.common.LoadingHelper;
 import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Tasks;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by rick on 12/21/15.
@@ -106,7 +115,7 @@ public class DiagnosisFragment extends BaseFragment {
         if (viewModel == null) {
             viewModel = new DiagnosisModel((Activity) getContext());
         }
-        binding.needReturn.setData("需要专属咨询/转诊/闲时咨询");
+        binding.needReturn.setData("需要专属网诊/转诊/闲时咨询");
         binding.needReturn.setIsChecked(false);
         binding.swRoot.setVerticalScrollBarEnabled(false);
         binding.swRoot.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -262,6 +271,7 @@ public class DiagnosisFragment extends BaseFragment {
         EventHub.register(this);
         shouldScrollDown = false;
         api.diagnosisInfo(getAppointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
+
             @Override
             protected void handleResponse(DiagnosisInfo response) {
                 if (response == null) {
@@ -269,8 +279,8 @@ public class DiagnosisFragment extends BaseFragment {
                 }
                 isAppointmentFinish = (response.isFinish == IntBoolean.TRUE);
                 if (Settings.isDoctor()) {
-                    if (isAppointmentFinish&&response.canEdit!=0) {
-                        Snackbar snackbar = Snackbar.make(binding.mAddview,"提醒:点击右上角可保存修改",Snackbar.LENGTH_INDEFINITE);
+                    if (isAppointmentFinish && response.canEdit != 0) {
+                        Snackbar snackbar = Snackbar.make(binding.mAddview, "提醒:点击右上角可保存修改", Snackbar.LENGTH_INDEFINITE);
                         snackbar.getView().setBackgroundColor(getResources().getColor(R.color.black_transparent_80));
                         snackbar.show();
                     }
@@ -359,18 +369,18 @@ public class DiagnosisFragment extends BaseFragment {
         if (requestCode == Constants.PRESCRITION_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 String jsonData = data.getStringExtra(Constants.DATA);
-                Prescription prescription = JacksonUtils.fromJson(jsonData, Prescription.class);
+                Gson gson = new GsonBuilder().create();
+                Prescription prescription =gson.fromJson(jsonData, Prescription.class);
                 addPrescription(prescription);
             }
         }
     }
 
-    private void addPrescription(final Prescription prescription) {
+    private void addPrescription(Prescription prescription) {
         if (prescriptions == null) {
             prescriptions = new ArrayList<>();
         }
-        ModifiablePrescription from = ModifiablePrescription.create().from(prescription);
-        prescriptions.add(from);
+        prescriptions.add(prescription);
         final LinearLayout llyRoot = binding.editPrescription.llyRoot;
         final ItemPrescriptionBinding prescriptionBinding = ItemPrescriptionBinding.inflate(LayoutInflater.from(getContext()), llyRoot, false);
         prescriptionBinding.tvDelete.setOnClickListener(new View.OnClickListener() {
@@ -380,10 +390,10 @@ public class DiagnosisFragment extends BaseFragment {
                 prescriptions.remove(prescriptionBinding.getData());
             }
         });
-        prescriptionBinding.setData(from);
+        prescriptionBinding.setData(prescription);
         llyRoot.addView(prescriptionBinding.getRoot(), llyRoot.getChildCount() - 1);
     }
-
+    /*点击保存按钮*/
     public void save() {
         final String string;
         String positiveText;
@@ -399,13 +409,72 @@ public class DiagnosisFragment extends BaseFragment {
         }
         TwoChoiceDialog.show(getContext(), string,
                 negativeText, positiveText, new TwoChoiceDialog.Options() {
+
+                    /*保存并结束*/
                     @Override
                     public void onApplyClick(final MaterialDialog dialog) {
                         final HashMap<String, String> query = viewModel.toHashMap(getAppointmentId(), getRecordId(), binding, getPrescriptions());
-                        saveDiagnosis(dialog, query);
+                        /*咨询未结束*/
+                        if (!isAppointmentFinish){
+                               /*判断是否填写了处方建议*/
+                            if (getPrescriptions().trim()!=null) {
+                                    /*处方建议不为空*/
+                                    api.getSentDrugRecord(getRecordId()).enqueue(new Callback<ApiDTO>() {
+                                        @Override
+                                        public void onResponse(Call<ApiDTO> call, Response<ApiDTO> response) {
+                                            boolean isSent = Boolean.valueOf(response.body().getData().toString());
+                                            if (isSent==false) {
+                                                /*没有寄药记录*/
+                                                String reminder = "该患者在昭阳医生平台还未有过寄药记录，请问是否将处方建议生成处方?";
+                                                String cancel = "暂不生成";
+                                                String apply = "生成处方";
+                                                TwoChoiceDialog.show(getContext(), reminder, cancel, apply, new TwoChoiceDialog.Options() {
+                                                    @Override
+                                                    public void onApplyClick(final MaterialDialog dialog) {
+                                                        /*生成处方提交后台*/
+                                                        api.createRecipe(getAppointmentId()).enqueue(new Callback<ApiDTO>() {
+                                                            @Override
+                                                            public void onResponse(Call<ApiDTO> call, Response<ApiDTO> response) {
+                                                                if (response.body().getStatus().equals("200")) {
+                                                                    saveDiagnosis(dialog, query);
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<ApiDTO> call, Throwable t) {
+
+                                                            }
+                                                        });
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelClick(MaterialDialog dialog) {
+                                                        /*不生成处方提交后台*/
+                                                        saveDiagnosis(dialog, query);
+                                                    }
+                                                });
+                                            } else {
+                                                /*有过寄药记录*/
+                                                saveDiagnosis(dialog, query);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ApiDTO> call, Throwable t) {
+
+                                        }
+                                    });
+                            } else {
+                            /*未填写处方建议*/
+                                saveDiagnosis(dialog, query);
+                            }
+                        }else{
+                            saveDiagnosis(dialog, query);
+                        }
+
 
                     }
-
+                        /*存为草稿*/
                     @Override
                     public void onCancelClick(final MaterialDialog dialog) {
                         final HashMap<String, String> query = viewModel.toHashMap(getAppointmentId(), getRecordId(), binding, getPrescriptions());
@@ -416,10 +485,13 @@ public class DiagnosisFragment extends BaseFragment {
 
     }
 
+
     private void saveDiagnosis(final MaterialDialog dialog, HashMap<String, String> query) {
+        LoadingHelper.showMaterLoading(getContext(),"正在保存...");
         api.setDiagnosis(query).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
+                LoadingHelper.hideMaterLoading();
                 Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
                 getActivity().finish();
@@ -428,6 +500,7 @@ public class DiagnosisFragment extends BaseFragment {
             @Override
             public void onFailure(Call call, Throwable t) {
                 dialog.dismiss();
+                LoadingHelper.hideMaterLoading();
             }
         });
     }
@@ -439,10 +512,11 @@ public class DiagnosisFragment extends BaseFragment {
         try {
             ArrayList<Prescription> result = new ArrayList<>();
             for (Prescription prescription : prescriptions) {
-                Prescription copy = ImmutablePrescription.copyOf(prescription);
-                result.add(copy);
+                result.add(prescription);
             }
-            return JacksonUtils.toJson(result);
+            Gson gson = new GsonBuilder().create();
+            String str = gson.toJson(result);
+            return str;
         } catch (Exception e) {
             return "";
         }
@@ -450,7 +524,7 @@ public class DiagnosisFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-            inflater.inflate(R.menu.menu_save, menu);
+        inflater.inflate(R.menu.menu_save, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -475,6 +549,7 @@ public class DiagnosisFragment extends BaseFragment {
 
     @Subscribe
     public void onEventMainThread(final ImportDiagnosisEvent e) {
+
         if (getAppointmentId().equals(e.formId)) {
             api.diagnosisInfo(e.toId).enqueue(new SimpleCallback<DiagnosisInfo>() {
                 @Override

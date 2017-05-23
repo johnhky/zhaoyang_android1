@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="com.doctor.sun.R" />
+
+        <variable
+            name="handler"
+            type="com.doctor.sun.ui.activity.patient.handler.AddressHandler" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/include_header" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_63"
+                android:background="#eff3f5"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="@dimen/dp_283"
+                    android:layout_height="@dimen/dp_49"
+                    android:background="@drawable/shape_button">
+
+                    <TextView
+                        android:id="@+id/tv_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ripple_default"
+                        android:gravity="center"
+                        android:text="添加新地址"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/font_17" />
+
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/empty_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone"
+            >
+            <TextView
+                android:layout_marginTop="80dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/empty_address"
+                />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawablePadding="@dimen/dp_16"
+            android:maxLines="1"
+            android:text="建议先新建一个常用的收获地址"
+            android:textColor="@color/blue_33"
+            android:textSize="@dimen/font_18"
+             />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="@dimen/dp_16"
+                android:maxLines="1"
+                android:text="以便您寄药的时候使用"
+                android:textColor="@color/blue_33"
+                android:textSize="@dimen/font_18"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/empty_address_arrow"
+                />
+        </LinearLayout>
+    </FrameLayout>
+</layout>

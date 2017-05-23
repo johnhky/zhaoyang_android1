@@ -2,13 +2,16 @@ package com.doctor.sun.entity;
 
 import android.content.Context;
 import android.databinding.Bindable;
+import android.databinding.ViewDataBinding;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
+import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.doctor.sun.AppContext;
+import com.afollestad.materialdialogs.StackingBehavior;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.ClearRules;
@@ -18,21 +21,27 @@ import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.ImmutablePrescription;
 import com.doctor.sun.immutables.Prescription;
+import com.doctor.sun.immutables.UploadDrugData;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.AdapterOps;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.util.NumericBooleanDeserializer;
 import com.doctor.sun.util.NumericBooleanSerializer;
 import com.doctor.sun.vm.BaseItem;
 import com.doctor.sun.vm.ItemAddPrescription2;
+import com.doctor.sun.vm.ItemTextInput2;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Strings;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,6 +116,8 @@ public class Options2 extends BaseItem {
     public List<String> optionOrEnable;
     @JsonProperty("option_or_disable")
     public List<String> optionOrDisable;
+
+    private BaseListAdapter<SortedItem, ViewDataBinding> adapter;
 
     @Bindable
     public String getInputContent() {
@@ -359,7 +370,7 @@ public class Options2 extends BaseItem {
      *
      * @param adapter
      */
-    public void loadPrescriptions(final SortedListAdapter adapter) {
+    public void loadPrescriptions(final SortedListAdapter adapter,final Context context) {
         if (resourseType == FROM_USER_INPUT) {
             /**
              *导入上面患者填写的用药
@@ -390,19 +401,29 @@ public class Options2 extends BaseItem {
              * 导入api里面返回的用药
              */
             ToolModule toolModule = Api.of(ToolModule.class);
-            toolModule.listOfDrugs(optionContent).enqueue(new SimpleCallback<List<Prescription>>() {
+            toolModule.listOfDrugs(optionContent).enqueue(new SimpleCallback<List<UploadDrugData>>() {
                 @Override
-                protected void handleResponse(List<Prescription> response) {
+                protected void handleResponse(List<UploadDrugData> response) {
 
                     if (response == null || response.size() == 0) {
                         EventHub.post(new LoadDrugEvent());
                         return;
                     }
-                    ItemAddPrescription2 item = (ItemAddPrescription2) adapter.get(questionId + QuestionType.drug);
-                    for (Prescription prescription : response) {
-                        item.addPrescription(prescription, adapter);
+                    if (response.size()==1){
+                        ItemAddPrescription2 item = (ItemAddPrescription2) adapter.get(questionId + QuestionType.drug);
+                        for (int i = 0 ; i <response.size();i++){
+                            for (Prescription prescription : response.get(i).getDrug_data()) {
+                                item.addPrescription(prescription, adapter);
+                            }
+                        }
+                    }else{
+                        setAdapter(DrugAdapter(response));
+                        showDialog(context);
                     }
+
+
                 }
+
             });
         }
     }
@@ -429,4 +450,44 @@ public class Options2 extends BaseItem {
     public boolean show() {
         return !Strings.isNullOrEmpty(optionInputHint) || !Strings.isNullOrEmpty(contentHead) || !Strings.isNullOrEmpty(contentTail);
     }
+
+    public void showDialog(Context context){
+            if (adapter == null) return;
+
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+
+            builder.stackingBehavior(StackingBehavior.ALWAYS)
+                    .btnStackedGravity(GravityEnum.CENTER)
+                    .titleGravity(GravityEnum.CENTER)
+                    .title("请选择需要使用的处方")
+                    .neutralText("关闭")
+                    .adapter(adapter, new LinearLayoutManager(context))
+                    .show();
+
+        }
+
+    public BaseListAdapter<SortedItem, ViewDataBinding> getAdapter() {
+        return adapter;
+    }
+
+    public void setAdapter(BaseListAdapter<SortedItem, ViewDataBinding> adapter) {
+        this.adapter = adapter;
+    }
+    public BaseListAdapter<SortedItem,ViewDataBinding>DrugAdapter(List<UploadDrugData>datas){
+        List<SortedItem>result = new ArrayList<>();
+        for (int i = 0 ; i <datas.size();i++){
+            UploadDrugData data = datas.get(i);
+            ItemTextInput2 drug = new ItemTextInput2(R.layout.item_select_drug,"","");
+            drug.setPosition(result.size()+i);
+            drug.setItemId("drug"+i);
+            drug.setTitle(data.getCreated_at()+"");
+            drug.setResult(data.getName());
+            result.add(drug);
+        }
+        SortedListAdapter<ViewDataBinding> adapter = new SortedListAdapter<>();
+        adapter.insertAll(result);
+        return adapter;
+    }
+
+
 }

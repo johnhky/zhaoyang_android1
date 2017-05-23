@@ -64,7 +64,6 @@
             android:gravity="center_vertical"
             android:hint="@{data.hint}"
             android:inputType="@{data.inputType}"
-            android:maxLength="@{data.maxLength}"
             android:maxLines="1"
             android:onClick="@{()->data.showDropDown(llyRoot)}"
             android:text="@={data.result}"

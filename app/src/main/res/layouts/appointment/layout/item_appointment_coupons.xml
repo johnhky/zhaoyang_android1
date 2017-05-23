@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_valid_time"
+        android:layout_width="95dp"
+        android:layout_height="15dp"
+        android:text=""
+        android:textColor="@color/main_txt_color"
+        android:textSize="@dimen/font_12"
+        />
+    <LinearLayout
+        android:id="@+id/ll_coupon_bg"
+        android:layout_width="95dp"
+        android:layout_height="45dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/ic_coupon_unchecked"
+
+        >
+    <TextView
+        android:id="@+id/tv_coupon_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="立减￥100元"
+        android:textSize="@dimen/font_15"
+        android:textColor="@color/text_color_black"
+        android:layout_marginTop="3dp"
+        />
+        <TextView
+            android:id="@+id/ic_coupon_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="仅寄药可用"
+            android:textSize="12sp"
+            android:textColor="@color/main_txt_color"
+            android:layout_marginBottom="3dp"
+            />
+    </LinearLayout>
+</LinearLayout>

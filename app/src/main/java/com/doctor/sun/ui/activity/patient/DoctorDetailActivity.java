@@ -1,7 +1,9 @@
 package com.doctor.sun.ui.activity.patient;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -57,12 +59,13 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         doctor = getData();
         builder.setDoctor(doctor);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_doctor_detail);
         binding.setType(getType());
         if (getType() == AppointmentType.PREMIUM) {
-            binding.setTypeLabel("专属咨询");
+            binding.setTypeLabel("专属网诊");
         } else {
             binding.setTypeLabel("闲时咨询");
         }
@@ -126,5 +129,7 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 {
         binding.pagerTabs.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimaryDark));
         binding.pagerTabs.setViewPager(binding.vp);
     }
+
+
 
 }

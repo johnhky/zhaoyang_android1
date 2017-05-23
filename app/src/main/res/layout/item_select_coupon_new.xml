@@ -10,20 +10,32 @@
 
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         android:clickable="true"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:background="@drawable/ic_discount"
+            android:text="优惠券"
+            android:paddingLeft="5dp"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/dp_13"
-            android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginStart="@dimen/dp_13"
+            android:layout_weight="1"
             android:button="@null"
             android:gravity="center_vertical"
             android:maxLines="1"
@@ -32,24 +44,23 @@
             android:textSize="@dimen/font_15"
             tools:text="已使用优惠券" />
 
-        <TextView
+        <LinearLayout
             android:id="@+id/et_select"
             android:layout_width="@dimen/dp_85"
             android:layout_height="@dimen/dp_30"
             android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="@dimen/dp_13"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginStart="@dimen/dp_13"
-            android:background="@drawable/selector_blue_rect"
-            android:gravity="center"
             android:current="@{15}"
+            android:gravity="center"
             android:next="@{16}"
-            android:previous='@{-1}'
-            android:showcase='@{"点击选择可用的优惠券抵扣咨询费用"}'
             android:onClick="@{()->data.selectCoupon(context)}"
-            android:text="点击选择"
-            android:textColor="@color/text_color_blue"
-            android:visibility="@{data.canUseCoupon() &amp;&amp; data.notPay()}" />
-    </FrameLayout>
+            android:previous='@{-1}'>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_enter_gray"
+                android:showcase='@{"点击选择可用的优惠券抵扣咨询费用"}'
+                android:visibility="@{data.canUseCoupon() &amp;&amp; data.notPay()}" />
+        </LinearLayout>
+    </LinearLayout>
 </layout>

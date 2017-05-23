@@ -7,6 +7,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,12 +27,17 @@ import com.doctor.sun.model.EditPrescriptionModel;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vm.BaseItem;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.otto.Subscribe;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import io.ganguo.library.common.LoadingHelper;
 import io.ganguo.library.util.Systems;
 
 /**
@@ -48,13 +54,9 @@ public class EditPrescriptionsFragment extends SortedListFragment {
 
 
     public static Bundle getArgs(Prescription data, boolean isReadOnly) {
+        Gson gson = new GsonBuilder().create();
         Bundle bundle = new Bundle();
-        if (data instanceof ModifiablePrescription) {
-            Prescription immutablePrescription = ImmutablePrescription.copyOf(data);
-            bundle.putString(Constants.DATA, JacksonUtils.toJson(immutablePrescription));
-        } else {
-            bundle.putString(Constants.DATA, JacksonUtils.toJson(data));
-        }
+        bundle.putString(Constants.DATA, gson.toJson(data));
         bundle.putBoolean(Constants.READ_ONLY, isReadOnly);
         bundle.putString(Constants.FRAGMENT_NAME, TAG);
         return bundle;
@@ -64,7 +66,8 @@ public class EditPrescriptionsFragment extends SortedListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         model = new EditPrescriptionModel();
-        data = JacksonUtils.fromJson(getArguments().getString(Constants.DATA), Prescription.class);
+        Gson gson = new GsonBuilder().create();
+        data = gson.fromJson(getArguments().getString(Constants.DATA), Prescription.class);
         isReadOnly = getArguments().getBoolean(Constants.READ_ONLY, false);
     }
 
@@ -88,8 +91,8 @@ public class EditPrescriptionsFragment extends SortedListFragment {
         }
     }
 
+
     public void save() {
-        LoadingHelper.showMaterLoading(getContext(),"正在保存");
         HashMap<String, String> save = model.save(getAdapter(), new SimpleCallback() {
             @Override
             protected void handleResponse(Object response) {
@@ -98,8 +101,9 @@ public class EditPrescriptionsFragment extends SortedListFragment {
 
         if (save != null) {
             Prescription data = PrescriptionHandler.fromHashMap(save);
-            if (PrescriptionHandler.totalNumberPerFrequency(data) > 0D) {
-                String jsonData = JacksonUtils.toJson(data);
+            if (PrescriptionHandler.totalNumberPerFrequency(data) > 0D || data.getTitration().size() > 0) {
+                Gson gson = new GsonBuilder().create();
+                String jsonData = gson.toJson(data);
                 Messenger messenger = getActivity().getIntent().getParcelableExtra(Constants.HANDLER);
                 if (messenger != null) {
                     try {
@@ -113,7 +117,6 @@ public class EditPrescriptionsFragment extends SortedListFragment {
                         e.printStackTrace();
                     }
                 }
-                LoadingHelper.hideMaterLoading();
                 Intent intent = getActivity().getIntent();
                 intent.putExtra(Constants.DATA, jsonData);
                 getActivity().setResult(Activity.RESULT_OK, intent);
@@ -121,7 +124,9 @@ public class EditPrescriptionsFragment extends SortedListFragment {
             } else {
                 Toast.makeText(getContext(), "请填写处方份量", Toast.LENGTH_SHORT).show();
                 getBinding().recyclerView.scrollToPosition(5);
+
             }
+
         }
     }
 
@@ -147,4 +152,5 @@ public class EditPrescriptionsFragment extends SortedListFragment {
     public void onHideKeyboardEvent(HideKeyboardEvent event) {
         Systems.hideKeyboard(getContext());
     }
+
 }

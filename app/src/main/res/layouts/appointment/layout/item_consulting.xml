@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_12"
                     app:html="@{handler.styledOrderTypeAndStatus(data.data)}"
-                    tools:text="专属咨询-待建议" />
+                    tools:text="专属网诊-待建议" />
             </LinearLayout>
 
 

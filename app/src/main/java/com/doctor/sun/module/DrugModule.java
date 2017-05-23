@@ -6,6 +6,7 @@ import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.immutables.Drug;
+import com.doctor.sun.immutables.DrugOrderDetail;
 import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.immutables.PrescriptionOrder;
 
@@ -34,7 +35,7 @@ public interface DrugModule {
     Call<ApiDTO<PageDTO<Drug>>> orderList(@Query("page") String page);
 
     @GET("drug/order-detail")
-    Call<ApiDTO<Drug>> drugDetail(@Query("drugOrderId") String drugOrderId);
+    Call<ApiDTO<DrugOrderDetail>> drugDetail(@Query("drugOrderId") String drugOrderId);
 
     @FormUrlEncoded
     @POST("drug/cancel")
@@ -53,4 +54,7 @@ public interface DrugModule {
     @GET("drug/record-last")
     Call<ApiDTO<List<Prescription>>> recordLast(@Query("recordId") String recordId);
 
+    //获取所有诊断名称
+    @GET("list/drag-info")
+    Call<ApiDTO<List<String>>>getRecordList(@Query("keyWord")String keyword);
 }

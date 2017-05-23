@@ -13,6 +13,7 @@ import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Drug;
+import com.doctor.sun.immutables.DrugOrderDetail;
 import com.doctor.sun.module.ProfileModule;
 
 import java.util.ArrayList;
@@ -27,9 +28,9 @@ public class ItemCoupons extends BaseItem {
     ;
     private List<Coupon> coupons = new ArrayList<>();
     private int selectedCoupon = -1;
-    private Drug drug;
+    private DrugOrderDetail drug;
 
-    public ItemCoupons(Drug drug) {
+    public ItemCoupons(DrugOrderDetail drug) {
         this.drug = drug;
         if (notPay()) {
             loadCoupons();

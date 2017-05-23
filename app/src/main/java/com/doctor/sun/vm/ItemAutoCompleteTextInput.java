@@ -7,7 +7,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.doctor.sun.entity.DrugDetail;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.DrugModule;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;

@@ -30,7 +30,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="专属咨询:"
+                android:text="专属网诊:"
                 android:textColor="@color/dark_36"
                 android:textSize="@dimen/font_15" />
 

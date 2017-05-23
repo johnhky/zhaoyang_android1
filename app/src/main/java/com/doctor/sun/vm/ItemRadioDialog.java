@@ -6,14 +6,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListPopupWindow;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.BR;
+import com.doctor.sun.util.AddressTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import cn.qqtheme.framework.entity.City;
+import cn.qqtheme.framework.entity.County;
+import cn.qqtheme.framework.entity.Province;
 
 /**
  * Created by rick on 23/12/2015.
@@ -47,10 +53,12 @@ public class ItemRadioDialog extends BaseItem implements LayoutId {
         return options.get(selectedItem);
     }
 
-    public void showPopupWindow(View view,Context context){
+
+
+    public void showPopupWindow(View view, Context context) {
         ArrayList<String> items = options;
         final ListPopupWindow listPopupWindow = new ListPopupWindow(context);
-        listPopupWindow.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1,items));
+        listPopupWindow.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, items));
         listPopupWindow.setWidth(view.getWidth());
         listPopupWindow.setHeight(450);
         listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -104,6 +112,10 @@ public class ItemRadioDialog extends BaseItem implements LayoutId {
         selectedItem = -1;
     }
 
+    public void removeOption(int option) {
+        options.remove(option);
+    }
+
     public ArrayList<String> getOptions() {
         return options;
     }
@@ -118,7 +130,6 @@ public class ItemRadioDialog extends BaseItem implements LayoutId {
         }
         return String.valueOf(selectedItem + 1);
     }
-
 
     public interface Evaluator {
         String evaluate(ItemRadioDialog dialog);

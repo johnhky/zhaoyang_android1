@@ -22,4 +22,5 @@ public class PaySuccessEvent implements Event {
     public Appointment getData() {
         return data;
     }
+
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -12,10 +13,12 @@ import android.view.WindowManager;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Banner;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicineStore;
+import com.doctor.sun.entity.NewDoctor;
 import com.doctor.sun.entity.SystemMsg;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -31,6 +34,9 @@ import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.ui.pager.BindingPagerAdapter;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +44,9 @@ import java.util.List;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.ui.widget.AutoScrollViewPager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by kb on 21/12/2016.
@@ -73,6 +82,11 @@ public class PMainHandler {
         Intent intent = SystemMsgListActivity.makeIntent(context);
         context.startActivity(intent);
     }
+
+    public static boolean isNetwork(NewDoctor data) {
+        return data.getIs_open().isNetwork();
+    }
+
 
     public int getSearchDoctorBackground() {
         return R.drawable.search_doctor;
@@ -120,6 +134,12 @@ public class PMainHandler {
         final SimpleAdapter adapter = new SimpleAdapter();
         doctorApi.recommendDoctors().enqueue(new SimpleCallback<List<Doctor>>() {
             @Override
+            public void onFailure(Call<ApiDTO<List<Doctor>>> call, Throwable t) {
+                super.onFailure(call, t);
+                Log.e("eeee",t.getMessage().toString());
+            }
+
+            @Override
             protected void handleResponse(List<Doctor> response) {
                 // 由于每次到首页要重新刷新，disable掉首页的推荐医生点击跳转动画
                 for (Doctor doctor : response) {
@@ -128,9 +148,9 @@ public class PMainHandler {
                 adapter.insertAll(response);
                 adapter.notifyDataSetChanged();
             }
+
         });
         adapter.mapLayout(R.layout.item_doctor, R.layout.item_search_doctor);
-
         return adapter;
     }
 
@@ -173,7 +193,7 @@ public class PMainHandler {
             protected void handleResponse(List<Banner> response) {
                 if (response != null && response.size() > 0) {
                     Banner banner = response.get(0);
-                    if (fromUserAction||!banner.showed()) {
+                    if (fromUserAction || !banner.showed()) {
                         adapter.setItems(response);
                         adapter.notifyDataSetChanged();
                         viewPager.setAdapter(adapter);
@@ -184,6 +204,7 @@ public class PMainHandler {
             }
         });
     }
+
 
     public MedicineStore getMedicineStore() {
         return medicineStore;

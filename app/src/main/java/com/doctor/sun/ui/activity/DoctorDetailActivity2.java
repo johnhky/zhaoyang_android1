@@ -1,100 +1,66 @@
 package com.doctor.sun.ui.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
-import com.afollestad.materialdialogs.GravityEnum;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityDoctorDetail2Binding;
-import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
-import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Article;
 import com.doctor.sun.entity.Comment;
-import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Doctor;
-import com.doctor.sun.entity.constans.AppointmentType;
-import com.doctor.sun.entity.constans.CouponType;
-import com.doctor.sun.event.AdapterItemsEvent;
-import com.doctor.sun.event.SelectAppointmentTypeEvent;
-import com.doctor.sun.event.ShowDialogEvent;
+import com.doctor.sun.entity.NewDoctor;
+
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.model.DoctorDetailModel;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.ToolModule;
-import com.doctor.sun.ui.adapter.SimpleAdapter;
-import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
-import com.doctor.sun.ui.adapter.core.SortedListAdapter;
-import com.doctor.sun.ui.handler.MedicalRecordEventHandler;
-import com.doctor.sun.util.ShowCaseUtil;
-import com.doctor.sun.vm.BaseItem;
-import com.doctor.sun.vm.ItemCouponMessage;
-import com.doctor.sun.vm.ItemPickAppointmentDuration;
-import com.doctor.sun.vm.ItemPremiumAppointment;
-import com.doctor.sun.vm.ItemSpace;
-import com.doctor.sun.vm.ItemStandardAppointment;
-import com.squareup.otto.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import io.ganguo.library.core.event.EventHub;
-import retrofit2.Call;
-
+import com.doctor.sun.ui.activity.patient.POrderMessageActivity;
 /**
  * Created by kb on 13/12/2016.
  */
 
-public class DoctorDetailActivity2 extends AppCompatActivity {
+public class DoctorDetailActivity2 extends BaseFragmentActivity2 {
 
     private ActivityDoctorDetail2Binding binding;
-    private SortedListAdapter adapter;
-    private DoctorDetailModel model;
-    private MaterialDialog dialog;
 
     private ProfileModule api = Api.of(ProfileModule.class);
 
-    private boolean isPickingDuration = false;
-    private AppointmentBuilder builder = new AppointmentBuilder();
-    private MedicalRecordEventHandler medicalRecordHandler;
-
-    private boolean isToolbarCollapsed = false;
 
     private Doctor doctor;
-
+    private int id;
     public static Intent makeIntent(Context context, Doctor data) {
         Intent i = new Intent(context, DoctorDetailActivity2.class);
         i.putExtra(Constants.DATA, data);
+        return i;
+    }
 
+    public static Intent makeIntent(Context context, NewDoctor data) {
+        Intent i = new Intent(context, DoctorDetailActivity2.class);
+        i.putExtra(Constants.DATA, data);
         return i;
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_doctor_detail2);
-        adapter = new SortedListAdapter();
-        model = new DoctorDetailModel();
-
-        postponeTransition();
-
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("unconllect");
+        filter.addAction("conllect");
+        registerReceiver(receiver, filter);
         showDoctorInfo();
+        postponeTransition();
+        initWidget();
     }
 
     private void showDoctorInfo() {
@@ -102,252 +68,135 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         api.doctorInfo(getData().getId()).enqueue(new SimpleCallback<Doctor>() {
             @Override
             protected void handleResponse(Doctor response) {
-                builder.setDoctor(getData());
-                binding.setData(builder);
-                initToolbar();
-                initView();
-
-                doctor = response;
+                binding.setData(response);
+                Log.e("eeee", binding.getData().toString());
             }
         });
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (medicalRecordHandler == null) {
-            medicalRecordHandler = new MedicalRecordEventHandler(builder);
-        }
-        if (!medicalRecordHandler.isRegister()) {
-            medicalRecordHandler.registerTo(this);
-        }
-        EventHub.register(this);
+    protected void onStart() {
+        super.onStart();
+        initView();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        EventHub.unregister(this);
+    public void initView() {
+        api.comments(getData().getId(), "1").enqueue(new SimpleCallback<PageDTO<Comment>>() {
+            @Override
+            protected void handleResponse(PageDTO<Comment> response) {
+                binding.tvComment.setText("评论(" + response.getData().size() + ")");
+            }
+        });
+        api.articles(getData().getId(), "1").enqueue(new SimpleCallback<PageDTO<Article>>() {
+            @Override
+            protected void handleResponse(PageDTO<Article> response) {
+                binding.tvArticle.setText("文章(" + response.getData().size() + ")");
+            }
+        });
+        if ("1".equals(getData().getIsFav())) {
+            binding.tvConllect.setBackgroundResource(R.drawable.ic_conllect);
+            binding.tvConllect.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            binding.tvConllect.setText("已收藏");
+        } else {
+            binding.tvConllect.setBackgroundResource(R.drawable.ic_unconllect);
+            binding.tvConllect.setTextColor(getResources().getColor(R.color.text_color_gray));
+            binding.tvConllect.setText("未收藏");
+        }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (medicalRecordHandler.isRegister()) {
-            medicalRecordHandler.unregister();
-            medicalRecordHandler = null;
+    public void initWidget() {
+        if (getData().getSpecialistCateg()==1){
+            binding.radSimple.setEnabled(false);
         }
+        binding.radNet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                id = 1;
+                binding.radNet.setBackgroundResource(R.drawable.ic_type_checked);
+                binding.radSimple.setBackgroundResource(R.drawable.ic_type_unchecked);
+                binding.radSurface.setBackgroundResource(R.drawable.ic_type_unchecked);
+                binding.tvSimple.setTextColor(getResources().getColor(R.color.text_color_black));
+                binding.tvSimple2.setTextColor(getResources().getColor(R.color.text_color_black));
+                binding.tvNet.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                binding.tvNet2.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                binding.tvSurface.setTextColor(getResources().getColor(R.color.text_color_black));
+                binding.tvSurface2.setTextColor(getResources().getColor(R.color.text_color_black));
+                binding.tvMoney.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                binding.tvSimpleMoney.setTextColor(getResources().getColor(R.color.red_f7));
+                binding.tvSurfaceMoney.setTextColor(getResources().getColor(R.color.red_f7));
+                binding.tvNetRecommond.setVisibility(View.VISIBLE);
+                binding.tvSimpleRecommond.setVisibility(View.GONE);
+                binding.tvSurfaceRecommond.setVisibility(View.GONE);
+            }
+        });
+        binding.radSimple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                id = 2;
+                binding.radSimple.setBackgroundResource(R.drawable.ic_type_checked);
+                binding.radNet.setBackgroundResource(R.drawable.ic_type_unchecked);
+                binding.radSurface.setBackgroundResource(R.drawable.ic_type_unchecked);
+                binding.tvNet.setTextColor(getResources().getColor(R.color.text_color_black));
+                binding.tvNet2.setTextColor(getResources().getColor(R.color.text_color_black));
+                binding.tvSimple.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                binding.tvSimple2.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                binding.tvSurface.setTextColor(getResources().getColor(R.color.text_color_black));
+                binding.tvSurface2.setTextColor(getResources().getColor(R.color.text_color_black));
+                binding.tvSimpleMoney.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                binding.tvMoney.setTextColor(getResources().getColor(R.color.red_f7));
+                binding.tvSurfaceMoney.setTextColor(getResources().getColor(R.color.red_f7));
+                binding.tvSimpleRecommond.setVisibility(View.VISIBLE);
+                binding.tvNetRecommond.setVisibility(View.GONE);
+                binding.tvSurfaceRecommond.setVisibility(View.GONE);
+            }
+        });
+        binding.radSurface.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                id = 3;
+                binding.radSurface.setBackgroundResource(R.drawable.ic_type_checked);
+                binding.radSimple.setBackgroundResource(R.drawable.ic_type_unchecked);
+                binding.radNet.setBackgroundResource(R.drawable.ic_type_unchecked);
+                binding.tvSimple.setTextColor(getResources().getColor(R.color.text_color_black));
+                binding.tvSimple2.setTextColor(getResources().getColor(R.color.text_color_black));
+                binding.tvSurface.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                binding.tvSurface2.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                binding.tvNet.setTextColor(getResources().getColor(R.color.text_color_black));
+                binding.tvNet2.setTextColor(getResources().getColor(R.color.text_color_black));
+                binding.tvSurfaceMoney.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                binding.tvMoney.setTextColor(getResources().getColor(R.color.red_f7));
+                binding.tvSimpleMoney.setTextColor(getResources().getColor(R.color.red_f7));
+                binding.tvSurfaceRecommond.setVisibility(View.VISIBLE);
+                binding.tvSimpleRecommond.setVisibility(View.GONE);
+                binding.tvNetRecommond.setVisibility(View.GONE);
+            }
+        });
+        binding.flNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (id==0){
+                    Toast.makeText(DoctorDetailActivity2.this,"请选择就诊类型!",Toast.LENGTH_LONG).show();
+                }else{
+                    toOrderMessage(DoctorDetailActivity2.this);
+                }
+
+            }
+        });
+    }
+
+    public void toOrderMessage(Context context) {
+        Intent toOrder = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.DATA,getData());
+        toOrder.putExtra(Constants.REMARK,id);
+        toOrder.putExtras(bundle);
+        toOrder.putExtra(Constants.ADDRESS,binding.tvClinicAddress.getText().toString());
+        toOrder.setClass(context, POrderMessageActivity.class);
+        context.startActivity(toOrder);
     }
 
     private Doctor getData() {
         return getIntent().getParcelableExtra(Constants.DATA);
-    }
-
-    private void initToolbar() {
-        setSupportActionBar(binding.toolbar);
-        // 上滑时，toolbar改变颜色
-        binding.appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    isToolbarCollapsed = true;
-                    binding.toolbar.setNavigationIcon(R.drawable.ic_back_white);
-                } else {
-                    isToolbarCollapsed = false;
-                    binding.toolbar.setNavigationIcon(R.drawable.ic_back_blue);
-                }
-                invalidateOptionsMenu();
-            }
-        });
-        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-        getSupportActionBar().setTitle("");
-    }
-
-    private void initView() {
-        binding.rv.setLayoutManager(new LinearLayoutManager(this));
-        binding.rv.setAdapter(adapter);
-        fillAdapter();
-    }
-
-    private void fillAdapter() {
-        if (isPickingDuration) {
-            adapter.clear();
-        }
-        final Doctor data = getData();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final CountDownLatch latch = new CountDownLatch(2);
-                final List<Article> articleList = new ArrayList<>();
-                final List<Comment> commentList = new ArrayList<>();
-                Call<ApiDTO<PageDTO<Article>>> articles = api.articles(getData().getId(), "1");
-                Call<ApiDTO<PageDTO<Comment>>> comments = api.comments(data.getId(), "1");
-                articles.enqueue(new SimpleCallback<PageDTO<Article>>() {
-                    @Override
-                    protected void handleResponse(PageDTO<Article> response) {
-                        if (response.getData().size() > 0) {
-                            articleList.addAll(response.getData());
-                        }
-                        latch.countDown();
-                    }
-                });
-                comments.enqueue(new SimpleCallback<PageDTO<Comment>>() {
-                    @Override
-                    protected void handleResponse(PageDTO<Comment> response) {
-                        if (response.getData() != null && response.getData().size() >= 1) {
-                            commentList.addAll(response.getData());
-                        }
-                        latch.countDown();
-                    }
-                });
-
-                try {
-                    latch.await(5000, TimeUnit.MILLISECONDS);
-                    List<SortedItem> items = model.parseData(data, articleList, commentList);
-                    EventHub.post(new AdapterItemsEvent(items));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-
-    @Subscribe
-    public void onEventMainThread(AdapterItemsEvent e) {
-        adapter.insertAll(e.getItemList());
-        binding.flSelectDuration.setVisibility(View.VISIBLE);
-        binding.llSelectRecord.setVisibility(View.GONE);
-
-        startPostponedTransition();
-    }
-
-    public void showDialog() {
-        if (dialog == null) {
-            SimpleAdapter adapter = new SimpleAdapter();
-            adapter.onFinishLoadMore(true);
-            MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
-                    .titleGravity(GravityEnum.CENTER)
-                    .title("预约类型");
-
-            adapter.add(new ItemPremiumAppointment(getData().getMoney()));
-            adapter.add(new ItemSpace());
-            adapter.add(new ItemStandardAppointment(getData().getSecondMoney()));
-            dialog = builder.adapter(adapter, new LinearLayoutManager(this)).build();
-        }
-        dialog.show();
-    }
-
-    @Subscribe
-    public void onShowDialogEvent(ShowDialogEvent event) {
-        showDialog();
-    }
-
-    @Subscribe
-    public void onSelectAppointmentTypeEvent(SelectAppointmentTypeEvent event) {
-
-        ProfileModule api = Api.of(ProfileModule.class);
-
-        builder.setType(event.getType());
-        dialog.dismiss();
-
-        isPickingDuration = true;
-        adapter.clear();
-
-        final ItemPickAppointmentDuration item = new ItemPickAppointmentDuration(builder);
-        api.coupons(CouponType.VALID).enqueue(new SimpleCallback<List<Coupon>>() {
-            @Override
-            protected void handleResponse(List<Coupon> response) {
-                if (response.size() > 0) {
-                    insertCouponMessage(response.get(0), response.size());
-                }
-                item.setPosition(adapter.size());
-                adapter.insert(item);
-                insertTail();
-
-            }
-        });
-        binding.flSelectDuration.setVisibility(View.GONE);
-        binding.llSelectRecord.setVisibility(View.VISIBLE);
-        ShowCaseUtil.showCase2(binding.llSelectRecord, "点击下一步选择要预约的患者病历", 5, 6, 7, true);
-        if (builder.getType() == AppointmentType.STANDARD) {
-            builder.pickDate(this);
-        }
-    }
-
-    private void insertCouponMessage(Coupon coupon, int size) {
-        String couponMessage = "您的账户有" + size + "张";
-        if (size == 1) {
-            couponMessage += coupon.couponMoney + "元优惠券";
-            couponMessage += "，诊金满" + coupon.threshold + "元就可以使用哦";
-        } else {
-            couponMessage += "优惠券";
-        }
-        ItemCouponMessage itemCouponMessage = new ItemCouponMessage(couponMessage);
-        itemCouponMessage.setItemId("itemCouponMessage");
-        itemCouponMessage.setPosition(adapter.size());
-        adapter.insert(itemCouponMessage);
-    }
-
-    public void insertTail() {
-        BaseItem tail = new BaseItem(R.layout.space_match_parent_gray);
-        tail.setItemId("space_" + adapter.size());
-        tail.setPosition(adapter.size());
-        adapter.insert(tail);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (isToolbarCollapsed) {
-            if (doctor.getIsFav().equals("1")) {
-                menu.getItem(0).setIcon(R.drawable.ic_favorite_red_fill);
-            } else {
-                menu.getItem(0).setIcon(R.drawable.ic_favorite_white_border);
-            }
-        } else {
-            if (doctor.getIsFav().equals("1")) {
-                menu.getItem(0).setIcon(R.drawable.ic_favorite_red_fill);
-            } else {
-                menu.getItem(0).setIcon(R.drawable.ic_favorite_blue_border);
-            }
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_fav_doctor, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_fav:
-                doctor.getHandler().toggleFav(this, doctor);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        if (isPickingDuration) {
-            fillAdapter();
-            isPickingDuration = false;
-        } else {
-            super.onBackPressed();
-        }
     }
 
     private void postponeTransition() {
@@ -364,5 +213,32 @@ public class DoctorDetailActivity2 extends AppCompatActivity {
         } else {
             supportStartPostponedEnterTransition();
         }
+    }
+
+
+    @Override
+    public int getMidTitle() {
+        return R.string.doctor_detail;
+    }
+
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("unconllect")) {
+                binding.tvConllect.setBackgroundResource(R.drawable.ic_unconllect);
+                binding.tvConllect.setTextColor(getResources().getColor(R.color.text_color_gray));
+                binding.tvConllect.setText("未收藏");
+            } else if (intent.getAction().equals("conllect")) {
+                binding.tvConllect.setBackgroundResource(R.drawable.ic_conllect);
+                binding.tvConllect.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                binding.tvConllect.setText("已收藏");
+            }
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
     }
 }

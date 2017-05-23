@@ -20,6 +20,8 @@ import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.ShowCaseUtil;
 
+import java.text.SimpleDateFormat;
+
 import io.ganguo.library.AppManager;
 
 /**
@@ -73,27 +75,24 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
         binding.tvMainButton.setOnClickListener(this);
         binding.tvSubButton.setOnClickListener(this);
         if (getType() == PRESCRIPTION) {
-            binding.tvSystemTip.setVisibility(View.GONE);
+            binding.llDrugOrder.setVisibility(View.VISIBLE);
             binding.tvSubButton.setText("返回首页");
             binding.tvMainButton.setText("返回寄药订单列表");
-            binding.tvTip.setVisibility(View.GONE);
         } else {
-            setBookTime();
-        }
-    }
-
-    private void setBookTime() {
-        switch (getType()) {
-            case APPOINTMENT: {
-                String bookTime = getAppointment().getBook_time();
-                binding.setData(bookTime);
-                break;
-            }
-            default: {
-
+            binding.llAppointment.setVisibility(View.VISIBLE);
+            binding.tvAppointmentTime.setText(getAppointment().getBook_time());
+            if (getAppointment().getType() == 2) {
+                binding.btnBack.setText("立即给医生留言");
+                binding.tvEndTime.setText("咨询医生");
+                binding.tvStartTime.setText("请立即开始填写问卷");
+            } else {
+                binding.btnBack.setText("返回咨询订单列表");
+                binding.tvStartTime.setText(getAppointment().getVisit_time());
+                binding.tvEndTime.setText(getAppointment().getEnd_time());
             }
         }
     }
+
 
     @Override
     public void onClick(View v) {
@@ -101,12 +100,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
             case R.id.tv_main_button: {
                 Intent intent1 = PMainActivity2.makeIntent(PaySuccessActivity.this);
                 startActivity(intent1);
-                int position = 0;
-                if (getType() == APPOINTMENT) {
-                    Intent intent2 = MyOrderActivity.makeIntent(PaySuccessActivity.this, position);
-                    startActivity(intent2);
-                    finish();
-                } else if (getType() == PRESCRIPTION) {
+                if (getType() == PRESCRIPTION) {
                     Bundle bundle = DrugListFragment.getArgs();
                     Intent intent = SingleFragmentActivity.intentFor(this, "寄药订单", bundle);
                     startActivity(intent);
@@ -119,16 +113,6 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     finishAffinity();
                 }
-                if (getType() == APPOINTMENT) {
-                    String id = getAppointment().getId();
-                    Intent intent1 = PMainActivity2.makeIntent(this);
-                    startActivity(intent1);
-                    Intent intent2 = MyOrderActivity.makeIntent(this);
-                    startActivity(intent2);
-                    Intent intent3 = EditQuestionActivity.intentFor(this, id, QuestionsPath.NORMAL);
-                    startActivity(intent3);
-                }
-
                 if (getType() == PRESCRIPTION) {
                     finish();
                     Intent intent = PMainActivity2.makeIntent(this);
@@ -136,6 +120,38 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                 }
                 break;
             }
+            case R.id.ll_askService:
+                Intent intent = MedicineStoreActivity.intentForCustomerService(this);
+                startActivity(intent);
+                break;
+            case R.id.btn_back:
+                Intent intent1 = PMainActivity2.makeIntent(PaySuccessActivity.this);
+                startActivity(intent1);
+                int position = 0;
+                if (getType() == APPOINTMENT) {
+                    if (getAppointment().getType() == 2) {
+                        startActivity(PConsultingActivity.class);
+                    } else {
+                        Intent intent2 = MyOrderActivity.makeIntent(PaySuccessActivity.this, position);
+                        startActivity(intent2);
+                    }
+                }
+                finish();
+                break;
+            case R.id.btn_input:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    finishAffinity();
+                }
+                if (getType() == APPOINTMENT) {
+                    String id = getAppointment().getId();
+                    Intent intents = PMainActivity2.makeIntent(this);
+                    startActivity(intents);
+                    Intent intent2 = MyOrderActivity.makeIntent(this);
+                    startActivity(intent2);
+                    Intent intent3 = EditQuestionActivity.intentFor(this, id, QuestionsPath.NORMAL);
+                    startActivity(intent3);
+                }
+                break;
         }
     }
 

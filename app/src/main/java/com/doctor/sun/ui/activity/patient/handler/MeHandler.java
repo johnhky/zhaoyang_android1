@@ -9,6 +9,7 @@ import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
+import com.doctor.sun.ui.activity.patient.AddressManagerActivity;
 import com.doctor.sun.ui.activity.patient.CouponTabActivity;
 import com.doctor.sun.ui.activity.patient.FavDoctorActivity;
 import com.doctor.sun.ui.activity.patient.FollowUpDoctorListActivity;
@@ -55,6 +56,11 @@ public class MeHandler extends BaseObservable {
 
     public void Setting(View view) {
         Intent intent = SettingActivity.makeIntent(view.getContext());
+        view.getContext().startActivity(intent);
+    }
+
+    public void address(View view){
+        Intent intent = AddressManagerActivity.makeIntent(view.getContext());
         view.getContext().startActivity(intent);
     }
 

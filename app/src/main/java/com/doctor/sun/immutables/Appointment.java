@@ -2,6 +2,7 @@ package com.doctor.sun.immutables;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.DrugOrders;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.Tags;
 import com.doctor.sun.entity.constans.IntBoolean;
@@ -130,6 +131,10 @@ public abstract class Appointment implements LayoutId {
         return new MedicalRecord();
     }
 
+    @Value.Default
+    public DrugOrders getDrug_Orders(){
+        return new DrugOrders();
+    }
 
     @Value.Default
     public int getItemLayoutId() {

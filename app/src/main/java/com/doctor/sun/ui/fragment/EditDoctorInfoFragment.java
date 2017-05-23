@@ -26,6 +26,7 @@ import com.doctor.sun.http.callback.TokenCallback;
 import com.doctor.sun.model.EditDoctorInfoModel;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.activity.doctor.UpdateReviewedActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.vm.ItemAddTag;
@@ -47,6 +48,7 @@ public class EditDoctorInfoFragment extends SortedListFragment {
 
     private EditDoctorInfoModel model;
     private Doctor data;
+    private String fromChatting;
 
     public static Intent intentFor(Context context, Doctor doctor) {
         Intent i = new Intent(context, SingleFragmentActivity.class);
@@ -99,7 +101,8 @@ public class EditDoctorInfoFragment extends SortedListFragment {
             protected void handleResponse(IsChanged response) {
                 if (response.isChanged) {
                     Toast.makeText(getContext(), "保存成功,请耐心等待资料审核", Toast.LENGTH_SHORT).show();
-                }else {
+
+                } else {
                     Toast.makeText(getContext(), "资料保存成功", Toast.LENGTH_SHORT).show();
                 }
 
@@ -108,8 +111,15 @@ public class EditDoctorInfoFragment extends SortedListFragment {
                     @Override
                     protected void handleResponse(Doctor response) {
                         Config.putString(Constants.DOCTOR_PROFILE, JacksonUtils.toJson(response));
+                        if (fromChatting!=null){
+                            getActivity().finish();
+                        }else{
+                            Intent toFinish = new Intent();
+                            toFinish.setClass(getContext(), UpdateReviewedActivity.class);
+                            startActivity(toFinish);
+                        }
 
-                        TokenCallback.checkToken(getActivity());
+                        /*TokenCallback.checkToken(getActivity());*/
                     }
                 });
             }
@@ -156,6 +166,11 @@ public class EditDoctorInfoFragment extends SortedListFragment {
         onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
     }
 
+    public String getFromChatting() {
+        Intent getData = getActivity().getIntent();
+        fromChatting = getData.getStringExtra("update");
+        return fromChatting;
+    }
     //
 //    @Override
 //    public void onRefresh() {

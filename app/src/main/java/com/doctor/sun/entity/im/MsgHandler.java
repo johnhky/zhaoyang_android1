@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -18,6 +19,7 @@ import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.im.custom.FileTypeMap;
 import com.doctor.sun.media.AudioController;
 import com.doctor.sun.ui.activity.FileDetailActivity;
+import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.util.NotificationUtil;
 import com.doctor.sun.util.TimeUtils;
 import com.doctor.sun.util.VoipCallUtil;
@@ -46,6 +48,14 @@ public class MsgHandler {
     public static final int WIDTH_PER_SECOND = 25;
     public static final int WIDTH_PER_SECOND_EXCEED_10 = 3;
     private MediaPlayer mSuffixPlayer;
+
+    public void toUpdateData(Context context){
+        Intent toUpdateData = new Intent();
+        toUpdateData.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        toUpdateData.setClass(context, EditDoctorInfoFragment.class);
+        toUpdateData.putExtra("update",1);
+        context.startActivity(toUpdateData);
+    }
 
     public static void removeMsg(final String msgId) {
         if (msgId == null || "".equals(msgId)) {

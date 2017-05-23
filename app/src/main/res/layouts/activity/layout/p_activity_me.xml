@@ -264,7 +264,40 @@
                 android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:background="#c1cacf" />
+            <LinearLayout
+                android:id="@+id/btn_address"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:onClick="@{handler.address}"
+                android:orientation="vertical">
 
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_40">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_address" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_14"
+                    android:text="地址管理"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_14" />
+
+            </LinearLayout>
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="#c1cacf" />
             <LinearLayout
                 android:id="@+id/btn_setting"
                 android:layout_width="0dp"
@@ -301,11 +334,6 @@
                 android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:background="#c1cacf" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
 
         </LinearLayout>
 

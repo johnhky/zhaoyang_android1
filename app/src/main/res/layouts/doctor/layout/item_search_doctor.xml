@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_default"
-        android:onClick="@{()->data.handler.viewDetail(adapter,context,ivAvatar)}"
+        android:onClick="@{()->data.handler.viewDetail(context)}"
         android:orientation="vertical">
 
         <View
@@ -37,7 +37,11 @@
             android:layout_marginTop="@dimen/dp_10"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/dp_13">
-
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
             <com.doctor.sun.ui.widget.BezelImageView
                 android:id="@+id/iv_avatar"
                 android:layout_width="@dimen/dp_60"
@@ -50,7 +54,23 @@
                 android:src="@{data.avatar}"
                 app:maskDrawable="@drawable/circle_mask"
                 app:transitionName='@{"doctor" + data.id}' />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/dp_4"
+                    android:background="@{data.levelBackgroundColor}"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/dp_4"
+                    android:paddingRight="@dimen/dp_4"
+                    android:singleLine="true"
+                    android:text="@{data.level}"
+                    android:textColor="@color/blue_grey"
+                    android:textSize="@dimen/font_9"
+                    tools:text="执业医师认证"
+                    />
 
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,35 +93,19 @@
                         android:text="@{data.name}"
                         android:textColor="#363636"
                         android:textSize="@dimen/font_15"
-                        android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:textStyle="bold"
+                        tools:text="医生"
+                        />
 
                     <RatingBar
                         android:id="@+id/rating_bar_0"
                         style="@style/SmallRatingBar"
+                        android:layout_marginLeft="5dp"
                         android:layout_gravity="center_vertical"
                         android:isIndicator="true"
                         android:rating="@{data.point}" />
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="@dimen/dp_4"
-                    android:layout_marginLeft="@dimen/dp_13"
-                    android:background="@{data.levelBackgroundColor}"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dp_4"
-                    android:paddingRight="@dimen/dp_4"
-                    android:singleLine="true"
-                    android:text="@{data.level}"
-                    android:textColor="@color/blue_grey"
-                    android:textSize="@dimen/font_9" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -110,32 +114,58 @@
                     android:layout_marginBottom="@dimen/dp_4"
                     android:layout_marginLeft="@dimen/dp_13"
                     android:layout_marginRight="@dimen/dp_13"
-                    android:text="@{data.hospitalName+&quot;/&quot;+data.specialist}"
+                    android:text="@{data.hospitalName+&quot;/&quot;+data.specialist+&quot;/&quot;+data.title}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13"
                     tools:text="医院名" />
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_4"
-                    android:layout_marginLeft="@dimen/dp_13"
-                    android:layout_marginRight="@dimen/dp_13"
-                    android:gravity="center_vertical"
-                    android:text="@{&quot;专属咨询:  ￥&quot;+data.money + &quot;   闲时咨询:  ￥&quot;+data.secondMoney}"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/font_13"
-                    tools:text="诊金" />
-
-                <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="@dimen/dp_13"-->
-                <!--android:layout_marginRight="@dimen/dp_13"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:text='@{data.specialist}'-->
-                <!--android:textColor="#363636"-->
-                <!--android:textSize="@dimen/font_13" />-->
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="14dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#a4a4a4"
+                        android:text="@{&quot;VIP网诊 ￥ &quot;+data.money+&quot;/&quot;+data.networkMinute+&quot;分钟&quot;}"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="14dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#a4a4a4"
+                        android:text="@{&quot;诊所面诊 ￥ &quot;+data.surfaceMoney+&quot;/&quot;+data.surfaceMinute+&quot;分钟&quot;}"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="14dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#a4a4a4"
+                        android:text="@{&quot;简易复诊&quot;}"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="@color/red_f0"
+                        />
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

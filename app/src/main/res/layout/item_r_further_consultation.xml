@@ -128,7 +128,7 @@
                 android:checked="@={data.btnOneChecked}"
                 android:enabled="false"
                 android:gravity="center"
-                android:text="专属咨询"
+                android:text="专属网诊"
                 android:textColor="@color/color_return_type" />
 
             <View

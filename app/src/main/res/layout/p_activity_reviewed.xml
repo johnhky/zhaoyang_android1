@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/include_header2"></include>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_eb"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_15"
+                android:text="审核中"
+                android:textColor="@color/text_color_black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_20"
+                android:text="您的信息正在审核中,请耐心等待..."
+                android:textColor="@color/text_color_gray"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_25"
+                android:text="如需帮助,请联系我们!"
+                android:textColor="@color/text_color_black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_25"
+                android:text="客服电话:400-835-2600"
+                android:textColor="@color/text_color_black"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/p_reviewed_update"
+                    android:layout_width="@dimen/dp_283"
+                    android:layout_height="@dimen/dp_49"
+                    android:background="@drawable/shape_button"
+                    android:gravity="center"
+                    android:text="修改资料"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <Button
+                    android:id="@+id/p_reviewed_back"
+                    android:layout_width="@dimen/dp_283"
+                    android:layout_height="@dimen/dp_49"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/shape_green"
+                    android:gravity="center"
+                    android:text="返回首页"
+                    android:textColor="@color/text_color_blue"
+                    android:textSize="17sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>

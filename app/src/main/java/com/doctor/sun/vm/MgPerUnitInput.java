@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class MgPerUnitInput extends ItemTextInput2 {
 
         private ItemRadioDialog dialog = new ItemRadioDialog(0);
-    public MgPerUnitInput(int itemLayoutId, String title, String hint) {
+        public MgPerUnitInput(int itemLayoutId, String title, String hint) {
         super(itemLayoutId, title, hint);
         dialog.setTitle("剂量单位");
         dialog.setSelectedItem(0);

@@ -73,7 +73,7 @@ public class DiagnosisInfo implements Parcelable {
     @JsonProperty("description")
     private String description;
     @JsonProperty("diagnosis_record")
-    private String diagnosisRecord;
+    private List<String> diagnosisRecord = new ArrayList<>();
     @JsonProperty("current_status")
     private int currentStatus;
     @JsonProperty("recovered")
@@ -83,7 +83,7 @@ public class DiagnosisInfo implements Parcelable {
     @JsonProperty("effect")
     private int effect;
     @JsonProperty("prescription")
-    private ArrayList<Prescription> prescription = new ArrayList<>();
+    private List<Prescription> prescription = new ArrayList<>();
     @JsonProperty("doctor_advince")
     private String doctorAdvince;
     @JsonProperty("return")
@@ -209,11 +209,11 @@ public class DiagnosisInfo implements Parcelable {
         this.description = description;
     }
 
-    public String getDiagnosisRecord() {
+    public List<String> getDiagnosisRecord() {
         return diagnosisRecord;
     }
 
-    public void setDiagnosisRecord(String diagnosisRecord) {
+    public void setDiagnosisRecord(List<String> diagnosisRecord) {
         this.diagnosisRecord = diagnosisRecord;
     }
 
@@ -249,11 +249,11 @@ public class DiagnosisInfo implements Parcelable {
         this.effect = effect;
     }
 
-    public ArrayList<Prescription> getPrescription() {
+    public List<Prescription> getPrescription() {
         return prescription;
     }
 
-    public void setPrescription(ArrayList<Prescription> prescription) {
+    public void setPrescription(List<Prescription> prescription) {
         this.prescription = prescription;
     }
 
@@ -433,7 +433,7 @@ public class DiagnosisInfo implements Parcelable {
         dest.writeSerializable(this.memory);
         dest.writeSerializable(this.insight);
         dest.writeString(this.description);
-        dest.writeString(this.diagnosisRecord);
+        dest.writeList(this.diagnosisRecord);
         dest.writeInt(this.currentStatus);
         dest.writeInt(this.recovered);
         dest.writeInt(this.treatment);
@@ -455,6 +455,7 @@ public class DiagnosisInfo implements Parcelable {
         dest.writeParcelable(this.doctorInfo, flags);
         dest.writeList(this.reminderList);
         dest.writeInt(this.canEdit);
+        dest.writeList(this.prescription);
     }
 
     public DiagnosisInfo() {
@@ -472,7 +473,8 @@ public class DiagnosisInfo implements Parcelable {
         this.memory = (HashMap<String, String>) in.readSerializable();
         this.insight = (HashMap<String, String>) in.readSerializable();
         this.description = in.readString();
-        this.diagnosisRecord = in.readString();
+        this.diagnosisRecord = new ArrayList<>();
+        in.readList(this.diagnosisRecord,String.class.getClassLoader());
         this.currentStatus = in.readInt();
         this.recovered = in.readInt();
         this.treatment = in.readInt();
@@ -492,8 +494,10 @@ public class DiagnosisInfo implements Parcelable {
         this.date = in.readString();
         this.time = in.readString();
         this.doctorInfo = in.readParcelable(Doctor.class.getClassLoader());
-        this.reminderList = new ArrayList<Reminder>();
+        this.reminderList = new ArrayList<>();
         in.readList(this.reminderList, Reminder.class.getClassLoader());
+        this.prescription = new ArrayList<>();
+        in.readList(this.prescription,Prescription.class.getClassLoader());
         this.canEdit = in.readInt();
     }
 

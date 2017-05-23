@@ -104,12 +104,18 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         }
         adviceContent.setInput(response.getDoctorAdvince());
         description.setInput(response.getDescription());
-        diagnosis.setInput(response.getDiagnosisRecord());
+        if (response.getDiagnosisRecord().size() > 0) {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < response.getDiagnosisRecord().size(); i++) {
+                builder.append("诊断" +String.valueOf(i+1)+ ":" + response.getDiagnosisRecord().get(i)+"\n");
+            }
+            diagnosis.setInput(builder.toString());
+        }
         List<Reminder> reminderList = response.reminderList;
         if (reminderList != null) {
             this.reminderList.addAll(reminderList);
         }
-        ArrayList<Prescription> prescription = response.getPrescription();
+        List<Prescription> prescription = response.getPrescription();
         if (prescription != null) {
             for (Prescription data : prescription) {
                 prescriptions.add(data);
@@ -162,7 +168,7 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
             result.addAll(prescriptions);
         }
         if (furtherConsultation != null && !"".equals(furtherConsultation.content)) {
-            result.add(new Description(R.layout.item_description, "专属咨询/闲时咨询/转诊"));
+            result.add(new Description(R.layout.item_description, "专属网诊/闲时咨询/转诊"));
             result.add(furtherConsultation);
             if (doctor != null) {
                 result.add(doctor);
@@ -190,7 +196,7 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         switch (returnType) {
             case 1:
                 //专属咨询
-                type = "专属咨询";
+                type = "专属网诊";
                 break;
             case 2:
                 //闲时咨询

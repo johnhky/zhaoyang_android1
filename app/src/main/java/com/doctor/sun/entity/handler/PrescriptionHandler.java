@@ -8,28 +8,32 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.immutables.ImmutablePrescription;
 import com.doctor.sun.immutables.ModifiablePrescription;
 import com.doctor.sun.immutables.Prescription;
+import com.doctor.sun.immutables.Titration;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
-import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Strings;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 /**
  * Created by rick on 27/10/2016.
- *
  */
 
 public class PrescriptionHandler {
@@ -53,8 +57,9 @@ public class PrescriptionHandler {
                 switch (msg.what) {
                     case DiagnosisFragment.EDIT_PRESCRITPION: {
                         String string = msg.getData().getString(Constants.DATA);
-                        Prescription parcelable = JacksonUtils.fromJson(string, Prescription.class);
-                        parcelable.setItemId(data.getItemId());
+                        Gson gson = new GsonBuilder().create();
+                        Prescription parcelable = gson.fromJson(string, Prescription.class);
+                        parcelable.setItemId(data.getItemId() + "");
                         parcelable.setPosition(data.getPosition());
                         if (adapter != null) {
                             adapter.update(parcelable);
@@ -82,9 +87,10 @@ public class PrescriptionHandler {
             }
         };
     }
-//在这判断在倒入病患处方信息的时候 患者的处方是否符合标准，不符合则弹出提示
+
+    //在这判断在倒入病患处方信息的时候 患者的处方是否符合标准，不符合则弹出提示
     public static boolean isValid(Prescription data, BaseListAdapter adapter) {
-        if (!Settings.isDoctor()){
+        if (!Settings.isDoctor()) {
             return true;
         }
         if (adapter != null && adapter.getString(8).equals("1")) {
@@ -92,14 +98,18 @@ public class PrescriptionHandler {
         }
 
         //1s单位
-        boolean isOneS = data.getSpecification().equals("-1");
-        if (isOneS) {
-            return true;
+        if (!TextUtils.isEmpty(data.getSpecification())) {
+            boolean isOneS = data.getSpecification().equals("-1");
+            if (isOneS) {
+                return true;
+            }
         }
 
         //克 毫克
-        if (data.getDrug_unit().equals("克") || data.getDrug_unit().equals("毫克")) {
-            return true;
+        if (!TextUtils.isEmpty(data.getDrug_unit())) {
+            if (data.getDrug_unit().equals("克") || data.getDrug_unit().equals("毫克")) {
+                return true;
+            }
         }
 
         return !Strings.isNullOrEmpty(data.getSpecification());
@@ -127,28 +137,43 @@ public class PrescriptionHandler {
             builder.append(takeMedicineDays);
             builder.append(",");
         }
+                /*When I wrote this code,only God and I understood what I was doing,
+        mabey a month or a few months later,only God understood*/
+        if (null != data.getTitration()) {
+            ArrayList<Titration> titrations = data.getTitration();
+            if (titrations.size() == 1) {
+                builder.append("第").append(titrations.get(0).getTake_medicine_days()).append("天起,");
+                ArrayList<String> strings = titrationNumbers(titrations.get(0));
+                for (int i = 0; i < strings.size(); i++) {
+                    if (!TextUtils.isEmpty(strings.get(i))) {
+                        builder.append(keys[i]).append(strings.get(i)).append(data.getDrug_unit());
+                        builder.append(",");
+                    }
+                }
+            }
 
-        if (!"每天".equals(data.getFrequency())) {
-            builder.append(data.getFrequency()).append(":");
-        }
+        } else {
+            if (!"每天".equals(data.getFrequency())) {
+                builder.append(data.getFrequency()).append(":");
+            }
 
-        ArrayList<String> numbers = numbers(data);
-        if (numbers != null) {
-            for (int i = 0; i < numbers.size(); i++) {
-                String amount = numbers.get(i);
-                if (null != amount && !amount.equals("")) {
-                    try {
-                        double amountDouble = Double.parseDouble(amount);
-                        if (amountDouble > 0) {
-                            builder.append(keys[i]).append(amount).append(data.getDrug_unit());
-                            builder.append(",");
+            ArrayList<String> numbers = numbers(data);
+            if (numbers != null) {
+                for (int i = 0; i < numbers.size(); i++) {
+                    String amount = numbers.get(i);
+                    if (null != amount && !amount.equals("")) {
+                        try {
+                            double amountDouble = Double.parseDouble(amount);
+                            if (amountDouble > 0) {
+                                builder.append(keys[i]).append(amount).append(data.getDrug_unit());
+                                builder.append(",");
+                            }
+                        } catch (Exception e) {
                         }
-                    } catch (Exception e) {
                     }
                 }
             }
         }
-
         if (data.getRemark() != null && !data.getRemark().isEmpty()) {
             builder.append(data.getRemark());
         } else {
@@ -189,6 +214,7 @@ public class PrescriptionHandler {
         builder.deleteCharAt(builder.length() - 1);
         return builder.toString();
     }
+
 
     @JsonIgnore
     public static String getName(Prescription data) {
@@ -232,14 +258,31 @@ public class PrescriptionHandler {
 
     public static StringBuilder getAmountV(Prescription data) {
         StringBuilder builder = new StringBuilder();
-        ArrayList<String> numbers = numbers(data);
-       for (int i = 0; i < numbers.size(); i++) {
-            String amonut = numbers.get(i);
-            if(null!=amonut.trim()&&!amonut.trim().equals("0")&&!amonut.trim().equals("")){
-                builder.append(keys[i]).append(amonut).append(data.getDrug_unit()).append(",");
+        if (data.getTitration().size()>0){
+                ArrayList<Titration> titrations = data.getTitration();
+                if (titrations.size() == 1) {
+                    builder.append("第").append(titrations.get(0).getTake_medicine_days()).append("天起,");
+                    ArrayList<String> strings = titrationNumbers(titrations.get(0));
+                    for (int i = 0; i < strings.size(); i++) {
+                        if (!TextUtils.isEmpty(strings.get(i))) {
+                            builder.append(keys[i]).append(strings.get(i)).append(data.getDrug_unit());
+                            builder.append(",");
+                        }
+                    }
+                }
+        }else{
+            ArrayList<String> numbers = numbers(data);
+            for (int i = 0; i < numbers.size(); i++) {
+                String amonut = numbers.get(i);
+                if (!TextUtils.isEmpty(amonut)) {
+                    builder.append(keys[i]).append(amonut).append(data.getDrug_unit()).append(",");
+                }
             }
         }
-        builder.deleteCharAt(builder.length() - 1);
+
+        if (builder.length()>0){
+            builder.deleteCharAt(builder.length() - 1);
+        }
         return builder;
     }
 
@@ -260,20 +303,29 @@ public class PrescriptionHandler {
         ArrayList<String> numbers = numbers(data);
         for (int i = 0; i < numbers.size(); i++) {
             String amount = numbers.get(i);
-            if (null != amount && !amount.equals("")) {
+            if (!TextUtils.isEmpty(amount)) {
                 builder.append(keys[i]).append(amount).append(data.getDrug_unit()).append(",");
             }
         }
         return builder.toString();
     }
 
+    public static ArrayList<String> titrationNumbers(Titration data) {
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add(data.getMorning());
+        strings.add(data.getNoon());
+        strings.add(data.getNight());
+        strings.add(data.getBefore_sleep());
+        return strings;
+    }
+
 
     public static ArrayList<String> numbers(Prescription data) {
         ArrayList<String> strings = new ArrayList<>();
-            strings.add(data.getMorning());
-            strings.add(data.getNoon());
-            strings.add(data.getNight());
-            strings.add(data.getBefore_sleep());
+        strings.add(data.getMorning());
+        strings.add(data.getNoon());
+        strings.add(data.getNight());
+        strings.add(data.getBefore_sleep());
         return strings;
     }
 
@@ -315,25 +367,26 @@ public class PrescriptionHandler {
     }
 
     public static Prescription newInstance() {
-        ImmutablePrescription.Builder builder = emptyBuilder();
-        return builder.build();
+        Prescription builder = emptyBuilder();
+        return builder;
     }
 
     @NonNull
-    public static ImmutablePrescription.Builder emptyBuilder() {
-        ImmutablePrescription.Builder builder = ImmutablePrescription.builder();
-        builder.drug_name("");
-        builder.scientific_name("");
-        builder.frequency("");
-        builder.drug_unit("");
-        builder.remark("");
-        builder.morning("");
-        builder.noon("");
-        builder.night("");
-        builder.before_sleep("");
-        builder.take_medicine_days("");
-        builder.specification("");
-        builder.units("");
+    public static Prescription emptyBuilder() {
+        Prescription builder = new Prescription();
+        builder.setDrug_name("");
+        builder.setScientific_name("");
+        builder.setFrequency("");
+        builder.setDrug_unit("");
+        builder.setRemark("");
+        builder.setMorning("");
+        builder.setNoon("");
+        builder.setNight("");
+        builder.setBefore_sleep("");
+        builder.setTake_medicine_days("");
+        builder.setSpecification("");
+        builder.setUnits("");
+        builder.setTitration(new ArrayList<Titration>());
         return builder;
     }
 
@@ -341,22 +394,30 @@ public class PrescriptionHandler {
         if (map == null) {
             return null;
         }
-        ImmutablePrescription.Builder builder = ImmutablePrescription.builder();
-        builder.drug_name(Strings.nullToEmpty(map.get("drug_name")));
-        builder.scientific_name(Strings.nullToEmpty(map.get("scientific_name")));
-        builder.frequency(Strings.nullToEmpty(map.get("frequency")));
-        builder.drug_unit(Strings.nullToEmpty(map.get("drug_unit")));
-        builder.remark(Strings.nullToEmpty(map.get("remark")));
+        Prescription builder = new Prescription();
+        builder.setDrug_name(Strings.nullToEmpty(map.get("drug_name")));
+        builder.setScientific_name(Strings.nullToEmpty(map.get("scientific_name")));
+        builder.setFrequency(Strings.nullToEmpty(map.get("frequency")));
+        builder.setDrug_unit(Strings.nullToEmpty(map.get("drug_unit")));
+        builder.setRemark(Strings.nullToEmpty(map.get("remark")));
 
-        builder.morning(getNumber(map.get("morning")));
-        builder.noon(getNumber(map.get("noon")));
-        builder.night(getNumber(map.get("night")));
-        builder.before_sleep(getNumber(map.get("before_sleep")));
+        builder.setMorning(getNumber(map.get("morning")));
+        builder.setNoon(getNumber(map.get("noon")));
+        builder.setNight(getNumber(map.get("night")));
+        builder.setBefore_sleep(getNumber(map.get("before_sleep")));
 
-        builder.take_medicine_days(Strings.nullToEmpty(map.get("take_medicine_days")));
-        builder.units(Strings.nullToEmpty(map.get("units")));
-        builder.specification(Strings.nullToEmpty(map.get("specification")));
-        return builder.build();
+        builder.setTake_medicine_days(Strings.nullToEmpty(map.get("take_medicine_days")));
+        builder.setUnits(Strings.nullToEmpty(map.get("units")));
+        builder.setSpecification(Strings.nullToEmpty(map.get("specification")));
+        builder.setTitration(getTitrations(map.get("titration")));
+        return builder;
+    }
+
+    private static ArrayList<Titration> getTitrations(String str) {
+        Gson gson = new GsonBuilder().create();
+        ArrayList<Titration> titrations = gson.fromJson(str, new TypeToken<ArrayList<Titration>>() {
+        }.getType());
+        return titrations;
     }
 
     @NonNull

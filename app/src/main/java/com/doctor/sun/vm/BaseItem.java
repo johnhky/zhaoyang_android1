@@ -47,6 +47,10 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
     private int backgroundColor = R.color.color_description_background;
     private int titleColor = R.color.color_description_title;
 
+    private String city;
+    private String area;
+    private String result;
+
     public BaseItem() {
     }
 
@@ -69,6 +73,30 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
         } else {
             return R.layout.item_empty;
         }
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public void setItemLayoutId(int itemLayoutId) {
@@ -155,7 +183,10 @@ public class BaseItem extends BaseObservable implements LayoutId, SortedItem, Va
     @JsonIgnore
     @Override
     public String getValue() {
-        return "";
+        if (Strings.isNullOrEmpty(result)){
+            return "";
+        }
+        return result;
     }
 
     @JsonIgnore

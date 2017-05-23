@@ -17,6 +17,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PatientDTO;
+import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.event.RefreshEvent;
@@ -34,7 +35,9 @@ import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import io.ganguo.library.core.event.EventHub;
 
@@ -45,6 +48,7 @@ public class DoctorHandler {
     private Doctor data;
     private boolean isSelected;
     private boolean hasSharedTransition;
+    public ProfileModule api = Api.of(ProfileModule.class);
 
     public DoctorHandler(Doctor doctorDTO) {
         data = doctorDTO;
@@ -62,6 +66,7 @@ public class DoctorHandler {
         Doctor doctor = (Doctor) adapter.get(vh.getAdapterPosition());
         return doctor.isUserSelected();
     }
+
 
     public void detail(Context context, View view) {
         Intent intent = DoctorDetailActivity2.makeIntent(context, data);
@@ -131,24 +136,20 @@ public class DoctorHandler {
         activity.finish();
     }
 
-    public void viewDetail(BaseListAdapter temp, Context context, View view) {
-        SimpleAdapter adapter = (SimpleAdapter) temp;
-        viewDetail(context, adapter.getInt(AdapterConfigKey.APPOINTMENT_TYPE), view);
-    }
-
-    public void viewDetail(Context context, int type, View view) {
+    public void viewDetail(Context context) {
 //        Intent intent = DoctorDetailActivity.makeIntent(context, data, type);
 //        context.startActivity(intent);
         Intent intent = new Intent(context, DoctorDetailActivity2.class);
         intent.putExtra(Constants.DATA, data);
-
+        context.startActivity(intent);
+        /*
         if (hasSharedTransition && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptionsCompat options = ActivityOptionsCompat.
                     makeSceneTransitionAnimation((Activity) context, view, view.getTransitionName());
             context.startActivity(intent, options.toBundle());
         } else {
             context.startActivity(intent);
-        }
+        }*/
     }
 
     public void viewDetailIfIsPatient(Context context) {
@@ -178,7 +179,7 @@ public class DoctorHandler {
 
     public String getTypeLabel(SimpleAdapter adapter) {
         if (getType(adapter) == AppointmentType.PREMIUM) {
-            return "专属咨询";
+            return "专属网诊";
         } else {
             return "闲时咨询";
         }

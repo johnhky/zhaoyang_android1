@@ -10,6 +10,7 @@ import com.doctor.sun.entity.Hospital;
 import com.doctor.sun.entity.Photo;
 import com.doctor.sun.entity.Version;
 import com.doctor.sun.immutables.Prescription;
+import com.doctor.sun.immutables.UploadDrugData;
 
 import java.util.HashMap;
 import java.util.List;
@@ -78,5 +79,6 @@ public interface ToolModule {
     Call<ApiDTO<List<HashMap<String, String>>>> listOfItems(@Url String path);
 
     @GET()
-    Call<ApiDTO<List<Prescription>>> listOfDrugs(@Url String path);
+    Call<ApiDTO<List<UploadDrugData>>> listOfDrugs(@Url String path);
+
 }

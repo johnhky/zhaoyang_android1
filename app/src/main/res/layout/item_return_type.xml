@@ -32,7 +32,7 @@
                 android:onClick="@{data.select}"
                 android:selected="@{data.selectedItem==1}"
                 android:tag="1"
-                android:text="专属咨询"
+                android:text="专属网诊"
                 android:textColor="@color/color_return_type" />
 
             <View

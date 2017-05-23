@@ -29,4 +29,20 @@
         <item>隔三天</item>
         <item>必要时</item>
     </string-array>
+    <string-array name="relative_array">
+        <item>朋友</item>
+        <item>父亲</item>
+        <item>母亲</item>
+        <item>儿子</item>
+        <item>女儿</item>
+        <item>姐姐</item>
+        <item>妹妹</item>
+        <item>哥哥</item>
+        <item>弟弟</item>
+        <item>爷爷</item>
+        <item>奶奶</item>
+        <item>叔叔</item>
+        <item>阿姨</item>
+        <item>其他亲友</item>
+    </string-array>
 </resources>

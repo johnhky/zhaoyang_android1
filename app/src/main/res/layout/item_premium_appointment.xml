@@ -48,7 +48,7 @@
             android:layout_alignTop="@id/iv"
             android:layout_toEndOf="@id/iv"
             android:layout_toRightOf="@id/iv"
-            android:text="专属咨询"
+            android:text="专属网诊"
             android:textSize="@dimen/font_16"
             android:textStyle="bold" />
 

@@ -4,14 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityAddTimeBinding;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Description;
+import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.entity.constans.TimeType;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -19,6 +23,7 @@ import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 
 import io.ganguo.library.common.LoadingHelper;
+import retrofit2.Call;
 
 import static android.widget.Toast.LENGTH_SHORT;
 import static android.widget.Toast.makeText;
@@ -80,14 +85,25 @@ public class AddTimeActivity extends BaseFragmentActivity2 {
                 String from = binding.tvBeginTime.getText().toString() + ":00";
                 int interval = getInterval();
                 if (getData().getId() != 0) {
-                    api.updateTime(getData().getId(), getSelectedWeeks(), getType(), from, to, interval).enqueue(new SimpleCallback<Time>() {
+               /*     api.updateTime(getData().getId(), getSelectedWeeks(), getType(), from, to, interval).enqueue(new SimpleCallback<Time>() {
                         @Override
                         protected void handleResponse(Time response) {
                             finish();
                         }
+                    });*/
+                    api.newUpdateTime(getData().getId(),getSelectedWeeks(),getType(),from,to,interval).enqueue(new SimpleCallback<Time>() {
+                        @Override
+                        protected void handleResponse(Time response) {
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ApiDTO<Time>> call, Throwable t) {
+                            super.onFailure(call, t);
+                        }
                     });
                 } else {
-                    api.setTime(getSelectedWeeks(), getType(), from, to, interval).enqueue(new SimpleCallback<Time>() {
+                    api.newSetTime(getSelectedWeeks(),getType(),from,to,interval).enqueue(new SimpleCallback<Time>() {
                         @Override
                         protected void handleResponse(Time response) {
                             finish();
@@ -115,12 +131,10 @@ public class AddTimeActivity extends BaseFragmentActivity2 {
 
     private int getType() {
         int type = TimeType.TYPE_UNDEFINE;
-        if (!binding.rbQuick.isChecked() && !binding.rbDetail.isChecked())
-            type = TimeType.TYPE_UNDEFINE;
-        if (binding.rbQuick.isChecked())
-            type = TimeType.TYPE_QUICK;
         if (binding.rbDetail.isChecked())
             type = TimeType.TYPE_DETAIL;
+        if(binding.rbFace.isChecked())
+            type = TimeType.TYPY_FACE;
         return type;
     }
 

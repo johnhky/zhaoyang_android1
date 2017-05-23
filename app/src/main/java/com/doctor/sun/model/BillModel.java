@@ -32,14 +32,14 @@ public class BillModel {
 
         final BillDetail billDetail = IncomeModuleWrapper.getInstance().getBillDetail(time);
 //        AppointmentType.PREMIUM
-        BillMenu premium = new BillMenu(R.layout.item_bill_menu, 0, "专属咨询") {
+        BillMenu premium = new BillMenu(R.layout.item_bill_menu, 0, "专属网诊") {
             @Override
             public View.OnClickListener itemClick() {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Bundle args = HistoryBillFragment.getArgs(time, AppointmentType.PREMIUM);
-                        String title = String.format("专属咨询(%s)", billDetail.detail_consult_num);
+                        String title = String.format("专属网诊(%s)", billDetail.detail_consult_num);
                         Intent intent = SingleFragmentActivity.intentFor(v.getContext(), title, args);
                         v.getContext().startActivity(intent);
                     }

@@ -1,26 +1,44 @@
 package com.doctor.sun.vm;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.Bindable;
+import android.databinding.ViewDataBinding;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.StackingBehavior;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.entity.DrugExtraFee;
 import com.doctor.sun.entity.Questions2;
+import com.doctor.sun.entity.constans.PayMethod;
 import com.doctor.sun.entity.constans.QuestionType;
+import com.doctor.sun.immutables.DrugOrderDetail;
+import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
+import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.ui.fragment.DrugListFragment;
+import com.doctor.sun.util.AddressTask;
+import com.doctor.sun.util.DialogUtils;
 import com.doctor.sun.vm.validator.RegexValidator;
 import com.google.common.base.Strings;
 
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
+import cn.qqtheme.framework.entity.City;
+import cn.qqtheme.framework.entity.County;
+import cn.qqtheme.framework.entity.Province;
 import io.ganguo.library.util.StringsUtils;
 
 
@@ -35,7 +53,6 @@ public class ItemTextInput2 extends BaseItem {
     private String subTitle;
     private String hint;
     private String result = "";
-
     @ColorRes
     private int titleColor = R.color.text_color_black;
     @DimenRes
@@ -43,7 +60,9 @@ public class ItemTextInput2 extends BaseItem {
     private View.OnClickListener listener;
     private boolean clickable;
     private boolean haveAlertMaxLength = false;
-
+    private String province,phone,receiver,remark;
+    private DrugOrderDetail data;
+    private ItemCoupons coupons;
     public ItemTextInput2(int itemLayoutId, String title, String hint) {
         super(itemLayoutId);
         setTitle(title);
@@ -90,6 +109,42 @@ public class ItemTextInput2 extends BaseItem {
         notifyPropertyChanged(BR.titleGravity);
     }
 
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+        notifyChange();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+        notifyChange();
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+        notifyChange();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+        notifyChange();
+    }
+
     @Bindable
     public String getSubTitle() {
         return subTitle;
@@ -108,6 +163,32 @@ public class ItemTextInput2 extends BaseItem {
     public void setHint(String hint) {
         this.hint = hint;
         notifyPropertyChanged(BR.hint);
+    }
+
+    public void showAddressSelector(final Context context){
+        AddressTask task = new AddressTask((Activity) context);
+        task.setHideCounty(false);
+        task.setCallback(new AddressTask.Callback() {
+            @Override
+            public void onAddressInitFailed() {
+                Toast.makeText(context,"初始化数据失败!",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAddressPicked(Province province, City city, County county) {
+                if (province.getAreaName().equals("其他")&&city.getAreaName().equals("其他")){
+                    setResult(county.getAreaName());
+                    setProvince(county.getAreaName());
+                }else{
+                    setProvince(province.getAreaName()+"-"+city.getAreaName()+"-"+county.getAreaName());
+                    setResult(province.getAreaName());
+                    setCity(city.getAreaName());
+                    setArea(county.getAreaName());
+                }
+
+            }
+        });
+        task.execute();
     }
 
 
@@ -240,5 +321,60 @@ public class ItemTextInput2 extends BaseItem {
 
     public boolean getClickable() {
         return clickable;
+    }
+
+
+    private BaseListAdapter<SortedItem, ViewDataBinding> adapter;
+
+    public void showDialog(Context context) {
+        if (adapter == null) return;
+
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+
+        builder.stackingBehavior(StackingBehavior.ALWAYS)
+                .btnStackedGravity(GravityEnum.CENTER)
+                .titleGravity(GravityEnum.CENTER)
+                .title("收费明细")
+                .neutralText("关闭")
+                .adapter(adapter, new LinearLayoutManager(context))
+                .show();
+
+    }
+
+    public void setData(DrugOrderDetail data,ItemCoupons coupons){
+        this.data  =data;
+        this.coupons = coupons;
+    }
+    public void showPayDialog(final Context context, View view){
+        DialogUtils.showPayDialog(context ,view,new DialogUtils.OnPopItemClickListener(){
+            @Override
+            public void onItemClickListener(int which) {
+                String coupon;
+                if (coupons.getSelectedCoupon()!=-1){
+                    coupon = coupons.getCouponId();
+                }else{
+                    coupon = "";
+                }
+                double money = Double.valueOf(result);
+                switch (which){
+                    case 0:
+                        data.confirmPay(context, PayMethod.ALIPAY,coupon,money, DrugListFragment.getDrugExtraField());
+                        break;
+                    case 1:
+                        data.confirmPay(context,PayMethod.WECHAT,coupon,money,DrugListFragment.getDrugExtraField());
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    public void setAdapter(BaseListAdapter<SortedItem, ViewDataBinding> adapter) {
+        this.adapter = adapter;
+    }
+
+    public BaseListAdapter<SortedItem, ViewDataBinding> getAdapter() {
+        return adapter;
     }
 }

@@ -120,7 +120,7 @@
                     android:layout_marginLeft="@dimen/dp_13"
                     android:layout_marginRight="@dimen/dp_13"
                     android:gravity="center_vertical"
-                    android:text="@{&quot;专属咨询:  ￥&quot;+data.money + &quot;   闲时咨询:  ￥&quot;+data.secondMoney}"
+                    android:text="@{&quot;专属网诊:  ￥&quot;+data.money + &quot;   闲时咨询:  ￥&quot;+data.secondMoney}"
                     android:textColor="@color/orange"
                     android:textSize="@dimen/font_13"
                     tools:text="诊金" />

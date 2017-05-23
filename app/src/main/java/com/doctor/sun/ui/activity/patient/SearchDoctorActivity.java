@@ -20,6 +20,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.NewDoctor;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.PageCallback;
@@ -206,8 +207,10 @@ public class SearchDoctorActivity extends BaseFragmentActivity2 implements View.
 
     private void loadMore() {
         api.allDoctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);
+        /*api.newAllDoctors(callback.getPage(),getQueryParam(),getTitleParam()).equals(callback);*/
     }
 
+/*
     @Deprecated
     private void loadKnowDoctor() {
         new Thread(new Runnable() {
@@ -233,7 +236,7 @@ public class SearchDoctorActivity extends BaseFragmentActivity2 implements View.
                                 }
                             }
                             if (favoriteDoctors != null && favoriteDoctors.isSuccessful()) {
-                                PageDTO<Doctor> data = favoriteDoctors.body().getData();
+                                PageDTO<NewDoctor> data = favoriteDoctors.body().getData();
                                 favoriteDoctorList = data.getData();
                                 if (favoriteDoctors != null && !favoriteDoctorList.isEmpty()) {
                                     adapter.add(new Description(R.layout.item_description, "我的收藏"));
@@ -256,6 +259,7 @@ public class SearchDoctorActivity extends BaseFragmentActivity2 implements View.
             }
         }).start();
     }
+*/
 
     private void refreshData(boolean sortByPoint) {
         this.sortByPoint = sortByPoint;

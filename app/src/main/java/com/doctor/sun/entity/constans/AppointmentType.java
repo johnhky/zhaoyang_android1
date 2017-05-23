@@ -14,4 +14,5 @@ public @interface AppointmentType {
     int PREMIUM = 1;
     int STANDARD = 2;
     int FollowUp = 3;
+    int FACE = 4;
 }

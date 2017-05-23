@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;

@@ -17,6 +17,7 @@ import com.doctor.sun.entity.SymptomFactory;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
 import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.vm.DiagnosisRecordList;
 import com.doctor.sun.vm.ItemButton;
 import com.doctor.sun.vm.ItemPickDSchedule;
 import com.doctor.sun.vm.ItemPickTime;
@@ -34,7 +35,7 @@ import java.util.HashMap;
 public class DiagnosisModel {
 
 
-    public static final String DETAIL = "专属咨询";
+    public static final String DETAIL = "专属网诊";
     public static final String QUICK = "闲时咨询";
     private final Context context;
 
@@ -47,7 +48,6 @@ public class DiagnosisModel {
     private Symptom memory;
     private Symptom insight;
     private ItemTextInput description;
-    private ItemTextInput diagnosisRecord;
     private Symptom currentStatus;
     private Symptom recovered;
     private Symptom treatment;
@@ -66,7 +66,7 @@ public class DiagnosisModel {
     private ItemButton btnGotoTabOne;
     private ItemButton chooseDoctor;
     private Doctor doctor;
-
+    public DiagnosisRecordList recordList;
     public ItemReminderList reminderList;
 
     public DiagnosisModel(final Activity context) {
@@ -79,8 +79,8 @@ public class DiagnosisModel {
         insight = SymptomFactory.insightSymptom();
 
         description = new ItemTextInput(R.layout.item_description_input, "病情的简单描述");
-        diagnosisRecord = new ItemTextInput(R.layout.item_description_input, "请按ICD或DSM规范填写");
-
+        recordList = new DiagnosisRecordList();
+        recordList.adapter(context);
         currentStatus = SymptomFactory.currentStatus();
         recovered = SymptomFactory.recovered();
         treatment = SymptomFactory.treatment();
@@ -93,7 +93,7 @@ public class DiagnosisModel {
         returnType = new ItemRadioGroup(R.layout.item_return_type);
 
         labelSymptom = new Description(R.layout.item_description, "症状");
-        labelConsultation = new Description(R.layout.item_description, "诊断");
+        labelConsultation = new Description(R.layout.item_description, "诊断(请按ICD或DSM规范填写)");
         labelEval = new Description(R.layout.item_description, "评估");
 
         labelAllCanSee = new Description(R.layout.item_description, "以下部分为病人可见");
@@ -146,8 +146,9 @@ public class DiagnosisModel {
         memory.setStates(response.getMemory());
         insight.setStates(response.getInsight());
         description.setInput(response.getDescription());
-        diagnosisRecord.setInput(response.getDiagnosisRecord());
-
+        if (response.getDiagnosisRecord().size()>0){
+            recordList.addRecords(response.getDiagnosisRecord());
+        }
         currentStatus.setSelectedItem(response.getCurrentStatus());
         recovered.setSelectedItem(response.getRecovered());
         treatment.setSelectedItem(response.getTreatment());
@@ -324,7 +325,7 @@ public class DiagnosisModel {
     @Override
     public String toString() {
         return "DiagnosisModel{" +
-                ", perception=" + perception +
+                ", perception=" + perception +",dialog_record:="+recordList+
                 ", thinking=" + thinking +
                 ", pipedream=" + pipedream +
                 ", emotion=" + emotion +
@@ -366,7 +367,7 @@ public class DiagnosisModel {
         result.put("memory", memory.toStates());
         result.put("insight", insight.toStates());
         result.put("description", binding.description.etOthers.getText().toString());
-        result.put("diagnosis_record", binding.diagnosisRecord.etOthers.getText().toString());
+        result.put("diagnosis_record", /*binding.diagnosisRecord.etOthers.getText().toString()*/JacksonUtils.toJson(recordList.getRecords()));
         result.put("current_status", String.valueOf(currentStatus.getSelectedItem()));
         result.put("recovered", String.valueOf(recovered.getSelectedItem()));
         result.put("treatment", String.valueOf(treatment.getSelectedItem()));
@@ -400,14 +401,6 @@ public class DiagnosisModel {
         }
         result.put("reminder", JacksonUtils.toJson(reminderList.getReminders()));
         return result;
-    }
-
-    public ItemTextInput getDiagnosisRecord() {
-        return diagnosisRecord;
-    }
-
-    public void setDiagnosisRecord(ItemTextInput diagnosisRecord) {
-        this.diagnosisRecord = diagnosisRecord;
     }
 
     public Description getLabelEval() {

@@ -53,9 +53,7 @@
                         android:id="@+id/tv_error"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{data.error}"
                         android:textAppearance="@style/AppTheme.TextErrorAppearance"
-                        android:visibility="@{data.errorVisible(data.error)}"
                         tools:text="必填" />
                 </LinearLayout>
 

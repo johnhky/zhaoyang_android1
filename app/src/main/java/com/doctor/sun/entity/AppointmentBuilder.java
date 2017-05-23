@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.Observable;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -34,8 +35,11 @@ import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.module.ToolModule;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.patient.ApplyAppointmentActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
+import com.doctor.sun.ui.fragment.DoctorArticleFragment;
+import com.doctor.sun.ui.fragment.DoctorCommentFragment;
 import com.doctor.sun.ui.widget.SelectRecordDialog;
 import com.doctor.sun.vm.AppointmentWrapper;
 import com.doctor.sun.vm.BaseItem;
@@ -95,6 +99,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         this.appointmentModule = appointmentModule;
         this.toolModule = toolModule;
     }
+
 
     public void setIsPremium(boolean isPremium) {
         if (isPremium) {
@@ -431,7 +436,6 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
             @Override
             public void onFailure(Call<ApiDTO<Appointment>> call, Throwable t) {
                 super.onFailure(call, t);
-                Toast.makeText(context,"请检查您的网络情况后再试！",Toast.LENGTH_LONG).show();
             }
         };
         applyAppointment(callback);
@@ -520,7 +524,7 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         String type = "";
         switch (getType()) {
             case AppointmentType.PREMIUM:
-                type = "专属咨询";
+                type = "专属网诊";
                 break;
             case AppointmentType.STANDARD:
                 type = "闲时咨询";

@@ -1,5 +1,8 @@
 package com.doctor.sun.entity;
 
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+
 import com.doctor.sun.R;
 import com.doctor.sun.vm.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -43,7 +46,8 @@ public class Coupon implements LayoutId {
     public String platform;
     @JsonProperty("info")
     public String info;
-
+    @JsonProperty("threshold_available")
+    public boolean threshold_available;
 
     // extra method
     public String getStatus() {
@@ -57,6 +61,46 @@ public class Coupon implements LayoutId {
             default:
                 return "已过期";
         }
+    }
+
+    public String getValidEndTime() {
+        return validEndTime;
+    }
+
+    public void setValidEndTime(String validEndTime) {
+        this.validEndTime = validEndTime;
+    }
+
+    public String getCouponMoney() {
+        return couponMoney;
+    }
+
+    public void setCouponMoney(String couponMoney) {
+        this.couponMoney = couponMoney;
+    }
+
+    public String getThreshold() {
+        return threshold;
+    }
+
+    public void setThreshold(String threshold) {
+        this.threshold = threshold;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
+
+    public boolean isThreshold_available() {
+        return threshold_available;
+    }
+
+    public void setThreshold_available(boolean threshold_available) {
+        this.threshold_available = threshold_available;
     }
 
     public boolean isValid() {
@@ -76,7 +120,10 @@ public class Coupon implements LayoutId {
     public String detail() {
         String prefix;
         String suffix = "优惠券";
-        int IntThreshold = Integer.parseInt(this.threshold);
+        int IntThreshold = 0;
+        if (this.threshold != null) {
+            IntThreshold = Integer.parseInt(this.threshold);
+        }
         if (IntThreshold <= 0) {
             prefix = "立减";
         } else {
@@ -85,18 +132,56 @@ public class Coupon implements LayoutId {
         return prefix + couponMoney + suffix;
     }
 
+    public String couponDetail() {
+        String prefix = "";
+        int threshId = 0;
+        if (this.threshold != null) {
+            threshId = Integer.parseInt(this.threshold);
+        }
+        if (threshId <= 0) {
+            prefix = "立减￥"+couponMoney;
+        } else {
+            prefix = "满" + threshold + "减" + couponMoney;
+        }
+        return prefix;
+    }
+
+    public String couponScope() {
+        if (!TextUtils.isEmpty(scope)) {
+            if (scope.equals(Scope.DRUG_ORDER)) {
+                return "仅寄药可用";
+            }
+            if (scope.equals(Scope.PREMIUM_APPOINTMENT)) {
+                return "仅网诊可用";
+            }
+            if (scope.equals(Scope.STANDARD_APPOINTMENT)) {
+                return "仅复诊可用";
+            }
+            if (scope.equals(Scope.SURFACE_APPOINTMENT)) {
+                return "仅面诊可用";
+            }
+            if (scope.equals(Scope.ALL)) {
+                return "金额未满足";
+            }
+        }
+
+        return "";
+    }
+
     public String availability() {
-        if (platform.equals(Scope.ALL)) {
-            return "(全部订单可用)";
-        }
-        if (platform.equals(Scope.DRUG_ORDER)) {
-            return "(寄药订单可用)";
-        }
-        if (platform.equals(Scope.STANDARD_APPOINTMENT)) {
-            return "(闲时咨询订单可用)";
-        }
-        if (platform.equals(Scope.PREMIUM_APPOINTMENT)) {
-            return "(专属咨询订单可用)";
+        if (null != platform) {
+            if (platform.equals(Scope.ALL)) {
+                return "(全部订单可用)";
+            }
+            if (platform.equals(Scope.DRUG_ORDER)) {
+                return "(寄药订单可用)";
+            }
+            if (platform.equals(Scope.STANDARD_APPOINTMENT)) {
+                return "(闲时咨询订单可用)";
+            }
+            if (platform.equals(Scope.PREMIUM_APPOINTMENT)) {
+                return "(专属网诊订单可用)";
+            }
         }
         return "";
     }
@@ -106,5 +191,6 @@ public class Coupon implements LayoutId {
         String DRUG_ORDER = "drug_order";
         String STANDARD_APPOINTMENT = "simple_consult";
         String PREMIUM_APPOINTMENT = "detail_consult";
+        String SURFACE_APPOINTMENT = "surface_consult";
     }
 }

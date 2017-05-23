@@ -23,6 +23,7 @@ import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.constans.IntBoolean;
@@ -31,13 +32,19 @@ import com.doctor.sun.event.HideFABEvent;
 import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.model.DiagnosisModel;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.DiagnosisReadOnlyViewModel;
 import com.doctor.sun.vm.ItemTextInput;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import io.ganguo.library.util.date.Date;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by rick on 29/6/2016.
@@ -103,11 +110,14 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
-        api.diagnosisInfo(getAppointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
+        api.getDiagnosisInfo(getAppointmentId()).enqueue(new Callback<ApiDTO>() {
             @Override
-            protected void handleResponse(DiagnosisInfo response) {
-                 viewModel = new DiagnosisReadOnlyViewModel();
-                viewModel.cloneFromDiagnosisInfo(response);
+            public void onResponse(Call<ApiDTO> call, Response<ApiDTO> response) {
+                Gson gson = new GsonBuilder().create();
+                String str = gson.toJson(response.body().getData());
+                DiagnosisInfo info = gson.fromJson(str, DiagnosisInfo.class);
+                viewModel = new DiagnosisReadOnlyViewModel();
+                viewModel.cloneFromDiagnosisInfo(info);
                 getAdapter().onFinishLoadMore(true);
                 getAdapter().clear();
                 getAdapter().addAll(viewModel.toList());
@@ -121,7 +131,7 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
                 getAdapter().notifyDataSetChanged();
                 binding.swipeRefresh.setRefreshing(false);
                 if (getAdapter().isEmpty()) {
-                    if (response != null && response.isFinish == IntBoolean.TRUE) {
+                    if (info != null && info.isFinish == IntBoolean.TRUE) {
                         Description divider = new Description(R.layout.item_description, "嘱咐");
                         ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
                         textInput.setInput("坚持治疗,定期复诊");
@@ -140,7 +150,23 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
                 }
 
             }
+
+            @Override
+            public void onFailure(Call<ApiDTO> call, Throwable t) {
+
+            }
         });
+ /*       api.diagnosisInfo(getAppointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
+            @Override
+            public void onFailure(Call<ApiDTO<DiagnosisInfo>> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+
+            @Override
+            protected void handleResponse(DiagnosisInfo response) {
+
+            }
+        });*/
     }
 
     @NonNull

@@ -18,9 +18,9 @@
     <color name="custom_text_selected">#FFFFFFFF</color>
     <color name="custom_text_inactive">#ebebeb</color>
     <color name="custom_text_active">#363636</color>
-
+    <color name="main_txt_color">#797979</color>
     <color name="blue_grey">#81D4FA</color>
-
+    <color name="gray_bb">#bbbbbb</color>
 
     <color name="text_color_black">#363636</color>
     <color name="dark_36">#363636</color>

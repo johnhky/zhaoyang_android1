@@ -11,6 +11,7 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityAllowAfterServiceBinding;
 import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.NewDoctor;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.AfterServiceModule;
@@ -33,7 +34,11 @@ public class AllowAfterServiceActivity extends BaseFragmentActivity2 {
         intent.putExtra(Constants.DATA, contact);
         return intent;
     }
-
+    public static Intent intentFor(Context context, NewDoctor contact) {
+        Intent intent = new Intent(context, AllowAfterServiceActivity.class);
+        intent.putExtra(Constants.DATA, contact);
+        return intent;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

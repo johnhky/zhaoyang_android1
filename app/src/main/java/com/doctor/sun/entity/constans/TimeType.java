@@ -15,4 +15,5 @@ public @interface TimeType {
     int TYPE_DETAIL = 1;
     int TYPE_QUICK = 2;
     int TYPE_BREAK = 3;
+    int TYPY_FACE = 4;
 }

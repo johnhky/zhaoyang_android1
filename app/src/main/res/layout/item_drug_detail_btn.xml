@@ -6,14 +6,13 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vm.ItemDrugDetailBtn" />
+            type="com.doctor.sun.vm.ItemTextInput2" />
 
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{()->data.showDialog(context)}"
         android:background="@drawable/ripple_default"
         android:paddingTop="@dimen/dp_8"
         android:paddingBottom="@dimen/dp_8"
@@ -48,10 +47,6 @@
             android:drawablePadding="@dimen/dp_4"
             android:gravity="end"
             android:maxLines="1"
-            android:text="@{data.subTitle}"
-            android:textColor="@color/colorPrimaryDark"
-            android:drawableRight="@drawable/ic_enter"
-            android:drawableEnd="@drawable/ic_enter"
             android:textSize="@dimen/font_12"
             tools:text="subtitle" />
     </LinearLayout>

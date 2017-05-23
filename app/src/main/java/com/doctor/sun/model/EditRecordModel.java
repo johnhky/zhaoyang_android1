@@ -40,7 +40,7 @@ public class EditRecordModel {
         id.setResult(String.valueOf(data.getMedicalRecordId()));
         result.add(id);
 
-        ItemTextInput2 relation = new ItemTextInput2(R.layout.item_text_input2, "您是患者的", "必填");
+        ItemTextInput2 relation = new ItemTextInput2(R.layout.item_text_input2, "您与患者的关系", "必填");
         relation.setEnabled(false);
         relation.setResult(data.getRelation());
         relation.setResultNotEmpty();

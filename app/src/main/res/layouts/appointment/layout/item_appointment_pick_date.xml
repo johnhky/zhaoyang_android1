@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    >
+    <TextView
+        android:id="@+id/tv_pickdate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/main_txt_color"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="请选择预约哪一天(专属网诊)"
+        />
+    <TextView
+        android:id="@+id/tv_delete"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/ic_delete_pay"
+        />
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_28"
+        android:background="#f3f3f3"
+        android:paddingLeft="@dimen/dp_11"
+        android:paddingRight="@dimen/dp_11">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="日"
+            android:textSize="@dimen/font_12" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="一"
+            android:textSize="@dimen/font_12" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="二"
+            android:textSize="@dimen/font_12" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="三"
+            android:textSize="@dimen/font_12" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="四"
+            android:textSize="@dimen/font_12" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="五"
+            android:textSize="@dimen/font_12" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="六"
+            android:textSize="@dimen/font_12" />
+    </LinearLayout>
+    <com.squareup.timessquare.CalendarPickerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@color/custom_background"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/dp_13"
+        android:paddingLeft="@dimen/dp_13"
+        android:paddingRight="@dimen/dp_13"
+        android:scrollbarStyle="outsideOverlay"
+        app:tsquare_dayBackground="@drawable/custom_calendar_bg_selector"
+        app:tsquare_dayTextColor="@color/custom_calendar_text_selector"
+        app:tsquare_dividerColor="@color/transparent"
+        app:tsquare_headerTextColor="@color/colorPrimaryDark"
+        app:tsquare_titleTextColor="@color/colorPrimaryDark" />
+</LinearLayout>

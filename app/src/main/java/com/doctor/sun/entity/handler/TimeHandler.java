@@ -94,7 +94,7 @@ public class TimeHandler {
 
 
     public String dateLabel() {
-        return (data.getType()== TimeType.TYPE_QUICK ? "闲时咨询\n" : "专属咨询") + ':' + getWeekLabel();
+        return (data.getType()== TimeType.TYPE_QUICK ? "闲时咨询\n" : "专属网诊") + ':' + getWeekLabel();
     }
 
     public String disturbDate() {

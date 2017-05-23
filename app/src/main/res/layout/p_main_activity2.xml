@@ -45,12 +45,14 @@
                     android:layout_height="@dimen/dp_240"
                     android:background="@drawable/bg_main">
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/iv_banner"
                         android:layout_width="@dimen/dp_40"
                         android:layout_height="@dimen/dp_40"
                         android:layout_gravity="top|end"
                         android:layout_marginTop="@dimen/dp_34"
+                        android:background="@null"
+                        android:visibility="@{callConfig!=null}"
                         android:onClick="@{()->data.showPromotion(context,true)}"
                         android:src="@{callConfig.bannerIcon}"
                         tools:src="@drawable/ic_launcher" />

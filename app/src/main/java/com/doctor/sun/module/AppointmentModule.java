@@ -4,6 +4,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.dto.WeChatPayDTO;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.NewDoctor;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.CommunicationType;
 import com.doctor.sun.immutables.Appointment;
@@ -38,6 +39,11 @@ public interface AppointmentModule {
     Call<ApiDTO<PageDTO<Doctor>>> allDoctors(@Query("page") String page,
                                              @QueryMap HashMap<String, String> query,
                                              @Query("title[]") ArrayList<Integer> titleParam);
+
+    @GET("appointment/allDoctor/")
+    Call<ApiDTO<PageDTO<NewDoctor>>> newAllDoctors(@Query("page") String page,
+                                                   @QueryMap HashMap<String, String> query,
+                                                   @Query("title[]") ArrayList<Integer> titleParam);
 
     @GET("appointment/recent-doctors")
     Call<ApiDTO<List<Doctor>>> recentDoctors(@Query("page") String page,
@@ -156,7 +162,7 @@ public interface AppointmentModule {
                                                      @Field("type") String type,
                                                      @FieldMap HashMap<String, String> extraField);
 
-
+    /*已预约患者列表*/
     @GET("appointment/doctor-appoint-list")
     Call<ApiDTO<PageDTO<Appointment>>> searchAppointment(@Query("page") String page,
                                                          @Query("keyword") String keyword,
@@ -193,5 +199,10 @@ public interface AppointmentModule {
 
     @GET("appointment/status?type=detail")
     Call<ApiDTO<Appointment>> appointmentDetail(@Query("appointmentId") String appointmentId);
+
+
+    /*预约某位医生 新*/
+    @POST("appointment/appointment-fresh")
+    Call<ApiDTO<Appointment>> toAppointmentDoctor(@Query("bookTime") long bookTime, @Query("doctorId") int id, @Query("recordId") int recordId, @Query("takeTime") int takeTime, @Query("type") int type);
 
 }

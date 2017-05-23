@@ -92,4 +92,14 @@ public class Constants {
     public static final String BILL_DETAIL = "BILL_DETAIL";
     public static final String BILL_TIME = "BILL_TIME";
     public static final String ACTIVITY_TITLE = "ACTIVITY_TITLE";
-}
+    public static final String ADDRESS = "ADDRESS";
+    public static final String MOCK = "MOCK";
+    public static final String PHONE = "PHONE";
+    public static final String REMARK = "REMARK";
+    public static final String RECEIVER = "RECEIVER";
+    public static final String TIME = "TIME";
+    public static final String APPOINTMENT_MONEY = "MONEY";
+    public static final String DATE ="DATE";
+    public static final String PICKCUSTOM = "PICKCUSTOM";
+    public static final String CREATE_SUCCESS="CREATE_SUCCESS";
+ }
