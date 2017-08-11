@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.doctor.sun.immutables.Prescription;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by rick on 12/23/15.
  */
-public class DiagnosisInfo implements Parcelable {
+public class DiagnosisInfo implements Parcelable{
 
     /**
      * id : 108
@@ -73,7 +74,7 @@ public class DiagnosisInfo implements Parcelable {
     @JsonProperty("description")
     private String description;
     @JsonProperty("diagnosis_record")
-    private List<String> diagnosisRecord = new ArrayList<>();
+    public ArrayList<String> diagnosisRecord = new ArrayList<>();
     @JsonProperty("current_status")
     private int currentStatus;
     @JsonProperty("recovered")
@@ -83,7 +84,7 @@ public class DiagnosisInfo implements Parcelable {
     @JsonProperty("effect")
     private int effect;
     @JsonProperty("prescription")
-    private List<Prescription> prescription = new ArrayList<>();
+    public List<Prescription> prescription = new ArrayList<>();
     @JsonProperty("doctor_advince")
     private String doctorAdvince;
     @JsonProperty("return")
@@ -213,7 +214,7 @@ public class DiagnosisInfo implements Parcelable {
         return diagnosisRecord;
     }
 
-    public void setDiagnosisRecord(List<String> diagnosisRecord) {
+    public void setDiagnosisRecord(ArrayList<String> diagnosisRecord) {
         this.diagnosisRecord = diagnosisRecord;
     }
 
@@ -253,7 +254,7 @@ public class DiagnosisInfo implements Parcelable {
         return prescription;
     }
 
-    public void setPrescription(List<Prescription> prescription) {
+    public void setPrescription(ArrayList<Prescription> prescription) {
         this.prescription = prescription;
     }
 
@@ -396,7 +397,7 @@ public class DiagnosisInfo implements Parcelable {
                 ", recovered=" + recovered +
                 ", treatment=" + treatment +
                 ", effect=" + effect +
-                ", prescription=" + prescription +
+                ", prescription=" + prescription+
                 ", doctorAdvince='" + doctorAdvince + '\'' +
                 ", returnX=" + returnX +
                 ", returnType=" + returnType +
@@ -414,7 +415,6 @@ public class DiagnosisInfo implements Parcelable {
                 ", doctorInfo=" + doctorInfo +
                 '}';
     }
-
     @Override
     public int describeContents() {
         return 0;

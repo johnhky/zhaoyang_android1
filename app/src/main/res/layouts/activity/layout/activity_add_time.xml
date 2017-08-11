@@ -65,7 +65,7 @@
                 android:onClick="@{()->data.setType(1)}"
                 android:paddingLeft="@dimen/dp_4"
                 android:paddingRight="@dimen/dp_4"
-                android:text="专属网诊"
+                android:text="VIP网诊"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
             <RadioButton
@@ -83,7 +83,7 @@
                 android:onClick="@{()->data.setType(4)}"
                 android:paddingLeft="@dimen/dp_4"
                 android:paddingRight="@dimen/dp_4"
-                android:text="专属面诊"
+                android:text="诊所面诊"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_15" />
                 </LinearLayout>
@@ -221,7 +221,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/red_f0"
             android:textSize="15sp"
-            android:text="*面诊地点:心晴门诊的具体地点"
+            android:text="@{&quot;面诊地点:&quot;+data.address}"
             android:visibility="@{data.type==4}"
             android:layout_marginLeft="13dp"
             android:layout_marginBottom="@dimen/dp_13"
@@ -243,7 +243,7 @@
                 android:layout_height="@dimen/dp_69"
                 android:background="@drawable/ripple_default"
                 android:gravity="center_vertical"
-                android:onClick="@{data.handler.beginTimeSet}">
+                android:onClick="@{(view)->data.handler.beginTimeSet(view,data.type)}">
 
                 <TextView
                     android:id="@+id/tv_begin"
@@ -288,7 +288,7 @@
                 android:layout_height="@dimen/dp_69"
                 android:background="@drawable/ripple_default"
                 android:gravity="center_vertical"
-                android:onClick="@{data.handler.endTimeSet}">
+                android:onClick="@{(view)->data.handler.endTimeSet(view,data.type)}">
 
                 <TextView
                     android:id="@+id/tv_end"
@@ -324,12 +324,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="#c1cacf" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="@{data.showInterval()}"
+                >
+            <LinearLayout
+                android:id="@+id/ll_visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="#ebf0f3"
-                android:visibility="@{data.type==1}"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -344,12 +349,12 @@
 
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ll_interval"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_13"
                 android:layout_marginRight="@dimen/dp_13"
                 android:layout_marginTop="@dimen/dp_20"
-                android:visibility="@{data.type==1}"
                 android:orientation="horizontal">
 
                 <EditText
@@ -386,33 +391,8 @@
                 android:text="@string/add_detail_time_ps"
                 android:textColor="@color/red_f0"
                 android:textSize="@dimen/font_14" />
-
+            </LinearLayout>
         </LinearLayout>
-
-     <!--   <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ebf0f3"
-            android:layout_marginTop="@dimen/dp_8"
-            android:layout_marginBottom="@dimen/dp_4"
-            android:visibility="@{data.type == 2}">
-
-            <include
-                android:id="@+id/push_switch"
-                layout="@layout/item_switch_gray"
-                bind:data="@{Settings.pushSwitch}" />
-        </FrameLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_8"
-            android:text="@string/enable_push_ps"
-            android:textColor="@color/red_f0"
-            android:textSize="@dimen/font_14"
-            android:visibility="@{data.type == 2}" />-->
     </LinearLayout>
     </ScrollView>
 </layout>

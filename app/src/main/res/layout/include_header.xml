@@ -29,9 +29,12 @@
             android:layout_gravity="center"
             android:background="@color/transparent"
             android:gravity="center"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textColor="@color/colorPrimary"
             android:textSize="17sp"
             android:textStyle="bold" />
 
     </android.support.v7.widget.Toolbar>
+
 </layout>

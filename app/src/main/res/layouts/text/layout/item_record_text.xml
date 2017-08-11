@@ -9,7 +9,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vm.ItemRadioDialog" />
+            type="com.doctor.sun.vm.ItemTextInput2" />
 
         <variable
             name="adapter"
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/dp_4"
                 android:text="@{data.title}"
-                tools:text="您与患者的关系"
+                tools:text="您是患者的"
                 android:textAppearance="@style/AppTheme.TextFloatLabelAppearance" />
 
             <TextView
@@ -61,8 +61,10 @@
             android:background="@color/transparent"
             android:gravity="center_vertical"
             android:maxLines="1"
+            android:textColor="#363636"
+            android:enabled="@{data.enabled}"
             android:onClick="@{(thisview)->data.showPopupWindow(thisview,context)}"
-            android:text="@{data.selectedItemText}"
+            android:text="@{data.result}"
             android:textColorHint="@color/gray_d9"
             android:textSize="@dimen/font_13"
             tools:text="本人"

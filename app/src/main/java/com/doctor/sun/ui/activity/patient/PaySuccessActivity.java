@@ -74,6 +74,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_pay_success);
         binding.tvMainButton.setOnClickListener(this);
         binding.tvSubButton.setOnClickListener(this);
+        binding.llAskService.setOnClickListener(this);
         if (getType() == PRESCRIPTION) {
             binding.llDrugOrder.setVisibility(View.VISIBLE);
             binding.tvSubButton.setText("返回首页");
@@ -87,10 +88,44 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                 binding.tvStartTime.setText("请立即开始填写问卷");
             } else {
                 binding.btnBack.setText("返回咨询订单列表");
-                binding.tvStartTime.setText(getAppointment().getVisit_time());
-                binding.tvEndTime.setText(getAppointment().getEnd_time());
+                binding.tvStartTime.setText("请于预约时间"+getAppointment().getVisit_time()+"前完成问卷");
+                binding.tvEndTime.setText("等到 【"+getAppointment().getBook_time()+"】 开始就诊");
             }
         }
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = PMainActivity2.makeIntent(PaySuccessActivity.this);
+                startActivity(intent1);
+                int position = 0;
+                if (getType() == APPOINTMENT) {
+                    if (getAppointment().getType() == 2) {
+                        startActivity(PConsultingActivity.class);
+                    } else {
+                        Intent intent2 = MyOrderActivity.makeIntent(PaySuccessActivity.this, position);
+                        startActivity(intent2);
+                    }
+                }
+                finish();
+            }
+        });
+        binding.btnInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    finishAffinity();
+                }
+                if (getType() == APPOINTMENT) {
+                    String id = getAppointment().getId();
+                    Intent intents = PMainActivity2.makeIntent(PaySuccessActivity.this);
+                    startActivity(intents);
+                    Intent intent2 = MyOrderActivity.makeIntent(PaySuccessActivity.this);
+                    startActivity(intent2);
+                    Intent intent3 = EditQuestionActivity.intentFor(PaySuccessActivity.this, id, QuestionsPath.NORMAL);
+                    startActivity(intent3);
+                }
+            }
+        });
     }
 
 
@@ -101,8 +136,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                 Intent intent1 = PMainActivity2.makeIntent(PaySuccessActivity.this);
                 startActivity(intent1);
                 if (getType() == PRESCRIPTION) {
-                    Bundle bundle = DrugListFragment.getArgs();
-                    Intent intent = SingleFragmentActivity.intentFor(this, "寄药订单", bundle);
+                Intent intent = MyDrugOrderActivity.makeIntent(this);
                     startActivity(intent);
                 }
                 break;
@@ -124,34 +158,6 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
                 Intent intent = MedicineStoreActivity.intentForCustomerService(this);
                 startActivity(intent);
                 break;
-            case R.id.btn_back:
-                Intent intent1 = PMainActivity2.makeIntent(PaySuccessActivity.this);
-                startActivity(intent1);
-                int position = 0;
-                if (getType() == APPOINTMENT) {
-                    if (getAppointment().getType() == 2) {
-                        startActivity(PConsultingActivity.class);
-                    } else {
-                        Intent intent2 = MyOrderActivity.makeIntent(PaySuccessActivity.this, position);
-                        startActivity(intent2);
-                    }
-                }
-                finish();
-                break;
-            case R.id.btn_input:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    finishAffinity();
-                }
-                if (getType() == APPOINTMENT) {
-                    String id = getAppointment().getId();
-                    Intent intents = PMainActivity2.makeIntent(this);
-                    startActivity(intents);
-                    Intent intent2 = MyOrderActivity.makeIntent(this);
-                    startActivity(intent2);
-                    Intent intent3 = EditQuestionActivity.intentFor(this, id, QuestionsPath.NORMAL);
-                    startActivity(intent3);
-                }
-                break;
         }
     }
 
@@ -169,7 +175,7 @@ public class PaySuccessActivity extends BaseFragmentActivity2 implements View.On
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         if (getType() == APPOINTMENT) {
-            ShowCaseUtil.showCase2(binding.tvSubButton, "点击开始填写问卷", -1, 12, 13, true);
+            /*ShowCaseUtil.showCase2(binding.tvSubButton, "点击开始填写问卷", -1, 12, 13, true);*/
         }
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -13,12 +14,16 @@ import android.view.animation.DecelerateInterpolator;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.event.ActivityResultEvent;
 import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.HideFABEvent;
 import com.doctor.sun.event.ImportDiagnosisEvent;
 import com.doctor.sun.event.ShowFABEvent;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.TabActivity;
 import com.doctor.sun.ui.pager.AnswerPagerAdapter;
 import com.doctor.sun.ui.pager.ReadAnswerPagerAdapter;
@@ -26,6 +31,7 @@ import com.doctor.sun.util.HistoryEventHandler;
 import com.doctor.sun.util.JacksonUtils;
 import com.google.common.base.Strings;
 
+import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Tasks;
 
@@ -38,7 +44,7 @@ public class AppointmentDetailActivity extends TabActivity {
     public static final int POSITION_SUGGESTION = 1;
     public static final int POSITION_SUGGESTION_READONLY = 2;
     public static boolean onlyRead;
-
+    private DiagnosisModule api = Api.of(DiagnosisModule.class);
 
     private HistoryEventHandler eventHandler;
     private View historyButton;
@@ -47,14 +53,19 @@ public class AppointmentDetailActivity extends TabActivity {
     public static Intent makeIntent(Context context, Appointment data, int position) {
         Intent i = intentFor(context, data);
         i.putExtra(Constants.POSITION, position);
-        onlyRead=true;
+        onlyRead = true;
+        return i;
+    }
+    public static Intent makeIntent(Context context, Appointment data, int position,boolean canEdit) {
+        Intent i = intentFor(context, data);
+        i.putExtra(Constants.POSITION, position);
+        onlyRead = canEdit;
         return i;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding.setData(getData());
         addHistoryButton();
     }
@@ -85,6 +96,9 @@ public class AppointmentDetailActivity extends TabActivity {
                 @Override
                 public void onClick(View v) {
                     Appointment appointment = getData();
+                    Config.putInt(Constants.CREATE_SUCCESS, 1);
+                    Config.putInt(Constants.APPOINTMENT_MONEY, appointment.getStatus());
+                    Config.putString(Constants.ADDRESS, appointment.getId() + "");
                     EventHub.post(new AppointmentHistoryEvent(appointment, false));
 
                 }
@@ -103,9 +117,6 @@ public class AppointmentDetailActivity extends TabActivity {
     @Override
     protected PagerAdapter createPagerAdapter() {
         Appointment data = getData();
-        if(onlyRead){
-            return new ReadAnswerPagerAdapter(getSupportFragmentManager(), data);
-        }
         return new AnswerPagerAdapter(getSupportFragmentManager(), data);
     }
 

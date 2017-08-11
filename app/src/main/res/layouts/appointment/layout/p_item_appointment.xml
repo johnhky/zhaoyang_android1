@@ -101,10 +101,10 @@
                     android:paddingRight="@dimen/dp_4"
                     android:singleLine="true"
                     android:text="@{data.doctor.level}"
-                    android:textColor="@color/blue_grey"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/font_9"
-                    tools:text="专科医生"
-                    tools:background="@drawable/shape_red_rect"/>
+                    tools:background="@drawable/shape_red_rect"
+                    tools:text="专科医生" />
 
             </LinearLayout>
 
@@ -166,8 +166,8 @@
                 android:text="@{@string/appointment_type(data.display_type)}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_13"
-                tools:text="预约类型:专属就诊"
-                app:layout_widthPercent="40%" />
+                app:layout_widthPercent="40%"
+                tools:text="预约类型:专属就诊" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -242,7 +242,19 @@
                     android:textSize="@dimen/font_9" />
 
             </LinearLayout>
+
         </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:layout_marginRight="@dimen/dp_14"
+            android:text="@{&quot;面诊地址: &quot;+data.address}"
+            android:textColor="#5bc488"
+            android:textSize="14sp"
+            android:visibility="@{data.type==4}" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -274,8 +286,8 @@
                 android:gravity="start"
                 android:text="@{&quot;取消原因: &quot;  + data.cancel_reason}"
                 android:textColor="@color/grey_42"
-                tools:text="取消原因: 医生太抠门了"
-                android:textSize="@dimen/font_13" />
+                android:textSize="@dimen/font_13"
+                tools:text="取消原因: 医生太抠门了" />
 
 
         </LinearLayout>
@@ -290,8 +302,8 @@
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginTop="@dimen/dp_7"
             android:orientation="horizontal"
-            tools:visibility="gone"
-            app:visible="@{handler.hasPay(data)}">
+            app:visible="@{handler.hasPay(data)}"
+            tools:visibility="gone">
 
             <View
                 android:layout_width="0dp"
@@ -347,8 +359,8 @@
             android:layout_marginTop="@dimen/dp_7"
             android:background="@drawable/btn_comment"
             android:visibility="@{handler.showCommentBtn(data)}"
-            tools:visibility="gone"
-            app:selected="@{handler.hasDoctorComment(data)}">
+            app:selected="@{handler.hasDoctorComment(data)}"
+            tools:visibility="gone">
 
             <TextView
                 android:layout_width="match_parent"
@@ -363,29 +375,59 @@
 
         </FrameLayout>
 
-        <FrameLayout
-            android:layout_width="@dimen/dp_90"
-            android:layout_height="@dimen/dp_35"
-            android:layout_gravity="end"
-            android:layout_marginBottom="@dimen/dp_8"
-            android:layout_marginEnd="@dimen/dp_13"
-            android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_7"
-            android:background="@drawable/btn_comment"
-            android:visibility="@{handler.showAnswerQuestionBtn(data)}">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right|center_vertical"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple_default"
-                android:gravity="center"
-                android:onClick="@{()->handler.onPatientClickOrder(adapter, vh, data)}"
-                android:text="填写问卷"
-                android:textColor="#fff"
-                android:textSize="@dimen/font_13"
-                tools:text="填写问卷" />
+            <FrameLayout
+                android:layout_width="@dimen/dp_90"
+                android:layout_height="@dimen/dp_35"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_7"
+                android:background="@drawable/shape_cancel_btn"
+                android:visibility="@{handler.showCancelButton(data)}">
 
-        </FrameLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:onClick="@{()->handler.showCancelDialog(context, data)}"
+                    android:text="取消订单"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_13"
+                    tools:text="取消订单" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="@dimen/dp_90"
+                android:layout_height="@dimen/dp_35"
+                android:layout_marginEnd="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_7"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:background="@drawable/btn_comment"
+                android:visibility="@{handler.showAnswerQuestionBtn(data)}">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ripple_default"
+                    android:gravity="center"
+                    android:onClick="@{()->handler.answerQuestion(context, 0, data)}"
+                    android:text="填写问卷"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_13"
+                    tools:text="填写问卷" />
+
+            </FrameLayout>
+
+        </LinearLayout>
 
         <View
             android:id="@+id/bottom"

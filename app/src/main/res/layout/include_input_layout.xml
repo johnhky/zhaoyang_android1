@@ -10,7 +10,9 @@
         <variable
             name="audioVM"
             type="com.doctor.sun.vm.RecordAudioViewModel" />
-
+            <variable
+                name="visibility"
+                type="boolean"></variable>
 
     </data>
 
@@ -20,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:visibility="@{visibility}"
         tools:showIn="@layout/activity_chatting">
 
         <View

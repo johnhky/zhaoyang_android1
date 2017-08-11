@@ -1,42 +1,28 @@
 package com.doctor.sun.util;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.alipay.sdk.auth.APAuthInfo;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
-import com.doctor.sun.entity.AppointmentBuilder;
 import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
@@ -46,20 +32,14 @@ import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Appointment;
-import com.doctor.sun.immutables.UploadDrugData;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.module.TimeModule;
-import com.doctor.sun.ui.activity.BundlesTabActivity;
-import com.doctor.sun.ui.activity.SingleFragmentActivity;
-import com.doctor.sun.ui.activity.doctor.ChattingActivity;
-import com.doctor.sun.ui.activity.patient.handler.MedicalRecordHandler;
-import com.doctor.sun.ui.adapter.AddressAdapter;
-import com.doctor.sun.ui.fragment.NewMedicalRecordFragment;
-import com.doctor.sun.ui.fragment.PickDateFragment;
-import com.doctor.sun.ui.pager.PickDatePagerAdapter;
+import com.doctor.sun.ui.fragment.CreateNewMedicineReordActivity;
 import com.squareup.timessquare.CalendarPickerView;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -67,12 +47,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Handler;
 
 import io.ganguo.library.common.LoadingHelper;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by heky on 17/5/4.
@@ -85,45 +62,73 @@ public class DialogUtils {
     private static GridAdapter mAdapter;
     private static MyCustomAdapter myCustomAdapter;
     private static MyPayAdapter mPayAdapter;
-
     /*弹出选择支付方式弹窗*/
-    public static void showPayDialog(Context context, View mview, final OnPopItemClickListener onDialogItemClickListener) {
+    public static void showPayDialog(final Activity context, View mview, final OnPopItemClickListener onDialogItemClickListener) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.dialog_to_pay, null);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        final WindowManager.LayoutParams lp = context.getWindow().getAttributes();
+        lp.alpha = 0.4f;
+        context.getWindow().setAttributes(lp);
+        popupWindow.setOutsideTouchable(false);
         popupWindow.showAtLocation(mview, Gravity.BOTTOM, 0, 0);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                lp.alpha = 1f;
+                context.getWindow().setAttributes(lp);
+            }
+        });
         Button btn_cancel = (Button) view.findViewById(R.id.btn_quit);
-        Button btn_ali = (Button) view.findViewById(R.id.ll_payali);
-        Button btn_wechat = (Button) view.findViewById(R.id.ll_paywechat);
+        RadioGroup radio = (RadioGroup) view.findViewById(R.id.radio_payment);
+        Button btn_truth = (Button) view.findViewById(R.id.btn_truth);
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                dismiss(context);
             }
         });
-        btn_ali.setOnClickListener(new View.OnClickListener() {
+        radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                dismiss();
-                onDialogItemClickListener.onItemClickListener(0);
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radio_ali:
+                        onDialogItemClickListener.onItemClickListener(1);
+                        break;
+                    case R.id.radio_wechat:
+                        onDialogItemClickListener.onItemClickListener(2);
+                        break;
+                }
             }
         });
-        btn_wechat.setOnClickListener(new View.OnClickListener() {
+        btn_truth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
-                onDialogItemClickListener.onItemClickListener(1);
+                onDialogItemClickListener.onItemClickListener(3);
+                dismiss(context);
             }
         });
     }
 
     /*弹出选择预约类型弹窗*/
-    public static void showAppointmentType(final Context context, View mView, final OnPopItemClickListener onPopItemClickListener, Doctor doctor, int id, String address) {
-        LayoutInflater inflater = LayoutInflater.from(context);
+    public static void showAppointmentType(final Activity activity, View mView, final OnPopItemClickListener onPopItemClickListener, Doctor doctor, int id, String address, final boolean network, final boolean surface, final boolean simple) {
+        LayoutInflater inflater = LayoutInflater.from(activity);
         View view = inflater.inflate(R.layout.include_appointment_type, null);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        final WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = 0.4f;
+        activity.getWindow().setAttributes(lp);
+        popupWindow.setOutsideTouchable(false);
         popupWindow.showAtLocation(mView, Gravity.BOTTOM, 0, 0);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                lp.alpha = 1f;
+                activity.getWindow().setAttributes(lp);
+            }
+        });
         final TextView tvMoney = (TextView) view.findViewById(R.id.tv_money);
+        TextView tv_close = (TextView) view.findViewById(R.id.tv_close);
         final TextView tvSurfaceMoney = (TextView) view.findViewById(R.id.tv_surfaceMoney);
         final TextView tvSimpleMoney = (TextView) view.findViewById(R.id.tv_simpleMoney);
         final TextView tvAddress = (TextView) view.findViewById(R.id.tv_address);
@@ -139,33 +144,64 @@ public class DialogUtils {
         final LinearLayout llNet = (LinearLayout) view.findViewById(R.id.tv_netRecommond);
         final LinearLayout llSurface = (LinearLayout) view.findViewById(R.id.tv_surfaceRecommond);
         final LinearLayout llSimple = (LinearLayout) view.findViewById(R.id.tv_simpleRecommond);
+        final TextView t_simple = (TextView) view.findViewById(R.id.simple);
+        final TextView t_surface = (TextView) view.findViewById(R.id.surface);
+        final TextView t_network = (TextView) view.findViewById(R.id.netwrok);
+        View v_visible = (View) view.findViewById(R.id.v_visible);
         Button btn_truth = (Button) view.findViewById(R.id.tv_truth);
-        final Button btn_delete = (Button) view.findViewById(R.id.btn_delete);
         tvAddress.setText(address + "");
-        tvMoney.setText("￥" + doctor.getMoney() + "/" + doctor.getSurfaceMoney() + "分钟");
+        tvMoney.setText("￥" + doctor.getMoney() + "/" + doctor.getNetworkMinute() + "分钟");
         tvSimpleMoney.setText("￥" + doctor.getSecondMoney() + "/次");
-        tvSurfaceMoney.setText("￥" + doctor.getSurfaceMinute() + "/" + doctor.getNetworkMinute() + "分钟");
+        tvSurfaceMoney.setText("￥" + doctor.getSurfaceMoney() + "/" + doctor.getSurfaceMinute() + "分钟");
         if (doctor.getSpecialistCateg() == 1) {
+            tvNet2.setText("咨询+取药");
+            tvSurface2.setText("现场咨询+取药");
+            ll_simple.setVisibility(View.GONE);
+            v_visible.setVisibility(View.VISIBLE);
+            tvSimpleMoney.setText("");
+        }
+        if (!network) {
+            ll_net.setEnabled(false);
+            ll_net.setClickable(false);
+            t_network.setVisibility(View.VISIBLE);
+            tvNet.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+            tvNet2.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+            tvMoney.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+        }
+        if (!simple) {
             ll_simple.setEnabled(false);
+            ll_simple.setClickable(false);
+            t_simple.setVisibility(View.VISIBLE);
+            tvSimple.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+            tvSimple2.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+            tvSimpleMoney.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+        }
+        if (!surface) {
+            ll_surface.setEnabled(false);
+            ll_surface.setClickable(false);
+            t_surface.setVisibility(View.VISIBLE);
+            tvSurface.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+            tvSurface2.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+            tvSurfaceMoney.setTextColor(activity.getResources().getColor(R.color.gray_ce));
         }
         if (id == 1) {
             ll_net.setBackgroundResource(R.drawable.ic_type_checked);
-            tvNet.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
-            tvNet2.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
+            tvNet.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+            tvNet2.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
             llNet.setVisibility(View.VISIBLE);
-            tvMoney.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
+            tvMoney.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
         } else if (id == 2) {
             ll_simple.setBackgroundResource(R.drawable.ic_type_checked);
-            tvSimple.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
-            tvSimple2.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
+            tvSimple.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+            tvSimple2.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
             llSimple.setVisibility(View.VISIBLE);
-            tvSimpleMoney.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
-        } else if (id == 3) {
+            tvSimpleMoney.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+        } else if (id == 4) {
             ll_surface.setBackgroundResource(R.drawable.ic_type_checked);
-            tvSurface.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
-            tvSurface2.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
+            tvSurface.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+            tvSurface2.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
             llSurface.setVisibility(View.VISIBLE);
-            tvSurfaceMoney.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
+            tvSurfaceMoney.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
         }
         ll_net.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,18 +210,37 @@ public class DialogUtils {
                 ll_net.setBackgroundResource(R.drawable.ic_type_checked);
                 ll_simple.setBackgroundResource(R.drawable.ic_type_unchecked);
                 ll_surface.setBackgroundResource(R.drawable.ic_type_unchecked);
-                tvSimple.setTextColor(context.getResources().getColor(R.color.text_color_black));
-                tvSimple2.setTextColor(context.getResources().getColor(R.color.text_color_black));
-                tvNet.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
-                tvNet2.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
-                tvSurface.setTextColor(context.getResources().getColor(R.color.text_color_black));
-                tvSurface2.setTextColor(context.getResources().getColor(R.color.text_color_black));
-                tvMoney.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
-                tvSimpleMoney.setTextColor(context.getResources().getColor(R.color.red_f7));
-                tvSurfaceMoney.setTextColor(context.getResources().getColor(R.color.red_f7));
+                tvSimple.setTextColor(activity.getResources().getColor(R.color.text_color_black));
+                tvSimple2.setTextColor(activity.getResources().getColor(R.color.text_color_black));
+                tvNet.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+                tvNet2.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+                tvSurface.setTextColor(activity.getResources().getColor(R.color.text_color_black));
+                tvSurface2.setTextColor(activity.getResources().getColor(R.color.text_color_black));
+                tvMoney.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+                tvSimpleMoney.setTextColor(activity.getResources().getColor(R.color.red_f7));
+                tvSurfaceMoney.setTextColor(activity.getResources().getColor(R.color.red_f7));
                 llNet.setVisibility(View.VISIBLE);
                 llSimple.setVisibility(View.GONE);
                 llSurface.setVisibility(View.GONE);
+                if (!simple) {
+                    tvSimple.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                    tvSimple2.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                    tvSimpleMoney.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                }
+                if (!surface) {
+                    tvSurface.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                    tvSurface2.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                    tvSurfaceMoney.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                }
+            }
+        });
+        tv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+                lp.alpha = 1f;
+                activity.getWindow().setAttributes(lp);
+                popupWindow.dismiss();
             }
         });
         ll_surface.setOnClickListener(new View.OnClickListener() {
@@ -195,18 +250,29 @@ public class DialogUtils {
                 ll_surface.setBackgroundResource(R.drawable.ic_type_checked);
                 ll_simple.setBackgroundResource(R.drawable.ic_type_unchecked);
                 ll_net.setBackgroundResource(R.drawable.ic_type_unchecked);
-                tvSimple.setTextColor(context.getResources().getColor(R.color.text_color_black));
-                tvSimple2.setTextColor(context.getResources().getColor(R.color.text_color_black));
-                tvSurface.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
-                tvSurface2.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
-                tvNet.setTextColor(context.getResources().getColor(R.color.text_color_black));
-                tvNet2.setTextColor(context.getResources().getColor(R.color.text_color_black));
-                tvSurfaceMoney.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
-                tvSimpleMoney.setTextColor(context.getResources().getColor(R.color.red_f7));
-                tvMoney.setTextColor(context.getResources().getColor(R.color.red_f7));
+                tvSimple.setTextColor(activity.getResources().getColor(R.color.text_color_black));
+                tvSimple2.setTextColor(activity.getResources().getColor(R.color.text_color_black));
+                tvSurface.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+                tvSurface2.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+                tvNet.setTextColor(activity.getResources().getColor(R.color.text_color_black));
+                tvNet2.setTextColor(activity.getResources().getColor(R.color.text_color_black));
+                tvSurfaceMoney.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+                tvSimpleMoney.setTextColor(activity.getResources().getColor(R.color.red_f7));
+                tvMoney.setTextColor(activity.getResources().getColor(R.color.red_f7));
                 llSurface.setVisibility(View.VISIBLE);
                 llSimple.setVisibility(View.GONE);
                 llNet.setVisibility(View.GONE);
+                if (!network) {
+                    tvNet.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                    tvNet2.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                    tvMoney.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                }
+                if (!simple) {
+                    tvSimple.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                    tvSimple2.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                    tvSimpleMoney.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                }
+
             }
         });
         ll_simple.setOnClickListener(new View.OnClickListener() {
@@ -216,62 +282,76 @@ public class DialogUtils {
                 ll_simple.setBackgroundResource(R.drawable.ic_type_checked);
                 ll_surface.setBackgroundResource(R.drawable.ic_type_unchecked);
                 ll_net.setBackgroundResource(R.drawable.ic_type_unchecked);
-                tvSurface.setTextColor(context.getResources().getColor(R.color.text_color_black));
-                tvSurface2.setTextColor(context.getResources().getColor(R.color.text_color_black));
-                tvSimple.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
-                tvSimple2.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
-                tvNet.setTextColor(context.getResources().getColor(R.color.text_color_black));
-                tvNet2.setTextColor(context.getResources().getColor(R.color.text_color_black));
-                tvSimpleMoney.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
-                tvSurfaceMoney.setTextColor(context.getResources().getColor(R.color.red_f7));
-                tvMoney.setTextColor(context.getResources().getColor(R.color.red_f7));
+                tvSurface.setTextColor(activity.getResources().getColor(R.color.text_color_black));
+                tvSurface2.setTextColor(activity.getResources().getColor(R.color.text_color_black));
+                tvSimple.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+                tvSimple2.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+                tvNet.setTextColor(activity.getResources().getColor(R.color.text_color_black));
+                tvNet2.setTextColor(activity.getResources().getColor(R.color.text_color_black));
+                tvSimpleMoney.setTextColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+                tvSurfaceMoney.setTextColor(activity.getResources().getColor(R.color.red_f7));
+                tvMoney.setTextColor(activity.getResources().getColor(R.color.red_f7));
                 llSimple.setVisibility(View.VISIBLE);
                 llSurface.setVisibility(View.GONE);
                 llNet.setVisibility(View.GONE);
+                if (!network) {
+                    tvNet.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                    tvNet2.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                    tvMoney.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                }
+                if (!surface) {
+                    tvSurface.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                    tvSurface2.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                    tvSurfaceMoney.setTextColor(activity.getResources().getColor(R.color.gray_ce));
+                }
             }
         });
         btn_truth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                dismiss(activity);
                 onPopItemClickListener.onItemClickListener(4);
-            }
-        });
-        btn_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
             }
         });
 
     }
 
     /*弹出选择预约时长弹窗*/
-    public static void showTime(final Context context, View mView, int type, final Doctor doctor, String log_time) {
-        Log.e("eeee",doctor.toString()+"<>"+log_time);
-        final LayoutInflater inflater = LayoutInflater.from(context);
+    public static void showTime(final Activity activity, View mView, int type, final Doctor doctor, String log_time) {
+        final LayoutInflater inflater = LayoutInflater.from(activity);
         View view = inflater.inflate(R.layout.item_appointment_time, null);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        final WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = 0.4f;
+        activity.getWindow().setAttributes(lp);
+        popupWindow.setOutsideTouchable(false);
         popupWindow.showAtLocation(mView, Gravity.BOTTOM, 0, 0);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                lp.alpha = 1f;
+                activity.getWindow().setAttributes(lp);
+            }
+        });
         TextView tvClose = (TextView) view.findViewById(R.id.tv_close);
         TextView tvTimeNmoney = (TextView) view.findViewById(R.id.tv_timeNmoney);
         final TextView tvTotalMoney = (TextView) view.findViewById(R.id.tv_totalMoney);
         Button btnTruth = (Button) view.findViewById(R.id.btn_truth);
         GridView recyclerView = (GridView) view.findViewById(R.id.rv_recycle);
         int duration = Integer.valueOf(log_time);
-        int faceTime = Integer.valueOf(doctor.getNetworkMinute());
-        int netTime = Integer.valueOf(doctor.getSurfaceMoney());
+        int faceTime = Integer.valueOf(doctor.getSurfaceMinute());
+        int netTime = Integer.valueOf(doctor.getNetworkMinute());
         int num;
         /*判断医生身份是否心理医生*/
         if (doctor.getSpecialistCateg() == 1) {
-            switch (type){
+            switch (type) {
                 case AppointmentType.PREMIUM:
-                    tvTimeNmoney.setText("￥" + doctor.getMoney() + "/" + doctor.getSurfaceMoney()+ "分钟");
+                    tvTimeNmoney.setText("￥" + doctor.getMoney() + "/" + doctor.getNetworkMinute() + "分钟");
                     List<String> list = new ArrayList<>();
                     for (int i = 1; i <= 2; i++) {
                         list.add(netTime * i + "");
                     }
-                    final MyAdapter myAdapter = new MyAdapter(context, list, tvTotalMoney, doctor.getMoney() + "");
+                    final MyAdapter myAdapter = new MyAdapter(activity, list, tvTotalMoney, doctor.getMoney() + "");
                     recyclerView.setAdapter(myAdapter);
                     recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -282,12 +362,12 @@ public class DialogUtils {
                     });
                     break;
                 case AppointmentType.FACE:
-                    tvTimeNmoney.setText("￥" + doctor.getSurfaceMinute()+ "/" + doctor.getNetworkMinute() + "分钟");
+                    tvTimeNmoney.setText("￥" + doctor.getSurfaceMoney() + "/" + doctor.getSurfaceMinute() + "分钟");
                     List<String> lists = new ArrayList<>();
                     for (int i = 1; i <= 2; i++) {
                         lists.add(faceTime * i + "");
                     }
-                    final MyAdapter myAdapter2 = new MyAdapter(context, lists, tvTotalMoney, doctor.getSurfaceMinute());
+                    final MyAdapter myAdapter2 = new MyAdapter(activity, lists, tvTotalMoney, doctor.getSurfaceMoney());
                     recyclerView.setAdapter(myAdapter2);
                     recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -299,15 +379,15 @@ public class DialogUtils {
                     break;
             }
         } else {
-            switch (type){
+            switch (type) {
                 case AppointmentType.PREMIUM:
-                    tvTimeNmoney.setText("￥" + doctor.getMoney() + "/" + doctor.getSurfaceMoney()+ "分钟");
+                    tvTimeNmoney.setText("￥" + doctor.getMoney() + "/" + doctor.getNetworkMinute() + "分钟");
                     List<String> list = new ArrayList<>();
                     num = duration / netTime;
                     for (int i = 1; i <= num; i++) {
                         list.add(netTime * i + "");
                     }
-                    final MyAdapter myAdapter = new MyAdapter(context, list, tvTotalMoney, doctor.getMoney() + "");
+                    final MyAdapter myAdapter = new MyAdapter(activity, list, tvTotalMoney, doctor.getMoney() + "");
                     recyclerView.setAdapter(myAdapter);
                     recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -318,13 +398,13 @@ public class DialogUtils {
                     });
                     break;
                 case AppointmentType.FACE:
-                    tvTimeNmoney.setText("￥" + doctor.getSurfaceMinute() + "/" + doctor.getNetworkMinute()+ "分钟");
+                    tvTimeNmoney.setText("￥" + doctor.getSurfaceMoney() + "/" + doctor.getSurfaceMinute() + "分钟");
                     num = duration / faceTime;
                     List<String> lists = new ArrayList<>();
                     for (int i = 1; i <= num; i++) {
                         lists.add(faceTime * i + "");
                     }
-                    final MyAdapter myAdapter2 = new MyAdapter(context, lists, tvTotalMoney, doctor.getSurfaceMinute());
+                    final MyAdapter myAdapter2 = new MyAdapter(activity, lists, tvTotalMoney, doctor.getSurfaceMoney());
                     recyclerView.setAdapter(myAdapter2);
                     recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -340,27 +420,27 @@ public class DialogUtils {
         tvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                dismiss(activity);
             }
         });
 
         btnTruth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                dismiss(activity);
                 Intent intent = new Intent();
                 intent.setAction("getTime");
                 intent.putExtra(Constants.APPOINTMENT_MONEY, tvTotalMoney.getText().toString());
                 intent.putExtra(Constants.TIME, tvTotalMoney.getHint().toString());
                 if (!TextUtils.isEmpty(tvTotalMoney.getText().toString()) && !TextUtils.isEmpty(tvTotalMoney.getHint().toString())) {
-                    context.sendBroadcast(intent);
+                    activity.sendBroadcast(intent);
                 }
             }
         });
     }
 
     /*弹出选择预约日期和时长弹窗*/
-    public static void showPickDate(final Context context, final View mview, final int type, final int doctorId, final int time) {
+    public static void showPickDate(final Activity context, final View mview, final int type, final int doctorId, final int time) {
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         final Calendar now = Calendar.getInstance();
         final Calendar nextMonth = Calendar.getInstance();
@@ -369,7 +449,18 @@ public class DialogUtils {
         final LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_appointment_pick_date, null);
         final PopupWindow mPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        final WindowManager.LayoutParams lp = context.getWindow().getAttributes();
+        lp.alpha = 0.4f;
+        context.getWindow().setAttributes(lp);
+        popupWindow.setOutsideTouchable(false);
         mPopupWindow.showAtLocation(mview, Gravity.BOTTOM, 0, 0);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                lp.alpha = 1f;
+                context.getWindow().setAttributes(lp);
+            }
+        });
         TextView tv_pickdate = (TextView) view.findViewById(R.id.tv_pickdate);
         TextView tv_delete = (TextView) view.findViewById(R.id.tv_delete);
         final CalendarPickerView pickerView = (CalendarPickerView) view.findViewById(R.id.calendar_view);
@@ -377,7 +468,7 @@ public class DialogUtils {
                 .inMode(CalendarPickerView.SelectionMode.MULTIPLE);
         String typeText = "";
         if (type == 1) {
-            typeText = "请选择预约日期(专属网诊)";
+            typeText = "请选择预约日期(VIP网诊)";
         } else if (type == 2) {
             typeText = "请选择预约日期(简易复诊)";
         } else if (type == 4) {
@@ -400,22 +491,40 @@ public class DialogUtils {
                 }
                 for (int i = response.size() - 1; i >= 0; i--) {
                     Time time = response.get(i);
-                    String data = time.getDate();
                     try {
-                        pickerView.selectDate(simpleDateFormat.parse(data));
+                        if (time.getOptional() == 1) {
+                            String data = time.getDate();
+                            pickerView.selectDate(simpleDateFormat.parse(data));
+                        }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
+            }
+
+            @Override
+            public void onFailure(Call<ApiDTO<List<Time>>> call, Throwable t) {
+                super.onFailure(call, t);
             }
         });
         pickerView.setCellClickInterceptor(new CalendarPickerView.CellClickInterceptor() {
             @Override
             public boolean onCellClicked(Date date) {
                 if (pickerView.getSelectedDates().contains(date)) {
+                    mPopupWindow.dismiss();
                     String pickDate = simpleDateFormat.format(date);
+                    WindowManager.LayoutParams lp = context.getWindow().getAttributes();
+                    lp.alpha = 1f;
+                    context.getWindow().setAttributes(lp);
+                    if (type == 2) {
+                        Intent intent = new Intent();
+                        intent.setAction(Constants.DATE);
+                        intent.putExtra(Constants.TIME, pickDate);
+                        context.sendBroadcast(intent);
+                    } else {
+                        showPickTime(context, mview, type, time, pickDate, doctorId, mPopupWindow);
+                    }
 
-                    showPickTime(context, mview, type, time, pickDate, doctorId, mPopupWindow);
                 }
                 return false;
             }
@@ -423,18 +532,32 @@ public class DialogUtils {
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                WindowManager.LayoutParams lp = context.getWindow().getAttributes();
+                lp.alpha = 1f;
+                context.getWindow().setAttributes(lp);
                 mPopupWindow.dismiss();
             }
         });
     }
 
     /*弹出选择时间段弹窗*/
-    public static void showPickTime(final Context context, View mView, int type, int time, final String date, int doctorId, final PopupWindow mPopupWindow) {
+    public static void showPickTime(final Activity context, View mView, final int type, final int time, final String date, final int doctorId, final PopupWindow mPopupWindow) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_appointment_pick_time, null);
         TimeModule api = Api.of(TimeModule.class);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        final WindowManager.LayoutParams lp = context.getWindow().getAttributes();
+        lp.alpha = 0.4f;
+        context.getWindow().setAttributes(lp);
+        popupWindow.setOutsideTouchable(false);
         popupWindow.showAtLocation(mView, Gravity.BOTTOM, 0, 0);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                lp.alpha = 1f;
+                context.getWindow().setAttributes(lp);
+            }
+        });
         LinearLayout ll_back = (LinearLayout) view.findViewById(R.id.ll_back);
         TextView tv_date = (TextView) view.findViewById(R.id.tv_date);
         TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
@@ -453,7 +576,27 @@ public class DialogUtils {
         api.getDaySchedule(doctorId, date, type, time + "").enqueue(new SimpleCallback<List<Time>>() {
             @Override
             protected void handleResponse(List<Time> response) {
-                mAdapter = new GridAdapter(context, response);
+                List<Time> list = new ArrayList<>();
+                if (response.size() > 0) {
+                    for (int i = 0; i < response.size(); i++) {
+                        if (response.get(i).getOptional() == 1) {
+                            Time times = new Time();
+                            times.setDate(response.get(i).getDate());
+                            times.setCreatedAt(response.get(i).getCreatedAt());
+                            times.setDoctorId(response.get(i).getDoctorId());
+                            times.setFrom(response.get(i).getFrom());
+                            times.setId(response.get(i).getId());
+                            times.setOptional(response.get(i).getOptional());
+                            times.setReserva(response.get(i).getReserva());
+                            times.setType(response.get(i).getType());
+                            times.setWeek(response.get(i).getWeek());
+                            times.setTo(response.get(i).getTo());
+                            times.setUpdatedAt(response.get(i).getUpdatedAt());
+                            list.add(times);
+                        }
+                    }
+                }
+                mAdapter = new GridAdapter(context, list);
                 recyclerView.setAdapter(mAdapter);
             }
         });
@@ -463,44 +606,72 @@ public class DialogUtils {
                 if (mAdapter != null) {
                     mAdapter.setSelectIndex(position);
                     mAdapter.notifyDataSetChanged();
-
                 }
             }
         });
         tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                dismiss(context);
                 mPopupWindow.dismiss();
             }
         });
         ll_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                dismiss(context);
+                mPopupWindow.dismiss();
+                Intent toReset = new Intent();
+                toReset.setAction(Constants.RESET_CALENDAR);
+                toReset.putExtra("dType",type);
+                toReset.putExtra("dTime",time);
+                v.getContext().sendBroadcast(toReset);
             }
         });
+
+
         btn_truth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SimpleDateFormat fromFormat = new SimpleDateFormat("HH:ss", Locale.CHINA);
                 if (mAdapter != null && mAdapter.getSelectIndex() != -1) {
+                    String from = "";
+                    String to = "";
+                    try {
+                        from = fromFormat.format(fromFormat.parse(mAdapter.getList().get(mAdapter.getSelectIndex()).getFrom()));
+                        to = fromFormat.format(fromFormat.parse(mAdapter.getList().get(mAdapter.getSelectIndex()).getTo()));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     Intent intent = new Intent();
                     intent.setAction(Constants.DATE);
-                    intent.putExtra(Constants.TIME, date + " " + mAdapter.getList().get(mAdapter.getSelectIndex()).getFrom());
+                    intent.putExtra(Constants.TIME, date + " " + from + "-" + to);
+                    intent.putExtra(Constants.BOOK_TIME, date + " " + from + ":00");
                     context.sendBroadcast(intent);
                 }
-                dismiss();
+                dismiss(context);
                 mPopupWindow.dismiss();
             }
         });
     }
 
     /*弹出选择患者弹窗*/
-    public static void showPickCustom(final Context context, View mView) {
+    public static void showPickCustom(final Activity context, View mView, final String recordName) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_appointment_pick_custom, null);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        final WindowManager.LayoutParams lp = context.getWindow().getAttributes();
+        lp.alpha = 0.4f;
+        context.getWindow().setAttributes(lp);
+        popupWindow.setOutsideTouchable(false);
         popupWindow.showAtLocation(mView, Gravity.BOTTOM, 0, 0);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                lp.alpha = 1f;
+                context.getWindow().setAttributes(lp);
+            }
+        });
         TextView tv_close = (TextView) view.findViewById(R.id.tv_close);
         final GridView gridView = (GridView) view.findViewById(R.id.grid_custom);
         Button btn_truth = (Button) view.findViewById(R.id.btn_truth);
@@ -510,12 +681,22 @@ public class DialogUtils {
             protected void handleResponse(List<MedicalRecord> response) {
                 myCustomAdapter = new MyCustomAdapter(context, response);
                 gridView.setAdapter(myCustomAdapter);
+                for (int i = 0; i < response.size(); i++) {
+                    if (!TextUtils.isEmpty(recordName)) {
+                        if (recordName.equals(response.get(i).getRecordName())) {
+                            myCustomAdapter.setSelectIndex(i);
+                            myCustomAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                }
+
             }
         });
         tv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                dismiss(context);
             }
         });
         btn_truth.setOnClickListener(new View.OnClickListener() {
@@ -540,7 +721,7 @@ public class DialogUtils {
                     String msg = record.getRecordName() + "(" + sex + "/" + record.getAge() + ")";
                     intent.putExtra(Constants.ADDRESS, msg);
                     context.sendBroadcast(intent);
-                    dismiss();
+                    dismiss(context);
                 }
             }
         });
@@ -549,27 +730,47 @@ public class DialogUtils {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (myCustomAdapter != null) {
                     myCustomAdapter.setSelectIndex(position);
+                    if (position == myCustomAdapter.getList().size()) {
+                        Intent toCreate = new Intent();
+                        toCreate.setClass(context, CreateNewMedicineReordActivity.class);
+                        toCreate.putParcelableArrayListExtra(Constants.MOCK, (ArrayList) myCustomAdapter.getList());
+                        toCreate.putExtra(Constants.DATA, 1);
+                        context.startActivity(toCreate);
+                        dismiss(context);
+                    }
                     myCustomAdapter.notifyDataSetChanged();
+
                 }
             }
         });
     }
 
-    public static void showAppointmentPay(final Context context, View mView, final int type, final Doctor doctor, final double money, String patient, final int time, final long bookTime, String date, final int recordId) {
+    public static void showAppointmentPay(final Activity context, View mView, final int type, final Doctor doctor, final double money, String patient, final int time, final long bookTime, String date, final int recordId) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_appointment_pay, null);
 
         ProfileModule api = Api.of(ProfileModule.class);
         final AppointmentModule http = Api.of(AppointmentModule.class);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        final WindowManager.LayoutParams lp = context.getWindow().getAttributes();
+        lp.alpha = 0.4f;
+        context.getWindow().setAttributes(lp);
+        popupWindow.setOutsideTouchable(false);
         popupWindow.showAtLocation(mView, Gravity.BOTTOM, 0, 0);
-
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                lp.alpha = 1f;
+                context.getWindow().setAttributes(lp);
+            }
+        });
         TextView tv_painetName = (TextView) view.findViewById(R.id.tv_painetName);
         TextView tv_close = (TextView) view.findViewById(R.id.tv_close);
         TextView tv_doctorName = (TextView) view.findViewById(R.id.tv_doctorName);
         TextView tv_type = (TextView) view.findViewById(R.id.tv_d_type);
         TextView tv_time = (TextView) view.findViewById(R.id.tv_time);
-        TextView tv_money = (TextView) view.findViewById(R.id.tv_money);
+        final TextView tv_money = (TextView) view.findViewById(R.id.tv_money);
+        final LinearLayout ll_coupon = (LinearLayout) view.findViewById(R.id.ll_coupon);
         final GridView grid_discount = (GridView) view.findViewById(R.id.grid_discount);
         RadioGroup radio_payment = (RadioGroup) view.findViewById(R.id.radio_payment);
         final RadioButton radio_ali = (RadioButton) view.findViewById(R.id.radio_ali);
@@ -577,13 +778,17 @@ public class DialogUtils {
         Button btn_truth = (Button) view.findViewById(R.id.btn_truth);
         String typeText = "";
         String currentScope = "";
+        String appointmentTime = "";
         if (type == 1) {
-            typeText = "专属网诊";
+            typeText = "VIP网诊";
             currentScope = "detail_consult";
+            appointmentTime = date;
         } else if (type == 2) {
             typeText = "简易复诊";
+            appointmentTime = "立即开始";
             currentScope = "simple_consult";
         } else if (type == 4) {
+            appointmentTime = date;
             typeText = "诊所面诊";
             currentScope = "surface_consult";
         }
@@ -591,20 +796,43 @@ public class DialogUtils {
         tv_doctorName.setText(doctor.getName());
         tv_painetName.setText(patient);
         tv_money.setText("￥" + money);
-        tv_time.setText(date);
-
+        tv_time.setText(appointmentTime);
+        if (radio_ali.isChecked()) {
+            radio_ali.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
+        }
         api.getAppointmentCoupons("valid", currentScope, true, money + "", "all", "1").enqueue(new SimpleCallback<List<Coupon>>() {
             @Override
             protected void handleResponse(List<Coupon> response) {
                 mPayAdapter = new MyPayAdapter(context, response);
                 grid_discount.setAdapter(mPayAdapter);
+                if (response.size() > 0) {
+                    ll_coupon.setVisibility(View.VISIBLE);
+                }
             }
         });
         grid_discount.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                NumberFormat numberFormat = new DecimalFormat("0.00");
                 if (mPayAdapter != null) {
                     mPayAdapter.setSelectedIndex(position);
+                    Coupon coupon = mPayAdapter.getList().get(position);
+                    double couponMoney;
+                    double totalMoney;
+                    double mainMoney = Double.parseDouble(numberFormat.format(money));
+                    if (coupon.isThreshold_available() == true) {
+                        if (!TextUtils.isEmpty(coupon.getThreshold())) {
+                            couponMoney = Double.parseDouble(coupon.getCouponMoney());
+                            if (mainMoney - couponMoney <= 0) {
+                                totalMoney = 0;
+                            } else {
+                                totalMoney = mainMoney - couponMoney;
+                            }
+                            tv_money.setText("￥" + Double.parseDouble(numberFormat.format(totalMoney)));
+                        }
+                    } else {
+                        tv_money.setText("￥" + mainMoney);
+                    }
                     mPayAdapter.notifyDataSetChanged();
                 }
             }
@@ -627,52 +855,141 @@ public class DialogUtils {
         tv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                dismiss(context);
             }
         });
         btn_truth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mPayAdapter != null) {
-                    if (mPayAdapter.getSelectedIndex()!=-1){
+                    if (mPayAdapter.getSelectedIndex() != -1) {
                         final Coupon coupon = mPayAdapter.getList().get(mPayAdapter.getSelectedIndex());
                         if (coupon.isThreshold_available() == true) {
                             if (!TextUtils.isEmpty(coupon.getCouponMoney())) {
-                                double couponMoney = Double.parseDouble(coupon.getCouponMoney());
-                        /*    double finalMoney = 0;
-                            if (money - couponMoney >= 0) {
-                                finalMoney = money - couponMoney;
+                                LoadingHelper.showMaterLoading(context, "正在预约...");
+                                if (type == 2) {
+                                    http.toAppointmentDoctor(bookTime, doctor.getId(), recordId, type).enqueue(new SimpleCallback<Appointment>() {
+                                        @Override
+                                        protected void handleResponse(Appointment response) {
+                                            LoadingHelper.hideMaterLoading();
+                                            if (radio_ali.isChecked()) {
+                                                AppointmentHandler2.payWithAlipay(context, coupon.id, response);
+                                            } else {
+                                                AppointmentHandler2.payWithWeChat(context, coupon.id, response);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ApiDTO<Appointment>> call, Throwable t) {
+                                            super.onFailure(call, t);
+                                            LoadingHelper.hideMaterLoading();
+                                        }
+                                    });
+                                } else {
+                                    http.toAppointmentDoctor(bookTime, doctor.getId(), recordId, time, type).enqueue(new SimpleCallback<Appointment>() {
+                                        @Override
+                                        protected void handleResponse(Appointment response) {
+                                            LoadingHelper.hideMaterLoading();
+                                            if (radio_ali.isChecked()) {
+                                                AppointmentHandler2.payWithAlipay(context, coupon.id, response);
+                                            } else {
+                                                AppointmentHandler2.payWithWeChat(context, coupon.id, response);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ApiDTO<Appointment>> call, Throwable t) {
+                                            super.onFailure(call, t);
+                                            LoadingHelper.hideMaterLoading();
+                                        }
+                                    });
+                                }
+
+                            }
+
+                        } else {
+                            if (type == 2) {
+                                http.toAppointmentDoctor(bookTime, doctor.getId(), recordId, type).enqueue(new SimpleCallback<Appointment>() {
+                                    @Override
+                                    protected void handleResponse(Appointment response) {
+                                        LoadingHelper.hideMaterLoading();
+                                        if (radio_ali.isChecked()) {
+                                            AppointmentHandler2.payWithAlipay((Activity) context, "", response);
+                                        } else {
+                                            AppointmentHandler2.payWithWeChat((Activity) context, "", response);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ApiDTO<Appointment>> call, Throwable t) {
+                                        super.onFailure(call, t);
+                                        LoadingHelper.hideMaterLoading();
+                                    }
+                                });
                             } else {
-                                finalMoney = 0;
-                            }*/
                                 http.toAppointmentDoctor(bookTime, doctor.getId(), recordId, time, type).enqueue(new SimpleCallback<Appointment>() {
                                     @Override
                                     protected void handleResponse(Appointment response) {
-                                        if(radio_ali.isChecked()){
-                                            AppointmentHandler2.payWithAlipay((Activity) context, coupon.id, response);
-                                        }else{
-                                            AppointmentHandler2.payWithWeChat((Activity) context, coupon.id, response);
+                                        LoadingHelper.hideMaterLoading();
+                                        if (radio_ali.isChecked()) {
+                                            AppointmentHandler2.payWithAlipay((Activity) context, "", response);
+                                        } else {
+                                            AppointmentHandler2.payWithWeChat((Activity) context, "", response);
                                         }
                                     }
+
+                                    @Override
+                                    public void onFailure(Call<ApiDTO<Appointment>> call, Throwable t) {
+                                        super.onFailure(call, t);
+                                        LoadingHelper.hideMaterLoading();
+                                    }
                                 });
-
-
                             }
-
                         }
-                    }else{
-                        http.toAppointmentDoctor(bookTime, doctor.getId(), recordId, time, type).enqueue(new SimpleCallback<Appointment>() {
-                            @Override
-                            protected void handleResponse(Appointment response) {
-                                if(radio_ali.isChecked()){
-                                    AppointmentHandler2.payWithAlipay((Activity) context, "", response);
-                                }else{
-                                    AppointmentHandler2.payWithWeChat((Activity) context, "", response);
+                    } else {
+                        LoadingHelper.showMaterLoading(context, "正在预约...");
+                        if (type == 2) {
+                            http.toAppointmentDoctor(bookTime, doctor.getId(), recordId, type).enqueue(new SimpleCallback<Appointment>() {
+                                @Override
+                                protected void handleResponse(Appointment response) {
+                                    LoadingHelper.hideMaterLoading();
+                                    if (radio_ali.isChecked()) {
+                                        AppointmentHandler2.payWithAlipay((Activity) context, "", response);
+                                    } else {
+                                        AppointmentHandler2.payWithWeChat((Activity) context, "", response);
+                                    }
                                 }
-                            }
-                        });
-                    }
 
+                                @Override
+                                public void onFailure(Call<ApiDTO<Appointment>> call, Throwable t) {
+                                    super.onFailure(call, t);
+                                    LoadingHelper.hideMaterLoading();
+                                }
+                            });
+                        } else {
+                            http.toAppointmentDoctor(bookTime, doctor.getId(), recordId, time, type).enqueue(new SimpleCallback<Appointment>() {
+                                @Override
+                                protected void handleResponse(Appointment response) {
+                                    LoadingHelper.hideMaterLoading();
+                                    if (radio_ali.isChecked()) {
+                                        AppointmentHandler2.payWithAlipay((Activity) context, "", response);
+                                    } else {
+                                        AppointmentHandler2.payWithWeChat((Activity) context, "", response);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ApiDTO<Appointment>> call, Throwable t) {
+                                    super.onFailure(call, t);
+                                    LoadingHelper.hideMaterLoading();
+                                }
+                            });
+                        }
+
+                    }
+                    WindowManager.LayoutParams lp = context.getWindow().getAttributes();
+                    lp.alpha = 1f;
+                    context.getWindow().setAttributes(lp);
                 }
             }
         });
@@ -683,9 +1000,12 @@ public class DialogUtils {
         void onItemClickListener(int which);
     }
 
-    public static void dismiss() {
+    public static void dismiss(Activity activity) {
         if (popupWindow != null) {
             popupWindow.dismiss();
+            WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+            lp.alpha = 1f;
+            activity.getWindow().setAttributes(lp);
         }
     }
 
@@ -777,9 +1097,9 @@ public class DialogUtils {
 
     /*选择预约患者适配器*/
     public static class MyCustomAdapter extends BaseAdapter {
-        List<MedicalRecord> list;
-        Context context;
-        int selectIndex = -1;
+        public List<MedicalRecord> list;
+        public Context context;
+        public int selectIndex = -1;
 
         public MyCustomAdapter(Context context, List<MedicalRecord> list) {
             this.context = context;
@@ -816,52 +1136,32 @@ public class DialogUtils {
         ViewHolder holder;
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 holder = new ViewHolder();
-                convertView = LayoutInflater.from(context).inflate(R.layout.item_appointment_time_checked, null);
-                holder.textView = (TextView) convertView.findViewById(R.id.item_checked);
-                holder.tv_minute = (TextView) convertView.findViewById(R.id.tv_minute);
-                holder.ll_time = (LinearLayout) convertView.findViewById(R.id.item_ll_checked);
+                convertView = LayoutInflater.from(context).inflate(R.layout.item_appointment_check_custom, null);
+                holder.tv_custom = (TextView) convertView.findViewById(R.id.item_custom);
+                holder.ll_custom_check = (LinearLayout) convertView.findViewById(R.id.item_ll_checked);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.tv_minute.setVisibility(View.GONE);
             if (position < list.size()) {
-                holder.textView.setText(list.get(position).getRecordName());
+                holder.tv_custom.setText(list.get(position).getRecordName());
             } else {
-                holder.textView.setText("+添加新患者");
+                holder.tv_custom.setText("+添加新患者");
             }
-
             if (selectIndex == position && selectIndex != list.size()) {
-                holder.ll_time.setBackgroundResource(R.drawable.item_time_checked);
+                holder.ll_custom_check.setBackgroundResource(R.drawable.item_time_checked);
             } else {
-                holder.ll_time.setBackgroundResource(R.drawable.item_time_unchecked);
+                holder.ll_custom_check.setBackgroundResource(R.drawable.item_time_unchecked);
             }
-            holder.textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (selectIndex == list.size()) {
-                        Bundle otherRecord = NewMedicalRecordFragment.newOtherRecord();
-                        if (MedicalRecordHandler.hasSelfRecord(list)) {
-                            Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", otherRecord);
-                            context.startActivity(intent);
-                        } else {
-                            Bundle selfRecord = NewMedicalRecordFragment.newSelfRecord();
-                            Intent intent = BundlesTabActivity.intentFor(context, selfRecord, otherRecord);
-                            context.startActivity(intent);
-                        }
-                        dismiss();
-                    }
-                }
-            });
             return convertView;
         }
 
         class ViewHolder {
-            TextView textView, tv_minute;
-            LinearLayout ll_time;
+            TextView tv_custom;
+            LinearLayout ll_custom_check;
         }
     }
 
@@ -871,7 +1171,7 @@ public class DialogUtils {
         List<String> list;
         private TextView textView;
         private String money;
-        private int selectedIndex;
+        private int selectedIndex = -1;
 
         public MyAdapter(Context context, List<String> list, TextView textView, String money) {
             this.context = context;

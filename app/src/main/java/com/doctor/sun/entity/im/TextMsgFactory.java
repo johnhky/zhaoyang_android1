@@ -1,6 +1,7 @@
 package com.doctor.sun.entity.im;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.doctor.sun.emoji.StickerManager;
 import com.doctor.sun.im.AttachmentPair;
@@ -11,13 +12,20 @@ import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
 import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.VideoAttachment;
+import com.netease.nimlib.sdk.msg.constant.AttachStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
+import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.CustomMessageConfig;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.msg.model.MemberPushOption;
+import com.netease.nimlib.sdk.msg.model.NIMAntiSpamOption;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import io.realm.RealmList;
 
@@ -232,6 +240,7 @@ public class TextMsgFactory {
 
     public static boolean isRefreshMsg(String type) {
         return String.valueOf(TextMsg.REFRESH_APPOINTMENT).equals(type)
+                || "doctor_diagnosed".equals(type)
                 || "follow_up_start".equals(type)
                 || "follow_up_end".equals(type)
                 || "appointment_start".equals(type)

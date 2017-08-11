@@ -8,9 +8,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class InComeOverView {
 
-    public String explain;
     public String recent_seven_days_fee;
     public String total_fee;
+    public String time;
 
 }
 

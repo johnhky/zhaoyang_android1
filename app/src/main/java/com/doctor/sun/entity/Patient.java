@@ -176,6 +176,15 @@ public class Patient extends BaseObservable implements LayoutId, Parcelable, Nam
         this.handler = handler;
     }
 
+
+    public List<String> getRecordNames() {
+        return recordNames;
+    }
+
+    public void setRecordNames(List<String> recordNames) {
+        this.recordNames = recordNames;
+    }
+
     public Patient() {
     }
 

@@ -13,6 +13,8 @@ import com.doctor.sun.im.CustomAttachParser;
 import com.doctor.sun.im.observer.AttachmentProgressObserver;
 import com.doctor.sun.im.observer.MsgStatusObserver;
 import com.doctor.sun.im.observer.ReceiveMsgObserver;
+import com.doctor.sun.im.observer.RevokeMessageObserver;
+import com.doctor.sun.immutables.Appointment;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.msg.MsgService;
@@ -22,6 +24,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 import io.ganguo.library.BaseApp;
@@ -40,12 +43,19 @@ import io.realm.RealmMigration;
 public class AppContext extends BaseApp {
     public static final String TAG = AppContext.class.getSimpleName();
     public static final int NEW_VERSION = 9;
-
+    public static int chat_num = 0;
+    public static Appointment data;
+    public static Appointment appointment;
+    public static AppContext instance;
+    public static Appointment keepState;
+    public static List<String>records;
+    public static int position;
+    public static int type = 0;
+    public static Appointment editAppointment;
     @Override
     public void onCreate() {
         super.onCreate();
-
-
+        instance = this;
         AppEnv.init(this);
         // init libs
         String processName = getProcessName(this);
@@ -98,6 +108,13 @@ public class AppContext extends BaseApp {
         MobclickAgent.openActivityDurationTrack(false);
     }
 
+    public static AppContext getInstance() {
+        if (instance == null) {
+            instance = new AppContext();
+        }
+        return instance;
+    }
+
     private void registerMsgObserver() {
         CustomAttachParser msgAttachmentParser = new CustomAttachParser();
         NIMClient.getService(MsgService.class).registerCustomAttachmentParser(msgAttachmentParser);
@@ -105,12 +122,12 @@ public class AppContext extends BaseApp {
         MsgStatusObserver msgStatusObserver = new MsgStatusObserver();
         ReceiveMsgObserver receiveMsgObserver = new ReceiveMsgObserver();
         AttachmentProgressObserver progressObserver = new AttachmentProgressObserver();
-
-
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
+        RevokeMessageObserver revokeMessageObserver = new RevokeMessageObserver();
         service.observeReceiveMessage(receiveMsgObserver, true);
         service.observeMsgStatus(msgStatusObserver, true);
         service.observeAttachmentProgress(progressObserver, true);
+        service.observeRevokeMessage(revokeMessageObserver,true);
     }
 
 
@@ -173,4 +190,69 @@ public class AppContext extends BaseApp {
             }
         }
     }
+
+    public int getChat_num() {
+        return chat_num;
+    }
+
+    public void setChat_num(int chat_num) {
+        this.chat_num = chat_num;
+    }
+
+    public static Appointment getData() {
+        return data;
+    }
+
+    public static void setData(Appointment data) {
+        AppContext.data = data;
+    }
+
+    public static int getType() {
+        return type;
+    }
+
+    public static void setType(int type) {
+        AppContext.type = type;
+    }
+
+    public static Appointment getAppointment() {
+        return appointment;
+    }
+
+    public static void setAppointment(Appointment appointment) {
+        AppContext.appointment = appointment;
+    }
+
+    public static Appointment getKeepState() {
+        return keepState;
+    }
+
+    public static void setKeepState(Appointment keepState) {
+        AppContext.keepState = keepState;
+    }
+
+    public static List<String> getRecords() {
+        return records;
+    }
+
+    public static void setRecords(List<String> records) {
+        AppContext.records = records;
+    }
+
+    public static int getPosition() {
+        return position;
+    }
+
+    public static void setPosition(int position) {
+        AppContext.position = position;
+    }
+
+    public static Appointment getEditAppointment() {
+        return editAppointment;
+    }
+
+    public static void setEditAppointment(Appointment editAppointment) {
+        AppContext.editAppointment = editAppointment;
+    }
+
 }

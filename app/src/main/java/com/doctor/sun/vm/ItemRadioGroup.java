@@ -3,12 +3,14 @@ package com.doctor.sun.vm;
 import android.view.View;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
+import com.doctor.sun.Settings;
+import com.doctor.sun.entity.Doctor;
+
 /**
  * Created by rick on 23/12/2015.
  */
 public class ItemRadioGroup extends BaseItem implements LayoutId {
     private int layoutId;
-
     private int selectedItem = -1;
     private OnCheckedChangeListener listener;
 
@@ -58,4 +60,15 @@ public class ItemRadioGroup extends BaseItem implements LayoutId {
         }
         return String.valueOf(selectedItem);
     }
+
+    public boolean isShow(){
+        Doctor doctor = Settings.getDoctorProfile();
+        if (doctor.getSpecialistCateg()==1||doctor.getIsOpen().isSimple()==false){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
 }

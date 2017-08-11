@@ -3,6 +3,7 @@ package com.doctor.sun.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
@@ -19,7 +20,6 @@ import com.doctor.sun.im.IMManager;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.util.JacksonUtils;
-import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.Try;
 import com.doctor.sun.vm.ItemConsulting;
 import com.doctor.sun.vm.ItemLoadMore;
@@ -46,6 +46,7 @@ public class ConsultingFragment extends SortedListFragment {
     public static final String TAG = ConsultingFragment.class.getSimpleName();
     private AppointmentModule api = Api.of(AppointmentModule.class);
     private ArrayList<String> keys = new ArrayList<>();
+    private ArrayList<String> times = new ArrayList<>();
     private int page = 1;
     private SystemMsg systemMsg;
     private MedicineStore medicineStore;
@@ -139,8 +140,8 @@ public class ConsultingFragment extends SortedListFragment {
 
     public void insertHeader() {
         getAdapter().insert(getSystemMsg());
-//        if (!Settings.isDoctor()) {
-            getAdapter().insert(getMedicineStore());
+
+        getAdapter().insert(getMedicineStore());
 //        }
     }
 
@@ -149,12 +150,9 @@ public class ConsultingFragment extends SortedListFragment {
     protected void loadMore() {
         super.loadMore();
         if (keys == null || keys.isEmpty()) {
-            RealmQuery<TextMsg> query = Realm.getDefaultInstance().where(TextMsg.class);
-            RealmResults<TextMsg> lastMsg = query.findAllSorted("time", Sort.DESCENDING).distinctAsync("sessionId");
-            lastMsg.addChangeListener(new DistinctTeamIdCallback());
-        } else {
-            api.appointmentInTid(JacksonUtils.toJson(keys), page + "").enqueue(getCallback());
+            return;
         }
+        api.appointmentInTid(JacksonUtils.toJson(keys), page + "").enqueue(getCallback());
     }
 
 
@@ -163,6 +161,9 @@ public class ConsultingFragment extends SortedListFragment {
         page = 1;
         getAdapter().clear();
         insertHeader();
+        MsgService service = NIMClient.getService(MsgService.class);
+        service.queryRecentContacts()
+                .setCallback(new RecentContactCallback());
         keys.clear();
         super.onRefresh();
     }
@@ -204,44 +205,21 @@ public class ConsultingFragment extends SortedListFragment {
     }
 
 
-    private void showShowCase() {
-//        if (ShowCaseUtil.shown(TAG)) {
-//            return;
-//        }
-        if (!Settings.isDoctor()) {
-            View systemMsg = binding.recyclerView.findViewById(R.id.system_msg);
-            View medicineStore = binding.recyclerView.findViewById(R.id.medicine_store);
-
-            ShowCaseUtil.showCase2(systemMsg, "昭阳医生系统会向您推送所有的系统消息", -1, 2, 0, true);
-            ShowCaseUtil.showCase2(medicineStore, "在这里联系小助手使用代寄药服务", 1, 2, 1, true);
-        }
-    }
-
-
     private class UnReadMsgChangeListener implements RealmChangeListener<RealmResults<TextMsg>> {
         @Override
         public void onChange(RealmResults<TextMsg> element) {
             boolean empty = element.isEmpty();
-            boolean shouldRefresh;
             if (!empty) {
                 TextMsg first = element.first();
                 if (first.getMsgId().equals(lastRefreshMsgId)) return;
 
-                shouldRefresh = TextMsgFactory.isRefreshMsg(first.getType());
                 String s = first.getSessionId();
                 if (s.startsWith("SYSTEM_MSG")) {
                     getAdapter().notifyItemChanged(0);
                 } else if (s.equals("admin")) {
                     getAdapter().notifyItemChanged(1);
                 } else {
-                    ItemConsulting appointment = (ItemConsulting) getAdapter().get(s);
-                    lastRefreshMsgId = first.getMsgId();
-                    if (appointment != null && !shouldRefresh) {
-                        appointment.setTime(System.currentTimeMillis());
-                        getAdapter().update(appointment);
-                    } else {
-                        pullAppointment(s);
-                    }
+                    pullAppointment(s);
                 }
             }
         }
@@ -262,11 +240,12 @@ public class ConsultingFragment extends SortedListFragment {
         @Override
         protected void handleResponse(PageDTO<Appointment> response) {
             page += 1;
-            for (Appointment appointment : response.getData()) {
-                long time = AppointmentHandler2.lastMsg(appointment).getTime();
-                ItemConsulting itemConsulting = new ItemConsulting(time, appointment);
+            for (int i = 0 ; i<response.getData().size();i++){
+                long time = Long.valueOf(times.get(i));
+                ItemConsulting itemConsulting = new ItemConsulting(time, response.getData().get(i));
                 getAdapter().insert(itemConsulting);
             }
+
             int to = response.getTo();
             int total = response.getTotal();
             int perPage = response.getPerPage();
@@ -277,7 +256,6 @@ public class ConsultingFragment extends SortedListFragment {
                 getAdapter().removeItem(new ItemLoadMore());
             }
             isLoading = false;
-            showShowCase();
 
             hideRefreshing();
             if (getAdapter().getItemCount() <= getHeaderItemCount()) {
@@ -288,7 +266,7 @@ public class ConsultingFragment extends SortedListFragment {
             }
         }
     }
-
+/*
     private class DistinctTeamIdCallback implements RealmChangeListener<RealmResults<TextMsg>> {
         @Override
         public void onChange(RealmResults<TextMsg> recents) {
@@ -303,7 +281,7 @@ public class ConsultingFragment extends SortedListFragment {
             api.appointmentInTid(JacksonUtils.toJson(getTids(recents)), page + "").enqueue(getCallback());
             recents.removeChangeListener(this);
         }
-    }
+    }*/
 
     private class RecentContactCallback extends RequestCallbackWrapper<List<RecentContact>> {
         @Override
@@ -336,11 +314,13 @@ public class ConsultingFragment extends SortedListFragment {
             String contactId = recent.getContactId();
             if (recent.getSessionType() == SessionTypeEnum.Team) {
                 keys.add(contactId);
+                times.add(recent.getTime()+"");
             }
         }
         return keys;
     }
 
+/*
     @NonNull
     private ArrayList<String> getTids(RealmResults<TextMsg> recents) {
         for (TextMsg recent : recents) {
@@ -350,5 +330,5 @@ public class ConsultingFragment extends SortedListFragment {
             }
         }
         return keys;
-    }
+    }*/
 }

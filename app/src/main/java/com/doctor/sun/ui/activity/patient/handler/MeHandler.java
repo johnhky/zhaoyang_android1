@@ -8,6 +8,7 @@ import android.view.View;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.activity.doctor.MyPatientActivity;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
 import com.doctor.sun.ui.activity.patient.AddressManagerActivity;
 import com.doctor.sun.ui.activity.patient.CouponTabActivity;
@@ -60,7 +61,7 @@ public class MeHandler extends BaseObservable {
     }
 
     public void address(View view){
-        Intent intent = AddressManagerActivity.makeIntent(view.getContext());
+        Intent intent = AddressManagerActivity.makeIntent(view.getContext(),"");
         view.getContext().startActivity(intent);
     }
 
@@ -68,6 +69,7 @@ public class MeHandler extends BaseObservable {
         Intent intent = CouponTabActivity.intentFor(view.getContext());
         view.getContext().startActivity(intent);
     }
+
 
     public void followUpDoctorList(Context context) {
         Intent intent = FollowUpDoctorListActivity.makeIntent(context);

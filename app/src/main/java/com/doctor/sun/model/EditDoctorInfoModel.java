@@ -46,7 +46,7 @@ public class EditDoctorInfoModel {
         avatar.setPosition(result.size());
         result.add(avatar);
 
-        ItemTextInput2 name = new ItemTextInput2(R.layout.item_text_input2, "姓名", "");
+        ItemTextInput2 name = new ItemTextInput2(R.layout.item_text_input5, "姓名", "");
         name.setSubTitle("(必填)");
         name.setResultNotEmpty();
         name.setItemId("name");
@@ -59,7 +59,7 @@ public class EditDoctorInfoModel {
         if (data.getPhone() == null || data.getPhone().equals("")) {
             final ItemTextInput2 personalPhone = ItemTextInput2.mobilePhoneInput("手机号码", "请输入11位手机号码");
             personalPhone.setResultNotEmpty();
-            personalPhone.setItemLayoutId(R.layout.item_text_input2);
+            personalPhone.setItemLayoutId(R.layout.item_text_input5);
             personalPhone.setItemId("phone");
             personalPhone.setPosition(result.size());
             personalPhone.setResult(data.getPhone());
@@ -89,7 +89,7 @@ public class EditDoctorInfoModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        ItemTextInput2 hospital = new ItemTextInput2(R.layout.item_text_input2, "所属医院", "");
+        ItemTextInput2 hospital = new ItemTextInput2(R.layout.item_text_input5, "所属医院", "");
         hospital.setResultNotEmpty();
         hospital.setItemId("hospital");
         hospital.setPosition(result.size());
@@ -98,7 +98,7 @@ public class EditDoctorInfoModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        ItemTextInput2 specialist = new ItemTextInput2(R.layout.item_text_input2, "专科", "");
+        ItemTextInput2 specialist = new ItemTextInput2(R.layout.item_text_input5, "专科", "");
         specialist.setResultNotEmpty();
         specialist.setItemId("specialist");
         specialist.setPosition(result.size());
@@ -109,7 +109,7 @@ public class EditDoctorInfoModel {
 
         ItemTextInput2 hospitalPhone = ItemTextInput2.phoneInput("医院/科室电话", "请输入手机电话号码或者座机号码");
         hospitalPhone.setCanResultEmpty();
-        hospitalPhone.setItemLayoutId(R.layout.item_text_input2);
+        hospitalPhone.setItemLayoutId(R.layout.item_text_input5);
         hospitalPhone.setItemId("hospitalPhone");
         hospitalPhone.setPosition(result.size());
         hospitalPhone.setResult(data.getHospitalPhone());

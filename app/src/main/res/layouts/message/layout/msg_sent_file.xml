@@ -126,7 +126,9 @@
 
             <include
                 layout="@layout/include_my_avatar"
-                app:data="@{adapter.myAvatar}" />
+                app:data="@{adapter.myAvatar}"
+                app:handler="@{data.handler}"
+                />
 
         </RelativeLayout>
     </LinearLayout>

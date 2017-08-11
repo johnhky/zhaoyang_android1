@@ -1,6 +1,10 @@
 package com.doctor.sun.ui.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
@@ -17,8 +21,10 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.event.SelectMedicalRecordEvent;
+import com.doctor.sun.http.callback.ApiCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.model.NewMedicalRecordModel;
+import com.doctor.sun.ui.activity.PMainActivity2;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
@@ -44,23 +50,17 @@ public class NewMedicalRecordFragment extends SortedListFragment {
 
     private NewMedicalRecordModel model;
 
-    public static Bundle getArgs(int recordType) {
+    public static Bundle getArgs(int recordType,int type) {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FRAGMENT_NAME, TAG);
         bundle.putInt(Constants.RECORD_TYPE, recordType);
-
+        bundle.putInt(Constants.MOCK,type);
         return bundle;
     }
 
     public static Bundle newOtherRecord() {
-        Bundle args = getArgs(TYPE_OTHER);
+        Bundle args = getArgs(TYPE_OTHER,0);
         args.putString(Constants.FRAGMENT_TITLE, "新建亲友病历");
-        return args;
-    }
-
-    public static Bundle newSelfRecord() {
-        Bundle args = getArgs(TYPE_SELF);
-        args.putString(Constants.FRAGMENT_TITLE, "新建个人病历");
         return args;
     }
 
@@ -69,6 +69,9 @@ public class NewMedicalRecordFragment extends SortedListFragment {
         super.onCreate(savedInstanceState);
 
         model = new NewMedicalRecordModel();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("CREATE_REGISTER_SUCCESS");
+        getActivity().registerReceiver(receiver,filter);
     }
 
     @Override
@@ -77,7 +80,7 @@ public class NewMedicalRecordFragment extends SortedListFragment {
 
         disableRefresh();
         setHasOptionsMenu(true);
-        List<SortedItem> sortedItems = model.parseItem(getRecordType());
+        List<SortedItem> sortedItems = model.parseItem(getAdapter(),getType());
         getAdapter().insertAll(sortedItems);
 
         Patient patientProfile = Settings.getPatientProfile();
@@ -106,7 +109,12 @@ public class NewMedicalRecordFragment extends SortedListFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_confirm, menu);
+        if (getType()==0){
+            inflater.inflate(R.menu.menu_confirm, menu);
+        }else{
+            inflater.inflate(R.menu.menu_next_to_main, menu);
+        }
+
     }
 
     @Override
@@ -114,6 +122,18 @@ public class NewMedicalRecordFragment extends SortedListFragment {
         switch (item.getItemId()) {
             case R.id.action_confirm: {
                 saveMedicalRecord(false);
+                break;
+            }
+            case R.id.action_next: {
+                Intent i = PMainActivity2.makeIntent(getActivity());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    getActivity().finishAffinity();
+                } else {
+                    getActivity().finish();
+                }
+                startActivity(i);
+                getActivity().finish();
+                break;
             }
         }
 
@@ -124,14 +144,20 @@ public class NewMedicalRecordFragment extends SortedListFragment {
         return getArguments().getInt(Constants.RECORD_TYPE);
     }
 
+    private int getType(){
+        return getArguments().getInt(Constants.MOCK);
+    }
+
     private void saveMedicalRecord(final boolean isFromProfile) {
         model.saveMedicalRecord(getAdapter(), getRecordType(), new SimpleCallback<MedicalRecord>() {
             @Override
             protected void handleResponse(MedicalRecord response) {
-                Intent intent = new Intent();
-                intent.setAction(Constants.CREATE_SUCCESS);
-                getActivity().sendBroadcast(intent);
-                Toast.makeText(getContext(), "病历创建成功", Toast.LENGTH_SHORT).show();
+                if (getType()!=0){
+                    Intent intent = new Intent();
+                    intent.setAction(Constants.CREATE_SUCCESS);
+                    intent.putExtra(Constants.DATA,response.getRecordName());
+                    getActivity().sendBroadcast(intent);
+                }
                 EventHub.post(new SelectMedicalRecordEvent(getArguments().getString(Constants.FROM), response));
                 if (isFromProfile) {
                     viewRecordDetail(response);
@@ -148,9 +174,40 @@ public class NewMedicalRecordFragment extends SortedListFragment {
 
     private void viewRecordDetail(MedicalRecord medicalRecord) {
         Bundle bundle = EditRecordFragment.getArgs(medicalRecord);
-        Intent intent = SingleFragmentActivity.intentFor(getActivity(), "病例详情", bundle);
+        Intent intent = SingleFragmentActivity.intentFor(getActivity(), "病历详情", bundle);
         getActivity().startActivity(intent);
 
     }
 
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("CREATE_REGISTER_SUCCESS")){
+                Intent i = PMainActivity2.makeIntent(getActivity());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    getActivity().finishAffinity();
+                } else {
+                    getActivity().finish();
+                }
+                startActivity(i);
+                getActivity().finish();
+            }
+        }
+    };
+    public static boolean hasSelfRecord(List<MedicalRecord> records) {
+        if (records == null) {
+            return false;
+        }
+        for (int i = 0; i < records.size(); i++) {
+            if ("本人".equals(records.get(i).getRelation())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(receiver);
+    }
 }

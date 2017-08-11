@@ -1,6 +1,7 @@
 package com.doctor.sun.vm;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Questions2;
@@ -31,7 +32,7 @@ public class ItemPickDSchedule extends BaseItem {
     private int monthOfYear;
     private int year;
 
-    public boolean isAnswered = true;
+    public boolean isAnswered = false;
 
     public ItemPickDSchedule(int layoutId, String title) {
         super(layoutId);
@@ -50,7 +51,6 @@ public class ItemPickDSchedule extends BaseItem {
     }
 
 
-
     public int getSubPosition() {
         return subPosition;
     }
@@ -61,6 +61,10 @@ public class ItemPickDSchedule extends BaseItem {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public int getType() {
+        return type;
     }
 
     public String getTitle() {
@@ -134,6 +138,7 @@ public class ItemPickDSchedule extends BaseItem {
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
+        notifyChange();
     }
 
     //TODO
@@ -159,7 +164,6 @@ public class ItemPickDSchedule extends BaseItem {
                     ItemPickDSchedule.this.year = calendar.get(Calendar.YEAR);
                     ItemPickDSchedule.this.monthOfYear = calendar.get(Calendar.MONTH);
                     ItemPickDSchedule.this.dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
                     notifyChange();
                 }
                 dateDialog.dismiss();

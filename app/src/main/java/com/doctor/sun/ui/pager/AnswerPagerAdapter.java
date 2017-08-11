@@ -3,7 +3,9 @@ package com.doctor.sun.ui.pager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.constans.IntBoolean;
@@ -29,7 +31,7 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
     String appointmentId;
     int status;
     int canEdit;
-
+    String is_diagonsis;
 
     public AnswerPagerAdapter(FragmentManager fm, Appointment appointment) {
         super(fm);
@@ -37,6 +39,9 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
         appointmentId = String.valueOf(appointment.getId());
         status = appointment.getStatus();
         canEdit = appointment.getCan_edit();
+        is_diagonsis = appointment.getDiagnosis_record() + "";
+        AppContext.getInstance().setPosition(canEdit);
+        AppContext.getInstance().setEditAppointment(appointment);
     }
 
     /**
@@ -58,12 +63,16 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
                     }
                 }
                 case 1: {
-                    if (isAppointmentFinished()) {
-                        return ReadDiagnosisFragment.newInstance(appointmentId);
-                    } else {
-                        //等待医生建议
+                 /*   if (isAppointmentFinished()) {*/
+                    if (status == 3) {
                         return WaitingSuggestionFragment.newInstance();
+                    } else {
+                        return ReadDiagnosisFragment.newInstance(appointmentId);
                     }
+                /*    } else {
+                        //等待医生建议
+
+                    }*/
                 }
             }
         } else {
@@ -77,14 +86,23 @@ public class AnswerPagerAdapter extends FragmentStatePagerAdapter {
                     }
                 }
                 case 1: {
-                    if (isAppointmentFinished() && canEdit == IntBoolean.FALSE) {
-                        return ReadDiagnosisFragment.newInstance(appointmentId);
-                    }
-//                    if (isAppointmentFinished() ) {
-//                        return ReadDiagnosisFragment.newInstance(appointmentId,canEdit==IntBoolean.TRUE);
-//                    }
-                    else {
-                        return DiagnosisFragment.newInstance(appointmentId, recordId);
+                    if (isAppointmentFinished()) {
+                        if (AppointmentDetailActivity.onlyRead == false) {
+                            return DiagnosisFragment.newInstance(appointmentId, recordId);
+                        } else {
+                            return ReadDiagnosisFragment.newInstance(appointmentId);
+                        }
+                    } else {
+                        if (is_diagonsis.equals("1")) {
+                            if (AppointmentDetailActivity.onlyRead == false) {
+                                return DiagnosisFragment.newInstance(appointmentId, recordId);
+                            } else {
+                                return ReadDiagnosisFragment.newInstance(appointmentId);
+                            }
+                        } else {
+                            return DiagnosisFragment.newInstance(appointmentId, recordId);
+                        }
+
                     }
                 }
             }

@@ -88,7 +88,7 @@
                     android:paddingLeft="@dimen/dp_4"
                     android:paddingRight="@dimen/dp_4"
                     android:text="@{data.doctor.level}"
-                    android:textColor="@color/blue_grey"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/font_9"
                     tools:background="@drawable/shape_red_rect"
                     tools:text="专治病" />

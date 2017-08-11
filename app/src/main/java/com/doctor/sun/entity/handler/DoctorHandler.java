@@ -3,22 +3,27 @@ package com.doctor.sun.entity.handler;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.StackingBehavior;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.PatientDTO;
-import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.MyPatient;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.event.RefreshEvent;
 import com.doctor.sun.http.Api;
@@ -35,9 +40,7 @@ import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import io.ganguo.library.core.event.EventHub;
 
@@ -49,6 +52,11 @@ public class DoctorHandler {
     private boolean isSelected;
     private boolean hasSharedTransition;
     public ProfileModule api = Api.of(ProfileModule.class);
+    private MyPatient mPatient;
+
+    public DoctorHandler(MyPatient patient) {
+        this.mPatient = patient;
+    }
 
     public DoctorHandler(Doctor doctorDTO) {
         data = doctorDTO;
@@ -179,9 +187,9 @@ public class DoctorHandler {
 
     public String getTypeLabel(SimpleAdapter adapter) {
         if (getType(adapter) == AppointmentType.PREMIUM) {
-            return "专属网诊";
+            return "VIP网诊";
         } else {
-            return "闲时咨询";
+            return "简易复诊";
         }
     }
 
@@ -294,5 +302,113 @@ public class DoctorHandler {
         Doctor doctor = (Doctor) adapter.get(position);
         ((Doctor) adapter.get(position)).setUserSelected(!doctor.isUserSelected());
         adapter.notifyDataSetChanged();
+    }
+
+    public String getMyPatientName() {
+        String name = "";
+        if (null != mPatient.getPatient()) {
+            if (!TextUtils.isEmpty(mPatient.getPatient().getName())) {
+                name = mPatient.getPatient().getName();
+            } else {
+                if (mPatient.getPatient().getRecord_names().size() > 0) {
+                    name = mPatient.getPatient().getRecord_names().get(0);
+                }
+            }
+        }
+        return name;
+    }
+
+    public String getReordName() {
+        StringBuilder builder = new StringBuilder();
+        if (null != mPatient.getPatient()) {
+            if (mPatient.getPatient().getRecord_names().size() > 0) {
+                for (int i = 0; i < mPatient.getPatient().getRecord_names().size(); i++) {
+                    builder.append(mPatient.getPatient().getRecord_names().get(i));
+                    builder.append("/");
+                }
+                builder.deleteCharAt(builder.length() - 1);
+            } else {
+                builder.append("暂未填写");
+            }
+        }
+        return builder.toString();
+    }
+
+    public String getIntroType() {
+        String typeText = "";
+        if (mPatient.getType() == 1) {
+            typeText = "扫码时间: ";
+        } else {
+            typeText = "订单支付时间: ";
+        }
+        return typeText;
+    }
+
+    public String getNetType() {
+        String text = "";
+        if (data.getIsOpen().isNetwork() == true) {
+            text = "VIP网诊" + " ￥" + data.getMoney() + "/" + data.getNetworkMinute() + "分钟";
+        } else {
+            text = "VIP网诊";
+        }
+        return text;
+    }
+
+    public String getSimpleType(TextView view) {
+        String text = "";
+        if (data.getIsOpen().isSimple() == true) {
+            if (null != data.getCoupons()) {
+                if (null != data.getCoupons().getSimple()) {
+                    if (data.getCoupons().getSimple().couponStatus.equals("available")) {
+                        text = "￥" + data.getSecondMoney();
+                        view.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    } else {
+                        text = "  ￥" + data.getSecondMoney();
+                    }
+                } else {
+                    text = "  ￥" + data.getSecondMoney();
+                }
+            } else {
+                text = "  ￥" + data.getSecondMoney();
+            }
+        }
+        return text;
+    }
+
+    public String getSurfaceType() {
+        String text = "";
+        if (data.getIsOpen().isSurface() == true) {
+            text = "诊所面诊" + " ￥" + data.getSurfaceMoney() + "/" + data.getSurfaceMinute() + "分钟";
+        } else {
+            text = "诊所面诊";
+        }
+        return text;
+    }
+
+    public int isVisiblity() {
+        if (data.getIsOpen().isSimple() == true) {
+            if (null != data.getCoupons()) {
+                if (null != data.getCoupons().getSimple()) {
+                    return View.VISIBLE;
+                } else {
+                    return View.GONE;
+                }
+            } else {
+                return View.GONE;
+            }
+        } else {
+            return View.GONE;
+        }
+
+    }
+
+    public void showDoctorDetail(Context context) {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+        builder.stackingBehavior(StackingBehavior.ALWAYS)
+                .btnStackedGravity(GravityEnum.CENTER)
+                .titleGravity(GravityEnum.CENTER)
+                .title("医生简介").content(data.getDetail())
+                .neutralText("关闭")
+                .show();
     }
 }

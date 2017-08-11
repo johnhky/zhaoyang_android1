@@ -1,5 +1,6 @@
 package com.doctor.sun.dto;
 
+import com.doctor.sun.entity.AppointmentStatus;
 import com.doctor.sun.entity.Patient;
 import com.doctor.sun.entity.RecentAppointment;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,6 +24,8 @@ public class PatientDTO {
     public int followUpDoingNum = 0;
     @JsonProperty("appointment_num")
     public int appointmentNum = 0;
+    @JsonProperty("appointment_status_num")
+    public AppointmentStatus appointment_status_num;
     @JsonProperty("drug_order_num")
     public int drugOrderNum = 0;
     @JsonProperty("applying_num")
@@ -69,10 +72,17 @@ public class PatientDTO {
         return appointmentNum + followUpDoingNum + applyingNum;
     }
 
+    public AppointmentStatus getAppointment_status_num() {
+        return appointment_status_num;
+    }
+
+    public void setAppointment_status_num(AppointmentStatus appointment_status_num) {
+        this.appointment_status_num = appointment_status_num;
+    }
 
     @Override
     public String toString() {
-        return "data{recent_appointment"+recent_appointment+",self_record"+self_record+",followUpDoingNum"
-                +followUpDoingNum+",patientInfo"+info+"}";
+        return "data{recent_appointment: "+recent_appointment+",self_record: "+self_record+",followUpDoingNum: "
+                +followUpDoingNum+",patientInfo: "+info+",appointment_status_num: "+appointment_status_num+"}";
     }
 }

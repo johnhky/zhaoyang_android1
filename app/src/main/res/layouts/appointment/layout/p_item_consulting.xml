@@ -87,7 +87,7 @@
                     android:paddingRight="@dimen/dp_4"
                     android:singleLine="true"
                     android:text="@{data.doctor.level}"
-                    android:textColor="@color/blue_grey"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/font_9" />
 
                 <View
@@ -149,7 +149,7 @@
                     android:textColor="#363636"
                     android:textSize="@dimen/font_12"
                     app:html="@{handler.styledOrderTypeAndStatus(data.data)}"
-                    tools:text="专属网诊-待建议" />
+                    tools:text="VIP网诊-待建议" />
 
             </LinearLayout>
 

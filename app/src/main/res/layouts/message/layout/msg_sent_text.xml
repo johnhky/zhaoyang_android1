@@ -54,7 +54,8 @@
 
             <include
                 layout="@layout/include_my_avatar"
-                app:data="@{adapter.myAvatar}" />
+                app:data="@{adapter.myAvatar}"
+                app:handler="@{data.handler}" />
 
 
             <LinearLayout
@@ -91,6 +92,7 @@
                     android:textColor="@color/white"
                     android:textIsSelectable="true"
                     android:textSize="@dimen/font_13"
+                    android:onLongClick="@{()->data.handler.showRevokeMessage(context,data)}"
                     tools:text="请问有没有好好吃药" />
             </LinearLayout>
         </RelativeLayout>

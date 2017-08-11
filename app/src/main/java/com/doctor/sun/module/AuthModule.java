@@ -24,6 +24,10 @@ public interface AuthModule {
     int FORGOT_PASSWORD = 16;
 
     @FormUrlEncoded
+    @POST("profile/initialization")
+    Call<ApiDTO> initialization(@Field("id")String id);
+
+    @FormUrlEncoded
     @POST("auth/register")
     Call<ApiDTO<Token>> register(@Field("type") int type, @Field("phone") String phone,
                                  @Field("captcha") String captcha, @Field("password") String password);
@@ -65,7 +69,12 @@ public interface AuthModule {
     @FormUrlEncoded
     @POST("auth/login")
     Call<ApiDTO<Token>> login(@Field("phone") String phone,
-                              @Field("password") String password,
+                              @Field("password") String password,@Field("captcha")String captcha,
+                              @FieldMap HashMap<String, String> options);
+
+    @FormUrlEncoded
+    @POST("auth/login")
+    Call<ApiDTO<Token>> login(@Field("phone") String phone,@Field("captcha")String captcha,
                               @FieldMap HashMap<String, String> options);
 
     @FormUrlEncoded

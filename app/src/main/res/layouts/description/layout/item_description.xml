@@ -18,10 +18,10 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_30"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/dp_30"
             android:layout_marginLeft="@dimen/dp_12"
             android:gravity="center_vertical"
-            android:maxLines="1"
             android:text="@{data.content ?? String.valueOf(' ')}"
             android:textColor="@{data.getTitleColor(context)}"
             android:textSize="@dimen/font_15"

@@ -14,6 +14,7 @@ import com.doctor.sun.entity.Coupon;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.DoctorIndex;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.MyPatient;
 import com.doctor.sun.entity.NewDoctor;
 import com.doctor.sun.entity.Patient;
 
@@ -35,6 +36,15 @@ import retrofit2.http.Query;
  * https://gitlab.cngump.com/ganguo_web/zhaoyangyisheng_server/wikis/profile
  */
 public interface ProfileModule {
+
+    //修改默认选中地址
+    @FormUrlEncoded
+    @POST("shippingAddress/modify-the-default")
+    Call<ApiDTO> updateMockAddress(@Field("shippingAddressId") String shippingAddressId, @Field("defaults") String defaults);
+
+    //获取用户是否设置过密码
+    @GET("profile/config")
+    Call<ApiDTO> getPassword();
 
     //获取收货地址列表
     @GET("shippingAddress/list")
@@ -61,6 +71,10 @@ public interface ProfileModule {
     Call<ApiDTO<Address>> updateOrderAddress(@Field("address") String address, @Field("drugOrderId") String drugOrderId,
                                              @Field("phone") String phone,
                                              @Field("remark") String remark, @Field("to") String to);
+    //修改寄药单地址
+    @FormUrlEncoded
+    @POST("drug/modify-shipping")
+    Call<ApiDTO<Address>> updateOrderAddress(@FieldMap Map<String,String>map);
 
     @FormUrlEncoded
     @POST("profile/patient-base")
@@ -98,10 +112,14 @@ public interface ProfileModule {
     @POST("profile/self-medical-record")
     Call<ApiDTO<MedicalRecord>> setSelfMedicalRecord(@FieldMap Map<String, String> medicalRecord);
 
+    @FormUrlEncoded
+    @POST("profile/new-medical-case")
+    Call<ApiDTO<MedicalRecord>> uploadOtherMedicalRecord(@Field("relation") String relation, @Field("selfName") String selfName, @Field("name") String name, @Field("birthday") String birthday, @Field("gender") String gender);
+
     /**
      * @param medicalRecord relation    	string	是	关系
      *                      name        	string	是	姓名
-     *                      age    	string	是	出生年月
+     *                      age    	        string	是	出生年月
      *                      gender  	    int	    是	1男 2女
      *                      province	    string	是	省
      *                      city        	string	是	市
@@ -122,9 +140,10 @@ public interface ProfileModule {
 
     @FormUrlEncoded
     @POST("profile/set-diag-money")
-    Call<ApiDTO<String>> setFee(@Field("money") String money,@Field("networkMinute")
-            String networkMinute,@Field("secondMoney") String secondMoney,@Field("surfaceMinute")
-            String surfaceMinute,@Field("surfaceMoney") String surfaceMoney);
+    Call<ApiDTO<String>> setFee(@Field("money") String money, @Field("networkMinute")
+            String networkMinute, @Field("secondMoney") String secondMoney, @Field("surfaceMinute")
+                                        String surfaceMinute, @Field("surfaceMoney") String surfaceMoney);
+
     @GET("profile/doctor-base")
     Call<ApiDTO<Doctor>> doctorProfile();
 
@@ -180,10 +199,7 @@ public interface ProfileModule {
     Call<ApiDTO<String>> toggleSearchable();
 
     @GET("profile/recommend-doctors")
-    Call<ApiDTO<List<Doctor>>> recommendDoctors();
-
-    @GET("profile/recommend-doctors")
-    Call<ApiDTO<ArrayList<NewDoctor>>> newRecommendDoctors();
+    Call<ApiDTO<List<Doctor>>> recommendDoctors(@Query("append_coupon") String append_coupon);
 
     @FormUrlEncoded
     @POST("profile/tutorial-record")
@@ -199,6 +215,9 @@ public interface ProfileModule {
 
     @GET("profile/coupons")
     Call<ApiDTO<List<Coupon>>> getAppointmentCoupons(@Query("type") String aType, @Query("currentScope") String type,
-                                                 @Query("distinct") boolean distinct, @Query("originalMoney") String originalMoney,
-                                                 @Query("scope")String scope,@Query("thresholdThreshold") String thresholdThreshold);
+                                                     @Query("distinct") boolean distinct, @Query("originalMoney") String originalMoney,
+                                                     @Query("scope") String scope, @Query("thresholdThreshold") String thresholdThreshold);
+
+    @GET("list/intro-patient-list")
+    Call<ApiDTO<PageDTO<MyPatient>>> getPatientList();
 }

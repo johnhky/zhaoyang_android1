@@ -83,7 +83,7 @@
                         android:paddingRight="@dimen/dp_4"
                         android:maxLines="1"
                         android:text="@{data.level}"
-                        android:textColor="@color/blue_grey"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/font_9"
                         tools:text="执业医生验证"/>
 

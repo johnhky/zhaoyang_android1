@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
+import android.util.Log;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.doctor.sun.R;
@@ -20,6 +21,8 @@ import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
 import com.doctor.sun.util.JacksonUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -149,9 +152,9 @@ public class ItemAddPrescription2 extends BaseItem {
             switch (msg.what) {
                 case DiagnosisFragment.EDIT_PRESCRITPION: {
                     String jsonStr = msg.getData().getString(Constants.DATA);
+                    Gson gson = new GsonBuilder().create();
                     Prescription parcelable = JacksonUtils.fromJson(jsonStr, Prescription.class);
                     if (parcelable == null) return false;
-
                     item.addPrescription(parcelable, adapter);
                 }
             }

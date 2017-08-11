@@ -1,7 +1,9 @@
 package com.doctor.sun.ui.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Menu;
@@ -10,15 +12,18 @@ import android.widget.Toast;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.event.ReadMessageEvent;
 import com.doctor.sun.http.Api;
-import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.module.PushModule;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.squareup.otto.Subscribe;
 
 import io.ganguo.library.Config;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by lucas on 1/29/16.
@@ -45,25 +50,43 @@ public class SystemMsgListActivity extends PageActivity2 {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getAdapter().mapLayout(R.layout.p_item_system_msg, R.layout.item_system_msg);
-
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.MESSAGE_UPDATE);
+        registerReceiver(receiver, filter);
         Config.putLong(visitTimeKey, System.currentTimeMillis());
     }
 
+    @Override
+    public void onRefresh() {
+        super.onRefresh();
+        getAdapter().clear();
+        getCallback().resetPage();
+        api.systemMsg(getCallback().getPage()).enqueue(getCallback());
+    }
 
     @Override
     protected void loadMore() {
         super.loadMore();
         api.systemMsg(getCallback().getPage()).enqueue(getCallback());
+
     }
 
     public void onMenuClicked() {
-        api.markMessageAsRead("all").enqueue(new SimpleCallback<String>() {
+        api.markMessageAsRead("all").enqueue(new Callback<ApiDTO>() {
             @Override
-            protected void handleResponse(String response) {
-                Toast.makeText(SystemMsgListActivity.this,
-                        "全部未读消息标记为已读", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<ApiDTO> call, Response<ApiDTO> response) {
+                if (response.body().getStatus().equals("200")) {
+                    Toast.makeText(SystemMsgListActivity.this,
+                            "全部未读消息标记为已读", Toast.LENGTH_SHORT).show();
+                    getAdapter().clear();
+                    getCallback().resetPage();
+                    api.systemMsg(getCallback().getPage()).enqueue(getCallback());
+                }
+            }
 
-                refreshMessage();
+            @Override
+            public void onFailure(Call<ApiDTO> call, Throwable t) {
+
             }
         });
     }
@@ -108,12 +131,25 @@ public class SystemMsgListActivity extends PageActivity2 {
 
     @Subscribe
     public void onReadMessageEvent(ReadMessageEvent event) {
-        refreshMessage();
-    }
-
-    private void refreshMessage() {
         getAdapter().clear();
         getCallback().resetPage();
-        loadMore();
+        api.systemMsg(getCallback().getPage()).enqueue(getCallback());
+    }
+
+    public BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Constants.MESSAGE_UPDATE)) {
+                getAdapter().clear();
+                getCallback().resetPage();
+                api.systemMsg(getCallback().getPage()).enqueue(getCallback());
+            }
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
     }
 }

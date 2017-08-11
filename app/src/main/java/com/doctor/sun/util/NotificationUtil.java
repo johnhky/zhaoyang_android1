@@ -42,7 +42,6 @@ public class NotificationUtil {
         if (msg1.getItemLayoutId() == R.layout.msg_prescription_list) {
             return;
         }
-
         builder.setContentTitle("昭阳医生新消息");
         builder.setContentText(msg1.getBody());
         builder.setSmallIcon(R.drawable.ic_notification);

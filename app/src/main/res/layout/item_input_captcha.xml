@@ -24,7 +24,7 @@
             android:layout_weight="1">
 
             <include
-                layout="@layout/item_text_input2"
+                layout="@layout/item_text_input5"
                 bind:data="@{data}" />
         </LinearLayout>
 

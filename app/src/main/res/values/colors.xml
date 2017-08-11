@@ -10,7 +10,7 @@
 
     <color name="divider_color">#c1cacf</color>
     <color name="white">#FFFFFF</color>
-
+    <color name="search_bg">#61B2E5</color>
     <color name="custom_selected">#339DE1</color>
     <color name="custom_background">#FFFFFF</color>
     <color name="custom_background_today">#339DE1</color>
@@ -18,7 +18,7 @@
     <color name="custom_text_selected">#FFFFFFFF</color>
     <color name="custom_text_inactive">#ebebeb</color>
     <color name="custom_text_active">#363636</color>
-    <color name="main_txt_color">#797979</color>
+    <color name="main_txt_color">#898989</color>
     <color name="blue_grey">#81D4FA</color>
     <color name="gray_bb">#bbbbbb</color>
 
@@ -34,6 +34,7 @@
     <color name="red_f0">#f04c62</color>
     <color name="grey_77">#777777</color>
     <color name="grey_42">#424242</color>
+    <color name="gray_ce">#cecece</color>
     <color name="dark_36_transparent">#dd363636</color>
     <color name="black_transparent_c8">#90000000</color>
     <color name="black_transparent_80">#80898989</color>
@@ -56,4 +57,16 @@
     <color name="color_standard_appointment">#6acde6</color>
     <color name="blue_33">#339de1</color>
     <color name="cyan_88">#88a2b2</color>
+    <color name="color_grey_999999">#999999</color>
+
+    <color name="pickerview_timebtn_nor">#057dff</color>
+    <color name="pickerview_timebtn_pre">#c2daf5</color>
+    <color name="pickerview_bg_topbar">#f5f5f5</color>
+    <color name="pickerview_topbar_title">#000000</color>
+    <color name="pickerview_wheelview_textcolor_out">#a8a8a8</color>
+    <color name="pickerview_wheelview_textcolor_center">#2a2a2a</color>
+    <color name="pickerview_wheelview_textcolor_divider">#d5d5d5</color>
+    <!--覆盖颜色-->
+    <color name="bgColor_overlay">#60000000</color>
+    <color name="login_bg">#ededed</color>
 </resources>

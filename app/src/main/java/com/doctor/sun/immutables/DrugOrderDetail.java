@@ -20,6 +20,7 @@ import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.activity.patient.PayPrescriptionActivity;
 import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
 import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -77,13 +78,14 @@ public abstract class DrugOrderDetail extends BaseItem {
         return 0D;
     }
 
-    @JsonProperty("charge")
     @Value.Default
-    public DrugExtraFee getExtra_fee() {
+    public DrugExtraFee getCharge() {
         return new DrugExtraFee();
     }
 
     public abstract Doctor getDoctor();
+
+    public abstract String getService_fee();
 
     @Value.Default
     public List<String> getDrug() {
@@ -166,10 +168,11 @@ public abstract class DrugOrderDetail extends BaseItem {
     }
 
     public void showDetail(Context context, Drug drug) {
-
-        Bundle args = PayPrescriptionsFragment.getArgs(String.valueOf(drug.getId()));
-        Intent payPrescriptionIntent = SingleFragmentActivity.intentFor(context, getRecord_name() + "的寄药单", args);
-        context.startActivity(payPrescriptionIntent);
+        Intent intent = PayPrescriptionActivity.makeIntent(context,drug.getId());
+        context.startActivity(intent);
+//        Bundle args = PayPrescriptionsFragment.getArgs(String.valueOf(drug.getId()));
+//        Intent payPrescriptionIntent = SingleFragmentActivity.intentFor(context, getRecord_name() + "的寄药单", args);
+//        context.startActivity(payPrescriptionIntent);
     }
 
 

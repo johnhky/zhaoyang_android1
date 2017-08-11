@@ -1,7 +1,13 @@
 package com.doctor.sun.model;
 
 import android.databinding.Observable;
+import android.databinding.tool.util.L;
+import android.os.Looper;
+import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.dto.ApiDTO;
@@ -17,6 +23,7 @@ import com.doctor.sun.entity.Scales;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.entity.constans.QuestionsType;
 import com.doctor.sun.entity.handler.PrescriptionHandler;
+import com.doctor.sun.event.SaveAnswerFailedEvent;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -37,6 +44,8 @@ import com.doctor.sun.vm.ItemPickTime;
 import com.doctor.sun.vm.ItemTextInput;
 import com.doctor.sun.vm.ItemTextInput2;
 import com.google.common.base.Strings;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,8 +53,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.ganguo.library.common.LoadingHelper;
 import io.ganguo.library.core.event.EventHub;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
@@ -58,7 +69,7 @@ public class QuestionsModel {
     public static final int DIVIDER_POSITION = 2;
     public static final int BUTTON_POSITION = 1;
     public static final int RANGE_ITEM_POSITION = 3;
-
+    public int status;
     private QuestionModule api = Api.of(QuestionModule.class);
     private int firstItemPadding = 0;
 
@@ -80,9 +91,13 @@ public class QuestionsModel {
     }
 
     private void handleQuestions(final String questionType, final Function0<List<? extends SortedItem>> function0, Call<ApiDTO<QuestionDTO>> apiDTOCall) {
+
         apiDTOCall.enqueue(new SimpleCallback<QuestionDTO>() {
             @Override
             protected void handleResponse(QuestionDTO response) {
+                if (null != response.followUpInfo) {
+                    status = response.followUpInfo.status;
+                }
                 List<SortedItem> r = parseQuestions(response.questions, 0, 0);
                 int questionSize = 0;
                 if (response.questions != null) {
@@ -120,6 +135,11 @@ public class QuestionsModel {
                     r.add(followUpInfo);
                 }
                 function0.apply(r);
+            }
+
+            @Override
+            public void onFailure(Call<ApiDTO<QuestionDTO>> call, Throwable t) {
+                super.onFailure(call, t);
             }
         });
     }
@@ -257,9 +277,10 @@ public class QuestionsModel {
                 switch (options2.optionType) {
                     case "A": {
                         if (options2.getSelected()) {
+                            vm.date.isAnswered = true;
                             vm.setHasAnswer(true);
                             vm.setBtnOneChecked(true);
-                            vm.setDate(options2.questionContent);
+                            vm.setDate(options2.inputContent);
                         }
                         vm.setBtnOneEnabled(true);
 
@@ -267,9 +288,10 @@ public class QuestionsModel {
                     }
                     case "B": {
                         if (options2.getSelected()) {
+                            vm.date.isAnswered = true;
                             vm.setHasAnswer(true);
                             vm.setBtnTwoChecked(true);
-                            vm.setDate(options2.questionContent);
+                            vm.setDate(options2.inputContent);
                         }
                         vm.setBtnTwoEnabled(true);
 
@@ -340,6 +362,7 @@ public class QuestionsModel {
     }
 
     private void parsePickDate(List<SortedItem> items, int i, final Questions2 questions2) {
+
         ItemPickDate itemPickDate = new ItemPickDate(R.layout.item_pick_date3, "", 0);
         itemPickDate.setPosition(positionIn(i, RANGE_ITEM_POSITION));
         itemPickDate.setItemId(questions2.getKey() + QuestionType.sDate);
@@ -393,9 +416,13 @@ public class QuestionsModel {
                 questions2.notifyChange();
             }
         });
-        if (questions2.extendType > 0) {
-            pickerItem.setItemSizeConstrain(questions2.extendType);
+        if (!TextUtils.isEmpty(questions2.extendType)) {
+            int type = Integer.valueOf(questions2.extendType);
+            if (type > 0) {
+                pickerItem.setItemSizeConstrain(type);
+            }
         }
+
         pickerItem.setPosition(positionIn(i, RANGE_ITEM_POSITION));
         pickerItem.setParentId(questions2.getKey());
         pickerItem.setItemId(questions2.getKey() + QuestionType.upImg);
@@ -404,7 +431,9 @@ public class QuestionsModel {
 
     private void parseFill(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemTextInput2 textInput = new ItemTextInput2(R.layout.item_text_input6, "", "");
-        textInput.setMaxLength(questions2.extendType);
+        if (!TextUtils.isEmpty(questions2.extendType)) {
+            textInput.setMaxLength(Integer.valueOf(questions2.extendType));
+        }
         textInput.setPosition(positionIn(i, RANGE_ITEM_POSITION));
         textInput.setItemId(questions2.getKey() + QuestionType.fill);
         textInput.setResult(questions2.fillContent);
@@ -453,10 +482,12 @@ public class QuestionsModel {
     private void parseDrugs(List<SortedItem> items, int i, final Questions2 questions2) {
         final ItemAddPrescription2 itemAddPrescription = new ItemAddPrescription2();
         List<Map<String, String>> arrayContent = questions2.arrayContent;
-
-        if (arrayContent != null) {
+        if (arrayContent.size() > 0) {
             for (int j = 0; j < arrayContent.size(); j++) {
                 Prescription prescription = PrescriptionHandler.fromHashMap(arrayContent.get(j));
+                if (TextUtils.isEmpty(prescription.getTake_medicine_days())) {
+                    prescription.setTake_medicine_days("28");
+                }
                 prescription.setPosition(i * PADDING + j + 1);
                 prescription.setItemId(QuestionType.drug + prescription.getPosition());
                 itemAddPrescription.registerItemChangedListener(prescription);
@@ -520,16 +551,46 @@ public class QuestionsModel {
     }
 
     public void saveAnswer(final String appointmentId, final String type, final String qType, final int endAppointment, final SortedListAdapter adapter) {
-        new Thread(new Runnable() {
+        String string = composeAnswer(adapter);
+      /*  new Thread(new Runnable() {
             @Override
             public void run() {
-                String string = composeAnswer(adapter);
-                Response<ApiDTO<String>> apiDTOResponse = postAnswer(appointmentId, type, string, qType, endAppointment);
-                if (apiDTOResponse != null && apiDTOResponse.isSuccessful()) {
+
+                Response<ApiDTO<String>> response = postAnswer(type, appointmentId, string, qType, endAppointment);
+                if (response != null && response.isSuccessful()) {
+                    Log.e("eeee",string);
+                    LoadingHelper.hideMaterLoading();
                     EventHub.post(new SaveAnswerSuccessEvent(appointmentId));
+                } else {
+                    Log.e("eeee",response.message()+"");
+                    LoadingHelper.hideMaterLoading();
+                    EventHub.post(new SaveAnswerFailedEvent(appointmentId, "保存失败,请重新提交"));
                 }
             }
-        }).start();
+        }).start();*/
 
+        api.saveQuestions2(type, appointmentId, string, qType, endAppointment).enqueue(new SimpleCallback<String>() {
+            @Override
+            protected void handleResponse(String response) {
+                LoadingHelper.hideMaterLoading();
+                EventHub.post(new SaveAnswerSuccessEvent(appointmentId));
+            }
+
+            @Override
+            public void onFailure(Call<ApiDTO<String>> call, Throwable t) {
+                super.onFailure(call, t);
+                LoadingHelper.hideMaterLoading();
+                EventHub.post(new SaveAnswerFailedEvent(appointmentId, "保存失败,请重新提交"));
+            }
+        });
+
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

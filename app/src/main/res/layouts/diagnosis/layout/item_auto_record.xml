@@ -25,8 +25,9 @@
         android:layout_marginStart="@dimen/dp_13"
         android:animateLayoutChanges="true"
         android:gravity="center_vertical"
-        android:onClick="@{()->etInput.requestFocus()}"
         android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:textColorHint="#9bb6c5">
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,20 +61,17 @@
             android:paddingLeft="8dp"
             android:layout_height="35dp"
             android:layout_gravity="center_vertical"
-            android:afterTextChanged="@{()->data.showDropDown(llyRoot)}"
+            android:afterTextChanged="@{()->data.showDropDown(etInput)}"
             android:background="@drawable/selector_grey_rect"
             android:enabled="@{data.enabled}"
-            android:focusable="true"
-            android:focusableInTouchMode="@{data.enabled}"
             android:gravity="center_vertical"
             android:hint="@{data.hint}"
             android:inputType="@{data.inputType}"
             android:maxLines="1"
-            android:onClick="@{()->data.showDropDown(llyRoot)}"
+            android:onClick="@{()->data.showDropDown(etInput)}"
             android:text="@={data.result}"
             android:textColor="@{data.isValid(data.result)?@color/color_tick:@color/red_f0}"
             android:textColorHint="@color/gray_d9"
             android:textSize="@dimen/font_13" />
-
     </LinearLayout>
 </layout>

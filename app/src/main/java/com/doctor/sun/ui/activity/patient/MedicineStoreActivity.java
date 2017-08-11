@@ -21,10 +21,13 @@ import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.PActivityMedicineHelperBinding;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.emoji.KeyboardWatcher;
 import com.doctor.sun.entity.Description;
+import com.doctor.sun.entity.DrugOrders;
 import com.doctor.sun.entity.ImAccount;
+import com.doctor.sun.entity.Tags;
 import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.im.MsgHandler;
 import com.doctor.sun.entity.im.TextMsg;
@@ -36,6 +39,7 @@ import com.doctor.sun.http.callback.PageCallback;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NimMsgInfo;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.immutables.PrescriptionOrder;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
@@ -137,6 +141,28 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
         binding = DataBindingUtil.setContentView(this, R.layout.p_activity_medicine_helper);
         keyboardWatcher = new KeyboardWatcher(this);
         keyboardWatcher.setListener(this);
+        binding.input.setVisibility(true);
+        if (Settings.isDoctor()){
+            binding.llDrug.setVisibility(View.GONE);
+            binding.llView.setVisibility(View.VISIBLE);
+        }
+        if (getIntent().getIntExtra(Constants.DATA, IntBoolean.TRUE) == IntBoolean.TRUE) {
+            binding.tvTitle.setText("寄药小助手");
+        } else {
+            binding.tvTitle.setText("客服");
+        }
+        binding.llDrug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadPrescriptionOrder();
+            }
+        });
+        binding.tvBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 
@@ -275,6 +301,17 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
             public void onInitHeader() {
                 super.onInitHeader();
                 mAppointmentAdapter.insert(new BaseItem(R.layout.space_vertical_45dp));
+            }
+
+            @Override
+            protected void handleBody(ApiDTO<PageDTO<PrescriptionOrder>> body) {
+                super.handleBody(body);
+                if (body.getData().getUntreated_num()>0){
+                    binding.tvNum.setVisibility(View.VISIBLE);
+                    binding.tvNum.setText(body.getData().getUntreated_num()+"");
+                }else{
+                    binding.tvNum.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -518,18 +555,23 @@ public class MedicineStoreActivity extends BaseFragmentActivity2 implements NimM
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!Settings.isDoctor()) {
             getMenuInflater().inflate(R.menu.menu_pick_prescription, menu);
+            return true;
+        }else{
+            return false;
         }
-        return true;
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_pick_prescription: {
-                if (prescriptionOrderPageCallback != null) {
-                    prescriptionOrderPageCallback.resetPage();
+                if (!Settings.isDoctor()){
+                    if (prescriptionOrderPageCallback != null) {
+                        prescriptionOrderPageCallback.resetPage();
+                    }
+                    loadPrescriptionOrder();
                 }
-                loadPrescriptionOrder();
             }
         }
         return super.onOptionsItemSelected(item);

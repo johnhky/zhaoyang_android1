@@ -1,5 +1,6 @@
 package com.doctor.sun.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import com.doctor.sun.databinding.FragmentList2Binding;
 import com.doctor.sun.event.HideFABEvent;
 import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
+import com.doctor.sun.ui.widget.FullyGridLinearLayoutManager;
 
 import io.ganguo.library.core.event.EventHub;
 import io.realm.Realm;
@@ -111,7 +113,8 @@ public class SortedListNoRefreshFragment extends BaseFragment {
 
     @NonNull
     public GridLayoutManager createLayoutManager() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 12, getOrientation(), false);
+        /*GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 12, getOrientation(), false);*/
+        FullyGridLinearLayoutManager gridLayoutManager = new FullyGridLinearLayoutManager(getContext(),12,getOrientation(),false);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {

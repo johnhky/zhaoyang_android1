@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.doctor.auto.Factory;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.module.DrugModule;
@@ -22,6 +23,7 @@ import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.MultiSelectAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -31,7 +33,6 @@ import java.util.HashMap;
 public class DrugListFragment extends RefreshListFragment {
     public static final String TAG = DrugListFragment.class.getSimpleName();
 
-    public static final String COUPON_ID = "couponId";
     private DrugModule api = Api.of(DrugModule.class);
     private MultiSelectAdapter adapter;
     private static HashMap<String, String> drugExtraField = new HashMap<>();
@@ -39,8 +40,16 @@ public class DrugListFragment extends RefreshListFragment {
     public static Bundle getArgs() {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FRAGMENT_NAME, TAG);
-
         return bundle;
+    }
+
+    public static DrugListFragment newInstance(String status,String keyword) {
+        DrugListFragment fragment = new DrugListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.DATA, status);
+        bundle.putString(Constants.REMARK,keyword);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     public static DrugListFragment getInstance() {
@@ -68,7 +77,7 @@ public class DrugListFragment extends RefreshListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
-        api.orderList(getPageCallback().getPage()).enqueue(getPageCallback());
+        api.orderList(getPageCallback().getPage(), getStatus(),getKeyword()).enqueue(getPageCallback());
     }
 
     @Override
@@ -129,5 +138,13 @@ public class DrugListFragment extends RefreshListFragment {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public String getStatus() {
+        return getArguments().getString(Constants.DATA);
+    }
+
+    public String getKeyword(){
+        return getArguments().getString(Constants.REMARK);
     }
 }

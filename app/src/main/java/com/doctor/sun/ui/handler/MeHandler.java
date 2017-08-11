@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.ui.activity.AfterServiceContactActivity;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.activity.doctor.ContactActivity;
 import com.doctor.sun.ui.activity.doctor.FeeActivity;
 import com.doctor.sun.ui.activity.doctor.MyIncomeActivity;
+import com.doctor.sun.ui.activity.doctor.MyPatientActivity;
 import com.doctor.sun.ui.activity.doctor.RecordPoolActivity;
 import com.doctor.sun.ui.activity.doctor.SettingActivity;
 import com.doctor.sun.ui.activity.doctor.TimeActivity;
@@ -71,6 +74,16 @@ public class MeHandler {
     public void doctorIncome(Context context) {
         Intent intent = MyIncomeActivity.intentFor(context);
         context.startActivity(intent);
+    }
+
+    public void followUp(Context context) {
+        Intent intent = AfterServiceContactActivity.intentFor(context, ContactActivity.DOCTORS_CONTACT);
+        context.startActivity(intent);
+    }
+
+    public void patient(View view) {
+        Intent intent = MyPatientActivity.intentFor(view.getContext());
+        view.getContext().startActivity(intent);
     }
 
 }

@@ -58,8 +58,7 @@ public class BillFragment extends SortedListFragment {
         time = getTime();
         setHasOptionsMenu(true);
         model = new BillModel();
-        String string = getTime();
-        IncomeModuleWrapper.getInstance().refreshBillDetail(string);
+        IncomeModuleWrapper.getInstance().refreshBillDetail(getTime());
     }
 
     public String getTime() {

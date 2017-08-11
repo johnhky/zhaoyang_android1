@@ -1,6 +1,6 @@
 package com.doctor.sun.model;
 
-import android.util.Log;
+import android.text.InputType;
 
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Address;
@@ -24,7 +24,7 @@ public class UploadAddressModel {
 
     public List<SortedItem> parseItem(Address data){
         List<SortedItem> result = new ArrayList<>();
-        ItemTextInput2 receiver = new ItemTextInput2(R.layout.item_text_input2,"收件人    :","点击输入");
+        ItemTextInput2 receiver = new ItemTextInput2(R.layout.item_address_2,"收件人    :","点击输入");
         receiver.setItemId("to");
         receiver.setResultNotEmpty();
         receiver.setPosition(result.size());
@@ -37,8 +37,9 @@ public class UploadAddressModel {
         }
         ModelUtils.insertDividerMarginLR(result);
 
-        ItemTextInput2 phone = new ItemTextInput2(R.layout.item_text_input2,"联系电话:","点击输入");
+        ItemTextInput2 phone = new ItemTextInput2(R.layout.item_address_2,"联系电话:","点击输入");
         phone.setItemId("phone");
+        phone.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_PHONE);
         phone.setResultNotEmpty();
         phone.setPosition(result.size());
         result.add(phone);

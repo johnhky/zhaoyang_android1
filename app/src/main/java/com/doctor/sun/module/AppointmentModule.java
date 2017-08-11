@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -36,14 +37,9 @@ public interface AppointmentModule {
      * @return
      */
     @GET("appointment/allDoctor/")
-    Call<ApiDTO<PageDTO<Doctor>>> allDoctors(@Query("page") String page,
+    Call<ApiDTO<PageDTO<Doctor>>> allDoctors(@Query("page") String page, @Query("append_coupon") String append,
                                              @QueryMap HashMap<String, String> query,
                                              @Query("title[]") ArrayList<Integer> titleParam);
-
-    @GET("appointment/allDoctor/")
-    Call<ApiDTO<PageDTO<NewDoctor>>> newAllDoctors(@Query("page") String page,
-                                                   @QueryMap HashMap<String, String> query,
-                                                   @Query("title[]") ArrayList<Integer> titleParam);
 
     @GET("appointment/recent-doctors")
     Call<ApiDTO<List<Doctor>>> recentDoctors(@Query("page") String page,
@@ -55,7 +51,7 @@ public interface AppointmentModule {
     Call<ApiDTO<String>> unlikeDoctor(@Field("doctorId") String doctorId);
 
     @GET("appointment/collectionList")
-    Call<ApiDTO<PageDTO<Doctor>>> favoriteDoctors();
+    Call<ApiDTO<PageDTO<Doctor>>> favoriteDoctors(@Query("append_coupon") String append_coupon);
 
 
     @FormUrlEncoded
@@ -81,6 +77,9 @@ public interface AppointmentModule {
     @POST("appointment/remind-answer")
     Call<ApiDTO<String>> remind(@Field("appointmentId") String appointmentId, @Field("patientId") int patientId);
 
+    @FormUrlEncoded
+    @POST("appointment/patient-cancel")
+    Call<ApiDTO<String>> pCancel(@Field("appointmentId")String appointmentId,@Field("reason") String reason);
 
     @FormUrlEncoded
     @POST("appointment/doing")
@@ -169,7 +168,11 @@ public interface AppointmentModule {
                                                          @Query("displayStatus") String displayStatus);
 
     @GET("appointment/patient-appoint-list")
-    Call<ApiDTO<PageDTO<Appointment>>> patientAppointment(@Query("page") String page);
+    Call<ApiDTO<PageDTO<Appointment>>> patientAppointment(@Query("page") String page, @Query("status") ArrayList<String> list);
+
+    @GET("appointment/patient-appoint-list")
+    Call<ApiDTO<PageDTO<Appointment>>> patientAppointment(@Query("page") String page, @Query("keyword") String keyword);
+
 
     @FormUrlEncoded
     @POST("im/list-info")
@@ -204,5 +207,9 @@ public interface AppointmentModule {
     /*预约某位医生 新*/
     @POST("appointment/appointment-fresh")
     Call<ApiDTO<Appointment>> toAppointmentDoctor(@Query("bookTime") long bookTime, @Query("doctorId") int id, @Query("recordId") int recordId, @Query("takeTime") int takeTime, @Query("type") int type);
+
+    /*预约某位医生 新*/
+    @POST("appointment/appointment-fresh")
+    Call<ApiDTO<Appointment>> toAppointmentDoctor(@Query("bookTime") long bookTime, @Query("doctorId") int id, @Query("recordId") int recordId, @Query("type") int type);
 
 }

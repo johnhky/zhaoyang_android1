@@ -30,7 +30,7 @@
             android:layout_marginLeft="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:layout_marginStart="@dimen/dp_13"
-            android:text="@{data.item }"
+            android:text="@{data.item}"
             android:textColor="#363636"
             android:textSize="@dimen/font_15"
             tools:text="药" />

@@ -14,6 +14,7 @@ import com.doctor.sun.entity.Description;
 import com.doctor.sun.event.ConfigChangedEvent;
 import com.doctor.sun.module.wraper.IncomeModuleWrapper;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.fragment.BillFragment;
 import com.doctor.sun.vm.BaseItem;
 import com.doctor.sun.vm.BaseMenu;
@@ -64,12 +65,15 @@ public class MyIncomeActivity extends CoordinatorActivity {
         insertSpace(0);
         getAdapter().insert(getTotalFee());
         insertSpace(2);
-
+        getAdapter().insert(remind());
         getAdapter().insert(monthRevenue());
         getAdapter().insert(weekRevenue());
         getAdapter().insert(dayRevenue());
+
         insertLargeSpace(6);
-            getAdapter().insert(getOderReminder());
+
+        getAdapter().insert(getOderReminder());
+        getAdapter().notifyDataSetChanged();
     }
 
     private void insertSpace(int p) {
@@ -81,28 +85,32 @@ public class MyIncomeActivity extends CoordinatorActivity {
     }
 
     private Description getTotalFee() {
-        Description totalFee = new Description(R.layout.item_blue_description, api.getIncomeOverView().total_fee);
-        totalFee.setSubContent("元");
+        Description totalFee = new Description(R.layout.item_blue_description, api.getIncomeOverView().total_fee+"元");
         totalFee.setItemId("total_fee");
-        totalFee.setTitle("历史累计总额");
+        totalFee.setTitle("历史总收入");
         totalFee.setTitleColor(R.color.colorPrimaryDark);
         totalFee.setBackgroundColor(R.color.white);
         totalFee.setPosition(1);
         return totalFee;
     }
 
+    private Description remind(){
+        Description description = new Description(R.layout.item_description,"明细查看");
+        description.setItemId("myDetail");
+        description.setPosition(2);
+        return description;
+    }
+
     private BaseMenu monthRevenue() {
-        BaseMenu baseMenu = new BaseMenu(R.layout.item_income_menu, 0, "月度账户收入明细") {
+        BaseMenu baseMenu = new BaseMenu(R.layout.item_income_menu, R.drawable.icon_moon, "月度账户收入明细") {
             @Override
             public View.OnClickListener itemClick() {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Calendar instance = Calendar.getInstance();
-                        DateFormat format = new SimpleDateFormat("yyyy-MM", Locale.CHINA);
-                        String currentTime = format.format(instance.getTime());
+                        DateFormat format = new SimpleDateFormat("yyyy年MM月", Locale.CHINA);
                         Bundle args = BillFragment.getArgs("");
-                        Intent intent = SingleFragmentActivity.intentFor(v.getContext(), "当月收入明细", args);
+                        Intent intent = SingleFragmentActivity.intentFor(v.getContext(),api.getBillDetail("").time +"收入明细", args);
                         v.getContext().startActivity(intent);
                     }
                 };
@@ -110,13 +118,14 @@ public class MyIncomeActivity extends CoordinatorActivity {
         };
         baseMenu.setItemId("month_revenue");
         baseMenu.setPosition(3);
+        baseMenu.setIcon(R.drawable.icon_moon);
         baseMenu.setBackgroundColor(R.color.white);
         baseMenu.setTitleColor(R.color.dark_36);
         return baseMenu;
     }
 
     private BaseMenu weekRevenue() {
-        BaseMenu baseMenu = new BaseMenu(R.layout.item_income_menu, 0, "近七日账户收入明细") {
+        BaseMenu baseMenu = new BaseMenu(R.layout.item_income_menu, R.drawable.icon_week, "近七日账户收入明细") {
             @Override
             public View.OnClickListener itemClick() {
                 return new View.OnClickListener() {
@@ -131,13 +140,14 @@ public class MyIncomeActivity extends CoordinatorActivity {
         };
         baseMenu.setItemId("week_revenue");
         baseMenu.setPosition(4);
+        baseMenu.setIcon(R.drawable.icon_week);
         baseMenu.setBackgroundColor(R.color.white);
         baseMenu.setTitleColor(R.color.dark_36);
         return baseMenu;
     }
 
     private BaseMenu dayRevenue() {
-        BaseMenu baseMenu = new BaseMenu(R.layout.item_income_menu, 0, "当天账户收入明细") {
+        BaseMenu baseMenu = new BaseMenu(R.layout.item_income_menu, R.drawable.inco_day, "当天账户收入明细") {
             @Override
             public View.OnClickListener itemClick() {
                 return new View.OnClickListener() {
@@ -152,6 +162,7 @@ public class MyIncomeActivity extends CoordinatorActivity {
         };
         baseMenu.setItemId("day_revenue");
         baseMenu.setPosition(5);
+        baseMenu.setIcon(R.drawable.inco_day);
         baseMenu.setBackgroundColor(R.color.white);
         baseMenu.setTitleColor(R.color.dark_36);
         return baseMenu;
@@ -165,8 +176,19 @@ public class MyIncomeActivity extends CoordinatorActivity {
         getAdapter().insert(item);
     }
 
-    private Description getOderReminder() {
-        Description getReminder = new Description(R.layout.item_order_reminder, api.getIncomeOverView().explain);
+    private BaseMenu getOderReminder() {
+        BaseMenu getReminder = new BaseMenu(R.layout.item_order_reminder, 0,"") {
+            @Override
+            public View.OnClickListener itemClick() {
+                return new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = MedicineStoreActivity.intentForCustomerService(MyIncomeActivity.this);
+                        startActivity(intent);
+                    }
+                };
+            }
+        };
         getReminder.setItemId("explain");
         getReminder.setSpan(12);
         getReminder.setPosition(7);

@@ -63,7 +63,7 @@ public class TestAppointmentProcedure {
         appointmentType.perform(click());
 
         ViewInteraction appointmentType1 = onView(
-                allOf(withText("闲时咨询"), isDisplayed())
+                allOf(withText("简易复诊"), isDisplayed())
         );
         appointmentType1.perform(click());
 

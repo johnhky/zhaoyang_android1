@@ -46,6 +46,7 @@
             android:layout_height="@dimen/dp_55"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="60dp"
+            android:scaleType="centerCrop"
             app:maskDrawable="@drawable/circle_mask" />
 
         <TextView

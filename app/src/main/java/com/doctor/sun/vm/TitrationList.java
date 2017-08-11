@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Reminder;
+import com.doctor.sun.entity.handler.PrescriptionHandler;
 import com.doctor.sun.immutables.Titration;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.util.JacksonUtils;
@@ -35,6 +36,7 @@ public class TitrationList extends ItemTextInput2 {
     private SimpleAdapter<TitrationTextInput, ViewDataBinding> simpleAdapter;
     private RecyclerView.AdapterDataObserver observer;
 
+
     public TitrationList(int itemLayoutId, String title, String hint) {
         super(itemLayoutId, title, hint);
         setHint(hint);
@@ -53,21 +55,53 @@ public class TitrationList extends ItemTextInput2 {
     }
 
     public void addTitration() {
-        if (Integer.valueOf(getHint())!=-1){
+        if (Integer.valueOf(getHint()) != -1) {
             if (datas != null) {
                 TitrationTextInput object = new TitrationTextInput(R.layout.item_titration_tab, getSubTitle(), "");
                 object.setEnabled(enabled);
                 object.setPosition(datas.size() + 1);
                 if (datas.size() == 0) {
+                    object.setChecked(false);
                     object.setResult("1");
+                    datas.add(object);
+                } else {
+                    object.setChecked(true);
+                    TitrationTextInput textInput = datas.get(datas.size()-1);
+                    if (TextUtils.isEmpty(textInput.getResult())) {
+                        Toast.makeText(AppContext.me(), "用药天数不能为空!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (PrescriptionHandler.totalTitrationNumberPerFrequency(textInput)<=0D){
+                        Toast.makeText(AppContext.me(), "用药剂量不能为空!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    int nextNum = 0;
+                    int num = 0;
+                    if (datas.size() > 1) {
+                        TitrationTextInput textInput2 = datas.get(datas.size()-2);
+                        num = Integer.valueOf(textInput2.getResult());
+                        if (!TextUtils.isEmpty(datas.get(datas.size() - 1).getResult())) {
+                            nextNum = Integer.valueOf(datas.get(datas.size() - 1).getResult());
+                        }
+                        if (nextNum - num <= 0) {
+                            Toast.makeText(AppContext.me(), "当前用药天数不能小于上一个用药天数!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (PrescriptionHandler.totalTitrationNumberPerFrequency(textInput2)<=0D){
+                            Toast.makeText(AppContext.me(), "用药剂量不能为空!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    datas.add(object);
                 }
-                datas.add(object);
+
                 if (simpleAdapter != null) {
                     simpleAdapter.notifyDataSetChanged();
                 }
             }
-        }else{
-            Toast.makeText(AppContext.me(),"请先选择药品单位!",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(AppContext.me(), "请先选择药品单位!", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -79,6 +113,7 @@ public class TitrationList extends ItemTextInput2 {
         if (datas != null) {
             TitrationTextInput object = new TitrationTextInput(R.layout.item_titration_tab, getSubTitle(), "");
             object.setPosition(datas.size() + 1);
+            object.setChecked(true);
             if (!Strings.isNullOrEmpty(titration.take_medicine_days)) {
                 object.setResult(titration.take_medicine_days);
             }
@@ -93,6 +128,9 @@ public class TitrationList extends ItemTextInput2 {
             }
             if (!Strings.isNullOrEmpty(titration.before_sleep)) {
                 object.setBefore_sleep(titration.before_sleep);
+            }
+            if (object.getResult().equals("1")){
+                object.setChecked(false);
             }
             datas.add(object);
             if (simpleAdapter != null) {
@@ -113,13 +151,17 @@ public class TitrationList extends ItemTextInput2 {
     @Override
     public String getValue() {
         ArrayList<Titration> titrations = getTitrations();
-        if (titrations.size()>0){
+        if (titrations.size() > 0) {
             Gson gson = new GsonBuilder().create();
             String str = gson.toJson(titrations);
             return str;
-        }else{
+        } else {
             return "";
         }
+    }
+
+    public void clearData() {
+        datas.clear();
     }
 
     @NonNull

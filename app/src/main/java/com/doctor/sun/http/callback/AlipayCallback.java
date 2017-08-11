@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alipay.sdk.app.PayTask;
 import com.doctor.sun.event.PayFailEvent;
@@ -13,6 +14,7 @@ import com.doctor.sun.util.PayCallback;
 
 import java.util.HashMap;
 
+import io.ganguo.library.common.LoadingHelper;
 import io.ganguo.library.core.event.EventHub;
 
 /**
@@ -34,6 +36,7 @@ public class AlipayCallback extends SimpleCallback<String> {
 
             @Override
             public void onPaySuccess() {
+                LoadingHelper.hideMaterLoading();
                 EventHub.post(new PaySuccessEvent(data));
 //                Intent intent = PaySuccessActivity.makeIntent(activity, data);
 //                activity.startActivity(intent);
@@ -41,6 +44,7 @@ public class AlipayCallback extends SimpleCallback<String> {
 
             @Override
             public void onPayFail() {
+                LoadingHelper.hideMaterLoading();
                 EventHub.post(new PayFailEvent(data, false));
 //                Intent intent = PayFailActivity.makeIntent(activity, data, false);
 //                activity.startActivity(intent);
@@ -54,11 +58,13 @@ public class AlipayCallback extends SimpleCallback<String> {
         mCallback = new PayCallback() {
             @Override
             public void onPaySuccess() {
-                EventHub.post(new PaySuccessEvent());
+                LoadingHelper.hideMaterLoading();
+                EventHub.post(new PaySuccessEvent(null));
             }
 
             @Override
             public void onPayFail() {
+                LoadingHelper.hideMaterLoading();
                 EventHub.post(new PayFailEvent(money, false, extraField));
 //                Intent intent = PayFailActivity.makeIntent(activity, money, false, extraField);
 //                activity.startActivity(intent);
@@ -102,6 +108,7 @@ public class AlipayCallback extends SimpleCallback<String> {
             super.handleMessage(msg);
             switch (msg.what) {
                 case PAY_FLAG:
+                    LoadingHelper.hideMaterLoading();
                     PayResult aliPayResult = new PayResult(msg.obj.toString());
 
 //                    LOG.d("aliPayResult" + aliPayResult);

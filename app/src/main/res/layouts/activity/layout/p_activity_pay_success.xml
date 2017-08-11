@@ -165,39 +165,39 @@
                         android:background="@drawable/ic_record_selector_selected"
                         />
                     <View
-                        android:layout_width="8dp"
+                        android:layout_width="3dp"
                         android:background="@color/green"
                         android:layout_height="45dp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/have_doing"
+                        android:background="@drawable/ic_blue_point"
                         />
                     <View
-                        android:layout_width="8dp"
+                        android:layout_width="3dp"
                         android:background="@color/gray_bb"
                         android:layout_height="30dp" />
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:background="@drawable/ic_record_selector_disable"
                         />
                     <View
-                        android:layout_width="8dp"
+                        android:layout_width="3dp"
                         android:background="@color/gray_bb"
                         android:layout_height="30dp" />
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:background="@drawable/ic_record_selector_disable"
                         />
                     <View
-                        android:layout_width="8dp"
+                        android:layout_width="3dp"
                         android:background="@color/gray_bb"
                         android:layout_height="30dp" />
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:background="@drawable/ic_record_selector_disable"
                         />
                 </LinearLayout>
@@ -298,7 +298,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
-                android:background="#e6e6e6"
+                android:background="@color/white"
                 >
             <LinearLayout
                 android:id="@+id/ll_askService"

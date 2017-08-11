@@ -54,7 +54,7 @@
                     android:paddingLeft="@dimen/dp_6"
                     android:paddingRight="@dimen/dp_6"
                     android:text="@{data.level}"
-                    android:textColor="@color/blue_grey"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/font_9"
                     tool:text="执业医师认证" />
             </android.support.v7.widget.CardView>

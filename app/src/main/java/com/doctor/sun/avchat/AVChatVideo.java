@@ -47,8 +47,11 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
     ToggleView switchCameraToggle;
     ToggleView closeCameraToggle;
     ToggleView muteToggle;
-    ToggleView recordToggle;
+    ImageView recordToggle;
     ImageView hangUpImg;
+
+/*    //摄像头权限提示显示
+    private View permissionRoot;*/
 
     //record
     private View recordView;
@@ -100,7 +103,9 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
         switchCameraToggle = new ToggleView(bottomRoot.findViewById(R.id.avchat_switch_camera), ToggleState.DISABLE, this);
         closeCameraToggle = new ToggleView(bottomRoot.findViewById(R.id.avchat_close_camera), ToggleState.DISABLE, this);
         muteToggle = new ToggleView(bottomRoot.findViewById(R.id.avchat_video_mute), ToggleState.DISABLE, this);
-        recordToggle = new ToggleView(bottomRoot.findViewById(R.id.avchat_video_record), ToggleState.DISABLE, this);
+        recordToggle = (ImageView) bottomRoot.findViewById(R.id.avchat_video_record);
+        recordToggle.setEnabled(false);
+        recordToggle.setOnClickListener(this);
         hangUpImg = (ImageView) bottomRoot.findViewById(R.id.avchat_video_logout);
         hangUpImg.setOnClickListener(this);
         init = true;
@@ -117,9 +122,10 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
         switch (state) {
             case OUTGOING_VIDEO_CALLING:
                 showProfile();//对方的详细信息
-                showNotify(R.string.avchat_wait_video_call);
+                showNotify(R.string.avchat_wait_recieve);
                 setRefuseReceive(false);
                 shouldEnableToggle = true;
+                enableCameraToggle();   //使用音视频预览时这里可以开启切换摄像头按钮
                 setTopRoot(false);
                 setMiddleRoot(true);
                 setBottomRoot(true);
@@ -182,6 +188,7 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
 
             }
         });
+
     }
 
     /**
@@ -243,8 +250,15 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
                 switchCameraToggle.enable();
             closeCameraToggle.enable();
             muteToggle.enable();
-            recordToggle.enable();
+            recordToggle.setEnabled(true);
             shouldEnableToggle = false;
+        }
+    }
+
+    private void enableCameraToggle() {
+        if (shouldEnableToggle) {
+            if (manager.canSwitchCamera())
+                switchCameraToggle.enable();
         }
     }
 
@@ -287,6 +301,8 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
 
     public void showRecordView(boolean show, boolean warning) {
         if (show) {
+            recordToggle.setEnabled(true);
+            recordToggle.setSelected(true);
             recordView.setVisibility(View.VISIBLE);
             recordTip.setVisibility(View.VISIBLE);
             if (warning) {
@@ -295,11 +311,16 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
                 recordWarning.setVisibility(View.GONE);
             }
         } else {
+            recordToggle.setSelected(false);
             recordView.setVisibility(View.INVISIBLE);
             recordTip.setVisibility(View.INVISIBLE);
             recordWarning.setVisibility(View.GONE);
         }
     }
+
+  /*  public void showNoneCameraPermissionView(boolean show) {
+        permissionRoot.setVisibility(show ? View.VISIBLE : View.GONE);
+    }*/
 
     /**
      * 音频切换为视频, 界面控件是否开启显示
@@ -312,8 +333,8 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
         if (manager.canSwitchCamera()) {
             switchCameraToggle.off(false);
         }
-        recordToggle.toggle(recordOn ? ToggleState.ON : ToggleState.OFF);
-
+        recordToggle.setEnabled(true);
+        recordToggle.setSelected(recordOn);
         showRecordView(recordOn, recordWarning);
 
     }
@@ -341,7 +362,7 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
             time.stop();
             switchCameraToggle.disable(false);
             muteToggle.disable(false);
-            recordToggle.disable(false);
+            recordToggle.setEnabled(false);
             closeCameraToggle.disable(false);
             receiveTV.setEnabled(false);
             refuseTV.setEnabled(false);

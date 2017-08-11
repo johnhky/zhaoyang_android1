@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListPopupWindow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -15,6 +18,8 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
+import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.entity.constans.TimeType;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -23,6 +28,7 @@ import com.doctor.sun.ui.activity.doctor.AddTimeActivity;
 import com.doctor.sun.ui.activity.doctor.TimeActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
+import com.doctor.sun.ui.widget.MyTimePickDialog;
 import com.doctor.sun.vm.LayoutId;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
@@ -30,6 +36,7 @@ import com.doctor.sun.ui.widget.TwoChoiceDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -92,9 +99,8 @@ public class TimeHandler {
     }
 
 
-
     public String dateLabel() {
-        return (data.getType()== TimeType.TYPE_QUICK ? "闲时咨询\n" : "专属网诊") + ':' + getWeekLabel();
+        return (data.getType() == TimeType.TYPY_FACE ? "诊所面诊" : "VIP网诊") + ':' + getWeekLabel();
     }
 
     public String disturbDate() {
@@ -167,9 +173,9 @@ public class TimeHandler {
                         deleteDialog.dismiss();
                         adapter.removeItem(data);
                         adapter.notifyItemRemoved(vh.getAdapterPosition());
-                           Intent toStart = new Intent();
-                            toStart.setAction("toFinish");
-                            AppContext.me().sendBroadcast(toStart);
+                        Intent toStart = new Intent();
+                        toStart.setAction("toFinish");
+                        AppContext.me().sendBroadcast(toStart);
                            /* LayoutId objectFace = (LayoutId) adapter.get(adapter.size()-1);
                         if (objectFace.getItemLayoutId() == R.layout.item_description) {
 
@@ -186,6 +192,7 @@ public class TimeHandler {
                     }
                 });
             }
+
             @Override
             public void onCancelClick(MaterialDialog dialog) {
                 dialog.dismiss();
@@ -216,33 +223,73 @@ public class TimeHandler {
     }
 
 
-    public void beginTimeSet(View view) {
+    public void beginTimeSet(View view, int type) {
         final TextView tvBeginTime = (TextView) view.findViewById(R.id.tv_begin_time);
-        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                mHour = hourOfDay;
-                mMinute = minute;
-                tvBeginTime.setText(String.format(Locale.CHINA, "%02d:%02d", mHour, mMinute));
-            }
-        };
-        TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), onTimeSetListener, mHour, mMinute, true);
-        timePickerDialog.show();
+        Doctor doctor = Settings.getDoctorProfile();
+        if (type == 4 && doctor.getSpecialistCateg() == 1) {
+            final String[] list = view.getContext().getResources().getStringArray(R.array.time_array);
+            final ListPopupWindow listPopupWindow = new ListPopupWindow(view.getContext());
+            listPopupWindow.setWidth(view.getWidth());
+            listPopupWindow.setHeight(400);
+            listPopupWindow.setAdapter(new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, list));
+
+            listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    tvBeginTime.setText(list[position]);
+                    listPopupWindow.dismiss();
+                }
+            });
+            listPopupWindow.setAnchorView(view);
+            listPopupWindow.show();
+        } else {
+            MyTimePickDialog.OnTimeSetListener onTimeSetListener = new MyTimePickDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    mHour = hourOfDay;
+                    mMinute = minute;
+                    tvBeginTime.setText(String.format(Locale.CHINA, "%02d:%02d", mHour, mMinute));
+                }
+            };
+            MyTimePickDialog timePickerDialog = new MyTimePickDialog(view.getContext(), onTimeSetListener, mHour, mMinute, true);
+            timePickerDialog.show();
+        }
+
+
     }
 
 
-    public void endTimeSet(View view) {
+    public void endTimeSet(View view, int type) {
         final TextView tvEndTime = (TextView) view.findViewById(R.id.tv_end_time);
-        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                mHour = hourOfDay;
-                mMinute = minute;
-                tvEndTime.setText(String.format(Locale.CHINA, "%02d:%02d", mHour, mMinute));
-            }
-        };
-        TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), onTimeSetListener, mHour, mMinute, true);
-        timePickerDialog.show();
+        Doctor doctor = Settings.getDoctorProfile();
+        if (type == 4 && doctor.getSpecialistCateg() == 1) {
+            final String[] list = view.getContext().getResources().getStringArray(R.array.time_array);
+            final ListPopupWindow listPopupWindow = new ListPopupWindow(view.getContext());
+            listPopupWindow.setWidth(view.getWidth());
+            listPopupWindow.setHeight(400);
+            listPopupWindow.setAdapter(new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, list));
+
+            listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    tvEndTime.setText(list[position]);
+                    listPopupWindow.dismiss();
+                }
+            });
+            listPopupWindow.setAnchorView(view);
+            listPopupWindow.show();
+        } else {
+            MyTimePickDialog.OnTimeSetListener onTimeSetListener = new MyTimePickDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    mHour = hourOfDay;
+                    mMinute = minute;
+                    tvEndTime.setText(String.format(Locale.CHINA, "%02d:%02d", mHour, mMinute));
+                }
+            };
+            MyTimePickDialog timePickerDialog = new MyTimePickDialog(view.getContext(), onTimeSetListener, mHour, mMinute, true);
+            timePickerDialog.show();
+        }
     }
 
 

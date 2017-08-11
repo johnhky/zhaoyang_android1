@@ -3,13 +3,16 @@ package com.doctor.sun.ui.pager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-
 import com.doctor.sun.Settings;
 import com.doctor.sun.dto.PatientDTO;
-import com.doctor.sun.ui.fragment.PAfterServiceFragment;
-import com.doctor.sun.ui.fragment.PApplyingDoctorListFragment;
+import com.doctor.sun.ui.fragment.PAppointmentDoingFragment;
+import com.doctor.sun.ui.fragment.PAppointmentDoneFragment;
+import com.doctor.sun.ui.fragment.PAppointmentInvalidFragment;
 import com.doctor.sun.ui.fragment.PAppointmentListFragment;
+import com.doctor.sun.ui.fragment.PAppointmentWaittingFragment;
 import com.doctor.sun.ui.fragment.RefreshListFragment;
+
+import java.util.ArrayList;
 
 /**
  * Created by kb on 22/12/2016.
@@ -18,6 +21,7 @@ import com.doctor.sun.ui.fragment.RefreshListFragment;
 public class MyOrderPagerAdapter2 extends FragmentStatePagerAdapter {
 
     private PatientDTO patientDTO;
+    private ArrayList<String> status;
 
     public MyOrderPagerAdapter2(FragmentManager fm) {
         super(fm);
@@ -29,13 +33,31 @@ public class MyOrderPagerAdapter2 extends FragmentStatePagerAdapter {
         RefreshListFragment fragment = null;
         switch (position) {
             case 0:
-                fragment = PAppointmentListFragment.newInstance(1);
+                fragment = PAppointmentListFragment.newInstance("");
                 break;
             case 1:
-                fragment = PAfterServiceFragment.newInstance();
+                status = new ArrayList<>();
+                status.add("1");
+                fragment = PAppointmentWaittingFragment.newInstance(status);
                 break;
             case 2:
-                fragment = PApplyingDoctorListFragment.newInstance();
+                status = new ArrayList<>();
+                status.add("2");
+                status.add("3");
+                fragment = PAppointmentDoingFragment.newInstance(status);
+                break;
+            case 3:
+                status = new ArrayList<>();
+                status.add("4");
+                fragment = PAppointmentDoneFragment.newInstance(status);
+                break;
+            case 4:
+                status = new ArrayList<>();
+                status.add("5");
+                status.add("6");
+                status.add("7");
+                status.add("8");
+                fragment = PAppointmentInvalidFragment.newInstance(status);
                 break;
         }
         return fragment;
@@ -43,18 +65,22 @@ public class MyOrderPagerAdapter2 extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 5;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "咨询订单," + (patientDTO == null ? "" : patientDTO.appointmentNum);
+                return "全部," + (patientDTO == null ? "" : 0);
             case 1:
-                return "随访订单," + (patientDTO == null ? "" : patientDTO.followUpDoingNum);
+                return "候诊中," + (patientDTO == null ? "" : patientDTO.getAppointment_status_num().getWaitting());
             case 2:
-                return "随访关系," + (patientDTO == null ? "" : patientDTO.applyingNum);
+                return "就诊中," + (patientDTO == null ? "" : patientDTO.getAppointment_status_num().getDoing() + patientDTO.getAppointment_status_num().getWaittingSuggest());
+            case 3:
+                return "已完成," + (patientDTO == null ? "" : patientDTO.applyingNum);
+            case 4:
+                return "失效单," + (patientDTO == null ? "" : patientDTO.applyingNum);
         }
         return "";
     }

@@ -71,7 +71,7 @@ public class ResetPswFragment extends SortedListFragment {
 
         final ItemTextInput2 newPhoneNum = ItemTextInput2.mobilePhoneInput("手机号码", "请输入11位手机号码");
         newPhoneNum.setResultNotEmpty();
-        newPhoneNum.setItemLayoutId(R.layout.item_text_input2);
+        newPhoneNum.setItemLayoutId(R.layout.item_text_input5);
         newPhoneNum.setItemId("phone");
         sortedItems.add(newPhoneNum);
 
@@ -105,9 +105,9 @@ public class ResetPswFragment extends SortedListFragment {
 
         insertDivider(sortedItems);
 
-        final ItemTextInput2 passwordOne = ItemTextInput2.password("设置密码", "请输入6位字符串密码");
+        final ItemTextInput2 passwordOne = ItemTextInput2.password("设置密码", "请输入6-10位字符串密码");
         passwordOne.setResultNotEmpty();
-        passwordOne.setItemLayoutId(R.layout.item_text_input2);
+        passwordOne.setItemLayoutId(R.layout.item_text_input5);
         passwordOne.add(new RegexValidator(Pattern.compile("(?=\\S+$).{6,10}$"), "请输入6~10位数字和字母组合"));
         passwordOne.add(new RegexValidator(Pattern.compile("(.)*(\\d)(.)*"), "密码里面应该最少包含一个数字"));
         passwordOne.add(new RegexValidator(Pattern.compile("(.)*[a-zA-Z](.)*"), "密码里面应该最少包含一个字母"));
@@ -116,9 +116,9 @@ public class ResetPswFragment extends SortedListFragment {
 
         insertDivider(sortedItems);
 
-        ItemTextInput2 passwordTwo = ItemTextInput2.password("重输密码", "请输入6位字符串密码");
+        ItemTextInput2 passwordTwo = ItemTextInput2.password("重输密码", "请输入6-10位字符串密码");
         passwordTwo.setResultNotEmpty();
-        passwordTwo.setItemLayoutId(R.layout.item_text_input2);
+        passwordTwo.setItemLayoutId(R.layout.item_text_input5);
         passwordTwo.setItemId(UUID.randomUUID().toString());
         passwordTwo.add(new Validator() {
             @Override

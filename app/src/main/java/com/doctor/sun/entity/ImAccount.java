@@ -97,7 +97,7 @@ public class ImAccount {
                 ", subAccountSid='" + subAccountSid + '\'' +
                 ", subToken='" + subToken + '\'' +
                 ", voipAccount='" + voipAccount + '\'' +
-                ", voipPwd='" + voipPwd + '\'' +
+                ", voipPwd='" + voipPwd + '\''+"yunxinAccount: "+yunxinAccid+ "yunxinToken:  "+yunxinToken+"phone: "+phone+
                 '}';
     }
 

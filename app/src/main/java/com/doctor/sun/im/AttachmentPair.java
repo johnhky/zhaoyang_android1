@@ -1,14 +1,19 @@
 package com.doctor.sun.im;
 
+import java.io.Serializable;
+
+import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 
 /**
  * Created by rick on 25/7/2016.
  */
 
-public class AttachmentPair extends RealmObject {
+public class AttachmentPair extends RealmObject implements Serializable{
 
-    public AttachmentPair() {
+    public AttachmentPair(){
+
     }
 
     public AttachmentPair(String key, String value) {

@@ -3,6 +3,7 @@ package com.doctor.sun.ui.pager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
@@ -27,7 +28,7 @@ public class ReadAnswerPagerAdapter extends FragmentStatePagerAdapter {
     String appointmentId;
     int status;
     int canEdit;
-
+    String isDiagnosis;
 
     public ReadAnswerPagerAdapter(FragmentManager fm, Appointment appointment) {
         super(fm);
@@ -35,6 +36,7 @@ public class ReadAnswerPagerAdapter extends FragmentStatePagerAdapter {
         appointmentId = String.valueOf(appointment.getId());
         status = appointment.getStatus();
         canEdit = appointment.getCan_edit();
+        isDiagnosis = appointment.getDiagnosis_record()+"";
     }
 
     /**
@@ -78,16 +80,24 @@ public class ReadAnswerPagerAdapter extends FragmentStatePagerAdapter {
 //                    if (isAppointmentFinished() && canEdit == IntBoolean.FALSE) {
 //                        return ReadDiagnosisFragment.newInstance(appointmentId);
 //                    }
-                    if (isAppointmentFinished() ) {
-                        return ReadDiagnosisFragment.newInstance(appointmentId,canEdit==IntBoolean.TRUE);
-                    }
-                    else {
-                        return DiagnosisFragment.newInstance(appointmentId, recordId);
+                    if (isAppointmentFinished()) {
+                        return ReadDiagnosisFragment.newInstance(appointmentId);
+                    } else {
+                        if (isDiagnosis.equals("0")) {
+                            return DiagnosisFragment.newInstance(appointmentId, recordId);
+                        } else {
+                            return ReadDiagnosisFragment.newInstance(appointmentId);
+                        }
                     }
                 }
             }
         }
         return null;
+    }
+
+
+    public boolean isAppointmentWaitting() {
+        return AppointmentHandler2.Status.WAITING == status;
     }
 
     public boolean isAppointmentFinished() {

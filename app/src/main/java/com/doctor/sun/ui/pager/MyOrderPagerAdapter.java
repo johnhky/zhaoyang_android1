@@ -6,9 +6,14 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.doctor.sun.Settings;
 import com.doctor.sun.dto.PatientDTO;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.ProfileModule;
 import com.doctor.sun.ui.fragment.DrugListFragment;
 import com.doctor.sun.ui.fragment.PAppointmentListFragment;
 import com.doctor.sun.ui.fragment.RefreshListFragment;
+
+import java.util.ArrayList;
 
 /**
  * Created by rick on 1/3/2016.
@@ -17,8 +22,16 @@ public class MyOrderPagerAdapter extends FragmentStatePagerAdapter {
 
     private PatientDTO patientDTO;
 
+    ProfileModule module = Api.of(ProfileModule.class);
+
     public MyOrderPagerAdapter(FragmentManager fm) {
         super(fm);
+        module.patientProfile().enqueue(new SimpleCallback<PatientDTO>() {
+            @Override
+            protected void handleResponse(PatientDTO response) {
+                Settings.setPatientProfile(response);
+            }
+        });
         patientDTO = Settings.getPatientDTO();
     }
 
@@ -27,7 +40,7 @@ public class MyOrderPagerAdapter extends FragmentStatePagerAdapter {
         RefreshListFragment fragment = null;
         switch (position) {
             case 0: {
-                fragment = PAppointmentListFragment.newInstance(1);
+                fragment = PAppointmentListFragment.newInstance("");
                 break;
             }
             case 1: {

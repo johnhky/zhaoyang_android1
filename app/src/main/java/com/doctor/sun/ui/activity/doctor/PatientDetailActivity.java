@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -21,7 +22,10 @@ import com.doctor.sun.event.CallFailedShouldCallPhoneEvent;
 import com.doctor.sun.event.FinishRefreshEvent;
 import com.doctor.sun.event.HideFABEvent;
 import com.doctor.sun.event.ShowFABEvent;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.fragment.ReadQuestionsFragment;
@@ -32,6 +36,7 @@ import com.doctor.sun.vm.ItemPatientDetail;
 import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.squareup.otto.Subscribe;
 
+import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
 
 
@@ -66,17 +71,30 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_patient_detail);
 
         data = getData();
-
         binding.setData(data);
         instance = ReadQuestionsFragment.getInstance(data.getId(), QuestionsPath.NORMAL, false);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fl_container, instance)
                 .commit();
-
         addHistoryButton();
     }
 
+    private void addHistoryButton() {
+        if (Settings.isDoctor()) {
+            View historyButton = LayoutInflater.from(this).inflate(R.layout.item_fab_view_history, binding.flyContent, true);
+            fab = historyButton.findViewById(R.id.btn_appointment_history);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Config.putInt(Constants.CREATE_SUCCESS,1);
+                    Config.putString(Constants.ADDRESS,getData().getId()+"");
+                    Config.putInt(Constants.APPOINTMENT_MONEY,getData().getStatus());
+                    EventHub.post(new AppointmentHistoryEvent(getData(), false));
+                }
+            });
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -87,20 +105,6 @@ public class PatientDetailActivity extends BaseFragmentActivity2 {
     protected void onPause() {
         super.onPause();
         HistoryEventHandler.unregister(eventHandler);
-    }
-
-    private void addHistoryButton() {
-        if (Settings.isDoctor()) {
-            View historyButton = LayoutInflater.from(this).inflate(R.layout.item_fab_view_history, binding.flyContent, true);
-            fab = historyButton.findViewById(R.id.btn_appointment_history);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    EventHub.post(new AppointmentHistoryEvent(getData(), false));
-
-                }
-            });
-        }
     }
 
 

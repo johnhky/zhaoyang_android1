@@ -89,6 +89,7 @@ public class ItemConsulting implements SortedItem {
 
     public void chat(Context context, SortedListAdapter adapter, BaseViewHolder vh) {
         if (!"0".equals(data.getTid())) {
+
             Intent intent = ChattingActivity.makeIntent(context, data);
             intent.putExtra(ItemHelper.HANDLER, messenger(adapter, vh));
             context.startActivity(intent);

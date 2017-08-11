@@ -524,10 +524,10 @@ public class AppointmentBuilder extends BaseObservable implements Parcelable {
         String type = "";
         switch (getType()) {
             case AppointmentType.PREMIUM:
-                type = "专属网诊";
+                type = "VIP网诊";
                 break;
             case AppointmentType.STANDARD:
-                type = "闲时咨询";
+                type = "简易复诊";
                 break;
         }
         return type;

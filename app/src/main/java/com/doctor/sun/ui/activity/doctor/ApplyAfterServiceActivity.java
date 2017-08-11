@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.IInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.SparseBooleanArray;
@@ -73,6 +74,8 @@ public class ApplyAfterServiceActivity extends BaseFragmentActivity2 {
                             //adapter.loadMore();
                             initRecyclerView();
                             Toast.makeText(ApplyAfterServiceActivity.this, "成功提交随访申请", Toast.LENGTH_SHORT).show();
+                            Intent intent = ConsultingActivity.makeIntent(v.getContext());
+                            startActivity(intent);
                         }
                     });
                 }

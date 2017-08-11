@@ -45,7 +45,7 @@
             android:layout_alignTop="@id/iv"
             android:layout_toEndOf="@id/iv"
             android:layout_toRightOf="@id/iv"
-            android:text="闲时咨询"
+            android:text="简易复诊"
             android:textColor="@color/color_standard_appointment"
             android:textSize="@dimen/font_16"
             android:textStyle="bold" />

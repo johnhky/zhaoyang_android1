@@ -1,26 +1,17 @@
 package com.doctor.sun.immutables;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import org.immutables.value.Value;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by rick on 27/10/2016.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Value.Immutable
-@Value.Style(jdkOnly = true)
-@JsonSerialize(as = ImmutablePrescription.class)
-@JsonDeserialize(as = ImmutablePrescription.class)
-@Value.Modifiable
 public class Prescription extends BaseItem {
     @JsonProperty("drug_name")
     public String drug_name;
@@ -54,6 +45,24 @@ public class Prescription extends BaseItem {
     public String dose_units;
     @JsonProperty("titration")
     public ArrayList<Titration> titration;
+
+    public Prescription from(Prescription instance) {
+        this.drug_name = instance.getDrug_name();
+        this.scientific_name = instance.getScientific_name();
+        this.frequency = instance.getFrequency();
+        this.morning = instance.getMorning();
+        this.noon = instance.getNoon();
+        this.night = instance.getNight();
+        this.titration = instance.getTitration();
+        this.before_sleep = instance.getBefore_sleep();
+        this.drug_unit = instance.getDrug_unit();
+        this.remark = instance.getRemark();
+        this.take_medicine_days = instance.getTake_medicine_days();
+        this.units = instance.getUnits();
+        this.specification = instance.getSpecification();
+        this.dose_units = instance.getDose_units();
+        return this;
+    }
 
     public void setDrug_name(String drug_name) {
         this.drug_name = drug_name;
@@ -160,7 +169,8 @@ public class Prescription extends BaseItem {
     }
 
     public String getSpecification() {
-        return specification;
+      return specification;
+
     }
 
     public String getUnits() {
@@ -180,8 +190,14 @@ public class Prescription extends BaseItem {
     }
 
     public ArrayList<Titration> getTitration() {
-        return titration;
+        if (null!=titration){
+            return titration;
+        }else{
+            return new ArrayList<>();
+        }
+
     }
+
 
     @JsonIgnore
     @Override
@@ -192,8 +208,18 @@ public class Prescription extends BaseItem {
         return super.getItemLayoutId();
     }
 
+    @JsonIgnore
+    @Override
+    public int getLayoutId() {
+        if (super.getItemLayoutId() == -1) {
+            return R.layout.item_prescription3;
+        }
+        return super.getLayoutId();
+    }
+
+    @JsonIgnore
     @Override
     public String toString() {
-        return "prescription{titration:"+titration+",drug_name:"+drug_name+",drug_unit:"+drug_unit+"}";
+        return "prescription:{titration:" + getTitration() + ",drug_name:" + getDrug_name() + ",drug_unit:" + getDrug_unit() + ",units:" + getUnits() + ",specification:"+specification + "}";
     }
 }

@@ -25,7 +25,6 @@ import java.util.List;
 
 public class ItemCoupons extends BaseItem {
     private ProfileModule api = Api.of(ProfileModule.class);
-    ;
     private List<Coupon> coupons = new ArrayList<>();
     private int selectedCoupon = -1;
     private DrugOrderDetail drug;

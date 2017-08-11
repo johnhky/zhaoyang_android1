@@ -2,11 +2,13 @@ package com.doctor.sun.model;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.BillDetail;
+import com.doctor.sun.entity.Consult;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.module.wraper.IncomeModuleWrapper;
 import com.doctor.sun.ui.activity.BundlesTabActivity;
@@ -26,62 +28,100 @@ import java.util.List;
  * Created by rick on 16/2/2017.
  */
 public class BillModel {
+    Consult detailData = new Consult();
+    Consult simpleData = new Consult();
+    Consult surfaceData = new Consult();
 
     public List<SortedItem> parseData(final String time) {
         List<SortedItem> result = new ArrayList<>();
-
-        final BillDetail billDetail = IncomeModuleWrapper.getInstance().getBillDetail(time);
+        BillDetail billDetail = IncomeModuleWrapper.getInstance().getBillDetail(time);
+        if (null != billDetail.consult) {
+            for (int i = 0; i < billDetail.consult.size(); i++) {
+                if (billDetail.consult.get(i).type == AppointmentType.PREMIUM) {
+                    detailData = billDetail.consult.get(i);
+                }
+                if (billDetail.consult.get(i).type == AppointmentType.STANDARD) {
+                    simpleData = billDetail.consult.get(i);
+                }
+                if (billDetail.consult.get(i).type == AppointmentType.FACE) {
+                    surfaceData = billDetail.consult.get(i);
+                }
+            }
+        }
 //        AppointmentType.PREMIUM
-        BillMenu premium = new BillMenu(R.layout.item_bill_menu, 0, "专属网诊") {
+        BillMenu premium = new BillMenu(R.layout.item_bill_menu, 0, "VIP网诊") {
             @Override
             public View.OnClickListener itemClick() {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Bundle args = HistoryBillFragment.getArgs(time, AppointmentType.PREMIUM);
-                        String title = String.format("专属网诊(%s)", billDetail.detail_consult_num);
+                        String title = String.format("VIP网诊(%s)", detailData.consult_num);
                         Intent intent = SingleFragmentActivity.intentFor(v.getContext(), title, args);
                         v.getContext().startActivity(intent);
                     }
                 };
             }
         };
-        premium.setSubTitle("次数:" + billDetail.detail_consult_num + "次");
+        premium.setSubTitle("次数:" + detailData.consult_num + "次");
+        premium.setTotalRevenue("收益总额:" + detailData.consult_fee + "元");
         premium.setTitleColor(R.color.dark_36);
         premium.setBackgroundColor(R.color.white);
         premium.setPosition(0);
         premium.setItemId("PREMIUM");
-        premium.setTotalRevenue("收益总额:" + billDetail.detail_consult_fee + "元");
-        result.add(premium);
 
+        result.add(premium);
         ModelUtils.insertDividerNoMargin(result);
 
+        final BillMenu surface = new BillMenu(R.layout.item_bill_menu, 0, "诊所面诊") {
+            @Override
+            public View.OnClickListener itemClick() {
+                return new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle args = HistoryBillFragment.getArgs(time, AppointmentType.FACE);
+                        String title = String.format("诊所面诊(%s)", surfaceData.consult_num);
+                        Intent intent = SingleFragmentActivity.intentFor(v.getContext(), title, args);
+                        v.getContext().startActivity(intent);
 
+                    }
+                };
+            }
+        };
+
+        surface.setSubTitle("次数:" + surfaceData.consult_num + "次");
+        surface.setTotalRevenue("收益总额:" + surfaceData.consult_fee + "元");
+        surface.setTitleColor(R.color.dark_36);
+        surface.setBackgroundColor(R.color.white);
+        surface.setPosition(1);
+        surface.setItemId("SURFACE");
+        result.add(surface);
+        ModelUtils.insertDividerNoMargin(result);
 //        AppointmentType.STANDARD
-        BillMenu standard = new BillMenu(R.layout.item_bill_menu, 0, "闲时咨询") {
+        BillMenu standard = new BillMenu(R.layout.item_bill_menu, 0, "简易复诊") {
             @Override
             public View.OnClickListener itemClick() {
                 return new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Bundle args = HistoryBillFragment.getArgs(time, AppointmentType.STANDARD);
-                        String title = String.format("闲时咨询(%s)", billDetail.simple_consult_num);
+                        String title = String.format("简易复诊(%s)", simpleData.consult_num);
                         Intent intent = SingleFragmentActivity.intentFor(v.getContext(), title, args);
                         v.getContext().startActivity(intent);
+
                     }
                 };
             }
         };
-        standard.setSubTitle("次数:" + billDetail.simple_consult_num + "次");
+        standard.setSubTitle("次数:" + simpleData.consult_num + "次");
+        standard.setTotalRevenue("收益总额:" + simpleData.consult_fee + "元");
         standard.setTitleColor(R.color.dark_36);
         standard.setBackgroundColor(R.color.white);
         standard.setPosition(1);
         standard.setItemId("STANDARD");
-        standard.setTotalRevenue("收益总额:" + billDetail.simple_consult_fee + "元");
         result.add(standard);
 
         ModelUtils.insertDividerNoMargin(result);
-
         BillMenu subsidy = new BillMenu(R.layout.item_bill_menu, 0, "补贴") {
             @Override
             public View.OnClickListener itemClick() {
@@ -129,7 +169,6 @@ public class BillModel {
         result.add(baseItem);
 
         ModelUtils.insertSpace(result, R.layout.space_285dp_grey);
-
         return result;
     }
 

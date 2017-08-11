@@ -31,7 +31,7 @@ public abstract class BottomSheetTabFragment extends ViewPagerBottomSheetDialogF
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(getLayoutInflater(savedInstanceState), R.layout.fragment_tab, container, true);
-
+        binding.bottomSheetViewpager.setNestedpParent((ViewGroup) binding.bottomSheetViewpager.getParent());
         return binding.getRoot();
     }
 

@@ -24,9 +24,9 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/ll_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{()->handler.showUpdateAddress(context,data)}"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -42,13 +42,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
-                android:text="@{data.to}"
                 android:textColor="@color/text_color_black"
                 android:textSize="@dimen/font_18"
                 tools:text="收件人" />
 
             <TextView
-                android:id="@+id/tv_gender"
+                android:id="@+id/tv_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
@@ -56,30 +55,27 @@
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_toEndOf="@id/tv_name"
                 android:layout_toRightOf="@id/tv_name"
-                android:text="@{data.phone}"
                 android:textColor="@color/text_color_black"
                 android:textSize="@dimen/font_18"
                 tools:text="189****1234" />
 
             <TextView
-                android:id="@+id/tv_birthday"
+                android:id="@+id/tv_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_name"
                 android:layout_marginBottom="@dimen/dp_8"
                 android:layout_marginTop="@dimen/dp_4"
-                android:text="@{data.province +&quot; &quot;+data.city +&quot; &quot;+data.area +&quot; &quot;+data.address}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_16"
                 tools:text="广东省 广州市 越秀区 xxxxxxxxx" />
 
             <TextView
-                android:id="@+id/tv_locate"
+                android:id="@+id/tv_remark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_birthday"
+                android:layout_below="@id/tv_address"
                 android:layout_marginTop="@dimen/dp_4"
-                android:text="@{@string/remark_msg+data.remark}"
                 android:textColor="#c4c4c4"
                 android:textSize="@dimen/font_16"
                 tools:text="备注信息:" />
@@ -111,8 +107,7 @@
                     android:layout_height="20dp"
                     android:background="@drawable/ic_address_mock"
                     android:button="@null"
-                    android:checked="@{Integer.valueOf(data.defaults)!=0}"
-                    android:enabled="false" />
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -130,23 +125,23 @@
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/tv_edit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_edit"
                     android:gravity="center"
-                    android:onClick="@{()->handler.updateAddress(context,data)}"
                     android:text="编辑"
                     android:textColor="#c4c4c4"
                     android:textSize="17sp" />
 
                 <TextView
+                    android:id="@+id/tv_delete"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_remove"
                     android:gravity="center"
-                    android:onClick="@{()->handler.deleteAddress(context,data.id)}"
                     android:text="删除"
                     android:textColor="#c4c4c4"
                     android:textSize="17sp" />

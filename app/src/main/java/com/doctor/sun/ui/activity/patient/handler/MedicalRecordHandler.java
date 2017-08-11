@@ -3,8 +3,10 @@ package com.doctor.sun.ui.activity.patient.handler;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import com.doctor.sun.R;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.constans.ReviewStatus;
@@ -18,9 +20,11 @@ import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.patient.HistoryActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.core.AdapterConfigKey;
+import com.doctor.sun.ui.fragment.CreateNewMedicineReordActivity;
 import com.doctor.sun.ui.fragment.EditRecordFragment;
 import com.doctor.sun.ui.fragment.NewMedicalRecordFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.ganguo.library.core.event.EventHub;
@@ -41,7 +45,7 @@ public class MedicalRecordHandler {
     }
 
     public void updateRecord(Context context, MedicalRecord data) {
-        Intent intent = SingleFragmentActivity.intentFor(context, "病例详情", EditRecordFragment.getArgs(data));
+        Intent intent = SingleFragmentActivity.intentFor(context, "病历详情", EditRecordFragment.getArgs(data));
         context.startActivity(intent);
     }
 
@@ -125,15 +129,10 @@ public class MedicalRecordHandler {
         return false;
     }
     public static void newRecord(Context context, List<MedicalRecord> response) {
-        Bundle otherRecord = NewMedicalRecordFragment.newOtherRecord();
-        if (MedicalRecordHandler.hasSelfRecord(response)) {
-            Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", otherRecord);
-            context.startActivity(intent);
-        } else {
-            Bundle selfRecord = NewMedicalRecordFragment.newSelfRecord();
-            Intent intent = BundlesTabActivity.intentFor(context, selfRecord, otherRecord);
-            context.startActivity(intent);
-        }
+                Intent toCreate = new Intent();
+                toCreate.setClass(context, CreateNewMedicineReordActivity.class);
+                toCreate.putParcelableArrayListExtra(Constants.MOCK,(ArrayList) response);
+                context.startActivity(toCreate);
     }
 
     public static String getPatientNameRelation(Context context, MedicalRecord record) {

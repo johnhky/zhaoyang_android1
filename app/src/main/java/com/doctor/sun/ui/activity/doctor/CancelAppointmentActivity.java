@@ -62,6 +62,7 @@ public class CancelAppointmentActivity extends BaseFragmentActivity2 {
         reasons.add("身体不适");
         reasons.add("出差公干");
         reasons.add("预约已满");
+        reasons.add("其他原因");
         binding.reason.setValues(reasons);
         binding.reason.setSelectedItem(0);
         binding.reason.getRoot().setOnClickListener(new View.OnClickListener() {

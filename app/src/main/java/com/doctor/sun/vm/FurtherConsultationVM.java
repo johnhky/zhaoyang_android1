@@ -150,6 +150,11 @@ public class FurtherConsultationVM extends BaseItem {
         }
     }
 
+    @Override
+    public String getValue() {
+        return date.getDate();
+    }
+
     public void pickDateImpl(Context context) {
         if (date != null) {
             date.pickDateImpl(context, btnOneChecked ? AppointmentType.PREMIUM : AppointmentType.STANDARD);

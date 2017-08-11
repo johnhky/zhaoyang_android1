@@ -59,6 +59,6 @@ public class HistoryBillFragment extends RefreshListFragment {
     }
 
     public int getType() {
-        return getArguments().getInt(Constants.DATA, AppointmentType.PREMIUM);
+        return getArguments().getInt(Constants.DATA, 0);
     }
 }

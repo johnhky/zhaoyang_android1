@@ -206,7 +206,7 @@ public class SearchDoctorActivity extends BaseFragmentActivity2 implements View.
     }
 
     private void loadMore() {
-        api.allDoctors(callback.getPage(), getQueryParam(), getTitleParam()).enqueue(callback);
+        api.allDoctors(callback.getPage(), "1",getQueryParam(), getTitleParam()).enqueue(callback);
         /*api.newAllDoctors(callback.getPage(),getQueryParam(),getTitleParam()).equals(callback);*/
     }
 

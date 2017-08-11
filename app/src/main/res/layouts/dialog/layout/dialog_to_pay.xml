@@ -4,13 +4,12 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/white"
-        android:padding="10dp">
+        android:padding="7dp">
 
         <TextView
             android:layout_width="0dp"
@@ -24,41 +23,75 @@
             android:id="@+id/btn_quit"
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/ic_delete_pay" />
     </LinearLayout>
 
-    <LinearLayout
+    <RadioGroup
+        android:id="@+id/radio_payment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:padding="10dp">
 
-        <Button
-            android:id="@+id/ll_payali"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_alipay" />
+
+        <RadioButton
+            android:id="@+id/radio_ali"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:background="@color/transparent"
+            android:button="@null"
+            android:checked="true"
+            android:drawableLeft="@drawable/ic_address_mock"
+            android:drawablePadding="3dp"
             android:text="支付宝支付"
-            android:drawablePadding="8dp"
-            android:drawableTop="@drawable/zhifubao"
-            android:textColor="@color/text_color_black"
-            android:textSize="18sp"/>
-        <Button
-            android:id="@+id/ll_paywechat"
+            android:textSize="18sp"
+            android:textColor="@color/text_color_black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_wechat_pay" />
+
+        <RadioButton
+            android:id="@+id/radio_wechat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:background="@color/transparent"
+            android:button="@null"
+            android:drawableLeft="@drawable/ic_address_mock"
+            android:drawablePadding="3dp"
             android:text="微信支付"
-            android:drawablePadding="8dp"
-            android:drawableTop="@drawable/weixin"
-            android:textColor="@color/text_color_black"
-            android:textSize="18sp"/>
-    </LinearLayout>
-
-    <View
+            android:textSize="18sp"
+            android:textColor="@color/text_color_black" />
+    </RadioGroup>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(推荐使用)"
+        android:layout_marginTop="-10dp"
+        android:layout_marginLeft="80dp"
+        android:textColor="@color/red_f0"
+        />
+    <Button
+        android:id="@+id/btn_truth"
         android:layout_width="match_parent"
-        android:layout_height="30dp"></View>
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:text="去支付"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 </LinearLayout>

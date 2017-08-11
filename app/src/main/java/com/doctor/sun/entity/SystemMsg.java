@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
+import com.doctor.sun.bean.Constants;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PatientDTO;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.QuestionsPath;
@@ -47,6 +49,9 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.annotations.Ignore;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by lucas on 1/29/16.
@@ -297,7 +302,7 @@ public class SystemMsg extends BaseItem {
             }
             case 24: {
                 if (isDoctor) {
-                    i = AfterServiceActivity.intentFor(context);
+                    i = AfterServiceActivity.makeIntent(context);
                 } else {
                     i = AfterServiceDoingActivity.intentFor(context, extras.appointmentId, "", 0);
                 }
@@ -334,10 +339,17 @@ public class SystemMsg extends BaseItem {
         }
 
         PushModule apiMessage = Api.of(PushModule.class);
-        apiMessage.markMessageAsRead(id).enqueue(new SimpleCallback<String>() {
+        apiMessage.markMessageAsRead(id).enqueue(new Callback<ApiDTO>() {
             @Override
-            protected void handleResponse(String response) {
-                EventHub.post(new ReadMessageEvent());
+            public void onResponse(Call<ApiDTO> call, Response<ApiDTO> response) {
+                if (response.body().getStatus().equals("200")) {
+                    EventHub.post(new ReadMessageEvent());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiDTO> call, Throwable t) {
+
             }
         });
     }

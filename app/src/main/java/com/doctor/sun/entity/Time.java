@@ -1,14 +1,19 @@
 package com.doctor.sun.entity;
 
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.entity.constans.TimeType;
 import com.doctor.sun.entity.handler.TimeHandler;
+import com.doctor.sun.ui.activity.doctor.AddTimeActivity;
 import com.doctor.sun.vm.LayoutId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -79,6 +84,9 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
 
     public void setType(int type) {
         this.type = type;
+        Intent toIntent = new Intent();
+        toIntent.setAction("update_type_face");
+        AppContext.me().sendBroadcast(toIntent);
         notifyPropertyChanged(BR.type);
     }
 
@@ -142,6 +150,7 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
     public int getId() {
         return id;
     }
+
     public void setReserva(int reserva) {
         this.reserva = reserva;
     }
@@ -167,10 +176,16 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
     }
 
 
-
     public Time() {
     }
 
+    public boolean showInterval() {
+        if (type == TimeType.TYPY_FACE && Settings.getDoctorProfile().getSpecialistCateg() == 1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     @Override
     public int describeContents() {
@@ -218,6 +233,7 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
             return new Time[size];
         }
     };
+
     @Override
     public String toString() {
         return "Time{" +
@@ -230,6 +246,11 @@ public class Time extends BaseObservable implements LayoutId, Parcelable {
                 ", createdAt='" + createdAt + '\'' +
                 ", id=" + id +
                 '}';
+    }
+
+    public String getAddress() {
+        Doctor doctor = Settings.getDoctorProfile();
+        return doctor.getClinicAddress().getAddress() + "";
     }
 
 }

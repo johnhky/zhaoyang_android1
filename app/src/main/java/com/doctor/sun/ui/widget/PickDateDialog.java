@@ -15,12 +15,16 @@ import com.doctor.sun.Settings;
 import com.doctor.sun.databinding.FragmentPickDateBinding;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.ReserveDate;
+import com.doctor.sun.entity.Time;
 import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.module.wraper.TimeModuleWrapper;
 import com.squareup.timessquare.CalendarPickerView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +45,7 @@ public class PickDateDialog extends Dialog {
     private SimpleDateFormat simpleDateFormat;
     private int doctorId = -1;
     private int type;
+    public static TimeModule module = Api.of(TimeModule.class);
 
     public PickDateDialog(Context context, int type) {
         super(context);
@@ -75,50 +80,88 @@ public class PickDateDialog extends Dialog {
 
     private void loadData() {
         Log.e(TAG, "loadData: " + getDoctorId());
-        api.getDateSchedule(getDoctorId(), 15, type).enqueue(new Callback<ApiDTO<List<ReserveDate>>>() {
-            @Override
-            public void onResponse(Call<ApiDTO<List<ReserveDate>>> call, Response<ApiDTO<List<ReserveDate>>> response) {
-                List<ReserveDate> reserveDates = response.body().getData();
-                if (reserveDates == null) return;
-                try {
-                    Date minDate = simpleDateFormat.parse(reserveDates.get(0).getDate());
-                    Date maxDate = simpleDateFormat.parse(reserveDates.get(reserveDates.size() - 1).getDate());
-                    maxDate.setTime(maxDate.getTime() + ONE_DAY);
-
-                    binding.calendarView.init(minDate, maxDate)
-                            .inMode(CalendarPickerView.SelectionMode.MULTIPLE);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                for (int i = response.body().getData().size() - 1; i >= 0; i--) {
-                    ReserveDate reserveDate = reserveDates.get(i);
-                    String data = reserveDate.getDate();
-
+        if (type==2){
+            List<Date>dates = new ArrayList<>();
+            for(int i = 0 ; i < 31; i++){
+                Date date = new Date();
+                date.setDate(date.getDate()+i);
+                dates.add(date);
+            }
+            try {
+                Date minDate = simpleDateFormat.parse(simpleDateFormat.format(dates.get(1).getTime()));
+                Date maxDate = simpleDateFormat.parse(simpleDateFormat.format(dates.get(dates.size()-1).getTime()));
+                maxDate.setTime(maxDate.getTime()+ONE_DAY);
+                binding.calendarView.init(minDate,maxDate).inMode(CalendarPickerView.SelectionMode.MULTIPLE);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(dates.size()>0){
+                for (int i = dates.size()-1 ; i >=1;i--){
                     try {
-                        if (isEnable(reserveDate)) {
-                            //选择了就是enable了
-                            Log.e(TAG, "onResponse: " + data);
-                            binding.calendarView.selectDate(simpleDateFormat.parse(data));
-                        }
+                        Date date = simpleDateFormat.parse(simpleDateFormat.format(dates.get(i).getTime())+"");
+                        binding.calendarView.selectDate(date);
                     } catch (ParseException e) {
+                        e.printStackTrace();
                         continue;
                     }
                 }
             }
 
-            @Override
-            public void onFailure(Call call, Throwable t) {
+        }else{
+            module.getDate(getDoctorId(), 15, type).enqueue(new Callback<ApiDTO<List<Time>>>() {
+                @Override
+                public void onResponse(Call<ApiDTO<List<Time>>> call, Response<ApiDTO<List<Time>>> response) {
+                    List<Time> reserveDates = response.body().getData();
+                    if (reserveDates == null) return;
+                    if (reserveDates.size() == 0) {
+                        return;
+                    }
 
-            }
-        });
+                    try {
+                        Date minDate = simpleDateFormat.parse(reserveDates.get(0).getDate());
+                        Date maxDate = simpleDateFormat.parse(reserveDates.get(reserveDates.size() - 1).getDate());
+                        maxDate.setTime(maxDate.getTime() + ONE_DAY);
+                        binding.calendarView.init(minDate, maxDate)
+                                .inMode(CalendarPickerView.SelectionMode.MULTIPLE);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    for (int i = response.body().getData().size() - 1; i >= 0; i--) {
+                        Time reserveDate = reserveDates.get(i);
+                        String data = reserveDate.getDate();
+
+                        try {
+                            if (isEnable(reserveDate)) {
+                                //选择了就是enable了
+                                Log.e(TAG, "onResponse: " + data);
+                                binding.calendarView.selectDate(simpleDateFormat.parse(data));
+                            }
+                        } catch (ParseException e) {
+                            continue;
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+
+                }
+            });
+        }
+
+
     }
 
 
-    private boolean isEnable(ReserveDate reserveDate) {
+    private boolean isEnable(Time reserveDate) {
         if (type == AppointmentType.PREMIUM) {
-            return reserveDate.getDetail() == 1;
+            return reserveDate.getOptional() == 1;
         } else if (type == AppointmentType.STANDARD) {
-            return reserveDate.getQuick() == 1;
+            return reserveDate.getOptional() == 1;
+        } else if (type == AppointmentType.FACE) {
+            return reserveDate.getOptional() == 1;
         }
         return false;
     }

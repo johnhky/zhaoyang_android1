@@ -2,10 +2,15 @@ package com.doctor.sun.ui.handler;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
+import com.doctor.sun.bean.Constants;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.AfterServiceActivity;
 import com.doctor.sun.ui.activity.doctor.AppointmentListActivity;
+
+import io.ganguo.library.Config;
 
 /**
  * Created by rick on 11/20/15.
@@ -17,7 +22,9 @@ public class MainActivityHandler {
      * @param context
      */
     public void appointment(Context context) {
-        Intent intent = AppointmentListActivity.makeIntent(context);
+        Config.putBoolean(Constants.DATE,true);
+        Bundle bundle = AppointmentListActivity.getArgs();
+        Intent intent = SingleFragmentActivity.intentFor(context,"已预约患者",bundle);
         context.startActivity(intent);
     }
 
@@ -37,7 +44,8 @@ public class MainActivityHandler {
      * @param context
      */
     public void consultation(Context context) {
-        Intent intent = AfterServiceActivity.intentFor(context);
+        Bundle bundle = AfterServiceActivity.getArgs();
+        Intent intent = SingleFragmentActivity.intentFor(context,"随访列表",bundle);
         context.startActivity(intent);
     }
 }

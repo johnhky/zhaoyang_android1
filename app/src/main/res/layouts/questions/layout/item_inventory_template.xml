@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <data>
 
@@ -57,6 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/dp_13"
                     android:singleLine="true"
+                    android:layout_gravity="center_vertical"
                     android:text="@{@string/question_count(data.questionCount)}"
                     android:textColor="#363636"
                     android:textSize="@dimen/font_13" />
@@ -87,10 +90,8 @@
             android:layout_width="@dimen/dp_25"
             android:layout_height="@dimen/dp_25"
             android:layout_gravity="center_vertical|end"
-            android:layout_marginBottom="@dimen/dp_6"
-            android:layout_marginEnd="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
-            android:layout_marginTop="@dimen/dp_6"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/ic_circle_tick"
             android:onClick="@{()->data.showAddTemplateDialog(context,adapter.getString(AdapterConfigKey.ID))}"
             android:selected="@{data.userSelected}" />

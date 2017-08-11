@@ -16,12 +16,16 @@ import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.IncomeModule;
 import com.doctor.sun.util.JacksonUtils;
 import com.google.common.base.Strings;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by rick on 15/2/2017.
@@ -30,6 +34,7 @@ import retrofit2.Call;
 public class IncomeModuleWrapper {
 
     private static IncomeModuleWrapper instance;
+    Gson gson = new GsonBuilder().create();
 
     public static IncomeModuleWrapper getInstance() {
         if (instance == null) {
@@ -59,7 +64,7 @@ public class IncomeModuleWrapper {
     }
 
     public InComeOverView getIncomeOverView() {
-        String string =  Config.getString(Constants.INCOME_OVERVIEW);
+        String string = Config.getString(Constants.INCOME_OVERVIEW);
         if (!Strings.isNullOrEmpty(string)) {
             return JacksonUtils.fromJson(string, InComeOverView.class);
         } else {
@@ -85,16 +90,21 @@ public class IncomeModuleWrapper {
             return JacksonUtils.fromJson(string, SubsidyDetail.class);
         } else {
             return new SubsidyDetail();
-       }
+        }
     }
 
     public void refreshBillDetail(final String time) {
-        api.bill(time).enqueue(new SimpleCallback<BillDetail>() {
+        api.bill(time).enqueue(new Callback<ApiDTO>() {
             @Override
-            protected void handleResponse(BillDetail response) {
+            public void onResponse(Call<ApiDTO> call, Response<ApiDTO> response) {
                 String key = time + Constants.BILL_DETAIL;
-                Config.putString(key, JacksonUtils.toJson(response));
+                Config.putString(key, gson.toJson(response.body().getData()));
                 EventHub.post(new ConfigChangedEvent(key));
+            }
+
+            @Override
+            public void onFailure(Call<ApiDTO> call, Throwable t) {
+
             }
         });
     }
@@ -102,7 +112,7 @@ public class IncomeModuleWrapper {
     public BillDetail getBillDetail(String time) {
         String string = Config.getString(time + Constants.BILL_DETAIL);
         if (!Strings.isNullOrEmpty(string)) {
-            return JacksonUtils.fromJson(string, BillDetail.class);
+            return gson.fromJson(string, BillDetail.class);
         } else {
             return new BillDetail();
         }

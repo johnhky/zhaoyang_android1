@@ -75,7 +75,7 @@ public class NewDoctorHandler {
         return doctor.isUserSelected();
     }
 
-    public void detail(Context context, View view) {
+ /*   public void detail(Context context, View view) {
         Intent intent = DoctorDetailActivity2.makeIntent(context, data);
 
         if (hasSharedTransition && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -85,7 +85,7 @@ public class NewDoctorHandler {
         } else {
             context.startActivity(intent);
         }
-    }
+    }*/
 
     @JsonIgnore
     public String getCareerInfo() {
@@ -162,13 +162,13 @@ public class NewDoctorHandler {
             context.startActivity(intent);
         }
     }
-
+/*
     public void viewDetailIfIsPatient(Context context) {
         if (!Settings.isDoctor()) {
             Intent intent = DoctorDetailActivity2.makeIntent(context, data);
             context.startActivity(intent);
         }
-    }
+    }*/
 
 //
 //    public void pickDate(final Context context, final int type) {
@@ -190,9 +190,9 @@ public class NewDoctorHandler {
 
     public String getTypeLabel(SimpleAdapter adapter) {
         if (getType(adapter) == AppointmentType.PREMIUM) {
-            return "专属网诊";
+            return "VIP网诊";
         } else {
-            return "闲时咨询";
+            return "简易复诊";
         }
     }
 

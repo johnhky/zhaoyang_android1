@@ -29,7 +29,7 @@ import io.ganguo.library.core.event.EventHub;
 
 public class DiagnosisRecordList extends BaseItem {
 
-    private ArrayList<ItemAutoInputRecord> datas = new ArrayList<>();
+    public ArrayList<ItemAutoInputRecord> datas = new ArrayList<>();
     private SimpleAdapter<ItemAutoInputRecord, ViewDataBinding> simpleAdapter;
     private String itemId;
     private RecyclerView.AdapterDataObserver observer;
@@ -40,7 +40,7 @@ public class DiagnosisRecordList extends BaseItem {
     }
 
     public SimpleAdapter adapter(Context context) {
-            this.context = context;
+        this.context = context;
         if (simpleAdapter == null) {
             simpleAdapter = new SimpleAdapter<>();
             simpleAdapter.setData(datas);
@@ -54,29 +54,45 @@ public class DiagnosisRecordList extends BaseItem {
 
     public void addRecord() {
         if (datas != null) {
-            int position = datas.size()+1;
-            final ItemAutoInputRecord autoInput = new ItemAutoInputRecord(R.layout.item_auto_record, "诊断 "+position+":", "点击填写诊断");
+            int position = datas.size() + 1;
+            final ItemAutoInputRecord autoInput = new ItemAutoInputRecord(R.layout.item_auto_record, "诊断 " + position + ":", "点击填写诊断");
             autoInput.setPosition(datas.size() + 1);
-            datas.add(autoInput);
             autoInput.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
                 @Override
                 public void onPropertyChanged(Observable sender, int propertyId) {
-
+                    if (null != autoInput.mAdapter) {
+                        autoInput.mAdapter.notifyDataSetChanged();
+                    }
                 }
             });
             autoInput.setListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (autoInput.getRecord().size()>0){
-                        String record = autoInput.getRecord().get(position);
+                    if (autoInput.list.size() > 0) {
+                        String record = autoInput.list.get(position);
                         autoInput.setResult(record);
                         autoInput.dismissDialog();
-                        EventHub.post(new HideKeyboardEvent());
+                        autoInput.mAdapter.notifyDataSetChanged();
                     }
                 }
             });
-            if (simpleAdapter != null) {
-                simpleAdapter.notifyItemInserted(datas.size() - 1);
+            if (datas.size() > 0) {
+                if (TextUtils.isEmpty(datas.get(datas.size() - 1).getResult())) {
+                    Toast.makeText(AppContext.me(), "请先完善上一条诊断信息", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                datas.add(autoInput);
+                if (simpleAdapter != null) {
+                    simpleAdapter.notifyItemInserted(datas.size() - 1);
+                }
+            } else {
+                datas.add(autoInput);
+                if (simpleAdapter != null) {
+                    simpleAdapter.notifyItemInserted(datas.size() - 1);
+                }
+            }
+            for (int i = 0; i < datas.size(); i++) {
+                datas.get(i).dismissByUser = false;
             }
         }
     }
@@ -86,9 +102,21 @@ public class DiagnosisRecordList extends BaseItem {
             return;
         }
         if (datas != null) {
-            ItemAutoInputRecord object = new ItemAutoInputRecord(R.layout.item_auto_record, "诊断" + position + ":", "");
+            final ItemAutoInputRecord object = new ItemAutoInputRecord(R.layout.item_auto_record, "诊断" + position + ":", "");
             object.setResult(autoInput);
+            object.dismissByUser = true;
             object.setPosition(datas.size() + 1);
+            object.setListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (object.list.size() > 0) {
+                        String record = object.list.get(position);
+                        object.setResult(record);
+                        object.dismissDialog();
+                        object.mAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
             datas.add(object);
             if (simpleAdapter != null) {
                 simpleAdapter.notifyItemInserted(datas.size());
@@ -107,34 +135,34 @@ public class DiagnosisRecordList extends BaseItem {
     }
 
     @NonNull
-    public ArrayList<String>getRecords(){
-        ArrayList<String>result = new ArrayList<>();
-        for (int i = 0; i <simpleAdapter.size();i++){
+    public ArrayList<String> getRecords() {
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i < simpleAdapter.size(); i++) {
             ItemAutoInputRecord content = simpleAdapter.get(i);
             String input = content.getResult();
-                if (!TextUtils.isEmpty(input)){
-                    result.add(input);
-                }else{
-                    Toast.makeText(AppContext.me(),"请完善诊断信息!",Toast.LENGTH_SHORT).show();
-                }
+            if (!TextUtils.isEmpty(input)) {
+                result.add(input);
+            } else {
+                Toast.makeText(AppContext.me(), "请完善诊断信息!", Toast.LENGTH_SHORT).show();
+            }
         }
-        return  result;
+        return result;
     }
 
     @Override
     public HashMap<String, Object> toJson(SortedListAdapter adapter) {
-        if (simpleAdapter.isEmpty()){
+        if (simpleAdapter.isEmpty()) {
             return null;
-        }else{
-            ArrayList<Object>arrayList = new ArrayList<>();
-            for (int i = 0 ; i <simpleAdapter.size();i++){
+        } else {
+            ArrayList<Object> arrayList = new ArrayList<>();
+            for (int i = 0; i < simpleAdapter.size(); i++) {
                 ItemAutoInputRecord autoInput = simpleAdapter.get(i);
-                HashMap<String,String>hashMap = new HashMap<>();
-                hashMap.put("",autoInput.getResult());
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("", autoInput.getResult());
                 arrayList.add(hashMap);
             }
-            HashMap<String,Object>result = new HashMap<>();
-            result.put("diagnosis_record",arrayList);
+            HashMap<String, Object> result = new HashMap<>();
+            result.put("diagnosis_record", arrayList);
             return result;
         }
 

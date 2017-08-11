@@ -1,7 +1,9 @@
 package com.doctor.sun.ui.activity.patient;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,6 +52,9 @@ public class RecordListActivity extends BaseFragmentActivity2 {
         super.onCreate(savedInstanceState);
         initView();
         initListener();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.REFRESH_RECORD);
+        registerReceiver(receiver, filter);
         if (getIntent().getBooleanExtra(Constants.DATA, false)) {
 //            new AddMedicalRecordDialog(RecordListActivity.this, false).show();
             showDialog();
@@ -106,6 +111,21 @@ public class RecordListActivity extends BaseFragmentActivity2 {
                 MedicalRecordHandler.newRecord(RecordListActivity.this, response);
             }
         });
+    }
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Constants.REFRESH_RECORD)) {
+                initData();
+            }
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
     }
 
     @Override

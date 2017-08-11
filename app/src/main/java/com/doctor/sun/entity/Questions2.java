@@ -22,6 +22,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Strings;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +40,11 @@ public class Questions2 extends BaseItem {
     public static final String TAG = Questions2.class.getSimpleName();
 
 
+    @Override
+    public String toString() {
+        return "questions:{ answerId:"+answerId+", answerCount:"+answerCount+", questionType:"+questionType+", questionsText:"+questionContent+  ", arrayContent:"+arrayContent+",options:"+option+", fillcontent:"+fillContent+ "}";
+    }
+
     /**
      * option : [{"base_option_content":"保存密码","base_option_id":"1468916105WaJyrupXco","base_option_type":"A","clear_rule":0,"reply_content":"","selected":0}]
      * base_question_content : 要让360浏览器保存你的密码吗？
@@ -47,11 +55,11 @@ public class Questions2 extends BaseItem {
      * refill : 0
      */
 
+
     @JsonIgnore
     public int answerCount = 0;
     @JsonIgnore
     public int questionIndex;
-
     @JsonProperty("question_answer_id")
     public String answerId;
     @JsonProperty("question_rule_id")
@@ -65,14 +73,14 @@ public class Questions2 extends BaseItem {
     @JsonProperty("refill")
     public int refill;
     @JsonProperty("extend_type")
-    public int extendType = 0;
+    public String extendType;
 
     @JsonProperty("option")
     public List<Options2> option;
 
     //不懂找颜升
     @JsonProperty("array_content")
-    public List<Map<String, String>> arrayContent;
+    public List<Map<String,String>> arrayContent = new ArrayList<>();
 
     @JsonProperty("or_enable_rule")
     public List<String> orEnableRule;

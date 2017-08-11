@@ -102,4 +102,21 @@ public class Constants {
     public static final String DATE ="DATE";
     public static final String PICKCUSTOM = "PICKCUSTOM";
     public static final String CREATE_SUCCESS="CREATE_SUCCESS";
+    public static final String SIMPLE = "SIMPLE";
+    public static final String NETWORK ="NETWORK";
+    public static final String SURFACE = "SURFACE";
+    public static final String FIRSTSTART = "START_FIRST";
+    public static final String MYPHONE = "MYPHONE";
+    public static final String MYPASSWORD = "MYPASSWORD";
+    public static final String RESULT_SUCCESS = "UPDATE_DRUG_SUCCESS";
+    public static final String PSW_UPDATE_SUCCESS="PSW_UPDATE_SUCCESS";
+    public static final String MESSAGE_UPDATE = "MESSAGE_UPDATE";
+    public static final String REFRESH_RECORD = "REFRESH_RECORD_1";
+    public static final String DRUG_ID ="DRUG_ID";
+    public static final String FINISH_SHORT ="FINISH_SHORT";
+    public static final String FINISH_LOGIN = "FINISH_LOGIN";
+    public static final String BOOK_TIME = "BOOK_TIME";
+    public static final String RESET_CALENDAR = "RESETCALENDAR";
+    public static final String ACCOUNT ="YX_ACCOUNT";
+
  }

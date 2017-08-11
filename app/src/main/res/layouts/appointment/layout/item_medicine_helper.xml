@@ -61,7 +61,7 @@
                     android:paddingRight="@dimen/dp_4"
                     android:singleLine="true"
                     android:text="@{data.getDoctor.level}"
-                    android:textColor="@color/blue_grey"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/font_9" />
 
             </LinearLayout>

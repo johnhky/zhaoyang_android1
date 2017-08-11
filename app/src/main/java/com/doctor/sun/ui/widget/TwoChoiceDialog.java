@@ -1,11 +1,24 @@
 package com.doctor.sun.ui.widget;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 
 import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.StackingBehavior;
+import com.doctor.sun.R;
+import com.doctor.sun.immutables.DrugOrderDetail;
 
 /**
  * 是否闲时咨询对话框
@@ -75,4 +88,8 @@ public class TwoChoiceDialog {
         }
         builder.cancelable(false).show();
     }
+
+
+
+
 }

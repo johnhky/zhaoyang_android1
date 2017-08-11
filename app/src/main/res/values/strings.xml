@@ -6,8 +6,12 @@
     <string name="app_name_doctor_debug">安卓端_开发服_医生版</string>
     <string name="app_name_patient_test">安卓端_测试服_患者版</string>
     <string name="app_name_doctor_test">安卓端_测试服_医生版</string>
+    //登录
     <string name="get_captcha">重新获取(%02d)</string>
+    <string name="check_code"><u>手机验证码 登录/注册</u></string>
+    <string name="account_login"><u>账户密码登录</u></string>
     <string name="welcome">%s欢迎您登录昭阳医生</string>
+
     <string name="label_appointment"><![CDATA[有<font color=\'#339de1\'>%d</font>个预约病人]]></string>
     <string name="label_after_service"><![CDATA[有<font color=\'#339de1\'>%d</font>个待完成随访]]></string>
     <string name="appointment_time">预约时间:&#160;%s</string>
@@ -26,6 +30,7 @@
     <string name="unread_message"><![CDATA[有<font color=\'#339de1\'>%d</font>条未查看消息]]></string>
     <string name="num">数量</string>
     <string name="ps">备注消息</string>
+    <string name="new_record">新建病历</string>
 
     <string name="record_relation_name">(%1$s/%2$s)</string>
 
@@ -47,13 +52,13 @@
     <string name="add_quick_time_ps">*闲时咨询预约时长为24小时/次，您只要在预约时间内回复患者即可，按次收费。</string>
     <string name="enable_push_ps">*打开此开关，闲时咨询和随访订单状态为【进行中】时，您可以正常收到消息提醒；否则，您将不会收到消息提醒。</string>
     <string name="premium_product_brief">户进行详细咨询。建议</string>
-    <string name="normal_product_brief"><![CDATA[&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;建议<font color="#ff405a>病情稳定、需要定期复诊寄药</font>的患者选择“闲时咨询”，费用较少，医生将用空闲时间回复您的留言，虽然并非即时通讯，但保证24小时内给出处方建议和48小时内寄出药物。（如果是第一次就诊或病情不稳定，推荐选择“专属网诊”，获取更完善的咨询服务。）]]></string>
+    <string name="normal_product_brief"><![CDATA[&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;建议<font color="#ff405a>病情稳定、需要定期复诊寄药</font>的患者选择“闲时咨询”，费用较少，医生将用空闲时间回复您的留言，虽然并非即时通讯，但保证24小时内给出处方建议和48小时内寄出药物。（如果是第一次就诊或病情不稳定，推荐选择“VIP网诊”，获取更完善的咨询服务。）]]></string>
     <string name="pay_success_tip">医生可能随时有消息反馈给你，为免遗漏，请允许本程序向你推送通知。（按手机设置，然后点击“通知”找到程序“昭阳医生”点击进去再打开“允许通知”按钮）</string>
     <string name="date_suggestion">昭阳医生强烈建议您先网上咨询，然后在咨询结束时再听从医生建议并安排简捷复诊，这能让医生更高效地处理您的需求</string>
     <string name="fee_detail">系统会向您推送预约通知，为免遗漏，请允许程序向你推送通知。（按手机设置，然后点击“通知”找到程序“昭阳医生”点击进去再打开“允许通知”按钮）</string>
 
-    <string name="standard_product">闲时咨询</string>
-    <string name="premium_product">专属网诊</string>
+    <string name="standard_product">简易复诊</string>
+    <string name="premium_product">VIP网诊</string>
 
     <string name="premium_appointment_description">在预约时间内与医生进行实时的互动交流</string>
     <string name="standard_appointment_description">在预约当天24小时内，医生利用空闲时间回复您的留言</string>
@@ -108,9 +113,12 @@
     <string name="contact_us">联系客服</string>
     <string name="gram">克</string>
     <string name="mg">毫克</string>
-    <string name="midecine_herlper_remind">客服小助手工作时间为每天9:00--22:00,非工作时间时,请您直接留言,小助手在上班后会及时回复您的留言</string>
+    <string name="midecine_herlper_remind">客服小助手工作时间 工作日:8:00-22:00,节假日:10:00-20:00</string>
     <string name="ask_service"><u>咨询客服</u></string>
     <string name="doctor_detail">选择就诊类型</string>
     <string name="reservation_information">预约挂号信息</string>
+    <string name="my_patient">我的患者</string>
     <string name="view_pager_bottom_sheet_behavior" translatable="false">com.doctor.sun.ui.widget.vpbs.ViewPagerBottomSheetBehavior</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
 </resources>

@@ -1,8 +1,11 @@
 package com.doctor.sun.ui.model;
 
 import android.databinding.BaseObservable;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
@@ -84,6 +87,14 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         furtherConsultation = new Reminder();
     }
 
+    public void clonePrecription(List<Prescription> respose){
+        List<Prescription> prescription = respose;
+        if (prescription != null) {
+            for (Prescription data : prescription) {
+                prescriptions.add(data);
+            }
+        }
+    }
 
     public void cloneFromDiagnosisInfo(DiagnosisInfo response) {
         if (response == null) {
@@ -104,10 +115,10 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         }
         adviceContent.setInput(response.getDoctorAdvince());
         description.setInput(response.getDescription());
-        if (response.getDiagnosisRecord().size() > 0) {
+        if (response.diagnosisRecord.size()>0) {
             StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < response.getDiagnosisRecord().size(); i++) {
-                builder.append("诊断" +String.valueOf(i+1)+ ":" + response.getDiagnosisRecord().get(i)+"\n");
+            for (int i = 0; i < response.diagnosisRecord.size(); i++) {
+                builder.append("诊断" +String.valueOf(i+1)+ ":" + response.diagnosisRecord.get(i)+"\n");
             }
             diagnosis.setInput(builder.toString());
         }
@@ -129,11 +140,13 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         if (response.getReturnType() == 3) {
             furtherConsultation.time = "";
         }
+        if (response.getReturnType()==4){
+            furtherConsultation.time = response.getDate();
+        }
     }
 
 
     public ArrayList<LayoutId> toList() {
-
         ArrayList<LayoutId> result = new ArrayList<>();
         if (!isPatient()) {
             result.add(labelSymptom);
@@ -167,8 +180,15 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
             result.add(new Description(R.layout.item_description, "建议处方"));
             result.addAll(prescriptions);
         }
-        if (furtherConsultation != null && !"".equals(furtherConsultation.content)) {
-            result.add(new Description(R.layout.item_description, "专属网诊/闲时咨询/转诊"));
+
+        if (!TextUtils.isEmpty(furtherConsultation.content)) {
+            if (null!=Settings.getDoctorProfile().getIsOpen()){
+                if (Settings.getDoctorProfile().getSpecialistCateg()==1||Settings.getDoctorProfile().getIsOpen().isSimple()==false){
+                    result.add(new Description(R.layout.item_description, "VIP网诊/转诊/诊所面诊"));
+                }else{
+                    result.add(new Description(R.layout.item_description, "VIP网诊/转诊/简易复诊/诊所面诊"));
+                }
+            }
             result.add(furtherConsultation);
             if (doctor != null) {
                 result.add(doctor);
@@ -196,15 +216,18 @@ public class DiagnosisReadOnlyViewModel extends BaseObservable {
         switch (returnType) {
             case 1:
                 //专属咨询
-                type = "专属网诊";
+                type = "VIP网诊";
                 break;
             case 2:
                 //闲时咨询
-                type = "闲时咨询";
+                type = "简易复诊";
                 break;
             case 3:
                 //转诊
                 type = "转诊";
+                break;
+            case 4:
+                type = "诊所面诊";
                 break;
         }
         return type;

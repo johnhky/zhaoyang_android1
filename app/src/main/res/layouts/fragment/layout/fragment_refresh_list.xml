@@ -16,12 +16,14 @@
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -31,10 +33,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:drawablePadding="@dimen/dp_16"
-            android:textColor="@color/grey_ab"
-            android:textSize="@dimen/font_15"
             android:gravity="center"
             android:textAlignment="center"
+            android:textColor="@color/grey_ab"
+            android:textSize="@dimen/font_15"
             android:visibility="gone"
             app:drawableTop="@{R.drawable.vector_grey_launcher}" />
     </FrameLayout>

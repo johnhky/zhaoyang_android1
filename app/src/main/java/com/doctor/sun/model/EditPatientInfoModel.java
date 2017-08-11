@@ -14,6 +14,7 @@ import com.doctor.sun.vm.ClickMenu;
 import com.doctor.sun.vm.ItemPickDate;
 import com.doctor.sun.vm.ItemPickImage;
 import com.doctor.sun.vm.ItemRadioGroup;
+import com.doctor.sun.vm.ItemTextInput;
 import com.doctor.sun.vm.ItemTextInput2;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class EditPatientInfoModel {
 
         ModelUtils.insertDividerNoMargin(result);
 
-        ItemTextInput2 name = new ItemTextInput2(R.layout.item_text_input2, "姓名", "");
+        ItemTextInput2 name = new ItemTextInput2(R.layout.item_text_input5, "姓名", "");
         name.setResult(data.getName());
         name.setResultNotEmpty();
         name.setItemId("name");
@@ -56,7 +57,7 @@ public class EditPatientInfoModel {
         if (data.getPhone() == null || data.getPhone().equals("")) {
             ItemTextInput2 phone = ItemTextInput2.mobilePhoneInput("手机号码", "请输入11位手机号码");
             phone.setResultNotEmpty();
-            phone.setItemLayoutId(R.layout.item_text_input2);
+            phone.setItemLayoutId(R.layout.item_text_input5);
             phone.setItemId("phone");
             phone.setPosition(result.size());
             phone.setResult(data.getPhone());
@@ -78,8 +79,8 @@ public class EditPatientInfoModel {
 
         ModelUtils.insertDividerMarginLR(result);
 
-        ItemPickDate birthday = new ItemPickDate(R.layout.item_pick_birthday, "出生年月");
-        birthday.setDate(data.getBirthday());
+        ItemTextInput2 birthday = new ItemTextInput2(R.layout.item_pick_birthday, "出生年月","");
+        birthday.setResult(data.getBirthday());
         birthday.setItemId("birthday");
         birthday.setPosition(result.size());
         birthday.setEnabled(false);

@@ -17,7 +17,7 @@ import org.immutables.value.Value;
 @JsonSerialize(as = ImmutableSubsidy.class)
 @JsonDeserialize(as = ImmutableSubsidy.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract  class Subsidy extends BaseItem {
+public abstract   class Subsidy extends BaseItem {
 
     public abstract String getFee();
 

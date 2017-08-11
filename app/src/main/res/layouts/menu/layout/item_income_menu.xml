@@ -40,12 +40,18 @@
             android:textSize="@dimen/font_15"
             app:visible="@{data.enabled}"
             tools:text="1000.00" />
-
+        <TextView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@{data.icon}"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_vertical"
+            />
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginLeft="@dimen/dp_30"
             android:layout_marginRight="@dimen/dp_12"
             android:gravity="center_vertical"
             android:maxLines="1"

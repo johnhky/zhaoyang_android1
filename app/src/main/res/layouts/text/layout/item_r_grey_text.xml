@@ -12,6 +12,7 @@
 
 
     <TextView
+        android:id="@+id/tv_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -20,12 +21,8 @@
         android:layout_marginRight="@dimen/dp_13"
         android:layout_marginStart="@dimen/dp_13"
         android:background="@drawable/bg_transparent"
-        android:gravity="@{data.titleGravity}"
-        android:hint="@{data.hint}"
-        android:inputType="@{data.inputType}"
         android:maxLines="1"
-        android:text="@{data.title}"
         android:textColor="@color/text_color_gray"
-        android:textSize="@{data.getTextSize(context)}"
+        android:textSize="13sp"
         tools:text="title" />
 </layout>

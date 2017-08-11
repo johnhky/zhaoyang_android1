@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -167,11 +168,11 @@
                 android:orientation="vertical">
 
                 <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text='@{"订单总额：￥" + data.money}'-->
-                    <!--android:textColor="@color/text_color_gray"-->
-                    <!--android:textSize="@dimen/font_10" />-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text='@{"订单总额：￥" + data.money}'-->
+                <!--android:textColor="@color/text_color_gray"-->
+                <!--android:textSize="@dimen/font_10" />-->
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -179,7 +180,30 @@
                     android:layout_marginTop="@dimen/dp_6"
                     android:text='@{"实际应付：￥" + data.need_pay + data.labelHasUsedCoupon()}'
                     android:textColor="#f65600"
-                    android:textSize="@dimen/font_13" />
+                    android:textSize="@dimen/font_13"
+                    tools:text="实际应付:" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="28dp"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="原价:"
+                        android:textColor="@color/main_txt_color"
+                        />
+                        <TextView
+                            android:id="@+id/tv_money"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/main_txt_color"
+                            android:text="@{data.showStrikerMoney(tvMoney)}"
+                            />
+                </LinearLayout>
+
             </LinearLayout>
 
             <View
@@ -191,9 +215,9 @@
                 android:id="@+id/fl_pay"
                 android:layout_width="@dimen/dp_90"
                 android:layout_height="@dimen/dp_35"
-                android:layout_marginRight="@dimen/dp_13"
-                android:layout_marginEnd="@dimen/dp_13"
                 android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/dp_13"
+                android:layout_marginRight="@dimen/dp_13"
                 android:background="@drawable/shape_blue_rect"
                 android:onClick="@{()->data.showPayMethod(context,data)}">
 

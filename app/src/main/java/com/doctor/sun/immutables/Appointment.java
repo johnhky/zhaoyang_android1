@@ -1,12 +1,17 @@
 package com.doctor.sun.immutables;
 
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+
 import com.doctor.sun.R;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.DrugOrders;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.entity.Tags;
 import com.doctor.sun.entity.constans.IntBoolean;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.vm.LayoutId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -31,6 +36,10 @@ public abstract class Appointment implements LayoutId {
         return "";
     }
 
+    @Value.Default
+    public int getDiagnosis_record() {
+        return 0;
+    }
 
     public abstract int getStatus();
 
@@ -46,6 +55,10 @@ public abstract class Appointment implements LayoutId {
         return 0D;
     }
 
+    @Value.Default
+    public String getAddress() {
+        return "";
+    }
 
     public abstract int getType();
 
@@ -132,12 +145,23 @@ public abstract class Appointment implements LayoutId {
     }
 
     @Value.Default
-    public DrugOrders getDrug_Orders(){
+    public DrugOrders getDrug_orders() {
         return new DrugOrders();
     }
 
     @Value.Default
     public int getItemLayoutId() {
         return R.layout.item_appointment;
+    }
+
+    @JsonIgnore
+    public AppointmentHandler2 getHandler() {
+        AppointmentHandler2 handler = new AppointmentHandler2(Appointment.this);
+        return handler;
+    }
+
+    @Override
+    public String toString() {
+        return "data:{ id: " + getId() + ",record_id: " + getRecord_id() +",record_name:"+getRecord().getRecordName()+ "status: " + getStatus() + "can_edit:" + getCan_edit() + ",diagnosis_record:"+getDiagnosis_record()+"}";
     }
 }

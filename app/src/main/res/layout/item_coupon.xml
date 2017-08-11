@@ -13,7 +13,8 @@
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <ImageView
             android:layout_width="match_parent"
@@ -43,17 +44,30 @@
             android:layout_marginTop="@dimen/dp_15"
             android:orientation="vertical"
             android:selected="@{data.valid}">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_30"
-                android:layout_marginRight="@dimen/dp_30"
-                android:text='@{"¥ "+ data.couponMoney}'
-                android:textColor="@{data.valid? @color/white : @color/grey_c2}"
-                android:textSize="@dimen/font_40"
-                tools:textColor="@color/grey_c2"
-                tools:text="¥100元" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/ll_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:text='@{"¥ "+ data.couponMoney}'
+                    android:textColor="@{data.valid? @color/white : @color/grey_c2}"
+                    android:textSize="@dimen/font_40"
+                    tools:textColor="@color/grey_c2"
+                    tools:text="¥100元" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/ll_money"
+                    android:layout_toRightOf="@+id/ll_money"
+                    android:text="@{data.couponScope()}"
+                    android:textSize="@dimen/font_20"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@{data.valid? @color/white : @color/grey_c2}"
+                    />
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="match_parent"

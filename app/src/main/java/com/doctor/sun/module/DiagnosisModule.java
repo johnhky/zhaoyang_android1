@@ -34,7 +34,7 @@ public interface DiagnosisModule {
 
     //将医生建议生成处方
     @POST("diagnosis/prescription-enable")
-    Call<ApiDTO>createRecipe(@Query("appointmentId")String appointmentId);
+    Call<ApiDTO>createRecipe(@Query("appointmentId")String appointmentId,@Query("enable") String id);
 
     /*获取患者病历记录*/
     @GET("diagnosis/diagnosis-info")

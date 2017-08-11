@@ -23,7 +23,7 @@ public class ChangePasswordModel {
     public List<SortedItem> parseData() {
         List<SortedItem> items = new ArrayList<>();
 
-        ItemTextInput2 password = new ItemTextInput2(R.layout.item_text_input2, "旧密码", "");
+        ItemTextInput2 password = new ItemTextInput2(R.layout.item_text_input5, "旧密码", "");
         password.setResultNotEmpty();
         password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
         password.setItemId("password");
@@ -33,7 +33,7 @@ public class ChangePasswordModel {
         ModelUtils.insertDividerNoMargin(items);
 
         String hint = "请输入6-10个数字与英文字符的组合";
-        ItemTextInput2 newPassword = new ItemTextInput2(R.layout.item_text_input2, "新密码", hint);
+        ItemTextInput2 newPassword = new ItemTextInput2(R.layout.item_text_input5, "新密码", hint);
         newPassword.setResultNotEmpty();
         newPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
         newPassword.setItemId("newPassword");
@@ -42,7 +42,7 @@ public class ChangePasswordModel {
 
         ModelUtils.insertDividerNoMargin(items);
 
-        ItemTextInput2 confirmPassword = new ItemTextInput2(R.layout.item_text_input2, "确认新密码", "");
+        ItemTextInput2 confirmPassword = new ItemTextInput2(R.layout.item_text_input5, "确认新密码", "");
         confirmPassword.setResultNotEmpty();
         confirmPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
         confirmPassword.setItemId("confirmPassword");
@@ -50,6 +50,8 @@ public class ChangePasswordModel {
         items.add(confirmPassword);
 
         ModelUtils.insertDividerNoMargin(items);
+
+
 
         return items;
     }

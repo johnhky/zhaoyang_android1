@@ -1,5 +1,6 @@
 package com.doctor.sun.ui.handler.patient;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.SystemMsgListActivity;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
+import com.doctor.sun.ui.activity.patient.MyDrugOrderActivity;
 import com.doctor.sun.ui.activity.patient.MyOrderActivity;
 import com.doctor.sun.ui.activity.patient.SearchDoctorActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -68,8 +70,7 @@ public class PMainHandler {
     }
 
     public void myDrug(Context context) {
-        Bundle bundle = DrugListFragment.getArgs();
-        Intent intent = SingleFragmentActivity.intentFor(context, "寄药订单", bundle);
+        Intent intent = MyDrugOrderActivity.makeIntent(context);
         context.startActivity(intent);
     }
 
@@ -82,11 +83,6 @@ public class PMainHandler {
         Intent intent = SystemMsgListActivity.makeIntent(context);
         context.startActivity(intent);
     }
-
-    public static boolean isNetwork(NewDoctor data) {
-        return data.getIs_open().isNetwork();
-    }
-
 
     public int getSearchDoctorBackground() {
         return R.drawable.search_doctor;
@@ -132,11 +128,10 @@ public class PMainHandler {
     public SimpleAdapter getDoctorAdapter() {
         ProfileModule doctorApi = Api.of(ProfileModule.class);
         final SimpleAdapter adapter = new SimpleAdapter();
-        doctorApi.recommendDoctors().enqueue(new SimpleCallback<List<Doctor>>() {
+        doctorApi.recommendDoctors("1").enqueue(new SimpleCallback<List<Doctor>>() {
             @Override
             public void onFailure(Call<ApiDTO<List<Doctor>>> call, Throwable t) {
                 super.onFailure(call, t);
-                Log.e("eeee",t.getMessage().toString());
             }
 
             @Override
@@ -168,20 +163,21 @@ public class PMainHandler {
         return result;
     }
 
-    public void showPromotion(Context context, final boolean fromUserAction) {
+    public void showPromotion(final Context activity, final boolean fromUserAction) {
         ToolModule api = Api.of(ToolModule.class);
-        final Dialog dialog = new Dialog(context);
+        final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(activity);
         View inflate = inflater.inflate(R.layout.dialog_view_pager, null, false);
         dialog.setContentView(inflate);
-
+        WindowManager manager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = dialog.getWindow();
         if (window != null) {
             lp.copyFrom(window.getAttributes());
-            lp.width = context.getResources().getDimensionPixelSize(R.dimen.dp_350);
-            lp.height = context.getResources().getDimensionPixelSize(R.dimen.dp_480);
+            int screenHeight = manager.getDefaultDisplay().getHeight();
+            lp.width = activity.getResources().getDimensionPixelSize(R.dimen.dp_350);
+            lp.height = (int) (screenHeight * 0.5);
             window.setAttributes(lp);
             window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         }

@@ -128,7 +128,7 @@
                 android:checked="@={data.btnOneChecked}"
                 android:enabled="false"
                 android:gravity="center"
-                android:text="专属网诊"
+                android:text="VIP网诊"
                 android:textColor="@color/color_return_type" />
 
             <View
@@ -146,7 +146,7 @@
                 android:checked="@={data.btnTwoChecked}"
                 android:enabled="false"
                 android:gravity="center"
-                android:text="闲时咨询"
+                android:text="简易复诊"
                 android:textColor="@color/color_return_type" />
 
             <View
@@ -285,7 +285,7 @@
                             android:paddingRight="@dimen/dp_4"
                             android:singleLine="true"
                             android:text="@{data.doctor.level}"
-                            android:textColor="@color/blue_grey"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/font_9" />
 
                         <View

@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    def doctorVersion = 111
-    def doctorVersionName = "1.1.1"
-    def patientVersion = 220
-    def patientVersionName = "2.2.0"
+    def doctorVersion = 202
+    def doctorVersionName = "2.0.2"
+    def patientVersion = 300
+    def patientVersionName = "3.0.0"
 
     compileSdkVersion rootProject.ext.compile_sdk_version
     buildToolsVersion rootProject.ext.build_tools_version
@@ -89,10 +89,10 @@ android {
                                     , nimKey      : "84bcda3a943a3a781f5e4a8bae628a74"
                                     , jPushKey    : "914ba0008a2a0579ee5a147f"]
             buildConfigField "boolean", "DEV_MODE", "true"
-            buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/013/"'
+            buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/v03/"'
             buildConfigField "String", "DATA_PATH", '"DoctorSun"' //app 数据保存目录, 必改
-            buildConfigField "int", "IS_DOCTOR", '-1'
-            buildConfigField "String", "USER_TYPE", '""'
+            buildConfigField "int", "IS_DOCTOR", '1'
+            buildConfigField "String", "USER_TYPE", '"doctor"'
 
             buildConfigField "String", "UM_KEY", '"5835686cf43e4860d20009dd"'
             buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.doctordev.fileprovider"'
@@ -114,10 +114,10 @@ android {
                                     , nimKey      : "84bcda3a943a3a781f5e4a8bae628a74"
                                     , jPushKey    : "0d77825a85d3cba1c228850b"]
             buildConfigField "boolean", "DEV_MODE", "true"
-            buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/013/"'
+            buildConfigField "String", "BASE_URL", '"http://testapi.zhaoyang120.cn/api/v03/"'
             buildConfigField "String", "DATA_PATH", '"DoctorSun"' //app 数据保存目录, 必改
-            buildConfigField "int", "IS_DOCTOR", '-1'
-            buildConfigField "String", "USER_TYPE", '""'
+            buildConfigField "int", "IS_DOCTOR", '0'
+            buildConfigField "String", "USER_TYPE", '"patient"'
 
             buildConfigField "String", "UM_KEY", '"5835686cf43e4860d20009dd"'
             buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.dev.fileprovider"'
@@ -139,7 +139,7 @@ android {
                                     , nimKey      : "9439a1f4b31a23c48660c290a69f89e3"
                                     , jPushKey    : "11d29c50a3778dc3863ec85e"]
             buildConfigField "boolean", "DEV_MODE", "true"
-            buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/013/"' //host, 必改
+            buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/v03/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
 
             buildConfigField "int", "IS_DOCTOR", '0'
@@ -165,7 +165,7 @@ android {
                                     , nimKey      : "9439a1f4b31a23c48660c290a69f89e3"
                                     , jPushKey    : "98ba2d29983f4e958f9831e7"]
             buildConfigField "boolean", "DEV_MODE", "true"
-            buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/013/"' //host, 必改
+            buildConfigField "String", "BASE_URL", '"http://api.zhaoyang120.cn/api/v03/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
             buildConfigField "int", "IS_DOCTOR", '1'
 
@@ -184,13 +184,15 @@ android {
 
         // 生产环境
         PatientRelease {
+            /*applicationIdSuffix ".patient"
+            versionNameSuffix "_patient"*/
             manifestPlaceholders = [appLabel      : "@string/app_name"
                                     , launcherIcon: "@drawable/patient_launcher"
                                     , fileProvider: "com.doctor.sun.fileprovider"
                                     , nimKey      : "701994af7b0559728f9ee602a6f3c342"
                                     , jPushKey    : "2c1736491f10bfbab86e90ae"]
             buildConfigField "boolean", "DEV_MODE", "false"
-            buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/013/"' //host, 必改
+            buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/v03/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
             buildConfigField "String", "IM_KEY", '"aaf98f894ee24b5f014ee24edc970000"'
             buildConfigField "int", "IS_DOCTOR", '0'
@@ -216,11 +218,10 @@ android {
                                     , nimKey      : "701994af7b0559728f9ee602a6f3c342"
                                     , jPushKey    : "37f693db2b56ed6cdf98c1ba"]
             buildConfigField "boolean", "DEV_MODE", "false"
-            buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/013/"' //host, 必改
+            buildConfigField "String", "BASE_URL", '"https://api.zhaoyang120.com/v03/"' //host, 必改
             buildConfigField "String", "DATA_PATH", '"DoctorSun"'//app 数据保存目录, 必改
             buildConfigField "int", "IS_DOCTOR", '1'
             buildConfigField "String", "USER_TYPE", '"doctor"'
-
 
             buildConfigField "String", "UM_KEY", '"55b8a10be0f55aa35c00174d"'
             buildConfigField "String", "FILE_PROVIDER", '"com.doctor.sun.doctor.fileprovider"'
@@ -271,6 +272,8 @@ android {
         xiaomi {}
         yingyongbao {}
         qihoo360 {}
+        huawei {}
+        vivo {}
     }
     productFlavors.all { flavor ->
         flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]

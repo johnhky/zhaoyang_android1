@@ -43,19 +43,79 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_240"
-                    android:background="@drawable/bg_main">
+                    android:background="@drawable/patient_bg">
 
-                    <ImageButton
-                        android:id="@+id/iv_banner"
-                        android:layout_width="@dimen/dp_40"
-                        android:layout_height="@dimen/dp_40"
-                        android:layout_gravity="top|end"
-                        android:layout_marginTop="@dimen/dp_34"
-                        android:background="@null"
-                        android:visibility="@{callConfig!=null}"
-                        android:onClick="@{()->data.showPromotion(context,true)}"
-                        android:src="@{callConfig.bannerIcon}"
-                        tools:src="@drawable/ic_launcher" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:gravity="right"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:id="@+id/iv_action"
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:onClick="@{()->data.showPromotion(context,true)}"
+                            android:visibility="@{callConfig!=null}"
+                            android:layout_gravity="top|end"
+                            android:gravity="center"
+                            android:layout_marginRight="-8dp"
+                            android:layout_marginTop="@dimen/dp_20"
+                            >
+                        <ImageView
+                            android:layout_width="@dimen/dp_20"
+                            android:layout_height="@dimen/dp_20"
+                            android:src="@{callConfig.bannerIcon}"
+                            android:background="@null"
+                           />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="活动"
+                            />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/iv_msg"
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top|end"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:layout_marginTop="@dimen/dp_20"
+                            android:onClick="@{()->data.allMyMessages(context)}"
+                            >
+                            <ImageView
+                                android:layout_width="@dimen/dp_20"
+                                android:layout_height="@dimen/dp_20"
+                                android:src="@drawable/icon_news"
+                                android:background="@null"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:text="消息"
+                                />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_msg"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="-20dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@drawable/bg_count"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text=""
+                            android:textColor="@color/white"
+                            android:textSize="10dp"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
                     <FrameLayout
                         android:layout_width="wrap_content"
@@ -68,13 +128,11 @@
                             android:layout_width="@dimen/dp_165"
                             android:layout_height="@dimen/dp_165"
                             android:layout_gravity="center"
-                            android:current="@{1}"
-                            android:next="@{2}"
                             android:onClick="@{()->data.allDoctors(context)}"
-                            android:previous='@{-1}'
-                            android:showcase='@{"点击选择医生医生"}'
                             app:srcCompat="@drawable/search_doctor"
                             tools:src="@drawable/search_doctor" />
+
+
                     </FrameLayout>
 
                     <!--<TextView-->
@@ -86,6 +144,71 @@
                     <!--android:textColor="@color/colorPrimaryDark"-->
                     <!--android:textSize="@dimen/font_17"-->
                     <!--android:textStyle="bold" />-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:text="使用流程"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="8dp"
+                                android:drawableRight="@drawable/ic_arrow_right_white"
+                                android:text="挂号/预约"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:drawablePadding="8dp"
+                                android:drawableRight="@drawable/ic_arrow_right_white"
+                                android:text="就诊/咨询"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:drawablePadding="8dp"
+                                android:drawableRight="@drawable/ic_arrow_right_white"
+                                android:text="开处方"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:drawablePadding="8dp"
+                                android:text="取药配送"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </FrameLayout>
 
                 <LinearLayout
@@ -269,81 +392,6 @@
                 </LinearLayout>
 
 
-                <FrameLayout
-                    android:id="@+id/lly_system_msg"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_35"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingEnd="@dimen/dp_13"
-                    android:paddingLeft="@dimen/dp_13"
-                    android:paddingRight="@dimen/dp_13"
-                    android:paddingStart="@dimen/dp_13"
-                    android:visibility="gone"
-                    tools:visibility="gone">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|center_vertical"
-                        android:drawableEnd="@drawable/ic_enter_gray"
-                        android:drawablePadding="@dimen/dp_4"
-                        android:drawableRight="@drawable/ic_enter_gray"
-                        android:onClick="@{()->data.allMyMessages(context)}"
-                        android:text="更多"
-                        android:textColor="@color/grey_77"
-                        android:textSize="@dimen/font_12" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="最新消息"
-                        android:textColor="#acd373"
-                        android:textSize="@dimen/font_12"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_unread_message_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/dp_12"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="@dimen/dp_45"
-                        android:layout_marginStart="@dimen/dp_45"
-                        android:background="@drawable/stroke_rect_orange_long"
-                        android:gravity="center"
-                        android:paddingLeft="@dimen/dp_8"
-                        android:paddingRight="@dimen/dp_8"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/font_8"
-                        android:visibility="gone"
-                        tools:text="11"
-                        tools:visibility="visible" />
-
-
-                </FrameLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/divider_color" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_message"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.00"
-                    android:background="@color/white"
-                    tools:visibility="gone" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/divider_color" />
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_35"
@@ -352,7 +400,7 @@
                     android:gravity="center"
                     android:text="推荐医生"
                     android:textColor="@color/red_f0"
-                    android:textSize="@dimen/font_12" />
+                    android:textSize="@dimen/font_16" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_recommend_doctor"
@@ -372,7 +420,33 @@
                     android:text="查看所有医生"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/font_12" />
+
+                <LinearLayout
+                    android:id="@+id/ll_article"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:layout_marginTop="-5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="文章推荐"
+                        android:textColor="@color/main_txt_color"
+                        android:textSize="14sp" />
+
+                    <com.doctor.sun.ui.widget.ImageScrollViewPager
+                        android:id="@+id/iv_vp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_200"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"></com.doctor.sun.ui.widget.ImageScrollViewPager>
+                </LinearLayout>
             </LinearLayout>
+
         </android.support.v4.widget.NestedScrollView>
 
         <LinearLayout

@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:textColor="#acacac"
             android:textSize="@dimen/font_12"
-            app:html="@{handler.getInstruction(data)}"
+            android:text="@{handler.getAmountV(data)}"
             tools:text="一天3次28天,早3克，午3克，晚3克，睡前3克，记得吃完洗手,不然会齿颊留香" />
 
     </LinearLayout>

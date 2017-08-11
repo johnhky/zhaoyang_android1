@@ -5,37 +5,44 @@
     android:layout_height="wrap_content">
 
     <com.squareup.timessquare.CalendarCellView
+        style="@style/CalendarCell.CalendarDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/CalendarCell.CalendarDate" />
+        android:textColor="@color/gray_363636" />
 
     <com.squareup.timessquare.CalendarCellView
+        style="@style/CalendarCell.CalendarDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/CalendarCell.CalendarDate" />
+        android:textColor="@color/gray_363636" />
 
     <com.squareup.timessquare.CalendarCellView
+        style="@style/CalendarCell.CalendarDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/CalendarCell.CalendarDate" />
+        android:textColor="@color/gray_363636" />
 
     <com.squareup.timessquare.CalendarCellView
+        style="@style/CalendarCell.CalendarDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/CalendarCell.CalendarDate" />
+        android:textColor="@color/gray_363636" />
 
     <com.squareup.timessquare.CalendarCellView
+        style="@style/CalendarCell.CalendarDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/CalendarCell.CalendarDate" />
+        android:textColor="@color/gray_363636" />
 
     <com.squareup.timessquare.CalendarCellView
+        style="@style/CalendarCell.CalendarDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/CalendarCell.CalendarDate" />
+        android:textColor="@color/gray_363636" />
 
     <com.squareup.timessquare.CalendarCellView
+        style="@style/CalendarCell.CalendarDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/CalendarCell.CalendarDate" />
+        android:textColor="@color/gray_363636" />
 </com.squareup.timessquare.CalendarRowView>

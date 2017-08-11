@@ -51,12 +51,15 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
         super.onDestroy();
         realm.close();
     }
-
+    public int getOrientation() {
+        return LinearLayoutManager.VERTICAL;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_refresh_list, container, false);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        binding.recyclerView.setLayoutManager(linearLayoutManager);
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -70,7 +73,7 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
                     isFirstTime = false;
                     return;
                 }
-
+                binding.swipeRefresh.setEnabled(linearLayoutManager.findFirstVisibleItemPosition()==0);
                 if (shouldShowFAB(dy)) {
                     EventHub.post(getShowFABEvent());
                 } else {
@@ -211,4 +214,5 @@ public class RefreshListFragment<T> extends BaseFragment implements SwipeRefresh
         binding.swipeRefresh.setRefreshing(true);
         loadMore();
     }
+
 }

@@ -74,9 +74,9 @@ public class PickTimeActivity extends BaseFragmentActivity2 {
 
     private String getTypeImpl() {
         if (data.getType() == AppointmentType.STANDARD) {
-            return "预约类型:闲时咨询";
+            return "预约类型:简易复诊";
         } else if (data.getType() == AppointmentType.PREMIUM) {
-            return "预约类型:专属网诊";
+            return "预约类型:VIP网诊";
         }
         return "";
     }

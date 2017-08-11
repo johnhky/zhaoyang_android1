@@ -94,8 +94,8 @@
         <include
             android:id="@+id/input"
             layout="@layout/include_input_layout"
-            app:data="@{inputLayout}" />
-
+            app:data="@{inputLayout}"
+            />
 
         <include
             android:id="@+id/sticker"
@@ -111,5 +111,118 @@
             android:overScrollMode="never"
             android:visibility="@{inputLayout.keyboardType==2}" />
 
+        <LinearLayout
+            android:id="@+id/ll_finish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvRemind"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp"
+                android:text="就诊已结束,如有其它疑问,可以再次预约或咨询医生助理"
+                android:textColor="@color/red_f0"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_64"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnAppointment"
+                    android:layout_width="150dp"
+                    android:layout_height="45dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/shape_blue_rect"
+                    android:gravity="center"
+                    android:text="再次预约"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <Button
+                    android:id="@+id/btnAsk"
+                    android:layout_width="150dp"
+                    android:layout_height="45dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/shape_blue_rect"
+                    android:gravity="center"
+                    android:text="咨询医生助理"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_doing"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_64"
+            android:layout_gravity="center_vertical"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/red_f0"
+                    android:layout_marginBottom="5dp"
+                    android:text="关于此次就诊的问题,可当面互相交流"
+                    />
+            <Button
+                android:id="@+id/btnAskServer"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ripple_blue_rect"
+                android:text="咨询医生助理"
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <com.doctor.sun.ui.widget.ExtendedEditText
+                android:id="@+id/input_commit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_6"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/dp_6"
+                android:layout_weight="1"
+                android:background="@drawable/bg_msg_input_default"
+                android:hint="请输入消息"
+                android:imeOptions="actionDone"
+                android:maxHeight="@dimen/dp_100"
+                android:textSize="@dimen/font_15">
+                <requestFocus />
+            </com.doctor.sun.ui.widget.ExtendedEditText>
+
+            <Button
+                android:id="@+id/btn_send"
+                android:layout_width="@dimen/dp_45"
+                android:layout_height="@dimen/dp_35"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="@dimen/dp_2"
+                android:layout_marginRight="@dimen/dp_3"
+                android:background="@drawable/ripple_blue_rect"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="留言"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
     </LinearLayout>
 </layout>

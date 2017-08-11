@@ -23,7 +23,6 @@ public class CouponsFragment extends RefreshListFragment {
     public static CouponsFragment newInstance(String type) {
         Bundle args = new Bundle();
         args.putString(Constants.TYPE, type);
-
         CouponsFragment fragment = new CouponsFragment();
         fragment.setArguments(args);
         return fragment;

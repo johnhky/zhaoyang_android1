@@ -300,7 +300,7 @@ private ClickMenu audioChat(String title){
             if (mActivity instanceof MedicineStoreActivity) {
                 EventHub.post(new CallServiceEvent());
             } else {
-                askConfirmation(view.getContext(), "该功能仅限于专属实时咨询的就诊时间内使用");
+                askConfirmation(view.getContext(), "该功能仅限于VIP网诊的就诊时间内使用");
             }
         }
     }

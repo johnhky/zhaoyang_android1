@@ -1,7 +1,9 @@
 package com.doctor.sun.ui.activity.doctor;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,12 +17,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityChattingBinding;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.emoji.KeyboardWatcher;
+import com.doctor.sun.entity.MessageNum;
 import com.doctor.sun.entity.NeedSendDrug;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.IntBoolean;
@@ -44,7 +49,9 @@ import com.doctor.sun.im.NimMsgInfo;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.DrugModule;
+import com.doctor.sun.module.ImModule;
 import com.doctor.sun.ui.activity.BaseFragmentActivity2;
+import com.doctor.sun.ui.activity.DoctorDetailActivity2;
 import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.MessageAdapter;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
@@ -74,12 +81,16 @@ import com.squareup.otto.Subscribe;
 import java.io.File;
 import java.util.List;
 
+import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.Systems;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -107,6 +118,8 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     private HistoryEventHandler eventHandler;
     private Appointment data;
     private boolean isPause;
+    private ImModule api = Api.of(ImModule.class);
+    private int chatNum = 0;
 
     public static Intent makeIntent(Context context, Appointment appointment) {
         Intent i = new Intent(context, ChattingActivity.class);
@@ -128,12 +141,17 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        needSendDrug();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("MSG_UPDATE_SUCCESS");
+        registerReceiver(receiver, filter);
+        if (!Settings.isDoctor()) {
+            needSendDrug();
+        }
         initView();
         initData();
         registerRealmChangeListener();
-
         addHistoryButton();
+
     }
 
     private void addHistoryButton() {
@@ -142,6 +160,9 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
             historyButton.findViewById(R.id.btn_appointment_history).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Config.putInt(Constants.CREATE_SUCCESS, 1);
+                    Config.putString(Constants.ADDRESS, getData().getId() + "");
+                    Config.putInt(Constants.APPOINTMENT_MONEY, getData().getStatus());
                     EventHub.post(new AppointmentHistoryEvent(getData(), false));
 
                 }
@@ -197,30 +218,28 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         if (data == null || data.getType() == AppointmentType.FollowUp) {
             return;
         }
+        if (AppointmentHandler2.Status.FINISHED == data.getStatus()) {
+            drugModule.needSendDrug(Integer.parseInt(data.getId())).enqueue(new ApiCallback<NeedSendDrug>() {
+                @Override
+                protected void handleResponse(NeedSendDrug response) {
+                    if (Integer.parseInt(response.getNeed()) == 1) {
+                        TwoChoiceDialog.show(ChattingActivity.this, "医生已给出建议，就诊结束。请问你是否需要代取并邮寄药物？", "否", "是", new TwoChoiceDialog.Options() {
+                            @Override
+                            public void onApplyClick(MaterialDialog dialog) {
+                                dialog.dismiss();
+                                Intent intent = MedicineStoreActivity.makeIntent(ChattingActivity.this, true);
+                                startActivity(intent);
+                            }
 
-        if (!Settings.isDoctor())
-            if (AppointmentHandler2.Status.FINISHED == data.getStatus()) {
-                drugModule.needSendDrug(Integer.parseInt(data.getId())).enqueue(new ApiCallback<NeedSendDrug>() {
-                    @Override
-                    protected void handleResponse(NeedSendDrug response) {
-                        if (Integer.parseInt(response.getNeed()) == 1) {
-                            TwoChoiceDialog.show(ChattingActivity.this, "医生已给出建议，就诊结束。请问你是否需要代取并邮寄药物？", "否", "是", new TwoChoiceDialog.Options() {
-                                @Override
-                                public void onApplyClick(MaterialDialog dialog) {
-                                    dialog.dismiss();
-                                    Intent intent = MedicineStoreActivity.makeIntent(ChattingActivity.this, true);
-                                    startActivity(intent);
-                                }
-
-                                @Override
-                                public void onCancelClick(MaterialDialog dialog) {
-                                    dialog.dismiss();
-                                }
-                            });
-                        }
+                            @Override
+                            public void onCancelClick(MaterialDialog dialog) {
+                                dialog.dismiss();
+                            }
+                        });
                     }
-                });
-            }
+                }
+            });
+        }
     }
 
     private void initView() {
@@ -248,28 +267,31 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         keyboardWatcher.destroy();
         if (!getRealm().isClosed()) {
             results.removeChangeListeners();
         }
         InputLayoutViewModel.release();
-        super.onDestroy();
+        unregisterReceiver(receiver);
+        AppContext.getInstance().setKeepState(null);
+        AppContext.getInstance().setAppointment(null);
+        AppContext.getInstance().setData(data);
+ /*       Intent toRefreshAppointmentList = new Intent();
+        toRefreshAppointmentList.setAction("UPDATE_APPOINTMENT_LIST");
+        sendBroadcast(toRefreshAppointmentList);*/
     }
 
 
     private void initData() {
-        Appointment data = getData();
+        data = getData();
         if (data == null) {
             return;
         }
         binding.setData(data);
-
-
-        sendTo = data.getTid();
-
+        sendTo = /*data.getTid();*/data.getTid();
         mAdapter = new MessageAdapter(data);
         binding.recyclerView.setAdapter(mAdapter);
-
         query = getRealm().where(TextMsg.class)
                 .equalTo("sessionId", sendTo);
         results = query.findAllSorted("time", Sort.DESCENDING);
@@ -277,14 +299,106 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
             loadFirstPage();
         }
 
-//        setHaveRead(results);
-
         addExtraItems();
         mAdapter.addAll(results);
         mAdapter.onFinishLoadMore(true);
         initCustomAction(data);
         initSticker();
         initInputLayout();
+
+        if (!Settings.isDoctor()) {
+            api.getMsg(data.getId()).enqueue(new SimpleCallback<MessageNum>() {
+                @Override
+                protected void handleResponse(MessageNum response) {
+                    chatNum = response.getChat_num();
+                    if (data.getStatus() != AppointmentHandler2.Status.DOING) {
+                        binding.input.setVisibility(false);
+                        if (chatNum > 0) {
+                            if (data.getType() == 4) {
+                                binding.llFinish.setVisibility(View.VISIBLE);
+                            } else {
+                                binding.inputCommit.setHint("您还剩余" + chatNum + "条消息可以留言给医生");
+                                binding.llSend.setVisibility(View.VISIBLE);
+                            }
+                        } else {
+                            binding.llFinish.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        if (data.getType() == 4) {
+                            binding.input.setVisibility(false);
+                            binding.llDoing.setVisibility(View.VISIBLE);
+                        } else {
+                            binding.input.setVisibility(true);
+                        }
+
+                    }
+                }
+            });
+        } else {
+            binding.input.setVisibility(true);
+        }
+        binding.btnAsk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = MedicineStoreActivity.intentForCustomerService(ChattingActivity.this);
+                startActivity(intent);
+            }
+        });
+        binding.btnAskServer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = MedicineStoreActivity.intentForCustomerService(ChattingActivity.this);
+                startActivity(intent);
+            }
+        });
+        binding.btnAppointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChattingActivity.this, DoctorDetailActivity2.class);
+                intent.putExtra(Constants.DATA, getData().getDoctor());
+                startActivity(intent);
+            }
+        });
+        binding.btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMsg(binding.inputCommit.getText().toString().trim(), ChattingActivity.this);
+            }
+        });
+    }
+
+    public void sendMsg(String msg, NimMsgInfo callback) {
+        ImModule api = Api.of(ImModule.class);
+        if (msg == null || msg.equals("")) {
+            Toast.makeText(this, "不能发送空消息", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        NimMsgInfo data = callback;
+        if (data.getType() == SessionTypeEnum.Team) {
+            IMManager.getInstance().sentTextMsg(data.getTeamId(), data.getType(), msg, data.enablePush());
+        } else if (data.getType() == SessionTypeEnum.P2P) {
+            IMManager.getInstance().sentTextMsg(data.getTargetP2PId(), SessionTypeEnum.P2P, msg, data.enablePush());
+        }
+        if (chatNum > 0) {
+            api.updateMsg(getData().getId()).enqueue(new Callback<ApiDTO>() {
+                @Override
+                public void onResponse(Call<ApiDTO> call, Response<ApiDTO> response) {
+                    chatNum = chatNum - 1;
+                    if (chatNum == 0) {
+                        binding.llSend.setVisibility(View.GONE);
+                    }
+                    Intent intent = new Intent();
+                    intent.setAction("MSG_UPDATE_SUCCESS");
+                    sendBroadcast(intent);
+                }
+
+                @Override
+                public void onFailure(Call<ApiDTO> call, Throwable t) {
+
+                }
+            });
+        }
+        binding.inputCommit.setText("");
     }
 
 
@@ -309,23 +423,23 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         }
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int tab = 0;
         switch (item.getItemId()) {
             case R.id.action_view: {
-                tab = 0;
+                AppointmentHandler2.viewDetail(this, 0, getData());
                 break;
             }
             case R.id.action_edit: {
-                tab = 1;
+                AppointmentHandler2.viewDetail(this, 1, getData());
                 break;
             }
             default: {
             }
         }
 
-        AppointmentHandler2.viewDetail(this, tab, getData());
+
         return true;
     }
 
@@ -347,6 +461,9 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         super.finish();
         setHaveRead(query.or().equalTo("sessionId", getTargetP2PId()).equalTo("haveRead", false).findAll());
         ItemHelper.changeItem(getIntent(), JacksonUtils.toJson(binding.getData()));
+      /*  Intent intent = new Intent();
+        intent.setAction(Constants.MESSAGE_UPDATE);
+        sendBroadcast(intent);*/
     }
 
     private void initInputLayout() {
@@ -487,11 +604,11 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
     @Override
     public void onRefresh() {
         isLoadMore = true;
-        long time = getRefreshReferenceTime(System.currentTimeMillis());
-        Log.e(TAG, "onRefresh: " + time);
+        final long time = getRefreshReferenceTime(System.currentTimeMillis());
+        Log.e(TAG, "onRefresh: " + time + ",tId:" + sendTo);
         MsgService service = NIMClient.getService(MsgService.class);
         IMMessage emptyMessage = MessageBuilder.createEmptyMessage(sendTo, SessionTypeEnum.Team, time);
-        InvocationFuture<List<IMMessage>> listInvocationFuture = service.pullMessageHistoryEx(emptyMessage, time - ONE_DAY, 10, QueryDirectionEnum.QUERY_OLD, false);
+        InvocationFuture<List<IMMessage>> listInvocationFuture = service.pullMessageHistory(emptyMessage, 10, false);
         listInvocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
             @Override
             public void onSuccess(List<IMMessage> imMessages) {
@@ -506,7 +623,7 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
             @Override
             public void onException(Throwable throwable) {
-                Toast.makeText(ChattingActivity.this,throwable.getMessage().toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(ChattingActivity.this, throwable.getMessage().toString(), Toast.LENGTH_LONG).show();
                 binding.refreshLayout.setRefreshing(false);
             }
         });
@@ -517,7 +634,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
         if (mAdapter != null && mAdapter.size() > 0) {
             try {
                 TextMsg msg = (TextMsg) mAdapter.get(mAdapter.size() - 1);
-
                 time = msg.getTime();
             } catch (ClassCastException e) {
                 time = System.currentTimeMillis();
@@ -537,7 +653,6 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
 
     @Subscribe
     public void onSendMessageEvent(SendMessageEvent e) {
-        AppointmentHandler2.alertAppointmentFinished(this, getData());
     }
 
     @Override
@@ -608,9 +723,9 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
             if (AVChatType.AUDIO.getValue() == e.getChatType()) {
                 String text;
                 if (Settings.isDoctor()) {
-                    text = "网络电话未被接听,现在转为专线020-81212600回拨,请放心接听。";
+                    text = "网络电话未被接听,现在转为专线回拨,号码随机显示,请放心接听。";
                 } else {
-                    text = "网络电话未被接听,现在转为专线020-81212600回拨,接通后限时%ld分钟,请放心接听。";
+                    text = "网络电话未被接听,现在转为专线回拨,号码随机显示,接通后限时" + getData().getTake_time() + "分钟,请放心接听。";
                 }
                 Toast toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
                 toast.show();
@@ -654,4 +769,14 @@ public class ChattingActivity extends BaseFragmentActivity2 implements NimMsgInf
             }
         }
     }
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("MSG_UPDATE_SUCCESS")) {
+                initData();
+            }
+        }
+    };
+
 }

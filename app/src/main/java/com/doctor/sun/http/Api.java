@@ -24,6 +24,11 @@ public class Api {
      */
     public static final String API_BASE_URL = Config.getString(Constants.BASE_URI, BuildConfig.BASE_URL);
 
+    /*new
+     api
+     base*/
+
+
     /**
      * okhttp
      */
@@ -60,5 +65,4 @@ public class Api {
         Retrofit retrofit = builder.client(httpClient).build();
         return retrofit.create(serviceClass);
     }
-
 }

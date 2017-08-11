@@ -1,5 +1,7 @@
 package com.doctor.sun.im;
 
+import android.util.Log;
+
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.im.custom.CustomAttachment;
 import com.doctor.sun.im.custom.StickerAttachment;
@@ -59,7 +61,7 @@ public class CustomAttachParser implements MsgAttachmentParser {
                     customAttachment.setData(object.getJSONObject("data"));
                     return customAttachment;
                 }
-
+                case "doctor_diagnosed":
                 case "follow_up_start":
                 case "follow_up_end":
                 case "appointment_start":

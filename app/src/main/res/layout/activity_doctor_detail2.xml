@@ -51,7 +51,7 @@
                     android:layout_toRightOf="@+id/iv_avatar"
                     android:text="@{data.name}"
                     android:textColor="#363636"
-                    android:textSize="@dimen/font_18"
+                    android:textSize="@dimen/font_16"
                     android:textStyle="bold"
                     tools:text="医生" />
 
@@ -64,10 +64,9 @@
                     android:layout_toRightOf="@+id/tv_name"
                     android:background="@{data.levelBackgroundColor}"
                     android:gravity="center"
-                    android:padding="5dp"
                     android:singleLine="true"
                     android:text="@{data.level}"
-                    android:textColor="@color/blue_grey"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/font_9"
                     tools:text="执业医师认证" />
 
@@ -85,6 +84,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/iv_avatar"
                     android:layout_marginLeft="@dimen/dp_13"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:layout_toRightOf="@+id/iv_avatar"
                     android:text="@{data.hospitalName+&quot;/&quot;+data.specialist+&quot;/&quot;+data.title}"
                     tools:text="广州市第一人民医院/精神科/科室主任" />
@@ -97,9 +98,10 @@
                 android:layout_marginRight="14dp"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:onClick="@{()->data.handler.showDoctorDetail(context)}"
                 android:text="@{&quot;简介:&quot;+data.detail}"
-                android:textColor="#797979"
-                android:textSize="16sp" />
+                android:textColor="#898989"
+                android:textSize="15sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -121,8 +123,8 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:onClick="@{()->data.toArticle(context,data.id)}"
-                    android:textColor="#797979"
-                    android:textSize="16sp"
+                    android:textColor="#858585"
+                    android:textSize="15sp"
                     tools:text="文章(2)" />
 
                 <View
@@ -139,8 +141,8 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:onClick="@{()->data.toComments(context,data.id)}"
-                    android:textColor="#797979"
-                    android:textSize="16sp"
+                    android:textColor="#858585"
+                    android:textSize="15sp"
                     tools:text="评论(2)" />
 
                 <TextView
@@ -148,9 +150,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="14dp"
-                    android:background="@drawable/ic_unconllect"
-                    android:gravity="center"
-                    android:onClick="@{()->data.toggleFav(context,data.id,data.isFav)}" />
+                    android:paddingLeft="23dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/ic_collect"
+                    android:text="已收藏" />
             </LinearLayout>
 
             <View
@@ -170,9 +174,66 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="请选择预约类型(点击选择)"
-                    android:textColor="#797979"
-                    android:textSize="@dimen/font_18"
+                    android:textColor="#121212"
+                    android:textSize="@dimen/font_16"
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/ic_bottom_hand"
                     android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="-15dp"
+                    android:minHeight="15dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tv_netVisible"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="预约已满/未开通"
+                            android:visibility="@{!data.isOpen.network}" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tv_surfaceVisible"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="预约已满/未开通"
+                            android:visibility="@{!data.isOpen.surface}" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tv_simpleVisible"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="预约已满/未开通" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/rad_choose"
@@ -195,7 +256,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="VIP网诊"
-                            android:textSize="18sp"
+                            android:textColor="#121212"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -204,7 +266,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:text="看病+取药"
-                            android:textSize="14sp" />
+                            android:textColor="#6a6a6a"
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -223,7 +286,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="诊所面诊"
-                            android:textSize="18sp"
+                            android:textColor="#121212"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -232,7 +296,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:text="现场看病+取药"
-                            android:textSize="14sp" />
+                            android:textColor="#6a6a6a"
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -250,7 +315,8 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="简易复诊"
-                            android:textSize="18sp"
+                            android:textColor="#121212"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -262,10 +328,18 @@
                             android:layout_marginTop="5dp"
                             android:gravity="center"
                             android:text="快捷取药"
-                            android:textSize="14sp" />
+                            android:textColor="#6a6a6a"
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/ll_visible"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:visibility="gone"></LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -302,7 +376,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="@{&quot;￥&quot;+data.secondMoney+&quot;/次&quot;}"
                         android:textColor="@color/red_f7" />
                 </LinearLayout>
 
@@ -323,7 +396,8 @@
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_green_select"
                             android:drawablePadding="5dp"
-                            android:text="可使用电话和视频交流" />
+                            android:text="可使用电话和视频交流"
+                            android:textColor="#6a6a6a" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -331,7 +405,8 @@
                             android:layout_marginLeft="30dp"
                             android:drawableLeft="@drawable/ic_green_select"
                             android:drawablePadding="5dp"
-                            android:text="省时省路费" />
+                            android:text="省时省路费"
+                            android:textColor="#6a6a6a" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -344,7 +419,8 @@
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_green_select"
                             android:drawablePadding="5dp"
-                            android:text="在线文字、图片交流" />
+                            android:text="在线文字、图片交流"
+                            android:textColor="#6a6a6a" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -352,7 +428,8 @@
                             android:layout_marginLeft="45dp"
                             android:drawableLeft="@drawable/ic_green_select"
                             android:drawablePadding="5dp"
-                            android:text="适合初诊患者" />
+                            android:text="适合初诊患者"
+                            android:textColor="#6a6a6a" />
                     </LinearLayout>
 
                     <TextView
@@ -361,8 +438,8 @@
                         android:layout_marginTop="5dp"
                         android:drawablePadding="5dp"
                         android:text="在就诊期间内与医生进行一对一不限次数交流"
-                        android:textColor="@color/main_txt_color"
-                        android:textSize="18sp"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -383,7 +460,8 @@
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_green_select"
                             android:drawablePadding="5dp"
-                            android:text="可在线图文交流" />
+                            android:text="可在线图文交流"
+                            android:textColor="#6a6a6a" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -391,7 +469,8 @@
                             android:layout_marginLeft="30dp"
                             android:drawableLeft="@drawable/ic_green_select"
                             android:drawablePadding="5dp"
-                            android:text="省时省路费" />
+                            android:text="省时省路费"
+                            android:textColor="#6a6a6a" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -404,7 +483,8 @@
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_green_select"
                             android:drawablePadding="5dp"
-                            android:text="适合复诊患者" />
+                            android:text="适合复诊患者"
+                            android:textColor="#6a6a6a" />
 
                     </LinearLayout>
 
@@ -413,8 +493,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="付款后可以立即给医生留言,医生会在24小时内给您答复"
-                        android:textColor="@color/main_txt_color"
-                        android:textSize="18sp"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -436,7 +516,8 @@
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_green_select"
                             android:drawablePadding="5dp"
-                            android:text="现场与医生面对面交流" />
+                            android:text="现场与医生面对面交流"
+                            android:textColor="#6a6a6a" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -444,7 +525,8 @@
                             android:layout_marginLeft="30dp"
                             android:drawableLeft="@drawable/ic_green_select"
                             android:drawablePadding="5dp"
-                            android:text="提供专业诊疗室" />
+                            android:text="提供专业诊疗室"
+                            android:textColor="#6a6a6a" />
                     </LinearLayout>
 
                     <TextView
@@ -461,8 +543,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="@{&quot;线下面诊地址:&quot;+data.clinicAddress.address}"
-                        android:textColor="@color/main_txt_color"
-                        android:textSize="18sp"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>

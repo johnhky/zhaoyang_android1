@@ -1,5 +1,6 @@
 package com.doctor.sun.entity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
@@ -7,20 +8,28 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.StackingBehavior;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
+import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.constans.ClearRules;
 import com.doctor.sun.entity.constans.QuestionType;
 import com.doctor.sun.event.LoadDrugEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.immutables.ImmutablePrescription;
 import com.doctor.sun.immutables.Prescription;
+import com.doctor.sun.immutables.Titration;
 import com.doctor.sun.immutables.UploadDrugData;
 import com.doctor.sun.module.ToolModule;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
@@ -58,7 +67,6 @@ public class Options2 extends BaseItem {
 
     private static final int FROM_API = 0;
     private static final int FROM_USER_INPUT = 1;
-
     /**
      * option_content : 保存密码
      * option_id : 1468916105WaJyrupXco
@@ -110,12 +118,18 @@ public class Options2 extends BaseItem {
     @JsonProperty("reply_object")
     public Map<String, String> selectedOption;
     @JsonProperty("reply_content")
-    private String inputContent;
+    public String inputContent;
 
     @JsonProperty("option_or_enable")
     public List<String> optionOrEnable;
     @JsonProperty("option_or_disable")
     public List<String> optionOrDisable;
+
+
+    @Override
+    public String toString() {
+        return "options:{optionContent:" + optionContent + "reply_content:" + inputContent + "}";
+    }
 
     private BaseListAdapter<SortedItem, ViewDataBinding> adapter;
 
@@ -370,7 +384,7 @@ public class Options2 extends BaseItem {
      *
      * @param adapter
      */
-    public void loadPrescriptions(final SortedListAdapter adapter,final Context context) {
+    public void loadPrescriptions(final SortedListAdapter adapter, final Context context) {
         if (resourseType == FROM_USER_INPUT) {
             /**
              *导入上面患者填写的用药
@@ -385,8 +399,7 @@ public class Options2 extends BaseItem {
                         int index = adapterPosition - i + 1;
                         try {
                             Prescription sortedItem = (Prescription) adapter.get(index);
-                            ImmutablePrescription build = ImmutablePrescription.builder().from(sortedItem).build();
-                            toItem.addPrescription(build, adapter);
+                            toItem.addPrescription(sortedItem, adapter);
                         } catch (ClassCastException ignored) {
                             ignored.printStackTrace();
                         }
@@ -404,21 +417,21 @@ public class Options2 extends BaseItem {
             toolModule.listOfDrugs(optionContent).enqueue(new SimpleCallback<List<UploadDrugData>>() {
                 @Override
                 protected void handleResponse(List<UploadDrugData> response) {
-
                     if (response == null || response.size() == 0) {
                         EventHub.post(new LoadDrugEvent());
                         return;
                     }
-                    if (response.size()==1){
+                    if (response.size() == 1) {
                         ItemAddPrescription2 item = (ItemAddPrescription2) adapter.get(questionId + QuestionType.drug);
-                        for (int i = 0 ; i <response.size();i++){
+                        for (int i = 0; i < response.size(); i++) {
                             for (Prescription prescription : response.get(i).getDrug_data()) {
+                                prescription.setTitration(new ArrayList<Titration>());
+                                prescription.setTake_medicine_days("");
                                 item.addPrescription(prescription, adapter);
                             }
                         }
-                    }else{
-                        setAdapter(DrugAdapter(response));
-                        showDialog(context);
+                    } else {
+                        showDialog(context, response, adapter);
                     }
 
 
@@ -427,7 +440,6 @@ public class Options2 extends BaseItem {
             });
         }
     }
-
 
     /**
      * 输入框要输入的内容的类型
@@ -451,43 +463,112 @@ public class Options2 extends BaseItem {
         return !Strings.isNullOrEmpty(optionInputHint) || !Strings.isNullOrEmpty(contentHead) || !Strings.isNullOrEmpty(contentTail);
     }
 
-    public void showDialog(Context context){
-            if (adapter == null) return;
+    public void showDialog(Context context, final List<UploadDrugData> data, final SortedListAdapter mAdapter) {
+  /*      MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+        builder.stackingBehavior(StackingBehavior.ALWAYS)
+                .btnStackedGravity(GravityEnum.CENTER)
+                .titleGravity(GravityEnum.CENTER)
+                .title("请选择需要使用的处方")
+                .neutralText("关闭")
+                .adapter(adapter, new LinearLayoutManager(context))
+                .show();*/
+        final Dialog dialog = new Dialog(context, R.style.transparentFrameWindowStyle);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_drug_popup, null);
+        dialog.setContentView(view);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        Window dialogWindow = dialog.getWindow();
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display d = windowManager.getDefaultDisplay(); // 获取屏幕宽、高度
+        WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        p.height = (int) (d.getHeight() * 0.3); // 高度设置为屏幕的0.6，根据实际情况调整
+        p.width = (int) (d.getWidth() * 0.8); // 宽度设置为屏幕的0.8，根据实际情况调整
+        dialogWindow.setAttributes(p);
+        LinearLayout ll_add = (LinearLayout) view.findViewById(R.id.ll_add_drug);
+        TextView tv_close = (TextView) view.findViewById(R.id.tv_close);
+        tv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        for (int i = 0; i < data.size(); i++) {
+            View ll_drug = LayoutInflater.from(context).inflate(R.layout.item_select_drug, null);
+            LinearLayout ll_select = (LinearLayout) ll_drug.findViewById(R.id.ll_selectDrug);
+            TextView tv_date = (TextView) ll_drug.findViewById(R.id.tv_date);
+            TextView tv_name = (TextView) ll_drug.findViewById(R.id.tv_name);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date date = simpleDateFormat.parse(data.get(i).getCreated_at());
+                tv_date.setText(simpleDateFormat.format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            tv_name.setText("【开药医生:" + data.get(i).getName() + "】");
+            ll_add.addView(ll_drug);
+            final int position = i;
+            ll_select.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ItemAddPrescription2 item = (ItemAddPrescription2) mAdapter.get(questionId + QuestionType.drug);
+                    UploadDrugData drug = data.get(position);
+                    if (drug.getDrug_data().size() > 0) {
+                        for (int i = 0; i < drug.getDrug_data().size(); i++) {
+                            drug.getDrug_data().get(i).setTitration(new ArrayList<Titration>());
+                            drug.getDrug_data().get(i).setTake_medicine_days("");
+                            item.addPrescription(drug.getDrug_data().get(i), mAdapter);
+                        }
+                    }
+                    dialog.dismiss();
+                }
 
-            MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
-
-            builder.stackingBehavior(StackingBehavior.ALWAYS)
-                    .btnStackedGravity(GravityEnum.CENTER)
-                    .titleGravity(GravityEnum.CENTER)
-                    .title("请选择需要使用的处方")
-                    .neutralText("关闭")
-                    .adapter(adapter, new LinearLayoutManager(context))
-                    .show();
-
+            });
         }
-
-    public BaseListAdapter<SortedItem, ViewDataBinding> getAdapter() {
-        return adapter;
     }
 
-    public void setAdapter(BaseListAdapter<SortedItem, ViewDataBinding> adapter) {
-        this.adapter = adapter;
-    }
-    public BaseListAdapter<SortedItem,ViewDataBinding>DrugAdapter(List<UploadDrugData>datas){
-        List<SortedItem>result = new ArrayList<>();
-        for (int i = 0 ; i <datas.size();i++){
-            UploadDrugData data = datas.get(i);
-            ItemTextInput2 drug = new ItemTextInput2(R.layout.item_select_drug,"","");
-            drug.setPosition(result.size()+i);
-            drug.setItemId("drug"+i);
-            drug.setTitle(data.getCreated_at()+"");
+//    public BaseListAdapter<SortedItem, ViewDataBinding> getAdapter() {
+//        return adapter;
+//    }
+//
+//    public void setAdapter(BaseListAdapter<SortedItem, ViewDataBinding> adapter) {
+//        this.adapter = adapter;
+//    }
+
+    /*public BaseListAdapter<SortedItem, ViewDataBinding> DrugAdapter(List<UploadDrugData> datas, final SortedListAdapter mAdapter) {
+
+        List<SortedItem> result = new ArrayList<>();
+        for (int i = 0; i < datas.size(); i++) {
+            final UploadDrugData data = datas.get(i);
+            ItemTextInput2 drug = new ItemTextInput2(R.layout.item_select_drug, "", "");
+            drug.setPosition(result.size() + i);
+            drug.setItemId("drug" + i);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date date = simpleDateFormat.parse(data.getCreated_at());
+                drug.setTitle(simpleDateFormat.format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             drug.setResult(data.getName());
+            drug.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ItemAddPrescription2 item = (ItemAddPrescription2) mAdapter.get(questionId + QuestionType.drug);
+                    if (data.getDrug_data().size() > 0) {
+                        for (int i = 0; i < data.getDrug_data().size(); i++) {
+                            data.getDrug_data().get(i).setTitration(new ArrayList<Titration>());
+                            data.getDrug_data().get(i).setTake_medicine_days("");
+                            item.addPrescription(data.getDrug_data().get(i), mAdapter);
+                        }
+                    }
+                }
+            });
             result.add(drug);
         }
         SortedListAdapter<ViewDataBinding> adapter = new SortedListAdapter<>();
         adapter.insertAll(result);
         return adapter;
     }
-
+*/
 
 }

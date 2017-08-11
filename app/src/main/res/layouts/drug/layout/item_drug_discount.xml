@@ -15,25 +15,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="@dimen/dp_14"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             >
         <TextView
+            android:id="@+id/tv_discountTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:padding="5dp"
             android:background="@drawable/shape_red_button"
-            android:text="@{data.result}"
+            android:text=""
             tools:text="优惠"
             />
         <TextView
+            android:id="@+id/tv_discountContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:layout_marginLeft="8dp"
-            android:textColor="#a4a4a4"
-            android:text="@{data.title}"
+            android:textColor="#6f6f6f"
+            android:text=""
             tools:text="寄药优惠减￥50"
             />
         </LinearLayout>

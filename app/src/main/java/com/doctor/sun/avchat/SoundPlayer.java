@@ -11,6 +11,7 @@ import com.doctor.sun.R;
  * SoundPool 铃声尽量不要超过1M
  * 在不同的系统下 SoundPool 表现可能存在不一致
  */
+@Deprecated
 public class SoundPlayer {
 
     public enum RingerTypeEnum {

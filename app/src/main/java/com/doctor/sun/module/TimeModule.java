@@ -2,6 +2,7 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.AllTime;
+import com.doctor.sun.entity.LogTime;
 import com.doctor.sun.entity.ReserveDate;
 import com.doctor.sun.entity.Time;
 import com.doctor.sun.http.Api;
@@ -67,10 +68,14 @@ public interface TimeModule {
     Call<ApiDTO<Time>> latestAvailableTime(@Query("doctorId") int doctorId, @Query("takeTime") int data, @Query("date") String date);
 
     /*获取医生最大出诊时间*/
-    @GET("/api/013/time/can-be-booked-log-time")
-    Call<ApiDTO> getLogTime(@Query("doctorId")int id,@Query("type") int type);
+    @GET("time/can-be-booked-log-time")
+    Call<ApiDTO<LogTime>> getLogTime(@Query("doctorId")int id, @Query("type") int type);
 
     /*获取医生一个月内可出诊时间*/
     @GET("time/date-schedule-fresh")
     Call<ApiDTO<List<Time>>>getDate(@Query("doctorId") int id,@Query("takeTime") int time,@Query("type") int type);
+
+    /*获取医生一个月内可出诊时间*/
+    @GET("time/date-schedule-fresh")
+    Call<ApiDTO<List<Time>>>getDate(@Query("doctorId") int id,@Query("type") int type);
 }

@@ -114,11 +114,6 @@
             android:background="#c1cacf" />
 
         <android.support.v4.view.ViewPager
-            android:showcase='@{"点击选择你需要预约的日期"}'
-            android:previous='@{-1}'
-            android:next="@{-1}"
-            android:current="@{8}"
-            android:isRect="@{true}"
             android:id="@+id/vp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

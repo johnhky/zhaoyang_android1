@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.doctor.sun.vm.ItemPickDate" />
+            type="com.doctor.sun.vm.ItemTextInput2" />
 
         <variable
             name="vh"
@@ -26,7 +26,7 @@
         android:layout_marginStart="@dimen/dp_13"
         android:background="@drawable/ripple_default"
         android:clickable="@{data.enabled}"
-        android:onClick="@{()->data.pickTime(context)}"
+        android:onClick="@{()->data.pickBirthDay(context)}"
         android:orientation="vertical">
 
         <TextView
@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:gravity="start|center_vertical"
-                android:text="@{data.date}"
+                android:text="@{data.result}"
                 android:textColor="@color/color_tick"
                 android:textSize="@dimen/font_13" />
         </LinearLayout>

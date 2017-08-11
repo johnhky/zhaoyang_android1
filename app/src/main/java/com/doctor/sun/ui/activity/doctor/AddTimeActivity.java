@@ -1,12 +1,15 @@
 package com.doctor.sun.ui.activity.doctor;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
@@ -52,8 +55,16 @@ public class AddTimeActivity extends BaseFragmentActivity2 {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("update_type_face");
+        registerReceiver(receiver, filter);
         initView();
         binding.setData(getData());
+        if (getData().getId() != 0) {
+            if (getData().getType() == 4 && Settings.getDoctorProfile().getSpecialistCateg() == 1) {
+                binding.llVisible.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void initView() {
@@ -83,17 +94,14 @@ public class AddTimeActivity extends BaseFragmentActivity2 {
             if (getSelectedWeeks() != 0) {
                 String to = binding.tvEndTime.getText().toString() + ":00";
                 String from = binding.tvBeginTime.getText().toString() + ":00";
-                int interval = getInterval();
+                final int interval = getInterval();
                 if (getData().getId() != 0) {
-               /*     api.updateTime(getData().getId(), getSelectedWeeks(), getType(), from, to, interval).enqueue(new SimpleCallback<Time>() {
+                    api.newUpdateTime(getData().getId(), getSelectedWeeks(), getType(), from, to, interval).enqueue(new SimpleCallback<Time>() {
                         @Override
                         protected void handleResponse(Time response) {
-                            finish();
-                        }
-                    });*/
-                    api.newUpdateTime(getData().getId(),getSelectedWeeks(),getType(),from,to,interval).enqueue(new SimpleCallback<Time>() {
-                        @Override
-                        protected void handleResponse(Time response) {
+                            Intent to = new Intent();
+                            to.setAction("update_time_success");
+                            sendBroadcast(to);
                             finish();
                         }
 
@@ -103,9 +111,12 @@ public class AddTimeActivity extends BaseFragmentActivity2 {
                         }
                     });
                 } else {
-                    api.newSetTime(getSelectedWeeks(),getType(),from,to,interval).enqueue(new SimpleCallback<Time>() {
+                    api.newSetTime(getSelectedWeeks(), getType(), from, to, interval).enqueue(new SimpleCallback<Time>() {
                         @Override
                         protected void handleResponse(Time response) {
+                            Intent to = new Intent();
+                            to.setAction("update_time_success");
+                            sendBroadcast(to);
                             finish();
                         }
                     });
@@ -122,6 +133,9 @@ public class AddTimeActivity extends BaseFragmentActivity2 {
         int interval;
         try {
             interval = Integer.parseInt(binding.etInterval.getText().toString());
+            if(interval==0){
+                interval = 5;
+            }
         } catch (NumberFormatException e) {
             interval = 0;
         }
@@ -129,11 +143,11 @@ public class AddTimeActivity extends BaseFragmentActivity2 {
     }
 
 
-    private int getType() {
+    public int getType() {
         int type = TimeType.TYPE_UNDEFINE;
         if (binding.rbDetail.isChecked())
             type = TimeType.TYPE_DETAIL;
-        if(binding.rbFace.isChecked())
+        if (binding.rbFace.isChecked())
             type = TimeType.TYPY_FACE;
         return type;
     }
@@ -163,4 +177,25 @@ public class AddTimeActivity extends BaseFragmentActivity2 {
             return "设置出诊时间";
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+            unregisterReceiver(receiver);
+    }
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("update_type_face")) {
+                if (binding.rbFace.isChecked() && Settings.getDoctorProfile().getSpecialistCateg() == 1) {
+                    binding.llVisible.setVisibility(View.GONE);
+                    binding.llInterval.setVisibility(View.GONE);
+                } else {
+                    binding.llVisible.setVisibility(View.VISIBLE);
+                    binding.llInterval.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    };
 }

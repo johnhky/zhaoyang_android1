@@ -153,7 +153,7 @@ public class RegisterFragment extends SortedListFragment {
         }*/
         final ItemTextInput2 newPhoneNum = ItemTextInput2.mobilePhoneInput("手机号码", "请输入11位手机号码");
         newPhoneNum.setResultNotEmpty();
-        newPhoneNum.setItemLayoutId(R.layout.item_text_input2);
+        newPhoneNum.setItemLayoutId(R.layout.item_text_input5);
         newPhoneNum.setItemId("phone");
         sortedItems.add(newPhoneNum);
 
@@ -192,7 +192,7 @@ public class RegisterFragment extends SortedListFragment {
         passwordOne.add(new RegexValidator(Pattern.compile("(?=\\S+$).{6,10}$"), "请输入6~10位数字和字母组合"));
         passwordOne.add(new RegexValidator(Pattern.compile("(.)*(\\d)(.)*"), "密码里面应该最少包含一个数字"));
         passwordOne.add(new RegexValidator(Pattern.compile("(.)*[a-zA-Z](.)*"), "密码里面应该最少包含一个字母"));
-        passwordOne.setItemLayoutId(R.layout.item_text_input2);
+        passwordOne.setItemLayoutId(R.layout.item_text_input5);
         passwordOne.setItemId("password");
         sortedItems.add(passwordOne);
 
@@ -200,7 +200,7 @@ public class RegisterFragment extends SortedListFragment {
 
         ItemTextInput2 passwordTwo = ItemTextInput2.password("请再次输入密码", "请输入6~10位数字和字母组合");
         passwordTwo.setResultNotEmpty();
-        passwordTwo.setItemLayoutId(R.layout.item_text_input2);
+        passwordTwo.setItemLayoutId(R.layout.item_text_input5);
         passwordTwo.setItemId(UUID.randomUUID().toString());
         passwordTwo.add(new Validator() {
             @Override
@@ -268,39 +268,6 @@ public class RegisterFragment extends SortedListFragment {
         }
         return super.onOptionsItemSelected(item);
     }
-
-/*
-    private void done() {
-        if (BuildConfig.IS_DOCTOR == IntBoolean.NOT_GIVEN) {
-            final String registerType;
-            if (isDoctor()) {
-                registerType = "医生";
-            } else {
-                registerType = "患者";
-            }
-            new MaterialDialog.Builder(getContext())
-                    .title("您注册的身份为" + registerType)
-                    .positiveText("确定")
-                    .negativeText("取消")
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            Log.e(TAG, "onClick: 确定注册身份" + registerType);
-                            registerDone();
-                        }
-                    })
-                    .onNegative(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .build().show();
-        } else {
-            registerDone();
-        }
-    }
-*/
 
     private void registerDone() {
         AuthModule api = Api.of(AuthModule.class);

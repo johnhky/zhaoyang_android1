@@ -35,6 +35,7 @@
                 android:layout_marginRight="10dp"
                 android:gravity="center_vertical"
                 android:text="不用到医院排队"
+                android:textColor="#323232"
                 android:textSize="@dimen/font_15" />
 
             <TextView
@@ -43,7 +44,7 @@
                 android:layout_marginRight="10dp"
                 android:gravity="center_vertical"
                 android:text="节省时间"
-                android:textColor="#a4a4a4"
+                android:textColor="#767676"
                 android:textSize="@dimen/font_15" />
 
             <TextView
@@ -58,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="小时"
+                android:textColor="#323232"
                 android:textSize="@dimen/font_15" />
         </LinearLayout>
 
@@ -80,7 +82,7 @@
                 android:layout_marginRight="10dp"
                 android:gravity="center_vertical"
                 android:text="不需要来回奔波"
-
+                android:textColor="#323232"
                 android:textSize="@dimen/font_15" />
 
             <TextView
@@ -89,7 +91,7 @@
                 android:layout_marginRight="10dp"
                 android:gravity="center_vertical"
                 android:text="节省路费"
-                android:textColor="#a4a4a4"
+                android:textColor="#767676"
                 android:textSize="@dimen/font_15" />
 
             <TextView
@@ -104,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="元"
+                android:textColor="#323232"
                 android:textSize="@dimen/font_15" />
         </LinearLayout>
     </LinearLayout>

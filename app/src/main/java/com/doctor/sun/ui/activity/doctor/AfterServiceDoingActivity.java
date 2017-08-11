@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
@@ -24,6 +25,7 @@ import com.doctor.sun.ui.pager.DoctorAfterServicePA;
 import com.doctor.sun.ui.pager.PatientAfterServicePA;
 import com.doctor.sun.util.HistoryEventHandler;
 
+import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
 
 /**
@@ -74,6 +76,9 @@ public class AfterServiceDoingActivity extends TabActivity {
                     api.appointmentDetail(id).enqueue(new SimpleCallback<Appointment>() {
                         @Override
                         protected void handleResponse(Appointment response) {
+                            Config.putInt(Constants.CREATE_SUCCESS,1);
+                            Config.putString(Constants.ADDRESS,response.getId()+"");
+                            Config.putInt(Constants.APPOINTMENT_MONEY,response.getStatus());
                             EventHub.post(new AppointmentHistoryEvent(response, false));
 
                         }

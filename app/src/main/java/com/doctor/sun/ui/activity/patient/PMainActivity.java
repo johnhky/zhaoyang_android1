@@ -26,6 +26,7 @@ import com.doctor.sun.ui.activity.PMainActivity2;
 import com.doctor.sun.ui.handler.patient.PMainActivityHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.widget.AddMedicalRecordDialog;
+import com.doctor.sun.util.DialogUtils;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
@@ -105,7 +106,7 @@ public class PMainActivity extends BaseFragmentActivity2 {
     protected void onPostResume() {
         super.onPostResume();
         if (shouldCheck()) {
-            UpdateUtil.checkUpdate(this);
+            UpdateUtil.checkUpdate(this,1);
         }
     }
 
@@ -122,7 +123,7 @@ public class PMainActivity extends BaseFragmentActivity2 {
             boolean isGranted = PermissionUtil.verifyPermissions(grantResults);
             if (isGranted) {
                 if (shouldCheck()) {
-                    UpdateUtil.checkUpdate(this);
+                    UpdateUtil.checkUpdate(this,1);
                 }
             }
         }
@@ -170,17 +171,16 @@ public class PMainActivity extends BaseFragmentActivity2 {
             View view4 = binding.includeFooter.flTabTwo;
 
 
-            ShowCaseUtil.showCase2(view1, "点击这里可以找到适合您的医生", 1, 4, 0, false);
+     /*       ShowCaseUtil.showCase2(view1, "点击这里可以找到适合您的医生", 1, 4, 0, false);
             ShowCaseUtil.showCase2(view2, "点这里可以查询所有类型的订单", -1, 4, 1, false);
             ShowCaseUtil.showCase2(view3, "点击这里向随访医生反馈诊后/出院后病情恢复情况", -1, 4, 2, false);
-            ShowCaseUtil.showCase2(view4, "您可以在这里与医生通过文字信息或者电话进行沟通",-1  , 4, 3, false);
+            ShowCaseUtil.showCase2(view4, "您可以在这里与医生通过文字信息或者电话进行沟通",-1  , 4, 3, false);*/
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        UpdateUtil.onPause();
         EventHub.unregister(binding.vpBanner);
     }
 

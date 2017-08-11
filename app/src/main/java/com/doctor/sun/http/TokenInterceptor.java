@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 
 import java.io.IOException;
@@ -25,10 +26,16 @@ class TokenInterceptor implements Interceptor {
         // app/1.0_dev (android; 4.4.4; 19)
         String userAgent = "app/" + Systems.getVersionName(AppContext.me()) + " (android; " + Build.VERSION.RELEASE + "; " + Build.VERSION.SDK_INT + ")";
         // 1.0.0
-        String  version = Systems.getVersionName(AppContext.me()) + "";
+        String version = Systems.getVersionName(AppContext.me()) + "";
         String token = Config.getString(Constants.TOKEN);
         if (token == null) {
             token = "";
+        }
+        String versionName = "";
+        if (BuildConfig.USER_TYPE.equals("doctor")) {
+            versionName = "2.1.0";
+        } else {
+            versionName = "3.1.0";
         }
         Request request = chain
                 .request()
@@ -37,7 +44,7 @@ class TokenInterceptor implements Interceptor {
                 .addHeader("appVersion", version)
                 .addHeader("token", token)
                 .addHeader("from", "android")
-                .addHeader("version", BuildConfig.VERSION_NAME)
+                .addHeader("version", versionName)
                 .addHeader("client", "android")
                 .addHeader("type", BuildConfig.USER_TYPE)
                 .build();

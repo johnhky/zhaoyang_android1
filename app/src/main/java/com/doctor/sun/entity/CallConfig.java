@@ -39,4 +39,9 @@ public class CallConfig extends BaseItem {
     public void setBannerIcon(String bannerIcon) {
         this.bannerIcon = bannerIcon;
     }
+
+    @Override
+    public String toString() {
+        return "data{phone_call_enable:"+phoneCallEnable+",phone_call_text"+phoneCallText+",banner_icon:"+bannerIcon+"}";
+    }
 }

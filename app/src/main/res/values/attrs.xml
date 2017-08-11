@@ -1,11 +1,22 @@
 <resources>
 
 
-
     <declare-styleable name="BezelImageView">
         <attr name="maskDrawable" format="reference" />
         <attr name="borderDrawable" format="reference" />
         <attr name="desaturateOnPress" format="boolean" />
     </declare-styleable>
+    <attr name="timePickerDialogTheme" format="reference" />
+    <attr name="dialogMode" format="boolean" />
 
+    <declare-styleable name="wheelview">
+        <attr name="gravity">
+            <enum name="center" value="17" />
+            <enum name="left" value="3" />
+            <enum name="right" value="5" />
+        </attr>
+        <attr name="textColorOut" format="color" />
+        <attr name="textColorCenter" format="color" />
+        <attr name="dividerColor" format="color" />
+    </declare-styleable>
 </resources>

@@ -1,70 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="data"
             type="com.doctor.sun.vm.ItemTextInput2"></variable>
 
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            >
-        <TextView
-            android:layout_width="wrap_content"
-            android:textColor="#a4a4a4"
-            android:text="@{data.title}"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="14dp"
-            android:textSize="@dimen/font_15"
-            android:drawablePadding="5dp"
-            android:onClick="@{()->data.showDialog(context)}"
-            android:drawableRight="@drawable/ic_feedetail"
-            android:layout_height="match_parent" />
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="14dp"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/ic_feedetail"
+                android:gravity="center_vertical"
+                android:onClick="@{()->data.showDialog(context)}"
+                android:text="@{data.title}"
+                android:textColor="#b0b0b0"
+                android:textSize="@dimen/font_15" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:gravity="center_vertical"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textColor="@color/text_color_black"
                 android:text="实际应付:"
-                />
+                android:textColor="@color/text_color_black"
+                android:textSize="15sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:layout_marginTop="5dp"
+                android:text="@{data.province+data.result}"
                 android:textColor="@color/red_f7"
-                android:text="@{data.result}"
-                tools:text="￥270.0"
-                />
+                android:textSize="15sp"
+                tools:text="￥270.0" />
         </LinearLayout>
+
         <TextView
             android:layout_width="120dp"
             android:layout_height="match_parent"
-            android:background="@color/blue_33"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:onClick="@{(thisview)->data.showPayDialog(context,thisview)}"
+            android:background="@{data.background}"
+            android:enabled="@{data.enabled}"
             android:gravity="center"
-            android:text="确认付款"
-            />
+            android:text="@{data.remark}"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
     </LinearLayout>
-    </layout>
+</layout>

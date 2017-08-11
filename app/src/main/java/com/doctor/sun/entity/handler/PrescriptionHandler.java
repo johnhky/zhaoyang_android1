@@ -12,15 +12,17 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import com.alibaba.fastjson.JSONArray;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
-import com.doctor.sun.immutables.ModifiablePrescription;
 import com.doctor.sun.immutables.Prescription;
 import com.doctor.sun.immutables.Titration;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.fragment.DiagnosisFragment;
 import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
+import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.vm.TitrationTextInput;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
@@ -58,18 +60,19 @@ public class PrescriptionHandler {
                     case DiagnosisFragment.EDIT_PRESCRITPION: {
                         String string = msg.getData().getString(Constants.DATA);
                         Gson gson = new GsonBuilder().create();
-                        Prescription parcelable = gson.fromJson(string, Prescription.class);
+                        Prescription parcelable = JacksonUtils.fromJson(string, Prescription.class);
                         parcelable.setItemId(data.getItemId() + "");
                         parcelable.setPosition(data.getPosition());
                         if (adapter != null) {
                             adapter.update(parcelable);
                         } else {
-                            if (data instanceof ModifiablePrescription) {
-                                ModifiablePrescription temp = (ModifiablePrescription) data;
+                            if (data instanceof Prescription) {
+                                Prescription temp = data;
                                 temp.from(parcelable);
                                 temp.notifyChange();
                             }
                         }
+                        break;
                     }
                 }
                 return false;
@@ -98,12 +101,11 @@ public class PrescriptionHandler {
         }
 
         //1s单位
-        if (!TextUtils.isEmpty(data.getSpecification())) {
-            boolean isOneS = data.getSpecification().equals("-1");
-            if (isOneS) {
-                return true;
-            }
+        boolean isOneS = data.getSpecification().equals("-1");
+        if (isOneS) {
+            return true;
         }
+
 
         //克 毫克
         if (!TextUtils.isEmpty(data.getDrug_unit())) {
@@ -121,35 +123,226 @@ public class PrescriptionHandler {
         v.startActivity(intent);
     }
 
+    @JsonIgnore
+    public static String getDays(Prescription data) {
+        return "X " + data.getTake_medicine_days() + "天";
+    }
 
     @JsonIgnore
     public static String getLabel(Prescription data) {
         StringBuilder builder = new StringBuilder();
         builder.append(data.getDrug_name());
         if (data.getScientific_name() != null && !data.getScientific_name().isEmpty()) {
-            builder.append("(").append(data.getScientific_name()).append("),");
-        } else {
-            builder.append(",");
+            builder.append("(").append(data.getScientific_name()).append(")");
         }
-
-        if (data.getTake_medicine_days() != null && !data.getTake_medicine_days().equals("")) {
-            String takeMedicineDays = "用药天数:" + data.getTake_medicine_days() + "天";
-            builder.append(takeMedicineDays);
-            builder.append(",");
-        }
+        builder.append("\n");
                 /*When I wrote this code,only God and I understood what I was doing,
         mabey a month or a few months later,only God understood*/
-        if (null != data.getTitration()) {
-            ArrayList<Titration> titrations = data.getTitration();
-            if (titrations.size() == 1) {
-                builder.append("第").append(titrations.get(0).getTake_medicine_days()).append("天起,");
-                ArrayList<String> strings = titrationNumbers(titrations.get(0));
-                for (int i = 0; i < strings.size(); i++) {
-                    if (!TextUtils.isEmpty(strings.get(i))) {
-                        builder.append(keys[i]).append(strings.get(i)).append(data.getDrug_unit());
-                        builder.append(",");
+        if (null != data.getTitration() && 0 != data.getTitration().size()) {
+            List<Titration> titrations = data.getTitration();
+            if (titrations.size() > 0) {
+               /* for (int i = 0; i < titrations.size(); i++) {*/
+                int size = titrations.size();
+                if (size == 1) {
+                    builder.append(titrations.get(0).getTake_medicine_days() + "-" + Integer.parseInt(data.getTake_medicine_days())).append("天,");
+                    ArrayList<String> strings = titrationNumbers(titrations.get(0));
+                    for (int j = 0; j < strings.size(); j++) {
+                        if (!TextUtils.isEmpty(strings.get(j))) {
+                            builder.append(keys[j]).append(strings.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                } else if (size == 2) {
+                    int date = Integer.parseInt(titrations.get(1).getTake_medicine_days());
+                    builder.append(titrations.get(0).getTake_medicine_days() + "-" + (date - 1)).append("天,");
+                    ArrayList<String> strings = titrationNumbers(titrations.get(0));
+                    for (int j = 0; j < strings.size(); j++) {
+                        if (!TextUtils.isEmpty(strings.get(j))) {
+                            builder.append(keys[j]).append(strings.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+                    builder.append(titrations.get(1).getTake_medicine_days() + "-" + data.getTake_medicine_days()).append("天,");
+                    ArrayList<String> strings2 = titrationNumbers(titrations.get(1));
+                    for (int j = 0; j < strings2.size(); j++) {
+                        if (!TextUtils.isEmpty(strings2.get(j))) {
+                            builder.append(keys[j]).append(strings2.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                } else if (size == 3) {
+                    int date = Integer.parseInt(titrations.get(1).getTake_medicine_days());
+                    builder.append(titrations.get(0).getTake_medicine_days() + "-" + (date - 1)).append("天,");
+                    ArrayList<String> strings = titrationNumbers(titrations.get(0));
+                    for (int j = 0; j < strings.size(); j++) {
+                        if (!TextUtils.isEmpty(strings.get(j))) {
+                            builder.append(keys[j]).append(strings.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+
+                    int date2 = Integer.parseInt(titrations.get(2).getTake_medicine_days());
+                    builder.append(titrations.get(1).getTake_medicine_days() + "-" + (date2 - 1)).append("天,");
+                    ArrayList<String> string2 = titrationNumbers(titrations.get(1));
+                    for (int j = 0; j < string2.size(); j++) {
+                        if (!TextUtils.isEmpty(string2.get(j))) {
+                            builder.append(keys[j]).append(string2.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+
+                    builder.append(titrations.get(2).getTake_medicine_days() + "-" + data.getTake_medicine_days()).append("天,");
+                    ArrayList<String> strings3 = titrationNumbers(titrations.get(2));
+                    for (int j = 0; j < strings3.size(); j++) {
+                        if (!TextUtils.isEmpty(strings3.get(j))) {
+                            builder.append(keys[j]).append(strings3.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                } else if (size == 4) {
+                    int date = Integer.parseInt(titrations.get(1).getTake_medicine_days());
+                    builder.append(titrations.get(0).getTake_medicine_days() + "-" + (date - 1)).append("天,");
+                    ArrayList<String> strings = titrationNumbers(titrations.get(0));
+                    for (int j = 0; j < strings.size(); j++) {
+                        if (!TextUtils.isEmpty(strings.get(j))) {
+                            builder.append(keys[j]).append(strings.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+
+                    int date2 = Integer.parseInt(titrations.get(2).getTake_medicine_days());
+                    builder.append(titrations.get(1).getTake_medicine_days() + "-" + (date2 - 1)).append("天,");
+                    ArrayList<String> string2 = titrationNumbers(titrations.get(1));
+                    for (int j = 0; j < string2.size(); j++) {
+                        if (!TextUtils.isEmpty(string2.get(j))) {
+                            builder.append(keys[j]).append(string2.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+
+                    int date3 = Integer.parseInt(titrations.get(3).getTake_medicine_days());
+                    builder.append(titrations.get(2).getTake_medicine_days() + "-" + (date3 - 1)).append("天,");
+                    ArrayList<String> string3 = titrationNumbers(titrations.get(2));
+                    for (int j = 0; j < string3.size(); j++) {
+                        if (!TextUtils.isEmpty(string3.get(j))) {
+                            builder.append(keys[j]).append(string3.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+
+                    builder.append(titrations.get(3).getTake_medicine_days() + "-" + data.getTake_medicine_days()).append("天,");
+                    ArrayList<String> strings4 = titrationNumbers(titrations.get(3));
+                    for (int j = 0; j < strings4.size(); j++) {
+                        if (!TextUtils.isEmpty(strings4.get(j))) {
+                            builder.append(keys[j]).append(strings4.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                } else if (size == 5) {
+                    int date = Integer.parseInt(titrations.get(1).getTake_medicine_days());
+                    builder.append(titrations.get(0).getTake_medicine_days() + "-" + (date - 1)).append("天,");
+                    ArrayList<String> strings = titrationNumbers(titrations.get(0));
+                    for (int j = 0; j < strings.size(); j++) {
+                        if (!TextUtils.isEmpty(strings.get(j))) {
+                            builder.append(keys[j]).append(strings.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+
+                    int date2 = Integer.parseInt(titrations.get(2).getTake_medicine_days());
+                    builder.append(titrations.get(1).getTake_medicine_days() + "-" + (date2 - 1)).append("天,");
+                    ArrayList<String> string2 = titrationNumbers(titrations.get(1));
+                    for (int j = 0; j < string2.size(); j++) {
+                        if (!TextUtils.isEmpty(string2.get(j))) {
+                            builder.append(keys[j]).append(string2.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+
+                    int date3 = Integer.parseInt(titrations.get(3).getTake_medicine_days());
+                    builder.append(titrations.get(2).getTake_medicine_days() + "-" + (date3 - 1)).append("天,");
+                    ArrayList<String> string3 = titrationNumbers(titrations.get(2));
+                    for (int j = 0; j < string3.size(); j++) {
+                        if (!TextUtils.isEmpty(string3.get(j))) {
+                            builder.append(keys[j]).append(string3.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+
+                    int date4 = Integer.parseInt(titrations.get(4).getTake_medicine_days());
+                    builder.append(titrations.get(3).getTake_medicine_days() + "-" + (date4 - 1)).append("天,");
+                    ArrayList<String> string4 = titrationNumbers(titrations.get(3));
+                    for (int j = 0; j < string4.size(); j++) {
+                        if (!TextUtils.isEmpty(string4.get(j))) {
+                            builder.append(keys[j]).append(string4.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+
+                    builder.append(titrations.get(4).getTake_medicine_days() + "-" + data.getTake_medicine_days()).append("天,");
+                    ArrayList<String> strings5 = titrationNumbers(titrations.get(4));
+                    for (int j = 0; j < strings5.size(); j++) {
+                        if (!TextUtils.isEmpty(strings5.get(j))) {
+                            builder.append(keys[j]).append(strings5.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                } else if (data.getTitration().size() == 6) {
+                    int date = Integer.parseInt(titrations.get(1).getTake_medicine_days());
+                    builder.append(titrations.get(0).getTake_medicine_days() + "-" + (date - 1)).append("天,");
+                    ArrayList<String> strings = titrationNumbers(titrations.get(0));
+                    for (int j = 0; j < strings.size(); j++) {
+                        if (!TextUtils.isEmpty(strings.get(j))) {
+                            builder.append(keys[j]).append(strings.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+
+                    int date2 = Integer.parseInt(titrations.get(2).getTake_medicine_days());
+                    builder.append(titrations.get(1).getTake_medicine_days() + "-" + (date2 - 1)).append("天,");
+                    ArrayList<String> string2 = titrationNumbers(titrations.get(1));
+                    for (int j = 0; j < string2.size(); j++) {
+                        if (!TextUtils.isEmpty(string2.get(j))) {
+                            builder.append(keys[j]).append(string2.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+
+                    int date3 = Integer.parseInt(titrations.get(3).getTake_medicine_days());
+                    builder.append(titrations.get(2).getTake_medicine_days() + "-" + (date3 - 1)).append("天,");
+                    ArrayList<String> string3 = titrationNumbers(titrations.get(2));
+                    for (int j = 0; j < string3.size(); j++) {
+                        if (!TextUtils.isEmpty(string3.get(j))) {
+                            builder.append(keys[j]).append(string3.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+
+                    int date4 = Integer.parseInt(titrations.get(4).getTake_medicine_days());
+                    builder.append(titrations.get(3).getTake_medicine_days() + "-" + (date4 - 1)).append("天,");
+                    ArrayList<String> string4 = titrationNumbers(titrations.get(3));
+                    for (int j = 0; j < string4.size(); j++) {
+                        if (!TextUtils.isEmpty(string4.get(j))) {
+                            builder.append(keys[j]).append(string4.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+
+                    int date5 = Integer.parseInt(titrations.get(5).getTake_medicine_days());
+                    builder.append(titrations.get(4).getTake_medicine_days() + "-" + (date5 - 1)).append("天,");
+                    ArrayList<String> string5 = titrationNumbers(titrations.get(4));
+                    for (int j = 0; j < string5.size(); j++) {
+                        if (!TextUtils.isEmpty(string5.get(j))) {
+                            builder.append(keys[j]).append(string5.get(j)).append(data.getDrug_unit());
+                        }
+                    }
+                    builder.append("\n");
+
+                    builder.append(titrations.get(5).getTake_medicine_days() + "-" + data.getTake_medicine_days()).append("天,");
+                    ArrayList<String> strings5 = titrationNumbers(titrations.get(5));
+                    for (int j = 0; j < strings5.size(); j++) {
+                        if (!TextUtils.isEmpty(strings5.get(j))) {
+                            builder.append(keys[j]).append(strings5.get(j)).append(data.getDrug_unit());
+                        }
                     }
                 }
+
+              /*  }*/
             }
 
         } else {
@@ -172,12 +365,11 @@ public class PrescriptionHandler {
                         }
                     }
                 }
+                builder.deleteCharAt(builder.length() - 1);
             }
         }
-        if (data.getRemark() != null && !data.getRemark().isEmpty()) {
-            builder.append(data.getRemark());
-        } else {
-            builder.deleteCharAt(builder.length() - 1);
+        if (!TextUtils.isEmpty(data.getRemark())) {
+            builder.append("\n" + data.getRemark());
         }
         return builder.toString();
     }
@@ -218,7 +410,7 @@ public class PrescriptionHandler {
 
     @JsonIgnore
     public static String getName(Prescription data) {
-        String s = "<font color='#898989'>药名: </font>" + data.getDrug_name();
+        String s = "药名: " + data.getDrug_name();
         if (data.getScientific_name() != null && !data.getScientific_name().equals("")) {
             s += "(" + data.getScientific_name() + ")";
         } else {
@@ -233,22 +425,33 @@ public class PrescriptionHandler {
         if (Strings.isNullOrEmpty(take_medicine_days)) {
             take_medicine_days = "28";
         }
-        return "<font color='#898989'>用药天数:   </font>" + take_medicine_days + "天";
+        return "用药天数:   " + take_medicine_days + "天";
+    }
+
+    @JsonIgnore
+    public static boolean visibleFrequency(Prescription data) {
+        if (data.getFrequency().equals("每天")) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @JsonIgnore
     public static String getIntervalWithLabel(Prescription data) {
-        String builder = "<font color='#898989'>间隔:   </font>" + data.getFrequency();
+        String builder;
+        if (data.getFrequency().equals("每天")) {
+            builder = null;
+        } else {
+            builder = "间隔:   " + data.getFrequency();
+        }
         return builder;
     }
 
     @JsonIgnore
     public static String getAmountKV(Prescription data) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(getAmountK());
-        StringBuilder amountV = getAmountV(data);
-        builder.append(amountV);
-        return builder.toString();
+        String amountV = getAmountK() + getAmountV(data);
+        return amountV;
     }
 
     @NonNull
@@ -256,21 +459,216 @@ public class PrescriptionHandler {
         return "<font color='#898989'>数量:   </font>";
     }
 
-    public static StringBuilder getAmountV(Prescription data) {
+    @JsonIgnore
+    public static String getAmountV(Prescription data) {
         StringBuilder builder = new StringBuilder();
-        if (data.getTitration().size()>0){
-                ArrayList<Titration> titrations = data.getTitration();
-                if (titrations.size() == 1) {
-                    builder.append("第").append(titrations.get(0).getTake_medicine_days()).append("天起,");
-                    ArrayList<String> strings = titrationNumbers(titrations.get(0));
-                    for (int i = 0; i < strings.size(); i++) {
-                        if (!TextUtils.isEmpty(strings.get(i))) {
-                            builder.append(keys[i]).append(strings.get(i)).append(data.getDrug_unit());
-                            builder.append(",");
-                        }
+        if (null != data.getTitration() && 0 != data.getTitration().size()) {
+            builder.append("\n");
+            List<Titration> titrations = data.getTitration();
+            int size = titrations.size();
+            if (size == 1) {
+                builder.append(titrations.get(0).getTake_medicine_days() + "-" + Integer.parseInt(data.getTake_medicine_days())).append("天,");
+                ArrayList<String> strings = titrationNumbers(titrations.get(0));
+                for (int j = 0; j < strings.size(); j++) {
+                    if (!TextUtils.isEmpty(strings.get(j))) {
+                        builder.append(keys[j]).append(strings.get(j)).append(data.getDrug_unit());
                     }
                 }
-        }else{
+            } else if (size == 2) {
+                int date = Integer.parseInt(titrations.get(1).getTake_medicine_days());
+                builder.append(titrations.get(0).getTake_medicine_days() + "-" + (date - 1)).append("天,");
+                ArrayList<String> strings = titrationNumbers(titrations.get(0));
+                for (int j = 0; j < strings.size(); j++) {
+                    if (!TextUtils.isEmpty(strings.get(j))) {
+                        builder.append(keys[j]).append(strings.get(j)).append(data.getDrug_unit());
+                    }
+                }
+                builder.append("\n");
+                builder.append(titrations.get(1).getTake_medicine_days() + "-" + data.getTake_medicine_days()).append("天,");
+                ArrayList<String> strings2 = titrationNumbers(titrations.get(1));
+                for (int j = 0; j < strings2.size(); j++) {
+                    if (!TextUtils.isEmpty(strings2.get(j))) {
+                        builder.append(keys[j]).append(strings2.get(j)).append(data.getDrug_unit());
+                    }
+                }
+            } else if (size == 3) {
+                int date = Integer.parseInt(titrations.get(1).getTake_medicine_days());
+                builder.append(titrations.get(0).getTake_medicine_days() + "-" + (date - 1)).append("天,");
+                ArrayList<String> strings = titrationNumbers(titrations.get(0));
+                for (int j = 0; j < strings.size(); j++) {
+                    if (!TextUtils.isEmpty(strings.get(j))) {
+                        builder.append(keys[j]).append(strings.get(j)).append(data.getDrug_unit());
+                    }
+                }
+                builder.append("\n");
+                int date2 = Integer.parseInt(titrations.get(2).getTake_medicine_days());
+                builder.append(titrations.get(1).getTake_medicine_days() + "-" + (date2 - 1)).append("天,");
+                ArrayList<String> string2 = titrationNumbers(titrations.get(1));
+                for (int j = 0; j < string2.size(); j++) {
+                    if (!TextUtils.isEmpty(string2.get(j))) {
+                        builder.append(keys[j]).append(string2.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+                builder.append("\n");
+                builder.append(titrations.get(2).getTake_medicine_days() + "-" + data.getTake_medicine_days()).append("天,");
+                ArrayList<String> strings3 = titrationNumbers(titrations.get(2));
+                for (int j = 0; j < strings3.size(); j++) {
+                    if (!TextUtils.isEmpty(strings3.get(j))) {
+                        builder.append(keys[j]).append(strings3.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+            } else if (size == 4) {
+                int date = Integer.parseInt(titrations.get(1).getTake_medicine_days());
+                builder.append(titrations.get(0).getTake_medicine_days() + "-" + (date - 1)).append("天,");
+                ArrayList<String> strings = titrationNumbers(titrations.get(0));
+                for (int j = 0; j < strings.size(); j++) {
+                    if (!TextUtils.isEmpty(strings.get(j))) {
+                        builder.append(keys[j]).append(strings.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+                builder.append("\n");
+                int date2 = Integer.parseInt(titrations.get(2).getTake_medicine_days());
+                builder.append(titrations.get(1).getTake_medicine_days() + "-" + (date2 - 1)).append("天,");
+                ArrayList<String> string2 = titrationNumbers(titrations.get(1));
+                for (int j = 0; j < string2.size(); j++) {
+                    if (!TextUtils.isEmpty(string2.get(j))) {
+                        builder.append(keys[j]).append(string2.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+                builder.append("\n");
+                int date3 = Integer.parseInt(titrations.get(3).getTake_medicine_days());
+                builder.append(titrations.get(2).getTake_medicine_days() + "-" + (date3 - 1)).append("天,");
+                ArrayList<String> string3 = titrationNumbers(titrations.get(2));
+                for (int j = 0; j < string3.size(); j++) {
+                    if (!TextUtils.isEmpty(string3.get(j))) {
+                        builder.append(keys[j]).append(string3.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+                builder.append("\n");
+                builder.append(titrations.get(3).getTake_medicine_days() + "-" + data.getTake_medicine_days()).append("天,");
+                ArrayList<String> strings4 = titrationNumbers(titrations.get(3));
+                for (int j = 0; j < strings4.size(); j++) {
+                    if (!TextUtils.isEmpty(strings4.get(j))) {
+                        builder.append(keys[j]).append(strings4.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+            } else if (size == 5) {
+                int date = Integer.parseInt(titrations.get(1).getTake_medicine_days());
+                builder.append(titrations.get(0).getTake_medicine_days() + "-" + (date - 1)).append("天,");
+                ArrayList<String> strings = titrationNumbers(titrations.get(0));
+                for (int j = 0; j < strings.size(); j++) {
+                    if (!TextUtils.isEmpty(strings.get(j))) {
+                        builder.append(keys[j]).append(strings.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+                builder.append("\n");
+                int date2 = Integer.parseInt(titrations.get(2).getTake_medicine_days());
+                builder.append(titrations.get(1).getTake_medicine_days() + "-" + (date2 - 1)).append("天,");
+                ArrayList<String> string2 = titrationNumbers(titrations.get(1));
+                for (int j = 0; j < string2.size(); j++) {
+                    if (!TextUtils.isEmpty(string2.get(j))) {
+                        builder.append(keys[j]).append(string2.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+                builder.append("\n");
+                int date3 = Integer.parseInt(titrations.get(3).getTake_medicine_days());
+                builder.append(titrations.get(2).getTake_medicine_days() + "-" + (date3 - 1)).append("天,");
+                ArrayList<String> string3 = titrationNumbers(titrations.get(2));
+                for (int j = 0; j < string3.size(); j++) {
+                    if (!TextUtils.isEmpty(string3.get(j))) {
+                        builder.append(keys[j]).append(string3.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+                builder.append("\n");
+                int date4 = Integer.parseInt(titrations.get(4).getTake_medicine_days());
+                builder.append(titrations.get(3).getTake_medicine_days() + "-" + (date4 - 1)).append("天,");
+                ArrayList<String> string4 = titrationNumbers(titrations.get(3));
+                for (int j = 0; j < string4.size(); j++) {
+                    if (!TextUtils.isEmpty(string4.get(j))) {
+                        builder.append(keys[j]).append(string4.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+                builder.append("\n");
+                builder.append(titrations.get(4).getTake_medicine_days() + "-" + data.getTake_medicine_days()).append("天,");
+                ArrayList<String> strings5 = titrationNumbers(titrations.get(4));
+                for (int j = 0; j < strings5.size(); j++) {
+                    if (!TextUtils.isEmpty(strings5.get(j))) {
+                        builder.append(keys[j]).append(strings5.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+            } else if (data.getTitration().size() == 6) {
+                int date = Integer.parseInt(titrations.get(1).getTake_medicine_days());
+                builder.append(titrations.get(0).getTake_medicine_days() + "-" + (date - 1)).append("天,");
+                ArrayList<String> strings = titrationNumbers(titrations.get(0));
+                for (int j = 0; j < strings.size(); j++) {
+                    if (!TextUtils.isEmpty(strings.get(j))) {
+                        builder.append(keys[j]).append(strings.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+                builder.append("\n");
+                int date2 = Integer.parseInt(titrations.get(2).getTake_medicine_days());
+                builder.append(titrations.get(1).getTake_medicine_days() + "-" + (date2 - 1)).append("天,");
+                ArrayList<String> string2 = titrationNumbers(titrations.get(1));
+                for (int j = 0; j < string2.size(); j++) {
+                    if (!TextUtils.isEmpty(string2.get(j))) {
+                        builder.append(keys[j]).append(string2.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+                builder.append("\n");
+                int date3 = Integer.parseInt(titrations.get(3).getTake_medicine_days());
+                builder.append(titrations.get(2).getTake_medicine_days() + "-" + (date3 - 1)).append("天,");
+                ArrayList<String> string3 = titrationNumbers(titrations.get(2));
+                for (int j = 0; j < string3.size(); j++) {
+                    if (!TextUtils.isEmpty(string3.get(j))) {
+                        builder.append(keys[j]).append(string3.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+                builder.append("\n");
+                int date4 = Integer.parseInt(titrations.get(4).getTake_medicine_days());
+                builder.append(titrations.get(3).getTake_medicine_days() + "-" + (date4 - 1)).append("天,");
+                ArrayList<String> string4 = titrationNumbers(titrations.get(3));
+                for (int j = 0; j < string4.size(); j++) {
+                    if (!TextUtils.isEmpty(string4.get(j))) {
+                        builder.append(keys[j]).append(string4.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+                builder.append("\n");
+                int date5 = Integer.parseInt(titrations.get(5).getTake_medicine_days());
+                builder.append(titrations.get(4).getTake_medicine_days() + "-" + (date5 - 1)).append("天,");
+                ArrayList<String> string5 = titrationNumbers(titrations.get(4));
+                for (int j = 0; j < string5.size(); j++) {
+                    if (!TextUtils.isEmpty(string5.get(j))) {
+                        builder.append(keys[j]).append(string5.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+                builder.append("\n");
+                builder.append(titrations.get(5).getTake_medicine_days() + "-" + data.getTake_medicine_days()).append("天,");
+                ArrayList<String> strings5 = titrationNumbers(titrations.get(5));
+                for (int j = 0; j < strings5.size(); j++) {
+                    if (!TextUtils.isEmpty(strings5.get(j))) {
+                        builder.append(keys[j]).append(strings5.get(j)).append(data.getDrug_unit());
+                    }
+
+                }
+
+            }
+        } else {
             ArrayList<String> numbers = numbers(data);
             for (int i = 0; i < numbers.size(); i++) {
                 String amonut = numbers.get(i);
@@ -278,12 +676,22 @@ public class PrescriptionHandler {
                     builder.append(keys[i]).append(amonut).append(data.getDrug_unit()).append(",");
                 }
             }
+            if (builder.length() > 0) {
+                builder.deleteCharAt(builder.length() - 1);
+            }
         }
 
-        if (builder.length()>0){
-            builder.deleteCharAt(builder.length() - 1);
+
+        return builder.toString();
+    }
+
+    @JsonIgnore
+    public static boolean visibleRemork(Prescription data) {
+        if (TextUtils.isEmpty(data.getRemark())) {
+            return false;
+        } else {
+            return true;
         }
-        return builder;
     }
 
 
@@ -291,7 +699,7 @@ public class PrescriptionHandler {
     public static String getRemarkLabel(Prescription data) {
         StringBuilder builder = new StringBuilder();
         if (data.getRemark() != null && !data.getRemark().equals("")) {
-            builder.append("<font color='#898989'>备注:   </font>");
+            builder.append("备注:   ");
             builder.append(data.getRemark());
         }
         return builder.toString();
@@ -332,6 +740,74 @@ public class PrescriptionHandler {
     public static String concatNumbers(Prescription data) {
         return data.getMorning() + data.getNoon() + data.getNight() + data.getBefore_sleep();
     }
+
+    public static double totalTitrationNumberPerFrequency(TitrationTextInput data) {
+        String morningS = nullOrEmptyToZero(trimZero(data.getMorning()));
+        String noonS = nullOrEmptyToZero(trimZero(data.getNoon()));
+        String nightS = nullOrEmptyToZero(trimZero(data.getNight()));
+        String beforeSleepS = nullOrEmptyToZero(trimZero(data.getBefore_sleep()));
+        double morningV;
+        try {
+            morningV = Strings.isNullOrEmpty(morningS) ? 0 : Double.valueOf(morningS);
+        } catch (NumberFormatException e) {
+            morningV = 0D;
+        }
+        double noonV;
+        try {
+            noonV = Strings.isNullOrEmpty(noonS) ? 0 : Double.valueOf(noonS);
+        } catch (NumberFormatException e) {
+            noonV = 0D;
+        }
+        double nightV;
+        try {
+            nightV = Strings.isNullOrEmpty(beforeSleepS) ? 0 : Double.valueOf(beforeSleepS);
+        } catch (NumberFormatException e) {
+            nightV = 0D;
+        }
+        double beforeSleepV;
+        try {
+            beforeSleepV = Strings.isNullOrEmpty(nightS) ? 0 : Double.valueOf(nightS);
+        } catch (NumberFormatException e) {
+            beforeSleepV = 0D;
+        }
+
+        return morningV + noonV + nightV + beforeSleepV;
+    }
+
+
+    public static double totalTiNumberPerFrequency(Titration data) {
+        String morningS = nullOrEmptyToZero(trimZero(data.getMorning()));
+        String noonS = nullOrEmptyToZero(trimZero(data.getNoon()));
+        String nightS = nullOrEmptyToZero(trimZero(data.getNight()));
+        String beforeSleepS = nullOrEmptyToZero(trimZero(data.getBefore_sleep()));
+        double morningV;
+        try {
+            morningV = Strings.isNullOrEmpty(morningS) ? 0 : Double.valueOf(morningS);
+        } catch (NumberFormatException e) {
+            morningV = 0D;
+        }
+        double noonV;
+        try {
+            noonV = Strings.isNullOrEmpty(noonS) ? 0 : Double.valueOf(noonS);
+        } catch (NumberFormatException e) {
+            noonV = 0D;
+        }
+        double nightV;
+        try {
+            nightV = Strings.isNullOrEmpty(beforeSleepS) ? 0 : Double.valueOf(beforeSleepS);
+        } catch (NumberFormatException e) {
+            nightV = 0D;
+        }
+        double beforeSleepV;
+        try {
+            beforeSleepV = Strings.isNullOrEmpty(nightS) ? 0 : Double.valueOf(nightS);
+        } catch (NumberFormatException e) {
+            beforeSleepV = 0D;
+        }
+
+        return morningV + noonV + nightV + beforeSleepV;
+    }
+
 
     public static double totalNumberPerFrequency(Prescription data) {
         String morningS = nullOrEmptyToZero(trimZero(data.getMorning()));
@@ -384,8 +860,8 @@ public class PrescriptionHandler {
         builder.setNight("");
         builder.setBefore_sleep("");
         builder.setTake_medicine_days("");
-        builder.setSpecification("");
         builder.setUnits("");
+        builder.setSpecification("");
         builder.setTitration(new ArrayList<Titration>());
         return builder;
     }
@@ -413,8 +889,9 @@ public class PrescriptionHandler {
         return builder;
     }
 
-    private static ArrayList<Titration> getTitrations(String str) {
+    public static ArrayList<Titration> getTitrations(String str) {
         Gson gson = new GsonBuilder().create();
+      /*  List<Titration> titrations = JSONArray.parseArray(str,Titration.class);*/
         ArrayList<Titration> titrations = gson.fromJson(str, new TypeToken<ArrayList<Titration>>() {
         }.getType());
         return titrations;
@@ -447,7 +924,19 @@ public class PrescriptionHandler {
         }
     }
 
+    public static boolean isVisibles(Prescription data) {
+        if (Settings.isDoctor()) {
+            if (data.getTitration().size() > 0) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public static String totalNum(Prescription data) {
-        return String.format(Locale.CHINA, "%.2f", data.getTotal_num());
+        return data.getTotal_num();
     }
 }

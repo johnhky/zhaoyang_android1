@@ -5,6 +5,7 @@ import com.doctor.sun.entity.Avatar;
 import com.doctor.sun.entity.Contact;
 import com.doctor.sun.entity.ContactDetail;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.MessageNum;
 import com.doctor.sun.entity.PatientMoney;
 
 import java.util.HashMap;
@@ -73,5 +74,16 @@ public interface ImModule {
 
     @FormUrlEncoded
     @POST("im/phone-call")
-    Call<ApiDTO<String>> makeYunXinPhoneCall(@Field("appointmentId") String appointmentId);
+    Call<ApiDTO> makeYunXinPhoneCall(@Field("appointmentId") String appointmentId);
+
+    /*更新可用信息条数*/
+    @FormUrlEncoded
+    @POST("appointment/chat-num-decrement")
+    Call<ApiDTO>updateMsg(@Field("appointmentId") String id);
+
+
+    /*获取可用信息条数*/
+    @GET("appointment/chat-num")
+    Call<ApiDTO<MessageNum>>getMsg(@Query("appointmentId") String id);
+
 }

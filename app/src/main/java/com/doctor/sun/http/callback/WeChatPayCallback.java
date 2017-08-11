@@ -16,6 +16,7 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import java.util.HashMap;
 
+import io.ganguo.library.common.LoadingHelper;
 import io.ganguo.library.core.event.EventHub;
 import retrofit2.Call;
 
@@ -32,11 +33,13 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
 
             @Override
             public void onPaySuccess() {
+                LoadingHelper.hideMaterLoading();
                 EventHub.post(new PaySuccessEvent(data));
             }
 
             @Override
             public void onPayFail() {
+                LoadingHelper.hideMaterLoading();
                 EventHub.post(new PayFailEvent(data, false));
             }
         };
@@ -67,11 +70,13 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
         mCallback = new PayCallback() {
             @Override
             public void onPaySuccess() {
+                LoadingHelper.hideMaterLoading();
                 EventHub.post(new PaySuccessEvent());
             }
 
             @Override
             public void onPayFail() {
+                LoadingHelper.hideMaterLoading();
                 EventHub.post(new PayFailEvent(money, false, extraField));
             }
         };
@@ -81,7 +86,7 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
     @Override
     protected void handleResponse(WeChatPayDTO response) {
         PayReq req = new PayReq();
-
+        LoadingHelper.hideMaterLoading();
         req.appId = response.getAppid();
         req.partnerId = response.getPartnerid();
         req.prepayId = response.getPrepayid();
@@ -98,6 +103,7 @@ public class WeChatPayCallback extends SimpleCallback<WeChatPayDTO> {
     @Override
     public void onFailure(Call<ApiDTO<WeChatPayDTO>> call, Throwable t) {
         super.onFailure(call, t);
+        LoadingHelper.hideMaterLoading();
         String localizedMessage = t.getLocalizedMessage();
         if (localizedMessage != null && localizedMessage.contains("finish_pay")) {
             if (mCallback != null) {

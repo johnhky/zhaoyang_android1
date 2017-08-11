@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="预约医生:"
                 android:textColor="@color/main_txt_color"
-                android:textSize="18sp" />
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/tv_doctorName"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:text="预约类型:"
                 android:textColor="@color/main_txt_color"
-                android:textSize="18sp" />
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/tv_d_type"
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:text="预约时间:"
                 android:textColor="@color/main_txt_color"
-                android:textSize="18sp" />
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/tv_time"
@@ -100,7 +100,7 @@
                 android:layout_weight="1"
                 android:text=""
                 android:textColor="@color/text_color_black"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:text="诊金:"
                 android:textColor="@color/main_txt_color"
-                android:textSize="18sp" />
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/tv_money"
@@ -125,18 +125,21 @@
                 android:layout_weight="1"
                 android:text=""
                 android:textColor="@color/orange"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_coupon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:visibility="gone"
+        >
 
         <TextView
             android:layout_width="80dp"
@@ -146,7 +149,7 @@
             android:paddingLeft="8dp"
             android:text="优惠券"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -154,7 +157,7 @@
             android:layout_marginLeft="5dp"
             android:text="请选择优惠券(点击选择)"
             android:textColor="@color/text_color_black"
-            android:textSize="20sp"
+            android:textSize="20dp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -178,7 +181,7 @@
         android:layout_margin="10dp"
         android:text="请选择支付方式"
         android:textColor="@color/main_txt_color"
-        android:textSize="20sp" />
+        android:textSize="20dp" />
 
     <RadioGroup
         android:id="@+id/radio_payment"
@@ -204,8 +207,8 @@
             android:checked="true"
             android:drawableLeft="@drawable/ic_address_mock"
             android:drawablePadding="3dp"
-            android:text="支付宝快捷支付"
-            android:textSize="18sp"
+            android:text="支付宝支付"
+            android:textSize="18dp"
             android:textColor="@color/text_color_black" />
 
         <TextView
@@ -223,18 +226,26 @@
             android:drawableLeft="@drawable/ic_address_mock"
             android:drawablePadding="3dp"
             android:text="微信支付"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:textColor="@color/text_color_black" />
     </RadioGroup>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(推荐使用)"
+        android:layout_marginTop="-10dp"
+        android:layout_marginLeft="80dp"
+        android:textColor="@color/red_f0"
+        />
     <Button
         android:id="@+id/btn_truth"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="8dp"
         android:background="@color/colorPrimaryDark"
         android:gravity="center"
         android:text="去支付"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="18dp" />
 </LinearLayout>

@@ -17,11 +17,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:current="@{1}"
-            android:isRect="@{true}"
-            android:next="@{2}"
-            android:previous='@{-1}'
-            android:showcase='@{"输入您想预约的医生姓名"}'>
+          >
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/tool_bar"

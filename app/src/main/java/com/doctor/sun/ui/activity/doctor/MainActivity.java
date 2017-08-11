@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -18,6 +19,7 @@ import com.doctor.sun.entity.DoctorIndex;
 import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.event.MainTabChangedEvent;
+import com.doctor.sun.event.ProgressEvent;
 import com.doctor.sun.event.ShowCaseFinishedEvent;
 import com.doctor.sun.event.UpdateEvent;
 import com.doctor.sun.http.Api;
@@ -27,12 +29,16 @@ import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
 import com.doctor.sun.ui.handler.MainActivityHandler;
 import com.doctor.sun.ui.model.FooterViewModel;
 import com.doctor.sun.ui.widget.BindingDialog;
+import com.doctor.sun.util.DialogUtils;
 import com.doctor.sun.util.JacksonUtils;
+import com.doctor.sun.util.NotificationUtil;
 import com.doctor.sun.util.PermissionUtil;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
 import com.doctor.sun.vm.ClickMenu;
 import com.squareup.otto.Subscribe;
+
+import java.io.File;
 
 import io.ganguo.library.Config;
 import io.realm.RealmChangeListener;
@@ -50,7 +56,6 @@ public class MainActivity extends BaseDoctorActivity {
     private ProfileModule api = Api.of(ProfileModule.class);
     private ActivityMainBinding binding;
     private RealmResults<TextMsg> unReadMsg;
-    private boolean isShowing = false;
 
     public static Intent makeIntent(Context context) {
         Intent i = new Intent(context, MainActivity.class);
@@ -163,16 +168,12 @@ public class MainActivity extends BaseDoctorActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if (shouldCheck()) {
-            UpdateUtil.checkUpdate(this);
-        }
-        showShowCase();
+        UpdateUtil.checkUpdate(this,1);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         getRealm().addChangeListener(getFooter());
         api.doctorIndex().enqueue(new ApiCallback<DoctorIndex>() {
             @Override
@@ -198,7 +199,7 @@ public class MainActivity extends BaseDoctorActivity {
             boolean isGranted = PermissionUtil.verifyPermissions(grantResults);
             if (isGranted) {
                 if (shouldCheck()) {
-                    UpdateUtil.checkUpdate(this);
+                    UpdateUtil.checkUpdate(this,1);
                 }
             }
         }
@@ -213,25 +214,9 @@ public class MainActivity extends BaseDoctorActivity {
         }
     }
 
-    public void showShowCase() {
-        if (isShowing) {
-            return;
-        }
-//        if (ShowCaseUtil.shown(TAG)) {
-//            return;
-//        }
-        if (Settings.isDoctor()) {
-            isShowing = true;
-            ShowCaseUtil.showCase2(binding.llyAppointment, "所有已预约患者都在这里", 2, 3, 0, true);
-            ShowCaseUtil.showCase2(binding.llyAfterService, "点击这里向已出院患者或者就诊后的患者进行随访", 2, 3, 1, true);
-            ShowCaseUtil.showCase2(binding.includeFooter.flTabTwo, "您可以在这里与患者通过文字信息或者电话进行沟通", 2, 3, 2, false);
-        }
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
-        UpdateUtil.onPause();
     }
 
     @Subscribe

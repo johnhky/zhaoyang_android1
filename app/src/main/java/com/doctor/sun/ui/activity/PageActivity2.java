@@ -85,7 +85,6 @@ public class PageActivity2 extends BaseFragmentActivity2 implements View.OnClick
                 Tasks.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        binding.refreshLayout.setRefreshing(false);
                         if (hasNoContent()) {
                             binding.emptyIndicator.setText(getEmptyIndicatorText());
                             binding.emptyIndicator.setVisibility(View.VISIBLE);

@@ -9,8 +9,8 @@ import android.support.v4.app.NotificationCompat;
 
 import com.doctor.sun.R;
 import com.doctor.sun.avchat.activity.AVChatActivity;
+import com.doctor.sun.im.cache.NimUserInfoCache;
 import com.doctor.sun.ui.activity.WelcomeActivity;
-
 
 /**
  * 音视频聊天通知栏
@@ -34,7 +34,7 @@ public class AVChatNotification {
 
     public void init(String account) {
         this.account = account;
-        this.displayName = "";// NimUserInfoCache.getInstance().getUserDisplayName(account);
+        this.displayName = NimUserInfoCache.getInstance().getUserDisplayName(account);
 
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
@@ -55,6 +55,7 @@ public class AVChatNotification {
         }
     }
 
+
     private void buildMissCallNotification() {
         if (missCallNotification == null) {
             Intent notifyIntent = new Intent(context, WelcomeActivity.class);
@@ -71,7 +72,6 @@ public class AVChatNotification {
             missCallNotification = makeNotification(pendingIntent, title, tickerText, tickerText, iconId, true, true);
         }
     }
-
     private Notification makeNotification(PendingIntent pendingIntent, String title, String content, String tickerText,
                                           int iconId, boolean ring, boolean vibrate) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);

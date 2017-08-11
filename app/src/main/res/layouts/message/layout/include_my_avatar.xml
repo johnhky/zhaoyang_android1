@@ -9,7 +9,7 @@
             type="String" />
         <variable
             name="handler"
-            type="com.doctor.sun.entity.im.TextMsg"></variable>
+            type="com.doctor.sun.entity.im.MsgHandler"></variable>
     </data>
 
     <com.doctor.sun.ui.widget.BezelImageView
@@ -24,7 +24,7 @@
         android:drawable="@{@drawable/default_avatar}"
         android:scaleType="centerCrop"
         android:src="@{data}"
-        android:onClick="@{()->handler.handler.toUpdateData(context)}"
+        android:onClick="@{()->handler.toUpdateData(context)}"
         tools:showIn="@layout/msg_sent_text"
         app:maskDrawable="@drawable/circle_mask"
         tools:src="@drawable/female_doctor_avatar" />

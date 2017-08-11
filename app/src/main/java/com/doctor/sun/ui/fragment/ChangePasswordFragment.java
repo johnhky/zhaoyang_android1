@@ -75,7 +75,6 @@ public class ChangePasswordFragment extends SortedListNoRefreshFragment {
             @Override
             protected void handleResponse(Object response) {
                 Toast.makeText(getActivity(), "成功修改密码", Toast.LENGTH_SHORT).show();
-
                 getActivity().finish();
             }
         });

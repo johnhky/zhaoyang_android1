@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -28,6 +29,8 @@ import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.fragment.BottomSheetTabFragment;
+import com.doctor.sun.ui.pager.DoctorAfterServiceDonePA;
+import com.doctor.sun.ui.pager.DoctorAfterServicePA;
 import com.doctor.sun.ui.pager.DoctorAppointmentDonePA;
 import com.doctor.sun.util.JacksonUtils;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -48,7 +51,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
     public static final String HISTORY_INDEX = "HISTORY_INDEX";
     private DoctorAppointmentDonePA answerPagerAdapter;
-
+    private DoctorAfterServiceDonePA questionPagerAdapter;
     DiagnosisModule api = Api.of(DiagnosisModule.class);
 
     private Appointment appointment;
@@ -60,7 +63,6 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
     public static AppointmentHistoryDialog newInstance(Appointment data) {
         AppointmentHistoryDialog fragment = new AppointmentHistoryDialog();
         Bundle bundle = new Bundle();
-
         bundle.putString(Constants.DATA, JacksonUtils.toJson(data));
         fragment.setArguments(bundle);
         return fragment;
@@ -70,16 +72,16 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appointment = JacksonUtils.fromJson(getArguments().getString(Constants.DATA), Appointment.class);
-        if (appointment != null) {
-            recordId = appointment.getRecord_id();
-            currentIndex = Config.getInt(HISTORY_INDEX + appointment.getId(), 0);
-        }
+        appointment = getData();
+        recordId = appointment.getRecord_id();
+        currentIndex = getIndex(Config.getString(Constants.ADDRESS)+"");
+
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         getBinding().toolBar.setNavigationOnClickListener(this);
         getBinding().tvPrevious.setOnClickListener(this);
         getBinding().tvNext.setOnClickListener(this);
@@ -92,6 +94,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
                 if (data.isEmpty()) {
                     Toast.makeText(getContext(), "暂时没有任何历史记录", Toast.LENGTH_SHORT).show();
                 } else {
+
                     toggleVisibility();
 
                     initPagerAdapter();
@@ -105,18 +108,36 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
         fabBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.fab_import_answer, getBinding().flyContainer, false);
         final FloatingActionsMenu fabMenu = fabBinding.btnAppointmentHistory;
+
+        fabBinding.fabAll.setVisibility(View.GONE);
+        fabBinding.fabDiagnosis.setVisibility(View.GONE);
+        fabBinding.fabAdvice.setVisibility(View.GONE);
         fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
             public void onMenuExpanded() {
                 getBinding().setFabExpended(true);
                 fabBinding.fabTitle.setVisibility(View.GONE);
                 fabBinding.fabIcon.setVisibility(View.VISIBLE);
+                fabBinding.fabAll.setVisibility(View.VISIBLE);
+                fabBinding.fabDiagnosis.setVisibility(View.VISIBLE);
+                fabBinding.fabAdvice.setVisibility(View.VISIBLE);
+
+                if (data.get(currentIndex).getType() == AppointmentType.FollowUp) {
+                    fabBinding.fabAll.setVisibility(View.GONE);
+                    fabBinding.fabDiagnosis.setVisibility(View.GONE);
+                } else {
+                    fabBinding.fabAll.setVisibility(View.VISIBLE);
+                    fabBinding.fabDiagnosis.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             public void onMenuCollapsed() {
                 getBinding().setFabExpended(false);
                 fabBinding.fabTitle.setVisibility(View.VISIBLE);
+                fabBinding.fabAll.setVisibility(View.GONE);
+                fabBinding.fabDiagnosis.setVisibility(View.GONE);
+                fabBinding.fabAdvice.setVisibility(View.GONE);
                 fabBinding.fabIcon.setVisibility(View.GONE);
             }
         });
@@ -129,19 +150,31 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
     @Override
     protected PagerAdapter createPagerAdapter() {
+        if (data.size() == 0) {
+            return null;
+        }
+
         if (currentIndex > data.size() || currentIndex < 0) {
             currentIndex = 0;
         }
-
         String id;
         if (data.isEmpty()) {
             id = "";
         } else {
             id = data.get(currentIndex).getId();
-            refreshFabVisibility();
+            if (Config.getInt(Constants.CREATE_SUCCESS, 0) != 0) {
+                fabBinding.flRoot.setVisibility(View.VISIBLE);
+            } else {
+                fabBinding.flRoot.setVisibility(View.GONE);
+            }
         }
-        answerPagerAdapter = new DoctorAppointmentDonePA(getChildFragmentManager(), id);
-        return answerPagerAdapter;
+        if (data.get(currentIndex).getType() == 3) {
+            questionPagerAdapter = new DoctorAfterServiceDonePA(getChildFragmentManager(), id);
+            return questionPagerAdapter;
+        } else {
+            answerPagerAdapter = new DoctorAppointmentDonePA(getChildFragmentManager(), id);
+            return answerPagerAdapter;
+        }
     }
 
     private void refreshFabVisibility() {
@@ -185,9 +218,9 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        setIndex(currentIndex, appointment.getId());
+    public void onPause() {
+        super.onPause();
+        setIndex(currentIndex, Config.getString(Constants.ADDRESS)+"");
     }
 
     public static void setIndex(int index, String id) {
@@ -209,7 +242,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
         switch (view.getId()) {
             case R.id.tv_previous: {
                 currentIndex -= 1;
-                setIndex(currentIndex, appointment.getId());
+                setIndex(currentIndex, Config.getString(Constants.ADDRESS)+"");
                 toggleVisibility();
                 setPagerAdapter(createPagerAdapter());
                 setCurrentItem();
@@ -217,7 +250,7 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
             }
             case R.id.tv_next: {
                 currentIndex += 1;
-                setIndex(currentIndex, appointment.getId());
+                setIndex(currentIndex, Config.getString(Constants.ADDRESS)+"");
                 toggleVisibility();
                 setPagerAdapter(createPagerAdapter());
                 setCurrentItem();
@@ -225,14 +258,11 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
             }
             case R.id.tb_menu: {
                 dismiss();
-                if (data != null && !data.isEmpty()) {
-                    EventHub.post(new AppointmentHistoryEvent(appointment, true));
-                }
+                EventHub.post(new AppointmentHistoryEvent(appointment, true));
                 break;
             }
             case R.id.fab_all: {
                 showImportAlert(ImportType.ALL);
-
                 break;
             }
             case R.id.fab_diagnosis: {
@@ -252,33 +282,6 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
 
 
     public void showImportAlert(final int type) {
-        if (canNotEdit()) {
-            new MaterialDialog.Builder(getContext())
-                    .content("当前就诊已完成并不可修改，不能进行导入操作。")
-                    .positiveText("知道了")
-                    .show();
-            return;
-        }
-        if (selectedItemIsFollowUp()) {
-            new MaterialDialog.Builder(getContext())
-                    .content("选择的历史记录为随访历史记录,不能进行导入操作。")
-                    .positiveText("知道了")
-                    .show();
-            return;
-        }
-        if (notStartedYet()) {
-            new MaterialDialog.Builder(getContext())
-                    .content("当前咨询未开始，您可以选择提前就诊或等待咨询开始后再进行导入操作。")
-                    .positiveText("知道了")
-                    .show();
-            return;
-        }
-
-        String from = appointment.getRecord_id();
-        String toId = data.get(currentIndex).getId();
-        if (from != null && from.equals(toId)) {
-            Toast.makeText(getContext(), "此次导入的病历记录跟填写的病历记录为同一个预约单", Toast.LENGTH_SHORT).show();
-        }
         String typeString = "";
         switch (type) {
             case ImportType.ALL: {
@@ -294,6 +297,27 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
                 break;
             }
         }
+        if (canNotEdit()) {
+            new MaterialDialog.Builder(getContext())
+                    .content("当前就诊已完成并不可修改，不能进行导入操作。")
+                    .positiveText("知道了")
+                    .show();
+            return;
+        }
+        if (Config.getInt(Constants.APPOINTMENT_MONEY,0)==AppointmentHandler2.Status.PAID) {
+            new MaterialDialog.Builder(getContext())
+                    .content("当前咨询未开始，您可以等待咨询开始后再进行导入操作。")
+                    .positiveText("知道了")
+                    .show();
+            return;
+        }
+
+        String from = appointment.getRecord_id();
+        String toId = data.get(currentIndex).getId();
+        if (from != null && from.equals(toId)) {
+            Toast.makeText(getContext(), "此次导入的病历记录跟填写的病历记录为同一个预约单", Toast.LENGTH_SHORT).show();
+        }
+
         new MaterialDialog.Builder(getContext())
                 .content(String.format("您将导入%s,此次导入会覆盖您已经填写的内容, 是否继续导入?", typeString))
                 .negativeText("取消")
@@ -310,8 +334,13 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
     public void postImportEvent(int importType) {
         String from = appointment.getId();
         String toId = data.get(currentIndex).getId();
-        ImportDiagnosisEvent event = new ImportDiagnosisEvent(from, toId, importType);
+        int appointmentType = data.get(currentIndex).getType();
+        ImportDiagnosisEvent event = new ImportDiagnosisEvent(from, toId, importType,appointmentType);
         EventHub.post(event);
+    }
+
+    public Appointment getData() {
+        return JacksonUtils.fromJson(getArguments().getString(Constants.DATA), Appointment.class);
     }
 
     @Override
@@ -342,4 +371,10 @@ public class AppointmentHistoryDialog extends BottomSheetTabFragment implements 
             return "";
         }
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
 }

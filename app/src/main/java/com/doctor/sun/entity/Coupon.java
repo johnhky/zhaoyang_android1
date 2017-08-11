@@ -149,19 +149,19 @@ public class Coupon implements LayoutId {
     public String couponScope() {
         if (!TextUtils.isEmpty(scope)) {
             if (scope.equals(Scope.DRUG_ORDER)) {
-                return "仅寄药可用";
+                return "（仅寄药可用）";
             }
             if (scope.equals(Scope.PREMIUM_APPOINTMENT)) {
-                return "仅网诊可用";
+                return "（仅网诊可用）";
             }
             if (scope.equals(Scope.STANDARD_APPOINTMENT)) {
-                return "仅复诊可用";
+                return "（仅复诊可用）";
             }
             if (scope.equals(Scope.SURFACE_APPOINTMENT)) {
-                return "仅面诊可用";
+                return "（仅面诊可用）";
             }
             if (scope.equals(Scope.ALL)) {
-                return "金额未满足";
+                return "（全部可用）";
             }
         }
 
@@ -171,16 +171,16 @@ public class Coupon implements LayoutId {
     public String availability() {
         if (null != platform) {
             if (platform.equals(Scope.ALL)) {
-                return "(全部订单可用)";
+                return "(全部可用)";
             }
             if (platform.equals(Scope.DRUG_ORDER)) {
-                return "(寄药订单可用)";
+                return "(寄药可用)";
             }
             if (platform.equals(Scope.STANDARD_APPOINTMENT)) {
-                return "(闲时咨询订单可用)";
+                return "(简易复诊可用)";
             }
             if (platform.equals(Scope.PREMIUM_APPOINTMENT)) {
-                return "(专属网诊订单可用)";
+                return "(VIP网诊可用)";
             }
         }
         return "";

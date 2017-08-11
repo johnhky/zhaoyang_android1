@@ -1,6 +1,7 @@
 package com.doctor.sun.vm;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
@@ -9,9 +10,14 @@ import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.ListPopupWindow;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.GravityEnum;
@@ -28,11 +34,17 @@ import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
 import com.doctor.sun.ui.fragment.DrugListFragment;
+import com.doctor.sun.ui.widget.PickDateDialog;
 import com.doctor.sun.util.AddressTask;
 import com.doctor.sun.util.DialogUtils;
 import com.doctor.sun.vm.validator.RegexValidator;
 import com.google.common.base.Strings;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -59,10 +71,11 @@ public class ItemTextInput2 extends BaseItem {
     private int textSize = R.dimen.font_15;
     private View.OnClickListener listener;
     private boolean clickable;
-    private boolean haveAlertMaxLength = false;
-    private String province,phone,receiver,remark;
-    private DrugOrderDetail data;
-    private ItemCoupons coupons;
+    private String province, phone, receiver, remark;
+    private int background;
+    private int selectedItem = -1;
+    private ArrayList<String> options = new ArrayList<>();
+
     public ItemTextInput2(int itemLayoutId, String title, String hint) {
         super(itemLayoutId);
         setTitle(title);
@@ -165,22 +178,22 @@ public class ItemTextInput2 extends BaseItem {
         notifyPropertyChanged(BR.hint);
     }
 
-    public void showAddressSelector(final Context context){
+    public void showAddressSelector(final Context context) {
         AddressTask task = new AddressTask((Activity) context);
         task.setHideCounty(false);
         task.setCallback(new AddressTask.Callback() {
             @Override
             public void onAddressInitFailed() {
-                Toast.makeText(context,"初始化数据失败!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "初始化数据失败!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onAddressPicked(Province province, City city, County county) {
-                if (province.getAreaName().equals("其他")&&city.getAreaName().equals("其他")){
+                if (province.getAreaName().equals("其他") && city.getAreaName().equals("其他")) {
                     setResult(county.getAreaName());
                     setProvince(county.getAreaName());
-                }else{
-                    setProvince(province.getAreaName()+"-"+city.getAreaName()+"-"+county.getAreaName());
+                } else {
+                    setProvince(province.getAreaName() + "-" + city.getAreaName() + "-" + county.getAreaName());
                     setResult(province.getAreaName());
                     setCity(city.getAreaName());
                     setArea(county.getAreaName());
@@ -191,6 +204,13 @@ public class ItemTextInput2 extends BaseItem {
         task.execute();
     }
 
+    public int getBackground() {
+        return background;
+    }
+
+    public void setBackground(int background) {
+        this.background = background;
+    }
 
     @Bindable
     public String getResult() {
@@ -199,19 +219,16 @@ public class ItemTextInput2 extends BaseItem {
 
     public void setResult(String result) {
         this.result = result;
-//        if (result != null && result.length() >= maxLength && result.length() != 0 && !haveAlertMaxLength) {
-//            Toast.makeText(AppContext.me(), "字数不能大于" + maxLength + "位", Toast.LENGTH_SHORT).show();
-//            haveAlertMaxLength = true;
-//        } else {
-//            haveAlertMaxLength = false;
-//        }
         notifyPropertyChanged(BR.result);
     }
 
     @Override
     public String getValue() {
-        if (Strings.isNullOrEmpty(result)){
+        if (Strings.isNullOrEmpty(result)) {
             return "";
+        }
+        if (selectedItem != -1) {
+            result = options.get(selectedItem);
         }
         return result;
     }
@@ -298,7 +315,7 @@ public class ItemTextInput2 extends BaseItem {
     }
 
     public static ItemTextInput2 password(String title, String hint) {
-        ItemTextInput2 viewModel = new ItemTextInput2(R.layout.item_text_input2, title, hint);
+        ItemTextInput2 viewModel = new ItemTextInput2(R.layout.item_text_input5, title, hint);
         viewModel.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         viewModel.setMaxLength(24);
         viewModel.setInputType(InputType.TYPE_CLASS_TEXT |
@@ -341,40 +358,53 @@ public class ItemTextInput2 extends BaseItem {
 
     }
 
-    public void setData(DrugOrderDetail data,ItemCoupons coupons){
-        this.data  =data;
-        this.coupons = coupons;
-    }
-    public void showPayDialog(final Context context, View view){
-        DialogUtils.showPayDialog(context ,view,new DialogUtils.OnPopItemClickListener(){
-            @Override
-            public void onItemClickListener(int which) {
-                String coupon;
-                if (coupons.getSelectedCoupon()!=-1){
-                    coupon = coupons.getCouponId();
-                }else{
-                    coupon = "";
-                }
-                double money = Double.valueOf(result);
-                switch (which){
-                    case 0:
-                        data.confirmPay(context, PayMethod.ALIPAY,coupon,money, DrugListFragment.getDrugExtraField());
-                        break;
-                    case 1:
-                        data.confirmPay(context,PayMethod.WECHAT,coupon,money,DrugListFragment.getDrugExtraField());
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-    }
-
     public void setAdapter(BaseListAdapter<SortedItem, ViewDataBinding> adapter) {
         this.adapter = adapter;
     }
 
     public BaseListAdapter<SortedItem, ViewDataBinding> getAdapter() {
         return adapter;
+    }
+
+    public void removeOption(int option) {
+        options.remove(option);
+    }
+
+    public void addOptions(String[] stringArray) {
+        Collections.addAll(options, stringArray);
+    }
+
+
+    public void showPopupWindow(View view, Context context) {
+        ArrayList<String> items = options;
+        final ListPopupWindow listPopupWindow = new ListPopupWindow(context);
+        listPopupWindow.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, items));
+        listPopupWindow.setWidth(view.getWidth());
+        listPopupWindow.setHeight(450);
+        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedItem = position;
+                listPopupWindow.dismiss();
+                notifyChange();
+            }
+        });
+        listPopupWindow.setAnchorView(view);
+        listPopupWindow.show();
+    }
+
+    public void pickBirthDay(Context context) {
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                setResult(year + "-" + month + 1);
+            }
+        }, 2017, 8, 9);
+        datePickerDialog.show();
+    }
+
+    public String getTime(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+        return format.format(date);
     }
 }

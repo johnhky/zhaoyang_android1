@@ -1,13 +1,17 @@
 package com.doctor.sun.util;
 
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
+import com.doctor.sun.AppContext;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.ui.widget.AppointmentHistoryDialog;
 import com.doctor.sun.ui.widget.HistoryListDialog;
 import com.squareup.otto.Subscribe;
 
+import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
 
 /**
@@ -44,12 +48,17 @@ public class HistoryEventHandler {
     @Subscribe
     public void onHistoryEvent(AppointmentHistoryEvent event) {
         Appointment data = event.getData();
-        int index = AppointmentHistoryDialog.getIndex(event.getData().getId());
+        if (event.isHistoryList()||!HistoryListDialog.isShowBefore(data.getRecord().getMedicalRecordId())){
+            HistoryListDialog.newInstance(data.getRecord().getMedicalRecordId()).show(fragmentManager, HistoryListDialog.TAG);
+        }else{
+            AppointmentHistoryDialog.newInstance(data).show(fragmentManager, AppointmentHistoryDialog.TAG);
+        }
 
+     /*
         if (event.isHistoryList() || !HistoryListDialog.isShowBefore(event.getData().getRecord().getMedicalRecordId())) {
             HistoryListDialog.newInstance(data.getRecord().getMedicalRecordId()).show(fragmentManager, HistoryListDialog.TAG);
         } else if (index >= 0) {
             AppointmentHistoryDialog.newInstance(data).show(fragmentManager, AppointmentHistoryDialog.TAG);
-        }
+        }*/
     }
 }

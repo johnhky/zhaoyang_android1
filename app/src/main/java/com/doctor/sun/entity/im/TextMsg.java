@@ -89,10 +89,14 @@ public class TextMsg extends RealmObject implements LayoutId {
         if (attachment == null) {
             return "";
         }
-        AttachmentPair pair = attachment.where().equalTo("key", msgId + fieldKey).findFirst();
-        if (pair == null) return "";
+        if (attachment.isManaged()) {
+            AttachmentPair pair = attachment.where().equalTo("key", msgId + fieldKey).findFirst();
+            if (pair == null) return "";
+            return pair.getValue();
+        } else {
+            return "";
+        }
 
-        return pair.getValue();
     }
 
     public int attachmentInt(String fieldKey) {
@@ -262,7 +266,12 @@ public class TextMsg extends RealmObject implements LayoutId {
             return R.layout.msg_notification;
         }
         if (TextMsgFactory.isRefreshMsg(getType())) {
-            return R.layout.msg_notification;
+            if (attachmentData("data").equals("医生建议/处方") && null != attachmentData("appointment_id")) {
+                return R.layout.msg_record;
+            } else {
+                return R.layout.msg_notification;
+            }
+
         }
         if (getType().equals(String.valueOf(DrugV2))) {
             return R.layout.msg_prescription_list;

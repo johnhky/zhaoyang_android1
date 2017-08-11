@@ -4,7 +4,6 @@
     <data>
 
 
-
         <variable
             name="handler"
             type="com.doctor.sun.ui.handler.LoginHandler" />
@@ -16,6 +15,7 @@
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/login_bg"
         android:orientation="vertical">
 
 
@@ -34,64 +34,247 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_154"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_doctor_sun" />
+                android:src="@drawable/logo" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_login_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/short_login_bg"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_shortLogin"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="16dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="验证码登录/注册" />
+
+                <TextView
+                    android:id="@+id/tv_login"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="16dp"
+                    android:text="账号密码登录" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="@dimen/dp_283"
+                    android:layout_height="@dimen/dp_45"
+                    android:layout_gravity="center_horizontal"
+                    android:background="#00000000"
+                    android:layout_marginTop="15dp"
+                    android:drawableLeft="@drawable/ic_phone"
+                    android:drawablePadding="@dimen/dp_11"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    android:text="@={handler.phone}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15" />
+
+                <View
+                    android:layout_width="@dimen/dp_283"
+                    android:layout_height="@dimen/dp_1"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/gray_d9" />
+
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="@dimen/dp_283"
+                    android:layout_height="@dimen/dp_45"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="#00000000"
+                    android:drawableLeft="@drawable/ic_lock"
+                    android:drawablePadding="@dimen/dp_11"
+                    android:drawableStart="@drawable/ic_lock"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:onEditorAction="@{()->handler.loginAction(context,handler.phone,handler.password)}"
+                    android:text="@={handler.password}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15" />
+
+                <View
+                    android:layout_width="@dimen/dp_283"
+                    android:layout_height="@dimen/dp_1"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/dp_28"
+                    android:layout_marginRight="@dimen/dp_28"
+                    android:background="@color/gray_d9" />
+
+
+                <FrameLayout
+                    android:layout_width="@dimen/dp_283"
+                    android:layout_height="@dimen/dp_49"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dp_12"
+                    android:background="@drawable/shape_blue_rect">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ripple_default"
+                        android:gravity="center"
+                        android:onClick="@{()->handler.login(context,handler.phone,handler.password)}"
+                        android:text="登    录"
+                        android:textColor="#fff"
+                        android:textSize="@dimen/font_17" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_shortLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <EditText
+                    android:id="@+id/et_phone1"
+                    android:layout_width="@dimen/dp_283"
+                    android:layout_height="@dimen/dp_45"
+                    android:layout_gravity="center_horizontal"
+                    android:background="#00000000"
+                    android:drawableLeft="@drawable/ic_phone"
+                    android:drawablePadding="@dimen/dp_11"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    android:layout_marginTop="15dp"
+                    android:text="@={handler.phone}"
+                    android:textColor="#363636"
+                    android:textSize="@dimen/font_15" />
+
+                <View
+                    android:layout_width="@dimen/dp_283"
+                    android:layout_height="@dimen/dp_1"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/gray_d9" />
+
+                <LinearLayout
+                    android:layout_width="@dimen/dp_283"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/et_password1"
+                        android:layout_width="@dimen/dp_180"
+                        android:layout_height="@dimen/dp_45"
+                        android:layout_gravity="center_horizontal"
+                        android:background="#00000000"
+                        android:drawablePadding="@dimen/dp_11"
+                        android:hint="请输入验证码"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:text="@{handler.captcha}"
+                        android:textColor="#363636"
+                        android:textSize="@dimen/font_15" />
+
+                    <Button
+                        android:id="@+id/btn_check"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/selector_count_down_rect"
+                        android:gravity="center"
+                        android:text="获取验证码"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/dp_283"
+                    android:layout_height="@dimen/dp_1"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/dp_28"
+                    android:layout_marginRight="@dimen/dp_28"
+                    android:background="@color/gray_d9" />
+
+
+                <FrameLayout
+                    android:id="@+id/fl_login"
+                    android:layout_width="@dimen/dp_283"
+                    android:layout_height="@dimen/dp_49"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/shape_blue_rect">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/ripple_default"
+                        android:gravity="center"
+                        android:text="登录/注册"
+                        android:textColor="#fff"
+                        android:textSize="@dimen/font_17" />
+                </FrameLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_read"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:visibility="visible"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/et_phone"
-            android:layout_width="@dimen/dp_283"
-            android:layout_height="@dimen/dp_45"
-            android:layout_gravity="center_horizontal"
-            android:background="#00000000"
-            android:drawableLeft="@drawable/ic_phone"
-            android:drawablePadding="@dimen/dp_11"
-            android:drawableStart="@drawable/ic_phone"
-            android:inputType="phone"
-            android:maxLength="11"
-            android:text="@={handler.phone}"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_15" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:text="点击登录/注册按钮即同意"
+                android:textColor="@color/main_txt_color"
+                android:textSize="12dp" />
 
-        <View
-            android:layout_width="@dimen/dp_283"
-            android:layout_height="@dimen/dp_1"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/gray_d9" />
-
-
-        <EditText
-            android:id="@+id/et_password"
-            android:layout_width="@dimen/dp_283"
-            android:layout_height="@dimen/dp_45"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dp_10"
-            android:background="#00000000"
-            android:drawableLeft="@drawable/ic_lock"
-            android:drawablePadding="@dimen/dp_11"
-            android:drawableStart="@drawable/ic_lock"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:onEditorAction="@{()->handler.loginAction(context,handler.phone,handler.password)}"
-            android:text="@={handler.password}"
-            android:textColor="#363636"
-            android:textSize="@dimen/font_15" />
-
-        <View
-            android:layout_width="@dimen/dp_283"
-            android:layout_height="@dimen/dp_1"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/dp_28"
-            android:layout_marginRight="@dimen/dp_28"
-            android:background="@color/gray_d9" />
-
+            <TextView
+                android:id="@+id/tv_forgot_password1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="@{()->handler.viewRegistrationPolicy(context)}"
+                android:text="《昭阳医生在线服务条款》"
+                android:textColor="@color/text_color_black"
+                android:textSize="15dp" />
+        </LinearLayout>
         <TextView
             android:id="@+id/tv_forgot_password"
             android:layout_width="@dimen/dp_283"
@@ -104,103 +287,8 @@
             android:gravity="end"
             android:onClick="@{()->handler.resetPassword(context)}"
             android:text="忘记密码?"
+            android:visibility="gone"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/font_15" />
-
-        <FrameLayout
-            android:layout_width="@dimen/dp_283"
-            android:layout_height="@dimen/dp_49"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dp_12"
-            android:background="@drawable/shape_blue_rect">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple_default"
-                android:gravity="center"
-                android:onClick="@{()->handler.login(context,handler.phone,handler.password)}"
-                android:text="登    录"
-                android:textColor="#fff"
-                android:textSize="@dimen/font_17" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="@dimen/dp_283"
-            android:layout_height="@dimen/dp_49"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dp_12"
-            android:background="@drawable/shape_grey_rect">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/ripple_default"
-                android:gravity="center"
-                android:onClick="@{()->handler.registerDoctor(context)}"
-                android:text="注    册"
-                android:textColor="@color/grey_77"
-                android:textSize="@dimen/font_17" />
-        </FrameLayout>
-
-        <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1" />-->
-
-        <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1px"-->
-        <!--android:background="#c1cacf" />-->
-
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/dp_55"-->
-        <!--android:baselineAligned="false"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<FrameLayout-->
-        <!--android:id="@+id/action_register_doctor"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="@dimen/dp_55"-->
-        <!--android:layout_weight="1"-->
-        <!--android:background="@drawable/ripple_default"-->
-        <!--android:onClick="@{()->handler.registerDoctor(context)}"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:drawableLeft="@drawable/ic_doctor"-->
-        <!--android:drawablePadding="@dimen/dp_11"-->
-        <!--android:gravity="center"-->
-        <!--android:text="医生注册"-->
-        <!--android:textColor="#363636"-->
-        <!--android:textSize="@dimen/font_15" />-->
-        <!--</FrameLayout>-->
-
-        <!--<FrameLayout-->
-        <!--android:id="@+id/action_register_patient"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="@dimen/dp_55"-->
-        <!--android:layout_weight="1"-->
-        <!--android:background="@drawable/ripple_default"-->
-        <!--android:onClick="@{()->handler.registerPatient(context)}"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:drawableLeft="@drawable/ic_patient"-->
-        <!--android:drawablePadding="@dimen/dp_11"-->
-        <!--android:gravity="center"-->
-        <!--android:text="公众注册"-->
-        <!--android:textColor="#363636"-->
-        <!--android:textSize="@dimen/font_15" />-->
-        <!--</FrameLayout>-->
-        <!--</LinearLayout>-->
-
     </com.zhy.android.percent.support.PercentLinearLayout>
 </layout>

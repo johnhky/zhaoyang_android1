@@ -67,11 +67,11 @@ public class TimeAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         TimeHandler handler = new TimeHandler(list.get(position));
-        holder.tv_time.setText(list.get(position).getFrom() + ":" + list.get(position).getTo());
+        holder.tv_time.setText(list.get(position).getFrom() + "-" + list.get(position).getTo());
         if (list.get(position).getType() == 4) {
             holder.tv_type.setText("诊所面诊:"+handler.getWeekLabel());
         }else{
-            holder.tv_type.setText("专属网诊"+handler.getWeekLabel());
+            holder.tv_type.setText("VIP网诊"+handler.getWeekLabel());
         }
         return convertView;
     }

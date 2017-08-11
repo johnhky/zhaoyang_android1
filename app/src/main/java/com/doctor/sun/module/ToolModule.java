@@ -2,6 +2,7 @@ package com.doctor.sun.module;
 
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Area;
+import com.doctor.sun.entity.Article;
 import com.doctor.sun.entity.Banner;
 import com.doctor.sun.entity.BannerDetail;
 import com.doctor.sun.entity.CallConfig;
@@ -80,5 +81,9 @@ public interface ToolModule {
 
     @GET()
     Call<ApiDTO<List<UploadDrugData>>> listOfDrugs(@Url String path);
+
+    @GET("article/article-show")
+    Call<ApiDTO<List<Article>>>getArticles();
+
 
 }

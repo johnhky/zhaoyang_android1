@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
+import com.doctor.sun.bean.Constants;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.ui.activity.LoginActivity;
+import com.doctor.sun.ui.activity.ShortcutLoginActivity;
 import com.doctor.sun.ui.handler.SettingHandler;
 import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
@@ -16,6 +18,7 @@ import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import io.ganguo.library.AppManager;
+import io.ganguo.library.Config;
 import io.ganguo.library.core.event.Event;
 import io.realm.Realm;
 

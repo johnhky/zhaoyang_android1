@@ -21,5 +21,5 @@ public interface PushModule {
 
     @FormUrlEncoded
     @POST("pushMessage/read-mark")
-    Call<ApiDTO<String>> markMessageAsRead(@Field("messageIds") String messageIds);
+    Call<ApiDTO> markMessageAsRead(@Field("messageIds") String messageIds);
 }

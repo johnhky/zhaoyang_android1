@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.os.RemoteException;
 
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
@@ -28,7 +30,7 @@ import static android.support.v7.widget.RecyclerView.ViewHolder;
  * ItemHelper.insertItem(position, object);
  * 将会在上一个activity的recyclerView里面添加一个item.
  */
-public class ItemHelper extends Handler {
+public class ItemHelper extends Handler implements Parcelable{
     public static final int ITEM_CHANGE = 1;
     public static final int ITEM_REMOVE = 2;
     public static final int ITEM_INSERT = 3;
@@ -148,4 +150,25 @@ public class ItemHelper extends Handler {
         } catch (RemoteException ignored) {
         }
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+    public Creator<ItemHelper>CREATOR = new Creator<ItemHelper>() {
+        @Override
+        public ItemHelper createFromParcel(Parcel source) {
+            return null;
+        }
+
+        @Override
+        public ItemHelper[] newArray(int size) {
+            return new ItemHelper[0];
+        }
+    };
 }

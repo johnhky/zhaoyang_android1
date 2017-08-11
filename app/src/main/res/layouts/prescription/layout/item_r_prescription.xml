@@ -40,16 +40,17 @@
             android:layout_height="wrap_content"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            app:html="@{handler.getIntervalWithLabel(data)}"
+            android:visibility="@{handler.visibleFrequency(data)}"
+            android:text="@{handler.getIntervalWithLabel(data)}"
             tools:text="间隔:每天" />
 
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            app:html="@{handler.getAmountKV(data)}"
+            android:text="@{&quot;用法:&quot;+handler.getAmountV(data)}"
             tools:text="数量:早3克，午3克，晚3克，睡前3克" />
 
         <TextView
@@ -65,7 +66,9 @@
             android:layout_height="wrap_content"
             android:textColor="#363636"
             android:textSize="@dimen/font_13"
-            app:html="@{handler.getRemarkLabel(data)}"
+            android:visibility="@{handler.visibleRemork(data)}"
+            android:gravity="start|center_vertical"
+            android:text="@{handler.getRemarkLabel(data)}"
             tools:text="备注:记得每天都吃，不然病情不会有好转" />
 
         <View

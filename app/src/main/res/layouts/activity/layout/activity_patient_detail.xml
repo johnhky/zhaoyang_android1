@@ -30,11 +30,7 @@
             <View
                 android:layout_width="@dimen/dp_90"
                 android:layout_height="@dimen/dp_48"
-                android:layout_gravity="end"
-                android:showcase='@{"问卷不够全面?这里补充"}'
-                android:previous='@{-1}'
-                android:next="@{2}"
-                android:current="@{1}"/>
+                android:layout_gravity="end" />
         </FrameLayout>
 
         <FrameLayout
@@ -56,75 +52,51 @@
             android:orientation="horizontal">
             <!--普通预约-->
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <FrameLayout
-                android:layout_width="@dimen/dp_144"
-                android:layout_height="@dimen/dp_49"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/shape_blue_rect"
-                android:showcase='@{"提醒患者完成问卷"}'
-                android:previous='@{-1}'
-                android:next="@{2}"
-                android:current="@{1}">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_default"
-                    android:gravity="center"
-                    android:onClick="@{()->handler.remind(context, data.getId(), data.getRecord().getPatientId())}"
-                    android:text="提醒患者\n填写问卷"
-                    android:textColor="#fff"
-                    android:textSize="@dimen/font_17" />
-            </FrameLayout>
-
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_marginRight="@dimen/dp_8"
-                android:background="@drawable/ripple_default"
+                android:gravity="center"
+                android:background="@drawable/call_phone"
                 android:onClick="@{()->handler.makePhoneCall(context,data)}"
-                android:showcase='@{"就诊前也可以联系患者"}'
-                android:previous='@{-1}'
-                android:next="@{2}"
-                android:current="@{1}">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ripple_default"
-                    android:gravity="center"
-                    android:src="@drawable/ic_telephone"
-                    android:textSize="@dimen/font_17" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="@dimen/dp_144"
-                android:layout_height="@dimen/dp_49"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/shape_blue_rect">
+                >
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/ripple_default"
-                    android:gravity="center"
-                    android:onClick="@{()->handler.accept(context,data)}"
-                    android:text="提前就诊"
-                    android:textColor="#fff"
+                    android:text="联系患者"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/font_17" />
-            </FrameLayout>
-
-            <View
+            </LinearLayout>
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginTop="8dp"
+                android:textSize="17sp"
+                android:text="如需诊前联系患者\n请点击左侧按钮"
+                />
+            <FrameLayout
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_64"
+                android:gravity="center"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/ask_service"
+                    android:gravity="center"
+                    android:paddingTop="8dp"
+                    android:onClick="@{()->handler.askServer(context)}"
+                    android:drawableTop="@drawable/ic_services"
+                    android:textColor="@color/colorPrimaryDark"
+                    />
+            </FrameLayout>
         </LinearLayout>
 
     </LinearLayout>

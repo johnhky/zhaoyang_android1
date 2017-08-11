@@ -25,6 +25,7 @@ import com.doctor.sun.im.IMManager;
 import com.doctor.sun.module.AuthModule;
 import com.doctor.sun.ui.activity.LoginActivity;
 import com.doctor.sun.ui.activity.PMainActivity2;
+import com.doctor.sun.ui.activity.ShortcutLoginActivity;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.activity.doctor.AdviceActivity;
 import com.doctor.sun.ui.activity.doctor.MainActivity;
@@ -35,6 +36,7 @@ import com.doctor.sun.ui.fragment.AllowToSearchFragment;
 import com.doctor.sun.ui.fragment.ChangePasswordFragment;
 import com.doctor.sun.ui.widget.ShareDialog;
 import com.doctor.sun.ui.widget.TwoChoiceDialog;
+import com.doctor.sun.util.DialogUtils;
 import com.doctor.sun.util.ShowCaseUtil;
 import com.doctor.sun.util.UpdateUtil;
 import com.doctor.sun.vm.ItemSwitch;
@@ -213,26 +215,19 @@ public class SettingHandler {
             @Override
             public void onClick(View v) {
                 final Activity context = (Activity) v.getContext();
-                UpdateUtil.reset();
-                UpdateUtil.setNoNewVersion(new UpdateUtil.onNoNewVersion() {
-                    @Override
-                    public void onNoNewVersion() {
-                        Toast.makeText(context, "当前版本已经是最新版本", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                UpdateUtil.checkUpdate(context);
+                UpdateUtil.checkUpdate(context,0);
             }
         };
     }
 
     public void logOut(final View view) {
         AuthModule api = Api.of(AuthModule.class);
+        IMManager.getInstance().logout();
         api.logout(Config.getString(Constants.TOKEN)).enqueue(new SimpleCallback<String>() {
             @Override
             protected void handleResponse(String response) {
                 clearUserData();
                 Intent intent = LoginActivity.makeIntent(view.getContext());
-                IMManager.getInstance().logout();
                 view.getContext().startActivity(intent);
                 AppManager.finishAllActivity();
             }

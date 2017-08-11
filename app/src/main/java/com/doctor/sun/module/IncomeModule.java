@@ -33,6 +33,6 @@ public interface IncomeModule {
     Call<ApiDTO<SubsidyDetail>> subsidy(@Query("time") String time);
 
     @GET("income/bill")
-    Call<ApiDTO<BillDetail>> bill(@Query("time") String time);
+    Call<ApiDTO> bill(@Query("time") String time);
 
 }

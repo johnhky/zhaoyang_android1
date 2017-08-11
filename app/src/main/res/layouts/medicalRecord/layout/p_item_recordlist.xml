@@ -34,44 +34,37 @@
             android:onClick="@{()->handler.getInstance().updateRecord(context,data)}"
             android:paddingLeft="@dimen/dp_13"
             android:paddingStart="@dimen/dp_13"
+            android:padding="10dp"
             tools:ignore="RtlSymmetry">
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_8"
-                android:text="@{data.recordName}"
+                android:text="@{&quot;病历:  &quot;+data.getRecord(data)}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_16"
                 tools:text="name" />
-
-            <TextView
-                android:id="@+id/tv_gender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_8"
-                android:layout_marginStart="@dimen/dp_8"
-                android:layout_marginTop="@dimen/dp_11"
-                android:layout_toEndOf="@id/tv_name"
-                android:layout_toRightOf="@id/tv_name"
-                android:text="@{handler.getInstance().getGenderResult(data)}"
-                android:textColor="#363636"
-                android:textSize="@dimen/font_14"
-                tools:text="男" />
 
             <TextView
                 android:id="@+id/tv_birthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_name"
-                android:layout_marginBottom="@dimen/dp_8"
-                android:layout_marginTop="@dimen/dp_4"
-                android:text="@{data.birthday}"
+                android:layout_centerVertical="true"
+                android:text="@{&quot;年龄:  &quot;+data.age}"
                 android:textColor="#363636"
                 android:textSize="@dimen/font_14"
-                tools:text="1992年13月32日" />
-
+                tools:text="年龄:32" />
+            <TextView
+                android:id="@+id/tv_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_birthday"
+                android:text="@{&quot;性别:  &quot;+handler.getInstance().getGenderRecord(data)}"
+                android:textColor="#363636"
+                android:textSize="@dimen/font_14"
+                tools:text="女" />
             <!--<TextView-->
             <!--android:id="@+id/tv_locate"-->
             <!--android:layout_width="wrap_content"-->

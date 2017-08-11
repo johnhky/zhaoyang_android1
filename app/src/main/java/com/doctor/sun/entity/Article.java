@@ -22,6 +22,12 @@ public class Article implements LayoutId {
     private String title;
     @JsonProperty("url")
     private String url;
+    @JsonProperty("id")
+    private String id;
+    @JsonProperty("image")
+    private String image;
+    @JsonProperty("content")
+    private String content;
 
     public String getTitle() {
         return title;
@@ -39,12 +45,42 @@ public class Article implements LayoutId {
         this.url = url;
     }
 
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public void openUrl(View view) {
         Intent intent = new Intent();
         intent.setAction("android.intent.action.VIEW");
         Uri content_url = Uri.parse(getUrl());
         intent.setData(content_url);
         view.getContext().startActivity(intent);
+    }
+
+    @Override
+    public String toString() {
+        return "data{id:" + id + ",image:" + image + ",content:" + content + ",title:" + title + "url:" + url + "}";
     }
 
     @Override

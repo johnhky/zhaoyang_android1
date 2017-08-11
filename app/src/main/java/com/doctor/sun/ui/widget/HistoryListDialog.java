@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
+import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.DismissHistoryListDialogEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
@@ -19,6 +21,8 @@ import java.util.List;
 import io.ganguo.library.Config;
 import io.ganguo.library.core.event.EventHub;
 
+import static com.doctor.sun.ui.widget.AppointmentHistoryDialog.HISTORY_INDEX;
+
 /**
  * Created by rick on 18/10/2016.
  */
@@ -29,7 +33,7 @@ public class HistoryListDialog extends BottomSheetListFragment {
 
     DiagnosisModule api = Api.of(DiagnosisModule.class);
     private int recordId;
-
+    List<Appointment>data;
 
     public static HistoryListDialog newInstance(int recordId) {
         HistoryListDialog fragment = new HistoryListDialog();
@@ -44,8 +48,8 @@ public class HistoryListDialog extends BottomSheetListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         recordId = getArguments().getInt(Constants.DATA);
+        HistoryListDialog.setHaveShown(recordId);
         EventHub.register(this);
-        setHaveShown(recordId);
     }
 
 
@@ -55,6 +59,7 @@ public class HistoryListDialog extends BottomSheetListFragment {
         api.recordHistoryDetail(recordId).enqueue(new SimpleCallback<List<Appointment>>() {
             @Override
             protected void handleResponse(List<Appointment> response) {
+                data = response;
                 getAdapter().insertAll(response);
                 getAdapter().notifyDataSetChanged();
             }

@@ -4,7 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+
 import java.text.SimpleDateFormat;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.auto.Factory;
 import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
@@ -29,22 +32,20 @@ import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.constans.IntBoolean;
 import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.event.HideFABEvent;
+import com.doctor.sun.event.ModifyStatusEvent;
 import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
-import com.doctor.sun.model.DiagnosisModel;
 import com.doctor.sun.module.DiagnosisModule;
 import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.model.DiagnosisReadOnlyViewModel;
+import com.doctor.sun.ui.widget.TwoChoiceDialog;
 import com.doctor.sun.vm.ItemTextInput;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
+import io.ganguo.library.core.event.EventHub;
 import io.ganguo.library.util.date.Date;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by rick on 29/6/2016.
@@ -65,25 +66,18 @@ import retrofit2.Response;
  * drug_id=, dose_units=, total_num=0.0, total_fee=0.0}], doctorAdvince='坚持治疗,定期复诊',
  * returnX=0, returnType=0, returnPaid=0, isAccept=0, returnTime=0, money=0, returnAppointmentId=0
  * , doctorRequire=0, comment='', status=4, hasPay=0, date='null', time='null', doctorInfo=null}
-
  */
 @Factory(type = BaseFragment.class, id = "ReadDiagnosisFragment")
 public class ReadDiagnosisFragment extends RefreshListFragment {
     private DiagnosisModule api = Api.of(DiagnosisModule.class);
     private DiagnosisReadOnlyViewModel viewModel;
-    public static boolean show=false;
+    public static boolean show = true;
     private int canEdit = 0;
     public static final String TAG = ReadDiagnosisFragment.class.getSimpleName();
-    public static ReadDiagnosisFragment newInstance(String appointmentId,boolean isShow) {
-        show=isShow;
-       return newInstance(appointmentId);
-    }
 
     public static ReadDiagnosisFragment newInstance(String appointmentId) {
-
         Bundle args = new Bundle();
         args.putString(Constants.DATA, appointmentId);
-
         ReadDiagnosisFragment fragment = new ReadDiagnosisFragment();
         fragment.setArguments(args);
         return fragment;
@@ -110,20 +104,17 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
-        api.getDiagnosisInfo(getAppointmentId()).enqueue(new Callback<ApiDTO>() {
+        api.diagnosisInfo(getAppointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
             @Override
-            public void onResponse(Call<ApiDTO> call, Response<ApiDTO> response) {
-                Gson gson = new GsonBuilder().create();
-                String str = gson.toJson(response.body().getData());
-                DiagnosisInfo info = gson.fromJson(str, DiagnosisInfo.class);
+            protected void handleResponse(DiagnosisInfo response) {
                 viewModel = new DiagnosisReadOnlyViewModel();
-                viewModel.cloneFromDiagnosisInfo(info);
+                viewModel.cloneFromDiagnosisInfo(response);
                 getAdapter().onFinishLoadMore(true);
                 getAdapter().clear();
                 getAdapter().addAll(viewModel.toList());
-                if(Settings.isDoctor()) {
-                    if (hasOptionsMenu()==true&&canEdit!=0){
-                        Snackbar snackbar = Snackbar.make(binding.recyclerView,"提醒：点击右上角可修改建议",Snackbar.LENGTH_INDEFINITE);
+                if (Settings.isDoctor()) {
+                    if (hasOptionsMenu() == true && canEdit != 0) {
+                        Snackbar snackbar = Snackbar.make(binding.recyclerView, "提醒：点击右上角可修改建议", Snackbar.LENGTH_INDEFINITE);
                         snackbar.getView().setBackgroundColor(getResources().getColor(R.color.black_transparent_80));
                         snackbar.show();
                     }
@@ -131,7 +122,7 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
                 getAdapter().notifyDataSetChanged();
                 binding.swipeRefresh.setRefreshing(false);
                 if (getAdapter().isEmpty()) {
-                    if (info != null && info.isFinish == IntBoolean.TRUE) {
+                    if (response != null && response.isFinish == IntBoolean.TRUE) {
                         Description divider = new Description(R.layout.item_description, "嘱咐");
                         ItemTextInput textInput = new ItemTextInput(R.layout.item_text_option_display, "");
                         textInput.setInput("坚持治疗,定期复诊");
@@ -141,7 +132,7 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
                         getAdapter().notifyDataSetChanged();
                         binding.swipeRefresh.setRefreshing(false);
                         return;
-                    }else {
+                    } else {
                         binding.emptyIndicator.setText("请耐心等待");
                         binding.emptyIndicator.setVisibility(View.VISIBLE);
                     }
@@ -150,29 +141,12 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
                 }
 
             }
-
-            @Override
-            public void onFailure(Call<ApiDTO> call, Throwable t) {
-
-            }
         });
- /*       api.diagnosisInfo(getAppointmentId()).enqueue(new SimpleCallback<DiagnosisInfo>() {
-            @Override
-            public void onFailure(Call<ApiDTO<DiagnosisInfo>> call, Throwable t) {
-                super.onFailure(call, t);
-            }
-
-            @Override
-            protected void handleResponse(DiagnosisInfo response) {
-
-            }
-        });*/
     }
 
     @NonNull
     @Override
     public SimpleAdapter createAdapter() {
-
         SimpleAdapter adapter = super.createAdapter();
         adapter.mapLayout(R.layout.item_symptom, R.layout.item_symptom_readonly);
         adapter.mapLayout(R.layout.item_symptom_single_choice, R.layout.item_symptom_readonly);
@@ -181,23 +155,26 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
         adapter.mapLayout(R.layout.item_doctor, R.layout.item_transfer_doctor);
         return adapter;
     }
+
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        if (show) {
-            if(menu.size()==0){
-                inflater.inflate(R.menu.menu_change, menu);
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (AppContext.getInstance().getPosition() == 1) {
+            if (menu.size() == 0) {
+                if (Settings.isDoctor()){
+                    getActivity().getMenuInflater().inflate(R.menu.menu_change, menu);
+                }
                 canEdit = 1;
             }
         }
-    }
 
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.advice_change: {
-                update();
+                showEndAppointmentDialog();
                 return true;
             }
 
@@ -205,10 +182,34 @@ public class ReadDiagnosisFragment extends RefreshListFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    public void showEndAppointmentDialog() {
+        String applyText = "";
+        String cancelText = "";
+        applyText = "确认";
+        cancelText = "取消";
+        TwoChoiceDialog.show(getActivity(), getString(R.string.edit_diagnosis),
+                cancelText, applyText, new TwoChoiceDialog.Options() {
+                    @Override
+                    public void onApplyClick(final MaterialDialog dialog) {
+                        dialog.dismiss();
+                        update();
+                    }
+
+                    @Override
+                    public void onCancelClick(final MaterialDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+    }
+
+
     private void update() {
-        AppointmentDetailActivity.onlyRead=false;
-        AppointmentDetailActivity activity= (AppointmentDetailActivity) getActivity();
-        activity.initPagerAdapter();
+        /*AppointmentDetailActivity.onlyRead = false;*/
+     /*   AppointmentDetailActivity activity = (AppointmentDetailActivity)getActivity();
+        activity.initPagerAdapter();*/
+       Intent intent =  AppointmentDetailActivity.makeIntent(getActivity(),AppContext.getInstance().getEditAppointment(),1,false);
+        getActivity().startActivity(intent);
+        getActivity().finish();
     }
 
     @Override

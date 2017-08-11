@@ -2,6 +2,7 @@ package com.doctor.sun.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.doctor.auto.Factory;

@@ -65,9 +65,9 @@ public class DoctorDetailActivity extends BaseFragmentActivity2 {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_doctor_detail);
         binding.setType(getType());
         if (getType() == AppointmentType.PREMIUM) {
-            binding.setTypeLabel("专属网诊");
+            binding.setTypeLabel("VIP网诊");
         } else {
-            binding.setTypeLabel("闲时咨询");
+            binding.setTypeLabel("简易复诊");
         }
         binding.setData(getData());
         initData();

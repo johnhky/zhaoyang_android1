@@ -37,6 +37,10 @@ public interface QuestionModule {
     @GET("{type}/{id}")
     Call<ApiDTO<QuestionDTO>> questions2(@Path("type") String type, @Path("id") String appointmentId, @Query("questionnaires_type") String questionnaires_type, @QueryMap HashMap<String, String> params);
 
+    @GET("{type}/{id}")
+    Call<ApiDTO> questions3(@Path("type") String type, @Path("id") String appointmentId, @Query("questionnaires_type") String questionnaires_type, @QueryMap HashMap<String, String> params);
+
+
     @FormUrlEncoded
     @PUT("{type}/{id}")
     Call<ApiDTO<String>> saveQuestions2(@Path("type") String type, @Path("id") String appointmentId, @Field("answer") String answer, @Field("questionnaires_type") String questionnaires_type, @Field("finished") int i);

@@ -20,4 +20,10 @@ public class DrugExtraFee {
     //    3表示平台服务费，没有为空
     @JsonProperty("3")
     public List<String> commission = new ArrayList<>();
+
+
+    @Override
+    public String toString() {
+        return "extraFee{extraFee:"+extraFee+",discount:"+discount+",commission:"+commission+"}";
+    }
 }

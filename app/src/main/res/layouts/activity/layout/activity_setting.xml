@@ -39,10 +39,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_50"
                     android:background="@drawable/ripple_default"
-                    android:gravity="center_vertical"
-                    android:onClick="@{handler.changePassword}">
+                    android:gravity="center_vertical">
 
                     <TextView
+                        android:id="@+id/tv_password"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dp_13"
@@ -55,7 +55,15 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1" />
-
+                        <TextView
+                            android:id="@+id/tv_psw"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/red_f0"
+                            android:text="设置密码,账号安全程度更高"
+                            android:visibility="gone"
+                            android:layout_marginRight="10dp"
+                            />
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -135,7 +143,7 @@
 
                 </LinearLayout>
 
-                <View
+             <!--   <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:background="@color/divider_color" />
@@ -169,7 +177,7 @@
                         android:src="@drawable/ic_enter" />
 
                 </LinearLayout>
-
+-->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"

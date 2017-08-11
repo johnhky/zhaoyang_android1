@@ -8,6 +8,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalRecord;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.activity.patient.PayPrescriptionActivity;
 import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
 import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
 import com.doctor.sun.vm.BaseItem;
@@ -18,6 +19,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import org.immutables.value.Value;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.doctor.sun.immutables.PrescriptionOrder.Status.EXPIRED;
@@ -73,7 +76,7 @@ public abstract class PrescriptionOrder extends BaseItem {
 
     public abstract MedicalRecord getRecord();
 
-    public abstract List<Prescription> getPrescription();
+    public abstract ArrayList<Prescription> getPrescription();
 
     @JsonIgnore
     @Value.Default
@@ -127,9 +130,11 @@ public abstract class PrescriptionOrder extends BaseItem {
 
     public void viewPrescriptionDetail(Context context) {
         if (getPrescription_status() == Status.WAITING_PAYMENT) {
-            Bundle args = PayPrescriptionsFragment.getArgs(getDrug_order_id());
-            Intent intent = SingleFragmentActivity.intentFor(context, getRecord().getRecordName() + "的寄药单", args);
+            Intent intent = PayPrescriptionActivity.makeIntent(context,getDrug_order_id());
             context.startActivity(intent);
+         /*   Bundle args = PayPrescriptionsFragment.getArgs(getDrug_order_id());
+            Intent intent = SingleFragmentActivity.intentFor(context, getRecord().getRecordName() + "的寄药单", args);
+            context.startActivity(intent);*/
         }
     }
 }

@@ -18,7 +18,7 @@
         android:textColor="@color/main_txt_color"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:text="请选择预约哪一天(专属网诊)"
+        android:text="请选择预约哪一天(VIP网诊)"
         />
     <TextView
         android:id="@+id/tv_delete"

@@ -5,24 +5,22 @@
     <data>
         <variable
             name="data"
-            type="com.doctor.sun.entity.Description" />
+            type="com.doctor.sun.vm.BaseMenu" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
+        android:onClick="@{data.itemClick}"
         >
-        <TextView
-            android:layout_width="@dimen/dp_0"
-            android:layout_weight="0.2"
-            android:layout_height="wrap_content" />
 
         <TextView
-            android:layout_width="@dimen/dp_0"
-            android:layout_weight="1"
-            android:text="@{data.content}"
-            android:layout_height="wrap_content" />
+            android:layout_width="80dp"
+            android:drawableTop="@drawable/ic_services"
+            android:gravity="center"
+            android:text="@string/ask_service"
+            android:layout_height="50dp" />
         <TextView
             android:layout_width="@dimen/dp_0"
             android:layout_weight="0.2"

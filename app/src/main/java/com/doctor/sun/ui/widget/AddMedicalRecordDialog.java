@@ -11,6 +11,7 @@ import android.view.View;
 import com.doctor.sun.R;
 import com.doctor.sun.databinding.DialogRecordTypeBinding;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.fragment.CreateNewMedicineReordActivity;
 import com.doctor.sun.ui.fragment.NewMedicalRecordFragment;
 
 /**
@@ -79,16 +80,16 @@ public class AddMedicalRecordDialog {
                         break;
                     }
                     case R.id.tv_self: {
-                        Bundle args = NewMedicalRecordFragment.getArgs(NewMedicalRecordFragment.TYPE_SELF);
-                        Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", args);
-                        context.startActivity(intent);
+                        Intent toCreate = new Intent();
+                        toCreate.setClass(context, CreateNewMedicineReordActivity.class);
+                        context.startActivity(toCreate);
                         dialog.dismiss();
                         break;
                     }
                     case R.id.tv_relative: {
-                        Bundle args = NewMedicalRecordFragment.getArgs(NewMedicalRecordFragment.TYPE_OTHER);
-                        Intent intent = SingleFragmentActivity.intentFor(context, "新建病历", args);
-                        context.startActivity(intent);
+                        Intent toCreate = new Intent();
+                        toCreate.setClass(context, CreateNewMedicineReordActivity.class);
+                        context.startActivity(toCreate);
                         dialog.dismiss();
                         break;
                     }

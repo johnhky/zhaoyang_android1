@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -14,12 +15,18 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
+import com.doctor.sun.entity.Tags;
+import com.doctor.sun.entity.handler.AppointmentHandler2;
 import com.doctor.sun.im.IMManager;
 import com.doctor.sun.im.NIMConnectionState;
 import com.doctor.sun.im.custom.FileTypeMap;
+import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.media.AudioController;
 import com.doctor.sun.ui.activity.FileDetailActivity;
+import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.fragment.EditDoctorInfoFragment;
+import com.doctor.sun.ui.fragment.EditPatientInfoFragment;
 import com.doctor.sun.util.NotificationUtil;
 import com.doctor.sun.util.TimeUtils;
 import com.doctor.sun.util.VoipCallUtil;
@@ -32,6 +39,10 @@ import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -49,12 +60,82 @@ public class MsgHandler {
     public static final int WIDTH_PER_SECOND_EXCEED_10 = 3;
     private MediaPlayer mSuffixPlayer;
 
-    public void toUpdateData(Context context){
-        Intent toUpdateData = new Intent();
-        toUpdateData.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        toUpdateData.setClass(context, EditDoctorInfoFragment.class);
-        toUpdateData.putExtra("update",1);
-        context.startActivity(toUpdateData);
+    public void showDoctorAdvice(Context context, final String id) {
+        Appointment data = new Appointment() {
+            @Override
+            public String getId() {
+                return id;
+            }
+
+            @Override
+            public int getStatus() {
+                return 0;
+            }
+
+            @Override
+            public double getMoney() {
+                return 0;
+            }
+
+            @Override
+            public String getAddress() {
+                return null;
+            }
+
+            @Override
+            public int getType() {
+                return 0;
+            }
+
+            @Override
+            public String getEnd_time() {
+                return null;
+            }
+
+            @Override
+            public String getBook_time() {
+                return null;
+            }
+
+            @Override
+            public String getRecord_id() {
+                return null;
+            }
+
+            @Override
+            public List<Tags> getSelect_tags() {
+                return null;
+            }
+        };
+        AppointmentHandler2.viewDetail(context, 1, data);
+    }
+
+
+    public String showCreatedTime(String time) {
+        if (!TextUtils.isEmpty(time)) {
+            Date date = null;
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                date = simpleDateFormat.parse(time);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return simpleDateFormat.format(date);
+        } else {
+            return "";
+        }
+    }
+
+    /*修改个人信息*/
+    public void toUpdateData(Context context) {
+
+        if (Settings.isDoctor()) {
+            Intent intent = EditDoctorInfoFragment.intentFor(context, Settings.getDoctorProfile());
+            context.startActivity(intent);
+        } else {
+            Intent intent = SingleFragmentActivity.intentFor(context, "我", EditPatientInfoFragment.getArgs(Settings.getPatientProfile()));
+            context.startActivity(intent);
+        }
     }
 
     public static void removeMsg(final String msgId) {
@@ -83,6 +164,7 @@ public class MsgHandler {
             @Override
             public void execute(Realm realm) {
                 TextMsg msg1 = TextMsgFactory.fromYXMessage(msg);
+                Log.e("eeee",msg1.getMsgId()+",from:"+msg1.getFrom()+"content: "+msg1.getBody());
                 if (!isValid(msg1)) return;
 
                 if (msg1.getType().equals(MsgTypeEnum.avchat.toString())) {
@@ -113,10 +195,13 @@ public class MsgHandler {
                     } else {
                         msg1.setHaveRead(haveRead);
                         if (!haveRead && msg.getConfig() != null && msg.getConfig().enablePush) {
-                            NotificationUtil.showNotification(msg1);
+                            if (null != msg1) {
+                                NotificationUtil.showNotification(msg1);
+                            }
                         }
                     }
                     realm.copyToRealmOrUpdate(msg1);
+
                 }
             }
         });
@@ -141,6 +226,72 @@ public class MsgHandler {
             }
         });
     }
+    public void revokeMessage(final IMMessage message, final Context context) {
+        NIMClient.getService(MsgService.class).revokeMessage(message).setCallback(new RequestCallback<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(context, "消息撤回成功!", Toast.LENGTH_SHORT).show();
+                removeMsg(message.getUuid());
+            }
+
+            @Override
+            public void onFailed(int i) {
+                if (i == 508) {
+                    Toast.makeText(context, "消息已发出两分钟，不能撤回!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("eeee", i + "");
+                }
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+                Log.e("eeee", "throwable: " + throwable.getMessage());
+            }
+        });
+    }
+
+    public boolean showRevokeMessage(final Context context, final TextMsg msg) {
+
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+        builder.content("确定撤回这条消息吗?")
+                .positiveText("撤回")
+                .negativeText("取消");
+        builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull final MaterialDialog dialog, @NonNull DialogAction which) {
+                MsgService service = NIMClient.getService(MsgService.class);
+                List<String> msgId = new ArrayList<>();
+                msgId.add(msg.getMsgId());
+                InvocationFuture<List<IMMessage>> invocationFuture = service.queryMessageListByUuid(msgId);
+                invocationFuture.setCallback(new RequestCallback<List<IMMessage>>() {
+                    @Override
+                    public void onSuccess(final List<IMMessage> imMessages) {
+                        if (imMessages.isEmpty()) {
+                            return;
+                        }
+                        revokeMessage(imMessages.get(0), context);
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onFailed(int i) {
+                        Log.e("eeee", i + "");
+                    }
+
+                    @Override
+                    public void onException(Throwable throwable) {
+                        Log.e("eeee", throwable.getMessage());
+                    }
+                });
+
+            }
+        });
+        builder.show();
+
+
+        return true;
+    }
+
 
     public static boolean isValid(TextMsg msg1) {
         return msg1 != null && !Strings.isNullOrEmpty(msg1.getMsgId());

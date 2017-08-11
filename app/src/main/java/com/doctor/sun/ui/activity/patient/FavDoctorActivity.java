@@ -90,14 +90,13 @@ public class FavDoctorActivity extends BaseFragmentActivity2 {
     }
 
     private void loadData() {
-        api.favoriteDoctors().enqueue(new ApiCallback<PageDTO<Doctor>>() {
+        api.favoriteDoctors("1").enqueue(new ApiCallback<PageDTO<Doctor>>() {
             @Override
             protected void handleResponse(PageDTO<Doctor> response) {
 
                 for (int i = 0; i < adapter.size(); i++) {
                     ((Doctor) adapter.get(i)).setUserSelected(false);
                 }
-
                 adapter.clear();
                 adapter.addAll(response.getData());
                 adapter.notifyDataSetChanged();

@@ -96,10 +96,9 @@
 
         <CheckBox
             android:id="@+id/iv_select"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/dp_6"
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
+            android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/dp_13"
             android:layout_marginRight="@dimen/dp_13"
             android:button="@drawable/ic_circle_tick"

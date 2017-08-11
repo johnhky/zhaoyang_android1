@@ -10,6 +10,9 @@
         <variable
             name="data"
             type="com.doctor.sun.immutables.Appointment" />
+        <variable
+            name="visibility"
+            type="boolean"></variable>
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"

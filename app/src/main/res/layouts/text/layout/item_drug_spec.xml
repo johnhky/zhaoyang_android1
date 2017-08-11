@@ -29,7 +29,7 @@
             android:gravity="@{data.titleGravity}"
             android:hint="@{data.hint}"
             android:text="@{data.title}"
-            android:textColor="@color/text_color_gray"
+            android:textColor="#646464"
             android:textSize="@dimen/font_15"
             tools:text="title" />
 
@@ -45,7 +45,7 @@
             android:gravity="end"
             android:maxLines="1"
             android:text="@{data.subTitle}"
-            android:textColor="@color/text_color_gray"
+            android:textColor="#646464"
             android:textSize="@dimen/font_12"
             tools:text="subtitle" />
     </LinearLayout>

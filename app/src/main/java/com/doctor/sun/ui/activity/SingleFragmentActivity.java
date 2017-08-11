@@ -36,7 +36,6 @@ public class SingleFragmentActivity extends BaseFragmentActivity2 {
         super.onCreate(savedInstanceState);
         DataBindingUtil.setContentView(this, R.layout.activity_fragment_wraper);
 
-
         Bundle bundleExtra = getIntent().getBundleExtra(Constants.FRAGMENT_CONTENT_BUNDLE);
         instance = FragmentFactory.getInstance().get(bundleExtra);
 

@@ -132,8 +132,7 @@ public class PayFailActivity extends BaseFragmentActivity2 implements View.OnCli
         if (isTypeAppointment()) {
             intent = MyOrderActivity.makeIntent(this);
         } else {
-            Bundle bundle = DrugListFragment.getArgs();
-            intent = SingleFragmentActivity.intentFor(this, "寄药订单", bundle);
+            intent = MyDrugOrderActivity.makeIntent(this);
         }
 
         return intent;

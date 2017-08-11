@@ -18,4 +18,9 @@ public class QuestionDTO {
     public List<Scales> scales;
     @JsonProperty("followUpInfo")
     public FollowUpInfo followUpInfo;
+
+    @Override
+    public String toString() {
+        return "QuestionDTO:{ questions:"+questions +", scales:"+scales+"followInfo:"+followUpInfo+ "}";
+    }
 }

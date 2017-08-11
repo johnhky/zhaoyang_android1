@@ -40,6 +40,6 @@ public class UploadDrugData extends BaseItem {
 
     @Override
     public String toString() {
-        return "DATA[ name: "+getName()+"create_at:"+getCreated_at()+"appointment_id"+getAppointment_id()+"]";
+        return "DATA[ name: "+getName()+"create_at:"+getCreated_at()+"appointment_id:"+getAppointment_id()+",getDrug_data:"+getDrug_data()+"]";
     }
 }

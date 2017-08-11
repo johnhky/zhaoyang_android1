@@ -1,6 +1,7 @@
 package com.doctor.sun.vm;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.LinearLayoutManager;
 
@@ -32,7 +33,6 @@ public class ItemDrugDetailBtn extends ItemTextInput2 {
                 .neutralText("关闭")
                 .adapter(adapter, new LinearLayoutManager(context))
                 .show();
-
     }
 
     public void setAdapter(BaseListAdapter<SortedItem, ViewDataBinding> adapter) {

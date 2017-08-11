@@ -62,11 +62,11 @@ public class HistoryDetailActivity extends TabActivity {
     private void showCase() {
         View childAt = binding.showcase;
         if (childAt != null) {
-            if (Settings.isDoctor()) {
+         /*   if (Settings.isDoctor()) {
                 ShowCaseUtil.showCase2(childAt, "记录病历和给患者建议和调药", 1, 1, 0, true);
             } else {
                 ShowCaseUtil.showCase2(childAt, "您可以在这里看到医生的医嘱和处方建议", 1, 1, 0, true);
-            }
+            }*/
         }
     }
 }

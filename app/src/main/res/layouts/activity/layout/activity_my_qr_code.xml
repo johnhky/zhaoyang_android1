@@ -44,10 +44,6 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dp_10"
                     android:scaleType="centerCrop"
-                    android:showcase='@{"点击头像可以修改个人信息"}'
-                    android:previous='@{-1}'
-                    android:next="@{2}"
-                    android:current="@{1}"
                     android:src="@{data.avatar}"
                     app:maskDrawable="@drawable/circle_mask" />
 
@@ -64,7 +60,7 @@
                     android:paddingRight="@dimen/dp_4"
                     android:singleLine="true"
                     android:text="@{data.level}"
-                    android:textColor="@color/blue_grey"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/font_9" />
 
             </RelativeLayout>

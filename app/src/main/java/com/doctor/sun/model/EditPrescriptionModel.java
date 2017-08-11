@@ -4,27 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.databinding.Observable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.doctor.sun.AppContext;
 import com.doctor.sun.BR;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.entity.DrugAutoComplete;
-import com.doctor.sun.entity.DrugDetail;
+import com.doctor.sun.entity.DrugInfo;
+import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.handler.PrescriptionHandler;
 import com.doctor.sun.event.HideKeyboardEvent;
-import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Prescription;
-import com.doctor.sun.module.AutoComplete;
 import com.doctor.sun.ui.adapter.ViewHolder.SortedItem;
 import com.doctor.sun.ui.adapter.core.SortedListAdapter;
-import com.doctor.sun.ui.widget.NumberPickerDialog;
 import com.doctor.sun.vm.ItemAutoCompleteTextInput;
 import com.doctor.sun.vm.ItemRadioDialog;
 import com.doctor.sun.vm.ItemSwitch;
@@ -54,8 +50,8 @@ public class EditPrescriptionModel {
         if (data == null) {
             data = PrescriptionHandler.newInstance();
         }
-        List<SortedItem> result = new ArrayList<>();
 
+        List<SortedItem> result = new ArrayList<>();
         final ItemAutoCompleteTextInput<DrugAutoComplete> name = new ItemAutoCompleteTextInput<>(R.layout.item_auto_complete_text, "药名", "");
 
         name.setSubTitle("(必填)");
@@ -63,45 +59,57 @@ public class EditPrescriptionModel {
         name.setItemId("drug_name");
         name.setResult(data.getDrug_name());
         name.setEnabled(!isReadOnly);
+        name.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                if (null!=name.arrayAdapter){
+                    name.arrayAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+        name.setListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        if (name.list.size()>0){
+                            name.setResult(name.list.get(position).getDrug_name());
+                            name.dismissDialog();
+                            name.arrayAdapter.notifyDataSetChanged();
+                        }
+            }
+        });
+        if (!TextUtils.isEmpty(name.getResult())) {
+            name.dismissByUser = true;
+        }
         result.add(name);
-
         ModelUtils.insertDividerMarginLR(result);
 
         final ItemTextInput2 takeMedicineDays = new ItemTextInput2(R.layout.item_take_medicine_days, "用药天数", "");
+        takeMedicineDays.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         takeMedicineDays.setItemId("take_medicine_days");
         takeMedicineDays.setResult(data.getTake_medicine_days().equals("") ? "28" : data.getTake_medicine_days());
-        takeMedicineDays.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         takeMedicineDays.setEnabled(!isReadOnly);
-        takeMedicineDays.setResultNotEmpty();
-        takeMedicineDays.setClickable(!isReadOnly);
-        final NumberPickerDialog dialog = new NumberPickerDialog(context, 1, 999);
-        if (!data.getTake_medicine_days().equals("")) {
-            dialog.setValue(Integer.parseInt(data.getTake_medicine_days()));
-        }
-        dialog.setConfirm(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                takeMedicineDays.setResult(String.valueOf(dialog.getValue()));
-                dialog.dismiss();
-            }
-        });
-        takeMedicineDays.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.show();
-            }
-        });
+        takeMedicineDays.setSpan(6);
         if (Settings.isDoctor()) {
+            takeMedicineDays.setResultNotEmpty();
             result.add(takeMedicineDays);
             ModelUtils.insertDividerMarginLR(result);
         }
-
         final ItemSwitch itemSwitch = new ItemSwitch(R.layout.item_titration);
         itemSwitch.setContent("点击打开");
-        itemSwitch.setChecked(false);
+
+        if (data.getTitration().size() == 0) {
+            itemSwitch.setChecked(false);
+        } else {
+            itemSwitch.setChecked(true);
+        }
         itemSwitch.setItemId(UUID.randomUUID().toString());
         itemSwitch.setEnabled(!isReadOnly);
-        result.add(itemSwitch);
+
+        if (Settings.isDoctor()) {
+            if (AppContext.getInstance().getType() != AppointmentType.FollowUp) {
+                result.add(itemSwitch);
+            }
+        }
 
         final ItemRadioDialog.TextEvaluator evaluator = new ItemRadioDialog.TextEvaluator();
 
@@ -110,6 +118,7 @@ public class EditPrescriptionModel {
         interval.setSelectedItem(-1);
         interval.setTitle("间隔");
         interval.setItemId("frequency");
+        interval.setResultNotEmpty();
         String[] intervals = AppContext.me().getResources().getStringArray(R.array.interval_array);
         interval.addOptions(intervals);
         for (int i = 0; i < intervals.length; i++) {
@@ -136,7 +145,6 @@ public class EditPrescriptionModel {
         ModelUtils.insertDividerMarginLR(result);
 
         final ItemTextInput2 morning = new ItemTextInput2(R.layout.item_number_input, "早:    ", "");
-        morning.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         morning.setSpan(6);
         morning.setItemId("morning");
         morning.setResult(data.getMorning());
@@ -145,7 +153,6 @@ public class EditPrescriptionModel {
 
 
         final ItemTextInput2 afternoon = new ItemTextInput2(R.layout.item_number_input, "午:    ", "");
-        afternoon.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         afternoon.setSpan(6);
         afternoon.setItemId("noon");
         afternoon.setResult(data.getNoon());
@@ -155,7 +162,6 @@ public class EditPrescriptionModel {
 
         //这里接口晚上是用的night，但是实际上，晚上的英文翻译是evening。所以这里代码没有错，不要怀疑
         final ItemTextInput2 evening = new ItemTextInput2(R.layout.item_number_input, "晚:    ", "");
-        evening.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         evening.setSpan(6);
         evening.setItemId("night");
         evening.setResult(data.getNight());
@@ -164,7 +170,6 @@ public class EditPrescriptionModel {
 
 
         final ItemTextInput2 night = new ItemTextInput2(R.layout.item_number_input, "睡前:", "");
-        night.setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         night.setSpan(6);
         night.setItemId("before_sleep");
         night.setResult(data.getBefore_sleep());
@@ -181,26 +186,38 @@ public class EditPrescriptionModel {
 
         final MgPerUnitInput mUnit = new MgPerUnitInput(R.layout.item_mg_per_unit, "单位含量", "");
         mUnit.setSpan(12);
+        mUnit.getDialog().setSelectedItem(-1);
         mUnit.setItemId("mg_per_unit");
         mUnit.setEnabled(!isReadOnly);
         if (Settings.isDoctor()) {
-            mUnit.setResultNotEmpty();
+            if (mUnit.getDialog().getSelectedItem() == 1 || mUnit.getDialog().getSelectedItem() == 0) {
+                mUnit.setResultNotEmpty();
+            }
             result.add(mUnit);
             ModelUtils.insertDividerMarginLR(result);
         }
 
-        final TitrationList titrationList = new TitrationList(R.layout.item_titrationlist, "间隔",unit.getSelectedItem()+"");
+        final TitrationList titrationList = new TitrationList(R.layout.item_titrationlist, "用法用量", unit.getSelectedItem() + "");
         titrationList.setItemId("titration");
-        if (!isReadOnly){
-            titrationList.setVisible(false);
-        }else{
+        result.add(titrationList);
+        if (!isReadOnly) {
+            titrationList.setEnabled(true);
+        } else {
             titrationList.setEnabled(false);
         }
-        if (data.getTitration().size() > 0) {
+        if (data.getTitration() != null && data.getTitration().size() > 0) {
+            interval.setVisible(false);
+            morning.setVisible(false);
+            afternoon.setVisible(false);
+            night.setVisible(false);
+            evening.setVisible(false);
+            titrationList.setVisible(true);
             titrationList.setSubTitle(data.getDrug_unit());
             titrationList.addTitrations(data.getTitration());
+        } else {
+            titrationList.setVisible(false);
         }
-            result.add(titrationList);
+
         name.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             private boolean isFirstTime = true;
 
@@ -208,12 +225,12 @@ public class EditPrescriptionModel {
             public void onPropertyChanged(Observable observable, int i) {
                 if (i == BR.result && !isFirstTime) {
                     isFirstTime = false;
-                    List<DrugDetail> filteredEntries = name.getFilteredEntries();
+                    List<DrugInfo> filteredEntries = name.getFilteredEntries();
                     if (filteredEntries.size() > 0 && !Strings.isNullOrEmpty(name.getResult())) {
-                        List<String> drugUnit = filteredEntries.get(0).drugUnit();
-                        setDrugUnits(unit, drugUnit, defaultUnits, mUnit);
+                        List<String> drugUnit = filteredEntries.get(0).getDrug_unit();
+                        setDrugUnits(unit, drugUnit, defaultUnits, mUnit, filteredEntries.get(0).getSpecification());
                     } else {
-                        setDrugUnits(unit, new ArrayList<String>(), defaultUnits, mUnit);
+                        setDrugUnits(unit, new ArrayList<String>(), defaultUnits, mUnit, "0");
                     }
                 }
             }
@@ -222,10 +239,43 @@ public class EditPrescriptionModel {
         name.setListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DrugDetail drugAutoComplete = name.getFilteredEntries().get(position);
-                List<String> drugUnit = drugAutoComplete.drugUnit();
+                DrugInfo drugAutoComplete = name.getFilteredEntries().get(position);
+                List<String> drugUnit = drugAutoComplete.getDrug_unit();
+                String specification = drugAutoComplete.getSpecification();
                 name.setResult(drugAutoComplete.getDrug_name());
-                if (name.getResult().equals("奥氮平片(欧兰宁)")) {
+   /*             if (name.getResult().equals("奥氮平片(欧兰宁)")) {
+                    if (drugUnit.size() == 4) {
+                        drugUnit.remove(2);
+                        if (drugUnit.size() == 3) {
+                            drugUnit.remove(2);
+                        }
+                    }
+                }
+                if (name.getResult().equals("利培酮片(维思通)")) {
+                    if (drugUnit.size() == 4) {
+                        drugUnit.remove(2);
+                        if (drugUnit.size() == 3) {
+                            drugUnit.remove(2);
+                        }
+                    }
+                }
+                if (name.getResult().equals("奥氮平片(奥兰之)")) {
+                    if (drugUnit.size() == 4) {
+                        drugUnit.remove(2);
+                        if (drugUnit.size() == 3) {
+                            drugUnit.remove(2);
+                        }
+                    }
+                }
+                if (name.getResult().equals("奥氮平口崩片(再普乐口崩片)")) {
+                    if (drugUnit.size() == 4) {
+                        drugUnit.remove(2);
+                        if (drugUnit.size() == 3) {
+                            drugUnit.remove(2);
+                        }
+                    }
+                }
+                if (name.getResult().equals("奥氮平片(再普乐)")) {
                     if (drugUnit.size() == 4) {
                         drugUnit.remove(2);
                         if (drugUnit.size() == 3) {
@@ -241,7 +291,15 @@ public class EditPrescriptionModel {
                         }
                     }
                 }
-                setDrugUnits(unit, drugUnit, defaultUnits, mUnit);
+                if (name.getResult().equals("草酸艾司西酞普兰片(百适可)")) {
+                    if (drugUnit.size() == 4) {
+                        drugUnit.remove(2);
+                        if (drugUnit.size() == 3) {
+                            drugUnit.remove(2);
+                        }
+                    }
+                }*/
+                setDrugUnits(unit, drugUnit, defaultUnits, mUnit, specification);
                 name.dismissDialog();
                 EventHub.post(new HideKeyboardEvent());
             }
@@ -251,34 +309,39 @@ public class EditPrescriptionModel {
         itemSwitch.setListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                        if (itemSwitch.isChecked() == false) {
-                            itemSwitch.setChecked(true);
-                            itemSwitch.setContent("点击关闭");
-                            interval.setVisible(false);
-                            morning.setVisible(false);
-                            afternoon.setVisible(false);
-                            night.setVisible(false);
-                            evening.setVisible(false);
-                            if (!isReadOnly) {
-                                titrationList.setVisible(true);
-                                morning.setResult("");
-                                afternoon.setResult("");
-                                night.setResult("");
-                                evening.setResult("");
-                                interval.setSelectedItem(0);
-                            }
-                        } else {
-                            titrationList.adapter(context);
-                            itemSwitch.setChecked(false);
-                            itemSwitch.setContent("点击打开");
-                            interval.setVisible(true);
-                            morning.setVisible(true);
-                            afternoon.setVisible(true);
-                            night.setVisible(true);
-                            evening.setVisible(true);
-                            mUnit.setVisible(false);
-                            titrationList.setVisible(false);
-                        }
+                if (itemSwitch.isChecked() == false) {
+                    itemSwitch.setChecked(true);
+                    itemSwitch.setContent("点击关闭");
+                    interval.setVisible(false);
+                    morning.setVisible(false);
+                    afternoon.setVisible(false);
+                    night.setVisible(false);
+                    evening.setVisible(false);
+                    titrationList.setVisible(true);
+                    if (!isReadOnly) {
+                        morning.setResult("");
+                        afternoon.setResult("");
+                        night.setResult("");
+                        evening.setResult("");
+                        interval.setSelectedItem(0);
+                        titrationList.clearData();
+                    }
+                } else {
+                    titrationList.adapter(context);
+                    itemSwitch.setChecked(false);
+                    itemSwitch.setContent("点击打开");
+                    interval.setVisible(true);
+                    morning.setVisible(true);
+                    afternoon.setVisible(true);
+                    night.setVisible(true);
+                    evening.setVisible(true);
+                    titrationList.setVisible(false);
+                    if (unit.getSelectedItemText().equals("粒")) {
+                        mUnit.setVisible(true);
+                    } else {
+                        mUnit.setVisible(false);
+                    }
+                }
 
             }
         });
@@ -292,10 +355,17 @@ public class EditPrescriptionModel {
                 night.setSubTitle(unit.getSelectedItemText());
                 mUnit.setSubTitle(unit.getSelectedItemText());
                 titrationList.setSubTitle(unit.getSelectedItemText());
-                titrationList.setHint(unit.getSelectedItem()+"");
+                titrationList.setHint(unit.getSelectedItem() + "");
                 boolean isStandardUnit = unit.getSelectedItemText().equals("克")
                         || unit.getSelectedItemText().equals("毫克");
                 mUnit.setVisible(!isStandardUnit);
+                if (!Settings.isDoctor()) {
+                    if (unit.getSelectedItemText().equals("粒")) {
+                        mUnit.setVisible(false);
+                    } else {
+                        mUnit.setVisible(true);
+                    }
+                }
             }
         });
         titrationList.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
@@ -315,26 +385,37 @@ public class EditPrescriptionModel {
 
         loadAutoCompleteDrug(data, name, unit, defaultUnits);
 
-        switch (data.getUnits()) {
-            case "毫克": {
+        if (!TextUtils.isEmpty(data.getUnits())) {
+            switch (data.getUnits()) {
+                case "毫克": {
+                    mUnit.getDialog().setSelectedItem(0);
+                    break;
+                }
+                case "克": {
+                    mUnit.getDialog().setSelectedItem(1);
+                    break;
+
+                }
+
+                default: {
+                }
+            }
+        }
+        if (!TextUtils.isEmpty(data.getSpecification())) {
+            if (data.getSpecification().equals("-1")) {
+                mUnit.getDialog().setSelectedItem(2);
+            } else {
+                mUnit.setResult(data.getSpecification());
                 mUnit.getDialog().setSelectedItem(0);
-                break;
             }
-            case "克": {
-                mUnit.getDialog().setSelectedItem(1);
-                break;
-
-            }
-
-            default: {
-            }
-        }
-        if (data.getSpecification().equals("-1")) {
-            mUnit.getDialog().setSelectedItem(2);
         } else {
-            mUnit.setResult(data.getSpecification());
+            if (!TextUtils.isEmpty(data.getDrug_unit())) {
+                if (data.getDrug_unit().equals("粒")) {
+                    mUnit.getDialog().setSelectedItem(0);
+                }
+            }
         }
-        if (data.getTitration().size()>0&&isReadOnly){
+        if (data.getTitration() != null && data.getTitration().size() != 0 && isReadOnly) {
             morning.setVisible(false);
             night.setVisible(false);
             interval.setVisible(false);
@@ -354,7 +435,7 @@ public class EditPrescriptionModel {
                 unit.setSelectedItem(i);
             }
         }
-        AutoComplete autoComplete = Api.of(AutoComplete.class);
+   /*     AutoComplete autoComplete = Api.of(AutoComplete.class);
         autoComplete.drugDetail().enqueue(new SimpleCallback<List<DrugDetail>>() {
             @Override
             protected void handleResponse(final List<DrugDetail> response) {
@@ -362,13 +443,15 @@ public class EditPrescriptionModel {
                     @Override
                     public void execute(Realm realm) {
                         realm.copyToRealmOrUpdate(response);
+                        realm.close();
                     }
+
                 });
             }
-        });
+        });*/
     }
 
-    private void setDrugUnits(ItemRadioDialog unit, List<String> drugUnit, String[] defaultUnits, MgPerUnitInput mgPerUnitInput) {
+    private void setDrugUnits(ItemRadioDialog unit, List<String> drugUnit, String[] defaultUnits, MgPerUnitInput mgPerUnitInput, String specification) {
         if (drugUnit != null && drugUnit.size() > 0) {
             if (!unit.hasSameOptions(drugUnit)) {
                 unit.clearOptions();
@@ -377,8 +460,13 @@ public class EditPrescriptionModel {
                     unit.setSelectedItem(0);
                 }
                 for (int i = 0; i < drugUnit.size(); i++) {
-                    if (unit.getOptions().get(i).equals("粒")) ;
-                    mgPerUnitInput.getDialog().setSelectedItem(2);
+                    if (unit.getOptions().get(i).equals("粒")) {
+                        if (specification.equals("-1")) {
+                            mgPerUnitInput.getDialog().setSelectedItem(2);
+                        } else {
+                            mgPerUnitInput.getDialog().setSelectedItem(0);
+                        }
+                    }
                 }
                 unit.notifyChange();
             }
@@ -407,8 +495,12 @@ public class EditPrescriptionModel {
                 }
                 stringStringHashMap.put("specification", split[0]);
             }
-            String titration  = stringStringHashMap.get("titration");
-            stringStringHashMap.put("titration", titration.replace("titration:",""));
+            if (Settings.isDoctor()) {
+                String titration = stringStringHashMap.get("titration");
+                if (!TextUtils.isEmpty(titration)) {
+                    stringStringHashMap.put("titration", titration.replace("titration:", ""));
+                }
+            }
         }
         return stringStringHashMap;
     }

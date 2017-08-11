@@ -40,8 +40,9 @@
             android:gravity="center_vertical"
             android:maxLines="1"
             android:text="@{data.title}"
-            android:textColor="@color/grey_89"
+            android:textColor="#464646"
             android:textSize="@dimen/font_15"
+            android:onClick="@{()->data.selectCoupon(context)}"
             tools:text="已使用优惠券" />
 
         <LinearLayout
@@ -49,11 +50,8 @@
             android:layout_width="@dimen/dp_85"
             android:layout_height="@dimen/dp_30"
             android:layout_gravity="center_vertical|end"
-            android:current="@{15}"
             android:gravity="center"
-            android:next="@{16}"
-            android:onClick="@{()->data.selectCoupon(context)}"
-            android:previous='@{-1}'>
+            android:onClick="@{()->data.selectCoupon(context)}">
 
             <TextView
                 android:layout_width="wrap_content"

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.doctor.auto.Factory;
+import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
@@ -30,7 +31,9 @@ import com.doctor.sun.event.FinishRefreshEvent;
 import com.doctor.sun.event.LoadDrugEvent;
 import com.doctor.sun.event.ModifyStatusEvent;
 import com.doctor.sun.event.RefreshQuestionsEvent;
+import com.doctor.sun.event.SaveAnswerFailedEvent;
 import com.doctor.sun.event.SaveAnswerSuccessEvent;
+import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
 import com.doctor.sun.immutables.Appointment;
@@ -49,6 +52,7 @@ import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
+import io.ganguo.library.common.LoadingHelper;
 import io.ganguo.library.core.event.EventHub;
 import retrofit2.Call;
 
@@ -79,6 +83,16 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
         Bundle args = getArgs(id, path, questionType);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (AppContext.getInstance().getPosition() == 1) {
+            isReadOnly = true;
+        } else {
+            isReadOnly = false;
+        }
     }
 
     public static Bundle getArgs(String id, @QuestionsPath String path, @QuestionsType @Nullable String questionType) {
@@ -115,10 +129,11 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
     @Override
     protected void loadMore() {
         super.loadMore();
-
+        LoadingHelper.showMaterLoading(getActivity(), "正在加载...");
         model.questions(path, id, questionType, templateType, new Function0<List<? extends SortedItem>>() {
             @Override
             public void apply(List<? extends SortedItem> sortedItems) {
+                LoadingHelper.hideMaterLoading();
                 onFinishLoadMore(sortedItems);
                 getAdapter().clear();
                 getAdapter().insertAll(sortedItems);
@@ -155,15 +170,17 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
     }
 
     public void save(int endAppointment) {
+        LoadingHelper.showMaterLoading(getActivity(),"正在保存...");
         model.saveAnswer(id, path, questionType, endAppointment, getAdapter());
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
         if (!isReadOnly) {
-            inflater.inflate(R.menu.menu_save, menu);
+            getActivity().getMenuInflater().inflate(R.menu.menu_save, menu);
         } else {
-            inflater.inflate(R.menu.menu_edit, menu);
+            getActivity().getMenuInflater().inflate(R.menu.menu_edit, menu);
         }
     }
 
@@ -188,15 +205,22 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
     }
 
     public void showEndAppointmentDialog() {
-
+        String applyText = "";
+        String cancelText = "";
+        if (model.getStatus() == AppointmentHandler2.Status.FINISHED) {
+            applyText = "保存并通知患者";
+            cancelText = null;
+        } else {
+            applyText = "保存并结束";
+            cancelText = "存为草稿";
+        }
         TwoChoiceDialog.show(getActivity(), getString(R.string.edit_diagnosis),
-                "存为草稿", "保存并结束", new TwoChoiceDialog.Options() {
+                cancelText, applyText, new TwoChoiceDialog.Options() {
                     @Override
                     public void onApplyClick(final MaterialDialog dialog) {
                         save(IntBoolean.TRUE);
                         EventHub.post(new ModifyStatusEvent(getAppointmentId(), AppointmentHandler2.Status.FINISHED));
                         dialog.dismiss();
-                        getActivity().finish();
                     }
 
                     @Override
@@ -223,17 +247,24 @@ public class AnswerQuestionFragment extends SortedListNoRefreshFragment {
         onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
     }
 
-
     @Subscribe
     public void onEventMainThread(SaveAnswerSuccessEvent event) {
         if (!event.getId().equals(getAppointmentId())) {
             return;
         }
 
-        Toast.makeText(getContext(), "保存问卷成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "保存问卷成功", Toast.LENGTH_SHORT).show();
         isReadOnly = true;
         getAdapter().setLayoutIdInterceptor(createLayoutInterceptor());
         getActivity().invalidateOptionsMenu();
+        getActivity().finish();
+    }
+    @Subscribe
+    public void onEventMainThread(SaveAnswerFailedEvent event) {
+        if (!event.getId().equals(getAppointmentId())) {
+            return;
+        }
+        Toast.makeText(getContext(), event.getMsg(), Toast.LENGTH_SHORT).show();
     }
 
     @Subscribe

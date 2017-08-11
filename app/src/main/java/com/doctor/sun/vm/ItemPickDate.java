@@ -135,7 +135,8 @@ public class ItemPickDate extends BaseItem {
     //TODO
     public void setDate(String date) {
         try {
-            if (date == null || date.equals("")) return;
+            if (date == null || date.equals(""))
+                return;
             String[] split = date.split("-");
             setYear(Integer.valueOf(split[0]));
             setMonthOfYear(Integer.valueOf(split[1]) - 1);

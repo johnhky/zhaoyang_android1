@@ -3,9 +3,12 @@ package com.doctor.sun.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.doctor.auto.Factory;
@@ -15,11 +18,14 @@ import com.doctor.sun.bean.Constants;
 import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Questions2;
 import com.doctor.sun.entity.constans.QuestionsPath;
+import com.doctor.sun.event.AppointmentHistoryEvent;
 import com.doctor.sun.event.HideFABEvent;
 import com.doctor.sun.event.RefreshQuestionsEvent;
 import com.doctor.sun.event.ShowFABEvent;
 import com.doctor.sun.http.Api;
 import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.immutables.Appointment;
+import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.QuestionModule;
 import com.doctor.sun.ui.activity.doctor.TemplatesInventoryActivity;
 import com.doctor.sun.ui.adapter.MapLayoutIdInterceptor;
@@ -30,6 +36,7 @@ import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
+import io.ganguo.library.core.event.EventHub;
 import retrofit2.Call;
 
 import static android.widget.Toast.LENGTH_SHORT;
@@ -59,6 +66,7 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
         return fragment;
     }
 
+
     @NonNull
     public static Bundle getArgs(String id, @QuestionsPath String path, String questionType, boolean readOnly) {
         Bundle args = new Bundle();
@@ -83,6 +91,28 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+      /*  if (menu.size()>0){
+            if (menu.size()==2){
+                return;
+            }
+        }else{
+            return;
+        }*/
+        final boolean isReadOnly = getArguments().getBoolean(Constants.READ_ONLY, false);
+        if (isReadOnly) {
+            return;
+        }
+        if (!isEditMode) {
+                inflater.inflate(R.menu.menu_remind_refill, menu);
+            if (!QuestionsPath.SCALES.equals(getQuestionsPath())) {
+                inflater.inflate(R.menu.menu_asign_questions, menu);
+            }
+        } else {
+            inflater.inflate(R.menu.menu_send_remind, menu);
+            if (!QuestionsPath.SCALES.equals(getQuestionsPath())) {
+                inflater.inflate(R.menu.menu_asign_questions, menu);
+            }
+        }
     }
 
     @Override
@@ -112,26 +142,7 @@ public class ReadQuestionsFragment extends AnswerQuestionFragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        if (menu.size()>0){
-            if (menu.size()==2){
-                return;
-            }
-        }
-        final boolean isReadOnly = getArguments().getBoolean(Constants.READ_ONLY, false);
-        if (isReadOnly) {
-            return;
-        }
-        if (!isEditMode) {
-            getActivity().getMenuInflater().inflate(R.menu.menu_remind_refill, menu);
-            if (!QuestionsPath.SCALES.equals(getQuestionsPath())) {
-                getActivity().getMenuInflater().inflate(R.menu.menu_asign_questions, menu);
-            }
-        } else {
-            getActivity().getMenuInflater().inflate(R.menu.menu_send_remind, menu);
-            if (!QuestionsPath.SCALES.equals(getQuestionsPath())) {
-                getActivity().getMenuInflater().inflate(R.menu.menu_asign_questions, menu);
-            }
-        }
+
     }
 
     public boolean sendRemind() {

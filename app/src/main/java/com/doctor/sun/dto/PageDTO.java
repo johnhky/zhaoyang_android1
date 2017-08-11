@@ -41,6 +41,8 @@ public class PageDTO<T> {
     // 系统消息接口，获取未读消息数量
     @JsonProperty("unread_num")
     private int unreadNum;
+    @JsonProperty("untreated_num")
+    private int untreated_num;
     @JsonProperty("data")
     private List<T> data;
 
@@ -112,6 +114,14 @@ public class PageDTO<T> {
         return unreadNum;
     }
 
+    public int getUntreated_num() {
+        return untreated_num;
+    }
+
+    public void setUntreated_num(int untreated_num) {
+        this.untreated_num = untreated_num;
+    }
+
     public void setUnreadNum(int unreadNum) {
         this.unreadNum = unreadNum;
     }
@@ -135,7 +145,7 @@ public class PageDTO<T> {
                 ", prevPageUrl='" + prevPageUrl + '\'' +
                 ", from='" + from + '\'' +
                 ", to='" + to + '\'' +
-                ", data=" + data +
+                ", data=" + data +", untreated_num:"+untreated_num+
                 '}';
     }
 }

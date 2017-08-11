@@ -1,6 +1,7 @@
 package com.doctor.sun.entity.handler;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +14,18 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.doctor.sun.AppContext;
 import com.doctor.sun.BuildConfig;
 import com.doctor.sun.R;
 import com.doctor.sun.Settings;
@@ -27,6 +35,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.entity.Doctor;
 import com.doctor.sun.entity.MedicalHistory;
 import com.doctor.sun.entity.MedicalRecord;
+import com.doctor.sun.entity.Tags;
 import com.doctor.sun.entity.constans.AppointmentType;
 import com.doctor.sun.entity.constans.Gender;
 import com.doctor.sun.entity.constans.IntBoolean;
@@ -57,13 +66,18 @@ import com.doctor.sun.ui.activity.doctor.ChattingActivity;
 import com.doctor.sun.ui.activity.doctor.ConsultingActivity;
 import com.doctor.sun.ui.activity.doctor.PatientDetailActivity;
 import com.doctor.sun.ui.activity.doctor.SinglePatientHistoryActivity;
+import com.doctor.sun.ui.activity.doctor.SurfaceDoingActivity;
+import com.doctor.sun.ui.activity.doctor.SurfaceFinishedActivity;
 import com.doctor.sun.ui.activity.patient.AppointmentDetailActivity;
 import com.doctor.sun.ui.activity.patient.EditQuestionActivity;
 import com.doctor.sun.ui.activity.patient.FinishedOrderActivity;
+import com.doctor.sun.ui.activity.patient.MedicineStoreActivity;
 import com.doctor.sun.ui.adapter.SimpleAdapter;
 import com.doctor.sun.ui.adapter.ViewHolder.BaseViewHolder;
 import com.doctor.sun.ui.adapter.core.BaseListAdapter;
 import com.doctor.sun.ui.fragment.PayAppointmentFragment;
+import com.doctor.sun.ui.widget.AppointmentHistoryDialog;
+import com.doctor.sun.ui.widget.HistoryListDialog;
 import com.doctor.sun.util.ItemHelper;
 import com.doctor.sun.util.JacksonUtils;
 import com.doctor.sun.util.PayCallback;
@@ -76,6 +90,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -87,7 +102,10 @@ import io.ganguo.library.util.Tasks;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import io.realm.Sort;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.doctor.sun.ui.widget.AppointmentHistoryDialog.HISTORY_INDEX;
 
@@ -99,6 +117,11 @@ public class AppointmentHandler2 {
     public static final int RECORD_AUDIO_PERMISSION = 40;
     private static AppointmentModule api = Api.of(AppointmentModule.class);
     private static DrugModule drugModule = Api.of(DrugModule.class);
+    public static Appointment data;
+
+    public AppointmentHandler2(Appointment appointment) {
+        this.data = appointment;
+    }
 
     public static String getPatientName(Appointment data) {
         return data.getRecord().getPatientName();
@@ -132,10 +155,11 @@ public class AppointmentHandler2 {
             return "女";
         }
     }
-    public  static String getGender2(MedicalHistory data){
-        if(data.getGender()==Gender.MALE){
+
+    public static String getGender2(MedicalHistory data) {
+        if (data.getGender() == Gender.MALE) {
             return "男";
-        }else {
+        } else {
             return "女";
         }
     }
@@ -143,11 +167,13 @@ public class AppointmentHandler2 {
     public static String getGenderAndAge(Appointment data) {
         return String.format("%s/%s岁", getGender(data), data.getRecord().getAge());
     }
+
     //返回医生界面病历库的第一层界面显示的数据
-    public static String getMage(MedicalHistory data){
-    String content=String.format("%s/%s岁", getGender2(data), data.getAge());
-    return data.record_name+"    ("+content+")";
-}
+    public static String getMage(MedicalHistory data) {
+        String content = String.format("%s/%s岁", getGender2(data), data.getAge());
+        return data.record_name + "    (" + content + ")";
+    }
+
     public static String getBirthday(Appointment data) {
         return data.getRecord().getBirthday();
     }
@@ -215,11 +241,13 @@ public class AppointmentHandler2 {
 
     public static void payWithAlipay(final Activity activity, String couponId, Appointment data) {
         String id = data.getId();
+        LoadingHelper.showMaterLoading(activity, "正在预约...");
         api.buildAliPayOrder(id, "alipay", couponId).enqueue(new AlipayCallback(activity, data));
     }
 
     public static void payWithWeChat(final Activity activity, String couponId, Appointment data) {
         String id = data.getId();
+        LoadingHelper.showMaterLoading(activity, "正在预约...");
         api.buildWeChatOrder(id, "wechat", couponId).enqueue(new WeChatPayCallback(activity, data));
     }
 
@@ -339,9 +367,13 @@ public class AppointmentHandler2 {
             Intent intent = ChattingActivity.makeIntent(context, data);
             context.startActivity(intent);
         } else {
-            if (BuildConfig.DEV_MODE) {
-                Toast.makeText(context, "云信群id为0", Toast.LENGTH_SHORT).show();
+            if (data.getType() == 4) {
+                Intent toSurface = SurfaceDoingActivity.makeIntent(context, data);
+                context.startActivity(toSurface);
             }
+           /* if (BuildConfig.DEV_MODE) {
+                Toast.makeText(context, "云信群id为0", Toast.LENGTH_SHORT).show();
+            }*/
         }
     }
 
@@ -350,6 +382,7 @@ public class AppointmentHandler2 {
     }
 
     public static void chat(BaseListAdapter adapter, BaseViewHolder vh, Appointment data) {
+        AppContext.getInstance().setData(data);
         if (hasTid(data)) {
             Intent intent = ChattingActivity.makeIntent(vh.itemView.getContext(), data);
             if (adapter != null) {
@@ -357,9 +390,13 @@ public class AppointmentHandler2 {
             }
             vh.itemView.getContext().startActivity(intent);
         } else {
-            if (BuildConfig.DEV_MODE) {
+         /*   if (data.getType() == 4) {
+                Intent toSurface = SurfaceDoingActivity.makeIntent(vh.itemView.getContext(), data);
+                vh.itemView.getContext().startActivity(toSurface);
+            }*/
+          /*  if (BuildConfig.DEV_MODE) {
                 Toast.makeText(vh.itemView.getContext(), "云信群id为0", Toast.LENGTH_SHORT).show();
-            }
+            }*/
         }
     }
 
@@ -368,9 +405,13 @@ public class AppointmentHandler2 {
             Intent intent = ChattingActivityNoMenu.makeIntent(context, data);
             context.startActivity(intent);
         } else {
-            if (BuildConfig.DEV_MODE) {
-                Toast.makeText(context, "云信群id为0", Toast.LENGTH_SHORT).show();
+            if (data.getType() == 4) {
+                Intent toSurface = SurfaceDoingActivity.makeIntent(context, data);
+                context.startActivity(toSurface);
             }
+           /* if (BuildConfig.DEV_MODE) {
+                Toast.makeText(context, "云信群id为0", Toast.LENGTH_SHORT).show();
+            }*/
         }
     }
 
@@ -396,11 +437,13 @@ public class AppointmentHandler2 {
     }
 
     public static Intent getFirstMenu(Context context, int tab, Appointment data) {
-        if (isAfterService(data)) {
+        AppContext.getInstance().setData(data);
+        if (data.getType() == AppointmentType.FollowUp) {
             String id = String.valueOf(data.getId());
             if (Status.FINISHED == data.getStatus()) {
                 if (Settings.isDoctor()) {
-                    if (data.getCan_edit() != IntBoolean.FALSE) {
+                    if (data.getCan_edit() != 0) {
+                        AppContext.getInstance().setPosition(data.getCan_edit());
                         return AfterServiceDoingActivity.intentFor(context, id, data.getRecord_id(), tab);
                     } else {
                         return AfterServiceDoneActivity.intentFor(context, id, tab);
@@ -411,6 +454,7 @@ public class AppointmentHandler2 {
                 }
             } else {
                 String recordId = String.valueOf(data.getRecord_id());
+                AppContext.getInstance().setPosition(0);
                 return AfterServiceDoingActivity.intentFor(context, id, recordId, tab);
             }
         } else {
@@ -423,6 +467,7 @@ public class AppointmentHandler2 {
             }
 //            data.canEdit = canEdit;
             return AppointmentDetailActivity.makeIntent(context, data, tab);
+
         }
     }
 
@@ -493,7 +538,10 @@ public class AppointmentHandler2 {
                 if (data.getType() == AppointmentType.FollowUp) {
                     Intent intent = AfterServiceDoneActivity.intentFor(vh.itemView.getContext(), data.getId(), 0);
                     vh.itemView.getContext().startActivity(intent);
-                } else {
+                } /*else if (data.getType() == 4) {
+                    Intent intent = SurfaceFinishedActivity.makeIntent(vh.itemView.getContext(), data);
+                    vh.itemView.getContext().startActivity(intent);
+                } */ else {
                     Intent intent = FinishedOrderActivity.makeIntent(vh.itemView.getContext(), data, AppointmentDetailActivity.POSITION_SUGGESTION_READONLY);
                     vh.itemView.getContext().startActivity(intent);
                 }
@@ -510,7 +558,11 @@ public class AppointmentHandler2 {
         }
     }
 
-    public static void onDoctorClickOrder(final BaseViewHolder vh, final BaseListAdapter adapter, Appointment data) {
+    public static void onDoctorClickOrder(final BaseViewHolder vh, final BaseListAdapter adapter, final Appointment data) {
+        AppContext.getInstance().setType(data.getType());
+        AppContext.getInstance().setKeepState(null);
+        AppContext.getInstance().setKeepState(data);
+        AppContext.getInstance().setAppointment(data);
         switch (data.getStatus()) {
             case Status.PAID: {
                 detail(vh.itemView.getContext(), vh.getItemViewType(), data);
@@ -524,9 +576,18 @@ public class AppointmentHandler2 {
                         answerQuestion(vh.itemView.getContext(), 2, response);
                     }
                 });
+            /*    if (data.getType() == 4) {
+                    Intent intent = SurfaceFinishedActivity.makeIntent(vh.itemView.getContext(), data);
+                    vh.itemView.getContext().startActivity(intent);
+                } else {
+
+                }*/
                 break;
             }
-            case Status.DOING:
+            case Status.DOING: {
+                chat(adapter, vh, data);
+                break;
+            }
             case Status.WAITING: {
                 chat(adapter, vh, data);
                 break;
@@ -536,16 +597,17 @@ public class AppointmentHandler2 {
             }
         }
     }
+
     //点击跳转到某个病人的病历历史记录
-    public static void onSingleOrder(final BaseViewHolder vh,String id){
-        Context context=vh.itemView.getContext();
-        Intent intent =new Intent(context, SinglePatientHistoryActivity.class);
-        intent.putExtra("id",id);
+    public static void onSingleOrder(final BaseViewHolder vh, String id) {
+        Context context = vh.itemView.getContext();
+        Intent intent = new Intent(context, SinglePatientHistoryActivity.class);
+        intent.putExtra("id", id);
         context.startActivity(intent);
     }
 
     public static void showHistoryDetail(final BaseViewHolder vh, final BaseListAdapter adapter, Appointment data) {
-        Config.putInt(HISTORY_INDEX + data.getId(), vh.getAdapterPosition());
+        Config.putInt("HISTORY_INDEX" + Config.getString(Constants.ADDRESS) + "", vh.getAdapterPosition());
         EventHub.post(new AppointmentHistoryEvent(data, false));
         EventHub.post(new DismissHistoryListDialogEvent());
     }
@@ -605,13 +667,26 @@ public class AppointmentHandler2 {
 
     public static void callTelephone(final Context context, Appointment data) {
         ImModule imModule = Api.of(ImModule.class);
-        imModule.makeYunXinPhoneCall(data.getId()).enqueue(new SimpleCallback<String>() {
+        imModule.makeYunXinPhoneCall(data.getId()).enqueue(new retrofit2.Callback<ApiDTO>() {
             @Override
-            protected void handleResponse(String response) {
-                Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<ApiDTO> call, Response<ApiDTO> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(context, "回拨呼叫成功,请耐心等待来电", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiDTO> call, Throwable t) {
+
             }
         });
     }
+
+    public static void askServer(Context context) {
+        Intent intent = MedicineStoreActivity.intentForCustomerService(context);
+        context.startActivity(intent);
+    }
+
 
     public static String getTargetP2PId(Appointment data) {
         if (Settings.isDoctor()) {
@@ -641,6 +716,14 @@ public class AppointmentHandler2 {
      * @return
      */
     public static long getFinishedTime(Appointment data) {
+        if (data.getType() == 4) {
+            return 0;
+        }
+        if (data.getType() == 2) {
+            if (!Settings.isDoctor()) {
+                return 0;
+            }
+        }
         if (data.getStatus() == Status.FINISHED) {
             return 0;
         }
@@ -666,9 +749,22 @@ public class AppointmentHandler2 {
 
     public static String chatStatus(Appointment data) {
         switch (data.getType()) {
-            case AppointmentType.FollowUp:
+            case AppointmentType.FollowUp: {
                 return "随访" + data.getDisplay_status();
+            }
+            case AppointmentType.FACE: {
+                return "面诊" + data.getDisplay_status();
+            }
+            case AppointmentType.STANDARD: {
+                if (data.getStatus() == 2) {
+                    return "复诊咨询已开始,可立即留言咨询医生";
+                } else {
+                    return "复诊" + data.getDisplay_status();
+                }
+
+            }
         }
+
         int status = data.getStatus();
         switch (status) {
             case Status.FINISHED:
@@ -742,12 +838,28 @@ public class AppointmentHandler2 {
         return results.last();
     }
 
+    public static TextMsg appLastMsg(Appointment data) {
+        RealmResults<TextMsg> results = sortedByTimes(queryAllMsg(Realm.getDefaultInstance(), data));
+        if (results.isEmpty()) {
+            return new TextMsg();
+        }
+        return results.last();
+    }
+
+    public static RealmResults<TextMsg> sortedByTimes(RealmQuery<TextMsg> query) {
+        return query.findAllSorted("time", Sort.DESCENDING);
+    }
+
 
     public static boolean showCommentBtn(Appointment data) {
         return data.getStatus() == Status.FINISHED;
     }
 
     public static boolean showAnswerQuestionBtn(Appointment data) {
+        return getCurrentStatus(data) == 1 || getCurrentStatus(data) == 2 || getCurrentStatus(data) == 3;
+    }
+
+    public static boolean showCancelButton(Appointment data) {
         return getCurrentStatus(data) == 1;
     }
 
@@ -760,15 +872,23 @@ public class AppointmentHandler2 {
     }
 
     public static void viewDetail(final Context context, final int tab, Appointment data) {
+        LoadingHelper.showMaterLoading(context, "正在加载...");
         getAppointmentDetail(data.getId(), new SimpleCallback<Appointment>() {
             @Override
             protected void handleResponse(Appointment response) {
+                LoadingHelper.hideMaterLoading();
                 answerQuestion(context, tab, response);
+            }
+
+            @Override
+            public void onFailure(Call<ApiDTO<Appointment>> call, Throwable t) {
+                super.onFailure(call, t);
+                LoadingHelper.hideMaterLoading();
             }
         });
     }
 
-    public static void getAppointmentDetail(String id, retrofit2.Callback<ApiDTO<Appointment>> callback) {
+    public static void getAppointmentDetail(String id, SimpleCallback<Appointment> callback) {
         AppointmentModule api = Api.of(AppointmentModule.class);
         api.appointmentDetail(id).enqueue(callback);
     }
@@ -781,6 +901,35 @@ public class AppointmentHandler2 {
         }
     }
 
+    public static void showCancelDialog(Context context, Appointment data) {
+        final Dialog dialog = new Dialog(context, R.style.transparentFrameWindowStyle);
+        View view = LayoutInflater.from(context).inflate(R.layout.cancel_dialog, null);
+        TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
+        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
+        TextView tv_positive = (TextView) view.findViewById(R.id.tv_positive);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        Window dialogWindow = dialog.getWindow();
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display d = windowManager.getDefaultDisplay(); // 获取屏幕宽、高度
+        WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        p.height = (int) (d.getHeight() * 0.3); // 高度设置为屏幕的0.3，根据实际情况调整
+        p.width = (int) (d.getWidth() * 0.8); // 宽度设置为屏幕的0.8，根据实际情况调整
+        dialogWindow.setAttributes(p);
+        dialog.setContentView(view);
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        tv_positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
 
     public static void showStatusTimeline(Context context, Appointment data) {
         RecyclerView recyclerView = new RecyclerView(context);
@@ -985,5 +1134,93 @@ public class AppointmentHandler2 {
             return empty;
         }
         return false;
+    }
+
+    public static int showDrugMain(Appointment data) {
+        if (AppContext.getInstance().getKeepState() != null) {
+            data = AppContext.getInstance().getKeepState();
+        }
+        if (data.getDrug_orders().state != 0) {
+            return View.VISIBLE;
+        } else {
+            return View.GONE;
+        }
+    }
+
+    public static int showDrugDoing(Appointment data) {
+        if (AppContext.getInstance().getKeepState() != null) {
+            data = AppContext.getInstance().getKeepState();
+        }
+        if (data.getDrug_orders().state == 1) {
+            return View.VISIBLE;
+        } else {
+            return View.GONE;
+        }
+    }
+
+    public static int showDrug(Appointment data) {
+        if (AppContext.getInstance().getKeepState() != null) {
+            data = AppContext.getInstance().getKeepState();
+        }
+        if (data.getDrug_orders().state == 2) {
+            return View.VISIBLE;
+        } else {
+            return View.GONE;
+        }
+    }
+
+    public static int showDrugPayed(Appointment data) {
+        if (AppContext.getInstance().getKeepState() != null) {
+            data = AppContext.getInstance().getKeepState();
+        }
+        if (data.getDrug_orders().state == 3) {
+            return View.VISIBLE;
+        } else {
+            return View.GONE;
+        }
+    }
+
+    public static int showDrugSented(Appointment data) {
+        if (AppContext.getInstance().getKeepState() != null) {
+            data = AppContext.getInstance().getKeepState();
+        }
+        if (data.getDrug_orders().state == 4) {
+            return View.VISIBLE;
+        } else {
+            return View.GONE;
+        }
+    }
+
+    public static int showDrugReseived(Appointment data) {
+        if (AppContext.getInstance().getKeepState() != null) {
+            data = AppContext.getInstance().getKeepState();
+        }
+        if (data.getDrug_orders().state == 5) {
+            return View.VISIBLE;
+        } else {
+            return View.GONE;
+        }
+    }
+
+    public static int showDrugRefunding(Appointment data) {
+        if (AppContext.getInstance().getKeepState() != null) {
+            data = AppContext.getInstance().getKeepState();
+        }
+        if (data.getDrug_orders().state == -1) {
+            return View.VISIBLE;
+        } else {
+            return View.GONE;
+        }
+    }
+
+    public static int showDrugRefunded(Appointment data) {
+        if (AppContext.getInstance().getKeepState() != null) {
+            data = AppContext.getInstance().getKeepState();
+        }
+        if (data.getDrug_orders().state == -2) {
+            return View.VISIBLE;
+        } else {
+            return View.GONE;
+        }
     }
 }

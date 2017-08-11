@@ -1,5 +1,7 @@
 package com.doctor.sun.im.custom;
 
+import android.util.Log;
+
 import com.doctor.sun.entity.im.TextMsg;
 import com.doctor.sun.util.JacksonUtils;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,6 +33,11 @@ public class CustomAttachment<T> implements MsgAttachment {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "data: " + data;
     }
 
     @Override

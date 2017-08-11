@@ -9,6 +9,7 @@ import com.doctor.sun.R;
 import com.doctor.sun.entity.constans.ReviewStatus;
 import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
     @JsonProperty("birthday")
     private String birthday;
     @JsonProperty("city")
-    private String city;
+    private String citys;
     @JsonProperty("province")
     private String province;
     @JsonProperty("address")
@@ -119,7 +120,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
     }
 
     public void setCity(String city) {
-        this.city = city;
+        this.citys = city;
     }
 
     public void setProvince(String province) {
@@ -163,7 +164,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
     }
 
     public String getCity() {
-        return city;
+        return citys;
     }
 
     public String getProvince() {
@@ -244,7 +245,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
                 ", relation='" + relation + '\'' +
                 ", gender=" + gender +
                 ", age='" + birthday + '\'' +
-                ", city='" + city + '\'' +
+                ", city='" + citys + '\'' +
                 ", province='" + province + '\'' +
                 ", address='" + address + '\'' +
                 ", identityNumber='" + identityNumber + '\'' +
@@ -269,7 +270,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
         dest.writeString(this.relation);
         dest.writeInt(this.gender);
         dest.writeString(this.birthday);
-        dest.writeString(this.city);
+        dest.writeString(this.citys);
         dest.writeString(this.province);
         dest.writeString(this.address);
         dest.writeString(this.identityNumber);
@@ -292,7 +293,7 @@ public class MedicalRecord extends BaseItem implements Parcelable {
         this.relation = in.readString();
         this.gender = in.readInt();
         this.birthday = in.readString();
-        this.city = in.readString();
+        this.citys = in.readString();
         this.province = in.readString();
         this.address = in.readString();
         this.identityNumber = in.readString();
@@ -317,4 +318,13 @@ public class MedicalRecord extends BaseItem implements Parcelable {
             return new MedicalRecord[size];
         }
     };
+
+    public String getRecord(MedicalRecord data){
+        if (data.getRelation().equals("本人")){
+            return data.getRecordName()+"("+data.getRelation()+")";
+        }else{
+            return data.getRecordName();
+        }
+    }
+
 }

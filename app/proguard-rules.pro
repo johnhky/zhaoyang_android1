@@ -34,6 +34,10 @@
 -keep class android.support.v4.** { *; }
 -keep interface android.support.v4.app.** { *; }
 -keep public class * extends android.support.v4.**
+-dontwarn android.support.v7.**
+-keep class android.support.v7.** { *; }
+-keep interface android.support.v7.app.** { *; }
+-keep public class * extends android.support.v7.**
 -keep public class * extends android.app.Fragment
 -keep class * extends java.lang.annotation.Annotation { *; }#注解包下的所有内容不要混淆
 -keepclasseswithmembernames class * {
@@ -72,6 +76,7 @@
 -keep class com.doctor.sun.immutables.** {*;}
 -keep class com.doctor.sun.model.** {*;}
 -keep class com.doctor.sun.util.** {*;}
+-keep class com.doctor.sun.ui.activity.patient.POrderMessageActivity
 -keep class com.doctor.sun.ui.fragment.BaseFragmentFactory {*;}
 -keep class com.doctor.sun.util.FragmentFactory {*;}
 -dontwarn com.doctor.sun.AppContext
@@ -97,6 +102,8 @@
 -keep class com.google.common.base.Strings** { *; }
 -keep class com.google.common.collect.Collections2** { *; }
 -keep class com.google.gson.examples.android.model.** { *; }
+-keep class com.google.gson.**{*;}
+-keep class com.alibaba.fastjson.**{*;}
 -keep class org.jsoup.** { *; }
 -keep class com.alimama.moblie.** { *; }
 -keep class u.upd.** { *; }
@@ -114,6 +121,7 @@
 -dontwarn org.apache.**
 -dontwarn io.ganguo.app.cache.**
 -dontwarn com.google.**
+-dontwarn com.alibaba.fastjson.**
 -dontwarn com.google.gson.examples.android.model.**
 -dontwarn org.jsoup.**
 -dontwarn com.alimama.moblie.**
@@ -177,7 +185,6 @@
     **[] $VALUES;
     public *;
 }
-
 -dontwarn java.beans.**
 -dontwarn com.taobao.**
 -dontwarn com.apache.http.**

@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.doctor.sun.R;
@@ -20,6 +22,7 @@ import com.doctor.sun.http.callback.WeChatPayCallback;
 import com.doctor.sun.module.AppointmentModule;
 import com.doctor.sun.module.DrugModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
+import com.doctor.sun.ui.activity.patient.PayPrescriptionActivity;
 import com.doctor.sun.ui.fragment.PayPrescriptionsFragment;
 import com.doctor.sun.vm.BaseItem;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -165,9 +168,11 @@ public abstract class Drug extends BaseItem {
 
     public void showDetail(Context context, Drug drug) {
 
-        Bundle args = PayPrescriptionsFragment.getArgs(String.valueOf(drug.getId()));
+        /*Bundle args = PayPrescriptionsFragment.getArgs(String.valueOf(drug.getId()));
         Intent payPrescriptionIntent = SingleFragmentActivity.intentFor(context, getRecord_name() + "的寄药单", args);
-        context.startActivity(payPrescriptionIntent);
+        context.startActivity(payPrescriptionIntent);*/
+        Intent intent = PayPrescriptionActivity.makeIntent(context, drug.getId());
+        context.startActivity(intent);
     }
 
 
@@ -219,4 +224,10 @@ public abstract class Drug extends BaseItem {
             return "(已使用优惠券)";
         }
     }
+
+    public String showStrikerMoney(TextView textView) {
+        textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        return "￥" + getMoney();
+    }
+
 }

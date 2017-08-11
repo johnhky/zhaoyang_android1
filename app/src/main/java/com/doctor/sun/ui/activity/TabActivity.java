@@ -1,14 +1,11 @@
 package com.doctor.sun.ui.activity;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.repacked.google.common.eventbus.Subscribe;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.widget.Toast;
 
-import com.doctor.sun.AppContext;
 import com.doctor.sun.R;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.ActivityTabTwoBinding;
@@ -49,8 +46,8 @@ public abstract class TabActivity extends BaseFragmentActivity2 {
 
     public void initPagerAdapter() {
         pagerAdapter = createPagerAdapter();
-        pagerAdapter.notifyDataSetChanged();
         binding.vp.setAdapter(pagerAdapter);
+        pagerAdapter.notifyDataSetChanged();
     }
 
     protected void initPagerTabs() {

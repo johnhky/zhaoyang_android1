@@ -4,16 +4,27 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.doctor.sun.R;
+import com.doctor.sun.Settings;
 import com.doctor.sun.bean.Constants;
 import com.doctor.sun.databinding.FragmentDiagnosisBinding;
+import com.doctor.sun.dto.ApiDTO;
+import com.doctor.sun.entity.AllTime;
 import com.doctor.sun.entity.Description;
 import com.doctor.sun.entity.DiagnosisInfo;
 import com.doctor.sun.entity.Doctor;
+import com.doctor.sun.entity.PatientData;
 import com.doctor.sun.entity.Symptom;
 import com.doctor.sun.entity.SymptomFactory;
+import com.doctor.sun.entity.Time;
+import com.doctor.sun.entity.constans.AppointmentType;
+import com.doctor.sun.http.Api;
+import com.doctor.sun.http.callback.SimpleCallback;
+import com.doctor.sun.module.DrugModule;
+import com.doctor.sun.module.TimeModule;
 import com.doctor.sun.ui.activity.SingleFragmentActivity;
 import com.doctor.sun.ui.fragment.EditPrescriptionsFragment;
 import com.doctor.sun.util.JacksonUtils;
@@ -26,8 +37,14 @@ import com.doctor.sun.vm.ItemReminderList;
 import com.doctor.sun.vm.ItemTextInput;
 import com.google.common.base.Strings;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
+
+import io.realm.Realm;
+import retrofit2.Response;
 
 /**
  * Created by rick on 25/12/2015.
@@ -35,8 +52,9 @@ import java.util.HashMap;
 public class DiagnosisModel {
 
 
-    public static final String DETAIL = "专属网诊";
-    public static final String QUICK = "闲时咨询";
+    public static final String DETAIL = "VIP网诊";
+    public static final String QUICK = "简易复诊";
+    public static final String SURFACE = "诊所面诊";
     private final Context context;
 
     private String advice = "";
@@ -65,9 +83,10 @@ public class DiagnosisModel {
     private Description labelAllCanSee;
     private ItemButton btnGotoTabOne;
     private ItemButton chooseDoctor;
-    private Doctor doctor;
+    private Doctor doctor = new Doctor();
     public DiagnosisRecordList recordList;
     public ItemReminderList reminderList;
+    public int type;
 
     public DiagnosisModel(final Activity context) {
         this.context = context;
@@ -120,14 +139,11 @@ public class DiagnosisModel {
     }
 
     public void cloneFromDiagnosisInfo(DiagnosisInfo response) {
-
-
         cloneAll(response);
-
         money.setInput(String.valueOf(response.getMoney()));
+        date.isAnswered = true;
         date.setDate(response.getDate());
         returnType.setSelectedItem(response.getReturnType());
-        doctor = response.getDoctorInfo();
         reminderList.addReminders(response.reminderList);
     }
 
@@ -146,8 +162,8 @@ public class DiagnosisModel {
         memory.setStates(response.getMemory());
         insight.setStates(response.getInsight());
         description.setInput(response.getDescription());
-        if (response.getDiagnosisRecord().size()>0){
-            recordList.addRecords(response.getDiagnosisRecord());
+        if (response.getDiagnosisRecord().size() > 0) {
+            recordList.addRecords(response.diagnosisRecord);
         }
         currentStatus.setSelectedItem(response.getCurrentStatus());
         recovered.setSelectedItem(response.getRecovered());
@@ -325,7 +341,7 @@ public class DiagnosisModel {
     @Override
     public String toString() {
         return "DiagnosisModel{" +
-                ", perception=" + perception +",dialog_record:="+recordList+
+                ", perception=" + perception + ",dialog_record:=" + recordList +
                 ", thinking=" + thinking +
                 ", pipedream=" + pipedream +
                 ", emotion=" + emotion +
@@ -360,12 +376,12 @@ public class DiagnosisModel {
         HashMap<String, String> result = new HashMap<>();
         result.put("appointmentId", appointmentId);
         result.put("is_diagnosis", "1");
-        result.put("perception", perception.toStates());
-        result.put("thinking", thinking.toStates());
-        result.put("pipedream", pipedream.toStates());
-        result.put("emotion", emotion.toStates());
-        result.put("memory", memory.toStates());
-        result.put("insight", insight.toStates());
+        result.put("perception", perception.toStates().trim());
+        result.put("thinking", thinking.toStates().trim());
+        result.put("pipedream", pipedream.toStates().trim());
+        result.put("emotion", emotion.toStates().trim());
+        result.put("memory", memory.toStates().trim());
+        result.put("insight", insight.toStates().trim());
         result.put("description", binding.description.etOthers.getText().toString());
         result.put("diagnosis_record", /*binding.diagnosisRecord.etOthers.getText().toString()*/JacksonUtils.toJson(recordList.getRecords()));
         result.put("current_status", String.valueOf(currentStatus.getSelectedItem()));
@@ -412,6 +428,14 @@ public class DiagnosisModel {
             return "坚持治疗,定期复诊";
         }
         return advice;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public void setAdvice(String advice) {

@@ -4,6 +4,7 @@ import com.doctor.sun.dto.ApiDTO;
 import com.doctor.sun.dto.PageDTO;
 import com.doctor.sun.entity.ImAccount;
 import com.doctor.sun.entity.NeedSendDrug;
+import com.doctor.sun.http.Api;
 import com.doctor.sun.immutables.Appointment;
 import com.doctor.sun.immutables.Drug;
 import com.doctor.sun.immutables.DrugOrderDetail;
@@ -25,6 +26,9 @@ import retrofit2.http.Query;
  */
 public interface DrugModule {
 
+    @GET("drug/prescription")
+    Call<ApiDTO<List<Prescription>>> getPrescription(@Query("appointmentId") String appointment);
+
     @GET("drug/appointment-list")
     Call<ApiDTO<PageDTO<Appointment>>> appointments(@Query("page") String page);
 
@@ -32,7 +36,7 @@ public interface DrugModule {
     Call<ApiDTO<PageDTO<PrescriptionOrder>>> myPrescriptions(@Query("page") String page);
 
     @GET("drug/order-list")
-    Call<ApiDTO<PageDTO<Drug>>> orderList(@Query("page") String page);
+    Call<ApiDTO<PageDTO<Drug>>> orderList(@Query("page") String page,@Query("status") String status, @Query("keyword") String keyword);
 
     @GET("drug/order-detail")
     Call<ApiDTO<DrugOrderDetail>> drugDetail(@Query("drugOrderId") String drugOrderId);
@@ -56,5 +60,5 @@ public interface DrugModule {
 
     //获取所有诊断名称
     @GET("list/drag-info")
-    Call<ApiDTO<List<String>>>getRecordList(@Query("keyWord")String keyword);
+    Call<ApiDTO<List<String>>> getRecordList(@Query("keyWord") String keyword);
 }

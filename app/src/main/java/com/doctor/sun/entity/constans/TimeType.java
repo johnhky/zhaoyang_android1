@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
  * Created by rick on 24/11/2016.
  */
 @Retention(RetentionPolicy.SOURCE)
-@IntDef({TimeType.TYPE_UNDEFINE, TimeType.TYPE_DETAIL, TimeType.TYPE_QUICK, TimeType.TYPE_BREAK})
+@IntDef({TimeType.TYPE_UNDEFINE, TimeType.TYPE_DETAIL, TimeType.TYPE_QUICK, TimeType.TYPE_BREAK,TimeType.TYPY_FACE})
 public @interface TimeType {
     int TYPE_UNDEFINE = 0;
     int TYPE_DETAIL = 1;

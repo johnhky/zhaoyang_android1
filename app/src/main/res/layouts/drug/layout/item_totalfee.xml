@@ -37,7 +37,7 @@
                     android:padding="5dp"
                     android:rotation="12"
                     android:text="@{data.result}"
-                    android:textColor="@color/red_f0"
+                    android:textColor="#f54100"
                     android:textSize="@dimen/font_17"
                     tools:text="省￥14" />
             </LinearLayout>
@@ -48,7 +48,7 @@
                 android:layout_alignBottom="@+id/txt_fee"
                 android:text="本次药费:"
                 android:textSize="@dimen/font_15"
-                android:textColor="#a4a4a4"
+                android:textColor="#797979"
                 />
             <TextView
                 android:id="@+id/txt_fee"
@@ -57,6 +57,7 @@
                 android:textSize="20sp"
                 android:text="@{data.title}"
                 tools:text="￥2366.00"
+                android:textColor="@android:color/black"
                 android:layout_alignBottom="@+id/item_discount"
                 android:layout_toLeftOf="@+id/item_discount"
                 />
